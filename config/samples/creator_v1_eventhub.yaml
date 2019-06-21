@@ -1,0 +1,13 @@
+apiVersion: creator.microsoft.k8.io/v1
+kind: Eventhub
+metadata:
+  name: eventhubpriya13
+spec:
+  # Add fields here
+  resourceGroup:
+    name: "priyagroup"
+    location: "westus" 
+  eventHub:
+    location: "westus" 
+    nSName: "namespace"
+    hubName: "hub"

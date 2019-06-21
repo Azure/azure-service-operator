@@ -1,0 +1,7 @@
+version: "2"
+domain: microsoft.k8.io
+repo: azure-operator
+resources:
+- group: creator
+  version: v1
+  kind: Eventhub
