@@ -39,6 +39,9 @@ run `kubectl apply -f config/crd/bases` or `make install`
 3. Update the values in `creator_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
 
 4. Set the environment variables AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID
+If you are running it on Windows the environment variables should not have quotes. It should be set in this way:
+SET  AZURE_TENANT_ID=11326305-a551-4098-af36-2fb5d4313888
+and the VSCode should be run from the same session/command window
 
 ### How to extend the operator and build your own images
 
