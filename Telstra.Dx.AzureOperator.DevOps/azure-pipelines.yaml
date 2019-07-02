@@ -11,7 +11,7 @@ variables:
   GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
-  IMAGE_NAME: 'candidate/k8s/Telstra.Dx.AzureOperator/operator:$(Build.SourceVersion)'
+  IMAGE_NAME: 'candidate/k8s/telstra.dx.azureoperator/operator:$(Build.SourceVersion)'
   # ACR_NAME:               - set this value in Azure Devops variables
   # AZURE_SUBSCRIPTION:     - set this value in Azure Devops variables
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
