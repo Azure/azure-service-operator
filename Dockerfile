@@ -12,7 +12,7 @@ RUN go mod download
 # Copy the go source
 COPY main.go main.go
 COPY api/ api/
-COPY aztestcreator/ aztestcreator/
+COPY resourcemanager/ resourcemanager/
 COPY controllers/ controllers/
 
 # Build

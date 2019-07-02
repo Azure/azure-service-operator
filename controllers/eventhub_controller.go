@@ -20,9 +20,9 @@ import (
 
 	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
 
-	resources "Telstra.Dx.AzureOperator/aztestcreator"
-	"Telstra.Dx.AzureOperator/aztestcreator/config"
-	eventhubs "Telstra.Dx.AzureOperator/aztestcreator/eventhubs"
+	resources "Telstra.Dx.AzureOperator/resourcemanager"
+	"Telstra.Dx.AzureOperator/resourcemanager/config"
+	eventhubs "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
 
 	"github.com/go-logr/logr"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
