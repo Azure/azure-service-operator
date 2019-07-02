@@ -18,11 +18,11 @@ package controllers
 import (
 	"context"
 
-	creatorv1 "azure-operator/api/v1"
+	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
 
-	resources "azure-operator/aztestcreator"
-	"azure-operator/aztestcreator/config"
-	eventhubs "azure-operator/aztestcreator/eventhubs"
+	resources "Telstra.Dx.AzureOperator/aztestcreator"
+	"Telstra.Dx.AzureOperator/aztestcreator/config"
+	eventhubs "Telstra.Dx.AzureOperator/aztestcreator/eventhubs"
 
 	"github.com/go-logr/logr"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"

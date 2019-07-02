@@ -19,9 +19,9 @@ import (
 	"flag"
 	"os"
 
-	creatorv1 "azure-operator/api/v1"
+	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
 
-	"azure-operator/controllers"
+	"Telstra.Dx.AzureOperator/controllers"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"

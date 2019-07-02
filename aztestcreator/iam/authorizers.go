@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"strings"
 
-	"azure-operator/aztestcreator/config"
+	"Telstra.Dx.AzureOperator/aztestcreator/config"
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/adal"

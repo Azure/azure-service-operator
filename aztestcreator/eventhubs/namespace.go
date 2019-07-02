@@ -8,8 +8,8 @@ package eventhubs
 import (
 	"context"
 
-	"azure-operator/aztestcreator/config"
-	"azure-operator/aztestcreator/iam"
+	"Telstra.Dx.AzureOperator/aztestcreator/config"
+	"Telstra.Dx.AzureOperator/aztestcreator/iam"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/go-autorest/autorest/to"
