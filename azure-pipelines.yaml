@@ -1,0 +1,106 @@
+trigger:
+  branches:
+    include:
+    - master
+
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+variables:
+  GOROOT: '/usr/local/go1.12' # Go installation path
+  GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
+  GOBIN:  '$(GOPATH)/bin' # Go binaries path
+  MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
+  IMAGE_NAME: 'candidate/k8s/azure-operator/operator:$(Build.SourceVersion)'
+  # ACR_NAME:               - set this value in Azure Devops variables
+  # AZURE_SUBSCRIPTION:     - set this value in Azure Devops variables
+  # AZURE_TENANT_ID:        - set this value in Azure Devops variables
+  # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
+  # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
+ 
+steps:
+
+- checkout: self  # self represents the repo where the initial Pipelines YAML file was found
+  lfs: "true"
+
+- script: |
+    set -x
+
+    ls -l /usr/local/go*
+
+    mkdir -p '$(GOBIN)'
+    mkdir -p '$(GOPATH)/pkg'
+    mkdir -p '$(MODULE_PATH)'
+    shopt -s extglob
+    mv !(gopath) '$(MODULE_PATH)'
+    echo '##vso[task.prependpath]$(GOBIN)'
+    echo '##vso[task.prependpath]$(GOROOT)/bin'
+
+    go version
+    go env
+  displayName: 'Set up the Go workspace'
+  env:
+    GO111MODULE: on
+
+- script: |
+    set -x
+
+    mkdir -p '$(MODULE_PATH)/bin'
+
+    os=$(go env GOOS)
+    arch=$(go env GOARCH)
+
+    # download kubebuilder
+    curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(MODULE_PATH)/bin
+    mv $(MODULE_PATH)/bin/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(MODULE_PATH)/bin/
+    # download kustomize
+    curl -o $(MODULE_PATH)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+    # set permission
+    chmod a+x $(MODULE_PATH)/bin/*
+    # export path
+    export PATH=$PATH:$(MODULE_PATH)/bin
+
+    make test
+  continueOnError: 'false'
+  displayName: 'Install kubebuilder, kustomize and Run unit tests'
+  env:
+    GO111MODULE: on
+    KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+    AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
+    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+  workingDirectory: '$(MODULE_PATH)'
+
+
+
+- script: docker build -t $(IMAGE_NAME) .  # add options to this command to meet your needs
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: 'Docker build'
+  workingDirectory: '$(MODULE_PATH)'
+
+- task: AzureCLI@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Push to Azure Container Registry
+  inputs:
+    azureSubscription: $(AZURE_SUBSCRIPTION)
+    scriptLocation: inlineScript
+    failOnStandardError: false
+    workingDirectory: '$(MODULE_PATH)'
+    inlineScript: az acr build --registry $(ACR_NAME) --image $(IMAGE_NAME) .
+
+- script: |
+    ./bin/kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
+    set -x
+    echo $(IMAGE_NAME) > $(Build.ArtifactStagingDirectory)/azure-operator.txt
+    ls $(Build.ArtifactStagingDirectory)
+  continueOnError: 'false'
+  displayName: 'Prepare manifests for publish'
+  workingDirectory: '$(MODULE_PATH)'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+
+- task: PublishBuildArtifacts@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    pathtoPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: drop
