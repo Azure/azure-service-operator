@@ -1,7 +1,7 @@
 # Build the manager binary
 FROM golang:1.12.5 as builder
 
-WORKDIR /workspace
+WORKDIR /workspace/
 # Copy the Go Modules manifests
 COPY go.mod go.mod
 COPY go.sum go.sum
@@ -12,6 +12,7 @@ RUN go mod download
 # Copy the go source
 COPY main.go main.go
 COPY api/ api/
+COPY aztestcreator/ aztestcreator/
 COPY controllers/ controllers/
 
 # Build
