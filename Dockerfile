@@ -21,6 +21,10 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o manager 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM gcr.io/distroless/static:latest
+ENV AZURE_SUBSCRIPTION ""
+ENV AZURE_TENANT_ID ""
+ENV AZURE_CLIENT_ID ""
+ENV AZURE_CLIENT_SECRET ""
 WORKDIR /
 COPY --from=builder /workspace/manager .
 ENTRYPOINT ["/manager"]
