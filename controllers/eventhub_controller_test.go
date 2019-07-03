@@ -21,7 +21,7 @@ import (
 	"time"
 
 	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
-
+	helpers "Telstra.Dx.AzureOperator/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -47,8 +47,8 @@ var _ = Describe("EventHub Controller", func() {
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create and Delete", func() {
 		It("should create and delete namespace and eventhubs", func() {
-			namespacedName := types.NamespacedName{Name: creatorv1.RandomString(10), Namespace: "default"}
-			EventhubNamespaceName := "test-namespace-" + creatorv1.RandomString(10)
+			namespacedName := types.NamespacedName{Name: helpers.RandomString(10), Namespace: "default"}
+			EventhubNamespaceName := "test-namespace-" + helpers.RandomString(10)
 			instance := &creatorv1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      namespacedName.Name,

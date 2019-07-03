@@ -1,4 +1,4 @@
-package stringshelper
+package helpers
 
 import (
 	"math/rand"
