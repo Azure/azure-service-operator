@@ -23,9 +23,9 @@ import (
 	resources "Telstra.Dx.AzureOperator/aztestcreator"
 	"Telstra.Dx.AzureOperator/aztestcreator/config"
 	eventhubs "Telstra.Dx.AzureOperator/aztestcreator/eventhubs"
-
 	"github.com/go-logr/logr"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -34,6 +34,8 @@ import (
 type EventhubReconciler struct {
 	client.Client
 	Log logr.Logger
+
+	Recorder record.EventRecorder
 }
 
 func ignoreNotFound(err error) error {

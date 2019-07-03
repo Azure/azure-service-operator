@@ -15,10 +15,12 @@ require (
 	github.com/gogo/protobuf v1.2.1 // indirect
 	github.com/json-iterator/go v1.1.6 // indirect
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
+	github.com/microsoft/azure-databricks-operator v0.0.0-20190627003247-4cd04e1f6293
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/onsi/ginkgo v1.8.0
 	github.com/onsi/gomega v1.5.0
 	github.com/spf13/pflag v1.0.3 // indirect
+	github.com/xinsnake/databricks-sdk-golang v0.0.0-20190625012826-3a272d083f0b
 	golang.org/x/net v0.0.0-20190501004415-9ce7a6920f09
 	golang.org/x/sys v0.0.0-20190429190828-d89cdac9e872 // indirect
 	golang.org/x/text v0.3.2 // indirect
