@@ -20,9 +20,9 @@ import (
 
 	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
 
-	resources "Telstra.Dx.AzureOperator/aztestcreator"
-	"Telstra.Dx.AzureOperator/aztestcreator/config"
-	eventhubs "Telstra.Dx.AzureOperator/aztestcreator/eventhubs"
+	"Telstra.Dx.AzureOperator/resourcemanager/config"
+	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
+
 	"github.com/go-logr/logr"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/tools/record"
@@ -71,9 +71,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 func (r *EventhubReconciler) createeventhub(instance *creatorv1.Eventhub) {
 	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()
-	// create group
-	// var err error
-	var groupName = instance.ObjectMeta.Name + instance.Spec.ResourceGroupSpec.Name
+
 	var err error
 	// err = config.ParseEnvironment()
 	err = config.LoadSettings()
@@ -81,27 +79,34 @@ func (r *EventhubReconciler) createeventhub(instance *creatorv1.Eventhub) {
 		log.Error(err, "unable to parse")
 	}
 
-	grouplocation := instance.Spec.ResourceGroupSpec.Location
+	//namespace
+	//todo: add if condition for when namespace is not verified
+	//todo: think about instance.ObjectMeta.Name
+	namespaceLocation := instance.Spec.Namespace.Location
+	namespaceName := instance.Spec.Namespace.Name
+	resourcegroup := instance.Spec.Namespace.ResourceGroupName
 
-	_, err = resources.CreateGroup(ctx, groupName, grouplocation)
-	if err != nil {
-		log.Error(err, "unable to create group")
-	}
+	//todo: check if resource group is not provided find first avaliable resource group
 
-	hublocation := instance.Spec.EventHubResourceSpec.Location
-
-	nsName := instance.ObjectMeta.Name + instance.Spec.EventHubResourceSpec.NSName
 	// create Event Hubs namespace
-	_, err = eventhubs.CreateNamespace(ctx, groupName, nsName, hublocation)
+	_, err = eventhubsresourcemanager.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
 		log.Error(err, "ERROR")
 	}
 
-	hubName := instance.ObjectMeta.Name + instance.Spec.EventHubResourceSpec.HubName
-	// create Event Hubs hub
-	_, err = eventhubs.CreateHub(ctx, groupName, nsName, hubName)
-	if err != nil {
-		log.Error(err, "ERROR")
+	eventhubs := instance.Spec.EventHubs
+	for _, eventhub := range eventhubs {
+		eventhubName := eventhub.Name
+		eventhubNameSpace := namespaceName
+		if eventhub.NamespaceName != "" {
+			eventhubNameSpace = eventhub.NamespaceName
+		}
+
+		// create Event Hubs hub
+		_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNameSpace, eventhubName)
+		if err != nil {
+			log.Error(err, "ERROR")
+		}
 	}
 
 }

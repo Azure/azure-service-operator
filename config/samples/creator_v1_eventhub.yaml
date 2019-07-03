@@ -4,10 +4,27 @@ metadata:
   name: eventhubpriya13
 spec:
   # Add fields here
-  resourceGroup:
-    name: "priyagroup"
+  namespace:
+    name: "priyanamespace"
     location: "westus" 
-  eventHub:
+    sku:
+      name: "Standard"
+      tier: "Standard"
+      capacity: 1      
+    properties:
+      isautoinflateenabled: false
+      maximumthroughputunits: 0
+      kafkaenabled: false
+  eventHubs:
+  - name: "hub1"
     location: "westus" 
-    nSName: "namespace"
-    hubName: "hub"
+    namespace: "priyanamespace"
+    properties:
+      messageretentionindays: 7
+      partitioncount: 1
+  - name: "hub2"
+    location: "westus" 
+    namespace: "priyanamespace"
+    properties:
+      messageretentionindays: 7
+      partitioncount: 1

@@ -13,8 +13,8 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
 	"github.com/Azure/go-autorest/autorest"
 
-	"Telstra.Dx.AzureOperator/aztestcreator/config"
-	"Telstra.Dx.AzureOperator/aztestcreator/iam"
+	"Telstra.Dx.AzureOperator/resourcemanager/config"
+	"Telstra.Dx.AzureOperator/resourcemanager/iam"
 )
 
 func getResourcesClient() resources.Client {

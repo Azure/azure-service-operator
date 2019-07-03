@@ -14,8 +14,8 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
 
-	"Telstra.Dx.AzureOperator/aztestcreator/config"
-	"Telstra.Dx.AzureOperator/aztestcreator/iam"
+	"Telstra.Dx.AzureOperator/resourcemanager/config"
+	"Telstra.Dx.AzureOperator/resourcemanager/iam"
 
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
