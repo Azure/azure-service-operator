@@ -7,12 +7,15 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  GOROOT: '/usr/local/go1.12' # Go installation path
-  GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
-  GOBIN:  '$(GOPATH)/bin' # Go binaries path
-  MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
-  IMAGE_NAME: 'telstra.dx.azureoperator'
-  # ACR_NAME:               - set this value in Azure Devops variables
+  major_version: 0
+  minor_version: 0
+  patch_version: $(Build.BuildId)
+  goroot: '/usr/local/go1.12' # Go installation path
+  gopath: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
+  gobin:  '$(gopath)/bin' # Go binaries path
+  module_path: '$(gopath)/src/$(Build.Repository.Name)' # Path to the module's code
+  image_name: 'telstra.dx.azureoperator'
+  # container_registry:     - set this value in Azure Devops variables
   # AZURE_SUBSCRIPTION:     - set this value in Azure Devops variables
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
   # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
@@ -28,13 +31,13 @@ steps:
 
     ls -l /usr/local/go*
 
-    mkdir -p '$(GOBIN)'
-    mkdir -p '$(GOPATH)/pkg'
-    mkdir -p '$(MODULE_PATH)'
+    mkdir -p '$(gobin)'
+    mkdir -p '$(gopath)/pkg'
+    mkdir -p '$(module_path)'
     shopt -s extglob
-    mv !(gopath) '$(MODULE_PATH)'
-    echo '##vso[task.prependpath]$(GOBIN)'
-    echo '##vso[task.prependpath]$(GOROOT)/bin'
+    mv !(gopath) '$(module_path)'
+    echo '##vso[task.prependpath]$(gobin)'
+    echo '##vso[task.prependpath]$(goroot)/bin'
 
     go version
     go env
@@ -45,58 +48,76 @@ steps:
 - script: |
     set -x
 
-    mkdir -p '$(MODULE_PATH)/bin'
+    mkdir -p '$(module_path)/bin'
 
     os=$(go env GOOS)
     arch=$(go env GOARCH)
 
     # download kubebuilder
-    curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(MODULE_PATH)/bin
-    mv $(MODULE_PATH)/bin/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(MODULE_PATH)/bin/
+    curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(module_path)/bin
+    mv $(module_path)/bin/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(module_path)/bin/
     # download kustomize
-    curl -o $(MODULE_PATH)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+    curl -o $(module_path)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
     # set permission
-    chmod a+x $(MODULE_PATH)/bin/*
+    chmod a+x $(module_path)/bin/*
     # export path
-    export PATH=$PATH:$(MODULE_PATH)/bin
+    export PATH=$PATH:$(module_path)/bin
 
     make test
   continueOnError: 'false'
   displayName: 'Install kubebuilder, kustomize and Run unit tests'
   env:
     GO111MODULE: on
-    KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+    KUBEBUILDER_ASSETS: $(module_path)/bin
     AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-  workingDirectory: '$(MODULE_PATH)'
+  workingDirectory: '$(module_path)'
 
-
-
-- script: docker build -t $(IMAGE_NAME) .  # add options to this command to meet your needs
+- script: docker build -t $(image_name) .  # add options to this command to meet your needs
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
   displayName: 'Docker build'
-  workingDirectory: '$(MODULE_PATH)'
+  workingDirectory: '$(module_path)'
 
-- task: AzureCLI@1
+- task: Docker@2
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  displayName: Push to Azure Container Registry
+  displayName: Build Docker Image $(image_name)
   inputs:
-    azureSubscription: $(AZURE_SUBSCRIPTION)
-    scriptLocation: inlineScript
-    failOnStandardError: false
-    workingDirectory: '$(MODULE_PATH)'
-    inlineScript: az acr build --registry $(ACR_NAME) --image $(IMAGE_NAME) .
+    command: build
+    containerRegistry: $(container_registry)
+    repository: $(image_name)
+    Dockerfile: "Dockerfile"    
+    buildContext: $(System.DefaultWorkingDirectory)
+    tags: |
+      latest
+      $(Build.SourceVersion)
+      $(major_version)
+      $(major_version).$(minor_version)
+      $(major_version).$(minor_version).$(patch_version)
+
+- task: Docker@2
+  displayName: Push Docker Image $(image_name)
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    command: push
+    containerRegistry: $(container_registry)
+    repository: $(image_name)
+    tags: |
+      latest
+      $(Build.SourceVersion)
+      $(major_version)
+      $(major_version).$(minor_version)
+      $(major_version).$(minor_version).$(patch_version)
 
 - script: |
     ./bin/kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
     set -x
-    echo $(IMAGE_NAME) > $(Build.ArtifactStagingDirectory)/Telstra.Dx.AzureOperator.txt
+    echo $(image_name) > $(Build.ArtifactStagingDirectory)/Telstra.Dx.AzureOperator.txt
     ls $(Build.ArtifactStagingDirectory)
   continueOnError: 'false'
   displayName: 'Prepare manifests for publish'
-  workingDirectory: '$(MODULE_PATH)'
+  workingDirectory: '$(module_path)'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
 
 - task: PublishBuildArtifacts@1
