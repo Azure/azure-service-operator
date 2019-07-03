@@ -385,16 +385,30 @@ spec:
           type: object
         spec:
           properties:
-            eventHub:
-              properties:
-                hubName:
-                  type: string
-                location:
-                  type: string
-                nSName:
-                  type: string
-              type: object
-            resourceGroup:
+            eventHubs:
+              items:
+                properties:
+                  location:
+                    type: string
+                  name:
+                    type: string
+                  namespace:
+                    type: string
+                  properties:
+                    properties:
+                      messageretentionindays:
+                        format: int32
+                        type: integer
+                      partitioncount:
+                        format: int32
+                        type: integer
+                    type: object
+                required:
+                - name
+                - location
+                type: object
+              type: array
+            namespace:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
               properties:
@@ -402,6 +416,31 @@ spec:
                   type: string
                 name:
                   type: string
+                properties:
+                  properties:
+                    isautoinflateenabled:
+                      type: boolean
+                    kafkaEnabled:
+                      type: boolean
+                    maximumthroughputunits:
+                      format: int32
+                      type: integer
+                  type: object
+                resourcegroup:
+                  type: string
+                sku:
+                  properties:
+                    capacity:
+                      format: int32
+                      type: integer
+                    name:
+                      type: string
+                    tier:
+                      type: string
+                  type: object
+              required:
+              - name
+              - location
               type: object
           type: object
         status:

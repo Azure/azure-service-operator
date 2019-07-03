@@ -5,7 +5,7 @@ metadata:
 spec:
   # Add fields here
   namespace:
-    name: "priyagroup"
+    name: "priyanamespace"
     location: "westus" 
     sku:
       name: "Standard"
@@ -16,9 +16,15 @@ spec:
       maximumthroughputunits: 0
       kafkaenabled: false
   eventHubs:
-  - name: "hub"
+  - name: "hub1"
     location: "westus" 
-    namespace: "namespace"
+    namespace: "priyanamespace"
+    properties:
+      messageretentionindays: 7
+      partitioncount: 1
+  - name: "hub2"
+    location: "westus" 
+    namespace: "priyanamespace"
     properties:
       messageretentionindays: 7
       partitioncount: 1
