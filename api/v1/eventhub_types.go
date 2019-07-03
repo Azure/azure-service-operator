@@ -35,7 +35,7 @@ type EventhubSpec struct {
 type EventhubStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool
+	Provisioning bool `json:"provisioning,omitempty"`
 }
 
 // EventhubNamespaceSku defines the sku
