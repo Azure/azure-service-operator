@@ -24,7 +24,6 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -50,12 +49,6 @@ var _ = Describe("EventHub Controller", func() {
 		It("should create and delete real jobs with secrets", func() {
 			var namespacedName = types.NamespacedName{Name: creatorv1.RandomString(10), Namespace: "default"}
 
-			secrets := make(map[string][]byte)
-			secrets["secret1"] = []byte("value1")
-			secret1 := &v1.Secret{Data: secrets, ObjectMeta: metav1.ObjectMeta{
-				Name: "test-secret", Namespace: "default",
-			}}
-
 			instance := &creatorv1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      namespacedName.Name,
@@ -73,14 +66,6 @@ var _ = Describe("EventHub Controller", func() {
 					},
 				},
 			}
-
-			// Create the secrets needed
-			k8sClient.Create(context.Background(), secret1)
-			defer func() {
-				k8sClient.Delete(context.Background(), secret1)
-			}()
-
-			time.Sleep(1 * time.Second)
 
 			// Create the NotebookJob object and expect the Reconcile to be created
 			err := k8sClient.Create(context.Background(), instance)
