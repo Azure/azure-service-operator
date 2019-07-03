@@ -14,6 +14,7 @@ COPY main.go main.go
 COPY api/ api/
 COPY resourcemanager/ resourcemanager/
 COPY controllers/ controllers/
+COPY helpers/ helpers/
 
 # Build
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o manager main.go
