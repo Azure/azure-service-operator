@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"strconv"
-	"strings"
 
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/gobuffalo/envy"
@@ -15,50 +14,31 @@ import (
 func LoadSettings() error {
 
 	fmt.Println()
-	for _, e := range os.Environ() {
-		pair := strings.Split(e, "=")
-		fmt.Println(pair[0], pair[1])
-		if pair[0] == "AZURE_CLIENT_ID" {
-			clientID = pair[1]
-			fmt.Println(pair[0], pair[1], clientID)
-		}
-		if pair[0] == "AZURE_CLIENT_SECRET" {
-			clientSecret = pair[1]
-			fmt.Println(pair[0], pair[1], clientSecret)
-		}
-		if pair[0] == "AZURE_TENANT_ID" {
-			tenantID = pair[1]
-			fmt.Println(pair[0], pair[1], tenantID)
-		}
-		if pair[0] == "AZURE_SUBSCRIPTION_ID" {
-			subscriptionID = pair[1]
-			fmt.Println(pair[0], pair[1], subscriptionID)
-		}
-	}
+
 	azureEnv, _ := azure.EnvironmentFromName("AzurePublicCloud") // shouldn't fail
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
 
 	// these must be provided by environment
 	// clientID
-	// clientID = os.Getenv("AZURE_CLIENT_ID")
+	clientID = os.Getenv("AZURE_CLIENT_ID")
 	if len(clientID) == 0 {
 		return fmt.Errorf("expected env vars not provided")
 	}
 
 	// clientSecret
-	//clientSecret = os.Getenv("AZURE_CLIENT_SECRET")
+	clientSecret = os.Getenv("AZURE_CLIENT_SECRET")
 	if len(clientSecret) == 0 { // don't need a secret for device flow
 		return fmt.Errorf("expected env vars not provided")
 	}
 
 	// tenantID (AAD)
-	// tenantID = os.Getenv("AZURE_TENANT_ID")
+	tenantID = os.Getenv("AZURE_TENANT_ID")
 	if len(tenantID) == 0 {
 		return fmt.Errorf("expected env vars not provided")
 	}
 
 	// subscriptionID (ARM)
-	// subscriptionID = os.Getenv("AZURE_SUBSCRIPTION_ID")
+	subscriptionID = os.Getenv("AZURE_SUBSCRIPTION_ID")
 	if len(subscriptionID) == 0 {
 		return fmt.Errorf("expected env vars not provided")
 	}

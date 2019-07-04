@@ -19,10 +19,7 @@ import (
 	"context"
 
 	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
-
-	"Telstra.Dx.AzureOperator/resourcemanager/config"
 	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
-
 	"github.com/go-logr/logr"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/tools/record"
@@ -46,10 +43,9 @@ func ignoreNotFound(err error) error {
 	return err
 }
 
-// +kubebuilder:rbac:groups=creator.microsoft.k8.io,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=creator.microsoft.k8.io,resources=eventhubs/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=eventhubs/status,verbs=get;update;patch
 
-//Reconcile blah blah
 func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("eventhub", req.NamespacedName)
@@ -73,11 +69,6 @@ func (r *EventhubReconciler) createeventhub(instance *creatorv1.Eventhub) {
 	ctx := context.Background()
 
 	var err error
-	// err = config.ParseEnvironment()
-	err = config.LoadSettings()
-	if err != nil {
-		log.Error(err, "unable to parse")
-	}
 
 	//namespace
 	//todo: add if condition for when namespace is not verified

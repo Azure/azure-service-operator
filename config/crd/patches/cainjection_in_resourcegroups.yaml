@@ -5,4 +5,4 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     certmanager.k8s.io/inject-ca-from: $(NAMESPACE)/$(CERTIFICATENAME)
-  name: eventhubs.creator.telstra.k8.io
+  name: resourcegroups.creator.telstra.k8.io

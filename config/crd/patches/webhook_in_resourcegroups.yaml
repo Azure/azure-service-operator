@@ -3,7 +3,7 @@
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
-  name: eventhubs.creator.telstra.k8.io
+  name: resourcegroups.creator.telstra.k8.io
 spec:
   conversion:
     strategy: Webhook
