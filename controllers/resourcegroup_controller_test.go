@@ -21,6 +21,7 @@ import (
 	"time"
 
 	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	helpers "Telstra.Dx.AzureOperator/helpers"
 	. "github.com/onsi/ginkgo"
 
 	. "github.com/onsi/gomega"
@@ -48,20 +49,26 @@ var _ = Describe("ResourceGroup Controller", func() {
 
 	Context("Create and Delete", func() {
 		It("should create and delete resource groups", func() {
-			namespacedName := types.NamespacedName{Name: "test", Namespace: "default"}
-			instance := &creatorv1.ResourceGroup{
+			resourceGroupName := "aztest-resourcegroup-" + helpers.RandomString(10)
+
+			var err error
+
+			// Create the Resourcegroup object and expect the Reconcile to be created
+			resourceGroupInstance := &creatorv1.ResourceGroup{
 				ObjectMeta: metav1.ObjectMeta{
-					Name:      namespacedName.Name,
-					Namespace: namespacedName.Namespace,
+					Name:      resourceGroupName,
+					Namespace: "default",
 				},
 				Spec: creatorv1.ResourceGroupSpec{
 					Location: "westus",
 				},
 			}
 
-			// Create the Resource Group object and expect the Reconcile to be created
-			err := k8sClient.Create(context.Background(), instance)
+			err = k8sClient.Create(context.Background(), resourceGroupInstance)
+			Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			Expect(err).NotTo(HaveOccurred())
 
+			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 			time.Sleep(2 * time.Second)
 			// The instance object may not be a valid object because it might be missing some required fields.
 			// Please modify the instance object by adding required fields and then remove the following if statement.
@@ -70,10 +77,10 @@ var _ = Describe("ResourceGroup Controller", func() {
 
 			time.Sleep(2 * time.Second)
 
-			instance2 := &creatorv1.Eventhub{}
-			err = k8sClient.Get(context.Background(), namespacedName, instance2)
+			resourceGroupInstance2 := &creatorv1.ResourceGroup{}
+			err = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance2)
 			Expect(err).NotTo(HaveOccurred())
-			err = k8sClient.Delete(context.Background(), instance2)
+			err = k8sClient.Delete(context.Background(), resourceGroupInstance2)
 			Expect(err).NotTo(HaveOccurred())
 
 		})

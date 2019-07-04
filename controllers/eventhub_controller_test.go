@@ -48,16 +48,54 @@ var _ = Describe("EventHub Controller", func() {
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create and Delete", func() {
 		It("should create and delete namespace and eventhubs", func() {
-			namespacedName := types.NamespacedName{Name: helpers.RandomString(10), Namespace: "default"}
-			EventhubNamespaceName := "test-namespace-" + helpers.RandomString(10)
-			instance := &creatorv1.Eventhub{
+
+			resourceGroupName := "aztest-resourcegroup-" + helpers.RandomString(10)
+			eventhubNamespaceName := "aztest-namespace-" + helpers.RandomString(10)
+			eventhubName := "aztest-eventhub-" + helpers.RandomString(10)
+
+			var err error
+
+			// Create the Resourcegroup object and expect the Reconcile to be created
+			resourceGroupInstance := &creatorv1.ResourceGroup{
 				ObjectMeta: metav1.ObjectMeta{
-					Name:      namespacedName.Name,
-					Namespace: namespacedName.Namespace,
+					Name:      resourceGroupName,
+					Namespace: "default",
+				},
+				Spec: creatorv1.ResourceGroupSpec{
+					Location: "westus",
+				},
+			}
+
+			err = k8sClient.Create(context.Background(), resourceGroupInstance)
+			Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			Expect(err).NotTo(HaveOccurred())
+
+			// Create the Eventhub namespace object and expect the Reconcile to be created
+			eventhubNamespaceInstance := &creatorv1.EventhubNamespace{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      eventhubNamespaceName,
+					Namespace: "default",
+				},
+				Spec: creatorv1.EventhubNamespaceSpec{
+					Location:      "westus",
+					ResourceGroup: resourceGroupName,
+				},
+			}
+
+			err = k8sClient.Create(context.Background(), eventhubNamespaceInstance)
+			Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			Expect(err).NotTo(HaveOccurred())
+
+			// Create the EventHub object and expect the Reconcile to be created
+			eventhubInstance := &creatorv1.Eventhub{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      eventhubName,
+					Namespace: "default",
 				},
 				Spec: creatorv1.EventhubSpec{
-					Location:  "westus",
-					Namespace: EventhubNamespaceName,
+					Location:      "westus",
+					Namespace:     eventhubNamespaceName,
+					ResourceGroup: resourceGroupName,
 					Properties: creatorv1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         1,
@@ -65,8 +103,7 @@ var _ = Describe("EventHub Controller", func() {
 				},
 			}
 
-			// Create the EventHub object and expect the Reconcile to be created
-			err := k8sClient.Create(context.Background(), instance)
+			err = k8sClient.Create(context.Background(), eventhubInstance)
 
 			time.Sleep(2 * time.Second)
 			// The instance object may not be a valid object because it might be missing some required fields.
@@ -74,30 +111,32 @@ var _ = Describe("EventHub Controller", func() {
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
+			eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
+
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), namespacedName, instance)
-				return instance.HasFinalizer(eventhubFinalizerName)
+				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
+				return eventhubInstance.HasFinalizer(eventhubFinalizerName)
 			}, timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), namespacedName, instance)
-				return instance.IsSubmitted()
+				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
+				return eventhubInstance.IsSubmitted()
 			}, timeout,
 			).Should(BeTrue())
 
 			time.Sleep(2 * time.Second)
 
 			// instance2 := &creatorv1.Eventhub{}
-			// err = k8sClient.Get(context.Background(), namespacedName, instance2)
+			// err = k8sClient.Get(context.Background(), eventhubName, instance2)
 			// Expect(err).NotTo(HaveOccurred())
 			// err = k8sClient.Delete(context.Background(), instance2)
 			// Expect(err).NotTo(HaveOccurred())
 
-			k8sClient.Delete(context.Background(), instance)
+			k8sClient.Delete(context.Background(), eventhubInstance)
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), namespacedName, instance)
-				return instance.IsBeingDeleted()
+				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
+				return eventhubInstance.IsBeingDeleted()
 			}, timeout,
 			).Should(BeTrue())
 

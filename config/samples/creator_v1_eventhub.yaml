@@ -1,11 +1,11 @@
 apiVersion: creator.telstra.k8.io/v1
 kind: Eventhub
 metadata:
-  name: eventhub-sample-5-1
+  name: eventhub-sample-6-1
 spec:
   location: "westus"
-  resourcegroup: "resourcegroup-sample-5"
-  namespace: "eventhubnamespace-sample-5"
+  resourcegroup: "resourcegroup-sample-6"
+  namespace: "eventhubnamespace-sample-6"
   properties:
     messageretentionindays: 7
     partitioncount: 1
