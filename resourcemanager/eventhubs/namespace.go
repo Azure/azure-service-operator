@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
+// Copyright (c) Telstra and contributors.  All rights reserved.
 //
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
@@ -23,13 +23,30 @@ func getNamespacesClient() eventhub.NamespacesClient {
 	return nsClient
 }
 
+// DeleteNamespace deletes an existing namespace. This operation also removes all associated resources under the namespace.
+// Parameters:
+// resourceGroupName - name of the resource group within the azure subscription.
+// namespaceName - the Namespace name
+func DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (result eventhub.NamespacesDeleteFuture, err error) {
+
+	nsClient := getNamespacesClient()
+	return nsClient.Delete(ctx,
+		resourceGroupName,
+		namespaceName)
+
+}
+
 // CreateNamespace creates an Event Hubs namespace
-func CreateNamespace(ctx context.Context, groupname string, nsName string, location string) (*eventhub.EHNamespace, error) {
+// Parameters:
+// resourceGroupName - name of the resource group within the azure subscription.
+// namespaceName - the Namespace name
+// location - azure region
+func CreateNamespace(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error) {
 	nsClient := getNamespacesClient()
 	future, err := nsClient.CreateOrUpdate(
 		ctx,
-		groupname,
-		nsName,
+		resourceGroupName,
+		namespaceName,
 		eventhub.EHNamespace{
 			Location: to.StringPtr(location),
 		},

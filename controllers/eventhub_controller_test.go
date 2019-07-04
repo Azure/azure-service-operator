@@ -1,5 +1,5 @@
 /*
-Copyright 2019 microsoft.
+Copyright 2019 telstra.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -124,7 +124,7 @@ var _ = Describe("EventHub Controller", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			// Eventually(func() error { return k8sClient.Get(context.Background(), namespacedName, instance2) }, timeout).
-			// 	Should(MatchError("NotebookJob.databricks.microsoft.com \"" + namespacedName.Name + "\" not found"))
+			// 	Should(MatchError("NotebookJob.databricks.telstra.com \"" + namespacedName.Name + "\" not found"))
 		})
 	})
 })
