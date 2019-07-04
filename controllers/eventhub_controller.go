@@ -32,8 +32,7 @@ import (
 // EventhubReconciler reconciles a Eventhub object
 type EventhubReconciler struct {
 	client.Client
-	Log logr.Logger
-
+	Log      logr.Logger
 	Recorder record.EventRecorder
 }
 
@@ -72,7 +71,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	if !instance.HasFinalizer(finalizerName) {
+	if !instance.HasFinalizer(eventhubFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
@@ -81,48 +80,10 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !instance.IsSubmitted() {
-		r.createeventhub(&instance)
+		r.createEventhub(&instance)
 	}
 
 	return ctrl.Result{}, nil
-}
-
-func (r *EventhubReconciler) createeventhub(instance *creatorv1.Eventhub) {
-	log := r.Log.WithValues("eventhub", instance)
-	ctx := context.Background()
-
-	var err error
-
-	//namespace
-	//todo: add if condition for when namespace is not verified
-	//todo: think about instance.ObjectMeta.Name
-	namespaceLocation := instance.Spec.Namespace.Location
-	namespaceName := instance.Spec.Namespace.Name
-	resourcegroup := instance.Spec.Namespace.ResourceGroupName
-
-	//todo: check if resource group is not provided find first avaliable resource group
-
-	// create Event Hubs namespace
-	_, err = eventhubsresourcemanager.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation)
-	if err != nil {
-		log.Error(err, "ERROR")
-	} else {
-		eventhubs := instance.Spec.EventHubs
-		for _, eventhub := range eventhubs {
-			eventhubName := eventhub.Name
-			eventhubNameSpace := namespaceName
-			if eventhub.NamespaceName != "" {
-				eventhubNameSpace = eventhub.NamespaceName
-			}
-
-			// create Event Hubs hub
-			_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNameSpace, eventhubName)
-			if err != nil {
-				log.Error(err, "ERROR")
-			}
-		}
-	}
-
 }
 
 // SetupWithManager blah
@@ -132,24 +93,49 @@ func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *EventhubReconciler) deleteEventHubsFromAzure(instance *creatorv1.Eventhub) error {
+func (r *EventhubReconciler) createEventhub(instance *creatorv1.Eventhub) {
+	log := r.Log.WithValues("eventhub", instance)
+	ctx := context.Background()
+
+	var err error
+
+	eventhubName := instance.ObjectMeta.Name
+	eventhubNamespace := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+	// write information back to instance
+	instance.Status.Provisioning = true
+	err = r.Update(ctx, instance)
+	if err != nil {
+		log.Error(err, "unable to update resourcegroup before submitting to resource manager")
+	}
+	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+	if err != nil {
+		log.Error(err, "ERROR")
+	}
+	// write information back to instance
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
+
+	err = r.Update(ctx, instance)
+	if err != nil {
+		log.Error(err, "unable to update resourcegroup after submitting to resource manager")
+	}
+
+}
+
+func (r *EventhubReconciler) deleteEventhub(instance *creatorv1.Eventhub) error {
 
 	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()
 
-	namespaceName := instance.Spec.Namespace.Name
-	resourcegroup := instance.Spec.Namespace.ResourceGroupName
-	eventhubs := instance.Spec.EventHubs
+	eventhubName := instance.ObjectMeta.Name
+	namespaceName := instance.ObjectMeta.Name
+	resourcegroup := instance.Spec.ResourceGroup
 
 	var err error
-	for _, eventhub := range eventhubs {
-		eventhubName := eventhub.Name
-
-		// delete all Event Hubs in instance
-		_, err = eventhubsresourcemanager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
-		if err != nil {
-			log.Error(err, "ERROR")
-		}
+	_, err = eventhubsresourcemanager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
+	if err != nil {
+		log.Error(err, "ERROR")
 	}
 	return nil
 }

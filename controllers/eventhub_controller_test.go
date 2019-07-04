@@ -56,40 +56,11 @@ var _ = Describe("EventHub Controller", func() {
 					Namespace: namespacedName.Namespace,
 				},
 				Spec: creatorv1.EventhubSpec{
-					Namespace: creatorv1.EventhubNamespaceResource{
-						Name:     EventhubNamespaceName,
-						Location: "westus",
-						Sku: creatorv1.EventhubNamespaceSku{
-							Name:     "Standard",
-							Tier:     "Standard",
-							Capacity: 1,
-						},
-						Properties: creatorv1.EventhubNamespaceProperties{
-							IsAutoInflateEnabled:   false,
-							MaximumThroughputUnits: 0,
-							KafkaEnabled:           false,
-						},
-						ResourceGroupName: "testdx",
-					},
-					EventHubs: []creatorv1.EventhubResource{
-						creatorv1.EventhubResource{
-							Name:          "test-eventhub-1",
-							Location:      "westus",
-							NamespaceName: EventhubNamespaceName,
-							Properties: creatorv1.EventhubProperties{
-								MessageRetentionInDays: 7,
-								PartitionCount:         1,
-							},
-						},
-						creatorv1.EventhubResource{
-							Name:          "test-eventhub-2",
-							Location:      "westus",
-							NamespaceName: EventhubNamespaceName,
-							Properties: creatorv1.EventhubProperties{
-								MessageRetentionInDays: 7,
-								PartitionCount:         1,
-							},
-						},
+					Location:  "westus",
+					Namespace: EventhubNamespaceName,
+					Properties: creatorv1.EventhubProperties{
+						MessageRetentionInDays: 7,
+						PartitionCount:         1,
 					},
 				},
 			}
@@ -105,7 +76,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = k8sClient.Get(context.Background(), namespacedName, instance)
-				return instance.HasFinalizer(finalizerName)
+				return instance.HasFinalizer(eventhubFinalizerName)
 			}, timeout,
 			).Should(BeTrue())
 

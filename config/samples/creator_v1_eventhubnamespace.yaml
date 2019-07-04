@@ -1,9 +1,10 @@
 apiVersion: creator.telstra.k8.io/v1
 kind: EventhubNamespace
 metadata:
-  name: eventhubnamespace-sample
+  name: eventhubnamespace-sample-5
 spec:    
-    location: "westus" 
+    location: "westus"
+    resourcegroup: "resourcegroup-sample-5"
     sku:
       name: "Standard"
       tier: "Standard"

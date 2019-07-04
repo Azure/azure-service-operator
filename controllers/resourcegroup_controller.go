@@ -16,6 +16,8 @@ limitations under the License.
 package controllers
 
 import (
+	"fmt"
+
 	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
 	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
 
@@ -25,6 +27,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
 // ResourceGroupReconciler reconciles a ResourceGroup object
@@ -49,14 +52,38 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		// on deleted requests.
 		return ctrl.Result{}, ignoreNotFound(err)
 	}
-	if instance.Status.Provisioning || instance.Status.Provisioned {
+
+	if instance.IsBeingDeleted() {
+		err := r.handleFinalizer(&instance)
+		if err != nil {
+			return reconcile.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
+		}
 		return ctrl.Result{}, nil
 	}
-	r.createresourcegroup(&instance)
+
+	if !instance.HasFinalizer(resouceGroupFinalizerName) {
+		err := r.addFinalizer(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	if !instance.IsSubmitted() {
+		r.createResourceGroup(&instance)
+	}
+
 	return ctrl.Result{}, nil
+
 }
 
-func (r *ResourceGroupReconciler) createresourcegroup(instance *creatorv1.ResourceGroup) {
+func (r *ResourceGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&creatorv1.ResourceGroup{}).
+		Complete(r)
+}
+
+func (r *ResourceGroupReconciler) createResourceGroup(instance *creatorv1.ResourceGroup) {
 
 	log := r.Log.WithValues("resourcegroup", instance)
 	ctx := context.Background()
@@ -87,9 +114,16 @@ func (r *ResourceGroupReconciler) createresourcegroup(instance *creatorv1.Resour
 	r.Recorder.Event(instance, "Normal", "Updated", resourcegroupName+" provisioned")
 
 }
+func (r *ResourceGroupReconciler) deleteResourceGroup(instance *creatorv1.ResourceGroup) error {
+	log := r.Log.WithValues("eventhub", instance)
+	ctx := context.Background()
 
-func (r *ResourceGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&creatorv1.ResourceGroup{}).
-		Complete(r)
+	resourcegroup := instance.ObjectMeta.Name
+
+	var err error
+	_, err = resoucegroupsresourcemanager.DeleteGroup(ctx, resourcegroup)
+	if err != nil {
+		log.Error(err, "ERROR")
+	}
+	return nil
 }

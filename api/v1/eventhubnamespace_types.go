@@ -16,6 +16,7 @@ limitations under the License.
 package v1
 
 import (
+	helpers "Telstra.Dx.AzureOperator/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -26,10 +27,10 @@ import (
 type EventhubNamespaceSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location          string                      `json:"location"`
-	Sku               EventhubNamespaceSku        `json:"sku,omitempty"`
-	Properties        EventhubNamespaceProperties `json:"properties,omitempty"`
-	ResourceGroupName string                      `json:"resourcegroup,omitempty"`
+	Location      string                      `json:"location"`
+	Sku           EventhubNamespaceSku        `json:"sku,omitempty"`
+	Properties    EventhubNamespaceProperties `json:"properties,omitempty"`
+	ResourceGroup string                      `json:"resourcegroup,omitempty"`
 }
 
 // EventhubNamespaceStatus defines the observed state of EventhubNamespace
@@ -76,4 +77,25 @@ type EventhubNamespaceProperties struct {
 
 func init() {
 	SchemeBuilder.Register(&EventhubNamespace{}, &EventhubNamespaceList{})
+}
+
+func (eventhubNamespace *EventhubNamespace) IsBeingDeleted() bool {
+	return !eventhubNamespace.ObjectMeta.DeletionTimestamp.IsZero()
+}
+
+func (eventhubNamespace *EventhubNamespace) IsSubmitted() bool {
+	return eventhubNamespace.Status.Provisioning || eventhubNamespace.Status.Provisioned
+
+}
+
+func (eventhubNamespace *EventhubNamespace) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (eventhubNamespace *EventhubNamespace) AddFinalizer(finalizerName string) {
+	eventhubNamespace.ObjectMeta.Finalizers = append(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (eventhubNamespace *EventhubNamespace) RemoveFinalizer(finalizerName string) {
+	eventhubNamespace.ObjectMeta.Finalizers = helpers.RemoveString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
 }

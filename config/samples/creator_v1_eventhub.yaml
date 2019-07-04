@@ -1,30 +1,11 @@
 apiVersion: creator.telstra.k8.io/v1
 kind: Eventhub
 metadata:
-  name: eventhubpriya13
+  name: eventhub-sample-5-1
 spec:
-  # Add fields here
-  namespace:
-    name: "priyanamespace"
-    location: "westus" 
-    sku:
-      name: "Standard"
-      tier: "Standard"
-      capacity: 1      
-    properties:
-      isautoinflateenabled: false
-      maximumthroughputunits: 0
-      kafkaenabled: false
-  eventHubs:
-  - name: "hub1"
-    location: "westus" 
-    namespace: "priyanamespace"
-    properties:
-      messageretentionindays: 7
-      partitioncount: 1
-  - name: "hub2"
-    location: "westus" 
-    namespace: "priyanamespace"
-    properties:
-      messageretentionindays: 7
-      partitioncount: 1
+  location: "westus"
+  resourcegroup: "resourcegroup-sample-5"
+  namespace: "eventhubnamespace-sample-5"
+  properties:
+    messageretentionindays: 7
+    partitioncount: 1

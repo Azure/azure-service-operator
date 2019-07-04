@@ -36,8 +36,10 @@ type EventhubNamespaceResource struct {
 type EventhubSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Namespace EventhubNamespaceResource `json:"namespace,omitempty"`
-	EventHubs []EventhubResource        `json:"eventHubs,omitempty"`
+	Location      string             `json:"location"`
+	Namespace     string             `json:"namespace,omitempty"`
+	Properties    EventhubProperties `json:"properties,omitempty"`
+	ResourceGroup string             `json:"resourcegroup,omitempty"`
 }
 
 // EventhubStatus defines the observed state of Eventhub
@@ -46,13 +48,6 @@ type EventhubStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool `json:"provisioning,omitempty"`
 	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
-type EventhubResource struct {
-	Name          string             `json:"name"`
-	Location      string             `json:"location"`
-	NamespaceName string             `json:"namespace,omitempty"`
-	Properties    EventhubProperties `json:"properties,omitempty"`
 }
 
 //EventhubProperties defines the namespace properties
@@ -72,12 +67,25 @@ type Eventhub struct {
 	Status EventhubStatus `json:"status,omitempty"`
 }
 
+// +kubebuilder:object:root=true
+
+// EventhubList contains a list of Eventhub
+type EventhubList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []Eventhub `json:"items"`
+}
+
+func init() {
+	SchemeBuilder.Register(&Eventhub{}, &EventhubList{})
+}
+
 func (eventhub *Eventhub) IsBeingDeleted() bool {
 	return !eventhub.ObjectMeta.DeletionTimestamp.IsZero()
 }
 
 func (eventhub *Eventhub) IsSubmitted() bool {
-	return eventhub.Status.Provisioning
+	return eventhub.Status.Provisioning || eventhub.Status.Provisioned
 }
 
 func (eventhub *Eventhub) HasFinalizer(finalizerName string) bool {
@@ -90,17 +98,4 @@ func (eventhub *Eventhub) AddFinalizer(finalizerName string) {
 
 func (eventhub *Eventhub) RemoveFinalizer(finalizerName string) {
 	eventhub.ObjectMeta.Finalizers = helpers.RemoveString(eventhub.ObjectMeta.Finalizers, finalizerName)
-}
-
-// +kubebuilder:object:root=true
-
-// EventhubList contains a list of Eventhub
-type EventhubList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Eventhub `json:"items"`
-}
-
-func init() {
-	SchemeBuilder.Register(&Eventhub{}, &EventhubList{})
 }

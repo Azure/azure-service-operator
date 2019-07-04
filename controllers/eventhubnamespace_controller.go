@@ -17,19 +17,22 @@ package controllers
 
 import (
 	"context"
-
-	"github.com/go-logr/logr"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+	"fmt"
 
 	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
 	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
+	"github.com/go-logr/logr"
+	"k8s.io/client-go/tools/record"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
 // EventhubNamespaceReconciler reconciles a EventhubNamespace object
 type EventhubNamespaceReconciler struct {
 	client.Client
-	Log logr.Logger
+	Log      logr.Logger
+	Recorder record.EventRecorder
 }
 
 // +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
@@ -49,14 +52,36 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 		// on deleted requests.
 		return ctrl.Result{}, ignoreNotFound(err)
 	}
-	if instance.Status.Provisioning || instance.Status.Provisioned {
+	if instance.IsBeingDeleted() {
+		err := r.handleFinalizer(&instance)
+		if err != nil {
+			return reconcile.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
+		}
 		return ctrl.Result{}, nil
 	}
-	r.createeventhubnamespace(&instance)
+
+	if !instance.HasFinalizer(eventhubNamespaceFinalizerName) {
+		err := r.addFinalizer(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	if !instance.IsSubmitted() {
+		r.createEventHubNamespace(&instance)
+	}
+
 	return ctrl.Result{}, nil
 }
 
-func (r *EventhubNamespaceReconciler) createeventhubnamespace(instance *creatorv1.EventhubNamespace) {
+func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&creatorv1.EventhubNamespace{}).
+		Complete(r)
+}
+
+func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *creatorv1.EventhubNamespace) {
 	log := r.Log.WithValues("eventhubnamespace", instance)
 	ctx := context.Background()
 
@@ -64,7 +89,7 @@ func (r *EventhubNamespaceReconciler) createeventhubnamespace(instance *creatorv
 
 	namespaceLocation := instance.Spec.Location
 	namespaceName := instance.ObjectMeta.Name
-	resourcegroup := instance.Spec.ResourceGroupName
+	resourcegroup := instance.Spec.ResourceGroup
 
 	//todo: check if resource group is not provided find first avaliable resource group
 
@@ -75,8 +100,18 @@ func (r *EventhubNamespaceReconciler) createeventhubnamespace(instance *creatorv
 	}
 
 }
-func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&creatorv1.EventhubNamespace{}).
-		Complete(r)
+func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *creatorv1.EventhubNamespace) error {
+
+	log := r.Log.WithValues("eventhub", instance)
+	ctx := context.Background()
+
+	namespaceName := instance.ObjectMeta.Name
+	resourcegroup := instance.Spec.ResourceGroup
+
+	var err error
+	_, err = eventhubsresourcemanager.DeleteNamespace(ctx, resourcegroup, namespaceName)
+	if err != nil {
+		log.Error(err, "ERROR")
+	}
+	return nil
 }

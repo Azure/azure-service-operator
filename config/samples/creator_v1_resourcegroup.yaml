@@ -1,6 +1,6 @@
 apiVersion: creator.telstra.k8.io/v1
 kind: ResourceGroup
 metadata:
-  name: resourcegroup-sample-4
+  name: resourcegroup-sample-5
 spec:
   location: "westus" 

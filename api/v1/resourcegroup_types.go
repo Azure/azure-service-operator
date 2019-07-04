@@ -16,6 +16,7 @@ limitations under the License.
 package v1
 
 import (
+	helpers "Telstra.Dx.AzureOperator/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -60,4 +61,25 @@ type ResourceGroupList struct {
 
 func init() {
 	SchemeBuilder.Register(&ResourceGroup{}, &ResourceGroupList{})
+}
+
+func (resourceGroup *ResourceGroup) IsBeingDeleted() bool {
+	return !resourceGroup.ObjectMeta.DeletionTimestamp.IsZero()
+}
+
+func (resourceGroup *ResourceGroup) IsSubmitted() bool {
+	return resourceGroup.Status.Provisioning || resourceGroup.Status.Provisioned
+
+}
+
+func (resourceGroup *ResourceGroup) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(resourceGroup.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (resourceGroup *ResourceGroup) AddFinalizer(finalizerName string) {
+	resourceGroup.ObjectMeta.Finalizers = append(resourceGroup.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (resourceGroup *ResourceGroup) RemoveFinalizer(finalizerName string) {
+	resourceGroup.ObjectMeta.Finalizers = helpers.RemoveString(resourceGroup.ObjectMeta.Finalizers, finalizerName)
 }

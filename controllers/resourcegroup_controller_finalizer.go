@@ -23,26 +23,26 @@ import (
 	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
 )
 
-const eventhubFinalizerName = "eventhub.finalizers.com"
+const resouceGroupFinalizerName = "resoucegroup.finalizers.com"
 
-func (r *EventhubReconciler) addFinalizer(instance *creatorv1.Eventhub) error {
-	instance.AddFinalizer(eventhubFinalizerName)
+func (r *ResourceGroupReconciler) addFinalizer(instance *creatorv1.ResourceGroup) error {
+	instance.AddFinalizer(resouceGroupFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", eventhubFinalizerName))
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", resouceGroupFinalizerName))
 	return nil
 }
 
-func (r *EventhubReconciler) handleFinalizer(instance *creatorv1.Eventhub) error {
-	if instance.HasFinalizer(eventhubFinalizerName) {
+func (r *ResourceGroupReconciler) handleFinalizer(instance *creatorv1.ResourceGroup) error {
+	if instance.HasFinalizer(resouceGroupFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
 			return err
 		}
 
-		instance.RemoveFinalizer(eventhubFinalizerName)
+		instance.RemoveFinalizer(resouceGroupFinalizerName)
 		if err := r.Update(context.Background(), instance); err != nil {
 			return err
 		}
@@ -51,7 +51,7 @@ func (r *EventhubReconciler) handleFinalizer(instance *creatorv1.Eventhub) error
 	return nil
 }
 
-func (r *EventhubReconciler) deleteExternalDependency(instance *creatorv1.Eventhub) error {
+func (r *ResourceGroupReconciler) deleteExternalDependency(instance *creatorv1.ResourceGroup) error {
 
-	return r.deleteEventhub(instance)
+	return r.deleteResourceGroup(instance)
 }

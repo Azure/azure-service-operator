@@ -36,6 +36,15 @@ func DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceNam
 
 }
 
+// Get gets the description of the specified namespace.
+// Parameters:
+// resourceGroupName - name of the resource group within the azure subscription.
+// namespaceName - the Namespace name
+func GetNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (result eventhub.EHNamespace, err error) {
+	nsClient := getNamespacesClient()
+	return nsClient.Get(ctx, resourceGroupName, namespaceName)
+}
+
 // CreateNamespace creates an Event Hubs namespace
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
