@@ -23,6 +23,15 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+//EventhubNamespaceResource defines the namespace
+type EventhubNamespaceResource struct {
+	Name              string                      `json:"name"`
+	Location          string                      `json:"location"`
+	Sku               EventhubNamespaceSku        `json:"sku,omitempty"`
+	Properties        EventhubNamespaceProperties `json:"properties,omitempty"`
+	ResourceGroupName string                      `json:"resourcegroup,omitempty"`
+}
+
 // EventhubSpec defines the desired state of Eventhub
 type EventhubSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
@@ -37,29 +46,6 @@ type EventhubStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool `json:"provisioning,omitempty"`
 	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
-// EventhubNamespaceSku defines the sku
-type EventhubNamespaceSku struct {
-	Name     string `json:"name,omitempty"`     //allowedValues "Basic", "Standard"
-	Tier     string `json:"tier,omitempty"`     //allowedValues "Basic", "Standard"
-	Capacity int32  `json:"capacity,omitempty"` //allowedValues 1, 2, 4
-}
-
-//EventhubNamespaceResource defines the namespace
-type EventhubNamespaceResource struct {
-	Name              string                      `json:"name"`
-	Location          string                      `json:"location"`
-	Sku               EventhubNamespaceSku        `json:"sku,omitempty"`
-	Properties        EventhubNamespaceProperties `json:"properties,omitempty"`
-	ResourceGroupName string                      `json:"resourcegroup,omitempty"`
-}
-
-//EventhubNamespaceProperties defines the namespace properties
-type EventhubNamespaceProperties struct {
-	IsAutoInflateEnabled   bool  `json:"isautoinflateenabled,omitempty"`
-	MaximumThroughputUnits int32 `json:"maximumthroughputunits,omitempty"`
-	KafkaEnabled           bool  `json:"kafkaEnabled,omitempty"`
 }
 
 type EventhubResource struct {

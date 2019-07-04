@@ -29,6 +29,26 @@ rules:
 - apiGroups:
   - creator.telstra.k8.io
   resources:
+  - eventhubnamespaces
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - creator.telstra.k8.io
+  resources:
+  - eventhubnamespaces/status
+  verbs:
+  - get
+  - update
+  - patch
+- apiGroups:
+  - creator.telstra.k8.io
+  resources:
   - resourcegroups
   verbs:
   - get

@@ -12,6 +12,7 @@ import (
 	"Telstra.Dx.AzureOperator/resourcemanager/iam"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
@@ -23,14 +24,32 @@ func getHubsClient() eventhub.EventHubsClient {
 	return hubClient
 }
 
+// DeleteHub deletes an Event Hub from the specified Namespace and resource group.
+// Parameters:
+// resourceGroupName - name of the resource group within the azure subscription.
+// namespaceName - the Namespace name
+// eventHubName - the Event Hub name
+func DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
+	hubClient := getHubsClient()
+	return hubClient.Delete(ctx,
+		resourceGroupName,
+		namespaceName,
+		eventHubName)
+
+}
+
 // CreateHub creates an Event Hubs hub in a namespace
-func CreateHub(ctx context.Context, groupname string, nsName string, hubName string) (eventhub.Model, error) {
+// Parameters:
+// resourceGroupName - name of the resource group within the azure subscription.
+// namespaceName - the Namespace name
+// eventHubName - the Event Hub name
+func CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (eventhub.Model, error) {
 	hubClient := getHubsClient()
 	return hubClient.CreateOrUpdate(
 		ctx,
-		groupname,
-		nsName,
-		hubName,
+		resourceGroupName,
+		namespaceName,
+		eventHubName,
 		eventhub.Model{
 			Properties: &eventhub.Properties{
 				PartitionCount: to.Int64Ptr(4),

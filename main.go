@@ -84,6 +84,14 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
 		os.Exit(1)
 	}
+	err = (&controllers.EventhubNamespaceReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
