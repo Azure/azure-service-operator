@@ -24,7 +24,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
-
+	resourcemanagerconfig "Telstra.Dx.AzureOperator/resourcemanager/config"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -64,6 +64,8 @@ var _ = BeforeSuite(func(done Done) {
 			CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
 		}
 	}
+
+	resourcemanagerconfig.LoadSettings()
 
 	cfg, err := testEnv.Start()
 	Expect(err).ToNot(HaveOccurred())
