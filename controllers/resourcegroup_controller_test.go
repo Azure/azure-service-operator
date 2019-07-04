@@ -46,9 +46,9 @@ var _ = Describe("ResourceGroup Controller", func() {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 
-	Context("Create", func() {
-		It("should create resource groups", func() {
-			namespacedName := types.NamespacedName{Name: "testdx", Namespace: "default"}
+	Context("Create and Delete", func() {
+		It("should create and delete resource groups", func() {
+			namespacedName := types.NamespacedName{Name: "test", Namespace: "default"}
 			instance := &creatorv1.ResourceGroup{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      namespacedName.Name,

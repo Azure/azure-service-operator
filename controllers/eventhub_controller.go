@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 
 	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
 	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
@@ -25,6 +26,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
 // EventhubReconciler reconciles a Eventhub object
@@ -46,12 +48,14 @@ func ignoreNotFound(err error) error {
 // +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=eventhubs/status,verbs=get;update;patch
 
+//Reconcile blah
 func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("eventhub", req.NamespacedName)
 
 	// your logic here
 	var instance creatorv1.Eventhub
+
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Error(err, "unable to fetch Eventhub")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -60,7 +64,26 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, ignoreNotFound(err)
 	}
 
-	r.createeventhub(&instance)
+	if instance.IsBeingDeleted() {
+		err := r.handleFinalizer(&instance)
+		if err != nil {
+			return reconcile.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	if !instance.HasFinalizer(finalizerName) {
+		err := r.addFinalizer(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	if !instance.IsSubmitted() {
+		r.createeventhub(&instance)
+	}
+
 	return ctrl.Result{}, nil
 }
 
@@ -83,20 +106,20 @@ func (r *EventhubReconciler) createeventhub(instance *creatorv1.Eventhub) {
 	_, err = eventhubsresourcemanager.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
 		log.Error(err, "ERROR")
-	}
+	} else {
+		eventhubs := instance.Spec.EventHubs
+		for _, eventhub := range eventhubs {
+			eventhubName := eventhub.Name
+			eventhubNameSpace := namespaceName
+			if eventhub.NamespaceName != "" {
+				eventhubNameSpace = eventhub.NamespaceName
+			}
 
-	eventhubs := instance.Spec.EventHubs
-	for _, eventhub := range eventhubs {
-		eventhubName := eventhub.Name
-		eventhubNameSpace := namespaceName
-		if eventhub.NamespaceName != "" {
-			eventhubNameSpace = eventhub.NamespaceName
-		}
-
-		// create Event Hubs hub
-		_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNameSpace, eventhubName)
-		if err != nil {
-			log.Error(err, "ERROR")
+			// create Event Hubs hub
+			_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNameSpace, eventhubName)
+			if err != nil {
+				log.Error(err, "ERROR")
+			}
 		}
 	}
 
@@ -107,4 +130,26 @@ func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&creatorv1.Eventhub{}).
 		Complete(r)
+}
+
+func (r *EventhubReconciler) deleteEventHubsFromAzure(instance *creatorv1.Eventhub) error {
+
+	log := r.Log.WithValues("eventhub", instance)
+	ctx := context.Background()
+
+	namespaceName := instance.Spec.Namespace.Name
+	resourcegroup := instance.Spec.Namespace.ResourceGroupName
+	eventhubs := instance.Spec.EventHubs
+
+	var err error
+	for _, eventhub := range eventhubs {
+		eventhubName := eventhub.Name
+
+		// delete all Event Hubs in instance
+		_, err = eventhubsresourcemanager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
+		if err != nil {
+			log.Error(err, "ERROR")
+		}
+	}
+	return nil
 }

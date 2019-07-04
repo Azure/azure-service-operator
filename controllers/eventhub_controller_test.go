@@ -69,7 +69,7 @@ var _ = Describe("EventHub Controller", func() {
 							MaximumThroughputUnits: 0,
 							KafkaEnabled:           false,
 						},
-						ResourceGroupName: "test",
+						ResourceGroupName: "testdx",
 					},
 					EventHubs: []creatorv1.EventhubResource{
 						creatorv1.EventhubResource{
@@ -103,11 +103,11 @@ var _ = Describe("EventHub Controller", func() {
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
-			// Eventually(func() bool {
-			// 	_ = k8sClient.Get(context.Background(), namespacedName, instance)
-			// 	return instance.HasFinalizer(finalizerName)
-			// }, timeout,
-			// ).Should(BeTrue())
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), namespacedName, instance)
+				return instance.HasFinalizer(finalizerName)
+			}, timeout,
+			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = k8sClient.Get(context.Background(), namespacedName, instance)
@@ -117,11 +117,18 @@ var _ = Describe("EventHub Controller", func() {
 
 			time.Sleep(2 * time.Second)
 
-			instance2 := &creatorv1.Eventhub{}
-			err = k8sClient.Get(context.Background(), namespacedName, instance2)
-			Expect(err).NotTo(HaveOccurred())
-			err = k8sClient.Delete(context.Background(), instance2)
-			Expect(err).NotTo(HaveOccurred())
+			// instance2 := &creatorv1.Eventhub{}
+			// err = k8sClient.Get(context.Background(), namespacedName, instance2)
+			// Expect(err).NotTo(HaveOccurred())
+			// err = k8sClient.Delete(context.Background(), instance2)
+			// Expect(err).NotTo(HaveOccurred())
+
+			k8sClient.Delete(context.Background(), instance)
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), namespacedName, instance)
+				return instance.IsBeingDeleted()
+			}, timeout,
+			).Should(BeTrue())
 
 			// Eventually(func() error { return k8sClient.Get(context.Background(), namespacedName, instance2) }, timeout).
 			// 	Should(MatchError("NotebookJob.databricks.telstra.com \"" + namespacedName.Name + "\" not found"))
