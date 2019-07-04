@@ -53,23 +53,11 @@ func ParseEnvironment() error {
 	azureEnv, _ := azure.EnvironmentFromName("AzurePublicCloud") // shouldn't fail
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
 
-	// AZURE_GROUP_NAME and `config.GroupName()` are deprecated.
-	// Use AZURE_BASE_GROUP_NAME and `config.GenerateGroupName()` instead.
-	groupName = envy.Get("AZURE_GROUP_NAME", "azure-go-samples")
-	baseGroupName = envy.Get("AZURE_BASE_GROUP_NAME", groupName)
-
-	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "westus2")
-
 	var err error
 	useDeviceFlow, err = strconv.ParseBool(envy.Get("AZURE_USE_DEVICEFLOW", "0"))
 	if err != nil {
 		log.Printf("invalid value specified for AZURE_USE_DEVICEFLOW, disabling\n")
 		useDeviceFlow = false
-	}
-	keepResources, err = strconv.ParseBool(envy.Get("AZURE_SAMPLES_KEEP_RESOURCES", "0"))
-	if err != nil {
-		log.Printf("invalid value specified for AZURE_SAMPLES_KEEP_RESOURCES, discarding\n")
-		keepResources = false
 	}
 
 	// these must be provided by environment
