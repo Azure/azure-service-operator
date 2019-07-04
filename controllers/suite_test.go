@@ -81,17 +81,6 @@ var _ = BeforeSuite(func(done Done) {
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("EventHub"),
 		Recorder: k8sManager.GetEventRecorderFor("eventhub-controller"),
-		// APIClient: func() dbazure.DBClient {
-		// 	host, token := os.Getenv("AZURE_SUBSCRIPTION"),
-		// 		os.Getenv("AZURE_TENANT_ID"),
-		// 		os.Getenv("AZURE_CLIENT_ID"),
-		// 		os.Getenv("AZURE_CLIENT_SECRET")
-		// 	var apiClient dbazure.DBClient
-		// 	return apiClient.Init(db.DBClientOption{
-		// 		Host:  host,
-		// 		Token: token,
-		// 	})
-		// }(),
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
