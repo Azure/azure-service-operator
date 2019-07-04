@@ -49,7 +49,7 @@ func getGroupsClientWithAuthFile() resources.GroupsClient {
 // CreateGroup creates a new resource group named by env var
 func CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
 	groupsClient := getGroupsClient()
-	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, config.Location()))
+	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, location))
 	return groupsClient.CreateOrUpdate(
 		ctx,
 		groupName,
@@ -60,14 +60,14 @@ func CreateGroup(ctx context.Context, groupName string, location string) (resour
 
 // CreateGroupWithAuthFile creates a new resource group. The client authorizer
 // is set up based on an auth file created using the Azure CLI.
-func CreateGroupWithAuthFile(ctx context.Context, groupName string) (resources.Group, error) {
+func CreateGroupWithAuthFile(ctx context.Context, groupName string, location string) (resources.Group, error) {
 	groupsClient := getGroupsClientWithAuthFile()
-	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, config.Location()))
+	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, location))
 	return groupsClient.CreateOrUpdate(
 		ctx,
 		groupName,
 		resources.Group{
-			Location: to.StringPtr(config.Location()),
+			Location: to.StringPtr(location),
 		})
 }
 
@@ -84,17 +84,14 @@ func ListGroups(ctx context.Context) (resources.GroupListResultIterator, error) 
 }
 
 // GetGroup gets info on the resource group in use
-func GetGroup(ctx context.Context) (resources.Group, error) {
+func GetGroup(ctx context.Context, groupName string) (resources.Group, error) {
 	groupsClient := getGroupsClient()
-	return groupsClient.Get(ctx, config.GroupName())
+	return groupsClient.Get(ctx, groupName)
 }
 
 // DeleteAllGroupsWithPrefix deletes all rescource groups that start with a certain prefix
 func DeleteAllGroupsWithPrefix(ctx context.Context, prefix string) (futures []resources.GroupsDeleteFuture, groups []string) {
-	if config.KeepResources() {
-		log.Println("keeping resource groups")
-		return
-	}
+
 	for list, err := ListGroups(ctx); list.NotDone(); err = list.Next() {
 		if err != nil {
 			log.Fatalf("got error: %s", err)

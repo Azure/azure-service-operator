@@ -49,13 +49,13 @@ func WithAPIVersion(apiVersion string) autorest.PrepareDecorator {
 // The API version parameter overrides the API version in
 // the SDK, this is needed because not all resources are
 // supported on all API versions.
-func GetResource(ctx context.Context, resourceProvider, resourceType, resourceName, apiVersion string) (resources.GenericResource, error) {
+func GetResource(ctx context.Context, resourceProvider, resourceType, resourceName, groupName string, apiVersion string) (resources.GenericResource, error) {
 	resourcesClient := getResourcesClient()
 	resourcesClient.RequestInspector = WithAPIVersion(apiVersion)
 
 	return resourcesClient.Get(
 		ctx,
-		config.GroupName(),
+		groupName,
 		resourceProvider,
 		"",
 		resourceType,
