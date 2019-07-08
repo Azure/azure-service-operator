@@ -49,7 +49,7 @@ var _ = Describe("ResourceGroup Controller", func() {
 
 	Context("Create and Delete", func() {
 		It("should create and delete resource groups", func() {
-			resourceGroupName := "aztest-resourcegroup-" + helpers.RandomString(10)
+			resourceGroupName := "t-resourcegroup-" + helpers.RandomString(10)
 
 			var err error
 

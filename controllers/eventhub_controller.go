@@ -129,7 +129,7 @@ func (r *EventhubReconciler) deleteEventhub(instance *creatorv1.Eventhub) error 
 	ctx := context.Background()
 
 	eventhubName := instance.ObjectMeta.Name
-	namespaceName := instance.ObjectMeta.Name
+	namespaceName := instance.Spec.Namespace
 	resourcegroup := instance.Spec.ResourceGroup
 
 	var err error

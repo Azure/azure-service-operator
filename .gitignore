@@ -25,3 +25,4 @@ bin
 .env
 __debug_bin
 .vscode
+default.etcd

@@ -49,9 +49,9 @@ var _ = Describe("EventHub Controller", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete namespace and eventhubs", func() {
 
-			resourceGroupName := "aztest-resourcegroup-" + helpers.RandomString(10)
-			eventhubNamespaceName := "aztest-namespace-" + helpers.RandomString(10)
-			eventhubName := "aztest-eventhub-" + helpers.RandomString(10)
+			resourceGroupName := "t-resourcegroup-" + helpers.RandomString(10)
+			eventhubNamespaceName := "t-namespace-" + helpers.RandomString(10)
+			eventhubName := "t-eventhub-" + helpers.RandomString(10)
 
 			var err error
 

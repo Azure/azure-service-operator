@@ -85,8 +85,9 @@ func main() {
 		os.Exit(1)
 	}
 	err = (&controllers.EventhubNamespaceReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+		Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")

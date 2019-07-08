@@ -54,6 +54,7 @@ var _ = BeforeSuite(func(done Done) {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	By("bootstrapping test environment")
+
 	if os.Getenv("TEST_USE_EXISTING_CLUSTER") == "true" {
 		testEnv = &envtest.Environment{
 			UseExistingCluster: true,
@@ -89,6 +90,20 @@ var _ = BeforeSuite(func(done Done) {
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("EventHub"),
 		Recorder: k8sManager.GetEventRecorderFor("eventhub-controller"),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&ResourceGroupReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+		Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&EventhubNamespaceReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+		Recorder: k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
