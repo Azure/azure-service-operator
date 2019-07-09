@@ -67,11 +67,13 @@ steps:
     go get github.com/AlekSi/gocov-xml
     go get -u gopkg.in/matm/v1/gocov-html
     make test
-    # gocov convert coverage.txt > coverage.json
-    # gocov-xml < coverage.json > coverage.xml
-    # mkdir coverage
-    # gocov-html < coverage.json > coverage/index.html
-    
+    gocov convert coverage.txt > coverage.json
+    gocov-xml < coverage.json > coverage.xml
+    mkdir coverage
+    gocov-html < coverage.json > coverage/index.html
+    ls $(System.DefaultWorkingDirectory)/**/report.xml
+    ls $(System.DefaultWorkingDirectory)/**/coverage.xml
+    ls $(System.DefaultWorkingDirectory)/**/coverage
   continueOnError: 'false'
   displayName: 'Install kubebuilder, kustomize and Run unit tests'
   env:
@@ -88,6 +90,7 @@ steps:
   inputs:
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
+
 
 - task: PublishCodeCoverageResults@1
   inputs:
