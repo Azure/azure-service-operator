@@ -49,7 +49,7 @@ var _ = Describe("ResourceGroup Controller", func() {
 
 	Context("Create and Delete", func() {
 		It("should create and delete resource groups", func() {
-			resourceGroupName := "t-resourcegroup-" + helpers.RandomString(10)
+			resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
 
 			var err error
 
@@ -69,19 +69,15 @@ var _ = Describe("ResourceGroup Controller", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
-			time.Sleep(2 * time.Second)
-			// The instance object may not be a valid object because it might be missing some required fields.
-			// Please modify the instance object by adding required fields and then remove the following if statement.
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
 
-			time.Sleep(2 * time.Second)
+			time.Sleep(30 * time.Second)
 
-			resourceGroupInstance2 := &azurev1.ResourceGroup{}
-			err = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance2)
-			Expect(err).NotTo(HaveOccurred())
-			err = k8sClient.Delete(context.Background(), resourceGroupInstance2)
-			Expect(err).NotTo(HaveOccurred())
+			k8sClient.Delete(context.Background(), resourceGroupInstance)
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
+				return resourceGroupInstance.IsBeingDeleted()
+			}, timeout,
+			).Should(BeTrue())
 
 		})
 	})
