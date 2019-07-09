@@ -26,3 +26,5 @@ bin
 __debug_bin
 .vscode
 default.etcd
+coverage.txt
+report.xml

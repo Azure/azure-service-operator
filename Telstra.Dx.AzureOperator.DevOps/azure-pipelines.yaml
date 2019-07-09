@@ -62,8 +62,11 @@ steps:
     chmod a+x $(module_path)/bin/*
     # export path
     export PATH=$PATH:$(module_path)/bin
-
     make test
+    gocov convert coverage.txt > coverage.json
+    gocov-xml < coverage.json > coverage.xml
+    mkdir coverage
+    gocov-html < coverage.json > coverage/index.html
   continueOnError: 'false'
   displayName: 'Install kubebuilder, kustomize and Run unit tests'
   env:
@@ -74,6 +77,18 @@ steps:
     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
   workingDirectory: '$(module_path)'
+
+
+- task: PublishTestResults@2
+  inputs:
+    testRunner: JUnit
+    testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: Cobertura 
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
+    reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
 
 - script: docker build -t $(image_name) .  # add options to this command to meet your needs
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
