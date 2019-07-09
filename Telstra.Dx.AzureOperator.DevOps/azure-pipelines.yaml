@@ -85,7 +85,7 @@ steps:
     gocov-xml < coverage.json > coverage.xml
     mkdir coverage
     gocov-html < coverage.json > coverage/index.html
-  workingDirectory: '$(modulePath)'
+  workingDirectory: '$(module_path)'
   displayName: 'Run unit test'
 
 - task: PublishTestResults@2
