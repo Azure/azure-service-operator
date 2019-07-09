@@ -62,7 +62,10 @@ steps:
     chmod a+x $(module_path)/bin/*
     # export path
     export PATH=$PATH:$(module_path)/bin
-    go mod download   
+    go mod download
+    go get -u github.com/jstemmer/go-junit-report
+    go get github.com/AlekSi/gocov-xml
+    go get -u gopkg.in/matm/v1/gocov-html
     make test
     # gocov convert coverage.txt > coverage.json
     # gocov-xml < coverage.json > coverage.xml
