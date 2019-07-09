@@ -19,7 +19,7 @@ import (
 	"context"
 	"fmt"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
 	"github.com/go-logr/logr"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
@@ -44,8 +44,8 @@ func ignoreNotFound(err error) error {
 	return err
 }
 
-// +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=eventhubs/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=eventhubs/status,verbs=get;update;patch
 
 //Reconcile blah
 func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
@@ -53,7 +53,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("eventhub", req.NamespacedName)
 
 	// your logic here
-	var instance creatorv1.Eventhub
+	var instance azurev1.Eventhub
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Error(err, "unable to fetch Eventhub")
@@ -89,11 +89,11 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 // SetupWithManager blah
 func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&creatorv1.Eventhub{}).
+		For(&azurev1.Eventhub{}).
 		Complete(r)
 }
 
-func (r *EventhubReconciler) createEventhub(instance *creatorv1.Eventhub) {
+func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) {
 	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()
 
@@ -123,7 +123,7 @@ func (r *EventhubReconciler) createEventhub(instance *creatorv1.Eventhub) {
 
 }
 
-func (r *EventhubReconciler) deleteEventhub(instance *creatorv1.Eventhub) error {
+func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
 
 	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()

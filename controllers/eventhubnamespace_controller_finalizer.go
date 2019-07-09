@@ -20,12 +20,12 @@ import (
 	"context"
 	"fmt"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 )
 
 const eventhubNamespaceFinalizerName = "eventhubnamespace.finalizers.com"
 
-func (r *EventhubNamespaceReconciler) addFinalizer(instance *creatorv1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) addFinalizer(instance *azurev1.EventhubNamespace) error {
 	instance.AddFinalizer(eventhubNamespaceFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -35,7 +35,7 @@ func (r *EventhubNamespaceReconciler) addFinalizer(instance *creatorv1.EventhubN
 	return nil
 }
 
-func (r *EventhubNamespaceReconciler) handleFinalizer(instance *creatorv1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) handleFinalizer(instance *azurev1.EventhubNamespace) error {
 	if instance.HasFinalizer(eventhubNamespaceFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
@@ -51,7 +51,7 @@ func (r *EventhubNamespaceReconciler) handleFinalizer(instance *creatorv1.Eventh
 	return nil
 }
 
-func (r *EventhubNamespaceReconciler) deleteExternalDependency(instance *creatorv1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) deleteExternalDependency(instance *azurev1.EventhubNamespace) error {
 
 	return r.deleteEventhubNamespace(instance)
 }

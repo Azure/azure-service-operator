@@ -18,7 +18,7 @@ package controllers
 import (
 	"fmt"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
 
 	"context"
@@ -37,14 +37,14 @@ type ResourceGroupReconciler struct {
 	Recorder record.EventRecorder
 }
 
-// +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=resourcegroups/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=resourcegroups/status,verbs=get;update;patch
 
 func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("resourcegroup", req.NamespacedName)
 
-	var instance creatorv1.ResourceGroup
+	var instance azurev1.ResourceGroup
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Error(err, "unable to fetch resourcegroup")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -79,11 +79,11 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 
 func (r *ResourceGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&creatorv1.ResourceGroup{}).
+		For(&azurev1.ResourceGroup{}).
 		Complete(r)
 }
 
-func (r *ResourceGroupReconciler) createResourceGroup(instance *creatorv1.ResourceGroup) {
+func (r *ResourceGroupReconciler) createResourceGroup(instance *azurev1.ResourceGroup) {
 
 	log := r.Log.WithValues("resourcegroup", instance)
 	ctx := context.Background()
@@ -114,7 +114,7 @@ func (r *ResourceGroupReconciler) createResourceGroup(instance *creatorv1.Resour
 	r.Recorder.Event(instance, "Normal", "Updated", resourcegroupName+" provisioned")
 
 }
-func (r *ResourceGroupReconciler) deleteResourceGroup(instance *creatorv1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1.ResourceGroup) error {
 	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()
 

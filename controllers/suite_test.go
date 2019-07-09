@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	resourcemanagerconfig "Telstra.Dx.AzureOperator/resourcemanager/config"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -71,13 +71,13 @@ var _ = BeforeSuite(func(done Done) {
 	Expect(err).ToNot(HaveOccurred())
 	Expect(cfg).ToNot(BeNil())
 
-	err = creatorv1.AddToScheme(scheme.Scheme)
+	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	err = creatorv1.AddToScheme(scheme.Scheme)
+	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	err = creatorv1.AddToScheme(scheme.Scheme)
+	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	// +kubebuilder:scaffold:scheme

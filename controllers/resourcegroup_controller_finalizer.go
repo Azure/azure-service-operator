@@ -20,12 +20,12 @@ import (
 	"context"
 	"fmt"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 )
 
 const resouceGroupFinalizerName = "resoucegroup.finalizers.com"
 
-func (r *ResourceGroupReconciler) addFinalizer(instance *creatorv1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) addFinalizer(instance *azurev1.ResourceGroup) error {
 	instance.AddFinalizer(resouceGroupFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -35,7 +35,7 @@ func (r *ResourceGroupReconciler) addFinalizer(instance *creatorv1.ResourceGroup
 	return nil
 }
 
-func (r *ResourceGroupReconciler) handleFinalizer(instance *creatorv1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) handleFinalizer(instance *azurev1.ResourceGroup) error {
 	if instance.HasFinalizer(resouceGroupFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
@@ -51,7 +51,7 @@ func (r *ResourceGroupReconciler) handleFinalizer(instance *creatorv1.ResourceGr
 	return nil
 }
 
-func (r *ResourceGroupReconciler) deleteExternalDependency(instance *creatorv1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) deleteExternalDependency(instance *azurev1.ResourceGroup) error {
 
 	return r.deleteResourceGroup(instance)
 }

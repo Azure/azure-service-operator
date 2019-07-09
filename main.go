@@ -19,7 +19,7 @@ import (
 	"flag"
 	"os"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	"Telstra.Dx.AzureOperator/controllers"
 	resourcemanagerconfig "Telstra.Dx.AzureOperator/resourcemanager/config"
 
@@ -37,7 +37,7 @@ var (
 
 func init() {
 
-	creatorv1.AddToScheme(scheme)
+	azurev1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 

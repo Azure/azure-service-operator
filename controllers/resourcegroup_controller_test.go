@@ -20,7 +20,7 @@ import (
 	"context"
 	"time"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	helpers "Telstra.Dx.AzureOperator/helpers"
 	. "github.com/onsi/ginkgo"
 
@@ -54,12 +54,12 @@ var _ = Describe("ResourceGroup Controller", func() {
 			var err error
 
 			// Create the Resourcegroup object and expect the Reconcile to be created
-			resourceGroupInstance := &creatorv1.ResourceGroup{
+			resourceGroupInstance := &azurev1.ResourceGroup{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      resourceGroupName,
 					Namespace: "default",
 				},
-				Spec: creatorv1.ResourceGroupSpec{
+				Spec: azurev1.ResourceGroupSpec{
 					Location: "westus",
 				},
 			}
@@ -77,7 +77,7 @@ var _ = Describe("ResourceGroup Controller", func() {
 
 			time.Sleep(2 * time.Second)
 
-			resourceGroupInstance2 := &creatorv1.ResourceGroup{}
+			resourceGroupInstance2 := &azurev1.ResourceGroup{}
 			err = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance2)
 			Expect(err).NotTo(HaveOccurred())
 			err = k8sClient.Delete(context.Background(), resourceGroupInstance2)

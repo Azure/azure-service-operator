@@ -20,7 +20,7 @@ import (
 	"context"
 	"time"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	helpers "Telstra.Dx.AzureOperator/helpers"
 	. "github.com/onsi/ginkgo"
 
@@ -56,12 +56,12 @@ var _ = Describe("EventHub Controller", func() {
 			var err error
 
 			// Create the Resourcegroup object and expect the Reconcile to be created
-			resourceGroupInstance := &creatorv1.ResourceGroup{
+			resourceGroupInstance := &azurev1.ResourceGroup{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      resourceGroupName,
 					Namespace: "default",
 				},
-				Spec: creatorv1.ResourceGroupSpec{
+				Spec: azurev1.ResourceGroupSpec{
 					Location: "westus",
 				},
 			}
@@ -71,12 +71,12 @@ var _ = Describe("EventHub Controller", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			// Create the Eventhub namespace object and expect the Reconcile to be created
-			eventhubNamespaceInstance := &creatorv1.EventhubNamespace{
+			eventhubNamespaceInstance := &azurev1.EventhubNamespace{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
 				},
-				Spec: creatorv1.EventhubNamespaceSpec{
+				Spec: azurev1.EventhubNamespaceSpec{
 					Location:      "westus",
 					ResourceGroup: resourceGroupName,
 				},
@@ -87,16 +87,16 @@ var _ = Describe("EventHub Controller", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &creatorv1.Eventhub{
+			eventhubInstance := &azurev1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
 				},
-				Spec: creatorv1.EventhubSpec{
+				Spec: azurev1.EventhubSpec{
 					Location:      "westus",
 					Namespace:     eventhubNamespaceName,
 					ResourceGroup: resourceGroupName,
-					Properties: creatorv1.EventhubProperties{
+					Properties: azurev1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         1,
 					},
@@ -127,7 +127,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			time.Sleep(2 * time.Second)
 
-			// instance2 := &creatorv1.Eventhub{}
+			// instance2 := &azurev1.Eventhub{}
 			// err = k8sClient.Get(context.Background(), eventhubName, instance2)
 			// Expect(err).NotTo(HaveOccurred())
 			// err = k8sClient.Delete(context.Background(), instance2)

@@ -7,7 +7,7 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - creator.telstra.k8.io
+  - azure.telstra.k8.io
   resources:
   - eventhubs
   verbs:
@@ -19,7 +19,7 @@ rules:
   - patch
   - delete
 - apiGroups:
-  - creator.telstra.k8.io
+  - azure.telstra.k8.io
   resources:
   - eventhubs/status
   verbs:
@@ -27,7 +27,7 @@ rules:
   - update
   - patch
 - apiGroups:
-  - creator.telstra.k8.io
+  - azure.telstra.k8.io
   resources:
   - eventhubnamespaces
   verbs:
@@ -39,7 +39,7 @@ rules:
   - patch
   - delete
 - apiGroups:
-  - creator.telstra.k8.io
+  - azure.telstra.k8.io
   resources:
   - eventhubnamespaces/status
   verbs:
@@ -47,7 +47,7 @@ rules:
   - update
   - patch
 - apiGroups:
-  - creator.telstra.k8.io
+  - azure.telstra.k8.io
   resources:
   - resourcegroups
   verbs:
@@ -59,7 +59,7 @@ rules:
   - patch
   - delete
 - apiGroups:
-  - creator.telstra.k8.io
+  - azure.telstra.k8.io
   resources:
   - resourcegroups/status
   verbs:

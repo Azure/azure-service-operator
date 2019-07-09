@@ -2,12 +2,12 @@ version: "2"
 domain: telstra.k8.io
 repo: Telstra.Dx.AzureOperator
 resources:
-- group: creator
+- group: azure
   version: v1
   kind: Eventhub
-- group: creator
+- group: azure
   version: v1
   kind: ResourceGroup
-- group: creator
+- group: azure
   version: v1
   kind: EventhubNamespace

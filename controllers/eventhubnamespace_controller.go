@@ -19,7 +19,7 @@ import (
 	"context"
 	"fmt"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
 	"github.com/go-logr/logr"
 	"k8s.io/client-go/tools/record"
@@ -35,8 +35,8 @@ type EventhubNamespaceReconciler struct {
 	Recorder record.EventRecorder
 }
 
-// +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=creator.telstra.k8.io,resources=eventhubnamespaces/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=eventhubnamespaces/status,verbs=get;update;patch
 
 func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
@@ -44,7 +44,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 
 	// your logic here
 
-	var instance creatorv1.EventhubNamespace
+	var instance azurev1.EventhubNamespace
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Error(err, "unable to fetch Eventhub")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -77,11 +77,11 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 
 func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&creatorv1.EventhubNamespace{}).
+		For(&azurev1.EventhubNamespace{}).
 		Complete(r)
 }
 
-func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *creatorv1.EventhubNamespace) {
+func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.EventhubNamespace) {
 	log := r.Log.WithValues("eventhubnamespace", instance)
 	ctx := context.Background()
 
@@ -100,7 +100,7 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *creatorv
 	}
 
 }
-func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *creatorv1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1.EventhubNamespace) error {
 
 	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()

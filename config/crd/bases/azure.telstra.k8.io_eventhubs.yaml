@@ -4,16 +4,16 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: eventhubnamespaces.creator.telstra.k8.io
+  name: eventhubs.azure.telstra.k8.io
 spec:
-  group: creator.telstra.k8.io
+  group: azure.telstra.k8.io
   names:
-    kind: EventhubNamespace
-    plural: eventhubnamespaces
+    kind: Eventhub
+    plural: eventhubs
   scope: ""
   validation:
     openAPIV3Schema:
-      description: EventhubNamespace is the Schema for the eventhubnamespaces API
+      description: Eventhub is the Schema for the eventhubs API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -389,28 +389,19 @@ spec:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
               type: string
+            namespace:
+              type: string
             properties:
               properties:
-                isautoinflateenabled:
-                  type: boolean
-                kafkaEnabled:
-                  type: boolean
-                maximumthroughputunits:
+                messageretentionindays:
+                  format: int32
+                  type: integer
+                partitioncount:
                   format: int32
                   type: integer
               type: object
             resourcegroup:
               type: string
-            sku:
-              properties:
-                capacity:
-                  format: int32
-                  type: integer
-                name:
-                  type: string
-                tier:
-                  type: string
-              type: object
           required:
           - location
           type: object
