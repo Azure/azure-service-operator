@@ -64,10 +64,10 @@ steps:
     export PATH=$PATH:$(module_path)/bin
     go mod download   
     make test
-    gocov convert coverage.txt > coverage.json
-    gocov-xml < coverage.json > coverage.xml
-    mkdir coverage
-    gocov-html < coverage.json > coverage/index.html
+    # gocov convert coverage.txt > coverage.json
+    # gocov-xml < coverage.json > coverage.xml
+    # mkdir coverage
+    # gocov-html < coverage.json > coverage/index.html
     
   continueOnError: 'false'
   displayName: 'Install kubebuilder, kustomize and Run unit tests'

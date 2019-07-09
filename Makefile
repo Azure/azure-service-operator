@@ -8,7 +8,8 @@ all: manager
 
 # Run tests
 test: generate fmt vet manifests
-	go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/...  2>&1 | go-junit-report > report.xml
+	go test ./api/... ./controllers/... -coverprofile cover.out
+	# go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/...  2>&1 | go-junit-report > report.xml
 
 # Build manager binary
 manager: generate fmt vet
