@@ -28,3 +28,6 @@ __debug_bin
 default.etcd
 coverage.txt
 report.xml
+cover.html
+coverage.json
+coverage.xml

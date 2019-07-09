@@ -22,9 +22,10 @@ require (
 	github.com/onsi/ginkgo v1.8.0
 	github.com/onsi/gomega v1.5.0
 	github.com/spf13/pflag v1.0.3 // indirect
-	golang.org/x/net v0.0.0-20190501004415-9ce7a6920f09
+	golang.org/x/net v0.0.0-20190620200207-3b0461eec859
 	golang.org/x/sys v0.0.0-20190429190828-d89cdac9e872 // indirect
 	golang.org/x/text v0.3.2 // indirect
+	golang.org/x/tools v0.0.0-20190708203411-c8855242db9c // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 	k8s.io/api v0.0.0-20190409021203-6e4e0e4f393b
 	k8s.io/apimachinery v0.0.0-20190404173353-6a84e37a896d
