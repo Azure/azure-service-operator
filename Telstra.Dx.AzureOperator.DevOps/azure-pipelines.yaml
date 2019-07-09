@@ -62,8 +62,11 @@ steps:
     chmod a+x $(module_path)/bin/*
     # export path
     export PATH=$PATH:$(module_path)/bin
-
     make test
+    gocov convert coverage.txt > coverage.json
+    gocov-xml < coverage.json > coverage.xml
+    mkdir coverage
+    gocov-html < coverage.json > coverage/index.html
   continueOnError: 'false'
   displayName: 'Install kubebuilder, kustomize and Run unit tests'
   env:
@@ -75,15 +78,6 @@ steps:
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
   workingDirectory: '$(module_path)'
 
-- script: |
-
-    go test ./api/... ./controllers/... -v -coverprofile=coverage.txt -covermode count | go-junit-report > report.xml
-    gocov convert coverage.txt > coverage.json
-    gocov-xml < coverage.json > coverage.xml
-    mkdir coverage
-    gocov-html < coverage.json > coverage/index.html
-  workingDirectory: '$(module_path)'
-  displayName: 'Run unit test'
 
 - task: PublishTestResults@2
   inputs:
