@@ -37,8 +37,8 @@ type ResourceGroupReconciler struct {
 	Recorder record.EventRecorder
 }
 
-// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=resourcegroups/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups/status,verbs=get;update;patch
 
 func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()

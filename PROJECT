@@ -1,5 +1,5 @@
 version: "2"
-domain: telstra.k8.io
+domain: microsoft.com
 repo: Telstra.Dx.AzureOperator
 resources:
 - group: azure

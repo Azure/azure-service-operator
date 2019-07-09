@@ -1,4 +1,4 @@
-apiVersion: azure.telstra.k8.io/v1
+apiVersion: azure.microsoft.com/v1
 kind: Eventhub
 metadata:
   name: eventhub-sample-6-1

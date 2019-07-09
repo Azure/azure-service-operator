@@ -44,8 +44,8 @@ func ignoreNotFound(err error) error {
 	return err
 }
 
-// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=eventhubs/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs/status,verbs=get;update;patch
 
 //Reconcile blah
 func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {

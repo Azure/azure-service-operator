@@ -35,8 +35,8 @@ type EventhubNamespaceReconciler struct {
 	Recorder record.EventRecorder
 }
 
-// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.telstra.k8.io,resources=eventhubnamespaces/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces/status,verbs=get;update;patch
 
 func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()

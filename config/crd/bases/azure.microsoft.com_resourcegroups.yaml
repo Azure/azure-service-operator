@@ -4,16 +4,18 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: eventhubs.azure.telstra.k8.io
+  name: resourcegroups.azure.microsoft.com
 spec:
-  group: azure.telstra.k8.io
+  group: azure.microsoft.com
   names:
-    kind: Eventhub
-    plural: eventhubs
-  scope: ""
+    kind: ResourceGroup
+    plural: resourcegroups
+    shortNames:
+    - rg
+  scope: Namespaced
   validation:
     openAPIV3Schema:
-      description: Eventhub is the Schema for the eventhubs API
+      description: ResourceGroup is the Schema for the resourcegroups API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -388,19 +390,6 @@ spec:
             location:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
-              type: string
-            namespace:
-              type: string
-            properties:
-              properties:
-                messageretentionindays:
-                  format: int32
-                  type: integer
-                partitioncount:
-                  format: int32
-                  type: integer
-              type: object
-            resourcegroup:
               type: string
           required:
           - location
