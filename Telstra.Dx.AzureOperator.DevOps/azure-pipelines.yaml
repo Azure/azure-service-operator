@@ -75,6 +75,30 @@ steps:
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
   workingDirectory: '$(module_path)'
 
+- script: |
+    go get github.com/jstemmer/go-junit-report
+    go get github.com/axw/gocov/gocov
+    go get github.com/AlekSi/gocov-xml
+    go get -u gopkg.in/matm/v1/gocov-html
+    go test ./api/... ./controllers/... -v -coverprofile=coverage.txt -covermode count | go-junit-report > report.xml
+    gocov convert coverage.txt > coverage.json
+    gocov-xml < coverage.json > coverage.xml
+    mkdir coverage
+    gocov-html < coverage.json > coverage/index.html
+  workingDirectory: '$(modulePath)'
+  displayName: 'Run unit test'
+
+- task: PublishTestResults@2
+  inputs:
+    testRunner: JUnit
+    testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: Cobertura 
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
+    reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
+
 - script: docker build -t $(image_name) .  # add options to this command to meet your needs
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
   displayName: 'Docker build'
