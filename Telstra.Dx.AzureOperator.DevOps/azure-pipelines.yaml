@@ -112,8 +112,8 @@ steps:
     command: build
     containerRegistry: $(container_registry)
     repository: $(image_name)
-    Dockerfile: "Dockerfile"    
-    buildContext: '$(module_path)'
+    Dockerfile: "$(module_path)/Dockerfile"    
+    buildContext: $(module_path)
     tags: |
       latest
       $(Build.SourceVersion)
