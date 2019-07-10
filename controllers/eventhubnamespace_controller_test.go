@@ -20,14 +20,13 @@ import (
 	"context"
 	"time"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	helpers "Telstra.Dx.AzureOperator/helpers"
 	. "github.com/onsi/ginkgo"
 
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 var _ = Describe("EventHubNamespace Controller", func() {
@@ -49,18 +48,18 @@ var _ = Describe("EventHubNamespace Controller", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete namespace", func() {
 
-			resourceGroupName := "t-rg-dev-ehn-" + helpers.RandomString(10)
-			eventhubNamespaceName := "t-ns-" + helpers.RandomString(10)
+			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
+			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
 			var err error
 
 			// Create the Resourcegroup object and expect the Reconcile to be created
-			resourceGroupInstance := &creatorv1.ResourceGroup{
+			resourceGroupInstance := &azurev1.ResourceGroup{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      resourceGroupName,
 					Namespace: "default",
 				},
-				Spec: creatorv1.ResourceGroupSpec{
+				Spec: azurev1.ResourceGroupSpec{
 					Location: "westus",
 				},
 			}
@@ -69,15 +68,15 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
-			time.Sleep(60 * time.Second)
+			time.Sleep(30 * time.Second)
 
 			// Create the Eventhub namespace object and expect the Reconcile to be created
-			eventhubNamespaceInstance := &creatorv1.EventhubNamespace{
+			eventhubNamespaceInstance := &azurev1.EventhubNamespace{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
 				},
-				Spec: creatorv1.EventhubNamespaceSpec{
+				Spec: azurev1.EventhubNamespaceSpec{
 					Location:      "westus",
 					ResourceGroup: resourceGroupName,
 				},
@@ -87,35 +86,8 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
-			time.Sleep(40 * time.Second)
-
-			// The instance object may not be a valid object because it might be missing some required fields.
-			// Please modify the instance object by adding required fields and then remove the following if statement.
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
-
-			eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
-
-			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
-				return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName)
-			}, timeout,
-			).Should(BeTrue())
-
-			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
-				return eventhubNamespaceInstance.IsSubmitted()
-			}, timeout,
-			).Should(BeTrue())
-
 			time.Sleep(30 * time.Second)
 
-			k8sClient.Delete(context.Background(), eventhubNamespaceInstance)
-			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
-				return eventhubNamespaceInstance.IsBeingDeleted()
-			}, timeout,
-			).Should(BeTrue())
 
 		})
 	})

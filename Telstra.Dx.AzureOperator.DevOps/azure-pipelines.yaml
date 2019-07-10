@@ -89,6 +89,7 @@ steps:
 
 - task: PublishTestResults@2
   inputs:
+    failedTaskOnFailedTest: true
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
 

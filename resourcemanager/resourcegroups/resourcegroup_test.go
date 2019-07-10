@@ -1,10 +1,11 @@
 package resourcegroups
 
 import (
-	helpers "Telstra.Dx.AzureOperator/helpers"
-	resourcemanagerconfig "Telstra.Dx.AzureOperator/resourcemanager/config"
 	"context"
 	"testing"
+
+	helpers "Telstra.Dx.AzureOperator/helpers"
+	resourcemanagerconfig "Telstra.Dx.AzureOperator/resourcemanager/config"
 )
 
 func TestCreatingResouceGroup(t *testing.T) {
@@ -17,5 +18,22 @@ func TestCreatingResouceGroup(t *testing.T) {
 	if err != nil {
 		t.Errorf("ERROR")
 	}
+
+	// flag := true
+	// for {
+	// 	result, err := CheckExistence(context.Background(), resourcegroupName)
+	// 	if err != nil {
+	// 		flag = false
+	// 		t.Errorf("ERROR")
+
+	// 	}
+	// 	if result.Response != nil {
+
+	// 	}
+	// 	time.Sleep(1 * time.Second)
+	// 	if !flag {
+	// 		break
+	// 	}
+	// }
 
 }

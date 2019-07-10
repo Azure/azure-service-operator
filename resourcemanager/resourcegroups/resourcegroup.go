@@ -11,7 +11,7 @@ import (
 
 	"Telstra.Dx.AzureOperator/resourcemanager/config"
 	"Telstra.Dx.AzureOperator/resourcemanager/iam"
-
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -119,4 +119,10 @@ func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []
 			wg.Done()
 		}(ctx, f, groups[i])
 	}
+}
+
+// CheckExistence checks whether a resource exists
+func CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error) {
+	groupsClient := getGroupsClient()
+	return groupsClient.CheckExistence(ctx, resourceGroupName)
 }
