@@ -19,21 +19,4 @@ func TestCreatingResouceGroup(t *testing.T) {
 		t.Errorf("ERROR")
 	}
 
-	// flag := true
-	// for {
-	// 	result, err := CheckExistence(context.Background(), resourcegroupName)
-	// 	if err != nil {
-	// 		flag = false
-	// 		t.Errorf("ERROR")
-
-	// 	}
-	// 	if result.Response != nil {
-
-	// 	}
-	// 	time.Sleep(1 * time.Second)
-	// 	if !flag {
-	// 		break
-	// 	}
-	// }
-
 }

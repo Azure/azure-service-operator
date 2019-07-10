@@ -22,8 +22,8 @@ import (
 
 	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	helpers "Telstra.Dx.AzureOperator/helpers"
+	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
-
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -48,6 +48,28 @@ var _ = Describe("ResourceGroup Controller", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
+		It("should create and delete resource group", func() {
+			const timeout = time.Second * 20
+
+			resourcegroupName := "t-resourcegroup-" + helpers.RandomString(10)
+			resourcegroupLocation := "westus"
+			var err error
+
+			_, err = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourcegroupName)
+
+				return result.Response.StatusCode == 204
+			}, timeout,
+			).Should(BeTrue())
+
+			_, err = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourcegroupName)
+			Expect(err).NotTo(HaveOccurred())
+
+		})
+
 		It("should create and delete resource groups", func() {
 			resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
 

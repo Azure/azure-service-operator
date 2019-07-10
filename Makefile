@@ -9,7 +9,7 @@ all: manager
 # Run tests
 test: generate fmt vet manifests
 	go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/...  2>&1 | tee testlogs.txt
-	go-junit-report < logs.txt  > report.xml
+	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 # Build manager binary
 manager: generate fmt vet

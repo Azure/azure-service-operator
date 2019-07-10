@@ -88,7 +88,6 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 			time.Sleep(30 * time.Second)
 
-
 		})
 	})
 })
