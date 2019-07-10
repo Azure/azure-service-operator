@@ -27,6 +27,7 @@ import (
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 var _ = Describe("EventHubNamespace Controller", func() {
@@ -46,7 +47,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create and Delete", func() {
-		It("should create and delete namespace", func() {
+		It("should create and delete namespace in k8s", func() {
 
 			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
@@ -87,6 +88,31 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			time.Sleep(30 * time.Second)
+
+			eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
+
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName)
+			}, timeout,
+			).Should(BeTrue())
+
+			time.Sleep(30 * time.Second)
+
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				return eventhubNamespaceInstance.IsSubmitted()
+			}, timeout,
+			).Should(BeTrue())
+
+			time.Sleep(30 * time.Second)
+
+			k8sClient.Delete(context.Background(), eventhubNamespaceInstance)
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				return eventhubNamespaceInstance.IsBeingDeleted()
+			}, timeout,
+			).Should(BeTrue())
 
 		})
 	})
