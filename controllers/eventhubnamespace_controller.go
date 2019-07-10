@@ -95,7 +95,7 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 	instance.Status.Provisioning = true
 	err = r.Update(ctx, instance)
 	if err != nil {
-		log.Error(err, "unable to update resourcegroup before submitting to resource manager")
+		log.Error(err, "unable to update eventhubnamespace before submitting to resource manager")
 	}
 
 	//todo: check if resource group is not provided find first avaliable resource group
