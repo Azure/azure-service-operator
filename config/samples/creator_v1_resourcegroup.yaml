@@ -1,0 +1,6 @@
+apiVersion: azure.microsoft.com/v1
+kind: ResourceGroup
+metadata:
+  name: resourcegroup-sample-6
+spec:
+  location: "westus" 

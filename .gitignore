@@ -23,3 +23,12 @@ bin
 *.swo
 *~
 .env
+__debug_bin
+.vscode
+default.etcd
+coverage.txt
+report.xml
+cover.html
+coverage.json
+coverage.xml
+testlogs.txt

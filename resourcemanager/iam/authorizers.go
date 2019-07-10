@@ -1,8 +1,3 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
-
 package iam
 
 import (
@@ -10,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"Telstra.Dx.AzureOperator/aztestcreator/config"
+	"Telstra.Dx.AzureOperator/resourcemanager/config"
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/adal"

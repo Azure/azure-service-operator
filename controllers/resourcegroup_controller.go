@@ -16,47 +16,37 @@ limitations under the License.
 package controllers
 
 import (
-	"context"
 	"fmt"
 
 	azurev1 "Telstra.Dx.AzureOperator/api/v1"
-	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
+	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
+
+	"context"
+
 	"github.com/go-logr/logr"
-	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
-// EventhubReconciler reconciles a Eventhub object
-type EventhubReconciler struct {
+// ResourceGroupReconciler reconciles a ResourceGroup object
+type ResourceGroupReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
 }
 
-func ignoreNotFound(err error) error {
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups/status,verbs=get;update;patch
 
-	if apierrs.IsNotFound(err) {
-		return nil
-	}
-	return err
-}
-
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs/status,verbs=get;update;patch
-
-//Reconcile blah
-func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	log := r.Log.WithValues("eventhub", req.NamespacedName)
+	log := r.Log.WithValues("resourcegroup", req.NamespacedName)
 
-	// your logic here
-	var instance azurev1.Eventhub
-
+	var instance azurev1.ResourceGroup
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Error(err, "unable to fetch Eventhub")
+		log.Error(err, "unable to fetch resourcegroup")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -71,7 +61,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	if !instance.HasFinalizer(eventhubFinalizerName) {
+	if !instance.HasFinalizer(resouceGroupFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
@@ -80,35 +70,35 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !instance.IsSubmitted() {
-		r.createEventhub(&instance)
+		r.createResourceGroup(&instance)
 	}
 
 	return ctrl.Result{}, nil
+
 }
 
-// SetupWithManager blah
-func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *ResourceGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.Eventhub{}).
+		For(&azurev1.ResourceGroup{}).
 		Complete(r)
 }
 
-func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) {
-	log := r.Log.WithValues("eventhub", instance)
+func (r *ResourceGroupReconciler) createResourceGroup(instance *azurev1.ResourceGroup) {
+
+	log := r.Log.WithValues("resourcegroup", instance)
 	ctx := context.Background()
-
 	var err error
+	resourcegroupLocation := instance.Spec.Location
+	resourcegroupName := instance.ObjectMeta.Name
 
-	eventhubName := instance.ObjectMeta.Name
-	eventhubNamespace := instance.Spec.Namespace
-	resourcegroup := instance.Spec.ResourceGroup
 	// write information back to instance
 	instance.Status.Provisioning = true
 	err = r.Update(ctx, instance)
 	if err != nil {
 		log.Error(err, "unable to update resourcegroup before submitting to resource manager")
 	}
-	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+
+	_, err = resoucegroupsresourcemanager.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
 		log.Error(err, "ERROR")
 	}
@@ -121,19 +111,17 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) {
 		log.Error(err, "unable to update resourcegroup after submitting to resource manager")
 	}
 
+	r.Recorder.Event(instance, "Normal", "Updated", resourcegroupName+" provisioned")
+
 }
-
-func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
-
+func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1.ResourceGroup) error {
 	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()
 
-	eventhubName := instance.ObjectMeta.Name
-	namespaceName := instance.Spec.Namespace
-	resourcegroup := instance.Spec.ResourceGroup
+	resourcegroup := instance.ObjectMeta.Name
 
 	var err error
-	_, err = eventhubsresourcemanager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
+	_, err = resoucegroupsresourcemanager.DeleteGroup(ctx, resourcegroup)
 	if err != nil {
 		log.Error(err, "ERROR")
 	}

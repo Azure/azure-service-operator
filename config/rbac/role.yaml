@@ -7,7 +7,7 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - creator.microsoft.k8.io
+  - azure.microsoft.com
   resources:
   - eventhubs
   verbs:
@@ -19,9 +19,49 @@ rules:
   - patch
   - delete
 - apiGroups:
-  - creator.microsoft.k8.io
+  - azure.microsoft.com
   resources:
   - eventhubs/status
+  verbs:
+  - get
+  - update
+  - patch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces/status
+  verbs:
+  - get
+  - update
+  - patch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - resourcegroups
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - resourcegroups/status
   verbs:
   - get
   - update

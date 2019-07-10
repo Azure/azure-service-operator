@@ -19,9 +19,9 @@ import (
 	"flag"
 	"os"
 
-	creatorv1 "Telstra.Dx.AzureOperator/api/v1"
-
+	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	"Telstra.Dx.AzureOperator/controllers"
+	resourcemanagerconfig "Telstra.Dx.AzureOperator/resourcemanager/config"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -37,7 +37,7 @@ var (
 
 func init() {
 
-	creatorv1.AddToScheme(scheme)
+	azurev1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -61,12 +61,36 @@ func main() {
 		os.Exit(1)
 	}
 
+	err = resourcemanagerconfig.LoadSettings()
+	if err != nil {
+		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
+	}
+
 	err = (&controllers.EventhubReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("Eventhub"),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("Eventhub"),
+		Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
+		os.Exit(1)
+	}
+	err = (&controllers.ResourceGroupReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+		Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
+		os.Exit(1)
+	}
+	err = (&controllers.EventhubNamespaceReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+		Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

@@ -1,8 +1,3 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
-
 package resources
 
 import (
@@ -13,8 +8,8 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
 	"github.com/Azure/go-autorest/autorest"
 
-	"Telstra.Dx.AzureOperator/aztestcreator/config"
-	"Telstra.Dx.AzureOperator/aztestcreator/iam"
+	"Telstra.Dx.AzureOperator/resourcemanager/config"
+	"Telstra.Dx.AzureOperator/resourcemanager/iam"
 )
 
 func getResourcesClient() resources.Client {
@@ -49,13 +44,13 @@ func WithAPIVersion(apiVersion string) autorest.PrepareDecorator {
 // The API version parameter overrides the API version in
 // the SDK, this is needed because not all resources are
 // supported on all API versions.
-func GetResource(ctx context.Context, resourceProvider, resourceType, resourceName, apiVersion string) (resources.GenericResource, error) {
+func GetResource(ctx context.Context, resourceProvider, resourceType, resourceName, groupName string, apiVersion string) (resources.GenericResource, error) {
 	resourcesClient := getResourcesClient()
 	resourcesClient.RequestInspector = WithAPIVersion(apiVersion)
 
 	return resourcesClient.Get(
 		ctx,
-		config.GroupName(),
+		groupName,
 		resourceProvider,
 		"",
 		resourceType,

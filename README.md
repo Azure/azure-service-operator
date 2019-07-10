@@ -33,10 +33,10 @@ Basic commands to check your cluster
 
 1. Clone the repo
 
-2. Install the creator_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config, 
+2. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config, 
 run `kubectl apply -f config/crd/bases` or `make install`
 
-3. Update the values in `creator_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
+3. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
 
 4. Set the environment variables AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID
 If you are running it on Windows the environment variables should not have quotes. It should be set in this way:
@@ -60,4 +60,3 @@ To Extend the operator `Telstra.Dx.AzureOperator`:
 7. Update tests and run `make test`
 8. Build `make build`
 9. Deploy `make deploy`
-

@@ -1,9 +1,4 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
-
-package resources
+package resourcegroups
 
 import (
 	"context"
@@ -14,9 +9,9 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
 
-	"Telstra.Dx.AzureOperator/aztestcreator/config"
-	"Telstra.Dx.AzureOperator/aztestcreator/iam"
-
+	"Telstra.Dx.AzureOperator/resourcemanager/config"
+	"Telstra.Dx.AzureOperator/resourcemanager/iam"
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -49,7 +44,7 @@ func getGroupsClientWithAuthFile() resources.GroupsClient {
 // CreateGroup creates a new resource group named by env var
 func CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
 	groupsClient := getGroupsClient()
-	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, config.Location()))
+	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, location))
 	return groupsClient.CreateOrUpdate(
 		ctx,
 		groupName,
@@ -60,14 +55,14 @@ func CreateGroup(ctx context.Context, groupName string, location string) (resour
 
 // CreateGroupWithAuthFile creates a new resource group. The client authorizer
 // is set up based on an auth file created using the Azure CLI.
-func CreateGroupWithAuthFile(ctx context.Context, groupName string) (resources.Group, error) {
+func CreateGroupWithAuthFile(ctx context.Context, groupName string, location string) (resources.Group, error) {
 	groupsClient := getGroupsClientWithAuthFile()
-	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, config.Location()))
+	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, location))
 	return groupsClient.CreateOrUpdate(
 		ctx,
 		groupName,
 		resources.Group{
-			Location: to.StringPtr(config.Location()),
+			Location: to.StringPtr(location),
 		})
 }
 
@@ -84,17 +79,14 @@ func ListGroups(ctx context.Context) (resources.GroupListResultIterator, error) 
 }
 
 // GetGroup gets info on the resource group in use
-func GetGroup(ctx context.Context) (resources.Group, error) {
+func GetGroup(ctx context.Context, groupName string) (resources.Group, error) {
 	groupsClient := getGroupsClient()
-	return groupsClient.Get(ctx, config.GroupName())
+	return groupsClient.Get(ctx, groupName)
 }
 
 // DeleteAllGroupsWithPrefix deletes all rescource groups that start with a certain prefix
 func DeleteAllGroupsWithPrefix(ctx context.Context, prefix string) (futures []resources.GroupsDeleteFuture, groups []string) {
-	if config.KeepResources() {
-		log.Println("keeping resource groups")
-		return
-	}
+
 	for list, err := ListGroups(ctx); list.NotDone(); err = list.Next() {
 		if err != nil {
 			log.Fatalf("got error: %s", err)
@@ -127,4 +119,10 @@ func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []
 			wg.Done()
 		}(ctx, f, groups[i])
 	}
+}
+
+// CheckExistence checks whether a resource exists
+func CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error) {
+	groupsClient := getGroupsClient()
+	return groupsClient.CheckExistence(ctx, resourceGroupName)
 }
