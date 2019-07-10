@@ -91,6 +91,13 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 	namespaceName := instance.ObjectMeta.Name
 	resourcegroup := instance.Spec.ResourceGroup
 
+	// write information back to instance
+	instance.Status.Provisioning = true
+	err = r.Update(ctx, instance)
+	if err != nil {
+		log.Error(err, "unable to update resourcegroup before submitting to resource manager")
+	}
+
 	//todo: check if resource group is not provided find first avaliable resource group
 
 	// create Event Hubs namespace
@@ -98,6 +105,17 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 	if err != nil {
 		log.Error(err, "ERROR")
 	}
+
+	// write information back to instance
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
+
+	err = r.Update(ctx, instance)
+	if err != nil {
+		log.Error(err, "unable to update eventhubnamespace after submitting to resource manager")
+	}
+
+	r.Recorder.Event(instance, "Normal", "Updated", namespaceName+" provisioned")
 
 }
 func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1.EventhubNamespace) error {
