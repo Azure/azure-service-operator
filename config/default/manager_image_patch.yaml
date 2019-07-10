@@ -10,3 +10,12 @@ spec:
       # Change the value of image field below to your controller image URL
       - image: IMAGE_URL
         name: manager
+        env:
+          - name: AZURE_CLIENT_ID
+            value: "<insert azure client id>"
+          - name: AZURE_CLIENT_SECRET
+            value: "<insert client secret>"
+          - name: AZURE_TENANT_ID
+            value: "<insert tenant id>"
+          - name: AZURE_SUBSCRIPTION_ID
+            value: "<insert subscription id>"

@@ -139,7 +139,12 @@ steps:
 
 - script: |
     echo "updating kustomize image patch file for manager resource"
-    IMG= $(image_name):$(major_version).$(minor_version).$(patch_version)
+    echo $(image_name)
+    echo $(major_version)
+    echo $(minor_version)
+    echo $(patch_version)
+    echo $(image_name):$(major_version).$(minor_version).$(patch_version)
+    IMG="$(image_name):$(major_version).$(minor_version).$(patch_version)"
     echo $IMG
     sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
     ./bin/kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml

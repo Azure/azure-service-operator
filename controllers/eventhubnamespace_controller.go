@@ -101,7 +101,7 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 	//todo: check if resource group is not provided find first avaliable resource group
 
 	// create Event Hubs namespace
-	_, err = eventhubsresourcemanager.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation)
+	_, err = eventhubsresourcemanager.CreateNamespaceAndWait(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
 		log.Error(err, "ERROR")
 	}

@@ -40,12 +40,12 @@ func GetNamespace(ctx context.Context, resourceGroupName string, namespaceName s
 	return nsClient.Get(ctx, resourceGroupName, namespaceName)
 }
 
-// CreateNamespace creates an Event Hubs namespace
+// CreateNamespaceAndWait creates an Event Hubs namespace
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
 // namespaceName - the Namespace name
 // location - azure region
-func CreateNamespace(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error) {
+func CreateNamespaceAndWait(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error) {
 	nsClient := getNamespacesClient()
 	future, err := nsClient.CreateOrUpdate(
 		ctx,
