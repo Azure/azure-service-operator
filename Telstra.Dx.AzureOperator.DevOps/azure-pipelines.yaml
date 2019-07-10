@@ -138,9 +138,13 @@ steps:
 
 
 - script: |
+    echo "updating kustomize image patch file for manager resource"
+    IMG= $(image_name):$(major_version).$(minor_version).$(patch_version)
+    echo $IMG
+    sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
     ./bin/kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
     set -x
-    echo $(image_name) > $(Build.ArtifactStagingDirectory)/Telstra.Dx.AzureOperator.txt
+    echo $IMG > $(Build.ArtifactStagingDirectory)/Telstra.Dx.AzureOperator.txt
     ls $(Build.ArtifactStagingDirectory)
   continueOnError: 'false'
   displayName: 'Prepare manifests for publish'
