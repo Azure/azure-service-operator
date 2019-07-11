@@ -22,6 +22,7 @@ import (
 
 	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	helpers "Telstra.Dx.AzureOperator/helpers"
+	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 
 	. "github.com/onsi/gomega"
@@ -47,6 +48,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create and Delete", func() {
+
 		It("should create and delete namespace in k8s", func() {
 
 			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
@@ -113,6 +115,11 @@ var _ = Describe("EventHubNamespace Controller", func() {
 				return eventhubNamespaceInstance.IsBeingDeleted()
 			}, timeout,
 			).Should(BeTrue())
+
+			time.Sleep(2 * time.Second)
+
+			_, err = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
+			Expect(err).NotTo(HaveOccurred())
 
 		})
 	})

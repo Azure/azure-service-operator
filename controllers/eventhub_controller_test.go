@@ -22,6 +22,7 @@ import (
 
 	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	helpers "Telstra.Dx.AzureOperator/helpers"
+	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 
 	. "github.com/onsi/gomega"
@@ -139,6 +140,11 @@ var _ = Describe("EventHub Controller", func() {
 				return eventhubInstance.IsBeingDeleted()
 			}, timeout,
 			).Should(BeTrue())
+
+			time.Sleep(2 * time.Second)
+
+			_, err = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
+			Expect(err).NotTo(HaveOccurred())
 
 		})
 	})
