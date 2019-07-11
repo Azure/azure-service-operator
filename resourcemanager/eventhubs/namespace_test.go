@@ -58,7 +58,7 @@ var _ = Describe("Namespace", func() {
 
 			time.Sleep(30 * time.Second)
 
-			_, err = CreateNamespace(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+			_, err = CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {

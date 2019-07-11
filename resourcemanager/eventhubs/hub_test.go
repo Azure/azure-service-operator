@@ -52,6 +52,9 @@ var _ = Describe("Namespace", func() {
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 			namespaceLocation := "westus"
 			eventhubName := "t-eh-" + helpers.RandomString(10)
+			messageRetentionInDays := int32(7)
+			partitionCount := int32(1)
+
 			var err error
 
 			_, err = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
@@ -59,12 +62,12 @@ var _ = Describe("Namespace", func() {
 
 			time.Sleep(30 * time.Second)
 
-			_, err = CreateNamespace(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+			_, err = CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 			Expect(err).NotTo(HaveOccurred())
 
 			time.Sleep(30 * time.Second)
 
-			_, err = CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName)
+			_, err = CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
