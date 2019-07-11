@@ -14,19 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package resourcegroups
+package eventhubs
 
 import (
 	"context"
 	"time"
 
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
 
 	helpers "Telstra.Dx.AzureOperator/helpers"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("ResourceGroups", func() {
+var _ = Describe("Namespace", func() {
 
 	const timeout = time.Second * 240
 
@@ -44,38 +45,42 @@ var _ = Describe("ResourceGroups", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		It("should create and delete resource group in azure", func() {
-			const timeout = time.Second * 240
+		It("should create and delete namespace in azure", func() {
 
-			resourcegroupName := "t-rg-" + helpers.RandomString(10)
+			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
 			resourcegroupLocation := "westus"
+			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
+			namespaceLocation := "westus"
 			var err error
 
-			_, err = CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)
-			Expect(err).NotTo(HaveOccurred())
-
-			time.Sleep(40 * time.Second)
-
-			Eventually(func() bool {
-				result, _ := CheckExistence(context.Background(), resourcegroupName)
-
-				return result.Response.StatusCode == 204
-			}, timeout,
-			).Should(BeTrue())
-
-			_, err = DeleteGroup(context.Background(), resourcegroupName)
+			_, err = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
 			Expect(err).NotTo(HaveOccurred())
 
 			time.Sleep(30 * time.Second)
 
-			Eventually(func() bool {
-				result, _ := CheckExistence(context.Background(), resourcegroupName)
+			_, err = CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+			Expect(err).NotTo(HaveOccurred())
 
+			Eventually(func() bool {
+				result, _ := GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+				return result.Response.StatusCode == 200
+			}, timeout,
+			).Should(BeTrue())
+
+			_, err = DeleteNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				result, _ := GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())
 
-			//DeleteAllGroupsWithPrefix(context.Background(), "t-rg-")
+			time.Sleep(30 * time.Second)
+
+			_, err = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
+			Expect(err).NotTo(HaveOccurred())
+
 		})
 
 	})

@@ -57,6 +57,15 @@ var _ = Describe("Eventhub", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "foo",
 					Namespace: "default",
+				},
+				Spec: EventhubSpec{
+					Location:      "westus",
+					Namespace:     "fooeventhubNamespaceName",
+					ResourceGroup: "fooresourceGroupName",
+					Properties: EventhubProperties{
+						MessageRetentionInDays: 7,
+						PartitionCount:         1,
+					},
 				}}
 
 			By("creating an API obj")
