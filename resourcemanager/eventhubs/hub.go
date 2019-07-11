@@ -65,3 +65,9 @@ func CreateHub(ctx context.Context, resourceGroupName string, namespaceName stri
 		},
 	)
 }
+
+//GetHub gets an Event Hubs description for the specified Event Hub.
+func GetHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (eventhub.Model, error) {
+	hubClient := getHubsClient()
+	return hubClient.Get(ctx, resourceGroupName, namespaceName, eventHubName)
+}
