@@ -82,7 +82,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if !instance.IsSubmitted() {
 		err := r.createEventhub(&instance)
 		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("error when creating eventhub: %v", err)
+			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
@@ -98,7 +98,6 @@ func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 }
 
 func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
-	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()
 
 	var err error
@@ -109,27 +108,16 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 	partitionCount := instance.Spec.Properties.PartitionCount
 	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
 
-	// MessageRetentionInDays - Number of days to retain the events for this Event Hub, value should be 1 to 7 days
-	if messageRetentionInDays < 1 || messageRetentionInDays > 7 {
-		err = fmt.Errorf("MessageRetentionInDays is invalid")
-		log.Error(err, "MessageRetentionInDays is invalid")
-	}
-
-	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
-	if partitionCount < 1 || partitionCount > 32 {
-
-		err = fmt.Errorf("PartitionCount is invalid")
-		log.Error(err, "PartitionCount is invalid")
-	}
 	// write information back to instance
 	instance.Status.Provisioning = true
 	err = r.Update(ctx, instance)
 	if err != nil {
-		log.Error(err, "unable to update resourcegroup before submitting to resource manager")
+		//log error and kill it
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount)
 	if err != nil {
-
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		return err
 	}
 	// write information back to instance
@@ -138,14 +126,14 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 
 	err = r.Update(ctx, instance)
 	if err != nil {
-		log.Error(err, "unable to update resourcegroup after submitting to resource manager")
+		//log error and kill it
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 	return nil
 }
 
 func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
 
-	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()
 
 	eventhubName := instance.ObjectMeta.Name
@@ -155,7 +143,8 @@ func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
 	var err error
 	_, err = eventhubsresourcemanager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
 	if err != nil {
-		log.Error(err, "ERROR")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		return err
 	}
 	return nil
 }

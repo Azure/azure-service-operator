@@ -89,7 +89,7 @@ var _ = BeforeSuite(func(done Done) {
 	err = (&EventhubReconciler{
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("EventHub"),
-		Recorder: k8sManager.GetEventRecorderFor("eventhub-controller"),
+		Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

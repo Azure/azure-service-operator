@@ -38,6 +38,7 @@ type EventhubNamespaceReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces/status,verbs=get;update;patch
 
+//Reconcile reconciler for eventhubnamespace
 func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("eventhubnamespace", req.NamespacedName)
@@ -69,7 +70,11 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 	}
 
 	if !instance.IsSubmitted() {
-		r.createEventHubNamespace(&instance)
+		err := r.createEventHubNamespace(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
 	}
 
 	return ctrl.Result{}, nil
@@ -81,8 +86,7 @@ func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.EventhubNamespace) {
-	log := r.Log.WithValues("eventhubnamespace", instance)
+func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.EventhubNamespace) error {
 	ctx := context.Background()
 
 	var err error
@@ -95,15 +99,15 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 	instance.Status.Provisioning = true
 	err = r.Update(ctx, instance)
 	if err != nil {
-		log.Error(err, "unable to update eventhubnamespace before submitting to resource manager")
+		//log error and kill it
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
-
-	//todo: check if resource group is not provided find first avaliable resource group
 
 	// create Event Hubs namespace
 	_, err = eventhubsresourcemanager.CreateNamespaceAndWait(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
-		log.Error(err, "ERROR")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		return err
 	}
 
 	// write information back to instance
@@ -112,15 +116,18 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 
 	err = r.Update(ctx, instance)
 	if err != nil {
-		log.Error(err, "unable to update eventhubnamespace after submitting to resource manager")
+		//log error and kill it
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
 	r.Recorder.Event(instance, "Normal", "Updated", namespaceName+" provisioned")
 
+	return nil
+
 }
+
 func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1.EventhubNamespace) error {
 
-	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()
 
 	namespaceName := instance.ObjectMeta.Name
@@ -129,7 +136,8 @@ func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1.
 	var err error
 	_, err = eventhubsresourcemanager.DeleteNamespace(ctx, resourcegroup, namespaceName)
 	if err != nil {
-		log.Error(err, "ERROR")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		return err
 	}
 	return nil
 }

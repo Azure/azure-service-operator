@@ -70,7 +70,12 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	}
 
 	if !instance.IsSubmitted() {
-		r.createResourceGroup(&instance)
+		err := r.createResourceGroup(&instance)
+		if err != nil {
+
+			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
 	}
 
 	return ctrl.Result{}, nil
@@ -83,9 +88,8 @@ func (r *ResourceGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *ResourceGroupReconciler) createResourceGroup(instance *azurev1.ResourceGroup) {
+func (r *ResourceGroupReconciler) createResourceGroup(instance *azurev1.ResourceGroup) error {
 
-	log := r.Log.WithValues("resourcegroup", instance)
 	ctx := context.Background()
 	var err error
 	resourcegroupLocation := instance.Spec.Location
@@ -95,12 +99,15 @@ func (r *ResourceGroupReconciler) createResourceGroup(instance *azurev1.Resource
 	instance.Status.Provisioning = true
 	err = r.Update(ctx, instance)
 	if err != nil {
-		log.Error(err, "unable to update resourcegroup before submitting to resource manager")
+		//log error and kill it
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
 	_, err = resoucegroupsresourcemanager.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
-		log.Error(err, "ERROR")
+
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		return err
 	}
 	// write information back to instance
 	instance.Status.Provisioning = false
@@ -108,14 +115,17 @@ func (r *ResourceGroupReconciler) createResourceGroup(instance *azurev1.Resource
 
 	err = r.Update(ctx, instance)
 	if err != nil {
-		log.Error(err, "unable to update resourcegroup after submitting to resource manager")
+		//log error and kill it
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
 	r.Recorder.Event(instance, "Normal", "Updated", resourcegroupName+" provisioned")
 
+	return nil
+
 }
+
 func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1.ResourceGroup) error {
-	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()
 
 	resourcegroup := instance.ObjectMeta.Name
@@ -123,7 +133,8 @@ func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1.Resource
 	var err error
 	_, err = resoucegroupsresourcemanager.DeleteGroup(ctx, resourcegroup)
 	if err != nil {
-		log.Error(err, "ERROR")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		return err
 	}
 	return nil
 }
