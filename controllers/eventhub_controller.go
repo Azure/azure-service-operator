@@ -80,7 +80,11 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !instance.IsSubmitted() {
-		r.createEventhub(&instance)
+		err := r.createEventhub(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when creating eventhub: %v", err)
+		}
+		return ctrl.Result{}, nil
 	}
 
 	return ctrl.Result{}, nil
@@ -93,7 +97,7 @@ func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) {
+func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 	log := r.Log.WithValues("eventhub", instance)
 	ctx := context.Background()
 
@@ -102,15 +106,31 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) {
 	eventhubName := instance.ObjectMeta.Name
 	eventhubNamespace := instance.Spec.Namespace
 	resourcegroup := instance.Spec.ResourceGroup
+	partitionCount := instance.Spec.Properties.PartitionCount
+	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
+
+	// MessageRetentionInDays - Number of days to retain the events for this Event Hub, value should be 1 to 7 days
+	if messageRetentionInDays < 1 || messageRetentionInDays > 7 {
+		err = fmt.Errorf("MessageRetentionInDays is invalid")
+		log.Error(err, "MessageRetentionInDays is invalid")
+	}
+
+	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
+	if partitionCount < 1 || partitionCount > 32 {
+
+		err = fmt.Errorf("PartitionCount is invalid")
+		log.Error(err, "PartitionCount is invalid")
+	}
 	// write information back to instance
 	instance.Status.Provisioning = true
 	err = r.Update(ctx, instance)
 	if err != nil {
 		log.Error(err, "unable to update resourcegroup before submitting to resource manager")
 	}
-	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount)
 	if err != nil {
-		log.Error(err, "ERROR")
+
+		return err
 	}
 	// write information back to instance
 	instance.Status.Provisioning = false
@@ -120,7 +140,7 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) {
 	if err != nil {
 		log.Error(err, "unable to update resourcegroup after submitting to resource manager")
 	}
-
+	return nil
 }
 
 func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
