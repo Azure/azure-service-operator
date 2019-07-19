@@ -5,3 +5,6 @@ resources:
 - group: service
   version: v1alpha1
   kind: Storage
+- group: service
+  version: v1alpha1
+  kind: CosmosDB

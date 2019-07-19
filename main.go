@@ -56,6 +56,14 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "Storage")
 		os.Exit(1)
 	}
+	err = (&controllers.CosmosDBReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("CosmosDB"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
