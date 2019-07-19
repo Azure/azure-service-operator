@@ -26,6 +26,8 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	storagesdk "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
@@ -35,15 +37,29 @@ import (
 type StorageSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Location               string                `json:"location,omitempty"`
+	AccountName            string                `json:"accountName,omitempty"`
+	Sku                    Sku                   `json:"sku,omitempty"`
+	Kind                   storagesdk.Kind       `json:"kind,omitempty"`
+	AccessTier             storagesdk.AccessTier `json:"accessTier,omitempty"`
+	EnableHTTPSTrafficOnly *bool                 `json:"supportsHttpsTrafficOnly,omitempty"`
+}
+
+// Sku the SKU of the storage account.
+type Sku struct {
+	// Name - The SKU name. Required for account creation; optional for update. Possible values include: 'StandardLRS', 'StandardGRS', 'StandardRAGRS', 'StandardZRS', 'PremiumLRS', 'PremiumZRS', 'StandardGZRS', 'StandardRAGZRS'
+	Name storagesdk.SkuName `json:"name,omitempty"`
 }
 
 // StorageStatus defines the observed state of Storage
 type StorageStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	ResourceGroupName string `json:"resourceGroupName,omitempty"`
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // Storage is the Schema for the storages API
 type Storage struct {
