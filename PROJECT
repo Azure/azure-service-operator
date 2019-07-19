@@ -1,3 +1,7 @@
 version: "2"
 domain: azure
 repo: github.com/Azure/azure-service-operator
+resources:
+- group: service
+  version: v1alpha1
+  kind: Storage

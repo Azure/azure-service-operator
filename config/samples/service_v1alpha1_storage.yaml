@@ -1,0 +1,7 @@
+apiVersion: service.azure/v1alpha1
+kind: Storage
+metadata:
+  name: storage-sample
+spec:
+  # Add fields here
+  foo: bar
