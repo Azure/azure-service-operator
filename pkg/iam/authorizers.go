@@ -21,7 +21,7 @@ func GetResourceManagementAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	if config.UseAADPodIdentity() {
+	if config.Instance.UseAADPodIdentity {
 		a, err = auth.NewAuthorizerFromEnvironment()
 	} else {
 		a, err = getAuthorizerForResource(config.Environment().ResourceManagerEndpoint)
@@ -42,13 +42,13 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 	var err error
 
 	oauthConfig, err := adal.NewOAuthConfig(
-		config.Environment().ActiveDirectoryEndpoint, config.TenantID())
+		config.Environment().ActiveDirectoryEndpoint, config.Instance.TenantID)
 	if err != nil {
 		return nil, err
 	}
 
 	token, err := adal.NewServicePrincipalToken(
-		*oauthConfig, config.ClientID(), config.ClientSecret(), resource)
+		*oauthConfig, config.Instance.ClientID, config.Instance.ClientSecret, resource)
 	if err != nil {
 		return nil, err
 	}

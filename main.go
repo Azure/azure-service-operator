@@ -25,11 +25,14 @@ SOFTWARE
 package main
 
 import (
-	"flag"
 	"os"
+	"strings"
+
+	"github.com/spf13/pflag"
 
 	servicev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/controllers"
+	"github.com/Azure/azure-service-operator/pkg/config"
 	"k8s.io/apimachinery/pkg/runtime"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -38,8 +41,11 @@ import (
 )
 
 var (
-	scheme   = runtime.NewScheme()
-	setupLog = ctrl.Log.WithName("setup")
+	scheme                                                      = runtime.NewScheme()
+	setupLog                                                    = ctrl.Log.WithName("setup")
+	masterURL, kubeconfig, resources, clusterName               string
+	cloudName, tenantID, subscriptionID, clientID, clientSecret string
+	useAADPodIdentity                                           bool
 )
 
 func init() {
@@ -51,12 +57,29 @@ func init() {
 func main() {
 	var metricsAddr string
 	var enableLeaderElection bool
-	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
-	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
-		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
-	flag.Parse()
+	pflag.StringVarP(&metricsAddr, "metrics-addr", "", ":8080", "The address the metric endpoint binds to.")
+	pflag.BoolVarP(&enableLeaderElection, "enable-leader-election", "", false, "Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
+	pflag.StringVarP(&masterURL, "master-url", "", "", "The address of the Kubernetes API server. Overrides any value in kubeconfig.")
+	pflag.StringVarP(&kubeconfig, "kubeconfig", "k", "", "Path to local kubeconfig file (mainly used for development)")
+	pflag.StringVarP(&resources, "resources", "", "storage,cosmosdb", "Comma delimited list of CRDs to deploy")
+	pflag.StringVarP(&clusterName, "cluster-name", "i", "azure-operator", "Cluster name for the Application to run as, used to avoid conflict")
+	pflag.StringVarP(&cloudName, "cloud-name", "c", "AzurePublicCloud", "The cloud name")
+	pflag.StringVarP(&tenantID, "tenant-id", "t", "", "The AAD tenant, must provide when using service principals")
+	pflag.StringVarP(&subscriptionID, "subscription-id", "s", "", "The subscription ID")
+	pflag.StringVarP(&clientID, "client-id", "u", "", "The service principal client ID")
+	pflag.StringVarP(&clientSecret, "client-secret", "p", "", "The service principal client secret")
+	pflag.BoolVarP(&useAADPodIdentity, "use-aad-pod-identity", "", false, "whether use AAD pod identity")
+	pflag.Parse()
 
 	ctrl.SetLogger(zap.Logger(true))
+
+	cfg := config.Config{}
+	cfg, err := getConfig()
+	if err != nil {
+		setupLog.Error(err, "unable to get config")
+		os.Exit(1)
+	}
+	config.Instance = &cfg
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:             scheme,
@@ -91,4 +114,30 @@ func main() {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
+}
+
+func getConfig() (c config.Config, err error) {
+	resourcesMap := map[string]bool{}
+	for _, r := range strings.Split(resources, ",") {
+		resourcesMap[r] = true
+	}
+
+	kubeclientset, err := config.CreateKubeClientset(masterURL, kubeconfig)
+	if err != nil {
+		return c, err
+	}
+
+	c = config.Config{
+		KubeClientset:     kubeclientset,
+		Resources:         resourcesMap,
+		ClusterName:       clusterName,
+		CloudName:         cloudName,
+		TenantID:          tenantID,
+		SubscriptionID:    subscriptionID,
+		ClientID:          clientID,
+		ClientSecret:      clientSecret,
+		UseAADPodIdentity: useAADPodIdentity,
+	}
+
+	return c, nil
 }

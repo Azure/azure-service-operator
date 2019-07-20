@@ -28,14 +28,15 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	uuid "github.com/satori/go.uuid"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	servicev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/client/group"
+	"github.com/Azure/azure-service-operator/pkg/config"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	storagetemplate "github.com/Azure/azure-service-operator/pkg/storage"
+	"github.com/Azure/go-autorest/autorest/to"
 )
 
 // StorageReconciler reconciles a Storage object
@@ -61,9 +62,10 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		// on deleted requests.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
+	log.Info("Getting Storage Account", "Storage.Namespace", instance.Namespace, "Storage.Name", instance.Name)
+	log.V(1).Info("Describing Storage Account", "Storage", instance)
 
 	storageFinalizerName := "storage.finalizers.azure"
-
 	// examine DeletionTimestamp to determine if object is under deletion
 	if instance.ObjectMeta.DeletionTimestamp.IsZero() {
 		// The object is not being deleted, so if it does not have our finalizer,
@@ -95,24 +97,25 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, err
 	}
 
-	var resourceGroupName string
-	if instance.Status.ResourceGroupName != "" {
-		resourceGroupName = instance.Status.ResourceGroupName
-	} else {
-		resourceGroupName = uuid.NewV4().String()
-		log.Info("Creating a new resource group", "ResourceGroupName", resourceGroupName)
-		group.CreateGroup(ctx, resourceGroupName)
-		_, err = r.updateStatus(req, resourceGroupName)
-		if err != nil {
-			return ctrl.Result{}, err
-		}
+	resourceGroupName := helpers.AzrueResourceGroupName(config.Instance.SubscriptionID, config.Instance.ClusterName, "storage", instance.Name, instance.Namespace)
+	tags := map[string]*string{
+		"name":      to.StringPtr(instance.Name),
+		"namespace": to.StringPtr(instance.Namespace),
+		"kind":      to.StringPtr("storage"),
 	}
+	log.Info("Creating a new resource group", "ResourceGroupName", resourceGroupName)
+	group.CreateGroup(ctx, resourceGroupName, instance.Spec.Location, tags)
 
 	log.Info("Reconciling Storage", "Storage.Namespace", instance.Namespace, "Storage.Name", instance.Name)
 	template := storagetemplate.New(instance)
-	_, err = template.CreateDeployment(ctx, resourceGroupName)
+	de, err := template.CreateDeployment(ctx, resourceGroupName)
 	if err != nil {
 		log.Error(err, "Failed to reconcile Storage")
+		return ctrl.Result{}, err
+	}
+
+	_, err = r.updateStatus(req, resourceGroupName, *de.Properties.ProvisioningState, de.Properties.Outputs)
+	if err != nil {
 		return ctrl.Result{}, err
 	}
 
@@ -126,20 +129,40 @@ func (r *StorageReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *StorageReconciler) updateStatus(req ctrl.Request, resourceGroupName string) (*servicev1alpha1.Storage, error) {
+func (r *StorageReconciler) updateStatus(req ctrl.Request, resourceGroupName, provisioningState string, outputs interface{}) (*servicev1alpha1.Storage, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("storage", req.NamespacedName)
 
 	resource := &servicev1alpha1.Storage{}
 	r.Get(ctx, req.NamespacedName, resource)
+	log.Info("Getting Storage Account", "Storage.Namespace", resource.Namespace, "Storage.Name", resource.Name)
 
 	resourceCopy := resource.DeepCopy()
-	resourceCopy.Status.ResourceGroupName = resourceGroupName
-	log.Info("Getting Storage Account", "Storage.Namespace", resourceCopy.Namespace, "Storage.Name", resourceCopy.Name, "Storage.Status.ResourceGroupName", resourceCopy.Status.ResourceGroupName)
+	resourceCopy.Status.ProvisioningState = provisioningState
+	if helpers.IsDeploymentComplete(provisioningState) {
+		if outputs != nil {
+			resourceCopy.Output.StorageAccountName = helpers.GetOutput(outputs, "storageAccountName")
+			resourceCopy.Output.Key1 = helpers.GetOutput(outputs, "key1")
+			resourceCopy.Output.Key2 = helpers.GetOutput(outputs, "key2")
+			resourceCopy.Output.ConnectionString1 = helpers.GetOutput(outputs, "connectionString1")
+			resourceCopy.Output.ConnectionString2 = helpers.GetOutput(outputs, "connectionString2")
+		}
+	}
 
-	if err := r.Status().Update(ctx, resourceCopy); err != nil {
+	err := r.Status().Update(ctx, resourceCopy)
+	if err != nil {
 		log.Error(err, "unable to update Storage status")
 		return nil, err
+	}
+	log.Info("Updated Status", "Storage.Namespace", resourceCopy.Namespace, "Storage.Name", resourceCopy.Name, "Storage.Status", resourceCopy.Status, "Storage.Output", resourceCopy.Output)
+
+	if helpers.IsDeploymentComplete(provisioningState) {
+		err := r.syncAdditionalResources(req, resourceCopy)
+		if err != nil {
+			log.Error(err, "error syncing resources")
+			return nil, err
+		}
+		log.Info("Updated additional resources", "Storage.Namespace", resourceCopy.Namespace, "Storage.Name", resourceCopy.Name, "Storage.AdditionalResources", resourceCopy.AdditionalResources)
 	}
 
 	return resourceCopy, nil
@@ -154,10 +177,47 @@ func (r *StorageReconciler) deleteExternalResources(instance *servicev1alpha1.St
 	ctx := context.Background()
 	log := r.Log.WithValues("Storage.Namespace", instance.Namespace, "Storage.Name", instance.Name)
 
-	// Request object not found, could have been deleted after reconcile request.
-	// Owned objects are automatically garbage collected. For additional cleanup logic use finalizers.
-	// Return and don't requeue
-	log.Info("Deleting Storage Account", "Storage.Status.ResourceGroupName", instance.Status.ResourceGroupName)
-	_, err := group.DeleteGroup(ctx, instance.Status.ResourceGroupName)
-	return err
+	resourceGroupName := helpers.AzrueResourceGroupName(config.Instance.SubscriptionID, config.Instance.ClusterName, "storage", instance.Name, instance.Namespace)
+	log.Info("Deleting Storage Account", "ResourceGroupName", resourceGroupName)
+	_, err := group.DeleteGroup(ctx, resourceGroupName)
+	if err != nil {
+		return err
+	}
+
+	err = helpers.DeleteSecret(instance.Name, instance.Namespace)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *StorageReconciler) syncAdditionalResources(req ctrl.Request, s *servicev1alpha1.Storage) (err error) {
+	ctx := context.Background()
+	log := r.Log.WithValues("storage", req.NamespacedName)
+
+	resource := &servicev1alpha1.Storage{}
+	r.Get(ctx, req.NamespacedName, resource)
+
+	secrets := []string{}
+	secretData := map[string]string{
+		"storageAccountName": "{{.Obj.Output.StorageAccountName}}",
+		"key1":               "{{.Obj.Output.Key1}}",
+		"key2":               "{{.Obj.Output.Key2}}",
+		"connectionString1":  "{{.Obj.Output.ConnectionString1}}",
+		"connectionString2":  "{{.Obj.Output.ConnectionString2}}",
+	}
+	secret := helpers.CreateSecret(s, s.Name, s.Namespace, secretData)
+	secrets = append(secrets, secret)
+
+	resourceCopy := resource.DeepCopy()
+	resourceCopy.AdditionalResources.Secrets = secrets
+
+	err = r.Update(ctx, resourceCopy)
+	if err != nil {
+		log.Error(err, "unable to update Storage status")
+		return err
+	}
+
+	return nil
 }

@@ -11,7 +11,7 @@ import (
 )
 
 func getDeploymentsClient() resources.DeploymentsClient {
-	deployClient := resources.NewDeploymentsClient(config.SubscriptionID())
+	deployClient := resources.NewDeploymentsClient(config.Instance.SubscriptionID)
 	a, _ := iam.GetResourceManagementAuthorizer()
 	deployClient.Authorizer = a
 	return deployClient

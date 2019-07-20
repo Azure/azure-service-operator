@@ -16,7 +16,13 @@ manager: generate fmt vet
 
 # Run against the configured Kubernetes cluster in ~/.kube/config
 run: generate fmt vet
-	go run ./main.go
+	go build -o bin/manager main.go
+	bin/manager \
+		--kubeconfig=${KUBECONFIG} \
+		--tenant-id=${TENANT_ID} \
+		--subscription-id=${SUBSCRIPTION_ID} \
+		--client-id=${CLIENT_ID} \
+		--client-secret=${CLIENT_SECRET}
 
 # Install CRDs into a cluster
 install: manifests

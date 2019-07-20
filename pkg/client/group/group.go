@@ -5,15 +5,13 @@ import (
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2019-03-01/resources"
-
-	"github.com/Azure/go-autorest/autorest/to"
-
 	"github.com/Azure/azure-service-operator/pkg/config"
 	"github.com/Azure/azure-service-operator/pkg/iam"
+	"github.com/Azure/go-autorest/autorest/to"
 )
 
 func getGroupsClient() resources.GroupsClient {
-	groupsClient := resources.NewGroupsClient(config.SubscriptionID())
+	groupsClient := resources.NewGroupsClient(config.Instance.SubscriptionID)
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		log.Fatalf("failed to initialize authorizer: %v\n", err)
@@ -23,13 +21,14 @@ func getGroupsClient() resources.GroupsClient {
 }
 
 // CreateGroup creates a new resource group named by env var
-func CreateGroup(ctx context.Context, groupName string) (resources.Group, error) {
+func CreateGroup(ctx context.Context, groupName, location string, tags map[string]*string) (resources.Group, error) {
 	groupsClient := getGroupsClient()
 	return groupsClient.CreateOrUpdate(
 		ctx,
 		groupName,
 		resources.Group{
-			Location: to.StringPtr("eastus2"),
+			Location: to.StringPtr(location),
+			Tags:     tags,
 		})
 }
 

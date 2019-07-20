@@ -17,6 +17,13 @@ spec:
     openAPIV3Schema:
       description: Storage is the Schema for the storages API
       properties:
+        additionalResources:
+          properties:
+            secrets:
+              items:
+                type: string
+              type: array
+          type: object
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
             of an object. Servers should convert recognized schemas to the latest
@@ -385,15 +392,36 @@ spec:
                 by the system. Read-only. More info: http://kubernetes.io/docs/user-guide/identifiers#uids"
               type: string
           type: object
+        output:
+          properties:
+            connectionString1:
+              type: string
+            connectionString2:
+              type: string
+            key1:
+              type: string
+            key2:
+              type: string
+            storageAccountName:
+              type: string
+          type: object
         spec:
           properties:
             accessTier:
+              enum:
+              - Cool
+              - Hot
               type: string
             kind:
+              enum:
+              - BlobStorage
+              - BlockBlobStorage
+              - FileStorage
+              - Storage
+              - StorageV2
               type: string
             location:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "make" to regenerate code after modifying this file'
+              minLength: 0
               type: string
             sku:
               properties:
@@ -402,6 +430,15 @@ spec:
                     optional for update. Possible values include: ''StandardLRS'',
                     ''StandardGRS'', ''StandardRAGRS'', ''StandardZRS'', ''PremiumLRS'',
                     ''PremiumZRS'', ''StandardGZRS'', ''StandardRAGZRS'''
+                  enum:
+                  - Premium_LRS
+                  - Premium_ZRS
+                  - Standard_GRS
+                  - Standard_GZRS
+                  - Standard_LRS
+                  - Standard_RAGRS
+                  - Standard_RAGZRS
+                  - Standard_ZRS
                   type: string
               type: object
             supportsHttpsTrafficOnly:
@@ -409,7 +446,7 @@ spec:
           type: object
         status:
           properties:
-            resourceGroupName:
+            provisioningState:
               description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
                 of cluster Important: Run "make" to regenerate code after modifying
                 this file'

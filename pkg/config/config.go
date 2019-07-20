@@ -2,62 +2,51 @@ package config
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/Azure/go-autorest/autorest/azure"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
+	"k8s.io/client-go/tools/clientcmd"
 )
 
-const (
-	CloudNameEnvVar         = "CLOUD_NAME"
-	SubscriptionIDEnvVar    = "SUBSCRIPTION_ID"
-	ClientIDEnvVar          = "CLIENT_ID"
-	ClientSecretEnvVar      = "CLIENT_SECRET"
-	TenantIDEnvVar          = "TENANT_ID"
-	UseAADPodIdentityEnvVar = "USE_AAD_POD_IDENTITY"
-)
+var Instance *Config
 
-// GetEnvVar returns the value of the environment variable
-func GetEnvVar(envVarName string) string {
-	v, found := os.LookupEnv(envVarName)
-	if !found {
-		panic(fmt.Sprintf("%s must be set", envVarName))
+type Config struct {
+	KubeClientset     kubernetes.Interface
+	Resources         map[string]bool `json:"resources"`
+	ClusterName       string          `json:"clusterName"`
+	CloudName         string          `json:"cloudName"`
+	TenantID          string          `json:"tenantID"`
+	SubscriptionID    string          `json:"subscriptionID"`
+	ClientID          string          `json:"clientID"`
+	ClientSecret      string          `json:"clientSecret"`
+	UseAADPodIdentity bool            `json:"useAADPodIdentity"`
+}
+
+func getKubeconfig(masterURL, kubeconfig string) (*rest.Config, error) {
+	if kubeconfig != "" {
+		return clientcmd.BuildConfigFromFlags(masterURL, kubeconfig)
 	}
-	return v
+	return rest.InClusterConfig()
 }
 
-// CloudName returns the cloud name
-func CloudName() string {
-	return GetEnvVar(CloudNameEnvVar)
-}
+func CreateKubeClientset(masterURL, kubeconfig string) (kubernetes.Interface, error) {
+	config, err := getKubeconfig(masterURL, kubeconfig)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get k8s config. %+v", err)
+	}
 
-// GetSubscriptionID returns the subscription ID
-func SubscriptionID() string {
-	return GetEnvVar(SubscriptionIDEnvVar)
-}
+	clientset, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get k8s client. %+v", err)
+	}
 
-// GetClientID returns the client ID
-func ClientID() string {
-	return GetEnvVar(ClientIDEnvVar)
-}
-
-// GetClientSecret returns the client secret
-func ClientSecret() string {
-	return GetEnvVar(ClientSecretEnvVar)
-}
-
-// GetTenantID returns the tenant ID
-func TenantID() string {
-	return GetEnvVar(TenantIDEnvVar)
-}
-
-// UseAADPodIdentity returns whether AAD Pod Identity is used
-func UseAADPodIdentity() bool {
-	return GetEnvVar(UseAADPodIdentityEnvVar) == "true"
+	return clientset, nil
 }
 
 // Environment() returns an `azure.Environment{...}` for the current cloud.
 func Environment() azure.Environment {
-	cloudName := CloudName()
+	cloudName := Instance.CloudName
 	env, err := azure.EnvironmentFromName(cloudName)
 	if err != nil {
 		panic(fmt.Sprintf(
