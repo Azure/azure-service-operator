@@ -3,7 +3,6 @@ kind: Storage
 metadata:
   name: storage-sample
 spec:
-  accountName: binxi071905
   location: eastus2
   sku:
     name: Standard_RAGRS

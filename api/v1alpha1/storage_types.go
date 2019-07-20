@@ -38,7 +38,6 @@ type StorageSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location               string                `json:"location,omitempty"`
-	AccountName            string                `json:"accountName,omitempty"`
 	Sku                    Sku                   `json:"sku,omitempty"`
 	Kind                   storagesdk.Kind       `json:"kind,omitempty"`
 	AccessTier             storagesdk.AccessTier `json:"accessTier,omitempty"`

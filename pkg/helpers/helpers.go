@@ -1,6 +1,12 @@
 package helpers
 
-// Helper functions to check and remove string from a slice of strings.
+import (
+	"fmt"
+	"strings"
+
+	uuid "github.com/satori/go.uuid"
+)
+
 func ContainsString(slice []string, s string) bool {
 	for _, item := range slice {
 		if item == s {
@@ -18,4 +24,13 @@ func RemoveString(slice []string, s string) (result []string) {
 		result = append(result, item)
 	}
 	return
+}
+
+func AzureResourceName(kind string) string {
+	var name string
+	switch kind {
+	case "Storage":
+		name = fmt.Sprintf("aso%s", strings.ReplaceAll(uuid.NewV4().String(), "-", ""))[:24]
+	}
+	return name
 }

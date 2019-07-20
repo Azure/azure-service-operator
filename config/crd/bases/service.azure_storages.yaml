@@ -389,8 +389,6 @@ spec:
           properties:
             accessTier:
               type: string
-            accountName:
-              type: string
             kind:
               type: string
             location:

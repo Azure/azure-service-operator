@@ -8,6 +8,7 @@ import (
 
 	azureV1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/client/deployment"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 // New generates a new object
@@ -30,7 +31,7 @@ func (t *Template) CreateDeployment(ctx context.Context, resourceGroupName strin
 			"value": t.Storage.Spec.Location,
 		},
 		"storageAccountName": map[string]interface{}{
-			"value": t.Storage.Spec.AccountName,
+			"value": helpers.AzureResourceName(t.Storage.Kind),
 		},
 		"accountType": map[string]interface{}{
 			"value": t.Storage.Spec.Sku.Name,
