@@ -50,7 +50,7 @@ var (
 
 func init() {
 
-	servicev1alpha1.AddToScheme(scheme)
+	_ = servicev1alpha1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
