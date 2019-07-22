@@ -32,6 +32,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	servicev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/client/deployment"
 	"github.com/Azure/azure-service-operator/pkg/client/group"
 	"github.com/Azure/azure-service-operator/pkg/config"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -98,6 +99,25 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	resourceGroupName := helpers.AzrueResourceGroupName(config.Instance.SubscriptionID, config.Instance.ClusterName, "storage", instance.Name, instance.Namespace)
+	deploymentName := instance.Status.DeploymentName
+	if deploymentName != "" {
+		log.Info("Checking deployment", "ResourceGroupName", resourceGroupName, "DeploymentName", deploymentName)
+		de, _ := deployment.GetDeployment(ctx, resourceGroupName, deploymentName)
+		provisioningState := *de.Properties.ProvisioningState
+		if helpers.IsDeploymentComplete(provisioningState) {
+			log.Info("Deployment is complete", "ProvisioningState", provisioningState)
+			_, err = r.updateStatus(req, resourceGroupName, deploymentName, provisioningState, de.Properties.Outputs)
+			if err != nil {
+				return ctrl.Result{}, err
+			}
+			return ctrl.Result{}, nil
+		} else {
+			log.Info("Requeue the request", "ProvisioningState", provisioningState)
+			return ctrl.Result{Requeue: true}, nil
+		}
+	}
+
+	log.Info("Creating a new resource group", "ResourceGroupName", resourceGroupName)
 	tags := map[string]*string{
 		"name":      to.StringPtr(instance.Name),
 		"namespace": to.StringPtr(instance.Namespace),
@@ -107,13 +127,14 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	log.Info("Reconciling Storage", "Storage.Namespace", instance.Namespace, "Storage.Name", instance.Name)
 	template := storagetemplate.New(instance)
-	de, err := template.CreateDeployment(ctx, resourceGroupName)
+	deploymentName, err = template.CreateDeployment(ctx, resourceGroupName)
 	if err != nil {
 		log.Error(err, "Failed to reconcile Storage")
 		return ctrl.Result{}, err
 	}
 
-	_, err = r.updateStatus(req, resourceGroupName, *de.Properties.ProvisioningState, de.Properties.Outputs)
+	de, _ := deployment.GetDeployment(ctx, resourceGroupName, deploymentName)
+	_, err = r.updateStatus(req, resourceGroupName, deploymentName, *de.Properties.ProvisioningState, nil)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -128,7 +149,7 @@ func (r *StorageReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *StorageReconciler) updateStatus(req ctrl.Request, resourceGroupName, provisioningState string, outputs interface{}) (*servicev1alpha1.Storage, error) {
+func (r *StorageReconciler) updateStatus(req ctrl.Request, resourceGroupName, deploymentName, provisioningState string, outputs interface{}) (*servicev1alpha1.Storage, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("storage", req.NamespacedName)
 
@@ -137,6 +158,7 @@ func (r *StorageReconciler) updateStatus(req ctrl.Request, resourceGroupName, pr
 	log.Info("Getting Storage Account", "Storage.Namespace", resource.Namespace, "Storage.Name", resource.Name)
 
 	resourceCopy := resource.DeepCopy()
+	resourceCopy.Status.DeploymentName = deploymentName
 	resourceCopy.Status.ProvisioningState = provisioningState
 	if helpers.IsDeploymentComplete(provisioningState) {
 		if outputs != nil {

@@ -75,6 +75,8 @@ spec:
         status:
           description: RedisCacheStatus defines the observed state of RedisCache
           properties:
+            deploymentName:
+              type: string
             provisioningState:
               type: string
           type: object

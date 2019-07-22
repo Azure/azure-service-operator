@@ -2,7 +2,6 @@ package deployment
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2019-03-01/resources"
 
@@ -19,12 +18,12 @@ func getDeploymentsClient() resources.DeploymentsClient {
 
 // CreateDeployment creates a template deployment using the
 // referenced JSON files for the template and its parameters
-func CreateDeployment(ctx context.Context, resourceGroupName, deploymentName, templateUri string, params *map[string]interface{}) (de resources.DeploymentExtended, err error) {
+func CreateDeployment(ctx context.Context, resourceGroupName, deploymentName, templateUri string, params *map[string]interface{}) error {
 	deployClient := getDeploymentsClient()
 	templateLink := resources.TemplateLink{
 		URI: &templateUri,
 	}
-	future, err := deployClient.CreateOrUpdate(
+	_, err := deployClient.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
 		deploymentName,
@@ -36,14 +35,10 @@ func CreateDeployment(ctx context.Context, resourceGroupName, deploymentName, te
 			},
 		},
 	)
-	if err != nil {
-		return de, fmt.Errorf("cannot create deployment: %v", err)
-	}
+	return err
+}
 
-	err = future.WaitForCompletionRef(ctx, deployClient.Client)
-	if err != nil {
-		return de, fmt.Errorf("cannot get the create deployment future respone: %v", err)
-	}
-
-	return future.Result(deployClient)
+func GetDeployment(ctx context.Context, resourceGroupName, deploymentName string) (de resources.DeploymentExtended, err error) {
+	deployClient := getDeploymentsClient()
+	return deployClient.Get(ctx, resourceGroupName, deploymentName)
 }
