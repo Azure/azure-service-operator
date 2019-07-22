@@ -40,66 +40,42 @@ type StorageSpec struct {
 
 	Location string `json:"location,omitempty"`
 
-	Sku Sku `json:"sku,omitempty"`
+	Sku StorageSku `json:"sku,omitempty"`
 
-	Kind Kind `json:"kind,omitempty"`
+	Kind StorageKind `json:"kind,omitempty"`
 
-	AccessTier AccessTier `json:"accessTier,omitempty"`
+	AccessTier StorageAccessTier `json:"accessTier,omitempty"`
 
 	EnableHTTPSTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
 // Sku the SKU of the storage account.
-type Sku struct {
+type StorageSku struct {
 	// Name - The SKU name. Required for account creation; optional for update.
 	// Possible values include: 'StandardLRS', 'StandardGRS', 'StandardRAGRS', 'StandardZRS', 'PremiumLRS', 'PremiumZRS', 'StandardGZRS', 'StandardRAGZRS'
-	Name SkuName `json:"name,omitempty"`
+	Name StorageSkuName `json:"name,omitempty"`
 }
 
-// SkuName enumerates the values for sku name.
+// StorageSkuName enumerates the values for sku name.
 // Only one of the following sku names may be specified.
 // If none of the following sku names is specified, the default one
 // is StorageV2.
 // +kubebuilder:validation:Enum=Premium_LRS;Premium_ZRS;Standard_GRS;Standard_GZRS;Standard_LRS;Standard_RAGRS;Standard_RAGZRS;Standard_ZRS
-type SkuName string
+type StorageSkuName string
 
-const (
-	PremiumLRS     SkuName = "Premium_LRS"
-	PremiumZRS     SkuName = "Premium_ZRS"
-	StandardGRS    SkuName = "Standard_GRS"
-	StandardGZRS   SkuName = "Standard_GZRS"
-	StandardLRS    SkuName = "Standard_LRS"
-	StandardRAGRS  SkuName = "Standard_RAGRS"
-	StandardRAGZRS SkuName = "Standard_RAGZRS"
-	StandardZRS    SkuName = "Standard_ZRS"
-)
-
-// Kind enumerates the values for kind.
+// StorageKind enumerates the values for kind.
 // Only one of the following kinds may be specified.
 // If none of the following kinds is specified, the default one
 // is StorageV2.
 // +kubebuilder:validation:Enum=BlobStorage;BlockBlobStorage;FileStorage;Storage;StorageV2
-type Kind string
-
-const (
-	BlobStorage      Kind = "BlobStorage"
-	BlockBlobStorage Kind = "BlockBlobStorage"
-	FileStorage      Kind = "FileStorage"
-	StorageV1        Kind = "Storage"
-	StorageV2        Kind = "StorageV2"
-)
+type StorageKind string
 
 // AccessTier enumerates the values for access tier.
 // Only one of the following access tiers may be specified.
 // If none of the following access tiers is specified, the default one
 // is Hot.
 // +kubebuilder:validation:Enum=Cool;Hot
-type AccessTier string
-
-const (
-	Cool AccessTier = "Cool"
-	Hot  AccessTier = "Hot"
-)
+type StorageAccessTier string
 
 // StorageStatus defines the observed state of Storage
 type StorageStatus struct {

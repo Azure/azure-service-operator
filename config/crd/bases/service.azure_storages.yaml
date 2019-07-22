@@ -62,9 +62,9 @@ spec:
               - Hot
               type: string
             kind:
-              description: Kind enumerates the values for kind. Only one of the following
-                kinds may be specified. If none of the following kinds is specified,
-                the default one is StorageV2.
+              description: StorageKind enumerates the values for kind. Only one of
+                the following kinds may be specified. If none of the following kinds
+                is specified, the default one is StorageV2.
               enum:
               - BlobStorage
               - BlockBlobStorage

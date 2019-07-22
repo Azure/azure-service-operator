@@ -6,7 +6,6 @@ spec:
   location: eastus2
   sku:
     name: Standard_RAGRS
-    tier: Standard
   kind: StorageV2
   accessTier: Hot
   supportsHttpsTrafficOnly: true

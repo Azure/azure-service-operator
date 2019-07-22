@@ -5,20 +5,29 @@
 To get started you will need:
 
 * a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) to get a local cluster for testing, or run against a remote cluster, e.g. [Azure Kubernetes Service](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough).
+* [kubebuilder](https://book.kubebuilder.io/quick-start.html#installation)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
-## Test It Out Locally
+## Deploy Operator on a Local Cluster
 
-Install the CRDs into the cluster:
+### 1. Create Cluster
+
+```
+kind create cluster
+export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
+```
+
+### 2. Install CRDs
 
 ```
 make install
 ```
 
+### 3. Run Controller
+
 Setup the environment variables:
 
 ```
-export USE_AAD_POD_IDENTITY=false
 export CLOUD_NAME=AzurePublicCloud
 export TENANT_ID=
 export SUBSCRIPTION_ID=
