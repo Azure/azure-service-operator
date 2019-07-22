@@ -8,3 +8,6 @@ resources:
 - group: service
   version: v1alpha1
   kind: CosmosDB
+- group: service
+  version: v1alpha1
+  kind: RedisCache

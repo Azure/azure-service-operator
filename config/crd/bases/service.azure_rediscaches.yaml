@@ -1,0 +1,91 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: rediscaches.service.azure
+spec:
+  group: service.azure
+  names:
+    kind: RedisCache
+    plural: rediscaches
+  scope: ""
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: RedisCache is the Schema for the rediscaches API
+      properties:
+        additionalResources:
+          description: StorageAdditionalResources holds the additional resources
+          properties:
+            secrets:
+              items:
+                type: string
+              type: array
+          type: object
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        output:
+          properties:
+            primaryKey:
+              type: string
+            redisCacheName:
+              type: string
+            secondaryKey:
+              type: string
+          type: object
+        spec:
+          description: RedisCacheSpec defines the desired state of RedisCache
+          properties:
+            location:
+              type: string
+            properties:
+              description: RedisCacheProperties the properties of the Redis Cache.
+              properties:
+                enableNonSslPort:
+                  type: boolean
+                sku:
+                  description: RedisCacheSku the SKU of the Redis Cache.
+                  properties:
+                    capacity:
+                      type: integer
+                    family:
+                      type: string
+                    name:
+                      description: 'Name - The SKU name. Required for account creation;
+                        optional for update. Possible values include: ''StandardLRS'',
+                        ''StandardGRS'', ''StandardRAGRS'', ''StandardZRS'', ''PremiumLRS'',
+                        ''PremiumZRS'', ''StandardGZRS'', ''StandardRAGZRS'''
+                      type: string
+                  type: object
+              type: object
+          type: object
+        status:
+          description: RedisCacheStatus defines the observed state of RedisCache
+          properties:
+            provisioningState:
+              type: string
+          type: object
+      type: object
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

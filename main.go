@@ -107,6 +107,13 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
 		os.Exit(1)
 	}
+	if err = (&controllers.RedisCacheReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("RedisCache"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

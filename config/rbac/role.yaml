@@ -29,6 +29,26 @@ rules:
 - apiGroups:
   - service.azure
   resources:
+  - rediscaches
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - service.azure
+  resources:
+  - rediscaches/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - service.azure
+  resources:
   - storages
   verbs:
   - create

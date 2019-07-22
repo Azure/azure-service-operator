@@ -1,0 +1,12 @@
+apiVersion: service.azure/v1alpha1
+kind: RedisCache
+metadata:
+  name: rediscache-sample
+spec:
+  location: eastus2
+  properties:
+    sku:
+      name: Basic
+      family: C
+      capacity: 1
+    enableNonSslPort: true
