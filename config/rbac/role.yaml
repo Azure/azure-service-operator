@@ -11,38 +11,38 @@ rules:
   resources:
   - cosmosdbs
   verbs:
+  - create
+  - delete
   - get
   - list
-  - watch
-  - create
-  - update
   - patch
-  - delete
+  - update
+  - watch
 - apiGroups:
   - service.azure
   resources:
   - cosmosdbs/status
   verbs:
   - get
-  - update
   - patch
+  - update
 - apiGroups:
   - service.azure
   resources:
   - storages
   verbs:
+  - create
+  - delete
   - get
   - list
-  - watch
-  - create
-  - update
   - patch
-  - delete
+  - update
+  - watch
 - apiGroups:
   - service.azure
   resources:
   - storages/status
   verbs:
   - get
-  - update
   - patch
+  - update
