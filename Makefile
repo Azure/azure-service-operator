@@ -59,12 +59,15 @@ generate: controller-gen
 # Build the docker image
 docker-build: test
 	docker build . -t ${IMG}
-	@echo "updating kustomize image patch file for manager resource"
-	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
+	@echo "please manually update kustomize image patch file for manager resource"
+	#sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
 
 # Push the docker image
 docker-push:
 	docker push ${IMG}
+
+# Build and Push the docker image
+build-and-push: docker-build docker-push
 
 # find or download controller-gen
 # download controller-gen if necessary

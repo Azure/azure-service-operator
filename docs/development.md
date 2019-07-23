@@ -8,48 +8,91 @@ To get started you will need:
 * [kubebuilder](https://book.kubebuilder.io/quick-start.html#installation)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
-## Deploy Operator on a Local Cluster
+## Deploy Operator and Test
 
-### 1. Create Cluster
+### Test it locally
 
-```
-kind create cluster
-export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
-```
+1. Create Cluster.
 
-### 2. Install CRDs
+    ```
+    kind create cluster
+    export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
+    kubectl cluster-info
+    ```
 
-```
-make install
-```
+1. Install CRDs.
 
-### 3. Run Controller
+    ```
+    make install
+    ```
 
-Setup the environment variables:
+1. Run Controller.
 
-```
-export CLOUD_NAME=AzurePublicCloud
-export TENANT_ID=
-export SUBSCRIPTION_ID=
-export CLIENT_ID=
-export CLIENT_SECRET=
-```
+    Setup the environment variables:
 
-Run your controller (this will run in the foreground, so switch to a new terminal if you want to leave it running):
+    ```
+    export CLOUD_NAME=AzurePublicCloud
+    export TENANT_ID=
+    export SUBSCRIPTION_ID=
+    export CLIENT_ID=
+    export CLIENT_SECRET=
+    ```
 
-```
-make run
-```
+    Run your controller (this will run in the foreground, so switch to a new terminal if you want to leave it running):
 
-Refer to [kubebuilder's doc](https://book.kubebuilder.io/quick-start.html#test-it-out-locally).
+    ```
+    make run
+    ```
 
-## Create a Custom Resource
+    Refer to [kubebuilder's doc](https://book.kubebuilder.io/quick-start.html#test-it-out-locally).
 
-Create your CR (make sure to edit them first to specify the fields). Example:
+1. Create a Custom Resource.
 
-```
-kubectl apply -f config/samples/service_v1alpha1_storage.yaml
-```
+    Create your CR (make sure to edit them first to specify the fields). Example:
+
+    ```
+    kubectl apply -f config/samples/service_v1alpha1_storage.yaml
+    ```
+
+### Test it on a remote cluster
+
+1. Create Cluster.
+
+    ```
+    az aks create -g <RG-NAME> -n <AKS-NAME>
+    az aks get-credentials -g <RG-NAME> -n <AKS-NAME>
+    kubectl cluster-info
+    ```
+
+1. Install CRDs.
+
+    ```
+    make install
+    ```
+
+1. Build and Push the image.
+
+    ```
+    IMG=<IMAGE-NAME-WITH-ORG> make build-and-push
+    ```
+
+    Update kustomize image patch file `config/default/manager_image_patch.yaml` for manager resource manually.
+
+1. Run Controller.
+
+    Update `config/manager/manager.yaml` with your service principal.
+
+    ```
+    make deploy
+    ```
+
+1. Create a Custom Resource.
+
+    Create your CR (make sure to edit them first to specify the fields). Example:
+
+    ```
+    kubectl apply -f config/samples/service_v1alpha1_storage.yaml
+    ```
 
 ## Add a New Custom Resource
 
