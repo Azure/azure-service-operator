@@ -111,11 +111,18 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			if err != nil {
 				return ctrl.Result{}, err
 			}
-			return ctrl.Result{}, nil
+			if instance.Status.Generation == instance.ObjectMeta.Generation {
+				return ctrl.Result{}, nil
+			}
 		} else {
 			log.Info("Requeue the request", "ProvisioningState", provisioningState)
 			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 		}
+	}
+
+	instance.Status.Generation = instance.ObjectMeta.Generation
+	if err := r.Status().Update(ctx, instance); err != nil {
+		return ctrl.Result{}, err
 	}
 
 	log.Info("Creating a new resource group", "ResourceGroupName", resourceGroupName)

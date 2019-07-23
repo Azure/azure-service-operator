@@ -101,6 +101,9 @@ spec:
           properties:
             deploymentName:
               type: string
+            generation:
+              format: int64
+              type: integer
             provisioningState:
               type: string
           type: object

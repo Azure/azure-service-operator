@@ -72,10 +72,10 @@ spec:
           description: CosmosDBStatus defines the observed state of CosmosDB
           properties:
             deploymentName:
-              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
-                of cluster Important: Run "make" to regenerate code after modifying
-                this file'
               type: string
+            generation:
+              format: int64
+              type: integer
             provisioningState:
               type: string
           type: object

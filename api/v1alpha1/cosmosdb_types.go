@@ -81,8 +81,10 @@ type CosmosDBLocation struct {
 type CosmosDBStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
 	DeploymentName    string `json:"deploymentName,omitempty"`
 	ProvisioningState string `json:"provisioningState,omitempty"`
+	Generation        int64  `json:"generation,omitempty"`
 }
 
 type CosmosDBOutput struct {

@@ -83,6 +83,7 @@ type RedisCacheStatus struct {
 
 	DeploymentName    string `json:"deploymentName,omitempty"`
 	ProvisioningState string `json:"provisioningState,omitempty"`
+	Generation        int64  `json:"generation,omitempty"`
 }
 
 type RedisCacheOutput struct {
