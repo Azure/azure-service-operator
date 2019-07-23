@@ -29,13 +29,11 @@ func CreateSecret(resource interface{}, svcName, svcNamespace string, secretTemp
 
 	_, err := config.Instance.KubeClientset.CoreV1().Secrets(svcNamespace).Get(secretName, metav1.GetOptions{})
 	if apierrors.IsNotFound(err) {
-		log.Info("Creating Secret", "Secret.Name", secretName)
 		_, err := config.Instance.KubeClientset.CoreV1().Secrets(svcNamespace).Create(secretObj)
 		if err != nil {
 			log.Error(err, "error creating Secret")
 		}
 	} else {
-		log.Info("Updating Secret", "Secret.Name", secretName)
 		_, err := config.Instance.KubeClientset.CoreV1().Secrets(svcNamespace).Update(secretObj)
 		if err != nil {
 			log.Error(err, "error updating Secret")

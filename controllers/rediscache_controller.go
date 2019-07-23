@@ -160,28 +160,27 @@ func (r *RedisCacheReconciler) updateStatus(req ctrl.Request, resourceGroupName,
 	resourceCopy := resource.DeepCopy()
 	resourceCopy.Status.DeploymentName = deploymentName
 	resourceCopy.Status.ProvisioningState = provisioningState
-	if helpers.IsDeploymentComplete(provisioningState) {
-		if outputs != nil {
-			resourceCopy.Output.RedisCacheName = helpers.GetOutput(outputs, "redisCacheName")
-			resourceCopy.Output.PrimaryKey = helpers.GetOutput(outputs, "primaryKey")
-			resourceCopy.Output.SecondaryKey = helpers.GetOutput(outputs, "secondaryKey")
-		}
-	}
 
 	err := r.Status().Update(ctx, resourceCopy)
 	if err != nil {
 		log.Error(err, "unable to update Redis Cache status")
 		return nil, err
 	}
-	log.Info("Updated Status", "Redis Cache.Namespace", resourceCopy.Namespace, "RedisCache.Name", resourceCopy.Name, "RedisCache.Status", resourceCopy.Status, "RedisCache.Output", resourceCopy.Output)
+	log.V(1).Info("Updated Status", "Redis Cache.Namespace", resourceCopy.Namespace, "RedisCache.Name", resourceCopy.Name, "RedisCache.Status", resourceCopy.Status)
 
 	if helpers.IsDeploymentComplete(provisioningState) {
-		err := r.syncAdditionalResources(req, resourceCopy)
+		if outputs != nil {
+			resourceCopy.Output.RedisCacheName = helpers.GetOutput(outputs, "redisCacheName")
+			resourceCopy.Output.PrimaryKey = helpers.GetOutput(outputs, "primaryKey")
+			resourceCopy.Output.SecondaryKey = helpers.GetOutput(outputs, "secondaryKey")
+		}
+
+		err := r.syncAdditionalResourcesAndOutput(req, resourceCopy)
 		if err != nil {
 			log.Error(err, "error syncing resources")
 			return nil, err
 		}
-		log.Info("Updated additional resources", "Storage.Namespace", resourceCopy.Namespace, "RedisCache.Name", resourceCopy.Name, "RedisCache.AdditionalResources", resourceCopy.AdditionalResources)
+		log.V(1).Info("Updated additional resources", "Storage.Namespace", resourceCopy.Namespace, "RedisCache.Name", resourceCopy.Name, "RedisCache.AdditionalResources", resourceCopy.AdditionalResources, "RedisCache.Output", resourceCopy.Output)
 	}
 
 	return resourceCopy, nil
@@ -211,12 +210,9 @@ func (r *RedisCacheReconciler) deleteExternalResources(instance *servicev1alpha1
 	return nil
 }
 
-func (r *RedisCacheReconciler) syncAdditionalResources(req ctrl.Request, s *servicev1alpha1.RedisCache) (err error) {
+func (r *RedisCacheReconciler) syncAdditionalResourcesAndOutput(req ctrl.Request, s *servicev1alpha1.RedisCache) (err error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("redisCache", req.NamespacedName)
-
-	resource := &servicev1alpha1.RedisCache{}
-	r.Get(ctx, req.NamespacedName, resource)
 
 	secrets := []string{}
 	secretData := map[string]string{
@@ -227,7 +223,7 @@ func (r *RedisCacheReconciler) syncAdditionalResources(req ctrl.Request, s *serv
 	secret := helpers.CreateSecret(s, s.Name, s.Namespace, secretData)
 	secrets = append(secrets, secret)
 
-	resourceCopy := resource.DeepCopy()
+	resourceCopy := s.DeepCopy()
 	resourceCopy.AdditionalResources.Secrets = secrets
 
 	err = r.Update(ctx, resourceCopy)

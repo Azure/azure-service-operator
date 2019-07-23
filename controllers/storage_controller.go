@@ -160,6 +160,14 @@ func (r *StorageReconciler) updateStatus(req ctrl.Request, resourceGroupName, de
 	resourceCopy := resource.DeepCopy()
 	resourceCopy.Status.DeploymentName = deploymentName
 	resourceCopy.Status.ProvisioningState = provisioningState
+
+	err := r.Status().Update(ctx, resourceCopy)
+	if err != nil {
+		log.Error(err, "unable to update Storage status")
+		return nil, err
+	}
+	log.V(1).Info("Updated Status", "Storage.Namespace", resourceCopy.Namespace, "Storage.Name", resourceCopy.Name, "Storage.Status", resourceCopy.Status)
+
 	if helpers.IsDeploymentComplete(provisioningState) {
 		if outputs != nil {
 			resourceCopy.Output.StorageAccountName = helpers.GetOutput(outputs, "storageAccountName")
@@ -168,22 +176,13 @@ func (r *StorageReconciler) updateStatus(req ctrl.Request, resourceGroupName, de
 			resourceCopy.Output.ConnectionString1 = helpers.GetOutput(outputs, "connectionString1")
 			resourceCopy.Output.ConnectionString2 = helpers.GetOutput(outputs, "connectionString2")
 		}
-	}
 
-	err := r.Status().Update(ctx, resourceCopy)
-	if err != nil {
-		log.Error(err, "unable to update Storage status")
-		return nil, err
-	}
-	log.Info("Updated Status", "Storage.Namespace", resourceCopy.Namespace, "Storage.Name", resourceCopy.Name, "Storage.Status", resourceCopy.Status, "Storage.Output", resourceCopy.Output)
-
-	if helpers.IsDeploymentComplete(provisioningState) {
-		err := r.syncAdditionalResources(req, resourceCopy)
+		err := r.syncAdditionalResourcesAndOutput(req, resourceCopy)
 		if err != nil {
 			log.Error(err, "error syncing resources")
 			return nil, err
 		}
-		log.Info("Updated additional resources", "Storage.Namespace", resourceCopy.Namespace, "Storage.Name", resourceCopy.Name, "Storage.AdditionalResources", resourceCopy.AdditionalResources)
+		log.V(1).Info("Updated additional resources", "Storage.Namespace", resourceCopy.Namespace, "Storage.Name", resourceCopy.Name, "Storage.AdditionalResources", resourceCopy.AdditionalResources, "Storage.Output", resourceCopy.Output)
 	}
 
 	return resourceCopy, nil
@@ -213,12 +212,9 @@ func (r *StorageReconciler) deleteExternalResources(instance *servicev1alpha1.St
 	return nil
 }
 
-func (r *StorageReconciler) syncAdditionalResources(req ctrl.Request, s *servicev1alpha1.Storage) (err error) {
+func (r *StorageReconciler) syncAdditionalResourcesAndOutput(req ctrl.Request, s *servicev1alpha1.Storage) (err error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("storage", req.NamespacedName)
-
-	resource := &servicev1alpha1.Storage{}
-	r.Get(ctx, req.NamespacedName, resource)
 
 	secrets := []string{}
 	secretData := map[string]string{
@@ -231,7 +227,7 @@ func (r *StorageReconciler) syncAdditionalResources(req ctrl.Request, s *service
 	secret := helpers.CreateSecret(s, s.Name, s.Namespace, secretData)
 	secrets = append(secrets, secret)
 
-	resourceCopy := resource.DeepCopy()
+	resourceCopy := s.DeepCopy()
 	resourceCopy.AdditionalResources.Secrets = secrets
 
 	err = r.Update(ctx, resourceCopy)

@@ -160,27 +160,26 @@ func (r *CosmosDBReconciler) updateStatus(req ctrl.Request, resourceGroupName, d
 	resourceCopy := resource.DeepCopy()
 	resourceCopy.Status.DeploymentName = deploymentName
 	resourceCopy.Status.ProvisioningState = provisioningState
-	if helpers.IsDeploymentComplete(provisioningState) {
-		if outputs != nil {
-			resourceCopy.Output.CosmosDBName = helpers.GetOutput(outputs, "cosmosDBName")
-			resourceCopy.Output.PrimaryMasterKey = helpers.GetOutput(outputs, "primaryMasterKey")
-		}
-	}
 
 	err := r.Status().Update(ctx, resourceCopy)
 	if err != nil {
 		log.Error(err, "unable to update CosmosDB status")
 		return nil, err
 	}
-	log.Info("Updated Status", "CosmosDB.Namespace", resourceCopy.Namespace, "CosmosDB.Name", resourceCopy.Name, "CosmosDB.Status", resourceCopy.Status, "CosmosDB.Output", resourceCopy.Output)
+	log.V(1).Info("Updated Status", "CosmosDB.Namespace", resourceCopy.Namespace, "CosmosDB.Name", resourceCopy.Name, "CosmosDB.Status", resourceCopy.Status)
 
 	if helpers.IsDeploymentComplete(provisioningState) {
-		err := r.syncAdditionalResources(req, resourceCopy)
+		if outputs != nil {
+			resourceCopy.Output.CosmosDBName = helpers.GetOutput(outputs, "cosmosDBName")
+			resourceCopy.Output.PrimaryMasterKey = helpers.GetOutput(outputs, "primaryMasterKey")
+		}
+
+		err := r.syncAdditionalResourcesAndOutput(req, resourceCopy)
 		if err != nil {
 			log.Error(err, "error syncing resources")
 			return nil, err
 		}
-		log.Info("Updated additional resources", "CosmosDB.Namespace", resourceCopy.Namespace, "CosmosDB.Name", resourceCopy.Name, "CosmosDB.AdditionalResources", resourceCopy.AdditionalResources)
+		log.V(1).Info("Updated additional resources", "CosmosDB.Namespace", resourceCopy.Namespace, "CosmosDB.Name", resourceCopy.Name, "CosmosDB.AdditionalResources", resourceCopy.AdditionalResources, "CosmosDB.Output", resourceCopy.Output)
 	}
 
 	return resourceCopy, nil
@@ -210,12 +209,9 @@ func (r *CosmosDBReconciler) deleteExternalResources(instance *servicev1alpha1.C
 	return nil
 }
 
-func (r *CosmosDBReconciler) syncAdditionalResources(req ctrl.Request, s *servicev1alpha1.CosmosDB) (err error) {
+func (r *CosmosDBReconciler) syncAdditionalResourcesAndOutput(req ctrl.Request, s *servicev1alpha1.CosmosDB) (err error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("cosmosdb", req.NamespacedName)
-
-	resource := &servicev1alpha1.CosmosDB{}
-	r.Get(ctx, req.NamespacedName, resource)
 
 	secrets := []string{}
 	secretData := map[string]string{
@@ -225,7 +221,7 @@ func (r *CosmosDBReconciler) syncAdditionalResources(req ctrl.Request, s *servic
 	secret := helpers.CreateSecret(s, s.Name, s.Namespace, secretData)
 	secrets = append(secrets, secret)
 
-	resourceCopy := resource.DeepCopy()
+	resourceCopy := s.DeepCopy()
 	resourceCopy.AdditionalResources.Secrets = secrets
 
 	err = r.Update(ctx, resourceCopy)
