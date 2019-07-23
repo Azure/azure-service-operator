@@ -11,10 +11,20 @@ spec:
     kind: CosmosDB
     plural: cosmosdbs
   scope: ""
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: CosmosDB is the Schema for the cosmosdbs API
       properties:
+        additionalResources:
+          description: CosmosDBAdditionalResources holds the additional resources
+          properties:
+            secrets:
+              items:
+                type: string
+              type: array
+          type: object
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
             of an object. Servers should convert recognized schemas to the latest
@@ -27,11 +37,47 @@ spec:
           type: string
         metadata:
           type: object
+        output:
+          properties:
+            cosmosDBName:
+              type: string
+            primaryMasterKey:
+              type: string
+          type: object
         spec:
           description: CosmosDBSpec defines the desired state of CosmosDB
+          properties:
+            kind:
+              description: CosmosDBKind enumerates the values for kind. Only one of
+                the following kinds may be specified. If none of the following kinds
+                is specified, the default one is GlobalDocumentDBKind.
+              enum:
+              - GlobalDocumentDB
+              - MongoDB
+              type: string
+            location:
+              type: string
+            properties:
+              description: CosmosDBProperties the CosmosDBProperties of CosmosDB.
+              properties:
+                databaseAccountOfferType:
+                  description: CosmosDBDatabaseAccountOfferType - The offer type for
+                    the Cosmos DB database account.
+                  enum:
+                  - Standard
+                  type: string
+              type: object
           type: object
         status:
           description: CosmosDBStatus defines the observed state of CosmosDB
+          properties:
+            deploymentName:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              type: string
+            provisioningState:
+              type: string
           type: object
       type: object
   versions:

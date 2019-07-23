@@ -35,23 +35,81 @@ import (
 type CosmosDBSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// +kubebuilder:validation:MinLength=0
+
+	Location   string             `json:"location,omitempty"`
+	Kind       CosmosDBKind       `json:"kind,omitempty"`
+	Properties CosmosDBProperties `json:"properties,omitempty"`
 }
+
+// CosmosDBKind enumerates the values for kind.
+// Only one of the following kinds may be specified.
+// If none of the following kinds is specified, the default one
+// is GlobalDocumentDBKind.
+// +kubebuilder:validation:Enum=GlobalDocumentDB;MongoDB
+type CosmosDBKind string
+
+const (
+	CosmosDBKindGlobalDocumentDB CosmosDBKind = "GlobalDocumentDB"
+	CosmosDBKindMongoDB          CosmosDBKind = "MongoDB"
+)
+
+// CosmosDBProperties the CosmosDBProperties of CosmosDB.
+type CosmosDBProperties struct {
+	// CosmosDBDatabaseAccountOfferType - The offer type for the Cosmos DB database account.
+	DatabaseAccountOfferType CosmosDBDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
+	//Locations                []CosmosDBLocation               `json:"locations,omitempty"`
+}
+
+// +kubebuilder:validation:Enum=Standard
+type CosmosDBDatabaseAccountOfferType string
+
+const (
+	CosmosDBDatabaseAccountOfferTypeStandard CosmosDBDatabaseAccountOfferType = "Standard"
+)
+
+/*
+type CosmosDBLocation struct {
+	FailoverPriority int    `json:"failoverPriority,omitempty"`
+	LocationName     string `json:"locationName,omitempty"`
+	IsZoneRedundant  bool   `json:"isZoneRedundant,omitempty"`
+}
+*/
 
 // CosmosDBStatus defines the observed state of CosmosDB
 type CosmosDBStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	DeploymentName    string `json:"deploymentName,omitempty"`
+	ProvisioningState string `json:"provisioningState,omitempty"`
+}
+
+type CosmosDBOutput struct {
+	CosmosDBName     string `json:"cosmosDBName,omitempty"`
+	PrimaryMasterKey string `json:"primaryMasterKey,omitempty"`
+	//SecondaryMasterKey         string `json:"secondaryMasterKey,omitempty"`
+	//PrimaryReadonlyMasterKey   string `json:"primaryReadonlyMasterKey,omitempty"`
+	//SecondaryReadonlyMasterKey string `json:"secondaryReadonlyMasterKey,omitempty"`
+}
+
+// CosmosDBAdditionalResources holds the additional resources
+type CosmosDBAdditionalResources struct {
+	Secrets []string `json:"secrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // CosmosDB is the Schema for the cosmosdbs API
 type CosmosDB struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   CosmosDBSpec   `json:"spec,omitempty"`
-	Status CosmosDBStatus `json:"status,omitempty"`
+	Spec                CosmosDBSpec                `json:"spec,omitempty"`
+	Status              CosmosDBStatus              `json:"status,omitempty"`
+	Output              CosmosDBOutput              `json:"output,omitempty"`
+	AdditionalResources CosmosDBAdditionalResources `json:"additionalResources,omitempty"`
 }
 
 // +kubebuilder:object:root=true
