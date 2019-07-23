@@ -7,7 +7,9 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/Azure/go-autorest/autorest"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 var (
@@ -46,4 +48,15 @@ func AzrueResourceGroupName(subscriptionID, clusterName, resourceType, name, nam
 	hash := md5.New()
 	io.WriteString(hash, nameString)
 	return fmt.Sprintf("aso-%x", hash.Sum(nil))
+}
+
+func IgnoreKubernetesResourceNotFound(err error) error {
+	return client.IgnoreNotFound(err)
+}
+
+func IgnoreAzureResourceNotFound(err error) error {
+	if err.(autorest.DetailedError).StatusCode.(int) == 404 {
+		return nil
+	}
+	return err
 }

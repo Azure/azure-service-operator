@@ -60,7 +60,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		return ctrl.Result{}, helpers.IgnoreKubernetesResourceNotFound(err)
 	}
 	log.Info("Getting Storage Account", "Storage.Namespace", instance.Namespace, "Storage.Name", instance.Name)
 	log.V(1).Info("Describing Storage Account", "Storage", instance)
@@ -103,7 +103,6 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		"namespace": to.StringPtr(instance.Namespace),
 		"kind":      to.StringPtr("storage"),
 	}
-	log.Info("Creating a new resource group", "ResourceGroupName", resourceGroupName)
 	group.CreateGroup(ctx, resourceGroupName, instance.Spec.Location, tags)
 
 	log.Info("Reconciling Storage", "Storage.Namespace", instance.Namespace, "Storage.Name", instance.Name)
@@ -180,12 +179,12 @@ func (r *StorageReconciler) deleteExternalResources(instance *servicev1alpha1.St
 	resourceGroupName := helpers.AzrueResourceGroupName(config.Instance.SubscriptionID, config.Instance.ClusterName, "storage", instance.Name, instance.Namespace)
 	log.Info("Deleting Storage Account", "ResourceGroupName", resourceGroupName)
 	_, err := group.DeleteGroup(ctx, resourceGroupName)
-	if err != nil {
+	if err != nil && helpers.IgnoreAzureResourceNotFound(err) != nil {
 		return err
 	}
 
 	err = helpers.DeleteSecret(instance.Name, instance.Namespace)
-	if err != nil {
+	if err != nil && helpers.IgnoreKubernetesResourceNotFound(err) != nil {
 		return err
 	}
 

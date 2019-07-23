@@ -60,7 +60,7 @@ func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		return ctrl.Result{}, helpers.IgnoreKubernetesResourceNotFound(err)
 	}
 	log.Info("Getting Redis Cache", "RedisCache.Namespace", instance.Namespace, "RedisCache.Name", instance.Name)
 	log.V(1).Info("Describing Redis Cache", "RedisCache", instance)
@@ -178,12 +178,12 @@ func (r *RedisCacheReconciler) deleteExternalResources(instance *servicev1alpha1
 	resourceGroupName := helpers.AzrueResourceGroupName(config.Instance.SubscriptionID, config.Instance.ClusterName, "redisCache", instance.Name, instance.Namespace)
 	log.Info("Deleting Redis Cache", "ResourceGroupName", resourceGroupName)
 	_, err := group.DeleteGroup(ctx, resourceGroupName)
-	if err != nil {
+	if err != nil && helpers.IgnoreAzureResourceNotFound(err) != nil {
 		return err
 	}
 
 	err = helpers.DeleteSecret(instance.Name, instance.Namespace)
-	if err != nil {
+	if err != nil && helpers.IgnoreKubernetesResourceNotFound(err) != nil {
 		return err
 	}
 
