@@ -51,7 +51,7 @@ To get started you will need:
     Create your CR (make sure to edit them first to specify the fields). Example:
 
     ```
-    kubectl apply -f config/samples/service_v1alpha1_storage.yaml
+    kubectl apply -f examples/service/v1alpha1/storage.yaml
     ```
 
 ### Test it on a remote cluster
@@ -91,7 +91,7 @@ To get started you will need:
     Create your CR (make sure to edit them first to specify the fields). Example:
 
     ```
-    kubectl apply -f config/samples/service_v1alpha1_storage.yaml
+    kubectl apply -f examples/service/v1alpha1/storage.yaml
     ```
 
 ## Add a New Custom Resource
