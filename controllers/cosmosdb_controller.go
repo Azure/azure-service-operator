@@ -26,6 +26,7 @@ package controllers
 
 import (
 	"context"
+	"time"
 
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -113,7 +114,7 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			return ctrl.Result{}, nil
 		} else {
 			log.Info("Requeue the request", "ProvisioningState", provisioningState)
-			return ctrl.Result{Requeue: true}, nil
+			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 		}
 	}
 
@@ -197,12 +198,12 @@ func (r *CosmosDBReconciler) deleteExternalResources(instance *servicev1alpha1.C
 	resourceGroupName := helpers.AzrueResourceGroupName(config.Instance.SubscriptionID, config.Instance.ClusterName, "cosmosdb", instance.Name, instance.Namespace)
 	log.Info("Deleting CosmosDB Account", "ResourceGroupName", resourceGroupName)
 	_, err := group.DeleteGroup(ctx, resourceGroupName)
-	if err != nil {
+	if err != nil && helpers.IgnoreAzureResourceNotFound(err) != nil {
 		return err
 	}
 
 	err = helpers.DeleteSecret(instance.Name, instance.Namespace)
-	if err != nil {
+	if err != nil && helpers.IgnoreKubernetesResourceNotFound(err) != nil {
 		return err
 	}
 

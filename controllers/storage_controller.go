@@ -26,6 +26,7 @@ package controllers
 
 import (
 	"context"
+	"time"
 
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -113,7 +114,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			return ctrl.Result{}, nil
 		} else {
 			log.Info("Requeue the request", "ProvisioningState", provisioningState)
-			return ctrl.Result{Requeue: true}, nil
+			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 		}
 	}
 
