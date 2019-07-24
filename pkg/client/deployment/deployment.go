@@ -18,20 +18,17 @@ func getDeploymentsClient() resources.DeploymentsClient {
 
 // CreateDeployment creates a template deployment using the
 // referenced JSON files for the template and its parameters
-func CreateDeployment(ctx context.Context, resourceGroupName, deploymentName, templateUri string, params *map[string]interface{}) error {
+func CreateDeployment(ctx context.Context, resourceGroupName, deploymentName string, template, params *map[string]interface{}) error {
 	deployClient := getDeploymentsClient()
-	templateLink := resources.TemplateLink{
-		URI: &templateUri,
-	}
 	_, err := deployClient.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
 		deploymentName,
 		resources.Deployment{
 			Properties: &resources.DeploymentProperties{
-				TemplateLink: &templateLink,
-				Parameters:   params,
-				Mode:         resources.Incremental,
+				Template:   template,
+				Parameters: params,
+				Mode:       resources.Incremental,
 			},
 		},
 	)

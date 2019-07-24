@@ -78,3 +78,11 @@ CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
+
+.PHONY: install-bindata
+install-bindata:
+	go get -u github.com/jteeuwen/go-bindata/...
+
+.PHONE:
+generate:
+	go-bindata -pkg template -prefix pkg/template/assets/ -o pkg/template/templates.go pkg/template/assets/

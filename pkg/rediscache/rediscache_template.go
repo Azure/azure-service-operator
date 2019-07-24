@@ -2,11 +2,13 @@ package rediscache
 
 import (
 	"context"
+	"encoding/json"
 
 	uuid "github.com/satori/go.uuid"
 
 	azureV1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/client/deployment"
+	"github.com/Azure/azure-service-operator/pkg/template"
 )
 
 // New generates a new object
@@ -23,7 +25,9 @@ type Template struct {
 
 func (t *Template) CreateDeployment(ctx context.Context, resourceGroupName string) (string, error) {
 	deploymentName := uuid.NewV4().String()
-	templateURI := "https://azureserviceoperator.blob.core.windows.net/templates/rediscache.json"
+	asset, err := template.Asset("rediscache.json")
+	templateContents := make(map[string]interface{})
+	json.Unmarshal(asset, &templateContents)
 	params := map[string]interface{}{
 		"location": map[string]interface{}{
 			"value": t.RedisCache.Spec.Location,
@@ -42,6 +46,6 @@ func (t *Template) CreateDeployment(ctx context.Context, resourceGroupName strin
 		},
 	}
 
-	err := deployment.CreateDeployment(ctx, resourceGroupName, deploymentName, templateURI, &params)
+	err = deployment.CreateDeployment(ctx, resourceGroupName, deploymentName, &templateContents, &params)
 	return deploymentName, err
 }
