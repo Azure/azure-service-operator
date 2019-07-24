@@ -31,7 +31,7 @@
                 "sku": {
                     "name": "[parameters('properties.sku.name')]",
                     "family": "[parameters('properties.sku.family')]",
-                    "capacity": 0
+                    "capacity": "[parameters('properties.sku.capacity')]"
                 },
                 "enableNonSslPort": "[parameters('properties.enableNonSslPort')]",
                 "redisConfiguration": {}
