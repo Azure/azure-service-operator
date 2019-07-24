@@ -20,9 +20,9 @@ import (
 	"context"
 	"time"
 
-	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
-
 	helpers "Telstra.Dx.AzureOperator/helpers"
+	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
+	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -72,6 +72,22 @@ var _ = Describe("Namespace", func() {
 
 			Eventually(func() bool {
 				result, _ := GetHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName)
+				return result.Response.StatusCode == 200
+			}, timeout,
+			).Should(BeTrue())
+
+			authorizationRuleName := "t-rootmanagedsharedaccesskey"
+			accessRights := []model.AccessRights{"Listen", "Manage", "Send"}
+			parameters := model.AuthorizationRule{
+				AuthorizationRuleProperties: &model.AuthorizationRuleProperties{
+					Rights: &accessRights,
+				},
+			}
+			_, err = CreateOrUpdateAuthorizationRule(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, authorizationRuleName, parameters)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				result, _ := ListKeys(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, authorizationRuleName)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())

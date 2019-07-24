@@ -48,7 +48,6 @@ var _ = Describe("EventHubNamespace Controller", func() {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create and Delete", func() {
-
 		It("should create and delete namespace in k8s", func() {
 
 			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)

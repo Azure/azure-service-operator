@@ -71,3 +71,26 @@ func GetHub(ctx context.Context, resourceGroupName string, namespaceName string,
 	hubClient := getHubsClient()
 	return hubClient.Get(ctx, resourceGroupName, namespaceName, eventHubName)
 }
+
+// CreateOrUpdateAuthorizationRule creates or updates an AuthorizationRule for the specified Event Hub.
+// Parameters:
+// resourceGroupName - name of the resource group within the azure subscription.
+// namespaceName - the Namespace name
+// eventHubName - the Event Hub name
+// authorizationRuleName - the authorization rule name.
+// parameters - the shared access AuthorizationRule.
+func CreateOrUpdateAuthorizationRule(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string, parameters eventhub.AuthorizationRule) (result eventhub.AuthorizationRule, err error) {
+	hubClient := getHubsClient()
+	return hubClient.CreateOrUpdateAuthorizationRule(ctx, resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters)
+}
+
+// ListKeys gets the ACS and SAS connection strings for the Event Hub.
+// Parameters:
+// resourceGroupName - name of the resource group within the azure subscription.
+// namespaceName - the Namespace name
+// eventHubName - the Event Hub name
+// authorizationRuleName - the authorization rule name.
+func ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error) {
+	hubClient := getHubsClient()
+	return hubClient.ListKeys(ctx, resourceGroupName, namespaceName, eventHubName, authorizationRuleName)
+}

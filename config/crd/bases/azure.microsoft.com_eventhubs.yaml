@@ -385,6 +385,17 @@ spec:
           type: object
         spec:
           properties:
+            authorizationrule:
+              properties:
+                name:
+                  description: Name - Name of AuthorizationRule for eventhub
+                  type: string
+                rights:
+                  description: Rights - Rights set on the AuthorizationRule
+                  items:
+                    type: string
+                  type: array
+              type: object
             location:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
@@ -394,10 +405,18 @@ spec:
             properties:
               properties:
                 messageretentionindays:
+                  description: MessageRetentionInDays - Number of days to retain the
+                    events for this Event Hub, value should be 1 to 7 days
                   format: int32
+                  maximum: 7
+                  minimum: 1
                   type: integer
                 partitioncount:
+                  description: PartitionCount - Number of partitions created for the
+                    Event Hub, allowed values are from 1 to 32 partitions.
                   format: int32
+                  maximum: 32
+                  minimum: 1
                   type: integer
               type: object
             resourcegroup:

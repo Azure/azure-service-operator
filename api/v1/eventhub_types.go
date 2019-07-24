@@ -36,10 +36,11 @@ type EventhubNamespaceResource struct {
 type EventhubSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string             `json:"location"`
-	Namespace     string             `json:"namespace,omitempty"`
-	Properties    EventhubProperties `json:"properties,omitempty"`
-	ResourceGroup string             `json:"resourcegroup,omitempty"`
+	Location          string                    `json:"location"`
+	Namespace         string                    `json:"namespace,omitempty"`
+	Properties        EventhubProperties        `json:"properties,omitempty"`
+	ResourceGroup     string                    `json:"resourcegroup,omitempty"`
+	AuthorizationRule EventhubAuthorizationRule `json:"authorizationrule,omitempty"`
 }
 
 // EventhubStatus defines the observed state of Eventhub
@@ -50,10 +51,24 @@ type EventhubStatus struct {
 	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
+//EventhubAuthorizationRule defines the name and rights of the access policy
+type EventhubAuthorizationRule struct {
+	// Name - Name of AuthorizationRule for eventhub
+	Name string `json:"name,omitempty"`
+	// Rights - Rights set on the AuthorizationRule
+	Rights []string `json:"rights,omitempty"`
+}
+
 //EventhubProperties defines the namespace properties
 type EventhubProperties struct {
+	// +kubebuilder:validation:Maximum=7
+	// +kubebuilder:validation:Minimum=1
+	// MessageRetentionInDays - Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	MessageRetentionInDays int32 `json:"messageretentionindays,omitempty"`
-	PartitionCount         int32 `json:"partitioncount,omitempty"`
+	// +kubebuilder:validation:Maximum=32
+	// +kubebuilder:validation:Minimum=1
+	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
+	PartitionCount int32 `json:"partitioncount,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -124,5 +124,11 @@ func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []
 // CheckExistence checks whether a resource exists
 func CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error) {
 	groupsClient := getGroupsClient()
-	return groupsClient.CheckExistence(ctx, resourceGroupName)
+	result, err = groupsClient.CheckExistence(ctx, resourceGroupName)
+	if err != nil {
+		log.Fatalf("got error: %s", err)
+	}
+
+	return
+
 }

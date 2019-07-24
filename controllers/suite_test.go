@@ -56,8 +56,9 @@ var _ = BeforeSuite(func(done Done) {
 	By("bootstrapping test environment")
 
 	if os.Getenv("TEST_USE_EXISTING_CLUSTER") == "true" {
+		t := true
 		testEnv = &envtest.Environment{
-			UseExistingCluster: true,
+			UseExistingCluster: &t,
 		}
 	} else {
 		testEnv = &envtest.Environment{

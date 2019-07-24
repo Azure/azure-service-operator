@@ -6,12 +6,19 @@
 *.so
 *.dylib
 bin
+default.etcd
 
 # Test binary, build with `go test -c`
 *.test
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+coverage.txt
+report.xml
+cover.html
+coverage.json
+coverage.xml
+testlogs.txt
 
 # Kubernetes Generated files - skip generated files, except for vendored files
 
@@ -25,10 +32,4 @@ bin
 .env
 __debug_bin
 .vscode
-default.etcd
-coverage.txt
-report.xml
-cover.html
-coverage.json
-coverage.xml
-testlogs.txt
+.devcontainer

@@ -24,6 +24,7 @@ import (
 	resourcemanagerconfig "Telstra.Dx.AzureOperator/resourcemanager/config"
 
 	"k8s.io/apimachinery/pkg/runtime"
+	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
@@ -38,6 +39,7 @@ var (
 func init() {
 
 	azurev1.AddToScheme(scheme)
+	kscheme.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -93,6 +95,12 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
 		os.Exit(1)
 	}
+	//TODO Needs to be fixed
+	// if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
+	// 	setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
+	// 	os.Exit(1)
+	// }
+
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

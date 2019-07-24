@@ -21,8 +21,14 @@ import (
 
 	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
+	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/go-logr/logr"
+	v1 "k8s.io/api/core/v1"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
+
+	//metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -47,7 +53,6 @@ func ignoreNotFound(err error) error {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs/status,verbs=get;update;patch
 
-//Reconcile blah
 func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("eventhub", req.NamespacedName)
@@ -120,13 +125,25 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		return err
 	}
+
+	err = r.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
+	if err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to createAccessPolicyEventHub")
+		return err
+	}
+
+	err = r.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, instance.Spec.AuthorizationRule.Name, instance)
+	if err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to listAccessKeysAndCreateSecrets")
+		return err
+	}
+
 	// write information back to instance
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
 	err = r.Update(ctx, instance)
 	if err != nil {
-		//log error and kill it
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 	return nil
@@ -144,6 +161,111 @@ func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
 	_, err = eventhubsresourcemanager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		return err
+	}
+	return nil
+}
+
+func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup string, eventhubNamespace string, eventhubName string, instance *azurev1.Eventhub) error {
+
+	var err error
+	ctx := context.Background()
+
+	authorizationRuleName := instance.Spec.AuthorizationRule.Name
+	accessRights := make([]model.AccessRights, len(instance.Spec.AuthorizationRule.Rights))
+	for i, v := range instance.Spec.AuthorizationRule.Rights {
+		accessRights[i] = model.AccessRights(v)
+	}
+	//accessRights := r.toAccessRights(instance.Spec.AuthorizationRule.Rights)
+	parameters := model.AuthorizationRule{
+		AuthorizationRuleProperties: &model.AuthorizationRuleProperties{
+			Rights: &accessRights,
+		},
+	}
+	_, err = eventhubsresourcemanager.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, parameters)
+	if err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to createorupdateauthorizationrule")
+		return err
+	}
+	return nil
+}
+
+func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, authorizationRuleName string, instance *azurev1.Eventhub) error {
+
+	var err error
+	var result model.AccessKeys
+	ctx := context.Background()
+
+	result, err = eventhubsresourcemanager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName)
+	if err != nil {
+		//log error and kill it
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to list keys")
+	} else {
+		//create secrets in the k8s with the listed keys
+		err = r.createEventhubSecrets(
+			eventhubName,
+			instance.Namespace,
+			*result.PrimaryConnectionString,
+			*result.SecondaryConnectionString,
+			*result.PrimaryKey,
+			*result.SecondaryKey,
+			eventhubNamespace,
+			authorizationRuleName,
+		)
+		if err != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", fmt.Sprintf("unable to create secret for %s", eventhubName))
+			return err
+		}
+	}
+	return nil
+
+}
+
+func (r *EventhubReconciler) createEventhubSecrets(
+	eventhubName string,
+	namespace string,
+	primaryConnection string,
+	secondaryConnection string,
+	primaryKey string,
+	secondaryKey string,
+	eventhubNamespace string,
+	sharedAccessKey string) error {
+
+	var err error
+
+	csecret := &v1.Secret{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Secret",
+			APIVersion: "apps/v1beta1",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      eventhubName,
+			Namespace: namespace,
+		},
+		Data: map[string][]byte{
+			"primaryconnectionstring":   []byte(primaryConnection),
+			"secondaryconnectionstring": []byte(secondaryConnection),
+			"primaryKey":                []byte(primaryKey),
+			"secondaryKey":              []byte(secondaryKey),
+			"sharedaccesskey":           []byte(sharedAccessKey),
+			"eventhubnamespace":         []byte(eventhubNamespace),
+		},
+		Type: "Opaque",
+	}
+
+	err = r.Create(context.Background(), csecret)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *EventhubReconciler) getEventhubSecrets(name string, instance *azurev1.Eventhub) error {
+
+	var err error
+	secret := &v1.Secret{}
+	err = r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret)
+	if err != nil {
 		return err
 	}
 	return nil
