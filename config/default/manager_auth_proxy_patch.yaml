@@ -22,3 +22,7 @@ spec:
       - name: manager
         args:
         - "--metrics-addr=127.0.0.1:8080"
+        - --tenant-id=<TENANT-ID>
+        - --subscription-id=<SUBSCRIPTION-ID>
+        - --client-id=<CLIENT-ID>
+        - --client-secret=<CLIENT_SECRET>

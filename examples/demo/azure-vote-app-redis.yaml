@@ -1,7 +1,7 @@
 apiVersion: service.azure/v1alpha1
 kind: RedisCache
 metadata:
-  name: rediscache-sample
+  name: azure-redis
 spec:
   location: eastus2
   properties:
@@ -43,14 +43,14 @@ spec:
         - name: REDIS_NAME
           valueFrom:
             secretKeyRef:
-              name: rediscache-sample
+              name: azure-redis
               key: redisCacheName
         - name: REDIS
           value: $(REDIS_NAME).redis.cache.windows.net
         - name: REDIS_PWD
           valueFrom:
             secretKeyRef:
-              name: rediscache-sample
+              name: azure-redis
               key: primaryKey
 ---
 apiVersion: v1

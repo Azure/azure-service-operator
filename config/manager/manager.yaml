@@ -27,10 +27,6 @@ spec:
         - /manager
         args:
         - --enable-leader-election
-        - --tenant-id=<TENANT-ID>
-        - --subscription-id=<SUBSCRIPTION-ID>
-        - --client-id=<CLIENT-ID>
-        - --client-secret=<CLIENT_SECRET>
         image: controller:latest
         name: manager
         resources:
