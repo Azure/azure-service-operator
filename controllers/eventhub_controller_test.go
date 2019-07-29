@@ -24,10 +24,11 @@ import (
 	helpers "Telstra.Dx.AzureOperator/helpers"
 	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
+	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -131,6 +132,41 @@ var _ = Describe("EventHub Controller", func() {
 				return eventhubInstance.IsSubmitted()
 			}, timeout,
 			).Should(BeTrue())
+
+			time.Sleep(2 * time.Second)
+
+			//create secret in k8s
+			csecret := &v1.Secret{
+				TypeMeta: metav1.TypeMeta{
+					Kind:       "Secret",
+					APIVersion: "apps/v1beta1",
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      eventhubName,
+					Namespace: "default",
+				},
+				Data: map[string][]byte{
+					"primaryconnectionstring":   []byte("primaryConnectionValue"),
+					"secondaryconnectionstring": []byte("secondaryConnectionValue"),
+					"primaryKey":                []byte("primaryKeyValue"),
+					"secondaryKey":              []byte("secondaryKeyValue"),
+					"sharedaccesskey":           []byte("sharedAccessKeyValue"),
+					"eventhubnamespace":         []byte(eventhubInstance.Namespace),
+				},
+				Type: "Opaque",
+			}
+
+			err = k8sClient.Create(context.Background(), csecret)
+			Expect(err).NotTo(HaveOccurred())
+
+			time.Sleep(2 * time.Second)
+
+			//get secret from k8s
+			secret := &v1.Secret{}
+			err = k8sClient.Get(context.Background(), types.NamespacedName{Name: eventhubName, Namespace: eventhubInstance.Namespace}, secret)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(secret.Data).To(Equal(csecret.Data))
+			Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
 
 			time.Sleep(2 * time.Second)
 

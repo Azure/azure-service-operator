@@ -66,3 +66,23 @@ rules:
   - get
   - update
   - patch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+  - apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - watch
+  
