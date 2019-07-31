@@ -31,3 +31,9 @@ spec:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_SUBSCRIPTION_ID
+          - name: REQUEUE_AFTER
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: REQUEUE_AFTER
+

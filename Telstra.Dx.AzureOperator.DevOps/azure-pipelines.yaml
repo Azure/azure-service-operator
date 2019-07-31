@@ -20,6 +20,7 @@ variables:
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
   # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
   # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
+  # REQUEUE_AFTER:     - set this value in Azure Devops variables
  
 steps:
 
@@ -84,6 +85,7 @@ steps:
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(module_path)'
 
 
