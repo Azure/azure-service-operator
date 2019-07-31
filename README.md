@@ -29,6 +29,13 @@ Basic commands to check your cluster
     kubectl version
     kubectl get pods -n kube-system
 ```
+
+5. [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
+```shell
+kubectl get secret webhook-server-cert -n azureoperator-system -o yaml >certs.txt
+```
+you can use `https://inbrowser.tools/` and exctarct ca.crt,tls.crt and tls.key
+
 ### Run Souce Code
 
 1. Clone the repo
@@ -38,11 +45,33 @@ run `kubectl apply -f config/crd/bases` or `make install`
 
 3. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
 
+4. you need kind to test webhooks
+
+```shell
+    GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0 && kind create cluster
+    kind create cluster
+    export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
+    IMG="docker.io/yourimage:tag" make docker-build
+    kind load docker-image docker.io/yourimage:tag --loglevel "trace"
+    make deploy
+```
+
 4. Set the environment variables AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID
 If you are running it on Windows the environment variables should not have quotes. It should be set in this way:
 SET  AZURE_TENANT_ID=11xxxx-xxx-xxx-xxx-xxxxx
 and the VSCode should be run from the same session/command window
 
+5. Set the azureoperatorsettings secrete
+
+```shell
+Create the azureoperator-system namespace
+kubectl --namespace azureoperator-system \
+    create secret generic azureoperatorsettings \
+    --from-literal=AZURE_CLIENT_ID="xxxx" \
+    --from-literal=AZURE_CLIENT_SECRET="xxxxx" \
+    --from-literal=AZURE_SUBSCRIPTION_ID="xxxx" \
+    --from-literal=AZURE_TENANT_ID="xxxxx"
+```
 ### How to extend the operator and build your own images
 
 #### Updating the Azure operator:

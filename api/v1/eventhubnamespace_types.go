@@ -72,7 +72,7 @@ type EventhubNamespaceSku struct {
 type EventhubNamespaceProperties struct {
 	IsAutoInflateEnabled   bool  `json:"isautoinflateenabled,omitempty"`
 	MaximumThroughputUnits int32 `json:"maximumthroughputunits,omitempty"`
-	KafkaEnabled           bool  `json:"kafkaEnabled,omitempty"`
+	KafkaEnabled           bool  `json:"kafkaenabled,omitempty"`
 }
 
 func init() {

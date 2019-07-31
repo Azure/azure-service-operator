@@ -12,10 +12,22 @@ spec:
         name: manager
         env:
           - name: AZURE_CLIENT_ID
-            value: "<insert azure client id>"
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: AZURE_CLIENT_ID
           - name: AZURE_CLIENT_SECRET
-            value: "<insert client secret>"
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: AZURE_CLIENT_SECRET
           - name: AZURE_TENANT_ID
-            value: "<insert tenant id>"
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: AZURE_TENANT_ID
           - name: AZURE_SUBSCRIPTION_ID
-            value: "<insert subscription id>"
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: AZURE_SUBSCRIPTION_ID

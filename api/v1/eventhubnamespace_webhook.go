@@ -74,7 +74,7 @@ func (eventhubNamespace *EventhubNamespace) validateValidParent() *field.Error {
 	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourcegroupName)
 	eventhubnamespacelog.Info("validate resource group Name", "result.Response.StatusCode", result.Response.StatusCode)
 	if result.Response.StatusCode != 204 {
-		return field.Invalid(field.NewPath("spec").Child("resourcegroup"), eventhubNamespace.Name, resourcegroupName+":ResourceGroup doesn't exist")
+		return field.Invalid(field.NewPath("spec").Child("resourcegroup"), resourcegroupName, "ResourceGroup doesn't exist")
 	}
 	return nil
 }

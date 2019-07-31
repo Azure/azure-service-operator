@@ -43,6 +43,12 @@ func init() {
 	// +kubebuilder:scaffold:scheme
 }
 
+// +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=events,verbs=create;watch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=create;patch
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
+
 func main() {
 	var metricsAddr string
 	var enableLeaderElection bool
@@ -95,14 +101,17 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
 		os.Exit(1)
 	}
-	//TODO Needs to be fixed
-	// if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
-	// 	setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
-	// 	os.Exit(1)
-	// }
 
+	if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
+		os.Exit(1)
+	}
+
+	if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
-
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")
