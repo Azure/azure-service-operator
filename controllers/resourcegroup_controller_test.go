@@ -20,10 +20,10 @@ import (
 	"context"
 	"time"
 
-	azurev1 "Telstra.Dx.AzureOperator/api/v1"
-	helpers "Telstra.Dx.AzureOperator/helpers"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	helpers "github.com/Azure/azure-service-operator/helpers"
 
-	//resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
+	//resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"

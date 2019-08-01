@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"Telstra.Dx.AzureOperator/resourcemanager/config"
-	"Telstra.Dx.AzureOperator/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/resourcemanager/iam"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/go-autorest/autorest"

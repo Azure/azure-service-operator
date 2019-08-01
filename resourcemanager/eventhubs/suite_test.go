@@ -18,7 +18,7 @@ package eventhubs
 import (
 	"testing"
 
-	resourcemanagerconfig "Telstra.Dx.AzureOperator/resourcemanager/config"
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/resourcemanager/config"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 

@@ -16,7 +16,7 @@ limitations under the License.
 package v1
 
 import (
-	helpers "Telstra.Dx.AzureOperator/helpers"
+	helpers "github.com/Azure/azure-service-operator/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 

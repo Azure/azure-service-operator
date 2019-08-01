@@ -1,5 +1,5 @@
 /*
-Copyright 2019 telstra.
+Copyright 2019 microsoft.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,16 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
 package controllers
 
 import (
 	"context"
 	"time"
 
-	azurev1 "Telstra.Dx.AzureOperator/api/v1"
-	helpers "Telstra.Dx.AzureOperator/helpers"
-	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	helpers "github.com/Azure/azure-service-operator/helpers"
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

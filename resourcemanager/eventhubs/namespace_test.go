@@ -20,9 +20,9 @@ import (
 	"context"
 	"time"
 
-	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/resourcegroups"
 
-	helpers "Telstra.Dx.AzureOperator/helpers"
+	helpers "github.com/Azure/azure-service-operator/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

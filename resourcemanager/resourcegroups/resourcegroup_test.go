@@ -23,7 +23,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	helpers "Telstra.Dx.AzureOperator/helpers"
+	helpers "github.com/Azure/azure-service-operator/helpers"
 )
 
 var _ = Describe("ResourceGroups", func() {

@@ -1,4 +1,4 @@
-module Telstra.Dx.AzureOperator
+module github.com/Azure/azure-service-operator
 
 go 1.12
 

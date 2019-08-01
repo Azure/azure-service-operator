@@ -14,7 +14,7 @@ variables:
   gopath: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   gobin:  '$(gopath)/bin' # Go binaries path
   module_path: '$(gopath)/src/$(Build.Repository.Name)' # Path to the module's code
-  image_name: 'telstra.dx.azureoperator'
+  image_name: 'github.com/Azure/azure-service-operator'
   # container_registry:     - set this value in Azure Devops variables
   # AZURE_SUBSCRIPTION:     - set this value in Azure Devops variables
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
@@ -151,7 +151,7 @@ steps:
     sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
     ./bin/kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
     set -x
-    echo $IMG > $(Build.ArtifactStagingDirectory)/Telstra.Dx.AzureOperator.txt
+    echo $IMG > $(Build.ArtifactStagingDirectory)/github.com/Azure/azure-service-operator.txt
     ls $(Build.ArtifactStagingDirectory)
   continueOnError: 'false'
   displayName: 'Prepare manifests for publish'

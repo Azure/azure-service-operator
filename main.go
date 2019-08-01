@@ -19,9 +19,9 @@ import (
 	"flag"
 	"os"
 
-	azurev1 "Telstra.Dx.AzureOperator/api/v1"
-	"Telstra.Dx.AzureOperator/controllers"
-	resourcemanagerconfig "Telstra.Dx.AzureOperator/resourcemanager/config"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/controllers"
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/resourcemanager/config"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	kscheme "k8s.io/client-go/kubernetes/scheme"

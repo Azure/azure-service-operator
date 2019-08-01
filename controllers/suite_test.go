@@ -20,8 +20,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	azurev1 "Telstra.Dx.AzureOperator/api/v1"
-	resourcemanagerconfig "Telstra.Dx.AzureOperator/resourcemanager/config"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/resourcemanager/config"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"k8s.io/client-go/kubernetes/scheme"

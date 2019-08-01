@@ -22,8 +22,8 @@ import (
 	"strconv"
 	"time"
 
-	azurev1 "Telstra.Dx.AzureOperator/api/v1"
-	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	eventhubsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/eventhubs"
 	"github.com/go-logr/logr"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"

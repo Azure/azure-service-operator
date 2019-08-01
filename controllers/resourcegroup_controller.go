@@ -21,8 +21,8 @@ import (
 	"strconv"
 	"time"
 
-	azurev1 "Telstra.Dx.AzureOperator/api/v1"
-	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/resourcegroups"
 
 	"context"
 

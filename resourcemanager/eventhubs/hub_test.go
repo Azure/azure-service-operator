@@ -20,8 +20,8 @@ import (
 	"context"
 	"time"
 
-	helpers "Telstra.Dx.AzureOperator/helpers"
-	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
+	helpers "github.com/Azure/azure-service-operator/helpers"
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/resourcegroups"
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

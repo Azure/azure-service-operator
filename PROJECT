@@ -1,6 +1,6 @@
 version: "2"
 domain: microsoft.com
-repo: Telstra.Dx.AzureOperator
+repo: github.com/Azure/azure-service-operator
 resources:
 - group: azure
   version: v1
