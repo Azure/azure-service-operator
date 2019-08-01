@@ -211,6 +211,7 @@ func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string
 			*result.SecondaryKey,
 			eventhubNamespace,
 			authorizationRuleName,
+			instance,
 		)
 		if err != nil {
 			r.Recorder.Event(instance, "Warning", "Failed", fmt.Sprintf("unable to create secret for %s", eventhubName))
@@ -229,7 +230,8 @@ func (r *EventhubReconciler) createEventhubSecrets(
 	primaryKey string,
 	secondaryKey string,
 	eventhubNamespace string,
-	sharedAccessKey string) error {
+	sharedAccessKey string,
+	instance *azurev1.Eventhub) error {
 
 	var err error
 
@@ -252,6 +254,17 @@ func (r *EventhubReconciler) createEventhubSecrets(
 		},
 		Type: "Opaque",
 	}
+
+	references := []metav1.OwnerReference{
+		metav1.OwnerReference{
+			APIVersion: "v1",
+			Kind:       "Eventhub",
+			Name:       instance.GetName(),
+			UID:        instance.GetUID(),
+		},
+	}
+	//set owner reference for secret
+	csecret.ObjectMeta.SetOwnerReferences(references)
 
 	err = r.Create(context.Background(), csecret)
 	if err != nil {

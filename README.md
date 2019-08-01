@@ -51,6 +51,7 @@ run `kubectl apply -f config/crd/bases` or `make install`
     GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0 && kind create cluster
     kind create cluster
     export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
+    kubectl cluster-info
     IMG="docker.io/yourimage:tag" make docker-build
     kind load docker-image docker.io/yourimage:tag --loglevel "trace"
     make deploy
