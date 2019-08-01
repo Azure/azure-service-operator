@@ -17,6 +17,9 @@ package controllers
 
 import (
 	"fmt"
+	"os"
+	"strconv"
+	"time"
 
 	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	resoucegroupsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/resourcegroups"
@@ -78,7 +81,14 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		return ctrl.Result{}, nil
 	}
 
-	return ctrl.Result{}, nil
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfter = 30
+	}
+
+	return ctrl.Result{
+		RequeueAfter: time.Second * time.Duration(requeueAfter),
+	}, nil
 
 }
 

@@ -18,6 +18,9 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"os"
+	"strconv"
+	"time"
 
 	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
@@ -92,7 +95,14 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	return ctrl.Result{}, nil
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfter = 30
+	}
+
+	return ctrl.Result{
+		RequeueAfter: time.Second * time.Duration(requeueAfter),
+	}, nil
 }
 
 // SetupWithManager blah

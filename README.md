@@ -57,7 +57,7 @@ run `kubectl apply -f config/crd/bases` or `make install`
     make deploy
 ```
 
-4. Set the environment variables AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID
+4. Set the environment variables AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID, REQUEUE_AFTER
 If you are running it on Windows the environment variables should not have quotes. It should be set in this way:
 SET  AZURE_TENANT_ID=11xxxx-xxx-xxx-xxx-xxxxx
 and the VSCode should be run from the same session/command window

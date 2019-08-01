@@ -31,3 +31,6 @@ spec:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_SUBSCRIPTION_ID
+          #requeue after time in seconds"
+          - name: REQUEUE_AFTER
+            value: "30"
