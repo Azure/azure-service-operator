@@ -125,6 +125,28 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 
 	// write information back to instance
 	instance.Status.Provisioning = true
+
+	//get owner instance
+	var ownerInstance azurev1.EventhubNamespace
+	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespace, Namespace: instance.Namespace}
+	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
+
+	if err != nil {
+		//log error and kill it
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of eventhubnamespace")
+	} else {
+		//set owner reference for eventhub if it exists
+		references := []metav1.OwnerReference{
+			metav1.OwnerReference{
+				APIVersion: "v1",
+				Kind:       "EventhubNamespace",
+				Name:       ownerInstance.GetName(),
+				UID:        ownerInstance.GetUID(),
+			},
+		}
+		instance.ObjectMeta.SetOwnerReferences(references)
+	}
+
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
