@@ -68,7 +68,6 @@ else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
 set-kindcluster:
-	IMG="docker.io/controllertest:1" make docker-build
 ifeq (,$(shell which kind))
 	@echo "installing kind"
 	GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
@@ -83,6 +82,14 @@ else
 endif
 	@echo "creating kind cluster"
 	kind create cluster
+ifeq ($(shell kind get kubeconfig-path --name="kind"),$(KUBECONFIG))
+	@echo "kubeconfig-path points to kind path"
+
+else
+	@echo "please run below command in your shell and then re-run make set-kindcluster"
+	@echo export KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")
+	@exit 111
+endif
 	export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
 	@echo "getting value of KUBECONFIG"
 	kind get kubeconfig-path --name="kind"
@@ -90,7 +97,7 @@ endif
 	kubectl cluster-info
 	kubectl create namespace cert-manager
 	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.8.1/cert-manager.yaml
+	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
 	kubectl create namespace azureoperator-system 
 	kubectl --namespace azureoperator-system \
     create secret generic azureoperatorsettings \
@@ -98,6 +105,8 @@ endif
     --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
     --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
     --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+	#create image and load it into cluster
+	IMG="docker.io/controllertest:1" make docker-build
 	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
 	make install
 	kubectl get namespaces
@@ -106,4 +115,19 @@ endif
 	@echo "end of sleep"
 	kubectl get pods --namespace cert-manager
 	@echo "all the pods should be running"
-	make deploy
+	make deploy	
+install-kustomize:
+ifeq (,$(shell which kustomize))
+	@echo "installing kustomize"
+	# download kustomize
+	sudo mkdir -p /usr/local/kustomize/
+	sudo curl -o /usr/local/kubebuilder/bin/kustomize -sL "https://go.kubebuilder.io/kustomize/$(shell go env GOOS)/$(shell go env GOARCH)"
+	# set permission
+	sudo chmod a+x /usr/local/kubebuilder/bin/kustomize
+	# export path
+	$(shell which kustomize)
+	
+else
+	@echo "kustomize has been installed"
+
+endif
