@@ -36,4 +36,4 @@ Reference: [Done-Done checklist] [Link](https://github.com/Microsoft/code-with-e
 - [ ] Code reviewed by customer?
 
 **User Stories**
-Add links to User Stories for this epic. User stories are intended to be completed in one sprint.
+Reference this epic in any user story issues created for it. User stories are intended to be completed in one sprint.
