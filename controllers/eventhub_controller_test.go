@@ -216,12 +216,6 @@ var _ = Describe("EventHub Controller", func() {
 
 			time.Sleep(2 * time.Second)
 
-			//get secret from k8s-should not exist
-			secretExists := &v1.Secret{}
-			err = k8sClient.Get(context.Background(), types.NamespacedName{Name: eventhubName, Namespace: eventhubInstance.Namespace}, secret)
-			Expect(secretExists.Data).NotTo(Equal(csecret.Data))
-			Expect(secretExists.ObjectMeta).NotTo(Equal(csecret.ObjectMeta))
-
 			_, err = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
 			Expect(err).NotTo(HaveOccurred())
 

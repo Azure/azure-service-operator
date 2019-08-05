@@ -25,6 +25,8 @@ import (
 	azurev1 "Telstra.Dx.AzureOperator/api/v1"
 	eventhubsresourcemanager "Telstra.Dx.AzureOperator/resourcemanager/eventhubs"
 	"github.com/go-logr/logr"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -50,7 +52,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 
 	var instance azurev1.EventhubNamespace
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Error(err, "unable to fetch Eventhub")
+		log.Error(err, "unable to fetch EventhubNamespace")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -107,6 +109,28 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 
 	// write information back to instance
 	instance.Status.Provisioning = true
+
+	//get owner instance
+	var ownerInstance azurev1.ResourceGroup
+	resourceGroupNamespacedName := types.NamespacedName{Name: resourcegroup, Namespace: instance.Namespace}
+	err = r.Get(ctx, resourceGroupNamespacedName, &ownerInstance)
+
+	if err != nil {
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of resourcegroup")
+	} else {
+		//set owner reference for eventhubnamespace if it exists
+		references := []metav1.OwnerReference{
+			metav1.OwnerReference{
+				APIVersion: "v1",
+				Kind:       "ResourceGroup",
+				Name:       ownerInstance.GetName(),
+				UID:        ownerInstance.GetUID(),
+			},
+		}
+		instance.ObjectMeta.SetOwnerReferences(references)
+	}
+
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
