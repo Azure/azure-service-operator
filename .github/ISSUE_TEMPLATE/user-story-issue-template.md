@@ -26,4 +26,4 @@ Creation of  a resource helper library using Azure Go SDK that can be used to de
 - [ ] The helper library has the ability to diagnose issues. (Discuss the logger we want to use)
 
 **Tasks**
-Add a link to tasks you would like to create for this user story
+Reference this issue when you create tasks for this user story
