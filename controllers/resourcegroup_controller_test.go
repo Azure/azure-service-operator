@@ -71,7 +71,7 @@ var _ = Describe("ResourceGroup Controller", func() {
 
 			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 
-			time.Sleep(30 * time.Second)
+			time.Sleep(2 * time.Second)
 
 			k8sClient.Delete(context.Background(), resourceGroupInstance)
 			Eventually(func() bool {
@@ -79,8 +79,6 @@ var _ = Describe("ResourceGroup Controller", func() {
 				return resourceGroupInstance.IsBeingDeleted()
 			}, timeout,
 			).Should(BeTrue())
-
-			time.Sleep(30 * time.Second)
 
 		})
 	})
