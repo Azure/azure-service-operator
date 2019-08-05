@@ -1,0 +1,3 @@
+version: "2"
+domain: microsoft.com
+repo: github.com/Azure/azure-service-operator
