@@ -12,7 +12,7 @@ This epic covers
 
 - Development of an Azure Service operator using Kubebuilder which creates a CRD for <Azure service name>
 
-- An user should be able to deploy/delete/update the resource
+- A user should be able to deploy/delete/update the resource
 
 - We'll use Azure Go SDK for the resource management/creation
 
