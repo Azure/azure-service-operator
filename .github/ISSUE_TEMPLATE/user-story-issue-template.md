@@ -13,11 +13,11 @@ Creation of a resource helper library using Azure Go SDK that can be used to dep
 **Acceptance Criteria**
 [Update this once the owner starts looking at the user story]
 
-- [ ] User can create an instance of the Azure API management service given the location and resource group using the helper library
+- [ ] User can create an instance of the <Azure service name> given the location and resource group using the helper library
 
-- [ ] User can delete an particular instance of the Azure API management service using the helper library
+- [ ] User can delete an particular instance of the <Azure service name> using the helper library
 
-- [ ] User can update the settings of a particular instance of the API management service using the helper library
+- [ ] User can update the settings of a particular instance of the <Azure service name> using the helper library
 
 - [ ] Unit tests exist for the helper functions
 
