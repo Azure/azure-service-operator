@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 This user story covers the following:
-Creation of  a resource helper library using Azure Go SDK that can be used to deploy/delete/update the resource. This can be used in the operator code.
+Creation of a resource helper library using Azure Go SDK that can be used to deploy/delete/update the resource. This can be used in the operator code.
 
 **Acceptance Criteria**
 [Update this once the owner starts looking at the user story]
