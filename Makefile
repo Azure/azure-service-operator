@@ -8,7 +8,7 @@ all: manager
 
 # Run tests
 test: generate fmt vet manifests
-	go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./resourcemanager/eventhubs/...  ./resourcemanager/resourcegroups/... 2>&1 | tee testlogs.txt
+	TEST_USE_EXISTING_CLUSTER=true go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./resourcemanager/eventhubs/...  ./resourcemanager/resourcegroups/... 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 # Build manager binary
@@ -49,7 +49,7 @@ generate: controller-gen
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
 
 # Build the docker image
-docker-build: test
+docker-build: 
 	docker build . -t ${IMG}
 	@echo "updating kustomize image patch file for manager resource"
 	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
@@ -67,3 +67,43 @@ CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
+set-kindcluster:
+	IMG="docker.io/controllertest:1" make docker-build
+ifeq (,$(shell which kind))
+	@echo "installing kind"
+	GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
+else
+	@echo "kind has been installed"
+endif
+ifeq (,$(shell kind get clusters))
+	@echo "no kind cluster"
+else
+	@echo "kind cluster is running, deleteing the current cluster"
+	kind delete cluster 
+endif
+	@echo "creating kind cluster"
+	kind create cluster
+	export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
+	@echo "getting value of KUBECONFIG"
+	kind get kubeconfig-path --name="kind"
+	@echo ${KUBECONFIG}
+	kubectl cluster-info
+	kubectl create namespace cert-manager
+	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.8.1/cert-manager.yaml
+	kubectl create namespace azureoperator-system 
+	kubectl --namespace azureoperator-system \
+    create secret generic azureoperatorsettings \
+    --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
+    --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
+    --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
+    --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+	make install
+	kubectl get namespaces
+	@echo "sleep 80 seconds to get the cert pods running"
+	sleep 80
+	@echo "end of sleep"
+	kubectl get pods --namespace cert-manager
+	@echo "all the pods should be running"
+	make deploy
