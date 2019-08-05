@@ -116,7 +116,7 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 	err = r.Get(ctx, resourceGroupNamespacedName, &ownerInstance)
 
 	if err != nil {
-		//log error and kill it
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of resourcegroup")
 	} else {
 		//set owner reference for eventhubnamespace if it exists

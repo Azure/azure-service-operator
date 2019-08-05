@@ -132,7 +132,7 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
 
 	if err != nil {
-		//log error and kill it
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of eventhubnamespace")
 	} else {
 		//set owner reference for eventhub if it exists
