@@ -21,7 +21,7 @@ This epic covers
 **Acceptance criteria**
 Reference: [Done-Done checklist] [Link](https://github.com/Microsoft/code-with-engineering-playbook/blob/master/Engineering/BestPractices/DoneDone.md)
 
-- [ ] Can you create, delete and update settings for the Azure API Management service?
+- [ ] Can you create, delete and update settings for the <Azure Service name> service?
 
 - [ ] Are there unit tests for the resource helper functions?
 
