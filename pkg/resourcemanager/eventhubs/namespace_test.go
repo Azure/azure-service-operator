@@ -22,7 +22,7 @@ import (
 
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
-	helpers "github.com/Azure/azure-service-operator/helpers"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

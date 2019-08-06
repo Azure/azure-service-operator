@@ -20,7 +20,7 @@ import (
 	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/helpers"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 

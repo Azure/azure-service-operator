@@ -19,7 +19,7 @@ import (
 	_ "github.com/denisenkom/go-mssqldb"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/util"
+	"github.com/Azure/azure-service-operator/pkg/util"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
 
 	"github.com/marstr/randname"

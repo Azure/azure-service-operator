@@ -21,7 +21,7 @@ import (
 	"time"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
-	helpers "github.com/Azure/azure-service-operator/helpers"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
