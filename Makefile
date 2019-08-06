@@ -84,5 +84,5 @@ install-bindata:
 	go get -u github.com/jteeuwen/go-bindata/...
 
 .PHONE:
-generate:
+generate-template:
 	go-bindata -pkg template -prefix pkg/template/assets/ -o pkg/template/templates.go pkg/template/assets/
