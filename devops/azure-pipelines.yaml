@@ -69,7 +69,7 @@ steps:
     go get golang.org/x/tools/cmd/cover
    
 
-  continueOnError: 'false'
+  continueOnError: 'true'
   displayName: 'Install kubebuilder, kustomize and set environment'
   env:
     GO111MODULE: on
