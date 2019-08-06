@@ -84,6 +84,12 @@ steps:
   workingDirectory: '$(module_path)'
 
 - script: |
+    go mod download
+    go get -u github.com/jstemmer/go-junit-report
+    go get github.com/axw/gocov/gocov
+    go get github.com/AlekSi/gocov-xml
+    go get -u gopkg.in/matm/v1/gocov-html
+    go get golang.org/x/tools/cmd/cover
     make test
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml
@@ -128,6 +134,8 @@ steps:
     echo "end of sleep"
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
+    ls $(module_path)/bin/
+    which kustomize
     make deploy
   continueOnError: 'true'
   displayName: 'set kind cluster and Run unit tests'
