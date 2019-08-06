@@ -15,12 +15,13 @@ variables:
   gobin:  '$(gopath)/bin' # Go binaries path
   module_path: '$(gopath)/src/$(Build.Repository.Name)' # Path to the module's code
   image_name: 'github.com/Azure/azure-service-operator'
-  # container_registry:     - set this value in Azure Devops variables
+  # CONTAINER_REGISTRY:     - set this value in Azure Devops variables
   # AZURE_SUBSCRIPTION:     - set this value in Azure Devops variables
+  # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
   # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
   # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
-  # REQUEUE_AFTER:     - set this value in Azure Devops variables
+  # REQUEUE_AFTER:          - set this value in Azure Devops variables
  
 steps:
 
@@ -48,12 +49,9 @@ steps:
 
 - script: |
     set -x
-
     mkdir -p '$(module_path)/bin'
-
     os=$(go env GOOS)
     arch=$(go env GOARCH)
-
     # download kubebuilder
     curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(module_path)/bin
     mv $(module_path)/bin/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(module_path)/bin/
@@ -69,15 +67,10 @@ steps:
     go get github.com/AlekSi/gocov-xml
     go get -u gopkg.in/matm/v1/gocov-html
     go get golang.org/x/tools/cmd/cover
-    make test
-    gocov convert coverage.txt > coverage.json
-    gocov-xml < coverage.json > coverage.xml
-    mkdir coverage
-    gocov-html < coverage.json > coverage/index.html
-    ls 
+   
 
   continueOnError: 'false'
-  displayName: 'Install kubebuilder, kustomize and Run unit tests'
+  displayName: 'Install kubebuilder, kustomize and set environment'
   env:
     GO111MODULE: on
     KUBEBUILDER_ASSETS: $(module_path)/bin
@@ -88,6 +81,62 @@ steps:
     REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(module_path)'
 
+- script: |
+    make test
+    gocov convert coverage.txt > coverage.json
+    gocov-xml < coverage.json > coverage.xml
+    mkdir coverage
+    gocov-html < coverage.json > coverage/index.html
+
+  continueOnError: 'false'
+  displayName: 'Run unit tests'
+  env:
+    GO111MODULE: on
+    KUBEBUILDER_ASSETS: $(module_path)/bin
+    AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
+    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    REQUEUE_AFTER: $(REQUEUE_AFTER)
+  workingDirectory: '$(module_path)'
+
+- script: |
+    GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
+    kind create cluster
+    export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
+    kubectl cluster-info
+    kubectl create namespace cert-manager
+    kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+    kubectl create namespace azureoperator-system 
+    kubectl --namespace azureoperator-system \
+      create secret generic azureoperatorsettings \
+      --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
+      --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
+      --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
+      --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+    #create image and load it into cluster
+    IMG="docker.io/controllertest:1" make docker-build
+    kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+    make install
+    kubectl get namespaces
+    echo "sleep 80 seconds to get the cert pods running"
+    sleep 80
+    echo "end of sleep"
+    kubectl get pods --namespace cert-manager
+    echo "all the pods should be running"
+    make deploy
+  continueOnError: 'false'
+  displayName: 'set kind cluster and Run unit tests'
+  env:
+    GO111MODULE: on
+    KUBEBUILDER_ASSETS: $(module_path)/bin
+    AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
+    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    REQUEUE_AFTER: $(REQUEUE_AFTER)
+  workingDirectory: '$(module_path)'
 
 - task: PublishTestResults@2
   inputs:
@@ -112,7 +161,7 @@ steps:
   displayName: Build Docker Image $(image_name)
   inputs:
     command: build
-    containerRegistry: $(container_registry)
+    containerRegistry: $(CONTAINER_REGISTRY)
     repository: $(image_name)
     Dockerfile: "$(module_path)/Dockerfile"    
     buildContext: $(module_path)
@@ -129,7 +178,7 @@ steps:
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   inputs:
     command: push
-    containerRegistry: $(container_registry)
+    containerRegistry: $(CONTAINER_REGISTRY)
     repository: $(image_name)
     tags: |
       latest
