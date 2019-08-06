@@ -71,9 +71,6 @@ steps:
     go get github.com/AlekSi/gocov-xml
     go get -u gopkg.in/matm/v1/gocov-html
     go get golang.org/x/tools/cmd/cover
-   
-
-  continueOnError: 'flase'
   displayName: 'Install kubebuilder, kustomize and set environment'
   env:
     GO111MODULE: on
