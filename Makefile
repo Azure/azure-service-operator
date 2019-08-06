@@ -8,9 +8,15 @@ all: manager
 
 # Run tests
 test: generate fmt vet manifests
+	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./resourcemanager/eventhubs/...  ./resourcemanager/resourcegroups/... 2>&1 | tee testlogs.txt
+	go-junit-report < testlogs.txt  > report.xml
+	go tool cover -html=coverage.txt -o cover.html
+# Run tests with existing cluster
+test-existing: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=true go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./resourcemanager/eventhubs/...  ./resourcemanager/resourcegroups/... 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
+
 # Build manager binary
 manager: generate fmt vet
 	go build -o bin/manager main.go
@@ -67,6 +73,7 @@ CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
+
 set-kindcluster:
 ifeq (,$(shell which kind))
 	@echo "installing kind"
@@ -82,9 +89,10 @@ else
 endif
 	@echo "creating kind cluster"
 	kind create cluster
+	#KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")
+	#$(shell export KUBECONFIG="$(kind get kubeconfig-path --name="kind")")
 ifeq ($(shell kind get kubeconfig-path --name="kind"),$(KUBECONFIG))
 	@echo "kubeconfig-path points to kind path"
-
 else
 	@echo "please run below command in your shell and then re-run make set-kindcluster"
 	@echo export KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")
@@ -115,7 +123,8 @@ endif
 	@echo "end of sleep"
 	kubectl get pods --namespace cert-manager
 	@echo "all the pods should be running"
-	make deploy	
+	make deploy
+
 install-kustomize:
 ifeq (,$(shell which kustomize))
 	@echo "installing kustomize"
