@@ -103,9 +103,6 @@ endif
 	kind get kubeconfig-path --name="kind"
 	@echo ${KUBECONFIG}
 	kubectl cluster-info
-	kubectl create namespace cert-manager
-	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
 	kubectl create namespace azureoperator-system 
 	kubectl --namespace azureoperator-system \
     create secret generic azureoperatorsettings \
@@ -113,6 +110,11 @@ endif
     --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
     --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
     --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+
+	kubectl create namespace cert-manager
+	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+
 	#create image and load it into cluster
 	IMG="docker.io/controllertest:1" make docker-build
 	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
