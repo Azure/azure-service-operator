@@ -14,7 +14,7 @@ variables:
   gopath: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   gobin:  '$(gopath)/bin' # Go binaries path
   module_path: '$(gopath)/src/$(Build.Repository.Name)' # Path to the module's code
-  image_name: 'github.com/Azure/azure-service-operator'
+  image_name: 'azure-service-operator'
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables
   # AZURE_SUBSCRIPTION:     - set this value in Azure Devops variables
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
@@ -73,7 +73,7 @@ steps:
     go get golang.org/x/tools/cmd/cover
    
 
-  continueOnError: 'true'
+  continueOnError: 'flase'
   displayName: 'Install kubebuilder, kustomize and set environment'
   env:
     GO111MODULE: on
@@ -205,7 +205,7 @@ steps:
     IMG="$(image_name):$(major_version).$(minor_version).$(patch_version)"
     echo $IMG
     sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
-    ./bin/kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
+    kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
     set -x
     echo $IMG > $(Build.ArtifactStagingDirectory)/github.com/Azure/azure-service-operator.txt
     ls $(Build.ArtifactStagingDirectory)
