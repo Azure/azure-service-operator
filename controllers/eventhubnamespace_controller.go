@@ -141,6 +141,12 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 	_, err = eventhubsresourcemanager.CreateNamespaceAndWait(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		instance.Status.Provisioning = false
+		errUpdate := r.Update(ctx, instance)
+		if errUpdate != nil {
+			//log error and kill it
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		}
 		return err
 	}
 

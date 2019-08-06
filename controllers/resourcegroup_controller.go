@@ -117,6 +117,12 @@ func (r *ResourceGroupReconciler) createResourceGroup(instance *azurev1.Resource
 	if err != nil {
 
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		instance.Status.Provisioning = false
+		errUpdate := r.Update(ctx, instance)
+		if errUpdate != nil {
+			//log error and kill it
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		}
 		return err
 	}
 	// write information back to instance
