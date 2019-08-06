@@ -23,7 +23,7 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	helpers "github.com/Azure/azure-service-operator/helpers"
 
-	//resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/resourcegroups"
+	//resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
