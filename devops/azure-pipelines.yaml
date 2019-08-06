@@ -56,7 +56,8 @@ steps:
     curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(module_path)/bin
     mv $(module_path)/bin/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(module_path)/bin/
     # download kustomize
-    curl -o $(module_path)/bin/kustomize/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+    mkdir -p $(module_path)/bin/kustomize 
+    curl -o $(module_path)/bin/kustomize/kustomize  https://go.kubebuilder.io/kustomize/${os}/${arch}
     # set permission
     chmod a+x $(module_path)/bin/*
     chmod a+x $(module_path)/bin/kustomize/kustomize
