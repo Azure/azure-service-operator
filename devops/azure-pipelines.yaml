@@ -135,6 +135,9 @@ steps:
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
     ls $(module_path)/bin/
+    # export path
+    export PATH=$PATH:$(module_path)/bin
+    export PATH=$PATH:$(module_path)/bin/kustomize
     which kustomize
     make deploy
   continueOnError: 'true'
