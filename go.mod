@@ -10,6 +10,7 @@ require (
 	github.com/Azure/go-autorest/autorest/azure/auth v0.1.0
 	github.com/Azure/go-autorest/autorest/to v0.2.0
 	github.com/Azure/go-autorest/autorest/validation v0.1.0 // indirect
+	github.com/WilliamMortlMicrosoft/AzureGoSamples v0.0.0-20190731211905-1f9731c85e4b
 	github.com/denisenkom/go-mssqldb v0.0.0-20190724012636-11b2859924c1
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/envy v1.7.0
