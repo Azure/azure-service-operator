@@ -89,7 +89,7 @@ steps:
     mkdir coverage
     gocov-html < coverage.json > coverage/index.html
 
-  continueOnError: 'false'
+  continueOnError: 'true'
   displayName: 'Run unit tests'
   env:
     GO111MODULE: on
@@ -128,7 +128,7 @@ steps:
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
     make deploy
-  continueOnError: 'false'
+  continueOnError: 'true'
   displayName: 'set kind cluster and Run unit tests'
   env:
     GO111MODULE: on
