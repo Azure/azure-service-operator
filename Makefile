@@ -32,6 +32,9 @@ install: manifests
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
 deploy: manifests
 	kubectl apply -f config/crd/bases
+	which kustomize
+	kustomize build config/default > test.yaml
+	ls
 	kustomize build config/default | kubectl apply -f -
 
 delete:

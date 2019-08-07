@@ -94,7 +94,7 @@ steps:
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml
     mkdir coverage
-    gocov-html < coverage.json > coverage/index.html
+    # gocov-html < coverage.json > coverage/index.html
 
   continueOnError: 'true'
   displayName: 'Run unit tests'
