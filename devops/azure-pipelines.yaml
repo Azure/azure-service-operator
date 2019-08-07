@@ -52,22 +52,21 @@ steps:
     # download kubebuilder
     curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(module_path)/bin
     mv $(module_path)/bin/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(module_path)/bin
-    # download kustomize 
-    curl -o $(module_path)/bin/kustomize  https://go.kubebuilder.io/kustomize/${os}/${arch}
+    # download kustomize
+    curl -o $(module_path)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
     # set permission
     chmod a+x $(module_path)/bin/*
-    chmod a+x $(module_path)/bin/kustomize
     
     # export path
     export PATH=$PATH:$(module_path)/bin
-    echo '##vso[task.setvariable variable=PATH]$PATH:$(module_path)/bin'
-    echo '##vso[task.prependpath]$(module_path)/bin'
+    #echo '##vso[task.setvariable variable=PATH]$PATH:$(module_path)/bin'
+    #echo '##vso[task.prependpath]$(module_path)/bin'
     echo $PATH
     #which kustomize
     which kustomize
     #kustomize version
-    kustomize version
-    bin/kustomize version
+    ./bin/kustomize  version
+   
     go mod download
     go get -u github.com/jstemmer/go-junit-report
     go get github.com/axw/gocov/gocov
@@ -142,7 +141,14 @@ steps:
     #make deploy
     make manifests
     kubectl apply -f config/crd/bases
-    bin/kustomize build config/default | kubectl apply -f -
+
+    # download kustomize
+    curl -o $(module_path)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+    # set permission
+    chmod a+x $(module_path)/bin/*
+    # export path
+    export PATH=$PATH:$(module_path)/bin
+    ./bin/kustomize build config/default | kubectl apply -f -
     
   continueOnError: 'true'
   displayName: 'set kind cluster and Run unit tests'
@@ -216,7 +222,7 @@ steps:
     IMG="$(image_name):$(major_version).$(minor_version).$(patch_version)"
     echo $IMG
     sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
-    kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
+    ./bin/kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
     set -x
     echo $IMG > $(Build.ArtifactStagingDirectory)/github.com/Azure/azure-service-operator.txt
     ls $(Build.ArtifactStagingDirectory)
