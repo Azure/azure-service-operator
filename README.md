@@ -43,7 +43,7 @@ you can use `https://inbrowser.tools/` and exctarct ca.crt,tls.crt and tls.key
 2. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config, 
 run `kubectl apply -f config/crd/bases` or `make install`
 
-3. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
+3. Update the values in `config/samples/creator_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
 
 4. you need kind to test webhooks
 
