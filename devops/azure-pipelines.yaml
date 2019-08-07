@@ -59,7 +59,7 @@ steps:
     chmod a+x $(KUBEBUILDER_ASSETS)/*
     chmod a+x $(KUBEBUILDER_ASSETS)/kustomize
     # export path
-    cd 
+    
     export PATH=$PATH:$(KUBEBUILDER_ASSETS)
     which kustomize
     kustomize version
