@@ -18,7 +18,9 @@ require (
 	github.com/google/gofuzz v1.0.0 // indirect
 	github.com/googleapis/gnostic v0.3.0 // indirect
 	github.com/gophercloud/gophercloud v0.4.0 // indirect
+	github.com/json-iterator/go v1.1.6 // indirect
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
+	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/onsi/ginkgo v1.10.1
 	github.com/onsi/gomega v1.7.0
 	github.com/pkg/errors v0.8.1

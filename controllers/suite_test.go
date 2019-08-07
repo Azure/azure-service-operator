@@ -18,13 +18,14 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"k8s.io/client-go/rest"
 	"log"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"k8s.io/client-go/rest"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
