@@ -46,19 +46,21 @@ steps:
 
 - script: |
     set -x
-    mkdir -p '$(module_path)/bin'
+    mkdir -p '$(KUBEBUILDER_ASSETS)'
+    mkdir -p '$(module_path)/tmp'
     os=$(go env GOOS)
     arch=$(go env GOARCH)
     # download kubebuilder
-    curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(module_path)/bin
-    mv $(module_path)/bin/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(module_path)/bin/
+    curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(module_path)/tmp
+    mv $(module_path)/tmp/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(KUBEBUILDER_ASSETS)
     # download kustomize 
-    curl -o $(module_path)/bin/kustomize  https://go.kubebuilder.io/kustomize/${os}/${arch}
+    curl -o $(KUBEBUILDER_ASSETS)/kustomize  https://go.kubebuilder.io/kustomize/${os}/${arch}
     # set permission
-    chmod a+x $(module_path)/bin/*
-    chmod a+x $(module_path)/bin/kustomize
+    chmod a+x $(KUBEBUILDER_ASSETS)/*
+    chmod a+x $(KUBEBUILDER_ASSETS)/kustomize
     # export path
-    export PATH=$PATH:$(module_path)/bin
+    cd 
+    export PATH=$PATH:$(KUBEBUILDER_ASSETS)
     which kustomize
     kustomize version
     go mod download
