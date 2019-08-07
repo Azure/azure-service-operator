@@ -57,10 +57,17 @@ steps:
     # set permission
     chmod a+x $(module_path)/bin/*
     chmod a+x $(module_path)/bin/kustomize
+    
     # export path
+    export PATH=$PATH:$(module_path)/bin
+    echo '##vso[task.setvariable variable=PATH]$PATH:$(module_path)/bin'
     echo '##vso[task.prependpath]$(module_path)/bin'
+    echo $PATH
     #which kustomize
+    which kustomize
     #kustomize version
+    kustomize version
+    bin/kustomize version
     go mod download
     go get -u github.com/jstemmer/go-junit-report
     go get github.com/axw/gocov/gocov
@@ -135,7 +142,7 @@ steps:
     #make deploy
     make manifests
     kubectl apply -f config/crd/bases
-    $(module_path)/bin/kustomize build config/default | kubectl apply -f -
+    bin/kustomize build config/default | kubectl apply -f -
     
   continueOnError: 'true'
   displayName: 'set kind cluster and Run unit tests'
