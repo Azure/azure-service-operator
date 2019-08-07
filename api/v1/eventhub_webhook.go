@@ -52,6 +52,14 @@ func (eventhub *Eventhub) ValidateUpdate(old runtime.Object) error {
 	return eventhub.validateeventhub()
 }
 
+// ValidateDelete implements webhook.Validator so a webhook will be registered for the type
+func (eventhub *Eventhub) ValidateDelete() error {
+	eventhublog.Info("validate delete", "name", eventhub.Name)
+
+	//validation logic upon object deletion.
+	return nil
+}
+
 func (eventhub *Eventhub) validateeventhub() error {
 	var allErrs field.ErrorList
 	err := eventhub.validateValidParent()

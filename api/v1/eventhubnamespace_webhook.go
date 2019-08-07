@@ -51,6 +51,14 @@ func (eventhubNamespace *EventhubNamespace) ValidateUpdate(old runtime.Object) e
 	return eventhubNamespace.validateEventhubNamespace()
 }
 
+// ValidateDelete implements webhook.Validator so a webhook will be registered for the type
+func (eventhubNamespace *EventhubNamespace) ValidateDelete() error {
+	eventhubnamespacelog.Info("validate create", "name", eventhubNamespace.Name)
+
+	//validation logic upon object deletion.
+	return nil
+}
+
 func (eventhubNamespace *EventhubNamespace) validateEventhubNamespace() error {
 	var allErrs field.ErrorList
 
