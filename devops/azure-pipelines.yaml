@@ -46,21 +46,20 @@ steps:
 
 - script: |
     set -x
-    mkdir -p '$(KUBEBUILDER_ASSETS)'
-    mkdir -p '$(module_path)/tmp'
+    cd $(module_path)
+    mkdir bin
     os=$(go env GOOS)
     arch=$(go env GOARCH)
     # download kubebuilder
-    curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(module_path)/tmp
-    mv $(module_path)/tmp/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(KUBEBUILDER_ASSETS)
+    curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(pwd)/bin
+    mv $(pwd)/bin/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(pwd)/bin/
     # download kustomize 
-    curl -o $(KUBEBUILDER_ASSETS)/kustomize  https://go.kubebuilder.io/kustomize/${os}/${arch}
+    curl -o $(pwd)/bin/kustomize  https://go.kubebuilder.io/kustomize/${os}/${arch}
     # set permission
-    chmod a+x $(KUBEBUILDER_ASSETS)/*
-    chmod a+x $(KUBEBUILDER_ASSETS)/kustomize
+    chmod a+x $(pwd)/bin/*
+    chmod a+x $(pwd)/bin/kustomize
     # export path
-    
-    export PATH=$PATH:$(KUBEBUILDER_ASSETS)
+    export PATH=$PATH:$(pwd)/bin
     which kustomize
     kustomize version
     go mod download
@@ -72,7 +71,6 @@ steps:
   displayName: 'Install kubebuilder, kustomize and set environment'
   env:
     GO111MODULE: on
-    KUBEBUILDER_ASSETS: $(module_path)/bin
     AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
@@ -98,7 +96,6 @@ steps:
   displayName: 'Run unit tests'
   env:
     GO111MODULE: on
-    KUBEBUILDER_ASSETS: $(module_path)/bin
     AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
@@ -142,7 +139,6 @@ steps:
   displayName: 'set kind cluster and Run unit tests'
   env:
     GO111MODULE: on
-    KUBEBUILDER_ASSETS: $(module_path)/bin
     AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
