@@ -59,8 +59,8 @@ steps:
     chmod a+x $(module_path)/bin/kustomize
     # export path
     echo '##vso[task.prependpath]$(module_path)/bin'
-    which kustomize
-    kustomize version
+    #which kustomize
+    #kustomize version
     go mod download
     go get -u github.com/jstemmer/go-junit-report
     go get github.com/axw/gocov/gocov
@@ -128,12 +128,15 @@ steps:
     echo "end of sleep"
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
-    ls $(module_path)/bin/
     # export path
-    export PATH=$PATH:$(module_path)/bin
-    which kustomize
-    kustomize version
-    make deploy
+    #export PATH=$PATH:$(module_path)/bin
+    #which kustomize
+    #kustomize version
+    #make deploy
+    make manifests
+    kubectl apply -f config/crd/bases
+    $(module_path)/bin/kustomize build config/default | kubectl apply -f -
+    
   continueOnError: 'true'
   displayName: 'set kind cluster and Run unit tests'
   env:
