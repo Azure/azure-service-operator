@@ -87,12 +87,10 @@ steps:
   workingDirectory: '$(module_path)'
 
 - script: |
-   
     # download kustomize
     #curl -o $(module_path)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
     # set permission
     #chmod a+x $(module_path)/bin/*
-    
     # export path
     #export PATH=$PATH:$(module_path)/bin
     #echo '##vso[task.setvariable variable=PATH]$PATH:$(module_path)/bin'
