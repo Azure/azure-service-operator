@@ -66,7 +66,8 @@ steps:
     which kustomize
     #kustomize version
     ./bin/kustomize  version
-   
+    ./bin/kustomize build config/default > setup.yaml
+    cat setup.yaml
     go mod download
     go get -u github.com/jstemmer/go-junit-report
     go get github.com/axw/gocov/gocov
@@ -76,6 +77,7 @@ steps:
   displayName: 'Install kubebuilder, kustomize and set environment'
   env:
     GO111MODULE: on
+    KUBEBUILDER_ASSETS: $(module_path)/bin
     AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
@@ -101,6 +103,7 @@ steps:
   displayName: 'Run unit tests'
   env:
     GO111MODULE: on
+    KUBEBUILDER_ASSETS: $(module_path)/bin
     AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
@@ -157,6 +160,7 @@ steps:
   displayName: 'set kind cluster and Run unit tests'
   env:
     GO111MODULE: on
+    KUBEBUILDER_ASSETS: $(module_path)/bin
     AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)

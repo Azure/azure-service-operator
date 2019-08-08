@@ -1,0 +1,663 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: azureoperator-system
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: eventhubnamespaces.azure.microsoft.com
+spec:
+  group: azure.microsoft.com
+  names:
+    kind: EventhubNamespace
+    plural: eventhubnamespaces
+  scope: ""
+  validation:
+    openAPIV3Schema:
+      description: EventhubNamespace is the Schema for the eventhubnamespaces API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: EventhubNamespaceSpec defines the desired state of EventhubNamespace
+          properties:
+            location:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make" to regenerate code after modifying this file'
+              type: string
+            properties:
+              description: EventhubNamespaceProperties defines the namespace properties
+              properties:
+                isautoinflateenabled:
+                  type: boolean
+                kafkaenabled:
+                  type: boolean
+                maximumthroughputunits:
+                  format: int32
+                  type: integer
+              type: object
+            resourcegroup:
+              type: string
+            sku:
+              description: EventhubNamespaceSku defines the sku
+              properties:
+                capacity:
+                  format: int32
+                  type: integer
+                name:
+                  type: string
+                tier:
+                  type: string
+              type: object
+          required:
+          - location
+          type: object
+        status:
+          description: EventhubNamespaceStatus defines the observed state of EventhubNamespace
+          properties:
+            provisioned:
+              type: boolean
+            provisioning:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              type: boolean
+          type: object
+      type: object
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: eventhubs.azure.microsoft.com
+spec:
+  group: azure.microsoft.com
+  names:
+    kind: Eventhub
+    plural: eventhubs
+  scope: ""
+  validation:
+    openAPIV3Schema:
+      description: Eventhub is the Schema for the eventhubs API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: EventhubSpec defines the desired state of Eventhub
+          properties:
+            authorizationrule:
+              description: EventhubAuthorizationRule defines the name and rights of
+                the access policy
+              properties:
+                name:
+                  description: Name - Name of AuthorizationRule for eventhub
+                  type: string
+                rights:
+                  description: Rights - Rights set on the AuthorizationRule
+                  items:
+                    type: string
+                  type: array
+              type: object
+            location:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make" to regenerate code after modifying this file'
+              type: string
+            namespace:
+              type: string
+            properties:
+              description: EventhubProperties defines the namespace properties
+              properties:
+                messageretentionindays:
+                  description: MessageRetentionInDays - Number of days to retain the
+                    events for this Event Hub, value should be 1 to 7 days
+                  format: int32
+                  type: integer
+                partitioncount:
+                  description: PartitionCount - Number of partitions created for the
+                    Event Hub, allowed values are from 1 to 32 partitions.
+                  format: int32
+                  type: integer
+              type: object
+            resourcegroup:
+              type: string
+          required:
+          - location
+          type: object
+        status:
+          description: EventhubStatus defines the observed state of Eventhub
+          properties:
+            provisioned:
+              type: boolean
+            provisioning:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              type: boolean
+          type: object
+      type: object
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: resourcegroups.azure.microsoft.com
+spec:
+  group: azure.microsoft.com
+  names:
+    kind: ResourceGroup
+    plural: resourcegroups
+    shortNames:
+    - rg
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      description: ResourceGroup is the Schema for the resourcegroups API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: ResourceGroupSpec defines the desired state of ResourceGroup
+          properties:
+            location:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make" to regenerate code after modifying this file'
+              type: string
+          required:
+          - location
+          type: object
+        status:
+          description: ResourceGroupStatus defines the observed state of ResourceGroup
+          properties:
+            provisioned:
+              type: boolean
+            provisioning:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              type: boolean
+          type: object
+      type: object
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  annotations:
+    certmanager.k8s.io/inject-ca-from: azureoperator-system/azureoperator-serving-cert
+  creationTimestamp: null
+  name: azureoperator-mutating-webhook-configuration
+webhooks:
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: azureoperator-webhook-service
+      namespace: azureoperator-system
+      path: /mutate-azure-microsoft-com-v1-eventhub
+  failurePolicy: Fail
+  name: meventhub.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - eventhubs
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: azureoperator-webhook-service
+      namespace: azureoperator-system
+      path: /mutate-azure-microsoft-com-v1-eventhubnamespace
+  failurePolicy: Fail
+  name: meventhubnamespace.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - eventhubnamespaces
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  annotations:
+    certmanager.k8s.io/inject-ca-from: azureoperator-system/azureoperator-serving-cert
+  creationTimestamp: null
+  name: azureoperator-validating-webhook-configuration
+webhooks:
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: azureoperator-webhook-service
+      namespace: azureoperator-system
+      path: /validate-azure-microsoft-com-v1-eventhub
+  failurePolicy: Fail
+  name: veventhub.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - eventhubs
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: azureoperator-webhook-service
+      namespace: azureoperator-system
+      path: /validate-azure-microsoft-com-v1-eventhubnamespace
+  failurePolicy: Fail
+  name: veventhubnamespace.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - eventhubnamespaces
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: azureoperator-leader-election-role
+  namespace: azureoperator-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - configmaps/status
+  verbs:
+  - get
+  - update
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: azureoperator-manager-role
+rules:
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - resourcegroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - resourcegroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: azureoperator-proxy-role
+rules:
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: azureoperator-leader-election-rolebinding
+  namespace: azureoperator-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: azureoperator-leader-election-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: azureoperator-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: azureoperator-manager-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azureoperator-manager-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: azureoperator-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: azureoperator-proxy-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azureoperator-proxy-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: azureoperator-system
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/port: "8443"
+    prometheus.io/scheme: https
+    prometheus.io/scrape: "true"
+  labels:
+    control-plane: controller-manager
+  name: azureoperator-controller-manager-metrics-service
+  namespace: azureoperator-system
+spec:
+  ports:
+  - name: https
+    port: 8443
+    targetPort: https
+  selector:
+    control-plane: controller-manager
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azureoperator-webhook-service
+  namespace: azureoperator-system
+spec:
+  ports:
+  - port: 443
+    targetPort: 443
+  selector:
+    control-plane: controller-manager
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: azureoperator-controller-manager
+  namespace: azureoperator-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+  template:
+    metadata:
+      labels:
+        control-plane: controller-manager
+    spec:
+      containers:
+      - args:
+        - --secure-listen-address=0.0.0.0:8443
+        - --upstream=http://127.0.0.1:8080/
+        - --logtostderr=true
+        - --v=10
+        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.4.0
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: https
+      - args:
+        - --metrics-addr=127.0.0.1:8080
+        command:
+        - /manager
+        env:
+        - name: AZURE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_CLIENT_ID
+              name: azureoperatorsettings
+        - name: AZURE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_CLIENT_SECRET
+              name: azureoperatorsettings
+        - name: AZURE_TENANT_ID
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_TENANT_ID
+              name: azureoperatorsettings
+        - name: AZURE_SUBSCRIPTION_ID
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_SUBSCRIPTION_ID
+              name: azureoperatorsettings
+        - name: REQUEUE_AFTER
+          value: "30"
+        image: IMAGE_URL
+        name: manager
+        ports:
+        - containerPort: 443
+          name: webhook-server
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 100m
+            memory: 30Mi
+          requests:
+            cpu: 100m
+            memory: 20Mi
+        volumeMounts:
+        - mountPath: /tmp/k8s-webhook-server/serving-certs
+          name: cert
+          readOnly: true
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: webhook-server-cert
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: azureoperator-serving-cert
+  namespace: azureoperator-system
+spec:
+  commonName: azureoperator-webhook-service.azureoperator-system.svc
+  dnsNames:
+  - azureoperator-webhook-service.azureoperator-system.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: azureoperator-selfsigned-issuer
+  secretName: webhook-server-cert
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: azureoperator-selfsigned-issuer
+  namespace: azureoperator-system
+spec:
+  selfSigned: {}
