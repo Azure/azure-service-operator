@@ -186,6 +186,7 @@ steps:
     cat setup.yaml
     kubectl apply -f config/crd/bases
     ./bin/kustomize build config/default | kubectl apply -f -
+    make test-existing
   continueOnError: 'true'
   displayName: 'set kind cluster and Run unit tests'
   env:
