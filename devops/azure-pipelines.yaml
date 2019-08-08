@@ -105,17 +105,17 @@ steps:
     ./bin/kustomize  version
     ./bin/kustomize build config/default > setup.yaml
     cat setup.yaml
-displayName: 'test kustomize'
-env:
-  GO111MODULE: on
-  KUBEBUILDER_ASSETS: $(module_path)/bin
-  AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
-  AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-  AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-  AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-  AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-  REQUEUE_AFTER: $(REQUEUE_AFTER)
-workingDirectory: '$(module_path)'
+  displayName: 'test kustomize'
+  env:
+    GO111MODULE: on
+    KUBEBUILDER_ASSETS: $(module_path)/bin
+    AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
+    AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    REQUEUE_AFTER: $(REQUEUE_AFTER)
+  workingDirectory: '$(module_path)'
 
 # - script: |
 #     go mod download
@@ -196,18 +196,18 @@ workingDirectory: '$(module_path)'
     cat setup.yaml
 
     ./bin/kustomize build config/default | kubectl apply -f -
-  continueOnError: 'true'
-  displayName: 'set kind cluster and Run unit tests'
-  env:
-    GO111MODULE: on
-    KUBEBUILDER_ASSETS: $(module_path)/bin
-    AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
-    AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-    REQUEUE_AFTER: $(REQUEUE_AFTER)
-  workingDirectory: '$(module_path)'
+    continueOnError: 'true'
+    displayName: 'set kind cluster and Run unit tests'
+    env:
+      GO111MODULE: on
+      KUBEBUILDER_ASSETS: $(module_path)/bin
+      AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
+      AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+      AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+      AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+      AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+      REQUEUE_AFTER: $(REQUEUE_AFTER)
+    workingDirectory: '$(module_path)'
 
 - task: PublishTestResults@2
   inputs:
