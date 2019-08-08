@@ -129,8 +129,6 @@ steps:
     ./bin/kustomize version
     ./bin/kustomize build config/default > setup.yaml
     cat setup.yaml
-
-
   continueOnError: 'true'
   displayName: 'test kustomize'
   env:
