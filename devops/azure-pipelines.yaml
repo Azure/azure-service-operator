@@ -60,6 +60,8 @@ steps:
     export path
     export PATH=$PATH:$(MODULE_PATH)/bin
     echo $PATH
+    echo '##vso[task.prependpath]$(MODULE_PATH)/bin'
+    echo $PATH
     #which kustomize
     which kustomize
     #kustomize version
@@ -90,20 +92,20 @@ steps:
     #echo '##vso[task.setvariable variable=PATH]$PATH:$(MODULE_PATH)/bin'
     #echo '##vso[task.prependpath]$(MODULE_PATH)/bin'
     #export path
-    export PATH=$PATH:$(MODULE_PATH)/bin
+    # export PATH=$PATH:$(MODULE_PATH)/bin
     echo $PATH
     #which kustomize
     #export PATH=$PATH:$(MODULE_PATH)/bin
-    echo $PATH
+    # echo $PATH
     #which kustomize
     which kustomize
     #kustomize version
     kustomize  version
     ./bin/kustomize  version
     #kustomize version
-    echo "KUBEBUILDER_ASSETS:"
-    echo $(KUBEBUILDER_ASSETS)
-    ls ./bin
+    # echo "KUBEBUILDER_ASSETS:"
+    # echo $(KUBEBUILDER_ASSETS)
+    # ls ./bin
     kustomize  version
     kustomize build config/default > setup.yaml
     cat setup.yaml
