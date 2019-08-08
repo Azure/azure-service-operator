@@ -140,5 +140,4 @@ ifeq (,$(shell which kustomize))
 	
 else
 	@echo "kustomize has been installed"
-
 endif

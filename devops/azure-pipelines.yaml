@@ -148,8 +148,11 @@ steps:
     chmod a+x $(module_path)/bin/*
     # export path
     export PATH=$PATH:$(module_path)/bin
+    #which kustomize
+    which kustomize
+    #kustomize version
+    ./bin/kustomize version
     ./bin/kustomize build config/default | kubectl apply -f -
-    
   continueOnError: 'true'
   displayName: 'set kind cluster and Run unit tests'
   env:
