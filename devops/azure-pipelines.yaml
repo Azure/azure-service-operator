@@ -146,55 +146,59 @@ steps:
 
 
 - script: |
-    GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
-    kind create cluster
-    export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
-    kubectl cluster-info
-    kubectl create namespace cert-manager
-    kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
-    kubectl create namespace azureoperator-system 
-    kubectl --namespace azureoperator-system \
-      create secret generic azureoperatorsettings \
-      --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
-      --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
-      --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
-      --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
-    #create image and load it into cluster
-    IMG="docker.io/controllertest:1" make docker-build
-    kind load docker-image docker.io/controllertest:1 --loglevel "trace"
-    make install
-    kubectl get namespaces
-    echo "sleep 80 seconds to get the cert pods running"
-    sleep 80
-    echo "end of sleep"
-    kubectl get pods --namespace cert-manager
-    echo "all the pods should be running"
+    # GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
+    # kind create cluster
+    # export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
+    # kubectl cluster-info
+    # kubectl create namespace cert-manager
+    # kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+    # kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+    # kubectl create namespace azureoperator-system 
+    # kubectl --namespace azureoperator-system \
+    #   create secret generic azureoperatorsettings \
+    #   --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
+    #   --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
+    #   --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
+    #   --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+    # #create image and load it into cluster
+    # IMG="docker.io/controllertest:1" make docker-build
+    # kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+    # make install
+    # kubectl get namespaces
+    # echo "sleep 80 seconds to get the cert pods running"
+    # sleep 80
+    # echo "end of sleep"
+    # kubectl get pods --namespace cert-manager
+    # echo "all the pods should be running"
+    #az
     # export path
     #export PATH=$PATH:$(module_path)/bin
     #which kustomize
     #kustomize version
     #make deploy
     make manifests
-    kubectl apply -f config/crd/bases
+    
 
     # download kustomize
-    curl -o $(module_path)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+    #curl -o $(module_path)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
     # set permission
-    chmod a+x $(module_path)/bin/*
+    #chmod a+x $(module_path)/bin/*
     
     # export path
-    export PATH=$PATH:$(module_path)/bin
+    #export PATH=$PATH:$(module_path)/bin
     #echo '##vso[task.setvariable variable=PATH]$PATH:$(module_path)/bin'
     #echo '##vso[task.prependpath]$(module_path)/bin'
     echo $PATH
     #which kustomize
     which kustomize
     #kustomize version
+    echo $(pwd)
+    cd $(module_path)
+    ls --all
     ./bin/kustomize version
     ./bin/kustomize build config/default > setup.yaml
     cat setup.yaml
-
+    kubectl apply -f config/crd/bases
     ./bin/kustomize build config/default | kubectl apply -f -
     continueOnError: 'true'
     displayName: 'set kind cluster and Run unit tests'
