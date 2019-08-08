@@ -86,21 +86,53 @@ steps:
     REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(module_path)'
 
+# - script: |
+#     go mod download
+#     go get -u github.com/jstemmer/go-junit-report
+#     go get github.com/axw/gocov/gocov
+#     go get github.com/AlekSi/gocov-xml
+#     go get -u gopkg.in/matm/v1/gocov-html
+#     go get golang.org/x/tools/cmd/cover
+#     make test
+#     gocov convert coverage.txt > coverage.json
+#     gocov-xml < coverage.json > coverage.xml
+#     mkdir coverage
+#     # gocov-html < coverage.json > coverage/index.html
+
+#   continueOnError: 'true'
+#   displayName: 'Run unit tests'
+#   env:
+#     GO111MODULE: on
+#     KUBEBUILDER_ASSETS: $(module_path)/bin
+#     AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
+#     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+#     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+#     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+#     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+#     REQUEUE_AFTER: $(REQUEUE_AFTER)
+#   workingDirectory: '$(module_path)'
+
 - script: |
-    go mod download
-    go get -u github.com/jstemmer/go-junit-report
-    go get github.com/axw/gocov/gocov
-    go get github.com/AlekSi/gocov-xml
-    go get -u gopkg.in/matm/v1/gocov-html
-    go get golang.org/x/tools/cmd/cover
-    make test
-    gocov convert coverage.txt > coverage.json
-    gocov-xml < coverage.json > coverage.xml
-    mkdir coverage
-    # gocov-html < coverage.json > coverage/index.html
+    # download kustomize
+    curl -o $(module_path)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+    # set permission
+    chmod a+x $(module_path)/bin/*
+    
+    # export path
+    export PATH=$PATH:$(module_path)/bin
+    #echo '##vso[task.setvariable variable=PATH]$PATH:$(module_path)/bin'
+    #echo '##vso[task.prependpath]$(module_path)/bin'
+    echo $PATH
+    #which kustomize
+    which kustomize
+    #kustomize version
+    ./bin/kustomize version
+    ./bin/kustomize build config/default > setup.yaml
+    cat setup.yaml
+
 
   continueOnError: 'true'
-  displayName: 'Run unit tests'
+  displayName: 'test kustomize'
   env:
     GO111MODULE: on
     KUBEBUILDER_ASSETS: $(module_path)/bin
