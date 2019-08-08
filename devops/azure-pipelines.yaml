@@ -57,18 +57,13 @@ steps:
     curl -o $(MODULE_PATH)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
     # set permission
     chmod a+x $(MODULE_PATH)/bin/*
-    export path
+    # export PATH
     export PATH=$PATH:$(MODULE_PATH)/bin
-    echo $PATH
     echo '##vso[task.prependpath]$(MODULE_PATH)/bin'
-    echo $PATH
     #which kustomize
     which kustomize
     #kustomize version
     kustomize  version
-    #./bin/kustomize  version
-    kustomize build config/default > setup.yaml
-    cat setup.yaml
     go mod download
     go get -u github.com/jstemmer/go-junit-report
     go get github.com/axw/gocov/gocov
@@ -79,26 +74,9 @@ steps:
   env:
     GO111MODULE: on
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
-
-    echo $PATH
-
-    which kustomize
-    kustomize  version
-
-    kustomize build config/default > setup.yaml
-    cat setup.yaml
-  displayName: 'test kustomize'
-  env:
-    GO111MODULE: on
-    KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-  workingDirectory: '$(MODULE_PATH)'
-
-- script: |
-
     go mod download
     go get -u github.com/jstemmer/go-junit-report
     go get github.com/axw/gocov/gocov
@@ -109,7 +87,6 @@ steps:
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml
     mkdir coverage
-
   continueOnError: 'true'
   displayName: 'Run unit tests'
   env:
@@ -123,7 +100,6 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
-
     GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
     kind create cluster
     export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
@@ -148,22 +124,12 @@ steps:
     echo "end of sleep"
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
-    export path
-    export PATH=$PATH:$(MODULE_PATH)/bin
     which kustomize
-    kustomize version
-    #make deploy
-    make manifests
-    echo $PATH
-    #which kustomize
-    which kustomize
-    #kustomize version
     kustomize  version
-
-    kustomize build config/default > setup.yaml
-    cat setup.yaml
-    kubectl apply -f config/crd/bases
-    kustomize build config/default | kubectl apply -f -
+    make deploy
+    # make manifests
+    # kubectl apply -f config/crd/bases
+    # kustomize build config/default | kubectl apply -f -
     make test-existing
   continueOnError: 'true'
   displayName: 'set kind cluster and Run unit tests'
