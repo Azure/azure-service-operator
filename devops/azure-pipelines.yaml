@@ -124,15 +124,12 @@ steps:
     echo "end of sleep"
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
-    which kustomize
-    kustomize  version
+
     make deploy
-    # make manifests
-    # kubectl apply -f config/crd/bases
-    # kustomize build config/default | kubectl apply -f -
+
     make test-existing
   continueOnError: 'true'
-  displayName: 'set kind cluster and Run unit tests'
+  displayName: 'Set kind cluster and Run unit tests'
   env:
     GO111MODULE: on
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
@@ -208,12 +205,10 @@ steps:
     echo $(PATCH_VERSION)
     echo $(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
     IMG="$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
-    echo $IMG
     sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
     kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
     set -x
     echo $IMG > $(Build.ArtifactStagingDirectory)/github.com/Azure/azure-service-operator.txt
-    ls $(Build.ArtifactStagingDirectory)
   continueOnError: 'false'
   displayName: 'Prepare manifests for publish'
   workingDirectory: '$(MODULE_PATH)'
