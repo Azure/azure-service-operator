@@ -4,13 +4,12 @@ go 1.12
 
 require (
 	github.com/Azure-Samples/azure-sdk-for-go-samples v0.0.0-20190805235326-79e3f3af791c
-	github.com/Azure/azure-sdk-for-go v30.1.0+incompatible
-	github.com/Azure/go-autorest/autorest v0.2.0
-	github.com/Azure/go-autorest/autorest/adal v0.1.0
+	github.com/Azure/azure-sdk-for-go v32.0.0+incompatible
+	github.com/Azure/go-autorest/autorest v0.5.0
+	github.com/Azure/go-autorest/autorest/adal v0.2.0
 	github.com/Azure/go-autorest/autorest/azure/auth v0.1.0
 	github.com/Azure/go-autorest/autorest/to v0.2.0
 	github.com/Azure/go-autorest/autorest/validation v0.1.0 // indirect
-	github.com/WilliamMortlMicrosoft/AzureGoSamples v0.0.0-20190731211905-1f9731c85e4b
 	github.com/denisenkom/go-mssqldb v0.0.0-20190724012636-11b2859924c1
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/envy v1.7.0
@@ -23,7 +22,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/onsi/ginkgo v1.8.0
 	github.com/onsi/gomega v1.5.0
-	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/spf13/pflag v1.0.3 // indirect
 	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8 // indirect
 	golang.org/x/net v0.0.0-20190620200207-3b0461eec859

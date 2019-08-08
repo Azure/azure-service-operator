@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/WilliamMortlMicrosoft/AzureGoSamples/internal/util"
+	"github.com/Azure/azure-service-operator/pkg/util"
 )
 
 func setupEnvironment() error {
