@@ -16,12 +16,12 @@ variables:
   module_path: '$(gopath)/src/$(Build.Repository.Name)' # Path to the module's code
   image_name: 'azure-service-operator' 
   # - set this value in Azure Devops variables
-  AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
-  AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-  AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-  AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-  AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-  REQUEUE_AFTER: $(REQUEUE_AFTER)
+  # AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
+  # AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+  # AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+  # AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+  # AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+  # REQUEUE_AFTER: $(REQUEUE_AFTER)
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables
   # AZURE_SUBSCRIPTION:     - set this value in Azure Devops variables
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
@@ -105,7 +105,12 @@ steps:
     #echo '##vso[task.prependpath]$(module_path)/bin'
     #echo $PATH
     #which kustomize
+    echo $PATH
+    #which kustomize
     which kustomize
+    #kustomize version
+    kustomize  version
+    ./bin/kustomize  version
     #kustomize version
     echo "KUBEBUILDER_ASSETS:"
     echo $(KUBEBUILDER_ASSETS)
@@ -186,6 +191,9 @@ steps:
     echo $PATH
     #which kustomize
     which kustomize
+    #kustomize version
+    kustomize  version
+    ./bin/kustomize  version
     #kustomize version
     echo $(pwd)
     cd $(module_path)
