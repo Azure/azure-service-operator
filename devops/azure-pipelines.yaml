@@ -83,30 +83,12 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
-    # download kustomize
-    #curl -o $(MODULE_PATH)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
-    # set permission
-    #chmod a+x $(MODULE_PATH)/bin/*
-    # export path
 
-    #echo '##vso[task.setvariable variable=PATH]$PATH:$(MODULE_PATH)/bin'
-    #echo '##vso[task.prependpath]$(MODULE_PATH)/bin'
-    #export path
-    # export PATH=$PATH:$(MODULE_PATH)/bin
     echo $PATH
-    #which kustomize
-    #export PATH=$PATH:$(MODULE_PATH)/bin
-    # echo $PATH
-    #which kustomize
+
     which kustomize
-    #kustomize version
     kustomize  version
-    ./bin/kustomize  version
-    #kustomize version
-    # echo "KUBEBUILDER_ASSETS:"
-    # echo $(KUBEBUILDER_ASSETS)
-    # ls ./bin
-    kustomize  version
+
     kustomize build config/default > setup.yaml
     cat setup.yaml
   displayName: 'test kustomize'
@@ -116,9 +98,7 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
-    #export path
-    export PATH=$PATH:$(MODULE_PATH)/bin
-    echo $PATH
+
     go mod download
     go get -u github.com/jstemmer/go-junit-report
     go get github.com/axw/gocov/gocov
@@ -135,6 +115,11 @@ steps:
   env:
     GO111MODULE: on
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+    AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
+    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
@@ -174,12 +159,7 @@ steps:
     which kustomize
     #kustomize version
     kustomize  version
-    # ./bin/kustomize  version
-    #kustomize version
-    # echo $(pwd)
-    # cd $(MODULE_PATH)
-    # ls --all
-    # ./bin/kustomize version
+
     kustomize build config/default > setup.yaml
     cat setup.yaml
     kubectl apply -f config/crd/bases
@@ -189,15 +169,27 @@ steps:
   displayName: 'set kind cluster and Run unit tests'
   env:
     GO111MODULE: on
+    AZURE_SUBSCRIPTION: $(AZURE_SUBSCRIPTION)
+    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    REQUEUE_AFTER: $(REQUEUE_AFTER)
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
   workingDirectory: '$(MODULE_PATH)'
 
 - task: PublishTestResults@2
+  displayName: 'test cluster'
   inputs:
     failedTaskOnFailedTest: true
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
 
+- task: PublishTestResults@2
+  displayName: 'existing cluster'
+  inputs:
+    failedTaskOnFailedTest: true
+    testRunner: JUnit
+    testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
 
 - task: PublishCodeCoverageResults@1
   inputs:
