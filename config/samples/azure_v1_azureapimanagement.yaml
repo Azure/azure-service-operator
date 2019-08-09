@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1
+kind: AzureAPIManagement
+metadata:
+  name: azureapimanagement-sample
+spec:
+  # Add fields here
+  foo: bar
