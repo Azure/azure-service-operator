@@ -181,7 +181,14 @@ steps:
       $(MAJOR_VERSION).$(MINOR_VERSION)
       $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
 
-  
+- script: |
+    docker image list
+  displayName: 'test'
+  env:
+    GO111MODULE: on
+    KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+  workingDirectory: '$(MODULE_PATH)'
+
 - task: Docker@2
   displayName: Push Docker Image $(IMAGE_NAME)
   #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
