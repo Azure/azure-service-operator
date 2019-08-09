@@ -40,6 +40,7 @@ func init() {
 
 	azurev1.AddToScheme(scheme)
 	kscheme.AddToScheme(scheme)
+	_ = azurev1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 

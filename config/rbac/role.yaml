@@ -7,46 +7,6 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - apps
-  resources:
-  - deployments
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - apps
-  resources:
-  - deployments/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubnamespaces
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubnamespaces/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
   - azure.microsoft.com
   resources:
   - eventhubs
@@ -61,6 +21,72 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - eventhubnamespaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - apps
+  resources:
+  - deployments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - azureapimanagements
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - azureapimanagements/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - eventhubs/status
   verbs:
   - get
@@ -69,10 +95,11 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - events
+  - eventhubnamespaces/status
   verbs:
-  - create
+  - get
   - patch
+  - update
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -94,16 +121,9 @@ rules:
   - patch
   - update
 - apiGroups:
-  - ""
+  - apps
   resources:
-  - events
-  verbs:
-  - create
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - secrets
+  - deployments
   verbs:
   - create
   - delete

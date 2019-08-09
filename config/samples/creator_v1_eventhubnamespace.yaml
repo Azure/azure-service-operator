@@ -1,10 +1,10 @@
 apiVersion: azure.microsoft.com/v1
 kind: EventhubNamespace
 metadata:
-  name: eventhubnamespace-sample-6
+  name: rusheventhubnamespace
 spec:    
     location: "westus"
-    resourcegroup: "resourcegroup-sample-6"
+    resourcegroup: "rushsourcegroup"
     sku:
       name: "Standard"
       tier: "Standard"

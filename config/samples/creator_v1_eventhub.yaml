@@ -1,11 +1,11 @@
 apiVersion: azure.microsoft.com/v1
 kind: Eventhub
 metadata:
-  name: eventhub-sample-2307-09
+  name: rusheventhub
 spec:
   location: "westus"
-  resourcegroup: "resourcegroup-sample-1907"
-  namespace: "eventhubnamespace-sample-1907"
+  resourcegroup: "rushsourcegroup"
+  namespace: "rusheventhubnamespace"
   properties:
     messageretentionindays: 7
     partitioncount: 1
