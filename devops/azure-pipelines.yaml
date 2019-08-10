@@ -14,11 +14,9 @@ variables:
   GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
-  IMAGE_NAME: 'candidate/k8s/azure-service-operator:$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)'
+  IMAGE_NAME: 'candidate/k8s/azure-service-operator'
   KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-  # ACR_NAME:               - set this value in Azure Devops variables
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Service Connection
-  # AZURE_SUBSCRIPTION:     - set this value in Azure Devops variables - Name of Service Connection
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
   # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
@@ -166,20 +164,39 @@ steps:
 #   displayName: 'Docker build'
 #   workingDirectory: '$(MODULE_PATH)'
 
-- task: AzureCLI@1
+- task: Docker@2
   #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  displayName: Push to Azure Container Registry
+  displayName: Login to ACR
   inputs:
-    azureSubscription: $(AZURE_SUBSCRIPTION)
-    scriptLocation: inlineScript
-    failOnStandardError: false
-    workingDirectory: '$(MODULE_PATH)'
-    inlineScript: az acr build --registry $(ACR_NAME) --image $(IMAGE_NAME) .
+    command: login
+    containerRegistry: $(CONTAINER_REGISTRY)
+
+- task: Docker@2
+  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Build and Push Docker Image $(IMAGE_NAME)
+  inputs:
+    command: buildAndPush
+    containerRegistry: $(CONTAINER_REGISTRY)
+    repository: $(IMAGE_NAME)
+    Dockerfile: "$(MODULE_PATH)/Dockerfile"    
+    buildContext: $(MODULE_PATH)
+    tags: |
+      latest
+      $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+
+- script: |
+    docker image list
+  displayName: 'test'
+  env:
+    GO111MODULE: on
+    KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+  workingDirectory: '$(MODULE_PATH)'
 
 - script: |
     echo "updating kustomize image patch file for manager resource"
     echo $(IMAGE_NAME)
-    IMG="$(IMAGE_NAME)"
+    IMG="$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
+    echo $(IMG)
     sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
     kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
     set -x
@@ -187,7 +204,7 @@ steps:
   continueOnError: 'false'
   displayName: 'Prepare manifests for publish'
   workingDirectory: '$(MODULE_PATH)'
-  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
 
 - task: PublishBuildArtifacts@1
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
