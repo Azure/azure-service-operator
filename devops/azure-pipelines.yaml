@@ -14,10 +14,9 @@ variables:
   GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
-  IMAGE_NAME: 'azure-service-operator'
+  IMAGE_NAME: 'candidate/k8s/azure-service-operator'
   KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-  # CONTAINER_REGISTRY:     - set this value in Azure Devops variables
-  # AZURE_SUBSCRIPTION:     - set this value in Azure Devops variables
+  # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Service Connection
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
   # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
@@ -124,9 +123,7 @@ steps:
     echo "end of sleep"
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
-
     make deploy
-
     make test-existing
   continueOnError: 'true'
   displayName: 'Set kind cluster and Run unit tests'
@@ -167,48 +164,34 @@ steps:
 
 - task: Docker@2
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  displayName: Build Docker Image $(IMAGE_NAME)
+  displayName: Login to ACR
   inputs:
-    command: build
+    command: login
+    containerRegistry: $(CONTAINER_REGISTRY)
+
+- task: Docker@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Build and Push Docker Image $(IMAGE_NAME)
+  inputs:
+    command: buildAndPush
     containerRegistry: $(CONTAINER_REGISTRY)
     repository: $(IMAGE_NAME)
     Dockerfile: "$(MODULE_PATH)/Dockerfile"    
     buildContext: $(MODULE_PATH)
     tags: |
       latest
-      $(Build.SourceVersion)
-      $(MAJOR_VERSION)
-      $(MAJOR_VERSION).$(MINOR_VERSION)
-      $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
-
-  
-- task: Docker@2
-  displayName: Push Docker Image $(IMAGE_NAME)
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  inputs:
-    command: push
-    containerRegistry: $(CONTAINER_REGISTRY)
-    repository: $(IMAGE_NAME)
-    tags: |
-      latest
-      $(Build.SourceVersion)
-      $(MAJOR_VERSION)
-      $(MAJOR_VERSION).$(MINOR_VERSION)
       $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
 
 
 - script: |
     echo "updating kustomize image patch file for manager resource"
     echo $(IMAGE_NAME)
-    echo $(MAJOR_VERSION)
-    echo $(MINOR_VERSION)
-    echo $(PATCH_VERSION)
-    echo $(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
     IMG="$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
+    echo $(IMG)
     sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
     kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
     set -x
-    echo $IMG > $(Build.ArtifactStagingDirectory)/github.com/Azure/azure-service-operator.txt
+    echo $IMG > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
   continueOnError: 'false'
   displayName: 'Prepare manifests for publish'
   workingDirectory: '$(MODULE_PATH)'
