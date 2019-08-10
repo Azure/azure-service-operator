@@ -163,14 +163,14 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - task: Docker@2
-  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   displayName: Login to ACR
   inputs:
     command: login
     containerRegistry: $(CONTAINER_REGISTRY)
 
 - task: Docker@2
-  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   displayName: Build and Push Docker Image $(IMAGE_NAME)
   inputs:
     command: buildAndPush
@@ -195,10 +195,10 @@ steps:
   continueOnError: 'false'
   displayName: 'Prepare manifests for publish'
   workingDirectory: '$(MODULE_PATH)'
-  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
 
 - task: PublishBuildArtifacts@1
-  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   inputs:
     pathtoPublish: $(Build.ArtifactStagingDirectory)
     artifactName: drop
