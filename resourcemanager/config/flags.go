@@ -10,6 +10,7 @@ func AddFlags() error {
 	flag.StringVar(&subscriptionID, "subscription", subscriptionID, "Subscription for tests.")
 	flag.StringVar(&cloudName, "cloud", cloudName, "Name of Azure cloud.")
 	flag.BoolVar(&useDeviceFlow, "useDeviceFlow", useDeviceFlow, "Use device-flow grant type rather than client credentials.")
+	flag.BoolVar(&declarative, "delcarative", true, "declarative mode")
 
 	return nil
 }

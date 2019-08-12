@@ -56,7 +56,7 @@ func main() {
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
-	flag.BoolVar(&nonDeclarative, "non-delcarative", false, "enter non-declarative mode")
+
 	flag.Parse()
 
 	ctrl.SetLogger(zap.Logger(true))
@@ -104,7 +104,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if nonDeclarative {
+	if !resourcemanagerconfig.Declarative() {
 		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
 			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
 			os.Exit(1)
