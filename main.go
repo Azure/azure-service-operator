@@ -52,9 +52,11 @@ func init() {
 func main() {
 	var metricsAddr string
 	var enableLeaderElection bool
+	var nonDeclarative bool
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
+	flag.BoolVar(&nonDeclarative, "non-delcarative", false, "enter non-declarative mode")
 	flag.Parse()
 
 	ctrl.SetLogger(zap.Logger(true))
@@ -102,15 +104,18 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
-		os.Exit(1)
+	if nonDeclarative {
+		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
+			os.Exit(1)
+		}
+
+		if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
+			os.Exit(1)
+		}
 	}
 
-	if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
-		os.Exit(1)
-	}
 	// +kubebuilder:scaffold:builder
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
