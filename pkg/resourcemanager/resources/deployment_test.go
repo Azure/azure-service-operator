@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/util"
 )
 
-func ExampleCreateTemplateDeployment() {
+func EgCreateTemplateDeployment() {
 	groupName := config.GenerateGroupName("groups-template")
 	config.SetGroupName(groupName) // TODO: don't rely on globals
 	ctx, cancel := context.WithTimeout(context.Background(), 300*time.Second)
