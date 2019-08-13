@@ -18,8 +18,6 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"os"
-	"strconv"
 	"strings"
 	"time"
 
@@ -92,14 +90,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
-	if err != nil {
-		requeueAfter = 30
-	}
-
-	return ctrl.Result{
-		RequeueAfter: time.Second * time.Duration(requeueAfter),
-	}, nil
+	return ctrl.Result{}, nil
 }
 
 // SetupWithManager blah

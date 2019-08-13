@@ -18,8 +18,6 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"os"
-	"strconv"
 	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
@@ -48,8 +46,6 @@ type EventhubNamespaceReconciler struct {
 func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("eventhubnamespace", req.NamespacedName)
-
-	// your logic here
 
 	var instance azurev1.EventhubNamespace
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
@@ -86,14 +82,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 		return ctrl.Result{}, nil
 	}
 
-	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
-	if err != nil {
-		requeueAfter = 30
-	}
-
-	return ctrl.Result{
-		RequeueAfter: time.Second * time.Duration(requeueAfter),
-	}, nil
+	return ctrl.Result{}, nil
 }
 
 func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
