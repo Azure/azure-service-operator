@@ -22,7 +22,7 @@ import (
 	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/resourcegroups"
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
 	"context"
 
