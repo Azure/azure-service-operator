@@ -16,44 +16,67 @@ limitations under the License.
 package v1
 
 import (
+	helpers "github.com/Azure/azure-service-operator/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// AzureAPIManagementSpec defines the desired state of AzureAPIManagement
-type AzureAPIManagementSpec struct {
+// APIManagementSpec defines the desired state of APIManagement
+type APIManagementSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 }
 
-// AzureAPIManagementStatus defines the observed state of AzureAPIManagement
-type AzureAPIManagementStatus struct {
+// APIManagementStatus defines the observed state of APIManagement
+type APIManagementStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// AzureAPIManagement is the Schema for the azureapimanagements API
-type AzureAPIManagement struct {
+// APIManagement is the Schema for the apimanagements API
+type APIManagement struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureAPIManagementSpec   `json:"spec,omitempty"`
-	Status AzureAPIManagementStatus `json:"status,omitempty"`
+	Spec   APIManagementSpec   `json:"spec,omitempty"`
+	Status APIManagementStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// AzureAPIManagementList contains a list of AzureAPIManagement
-type AzureAPIManagementList struct {
+// APIManagementList contains a list of APIManagement
+type APIManagementList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []AzureAPIManagement `json:"items"`
+	Items           []APIManagement `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&AzureAPIManagement{}, &AzureAPIManagementList{})
+	SchemeBuilder.Register(&APIManagement{}, &APIManagementList{})
+}
+
+func (apimanagement *APIManagement) IsBeingDeleted() bool {
+	return !apimanagement.ObjectMeta.DeletionTimestamp.IsZero()
+}
+
+func (apimanagement *APIManagement) IsSubmitted() bool {
+	return apimanagement.Status.Provisioning || apimanagement.Status.Provisioned
+}
+
+func (apimanagement *APIManagement) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(apimanagement.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (apimanagement *APIManagement) AddFinalizer(finalizerName string) {
+	apimanagement.ObjectMeta.Finalizers = append(apimanagement.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (apimanagement *APIManagement) RemoveFinalizer(finalizerName string) {
+	apimanagement.ObjectMeta.Finalizers = helpers.RemoveString(apimanagement.ObjectMeta.Finalizers, finalizerName)
 }
