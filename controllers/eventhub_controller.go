@@ -20,10 +20,12 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/eventhubs"
 	"github.com/go-logr/logr"
 	v1 "k8s.io/api/core/v1"
@@ -55,7 +57,8 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	var instance azurev1.Eventhub
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Error(err, "unable to fetch Eventhub")
+		//log.Error(err, "unable to fetch Eventhub")
+		log.Info("Unable tto retrieve eventhub resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -81,6 +84,11 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if !instance.IsSubmitted() {
 		err := r.createEventhub(&instance)
 		if err != nil {
+			log.Info("---------------------------------->")
+			if errhelp.IsParentNotFound(err) || errhelp.IsGroupNotFound(err) || errhelp.IsNotActive(err) {
+				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+			}
+			log.Info("----------------------------------<")
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
@@ -120,8 +128,8 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 	//get owner instance
 	var ownerInstance azurev1.EventhubNamespace
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespace, Namespace: instance.Namespace}
-	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
 
+	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of eventhubnamespace")
@@ -143,6 +151,7 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 		//log error and kill it
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
+
 	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
@@ -262,8 +271,6 @@ func (r *EventhubReconciler) createEventhubSecrets(
 	sharedAccessKey string,
 	instance *azurev1.Eventhub) error {
 
-	var err error
-
 	csecret := &v1.Secret{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Secret",
@@ -295,9 +302,16 @@ func (r *EventhubReconciler) createEventhubSecrets(
 	//set owner reference for secret
 	csecret.ObjectMeta.SetOwnerReferences(references)
 
-	err = r.Create(context.Background(), csecret)
+	err := r.Create(context.Background(), csecret)
 	if err != nil {
-		return err
+		if strings.Contains(err.Error(), "already exists") {
+			err = r.Update(context.Background(), csecret)
+			if err != nil {
+				return err
+			}
+		} else {
+			return err
+		}
 	}
 	return nil
 }

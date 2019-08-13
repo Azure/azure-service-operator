@@ -23,6 +23,7 @@ import (
 	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/eventhubs"
 	"github.com/go-logr/logr"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -52,7 +53,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 
 	var instance azurev1.EventhubNamespace
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Error(err, "unable to fetch EventhubNamespace")
+		log.Info("Unable tto retrieve eventhub namespace resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -77,6 +78,9 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 	if !instance.IsSubmitted() {
 		err := r.createEventHubNamespace(&instance)
 		if err != nil {
+			if errhelp.IsParentNotFound(err) || errhelp.IsGroupNotFound(err) {
+				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+			}
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
