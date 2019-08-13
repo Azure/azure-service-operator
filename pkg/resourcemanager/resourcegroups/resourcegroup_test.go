@@ -23,7 +23,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	helpers "github.com/Azure/azure-service-operator/helpers"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 var _ = Describe("ResourceGroups", func() {

@@ -2,9 +2,11 @@
 package config
 
 import (
+	"bytes"
 	"fmt"
 
 	"github.com/Azure/go-autorest/autorest/azure"
+	"github.com/marstr/randname"
 )
 
 var (
@@ -16,12 +18,15 @@ var (
 	clientSecret           string
 	tenantID               string
 	subscriptionID         string
+	locationDefault        string
 	authorizationServerURL string
 	cloudName              string = "AzurePublicCloud"
 	useDeviceFlow          bool
-
-	userAgent   string
-	environment *azure.Environment
+	keepResources          bool
+	groupName              string // deprecated, use baseGroupName instead
+	baseGroupName          string
+	userAgent              string
+	environment            *azure.Environment
 )
 
 // ClientID is the OAuth client ID.
@@ -44,6 +49,19 @@ func SubscriptionID() string {
 	return subscriptionID
 }
 
+// deprecated: use DefaultLocation() instead
+// Location returns the Azure location to be utilized.
+func Location() string {
+	return locationDefault
+}
+
+// DefaultLocation() returns the default location wherein to create new resources.
+// Some resource types are not available in all locations so another location might need
+// to be chosen.
+func DefaultLocation() string {
+	return locationDefault
+}
+
 // AuthorizationServerURL is the OAuth authorization server URL.
 // Q: Can this be gotten from the `azure.Environment` in `Environment()`?
 func AuthorizationServerURL() string {
@@ -56,12 +74,34 @@ func UseDeviceFlow() bool {
 	return useDeviceFlow
 }
 
+// deprecated: do not use global group names
+// utilize `BaseGroupName()` for a shared prefix
+func GroupName() string {
+	return groupName
+}
+
+// deprecated: we have to set this because we use a global for group names
+// once that's fixed this should be removed
+func SetGroupName(name string) {
+	groupName = name
+}
+
+// BaseGroupName() returns a prefix for new groups.
+func BaseGroupName() string {
+	return baseGroupName
+}
+
+// KeepResources() specifies whether to keep resources created by samples.
+func KeepResources() bool {
+	return keepResources
+}
+
 // UserAgent() specifies a string to append to the agent identifier.
 func UserAgent() string {
 	if len(userAgent) > 0 {
 		return userAgent
 	}
-	return "AzureOperator-resourcemanager"
+	return "sdk-samples"
 }
 
 // Environment() returns an `azure.Environment{...}` for the current cloud.
@@ -77,4 +117,26 @@ func Environment() *azure.Environment {
 	}
 	environment = &env
 	return environment
+}
+
+// GenerateGroupName leverages BaseGroupName() to return a more detailed name,
+// helping to avoid collisions.  It appends each of the `affixes` to
+// BaseGroupName() separated by dashes, and adds a 5-character random string.
+func GenerateGroupName(affixes ...string) string {
+	// go1.10+
+	// import strings
+	// var b strings.Builder
+	// b.WriteString(BaseGroupName())
+	b := bytes.NewBufferString(BaseGroupName())
+	b.WriteRune('-')
+	for _, affix := range affixes {
+		b.WriteString(affix)
+		b.WriteRune('-')
+	}
+	return randname.GenerateWithPrefix(b.String(), 5)
+}
+
+// AppendRandomSuffix will append a suffix of five random characters to the specified prefix.
+func AppendRandomSuffix(prefix string) string {
+	return randname.GenerateWithPrefix(prefix, 5)
 }
