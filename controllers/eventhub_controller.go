@@ -84,11 +84,9 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if !instance.IsSubmitted() {
 		err := r.createEventhub(&instance)
 		if err != nil {
-			log.Info("---------------------------------->")
 			if errhelp.IsParentNotFound(err) || errhelp.IsGroupNotFound(err) || errhelp.IsNotActive(err) {
 				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 			}
-			log.Info("----------------------------------<")
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
