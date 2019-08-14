@@ -1,0 +1,17 @@
+apiVersion: azure.microsoft.com/v1
+kind: Eventhub
+metadata:
+  name: eventhub-janani-123
+spec:
+  location: "westus"
+  resourcegroup: "jananitest1234"
+  namespace: "eventhubnamespace-janani-123"
+  properties:
+    messageretentionindays: 7
+    partitioncount: 1
+  authorizationrule: 
+    name : "RootManageSharedAccessKey"
+    rights: 
+      - "Listen"
+      - "Manage"
+      - "Send"

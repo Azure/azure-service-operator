@@ -1,0 +1,6 @@
+apiVersion: azure.microsoft.com/v1
+kind: ResourceGroup
+metadata:
+  name: jananitest123
+spec:
+  location: "westus" 

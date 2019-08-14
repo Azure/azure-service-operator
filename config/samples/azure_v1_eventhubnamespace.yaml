@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1
 kind: EventhubNamespace
 metadata:
-  name: eventhubnamespace-sample-6
+  name: eventhubnamespace-janani-123
 spec:    
     location: "westus"
     resourceGroup: "resourcegroup-sample-1907"

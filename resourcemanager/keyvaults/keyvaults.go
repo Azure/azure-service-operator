@@ -39,8 +39,8 @@ func getVaultsClient() keyvault.VaultsClient {
 	return vaultsClient
 }
 
-// CreateVaultAndWait creates a new resource group named by env var
-func CreateVaultAndWait(ctx context.Context, groupName string, vaultName string, location string) (keyvault.Vault, error) {
+// CreateVault creates a new key vault
+func CreateVault(ctx context.Context, groupName string, vaultName string, location string) (keyvault.Vault, error) {
 	vaultsClient := getVaultsClient()
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
@@ -61,17 +61,8 @@ func CreateVaultAndWait(ctx context.Context, groupName string, vaultName string,
 
 	log.Println(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v", vaultName, groupName, location))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
-	if err != nil {
-		return keyvault.Vault{}, err
-	}
 
-	err = future.WaitForCompletionRef(ctx, vaultsClient.Client)
-	if err != nil {
-		return keyvault.Vault{}, err
-	}
-
-	result, err := future.Result(vaultsClient)
-	return result, err
+	return future.Result(vaultsClient)
 }
 
 // DeleteVault removes the resource group named by env var
