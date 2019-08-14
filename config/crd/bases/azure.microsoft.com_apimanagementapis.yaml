@@ -4,18 +4,16 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: resourcegroups.azure.microsoft.com
+  name: apimanagementapis.azure.microsoft.com
 spec:
   group: azure.microsoft.com
   names:
-    kind: ResourceGroup
-    plural: resourcegroups
-    shortNames:
-    - rg
-  scope: Namespaced
+    kind: ApiManagementAPI
+    plural: apimanagementapis
+  scope: ""
   validation:
     openAPIV3Schema:
-      description: ResourceGroup is the Schema for the resourcegroups API
+      description: ApiManagementAPI is the Schema for the apimanagementapis API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -399,25 +397,10 @@ spec:
               type: string
           type: object
         spec:
-          description: ResourceGroupSpec defines the desired state of ResourceGroup
-          properties:
-            location:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "make" to regenerate code after modifying this file'
-              type: string
-          required:
-          - location
+          description: ApiManagementAPISpec defines the desired state of ApiManagementAPI
           type: object
         status:
-          description: ResourceGroupStatus defines the observed state of ResourceGroup
-          properties:
-            provisioned:
-              type: boolean
-            provisioning:
-              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
-                of cluster Important: Run "make" to regenerate code after modifying
-                this file'
-              type: boolean
+          description: ApiManagementAPIStatus defines the observed state of ApiManagementAPI
           type: object
       type: object
   versions:

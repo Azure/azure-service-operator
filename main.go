@@ -40,6 +40,7 @@ func init() {
 
 	azurev1.AddToScheme(scheme)
 	kscheme.AddToScheme(scheme)
+	_ = azurev1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -109,6 +110,20 @@ func main() {
 
 	if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
+		os.Exit(1)
+	}
+	if err = (&controllers.ApiManagementServiceReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("ApiManagementService"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ApiManagementService")
+		os.Exit(1)
+	}
+	if err = (&controllers.ApiManagementAPIReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("ApiManagementAPI"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ApiManagementAPI")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
