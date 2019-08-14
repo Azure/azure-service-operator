@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1
 kind: Eventhub
 metadata:
-  name: eventhub-sample-2307-092
+  name: eventhub-sample-2307-09
 spec:
   location: "westus"
   resourcegroup: "resourcegroup-sample-1907"
