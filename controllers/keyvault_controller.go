@@ -58,7 +58,6 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		//log.Error(err, "unable to fetch KeyVault")
 		log.Info("Unable to fetch KeyVault", "err", err.Error())
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
@@ -99,6 +98,7 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
+	r.Recorder.Event(&instance, "Normal", "Provisioned", "Keyvault "+instance.ObjectMeta.Name+" provisioned ")
 	return ctrl.Result{}, nil
 }
 
@@ -128,7 +128,7 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error
 	_, err := keyvaults.CreateVault(ctx, groupName, name, location)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-			r.Recorder.Event(instance, "Normal", "Updated", name+" provisioning")
+			r.Recorder.Event(instance, "Normal", "Provisioning", name+" provisioning")
 			return err
 		}
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
@@ -147,7 +147,6 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", name+" provisioned")
 	return nil
 }
 
@@ -160,6 +159,8 @@ func (r *KeyVaultReconciler) deleteExternal(instance *azurev1.KeyVault) error {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
 		return err
 	}
+
+	r.Recorder.Event(instance, "Normal", "Deleted", name+"deleted")
 	return nil
 }
 
