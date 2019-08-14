@@ -157,7 +157,6 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 
 	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount)
 	if err != nil {
-		azerr := errhelp.NewAzureError(err)
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
@@ -165,7 +164,7 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 			//log error and kill it
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
-		return azerr
+		return errhelp.NewAzureError(err)
 	}
 
 	err = r.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
