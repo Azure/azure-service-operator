@@ -11,3 +11,9 @@ resources:
 - group: azure
   version: v1
   kind: EventhubNamespace
+- group: azure
+  version: v1
+  kind: ApiManagementService
+- group: azure
+  version: v1
+  kind: ApiManagementAPI
