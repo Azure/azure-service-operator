@@ -21,6 +21,7 @@ import (
 	"fmt"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 )
 
 const eventhubFinalizerName = "eventhub.finalizers.com"
@@ -39,7 +40,8 @@ func (r *EventhubReconciler) handleFinalizer(instance *azurev1.Eventhub) error {
 	if instance.HasFinalizer(eventhubFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
-			return err
+
+			return errhelp.NewAzureError(err)
 		}
 
 		instance.RemoveFinalizer(eventhubFinalizerName)

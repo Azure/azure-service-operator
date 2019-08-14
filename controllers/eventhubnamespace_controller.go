@@ -21,6 +21,7 @@ import (
 	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/helpers"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/eventhubs"
 	"github.com/go-logr/logr"
@@ -74,9 +75,15 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 	if !instance.IsSubmitted() {
 		err := r.createEventHubNamespace(&instance)
 		if err != nil {
-			if errhelp.IsParentNotFound(err) || errhelp.IsGroupNotFound(err) {
+			catch := []string{
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.ResourceGroupNotFoundErrorCode,
+			}
+			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
+				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
 				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 			}
+
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
@@ -133,6 +140,7 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 	// create Event Hubs namespace
 	_, err = eventhubsresourcemanager.CreateNamespaceAndWait(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
+		azerr := errhelp.NewAzureError(err)
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
@@ -140,7 +148,7 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 			//log error and kill it
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
-		return err
+		return azerr
 	}
 
 	// write information back to instance

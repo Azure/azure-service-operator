@@ -72,7 +72,6 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	if !instance.IsSubmitted() {
 		err := r.createResourceGroup(&instance)
 		if err != nil {
-
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
 		return ctrl.Result{}, nil

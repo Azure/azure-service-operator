@@ -23,7 +23,9 @@ import (
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/helpers"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/eventhubs"
 	"github.com/go-logr/logr"
 	v1 "k8s.io/api/core/v1"
@@ -66,6 +68,13 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if instance.IsBeingDeleted() {
 		err := r.handleFinalizer(&instance)
 		if err != nil {
+			catch := []string{
+				errhelp.ResourceGroupNotFoundErrorCode,
+			}
+			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
+				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
+				return ctrl.Result{}, nil
+			}
 			return reconcile.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
@@ -82,7 +91,13 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if !instance.IsSubmitted() {
 		err := r.createEventhub(&instance)
 		if err != nil {
-			if errhelp.IsParentNotFound(err) || errhelp.IsGroupNotFound(err) || errhelp.IsNotActive(err) {
+			catch := []string{
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.NotFoundErrorCode,
+			}
+			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
+				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
 				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 			}
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
@@ -143,6 +158,7 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 
 	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount)
 	if err != nil {
+		azerr := errhelp.NewAzureError(err)
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
@@ -150,7 +166,7 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 			//log error and kill it
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
-		return err
+		return azerr
 	}
 
 	err = r.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
