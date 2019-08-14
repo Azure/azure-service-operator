@@ -22,9 +22,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Azure/azure-service-operator/resourcemanager/keyvaults"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	helpers "github.com/Azure/azure-service-operator/helpers"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/resourcemanager/keyvaults"
 	"github.com/go-logr/logr"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -36,26 +37,36 @@ const keyVaultFinalizerName = "keyvault.finalizers.azure.com"
 // KeyVaultReconciler reconciles a KeyVault object
 type KeyVaultReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
+	Log         logr.Logger
+	Recorder    record.EventRecorder
+	RequeueTime time.Duration
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=keyvaults,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=keyvaults/status,verbs=get;update;patch
 
+// Reconcile function runs the actual reconcilation loop of the controller
 func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("keyvault", req.NamespacedName)
 
 	var instance azurev1.KeyVault
+
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfter = 30
+	}
+
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Error(err, "unable to fetch KeyVault")
+		//log.Error(err, "unable to fetch KeyVault")
+		log.Info("Unable to fetch KeyVault", "err", err.Error())
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
+				log.Info("Delete KeyVault failed with ", err.Error())
 				return ctrl.Result{}, err
 			}
 
@@ -69,25 +80,26 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
+			log.Info("Adding keyvault finalizer failed with ", err.Error())
 			return ctrl.Result{}, err
 		}
 	}
 
 	if !instance.IsSubmitted() {
 		if err := r.reconcileExternal(&instance); err != nil {
+			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+				log.Info("Requeuing as the async operation is not complete")
+				return ctrl.Result{
+					Requeue:      true,
+					RequeueAfter: time.Second * time.Duration(requeueAfter),
+				}, nil
+			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling keyvault in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
-	if err != nil {
-		requeueAfter = 30
-	}
-
-	return ctrl.Result{
-		RequeueAfter: time.Second * time.Duration(requeueAfter),
-	}, nil
+	return ctrl.Result{}, nil
 }
 
 func (r *KeyVaultReconciler) addFinalizer(instance *azurev1.KeyVault) error {
@@ -108,13 +120,17 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error
 
 	// write information back to instance
 	instance.Status.Provisioning = true
-	
+
 	if err := r.Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err := keyvaults.CreateVaultAndWait(ctx, groupName, name, location)
-	if err != nil { 
+	_, err := keyvaults.CreateVault(ctx, groupName, name, location)
+	if err != nil {
+		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+			r.Recorder.Event(instance, "Normal", "Updated", name+" provisioning")
+			return err
+		}
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
@@ -127,7 +143,7 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
-	if 	err = r.Update(ctx, instance); err != nil {
+	if err = r.Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
@@ -147,6 +163,7 @@ func (r *KeyVaultReconciler) deleteExternal(instance *azurev1.KeyVault) error {
 	return nil
 }
 
+// SetupWithManager sets up the controller functions
 func (r *KeyVaultReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.KeyVault{}).
