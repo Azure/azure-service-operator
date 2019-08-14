@@ -25,26 +25,26 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 )
 
-// AzureAPIManagementReconciler reconciles a AzureAPIManagement object
-type AzureAPIManagementReconciler struct {
+// ApiManagementAPIReconciler reconciles a ApiManagementAPI object
+type ApiManagementAPIReconciler struct {
 	client.Client
 	Log logr.Logger
 }
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azureapimanagements,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azureapimanagements/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=apimanagementapis,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=apimanagementapis/status,verbs=get;update;patch
 
-func (r *AzureAPIManagementReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (r *ApiManagementAPIReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	_ = context.Background()
-	_ = r.Log.WithValues("azureapimanagement", req.NamespacedName)
+	_ = r.Log.WithValues("apimanagementapi", req.NamespacedName)
 
 	// your logic here
 
 	return ctrl.Result{}, nil
 }
 
-func (r *AzureAPIManagementReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *ApiManagementAPIReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.AzureAPIManagement{}).
+		For(&azurev1.ApiManagementAPI{}).
 		Complete(r)
 }

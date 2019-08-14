@@ -103,20 +103,28 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
-		os.Exit(1)
-	}
+	// if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
+	// 	setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
+	// 	os.Exit(1)
+	// }
 
-	if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
+	// if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
+	// 	setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
+	// 	os.Exit(1)
+	// }
+
+	if err = (&controllers.ApiManagementServiceReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("ApiManagementService"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ApiManagementService")
 		os.Exit(1)
 	}
-	if err = (&controllers.AzureAPIManagementReconciler{
+	if err = (&controllers.ApiManagementAPIReconciler{
 		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("AzureAPIManagement"),
+		Log:    ctrl.Log.WithName("controllers").WithName("ApiManagementAPI"),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureAPIManagement")
+		setupLog.Error(err, "unable to create controller", "controller", "ApiManagementAPI")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

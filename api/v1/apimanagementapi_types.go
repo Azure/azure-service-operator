@@ -22,38 +22,38 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// AzureAPIManagementSpec defines the desired state of AzureAPIManagement
-type AzureAPIManagementSpec struct {
+// ApiManagementAPISpec defines the desired state of ApiManagementAPI
+type ApiManagementAPISpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 }
 
-// AzureAPIManagementStatus defines the observed state of AzureAPIManagement
-type AzureAPIManagementStatus struct {
+// ApiManagementAPIStatus defines the observed state of ApiManagementAPI
+type ApiManagementAPIStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 }
 
 // +kubebuilder:object:root=true
 
-// AzureAPIManagement is the Schema for the azureapimanagements API
-type AzureAPIManagement struct {
+// ApiManagementAPI is the Schema for the apimanagementapis API
+type ApiManagementAPI struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureAPIManagementSpec   `json:"spec,omitempty"`
-	Status AzureAPIManagementStatus `json:"status,omitempty"`
+	Spec   ApiManagementAPISpec   `json:"spec,omitempty"`
+	Status ApiManagementAPIStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// AzureAPIManagementList contains a list of AzureAPIManagement
-type AzureAPIManagementList struct {
+// ApiManagementAPIList contains a list of ApiManagementAPI
+type ApiManagementAPIList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []AzureAPIManagement `json:"items"`
+	Items           []ApiManagementAPI `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&AzureAPIManagement{}, &AzureAPIManagementList{})
+	SchemeBuilder.Register(&ApiManagementAPI{}, &ApiManagementAPIList{})
 }

@@ -4,16 +4,16 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: azureapimanagements.azure.microsoft.com
+  name: apimanagementapis.azure.microsoft.com
 spec:
   group: azure.microsoft.com
   names:
-    kind: AzureAPIManagement
-    plural: azureapimanagements
+    kind: ApiManagementAPI
+    plural: apimanagementapis
   scope: ""
   validation:
     openAPIV3Schema:
-      description: AzureAPIManagement is the Schema for the azureapimanagements API
+      description: ApiManagementAPI is the Schema for the apimanagementapis API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -397,10 +397,10 @@ spec:
               type: string
           type: object
         spec:
-          description: AzureAPIManagementSpec defines the desired state of AzureAPIManagement
+          description: ApiManagementAPISpec defines the desired state of ApiManagementAPI
           type: object
         status:
-          description: AzureAPIManagementStatus defines the observed state of AzureAPIManagement
+          description: ApiManagementAPIStatus defines the observed state of ApiManagementAPI
           type: object
       type: object
   versions:
