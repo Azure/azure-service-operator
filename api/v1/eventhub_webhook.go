@@ -1,7 +1,7 @@
 package v1
 
 import (
-	eventhubsmanager "github.com/Azure/azure-service-operator/resourcemanager/eventhubs"
+	eventhubsmanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"golang.org/x/net/context"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"

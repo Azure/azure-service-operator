@@ -1,7 +1,7 @@
 package v1
 
 import (
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/resourcegroups"
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	"golang.org/x/net/context"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
