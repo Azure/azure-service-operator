@@ -16,6 +16,7 @@ limitations under the License.
 package v1
 
 import (
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -32,6 +33,8 @@ type ApiManagementServiceSpec struct {
 type ApiManagementServiceStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -56,4 +59,24 @@ type ApiManagementServiceList struct {
 
 func init() {
 	SchemeBuilder.Register(&ApiManagementService{}, &ApiManagementServiceList{})
+}
+
+func (apimanagementservice *ApiManagementService) IsBeingDeleted() bool {
+	return !apimanagementservice.ObjectMeta.DeletionTimestamp.IsZero()
+}
+
+func (apimanagementservice *ApiManagementService) IsSubmitted() bool {
+	return apimanagementservice.Status.Provisioning || apimanagementservice.Status.Provisioned
+}
+
+func (apimanagementservice *ApiManagementService) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(apimanagementservice.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (apimanagementservice *ApiManagementService) AddFinalizer(finalizerName string) {
+	apimanagementservice.ObjectMeta.Finalizers = append(apimanagementservice.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (apimanagementservice *ApiManagementService) RemoveFinalizer(finalizerName string) {
+	apimanagementservice.ObjectMeta.Finalizers = helpers.RemoveString(apimanagementservice.ObjectMeta.Finalizers, finalizerName)
 }
