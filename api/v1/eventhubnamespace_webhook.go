@@ -53,6 +53,12 @@ func (eventhubNamespace *EventhubNamespace) ValidateUpdate(old runtime.Object) e
 
 func (eventhubNamespace *EventhubNamespace) validateEventhubNamespace() error {
 	var allErrs field.ErrorList
+
+	if len(eventhubNamespace.Name) < 6 {
+		err := field.Invalid(field.NewPath("metadata").Child("name"), eventhubNamespace.Name, "Eventhubnamespace minimum length should be 6")
+		allErrs = append(allErrs, err)
+	}
+
 	err := eventhubNamespace.validateValidParent()
 	if err != nil {
 		eventhubnamespacelog.Info("error", "name", eventhubNamespace.Name)
