@@ -1,5 +1,7 @@
 # Azure Operator (for Kubernetes)
 
+[![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
+
 > This project is experimental. Expect the API to change. It is not recommended for production environments.
 
 ## Introduction
