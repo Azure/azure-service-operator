@@ -402,6 +402,14 @@ spec:
           type: object
         status:
           description: ApiManagementServiceStatus defines the observed state of ApiManagementService
+          properties:
+            provisioned:
+              type: boolean
+            provisioning:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              type: boolean
           type: object
       type: object
   versions:

@@ -17,34 +17,82 @@ package controllers
 
 import (
 	"context"
-
-	"github.com/go-logr/logr"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+	"fmt"
+	"os"
+	"strconv"
+	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/go-logr/logr"
+
+	//metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/tools/record"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // ApiManagementServiceReconciler reconciles a ApiManagementService object
 type ApiManagementServiceReconciler struct {
 	client.Client
-	Log logr.Logger
+	Log      logr.Logger
+	Recorder record.EventRecorder
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=apimanagementservices,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=apimanagementservices/status,verbs=get;update;patch
 
 func (r *ApiManagementServiceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("apimanagementservice", req.NamespacedName)
+	ctx := context.Background()
+	log := r.Log.WithValues("apimanagementservice", req.NamespacedName)
 
 	// your logic here
+	var instance azurev1.ApiManagementService
 
-	return ctrl.Result{}, nil
+	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
+		log.Error(err, "unable to fetch ApiManagementService")
+		return ctrl.Result{}, ignoreNotFound(err)
+	}
+
+	if instance.IsBeingDeleted() {
+		err := r.handleFinalizer(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	if !instance.HasFinalizer(apiMSFinalizerName) {
+		err := r.addFinalizer(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	if !instance.IsSubmitted() {
+		err := r.createAPIMS(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfter = 30
+	}
+
+	return ctrl.Result{
+		RequeueAfter: time.Second * time.Duration(requeueAfter),
+	}, nil
 }
 
 func (r *ApiManagementServiceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.ApiManagementService{}).
 		Complete(r)
+}
+
+func (r *ApiManagementServiceReconciler) createAPIMS(instance *azurev1.ApiManagementService) error {
+	return nil
 }
