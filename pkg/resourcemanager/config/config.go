@@ -23,14 +23,12 @@ var (
 	cloudName              string = "AzurePublicCloud"
 	useDeviceFlow          bool
 
-
-	declarative bool // determines whether we reject calls to the kube api via webhooks
-	keepResources          bool
-	groupName              string // deprecated, use baseGroupName instead
-	baseGroupName          string
-	userAgent              string
-	environment            *azure.Environment
-
+	declarative   bool // determines whether we reject calls to the kube api via webhooks
+	keepResources bool
+	groupName     string // deprecated, use baseGroupName instead
+	baseGroupName string
+	userAgent     string
+	environment   *azure.Environment
 )
 
 // ClientID is the OAuth client ID.

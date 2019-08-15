@@ -21,9 +21,9 @@ import (
 	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	"github.com/Azure/azure-service-operator/helpers"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	eventhubsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/eventhubs"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 
 	"github.com/go-logr/logr"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

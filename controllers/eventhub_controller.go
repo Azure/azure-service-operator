@@ -23,10 +23,10 @@ import (
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	"github.com/Azure/azure-service-operator/helpers"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
-	eventhubsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/eventhubs"
+	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 
 	"github.com/go-logr/logr"
 	v1 "k8s.io/api/core/v1"

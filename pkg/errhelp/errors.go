@@ -3,7 +3,6 @@ package errhelp
 import (
 	"encoding/json"
 	"fmt"
-	"reflect"
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
@@ -35,14 +34,6 @@ func NewAzureError(err error) error {
 		kind = e.Code
 		reason = e.Message
 	}
-	fmt.Println()
-	fmt.Println()
-	fmt.Println()
-	fmt.Println(reflect.TypeOf(det.Original))
-	fmt.Println()
-	fmt.Println()
-	// kind := det.Original.(*azure.RequestError).ServiceError.Code
-	// reason := det.Original.(*azure.RequestError).ServiceError.Message
 
 	return &AzureError{Type: kind, Reason: reason, Code: code, Original: err}
 }
