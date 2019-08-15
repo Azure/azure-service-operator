@@ -81,6 +81,15 @@ ifeq (,$(shell which kind))
 else
 	@echo "kind has been installed"
 endif
+	#KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")
+	#$(shell export KUBECONFIG="$(kind get kubeconfig-path --name="kind")")
+ifeq ($(shell kind get kubeconfig-path --name="kind"),$(KUBECONFIG))
+	@echo "kubeconfig-path points to kind path"
+else
+	@echo "please run below command in your shell and then re-run make set-kindcluster"
+	@echo  "\e[31mexport KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")\e[0m"
+	@exit 111
+endif
 ifeq (,$(shell kind get clusters))
 	@echo "no kind cluster"
 else
@@ -89,15 +98,6 @@ else
 endif
 	@echo "creating kind cluster"
 	kind create cluster
-	#KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")
-	#$(shell export KUBECONFIG="$(kind get kubeconfig-path --name="kind")")
-ifeq ($(shell kind get kubeconfig-path --name="kind"),$(KUBECONFIG))
-	@echo "kubeconfig-path points to kind path"
-else
-	@echo "please run below command in your shell and then re-run make set-kindcluster"
-	@echo export KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")
-	@exit 111
-endif
 	export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
 	@echo "getting value of KUBECONFIG"
 	kind get kubeconfig-path --name="kind"

@@ -34,3 +34,7 @@ __debug_bin
 .vscode
 .devcontainer
 .DS_Store
+cover-existing.html
+coverage-existing.txt
+report-existing.xml
+testlogs-existing.txt

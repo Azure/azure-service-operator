@@ -1,0 +1,16 @@
+cover
+cover.out
+coverage.txt
+.vscode
+.devcontainer
+report.xml
+testlogs.txt
+bin
+config
+default.etcd
+devops
+hack
+cover-existing.html
+coverage-existing.txt
+report-existing.xml
+testlogs-existing.txt
