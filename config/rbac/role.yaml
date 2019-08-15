@@ -7,9 +7,21 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - apps
+  - azure.microsoft.com
   resources:
-  - deployments/status
+  - apimanagementservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - apimanagementservices/status
   verbs:
   - get
   - patch
@@ -26,26 +38,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - resourcegroups
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubs/status
-  verbs:
-  - get
-  - patch
-  - update
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -67,29 +59,17 @@ rules:
   - patch
   - update
 - apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
   - azure.microsoft.com
   resources:
-  - apimanagementapis/status
+  - resourcegroups/status
   verbs:
   - get
   - patch
   - update
 - apiGroups:
-  - azure.microsoft.com
+  - apps
   resources:
-  - apimanagementservices
+  - deployments
   verbs:
   - create
   - delete
@@ -113,7 +93,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - resourcegroups/status
+  - eventhubs/status
   verbs:
   - get
   - patch
@@ -121,14 +101,19 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - events
+  - resourcegroups
   verbs:
   - create
+  - delete
+  - get
+  - list
   - patch
+  - update
+  - watch
 - apiGroups:
-  - apps
+  - ""
   resources:
-  - deployments
+  - secrets
   verbs:
   - create
   - delete
@@ -140,7 +125,22 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - apimanagementservices/status
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - apps
+  resources:
+  - deployments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - apimanagementapis/status
   verbs:
   - get
   - patch

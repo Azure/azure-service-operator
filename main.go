@@ -121,8 +121,9 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.ApiManagementAPIReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("ApiManagementAPI"),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ApiManagementAPI"),
+		Recorder: mgr.GetEventRecorderFor("APIManagementAPI-controller"),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ApiManagementAPI")
 		os.Exit(1)
