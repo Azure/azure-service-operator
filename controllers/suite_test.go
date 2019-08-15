@@ -114,6 +114,13 @@ var _ = BeforeSuite(func(done Done) {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+	err = (&ApiManagementAPIReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("APIManagementAPI"),
+		Recorder: k8sManager.GetEventRecorderFor("APIManagementAPI-controller"),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())
