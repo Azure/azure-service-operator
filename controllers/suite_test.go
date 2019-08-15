@@ -21,7 +21,7 @@ import (
 	"testing"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	resourcemanagerconfig "github.com/Azure/azure-service-operator/resourcemanager/config"
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"k8s.io/client-go/kubernetes/scheme"

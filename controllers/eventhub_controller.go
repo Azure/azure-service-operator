@@ -27,6 +27,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/eventhubs"
+
 	"github.com/go-logr/logr"
 	v1 "k8s.io/api/core/v1"
 
