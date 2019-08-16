@@ -24,10 +24,11 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
+	eventhubs "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -46,11 +47,18 @@ var k8sClient client.Client
 var k8sManager ctrl.Manager
 var testEnv *envtest.Environment
 var resourceGroupName string
+var resourcegroupLocation string
+var eventhubNamespaceName string
+var namespaceLocation string
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
 	resourceGroupName = "t-rg-dev-controller"
+	resourcegroupLocation = "westus"
+
+	eventhubNamespaceName = "t-ns-dev-eh-ns"
+	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{envtest.NewlineReporter{}})
@@ -122,22 +130,17 @@ var _ = BeforeSuite(func(done Done) {
 	k8sClient = k8sManager.GetClient()
 	Expect(k8sClient).ToNot(BeNil())
 
-	// Create the Resourcegroup object and expect the Reconcile to be created
-	resourceGroupInstance := &azurev1.ResourceGroup{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      resourceGroupName,
-			Namespace: "default",
-		},
-		Spec: azurev1.ResourceGroupSpec{
-			Location: "westus",
-		},
+	// Create the Resourcegroup resource
+	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
+	if result.Response.StatusCode != 204 {
+		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
 	}
 
-	err = k8sClient.Create(context.Background(), resourceGroupInstance)
-	Expect(err).NotTo(HaveOccurred())
+	// Create the Eventhub namespace resource
+	_, err = eventhubs.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 
 	close(done)
-}, 60)
+}, 120)
 
 var _ = AfterSuite(func(done Done) {
 	//clean up the resources created for test

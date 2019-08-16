@@ -17,13 +17,15 @@ package controllers
 
 import (
 	"context"
+
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+
+	"time"
 
 	. "github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"time"
 
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -33,24 +35,9 @@ import (
 var _ = Describe("EventHub Controller", func() {
 
 	const timeout = time.Second * 240
-	resourceGroupName = "t-rg-dev-controller"
-	eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		// Create the Eventhub namespace object and expect the Reconcile to be created
-		eventhubNamespaceInstance := &azurev1.EventhubNamespace{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      eventhubNamespaceName,
-				Namespace: "default",
-			},
-			Spec: azurev1.EventhubNamespaceSpec{
-				Location:      "westus",
-				ResourceGroup: resourceGroupName,
-			},
-		}
-
-		k8sClient.Create(context.Background(), eventhubNamespaceInstance)
 	})
 
 	AfterEach(func() {
@@ -64,8 +51,6 @@ var _ = Describe("EventHub Controller", func() {
 	Context("Create and Delete", func() {
 		It("should validate eventhubnamespaces exist before creating eventhubs", func() {
 
-			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
-			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			// Create the EventHub object and expect the Reconcile to be created
@@ -76,8 +61,8 @@ var _ = Describe("EventHub Controller", func() {
 				},
 				Spec: azurev1.EventhubSpec{
 					Location:      "westus",
-					Namespace:     eventhubNamespaceName,
-					ResourceGroup: resourceGroupName,
+					Namespace:     "t-ns-dev-eh-" + helpers.RandomString(10),
+					ResourceGroup: "t-rg-dev-eh-" + helpers.RandomString(10),
 					Properties: azurev1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         1,
@@ -98,8 +83,8 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete eventhubs", func() {
 
-			//resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
-			//eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
+			resourceGroupName = "t-rg-dev-controller"
+			eventhubNamespaceName = "t-ns-dev-eh-ns"
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
