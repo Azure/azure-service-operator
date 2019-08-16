@@ -23,7 +23,6 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
-	//resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -70,8 +69,11 @@ var _ = Describe("ResourceGroup Controller", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
-
-			time.Sleep(2 * time.Second)
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
+				return resourceGroupInstance.IsSubmitted()
+			}, timeout,
+			).Should(BeTrue())
 
 			k8sClient.Delete(context.Background(), resourceGroupInstance)
 			Eventually(func() bool {

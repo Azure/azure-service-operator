@@ -16,14 +16,18 @@ limitations under the License.
 package controllers
 
 import (
+	"context"
 	"os"
 	"path/filepath"
 	"testing"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -41,10 +45,12 @@ var cfg *rest.Config
 var k8sClient client.Client
 var k8sManager ctrl.Manager
 var testEnv *envtest.Environment
+var resourceGroupName string
 
 func TestAPIs(t *testing.T) {
+	t.Parallel()
 	RegisterFailHandler(Fail)
-
+	resourceGroupName = "t-rg-dev-controller"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{envtest.NewlineReporter{}})
@@ -116,13 +122,32 @@ var _ = BeforeSuite(func(done Done) {
 	k8sClient = k8sManager.GetClient()
 	Expect(k8sClient).ToNot(BeNil())
 
+	// Create the Resourcegroup object and expect the Reconcile to be created
+	resourceGroupInstance := &azurev1.ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      resourceGroupName,
+			Namespace: "default",
+		},
+		Spec: azurev1.ResourceGroupSpec{
+			Location: "westus",
+		},
+	}
+
+	err = k8sClient.Create(context.Background(), resourceGroupInstance)
+	Expect(err).NotTo(HaveOccurred())
+
 	close(done)
 }, 60)
 
-var _ = AfterSuite(func() {
+var _ = AfterSuite(func(done Done) {
 	//clean up the resources created for test
 
 	By("tearing down the test environment")
+
+	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
+
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
-})
+	close(done)
+
+}, 60)
