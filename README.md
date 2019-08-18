@@ -1,61 +1,97 @@
-# Azure Service Operator
+# Azure Operator (for Kubernetes)
 
-The Azure Service Operator allows you to manage Azure resources using Kubernetes [Custom Resource Definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+[![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
 
-## Prerequisites
+> This project is experimental. Expect the API to change. It is not recommended for production environments.
 
-* a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) to get a local cluster for testing, or run against a remote cluster, e.g. [Azure Kubernetes Service](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough).
-* [kubebuilder](https://book.kubebuilder.io/quick-start.html#installation)
-* [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+## Introduction
 
-## Getting Started
+Kubernetes offers the facility of extending it's API through the concept of 'Operators' ([Introducing Operators: Putting Operational Knowledge into Software](https://coreos.com/blog/introducing-operators.html)). This repository contains the resources and code to provision a Resource group and Azure Event Hub using Kubernetes operator.
 
-To walkthrough the demo, you'll need an AKS cluster because the service needs an external IP address.
+The Azure Operator comprises of:
+- The golang application is a Kubernetes controller that watches Customer Resource Definitions (CRDs) that define a Resource Group and Event Hub 
 
-1. Create Cluster.
+The project was built using
 
-    ```
-    az aks create -g <RG-NAME> -n <AKS-NAME>
-    az aks get-credentials -g <RG-NAME> -n <AKS-NAME>
+1. [Kubebuilder](https://book.kubebuilder.io/)
+
+### Prerequisites And Assumptions
+
+1. You have GoLang installed.
+2. You have the kubectl command line (kubectl CLI) installed.
+3. You have acess to a Kubernetes cluster. It can be a local hosted Cluster like [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/), [Kind](https://github.com/kubernetes-sigs/kind) or, Docker for desktop installed localy with RBAC enabled. if you opt for Azure Kubernetes Service ([AKS](https://azure.microsoft.com/en-au/services/kubernetes-service/)), you can use: `az aks get-credentials --resource-group $RG_NAME --name $Cluster_NAME`
+Kubectl: Client version 1.14 Server Version 1.12
+4. [kustomize](https://github.com/kubernetes-sigs/kustomize) is also needed
+
+Basic commands to check your cluster
+
+```shell
+    kubectl config get-contexts
     kubectl cluster-info
-    ```
+    kubectl version
+    kubectl get pods -n kube-system
+```
 
-1. Install CRDs.
+5. [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
+```shell
+kubectl get secret webhook-server-cert -n azureoperator-system -o yaml >certs.txt
+```
+you can use `https://inbrowser.tools/` and exctarct ca.crt,tls.crt and tls.key
 
-    ```
-    make install
-    ```
+### Run Souce Code
 
-1. Run Controller.
+1. Clone the repo
 
-    Update `config/default/manager_auth_proxy_patch.yaml` with your service principal.
+2. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config, 
+run `kubectl apply -f config/crd/bases` or `make install`
 
-    ```
+3. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
+
+4. you need kind to test webhooks
+
+```shell
+    GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0 && kind create cluster
+    kind create cluster
+    export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
+    kubectl cluster-info
+    IMG="docker.io/yourimage:tag" make docker-build
+    kind load docker-image docker.io/yourimage:tag --loglevel "trace"
     make deploy
-    ```
+```
 
-1. Run the demo.
+4. Set the environment variables AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID, REQUEUE_AFTER
+If you are running it on Windows the environment variables should not have quotes. It should be set in this way:
+SET  AZURE_TENANT_ID=11xxxx-xxx-xxx-xxx-xxxxx
+and the VSCode should be run from the same session/command window
 
-    ```
-    kubectl apply -f examples/demo/
-    ```
+5. Set the azureoperatorsettings secrete
 
-1. Test the demo.
+```shell
+Create the azureoperator-system namespace
+kubectl --namespace azureoperator-system \
+    create secret generic azureoperatorsettings \
+    --from-literal=AZURE_CLIENT_ID="xxxx" \
+    --from-literal=AZURE_CLIENT_SECRET="xxxxx" \
+    --from-literal=AZURE_SUBSCRIPTION_ID="xxxx" \
+    --from-literal=AZURE_TENANT_ID="xxxxx"
+```
+### How to extend the operator and build your own images
 
-    To monitor progress, use the `kubectl get service` command with the `--watch` argument.
+#### Updating the Azure operator:
 
-    ```
-    kubectl get service azure-vote-front --watch
-    ```
+This Repo is generated by [Kubebuilder](https://book.kubebuilder.io/).
 
-    Initially the `EXTERNAL-IP` for the `azure-vote-front` service is shown as pending.
+To Extend the operator `github.com/Azure/azure-service-operator`:
 
-    ```
-    NAME               TYPE           CLUSTER-IP   EXTERNAL-IP   PORT(S)        AGE
-    azure-vote-front   LoadBalancer   10.0.37.27   <pending>     80:30572/TCP   6s
-    ```
-
-    After the `EXTERNAL-IP` address changes from `pending` to an actual public IP address, open a web browser to the external IP address of your service.
+1. Run `go mod download` to download dependencies. It doesn't show any progress bar and takes a while to download all of dependencies.
+2. Update `api\v1\eventhub_types.go`.
+3. Regenerate CRD `make manifests`.
+4. Install updated CRD `make install`
+5. Generate code `make generate`
+6. Update operator `controller\eventhub_controller.go`
+7. Update tests and run `make test`
+8. Build `make build`
+9. Deploy `make deploy`
 
 # Contributing
 

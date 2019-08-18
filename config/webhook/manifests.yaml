@@ -1,0 +1,88 @@
+
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: mutating-webhook-configuration
+webhooks:
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-azure-microsoft-com-v1-eventhub
+  failurePolicy: Fail
+  name: meventhub.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - eventhubs
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-azure-microsoft-com-v1-eventhubnamespace
+  failurePolicy: Fail
+  name: meventhubnamespace.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - eventhubnamespaces
+
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: validating-webhook-configuration
+webhooks:
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-azure-microsoft-com-v1-eventhub
+  failurePolicy: Fail
+  name: veventhub.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - eventhubs
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-azure-microsoft-com-v1-eventhubnamespace
+  failurePolicy: Fail
+  name: veventhubnamespace.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - eventhubnamespaces

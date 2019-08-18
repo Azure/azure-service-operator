@@ -1,7 +1,7 @@
 # Build the manager binary
 FROM golang:1.12.5 as builder
 
-WORKDIR /workspace
+WORKDIR /workspace/
 # Copy the Go Modules manifests
 COPY go.mod go.mod
 COPY go.sum go.sum
@@ -10,10 +10,8 @@ COPY go.sum go.sum
 RUN go mod download
 
 # Copy the go source
-COPY main.go main.go
-COPY api/ api/
-COPY controllers/ controllers/
-COPY pkg/ pkg/
+
+COPY . ./
 
 # Build
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o manager main.go
@@ -21,6 +19,11 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o manager 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM gcr.io/distroless/static:latest
+ENV AZURE_SUBSCRIPTION_ID ""
+ENV AZURE_TENANT_ID ""
+ENV AZURE_CLIENT_ID ""
+ENV AZURE_CLIENT_SECRET ""
+ENV REQUEUE_AFTER ""
 WORKDIR /
 COPY --from=builder /workspace/manager .
 ENTRYPOINT ["/manager"]

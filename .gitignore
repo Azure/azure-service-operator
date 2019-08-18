@@ -4,6 +4,8 @@
 *.dll
 *.so
 *.dylib
+bin
+default.etcd
 
 # Test binary, build with `go test -c`
 *.test
@@ -13,3 +15,29 @@
 
 bin/
 vendor/
+coverage.txt
+report.xml
+cover.html
+coverage.json
+coverage.xml
+testlogs.txt
+.DS_Store
+
+# Kubernetes Generated files - skip generated files, except for vendored files
+
+!vendor/**/zz_generated.*
+
+# editor and IDE paraphernalia
+.idea
+*.swp
+*.swo
+*~
+.env
+__debug_bin
+.vscode
+.devcontainer
+.DS_Store
+cover-existing.html
+coverage-existing.txt
+report-existing.xml
+testlogs-existing.txt

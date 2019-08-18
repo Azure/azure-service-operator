@@ -1,0 +1,32 @@
+{
+    "virtualNetworks_GoQSVM_vnet_name": {
+        "value": "QuickstartVnet"
+    },
+    "virtualMachines_QuickstartVM_name": {
+        "value": "QuickstartVM"
+    },
+    "networkInterfaces_quickstartvm_name": {
+        "value": "QuickstartNIC"
+    },
+    "publicIPAddresses_QuickstartVM_ip_name": {
+        "value": "QuickstartIP"
+    },
+    "networkSecurityGroups_QuickstartVM_nsg_name": {
+        "value": "QuickstartNSG"
+    },
+    "subnets_default_name": {
+        "value": "QuickstartSubnet"
+    },
+    "securityRules_default_allow_ssh_name": {
+        "value": "qsuser"
+    },
+    "osDisk_name": {
+        "value": "_OsDisk_1_2e3ae1ad37414eaca81b432401fcdd75"
+    },
+    "vm_user": {
+        "value": "quickstart"
+    },
+    "vm_password": {
+        "value": "NoSoupForYou!1"
+    }
+}

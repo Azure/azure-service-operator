@@ -1,39 +1,35 @@
 /*
-MIT License
 
-Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+    http://www.apache.org/licenses/LICENSE-2.0
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 */
 
 package main
 
 import (
 	"os"
-	"strings"
 
 	"github.com/spf13/pflag"
 
 	servicev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/controllers"
-	"github.com/Azure/azure-service-operator/pkg/config"
 	"k8s.io/apimachinery/pkg/runtime"
+
+	"flag"
+
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/controllers"
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+
+	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
@@ -41,24 +37,34 @@ import (
 )
 
 var (
-	scheme                                                      = runtime.NewScheme()
-	setupLog                                                    = ctrl.Log.WithName("setup")
 	masterURL, kubeconfig, resources, clusterName               string
 	cloudName, tenantID, subscriptionID, clientID, clientSecret string
 	useAADPodIdentity                                           bool
+
+	scheme   = runtime.NewScheme()
+	setupLog = ctrl.Log.WithName("setup")
 )
 
 func init() {
 
 	_ = servicev1alpha1.AddToScheme(scheme)
+	azurev1.AddToScheme(scheme)
+	kscheme.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
+
+// +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=events,verbs=create;watch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=create;patch
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
 
 func main() {
 	var metricsAddr string
 	var enableLeaderElection bool
 	pflag.StringVarP(&metricsAddr, "metrics-addr", "", ":8080", "The address the metric endpoint binds to.")
 	pflag.BoolVarP(&enableLeaderElection, "enable-leader-election", "", false, "Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
+
 	pflag.StringVarP(&masterURL, "master-url", "", "", "The address of the Kubernetes API server. Overrides any value in kubeconfig.")
 	pflag.StringVarP(&kubeconfig, "kubeconfig", "k", "", "Path to local kubeconfig file (mainly used for development)")
 	pflag.StringVarP(&resources, "resources", "", "storage,cosmosdb", "Comma delimited list of CRDs to deploy")
@@ -73,13 +79,9 @@ func main() {
 
 	ctrl.SetLogger(zap.Logger(true))
 
-	cfg := config.Config{}
-	cfg, err := getConfig()
-	if err != nil {
-		setupLog.Error(err, "unable to get config")
-		os.Exit(1)
-	}
-	config.Instance = &cfg
+	flag.Parse()
+
+	ctrl.SetLogger(zap.Logger(true))
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:             scheme,
@@ -114,37 +116,53 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
 		os.Exit(1)
 	}
-	// +kubebuilder:scaffold:builder
 
+	err = resourcemanagerconfig.LoadSettings()
+	if err != nil {
+		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
+	}
+
+	err = (&controllers.EventhubReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("Eventhub"),
+		Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
+		os.Exit(1)
+	}
+	err = (&controllers.ResourceGroupReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+		Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
+		os.Exit(1)
+	}
+	err = (&controllers.EventhubNamespaceReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+		Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
+		os.Exit(1)
+	}
+
+	if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
+		os.Exit(1)
+	}
+
+	if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
+		os.Exit(1)
+	}
+	// +kubebuilder:scaffold:builder
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
-}
-
-func getConfig() (c config.Config, err error) {
-	resourcesMap := map[string]bool{}
-	for _, r := range strings.Split(resources, ",") {
-		resourcesMap[r] = true
-	}
-
-	kubeclientset, err := config.CreateKubeClientset(masterURL, kubeconfig)
-	if err != nil {
-		return c, err
-	}
-
-	c = config.Config{
-		KubeClientset:     kubeclientset,
-		Resources:         resourcesMap,
-		ClusterName:       clusterName,
-		CloudName:         cloudName,
-		TenantID:          tenantID,
-		SubscriptionID:    subscriptionID,
-		ClientID:          clientID,
-		ClientSecret:      clientSecret,
-		UseAADPodIdentity: useAADPodIdentity,
-	}
-
-	return c, nil
 }

@@ -1,5 +1,5 @@
 version: "2"
-domain: azure
+domain: microsoft.com
 repo: github.com/Azure/azure-service-operator
 resources:
 - group: service
@@ -11,3 +11,12 @@ resources:
 - group: service
   version: v1alpha1
   kind: RedisCache
+- group: azure
+  version: v1
+  kind: Eventhub
+- group: azure
+  version: v1
+  kind: ResourceGroup
+- group: azure
+  version: v1
+  kind: EventhubNamespace
