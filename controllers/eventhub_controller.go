@@ -18,7 +18,6 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"strings"
 	"time"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
@@ -33,11 +32,12 @@ import (
 
 	//metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
 // EventhubReconciler reconciles a Eventhub object
@@ -45,6 +45,7 @@ type EventhubReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
+	Scheme   *runtime.Scheme
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
@@ -73,9 +74,9 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			}
 			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
 				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
-				return ctrl.Result{}, nil
+				return ctrl.Result{RequeueAfter: time.Second * 30}, nil
 			}
-			return reconcile.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
+			return ctrl.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
@@ -298,28 +299,20 @@ func (r *EventhubReconciler) createEventhubSecrets(
 		Type: "Opaque",
 	}
 
-	references := []metav1.OwnerReference{
-		metav1.OwnerReference{
-			APIVersion: "v1",
-			Kind:       "Eventhub",
-			Name:       instance.GetName(),
-			UID:        instance.GetUID(),
-		},
-	}
-	//set owner reference for secret
-	csecret.ObjectMeta.SetOwnerReferences(references)
-
-	err := r.Create(context.Background(), csecret)
-	if err != nil {
-		if strings.Contains(err.Error(), "already exists") {
-			err = r.Update(context.Background(), csecret)
-			if err != nil {
-				return err
-			}
-		} else {
-			return err
+	_, err := controllerutil.CreateOrUpdate(context.Background(), r.Client, csecret, func() error {
+		r.Log.Info("mutating secret bundle")
+		innerErr := controllerutil.SetControllerReference(instance, csecret, r.Scheme)
+		if innerErr != nil {
+			return innerErr
 		}
+
+		return nil
+	})
+
+	if err != nil {
+		return err
 	}
+
 	return nil
 }
 
