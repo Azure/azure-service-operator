@@ -1,0 +1,30 @@
+{
+	"name": "Go",
+	"dockerFile": "Dockerfile",
+	"appPort": 9000,
+	"extensions": [
+		"ms-vscode.go"
+	],
+
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined",
+		"-e", "SYNC_LOCALHOST_KUBECONFIG=true",
+		"-v", "/var/run/docker.sock:/var/run/docker.sock",
+		"-v", "/C/Users/Administrator/.kube:/root/.kube-localhost",
+		"-v","/C/temp/k8s-webhook-server/serving-certs:/tmp/k8s-webhook-server/serving-certs"
+	],
+	"settings": {
+		"go.gopath": "/go",
+		"go.inferGopath": true,
+		"go.useLanguageServer": true,
+		"go.toolsEnvVars": {
+			"GO111MODULE": "on"
+		},
+		"remote.extensionKind": {
+			"ms-azuretools.vscode-docker": "workspace"
+		}
+	}
+}
+s
