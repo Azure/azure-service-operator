@@ -1,11 +1,9 @@
 package errhelp
 
 import (
-	"encoding/json"
-	"fmt"
-
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
+	"k8s.io/apimachinery/pkg/api/errors"
 )
 
 const (
@@ -13,15 +11,6 @@ const (
 	ResourceGroupNotFoundErrorCode = "ResourceGroupNotFound"
 	NotFoundErrorCode              = "NotFound"
 )
-
-func Pretty(i interface{}) {
-	out, err := json.MarshalIndent(i, " ", "")
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(string(out))
-	}
-}
 
 func NewAzureError(err error) error {
 	det := err.(autorest.DetailedError)
@@ -33,6 +22,9 @@ func NewAzureError(err error) error {
 	} else if e, ok := det.Original.(*azure.ServiceError); ok {
 		kind = e.Code
 		reason = e.Message
+	} else if _, ok := det.Original.(*errors.StatusError); ok {
+		kind = "StatusError"
+		reason = "StatusError"
 	}
 
 	return &AzureError{Type: kind, Reason: reason, Code: code, Original: err}
