@@ -90,7 +90,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !instance.IsSubmitted() {
-		err := r.createEventhub(&instance)
+		err := r.reconcileExternal(&instance)
 		if err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
@@ -119,7 +119,7 @@ func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
+func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error {
 	ctx := context.Background()
 
 	var err error

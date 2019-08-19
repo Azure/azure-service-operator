@@ -74,7 +74,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 	}
 
 	if !instance.IsSubmitted() {
-		err := r.createEventHubNamespace(&instance)
+		err := r.reconcileExternal(&instance)
 		if err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
@@ -99,7 +99,7 @@ func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.EventhubNamespace) error {
 	ctx := context.Background()
 
 	var err error

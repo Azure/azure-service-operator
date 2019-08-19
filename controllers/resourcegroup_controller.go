@@ -70,7 +70,7 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	}
 
 	if !instance.IsSubmitted() {
-		err := r.createResourceGroup(&instance)
+		err := r.reconcileExternal(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
@@ -87,7 +87,7 @@ func (r *ResourceGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *ResourceGroupReconciler) createResourceGroup(instance *azurev1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1.ResourceGroup) error {
 
 	ctx := context.Background()
 	var err error
