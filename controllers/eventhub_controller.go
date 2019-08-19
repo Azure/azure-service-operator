@@ -18,24 +18,26 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"os"
-	"strconv"
 	"time"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	eventhubsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/eventhubs"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+
+	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+
 	"github.com/go-logr/logr"
 	v1 "k8s.io/api/core/v1"
-	apierrs "k8s.io/apimachinery/pkg/api/errors"
 
 	//metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
 // EventhubReconciler reconciles a Eventhub object
@@ -43,14 +45,7 @@ type EventhubReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
-}
-
-func ignoreNotFound(err error) error {
-
-	if apierrs.IsNotFound(err) {
-		return nil
-	}
-	return err
+	Scheme   *runtime.Scheme
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
@@ -65,17 +60,24 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	var instance azurev1.Eventhub
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Error(err, "unable to fetch Eventhub")
+		log.Info("Unable to retrieve eventhub resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
-		return ctrl.Result{}, ignoreNotFound(err)
+		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	if instance.IsBeingDeleted() {
 		err := r.handleFinalizer(&instance)
 		if err != nil {
-			return reconcile.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
+			catch := []string{
+				errhelp.ResourceGroupNotFoundErrorCode,
+			}
+			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
+				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
+				return ctrl.Result{RequeueAfter: time.Second * 30}, nil
+			}
+			return ctrl.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
@@ -89,31 +91,36 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !instance.IsSubmitted() {
-		err := r.createEventhub(&instance)
+		err := r.reconcileExternal(&instance)
 		if err != nil {
+			catch := []string{
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.NotFoundErrorCode,
+			}
+			if azerr, ok := err.(*errhelp.AzureError); ok {
+				if helpers.ContainsString(catch, azerr.Type) {
+					log.Info("Got ignorable error", "type", azerr.Type)
+					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+				}
+			}
+
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
-	if err != nil {
-		requeueAfter = 30
-	}
-
-	return ctrl.Result{
-		RequeueAfter: time.Second * time.Duration(requeueAfter),
-	}, nil
+	return ctrl.Result{}, nil
 }
 
-// SetupWithManager blah
+// SetupWithManager binds the reconciler to a manager instance
 func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.Eventhub{}).
 		Complete(r)
 }
 
-func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
+func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error {
 	ctx := context.Background()
 
 	var err error
@@ -130,8 +137,8 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 	//get owner instance
 	var ownerInstance azurev1.EventhubNamespace
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespace, Namespace: instance.Namespace}
-	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
 
+	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of eventhubnamespace")
@@ -153,6 +160,7 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 		//log error and kill it
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
+
 	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
@@ -162,7 +170,7 @@ func (r *EventhubReconciler) createEventhub(instance *azurev1.Eventhub) error {
 			//log error and kill it
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
-		return err
+		return errhelp.NewAzureError(err)
 	}
 
 	err = r.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
@@ -272,8 +280,6 @@ func (r *EventhubReconciler) createEventhubSecrets(
 	sharedAccessKey string,
 	instance *azurev1.Eventhub) error {
 
-	var err error
-
 	csecret := &v1.Secret{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Secret",
@@ -294,21 +300,20 @@ func (r *EventhubReconciler) createEventhubSecrets(
 		Type: "Opaque",
 	}
 
-	references := []metav1.OwnerReference{
-		metav1.OwnerReference{
-			APIVersion: "v1",
-			Kind:       "Eventhub",
-			Name:       instance.GetName(),
-			UID:        instance.GetUID(),
-		},
-	}
-	//set owner reference for secret
-	csecret.ObjectMeta.SetOwnerReferences(references)
+	_, err := controllerutil.CreateOrUpdate(context.Background(), r.Client, csecret, func() error {
+		r.Log.Info("mutating secret bundle")
+		innerErr := controllerutil.SetControllerReference(instance, csecret, r.Scheme)
+		if innerErr != nil {
+			return innerErr
+		}
 
-	err = r.Create(context.Background(), csecret)
+		return nil
+	})
+
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 

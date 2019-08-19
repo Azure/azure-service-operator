@@ -18,6 +18,7 @@ cover.html
 coverage.json
 coverage.xml
 testlogs.txt
+.DS_Store
 
 # Kubernetes Generated files - skip generated files, except for vendored files
 
@@ -32,3 +33,8 @@ testlogs.txt
 __debug_bin
 .vscode
 .devcontainer
+.DS_Store
+cover-existing.html
+coverage-existing.txt
+report-existing.xml
+testlogs-existing.txt

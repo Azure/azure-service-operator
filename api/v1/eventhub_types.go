@@ -16,7 +16,7 @@ limitations under the License.
 package v1
 
 import (
-	helpers "github.com/Azure/azure-service-operator/helpers"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -72,7 +72,7 @@ type EventhubProperties struct {
 }
 
 // +kubebuilder:object:root=true
-
+// +kubebuilder:subresource:status
 // Eventhub is the Schema for the eventhubs API
 type Eventhub struct {
 	metav1.TypeMeta   `json:",inline"`

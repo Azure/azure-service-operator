@@ -17,14 +17,14 @@ package controllers
 
 import (
 	"context"
-	"time"
-
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/helpers"
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/resourcegroups"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"os"
+	"time"
 
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -48,42 +48,44 @@ var _ = Describe("EventHub Controller", func() {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create and Delete", func() {
-		// It("should validate eventhubnamespaces exist before creating eventhubs", func() {
+		if os.Getenv("TEST_USE_EXISTING_CLUSTER") == "true" {
+			It("should validate eventhubnamespaces exist before creating eventhubs", func() {
 
-		// 	resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
-		// 	eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
-		// 	eventhubName := "t-eh-" + helpers.RandomString(10)
+				resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
+				eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
+				eventhubName := "t-eh-" + helpers.RandomString(10)
 
-		// 	// Create the EventHub object and expect the Reconcile to be created
-		// 	eventhubInstance := &azurev1.Eventhub{
-		// 		ObjectMeta: metav1.ObjectMeta{
-		// 			Name:      eventhubName,
-		// 			Namespace: "default",
-		// 		},
-		// 		Spec: azurev1.EventhubSpec{
-		// 			Location:      "westus",
-		// 			Namespace:     eventhubNamespaceName,
-		// 			ResourceGroup: resourceGroupName,
-		// 			Properties: azurev1.EventhubProperties{
-		// 				MessageRetentionInDays: 7,
-		// 				PartitionCount:         1,
-		// 			},
-		// 		},
-		// 	}
+				// Create the EventHub object and expect the Reconcile to be created
+				eventhubInstance := &azurev1.Eventhub{
+					ObjectMeta: metav1.ObjectMeta{
+						Name:      eventhubName,
+						Namespace: "default",
+					},
+					Spec: azurev1.EventhubSpec{
+						Location:      "westus",
+						Namespace:     eventhubNamespaceName,
+						ResourceGroup: resourceGroupName,
+						Properties: azurev1.EventhubProperties{
+							MessageRetentionInDays: 7,
+							PartitionCount:         1,
+						},
+					},
+				}
 
-		// 	k8sClient.Create(context.Background(), eventhubInstance)
+				k8sClient.Create(context.Background(), eventhubInstance)
 
-		// 	time.Sleep(60 * time.Second)
+				time.Sleep(60 * time.Second)
 
-		// 	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
+				eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
 
-		// 	Eventually(func() bool {
-		// 		_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-		// 		return eventhubInstance.IsSubmitted()
-		// 	}, timeout,
-		// 	).Should(BeFalse())
+				Eventually(func() bool {
+					_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
+					return eventhubInstance.IsSubmitted()
+				}, timeout,
+				).Should(BeFalse())
 
-		// })
+			})
+		}
 
 		It("should create and delete eventhubs", func() {
 

@@ -1,7 +1,7 @@
 package v1
 
 import (
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/resourcemanager/resourcegroups"
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	"golang.org/x/net/context"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -53,6 +53,12 @@ func (eventhubNamespace *EventhubNamespace) ValidateUpdate(old runtime.Object) e
 
 func (eventhubNamespace *EventhubNamespace) validateEventhubNamespace() error {
 	var allErrs field.ErrorList
+
+	if len(eventhubNamespace.Name) < 6 {
+		err := field.Invalid(field.NewPath("metadata").Child("name"), eventhubNamespace.Name, "Eventhubnamespace minimum length should be 6")
+		allErrs = append(allErrs, err)
+	}
+
 	err := eventhubNamespace.validateValidParent()
 	if err != nil {
 		eventhubnamespacelog.Info("error", "name", eventhubNamespace.Name)
