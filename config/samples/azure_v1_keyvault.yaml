@@ -3,5 +3,5 @@ kind: KeyVault
 metadata:
   name: keyvaultsample123
 spec:
-  resourceGroup: TestRG
+  resourceGroup: resourcegroup-sample-6
   location: westus
