@@ -4,7 +4,7 @@ metadata:
   name: eventhubnamespace-sample-6
 spec:    
     location: "westus"
-    resourcegroup: "resourcegroup-sample-6"
+    resourcegroup: "resourcegroup-sample-1907"
     sku:
       name: "Standard"
       tier: "Standard"

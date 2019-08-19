@@ -22,11 +22,13 @@ var (
 	authorizationServerURL string
 	cloudName              string = "AzurePublicCloud"
 	useDeviceFlow          bool
-	keepResources          bool
-	groupName              string // deprecated, use baseGroupName instead
-	baseGroupName          string
-	userAgent              string
-	environment            *azure.Environment
+
+	declarative   bool // determines whether we reject calls to the kube api via webhooks
+	keepResources bool
+	groupName     string // deprecated, use baseGroupName instead
+	baseGroupName string
+	userAgent     string
+	environment   *azure.Environment
 )
 
 // ClientID is the OAuth client ID.
@@ -37,6 +39,11 @@ func ClientID() string {
 // ClientSecret is the OAuth client secret.
 func ClientSecret() string {
 	return clientSecret
+}
+
+// Declarative is a flag passed to the oeprator that can restrict the use of non declarative webhooks
+func Declarative() bool {
+	return declarative
 }
 
 // TenantID is the AAD tenant to which this client belongs.

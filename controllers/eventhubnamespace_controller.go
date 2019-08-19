@@ -18,12 +18,13 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"os"
-	"strconv"
 	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+
 	"github.com/go-logr/logr"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -48,15 +49,13 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 	ctx := context.Background()
 	log := r.Log.WithValues("eventhubnamespace", req.NamespacedName)
 
-	// your logic here
-
 	var instance azurev1.EventhubNamespace
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Error(err, "unable to fetch EventhubNamespace")
+		log.Info("Unable to retrieve eventhub namespace resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
-		return ctrl.Result{}, ignoreNotFound(err)
+		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 	if instance.IsBeingDeleted() {
 		err := r.handleFinalizer(&instance)
@@ -75,21 +74,23 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 	}
 
 	if !instance.IsSubmitted() {
-		err := r.createEventHubNamespace(&instance)
+		err := r.reconcileExternal(&instance)
 		if err != nil {
+			catch := []string{
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.ResourceGroupNotFoundErrorCode,
+			}
+			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
+				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
+				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+			}
+
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
-	if err != nil {
-		requeueAfter = 30
-	}
-
-	return ctrl.Result{
-		RequeueAfter: time.Second * time.Duration(requeueAfter),
-	}, nil
+	return ctrl.Result{}, nil
 }
 
 func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
@@ -98,7 +99,7 @@ func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.EventhubNamespace) error {
 	ctx := context.Background()
 
 	var err error
@@ -147,7 +148,7 @@ func (r *EventhubNamespaceReconciler) createEventHubNamespace(instance *azurev1.
 			//log error and kill it
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
-		return err
+		return errhelp.NewAzureError(err)
 	}
 
 	// write information back to instance
