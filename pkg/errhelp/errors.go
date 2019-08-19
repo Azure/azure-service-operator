@@ -30,7 +30,6 @@ func NewAzureError(err error) error {
 	return &AzureError{Type: kind, Reason: reason, Code: code, Original: err}
 }
 
-// errorString is a trivial implementation of error.
 type AzureError struct {
 	Type     string
 	Reason   string
