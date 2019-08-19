@@ -23,3 +23,8 @@ func IsNotActive(err error) bool {
 func IsAsynchronousOperationNotComplete(err error) bool {
 	return strings.Contains(err.Error(), "asynchronous operation has not completed")
 }
+
+// IsStatusCode204 checks if the error reports a status code 204 failure to respond to request
+func IsStatusCode204(err error) bool {
+	return strings.Contains(err.Error(), "StatusCode=204")
+}

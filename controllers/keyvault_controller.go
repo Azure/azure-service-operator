@@ -121,7 +121,7 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error
 	// write information back to instance
 	instance.Status.Provisioning = true
 
-	if err := r.Update(ctx, instance); err != nil {
+	if err := r.Status().Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
@@ -133,7 +133,7 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error
 		}
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
-		errUpdate := r.Update(ctx, instance)
+		errUpdate := r.Status().Update(ctx, instance)
 		if errUpdate != nil {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
@@ -143,7 +143,7 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
-	if err = r.Update(ctx, instance); err != nil {
+	if err = r.Status().Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
@@ -156,11 +156,16 @@ func (r *KeyVaultReconciler) deleteExternal(instance *azurev1.KeyVault) error {
 	groupName := instance.Spec.ResourceGroupName
 	_, err := keyvaults.DeleteVault(ctx, groupName, name)
 	if err != nil {
+		if errhelp.IsStatusCode204(err) {
+			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
+			return nil
+		}
+
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
 		return err
 	}
 
-	r.Recorder.Event(instance, "Normal", "Deleted", name+"deleted")
+	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
 	return nil
 }
 

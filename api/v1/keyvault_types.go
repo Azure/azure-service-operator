@@ -32,6 +32,7 @@ type KeyVaultStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // KeyVault is the Schema for the keyvaults API
 type KeyVault struct {
@@ -43,6 +44,7 @@ type KeyVault struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // KeyVaultList contains a list of KeyVault
 type KeyVaultList struct {

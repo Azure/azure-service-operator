@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1
 kind: KeyVault
 metadata:
-  name: jan-kv-sample2
+  name: keyvaultsample123
 spec:
-  resourceGroup: Janani-testRG
+  resourceGroup: TestRG
   location: westus
