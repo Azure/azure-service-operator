@@ -59,7 +59,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	var instance azurev1.Eventhub
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Info("Unable tto retrieve eventhub resource", "err", err.Error())
+		log.Info("Unable to retrieve eventhub resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -112,7 +112,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-// SetupWithManager blah
+// SetupWithManager binds the reconciler to a manager instance
 func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.Eventhub{}).

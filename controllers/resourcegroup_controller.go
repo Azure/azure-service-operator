@@ -46,7 +46,7 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 
 	var instance azurev1.ResourceGroup
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Info("Unable tto retrieve resourcegroup resource", "err", err.Error())
+		log.Info("Unable to retrieve resourcegroup resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
