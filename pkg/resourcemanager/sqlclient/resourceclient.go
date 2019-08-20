@@ -5,11 +5,12 @@
 
 package sqlclient
 
-// ResourceClient contains the helper functions for interacting with APIs / API Mgmt Svc.
+import "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+
+// ResourceClient contains the helper functions for interacting with SQL servers / databases
 type ResourceClient interface {
-	CreateAPIMgmtSvcImpl() (result bool, err error)
-	CreateOrUpdateAPIImpl(apiid string, properties APIProperties, ifMatch string) (result bool, err error)
-	DeleteAPIImpl(apiid string) (result bool, err error)
-	DeleteAPIMgmtSvcImpl() (result bool, err error)
-	IsAPIMgmtSvcActivatedImpl() (result bool, err error)
+	CreateOrUpdateSQLServerImpl(properties sql.ServerProperties) (result *string, err error)
+	CreateOrUpdateDBImpl(dbName string, properties sql.DatabaseProperties) (result *string, err error)
+	DeleteDBImpl(dbName string) (result bool, err error)
+	DeleteSQLServerImpl() (result bool, err error)
 }

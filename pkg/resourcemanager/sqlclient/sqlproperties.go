@@ -21,14 +21,14 @@ type SQLServerProperties struct {
 type SQLDatabaseProperties struct {
 }
 
-// SQLServerPropertiesToServer translates APIProperties to APICreateOrUpdateParameter and underlying APICreateOrUpdateProperties
-func SQLServerPropertiesToServer(parameter SQLServerProperties) (result sql.Server) {
+// SQLServerPropertiesToServer translates SQLServerProperties to ServerProperties
+func SQLServerPropertiesToServer(properties SQLServerProperties) (result sql.ServerProperties) {
 
 	return result
 }
 
-// SQLDatabasePropertiesToDatabase translates APIProperties to APICreateOrUpdateParameter and underlying APICreateOrUpdateProperties
-func SQLDatabasePropertiesToDatabase(parameter SQLDatabaseProperties) (result sql.Database) {
+// SQLDatabasePropertiesToDatabase translates SQLDatabaseProperties to DatabaseProperties
+func SQLDatabasePropertiesToDatabase(properties SQLDatabaseProperties) (result sql.DatabaseProperties) {
 
 	return result
 }

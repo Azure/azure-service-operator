@@ -7,11 +7,10 @@ package sqlclient
 
 import "context"
 
-// GoSDKClient is used to pass information to an implemetation of the APIMgmtImplemetation interface that wraps calls to the Go SDK for Azure.
+// GoSDKClient is used to pass information to an implemetation of the ResourceClient interface that wraps calls to the Go SDK for Azure.
 type GoSDKClient struct {
 	Ctx               context.Context
 	ResourceGroupName string
-	ServiceName       string
-	Email             string
-	Name              string
+	ServerName        string
+	Location          string
 }
