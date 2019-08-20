@@ -20,3 +20,6 @@ resources:
 - group: azure
   version: v1
   kind: SqlFirewallRule
+- group: azure
+  version: v1
+  kind: KeyVault

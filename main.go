@@ -105,6 +105,19 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.KeyVaultReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("KeyVault"),
+		Recorder: mgr.GetEventRecorderFor("KeyVault-controller"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "KeyVault")
+		os.Exit(1)
+	}
+
+	if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
+		os.Exit(1)
+	}
 	if !resourcemanagerconfig.Declarative() {
 		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
 			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
@@ -139,6 +152,7 @@ func main() {
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
+
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")
