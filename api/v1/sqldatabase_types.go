@@ -26,9 +26,9 @@ import (
 type SqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location          string `json:"location"`
-	ResourceGroupName string `json:"resourcegroup,omitempty"`
-	SQLServerName     string `json:"server"`
+	Location      string `json:"location"`
+	ResourceGroup string `json:"resourcegroup,omitempty"`
+	Server        string `json:"server"`
 }
 
 // SqlDatabaseStatus defines the observed state of SqlDatabase

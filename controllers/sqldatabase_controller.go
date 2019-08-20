@@ -28,6 +28,8 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 )
 
+const SQLDatabaseFinalizerName = "sqldatabase.finalizers.azure.com"
+
 // SqlDatabaseReconciler reconciles a SqlDatabase object
 type SqlDatabaseReconciler struct {
 	client.Client
@@ -100,11 +102,11 @@ func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) er
 }
 
 func (r *SqlDatabaseReconciler) addFinalizer(instance *azurev1.SqlDatabase) error {
-	helpers.AddFinalizer(instance, SQLServerFinalizerName)
+	helpers.AddFinalizer(instance, SQLDatabaseFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLServerFinalizerName))
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLDatabaseFinalizerName))
 	return nil
 }

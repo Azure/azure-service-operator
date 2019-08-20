@@ -70,7 +70,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
+	if !helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
 			log.Info("Adding keyvault finalizer failed with ", err.Error())
 			return ctrl.Result{}, err

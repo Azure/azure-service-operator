@@ -26,8 +26,8 @@ import (
 type SqlFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location          string `json:"location"`
-	ResourceGroupName string `json:"resourcegroup,omitempty"`
+	Location      string `json:"location"`
+	ResourceGroup string `json:"resourcegroup,omitempty"`
 }
 
 // SqlFirewallRuleStatus defines the observed state of SqlFirewallRule
