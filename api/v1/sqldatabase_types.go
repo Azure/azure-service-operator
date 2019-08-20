@@ -26,16 +26,20 @@ import (
 type SqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Location          string `json:"location"`
+	ResourceGroupName string `json:"resourcegroup,omitempty"`
 }
 
 // SqlDatabaseStatus defines the observed state of SqlDatabase
 type SqlDatabaseStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 // +kubebuilder:object:root=true
-
+// +kubebuilder:subresource:status
 // SqlDatabase is the Schema for the sqldatabases API
 type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
