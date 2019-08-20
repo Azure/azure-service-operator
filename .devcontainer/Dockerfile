@@ -65,16 +65,30 @@ RUN apt-get update \
     && chmod +x /usr/local/bin/kubectl \
     #
     # Install Helm
-    curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash -
-    
+    && curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash -
+
+RUN os=$(go env GOOS)  \
+&& arch=$(go env GOARCH)  \
+# download kubebuilder and extract it to tmp
+&& curl -sL https://go.kubebuilder.io/dl/2.0.0-rc.0/${os}/${arch} | tar -xz -C /tmp/   \
+# move to a long-term location and put it on your path
+# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
+&& mv /tmp/kubebuilder_2.0.0-rc.0_${os}_${arch} /usr/local/kubebuilder   \
+# && export PATH=$PATH:/usr/local/kubebuilder/bin \
+&& chmod +x /usr/local/kubebuilder/bin 
+
+
+
+ENV PATH="/usr/local/kubebuilder/bin:${PATH}"
+
 ENV GO111MODULE=on
 
 
 # Set the default shell to bash instead of sh
-ENV AZURE_CLIENT_ID
-ENV AZURE_CLIENT_SECRET
-ENV AZURE_SUBSCRIPTION_ID
-ENV AZURE_TENANT_ID
+ENV AZURE_CLIENT_ID=""
+ENV AZURE_CLIENT_SECRET=""
+ENV AZURE_SUBSCRIPTION_ID=""
+ENV AZURE_TENANT_ID=""
 ENV KUBECONFIG=/root/.kube/config
 
 ENV SHELL /bin/bash
