@@ -7,12 +7,48 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - ""
+  - azure.microsoft.com
+  resources:
+  - resourcegroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlfirewallrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlservers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
   resources:
   - events
   verbs:
   - create
-  - watch
+  - patch
 - apiGroups:
   - apps
   resources:
@@ -24,39 +60,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - eventhubs
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
   - eventhubnamespaces
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubnamespaces/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - resourcegroups
   verbs:
   - create
   - delete
@@ -88,14 +92,43 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - events
+  - eventhubnamespaces/status
   verbs:
-  - create
+  - get
   - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlfirewallrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlservers/status
+  verbs:
+  - get
+  - patch
+  - update
 - apiGroups:
   - apps
   resources:
   - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqldatabases
   verbs:
   - create
   - delete
@@ -112,3 +145,30 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqldatabases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
