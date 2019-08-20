@@ -17,3 +17,6 @@ resources:
 - group: azure
   version: v1
   kind: SqlDatabase
+- group: azure
+  version: v1
+  kind: SqlFirewallRule
