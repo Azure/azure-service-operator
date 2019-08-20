@@ -28,6 +28,7 @@ type SqlServerSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Location          string `json:"location"`
 	ResourceGroupName string `json:"resourcegroup,omitempty"`
+	AdminUserName     string `json:"admin"`
 }
 
 // SqlServerStatus defines the observed state of SqlServer

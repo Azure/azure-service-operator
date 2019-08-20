@@ -35,10 +35,19 @@ type SqlDatabaseReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqldatabases/status,verbs=get;update;patch
 
 func (r *SqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("sqldatabase", req.NamespacedName)
+	ctx := context.Background()
+	log := r.Log.WithValues("sqldatabase", req.NamespacedName)
 
 	// your logic here
+	var instance azurev1.SqlServer
+
+	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
+		log.Info("Unable to retrieve sql-database resource", "err", err.Error())
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
 
 	return ctrl.Result{}, nil
 }

@@ -35,10 +35,19 @@ type SqlFirewallRuleReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlfirewallrules/status,verbs=get;update;patch
 
 func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("sqlfirewallrule", req.NamespacedName)
+	ctx := context.Background()
+	log := r.Log.WithValues("sqlfirewallrule", req.NamespacedName)
 
 	// your logic here
+	var instance azurev1.SqlServer
+
+	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
+		log.Info("Unable to retrieve sql-firewall-rule resource", "err", err.Error())
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
 
 	return ctrl.Result{}, nil
 }

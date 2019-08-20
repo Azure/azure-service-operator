@@ -28,6 +28,7 @@ type SqlDatabaseSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Location          string `json:"location"`
 	ResourceGroupName string `json:"resourcegroup,omitempty"`
+	SQLServerName     string `json:"server"`
 }
 
 // SqlDatabaseStatus defines the observed state of SqlDatabase
