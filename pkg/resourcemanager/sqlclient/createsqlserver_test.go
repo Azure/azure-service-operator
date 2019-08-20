@@ -9,18 +9,15 @@ import (
 	"context"
 	"fmt"
 	"testing"
-	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
 	"github.com/Azure/azure-service-operator/pkg/util"
+	"github.com/Azure/go-autorest/autorest/to"
 )
 
 // TestCreateOrUpdateSQLServer tests creating and delete a SQL server
 func TestCreateOrUpdateSQLServer(t *testing.T) {
-
-	// skip this test for now due to length of time constraints, comment out to execute
-	// t.SkipNow()
 
 	var groupName = config.GenerateGroupName("SQLCreateDeleteTest")
 	config.SetGroupName(groupName)
@@ -43,7 +40,10 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// create the SQLServerProperties struct
-	sqlServerProperties := SQLServerProperties{}
+	sqlServerProperties := SQLServerProperties{
+		AdministratorLogin:         to.StringPtr("Moss"),
+		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
+	}
 
 	// create the service
 	_, err = CreateOrUpdateSQLServer(sdk, sqlServerProperties)
@@ -52,9 +52,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		t.FailNow()
 	}
 	util.PrintAndLog("sql server created")
-
-	// sleep for a minute
-	time.Sleep(time.Second * 60)
 
 	// delete the service
 	_, err = DeleteSQLServer(sdk)
