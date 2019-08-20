@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1
+kind: SqlDatabase
+metadata:
+  name: sqldatabase-sample
+spec:
+  # Add fields here
+  foo: bar

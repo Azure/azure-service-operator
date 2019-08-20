@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1
+kind: SqlServer
+metadata:
+  name: sqlserver-sample
+spec:
+  # Add fields here
+  foo: bar

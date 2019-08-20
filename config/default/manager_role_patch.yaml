@@ -9,7 +9,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - events
+  - resourcegroups
   verbs:
   - create
   - watch
@@ -50,8 +50,10 @@ rules:
   - deployments/status
   verbs:
   - get
+  - list
   - patch
   - update
+  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -91,7 +93,19 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - eventhubnamespaces
+  - sqlfirewallrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlservers
   verbs:
   - create
   - delete
@@ -113,13 +127,27 @@ rules:
   resources:
   - eventhubnamespaces/status
   verbs:
+  - create
+  - patch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - apps
+  resources:
+  - deployments/status
+  verbs:
   - get
   - patch
   - update
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - resourcegroups
+  - eventhubnamespaces
   verbs:
   - create
   - delete
@@ -152,6 +180,28 @@ rules:
   - eventhubs/status
   verbs:
   - get
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlfirewallrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlservers/status
+  verbs:
+  - get
   - patch
   - update
 - apiGroups:
@@ -177,6 +227,18 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - sqldatabases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - eventhubs/status
   verbs:
   - get
@@ -186,6 +248,14 @@ rules:
   - ""
   resources:
   - secrets
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqldatabases/status
   verbs:
   - get
   - patch
@@ -204,6 +274,22 @@ rules:
   - deployments/status
   verbs:
   - get
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
   - patch
   - update
   - watch

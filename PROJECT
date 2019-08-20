@@ -26,3 +26,12 @@ resources:
 - group: azure
   version: v1
   kind: ConsumerGroup
+- group: azure
+  version: v1
+  kind: SqlServer
+- group: azure
+  version: v1
+  kind: SqlDatabase
+- group: azure
+  version: v1
+  kind: SqlFirewallRule
