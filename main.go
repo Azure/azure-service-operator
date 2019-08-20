@@ -111,6 +111,16 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
 		os.Exit(1)
 	}
+
+	err = (&controllers.ConsumerGroupReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder: mgr.GetEventRecorderFor("ConsumerGroup-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {

@@ -7,21 +7,9 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - apps
+  - azure.microsoft.com
   resources:
-  - deployments
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - apps
-  resources:
-  - deployments/status
+  - eventhubs/status
   verbs:
   - get
   - patch
@@ -39,9 +27,31 @@ rules:
   - update
   - watch
 - apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - watch
+- apiGroups:
   - azure.microsoft.com
   resources:
-  - eventhubnamespaces/status
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - apps
+  resources:
+  - deployments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - consumergroups/status
   verbs:
   - get
   - patch
@@ -58,21 +68,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubs/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - events
-  verbs:
-  - create
-  - patch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -96,13 +91,6 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - events
-  verbs:
-  - create
-  - watch
-- apiGroups:
-  - ""
-  resources:
   - secrets
   verbs:
   - create
@@ -112,3 +100,35 @@ rules:
   - patch
   - update
   - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - consumergroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces/status
+  verbs:
+  - get
+  - patch
+  - update

@@ -81,6 +81,9 @@ var _ = BeforeSuite(func(done Done) {
 	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
+	err = azurev1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
@@ -105,6 +108,13 @@ var _ = BeforeSuite(func(done Done) {
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
 		Recorder: k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&ConsumerGroupReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
