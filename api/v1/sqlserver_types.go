@@ -62,3 +62,7 @@ type SqlServerList struct {
 func init() {
 	SchemeBuilder.Register(&SqlServer{}, &SqlServerList{})
 }
+
+func (s *SqlServer) IsSubmitted() bool {
+	return s.Status.Provisioning || s.Status.Provisioned
+}

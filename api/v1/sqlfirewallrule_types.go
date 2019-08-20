@@ -61,3 +61,7 @@ type SqlFirewallRuleList struct {
 func init() {
 	SchemeBuilder.Register(&SqlFirewallRule{}, &SqlFirewallRuleList{})
 }
+
+func (s *SqlFirewallRule) IsSubmitted() bool {
+	return s.Status.Provisioning || s.Status.Provisioned
+}

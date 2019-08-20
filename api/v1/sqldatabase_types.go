@@ -62,3 +62,7 @@ type SqlDatabaseList struct {
 func init() {
 	SchemeBuilder.Register(&SqlDatabase{}, &SqlDatabaseList{})
 }
+
+func (s *SqlDatabase) IsSubmitted() bool {
+	return s.Status.Provisioning || s.Status.Provisioned
+}
