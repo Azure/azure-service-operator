@@ -13,6 +13,12 @@ import (
 // wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#Server
 // also wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ServerProperties
 type SQLServerProperties struct {
+
+	// AdministratorLogin - Administrator username for the server. Once created it cannot be changed.
+	AdministratorLogin *string `json:"administratorLogin,omitempty"`
+
+	// AdministratorLoginPassword - The administrator login password (required for server creation).
+	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
 }
 
 // SQLDatabaseProperties contains values needed for adding / updating SQL servers,
@@ -24,6 +30,10 @@ type SQLDatabaseProperties struct {
 // SQLServerPropertiesToServer translates SQLServerProperties to ServerProperties
 func SQLServerPropertiesToServer(properties SQLServerProperties) (result sql.ServerProperties) {
 
+	result = sql.ServerProperties{
+		AdministratorLogin:         properties.AdministratorLogin,
+		AdministratorLoginPassword: properties.AdministratorLoginPassword,
+	}
 	return result
 }
 
