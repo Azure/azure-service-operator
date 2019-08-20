@@ -3,7 +3,7 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package apimgmt
+package sqlclient
 
 // ResourceClient contains the helper functions for interacting with APIs / API Mgmt Svc.
 type ResourceClient interface {

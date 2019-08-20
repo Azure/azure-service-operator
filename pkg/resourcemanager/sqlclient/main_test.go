@@ -1,4 +1,4 @@
-package apimgmt
+package sqlclient
 
 import (
 	"context"
