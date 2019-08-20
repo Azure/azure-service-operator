@@ -11,6 +11,8 @@ spec:
     kind: SqlDatabase
     plural: sqldatabases
   scope: ""
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: SqlDatabase is the Schema for the sqldatabases API
@@ -398,9 +400,29 @@ spec:
           type: object
         spec:
           description: SqlDatabaseSpec defines the desired state of SqlDatabase
+          properties:
+            location:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make" to regenerate code after modifying this file'
+              type: string
+            resourcegroup:
+              type: string
+            server:
+              type: string
+          required:
+          - location
+          - server
           type: object
         status:
           description: SqlDatabaseStatus defines the observed state of SqlDatabase
+          properties:
+            provisioned:
+              type: boolean
+            provisioning:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              type: boolean
           type: object
       type: object
   versions:

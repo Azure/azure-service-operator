@@ -26,16 +26,21 @@ import (
 type SqlServerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Location      string `json:"location"`
+	ResourceGroup string `json:"resourcegroup,omitempty"`
+	AdminUser     string `json:"adminuser"`
 }
 
 // SqlServerStatus defines the observed state of SqlServer
 type SqlServerStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 // +kubebuilder:object:root=true
-
+// +kubebuilder:subresource:status
 // SqlServer is the Schema for the sqlservers API
 type SqlServer struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -56,4 +61,8 @@ type SqlServerList struct {
 
 func init() {
 	SchemeBuilder.Register(&SqlServer{}, &SqlServerList{})
+}
+
+func (s *SqlServer) IsSubmitted() bool {
+	return s.Status.Provisioning || s.Status.Provisioned
 }

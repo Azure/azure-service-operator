@@ -26,16 +26,20 @@ import (
 type SqlFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Location      string `json:"location"`
+	ResourceGroup string `json:"resourcegroup,omitempty"`
 }
 
 // SqlFirewallRuleStatus defines the observed state of SqlFirewallRule
 type SqlFirewallRuleStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 // +kubebuilder:object:root=true
-
+// +kubebuilder:subresource:status
 // SqlFirewallRule is the Schema for the sqlfirewallrules API
 type SqlFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -56,4 +60,8 @@ type SqlFirewallRuleList struct {
 
 func init() {
 	SchemeBuilder.Register(&SqlFirewallRule{}, &SqlFirewallRuleList{})
+}
+
+func (s *SqlFirewallRule) IsSubmitted() bool {
+	return s.Status.Provisioning || s.Status.Provisioned
 }
