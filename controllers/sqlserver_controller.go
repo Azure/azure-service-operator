@@ -56,13 +56,13 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
-		if helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
+		if helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
 				log.Info("Delete SQL Server failed with ", err.Error())
 				return ctrl.Result{}, err
 			}
 
-			helpers.RemoveFinalizer(&instance, keyVaultFinalizerName)
+			helpers.RemoveFinalizer(&instance, SQLServerFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -72,7 +72,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding keyvault finalizer failed with ", err.Error())
+			log.Info("Adding sql-server finalizer failed with ", err.Error())
 			return ctrl.Result{}, err
 		}
 	}
