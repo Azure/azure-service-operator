@@ -53,7 +53,7 @@ func (r *ConsumerGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
-		return ctrl.Result{}, ignoreNotFound(err)
+		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	if instance.IsBeingDeleted() {

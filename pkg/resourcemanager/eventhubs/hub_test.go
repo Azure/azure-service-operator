@@ -22,17 +22,25 @@ import (
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Namespace", func() {
+var _ = Describe("Eventhub", func() {
 
 	const timeout = time.Second * 240
+	var resourceGroupName string
+	var eventhubNamespaceName string
+	var namespaceLocation string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
+		resourceGroupName = "t-rg-dev-rm-eh"
+		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
+		namespaceLocation = "westus"
+
+		_, _ = CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+
 	})
 
 	AfterEach(func() {
@@ -47,25 +55,11 @@ var _ = Describe("Namespace", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete hubs in azure", func() {
 
-			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
-			resourcegroupLocation := "westus"
-			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
-			namespaceLocation := "westus"
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 			messageRetentionInDays := int32(7)
 			partitionCount := int32(1)
 
 			var err error
-
-			_, err = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
-			Expect(err).NotTo(HaveOccurred())
-
-			time.Sleep(30 * time.Second)
-
-			_, err = CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
-			Expect(err).NotTo(HaveOccurred())
-
-			time.Sleep(30 * time.Second)
 
 			_, err = CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount)
 			Expect(err).NotTo(HaveOccurred())
@@ -83,6 +77,7 @@ var _ = Describe("Namespace", func() {
 					Rights: &accessRights,
 				},
 			}
+
 			_, err = CreateOrUpdateAuthorizationRule(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, authorizationRuleName, parameters)
 			Expect(err).NotTo(HaveOccurred())
 
@@ -100,11 +95,6 @@ var _ = Describe("Namespace", func() {
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())
-
-			time.Sleep(30 * time.Second)
-
-			_, err = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
-			Expect(err).NotTo(HaveOccurred())
 
 		})
 
