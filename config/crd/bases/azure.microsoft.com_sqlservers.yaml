@@ -11,6 +11,8 @@ spec:
     kind: SqlServer
     plural: sqlservers
   scope: ""
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: SqlServer is the Schema for the sqlservers API
@@ -398,9 +400,29 @@ spec:
           type: object
         spec:
           description: SqlServerSpec defines the desired state of SqlServer
+          properties:
+            adminuser:
+              type: string
+            location:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make" to regenerate code after modifying this file'
+              type: string
+            resourcegroup:
+              type: string
+          required:
+          - adminuser
+          - location
           type: object
         status:
           description: SqlServerStatus defines the observed state of SqlServer
+          properties:
+            provisioned:
+              type: boolean
+            provisioning:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              type: boolean
           type: object
       type: object
   versions:
