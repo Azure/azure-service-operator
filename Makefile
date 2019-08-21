@@ -141,10 +141,10 @@ install-kustomize:
 ifeq (,$(shell which kustomize))
 	@echo "installing kustomize"
 	# download kustomize
-	sudo mkdir -p /usr/local/kustomize/
-	sudo curl -o /usr/local/kubebuilder/bin/kustomize -sL "https://go.kubebuilder.io/kustomize/$(shell go env GOOS)/$(shell go env GOARCH)"
+	mkdir -p /usr/local/kustomize/
+	curl -o /usr/local/kubebuilder/bin/kustomize -sL "https://go.kubebuilder.io/kustomize/$(shell go env GOOS)/$(shell go env GOARCH)"
 	# set permission
-	sudo chmod a+x /usr/local/kubebuilder/bin/kustomize
+	chmod a+x /usr/local/kubebuilder/bin/kustomize
 	# export path
 	$(shell which kustomize)
 	

@@ -94,6 +94,17 @@ ENV KUBECONFIG=/root/.kube/config
 ENV SHELL /bin/bash
 
 RUN echo '\n\
+go get -u github.com/jstemmer/go-junit-report\n\
+go get github.com/axw/gocov/gocov\n\
+go get github.com/AlekSi/gocov-xml\n\
+go get -u gopkg.in/matm/v1/gocov-html\n\
+go get golang.org/x/tools/cmd/cover\n\
+make install-kustomize  -C /workspaces/azure-service-operator\n\
+make install-kind  -C /workspaces/azure-service-operator\n\
+#which kustomize\n\
+which kustomize\n\
+#kustomize version\n\
+kustomize  version\n\
 if [ "$SYNC_LOCALHOST_KUBECONFIG" == "true" ]; then\n\
     mkdir -p $HOME/.kube\n\
     cp -r $HOME/.kube-localhost/* $HOME/.kube\n\
