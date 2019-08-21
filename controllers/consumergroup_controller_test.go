@@ -50,68 +50,12 @@ var _ = Describe("ConsumerGroup Controller", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete consumer groups", func() {
 
-			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
-			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
-			eventhubName := "t-eh-" + helpers.RandomString(10)
+			resourceGroupName = "t-rg-dev-controller"
+			eventhubNamespaceName = "t-ns-dev-eh-ns"
+			eventhubName = "t-eh-dev-sample"
 			consumerGroupName := "t-cg-" + helpers.RandomString(10)
 
 			var err error
-
-			// Create the Resourcegroup object and expect the Reconcile to be created
-			resourceGroupInstance := &azurev1.ResourceGroup{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      resourceGroupName,
-					Namespace: "default",
-				},
-				Spec: azurev1.ResourceGroupSpec{
-					Location: "westus",
-				},
-			}
-
-			err = k8sClient.Create(context.Background(), resourceGroupInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
-
-			time.Sleep(30 * time.Second)
-
-			// Create the Eventhub namespace object and expect the Reconcile to be created
-			eventhubNamespaceInstance := &azurev1.EventhubNamespace{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      eventhubNamespaceName,
-					Namespace: "default",
-				},
-				Spec: azurev1.EventhubNamespaceSpec{
-					Location:      "westus",
-					ResourceGroup: resourceGroupName,
-				},
-			}
-
-			err = k8sClient.Create(context.Background(), eventhubNamespaceInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
-
-			time.Sleep(30 * time.Second)
-
-			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &azurev1.Eventhub{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      eventhubName,
-					Namespace: "default",
-				},
-				Spec: azurev1.EventhubSpec{
-					Location:      "westus",
-					Namespace:     eventhubNamespaceName,
-					ResourceGroup: resourceGroupName,
-					Properties: azurev1.EventhubProperties{
-						MessageRetentionInDays: 7,
-						PartitionCount:         1,
-					},
-				},
-			}
-
-			err = k8sClient.Create(context.Background(), eventhubInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
 
 			// Create the consumer group object and expect the Reconcile to be created
 			consumerGroupInstance := &azurev1.ConsumerGroup{

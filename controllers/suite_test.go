@@ -49,6 +49,7 @@ var testEnv *envtest.Environment
 var resourceGroupName string
 var resourcegroupLocation string
 var eventhubNamespaceName string
+var eventhubName string
 var namespaceLocation string
 
 func TestAPIs(t *testing.T) {
@@ -58,6 +59,7 @@ func TestAPIs(t *testing.T) {
 	resourcegroupLocation = "westus"
 
 	eventhubNamespaceName = "t-ns-dev-eh-ns"
+	eventhubName = "t-eh-dev-sample"
 	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
@@ -148,6 +150,9 @@ var _ = BeforeSuite(func(done Done) {
 
 	// Create the Eventhub namespace resource
 	_, err = eventhubs.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+
+	// Create the Eventhub resource
+	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1))
 
 	close(done)
 }, 120)

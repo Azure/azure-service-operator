@@ -23,6 +23,8 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -108,6 +110,28 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.Consumer
 
 	// write information back to instance
 	instance.Status.Provisioning = true
+
+	//get owner instance
+	var ownerInstance azurev1.Eventhub
+	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: instance.Namespace}
+	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
+
+	if err != nil {
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of eventhub")
+	} else {
+		//set owner reference for consumer group if it exists
+		references := []metav1.OwnerReference{
+			metav1.OwnerReference{
+				APIVersion: "v1",
+				Kind:       "Eventhub",
+				Name:       ownerInstance.GetName(),
+				UID:        ownerInstance.GetUID(),
+			},
+		}
+		instance.ObjectMeta.SetOwnerReferences(references)
+	}
+
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
