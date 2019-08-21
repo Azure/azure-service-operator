@@ -46,14 +46,9 @@ Basic commands to check your cluster
 
 2. Make sure the envronment variable `GO111MODULE=on` is set.
 
-3. Install [kustomize](https://github.com/kubernetes-sigs/kustomize) using `make install-kustomize`.
+3. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
 
-4. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config, 
-run `kubectl apply -f config/crd/bases` or `make install`
-
-5. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
-
-6. you need kind to test webhooks
+4. Install [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 
     ```shell
         GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0 && kind create cluster
@@ -65,20 +60,20 @@ run `kubectl apply -f config/crd/bases` or `make install`
         make deploy
     ```
 
-7. Create a Service Principal
+5. Create a Service Principal
     If you don't have a Service Principal create one from the Azure CLI:
     ```bash
     az ad sp create-for-rbac --skip-assignment
     ```
     Then make sure this service principal has rights assigned to provision resources on your Azure account.
   
-8. Set the environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`
+6. Set the environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`
     If you are running it on Windows the environment variables should not have quotes. 
     It should be set in this way:
     SET  AZURE_TENANT_ID=11xxxx-xxx-xxx-xxx-xxxxx
     and the VSCode should be run from the same session/command window
 
-9. Set up the Cluster
+7. Set up the Cluster
 
    If you are using Kind:
     ```shell
@@ -110,6 +105,12 @@ run `kubectl apply -f config/crd/bases` or `make install`
     kubectl get secret webhook-server-cert -n azureoperator-system -o yaml > certs.txt
     ```
     you can use `https://inbrowser.tools/` and extract `ca.crt`, `tls.crt` and `tls.key`
+
+8. Install [kustomize](https://github.com/kubernetes-sigs/kustomize) using `make install-kustomize`.
+
+9. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config, 
+    
+    run `kubectl apply -f config/crd/bases` or `make install`
         
 ### How to extend the operator and build your own images
 
