@@ -93,6 +93,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 	return ctrl.Result{}, nil
 }
 
+//SetupWithManager sets up the functions for the controller
 func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.EventhubNamespace{}).

@@ -20,8 +20,6 @@ import (
 	"context"
 	"time"
 
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -47,16 +45,11 @@ var _ = Describe("Namespace", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete namespace in azure", func() {
 
-			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
-			resourcegroupLocation := "westus"
+			resourceGroupName := "t-rg-dev-rm-eh"
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 			namespaceLocation := "westus"
+
 			var err error
-
-			_, err = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
-			Expect(err).NotTo(HaveOccurred())
-
-			time.Sleep(30 * time.Second)
 
 			_, err = CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 			Expect(err).NotTo(HaveOccurred())
@@ -75,11 +68,6 @@ var _ = Describe("Namespace", func() {
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())
-
-			time.Sleep(30 * time.Second)
-
-			_, err = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
-			Expect(err).NotTo(HaveOccurred())
 
 		})
 

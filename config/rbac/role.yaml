@@ -7,6 +7,42 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - keyvaults
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - keyvaults/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - ""
   resources:
   - events
@@ -14,13 +50,12 @@ rules:
   - create
   - watch
 - apiGroups:
-  - apps
+  - azure.microsoft.com
   resources:
-  - deployments/status
+  - events
   verbs:
-  - get
+  - create
   - patch
-  - update
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -45,14 +80,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubnamespaces/status
-  verbs:
-  - get
-  - patch
-  - update
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -86,13 +113,6 @@ rules:
   - update
   - watch
 - apiGroups:
-  - azure.microsoft.com
-  resources:
-  - events
-  verbs:
-  - create
-  - patch
-- apiGroups:
   - apps
   resources:
   - deployments
@@ -105,9 +125,9 @@ rules:
   - update
   - watch
 - apiGroups:
-  - azure.microsoft.com
+  - apps
   resources:
-  - eventhubs/status
+  - deployments/status
   verbs:
   - get
   - patch
