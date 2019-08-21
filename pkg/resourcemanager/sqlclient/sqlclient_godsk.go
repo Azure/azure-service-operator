@@ -7,6 +7,7 @@ package sqlclient
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -14,7 +15,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-func getServersClient() sql.ServersClient {
+// getGoServersClient retrieves a ServersClient
+func getGoServersClient() sql.ServersClient {
 	serversClient := sql.NewServersClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	serversClient.Authorizer = a
@@ -22,7 +24,8 @@ func getServersClient() sql.ServersClient {
 	return serversClient
 }
 
-func getDbClient() sql.DatabasesClient {
+// getGoCBClient retrieves a DatabasesClient
+func getGoCBClient() sql.DatabasesClient {
 	dbClient := sql.NewDatabasesClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	dbClient.Authorizer = a
@@ -30,70 +33,69 @@ func getDbClient() sql.DatabasesClient {
 	return dbClient
 }
 
-// CreateOrUpdateSQLServerImpl creates a SQL server in Azure
-func (sdk GoSDKClient) CreateOrUpdateSQLServerImpl(allowAzureServicesAccess bool, properties sql.ServerProperties) (result *string, err error) {
-	serversClient := getServersClient()
+// CreateOrUpdateSQLServer creates a SQL server in Azure
+func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (result bool, err error) {
+	serversClient := getGoServersClient()
+	serverProp := SQLServerPropertiesToServer(properties)
 
-	future, err := serversClient.CreateOrUpdate(
+	_, err = serversClient.CreateOrUpdate(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
 		sql.Server{
 			Location:         to.StringPtr(config.Location()),
-			ServerProperties: &properties,
+			ServerProperties: &serverProp,
 		})
 	if err != nil {
-		return nil, fmt.Errorf("cannot create sql server: %v", err)
+		return false, fmt.Errorf("cannot create sql server: %v", err)
 	}
 
-	err = future.WaitForCompletionRef(sdk.Ctx, serversClient.Client)
-	if err != nil {
-		return nil, fmt.Errorf("cannot get the sql server create or update future response: %v", err)
-	}
-
-	// TODO: Will needs to add firewall rules for allowAzureServicesAccess
-
-	server, err := future.Result(serversClient)
-	if err != nil {
-		return nil, fmt.Errorf("cannot get the sql server instance: %v", err)
-	}
-
-	return server.ServerProperties.State, nil
+	return true, nil
 }
 
-// CreateOrUpdateDBImpl creates or updates a DB in Azure
-func (sdk GoSDKClient) CreateOrUpdateDBImpl(databaseName string, properties sql.DatabaseProperties) (result *string, err error) {
-	dbClient := getDbClient()
+// SQLServerReady returns true if the SQL server is active
+func (sdk GoSDKClient) SQLServerReady() (result bool, err error) {
+	serversClient := getGoServersClient()
 
-	future, err := dbClient.CreateOrUpdate(
+	server, err := serversClient.Get(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
-		databaseName,
-		sql.Database{
-			Location:           to.StringPtr(sdk.Location),
-			DatabaseProperties: &properties,
-		})
+	)
 	if err != nil {
-		return nil, fmt.Errorf("cannot create sql database: %v", err)
+		if strings.Contains(err.Error(), "ResourceNotFound") {
+			return false, nil
+		}
+		return false, fmt.Errorf("cannot get sql server: %v", err)
 	}
 
-	err = future.WaitForCompletionRef(sdk.Ctx, dbClient.Client)
-	if err != nil {
-		return nil, fmt.Errorf("cannot get the sql database create or update future response: %v", err)
-	}
-
-	db, err := future.Result(dbClient)
-	if err != nil {
-		return nil, fmt.Errorf("cannot get the db instance: %v", err)
-	}
-
-	return db.DatabaseProperties.Status, nil
+	return *server.State == "Ready", err
 }
 
-// DeleteDBImpl deletes a DB
-func (sdk GoSDKClient) DeleteDBImpl(databaseName string) (result bool, err error) {
-	dbClient := getDbClient()
+// CreateOrUpdateDB creates or updates a DB in Azure
+func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (result bool, err error) {
+	dbClient := getGoCBClient()
+	dbProp := SQLDatabasePropertiesToDatabase(properties)
+
+	_, err = dbClient.CreateOrUpdate(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		properties.DatabaseName,
+		sql.Database{
+			Location:           to.StringPtr(sdk.Location),
+			DatabaseProperties: &dbProp,
+		})
+	if err != nil {
+		return false, fmt.Errorf("cannot create sql database: %v", err)
+	}
+
+	return true, nil
+}
+
+// DeleteDB deletes a DB
+func (sdk GoSDKClient) DeleteDB(databaseName string) (result bool, err error) {
+	dbClient := getGoCBClient()
 
 	_, err = dbClient.Delete(
 		sdk.Ctx,
@@ -108,22 +110,17 @@ func (sdk GoSDKClient) DeleteDBImpl(databaseName string) (result bool, err error
 	return true, nil
 }
 
-// DeleteSQLServerImpl deletes a DB
-func (sdk GoSDKClient) DeleteSQLServerImpl() (result bool, err error) {
-	serversClient := getServersClient()
+// DeleteSQLServer deletes a DB
+func (sdk GoSDKClient) DeleteSQLServer() (result bool, err error) {
+	serversClient := getGoServersClient()
 
-	future, err := serversClient.Delete(
+	_, err = serversClient.Delete(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
 	)
 	if err != nil {
 		return false, fmt.Errorf("cannot delete sql server: %v", err)
-	}
-
-	err = future.WaitForCompletionRef(sdk.Ctx, serversClient.Client)
-	if err != nil {
-		return false, fmt.Errorf("cannot get the sql server delete future response: %v", err)
 	}
 
 	return true, nil

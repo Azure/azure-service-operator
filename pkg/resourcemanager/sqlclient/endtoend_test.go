@@ -37,29 +37,46 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	sdk := GoSDKClient{
 		Ctx:               ctx,
 		ResourceGroupName: groupName,
-		ServerName:        generateName("apimsvc"),
+		ServerName:        generateName("sqlsrvtest"),
 		Location:          "eastus2",
 	}
 
-	// create the service
+	// create the server
 	sqlServerProperties := SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("Moss"),
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
 		AllowAzureServicesAccess:   true,
 	}
-	_, err = CreateOrUpdateSQLServer(sdk, sqlServerProperties)
+	_, err = sdk.CreateOrUpdateSQLServer(sqlServerProperties)
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
 		t.FailNow()
 	}
 	util.PrintAndLog("sql server created")
 
+	// wait for server to be created
+	// then only proceed once activated
+	for true {
+		time.Sleep(time.Second)
+		ready, err := sdk.SQLServerReady()
+		if err != nil {
+			util.PrintAndLog(fmt.Sprintf("error checking for sql status: %v", err))
+			t.FailNow()
+			break
+		}
+		if ready == true {
+			break
+		}
+		util.PrintAndLog("waiting for sql server to be ready...")
+	}
+	util.PrintAndLog("sql server ready")
+
 	// create a DB
 	sqlDBProperties := SQLDatabaseProperties{
 		DatabaseName: "testDB",
 		Edition:      Free,
 	}
-	_, err = CreateOrUpdateDB(sdk, sqlDBProperties)
+	_, err = sdk.CreateOrUpdateDB(sqlDBProperties)
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot create db: %v", err))
 		t.FailNow()
@@ -67,10 +84,10 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	util.PrintAndLog("db created")
 
 	// wait a minute
-	time.Sleep(time.Minute)
+	time.Sleep(time.Second * 30)
 
 	// delete the DB
-	_, err = DeleteDB(sdk, "testDB")
+	_, err = sdk.DeleteDB("testDB")
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot delete the db: %v", err))
 		t.FailNow()
@@ -78,8 +95,8 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		util.PrintAndLog("db deleted")
 	}
 
-	// delete the service
-	_, err = DeleteSQLServer(sdk)
+	// delete the server
+	_, err = sdk.DeleteSQLServer()
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot delete the sql server: %v", err))
 		t.FailNow()
