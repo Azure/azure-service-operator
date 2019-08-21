@@ -19,9 +19,17 @@ The project was built using
 
 1. You have GoLang installed.
 2. You have the kubectl command line (kubectl CLI) installed.
-3. You have acess to a Kubernetes cluster. It can be a local hosted Cluster like [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/), [Kind](https://github.com/kubernetes-sigs/kind) or, Docker for desktop installed localy with RBAC enabled. if you opt for Azure Kubernetes Service ([AKS](https://azure.microsoft.com/en-au/services/kubernetes-service/)), you can use: `az aks get-credentials --resource-group $RG_NAME --name $Cluster_NAME`
-Kubectl: Client version 1.14 Server Version 1.12
-4. [kustomize](https://github.com/kubernetes-sigs/kustomize) is also needed
+3. You have acess to a Kubernetes cluster. 
+    It can be a local hosted Cluster like 
+    [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/), 
+    [Kind](https://github.com/kubernetes-sigs/kind) or, Docker for desktop installed locally with RBAC enabled. 
+    If you opt for Azure Kubernetes Service ([AKS](https://azure.microsoft.com/en-au/services/kubernetes-service/)), you can use: 
+    `az aks get-credentials --resource-group $RG_NAME --name $Cluster_NAME`
+    Kubectl: Client version 1.14 Server Version 1.12
+       
+    It is recommended to use [Kind](https://github.com/kubernetes-sigs/kind) as it is needed for testing Webhooks.
+4. Install [Kubebuilder](https://book.kubebuilder.io/), following the linked installation instructions.
+5. [kustomize](https://github.com/kubernetes-sigs/kustomize) is also needed. This must be installed via `make install-kustomize` (see section below).
 
 Basic commands to check your cluster
 
@@ -32,49 +40,77 @@ Basic commands to check your cluster
     kubectl get pods -n kube-system
 ```
 
-5. [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
-```shell
-kubectl get secret webhook-server-cert -n azureoperator-system -o yaml >certs.txt
-```
-you can use `https://inbrowser.tools/` and exctarct ca.crt,tls.crt and tls.key
+### Building and Running from Source
 
-### Run Souce Code
+1. Clone the repo from the following folder `<GOPATH>/src/github.com/Azure`.
 
-1. Clone the repo
+2. Make sure the envronment variable `GO111MODULE=on` is set.
 
-2. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config, 
+3. Install [kustomize](https://github.com/kubernetes-sigs/kustomize) using `make install-kustomize`.
+
+4. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config, 
 run `kubectl apply -f config/crd/bases` or `make install`
 
-3. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
+5. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
 
-4. you need kind to test webhooks
+6. you need kind to test webhooks
 
-```shell
-    GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0 && kind create cluster
-    kind create cluster
-    export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
-    kubectl cluster-info
-    IMG="docker.io/yourimage:tag" make docker-build
-    kind load docker-image docker.io/yourimage:tag --loglevel "trace"
-    make deploy
-```
+    ```shell
+        GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0 && kind create cluster
+        kind create cluster
+        export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
+        kubectl cluster-info
+        IMG="docker.io/yourimage:tag" make docker-build
+        kind load docker-image docker.io/yourimage:tag --loglevel "trace"
+        make deploy
+    ```
 
-4. Set the environment variables AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID, REQUEUE_AFTER
-If you are running it on Windows the environment variables should not have quotes. It should be set in this way:
-SET  AZURE_TENANT_ID=11xxxx-xxx-xxx-xxx-xxxxx
-and the VSCode should be run from the same session/command window
+7. Create a Service Principal
+    If you don't have a Service Principal create one from the Azure CLI:
+    ```bash
+    az ad sp create-for-rbac --skip-assignment
+    ```
+    Then make sure this service principal has rights assigned to provision resources on your Azure account.
+  
+8. Set the environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`
+    If you are running it on Windows the environment variables should not have quotes. 
+    It should be set in this way:
+    SET  AZURE_TENANT_ID=11xxxx-xxx-xxx-xxx-xxxxx
+    and the VSCode should be run from the same session/command window
 
-5. Set the azureoperatorsettings secrete
+9. Set up the Cluster
 
-```shell
-Create the azureoperator-system namespace
-kubectl --namespace azureoperator-system \
-    create secret generic azureoperatorsettings \
-    --from-literal=AZURE_CLIENT_ID="xxxx" \
-    --from-literal=AZURE_CLIENT_SECRET="xxxxx" \
-    --from-literal=AZURE_SUBSCRIPTION_ID="xxxx" \
-    --from-literal=AZURE_TENANT_ID="xxxxx"
-```
+   If you are using Kind:
+    ```shell
+    make set-kindcluster
+    ```
+   
+    If you are not using Kind, it's a manual process, as follows:
+    
+    a. Create the namespace
+    
+    ```shell
+    kubectl create namespace azureoperator-system
+    ```
+
+    b. Set the azureoperatorsettings secret
+    
+    ```shell
+    kubectl --namespace azureoperator-system \
+        create secret generic azureoperatorsettings \
+        --from-literal=AZURE_CLIENT_ID="$AZURE_CLIENT_ID" \
+        --from-literal=AZURE_CLIENT_SECRET="$AZURE_CLIENT_SECRET" \
+        --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
+        --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID"
+    ```
+        
+    c. [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
+    
+    ```shell
+    kubectl get secret webhook-server-cert -n azureoperator-system -o yaml > certs.txt
+    ```
+    you can use `https://inbrowser.tools/` and extract `ca.crt`, `tls.crt` and `tls.key`
+        
 ### How to extend the operator and build your own images
 
 #### Updating the Azure operator:
