@@ -38,6 +38,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
 // EventhubReconciler reconciles a Eventhub object
@@ -70,14 +71,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if instance.IsBeingDeleted() {
 		err := r.handleFinalizer(&instance)
 		if err != nil {
-			catch := []string{
-				errhelp.ResourceGroupNotFoundErrorCode,
-			}
-			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
-				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
-				return ctrl.Result{RequeueAfter: time.Second * 30}, nil
-			}
-			return ctrl.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
+			return reconcile.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
