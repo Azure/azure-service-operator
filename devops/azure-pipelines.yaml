@@ -86,7 +86,7 @@ steps:
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml
     mkdir coverage
-  continueOnError: 'false'
+  continueOnError: 'true'
   displayName: 'Run unit tests'
   env:
     GO111MODULE: on
@@ -125,7 +125,7 @@ steps:
     echo "all the pods should be running"
     make deploy
     make test-existing
-  continueOnError: 'false'
+  continueOnError: 'true'
   displayName: 'Set kind cluster and Run unit tests'
   env:
     GO111MODULE: on
@@ -140,14 +140,14 @@ steps:
 - task: PublishTestResults@2
   displayName: 'test cluster'
   inputs:
-    failedTaskOnFailedTest: 'true'
+    failedTaskOnFailedTest: true
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
 
 - task: PublishTestResults@2
   displayName: 'existing cluster'
   inputs:
-    failedTaskOnFailedTest: 'true'
+    failedTaskOnFailedTest: true
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
 
@@ -156,6 +156,20 @@ steps:
     codeCoverageTool: Cobertura 
     summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
     reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
+
+- powershell: |
+    $junitXml = $(System.DefaultWorkingDirectory)/**/report-existing.xml
+    $(Get-Content $junitXml | Out-String) -match 'failures="(.*?)"'
+    if ($matches[1] -eq 0)
+    {
+      Write-Host "No test failures"
+    }
+    else
+    {
+      # note that this will produce $LASTEXITCODE=1
+      Write-Error "$($matches[1]) tests failed"
+    }
+  displayName: Check for test failures
 
 - script: docker build -t $(IMAGE_NAME) .  # add options to this command to meet your needs
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
