@@ -140,14 +140,14 @@ steps:
 - task: PublishTestResults@2
   displayName: 'test cluster'
   inputs:
-    failedTaskOnFailedTest: true
+    failedTaskOnFailedTest: 'true'
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
 
 - task: PublishTestResults@2
   displayName: 'existing cluster'
   inputs:
-    failedTaskOnFailedTest: true
+    failedTaskOnFailedTest: 'true'
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
 
