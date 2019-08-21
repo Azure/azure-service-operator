@@ -9,8 +9,8 @@ import "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-p
 
 // ResourceClient contains the helper functions for interacting with SQL servers / databases
 type ResourceClient interface {
-	CreateOrUpdateSQLServerImpl(properties sql.ServerProperties) (result *string, err error)
-	CreateOrUpdateDBImpl(dbName string, properties sql.DatabaseProperties) (result *string, err error)
-	DeleteDBImpl(dbName string) (result bool, err error)
+	CreateOrUpdateSQLServerImpl(allowAzureServicesAccess bool, properties sql.ServerProperties) (result *string, err error)
+	CreateOrUpdateDBImpl(databaseName string, properties sql.DatabaseProperties) (result *string, err error)
+	DeleteDBImpl(databaseName string) (result bool, err error)
 	DeleteSQLServerImpl() (result bool, err error)
 }

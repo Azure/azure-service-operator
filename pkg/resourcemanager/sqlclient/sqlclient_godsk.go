@@ -31,7 +31,7 @@ func getDbClient() sql.DatabasesClient {
 }
 
 // CreateOrUpdateSQLServerImpl creates a SQL server in Azure
-func (sdk GoSDKClient) CreateOrUpdateSQLServerImpl(properties sql.ServerProperties) (result *string, err error) {
+func (sdk GoSDKClient) CreateOrUpdateSQLServerImpl(allowAzureServicesAccess bool, properties sql.ServerProperties) (result *string, err error) {
 	serversClient := getServersClient()
 
 	future, err := serversClient.CreateOrUpdate(
@@ -51,6 +51,8 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServerImpl(properties sql.ServerProperti
 		return nil, fmt.Errorf("cannot get the sql server create or update future response: %v", err)
 	}
 
+	// TODO: Will needs to add firewall rules for allowAzureServicesAccess
+
 	server, err := future.Result(serversClient)
 	if err != nil {
 		return nil, fmt.Errorf("cannot get the sql server instance: %v", err)
@@ -60,14 +62,14 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServerImpl(properties sql.ServerProperti
 }
 
 // CreateOrUpdateDBImpl creates or updates a DB in Azure
-func (sdk GoSDKClient) CreateOrUpdateDBImpl(dbName string, properties sql.DatabaseProperties) (result *string, err error) {
+func (sdk GoSDKClient) CreateOrUpdateDBImpl(databaseName string, properties sql.DatabaseProperties) (result *string, err error) {
 	dbClient := getDbClient()
 
 	future, err := dbClient.CreateOrUpdate(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
-		dbName,
+		databaseName,
 		sql.Database{
 			Location:           to.StringPtr(sdk.Location),
 			DatabaseProperties: &properties,
@@ -90,14 +92,14 @@ func (sdk GoSDKClient) CreateOrUpdateDBImpl(dbName string, properties sql.Databa
 }
 
 // DeleteDBImpl deletes a DB
-func (sdk GoSDKClient) DeleteDBImpl(dbName string) (result bool, err error) {
+func (sdk GoSDKClient) DeleteDBImpl(databaseName string) (result bool, err error) {
 	dbClient := getDbClient()
 
 	_, err = dbClient.Delete(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
-		dbName,
+		databaseName,
 	)
 	if err != nil {
 		return false, fmt.Errorf("cannot delete db: %v", err)

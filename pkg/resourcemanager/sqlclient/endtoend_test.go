@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
@@ -25,6 +26,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	ctx := context.Background()
 	defer resources.Cleanup(ctx)
 
+	// create the resource group
 	_, err := resources.CreateGroup(ctx, config.GroupName())
 	if err != nil {
 		util.PrintAndLog(err.Error())
@@ -39,19 +41,42 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		Location:          "eastus2",
 	}
 
-	// create the SQLServerProperties struct
+	// create the service
 	sqlServerProperties := SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("Moss"),
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
+		AllowAzureServicesAccess:   true,
 	}
-
-	// create the service
 	_, err = CreateOrUpdateSQLServer(sdk, sqlServerProperties)
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
 		t.FailNow()
 	}
 	util.PrintAndLog("sql server created")
+
+	// create a DB
+	sqlDBProperties := SQLDatabaseProperties{
+		DatabaseName: "testDB",
+		Edition:      Free,
+	}
+	_, err = CreateOrUpdateDB(sdk, sqlDBProperties)
+	if err != nil {
+		util.PrintAndLog(fmt.Sprintf("cannot create db: %v", err))
+		t.FailNow()
+	}
+	util.PrintAndLog("db created")
+
+	// wait a minute
+	time.Sleep(time.Minute)
+
+	// delete the DB
+	_, err = DeleteDB(sdk, "testDB")
+	if err != nil {
+		util.PrintAndLog(fmt.Sprintf("cannot delete the db: %v", err))
+		t.FailNow()
+	} else {
+		util.PrintAndLog("db deleted")
+	}
 
 	// delete the service
 	_, err = DeleteSQLServer(sdk)

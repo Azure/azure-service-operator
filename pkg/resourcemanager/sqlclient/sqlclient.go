@@ -7,17 +7,17 @@ package sqlclient
 
 // CreateOrUpdateSQLServer creates an instance of a SQL server
 func CreateOrUpdateSQLServer(provider ResourceClient, properties SQLServerProperties) (result *string, err error) {
-	return provider.CreateOrUpdateSQLServerImpl(SQLServerPropertiesToServer(properties))
+	return provider.CreateOrUpdateSQLServerImpl(properties.AllowAzureServicesAccess, SQLServerPropertiesToServer(properties))
 }
 
 // CreateOrUpdateDB creates an API endpoint on an API Management Service. Returns "true" if successful.
-func CreateOrUpdateDB(provider ResourceClient, dbName string, properties SQLDatabaseProperties) (result *string, err error) {
-	return provider.CreateOrUpdateDBImpl(dbName, SQLDatabasePropertiesToDatabase(properties))
+func CreateOrUpdateDB(provider ResourceClient, properties SQLDatabaseProperties) (result *string, err error) {
+	return provider.CreateOrUpdateDBImpl(properties.DatabaseName, SQLDatabasePropertiesToDatabase(properties))
 }
 
 // DeleteDB deletes a database
-func DeleteDB(provider ResourceClient, dbName string) (result bool, err error) {
-	return provider.DeleteDBImpl(dbName)
+func DeleteDB(provider ResourceClient, databaseName string) (result bool, err error) {
+	return provider.DeleteDBImpl(databaseName)
 }
 
 // DeleteSQLServer deletes a SQL server
