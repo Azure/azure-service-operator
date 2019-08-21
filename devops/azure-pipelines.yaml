@@ -86,7 +86,7 @@ steps:
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml
     mkdir coverage
-  continueOnError: 'true'
+  continueOnError: 'false'
   displayName: 'Run unit tests'
   env:
     GO111MODULE: on
@@ -125,7 +125,7 @@ steps:
     echo "all the pods should be running"
     make deploy
     make test-existing
-  continueOnError: 'true'
+  continueOnError: 'false'
   displayName: 'Set kind cluster and Run unit tests'
   env:
     GO111MODULE: on
