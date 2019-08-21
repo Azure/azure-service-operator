@@ -3,4 +3,4 @@ kind: ResourceGroup
 metadata:
   name: resourcegroup-sample-1907
 spec:
-  location: "westus" 
+  location: "westus"
