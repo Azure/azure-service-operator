@@ -131,8 +131,9 @@ func main() {
 	}
 
 	if err = (&controllers.SqlServerReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("SqlServer"),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlServer"),
+		Recorder: mgr.GetEventRecorderFor("SqlServer-controller"),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlServer")
 		os.Exit(1)

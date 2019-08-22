@@ -401,7 +401,7 @@ spec:
         spec:
           description: SqlServerSpec defines the desired state of SqlServer
           properties:
-            admin:
+            adminuser:
               type: string
             location:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
@@ -410,7 +410,6 @@ spec:
             resourcegroup:
               type: string
           required:
-          - admin
           - location
           type: object
         status:

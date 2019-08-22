@@ -3,5 +3,5 @@ kind: SqlServer
 metadata:
   name: sqlserver-sample
 spec:
-  # Add fields here
-  foo: bar
+  location: "westus"
+  resourcegroup: "resourcegroup-sample-1907"
