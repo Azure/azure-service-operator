@@ -103,6 +103,10 @@ var _ = Describe("EventHub Controller", func() {
 						MessageRetentionInDays: 7,
 						PartitionCount:         1,
 					},
+					AuthorizationRule: azurev1.EventhubAuthorizationRule{
+						Name:   "RootManageSharedAccessKey",
+						Rights: []string{"Listen"},
+					},
 				},
 			}
 
