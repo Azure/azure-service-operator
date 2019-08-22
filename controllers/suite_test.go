@@ -54,6 +54,10 @@ import (
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
 var testEnv *envtest.Environment
+var resourceGroupName string
+var resourcegroupLocation string
+var eventhubNamespaceName string
+var namespaceLocation string
 
 type testContext struct {
 	k8sClient             client.Client
@@ -76,7 +80,11 @@ var tc testContext
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
+	resourceGroupName = "t-rg-dev-controller"
+	resourcegroupLocation = "westus"
 
+	eventhubNamespaceName = "t-ns-dev-eh-ns"
+	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{envtest.NewlineReporter{}})
