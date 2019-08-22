@@ -142,7 +142,7 @@ steps:
   inputs:    
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
-    failedTaskOnFailedTests: 'true'
+    failTaskOnFailedTests: 'true'
     failOnStandardError: 'true'
 
 # - task: PublishTestResults@2
