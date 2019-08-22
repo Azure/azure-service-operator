@@ -147,7 +147,8 @@ steps:
 - task: PublishTestResults@2
   displayName: 'existing cluster'
   inputs:
-    failedTaskOnFailedTest: true
+    failedTaskOnFailedTest: 'true'
+    failOnStandardError: 'true'
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
 
