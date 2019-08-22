@@ -13,21 +13,29 @@ const (
 )
 
 func NewAzureError(err error) error {
-	det := err.(autorest.DetailedError)
-	code := det.StatusCode.(int)
-	var kind, reason string
-	if e, ok := det.Original.(*azure.RequestError); ok {
-		kind = e.ServiceError.Code
-		reason = e.ServiceError.Message
-	} else if e, ok := det.Original.(*azure.ServiceError); ok {
-		kind = e.Code
-		reason = e.Message
-	} else if _, ok := det.Original.(*errors.StatusError); ok {
-		kind = "StatusError"
-		reason = "StatusError"
+	ae := AzureError{
+		Original: err,
 	}
+	//det := err.(autorest.DetailedError)
 
-	return &AzureError{Type: kind, Reason: reason, Code: code, Original: err}
+	if det, ok := err.(autorest.DetailedError); ok {
+		var kind, reason string
+		ae.Code = det.StatusCode.(int)
+
+		if e, ok := det.Original.(*azure.RequestError); ok {
+			kind = e.ServiceError.Code
+			reason = e.ServiceError.Message
+		} else if e, ok := det.Original.(*azure.ServiceError); ok {
+			kind = e.Code
+			reason = e.Message
+		} else if _, ok := det.Original.(*errors.StatusError); ok {
+			kind = "StatusError"
+			reason = "StatusError"
+		}
+		ae.Reason = reason
+		ae.Type = kind
+	}
+	return &ae
 }
 
 type AzureError struct {
@@ -38,5 +46,5 @@ type AzureError struct {
 }
 
 func (e AzureError) Error() string {
-	return e.Type
+	return e.Original.Error()
 }
