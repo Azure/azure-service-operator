@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
@@ -34,11 +35,11 @@ func getGoCBClient() sql.DatabasesClient {
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (result bool, err error) {
+func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (result azure.Future, err error) {
 	serversClient := getGoServersClient()
 	serverProp := SQLServerPropertiesToServer(properties)
 
-	_, err = serversClient.CreateOrUpdate(
+	future, err := serversClient.CreateOrUpdate(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
@@ -47,10 +48,10 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (
 			ServerProperties: &serverProp,
 		})
 	if err != nil {
-		return false, fmt.Errorf("cannot create sql server: %v", err)
+		return result, fmt.Errorf("cannot create sql server: %v", err)
 	}
 
-	return true, nil
+	return future.Future, nil
 }
 
 // SQLServerReady returns true if the SQL server is active
@@ -73,11 +74,11 @@ func (sdk GoSDKClient) SQLServerReady() (result bool, err error) {
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
-func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (result bool, err error) {
+func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (result azure.Future, err error) {
 	dbClient := getGoCBClient()
 	dbProp := SQLDatabasePropertiesToDatabase(properties)
 
-	_, err = dbClient.CreateOrUpdate(
+	future, err := dbClient.CreateOrUpdate(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
@@ -87,10 +88,10 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (resul
 			DatabaseProperties: &dbProp,
 		})
 	if err != nil {
-		return false, fmt.Errorf("cannot create sql database: %v", err)
+		return result, fmt.Errorf("cannot create sql database: %v", err)
 	}
 
-	return true, nil
+	return future.Future, nil
 }
 
 // DeleteDB deletes a DB
@@ -111,17 +112,17 @@ func (sdk GoSDKClient) DeleteDB(databaseName string) (result bool, err error) {
 }
 
 // DeleteSQLServer deletes a DB
-func (sdk GoSDKClient) DeleteSQLServer() (result bool, err error) {
+func (sdk GoSDKClient) DeleteSQLServer() (result azure.Future, err error) {
 	serversClient := getGoServersClient()
 
-	_, err = serversClient.Delete(
+	future, err := serversClient.Delete(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
 	)
 	if err != nil {
-		return false, fmt.Errorf("cannot delete sql server: %v", err)
+		return result, fmt.Errorf("cannot delete sql server: %v", err)
 	}
 
-	return true, nil
+	return future.Future, nil
 }

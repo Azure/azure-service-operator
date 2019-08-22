@@ -5,11 +5,13 @@
 
 package sqlclient
 
+import "github.com/Azure/go-autorest/autorest/azure"
+
 // ResourceClient contains the helper functions for interacting with SQL servers / databases
 type ResourceClient interface {
-	CreateOrUpdateSQLServer(properties SQLServerProperties) (result bool, err error)
+	CreateOrUpdateSQLServer(properties SQLServerProperties) (result azure.Future, err error)
 	SQLServerReady() (result bool, err error)
-	CreateOrUpdateDB(properties SQLDatabaseProperties) (result bool, err error)
+	CreateOrUpdateDB(properties SQLDatabaseProperties) (result azure.Future, err error)
 	DeleteDB(databaseName string) (result bool, err error)
-	DeleteSQLServer() (result bool, err error)
+	DeleteSQLServer() (result azure.Future, err error)
 }
