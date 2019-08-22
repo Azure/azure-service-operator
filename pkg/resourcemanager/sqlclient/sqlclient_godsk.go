@@ -72,6 +72,17 @@ func (sdk GoSDKClient) SQLServerReady() (result bool, err error) {
 	return *server.State == "Ready", err
 }
 
+// GetServer returns a server
+func (sdk GoSDKClient) GetServer(rgroup, name string) (sql.Server, error) {
+	serversClient := getGoServersClient()
+
+	return serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+}
+
 // CreateOrUpdateDB creates or updates a DB in Azure
 func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (result bool, err error) {
 	dbClient := getGoCBClient()

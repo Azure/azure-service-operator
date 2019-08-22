@@ -89,7 +89,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling sql server in azure: %v", err)
 		}
-		return ctrl.Result{}, nil
+
 	}
 
 	r.Recorder.Event(&instance, "Normal", "Provisioned", "sqlserver "+instance.ObjectMeta.Name+" provisioned ")
@@ -132,6 +132,18 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	r.Log.Info("result from createorupdate", "resultt", result)
+
+	serv, gerr := sdkClient.GetServer(groupName, name)
+	if gerr != nil {
+		r.Log.Info("server not ready", "err", err.Error())
+	} else {
+		if *serv.State == "Ready" {
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			err = nil
+		}
+	}
+	r.Log.Info("did a server get", "server", serv)
 
 	// write information back to instance
 	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
