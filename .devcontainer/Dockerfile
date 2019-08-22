@@ -75,15 +75,22 @@ RUN os=$(go env GOOS)  \
 # (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
 && mv /tmp/kubebuilder_2.0.0-rc.0_${os}_${arch} /usr/local/kubebuilder   \
 # && export PATH=$PATH:/usr/local/kubebuilder/bin \
-&& chmod +x /usr/local/kubebuilder/bin 
-
-
+&& chmod +x /usr/local/kubebuilder/bin   \
+# download kustomize
+&& curl -o /usr/local/kubebuilder/bin/kustomize -sL "https://go.kubebuilder.io/kustomize/${os}/${arch}"  \
+# set permission
+&& chmod a+x /usr/local/kubebuilder/bin/kustomize
 
 ENV PATH="/usr/local/kubebuilder/bin:${PATH}"
 
 ENV GO111MODULE=on
 
-
+RUN GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0  \
+&& GO111MODULE="on" go get -u github.com/jstemmer/go-junit-report  \
+&& GO111MODULE="on" go get -u github.com/jstemmer/go-junit-report  \
+&& GO111MODULE="on" go get github.com/axw/gocov/gocov  \
+&& GO111MODULE="on" go get github.com/AlekSi/gocov-xml  \
+&& GO111MODULE="on" go get golang.org/x/tools/cmd/cover
 # Set the default shell to bash instead of sh
 ENV AZURE_CLIENT_ID=""
 ENV AZURE_CLIENT_SECRET=""
@@ -92,32 +99,3 @@ ENV AZURE_TENANT_ID=""
 ENV KUBECONFIG=/root/.kube/config
 
 ENV SHELL /bin/bash
-
-RUN echo '\n\
-go get -u github.com/jstemmer/go-junit-report\n\
-go get github.com/axw/gocov/gocov\n\
-go get github.com/AlekSi/gocov-xml\n\
-go get -u gopkg.in/matm/v1/gocov-html\n\
-go get golang.org/x/tools/cmd/cover\n\
-make install-kustomize  -C /workspaces/azure-service-operator\n\
-make install-kind  -C /workspaces/azure-service-operator\n\
-#which kustomize\n\
-which kustomize\n\
-#kustomize version\n\
-kustomize  version\n\
-if [ "$SYNC_LOCALHOST_KUBECONFIG" == "true" ]; then\n\
-    mkdir -p $HOME/.kube\n\
-    cp -r $HOME/.kube-localhost/* $HOME/.kube\n\
-    sed -i -e "s/localhost/host.docker.internal/g" $HOME/.kube/config\n\
-\n\
-    if [ -d "$HOME/.minikube-localhost" ]; then\n\
-        mkdir -p $HOME/.minikube\n\
-        cp -r $HOME/.minikube-localhost/ca.crt $HOME/.minikube\n\
-        sed -i -r "s|(\s*certificate-authority:\s).*|\\1$HOME\/.minikube\/ca.crt|g" $HOME/.kube/config\n\
-        cp -r $HOME/.minikube-localhost/client.crt $HOME/.minikube\n\
-        sed -i -r "s|(\s*client-certificate:\s).*|\\1$HOME\/.minikube\/client.crt|g" $HOME/.kube/config\n\
-        cp -r $HOME/.minikube-localhost/client.key $HOME/.minikube\n\
-        sed -i -r "s|(\s*client-key:\s).*|\\1$HOME\/.minikube\/client.key|g" $HOME/.kube/config\n\
-    fi\n\
-fi' \
->> $HOME/.bashrc
