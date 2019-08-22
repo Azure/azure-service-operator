@@ -67,35 +67,24 @@ RUN apt-get update \
     # Install Helm
     && curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash -
 
-RUN os=$(go env GOOS)  \
-&& arch=$(go env GOARCH)  \
-# download kubebuilder and extract it to tmp
-&& curl -sL https://go.kubebuilder.io/dl/2.0.0-rc.0/${os}/${arch} | tar -xz -C /tmp/   \
-# move to a long-term location and put it on your path
-# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
-&& mv /tmp/kubebuilder_2.0.0-rc.0_${os}_${arch} /usr/local/kubebuilder   \
-# && export PATH=$PATH:/usr/local/kubebuilder/bin \
-&& chmod +x /usr/local/kubebuilder/bin   \
-# download kustomize
-&& curl -o /usr/local/kubebuilder/bin/kustomize -sL "https://go.kubebuilder.io/kustomize/${os}/${arch}"  \
-# set permission
-&& chmod a+x /usr/local/kubebuilder/bin/kustomize
+# Verify git, process tools installed
+RUN apt-get -y install git procps wget nano zsh inotify-tools jq
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 
 ENV PATH="/usr/local/kubebuilder/bin:${PATH}"
 
 ENV GO111MODULE=on
 
-RUN GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0  \
-&& GO111MODULE="on" go get -u github.com/jstemmer/go-junit-report  \
-&& GO111MODULE="on" go get -u github.com/jstemmer/go-junit-report  \
-&& GO111MODULE="on" go get github.com/axw/gocov/gocov  \
-&& GO111MODULE="on" go get github.com/AlekSi/gocov-xml  \
-&& GO111MODULE="on" go get golang.org/x/tools/cmd/cover
 # Set the default shell to bash instead of sh
 ENV AZURE_CLIENT_ID=""
 ENV AZURE_CLIENT_SECRET=""
 ENV AZURE_SUBSCRIPTION_ID=""
 ENV AZURE_TENANT_ID=""
-ENV KUBECONFIG=/root/.kube/config
+ENV KUBECONFIG="/root/.kube/kind-config-kind"
+
+COPY ./Makefile ./
+RUN make install-kind
+RUN make install-kubebuilder
+RUN make install-kustomize
 
 ENV SHELL /bin/bash

@@ -1,4 +1,3 @@
-
 # Image URL to use all building/pushing image targets
 IMG ?= controller:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
@@ -92,9 +91,7 @@ endif
 
 
 set-kindcluster: install-kind
-	#KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")
-	#$(shell export KUBECONFIG="$(kind get kubeconfig-path --name="kind")")
-ifeq ($(shell kind get kubeconfig-path --name="kind"),$(KUBECONFIG))
+ifeq (${shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
 	@echo "kubeconfig-path points to kind path"
 else
 	@echo "please run below command in your shell and then re-run make set-kindcluster"
@@ -106,7 +103,6 @@ endif
 	@echo "getting value of KUBECONFIG"
 	@echo ${KUBECONFIG}
 	@echo "getting value of kind kubeconfig-path"
-	kind get kubeconfig-path --name="kind"
 	
 	kubectl cluster-info
 	kubectl create namespace azureoperator-system 
@@ -152,6 +148,7 @@ ifeq (,$(shell which kubebuilder))
 else
 	@echo "kubebuilder has been installed"
 endif
+
 install-kustomize:
 ifeq (,$(shell which kustomize))
 	@echo "installing kustomize"
@@ -160,10 +157,10 @@ ifeq (,$(shell which kustomize))
 	# set permission
 	chmod a+x /usr/local/kubebuilder/bin/kustomize
 	$(shell which kustomize)
-	
 else
 	@echo "kustomize has been installed"
 endif
+
 install-cert-manager:
 	kubectl create namespace cert-manager
 	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true

@@ -2,21 +2,15 @@
 {
 	"name": "Go",
 	"dockerComposeFile": "docker-compose.yml",
-	"service": "docker-in-docker",
+    "service": "docker-in-docker",
     "workspaceFolder": "/workspace",
-    
-
-	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
-	// "shutdownAction": "none",
-
-	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "docker --version"
-
+    "shutdownAction": "stopCompose",
 	"extensions": [
 		"ms-azuretools.vscode-docker",
 		"ms-vscode.go"
 	],
 	"settings": {
+		"terminal.integrated.shell.linux": "zsh",
 		"go.gopath": "/go",
 		"go.inferGopath": true,
 		"go.useLanguageServer": true,
