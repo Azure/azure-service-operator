@@ -144,7 +144,7 @@ steps:
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
     
- - powershell: |
+- powershell: |
         $junitXml = "report.xml"
         $(Get-Content $junitXml | Out-String) -match 'failures="(.*?)"'
         if ($matches[1] -eq 0)
@@ -162,8 +162,8 @@ steps:
 - task: PublishTestResults@2
   displayName: 'existing cluster'
   inputs:
-    failedTaskOnFailedTest: 'true'
-    failOnStandardError: 'true'
+    failedTaskOnFailedTest: true
+    failOnStandardError: true
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
 
