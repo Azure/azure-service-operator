@@ -56,7 +56,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// wait for server to be created
 	// then only proceed once activated
-	for true {
+	for {
 		time.Sleep(time.Second)
 		ready, err := sdk.SQLServerReady()
 		if err != nil {
@@ -64,7 +64,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			t.FailNow()
 			break
 		}
-		if ready == true {
+		if ready {
 			break
 		}
 		util.PrintAndLog("waiting for sql server to be ready...")

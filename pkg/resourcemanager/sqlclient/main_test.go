@@ -33,7 +33,7 @@ func setup() error {
 }
 
 func teardown() error {
-	if config.KeepResources() == false {
+	if !config.KeepResources() {
 		// does not wait
 		_, err := resources.DeleteGroup(context.Background(), config.GroupName())
 		if err != nil {
