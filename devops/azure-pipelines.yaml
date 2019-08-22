@@ -139,24 +139,27 @@ steps:
 
 - task: PublishTestResults@2
   displayName: 'test cluster'
-  inputs:
-    failedTaskOnFailedTest: true
+  inputs:    
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
+    failedTaskOnFailedTest: 'true'
+    failOnStandardError: 'true'
 
 - task: PublishTestResults@2
   displayName: 'existing cluster'
-  inputs:
-    failedTaskOnFailedTest: true
-    failOnStandardError: true
+  inputs:    
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
+    failedTaskOnFailedTest: 'true'
+    failOnStandardError: 'true'
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura 
     summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
     reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
+    failIfCoverageEmpty: 'true'
+    failOnStandardError: 'true'
 
 - script: docker build -t $(IMAGE_NAME) .  # add options to this command to meet your needs
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
