@@ -28,8 +28,6 @@ spec:
             submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
           type: string
         metadata:
-          description: ObjectMeta is metadata that all persisted resources must have,
-            which includes all objects users must create.
           properties:
             annotations:
               additionalProperties:
@@ -129,8 +127,6 @@ spec:
                     struct will be set to nil and the object is considered as initialized
                     and visible to all clients.
                   items:
-                    description: Initializer is information about an initializer that
-                      has not yet completed.
                     properties:
                       name:
                         description: name of the process that is responsible for initializing
@@ -167,9 +163,6 @@ spec:
                             with the StatusReason failure. Not all StatusReasons may
                             provide detailed causes.
                           items:
-                            description: StatusCause provides more information about
-                              an api.Status failure, including cases when multiple
-                              errors are encountered.
                             properties:
                               field:
                                 description: "The field of the resource that has caused
@@ -291,8 +284,6 @@ spec:
                 object. \n This field is alpha and can be changed or removed without
                 notice."
               items:
-                description: ManagedFieldsEntry is a workflow-id, a FieldSet and the
-                  group version of the resource that the fieldset applies to.
                 properties:
                   apiVersion:
                     description: APIVersion defines the version of this resource that
@@ -343,10 +334,6 @@ spec:
                 will point to this controller, with the controller field set to true.
                 There cannot be more than one managing controller.
               items:
-                description: OwnerReference contains enough information to let you
-                  identify an owning object. An owning object must be in the same
-                  namespace as the dependent, or be cluster-scoped, so there is no
-                  namespace field.
                 properties:
                   apiVersion:
                     description: API version of the referent.
@@ -399,11 +386,8 @@ spec:
               type: string
           type: object
         spec:
-          description: EventhubSpec defines the desired state of Eventhub
           properties:
             authorizationrule:
-              description: EventhubAuthorizationRule defines the name and rights of
-                the access policy
               properties:
                 name:
                   description: Name - Name of AuthorizationRule for eventhub
@@ -421,8 +405,59 @@ spec:
             namespace:
               type: string
             properties:
-              description: EventhubProperties defines the namespace properties
               properties:
+                capturedescription:
+                  description: CaptureDescription - Details specifying EventHub capture
+                    to persistent storage
+                  properties:
+                    destination:
+                      description: Destination - Resource id of the storage account
+                        to be used to create the blobs
+                      properties:
+                        archivenameformat:
+                          description: ArchiveNameFormat - Blob naming convention
+                            for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}.
+                            Here all the parameters (Namespace,EventHub .. etc) are
+                            mandatory irrespective of order
+                          type: string
+                        blobcontainer:
+                          description: BlobContainer - Blob container Name
+                          type: string
+                        name:
+                          description: Name - Name for capture destination
+                          type: string
+                        storageaccountresourceid:
+                          description: StorageAccountResourceId - Resource id of the
+                            storage account to be used to create the blobs
+                          type: string
+                      required:
+                      - archivenameformat
+                      - blobcontainer
+                      - name
+                      - storageaccountresourceid
+                      type: object
+                    enabled:
+                      description: Enabled - indicates whether capture is enabled
+                      type: boolean
+                    intervalinseconds:
+                      description: IntervalInSeconds - The time window allows you
+                        to set the frequency with which the capture to Azure Blobs
+                        will happen
+                      format: int32
+                      maximum: 900
+                      minimum: 60
+                      type: integer
+                    sizelimitinbytes:
+                      description: SizeLimitInBytes - The size window defines the
+                        amount of data built up in your Event Hub before an capture
+                        operation
+                      format: int32
+                      maximum: 524288000
+                      minimum: 10485760
+                      type: integer
+                  required:
+                  - enabled
+                  type: object
                 messageretentionindays:
                   description: MessageRetentionInDays - Number of days to retain the
                     events for this Event Hub, value should be 1 to 7 days
@@ -444,7 +479,6 @@ spec:
           - location
           type: object
         status:
-          description: EventhubStatus defines the observed state of Eventhub
           properties:
             provisioned:
               type: boolean

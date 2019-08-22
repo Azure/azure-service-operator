@@ -59,6 +59,34 @@ type EventhubAuthorizationRule struct {
 	Rights []string `json:"rights,omitempty"`
 }
 
+//Destination for capture (blob storage etc)
+type Destination struct {
+	// ArchiveNameFormat - Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order
+	ArchiveNameFormat string `json:"archivenameformat"`
+	// BlobContainer - Blob container Name
+	BlobContainer string `json:"blobcontainer"`
+	// Name - Name for capture destination
+	Name string `json:"name"`
+	// StorageAccountResourceId - Resource id of the storage account to be used to create the blobs
+	StorageAccountResourceId string `json:"storageaccountresourceid"`
+}
+
+//CaptureDescription defines the properties required for eventhub capture
+type CaptureDescription struct {
+	// Destination - Resource id of the storage account to be used to create the blobs
+	Destination Destination `json:"destination,omitempty"`
+	// Enabled - indicates whether capture is enabled
+	Enabled bool `json:"enabled"`
+	// SizeLimitInBytes - The size window defines the amount of data built up in your Event Hub before an capture operation
+	// +kubebuilder:validation:Maximum=524288000
+	// +kubebuilder:validation:Minimum=10485760
+	SizeLimitInBytes int32 `json:"sizelimitinbytes,omitempty"`
+	// IntervalInSeconds - The time window allows you to set the frequency with which the capture to Azure Blobs will happen
+	// +kubebuilder:validation:Maximum=900
+	// +kubebuilder:validation:Minimum=60
+	IntervalInSeconds int32 `json:"intervalinseconds,omitempty"`
+}
+
 //EventhubProperties defines the namespace properties
 type EventhubProperties struct {
 	// +kubebuilder:validation:Maximum=7
@@ -69,6 +97,8 @@ type EventhubProperties struct {
 	// +kubebuilder:validation:Minimum=1
 	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
 	PartitionCount int32 `json:"partitioncount,omitempty"`
+	// CaptureDescription - Details specifying EventHub capture to persistent storage
+	CaptureDescription CaptureDescription `json:"capturedescription,omitempty"`
 }
 
 // +kubebuilder:object:root=true

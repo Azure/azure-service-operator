@@ -48,25 +48,24 @@ var _ = Describe("Eventhub", func() {
 	Context("Create API", func() {
 
 		It("should create an object successfully", func() {
-
 			key = types.NamespacedName{
 				Name:      "foo",
 				Namespace: "default",
 			}
-			created = &Eventhub{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "foo",
-					Namespace: "default",
+
+			capture := CaptureDescription{
+				Destination: Destination{
+					ArchiveNameFormat:        "fooArchiveNameFormat",
+					BlobContainer:            "fooBlobContainer",
+					Name:                     "fooName",
+					StorageAccountResourceId: "80488d8f-19ba-4d90-b15e-613f4268b1d5",
 				},
-				Spec: EventhubSpec{
-					Location:      "westus",
-					Namespace:     "fooeventhubNamespaceName",
-					ResourceGroup: "fooresourceGroupName",
-					Properties: EventhubProperties{
-						MessageRetentionInDays: 7,
-						PartitionCount:         1,
-					},
-				}}
+				Enabled:           true,
+				SizeLimitInBytes:  524288000,
+				IntervalInSeconds: 90,
+			}
+
+			created = createEventHub(capture)
 
 			By("creating an API obj")
 			Expect(k8sClient.Create(context.TODO(), created)).To(Succeed())
@@ -83,3 +82,23 @@ var _ = Describe("Eventhub", func() {
 	})
 
 })
+
+func createEventHub(captureDescription CaptureDescription) *Eventhub {
+	created := &Eventhub{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "foo",
+			Namespace: "default",
+		},
+		Spec: EventhubSpec{
+			Location:      "westus",
+			Namespace:     "fooeventhubNamespaceName",
+			ResourceGroup: "fooresourceGroupName",
+			Properties: EventhubProperties{
+				MessageRetentionInDays: 7,
+				PartitionCount:         1,
+				CaptureDescription:     captureDescription,
+			},
+		}}
+
+	return created
+}
