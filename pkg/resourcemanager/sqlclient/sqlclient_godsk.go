@@ -7,6 +7,7 @@ package sqlclient
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
@@ -34,23 +35,22 @@ func getGoCBClient() sql.DatabasesClient {
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (result bool, err error) {
+func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (s sql.Server, err error) {
 	serversClient := getGoServersClient()
 	serverProp := SQLServerPropertiesToServer(properties)
 
-	_, err = serversClient.CreateOrUpdate(
+	future, err := serversClient.CreateOrUpdate(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
 		sql.Server{
-			Location:         to.StringPtr(config.Location()),
+			Location:         to.StringPtr(sdk.Location),
 			ServerProperties: &serverProp,
 		})
-	if err != nil {
-		return false, fmt.Errorf("cannot create sql server: %v", err)
-	}
 
-	return true, nil
+	log.Println(future)
+
+	return future.Result(serversClient)
 }
 
 // SQLServerReady returns true if the SQL server is active
