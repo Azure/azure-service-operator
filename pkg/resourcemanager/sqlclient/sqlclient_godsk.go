@@ -6,13 +6,13 @@
 package sqlclient
 
 import (
-	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest/azure"
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
@@ -35,10 +35,21 @@ func getGoCBClient() sql.DatabasesClient {
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (result azure.Future, err error) {
+func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (result sql.Server, err error) {
 	serversClient := getGoServersClient()
 	serverProp := SQLServerPropertiesToServer(properties)
 
+	// check to see if the server exists, if it does then short-circuit
+	server, err := serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+	if err == nil && *server.State == "Ready" {
+		return server, nil
+	}
+
+	// issue the creation
 	future, err := serversClient.CreateOrUpdate(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
@@ -48,35 +59,28 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (
 			ServerProperties: &serverProp,
 		})
 	if err != nil {
-		return result, fmt.Errorf("cannot create sql server: %v", err)
+		return result, err
 	}
 
-	return future.Future, nil
-}
-
-// SQLServerReady returns true if the SQL server is active
-func (sdk GoSDKClient) SQLServerReady() (result bool, err error) {
-	serversClient := getGoServersClient()
-
-	server, err := serversClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-	)
-	if err != nil {
-		if strings.Contains(err.Error(), "ResourceNotFound") {
-			return false, nil
-		}
-		return false, fmt.Errorf("cannot get sql server: %v", err)
-	}
-
-	return *server.State == "Ready", err
+	return future.Result(serversClient)
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
-func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (result azure.Future, err error) {
+func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (result sql.Database, err error) {
 	dbClient := getGoCBClient()
 	dbProp := SQLDatabasePropertiesToDatabase(properties)
+
+	// check to see if the db exists, if it does then short-circuit
+	db, err := dbClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		properties.DatabaseName,
+		"serviceTierAdvisors, transparentDataEncryption",
+	)
+	if err == nil && *db.Status == "Online" {
+		return db, nil
+	}
 
 	future, err := dbClient.CreateOrUpdate(
 		sdk.Ctx,
@@ -88,32 +92,70 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (resul
 			DatabaseProperties: &dbProp,
 		})
 	if err != nil {
-		return result, fmt.Errorf("cannot create sql database: %v", err)
+		return result, err
 	}
 
-	return future.Future, nil
+	// TODO: Will needs to remove the sync
+	err = future.WaitForCompletionRef(
+		sdk.Ctx,
+		dbClient.Client,
+	)
+	if err != nil {
+		return result, err
+	}
+
+	return future.Result(dbClient)
 }
 
 // DeleteDB deletes a DB
-func (sdk GoSDKClient) DeleteDB(databaseName string) (result bool, err error) {
+func (sdk GoSDKClient) DeleteDB(databaseName string) (result autorest.Response, err error) {
 	dbClient := getGoCBClient()
 
-	_, err = dbClient.Delete(
+	// check to see if the db exists, if it does then short-circuit
+	_, err = dbClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		databaseName,
+		"serviceTierAdvisors, transparentDataEncryption",
+	)
+	if err != nil {
+		result = autorest.Response{
+			Response: &http.Response{
+				StatusCode: 200,
+			},
+		}
+		return result, nil
+	}
+
+	result, err = dbClient.Delete(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
 		databaseName,
 	)
-	if err != nil {
-		return false, fmt.Errorf("cannot delete db: %v", err)
-	}
 
-	return true, nil
+	return result, err
 }
 
-// DeleteSQLServer deletes a DB
-func (sdk GoSDKClient) DeleteSQLServer() (result azure.Future, err error) {
+// DeleteSQLServer deletes a SQL server
+func (sdk GoSDKClient) DeleteSQLServer() (result autorest.Response, err error) {
 	serversClient := getGoServersClient()
+
+	// check to see if the server exists, if it doesn't then short-circuit
+	_, err = serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+	if err != nil {
+		result = autorest.Response{
+			Response: &http.Response{
+				StatusCode: 200,
+			},
+		}
+		return result, nil
+	}
 
 	future, err := serversClient.Delete(
 		sdk.Ctx,
@@ -121,8 +163,19 @@ func (sdk GoSDKClient) DeleteSQLServer() (result azure.Future, err error) {
 		sdk.ServerName,
 	)
 	if err != nil {
-		return result, fmt.Errorf("cannot delete sql server: %v", err)
+		return result, err
 	}
 
-	return future.Future, nil
+	return future.Result(serversClient)
+}
+
+// IsAsyncNotCompleted returns true if the error is due to async not completed
+func (sdk GoSDKClient) IsAsyncNotCompleted(err error) (result bool) {
+	result = false
+	if err != nil && strings.Contains(err.Error(), "asynchronous operation has not completed") {
+		result = true
+	} else if strings.Contains(err.Error(), "is busy with another operation") {
+		result = true
+	}
+	return result
 }
