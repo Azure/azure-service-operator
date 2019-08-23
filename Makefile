@@ -55,9 +55,9 @@ generate: controller-gen
 
 # Build the docker image
 docker-build: 
-	docker build . -t ${IMG}
+	docker build -t ${IMG} .
 	@echo "updating kustomize image patch file for manager resource"
-	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
+	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' config/default/manager_image_patch.yaml
 
 # Push the docker image
 docker-push:
@@ -73,11 +73,6 @@ else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
 
-
-
-
-
-
 create-kindcluster:
 ifeq (,$(shell kind get clusters))
 	@echo "no kind cluster"
@@ -87,8 +82,6 @@ else
 endif
 	@echo "creating kind cluster"
 	kind create cluster
-
-
 
 set-kindcluster: install-kind
 ifeq (${shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
@@ -120,10 +113,9 @@ endif
 	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
 	make install
 	kubectl get namespaces
-	@echo "sleep 80 seconds to get the cert pods running"
-	sleep 80
-	@echo "end of sleep"
 	kubectl get pods --namespace cert-manager
+	@echo "Waiting for cert-manager to be ready"
+	kubectl wait pod -n cert-manager --for condition=ready --all
 	@echo "all the pods should be running"
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
