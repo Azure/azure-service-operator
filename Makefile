@@ -115,7 +115,7 @@ endif
 	kubectl get namespaces
 	kubectl get pods --namespace cert-manager
 	@echo "Waiting for cert-manager to be ready"
-	kubectl wait pod -n cert-manager --for condition=ready --all
+	kubectl wait pod -n cert-manager --for condition=ready --timeout=60s --all
 	@echo "all the pods should be running"
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
