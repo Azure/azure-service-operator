@@ -18,7 +18,6 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -32,6 +31,8 @@ import (
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 )
+
+const SQLServerFinalizerName = "sqlserver.finalizers.azure.com"
 
 // SqlServerReconciler reconciles a SqlServer object
 type SqlServerReconciler struct {
@@ -83,10 +84,6 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation")
 		if err := r.reconcileExternal(&instance); err != nil {
-			if strings.Contains(err.Error(), "asynchronous operation has not completed") {
-				r.Recorder.Event(&instance, "Normal", "Provisioning", "async op still running")
-				return ctrl.Result{Requeue: true, RequeueAfter: 10 * time.Second}, nil
-			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling sql server in azure: %v", err)
 		}
 		// if the request was just sent to azure, the resource probably isn't ready yet
@@ -222,12 +219,12 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 	return nil
 }
 
-	_, err := sdkClient.DeleteSQLServer()
+func (r *SqlServerReconciler) addFinalizer(instance *azurev1.SqlServer) error {
+	helpers.AddFinalizer(instance, SQLServerFinalizerName)
+	err := r.Update(context.Background(), instance)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
-		return err
+		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-
-	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLServerFinalizerName))
 	return nil
 }
