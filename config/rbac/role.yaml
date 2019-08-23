@@ -7,8 +7,6 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-<<<<<<< HEAD
-=======
   - azure.microsoft.com
   resources:
   - resourcegroups
@@ -21,7 +19,6 @@ rules:
   - update
   - watch
 - apiGroups:
->>>>>>> 5395cf2cfc706f3d651951552736f495d4ae40c1
   - azure.microsoft.com
   resources:
   - resourcegroups/status
@@ -32,9 +29,6 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-<<<<<<< HEAD
-  - sqlservers
-=======
   - sqlfirewallrules
   verbs:
   - create
@@ -48,7 +42,6 @@ rules:
   - azure.microsoft.com
   resources:
   - sqlfirewallrules/status
->>>>>>> 5395cf2cfc706f3d651951552736f495d4ae40c1
   verbs:
   - create
   - delete
@@ -60,11 +53,7 @@ rules:
 - apiGroups:
   - apps
   resources:
-<<<<<<< HEAD
-  - deployments
-=======
   - sqlservers
->>>>>>> 5395cf2cfc706f3d651951552736f495d4ae40c1
   verbs:
   - create
   - delete
@@ -74,11 +63,6 @@ rules:
   - update
   - watch
 - apiGroups:
-<<<<<<< HEAD
-  - apps
-  resources:
-  - deployments/status
-=======
   - azure.microsoft.com
   resources:
   - sqlservers/status
@@ -90,7 +74,6 @@ rules:
   - azure.microsoft.com
   resources:
   - eventhubs
->>>>>>> 5395cf2cfc706f3d651951552736f495d4ae40c1
   verbs:
   - get
   - patch
@@ -98,11 +81,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-<<<<<<< HEAD
-  - eventhubnamespaces/status
-=======
   - eventhubnamespaces
->>>>>>> 5395cf2cfc706f3d651951552736f495d4ae40c1
   verbs:
   - get
   - patch
@@ -110,11 +89,7 @@ rules:
 - apiGroups:
   - apps
   resources:
-<<<<<<< HEAD
-  - keyvaults
-=======
   - deployments
->>>>>>> 5395cf2cfc706f3d651951552736f495d4ae40c1
   verbs:
   - create
   - delete
@@ -126,11 +101,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-<<<<<<< HEAD
-  - keyvaults/status
-=======
   - eventhubnamespaces/status
->>>>>>> 5395cf2cfc706f3d651951552736f495d4ae40c1
   verbs:
   - get
   - patch
@@ -138,11 +109,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-<<<<<<< HEAD
-  - resourcegroups
-=======
   - sqldatabases
->>>>>>> 5395cf2cfc706f3d651951552736f495d4ae40c1
   verbs:
   - create
   - delete
@@ -154,11 +121,7 @@ rules:
 - apiGroups:
   - ""
   resources:
-<<<<<<< HEAD
-  - sqldatabases
-=======
   - events
->>>>>>> 5395cf2cfc706f3d651951552736f495d4ae40c1
   verbs:
   - create
   - watch
