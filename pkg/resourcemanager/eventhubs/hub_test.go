@@ -61,7 +61,8 @@ var _ = Describe("Eventhub", func() {
 
 			var err error
 
-			_, err = CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount)
+			// TODO: add test for Capture
+			_, err = CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {

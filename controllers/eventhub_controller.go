@@ -18,6 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/go-autorest/autorest/to"
 	"time"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
@@ -130,6 +131,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 	resourcegroup := instance.Spec.ResourceGroup
 	partitionCount := instance.Spec.Properties.PartitionCount
 	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
+	captureDescription := instance.Spec.Properties.CaptureDescription
 
 	// write information back to instance
 	instance.Status.Provisioning = true
@@ -161,7 +163,9 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount)
+	capturePtr := getCaptureDescriptionPtr(captureDescription)
+
+	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -194,6 +198,29 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 	return nil
+}
+
+func getCaptureDescriptionPtr(captureDescription azurev1.CaptureDescription) *model.CaptureDescription {
+	// add capture details
+	var capturePtr *model.CaptureDescription = nil
+	if captureDescription.Enabled {
+		capturePtr = &model.CaptureDescription{
+			Enabled:           to.BoolPtr(true),
+			Encoding:          model.Avro,
+			IntervalInSeconds: &captureDescription.IntervalInSeconds,
+			SizeLimitInBytes:  &captureDescription.SizeLimitInBytes,
+			Destination: &model.Destination{
+				Name: &captureDescription.Destination.Name,
+				DestinationProperties: &model.DestinationProperties{
+					StorageAccountResourceID: &captureDescription.Destination.StorageAccountResourceId,
+					BlobContainer:            &captureDescription.Destination.BlobContainer,
+					ArchiveNameFormat:        &captureDescription.Destination.ArchiveNameFormat,
+				},
+			},
+			SkipEmptyArchives: to.BoolPtr(true),
+		}
+	}
+	return capturePtr
 }
 
 func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {

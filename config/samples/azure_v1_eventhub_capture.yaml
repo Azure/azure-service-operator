@@ -1,0 +1,26 @@
+apiVersion: azure.microsoft.com/v1
+kind: Eventhub
+metadata:
+  name: eventhub-sample-2307-15-capture
+spec:
+  location: "westus"
+  resourcegroup: "resourcegroup-sample-1907"
+  namespace: "eventhubnamespace-sample-7"
+  properties:
+    messageretentionindays: 7
+    partitioncount: 1
+    capturedescription:
+      destination:
+        archivenameformat: "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"
+        blobcontainer: "capturecontainer"
+        name: "EventHubArchive.AzureBlockBlob"
+        storageaccountresourceid: "/subscriptions/ba481e10-a432-43db-ab55-49ac2ffd33fa/resourceGroups/my-resource-group/providers/Microsoft.Storage/storageAccounts/storageaccountauv1"
+      enabled: true
+      sizelimitinbytes: 524288000
+      intervalinseconds: 60
+  authorizationrule: 
+    name : "RootManageSharedAccessKey"
+    rights: 
+      - "Listen"
+      - "Manage"
+      - "Send"

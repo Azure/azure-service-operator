@@ -5,11 +5,11 @@ metadata:
 spec:
   location: "westus"
   resourcegroup: "resourcegroup-sample-1907"
-  namespace: "eventhubnamespace-sample-6"
+  namespace: "eventhubnamespace-sample-7"
   properties:
     messageretentionindays: 7
     partitioncount: 1
-  authorizationrule: 
+  authorizationrule:
     name : "RootManageSharedAccessKey"
     rights: 
       - "Listen"
