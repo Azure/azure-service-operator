@@ -63,7 +63,7 @@ Basic commands to check your cluster
 5. Create a Service Principal
     If you don't have a Service Principal create one from the Azure CLI:
     ```bash
-    az ad sp create-for-rbac --skip-assignment
+    az ad sp create-for-rbac --role Contributor
     ```
     Then make sure this service principal has rights assigned to provision resources on your Azure account.
   
