@@ -55,10 +55,13 @@ var _ = Describe("Eventhub", func() {
 
 			capture := CaptureDescription{
 				Destination: Destination{
-					ArchiveNameFormat:        "fooArchiveNameFormat",
-					BlobContainer:            "fooBlobContainer",
-					Name:                     "fooName",
-					StorageAccountResourceId: "80488d8f-19ba-4d90-b15e-613f4268b1d5",
+					ArchiveNameFormat: "fooArchiveNameFormat",
+					BlobContainer:     "fooBlobContainer",
+					Name:              "fooName",
+					StorageAccount: StorageAccount{
+						ResourceGroup: "fooResourceGroup",
+						AccountName:   "fooAccountName",
+					},
 				},
 				Enabled:           true,
 				SizeLimitInBytes:  524288000,

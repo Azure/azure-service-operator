@@ -18,6 +18,7 @@ package main
 import (
 	"flag"
 	"os"
+	"strconv"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/controllers"
@@ -114,21 +115,23 @@ func main() {
 		os.Exit(1)
 	}
 
-	//if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
-	//	setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
-	//	os.Exit(1)
-	//}
-	//if !resourcemanagerconfig.Declarative() {
-	//	if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
-	//		setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
-	//		os.Exit(1)
-	//	}
-	//
-	//	if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
-	//		setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
-	//		os.Exit(1)
-	//	}
-	//}
+	if omitWebHooks, err := strconv.ParseBool(os.Getenv("OMIT_WEBHOOKS")); !omitWebHooks {
+		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
+			os.Exit(1)
+		}
+		if !resourcemanagerconfig.Declarative() {
+			if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
+				setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
+				os.Exit(1)
+			}
+
+			if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
+				setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
+				os.Exit(1)
+			}
+		}
+	}
 
 	// +kubebuilder:scaffold:builder
 

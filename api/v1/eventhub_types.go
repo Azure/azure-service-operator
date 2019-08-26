@@ -59,16 +59,28 @@ type EventhubAuthorizationRule struct {
 	Rights []string `json:"rights,omitempty"`
 }
 
+type StorageAccount struct {
+	// ResourceGroup - Name of the storage account resource group
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	ResourceGroup string `json:"resourcegroup,omitempty"`
+	// AccountName - Name of the storage account
+	// +kubebuilder:validation:MaxLength=24
+	// +kubebuilder:validation:MinLength=3
+	// +kubebuilder:validation:Pattern=^[a-z0-9]+$
+	AccountName string `json:"name,omitempty"`
+}
+
 //Destination for capture (blob storage etc)
 type Destination struct {
 	// ArchiveNameFormat - Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order
-	ArchiveNameFormat string `json:"archivenameformat"`
+	ArchiveNameFormat string `json:"archivenameformat,omitempty"`
 	// BlobContainer - Blob container Name
-	BlobContainer string `json:"blobcontainer"`
+	BlobContainer string `json:"blobcontainer,omitempty"`
 	// Name - Name for capture destination
-	Name string `json:"name"`
-	// StorageAccountResourceId - Resource id of the storage account to be used to create the blobs
-	StorageAccountResourceId string `json:"storageaccountresourceid"`
+	// +kubebuilder:validation:Enum=EventHubArchive.AzureBlockBlob;EventHubArchive.AzureDataLake
+	Name string `json:"name,omitempty"`
+	// StorageAccount - Details of the storage account
+	StorageAccount StorageAccount `json:"storageaccount,omitempty"`
 }
 
 //CaptureDescription defines the properties required for eventhub capture

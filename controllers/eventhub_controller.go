@@ -18,6 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest/to"
 	"time"
 
@@ -200,9 +201,15 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 	return nil
 }
 
+const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
+
 func getCaptureDescriptionPtr(captureDescription azurev1.CaptureDescription) *model.CaptureDescription {
 	// add capture details
 	var capturePtr *model.CaptureDescription = nil
+
+	storage := captureDescription.Destination.StorageAccount
+	storageAccountResourceId := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+
 	if captureDescription.Enabled {
 		capturePtr = &model.CaptureDescription{
 			Enabled:           to.BoolPtr(true),
@@ -212,7 +219,7 @@ func getCaptureDescriptionPtr(captureDescription azurev1.CaptureDescription) *mo
 			Destination: &model.Destination{
 				Name: &captureDescription.Destination.Name,
 				DestinationProperties: &model.DestinationProperties{
-					StorageAccountResourceID: &captureDescription.Destination.StorageAccountResourceId,
+					StorageAccountResourceID: &storageAccountResourceId,
 					BlobContainer:            &captureDescription.Destination.BlobContainer,
 					ArchiveNameFormat:        &captureDescription.Destination.ArchiveNameFormat,
 				},

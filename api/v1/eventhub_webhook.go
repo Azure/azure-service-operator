@@ -28,9 +28,19 @@ var _ webhook.Defaulter = &Eventhub{}
 // Default implements webhook.Defaulter so a webhook will be registered for the type
 func (eventhub *Eventhub) Default() {
 	eventhublog.Info("default", "name", eventhub.Name)
-
-	// place to add defaulting logic.
 }
+
+//
+//// TODO: do we capture const
+//const defaultCaptureDestinationName = "EventHubArchive.AzureBlockBlob"
+//
+//func (eventhub *Eventhub) setEventHubDefault() {
+//	// place to add defaulting logic.
+//	capture := eventhub.Spec.Properties.CaptureDescription
+//	if !capture.Enabled {
+//		capture.Destination.Name = defaultCaptureDestinationName
+//	}
+//}
 
 // +kubebuilder:webhook:path=/validate-azure-microsoft-com-v1-eventhub,mutating=false,failurePolicy=fail,groups=azure.microsoft.com,resources=eventhubs,verbs=create;update,versions=v1,name=veventhub.kb.io
 
@@ -78,5 +88,18 @@ func (eventhub *Eventhub) validateValidParent() *field.Error {
 	if result.Response.StatusCode != 200 {
 		return field.Invalid(field.NewPath("spec").Child("namespace"), eventhubNamespaceName, "EventHubNamespace doesn't exist")
 	}
+	return nil
+}
+
+func (eventhub *Eventhub) validateCaptureContainer() *field.Error {
+	captureDescription := eventhub.Spec.Properties.CaptureDescription
+	if captureDescription.Enabled {
+		return nil
+	}
+
+	//storageAccount := captureDescription.Destination.StorageAccount
+	//
+	//result, _ := eventhubsmanager.GetNamespace(context.Background(), resourcegroupName, eventhubNamespaceName)
+
 	return nil
 }

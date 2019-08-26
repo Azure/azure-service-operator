@@ -425,16 +425,25 @@ spec:
                           type: string
                         name:
                           description: Name - Name for capture destination
+                          enum:
+                          - EventHubArchive.AzureBlockBlob
+                          - EventHubArchive.AzureDataLake
                           type: string
-                        storageaccountresourceid:
-                          description: StorageAccountResourceId - Resource id of the
-                            storage account to be used to create the blobs
-                          type: string
-                      required:
-                      - archivenameformat
-                      - blobcontainer
-                      - name
-                      - storageaccountresourceid
+                        storageaccount:
+                          description: StorageAccount - Details of the storage account
+                          properties:
+                            name:
+                              description: AccountName - Name of the storage account
+                              maxLength: 24
+                              minLength: 3
+                              pattern: ^[a-z0-9]+$
+                              type: string
+                            resourcegroup:
+                              description: ResourceGroup - Name of the storage account
+                                resource group
+                              pattern: ^[-\w\._\(\)]+$
+                              type: string
+                          type: object
                       type: object
                     enabled:
                       description: Enabled - indicates whether capture is enabled
