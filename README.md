@@ -9,27 +9,31 @@
 Kubernetes offers the facility of extending it's API through the concept of 'Operators' ([Introducing Operators: Putting Operational Knowledge into Software](https://coreos.com/blog/introducing-operators.html)). This repository contains the resources and code to provision a Resource group and Azure Event Hub using Kubernetes operator.
 
 The Azure Operator comprises of:
-- The golang application is a Kubernetes controller that watches Customer Resource Definitions (CRDs) that define a Resource Group and Event Hub 
+
+- The golang application is a Kubernetes controller that watches Customer Resource Definitions (CRDs) that define a Resource Group and Event Hub
 
 The project was built using
 
 1. [Kubebuilder](https://book.kubebuilder.io/)
 
+## Building and Running from Source
+
 ### Prerequisites And Assumptions
 
 1. You have GoLang installed.
-2. You have the kubectl command line (kubectl CLI) installed.
-3. You have acess to a Kubernetes cluster. 
-    It can be a local hosted Cluster like 
-    [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/), 
-    [Kind](https://github.com/kubernetes-sigs/kind) or, Docker for desktop installed locally with RBAC enabled. 
-    If you opt for Azure Kubernetes Service ([AKS](https://azure.microsoft.com/en-au/services/kubernetes-service/)), you can use: 
+2. [Docker](https://docs.docker.com/install/) is installed and running.
+3. You have the kubectl command line (kubectl CLI) installed.
+4. You have access to a Kubernetes cluster.
+    - It can be a local hosted Cluster like
+    [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/),
+    [Kind](https://github.com/kubernetes-sigs/kind) or Docker for desktop installed locally with RBAC enabled.
+    - If you opt for Azure Kubernetes Service ([AKS](https://azure.microsoft.com/en-au/services/kubernetes-service/)), you can use:
     `az aks get-credentials --resource-group $RG_NAME --name $Cluster_NAME`
-    Kubectl: Client version 1.14 Server Version 1.12
-       
-    It is recommended to use [Kind](https://github.com/kubernetes-sigs/kind) as it is needed for testing Webhooks.
-4. Install [Kubebuilder](https://book.kubebuilder.io/), following the linked installation instructions.
-5. [kustomize](https://github.com/kubernetes-sigs/kustomize) is also needed. This must be installed via `make install-kustomize` (see section below).
+    - Kubectl: Client version 1.14 Server Version 1.12
+
+    **Note:** it is recommended to use [Kind](https://github.com/kubernetes-sigs/kind) as it is needed for testing Webhooks.
+5. Install [Kubebuilder](https://book.kubebuilder.io/), following the linked installation instructions.
+6. [Kustomize](https://github.com/kubernetes-sigs/kustomize) is also needed. This must be installed via `make install-kustomize` (see section below).
 
 Basic commands to check your cluster
 
@@ -40,11 +44,36 @@ Basic commands to check your cluster
     kubectl get pods -n kube-system
 ```
 
-### Building and Running from Source
+### Quick Start
 
-1. Clone the repo from the following folder `<GOPATH>/src/github.com/Azure`.
+If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you quickly have you're environment set up and ready to go with everything you need to get started.
 
-2. Make sure the envronment variable `GO111MODULE=on` is set.
+1. Open this project in VSCode.
+2. Inside `.devcontainer`, create a file called `.env` and using the following template, copy your Service Principal's details.
+
+    ```txt
+    AZURE_CLIENT_ID=
+
+    AZURE_CLIENT_SECRET=
+
+    AZURE_SUBSCRIPTION_ID=
+
+    AZURE_TENANT_ID=
+    ```
+
+3. Open the Command Pallet (`Command+Shift+P` on MacOS or `CTRL+Shift+P` on Windows), type `Remote-Containers: Open Folder in Container...` and hit enter.
+4. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
+5. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment.
+
+**Note**: after the DevContainer has finished building, the kind cluster will initialising and installing the Azure Service Operator in the background. This will take some time before it is available.
+
+To see when the kind cluster is ready, use `docker ps -a` to list your running containers, look for `IMAGE` with the name `azure-service-operator_devcontainer_docker-in-docker...`. Using that image's `CONTAINER ID`, use `docker logs -f CONTAINER ID` to view the logs from the container setting up your cluster.
+
+### Getting started
+
+1. Clone the repository from the following folder `<GOPATH>/src/github.com/Azure`.
+
+2. Make sure the environment variable `GO111MODULE=on` is set.
 
 3. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
 
@@ -62,34 +91,39 @@ Basic commands to check your cluster
 
 5. Create a Service Principal
     If you don't have a Service Principal create one from the Azure CLI:
+
     ```bash
-    az ad sp create-for-rbac --skip-assignment
+    az ad sp create-for-rbac --role Contributor
     ```
+
     Then make sure this service principal has rights assigned to provision resources on your Azure account.
   
-6. Set the environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`
-    If you are running it on Windows the environment variables should not have quotes. 
+6. Set the environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`.
+
+    If you are running it on Windows the environment variables should not have quotes.
+
     It should be set in this way:
-    SET  AZURE_TENANT_ID=11xxxx-xxx-xxx-xxx-xxxxx
+    `SET  AZURE_TENANT_ID=11xxxx-xxx-xxx-xxx-xxxxx`
     and the VSCode should be run from the same session/command window
 
 7. Set up the Cluster
 
    If you are using Kind:
+
     ```shell
     make set-kindcluster
     ```
-   
+
     If you are not using Kind, it's a manual process, as follows:
-    
+
     a. Create the namespace
-    
+
     ```shell
     kubectl create namespace azureoperator-system
     ```
 
     b. Set the azureoperatorsettings secret
-    
+
     ```shell
     kubectl --namespace azureoperator-system \
         create secret generic azureoperatorsettings \
@@ -98,25 +132,26 @@ Basic commands to check your cluster
         --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
         --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID"
     ```
-        
+
     c. [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
-    
+
     ```shell
     kubectl get secret webhook-server-cert -n azureoperator-system -o yaml > certs.txt
     ```
+
     you can use `https://inbrowser.tools/` and extract `ca.crt`, `tls.crt` and `tls.key`
 
 8. Install [kustomize](https://github.com/kubernetes-sigs/kustomize) using `make install-kustomize`.
 
-9. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config, 
-    
+9. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config,
+
     run `kubectl apply -f config/crd/bases` or `make install`
-        
-### How to extend the operator and build your own images
 
-#### Updating the Azure operator:
+## How to extend the operator and build your own images
 
-This Repo is generated by [Kubebuilder](https://book.kubebuilder.io/).
+### Updating the Azure operator
+
+This repository is generated by [Kubebuilder](https://book.kubebuilder.io/).
 
 To Extend the operator `github.com/Azure/azure-service-operator`:
 
@@ -130,7 +165,7 @@ To Extend the operator `github.com/Azure/azure-service-operator`:
 8. Build `make build`
 9. Deploy `make deploy`
 
-# Contributing
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

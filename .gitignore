@@ -32,7 +32,6 @@ testlogs.txt
 .env
 __debug_bin
 .vscode
-.devcontainer
 .DS_Store
 cover-existing.html
 coverage-existing.txt

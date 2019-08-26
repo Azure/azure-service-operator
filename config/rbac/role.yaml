@@ -9,7 +9,19 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - consumergroups/status
+  - eventhubs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubs/status
   verbs:
   - get
   - patch
@@ -29,7 +41,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - resourcegroups/status
+  - keyvaults/status
   verbs:
   - get
   - patch
@@ -38,25 +50,6 @@ rules:
   - ""
   resources:
   - secrets
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - create
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - resourcegroups
   verbs:
   - create
   - delete
@@ -80,19 +73,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - eventhubs
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubs/status
+  - consumergroups/status
   verbs:
   - get
   - patch
@@ -106,6 +87,21 @@ rules:
   - patch
   - update
 - apiGroups:
+  - azure.microsoft.com
+  resources:
+  - resourcegroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - watch
+- apiGroups:
   - apps
   resources:
   - deployments
@@ -117,14 +113,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - apps
-  resources:
-  - deployments/status
-  verbs:
-  - get
-  - patch
-  - update
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -140,11 +128,15 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - keyvaults/status
+  - resourcegroups
   verbs:
+  - create
+  - delete
   - get
+  - list
   - patch
   - update
+  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -152,3 +144,11 @@ rules:
   verbs:
   - create
   - patch
+- apiGroups:
+  - apps
+  resources:
+  - deployments/status
+  verbs:
+  - get
+  - patch
+  - update
