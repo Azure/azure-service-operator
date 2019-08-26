@@ -14,7 +14,7 @@ import (
 type ResourceClient interface {
 	CreateOrUpdateSQLServer(properties SQLServerProperties) (result sql.Server, err error)
 	CreateOrUpdateDB(properties SQLDatabaseProperties) (result sql.Database, err error)
-	DeleteDB(databaseName autorest.Response) (result bool, err error)
+	DeleteDB(databaseName string) (result autorest.Response, err error)
 	DeleteSQLServer() (result autorest.Response, err error)
 	IsAsyncNotCompleted(err error) (result bool)
 }
