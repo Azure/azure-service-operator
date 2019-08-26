@@ -17,9 +17,6 @@ package controllers
 
 import (
 	"fmt"
-	"os"
-	"strconv"
-	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
@@ -43,17 +40,18 @@ type ResourceGroupReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups/status,verbs=get;update;patch
 
+// Reconcile function does the main reconciliation loop of the operator
 func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("resourcegroup", req.NamespacedName)
 
 	var instance azurev1.ResourceGroup
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Error(err, "unable to fetch resourcegroup")
+		log.Info("Unable to retrieve resourcegroup resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
-		return ctrl.Result{}, ignoreNotFound(err)
+		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	if instance.IsBeingDeleted() {
@@ -73,32 +71,25 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	}
 
 	if !instance.IsSubmitted() {
-		err := r.createResourceGroup(&instance)
+		err := r.reconcileExternal(&instance)
 		if err != nil {
-
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
-	if err != nil {
-		requeueAfter = 30
-	}
-
-	return ctrl.Result{
-		RequeueAfter: time.Second * time.Duration(requeueAfter),
-	}, nil
+	return ctrl.Result{}, nil
 
 }
 
+// SetupWithManager function sets up the functions with the controller
 func (r *ResourceGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.ResourceGroup{}).
 		Complete(r)
 }
 
-func (r *ResourceGroupReconciler) createResourceGroup(instance *azurev1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1.ResourceGroup) error {
 
 	ctx := context.Background()
 	var err error

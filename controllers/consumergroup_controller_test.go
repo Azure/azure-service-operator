@@ -13,24 +13,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
 package controllers
 
 import (
 	"context"
-	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
+	"time"
+
 	. "github.com/onsi/ginkgo"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("ResourceGroup Controller", func() {
+var _ = Describe("ConsumerGroup Controller", func() {
 
 	const timeout = time.Second * 240
 
@@ -46,39 +47,51 @@ var _ = Describe("ResourceGroup Controller", func() {
 	// your API definition.
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
-
 	Context("Create and Delete", func() {
-		It("should create and delete resource groups in k8s", func() {
-			resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
+		It("should create and delete consumer groups", func() {
+
+			resourceGroupName = "t-rg-dev-controller"
+			eventhubNamespaceName = "t-ns-dev-eh-ns"
+			eventhubName = "t-eh-dev-sample"
+			consumerGroupName := "t-cg-" + helpers.RandomString(10)
 
 			var err error
 
-			// Create the Resourcegroup object and expect the Reconcile to be created
-			resourceGroupInstance := &azurev1.ResourceGroup{
+			// Create the consumer group object and expect the Reconcile to be created
+			consumerGroupInstance := &azurev1.ConsumerGroup{
 				ObjectMeta: metav1.ObjectMeta{
-					Name:      resourceGroupName,
+					Name:      consumerGroupName,
 					Namespace: "default",
 				},
-				Spec: azurev1.ResourceGroupSpec{
-					Location: "westus",
+				Spec: azurev1.ConsumerGroupSpec{
+					NamespaceName:     eventhubNamespaceName,
+					ResourceGroupName: resourceGroupName,
+					EventhubName:      eventhubName,
 				},
 			}
 
-			err = k8sClient.Create(context.Background(), resourceGroupInstance)
+			err = k8sClient.Create(context.Background(), consumerGroupInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
-			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
+			consumerGroupNamespacedName := types.NamespacedName{Name: consumerGroupName, Namespace: "default"}
+
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.IsSubmitted()
+				_ = k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName)
 			}, timeout,
 			).Should(BeTrue())
 
-			k8sClient.Delete(context.Background(), resourceGroupInstance)
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.IsBeingDeleted()
+				_ = k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				return consumerGroupInstance.IsSubmitted()
+			}, timeout,
+			).Should(BeTrue())
+
+			k8sClient.Delete(context.Background(), consumerGroupInstance)
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				return consumerGroupInstance.IsBeingDeleted()
 			}, timeout,
 			).Should(BeTrue())
 
