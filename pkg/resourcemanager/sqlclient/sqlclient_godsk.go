@@ -7,7 +7,6 @@ package sqlclient
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
@@ -48,9 +47,14 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (
 			ServerProperties: &serverProp,
 		})
 
-	log.Println(future)
+	serv, err := future.Result(serversClient)
+	if err != nil {
+		if !strings.Contains(err.Error(), "asynchronous operation has not completed") {
+			return sql.Server{}, err
+		}
 
-	return future.Result(serversClient)
+	}
+	return serv, nil
 }
 
 // SQLServerReady returns true if the SQL server is active
@@ -91,6 +95,17 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (resul
 	}
 
 	return true, nil
+}
+
+// GetServer returns a server
+func (sdk GoSDKClient) GetServer(rgroup, name string) (sql.Server, error) {
+	serversClient := getGoServersClient()
+
+	return serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
 }
 
 // DeleteDB deletes a DB

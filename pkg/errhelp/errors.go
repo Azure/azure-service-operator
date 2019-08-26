@@ -10,9 +10,13 @@ const (
 	ParentNotFoundErrorCode        = "ParentResourceNotFound"
 	ResourceGroupNotFoundErrorCode = "ResourceGroupNotFound"
 	NotFoundErrorCode              = "NotFound"
+	ResourceNotFound               = "ResourceNotFound"
 )
 
 func NewAzureError(err error) error {
+	if err == nil {
+		return nil
+	}
 	ae := AzureError{
 		Original: err,
 	}
