@@ -18,8 +18,13 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"strings"
+	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -27,8 +32,6 @@ import (
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 )
-
-const SQLServerFinalizerName = "sqlserver.finalizers.azure.com"
 
 // SqlServerReconciler reconciles a SqlServer object
 type SqlServerReconciler struct {
@@ -58,7 +61,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete SQL Server failed with ", err.Error())
+				log.Info("Delete SqlServer failed with ", err.Error())
 				return ctrl.Result{}, err
 			}
 
@@ -72,13 +75,18 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding sql-server finalizer failed with ", err.Error())
+			log.Info("Adding SqlServer finalizer failed with ", err.Error())
 			return ctrl.Result{}, err
 		}
 	}
 
 	if !instance.IsSubmitted() {
+		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation")
 		if err := r.reconcileExternal(&instance); err != nil {
+			if strings.Contains(err.Error(), "asynchronous operation has not completed") {
+				r.Recorder.Event(&instance, "Normal", "Provisioning", "async op still running")
+				return ctrl.Result{Requeue: true, RequeueAfter: 10 * time.Second}, nil
+			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling sql server in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
@@ -96,49 +104,81 @@ func (r *SqlServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 }
 
 func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) error {
-	// ctx := context.Background()
-	// location := instance.Spec.Location
-	// name := instance.ObjectMeta.Name
-	// groupName := instance.Spec.ResourceGroupName
+	ctx := context.Background()
+	location := instance.Spec.Location
+	name := instance.ObjectMeta.Name
+	groupName := instance.Spec.ResourceGroup
 
-	// // write information back to instance
-	// instance.Status.Provisioning = true
+	sdkClient := sql.GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: groupName,
+		ServerName:        name,
+		Location:          location,
+	}
 
-	// if err := r.Status().Update(ctx, instance); err != nil {
-	// 	r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
-	// }
+	sqlServerProperties := sql.SQLServerProperties{
+		AdministratorLogin:         to.StringPtr("iamadmin"),
+		AdministratorLoginPassword: to.StringPtr("generate_me_1234"),
+		AllowAzureServicesAccess:   true,
+	}
 
-	//err = CreateResource()
-	// if err != nil {
+	r.Log.Info("calling createorupdattte")
+	instance.Status.Provisioning = true
+	instance.Status.Provisioned = true
+	result, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties)
+	if err != nil {
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = false
+	}
 
-	// }
+	r.Log.Info("result from createorupdate", "resultt", result)
 
-	// instance.Status.Provisioning = false
-	// instance.Status.Provisioned = true
+	serv, gerr := sdkClient.GetServer(groupName, name)
+	if gerr != nil {
+		r.Log.Info("server not ready", "err", err.Error())
+	} else {
+		if *serv.State == "Ready" {
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			err = nil
+		}
+	}
+	r.Log.Info("did a server get", "server", serv)
+	// write information back to instance
+	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+	}
 
-	// if err = r.Status().Update(ctx, instance); err != nil {
-	// 	r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
-	// }
+	// now that the status is updatetd we can exit if there was an error
+	if err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
+		return errhelp.NewAzureError(err)
+	}
+
+	r.Recorder.Event(instance, "Normal", "Provisioned", "created or updated entity")
 
 	return nil
 }
 
 func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error {
-	// ctx := context.Background()
+	ctx := context.Background()
 	name := instance.ObjectMeta.Name
-	// groupName := instance.Spec.ResourceGroupName
-	// delette resource
+	groupName := instance.Spec.ResourceGroup
+	location := instance.Spec.Location
+
+	sdkClient := sql.GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: groupName,
+		ServerName:        name,
+		Location:          location,
+	}
+
+	_, err := sdkClient.DeleteSQLServer()
+	if err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		return err
+	}
 
 	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
-	return nil
-}
-
-func (r *SqlServerReconciler) addFinalizer(instance *azurev1.SqlServer) error {
-	helpers.AddFinalizer(instance, SQLServerFinalizerName)
-	err := r.Update(context.Background(), instance)
-	if err != nil {
-		return fmt.Errorf("failed to update finalizer: %v", err)
-	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLServerFinalizerName))
 	return nil
 }

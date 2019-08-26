@@ -410,7 +410,6 @@ spec:
             resourcegroup:
               type: string
           required:
-          - adminuser
           - location
           type: object
         status:

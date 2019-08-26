@@ -18,8 +18,12 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	//"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -55,6 +59,42 @@ func (r *SqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error)
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	if helpers.IsBeingDeleted(&instance) {
+		if helpers.HasFinalizer(&instance, SQLDatabaseFinalizerName) {
+			if err := r.deleteExternal(&instance); err != nil {
+				log.Info("Delete SqlDatabase failed with ", err.Error())
+				return ctrl.Result{}, err
+			}
+
+			helpers.RemoveFinalizer(&instance, SQLDatabaseFinalizerName)
+			if err := r.Update(context.Background(), &instance); err != nil {
+				return ctrl.Result{}, err
+			}
+		}
+		return ctrl.Result{}, nil
+	}
+
+	if !helpers.HasFinalizer(&instance, SQLDatabaseFinalizerName) {
+		if err := r.addFinalizer(&instance); err != nil {
+			log.Info("Adding SqlDatabase finalizer failed with ", err.Error())
+			return ctrl.Result{}, err
+		}
+	}
+
+	if !instance.IsSubmitted() {
+		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation for SqlDatabase")
+		if err := r.reconcileExternal(&instance); err != nil {
+			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+				r.Recorder.Event(&instance, "Normal", "Provisioning", "async op still running")
+				return ctrl.Result{Requeue: true, RequeueAfter: 10 * time.Second}, nil
+			}
+			return ctrl.Result{}, fmt.Errorf("error reconciling sql database in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	r.Recorder.Event(&instance, "Normal", "Provisioned", "sqldatabase "+instance.ObjectMeta.Name+" provisioned ")
+
 	return ctrl.Result{}, nil
 }
 
@@ -65,39 +105,86 @@ func (r *SqlDatabaseReconciler) SetupWithManager(mgr ctrl.Manager) error {
 }
 
 func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase) error {
-	// ctx := context.Background()
-	// location := instance.Spec.Location
-	// name := instance.ObjectMeta.Name
-	// groupName := instance.Spec.ResourceGroupName
+	ctx := context.Background()
+	location := instance.Spec.Location
+	server := instance.Spec.Server
+	groupName := instance.Spec.ResourceGroup
+	var dbEdition sql.DBAddition
+	dbEdition = instance.Spec.Edition
 
-	// // write information back to instance
-	// instance.Status.Provisioning = true
+	dbName := instance.ObjectMeta.Name
 
-	// if err := r.Status().Update(ctx, instance); err != nil {
-	// 	r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
-	// }
+	sdkClient := sql.GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: groupName,
+		ServerName:        server,
+		Location:          location,
+	}
 
-	//err = CreateResource()
-	// if err != nil {
+	sqlDatabaseProperties := sql.SQLDatabaseProperties{
+		DatabaseName: dbName,
+		Edition:      dbEdition,
+	}
 
-	// }
+	r.Log.Info("Calling createorupdate SQL database")
+	instance.Status.Provisioning = true
 
-	// instance.Status.Provisioning = false
-	// instance.Status.Provisioned = true
+	// write information back to instance
+	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+	}
 
-	// if err = r.Status().Update(ctx, instance); err != nil {
-	// 	r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
-	// }
+	_, err := sdkClient.CreateOrUpdateDB(sqlDatabaseProperties)
+	if err != nil {
+		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+			r.Log.Info("Async operation not complete or group not found")
+			return err
+		}
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		instance.Status.Provisioning = false
+		errUpdate := r.Status().Update(ctx, instance)
+		if errUpdate != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		}
+		return err
+	}
+
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
+
+	if err = r.Status().Update(ctx, instance); err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+	}
 
 	return nil
 }
 
 func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) error {
-	// ctx := context.Background()
-	name := instance.ObjectMeta.Name
-	// groupName := instance.Spec.ResourceGroupName
+	ctx := context.Background()
+	dbname := instance.ObjectMeta.Name
+	groupName := instance.Spec.ResourceGroup
+	server := instance.Spec.Server
+	location := instance.Spec.Location
 
-	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
+	// create the Go SDK client with relevant info
+	sdk := sql.GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: groupName,
+		ServerName:        server,
+		Location:          location,
+	}
+
+	_, err := sdk.DeleteDB(dbname)
+	if err != nil {
+		if errhelp.IsStatusCode204(err) {
+			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
+			return nil
+		}
+
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		return err
+	}
+	r.Recorder.Event(instance, "Normal", "Deleted", dbname+" deleted")
 	return nil
 }
 
