@@ -11,8 +11,6 @@ spec:
     kind: Eventhub
     plural: eventhubs
   scope: ""
-  subresources:
-    status: {}
   validation:
     openAPIV3Schema:
       description: Eventhub is the Schema for the eventhubs API
