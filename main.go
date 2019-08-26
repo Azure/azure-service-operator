@@ -118,6 +118,15 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
 		os.Exit(1)
 	}
+	err = (&controllers.ConsumerGroupReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder: mgr.GetEventRecorderFor("ConsumerGroup-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
+		os.Exit(1)
+	}
 	if !resourcemanagerconfig.Declarative() {
 		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
 			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
