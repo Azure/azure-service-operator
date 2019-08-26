@@ -118,7 +118,6 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
 		os.Exit(1)
 	}
-
 	err = (&controllers.ConsumerGroupReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
