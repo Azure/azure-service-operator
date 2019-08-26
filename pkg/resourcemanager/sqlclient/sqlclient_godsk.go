@@ -25,8 +25,8 @@ func getGoServersClient() sql.ServersClient {
 	return serversClient
 }
 
-// getGoCBClient retrieves a DatabasesClient
-func getGoCBClient() sql.DatabasesClient {
+// getGoDbClient retrieves a DatabasesClient
+func getGoDbClient() sql.DatabasesClient {
 	dbClient := sql.NewDatabasesClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	dbClient.Authorizer = a
@@ -67,7 +67,7 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (
 
 // CreateOrUpdateDB creates or updates a DB in Azure
 func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (result sql.Database, err error) {
-	dbClient := getGoCBClient()
+	dbClient := getGoDbClient()
 	dbProp := SQLDatabasePropertiesToDatabase(properties)
 
 	// check to see if the db exists, if it does then short-circuit
@@ -109,7 +109,7 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (resul
 
 // DeleteDB deletes a DB
 func (sdk GoSDKClient) DeleteDB(databaseName string) (result autorest.Response, err error) {
-	dbClient := getGoCBClient()
+	dbClient := getGoDbClient()
 
 	// check to see if the db exists, if it does then short-circuit
 	_, err = dbClient.Get(
