@@ -439,6 +439,8 @@ spec:
             resourcegroup:
               type: string
             secretname:
+              description: SecretName - Used to specify the name of the secret. Defaults
+                to Event Hub name if omitted.
               type: string
           required:
           - location
