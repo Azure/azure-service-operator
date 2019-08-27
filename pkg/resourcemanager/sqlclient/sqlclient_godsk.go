@@ -184,6 +184,31 @@ func (sdk GoSDKClient) DeleteDB(databaseName string) (result autorest.Response, 
 	return result, err
 }
 
+// DeleteSQLFirewallRule deletes a firewall rule
+func (sdk GoSDKClient) DeleteSQLFirewallRule(ruleName string) (err error) {
+	serversClient := getGoServersClient()
+	firewallClient := getGoFirewallClient()
+
+	// check to see if the server exists, if it doesn't then short-circuit
+	server, err := serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+	if err != nil || *server.State != "Ready" {
+		return err
+	}
+
+	_, err = firewallClient.Delete(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		ruleName,
+	)
+
+	return err
+}
+
 // DeleteSQLServer deletes a SQL server
 func (sdk GoSDKClient) DeleteSQLServer() (result autorest.Response, err error) {
 	serversClient := getGoServersClient()

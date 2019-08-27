@@ -17,5 +17,6 @@ type ResourceClient interface {
 	CreateOrUpdateDB(properties SQLDatabaseProperties) (result sql.Database, err error)
 	DeleteDB(databaseName string) (result autorest.Response, err error)
 	DeleteSQLServer() (result autorest.Response, err error)
+	DeleteSQLFirewallRule(ruleName string) (err error)
 	IsAsyncNotCompleted(err error) (result bool)
 }
