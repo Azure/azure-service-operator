@@ -54,8 +54,6 @@ var _ = Describe("ResourceGroups", func() {
 			_, err = CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)
 			Expect(err).NotTo(HaveOccurred())
 
-			time.Sleep(40 * time.Second)
-
 			Eventually(func() bool {
 				result, _ := CheckExistence(context.Background(), resourcegroupName)
 
@@ -66,8 +64,6 @@ var _ = Describe("ResourceGroups", func() {
 			_, err = DeleteGroup(context.Background(), resourcegroupName)
 			Expect(err).NotTo(HaveOccurred())
 
-			time.Sleep(30 * time.Second)
-
 			Eventually(func() bool {
 				result, _ := CheckExistence(context.Background(), resourcegroupName)
 
@@ -75,7 +71,6 @@ var _ = Describe("ResourceGroups", func() {
 			}, timeout,
 			).Should(BeTrue())
 
-			//DeleteAllGroupsWithPrefix(context.Background(), "t-rg-")
 		})
 
 	})

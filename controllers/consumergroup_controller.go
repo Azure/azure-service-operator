@@ -18,12 +18,9 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"os"
+	"strconv"
 	"time"
-
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 
 	"github.com/go-logr/logr"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -32,31 +29,35 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
+
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 )
 
-// EventhubNamespaceReconciler reconciles a EventhubNamespace object
-type EventhubNamespaceReconciler struct {
+// ConsumerGroupReconciler reconciles a ConsumerGroup object
+type ConsumerGroupReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
 }
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumergroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumergroups/status,verbs=get;update;patch
 
-//Reconcile reconciler for eventhubnamespace
-func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+//Reconcile reconciler for consumergroup
+func (r *ConsumerGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	log := r.Log.WithValues("eventhubnamespace", req.NamespacedName)
+	log := r.Log.WithValues("consumergroup", req.NamespacedName)
 
-	var instance azurev1.EventhubNamespace
+	var instance azurev1.ConsumerGroup
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Info("Unable to retrieve eventhub namespace resource", "err", err.Error())
+		log.Error(err, "unable to fetch consumergroup")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
+
 	if instance.IsBeingDeleted() {
 		err := r.handleFinalizer(&instance)
 		if err != nil {
@@ -65,7 +66,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 		return ctrl.Result{}, nil
 	}
 
-	if !instance.HasFinalizer(eventhubNamespaceFinalizerName) {
+	if !instance.HasFinalizer(consumerGroupFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
@@ -74,58 +75,56 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 	}
 
 	if !instance.IsSubmitted() {
-		err := r.reconcileExternal(&instance)
+		err := r.createConsumerGroup(&instance)
 		if err != nil {
-			catch := []string{
-				errhelp.ParentNotFoundErrorCode,
-				errhelp.ResourceGroupNotFoundErrorCode,
-			}
-			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
-				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
-				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
-			}
 
-			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
+			return ctrl.Result{}, fmt.Errorf("error when creating consumer group in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	return ctrl.Result{}, nil
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfter = 30
+	}
+
+	return ctrl.Result{
+		RequeueAfter: time.Second * time.Duration(requeueAfter),
+	}, nil
 }
 
-//SetupWithManager sets up the functions for the controller
-func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *ConsumerGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.EventhubNamespace{}).
+		For(&azurev1.ConsumerGroup{}).
 		Complete(r)
 }
 
-func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.EventhubNamespace) error {
+func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.ConsumerGroup) error {
+
 	ctx := context.Background()
-
 	var err error
-
-	namespaceLocation := instance.Spec.Location
-	namespaceName := instance.ObjectMeta.Name
-	resourcegroup := instance.Spec.ResourceGroup
+	consumergroupName := instance.ObjectMeta.Name
+	namespaceName := instance.Spec.NamespaceName
+	resourcegroup := instance.Spec.ResourceGroupName
+	eventhubName := instance.Spec.EventhubName
 
 	// write information back to instance
 	instance.Status.Provisioning = true
 
 	//get owner instance
-	var ownerInstance azurev1.ResourceGroup
-	resourceGroupNamespacedName := types.NamespacedName{Name: resourcegroup, Namespace: instance.Namespace}
-	err = r.Get(ctx, resourceGroupNamespacedName, &ownerInstance)
+	var ownerInstance azurev1.Eventhub
+	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: instance.Namespace}
+	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
 
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of resourcegroup")
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of eventhub")
 	} else {
-		//set owner reference for eventhubnamespace if it exists
+		//set owner reference for consumer group if it exists
 		references := []metav1.OwnerReference{
 			metav1.OwnerReference{
 				APIVersion: "v1",
-				Kind:       "ResourceGroup",
+				Kind:       "Eventhub",
 				Name:       ownerInstance.GetName(),
 				UID:        ownerInstance.GetUID(),
 			},
@@ -139,19 +138,18 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.Eventh
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	// create Event Hubs namespace
-	_, err = eventhubsresourcemanager.CreateNamespaceAndWait(ctx, resourcegroup, namespaceName, namespaceLocation)
+	_, err = eventhubsresourcemanager.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create consumer group in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
 			//log error and kill it
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
-		return errhelp.NewAzureError(err)
+		return err
 	}
-
 	// write information back to instance
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
@@ -162,23 +160,24 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.Eventh
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", namespaceName+" provisioned")
+	r.Recorder.Event(instance, "Normal", "Updated", consumergroupName+" provisioned")
 
 	return nil
 
 }
 
-func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1.EventhubNamespace) error {
-
+func (r *ConsumerGroupReconciler) deleteConsumerGroup(instance *azurev1.ConsumerGroup) error {
 	ctx := context.Background()
 
-	namespaceName := instance.ObjectMeta.Name
-	resourcegroup := instance.Spec.ResourceGroup
+	consumergroupName := instance.ObjectMeta.Name
+	namespaceName := instance.Spec.NamespaceName
+	resourcegroup := instance.Spec.ResourceGroupName
+	eventhubName := instance.Spec.EventhubName
 
 	var err error
-	_, err = eventhubsresourcemanager.DeleteNamespace(ctx, resourcegroup, namespaceName)
+	_, err = eventhubsresourcemanager.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete consumer group in azure")
 		return err
 	}
 	return nil

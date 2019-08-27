@@ -16,20 +16,22 @@ limitations under the License.
 package controllers
 
 import (
+	"context"
+	"os"
 	"path/filepath"
 	"testing"
 
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	servicev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+
+	eventhubs "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	servicev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
-	"os"
-
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
@@ -47,10 +49,21 @@ var k8sClient client.Client
 var k8sManager ctrl.Manager
 
 var testEnv *envtest.Environment
+var resourceGroupName string
+var resourcegroupLocation string
+var eventhubNamespaceName string
+var eventhubName string
+var namespaceLocation string
 
 func TestAPIs(t *testing.T) {
+	t.Parallel()
 	RegisterFailHandler(Fail)
+	resourceGroupName = "t-rg-dev-controller"
+	resourcegroupLocation = "westus"
 
+	eventhubNamespaceName = "t-ns-dev-eh-ns"
+	eventhubName = "t-eh-dev-sample"
+	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{envtest.NewlineReporter{}})
@@ -99,6 +112,9 @@ var _ = BeforeSuite(func(done Done) {
 	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
+	err = azurev1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
@@ -109,6 +125,7 @@ var _ = BeforeSuite(func(done Done) {
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("EventHub"),
 		Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
+		Scheme:   scheme.Scheme,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -126,6 +143,13 @@ var _ = BeforeSuite(func(done Done) {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+	err = (&ConsumerGroupReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())
@@ -136,13 +160,31 @@ var _ = BeforeSuite(func(done Done) {
 	Expect(err).ToNot(HaveOccurred())
 	//Expect(k8sClient).ToNot(BeNil())
 
-	close(done)
-}, 60)
+	// Create the Resourcegroup resource
+	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
+	if result.Response.StatusCode != 204 {
+		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+	}
 
-var _ = AfterSuite(func() {
+	// Create the Eventhub namespace resource
+	_, err = eventhubs.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+
+	// Create the Eventhub resource
+	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1))
+
+	close(done)
+}, 120)
+
+var _ = AfterSuite(func(done Done) {
+	//clean up the resources created for test
 
 	//clean up the resources created for test
 	By("tearing down the test environment")
+
+	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
+
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
-})
+	close(done)
+
+}, 60)

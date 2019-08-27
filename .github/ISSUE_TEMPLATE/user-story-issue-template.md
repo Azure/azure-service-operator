@@ -25,5 +25,8 @@ Creation of a resource helper library using Azure Go SDK that can be used to dep
 
 - [ ] The helper library has the ability to diagnose issues. (Discuss the logger we want to use)
 
+**Epic reference***
+#<issue number of epic that this user story accrues to>
+
 **Tasks**
 Reference this issue when you create tasks for this user story

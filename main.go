@@ -16,14 +16,13 @@ limitations under the License.
 package main
 
 import (
+	"flag"
 	"os"
 
-	"github.com/spf13/pflag"
+	//"github.com/spf13/pflag"
 
 	servicev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
-
-	"flag"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/controllers"
@@ -50,6 +49,7 @@ func init() {
 	_ = servicev1alpha1.AddToScheme(scheme)
 	azurev1.AddToScheme(scheme)
 	kscheme.AddToScheme(scheme)
+	_ = azurev1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -60,24 +60,35 @@ func init() {
 // +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
 
 func main() {
+	// var metricsAddr string
+	// var enableLeaderElection bool
+	// pflag.StringVarP(&metricsAddr, "metrics-addr", "", ":8080", "The address the metric endpoint binds to.")
+	// pflag.BoolVarP(&enableLeaderElection, "enable-leader-election", "", false, "Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
+
+	// pflag.StringVarP(&masterURL, "master-url", "", "", "The address of the Kubernetes API server. Overrides any value in kubeconfig.")
+	// pflag.StringVarP(&kubeconfig, "kubeconfig", "k", "", "Path to local kubeconfig file (mainly used for development)")
+	// pflag.StringVarP(&resources, "resources", "", "storage,cosmosdb", "Comma delimited list of CRDs to deploy")
+	// pflag.StringVarP(&clusterName, "cluster-name", "i", "azure-operator", "Cluster name for the Application to run as, used to avoid conflict")
+	// pflag.StringVarP(&cloudName, "cloud-name", "c", "AzurePublicCloud", "The cloud name")
+	// pflag.StringVarP(&tenantID, "tenant-id", "t", "", "The AAD tenant, must provide when using service principals")
+	// pflag.StringVarP(&subscriptionID, "subscription-id", "s", "", "The subscription ID")
+	// pflag.StringVarP(&clientID, "client-id", "u", "", "The service principal client ID")
+	// pflag.StringVarP(&clientSecret, "client-secret", "p", "", "The service principal client secret")
+	// pflag.BoolVarP(&useAADPodIdentity, "use-aad-pod-identity", "", false, "whether use AAD pod identity")
+	// pflag.Parse()
+
+	// ctrl.SetLogger(zap.Logger(true))
+	// flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
+	// flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
+	// 	"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
+
+	// flag.Parse()
+
 	var metricsAddr string
 	var enableLeaderElection bool
-	pflag.StringVarP(&metricsAddr, "metrics-addr", "", ":8080", "The address the metric endpoint binds to.")
-	pflag.BoolVarP(&enableLeaderElection, "enable-leader-election", "", false, "Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
-
-	pflag.StringVarP(&masterURL, "master-url", "", "", "The address of the Kubernetes API server. Overrides any value in kubeconfig.")
-	pflag.StringVarP(&kubeconfig, "kubeconfig", "k", "", "Path to local kubeconfig file (mainly used for development)")
-	pflag.StringVarP(&resources, "resources", "", "storage,cosmosdb", "Comma delimited list of CRDs to deploy")
-	pflag.StringVarP(&clusterName, "cluster-name", "i", "azure-operator", "Cluster name for the Application to run as, used to avoid conflict")
-	pflag.StringVarP(&cloudName, "cloud-name", "c", "AzurePublicCloud", "The cloud name")
-	pflag.StringVarP(&tenantID, "tenant-id", "t", "", "The AAD tenant, must provide when using service principals")
-	pflag.StringVarP(&subscriptionID, "subscription-id", "s", "", "The subscription ID")
-	pflag.StringVarP(&clientID, "client-id", "u", "", "The service principal client ID")
-	pflag.StringVarP(&clientSecret, "client-secret", "p", "", "The service principal client secret")
-	pflag.BoolVarP(&useAADPodIdentity, "use-aad-pod-identity", "", false, "whether use AAD pod identity")
-	pflag.Parse()
-
-	ctrl.SetLogger(zap.Logger(true))
+	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
+	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
+		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
 
 	flag.Parse()
 
@@ -126,6 +137,7 @@ func main() {
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("Eventhub"),
 		Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
+		Scheme:   scheme,
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
@@ -150,16 +162,42 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.KeyVaultReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("KeyVault"),
+		Recorder: mgr.GetEventRecorderFor("KeyVault-controller"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "KeyVault")
+		os.Exit(1)
+	}
+
 	if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
 		os.Exit(1)
 	}
-
-	if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
+	err = (&controllers.ConsumerGroupReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder: mgr.GetEventRecorderFor("ConsumerGroup-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
 		os.Exit(1)
 	}
+	if !resourcemanagerconfig.Declarative() {
+		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
+			os.Exit(1)
+		}
+
+		if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
+			os.Exit(1)
+		}
+	}
+
 	// +kubebuilder:scaffold:builder
+
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")

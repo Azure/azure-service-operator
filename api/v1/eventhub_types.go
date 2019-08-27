@@ -72,7 +72,6 @@ type EventhubProperties struct {
 }
 
 // +kubebuilder:object:root=true
-
 // Eventhub is the Schema for the eventhubs API
 type Eventhub struct {
 	metav1.TypeMeta   `json:",inline"`
