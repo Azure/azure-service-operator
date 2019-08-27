@@ -17,6 +17,8 @@ package controllers
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"testing"
@@ -24,10 +26,7 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
-	eventhubs "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
@@ -52,24 +51,21 @@ var eventhubNamespaceName string
 var eventhubName string
 var namespaceLocation string
 
-func TestAPIs(t *testing.T) {
-	t.Parallel()
-	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-controller"
-	resourcegroupLocation = "westus"
+// func TestAPIs(t *testing.T) {
+// 	resourceGroupName = "t-rg-dev-controller"
+// 	resourcegroupLocation = "westus"
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns"
-	eventhubName = "t-eh-dev-sample"
-	namespaceLocation = "westus"
-	RunSpecsWithDefaultAndCustomReporters(t,
-		"Controller Suite",
-		[]Reporter{envtest.NewlineReporter{}})
-}
+// 	eventhubNamespaceName = "t-ns-dev-eh-ns"
+// 	eventhubName = "t-eh-dev-sample"
+// 	namespaceLocation = "westus"
+// 	RunSpecsWithDefaultAndCustomReporters(t,
+// 		"Controller Suite",
+// 		[]Reporter{envtest.NewlineReporter{}})
+// }
 
-var _ = BeforeSuite(func(done Done) {
-	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
-
-	By("bootstrapping test environment")
+func setup() error {
+	logf.SetLogger(zap.Logger(true))
+	resourcemanagerconfig.LoadSettings()
 
 	if os.Getenv("TEST_USE_EXISTING_CLUSTER") == "true" {
 		t := true
@@ -82,29 +78,26 @@ var _ = BeforeSuite(func(done Done) {
 		}
 	}
 
-	resourcemanagerconfig.LoadSettings()
-
 	cfg, err := testEnv.Start()
-	Expect(err).ToNot(HaveOccurred())
-	Expect(cfg).ToNot(BeNil())
+	if err != nil {
+		return err
+	}
+	if cfg == nil {
+		return fmt.Errorf("testenv config is nil")
+	}
 
 	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
+	if err != nil {
+		return err
+	}
 
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
 	})
-	Expect(err).ToNot(HaveOccurred())
+	if err != nil {
+		return err
+	}
 
 	err = (&EventhubReconciler{
 		Client:   k8sManager.GetClient(),
@@ -112,61 +105,76 @@ var _ = BeforeSuite(func(done Done) {
 		Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
 		Scheme:   scheme.Scheme,
 	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
+	if err != nil {
+		return err
+	}
 
 	err = (&ResourceGroupReconciler{
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 		Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
 	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
+	if err != nil {
+		return err
+	}
 
 	err = (&EventhubNamespaceReconciler{
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
 		Recorder: k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
 	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
+	if err != nil {
+		return err
+	}
 
 	err = (&ConsumerGroupReconciler{
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 		Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
+	if err != nil {
+		return err
+	}
 
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
-		Expect(err).ToNot(HaveOccurred())
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 	}()
 
 	k8sClient = k8sManager.GetClient()
-	Expect(k8sClient).ToNot(BeNil())
-
-	// Create the Resourcegroup resource
-	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
-	if result.Response.StatusCode != 204 {
-		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+	if k8sClient == nil {
+		return fmt.Errorf("k8sClient is nil")
 	}
 
-	// Create the Eventhub namespace resource
-	_, err = eventhubs.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+	return nil
+}
 
-	// Create the Eventhub resource
-	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1))
-
-	close(done)
-}, 120)
-
-var _ = AfterSuite(func(done Done) {
-	//clean up the resources created for test
-
-	By("tearing down the test environment")
-
+func teardown() error {
 	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
 
 	err := testEnv.Stop()
-	Expect(err).ToNot(HaveOccurred())
-	close(done)
+	return err
+}
 
-}, 60)
+// TestMain is the main entry point for tests
+func TestMain(m *testing.M) {
+	var err error
+	var code int
+
+	err = setup()
+	if err != nil {
+		log.Println(fmt.Sprintf("could not set up environment: %v\n", err))
+	}
+
+	code = m.Run()
+
+	err = teardown()
+	if err != nil {
+		log.Println(fmt.Sprintf("could not tear down environment: %v\n; original exit code: %v\n", err, code))
+	}
+
+	os.Exit(code)
+}
