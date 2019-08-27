@@ -41,13 +41,53 @@ var _ = Describe("Eventhub", func() {
 		// Add any teardown steps that needs to be executed after each test
 	})
 
+	createEventHub := func (captureDescription CaptureDescription) *Eventhub {
+		created := &Eventhub{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      "foo",
+				Namespace: "default",
+			},
+			Spec: EventhubSpec{
+				Location:      "westus",
+				Namespace:     "foo-eventhub-ns-name",
+				ResourceGroup: "foo-resource-group",
+				Properties: EventhubProperties{
+					MessageRetentionInDays: 7,
+					PartitionCount:         1,
+					CaptureDescription:     captureDescription,
+				},
+			},
+		}
+		return created
+	}
+
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
 	// your API definition.
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create API", func() {
 
-		It("should create an object successfully", func() {
+		It("should create an object successfully (without Capture)", func() {
+			key = types.NamespacedName{
+				Name:      "foo",
+				Namespace: "default",
+			}
+
+			created = createEventHub(CaptureDescription{})
+
+			By("creating an API obj")
+			Expect(k8sClient.Create(context.TODO(), created)).To(Succeed())
+
+			fetched = &Eventhub{}
+			Expect(k8sClient.Get(context.TODO(), key, fetched)).To(Succeed())
+			Expect(fetched).To(Equal(created))
+
+			By("deleting the created object")
+			Expect(k8sClient.Delete(context.TODO(), created)).To(Succeed())
+			Expect(k8sClient.Get(context.TODO(), key, created)).ToNot(Succeed())
+		})
+
+		It("should create an object successfully (with Capture)", func() {
 			key = types.NamespacedName{
 				Name:      "foo",
 				Namespace: "default",
@@ -85,23 +125,3 @@ var _ = Describe("Eventhub", func() {
 	})
 
 })
-
-func createEventHub(captureDescription CaptureDescription) *Eventhub {
-	created := &Eventhub{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      "foo",
-			Namespace: "default",
-		},
-		Spec: EventhubSpec{
-			Location:      "westus",
-			Namespace:     "foo-eventhub-ns-name",
-			ResourceGroup: "foo-resource-group",
-			Properties: EventhubProperties{
-				MessageRetentionInDays: 7,
-				PartitionCount:         1,
-				CaptureDescription:     captureDescription,
-			},
-		}}
-
-	return created
-}
