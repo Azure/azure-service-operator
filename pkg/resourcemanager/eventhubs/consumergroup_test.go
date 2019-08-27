@@ -39,7 +39,7 @@ var _ = Describe("ConsumerGroup", func() {
 		// Add any setup steps that needs to be executed before each test
 		resourceGroupName = "t-rg-dev-rm-eh"
 		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
-		namespaceLocation = "westus"
+		namespaceLocation = resourcegroupLocation
 		eventhubName = "t-eh-dev-ehs"
 		messageRetentionInDays = int32(7)
 		partitionCount = int32(1)

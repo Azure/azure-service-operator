@@ -30,9 +30,9 @@ var _ = Describe("Blob Container", func() {
 	const timeout = time.Second * 180
 
 	var storageAccountName = "tsadevsc" + helpers.RandomString(10)
-	var storageLocation = config.DefaultLocation()
 
 	BeforeEach(func() {
+		storageLocation := config.DefaultLocation()
 		// Add any setup steps that needs to be executed before each test
 		_, _ = CreateStorageAccountAndWait(context.Background(), resourceGroupName, storageAccountName, "Storage", storageLocation)
 	})

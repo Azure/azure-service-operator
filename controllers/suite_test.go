@@ -22,9 +22,8 @@ import (
 	"testing"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-
-	eventhubs "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+	resoucegroupsconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -55,12 +54,7 @@ var namespaceLocation string
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-controller"
-	resourcegroupLocation = "westus"
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns"
-	eventhubName = "t-eh-dev-sample"
-	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{envtest.NewlineReporter{}})
@@ -68,6 +62,14 @@ func TestAPIs(t *testing.T) {
 
 var _ = BeforeSuite(func(done Done) {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
+
+	resoucegroupsconfig.ParseEnvironment()
+	resourceGroupName = "t-rg-dev-controller"
+	resourcegroupLocation = resoucegroupsconfig.DefaultLocation()
+
+	eventhubNamespaceName = "t-ns-dev-eh-ns"
+	eventhubName = "t-eh-dev-sample"
+	namespaceLocation = resoucegroupsconfig.DefaultLocation()
 
 	By("bootstrapping test environment")
 
@@ -81,8 +83,6 @@ var _ = BeforeSuite(func(done Done) {
 			CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
 		}
 	}
-
-	resourcemanagerconfig.LoadSettings()
 
 	cfg, err := testEnv.Start()
 	Expect(err).ToNot(HaveOccurred())

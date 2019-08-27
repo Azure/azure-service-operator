@@ -47,7 +47,7 @@ var _ = Describe("Namespace", func() {
 
 			resourceGroupName := "t-rg-dev-rm-eh"
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
-			namespaceLocation := "westus"
+			namespaceLocation := resourcegroupLocation
 
 			var err error
 

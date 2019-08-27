@@ -41,14 +41,14 @@ var _ = Describe("Eventhub", func() {
 		// Add any teardown steps that needs to be executed after each test
 	})
 
-	createEventHub := func (captureDescription CaptureDescription) *Eventhub {
+	createEventHub := func(captureDescription CaptureDescription) *Eventhub {
 		created := &Eventhub{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      "foo",
 				Namespace: "default",
 			},
 			Spec: EventhubSpec{
-				Location:      "westus",
+				Location:      resourcegroupLocation,
 				Namespace:     "foo-eventhub-ns-name",
 				ResourceGroup: "foo-resource-group",
 				Properties: EventhubProperties{

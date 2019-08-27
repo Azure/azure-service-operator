@@ -60,7 +60,7 @@ var _ = Describe("EventHub Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.EventhubSpec{
-					Location:      "westus",
+					Location:      resourcegroupLocation,
 					Namespace:     "t-ns-dev-eh-" + helpers.RandomString(10),
 					ResourceGroup: "t-rg-dev-eh-" + helpers.RandomString(10),
 					Properties: azurev1.EventhubProperties{
@@ -96,7 +96,7 @@ var _ = Describe("EventHub Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.EventhubSpec{
-					Location:      "westus",
+					Location:      resourcegroupLocation,
 					Namespace:     eventhubNamespaceName,
 					ResourceGroup: resourceGroupName,
 					Properties: azurev1.EventhubProperties{

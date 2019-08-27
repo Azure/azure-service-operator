@@ -20,8 +20,8 @@ import (
 	"testing"
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -49,7 +49,6 @@ func TestAPIs(t *testing.T) {
 		t.Skip("skipping Resource Manager Eventhubs Suite")
 	}
 	RegisterFailHandler(Fail)
-	resourcegroupLocation = resourcemanagerconfig.DefaultLocation()
 
 	RunSpecs(t, "Storage Suite")
 }
@@ -59,7 +58,8 @@ var _ = BeforeSuite(func(done Done) {
 
 	By("bootstrapping test environment")
 
-	resourcemanagerconfig.LoadSettings()
+	resourcemanagerconfig.ParseEnvironment()
+	resourcegroupLocation = resourcemanagerconfig.DefaultLocation()
 
 	//create resourcegroup for this suite
 	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)

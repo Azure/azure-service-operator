@@ -22,6 +22,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -36,6 +38,7 @@ import (
 var cfg *rest.Config
 var k8sClient client.Client
 var testEnv *envtest.Environment
+var resourcegroupLocation string
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
@@ -53,6 +56,9 @@ var _ = BeforeSuite(func(done Done) {
 	testEnv = &envtest.Environment{
 		CRDDirectoryPaths: []string{filepath.Join("..", "..", "config", "crd", "bases")},
 	}
+
+	resourcemanagerconfig.ParseEnvironment()
+	resourcegroupLocation = resourcemanagerconfig.DefaultLocation()
 
 	err := SchemeBuilder.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())

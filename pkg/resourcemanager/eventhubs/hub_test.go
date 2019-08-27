@@ -37,7 +37,7 @@ var _ = Describe("Eventhub", func() {
 		// Add any setup steps that needs to be executed before each test
 		resourceGroupName = "t-rg-dev-rm-eh"
 		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
-		namespaceLocation = "westus"
+		namespaceLocation = resourcegroupLocation
 
 		_, _ = CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 
