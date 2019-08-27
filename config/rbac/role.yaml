@@ -9,6 +9,26 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - consumergroups
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - consumergroups/status
+  verbs:
+  - get
+  - update
+  - patch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - eventhubs
   verbs:
   - get

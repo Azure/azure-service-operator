@@ -17,12 +17,10 @@ package main
 
 import (
 	"flag"
-	"os"
-	"strconv"
-
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/controllers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"os"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
@@ -115,21 +113,25 @@ func main() {
 		os.Exit(1)
 	}
 
-	if omitWebHooks, err := strconv.ParseBool(os.Getenv("OMIT_WEBHOOKS")); !omitWebHooks {
+	err = (&controllers.ConsumerGroupReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder: mgr.GetEventRecorderFor("ConsumerGroup-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
+		os.Exit(1)
+	}
+
+	if !resourcemanagerconfig.Declarative() {
 		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
 			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
 			os.Exit(1)
 		}
-		if !resourcemanagerconfig.Declarative() {
-			if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
-				setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
-				os.Exit(1)
-			}
 
-			if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
-				setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
-				os.Exit(1)
-			}
+		if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
+			os.Exit(1)
 		}
 	}
 

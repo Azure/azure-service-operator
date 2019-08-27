@@ -67,7 +67,7 @@ var _ = Describe("Storage Account", func() {
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())
-			
+
 		})
 
 	})

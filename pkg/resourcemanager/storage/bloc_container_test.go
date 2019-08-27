@@ -18,10 +18,10 @@ package storage
 
 import (
 	"context"
-	"time"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"time"
 )
 
 var _ = Describe("Blob Container", func() {

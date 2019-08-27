@@ -49,6 +49,7 @@ var testEnv *envtest.Environment
 var resourceGroupName string
 var resourcegroupLocation string
 var eventhubNamespaceName string
+var eventhubName string
 var namespaceLocation string
 
 func TestAPIs(t *testing.T) {
@@ -58,6 +59,7 @@ func TestAPIs(t *testing.T) {
 	resourcegroupLocation = "westus"
 
 	eventhubNamespaceName = "t-ns-dev-eh-ns"
+	eventhubName = "t-eh-dev-sample"
 	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
@@ -108,6 +110,7 @@ var _ = BeforeSuite(func(done Done) {
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("EventHub"),
 		Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
+		Scheme:   scheme.Scheme,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -122,6 +125,13 @@ var _ = BeforeSuite(func(done Done) {
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
 		Recorder: k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&ConsumerGroupReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -141,6 +151,9 @@ var _ = BeforeSuite(func(done Done) {
 
 	// Create the Eventhub namespace resource
 	_, err = eventhubs.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+
+	// Create the Eventhub resource
+	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
 
 	close(done)
 }, 120)

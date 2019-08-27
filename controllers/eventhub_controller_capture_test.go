@@ -80,13 +80,13 @@ var _ = Describe("EventHub Controller (with capture)", func() {
 						MessageRetentionInDays: 7,
 						PartitionCount:         1,
 						CaptureDescription: azurev1.CaptureDescription{
-							Destination:       azurev1.Destination{
+							Destination: azurev1.Destination{
 								ArchiveNameFormat: "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
-								BlobContainer:    blobContainerName,
+								BlobContainer:     blobContainerName,
 								Name:              "EventHubArchive.AzureBlockBlob",
-								StorageAccount:    azurev1.StorageAccount{
+								StorageAccount: azurev1.StorageAccount{
 									ResourceGroup: resourceGroupName,
-									AccountName: storageAccountName,
+									AccountName:   storageAccountName,
 								},
 							},
 							Enabled:           true,
