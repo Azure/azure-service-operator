@@ -67,7 +67,7 @@ type StorageAccount struct {
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
 	// +kubebuilder:validation:Pattern=^[a-z0-9]+$
-	AccountName string `json:"name,omitempty"`
+	AccountName string `json:"accountname,omitempty"`
 }
 
 //Destination for capture (blob storage etc)

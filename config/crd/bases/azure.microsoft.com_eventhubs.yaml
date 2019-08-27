@@ -430,7 +430,7 @@ spec:
                         storageaccount:
                           description: StorageAccount - Details of the storage account
                           properties:
-                            name:
+                            accountname:
                               description: AccountName - Name of the storage account
                               maxLength: 24
                               minLength: 3
