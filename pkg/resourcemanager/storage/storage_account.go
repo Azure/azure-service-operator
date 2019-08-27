@@ -66,6 +66,7 @@ func CreateStorageAccountAndWait(ctx context.Context, resourceGroupName string, 
 	}
 
 	result, err := accCreateFuture.Result(storageClient)
+
 	return &result, err
 
 }
@@ -73,7 +74,7 @@ func CreateStorageAccountAndWait(ctx context.Context, resourceGroupName string, 
 // Get gets the description of the specified storage account.
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
-// namespaceName - the Namespace name
+// accountName - the name of the storage account
 func GetStorageAccount(ctx context.Context, resourceGroupName string, accountName string) (result s.Account, err error) {
 	storageClient := getStorageClient()
 	return storageClient.GetProperties(ctx, resourceGroupName, accountName, "")
