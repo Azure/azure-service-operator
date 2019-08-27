@@ -55,12 +55,12 @@ var _ = Describe("Eventhub", func() {
 
 			capture := CaptureDescription{
 				Destination: Destination{
-					ArchiveNameFormat: "fooArchiveNameFormat",
-					BlobContainer:     "fooBlobContainer",
-					Name:              "fooName",
+					ArchiveNameFormat: "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
+					BlobContainer:     "foo-blob-container",
+					Name:              "EventHubArchive.AzureBlockBlob",
 					StorageAccount: StorageAccount{
-						ResourceGroup: "fooResourceGroup",
-						AccountName:   "fooAccountName",
+						ResourceGroup: "foo-resource-group",
+						AccountName:   "fooaccountname",
 					},
 				},
 				Enabled:           true,
@@ -94,8 +94,8 @@ func createEventHub(captureDescription CaptureDescription) *Eventhub {
 		},
 		Spec: EventhubSpec{
 			Location:      "westus",
-			Namespace:     "fooeventhubNamespaceName",
-			ResourceGroup: "fooresourceGroupName",
+			Namespace:     "foo-eventhub-ns-name",
+			ResourceGroup: "foo-resource-group",
 			Properties: EventhubProperties{
 				MessageRetentionInDays: 7,
 				PartitionCount:         1,

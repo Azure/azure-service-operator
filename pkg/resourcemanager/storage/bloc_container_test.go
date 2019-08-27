@@ -19,6 +19,7 @@ package storage
 import (
 	"context"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"time"
@@ -29,7 +30,7 @@ var _ = Describe("Blob Container", func() {
 	const timeout = time.Second * 180
 
 	var storageAccountName = "tsadevsc" + helpers.RandomString(10)
-	var storageLocation = "westus"
+	var storageLocation = config.DefaultLocation()
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test

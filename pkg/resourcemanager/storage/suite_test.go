@@ -49,7 +49,7 @@ func TestAPIs(t *testing.T) {
 		t.Skip("skipping Resource Manager Eventhubs Suite")
 	}
 	RegisterFailHandler(Fail)
-	resourcegroupLocation = "westus"
+	resourcegroupLocation = resourcemanagerconfig.DefaultLocation()
 
 	RunSpecs(t, "Storage Suite")
 }

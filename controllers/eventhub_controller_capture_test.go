@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -38,7 +39,7 @@ var _ = Describe("EventHub Controller (with capture)", func() {
 	const timeout = time.Second * 240
 	var storageAccountName = "tsadeveh" + helpers.RandomString(10)
 	var blobContainerName = "t-bc-dev-eh-" + helpers.RandomString(10)
-	var location = "westus"
+	var location = config.DefaultLocation()
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test

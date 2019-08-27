@@ -18,6 +18,7 @@ package storage
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -46,7 +47,7 @@ var _ = Describe("Storage Account", func() {
 		It("should create and delete storage account in azure", func() {
 
 			storageAccountName := "tdevsa" + helpers.RandomString(10)
-			storageLocation := "westus"
+			storageLocation := config.DefaultLocation()
 
 			var err error
 
