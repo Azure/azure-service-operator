@@ -1,9 +1,10 @@
-apiVersion: service.azure/v1alpha1
+apiVersion: azure.microsoft.com/v1
 kind: Storage
 metadata:
-  name: storage-sample
+  name: storagesample123xyzkj
 spec:
-  location: eastus2
+  location: westus
+  resourceGroup: resourcegroup-sample-1907
   sku:
     name: Standard_RAGRS
   kind: StorageV2

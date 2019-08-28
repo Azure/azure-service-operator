@@ -3,7 +3,7 @@ domain: microsoft.com
 repo: github.com/Azure/azure-service-operator
 resources:
 - group: service
-  version: v1alpha1
+  version: v1
   kind: Storage
 - group: service
   version: v1alpha1

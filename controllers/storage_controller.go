@@ -26,50 +26,73 @@ package controllers
 
 import (
 	"context"
+	"fmt"
+	"os"
+	"strconv"
 	"time"
 
+	//resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	servicev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/client/deployment"
-	"github.com/Azure/azure-service-operator/pkg/client/group"
-	"github.com/Azure/azure-service-operator/pkg/config"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	storagetemplate "github.com/Azure/azure-service-operator/pkg/storage"
-	"github.com/Azure/go-autorest/autorest/to"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	//servicev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	//"github.com/Azure/azure-service-operator/pkg/client/deployment"
+	//"github.com/Azure/azure-service-operator/pkg/client/group"
+	//"github.com/Azure/azure-service-operator/pkg/config"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	"k8s.io/client-go/tools/record"
+	// "github.com/Azure/azure-service-operator/pkg/helpers"
+	//storagetemplate "github.com/Azure/azure-service-operator/pkg/storage"
+	// "github.com/Azure/go-autorest/autorest/to"
 )
+
+const storageFinalizerName = "storage.finalizers.azure.com"
 
 // StorageReconciler reconciles a Storage object
 type StorageReconciler struct {
 	client.Client
-	Log logr.Logger
+	Log         logr.Logger
+	Recorder    record.EventRecorder
+	RequeueTime time.Duration
 }
 
 // +kubebuilder:rbac:groups=service.azure,resources=storages,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=service.azure,resources=storages/status,verbs=get;update;patch
 
+// Reconcile function does the main reconciliation loop of the operator
 func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("storage", req.NamespacedName)
 
 	// Fetch the Storage instance
-	instance := &servicev1alpha1.Storage{}
-	err := r.Get(ctx, req.NamespacedName, instance)
+	//instance := &servicev1alpha1.Storage{}
+	var instance azurev1.Storage
+
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
 	if err != nil {
-		log.Error(err, "unable to fetch Storage")
+		requeueAfter = 30
+	}
+
+	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
+		// if err != nil {
+		log.Error(err, "unable to retrieve storage resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
-		return ctrl.Result{}, helpers.IgnoreKubernetesResourceNotFound(err)
+		//return ctrl.Result{}, helpers.IgnoreKubernetesResourceNotFound(err)
+		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
+
 	log.Info("Getting Storage Account", "Storage.Namespace", instance.Namespace, "Storage.Name", instance.Name)
 	log.V(1).Info("Describing Storage Account", "Storage", instance)
 
-	storageFinalizerName := "storage.finalizers.azure"
+	//storageFinalizerName := "storage.finalizers.azure"
 	// examine DeletionTimestamp to determine if object is under deletion
-	if instance.ObjectMeta.DeletionTimestamp.IsZero() {
+	/*if instance.ObjectMeta.DeletionTimestamp.IsZero() {
 		// The object is not being deleted, so if it does not have our finalizer,
 		// then lets add the finalizer and update the object. This is equivalent
 		// registering our finalizer.
@@ -97,9 +120,55 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 
 		return ctrl.Result{}, err
+	}*/
+	if helpers.IsBeingDeleted(&instance) {
+		if helpers.HasFinalizer(&instance, storageFinalizerName) {
+			if err := r.deleteExternal(&instance); err != nil {
+				log.Info("Delete Storage failed with ", err.Error())
+				return ctrl.Result{}, err
+			}
+
+			helpers.RemoveFinalizer(&instance, storageFinalizerName)
+			if err := r.Update(context.Background(), &instance); err != nil {
+				return ctrl.Result{}, err
+			}
+		}
+		return ctrl.Result{}, nil
 	}
 
-	resourceGroupName := helpers.AzrueResourceGroupName(config.Instance.SubscriptionID, config.Instance.ClusterName, "storage", instance.Name, instance.Namespace)
+	if !helpers.HasFinalizer(&instance, storageFinalizerName) {
+		if err := r.addFinalizer(&instance); err != nil {
+			log.Info("Adding storage finalizer failed with ", err.Error())
+			return ctrl.Result{}, err
+		}
+	}
+
+	if !instance.IsSubmitted() {
+		if err := r.reconcileExternal(&instance); err != nil {
+			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+				log.Info("Requeuing as the async operation is not complete")
+				return ctrl.Result{
+					Requeue:      true,
+					RequeueAfter: time.Second * time.Duration(requeueAfter),
+				}, nil
+			}
+			return ctrl.Result{}, fmt.Errorf("error reconciling keyvault in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	r.Recorder.Event(&instance, "Normal", "Provisioned", "Storage "+instance.ObjectMeta.Name+" provisioned ")
+	return ctrl.Result{}, nil
+
+	//resourcegroupName := instance.ObjectMeta.Name
+	// log.Info("SubscriptionId: ", config.Instance.SubscriptionID)
+	// log.Info("ClusterName:", config.Instance.ClusterName)
+	// log.Info("instance.Name: ", instance.Name)
+	// log.Info("instance namespace: ", instance.Namespace)
+	//resourceGroupName := helpers.AzrueResourceGroupName(config.Instance.SubscriptionID, config.Instance.ClusterName, "storage", instance.Name, instance.Namespace)
+	/*esourceGroupName := helpers.AzrueResourceGroupName("b840fb3a-097c-462e-b658-5c6364683ae2", "myAKSCluster", "storage", "myinstancename", "mynamespace")
+	resourceGroupLocation := instance.Spec.Location
+	log.Info("storage controller", "rgn: ", resourceGroupName)
 	deploymentName := instance.Status.DeploymentName
 	if deploymentName != "" {
 		log.Info("Checking deployment", "ResourceGroupName", resourceGroupName, "DeploymentName", deploymentName)
@@ -128,12 +197,14 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	log.Info("Creating a new resource group", "ResourceGroupName", resourceGroupName)
-	tags := map[string]*string{
-		"name":      to.StringPtr(instance.Name),
-		"namespace": to.StringPtr(instance.Namespace),
-		"kind":      to.StringPtr("storage"),
-	}
-	group.CreateGroup(ctx, resourceGroupName, instance.Spec.Location, tags)
+	// tags := map[string]*string{
+	// 	"name":      to.StringPtr(instance.Name),
+	// 	"namespace": to.StringPtr(instance.Namespace),
+	// 	"kind":      to.StringPtr("storage"),
+	// }
+	//group.CreateGroup(ctx, resourceGroupName, resourcegroupLocation, tags)
+	//from RGController	_, err = resoucegroupsresourcemanager.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
+	_, err = resoucegroupsresourcemanager.CreateGroup(ctx, resourceGroupName, resourceGroupLocation)
 
 	log.Info("Reconciling Storage", "Storage.Namespace", instance.Namespace, "Storage.Name", instance.Name)
 	template := storagetemplate.New(instance)
@@ -151,14 +222,89 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	// Storage created successfully - don't requeue
 	return ctrl.Result{}, nil
+	*/
 }
 
+func (r *StorageReconciler) addFinalizer(instance *azurev1.Storage) error {
+	helpers.AddFinalizer(instance, storageFinalizerName)
+	err := r.Update(context.Background(), instance)
+	if err != nil {
+		return fmt.Errorf("failed to update finalizer: %v", err)
+	}
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", storageFinalizerName))
+	return nil
+}
+
+func (r *StorageReconciler) reconcileExternal(instance *azurev1.Storage) error {
+	ctx := context.Background()
+	location := instance.Spec.Location
+	name := instance.ObjectMeta.Name
+	groupName := instance.Spec.ResourceGroupName
+	sku := instance.Spec.Sku
+	kind := instance.Spec.Kind
+	accessTier := instance.Spec.AccessTier
+	enableHTTPSTrafficOnly := instance.Spec.EnableHTTPSTrafficOnly
+	//sku, kind, tags, accesstier enabblehttpstraffice
+
+	// write information back to instance
+	instance.Status.Provisioning = true
+
+	if err := r.Status().Update(ctx, instance); err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+	}
+
+	_, err := storages.CreateStorage(ctx, groupName, name, location, sku, kind, nil, accessTier, enableHTTPSTrafficOnly)
+	if err != nil {
+		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+			r.Recorder.Event(instance, "Normal", "Provisioning", name+" provisioning")
+			return err
+		}
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		instance.Status.Provisioning = false
+		errUpdate := r.Status().Update(ctx, instance)
+		if errUpdate != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		}
+		return err
+	}
+
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
+
+	if err = r.Status().Update(ctx, instance); err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+	}
+
+	return nil
+}
+
+func (r *StorageReconciler) deleteExternal(instance *azurev1.Storage) error {
+	ctx := context.Background()
+	name := instance.ObjectMeta.Name
+	groupName := instance.Spec.ResourceGroupName
+	_, err := storages.DeleteStorage(ctx, groupName, name)
+	if err != nil {
+		if errhelp.IsStatusCode204(err) {
+			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
+			return nil
+		}
+
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		return err
+	}
+
+	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
+	return nil
+}
+
+// SetupWithManager sets up the controller functions
 func (r *StorageReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&servicev1alpha1.Storage{}).
+		For(&azurev1.Storage{}).
 		Complete(r)
 }
 
+/*
 func (r *StorageReconciler) updateStatus(req ctrl.Request, resourceGroupName, deploymentName, provisioningState string, outputs interface{}) (*servicev1alpha1.Storage, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("storage", req.NamespacedName)
@@ -248,3 +394,4 @@ func (r *StorageReconciler) syncAdditionalResourcesAndOutput(req ctrl.Request, s
 
 	return nil
 }
+*/

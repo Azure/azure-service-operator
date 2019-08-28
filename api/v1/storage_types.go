@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE
 */
 
-package v1alpha1
+package v1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -38,7 +38,8 @@ type StorageSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location string `json:"location,omitempty"`
+	Location          string `json:"location,omitempty"`
+	ResourceGroupName string `json:"resourceGroup"`
 
 	Sku StorageSku `json:"sku,omitempty"`
 
@@ -82,9 +83,25 @@ type StorageStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	DeploymentName    string `json:"deploymentName,omitempty"`
-	ProvisioningState string `json:"provisioningState,omitempty"`
-	Generation        int64  `json:"generation,omitempty"`
+	// DeploymentName    string `json:"deploymentName,omitempty"`
+	// ProvisioningState string `json:"provisioningState,omitempty"`
+	// Generation        int64  `json:"generation,omitempty"`
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+
+// Storage is the Schema for the storages API
+type Storage struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec                StorageSpec                `json:"spec,omitempty"`
+	Status              StorageStatus              `json:"status,omitempty"`
+	Output              StorageOutput              `json:"output,omitempty"`
+	AdditionalResources StorageAdditionalResources `json:"additionalResources,omitempty"`
 }
 
 type StorageOutput struct {
@@ -103,19 +120,6 @@ type StorageAdditionalResources struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// Storage is the Schema for the storages API
-type Storage struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec                StorageSpec                `json:"spec,omitempty"`
-	Status              StorageStatus              `json:"status,omitempty"`
-	Output              StorageOutput              `json:"output,omitempty"`
-	AdditionalResources StorageAdditionalResources `json:"additionalResources,omitempty"`
-}
-
-// +kubebuilder:object:root=true
-
 // StorageList contains a list of Storage
 type StorageList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -125,4 +129,8 @@ type StorageList struct {
 
 func init() {
 	SchemeBuilder.Register(&Storage{}, &StorageList{})
+}
+
+func (storage *Storage) IsSubmitted() bool {
+	return storage.Status.Provisioning || storage.Status.Provisioned
 }

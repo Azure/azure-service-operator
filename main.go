@@ -105,8 +105,9 @@ func main() {
 	}
 
 	err = (&controllers.StorageReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("Storage"),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("Storage"),
+		Recorder: mgr.GetEventRecorderFor("Storage-controller"),
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Storage")
