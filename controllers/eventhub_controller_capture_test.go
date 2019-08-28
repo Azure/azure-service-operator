@@ -17,16 +17,17 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	eventhubsmanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	storagemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storage"
 
 	"time"
 
 	. "github.com/onsi/ginkgo"
-	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	. "github.com/onsi/gomega"
@@ -39,9 +40,10 @@ var _ = Describe("EventHub Controller (with capture)", func() {
 	const timeout = time.Second * 240
 	var storageAccountName = "tsadeveh" + helpers.RandomString(10)
 	var blobContainerName = "t-bc-dev-eh-" + helpers.RandomString(10)
-	var location = config.DefaultLocation()
+	var location string
 
 	BeforeEach(func() {
+		location = config.DefaultLocation()
 		// Add any setup steps that needs to be executed before each test
 		_, _ = storagemanager.CreateStorageAccountAndWait(context.Background(), resourceGroupName, storageAccountName, "Storage", location)
 		_, _ = storagemanager.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
@@ -116,36 +118,15 @@ var _ = Describe("EventHub Controller (with capture)", func() {
 			}, timeout,
 			).Should(BeTrue())
 
-			//create secret in k8s
-			csecret := &v1.Secret{
-				TypeMeta: metav1.TypeMeta{
-					Kind:       "Secret",
-					APIVersion: "apps/v1beta1",
-				},
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      eventHubName,
-					Namespace: "default",
-				},
-				Data: map[string][]byte{
-					"primaryconnectionstring":   []byte("primaryConnectionValue"),
-					"secondaryconnectionstring": []byte("secondaryConnectionValue"),
-					"primaryKey":                []byte("primaryKeyValue"),
-					"secondaryKey":              []byte("secondaryKeyValue"),
-					"sharedaccesskey":           []byte("sharedAccessKeyValue"),
-					"eventHubnamespace":         []byte(eventHubInstance.Namespace),
-				},
-				Type: "Opaque",
-			}
-
-			err = k8sClient.Create(context.Background(), csecret)
-			Expect(err).NotTo(HaveOccurred())
-
-			//get secret from k8s
-			secret := &v1.Secret{}
-			err = k8sClient.Get(context.Background(), types.NamespacedName{Name: eventHubName, Namespace: eventHubInstance.Namespace}, secret)
-			Expect(err).NotTo(HaveOccurred())
-			Expect(secret.Data).To(Equal(csecret.Data))
-			Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
+			Eventually(func() bool {
+				hub, _ := eventhubsmanager.GetHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventHubName)
+				fmt.Println("HUB:", hub)
+				if hub.Properties == nil || hub.CaptureDescription == nil || hub.CaptureDescription.Enabled == nil {
+					return false
+				}
+				return *hub.CaptureDescription.Enabled
+			}, timeout,
+			).Should(BeTrue())
 
 			k8sClient.Delete(context.Background(), eventHubInstance)
 			Eventually(func() bool {

@@ -29,18 +29,15 @@ import (
 var _ = Describe("Eventhub", func() {
 
 	const timeout = time.Second * 240
-	var resourceGroupName string
 	var eventhubNamespaceName string
 	var namespaceLocation string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		resourceGroupName = "t-rg-dev-rm-eh"
 		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
 		namespaceLocation = resourcegroupLocation
 
 		_, _ = CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
-
 	})
 
 	AfterEach(func() {
