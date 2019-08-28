@@ -20,7 +20,6 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 	"testing"
 
@@ -109,8 +108,7 @@ func TestEventhub(t *testing.T) {
 
 	// wait for finalizer to be added to eventhub namespace resource
 	Eventually(func() bool {
-		err := k8sClient.Get(context.Background(), eventhubNamespaceNamespacedName, eventhubNamespaceInstance)
-		log.Println(err)
+		err = k8sClient.Get(context.Background(), eventhubNamespaceNamespacedName, eventhubNamespaceInstance)
 		return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName)
 	}, tcfg.Timeout,
 	).Should(BeTrue())

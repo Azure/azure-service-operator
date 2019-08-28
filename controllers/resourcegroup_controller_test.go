@@ -1,5 +1,3 @@
-// +build all resourcegroup
-
 /*
 Copyright 2019 microsoft.
 
@@ -50,13 +48,6 @@ func TestResourceGroup(t *testing.T) {
 	// prep query gor Get
 	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupInstance.Name, Namespace: "default"}
 
-	// wait until entity has been submitted
-	Eventually(func() bool {
-		_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-		return resourceGroupInstance.IsSubmitted()
-	}, tcfg.Timeout,
-	).Should(BeTrue())
-
 	// wait until resource is provisioned
 	Eventually(func() bool {
 		_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
@@ -73,13 +64,6 @@ func TestResourceGroup(t *testing.T) {
 
 	// delete resoruce group and then verify
 	k8sClient.Delete(context.Background(), resourceGroupInstance)
-
-	// has the operator set the proper status for deletion?
-	Eventually(func() bool {
-		_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-		return resourceGroupInstance.IsBeingDeleted()
-	}, tcfg.Timeout,
-	).Should(BeTrue())
 
 	// is the resource now gone from kubernetes?
 	Eventually(func() bool {
