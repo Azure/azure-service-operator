@@ -180,8 +180,9 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.SqlDatabaseReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
+		Recorder: mgr.GetEventRecorderFor("SqlDatabase-controller"),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlDatabase")
 		os.Exit(1)
