@@ -174,8 +174,6 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete eventhubs with custom secret name", func() {
 
-			resourceGroupName = "t-rg-dev-controller-" +  helpers.RandomString(10)
-			eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 			secretName := "secret-" + eventhubName
 
@@ -189,8 +187,8 @@ var _ = Describe("EventHub Controller", func() {
 				},
 				Spec: azurev1.EventhubSpec{
 					Location:      "westus",
-					Namespace:     eventhubNamespaceName,
-					ResourceGroup: resourceGroupName,
+					Namespace:     ehnName,
+					ResourceGroup: rgName,
 					Properties: azurev1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         1,

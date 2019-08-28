@@ -9,6 +9,18 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
   - events
   verbs:
   - create
@@ -28,19 +40,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - eventhubs
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - keyvaults/status
+  - consumergroups/status
   verbs:
   - get
   - patch
@@ -58,29 +58,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
   - azure.microsoft.com
   resources:
-  - resourcegroups
+  - resourcegroups/status
   verbs:
-  - create
-  - delete
   - get
-  - list
   - patch
   - update
-  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -91,7 +75,15 @@ rules:
 - apiGroups:
   - apps
   resources:
-  - deployments
+  - deployments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubs
   verbs:
   - create
   - delete
@@ -103,7 +95,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - consumergroups/status
+  - eventhubs/status
   verbs:
   - get
   - patch
@@ -123,6 +115,14 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - keyvaults/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - eventhubnamespaces/status
   verbs:
   - get
@@ -131,24 +131,24 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - eventhubs/status
+  - resourcegroups
   verbs:
+  - create
+  - delete
   - get
+  - list
   - patch
   - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - resourcegroups/status
-  verbs:
-  - get
-  - patch
-  - update
+  - watch
 - apiGroups:
   - apps
   resources:
-  - deployments/status
+  - deployments
   verbs:
+  - create
+  - delete
   - get
+  - list
   - patch
   - update
+  - watch
