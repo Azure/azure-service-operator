@@ -32,6 +32,10 @@ import (
 var cfg *rest.Config
 
 func TestAPIs(t *testing.T) {
+	t.Parallel()
+	if testing.Short() {
+		t.Skip("skipping Resource Manager Resource Group Suite")
+	}
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Resource Manager Suite")
 

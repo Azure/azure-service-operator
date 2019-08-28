@@ -20,8 +20,6 @@ import (
 	"context"
 	"time"
 
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -31,8 +29,10 @@ var _ = Describe("Namespace", func() {
 
 	const timeout = time.Second * 240
 
+	var rgName string
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
+		rgName = resourceGroupName
 	})
 
 	AfterEach(func() {
@@ -47,39 +47,28 @@ var _ = Describe("Namespace", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete namespace in azure", func() {
 
-			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
-			resourcegroupLocation := "westus"
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 			namespaceLocation := "westus"
+
 			var err error
 
-			_, err = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
-			Expect(err).NotTo(HaveOccurred())
-
-			time.Sleep(30 * time.Second)
-
-			_, err = CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+			_, err = CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+				result, _ := GetNamespace(context.Background(), rgName, eventhubNamespaceName)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+			_, err = DeleteNamespace(context.Background(), rgName, eventhubNamespaceName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+				result, _ := GetNamespace(context.Background(), rgName, eventhubNamespaceName)
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())
-
-			time.Sleep(30 * time.Second)
-
-			_, err = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
-			Expect(err).NotTo(HaveOccurred())
 
 		})
 

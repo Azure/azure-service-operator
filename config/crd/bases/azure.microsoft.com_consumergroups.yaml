@@ -4,16 +4,16 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: eventhubs.azure.microsoft.com
+  name: consumergroups.azure.microsoft.com
 spec:
   group: azure.microsoft.com
   names:
-    kind: Eventhub
-    plural: eventhubs
+    kind: ConsumerGroup
+    plural: consumergroups
   scope: ""
   validation:
     openAPIV3Schema:
-      description: Eventhub is the Schema for the eventhubs API
+      description: ConsumerGroup is the Schema for the consumergroups API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -397,56 +397,19 @@ spec:
               type: string
           type: object
         spec:
-          description: EventhubSpec defines the desired state of Eventhub
+          description: ConsumerGroupSpec defines the desired state of ConsumerGroup
           properties:
-            authorizationrule:
-              description: EventhubAuthorizationRule defines the name and rights of
-                the access policy
-              properties:
-                name:
-                  description: Name - Name of AuthorizationRule for eventhub
-                  type: string
-                rights:
-                  description: Rights - Rights set on the AuthorizationRule
-                  items:
-                    type: string
-                  type: array
-              type: object
-            location:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "make" to regenerate code after modifying this file'
+            eventhub:
               type: string
             namespace:
               type: string
-            properties:
-              description: EventhubProperties defines the namespace properties
-              properties:
-                messageretentionindays:
-                  description: MessageRetentionInDays - Number of days to retain the
-                    events for this Event Hub, value should be 1 to 7 days
-                  format: int32
-                  maximum: 7
-                  minimum: 1
-                  type: integer
-                partitioncount:
-                  description: PartitionCount - Number of partitions created for the
-                    Event Hub, allowed values are from 1 to 32 partitions.
-                  format: int32
-                  maximum: 32
-                  minimum: 1
-                  type: integer
-              type: object
             resourcegroup:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make" to regenerate code after modifying this file'
               type: string
-            secretname:
-              description: SecretName - Used to specify the name of the secret. Defaults
-                to Event Hub name if omitted.
-              type: string
-          required:
-          - location
           type: object
         status:
-          description: EventhubStatus defines the observed state of Eventhub
+          description: ConsumerGroupStatus defines the observed state of ConsumerGroup
           properties:
             provisioned:
               type: boolean

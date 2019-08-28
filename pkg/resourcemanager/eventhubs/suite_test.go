@@ -19,9 +19,14 @@ import (
 	"testing"
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	"context"
+
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
@@ -32,9 +37,17 @@ import (
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
 var cfg *rest.Config
+var resourceGroupName string
+var resourcegroupLocation string
 
 func TestAPIs(t *testing.T) {
+	t.Parallel()
+	if testing.Short() {
+		t.Skip("skipping Resource Manager Eventhubs Suite")
+	}
 	RegisterFailHandler(Fail)
+	resourceGroupName = "t-rg-dev-rm-eh-" + helpers.RandomString(10)
+	resourcegroupLocation = "westus"
 
 	RunSpecs(t, "Eventhubs Suite")
 }
@@ -46,12 +59,20 @@ var _ = BeforeSuite(func(done Done) {
 
 	resourcemanagerconfig.LoadSettings()
 
+	//create resourcegroup for this suite
+	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
+	if result.Response.StatusCode != 204 {
+		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+	}
+
 	close(done)
 }, 60)
 
-var _ = AfterSuite(func() {
+var _ = AfterSuite(func(done Done) {
 	//clean up the resources created for test
-
 	By("tearing down the test environment")
 
-})
+	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
+
+	close(done)
+}, 60)

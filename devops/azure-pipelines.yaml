@@ -86,7 +86,7 @@ steps:
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml
     mkdir coverage
-  continueOnError: 'true'
+  continueOnError: 'false'
   displayName: 'Run unit tests'
   env:
     GO111MODULE: on
@@ -125,7 +125,7 @@ steps:
     echo "all the pods should be running"
     make deploy
     make test-existing
-  continueOnError: 'true'
+  continueOnError: 'false'
   displayName: 'Set kind cluster and Run unit tests'
   env:
     GO111MODULE: on
@@ -139,23 +139,27 @@ steps:
 
 - task: PublishTestResults@2
   displayName: 'test cluster'
-  inputs:
-    failedTaskOnFailedTest: true
+  inputs:    
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
+    failTaskOnFailedTests: 'true'
+    failOnStandardError: 'true'
 
 - task: PublishTestResults@2
   displayName: 'existing cluster'
-  inputs:
-    failedTaskOnFailedTest: true
+  inputs:    
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
+    failTaskOnFailedTests: 'true'
+    failOnStandardError: 'true'
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura 
     summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
     reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
+    failIfCoverageEmpty: 'true'
+    failOnStandardError: 'true'
 
 - script: docker build -t $(IMAGE_NAME) .  # add options to this command to meet your needs
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))

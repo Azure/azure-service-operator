@@ -1,4 +1,3 @@
-
 # Image URL to use all building/pushing image targets
 IMG ?= controller:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
@@ -8,12 +7,12 @@ all: manager
 
 # Run tests
 test: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./resourcemanager/eventhubs/...  ./resourcemanager/resourcegroups/... 2>&1 | tee testlogs.txt
+	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/... 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./resourcemanager/eventhubs/...  ./resourcemanager/resourcegroups/... 2>&1 | tee testlogs-existing.txt
+	TEST_USE_EXISTING_CLUSTER=true go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/... 2>&1 | tee testlogs-existing.txt
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
 
@@ -33,6 +32,13 @@ install: manifests
 deploy: manifests
 	kubectl apply -f config/crd/bases
 	kustomize build config/default | kubectl apply -f -
+
+update:
+	IMG="docker.io/controllertest:1" make ARGS="${ARGS}" docker-build
+	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+	make install
+	make deploy
+	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
 delete:
 	kubectl delete -f config/crd/bases
@@ -56,7 +62,7 @@ generate: controller-gen
 
 # Build the docker image
 docker-build: 
-	docker build . -t ${IMG}
+	docker build . -t ${IMG} ${ARGS}
 	@echo "updating kustomize image patch file for manager resource"
 	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
 
@@ -74,22 +80,7 @@ else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
 
-set-kindcluster:
-ifeq (,$(shell which kind))
-	@echo "installing kind"
-	GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
-else
-	@echo "kind has been installed"
-endif
-	#KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")
-	#$(shell export KUBECONFIG="$(kind get kubeconfig-path --name="kind")")
-ifeq ($(shell kind get kubeconfig-path --name="kind"),$(KUBECONFIG))
-	@echo "kubeconfig-path points to kind path"
-else
-	@echo "please run below command in your shell and then re-run make set-kindcluster"
-	@echo  "\e[31mexport KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")\e[0m"
-	@exit 111
-endif
+create-kindcluster:
 ifeq (,$(shell kind get clusters))
 	@echo "no kind cluster"
 else
@@ -98,10 +89,21 @@ else
 endif
 	@echo "creating kind cluster"
 	kind create cluster
-	export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
+
+set-kindcluster: install-kind
+ifeq (${shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
+	@echo "kubeconfig-path points to kind path"
+else
+	@echo "please run below command in your shell and then re-run make set-kindcluster"
+	@echo  "\e[31mexport KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")\e[0m"
+	@exit 111
+endif
+	make create-kindcluster
+	
 	@echo "getting value of KUBECONFIG"
-	kind get kubeconfig-path --name="kind"
 	@echo ${KUBECONFIG}
+	@echo "getting value of kind kubeconfig-path"
+	
 	kubectl cluster-info
 	kubectl create namespace azureoperator-system 
 	kubectl --namespace azureoperator-system \
@@ -111,33 +113,60 @@ endif
     --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
     --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
 
-	kubectl create namespace cert-manager
-	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+	make install-cert-manager
 
 	#create image and load it into cluster
 	IMG="docker.io/controllertest:1" make docker-build
 	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
 	make install
 	kubectl get namespaces
-	@echo "sleep 80 seconds to get the cert pods running"
-	sleep 80
-	@echo "end of sleep"
 	kubectl get pods --namespace cert-manager
+	@echo "Waiting for cert-manager to be ready"
+	kubectl wait pod -n cert-manager --for condition=ready --timeout=60s --all
 	@echo "all the pods should be running"
 	make deploy
+	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
+
+install-kind:
+ifeq (,$(shell which kind))
+	@echo "installing kind"
+	GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
+else
+	@echo "kind has been installed"
+endif
+
+install-kubebuilder:
+ifeq (,$(shell which kubebuilder))
+	@echo "installing kubebuilder"
+	# download kubebuilder and extract it to tmp
+	curl -sL https://go.kubebuilder.io/dl/2.0.0-rc.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C /tmp/
+	# move to a long-term location and put it on your path
+	# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
+	mv /tmp/kubebuilder_2.0.0-rc.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
+	export PATH=$PATH:/usr/local/kubebuilder/bin
+else
+	@echo "kubebuilder has been installed"
+endif
 
 install-kustomize:
 ifeq (,$(shell which kustomize))
 	@echo "installing kustomize"
 	# download kustomize
-	sudo mkdir -p /usr/local/kustomize/
-	sudo curl -o /usr/local/kubebuilder/bin/kustomize -sL "https://go.kubebuilder.io/kustomize/$(shell go env GOOS)/$(shell go env GOARCH)"
+	curl -o /usr/local/kubebuilder/bin/kustomize -sL "https://go.kubebuilder.io/kustomize/$(shell go env GOOS)/$(shell go env GOARCH)"
 	# set permission
-	sudo chmod a+x /usr/local/kubebuilder/bin/kustomize
-	# export path
+	chmod a+x /usr/local/kubebuilder/bin/kustomize
 	$(shell which kustomize)
-	
 else
 	@echo "kustomize has been installed"
 endif
+
+install-cert-manager:
+	kubectl create namespace cert-manager
+	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+
+install-test-dependency:
+	go get -u github.com/jstemmer/go-junit-report \
+	&& go get github.com/axw/gocov/gocov \
+	&& go get github.com/AlekSi/gocov-xml \
+	&& go get golang.org/x/tools/cmd/cover

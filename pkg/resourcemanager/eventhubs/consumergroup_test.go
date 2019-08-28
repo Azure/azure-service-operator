@@ -14,24 +14,40 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package resourcegroups
+package eventhubs
 
 import (
 	"context"
 	"time"
 
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
-var _ = Describe("ResourceGroups", func() {
+var _ = Describe("ConsumerGroup", func() {
 
 	const timeout = time.Second * 240
+	var rgName string
+	var eventhubNamespaceName string
+	var eventhubName string
+	var namespaceLocation string
+	var messageRetentionInDays int32
+	var partitionCount int32
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
+		rgName = resourceGroupName
+		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
+		namespaceLocation = "westus"
+		eventhubName = "t-eh-dev-ehs-" + helpers.RandomString(10)
+		messageRetentionInDays = int32(7)
+		partitionCount = int32(1)
+
+		_, _ = CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
+
+		_, _ = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount)
+
 	})
 
 	AfterEach(func() {
@@ -44,29 +60,26 @@ var _ = Describe("ResourceGroups", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		It("should create and delete resource group in azure", func() {
-			const timeout = time.Second * 240
+		It("should create and delete consumer groups in azure", func() {
 
-			resourcegroupName := "t-rg-" + helpers.RandomString(10)
-			resourcegroupLocation := "westus"
+			consumerGroupName := "t-cg-" + helpers.RandomString(10)
+
 			var err error
 
-			_, err = CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)
+			_, err = CreateConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := CheckExistence(context.Background(), resourcegroupName)
-
-				return result.Response.StatusCode == 204
+				result, _ := GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteGroup(context.Background(), resourcegroupName)
+			_, err = DeleteConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := CheckExistence(context.Background(), resourcegroupName)
-
+				result, _ := GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())
