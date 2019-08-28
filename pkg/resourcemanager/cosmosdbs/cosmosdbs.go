@@ -54,15 +54,9 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 
 	sDBType := string(dbType)
 
-	testTags := map[string]*string{
-		"name":      to.StringPtr(cosmosDBName),
-		"namespace": to.StringPtr(cosmosDBName),
-		"kind":      to.StringPtr("cosmos"),
-	}
-
 	/*
 	*   Current state of Locations and CosmosDB properties:
-	*   Creating a Database account with CosmosDB requires 
+	*   Creating a Database account with CosmosDB requires
 	*   that DatabaseAccountCreateUpdateProperties be sent over
 	*   and currently we are not reading most of these values in
 	*   as part of the Spec for CosmosDB.  We are currently
@@ -71,8 +65,8 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 	*   instance.  This matches the general behavior of creating
 	*   a CosmosDB instance in the portal where the only
 	*   geo-relicated region is the sole region the CosmosDB
-	*   is created in.  
-	*/
+	*   is created in.
+	 */
 	locationObj := documentdb.Location{
 		ID:               to.StringPtr(fmt.Sprintf("%s-%s", cosmosDBName, location)),
 		FailoverPriority: to.Int32Ptr(0),
@@ -85,7 +79,7 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 
 	createUpdateParams := documentdb.DatabaseAccountCreateUpdateParameters{
 		Location: to.StringPtr(location),
-		Tags:     testTags,
+		Tags:     tags,
 		Name:     &cosmosDBName,
 		Kind:     dbKind,
 		Type:     to.StringPtr("Microsoft.DocumentDb/databaseAccounts"),
@@ -98,7 +92,7 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 		},
 	}
 
-	log.Println(fmt.Sprintf("creating cosmosDB '%s' in resource group '%s' and location: %v", cosmosDBName, groupName, location))	
+	log.Println(fmt.Sprintf("creating cosmosDB '%s' in resource group '%s' and location: %v", cosmosDBName, groupName, location))
 
 	future, err := cosmosDBClient.CreateOrUpdate(
 		ctx, groupName, cosmosDBName, createUpdateParams)
