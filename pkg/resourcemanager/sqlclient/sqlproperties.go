@@ -53,7 +53,6 @@ type SQLServerProperties struct {
 
 	// AdministratorLoginPassword - The administrator login password (required for server creation).
 	AdministratorLoginPassword *string
-}
 
 // SQLDatabaseProperties contains values needed for adding / updating SQL servers,
 // wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#Database

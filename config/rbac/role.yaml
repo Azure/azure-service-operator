@@ -29,7 +29,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - keyvaults
+  - sqlfirewallrules
   verbs:
   - create
   - delete
@@ -41,13 +41,17 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - keyvaults/status
+  - sqlfirewallrules/status
   verbs:
+  - create
+  - delete
   - get
+  - list
   - patch
   - update
+  - watch
 - apiGroups:
-  - ""
+  - apps
   resources:
   - secrets
   verbs:
@@ -62,6 +66,22 @@ rules:
   - azure.microsoft.com
   resources:
   - consumergroups
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - deployments
   verbs:
   - create
   - delete
@@ -79,7 +99,7 @@ rules:
   - patch
   - update
 - apiGroups:
-  - azure.microsoft.com
+  - ""
   resources:
   - eventhubnamespaces/status
   verbs:
@@ -89,7 +109,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - resourcegroups/status
+  - eventhubs/status
   verbs:
   - get
   - patch
@@ -147,7 +167,7 @@ rules:
 - apiGroups:
   - apps
   resources:
-  - deployments/status
+  - keyvaults/status
   verbs:
   - get
   - patch

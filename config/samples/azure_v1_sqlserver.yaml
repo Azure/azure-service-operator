@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1
+kind: SqlServer
+metadata:
+  name: holy-guacamole
+spec:
+  location: "westus"
+  resourcegroup: "resourcegroup-sample-1907"

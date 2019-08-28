@@ -154,7 +154,6 @@ var _ = BeforeSuite(func(done Done) {
 
 	// Create the Eventhub resource
 	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1))
-
 	close(done)
 }, 120)
 
