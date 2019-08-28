@@ -23,9 +23,13 @@ rules:
   resources:
   - eventhubs/status
   verbs:
+  - create
+  - delete
   - get
+  - list
   - patch
   - update
+  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -43,13 +47,9 @@ rules:
   resources:
   - sqlfirewallrules/status
   verbs:
-  - create
-  - delete
   - get
-  - list
   - patch
   - update
-  - watch
 - apiGroups:
   - apps
   resources:
@@ -63,7 +63,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - azure.microsoft.com
+  - apps
   resources:
   - consumergroups
   verbs:
@@ -122,7 +122,7 @@ rules:
   - create
   - watch
 - apiGroups:
-  - apps
+  - azure.microsoft.com
   resources:
   - deployments
   verbs:

@@ -16,19 +16,20 @@ limitations under the License.
 package v1
 
 import (
+	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // SqlDatabaseSpec defines the desired state of SqlDatabase
 type SqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string `json:"location"`
-	ResourceGroup string `json:"resourcegroup,omitempty"`
-	Server        string `json:"server"`
+	Location      string         `json:"location"`
+	ResourceGroup string         `json:"resourcegroup,omitempty"`
+	Server        string         `json:"server"`
+	Edition       sql.DBAddition `json:"edition"`
 }
 
 // SqlDatabaseStatus defines the observed state of SqlDatabase
