@@ -17,6 +17,9 @@ import (
 // TestCreateOrUpdateAPI tests creating and deleting APIs
 func TestCreateOrUpdateAPI(t *testing.T) {
 
+	// skip this test for now due to length of time constraints, comment out to execute
+	t.SkipNow()
+
 	// setup config for pre-existing API Mgmt Svc
 	ctx := context.Background()
 	groupName := "heliumaksmsi"
