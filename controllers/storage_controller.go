@@ -152,7 +152,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 					RequeueAfter: time.Second * time.Duration(requeueAfter),
 				}, nil
 			}
-			return ctrl.Result{}, fmt.Errorf("error reconciling keyvault in azure: %v", err)
+			return ctrl.Result{}, fmt.Errorf("error reconciling storage in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}

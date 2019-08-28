@@ -98,6 +98,13 @@ func CreateStorage(ctx context.Context, groupName string,
 	return future.Result(storagesClient)
 }
 
+// DeleteStorage removes the resource group named by env var
+func DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
+	storagesClient := getStoragesClient()
+	return storagesClient.Delete(ctx, groupName, storageAccountName)
+}
+
+// Pre-Refactor
 // func (t *Template) CreateDeployment(ctx context.Context, resourceGroupName string) (string, error) {
 // 	deploymentName := uuid.NewV4().String()
 // 	asset, err := template.Asset("storage.json")
@@ -124,9 +131,3 @@ func CreateStorage(ctx context.Context, groupName string,
 // 	err = deployment.CreateDeployment(ctx, resourceGroupName, deploymentName, &templateContents, &params)
 // 	return deploymentName, err
 // }
-
-// DeleteStorage removes the resource group named by env var
-func DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
-	storagesClient := getStoragesClient()
-	return storagesClient.Delete(ctx, groupName, storageAccountName)
-}

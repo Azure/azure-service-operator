@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE
 */
 
-package v1alpha1
+package v1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -38,9 +38,10 @@ type CosmosDBSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location   string             `json:"location,omitempty"`
-	Kind       CosmosDBKind       `json:"kind,omitempty"`
-	Properties CosmosDBProperties `json:"properties,omitempty"`
+	Location          string             `json:"location,omitempty"`
+	ResourceGroupName string             `json:"resourceGroup"`
+	Kind              CosmosDBKind       `json:"kind,omitempty"`
+	Properties        CosmosDBProperties `json:"properties,omitempty"`
 }
 
 // CosmosDBKind enumerates the values for kind.
@@ -82,9 +83,11 @@ type CosmosDBStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	DeploymentName    string `json:"deploymentName,omitempty"`
-	ProvisioningState string `json:"provisioningState,omitempty"`
-	Generation        int64  `json:"generation,omitempty"`
+	// DeploymentName    string `json:"deploymentName,omitempty"`
+	// ProvisioningState string `json:"provisioningState,omitempty"`
+	// Generation        int64  `json:"generation,omitempty"`
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 type CosmosDBOutput struct {
@@ -115,6 +118,7 @@ type CosmosDB struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // CosmosDBList contains a list of CosmosDB
 type CosmosDBList struct {
@@ -125,4 +129,8 @@ type CosmosDBList struct {
 
 func init() {
 	SchemeBuilder.Register(&CosmosDB{}, &CosmosDBList{})
+}
+
+func (cosmosDB *CosmosDB) IsSubmitted() bool {
+	return cosmosDB.Status.Provisioning || cosmosDB.Status.Provisioned
 }

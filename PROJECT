@@ -6,7 +6,7 @@ resources:
   version: v1
   kind: Storage
 - group: service
-  version: v1alpha1
+  version: v1
   kind: CosmosDB
 - group: service
   version: v1alpha1

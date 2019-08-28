@@ -1,9 +1,10 @@
-apiVersion: service.azure/v1alpha1
+apiVersion: azure.microsoft.com/v1
 kind: CosmosDB
 metadata:
-  name: cosmosdb-sample
+  name: cosmosdb-sample123xyzkj
 spec:
   kind: GlobalDocumentDB
   location: westus
+  resourceGroup: resourcegroup-sample-1907
   properties:
     databaseAccountOfferType: Standard
