@@ -148,6 +148,7 @@ var _ = Describe("EventHub Controller", func() {
 					"secondaryKey":              []byte("secondaryKeyValue"),
 					"sharedaccesskey":           []byte("sharedAccessKeyValue"),
 					"eventhubnamespace":         []byte(eventhubInstance.Namespace),
+					"eventhubName":              []byte(eventhubName),
 				},
 				Type: "Opaque",
 			}
@@ -158,6 +159,94 @@ var _ = Describe("EventHub Controller", func() {
 			//get secret from k8s
 			secret := &v1.Secret{}
 			err = k8sClient.Get(context.Background(), types.NamespacedName{Name: eventhubName, Namespace: eventhubInstance.Namespace}, secret)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(secret.Data).To(Equal(csecret.Data))
+			Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
+
+			k8sClient.Delete(context.Background(), eventhubInstance)
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
+				return eventhubInstance.IsBeingDeleted()
+			}, timeout,
+			).Should(BeTrue())
+
+		})
+
+		It("should create and delete eventhubs with custom secret name", func() {
+
+			eventhubName := "t-eh-" + helpers.RandomString(10)
+			secretName := "secret-" + eventhubName
+
+			var err error
+
+			// Create the EventHub object and expect the Reconcile to be created
+			eventhubInstance := &azurev1.Eventhub{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      eventhubName,
+					Namespace: "default",
+				},
+				Spec: azurev1.EventhubSpec{
+					Location:      "westus",
+					Namespace:     ehnName,
+					ResourceGroup: rgName,
+					Properties: azurev1.EventhubProperties{
+						MessageRetentionInDays: 7,
+						PartitionCount:         1,
+					},
+					AuthorizationRule: azurev1.EventhubAuthorizationRule{
+						Name:   "RootManageSharedAccessKey",
+						Rights: []string{"Listen"},
+					},
+					SecretName: secretName,
+				},
+			}
+
+			err = k8sClient.Create(context.Background(), eventhubInstance)
+			Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			Expect(err).NotTo(HaveOccurred())
+
+			eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
+
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
+				return eventhubInstance.HasFinalizer(eventhubFinalizerName)
+			}, timeout,
+			).Should(BeTrue())
+
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
+				return eventhubInstance.IsSubmitted()
+			}, timeout,
+			).Should(BeTrue())
+
+			//create secret in k8s
+			csecret := &v1.Secret{
+				TypeMeta: metav1.TypeMeta{
+					Kind:       "Secret",
+					APIVersion: "apps/v1beta1",
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      secretName,
+					Namespace: "default",
+				},
+				Data: map[string][]byte{
+					"primaryconnectionstring":   []byte("primaryConnectionValue"),
+					"secondaryconnectionstring": []byte("secondaryConnectionValue"),
+					"primaryKey":                []byte("primaryKeyValue"),
+					"secondaryKey":              []byte("secondaryKeyValue"),
+					"sharedaccesskey":           []byte("sharedAccessKeyValue"),
+					"eventhubnamespace":         []byte(eventhubInstance.Namespace),
+					"eventhubName":              []byte(eventhubName),
+				},
+				Type: "Opaque",
+			}
+
+			err = k8sClient.Create(context.Background(), csecret)
+			Expect(err).NotTo(HaveOccurred())
+
+			//get secret from k8s
+			secret := &v1.Secret{}
+			err = k8sClient.Get(context.Background(), types.NamespacedName{Name: secretName, Namespace: eventhubInstance.Namespace}, secret)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(secret.Data).To(Equal(csecret.Data))
 			Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
