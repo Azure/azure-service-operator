@@ -1,9 +1,9 @@
 apiVersion: azure.microsoft.com/v1
 kind: SqlDatabase
 metadata:
-  name: samplesqldb123
+  name:  sqldatabase-sample
 spec:
   location: westus
   resourcegroup: resourcegroup-sample-1907
   edition: 0
-  server: samplesqlsrv123
+  server:  sqlserver-sample

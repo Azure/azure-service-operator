@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1
 kind: SqlServer
 metadata:
-  name: samplesqlsrv123
+  name: sqlserver-sample
 spec:
-  location: westus
-  resourcegroup: resourcegroup-sample-1907
+  location: "westus"
+  resourcegroup: "resourcegroup-sample-1907"

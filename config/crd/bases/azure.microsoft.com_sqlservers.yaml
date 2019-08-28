@@ -422,6 +422,8 @@ spec:
                 of cluster Important: Run "make" to regenerate code after modifying
                 this file'
               type: boolean
+            state:
+              type: string
           type: object
       type: object
   versions:

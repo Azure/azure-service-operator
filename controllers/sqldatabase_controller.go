@@ -23,6 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+
 	//"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"k8s.io/client-go/tools/record"
@@ -109,8 +110,7 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 	location := instance.Spec.Location
 	server := instance.Spec.Server
 	groupName := instance.Spec.ResourceGroup
-	var dbEdition sql.DBAddition
-	dbEdition = instance.Spec.Edition
+	dbEdition := instance.Spec.Edition
 
 	dbName := instance.ObjectMeta.Name
 
