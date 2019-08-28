@@ -16,7 +16,6 @@ limitations under the License.
 package controllers
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"os"
@@ -25,8 +24,6 @@ import (
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
@@ -45,11 +42,6 @@ var cfg *rest.Config
 var k8sClient client.Client
 var k8sManager ctrl.Manager
 var testEnv *envtest.Environment
-var resourceGroupName string
-var resourcegroupLocation string
-var eventhubNamespaceName string
-var eventhubName string
-var namespaceLocation string
 
 // func TestAPIs(t *testing.T) {
 // 	resourceGroupName = "t-rg-dev-controller"
@@ -153,8 +145,6 @@ func setup() error {
 }
 
 func teardown() error {
-	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
-
 	err := testEnv.Stop()
 	return err
 }

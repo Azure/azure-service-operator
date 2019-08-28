@@ -1,3 +1,5 @@
+// +build all eventhubnamespace
+
 /*
 Copyright 2019 microsoft.
 
@@ -20,53 +22,43 @@ import (
 	"fmt"
 	"strings"
 	"testing"
-	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
-
-const timeout = time.Second * 240
-const poll = time.Second * 10
 
 // TestEventhubNamespaceValidateName tests whether IsSubmitted will return false when
 // an invalid eventhub namespace name is used
 func TestEventhubNamespaceValidateName(t *testing.T) {
+	t.Parallel()
 	RegisterTestingT(t)
-	eventhubNamespaceName := "t-ns"
-	resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
+
+	tcfg := azurev1.NewTestConfig()
 
 	// Create the EventHubNamespace object
-	eventhubNamespaceInstance := &azurev1.EventhubNamespace{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      eventhubNamespaceName,
-			Namespace: "default",
-		},
-		Spec: azurev1.EventhubNamespaceSpec{
-			Location:      "westus",
-			ResourceGroup: resourceGroupName,
-		},
-	}
+	eventhubNamespaceInstance := azurev1.NewTestEventhubNamespace(*tcfg)
+	// set name to something invalid
+	eventhubNamespaceInstance.SetName("t-ns")
+	err := k8sClient.Create(context.Background(), eventhubNamespaceInstance)
+	Expect(apierrors.IsInvalid(err)).To(Equal(false))
+	Expect(err).NotTo(HaveOccurred())
 
-	k8sClient.Create(context.Background(), eventhubNamespaceInstance)
-
-	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
+	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceInstance.Name, Namespace: "default"}
 
 	// IsSubmitted should eventually return false
 	Eventually(func() bool {
 		_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 		return eventhubNamespaceInstance.IsSubmitted()
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeFalse())
 
-	// delete teh namespace and wait for it to be gone
-	k8sClient.Delete(context.Background(), eventhubNamespaceInstance)
+	// delete the namespace and wait for it to be gone
+	err = k8sClient.Delete(context.Background(), eventhubNamespaceInstance)
+	Expect(err).NotTo(HaveOccurred())
 
 	Eventually(func() bool {
 		err := k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
@@ -74,7 +66,7 @@ func TestEventhubNamespaceValidateName(t *testing.T) {
 			err = fmt.Errorf("")
 		}
 		return strings.Contains(err.Error(), "not found")
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeTrue())
 
 }
@@ -82,35 +74,30 @@ func TestEventhubNamespaceValidateName(t *testing.T) {
 // TestEventhubNamespaceValidateResourceGroup ensures that IsSubmitted returns false when
 // the resourcegroup the eventhub namespace is targeting does not exist
 func TestEventhubNamespaceValidateResourceGroup(t *testing.T) {
+	t.Parallel()
 	RegisterTestingT(t)
-	eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
-	resourceGroupName := "t-rg-dev-noop-" + helpers.RandomString(10)
+
+	tcfg := azurev1.NewTestConfig()
 
 	// Create the EventHubNamespace object
-	eventhubNamespaceInstance := &azurev1.EventhubNamespace{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      eventhubNamespaceName,
-			Namespace: "default",
-		},
-		Spec: azurev1.EventhubNamespaceSpec{
-			Location:      "westus",
-			ResourceGroup: resourceGroupName,
-		},
-	}
+	eventhubNamespaceInstance := azurev1.NewTestEventhubNamespace(*tcfg)
 
-	k8sClient.Create(context.Background(), eventhubNamespaceInstance)
+	err := k8sClient.Create(context.Background(), eventhubNamespaceInstance)
+	Expect(apierrors.IsInvalid(err)).To(Equal(false))
+	Expect(err).NotTo(HaveOccurred())
 
-	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
+	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceInstance.Name, Namespace: "default"}
 
 	// should return false because tthe reconciler will fail with a ResourceGroup not found error
 	Eventually(func() bool {
 		_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 		return eventhubNamespaceInstance.IsSubmitted()
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeFalse())
 
 	// delete eventhubnamespace and make sure it is gone
-	k8sClient.Delete(context.Background(), eventhubNamespaceInstance)
+	err = k8sClient.Delete(context.Background(), eventhubNamespaceInstance)
+	Expect(err).NotTo(HaveOccurred())
 
 	Eventually(func() bool {
 		err := k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
@@ -118,7 +105,7 @@ func TestEventhubNamespaceValidateResourceGroup(t *testing.T) {
 			err = fmt.Errorf("")
 		}
 		return strings.Contains(err.Error(), "not found")
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeTrue())
 
 }
@@ -126,86 +113,74 @@ func TestEventhubNamespaceValidateResourceGroup(t *testing.T) {
 // TestEventhubNamespace creates a resource group and an eventhubnamesace then
 // verfies both exist in Azure before deleting them and verifying their deletion
 func TestEventhubNamespace(t *testing.T) {
+	t.Parallel()
 	RegisterTestingT(t)
 
-	resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
+	tcfg := azurev1.NewTestConfig()
 
-	resourceGroupInstance := &azurev1.ResourceGroup{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      resourceGroupName,
-			Namespace: "default",
-		},
-		Spec: azurev1.ResourceGroupSpec{
-			Location: "westus",
-		},
-	}
+	resourceGroupInstance := azurev1.NewTestResourceGroup(*tcfg)
 
 	// send the resourceGroup to kubernetes
 	err := k8sClient.Create(context.Background(), resourceGroupInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
 	Expect(err).NotTo(HaveOccurred())
 
-	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
-
-	eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
+	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupInstance.Name, Namespace: "default"}
 
 	// Create the Eventhub namespace object and expect the Reconcile to be created
-	eventhubNamespaceInstance := &azurev1.EventhubNamespace{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      eventhubNamespaceName,
-			Namespace: "default",
-		},
-		Spec: azurev1.EventhubNamespaceSpec{
-			Location:      "westus",
-			ResourceGroup: resourceGroupName,
-		},
-	}
+	eventhubNamespaceInstance := azurev1.NewTestEventhubNamespace(*tcfg)
 
 	err = k8sClient.Create(context.Background(), eventhubNamespaceInstance)
 	Expect(apierrors.IsInvalid(err)).To(Equal(false))
 	Expect(err).NotTo(HaveOccurred())
 
-	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
+	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceInstance.Name, Namespace: "default"}
 
+	// ensure finalizer gets added
 	Eventually(func() bool {
 		_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 		return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName)
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeTrue())
 
+	// ensure provisioning eventually starts
 	Eventually(func() bool {
 		_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 		return eventhubNamespaceInstance.IsSubmitted()
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeTrue())
 
+	// remove eventhubnamespace
 	k8sClient.Delete(context.Background(), eventhubNamespaceInstance)
+	// wait for deleting state
 	Eventually(func() bool {
 		_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 		return eventhubNamespaceInstance.IsBeingDeleted()
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeTrue())
 
+	// ensure resource gone from azure
 	Eventually(func() bool {
-		result, _ := eventhubsresourcemanager.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+		result, _ := eventhubsresourcemanager.GetNamespace(context.Background(), resourceGroupInstance.Name, eventhubNamespaceInstance.Name)
 		return result.StatusCode == 404
-	}, timeout, poll,
+	}, tcfg.Timeout, tcfg.Poll,
 	).Should(BeTrue())
 
-	k8sClient.Delete(context.Background(), resourceGroupInstance)
+	// remove resource grtoup
+	err = k8sClient.Delete(context.Background(), resourceGroupInstance)
+	Expect(err).NotTo(HaveOccurred())
 
 	// has the operator set the proper status for deletion?
 	Eventually(func() bool {
 		_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 		return resourceGroupInstance.IsBeingDeleted()
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeTrue())
 
 	// make sure the resource is gone from Azure
 	Eventually(func() bool {
-		result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
+		result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupInstance.Name)
 		return result.Response.StatusCode == 404
-	}, timeout, poll,
+	}, tcfg.Timeout, tcfg.Poll,
 	).Should(BeTrue())
 
 }

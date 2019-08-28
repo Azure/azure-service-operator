@@ -99,3 +99,16 @@ func (eventhubNamespace *EventhubNamespace) AddFinalizer(finalizerName string) {
 func (eventhubNamespace *EventhubNamespace) RemoveFinalizer(finalizerName string) {
 	eventhubNamespace.ObjectMeta.Finalizers = helpers.RemoveString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
 }
+
+func NewTestEventhubNamespace(cfg TestConfig) *EventhubNamespace {
+	return &EventhubNamespace{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "aso-ehubns0dev-" + cfg.Key,
+			Namespace: cfg.Namespace,
+		},
+		Spec: EventhubNamespaceSpec{
+			Location:      cfg.Location,
+			ResourceGroup: cfg.ResourceGroup,
+		},
+	}
+}

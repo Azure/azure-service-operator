@@ -1,3 +1,5 @@
+// +build all resourcegroup
+
 /*
 Copyright 2019 microsoft.
 
@@ -21,68 +23,52 @@ import (
 	"fmt"
 	"strings"
 	"testing"
-	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestResourceGroup(t *testing.T) {
-	//g := NewGomegaWithT(t)
+	t.Parallel()
 	RegisterTestingT(t)
 	resourcemanagerconfig.LoadSettings()
 
-	const timeout = time.Second * 240
-	const poll = time.Second * 10
-	resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
+	tcfg := azurev1.NewTestConfig()
 
 	// Create the Resourcegroup object and expect the Reconcile to be created
-	resourceGroupInstance := &azurev1.ResourceGroup{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      resourceGroupName,
-			Namespace: "default",
-		},
-		Spec: azurev1.ResourceGroupSpec{
-			Location: "westus",
-		},
-	}
-
-	// send the resourceGroup to kubernetes
+	resourceGroupInstance := azurev1.NewTestResourceGroup(*tcfg)
 	err := k8sClient.Create(context.Background(), resourceGroupInstance)
 	Expect(apierrors.IsInvalid(err)).To(Equal(false))
 	Expect(err).NotTo(HaveOccurred())
 
 	// prep query gor Get
-	// @todo consider random namespaces?
-	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
+	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupInstance.Name, Namespace: "default"}
 
 	// wait until entity has been submitted
 	Eventually(func() bool {
 		_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 		return resourceGroupInstance.IsSubmitted()
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeTrue())
 
 	// wait until resource is provisioned
 	Eventually(func() bool {
 		_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 		return resourceGroupInstance.Status.Provisioned == true
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeTrue())
 
 	// verify cloud resource exists in Azure
 	Eventually(func() bool {
-		result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
+		result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupInstance.Name)
 		return result.Response.StatusCode == 204
-	}, timeout, poll,
+	}, tcfg.Timeout, tcfg.Poll,
 	).Should(BeTrue())
 
 	// delete resoruce group and then verify
@@ -92,7 +78,7 @@ func TestResourceGroup(t *testing.T) {
 	Eventually(func() bool {
 		_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 		return resourceGroupInstance.IsBeingDeleted()
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeTrue())
 
 	// is the resource now gone from kubernetes?
@@ -102,13 +88,13 @@ func TestResourceGroup(t *testing.T) {
 			err = fmt.Errorf("")
 		}
 		return strings.Contains(err.Error(), "not found")
-	}, timeout,
+	}, tcfg.Timeout,
 	).Should(BeTrue())
 
 	// make sure the resource is gone from Azure
 	Eventually(func() bool {
-		result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
+		result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupInstance.Name)
 		return result.Response.StatusCode == 404
-	}, timeout, poll,
+	}, tcfg.Timeout, tcfg.Poll,
 	).Should(BeTrue())
 }

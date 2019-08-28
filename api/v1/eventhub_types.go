@@ -114,3 +114,25 @@ func (eventhub *Eventhub) AddFinalizer(finalizerName string) {
 func (eventhub *Eventhub) RemoveFinalizer(finalizerName string) {
 	eventhub.ObjectMeta.Finalizers = helpers.RemoveString(eventhub.ObjectMeta.Finalizers, finalizerName)
 }
+
+func NewTestEventhub(cfg TestConfig, namespace string) *Eventhub {
+	return &Eventhub{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "aso-ehub-test-" + cfg.Key,
+			Namespace: cfg.Namespace,
+		},
+		Spec: EventhubSpec{
+			Location:      cfg.Location,
+			Namespace:     namespace,
+			ResourceGroup: cfg.ResourceGroup,
+			Properties: EventhubProperties{
+				MessageRetentionInDays: 7,
+				PartitionCount:         1,
+			},
+			AuthorizationRule: EventhubAuthorizationRule{
+				Name:   "RootManageSharedAccessKey",
+				Rights: []string{"Listen"},
+			},
+		},
+	}
+}

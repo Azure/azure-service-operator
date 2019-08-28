@@ -83,3 +83,15 @@ func (resourceGroup *ResourceGroup) AddFinalizer(finalizerName string) {
 func (resourceGroup *ResourceGroup) RemoveFinalizer(finalizerName string) {
 	resourceGroup.ObjectMeta.Finalizers = helpers.RemoveString(resourceGroup.ObjectMeta.Finalizers, finalizerName)
 }
+
+func NewTestResourceGroup(cfg TestConfig) *ResourceGroup {
+	return &ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      cfg.ResourceGroup,
+			Namespace: cfg.Namespace,
+		},
+		Spec: ResourceGroupSpec{
+			Location: cfg.Location,
+		},
+	}
+}
