@@ -36,8 +36,13 @@ var _ = Describe("EventHub Controller", func() {
 
 	const timeout = time.Second * 240
 
+	var rgName string
+	var ehnName string
+
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
+		rgName = resourceGroupName
+		ehnName = eventhubNamespaceName
 	})
 
 	AfterEach(func() {
@@ -83,8 +88,6 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete eventhubs", func() {
 
-			resourceGroupName = "t-rg-dev-controller"
-			eventhubNamespaceName = "t-ns-dev-eh-ns"
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
@@ -97,8 +100,8 @@ var _ = Describe("EventHub Controller", func() {
 				},
 				Spec: azurev1.EventhubSpec{
 					Location:      "westus",
-					Namespace:     eventhubNamespaceName,
-					ResourceGroup: resourceGroupName,
+					Namespace:     ehnName,
+					ResourceGroup: rgName,
 					Properties: azurev1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         1,
