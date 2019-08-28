@@ -64,7 +64,7 @@ func TestAPIs(t *testing.T) {
 		[]Reporter{envtest.NewlineReporter{}})
 }
 
-var _ = SynchronizedBeforeSuite(func(done Done) []byte {
+var _ = SynchronizedBeforeSuite(func() []byte {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	resoucegroupsconfig.ParseEnvironment()
@@ -166,7 +166,6 @@ var _ = SynchronizedBeforeSuite(func(done Done) []byte {
 	_, err = storagemanager.CreateStorageAccountAndWait(context.Background(), resourceGroupName, storageAccountName, "Storage", resourcegroupLocation)
 	_, err = storagemanager.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
 
-	close(done)
 	return []byte{}
 }, func(r []byte) {}, 120)
 
