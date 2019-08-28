@@ -39,7 +39,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
-	//"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/client-go/tools/record"
 )
 
@@ -61,7 +60,6 @@ func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 	log := r.Log.WithValues("rediscache", req.NamespacedName)
 
 	// Fetch the Redis Cache instance
-	//instance := &servicev1alpha1.RedisCache{}
 	var instance azurev1.RedisCache
 
 	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
@@ -78,94 +76,6 @@ func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 	}
 	log.Info("Getting Redis Cache", "RedisCache.Namespace", instance.Namespace, "RedisCache.Name", instance.Name)
 	log.V(1).Info("Describing Redis Cache", "RedisCache", instance)
-
-	/* Pre refactor
-	// examine DeletionTimestamp to determine if object is under deletion
-	if instance.ObjectMeta.DeletionTimestamp.IsZero() {
-		// The object is not being deleted, so if it does not have our finalizer,
-		// then lets add the finalizer and update the object. This is equivalent
-		// registering our finalizer.
-		if !helpers.ContainsString(instance.ObjectMeta.Finalizers, redisCacheFinalizerName) {
-			instance.ObjectMeta.Finalizers = append(instance.ObjectMeta.Finalizers, redisCacheFinalizerName)
-			if err := r.Update(ctx, instance); err != nil {
-				return ctrl.Result{}, err
-			}
-		}
-	} else {
-		// The object is being deleted
-		if helpers.ContainsString(instance.ObjectMeta.Finalizers, redisCacheFinalizerName) {
-			// our finalizer is present, so lets handle any external dependency
-			if err := r.deleteExternalResources(instance); err != nil {
-				// if fail to delete the external dependency here, return with error
-				// so that it can be retried
-				return ctrl.Result{}, err
-			}
-
-			// remove our finalizer from the list and update it.
-			instance.ObjectMeta.Finalizers = helpers.RemoveString(instance.ObjectMeta.Finalizers, redisCacheFinalizerName)
-			if err := r.Update(ctx, instance); err != nil {
-				return ctrl.Result{}, err
-			}
-		}
-
-		return ctrl.Result{}, err
-
-	}
-
-	resourceGroupName := helpers.AzrueResourceGroupName(config.Instance.SubscriptionID, config.Instance.ClusterName, "redisCache", instance.Name, instance.Namespace)
-	deploymentName := instance.Status.DeploymentName
-	if deploymentName != "" {
-		log.Info("Checking deployment", "ResourceGroupName", resourceGroupName, "DeploymentName", deploymentName)
-		de, _ := deployment.GetDeployment(ctx, resourceGroupName, deploymentName)
-		if de.Properties == nil || de.Properties.ProvisioningState == nil {
-			return ctrl.Result{}, nil
-		}
-		provisioningState := *de.Properties.ProvisioningState
-		if helpers.IsDeploymentComplete(provisioningState) {
-			log.Info("Deployment is complete", "ProvisioningState", provisioningState)
-			_, err = r.updateStatus(req, resourceGroupName, deploymentName, provisioningState, de.Properties.Outputs)
-			if err != nil {
-				return ctrl.Result{}, err
-			}
-			if instance.Status.Generation == instance.ObjectMeta.Generation {
-				return ctrl.Result{}, nil
-			}
-		} else {
-			log.Info("Requeue the request", "ProvisioningState", provisioningState)
-			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
-		}
-	}
-
-	instance.Status.Generation = instance.ObjectMeta.Generation
-	if err := r.Status().Update(ctx, instance); err != nil {
-		return ctrl.Result{}, err
-	}
-
-	log.Info("Creating a new resource group", "ResourceGroupName", resourceGroupName)
-	tags := map[string]*string{
-		"name":      to.StringPtr(instance.Name),
-		"namespace": to.StringPtr(instance.Namespace),
-		"kind":      to.StringPtr("redisCache"),
-	}
-	group.CreateGroup(ctx, resourceGroupName, instance.Spec.Location, tags)
-
-	log.Info("Reconciling Redis Cache", "RedisCache.Namespace", instance.Namespace, "RedisCache.Name", instance.Name)
-	template := redisCacheTemplate.New(instance)
-	deploymentName, err = template.CreateDeployment(ctx, resourceGroupName)
-	if err != nil {
-		log.Error(err, "Failed to reconcile Redis Cache")
-		return ctrl.Result{}, err
-	}
-
-	de, _ := deployment.GetDeployment(ctx, resourceGroupName, deploymentName)
-	_, err = r.updateStatus(req, resourceGroupName, deploymentName, *de.Properties.ProvisioningState, nil)
-	if err != nil {
-		return ctrl.Result{}, err
-	}
-
-	// Redis Cache created successfully - don't requeue
-	return ctrl.Result{}, nil
-	*/
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, redisCacheFinalizerName) {
@@ -283,12 +193,8 @@ func (r *RedisCacheReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-/* Pre Refactor
-func (r *RedisCacheReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&servicev1alpha1.RedisCache{}).
-		Complete(r)
-}
+/* Below code was from prior to refactor. 
+Left here for future reference for pulling out values post deployment.
 
 func (r *RedisCacheReconciler) updateStatus(req ctrl.Request, resourceGroupName, deploymentName, provisioningState string, outputs interface{}) (*servicev1alpha1.RedisCache, error) {
 	ctx := context.Background()
@@ -325,30 +231,6 @@ func (r *RedisCacheReconciler) updateStatus(req ctrl.Request, resourceGroupName,
 	}
 
 	return resourceCopy, nil
-}
-
-func (r *RedisCacheReconciler) deleteExternalResources(instance *servicev1alpha1.RedisCache) error {
-	//
-	// delete any external resources associated with the storage
-	//
-	// Ensure that delete implementation is idempotent and safe to invoke
-	// multiple types for same object.
-	ctx := context.Background()
-	log := r.Log.WithValues("RedisCache.Namespace", instance.Namespace, "RedisCache.Name", instance.Name)
-
-	resourceGroupName := helpers.AzrueResourceGroupName(config.Instance.SubscriptionID, config.Instance.ClusterName, "redisCache", instance.Name, instance.Namespace)
-	log.Info("Deleting Redis Cache", "ResourceGroupName", resourceGroupName)
-	_, err := group.DeleteGroup(ctx, resourceGroupName)
-	if err != nil && helpers.IgnoreAzureResourceNotFound(err) != nil {
-		return err
-	}
-
-	err = helpers.DeleteSecret(instance.Name, instance.Namespace)
-	if err != nil && helpers.IgnoreKubernetesResourceNotFound(err) != nil {
-		return err
-	}
-
-	return nil
 }
 
 func (r *RedisCacheReconciler) syncAdditionalResourcesAndOutput(req ctrl.Request, s *servicev1alpha1.RedisCache) (err error) {

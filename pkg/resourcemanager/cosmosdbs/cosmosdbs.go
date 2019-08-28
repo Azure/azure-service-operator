@@ -2,18 +2,13 @@ package cosmosdbs
 
 import (
 	"context"
-	//"encoding/json"
-	//"errors"
 	"fmt"
 	"log"
-
-	//uuid "github.com/satori/go.uuid"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	//"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
@@ -51,7 +46,6 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 	}*/
 
 	dbKind := documentdb.DatabaseAccountKind(kind)
-
 	sDBType := string(dbType)
 
 	/*
@@ -108,38 +102,3 @@ func DeleteCosmosDB(ctx context.Context, groupName string, cosmosDBName string) 
 	cosmosDBClient := getCosmosDBClient()
 	return cosmosDBClient.Delete(ctx, groupName, cosmosDBName)
 }
-
-/*  Pre-Refactor
-// New generates a new object
-func New(cosmosdb *azureV1alpha1.CosmosDB) *Template {
-	return &Template{
-		CosmosDB: cosmosdb,
-	}
-}
-
-// Template defines the dynamodb cfts
-type Template struct {
-	CosmosDB *azureV1alpha1.CosmosDB
-}
-
-func (t *Template) CreateDeployment(ctx context.Context, resourceGroupName string) (string, error) {
-	deploymentName := uuid.NewV4().String()
-	asset, err := template.Asset("cosmosdb.json")
-	templateContents := make(map[string]interface{})
-	json.Unmarshal(asset, &templateContents)
-	params := map[string]interface{}{
-		"location": map[string]interface{}{
-			"value": t.CosmosDB.Spec.Location,
-		},
-		"kind": map[string]interface{}{
-			"value": t.CosmosDB.Spec.Kind,
-		},
-		"properties": map[string]interface{}{
-			"value": t.CosmosDB.Spec.Properties,
-		},
-	}
-
-	err = deployment.CreateDeployment(ctx, resourceGroupName, deploymentName, &templateContents, &params)
-	return deploymentName, err
-}
-*/

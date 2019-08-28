@@ -19,9 +19,6 @@ import (
 	"flag"
 	"os"
 
-	//"github.com/spf13/pflag"
-
-	servicev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
@@ -46,7 +43,6 @@ var (
 
 func init() {
 
-	_ = servicev1alpha1.AddToScheme(scheme)
 	azurev1.AddToScheme(scheme)
 	kscheme.AddToScheme(scheme)
 	_ = azurev1.AddToScheme(scheme)
