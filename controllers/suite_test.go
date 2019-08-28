@@ -43,18 +43,6 @@ var k8sClient client.Client
 var k8sManager ctrl.Manager
 var testEnv *envtest.Environment
 
-// func TestAPIs(t *testing.T) {
-// 	resourceGroupName = "t-rg-dev-controller"
-// 	resourcegroupLocation = "westus"
-
-// 	eventhubNamespaceName = "t-ns-dev-eh-ns"
-// 	eventhubName = "t-eh-dev-sample"
-// 	namespaceLocation = "westus"
-// 	RunSpecsWithDefaultAndCustomReporters(t,
-// 		"Controller Suite",
-// 		[]Reporter{envtest.NewlineReporter{}})
-// }
-
 func setup() error {
 	logf.SetLogger(zap.Logger(true))
 	resourcemanagerconfig.LoadSettings()

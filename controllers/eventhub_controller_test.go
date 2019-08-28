@@ -131,28 +131,6 @@ func TestEventhub(t *testing.T) {
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := azurev1.NewTestEventhub(*tcfg, eventhubNamespaceInstance.Name)
-	// eventhubName := "t-eh-" + helpers.RandomString(10)
-
-	// // Create the EventHub object and expect the Reconcile to be created
-	// eventhubInstance := &azurev1.Eventhub{
-	// 	ObjectMeta: metav1.ObjectMeta{
-	// 		Name:      eventhubName,
-	// 		Namespace: "default",
-	// 	},
-	// 	Spec: azurev1.EventhubSpec{
-	// 		Location:      "westus",
-	// 		Namespace:     eventhubNamespaceNamespacedName.Name,
-	// 		ResourceGroup: resourceGroupInstance.Name,
-	// 		Properties: azurev1.EventhubProperties{
-	// 			MessageRetentionInDays: 7,
-	// 			PartitionCount:         1,
-	// 		},
-	// 		AuthorizationRule: azurev1.EventhubAuthorizationRule{
-	// 			Name:   "RootManageSharedAccessKey",
-	// 			Rights: []string{"Listen"},
-	// 		},
-	// 	},
-	// }
 
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubInstance.Name, Namespace: "default"}
 
