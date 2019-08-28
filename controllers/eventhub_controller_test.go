@@ -33,7 +33,6 @@ import (
 )
 
 var _ = Describe("EventHub Controller", func() {
-
 	const timeout = time.Second * 240
 
 	BeforeEach(func() {
@@ -82,7 +81,6 @@ var _ = Describe("EventHub Controller", func() {
 		})
 
 		It("should create and delete eventhubs", func() {
-
 			resourceGroupName = "t-rg-dev-controller"
 			eventhubNamespaceName = "t-ns-dev-eh-ns"
 			eventhubName := "t-eh-" + helpers.RandomString(10)
@@ -102,6 +100,10 @@ var _ = Describe("EventHub Controller", func() {
 					Properties: azurev1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         1,
+					},
+					AuthorizationRule: azurev1.EventhubAuthorizationRule{
+						Name:   "RootManageSharedAccessKey",
+						Rights: []string{"Listen"},
 					},
 				},
 			}

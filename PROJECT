@@ -23,3 +23,6 @@ resources:
 - group: azure
   version: v1
   kind: KeyVault
+- group: azure
+  version: v1
+  kind: ConsumerGroup

@@ -9,7 +9,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - resourcegroups
+  - eventhubs
   verbs:
   - create
   - delete
@@ -21,7 +21,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - resourcegroups/status
+  - eventhubs/status
   verbs:
   - create
   - delete
@@ -53,7 +53,7 @@ rules:
 - apiGroups:
   - apps
   resources:
-  - sqlservers
+  - secrets
   verbs:
   - create
   - delete
@@ -65,23 +65,7 @@ rules:
 - apiGroups:
   - apps
   resources:
-  - sqlservers/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - apps
-  resources:
-  - deployments/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubs
+  - consumergroups
   verbs:
   - get
   - patch
@@ -109,6 +93,14 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - consumergroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
   - eventhubnamespaces/status
   verbs:
   - get
@@ -117,7 +109,22 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - sqldatabases
+  - eventhubs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - deployments
   verbs:
   - create
   - delete
@@ -125,13 +132,6 @@ rules:
   - list
   - patch
   - update
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - create
   - watch
 - apiGroups:
   - azure.microsoft.com
@@ -148,15 +148,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - eventhubs/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - ""
-  resources:
-  - secrets
+  - resourcegroups
   verbs:
   - create
   - delete
@@ -168,29 +160,12 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - sqldatabases/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
   - events
   verbs:
   - create
   - patch
 - apiGroups:
-  - azure.microsoft.com
-  resources:
-  - keyvaults
-  verbs:
-  - get
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
+  - apps
   resources:
   - keyvaults/status
   verbs:

@@ -40,67 +40,118 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		ServerName:        generateName("sqlsrvtest"),
 		Location:          "eastus2",
 	}
-
-	// create the server
+  
+	// create the sql server properties struct
 	sqlServerProperties := SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("Moss"),
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
-		AllowAzureServicesAccess:   true,
 	}
-	_, err = sdk.CreateOrUpdateSQLServer(sqlServerProperties)
-	if err != nil {
-		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
-		t.FailNow()
-	}
-	util.PrintAndLog("sql server created")
 
-	// wait for server to be created
-	// then only proceed once activated
+	// this firewall rule should fail (the server doesn't exist yet)
+	result, err := sdk.CreateOrUpdateSQLFirewallRule("fail rule", "0.0.0.0", "1.2.3.4")
+	if result {
+		util.PrintAndLog("firewall rule add succeeded, but shouldn't have")
+		t.FailNow()
+	} else {
+		util.PrintAndLog("firewall rule add failed (good)")
+	}
+
+	// wait for server to be created, then only proceed once activated
 	for {
 		time.Sleep(time.Second)
-		ready, err := sdk.SQLServerReady()
-		if err != nil {
-			util.PrintAndLog(fmt.Sprintf("error checking for sql status: %v", err))
-			t.FailNow()
-			break
+		server, err := sdk.CreateOrUpdateSQLServer(sqlServerProperties)
+		if err == nil {
+			if *server.State == "Ready" {
+				util.PrintAndLog("sql server ready")
+				break
+			}
+		} else {
+			if sdk.IsAsyncNotCompleted(err) {
+				util.PrintAndLog("waiting for sql server to be ready...")
+				continue
+			} else {
+				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
+				t.FailNow()
+				break
+			}
 		}
-		if ready {
-			break
-		}
-		util.PrintAndLog("waiting for sql server to be ready...")
 	}
-	util.PrintAndLog("sql server ready")
+
+	// this firewall rule should succeed
+	result, err = sdk.CreateOrUpdateSQLFirewallRule("succeed rule", "0.0.0.0", "4.3.2.1")
+	if result {
+		util.PrintAndLog("firewall rule add succeeded")
+	} else {
+		util.PrintAndLog("firewall rule add failed, but should have succeeded")
+		t.FailNow()
+	}
+
+	// this firewall rule deletion should succeed
+	err = sdk.DeleteSQLFirewallRule("succeed rule")
+	if err == nil {
+		util.PrintAndLog("firewall rule deletion succeeded")
+	} else {
+		util.PrintAndLog(fmt.Sprintf("firewall rule deletion failed, but should have succeeded: %v", err))
+		t.FailNow()
+	}
 
 	// create a DB
 	sqlDBProperties := SQLDatabaseProperties{
 		DatabaseName: "testDB",
-		Edition:      Free,
+		Edition:      Basic,
 	}
-	_, err = sdk.CreateOrUpdateDB(sqlDBProperties)
-	if err != nil {
-		util.PrintAndLog(fmt.Sprintf("cannot create db: %v", err))
-		t.FailNow()
-	}
-	util.PrintAndLog("db created")
 
-	// wait a minute
-	time.Sleep(time.Second * 30)
+	// wait for db to be created, then only proceed once activated
+	for {
+		time.Sleep(time.Second)
+		db, err := sdk.CreateOrUpdateDB(sqlDBProperties)
+		if err == nil {
+			if *db.Status == "Online" {
+				util.PrintAndLog("db ready")
+				break
+			}
+		} else {
+			if sdk.IsAsyncNotCompleted(err) {
+				util.PrintAndLog("waiting for db to be ready...")
+				continue
+			} else {
+				util.PrintAndLog(fmt.Sprintf("cannot create db: %v", err))
+				t.FailNow()
+				break
+			}
+		}
+	}
 
 	// delete the DB
-	_, err = sdk.DeleteDB("testDB")
-	if err != nil {
-		util.PrintAndLog(fmt.Sprintf("cannot delete the db: %v", err))
-		t.FailNow()
+	time.Sleep(time.Second)
+	response, err := sdk.DeleteDB("testDB")
+	if err == nil {
+		if response.StatusCode == 200 {
+			util.PrintAndLog("db deleted")
+		}
 	} else {
-		util.PrintAndLog("db deleted")
+		util.PrintAndLog(fmt.Sprintf("cannot delete db: %v", err))
+		t.FailNow()
 	}
 
 	// delete the server
-	_, err = sdk.DeleteSQLServer()
-	if err != nil {
-		util.PrintAndLog(fmt.Sprintf("cannot delete the sql server: %v", err))
-		t.FailNow()
-	} else {
-		util.PrintAndLog("sql server deleted")
+	for {
+		time.Sleep(time.Second)
+		response, err := sdk.DeleteSQLServer()
+		if err == nil {
+			if response.StatusCode == 200 {
+				util.PrintAndLog("sql server deleted")
+				break
+			}
+		} else {
+			if sdk.IsAsyncNotCompleted(err) {
+				util.PrintAndLog("waiting for sql server to be deleted...")
+				continue
+			} else {
+				util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
+				t.FailNow()
+				break
+			}
+		}
 	}
 }
