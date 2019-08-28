@@ -34,9 +34,15 @@ import (
 var _ = Describe("ConsumerGroup Controller", func() {
 
 	const timeout = time.Second * 240
+	var rgName string
+	var ehnName string
+	var ehName string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
+		rgName = resourceGroupName
+		ehnName = eventhubNamespaceName
+		ehName = eventhubName
 	})
 
 	AfterEach(func() {
@@ -50,9 +56,6 @@ var _ = Describe("ConsumerGroup Controller", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete consumer groups", func() {
 
-			resourceGroupName = "t-rg-dev-controller"
-			eventhubNamespaceName = "t-ns-dev-eh-ns"
-			eventhubName = "t-eh-dev-sample"
 			consumerGroupName := "t-cg-" + helpers.RandomString(10)
 
 			var err error
@@ -64,9 +67,9 @@ var _ = Describe("ConsumerGroup Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.ConsumerGroupSpec{
-					NamespaceName:     eventhubNamespaceName,
-					ResourceGroupName: resourceGroupName,
-					EventhubName:      eventhubName,
+					NamespaceName:     ehnName,
+					ResourceGroupName: rgName,
+					EventhubName:      ehName,
 				},
 			}
 

@@ -34,10 +34,13 @@ import (
 var _ = Describe("EventHubNamespace Controller", func() {
 
 	const timeout = time.Second * 240
+	var rgName string
+	var rgLocation string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-
+		rgName = resourceGroupName
+		rgLocation = resourcegroupLocation
 	})
 
 	AfterEach(func() {
@@ -110,7 +113,6 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 		It("should create and delete namespace in k8s", func() {
 
-			resourceGroupName := "t-rg-dev-controller"
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
 			var err error
@@ -122,8 +124,8 @@ var _ = Describe("EventHubNamespace Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.EventhubNamespaceSpec{
-					Location:      resourcegroupLocation,
-					ResourceGroup: resourceGroupName,
+					Location:      rgLocation,
+					ResourceGroup: rgName,
 				},
 			}
 

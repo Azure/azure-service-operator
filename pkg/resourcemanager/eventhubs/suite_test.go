@@ -26,6 +26,7 @@ import (
 
 	"context"
 
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
@@ -45,7 +46,6 @@ func TestAPIs(t *testing.T) {
 		t.Skip("skipping Resource Manager Eventhubs Suite")
 	}
 	RegisterFailHandler(Fail)
-
 	RunSpecs(t, "Eventhubs Suite")
 }
 
@@ -55,7 +55,7 @@ var _ = BeforeSuite(func(done Done) {
 	By("bootstrapping test environment")
 
 	resourcemanagerconfig.ParseEnvironment()
-	resourceGroupName = "t-rg-dev-rm-eh"
+	resourceGroupName = "t-rg-dev-rm-eh-" + helpers.RandomString(10)
 	resourcegroupLocation = resourcemanagerconfig.DefaultLocation()
 
 	//create resourcegroup for this suite

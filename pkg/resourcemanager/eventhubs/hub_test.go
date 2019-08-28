@@ -29,11 +29,14 @@ import (
 var _ = Describe("Eventhub", func() {
 
 	const timeout = time.Second * 240
+	var rgName string
 	var eventhubNamespaceName string
 	var namespaceLocation string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
+
+		rgName = resourceGroupName
 		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
 		namespaceLocation = resourcegroupLocation
 
@@ -59,11 +62,11 @@ var _ = Describe("Eventhub", func() {
 			var err error
 
 			// TODO: add test for Capture
-			_, err = CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
+			_, err = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName)
+				result, _ := GetHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
@@ -76,20 +79,20 @@ var _ = Describe("Eventhub", func() {
 				},
 			}
 
-			_, err = CreateOrUpdateAuthorizationRule(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, authorizationRuleName, parameters)
+			_, err = CreateOrUpdateAuthorizationRule(context.Background(), rgName, eventhubNamespaceName, eventhubName, authorizationRuleName, parameters)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := ListKeys(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, authorizationRuleName)
+				result, _ := ListKeys(context.Background(), rgName, eventhubNamespaceName, eventhubName, authorizationRuleName)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName)
+			_, err = DeleteHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName)
+				result, _ := GetHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())

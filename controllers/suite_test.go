@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"context"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"os"
 	"path/filepath"
 	"testing"
@@ -25,6 +26,7 @@ import (
 	resoucegroupsconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	storagemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storage"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -50,6 +52,8 @@ var resourcegroupLocation string
 var eventhubNamespaceName string
 var eventhubName string
 var namespaceLocation string
+var storageAccountName string
+var blobContainerName string
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
@@ -64,12 +68,15 @@ var _ = BeforeSuite(func(done Done) {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	resoucegroupsconfig.ParseEnvironment()
-	resourceGroupName = "t-rg-dev-controller"
+	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
 	resourcegroupLocation = resoucegroupsconfig.DefaultLocation()
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns"
-	eventhubName = "t-eh-dev-sample"
+	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
+	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
 	namespaceLocation = resoucegroupsconfig.DefaultLocation()
+
+	storageAccountName = "tsadeveh" + helpers.RandomString(10)
+	blobContainerName = "t-bc-dev-eh-" + helpers.RandomString(10)
 
 	By("bootstrapping test environment")
 
@@ -155,6 +162,10 @@ var _ = BeforeSuite(func(done Done) {
 	// Create the Eventhub resource
 	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
 
+	// Create the Storage Account and Container
+	_, err = storagemanager.CreateStorageAccountAndWait(context.Background(), resourceGroupName, storageAccountName, "Storage", resourcegroupLocation)
+	_, err = storagemanager.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
+
 	close(done)
 }, 120)
 
@@ -163,6 +174,7 @@ var _ = AfterSuite(func(done Done) {
 
 	By("tearing down the test environment")
 
+	// delete the resource group and contained resources
 	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
 
 	err := testEnv.Stop()
