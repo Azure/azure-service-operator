@@ -135,7 +135,6 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	sqlServerProperties := sql.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("iamadmin"),
 		AdministratorLoginPassword: to.StringPtr("generate_me_1234"),
-		AllowAzureServicesAccess:   true,
 	}
 
 	instance.Status.Provisioning = true

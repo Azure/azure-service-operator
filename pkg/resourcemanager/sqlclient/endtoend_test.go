@@ -40,7 +40,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		ServerName:        generateName("sqlsrvtest"),
 		Location:          "eastus2",
 	}
-  
+
 	// create the sql server properties struct
 	sqlServerProperties := SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("Moss"),
