@@ -53,6 +53,7 @@ func TestEventhubValidateNamespace(t *testing.T) {
 	).Should(BeFalse())
 
 	// remove eventhub namespace and wait for it to be gone
+	//
 	k8sClient.Delete(context.Background(), eventhubInstance)
 	Eventually(func() bool {
 		err := k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
