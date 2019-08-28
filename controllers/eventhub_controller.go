@@ -127,6 +127,11 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 	partitionCount := instance.Spec.Properties.PartitionCount
 	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
 	captureDescription := instance.Spec.Properties.CaptureDescription
+	secretName := instance.Spec.SecretName
+
+	if secretName == "" {
+		secretName = eventhubName
+	}
 
 	// write information back to instance
 	instance.Status.Provisioning = true
@@ -178,7 +183,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 		return err
 	}
 
-	err = r.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, instance.Spec.AuthorizationRule.Name, instance)
+	err = r.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to listAccessKeysAndCreateSecrets")
 		return err
@@ -265,7 +270,7 @@ func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup st
 	return nil
 }
 
-func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, authorizationRuleName string, instance *azurev1.Eventhub) error {
+func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1.Eventhub) error {
 
 	var err error
 	var result model.AccessKeys
@@ -285,6 +290,7 @@ func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string
 			*result.PrimaryKey,
 			*result.SecondaryKey,
 			eventhubNamespace,
+			secretName,
 			authorizationRuleName,
 			instance,
 		)
@@ -305,6 +311,7 @@ func (r *EventhubReconciler) createEventhubSecrets(
 	primaryKey string,
 	secondaryKey string,
 	eventhubNamespace string,
+	secretName string,
 	sharedAccessKey string,
 	instance *azurev1.Eventhub) error {
 
@@ -314,7 +321,7 @@ func (r *EventhubReconciler) createEventhubSecrets(
 			APIVersion: "apps/v1beta1",
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      eventhubName,
+			Name:      secretName,
 			Namespace: namespace,
 		},
 		Data: map[string][]byte{
@@ -324,6 +331,7 @@ func (r *EventhubReconciler) createEventhubSecrets(
 			"secondaryKey":              []byte(secondaryKey),
 			"sharedaccesskey":           []byte(sharedAccessKey),
 			"eventhubnamespace":         []byte(eventhubNamespace),
+			"eventhubName":              []byte(eventhubName),
 		},
 		Type: "Opaque",
 	}

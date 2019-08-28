@@ -162,8 +162,9 @@ To Extend the operator `github.com/Azure/azure-service-operator`:
 5. Generate code `make generate`
 6. Update operator `controller\eventhub_controller.go`
 7. Update tests and run `make test`
-8. Build `make build`
-9. Deploy `make deploy`
+8. Deploy `make deploy`
+
+If you make changes to the operator and want to update the deployment without recreating the cluster (when testing locally), you can use the `make update` to update your Azure Operator pod. If you need to rebuild the docker image without cache, use `make ARGS="--no-cache" update`.
 
 ## Contributing
 
