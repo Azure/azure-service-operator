@@ -64,7 +64,7 @@ func TestAPIs(t *testing.T) {
 		[]Reporter{envtest.NewlineReporter{}})
 }
 
-var _ = BeforeSuite(func(done Done) {
+var _ = SynchronizedBeforeSuite(func(done Done) []byte {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	resoucegroupsconfig.ParseEnvironment()
@@ -167,9 +167,10 @@ var _ = BeforeSuite(func(done Done) {
 	_, err = storagemanager.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
 
 	close(done)
-}, 120)
+	return []byte{}
+}, func(r []byte) {}, 120)
 
-var _ = AfterSuite(func(done Done) {
+var _ = SynchronizedAfterSuite(func() {}, func() {
 	//clean up the resources created for test
 
 	By("tearing down the test environment")
@@ -179,6 +180,4 @@ var _ = AfterSuite(func(done Done) {
 
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
-	close(done)
-
 }, 60)
