@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE
 */
 
-package v1alpha1
+package v1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -38,9 +38,9 @@ type RedisCacheSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location string `json:"location,omitempty"`
-
-	Properties RedisCacheProperties `json:"properties,omitempty"`
+	Location          string               `json:"location,omitempty"`
+	ResourceGroupName string               `json:"resourceGroup"`
+	Properties        RedisCacheProperties `json:"properties,omitempty"`
 }
 
 // RedisCacheProperties the properties of the Redis Cache.
@@ -58,7 +58,7 @@ type RedisCacheSku struct {
 
 	Family RedisCacheSkuFamily `json:"family,omitempty"`
 
-	Capacity int `json:"capacity,omitempty"`
+	Capacity int32 `json:"capacity,omitempty"`
 }
 
 type RedisCacheSkuName string
@@ -81,9 +81,11 @@ type RedisCacheStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	DeploymentName    string `json:"deploymentName,omitempty"`
-	ProvisioningState string `json:"provisioningState,omitempty"`
-	Generation        int64  `json:"generation,omitempty"`
+	// DeploymentName    string `json:"deploymentName,omitempty"`
+	// ProvisioningState string `json:"provisioningState,omitempty"`
+	// Generation        int64  `json:"generation,omitempty"`
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 type RedisCacheOutput struct {
@@ -122,4 +124,8 @@ type RedisCacheList struct {
 
 func init() {
 	SchemeBuilder.Register(&RedisCache{}, &RedisCacheList{})
+}
+
+func (redisCache *RedisCache) IsSubmitted() bool {
+	return redisCache.Status.Provisioning || redisCache.Status.Provisioned
 }

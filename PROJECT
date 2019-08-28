@@ -9,7 +9,7 @@ resources:
   version: v1
   kind: CosmosDB
 - group: service
-  version: v1alpha1
+  version: v1
   kind: RedisCache
 - group: azure
   version: v1

@@ -99,8 +99,9 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.RedisCacheReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("RedisCache"),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("RedisCache"),
+		Recorder: mgr.GetEventRecorderFor("RedisCache-controller"),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
 		os.Exit(1)

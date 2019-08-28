@@ -1,9 +1,10 @@
-apiVersion: service.azure/v1alpha1
+apiVersion: azure.microsoft.com/v1
 kind: RedisCache
 metadata:
-  name: rediscache-sample
+  name: rediscache-sample123xyzkj
 spec:
-  location: eastus2
+  location: westus
+  resourceGroup: resourcegroup-sample-1907
   properties:
     sku:
       name: Basic
