@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"context"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"os"
 	"path/filepath"
 	"testing"
@@ -55,11 +56,11 @@ var namespaceLocation string
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-controller"
+	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
 	resourcegroupLocation = "westus"
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns"
-	eventhubName = "t-eh-dev-sample"
+	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
+	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
 	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
