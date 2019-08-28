@@ -42,6 +42,13 @@ deploy: manifests
 	kubectl apply -f config/crd/bases
 	kustomize build config/default | kubectl apply -f -
 
+update:
+	IMG="docker.io/controllertest:1" make ARGS="${ARGS}" docker-build
+	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+	make install
+	make deploy
+	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
+
 delete:
 	kubectl delete -f config/crd/bases
 	kustomize build config/default | kubectl delete -f -
@@ -64,7 +71,7 @@ generate: controller-gen
 
 # Build the docker image
 docker-build: 
-	docker build . -t ${IMG}
+	docker build . -t ${IMG} ${ARGS}
 	@echo "updating kustomize image patch file for manager resource"
 	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
 
