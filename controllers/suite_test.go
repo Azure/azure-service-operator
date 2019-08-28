@@ -17,7 +17,6 @@ package controllers
 
 import (
 	"context"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"os"
 	"path/filepath"
 	"testing"
@@ -56,11 +55,11 @@ var namespaceLocation string
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourceGroupName = "t-rg-dev-controller"
 	resourcegroupLocation = "westus"
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
-	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
+	eventhubNamespaceName = "t-ns-dev-eh-ns"
+	eventhubName = "t-eh-dev-sample"
 	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
@@ -155,7 +154,6 @@ var _ = BeforeSuite(func(done Done) {
 
 	// Create the Eventhub resource
 	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1))
-
 	close(done)
 }, 120)
 

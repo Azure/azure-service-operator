@@ -41,11 +41,19 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		Location:          "eastus2",
 	}
 
-	// create the server
+	// create the sql server properties struct
 	sqlServerProperties := SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("Moss"),
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
-		AllowAzureServicesAccess:   true,
+	}
+
+	// this firewall rule should fail (the server doesn't exist yet)
+	result, err := sdk.CreateOrUpdateSQLFirewallRule("fail rule", "0.0.0.0", "1.2.3.4")
+	if result {
+		util.PrintAndLog("firewall rule add succeeded, but shouldn't have")
+		t.FailNow()
+	} else {
+		util.PrintAndLog("firewall rule add failed (good)")
 	}
 
 	// wait for server to be created, then only proceed once activated
@@ -67,6 +75,24 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 				break
 			}
 		}
+	}
+
+	// this firewall rule should succeed
+	result, err = sdk.CreateOrUpdateSQLFirewallRule("succeed rule", "0.0.0.0", "4.3.2.1")
+	if result {
+		util.PrintAndLog("firewall rule add succeeded")
+	} else {
+		util.PrintAndLog("firewall rule add failed, but should have succeeded")
+		t.FailNow()
+	}
+
+	// this firewall rule deletion should succeed
+	err = sdk.DeleteSQLFirewallRule("succeed rule")
+	if err == nil {
+		util.PrintAndLog("firewall rule deletion succeeded")
+	} else {
+		util.PrintAndLog(fmt.Sprintf("firewall rule deletion failed, but should have succeeded: %v", err))
+		t.FailNow()
 	}
 
 	// create a DB

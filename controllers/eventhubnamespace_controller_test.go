@@ -38,7 +38,6 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		rgName = resourceGroupName
 
 	})
 
@@ -112,6 +111,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 		It("should create and delete namespace in k8s", func() {
 
+			resourceGroupName := "t-rg-dev-controller"
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
 			var err error

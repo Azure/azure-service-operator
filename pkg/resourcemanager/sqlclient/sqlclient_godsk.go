@@ -34,6 +34,15 @@ func getGoDbClient() sql.DatabasesClient {
 	return dbClient
 }
 
+// getGoFirewallClient retrieves a FirewallRulesClient
+func getGoFirewallClient() sql.FirewallRulesClient {
+	firewallClient := sql.NewFirewallRulesClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	firewallClient.Authorizer = a
+	firewallClient.AddToUserAgent(config.UserAgent())
+	return firewallClient
+}
+
 // CreateOrUpdateSQLServer creates a SQL server in Azure
 func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (result sql.Server, err error) {
 	serversClient := getGoServersClient()
@@ -63,6 +72,43 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (
 	}
 
 	return future.Result(serversClient)
+}
+
+// CreateOrUpdateSQLFirewallRule creates or updates a firewall rule
+// based on code from: https://github.com/Azure-Samples/azure-sdk-for-go-samples/blob/master/sql/sql.go#L111
+// to allow allow Azure services to connect example: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure#manage-firewall-rules-using-azure-cli
+func (sdk GoSDKClient) CreateOrUpdateSQLFirewallRule(ruleName string, startIP string, endIP string) (result bool, err error) {
+	serversClient := getGoServersClient()
+	firewallClient := getGoFirewallClient()
+
+	// check to see if the server exists, if it doesn't then short-circuit
+	server, err := serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+	if err != nil || *server.State != "Ready" {
+		return false, err
+	}
+
+	_, err = firewallClient.CreateOrUpdate(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		ruleName,
+		sql.FirewallRule{
+			FirewallRuleProperties: &sql.FirewallRuleProperties{
+				StartIPAddress: to.StringPtr(startIP),
+				EndIPAddress:   to.StringPtr(endIP),
+			},
+		},
+	)
+	result = false
+	if err == nil {
+		result = true
+	}
+
+	return result, err
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
@@ -136,6 +182,31 @@ func (sdk GoSDKClient) DeleteDB(databaseName string) (result autorest.Response, 
 	)
 
 	return result, err
+}
+
+// DeleteSQLFirewallRule deletes a firewall rule
+func (sdk GoSDKClient) DeleteSQLFirewallRule(ruleName string) (err error) {
+	serversClient := getGoServersClient()
+	firewallClient := getGoFirewallClient()
+
+	// check to see if the server exists, if it doesn't then short-circuit
+	server, err := serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+	if err != nil || *server.State != "Ready" {
+		return err
+	}
+
+	_, err = firewallClient.Delete(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		ruleName,
+	)
+
+	return err
 }
 
 // DeleteSQLServer deletes a SQL server

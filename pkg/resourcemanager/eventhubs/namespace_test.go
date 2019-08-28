@@ -47,6 +47,7 @@ var _ = Describe("Namespace", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete namespace in azure", func() {
 
+			resourceGroupName := "t-rg-dev-rm-eh"
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 			namespaceLocation := "westus"
 

@@ -9,7 +9,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - secrets
+  - eventhubs
   verbs:
   - create
   - delete
@@ -19,12 +19,52 @@ rules:
   - update
   - watch
 - apiGroups:
-  - ""
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - keyvaults/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - resourcegroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlfirewallrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlservers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
   resources:
   - events
   verbs:
   - create
-  - watch
+  - patch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -40,14 +80,6 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - consumergroups/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
   - keyvaults
   verbs:
   - create
@@ -60,7 +92,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - resourcegroups/status
+  - resourcegroups
   verbs:
   - create
   - delete
@@ -72,22 +104,31 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - events
+  - sqldatabases
   verbs:
   - create
-  - patch
-- apiGroups:
-  - apps
-  resources:
-  - deployments/status
-  verbs:
+  - delete
   - get
+  - list
   - patch
   - update
+  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - eventhubs
+  - sqlfirewallrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces
   verbs:
   - create
   - delete
@@ -107,7 +148,15 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - eventhubnamespaces
+  - sqldatabases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlservers
   verbs:
   - create
   - delete
@@ -117,25 +166,9 @@ rules:
   - update
   - watch
 - apiGroups:
-  - azure.microsoft.com
+  - ""
   resources:
-  - keyvaults/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubnamespaces/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - resourcegroups
+  - secrets
   verbs:
   - create
   - delete
@@ -147,6 +180,22 @@ rules:
 - apiGroups:
   - apps
   resources:
+  - deployments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - consumergroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps
+  resources:
   - deployments
   verbs:
   - create
@@ -155,4 +204,11 @@ rules:
   - list
   - patch
   - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
   - watch
