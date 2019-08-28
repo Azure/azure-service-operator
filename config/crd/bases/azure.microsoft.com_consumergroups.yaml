@@ -4,16 +4,16 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: sqldatabases.azure.microsoft.com
+  name: consumergroups.azure.microsoft.com
 spec:
   group: azure.microsoft.com
   names:
-    kind: SqlDatabase
-    plural: sqldatabases
+    kind: ConsumerGroup
+    plural: consumergroups
   scope: ""
   validation:
     openAPIV3Schema:
-      description: SqlDatabase is the Schema for the sqldatabases API
+      description: ConsumerGroup is the Schema for the consumergroups API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -397,26 +397,19 @@ spec:
               type: string
           type: object
         spec:
-          description: SqlDatabaseSpec defines the desired state of SqlDatabase
+          description: ConsumerGroupSpec defines the desired state of ConsumerGroup
           properties:
-            edition:
-              description: 'DBAddition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition'
-              type: integer
-            location:
+            eventhub:
+              type: string
+            namespace:
+              type: string
+            resourcegroup:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
               type: string
-            resourcegroup:
-              type: string
-            server:
-              type: string
-          required:
-          - edition
-          - location
-          - server
           type: object
         status:
-          description: SqlDatabaseStatus defines the observed state of SqlDatabase
+          description: ConsumerGroupStatus defines the observed state of ConsumerGroup
           properties:
             provisioned:
               type: boolean

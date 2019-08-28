@@ -89,7 +89,6 @@ var _ = Describe("EventHub Controller", func() {
 		})
 
 		It("should create and delete eventhubs", func() {
-
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
@@ -107,6 +106,10 @@ var _ = Describe("EventHub Controller", func() {
 					Properties: azurev1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         2,
+					},
+					AuthorizationRule: azurev1.EventhubAuthorizationRule{
+						Name:   "RootManageSharedAccessKey",
+						Rights: []string{"Listen"},
 					},
 					AuthorizationRule: azurev1.EventhubAuthorizationRule{
 						Name:   "RootManageSharedAccessKey",

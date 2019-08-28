@@ -22,9 +22,12 @@ patches:
 #- patches/webhook_in_eventhubnamespaces.yaml
 #- patches/webhook_in_consumergroups.yaml
 #- patches/webhook_in_keyvaults.yaml
+<<<<<<< HEAD
 #- patches/webhook_in_sqlservers.yaml
 #- patches/webhook_in_sqldatabases.yaml
 #- patches/webhook_in_sqlfirewallrules.yaml
+=======
+>>>>>>> create/update/delete firewall rules for SQL servers (#148)
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
 
 # [CAINJECTION] patches here are for enabling the CA injection for each CRD

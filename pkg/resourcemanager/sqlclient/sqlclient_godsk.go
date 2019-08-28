@@ -6,12 +6,14 @@
 package sqlclient
 
 import (
-	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
@@ -24,8 +26,8 @@ func getGoServersClient() sql.ServersClient {
 	return serversClient
 }
 
-// getGoCBClient retrieves a DatabasesClient
-func getGoCBClient() sql.DatabasesClient {
+// getGoDbClient retrieves a DatabasesClient
+func getGoDbClient() sql.DatabasesClient {
 	dbClient := sql.NewDatabasesClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	dbClient.Authorizer = a
@@ -33,55 +35,101 @@ func getGoCBClient() sql.DatabasesClient {
 	return dbClient
 }
 
+// getGoFirewallClient retrieves a FirewallRulesClient
+func getGoFirewallClient() sql.FirewallRulesClient {
+	firewallClient := sql.NewFirewallRulesClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	firewallClient.Authorizer = a
+	firewallClient.AddToUserAgent(config.UserAgent())
+	return firewallClient
+}
+
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (s sql.Server, err error) {
+func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (result sql.Server, err error) {
 	serversClient := getGoServersClient()
 	serverProp := SQLServerPropertiesToServer(properties)
 
-	future, err := serversClient.CreateOrUpdate(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-		sql.Server{
-			Location:         to.StringPtr(sdk.Location),
-			ServerProperties: &serverProp,
-		})
-
-	serv, err := future.Result(serversClient)
-	if err != nil {
-		if !strings.Contains(err.Error(), "asynchronous operation has not completed") {
-			return sql.Server{}, err
-		}
-
-	}
-	return serv, nil
-}
-
-// SQLServerReady returns true if the SQL server is active
-func (sdk GoSDKClient) SQLServerReady() (result bool, err error) {
-	serversClient := getGoServersClient()
-
+	// check to see if the server exists, if it does then short-circuit
 	server, err := serversClient.Get(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
 	)
-	if err != nil {
-		if strings.Contains(err.Error(), "ResourceNotFound") {
-			return false, nil
-		}
-		return false, fmt.Errorf("cannot get sql server: %v", err)
+	if err == nil && *server.State == "Ready" {
+		return server, nil
 	}
 
-	return *server.State == "Ready", err
+	// issue the creation
+	future, err := serversClient.CreateOrUpdate(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		sql.Server{
+			Location:         to.StringPtr(config.Location()),
+			ServerProperties: &serverProp,
+		})
+	if err != nil {
+		return result, err
+	}
+
+	return future.Result(serversClient)
+}
+
+// CreateOrUpdateSQLFirewallRule creates or updates a firewall rule
+// based on code from: https://github.com/Azure-Samples/azure-sdk-for-go-samples/blob/master/sql/sql.go#L111
+// to allow allow Azure services to connect example: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure#manage-firewall-rules-using-azure-cli
+func (sdk GoSDKClient) CreateOrUpdateSQLFirewallRule(ruleName string, startIP string, endIP string) (result bool, err error) {
+	serversClient := getGoServersClient()
+	firewallClient := getGoFirewallClient()
+
+	// check to see if the server exists, if it doesn't then short-circuit
+	server, err := serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+	if err != nil || *server.State != "Ready" {
+		return false, err
+	}
+
+	_, err = firewallClient.CreateOrUpdate(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		ruleName,
+		sql.FirewallRule{
+			FirewallRuleProperties: &sql.FirewallRuleProperties{
+				StartIPAddress: to.StringPtr(startIP),
+				EndIPAddress:   to.StringPtr(endIP),
+			},
+		},
+	)
+	result = false
+	if err == nil {
+		result = true
+	}
+
+	return result, err
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
-func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (result bool, err error) {
-	dbClient := getGoCBClient()
+func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (result sql.Database, err error) {
+	dbClient := getGoDbClient()
 	dbProp := SQLDatabasePropertiesToDatabase(properties)
 
-	_, err = dbClient.CreateOrUpdate(
+	// check to see if the db exists, if it does then short-circuit
+	db, err := dbClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		properties.DatabaseName,
+		"serviceTierAdvisors, transparentDataEncryption",
+	)
+	if err == nil && *db.Status == "Online" {
+		return db, nil
+	}
+
+	future, err := dbClient.CreateOrUpdate(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
@@ -91,52 +139,115 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (resul
 			DatabaseProperties: &dbProp,
 		})
 	if err != nil {
-		return false, fmt.Errorf("cannot create sql database: %v", err)
+		return result, err
 	}
 
-	return true, nil
-}
-
-// GetServer returns a server
-func (sdk GoSDKClient) GetServer(rgroup, name string) (sql.Server, error) {
-	serversClient := getGoServersClient()
-
-	return serversClient.Get(
+	// TODO: Will needs to remove the sync
+	err = future.WaitForCompletionRef(
 		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
+		dbClient.Client,
 	)
+	if err != nil {
+		return result, err
+	}
+
+	return future.Result(dbClient)
 }
 
 // DeleteDB deletes a DB
-func (sdk GoSDKClient) DeleteDB(databaseName string) (result bool, err error) {
-	dbClient := getGoCBClient()
+func (sdk GoSDKClient) DeleteDB(databaseName string) (result autorest.Response, err error) {
+	dbClient := getGoDbClient()
 
-	_, err = dbClient.Delete(
+	// check to see if the db exists, if it does then short-circuit
+	_, err = dbClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		databaseName,
+		"serviceTierAdvisors, transparentDataEncryption",
+	)
+	if err != nil {
+		result = autorest.Response{
+			Response: &http.Response{
+				StatusCode: 200,
+			},
+		}
+		return result, nil
+	}
+
+	result, err = dbClient.Delete(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
 		databaseName,
 	)
-	if err != nil {
-		return false, fmt.Errorf("cannot delete db: %v", err)
-	}
 
-	return true, nil
+	return result, err
 }
 
-// DeleteSQLServer deletes a DB
-func (sdk GoSDKClient) DeleteSQLServer() (result bool, err error) {
+// DeleteSQLFirewallRule deletes a firewall rule
+func (sdk GoSDKClient) DeleteSQLFirewallRule(ruleName string) (err error) {
+	serversClient := getGoServersClient()
+	firewallClient := getGoFirewallClient()
+
+	// check to see if the server exists, if it doesn't then short-circuit
+	server, err := serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+	if err != nil || *server.State != "Ready" {
+		return err
+	}
+
+	_, err = firewallClient.Delete(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		ruleName,
+	)
+
+	return err
+}
+
+// DeleteSQLServer deletes a SQL server
+func (sdk GoSDKClient) DeleteSQLServer() (result autorest.Response, err error) {
 	serversClient := getGoServersClient()
 
-	_, err = serversClient.Delete(
+	// check to see if the server exists, if it doesn't then short-circuit
+	_, err = serversClient.Get(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
 	)
 	if err != nil {
-		return false, fmt.Errorf("cannot delete sql server: %v", err)
+		result = autorest.Response{
+			Response: &http.Response{
+				StatusCode: 200,
+			},
+		}
+		return result, nil
 	}
 
-	return true, nil
+	future, err := serversClient.Delete(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+	if err != nil {
+		return result, err
+	}
+
+	return future.Result(serversClient)
+}
+
+// IsAsyncNotCompleted returns true if the error is due to async not completed
+func (sdk GoSDKClient) IsAsyncNotCompleted(err error) (result bool) {
+	result = false
+	if err != nil && strings.Contains(err.Error(), "asynchronous operation has not completed") {
+		result = true
+	} else if strings.Contains(err.Error(), "is busy with another operation") {
+		result = true
+	}
+	return result
 }

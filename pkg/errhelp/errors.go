@@ -14,9 +14,6 @@ const (
 )
 
 func NewAzureError(err error) error {
-	if err == nil {
-		return nil
-	}
 	ae := AzureError{
 		Original: err,
 	}
@@ -25,7 +22,6 @@ func NewAzureError(err error) error {
 	if det, ok := err.(autorest.DetailedError); ok {
 		var kind, reason string
 		ae.Code = det.StatusCode.(int)
-
 		if e, ok := det.Original.(*azure.RequestError); ok {
 			kind = e.ServiceError.Code
 			reason = e.ServiceError.Message

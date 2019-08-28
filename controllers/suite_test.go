@@ -57,6 +57,7 @@ var testEnv *envtest.Environment
 var resourceGroupName string
 var resourcegroupLocation string
 var eventhubNamespaceName string
+var eventhubName string
 var namespaceLocation string
 
 type testContext struct {
@@ -84,6 +85,7 @@ func TestAPIs(t *testing.T) {
 	resourcegroupLocation = "westus"
 
 	eventhubNamespaceName = "t-ns-dev-eh-ns"
+	eventhubName = "t-eh-dev-sample"
 	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
@@ -200,6 +202,13 @@ var _ = BeforeSuite(func() {
 		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 		Recorder:             k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 		ConsumerGroupManager: eventHubManagers.ConsumerGroup,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&ConsumerGroupReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
