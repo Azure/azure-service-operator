@@ -9,6 +9,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - keyvaults
   - consumergroups
   verbs:
   - create
@@ -21,6 +22,27 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - sqldatabases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
   - resourcegroups/status
   verbs:
   - get
@@ -29,7 +51,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - sqlfirewallrules
+  - consumergroups
   verbs:
   - create
   - delete
@@ -41,15 +63,16 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - sqlfirewallrules/status
+  - eventhubs/status
   verbs:
   - get
   - patch
   - update
 - apiGroups:
+  - azure.microsoft.com
   - ""
   resources:
-  - secrets
+  - eventhubnamespaces
   verbs:
   - create
   - delete
@@ -59,6 +82,9 @@ rules:
   - update
   - watch
 - apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces/status
   - ""
   resources:
   - events
@@ -76,6 +102,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - keyvaults/status
   - eventhubnamespaces/status
   verbs:
   - get
@@ -84,6 +111,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - sqldatabases
   - keyvaults
   verbs:
   - create
@@ -96,12 +124,16 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - sqlservers/status
   - keyvaults/status
   verbs:
   - get
   - patch
   - update
 - apiGroups:
+  - apps
+  resources:
+  - deployments/status
   - azure.microsoft.com
   resources:
   - resourcegroups
@@ -181,17 +213,20 @@ rules:
   - update
   - watch
 - apiGroups:
-  - azure.microsoft.com
+  - ""
   resources:
   - eventhubnamespaces
   verbs:
   - create
-  - delete
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - consumergroups/status
+  verbs:
   - get
-  - list
   - patch
   - update
-  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -201,7 +236,7 @@ rules:
   - patch
   - update
 - apiGroups:
-  - apps
+  - azure.microsoft.com
   resources:
   - deployments
   verbs:
