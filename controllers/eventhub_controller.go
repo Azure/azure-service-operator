@@ -204,7 +204,7 @@ const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers
 
 func getCaptureDescriptionPtr(captureDescription azurev1.CaptureDescription) *model.CaptureDescription {
 	// add capture details
-	var capturePtr *model.CaptureDescription = nil
+	var capturePtr *model.CaptureDescription
 
 	storage := captureDescription.Destination.StorageAccount
 	storageAccountResourceId := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
