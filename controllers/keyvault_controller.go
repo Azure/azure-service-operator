@@ -65,7 +65,7 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete KeyVault failed with ", err.Error())
+				log.Info("Delete KeyVault failed with ", "err", err)
 				return ctrl.Result{}, err
 			}
 
