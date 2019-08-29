@@ -9,7 +9,11 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+<<<<<<< HEAD
   - keyvaults
+=======
+  - consumergroups
+>>>>>>> e97fb2d780445d7ccff2ea0548be8823d4b0c2fb
   verbs:
   - create
   - delete
@@ -21,6 +25,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+<<<<<<< HEAD
   - sqldatabases/status
   verbs:
   - get
@@ -42,14 +47,13 @@ rules:
   - ""
   resources:
   - secrets
+=======
+  - resourcegroups/status
+>>>>>>> e97fb2d780445d7ccff2ea0548be8823d4b0c2fb
   verbs:
-  - create
-  - delete
   - get
-  - list
   - patch
   - update
-  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -71,7 +75,11 @@ rules:
   - patch
   - update
 - apiGroups:
+<<<<<<< HEAD
   - azure.microsoft.com
+=======
+  - ""
+>>>>>>> e97fb2d780445d7ccff2ea0548be8823d4b0c2fb
   resources:
   - eventhubnamespaces
   verbs:
@@ -83,9 +91,22 @@ rules:
   - update
   - watch
 - apiGroups:
+<<<<<<< HEAD
   - azure.microsoft.com
   resources:
   - eventhubnamespaces/status
+=======
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments/status
+>>>>>>> e97fb2d780445d7ccff2ea0548be8823d4b0c2fb
   verbs:
   - get
   - patch
@@ -93,7 +114,84 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+<<<<<<< HEAD
   - keyvaults/status
+=======
+  - eventhubnamespaces/status
+>>>>>>> e97fb2d780445d7ccff2ea0548be8823d4b0c2fb
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+<<<<<<< HEAD
+  - sqldatabases
+=======
+  - keyvaults
+>>>>>>> e97fb2d780445d7ccff2ea0548be8823d4b0c2fb
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+<<<<<<< HEAD
+  - sqlservers/status
+=======
+  - keyvaults/status
+>>>>>>> e97fb2d780445d7ccff2ea0548be8823d4b0c2fb
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+<<<<<<< HEAD
+  - apps
+  resources:
+  - deployments/status
+=======
+  - azure.microsoft.com
+  resources:
+  - resourcegroups
+>>>>>>> e97fb2d780445d7ccff2ea0548be8823d4b0c2fb
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - sqlservers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubs/status
   verbs:
   - get
   - patch
@@ -119,9 +217,9 @@ rules:
   - patch
   - update
 - apiGroups:
-  - apps
+  - azure.microsoft.com
   resources:
-  - deployments/status
+  - consumergroups/status
   verbs:
   - get
   - patch
@@ -139,33 +237,9 @@ rules:
   - update
   - watch
 - apiGroups:
-  - azure.microsoft.com
-  resources:
-  - resourcegroups
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - sqlfirewallrules
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
   - ""
   resources:
-  - events
+  - eventhubnamespaces
   verbs:
   - create
   - watch
@@ -180,7 +254,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - resourcegroups/status
+  - sqldatabases/status
   verbs:
   - get
   - patch
@@ -188,15 +262,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - sqlfirewallrules/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - sqlservers
+  - deployments
   verbs:
   - create
   - delete
@@ -205,10 +271,3 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - events
-  verbs:
-  - create
-  - patch

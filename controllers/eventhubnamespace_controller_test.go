@@ -38,6 +38,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
+		rgName = resourceGroupName
 
 	})
 
