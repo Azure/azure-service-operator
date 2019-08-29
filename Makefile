@@ -1,4 +1,13 @@
 # Image URL to use all building/pushing image targets
+
+
+# Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
+ifeq (,$(shell go env GOBIN))
+GOBIN=$(shell go env GOPATH)/bin
+else
+GOBIN=$(shell go env GOBIN)
+endif
+
 IMG ?= controller:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
@@ -70,6 +79,9 @@ docker-build:
 docker-push:
 	docker push ${IMG}
 
+# Build and Push the docker image
+build-and-push: docker-build docker-push
+
 # find or download controller-gen
 # download controller-gen if necessary
 controller-gen:
@@ -79,6 +91,14 @@ CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
+
+.PHONY: install-bindata
+install-bindata:
+	go get -u github.com/jteeuwen/go-bindata/...
+
+.PHONE:
+generate-template:
+	go-bindata -pkg template -prefix pkg/template/assets/ -o pkg/template/templates.go pkg/template/assets/
 
 create-kindcluster:
 ifeq (,$(shell kind get clusters))
