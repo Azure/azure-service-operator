@@ -12,7 +12,7 @@ test: generate fmt vet manifests
 	go tool cover -html=coverage.txt -o cover.html
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/... 2>&1 | tee testlogs-existing.txt
+	TEST_USE_EXISTING_CLUSTER=true go test -test.parallel 3 -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/... 2>&1 | tee testlogs-existing.txt
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
 
@@ -32,6 +32,13 @@ install: manifests
 deploy: manifests
 	kubectl apply -f config/crd/bases
 	kustomize build config/default | kubectl apply -f -
+
+update:
+	IMG="docker.io/controllertest:1" make ARGS="${ARGS}" docker-build
+	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+	make install
+	make deploy
+	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
 delete:
 	kubectl delete -f config/crd/bases
@@ -55,7 +62,7 @@ generate: controller-gen
 
 # Build the docker image
 docker-build: 
-	docker build . -t ${IMG}
+	docker build . -t ${IMG} ${ARGS}
 	@echo "updating kustomize image patch file for manager resource"
 	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
 
