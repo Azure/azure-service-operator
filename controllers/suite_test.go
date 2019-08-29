@@ -27,6 +27,8 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
@@ -81,11 +83,11 @@ var tc testContext
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-controller"
+	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
 	resourcegroupLocation = "westus"
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns"
-	eventhubName = "t-eh-dev-sample"
+	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
+	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
 	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",

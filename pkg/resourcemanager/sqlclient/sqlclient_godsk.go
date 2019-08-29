@@ -12,7 +12,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
@@ -250,4 +249,15 @@ func (sdk GoSDKClient) IsAsyncNotCompleted(err error) (result bool) {
 		result = true
 	}
 	return result
+}
+
+// GetServer returns a server
+func (sdk GoSDKClient) GetServer(rgroup, name string) (sql.Server, error) {
+	serversClient := getGoServersClient()
+
+	return serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
 }
