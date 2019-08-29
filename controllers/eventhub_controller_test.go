@@ -193,7 +193,7 @@ var _ = Describe("EventHub Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.EventhubSpec{
-					Location:      "westus",
+					Location:      rgLocation,
 					Namespace:     ehnName,
 					ResourceGroup: rgName,
 					Properties: azurev1.EventhubProperties{
@@ -252,11 +252,16 @@ var _ = Describe("EventHub Controller", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			//get secret from k8s
-			secret := &v1.Secret{}
-			err = k8sClient.Get(context.Background(), types.NamespacedName{Name: secretName, Namespace: eventhubInstance.Namespace}, secret)
-			Expect(err).NotTo(HaveOccurred())
-			Expect(secret.Data).To(Equal(csecret.Data))
-			Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
+			secret := v1.Secret{}
+			Eventually(func() bool {
+				err = k8sClient.Get(context.Background(), types.NamespacedName{Name: secretName, Namespace: eventhubInstance.Namespace}, &secret)
+				if err != nil {
+					return false
+				}
+				Expect(secret.Data).To(Equal(csecret.Data))
+				Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
+				return true
+			}, 60).Should(BeTrue())
 
 			k8sClient.Delete(context.Background(), eventhubInstance)
 			Eventually(func() bool {
