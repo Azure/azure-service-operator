@@ -76,12 +76,12 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 	log.Info("Getting CosmosDB Account", "CosmosDB.Namespace", instance.Namespace, "CosmosDB.Name", instance.Name)
-	log.V(1).Info("Describing CosmosDB Account", "CosmosDB", instance)	
+	log.V(1).Info("Describing CosmosDB Account", "CosmosDB", instance)
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, cosmosDBFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete CosmosDB failed with ", err.Error())
+				log.Info("Error", "Delete CosmosDB failed with ", err)
 				return ctrl.Result{}, err
 			}
 
@@ -95,7 +95,7 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !helpers.HasFinalizer(&instance, cosmosDBFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding cosmosDB finalizer failed with ", err.Error())
+			log.Info("Error", "Adding cosmosDB finalizer failed with ", err)
 			return ctrl.Result{}, err
 		}
 	}
@@ -194,10 +194,10 @@ func (r *CosmosDBReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-/* Below code was from prior to refactor.  
+/* Below code was from prior to refactor.
    Left here for future reference for pulling out values post deployment.
-   
-   
+
+
 func (r *CosmosDBReconciler) updateStatus(req ctrl.Request, resourceGroupName, deploymentName, provisioningState string, outputs interface{}) (*servicev1alpha1.CosmosDB, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("cosmosdb", req.NamespacedName)

@@ -83,7 +83,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, storageFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete Storage failed with ", err.Error())
+				log.Info("Error", "Delete Storage failed with ", err)
 				return ctrl.Result{}, err
 			}
 
@@ -97,7 +97,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !helpers.HasFinalizer(&instance, storageFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding storage finalizer failed with ", err.Error())
+			log.Info("Error", "Adding storage finalizer failed with ", err)
 			return ctrl.Result{}, err
 		}
 	}
@@ -198,7 +198,7 @@ func (r *StorageReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-/* Below code was from prior to refactor. 
+/* Below code was from prior to refactor.
    Left here for future reference for pulling out values post deployment.
 
 func (r *StorageReconciler) updateStatus(req ctrl.Request, resourceGroupName, deploymentName, provisioningState string, outputs interface{}) (*servicev1alpha1.Storage, error) {

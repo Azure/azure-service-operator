@@ -80,7 +80,7 @@ func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, redisCacheFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete Redis Cache failed with ", err.Error())
+				log.Info("Error", "Delete Redis Cache failed with ", err)
 				return ctrl.Result{}, err
 			}
 
@@ -94,7 +94,7 @@ func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 
 	if !helpers.HasFinalizer(&instance, redisCacheFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding redis cache finalizer failed with ", err.Error())
+			log.Info("Error", "Adding redis cache finalizer failed with ", err)
 			return ctrl.Result{}, err
 		}
 	}
@@ -193,7 +193,7 @@ func (r *RedisCacheReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-/* Below code was from prior to refactor. 
+/* Below code was from prior to refactor.
 Left here for future reference for pulling out values post deployment.
 
 func (r *RedisCacheReconciler) updateStatus(req ctrl.Request, resourceGroupName, deploymentName, provisioningState string, outputs interface{}) (*servicev1alpha1.RedisCache, error) {
