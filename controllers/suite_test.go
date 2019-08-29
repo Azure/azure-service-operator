@@ -45,7 +45,9 @@ import (
 
 var cfg *rest.Config
 var k8sClient client.Client
+
 var k8sManager ctrl.Manager
+
 var testEnv *envtest.Environment
 var resourceGroupName string
 var resourcegroupLocation string
@@ -71,6 +73,9 @@ var _ = BeforeSuite(func(done Done) {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	By("bootstrapping test environment")
+	testEnv = &envtest.Environment{
+		CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
+	}
 
 	if os.Getenv("TEST_USE_EXISTING_CLUSTER") == "true" {
 		t := true
@@ -141,8 +146,10 @@ var _ = BeforeSuite(func(done Done) {
 		Expect(err).ToNot(HaveOccurred())
 	}()
 
-	k8sClient = k8sManager.GetClient()
-	Expect(k8sClient).ToNot(BeNil())
+	//k8sClient = k8sManager.GetClient()
+	k8sClient, err = client.New(cfg, client.Options{Scheme: scheme.Scheme})
+	Expect(err).ToNot(HaveOccurred())
+	//Expect(k8sClient).ToNot(BeNil())
 
 	// Create the Resourcegroup resource
 	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
@@ -162,6 +169,7 @@ var _ = BeforeSuite(func(done Done) {
 var _ = AfterSuite(func(done Done) {
 	//clean up the resources created for test
 
+	//clean up the resources created for test
 	By("tearing down the test environment")
 
 	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
