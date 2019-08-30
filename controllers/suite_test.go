@@ -19,7 +19,6 @@ import (
 	"context"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
-	"github.com/Azure/go-autorest/autorest/to"
 	"os"
 	"path/filepath"
 	"testing"
@@ -172,8 +171,8 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 
 	// Create the Storage Account and Container
 	_, err = storages.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1.StorageSku{
-		Name: "StandardLRS",
-	}, "Storage", map[string]*string{}, "Hot", to.BoolPtr(false))
+		Name: "Standard_LRS",
+	}, "Storage", map[string]*string{}, "", nil)
 
 	_, err = storages.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
 

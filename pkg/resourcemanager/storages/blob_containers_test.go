@@ -21,7 +21,6 @@ import (
 	apiv1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"time"
@@ -37,8 +36,8 @@ var _ = Describe("Blob Container", func() {
 		storageLocation := config.DefaultLocation()
 		// Add any setup steps that needs to be executed before each test
 		_, _ = CreateStorage(context.Background(), resourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
-			Name: "StandardLRS",
-		}, "Storage", map[string]*string{}, "Hot", to.BoolPtr(false))
+			Name: "Standard_LRS",
+		}, "Storage", map[string]*string{}, "", nil)
 	})
 
 	AfterEach(func() {

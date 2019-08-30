@@ -36,7 +36,6 @@ func CreateStorage(ctx context.Context, groupName string,
 	enableHTTPsTrafficOnly *bool) (storage.Account, error) {
 	storagesClient := getStoragesClient()
 
-	log.Println("Storage:AccountName" + storageAccountName)
 	storageType := "Microsoft.Storage/storageAccounts"
 	checkAccountParams := storage.AccountCheckNameAvailabilityParameters{Name: &storageAccountName, Type: &storageType}
 	result, err := storagesClient.CheckNameAvailability(ctx, checkAccountParams)
@@ -67,6 +66,12 @@ func CreateStorage(ctx context.Context, groupName string,
 
 	log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
 	future, err := storagesClient.Create(ctx, groupName, storageAccountName, params)
+
+	err = future.WaitForCompletionRef(ctx, storagesClient.Client)
+	if err != nil {
+		return storage.Account{}, err
+	}
+
 	return future.Result(storagesClient)
 }
 

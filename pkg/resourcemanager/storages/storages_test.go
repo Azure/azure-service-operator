@@ -54,8 +54,8 @@ var _ = Describe("Storage Account", func() {
 			var err error
 
 			_, err = CreateStorage(context.Background(), resourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
-				Name: "StandardLRS",
-			}, "Storage", map[string]*string{}, "Hot", to.BoolPtr(false))
+				Name: "Standard_LRS",
+			}, "Storage", map[string]*string{}, "", to.BoolPtr(false))
 
 			Expect(err).NotTo(HaveOccurred())
 
