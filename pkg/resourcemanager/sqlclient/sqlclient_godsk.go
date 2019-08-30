@@ -64,7 +64,7 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (
 		sdk.ResourceGroupName,
 		sdk.ServerName,
 		sql.Server{
-			Location:         to.StringPtr(config.Location()),
+			Location:         to.StringPtr(sdk.Location),
 			ServerProperties: &serverProp,
 		})
 	if err != nil {
@@ -257,7 +257,7 @@ func (sdk GoSDKClient) GetServer(rgroup, name string) (sql.Server, error) {
 
 	return serversClient.Get(
 		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
+		rgroup,
+		name,
 	)
 }
