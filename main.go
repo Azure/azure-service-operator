@@ -17,7 +17,7 @@ package main
 
 import (
 	"flag"
-	
+
 	"k8s.io/apimachinery/pkg/runtime"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"

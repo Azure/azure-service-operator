@@ -7,6 +7,69 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
+  - service.azure
+  resources:
+  - rediscaches/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - service.azure
+  resources:
+  - storages
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - consumergroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - service.azure
+  resources:
+  - cosmosdbs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
   - azure.microsoft.com
   resources:
   - keyvaults
@@ -39,16 +102,9 @@ rules:
   - patch
   - update
 - apiGroups:
-  - ""
+  - apps
   resources:
-  - events
-  verbs:
-  - create
-  - watch
-- apiGroups:
-  - service.azure
-  resources:
-  - cosmosdbs
+  - deployments
   verbs:
   - create
   - delete
@@ -57,6 +113,14 @@ rules:
   - patch
   - update
   - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - consumergroups/status
+  verbs:
+  - get
+  - patch
+  - update
 - apiGroups:
   - service.azure
   resources:
@@ -78,9 +142,9 @@ rules:
   - update
   - watch
 - apiGroups:
-  - apps
+  - azure.microsoft.com
   resources:
-  - deployments
+  - resourcegroups
   verbs:
   - create
   - delete
@@ -89,38 +153,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - consumergroups/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubs/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - service.azure
-  resources:
-  - rediscaches/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - service.azure
-  resources:
-  - storages/status
-  verbs:
-  - get
-  - patch
-  - update
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -131,15 +163,11 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - consumergroups
+  - eventhubs/status
   verbs:
-  - create
-  - delete
   - get
-  - list
   - patch
   - update
-  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -155,31 +183,15 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - resourcegroups
+  - keyvaults/status
   verbs:
-  - create
-  - delete
   - get
-  - list
   - patch
   - update
-  - watch
 - apiGroups:
-  - ""
+  - service.azure
   resources:
-  - secrets
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - apps
-  resources:
-  - deployments/status
+  - storages/status
   verbs:
   - get
   - patch
@@ -193,22 +205,10 @@ rules:
   - patch
   - update
 - apiGroups:
-  - azure.microsoft.com
+  - apps
   resources:
-  - keyvaults/status
+  - deployments/status
   verbs:
   - get
   - patch
   - update
-- apiGroups:
-  - service.azure
-  resources:
-  - storages
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch

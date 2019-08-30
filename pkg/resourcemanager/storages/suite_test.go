@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package storage
+package storages
 
 import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -53,7 +53,7 @@ func TestAPIs(t *testing.T) {
 	RunSpecs(t, "Storage Suite")
 }
 
-var _ = BeforeSuite(func(done Done) {
+var _ = SynchronizedBeforeSuite(func() []byte {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	By("bootstrapping test environment")
@@ -67,14 +67,12 @@ var _ = BeforeSuite(func(done Done) {
 		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
 	}
 
-	close(done)
-}, 60)
+	return []byte{}
+}, func(r []byte) {}, 60)
 
-var _ = AfterSuite(func(done Done) {
+var _ = SynchronizedAfterSuite(func() {}, func() {
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
 	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
-
-	close(done)
 }, 60)

@@ -14,28 +14,36 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package storage
+package storages
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"time"
-
+	apiv1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"time"
 )
 
-var _ = Describe("Storage Account", func() {
+var _ = Describe("Blob Container", func() {
 
 	const timeout = time.Second * 180
 
+	var storageAccountName = "tsadevsc" + helpers.RandomString(10)
+
 	BeforeEach(func() {
+		storageLocation := config.DefaultLocation()
 		// Add any setup steps that needs to be executed before each test
+		_, _ = CreateStorage(context.Background(), resourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
+			Name: "StandardLRS",
+		}, "Storage", map[string]*string{}, "Hot", to.BoolPtr(false))
 	})
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
+		_, _ = DeleteStorage(context.Background(), resourceGroupName, storageAccountName)
 	})
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
@@ -44,27 +52,26 @@ var _ = Describe("Storage Account", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		It("should create and delete storage account in azure", func() {
-
-			storageAccountName := "tdevsa" + helpers.RandomString(10)
-			storageLocation := config.DefaultLocation()
+		It("should create and delete blob container in azure", func() {
 
 			var err error
 
-			_, err = CreateStorageAccountAndWait(context.Background(), resourceGroupName, storageAccountName, "Storage", storageLocation)
+			containerName := "t-dev-bc-" + helpers.RandomString(10)
+
+			_, err = CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, containerName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetStorageAccount(context.Background(), resourceGroupName, storageAccountName)
+				result, _ := GetBlobContainer(context.Background(), resourceGroupName, storageAccountName, containerName)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteStorageAccount(context.Background(), resourceGroupName, storageAccountName)
+			_, err = DeleteBlobContainer(context.Background(), resourceGroupName, storageAccountName, containerName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetStorageAccount(context.Background(), resourceGroupName, storageAccountName)
+				result, _ := GetBlobContainer(context.Background(), resourceGroupName, storageAccountName, containerName)
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())

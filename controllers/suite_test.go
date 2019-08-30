@@ -17,7 +17,9 @@ package controllers
 
 import (
 	"context"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	"github.com/Azure/go-autorest/autorest/to"
 	"os"
 	"path/filepath"
 	"testing"
@@ -26,7 +28,6 @@ import (
 	resoucegroupsconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	storagemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storage"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -170,8 +171,11 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
 
 	// Create the Storage Account and Container
-	_, err = storagemanager.CreateStorageAccountAndWait(context.Background(), resourceGroupName, storageAccountName, "Storage", resourcegroupLocation)
-	_, err = storagemanager.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
+	_, err = storages.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1.StorageSku{
+		Name: "StandardLRS",
+	}, "Storage", map[string]*string{}, "Hot", to.BoolPtr(false))
+
+	_, err = storages.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
 
 	return []byte{}
 }, func(r []byte) {}, 120)
