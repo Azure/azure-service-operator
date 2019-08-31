@@ -16,9 +16,14 @@ limitations under the License.
 package controllers
 
 import (
+	"bytes"
 	"context"
+	"encoding/gob"
+	"fmt"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	"k8s.io/client-go/rest"
+	"log"
 	"os"
 	"path/filepath"
 	"testing"
@@ -31,7 +36,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"k8s.io/client-go/kubernetes/scheme"
-	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
@@ -43,19 +47,21 @@ import (
 // These tests use Ginkgo (BDD-style Go testing framework). Refer to
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
-var cfg *rest.Config
-var k8sClient client.Client
-
-var k8sManager ctrl.Manager
-
 var testEnv *envtest.Environment
-var resourceGroupName string
-var resourcegroupLocation string
-var eventhubNamespaceName string
-var eventhubName string
-var namespaceLocation string
-var storageAccountName string
-var blobContainerName string
+
+type TestContext struct {
+	Cfg                   rest.Config
+	K8sClient             client.Client
+	ResourceGroupName     string
+	ResourcegroupLocation string
+	EventhubNamespaceName string
+	EventhubName          string
+	NamespaceLocation     string
+	StorageAccountName    string
+	BlobContainerName     string
+}
+
+var tc TestContext
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
@@ -70,16 +76,17 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	resoucegroupsconfig.ParseEnvironment()
-	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
-	resourcegroupLocation = resoucegroupsconfig.DefaultLocation()
+	resourceGroupName := "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourcegroupLocation := resoucegroupsconfig.DefaultLocation()
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
-	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
-	namespaceLocation = resoucegroupsconfig.DefaultLocation()
+	eventhubNamespaceName := "t-ns-dev-eh-ns-" + helpers.RandomString(10)
+	eventhubName := "t-eh-dev-sample-" + helpers.RandomString(10)
+	namespaceLocation := resoucegroupsconfig.DefaultLocation()
 
-	storageAccountName = "tsadeveh" + helpers.RandomString(10)
-	blobContainerName = "t-bc-dev-eh-" + helpers.RandomString(10)
+	storageAccountName := "tsadeveh" + helpers.RandomString(10)
+	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
 
+	log.Println(fmt.Sprintf("common test setup"))
 	By("bootstrapping test environment")
 	testEnv = &envtest.Environment{
 		CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
@@ -112,6 +119,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
+	var k8sManager ctrl.Manager
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
@@ -153,9 +161,10 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	}()
 
 	//k8sClient = k8sManager.GetClient()
-	k8sClient, err = client.New(cfg, client.Options{Scheme: scheme.Scheme})
+	k8sClient, _ := client.New(cfg, client.Options{Scheme: scheme.Scheme})
 	Expect(err).ToNot(HaveOccurred())
-	//Expect(k8sClient).ToNot(BeNil())
+	Expect(k8sClient).ToNot(BeNil())
+	log.Println("k8sClient:\n ", k8sClient)
 
 	// Create the Resourcegroup resource
 	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
@@ -176,18 +185,65 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 
 	_, err = storages.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
 
-	return []byte{}
-}, func(r []byte) {}, 120)
+	tc := TestContext{
+		Cfg:                   *cfg,
+		ResourceGroupName:     resourceGroupName,
+		ResourcegroupLocation: resourcegroupLocation,
+		EventhubNamespaceName: eventhubNamespaceName,
+		EventhubName:          eventhubName,
+		NamespaceLocation:     namespaceLocation,
+		StorageAccountName:    storageAccountName,
+		BlobContainerName:     blobContainerName,
+	}
+	bytes, _ := toByteArray(&tc)
 
-var _ = SynchronizedAfterSuite(func() {}, func() {
+	return bytes
+}, func(r []byte) {
+	log.Println(fmt.Sprintf("per parallel process test setup"))
+	_ = fromByteArray(r, &tc)
+
+	//k8sClient = k8sManager.GetClient()
+	k8sClient, err := client.New(&tc.Cfg, client.Options{Scheme: scheme.Scheme})
+	Expect(err).ToNot(HaveOccurred())
+	log.Println("k8sClient:\n ", k8sClient)
+
+	tc.K8sClient = k8sClient
+
+}, 120)
+
+var _ = SynchronizedAfterSuite(func() {
+	log.Println(fmt.Sprintf("per parallel process test teardown"))
+}, func() {
 	//clean up the resources created for test
+	log.Println(fmt.Sprintf("common test teardown"))
 
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
 	// delete the resource group and contained resources
-	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
+	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), tc.ResourceGroupName)
 
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
 }, 60)
+
+func toByteArray(x interface{}) ([]byte, error) {
+	var buffer bytes.Buffer
+	// Stand-in for a buffer connection
+	enc := gob.NewEncoder(&buffer)
+	// Will write to buffer.
+	err := enc.Encode(x)
+	if err != nil {
+		return []byte{}, err
+	}
+	return buffer.Bytes(), err
+}
+
+func fromByteArray(r []byte, x interface{}) error {
+	var buffer bytes.Buffer
+	// Stand-in for a buffer connection
+	dec := gob.NewDecoder(&buffer)
+	// Will write to buffer.
+	buffer.Write(r)
+	return dec.Decode(x)
+}
