@@ -9,7 +9,7 @@ spec:
   properties:
     messageretentionindays: 7
     partitioncount: 1
-  authorizationrule: 
+  authorizationrule:
     name : "RootManageSharedAccessKey"
     rights: 
       - "Listen"
