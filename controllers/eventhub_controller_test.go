@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"context"
+	"log"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
@@ -35,7 +36,7 @@ import (
 
 var _ = Describe("EventHub Controller", func() {
 
-	const timeout = time.Second * 240
+	const timeout = time.Second * 60
 
 	var rgName string
 	var rgLocation string
@@ -329,6 +330,8 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				hub, _ := eventhubsmanager.GetHub(context.Background(), rgName, ehnName, eventHubName)
+				log.Println(rgName, ehnName, eventHubName)
+				log.Println(hub)
 				if hub.Properties == nil || hub.CaptureDescription == nil || hub.CaptureDescription.Enabled == nil {
 					return false
 				}
