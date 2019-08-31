@@ -421,6 +421,67 @@ spec:
             properties:
               description: EventhubProperties defines the namespace properties
               properties:
+                capturedescription:
+                  description: CaptureDescription - Details specifying EventHub capture
+                    to persistent storage
+                  properties:
+                    destination:
+                      description: Destination - Resource id of the storage account
+                        to be used to create the blobs
+                      properties:
+                        archivenameformat:
+                          description: ArchiveNameFormat - Blob naming convention
+                            for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}.
+                            Here all the parameters (Namespace,EventHub .. etc) are
+                            mandatory irrespective of order
+                          type: string
+                        blobcontainer:
+                          description: BlobContainer - Blob container Name
+                          type: string
+                        name:
+                          description: Name - Name for capture destination
+                          enum:
+                          - EventHubArchive.AzureBlockBlob
+                          - EventHubArchive.AzureDataLake
+                          type: string
+                        storageaccount:
+                          description: StorageAccount - Details of the storage account
+                          properties:
+                            accountname:
+                              description: AccountName - Name of the storage account
+                              maxLength: 24
+                              minLength: 3
+                              pattern: ^[a-z0-9]+$
+                              type: string
+                            resourcegroup:
+                              description: ResourceGroup - Name of the storage account
+                                resource group
+                              pattern: ^[-\w\._\(\)]+$
+                              type: string
+                          type: object
+                      type: object
+                    enabled:
+                      description: Enabled - indicates whether capture is enabled
+                      type: boolean
+                    intervalinseconds:
+                      description: IntervalInSeconds - The time window allows you
+                        to set the frequency with which the capture to Azure Blobs
+                        will happen
+                      format: int32
+                      maximum: 900
+                      minimum: 60
+                      type: integer
+                    sizelimitinbytes:
+                      description: SizeLimitInBytes - The size window defines the
+                        amount of data built up in your Event Hub before an capture
+                        operation
+                      format: int32
+                      maximum: 524288000
+                      minimum: 10485760
+                      type: integer
+                  required:
+                  - enabled
+                  type: object
                 messageretentionindays:
                   description: MessageRetentionInDays - Number of days to retain the
                     events for this Event Hub, value should be 1 to 7 days

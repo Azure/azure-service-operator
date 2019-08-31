@@ -46,9 +46,6 @@ func TestAPIs(t *testing.T) {
 		t.Skip("skipping Resource Manager Eventhubs Suite")
 	}
 	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-rm-eh-" + helpers.RandomString(10)
-	resourcegroupLocation = "westus"
-
 	RunSpecs(t, "Eventhubs Suite")
 }
 
@@ -57,7 +54,9 @@ var _ = BeforeSuite(func(done Done) {
 
 	By("bootstrapping test environment")
 
-	resourcemanagerconfig.LoadSettings()
+	resourcemanagerconfig.ParseEnvironment()
+	resourceGroupName = "t-rg-dev-rm-eh-" + helpers.RandomString(10)
+	resourcegroupLocation = resourcemanagerconfig.DefaultLocation()
 
 	//create resourcegroup for this suite
 	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
