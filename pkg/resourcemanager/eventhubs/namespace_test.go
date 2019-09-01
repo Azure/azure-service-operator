@@ -66,7 +66,7 @@ var _ = Describe("Namespace", func() {
 
 			Eventually(func() bool {
 				result, _ := GetNamespace(context.Background(), rgName, eventhubNamespaceName)
-				return result.Response.StatusCode == 404
+				return result.Response.StatusCode == 404 || *result.ProvisioningState == "Deleting"
 			}, timeout,
 			).Should(BeTrue())
 

@@ -107,6 +107,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	Expect(err).ToNot(HaveOccurred())
 	Expect(cfg).ToNot(BeNil())
 
+	// not sure why there are four of these
 	err = v1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
