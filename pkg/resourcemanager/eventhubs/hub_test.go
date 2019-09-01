@@ -26,7 +26,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = FDescribe("Eventhub", func() {
+var _ = Describe("Eventhub", func() {
 
 	const timeout = time.Second * 240
 	var rgName string
