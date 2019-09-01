@@ -82,6 +82,7 @@ steps:
     go get github.com/AlekSi/gocov-xml
     go get -u gopkg.in/matm/v1/gocov-html
     go get golang.org/x/tools/cmd/cover
+    go get github.com/onsi/ginkgo/ginkgo
     make test
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml

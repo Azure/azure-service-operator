@@ -18,7 +18,7 @@ require (
 	github.com/google/gofuzz v1.0.0 // indirect
 	github.com/googleapis/gnostic v0.3.0 // indirect
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
-	github.com/onsi/ginkgo v1.8.0
+	github.com/onsi/ginkgo v1.10.1
 	github.com/onsi/gomega v1.5.0
 	github.com/satori/go.uuid v1.2.0
 	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8 // indirect
