@@ -29,7 +29,7 @@ type EventhubNamespaceResource struct {
 	Location          string                      `json:"location"`
 	Sku               EventhubNamespaceSku        `json:"sku,omitempty"`
 	Properties        EventhubNamespaceProperties `json:"properties,omitempty"`
-	ResourceGroupName string                      `json:"resourcegroup,omitempty"`
+	ResourceGroupName string                      `json:"resourceGroup,omitempty"`
 }
 
 // EventhubSpec defines the desired state of Eventhub
@@ -39,10 +39,10 @@ type EventhubSpec struct {
 	Location          string                    `json:"location"`
 	Namespace         string                    `json:"namespace,omitempty"`
 	Properties        EventhubProperties        `json:"properties,omitempty"`
-	ResourceGroup     string                    `json:"resourcegroup,omitempty"`
-	AuthorizationRule EventhubAuthorizationRule `json:"authorizationrule,omitempty"`
+	ResourceGroup     string                    `json:"resourceGroup,omitempty"`
+	AuthorizationRule EventhubAuthorizationRule `json:"authorizationRule,omitempty"`
 	// SecretName - Used to specify the name of the secret. Defaults to Event Hub name if omitted.
-	SecretName string `json:"secretname,omitempty"`
+	SecretName string `json:"secretName,omitempty"`
 }
 
 // EventhubStatus defines the observed state of Eventhub
@@ -66,11 +66,11 @@ type EventhubProperties struct {
 	// +kubebuilder:validation:Maximum=7
 	// +kubebuilder:validation:Minimum=1
 	// MessageRetentionInDays - Number of days to retain the events for this Event Hub, value should be 1 to 7 days
-	MessageRetentionInDays int32 `json:"messageretentionindays,omitempty"`
+	MessageRetentionInDays int32 `json:"messageRetentionInDays,omitempty"`
 	// +kubebuilder:validation:Maximum=32
 	// +kubebuilder:validation:Minimum=1
 	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
-	PartitionCount int32 `json:"partitioncount,omitempty"`
+	PartitionCount int32 `json:"partitionCount,omitempty"`
 }
 
 // +kubebuilder:object:root=true
