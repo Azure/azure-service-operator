@@ -64,15 +64,11 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - keyvaults
+  - eventhubnamespaces/status
   verbs:
-  - create
-  - delete
   - get
-  - list
   - patch
   - update
-  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -93,6 +89,13 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - patch
 - apiGroups:
   - apps
   resources:
@@ -194,11 +197,6 @@ rules:
   - storages
   verbs:
   - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
   - watch
 - apiGroups:
   - ""

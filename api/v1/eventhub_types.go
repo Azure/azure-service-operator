@@ -29,7 +29,7 @@ type EventhubNamespaceResource struct {
 	Location          string                      `json:"location"`
 	Sku               EventhubNamespaceSku        `json:"sku,omitempty"`
 	Properties        EventhubNamespaceProperties `json:"properties,omitempty"`
-	ResourceGroupName string                      `json:"resourcegroup,omitempty"`
+	ResourceGroupName string                      `json:"resourceGroup,omitempty"`
 }
 
 // EventhubSpec defines the desired state of Eventhub
@@ -39,10 +39,10 @@ type EventhubSpec struct {
 	Location          string                    `json:"location"`
 	Namespace         string                    `json:"namespace,omitempty"`
 	Properties        EventhubProperties        `json:"properties,omitempty"`
-	ResourceGroup     string                    `json:"resourcegroup,omitempty"`
-	AuthorizationRule EventhubAuthorizationRule `json:"authorizationrule,omitempty"`
+	ResourceGroup     string                    `json:"resourceGroup,omitempty"`
+	AuthorizationRule EventhubAuthorizationRule `json:"authorizationRule,omitempty"`
 	// SecretName - Used to specify the name of the secret. Defaults to Event Hub name if omitted.
-	SecretName string `json:"secretname,omitempty"`
+	SecretName string `json:"secretName,omitempty"`
 }
 
 // EventhubStatus defines the observed state of Eventhub
@@ -64,25 +64,25 @@ type EventhubAuthorizationRule struct {
 type StorageAccount struct {
 	// ResourceGroup - Name of the storage account resource group
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
-	ResourceGroup string `json:"resourcegroup,omitempty"`
+	ResourceGroup string `json:"resourceGroup,omitempty"`
 	// AccountName - Name of the storage account
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
 	// +kubebuilder:validation:Pattern=^[a-z0-9]+$
-	AccountName string `json:"accountname,omitempty"`
+	AccountName string `json:"accountName,omitempty"`
 }
 
 //Destination for capture (blob storage etc)
 type Destination struct {
 	// ArchiveNameFormat - Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order
-	ArchiveNameFormat string `json:"archivenameformat,omitempty"`
+	ArchiveNameFormat string `json:"archiveNameFormat,omitempty"`
 	// BlobContainer - Blob container Name
-	BlobContainer string `json:"blobcontainer,omitempty"`
+	BlobContainer string `json:"blobContainer,omitempty"`
 	// Name - Name for capture destination
 	// +kubebuilder:validation:Enum=EventHubArchive.AzureBlockBlob;EventHubArchive.AzureDataLake
 	Name string `json:"name,omitempty"`
 	// StorageAccount - Details of the storage account
-	StorageAccount StorageAccount `json:"storageaccount,omitempty"`
+	StorageAccount StorageAccount `json:"storageAccount,omitempty"`
 }
 
 //CaptureDescription defines the properties required for eventhub capture
@@ -94,11 +94,11 @@ type CaptureDescription struct {
 	// SizeLimitInBytes - The size window defines the amount of data built up in your Event Hub before an capture operation
 	// +kubebuilder:validation:Maximum=524288000
 	// +kubebuilder:validation:Minimum=10485760
-	SizeLimitInBytes int32 `json:"sizelimitinbytes,omitempty"`
+	SizeLimitInBytes int32 `json:"sizeLimitInBytes,omitempty"`
 	// IntervalInSeconds - The time window allows you to set the frequency with which the capture to Azure Blobs will happen
 	// +kubebuilder:validation:Maximum=900
 	// +kubebuilder:validation:Minimum=60
-	IntervalInSeconds int32 `json:"intervalinseconds,omitempty"`
+	IntervalInSeconds int32 `json:"intervalInSeconds,omitempty"`
 }
 
 //EventhubProperties defines the namespace properties
@@ -106,13 +106,13 @@ type EventhubProperties struct {
 	// +kubebuilder:validation:Maximum=7
 	// +kubebuilder:validation:Minimum=1
 	// MessageRetentionInDays - Number of days to retain the events for this Event Hub, value should be 1 to 7 days
-	MessageRetentionInDays int32 `json:"messageretentionindays,omitempty"`
+	MessageRetentionInDays int32 `json:"messageRetentionInDays,omitempty"`
 	// +kubebuilder:validation:Maximum=32
 	// +kubebuilder:validation:Minimum=1
 	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
-	PartitionCount int32 `json:"partitioncount,omitempty"`
+	PartitionCount int32 `json:"partitionCount,omitempty"`
 	// CaptureDescription - Details specifying EventHub capture to persistent storage
-	CaptureDescription CaptureDescription `json:"capturedescription,omitempty"`
+	CaptureDescription CaptureDescription `json:"captureDescription,omitempty"`
 }
 
 // +kubebuilder:object:root=true
