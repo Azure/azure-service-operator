@@ -16,9 +16,7 @@ limitations under the License.
 package controllers
 
 import (
-	"bytes"
 	"context"
-	"encoding/gob"
 	"fmt"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
@@ -29,7 +27,7 @@ import (
 	"testing"
 
 	v1 "github.com/Azure/azure-service-operator/api/v1"
-	resoucegroupsconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
@@ -74,19 +72,19 @@ func TestAPIs(t *testing.T) {
 
 var _ = SynchronizedBeforeSuite(func() []byte {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
+	log.Println(fmt.Sprintf("Starting common controller test setup"))
 
-	resoucegroupsconfig.ParseEnvironment()
+	resourcemanagerconfig.ParseEnvironment()
 	resourceGroupName := "t-rg-dev-controller-" + helpers.RandomString(10)
-	resourcegroupLocation := resoucegroupsconfig.DefaultLocation()
+	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
 
 	eventhubNamespaceName := "t-ns-dev-eh-ns-" + helpers.RandomString(10)
 	eventhubName := "t-eh-dev-sample-" + helpers.RandomString(10)
-	namespaceLocation := resoucegroupsconfig.DefaultLocation()
+	namespaceLocation := resourcemanagerconfig.DefaultLocation()
 
 	storageAccountName := "tsadeveh" + helpers.RandomString(10)
 	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
 
-	log.Println(fmt.Sprintf("common test setup"))
 	By("bootstrapping test environment")
 	testEnv = &envtest.Environment{
 		CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
@@ -195,16 +193,18 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 		StorageAccountName:    storageAccountName,
 		BlobContainerName:     blobContainerName,
 	}
-	bytes, _ := toByteArray(&tc)
+	bytes, err := helpers.ToByteArray(&tc)
 
+	log.Println(fmt.Sprintf("Completed common controller test setup"))
 	return bytes
 }, func(r []byte) {
-	log.Println(fmt.Sprintf("per parallel process test setup"))
-	resoucegroupsconfig.ParseEnvironment()
+	resourcemanagerconfig.ParseEnvironment()
 
-	_ = fromByteArray(r, &tc)
+	err := helpers.FromByteArray(r, &tc)
+	Expect(err).ToNot(HaveOccurred())
 
-	_ = v1.AddToScheme(scheme.Scheme)
+	err = v1.AddToScheme(scheme.Scheme)
+	Expect(err).ToNot(HaveOccurred())
 
 	k8sClient, err := client.New(&tc.Cfg, client.Options{Scheme: scheme.Scheme})
 	Expect(err).ToNot(HaveOccurred())
@@ -214,11 +214,8 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 }, 120)
 
 var _ = SynchronizedAfterSuite(func() {
-	log.Println(fmt.Sprintf("per parallel process test teardown"))
 }, func() {
-	//clean up the resources created for test
-	log.Println(fmt.Sprintf("common test teardown"))
-
+	log.Println(fmt.Sprintf("Started common controller test teardown"))
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
@@ -227,25 +224,5 @@ var _ = SynchronizedAfterSuite(func() {
 
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
+	log.Println(fmt.Sprintf("Finished common controller test teardown"))
 }, 60)
-
-func toByteArray(x interface{}) ([]byte, error) {
-	var buffer bytes.Buffer
-	// Stand-in for a buffer connection
-	enc := gob.NewEncoder(&buffer)
-	// Will write to buffer.
-	err := enc.Encode(x)
-	if err != nil {
-		return []byte{}, err
-	}
-	return buffer.Bytes(), err
-}
-
-func fromByteArray(r []byte, x interface{}) error {
-	var buffer bytes.Buffer
-	// Stand-in for a buffer connection
-	dec := gob.NewDecoder(&buffer)
-	// Will write to buffer.
-	buffer.Write(r)
-	return dec.Decode(x)
-}
