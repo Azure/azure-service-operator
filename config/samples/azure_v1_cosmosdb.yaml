@@ -1,0 +1,10 @@
+apiVersion: azure.microsoft.com/v1
+kind: CosmosDB
+metadata:
+  name: cosmosdb-sample1908xyzkj
+spec:
+  kind: GlobalDocumentDB
+  location: westus
+  resourceGroup: resourcegroup-sample-1908
+  properties:
+    databaseAccountOfferType: Standard

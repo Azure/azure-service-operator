@@ -46,7 +46,7 @@ var _ = BeforeSuite(func(done Done) {
 
 	By("bootstrapping test environment")
 
-	resourcemanagerconfig.LoadSettings()
+	resourcemanagerconfig.ParseEnvironment()
 
 	close(done)
 }, 60)

@@ -20,8 +20,9 @@ import (
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-
 	"time"
+
+	eventhubsmanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 
 	. "github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
@@ -37,12 +38,18 @@ var _ = Describe("EventHub Controller", func() {
 	const timeout = time.Second * 240
 
 	var rgName string
+	var rgLocation string
 	var ehnName string
+	var saName string
+	var bcName string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = resourceGroupName
+		rgLocation = resourcegroupLocation
 		ehnName = eventhubNamespaceName
+		saName = storageAccountName
+		bcName = blobContainerName
 	})
 
 	AfterEach(func() {
@@ -186,7 +193,7 @@ var _ = Describe("EventHub Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.EventhubSpec{
-					Location:      "westus",
+					Location:      rgLocation,
 					Namespace:     ehnName,
 					ResourceGroup: rgName,
 					Properties: azurev1.EventhubProperties{
@@ -245,16 +252,94 @@ var _ = Describe("EventHub Controller", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			//get secret from k8s
-			secret := &v1.Secret{}
-			err = k8sClient.Get(context.Background(), types.NamespacedName{Name: secretName, Namespace: eventhubInstance.Namespace}, secret)
-			Expect(err).NotTo(HaveOccurred())
-			Expect(secret.Data).To(Equal(csecret.Data))
-			Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
+			secret := v1.Secret{}
+			Eventually(func() bool {
+				err = k8sClient.Get(context.Background(), types.NamespacedName{Name: secretName, Namespace: eventhubInstance.Namespace}, &secret)
+				if err != nil {
+					return false
+				}
+				Expect(secret.Data).To(Equal(csecret.Data))
+				Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
+				return true
+			}, 60).Should(BeTrue())
 
 			k8sClient.Delete(context.Background(), eventhubInstance)
 			Eventually(func() bool {
 				_ = k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsBeingDeleted()
+			}, timeout,
+			).Should(BeTrue())
+
+		})
+
+		It("should create and delete event hubs with capture", func() {
+
+			eventHubName := "t-eh-" + helpers.RandomString(10)
+
+			var err error
+
+			// Create the EventHub object and expect the Reconcile to be created
+			eventHubInstance := &azurev1.Eventhub{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      eventHubName,
+					Namespace: "default",
+				},
+				Spec: azurev1.EventhubSpec{
+					Location:      rgLocation,
+					Namespace:     ehnName,
+					ResourceGroup: rgName,
+					Properties: azurev1.EventhubProperties{
+						MessageRetentionInDays: 7,
+						PartitionCount:         1,
+						CaptureDescription: azurev1.CaptureDescription{
+							Destination: azurev1.Destination{
+								ArchiveNameFormat: "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
+								BlobContainer:     bcName,
+								Name:              "EventHubArchive.AzureBlockBlob",
+								StorageAccount: azurev1.StorageAccount{
+									ResourceGroup: rgName,
+									AccountName:   saName,
+								},
+							},
+							Enabled:           true,
+							SizeLimitInBytes:  524288000,
+							IntervalInSeconds: 300,
+						},
+					},
+				},
+			}
+
+			err = k8sClient.Create(context.Background(), eventHubInstance)
+			Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			Expect(err).NotTo(HaveOccurred())
+
+			eventHubNamespacedName := types.NamespacedName{Name: eventHubName, Namespace: "default"}
+
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
+				return eventHubInstance.HasFinalizer(eventhubFinalizerName)
+			}, timeout,
+			).Should(BeTrue())
+
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
+				return eventHubInstance.IsSubmitted()
+			}, timeout,
+			).Should(BeTrue())
+
+			Eventually(func() bool {
+				hub, _ := eventhubsmanager.GetHub(context.Background(), rgName, ehnName, eventHubName)
+				if hub.Properties == nil || hub.CaptureDescription == nil || hub.CaptureDescription.Enabled == nil {
+					return false
+				}
+				return *hub.CaptureDescription.Enabled
+			}, timeout,
+			).Should(BeTrue())
+
+			k8sClient.Delete(context.Background(), eventHubInstance)
+			Eventually(func() bool {
+				_ = k8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
+				return eventHubInstance.IsBeingDeleted()
 			}, timeout,
 			).Should(BeTrue())
 

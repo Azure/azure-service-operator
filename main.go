@@ -17,13 +17,14 @@ package main
 
 import (
 	"flag"
-	"os"
+
+	"k8s.io/apimachinery/pkg/runtime"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/controllers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"os"
 
-	"k8s.io/apimachinery/pkg/runtime"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -32,6 +33,10 @@ import (
 )
 
 var (
+	masterURL, kubeconfig, resources, clusterName               string
+	cloudName, tenantID, subscriptionID, clientID, clientSecret string
+	useAADPodIdentity                                           bool
+
 	scheme   = runtime.NewScheme()
 	setupLog = ctrl.Log.WithName("setup")
 )
@@ -68,6 +73,33 @@ func main() {
 	})
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
+		os.Exit(1)
+	}
+
+	err = (&controllers.StorageReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("Storage"),
+		Recorder: mgr.GetEventRecorderFor("Storage-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Storage")
+		os.Exit(1)
+	}
+	err = (&controllers.CosmosDBReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("CosmosDB"),
+		Recorder: mgr.GetEventRecorderFor("CosmosDB-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
+		os.Exit(1)
+	}
+	if err = (&controllers.RedisCacheReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("RedisCache"),
+		Recorder: mgr.GetEventRecorderFor("RedisCache-controller"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
 		os.Exit(1)
 	}
 
@@ -114,10 +146,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
-		os.Exit(1)
-	}
 	err = (&controllers.ConsumerGroupReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
@@ -127,6 +155,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
 		os.Exit(1)
 	}
+
 	if !resourcemanagerconfig.Declarative() {
 		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
 			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
