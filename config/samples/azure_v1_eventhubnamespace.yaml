@@ -4,12 +4,12 @@ metadata:
   name: eventhubnamespace-sample-6
 spec:    
     location: "westus"
-    resourcegroup: "resourcegroup-sample-1907"
+    resourceGroup: "resourcegroup-sample-1907"
     sku:
       name: "Standard"
       tier: "Standard"
       capacity: 1      
     properties:
-      isautoinflateenabled: false
-      maximumthroughputunits: 0
-      kafkaenabled: false
+      isAutoInflateEnabled: false
+      maximumThroughputUnits: 0
+      kafkaEnabled: false
