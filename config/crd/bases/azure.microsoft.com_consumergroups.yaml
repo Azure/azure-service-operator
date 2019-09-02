@@ -399,11 +399,11 @@ spec:
         spec:
           description: ConsumerGroupSpec defines the desired state of ConsumerGroup
           properties:
-            eventhub:
+            eventHub:
               type: string
             namespace:
               type: string
-            resourcegroup:
+            resourceGroup:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
               type: string
