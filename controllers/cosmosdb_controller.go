@@ -52,8 +52,8 @@ type CosmosDBReconciler struct {
 	RequeueTime time.Duration
 }
 
-// +kubebuilder:rbac:groups=service.azure,resources=cosmosdbs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=service.azure,resources=cosmosdbs/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=cosmosdbs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=cosmosdbs/status,verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {

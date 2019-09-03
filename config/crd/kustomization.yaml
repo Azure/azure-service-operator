@@ -2,9 +2,9 @@
 # since it depends on service name and namespace that are out of this kustomize package.
 # It should be run by config/default
 resources:
-- bases/service.azure_storages.yaml
-- bases/service.azure_cosmosdbs.yaml
-- bases/service.azure_rediscaches.yaml
+- bases/azure.microsoft.com_storages.yaml
+- bases/azure.microsoft.com_cosmosdbs.yaml
+- bases/azure.microsoft.com_rediscaches.yaml
 - bases/azure.microsoft.com_eventhubs.yaml
 - bases/azure.microsoft.com_resourcegroups.yaml
 - bases/azure.microsoft.com_eventhubnamespaces.yaml
