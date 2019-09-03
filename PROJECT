@@ -2,13 +2,13 @@ version: "2"
 domain: microsoft.com
 repo: github.com/Azure/azure-service-operator
 resources:
-- group: service
+- group: azure
   version: v1
   kind: Storage
-- group: service
+- group: azure
   version: v1
   kind: CosmosDB
-- group: service
+- group: azure
   version: v1
   kind: RedisCache
 - group: azure

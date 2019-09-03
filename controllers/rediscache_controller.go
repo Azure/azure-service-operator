@@ -52,8 +52,8 @@ type RedisCacheReconciler struct {
 	RequeueTime time.Duration
 }
 
-// +kubebuilder:rbac:groups=service.azure,resources=rediscaches,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=service.azure,resources=rediscaches/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=rediscaches,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=rediscaches/status,verbs=get;update;patch
 
 func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
