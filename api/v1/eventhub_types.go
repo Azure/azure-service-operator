@@ -39,10 +39,10 @@ type EventhubSpec struct {
 	Location          string                    `json:"location"`
 	Namespace         string                    `json:"namespace,omitempty"`
 	Properties        EventhubProperties        `json:"properties,omitempty"`
-	ResourceGroup     string                    `json:"resourceGroup,omitempty"`
-	AuthorizationRule EventhubAuthorizationRule `json:"authorizationRule,omitempty"`
+	ResourceGroup     string                    `json:"resourcegroup,omitempty"`
+	AuthorizationRule EventhubAuthorizationRule `json:"authorizationrule,omitempty"`
 	// SecretName - Used to specify the name of the secret. Defaults to Event Hub name if omitted.
-	SecretName string `json:"secretName,omitempty"`
+	SecretName string `json:"secretname,omitempty"`
 }
 
 // EventhubStatus defines the observed state of Eventhub

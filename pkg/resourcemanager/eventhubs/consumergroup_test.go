@@ -39,13 +39,15 @@ var _ = Describe("ConsumerGroup", func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = resourceGroupName
 		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
-		namespaceLocation = resourcegroupLocation
+		namespaceLocation = "westus"
 		eventhubName = "t-eh-dev-ehs-" + helpers.RandomString(10)
 		messageRetentionInDays = int32(7)
-		partitionCount = int32(2)
+		partitionCount = int32(1)
 
 		_, _ = CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
+
 		_, _ = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
+
 	})
 
 	AfterEach(func() {

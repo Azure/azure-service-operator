@@ -4,16 +4,18 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: consumergroups.azure.microsoft.com
+  name: sqlfirewallrules.azure.microsoft.com
 spec:
   group: azure.microsoft.com
   names:
-    kind: ConsumerGroup
-    plural: consumergroups
+    kind: SqlFirewallRule
+    plural: sqlfirewallrules
   scope: ""
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
-      description: ConsumerGroup is the Schema for the consumergroups API
+      description: SqlFirewallRule is the Schema for the sqlfirewallrules API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -397,19 +399,23 @@ spec:
               type: string
           type: object
         spec:
-          description: ConsumerGroupSpec defines the desired state of ConsumerGroup
+          description: SqlFirewallRuleSpec defines the desired state of SqlFirewallRule
           properties:
-            eventhub:
+            endipaddress:
               type: string
-            namespace:
-              type: string
-            resourcegroup:
+            location:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
               type: string
+            resourcegroup:
+              type: string
+            startipaddress:
+              type: string
+          required:
+          - location
           type: object
         status:
-          description: ConsumerGroupStatus defines the observed state of ConsumerGroup
+          description: SqlFirewallRuleStatus defines the observed state of SqlFirewallRule
           properties:
             provisioned:
               type: boolean

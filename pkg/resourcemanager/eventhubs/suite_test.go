@@ -46,6 +46,9 @@ func TestAPIs(t *testing.T) {
 		t.Skip("skipping Resource Manager Eventhubs Suite")
 	}
 	RegisterFailHandler(Fail)
+	resourceGroupName = "t-rg-dev-rm-eh-" + helpers.RandomString(10)
+	resourcegroupLocation = "westus"
+
 	RunSpecs(t, "Eventhubs Suite")
 }
 

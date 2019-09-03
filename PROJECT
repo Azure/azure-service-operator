@@ -22,6 +22,15 @@ resources:
   kind: EventhubNamespace
 - group: azure
   version: v1
+  kind: SqlServer
+- group: azure
+  version: v1
+  kind: SqlDatabase
+- group: azure
+  version: v1
+  kind: SqlFirewallRule
+- group: azure
+  version: v1
   kind: KeyVault
 - group: azure
   version: v1

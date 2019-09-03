@@ -17,15 +17,16 @@ package controllers
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	"os"
 	"path/filepath"
 	"testing"
 
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resoucegroupsconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+	eventhubs "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -60,7 +61,12 @@ var blobContainerName string
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
+	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourcegroupLocation = "westus"
 
+	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
+	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
+	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{envtest.NewlineReporter{}})
@@ -190,4 +196,5 @@ var _ = SynchronizedAfterSuite(func() {}, func() {
 
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
+
 }, 60)

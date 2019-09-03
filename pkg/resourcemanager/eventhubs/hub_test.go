@@ -35,12 +35,12 @@ var _ = Describe("Eventhub", func() {
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-
 		rgName = resourceGroupName
 		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
-		namespaceLocation = resourcegroupLocation
+		namespaceLocation = "westus"
 
 		_, _ = CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+
 	})
 
 	AfterEach(func() {
@@ -61,7 +61,6 @@ var _ = Describe("Eventhub", func() {
 
 			var err error
 
-			// TODO: add test for Capture
 			_, err = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
 			Expect(err).NotTo(HaveOccurred())
 

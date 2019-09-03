@@ -48,7 +48,7 @@ var _ = Describe("Namespace", func() {
 		It("should create and delete namespace in azure", func() {
 
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
-			namespaceLocation := resourcegroupLocation
+			namespaceLocation := "westus"
 
 			var err error
 

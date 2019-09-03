@@ -4,16 +4,18 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: consumergroups.azure.microsoft.com
+  name: sqldatabases.azure.microsoft.com
 spec:
   group: azure.microsoft.com
   names:
-    kind: ConsumerGroup
-    plural: consumergroups
+    kind: SqlDatabase
+    plural: sqldatabases
   scope: ""
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
-      description: ConsumerGroup is the Schema for the consumergroups API
+      description: SqlDatabase is the Schema for the sqldatabases API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -397,19 +399,26 @@ spec:
               type: string
           type: object
         spec:
-          description: ConsumerGroupSpec defines the desired state of ConsumerGroup
+          description: SqlDatabaseSpec defines the desired state of SqlDatabase
           properties:
-            eventhub:
-              type: string
-            namespace:
-              type: string
-            resourcegroup:
+            edition:
+              description: 'DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition'
+              type: integer
+            location:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
               type: string
+            resourcegroup:
+              type: string
+            server:
+              type: string
+          required:
+          - edition
+          - location
+          - server
           type: object
         status:
-          description: ConsumerGroupStatus defines the observed state of ConsumerGroup
+          description: SqlDatabaseStatus defines the observed state of SqlDatabase
           properties:
             provisioned:
               type: boolean

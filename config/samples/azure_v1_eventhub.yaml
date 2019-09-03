@@ -15,4 +15,4 @@ spec:
       - "Listen"
       - "Manage"
       - "Send"
-  secretName: "secret-stream-eventhub-sample"
+  secretname: "secret-stream-eventhub-sample"
