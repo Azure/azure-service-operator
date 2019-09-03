@@ -46,8 +46,8 @@ func CreateHub(ctx context.Context, resourceGroupName string, namespaceName stri
 		return eventhub.Model{}, fmt.Errorf("MessageRetentionInDays is invalid")
 	}
 
-	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
-	if PartitionCount < 1 || PartitionCount > 32 {
+	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 2 to 32 partitions.
+	if PartitionCount < 2 || PartitionCount > 32 {
 		return eventhub.Model{}, fmt.Errorf("PartitionCount is invalid")
 	}
 
