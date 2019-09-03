@@ -46,7 +46,7 @@ var _ = Describe("ConsumerGroup", func() {
 
 		_, _ = CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
 
-		_, _ = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount)
+		_, _ = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
 
 	})
 

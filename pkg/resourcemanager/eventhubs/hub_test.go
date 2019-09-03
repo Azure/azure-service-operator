@@ -57,11 +57,11 @@ var _ = Describe("Eventhub", func() {
 
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 			messageRetentionInDays := int32(7)
-			partitionCount := int32(1)
+			partitionCount := int32(2)
 
 			var err error
 
-			_, err = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount)
+			_, err = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {

@@ -39,7 +39,6 @@ var _ = Describe("EventHubNamespace Controller", func() {
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = resourceGroupName
-
 	})
 
 	AfterEach(func() {
@@ -83,7 +82,6 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 		It("should validate resourcegroup exist before creating eventhubnamespaces", func() {
 
-			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
 			// Create the EventHubNamespace object and expect the Reconcile to be created

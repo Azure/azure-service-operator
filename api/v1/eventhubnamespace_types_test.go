@@ -59,7 +59,7 @@ var _ = Describe("EventhubNamespace", func() {
 					Namespace: "default",
 				},
 				Spec: EventhubNamespaceSpec{
-					Location:      "westus",
+					Location:      resourcegroupLocation,
 					ResourceGroup: "bar",
 				}}
 
