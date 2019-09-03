@@ -399,7 +399,7 @@ spec:
         spec:
           description: EventhubSpec defines the desired state of Eventhub
           properties:
-            authorizationrule:
+            authorizationRule:
               description: EventhubAuthorizationRule defines the name and rights of
                 the access policy
               properties:
@@ -421,7 +421,7 @@ spec:
             properties:
               description: EventhubProperties defines the namespace properties
               properties:
-                capturedescription:
+                captureDescription:
                   description: CaptureDescription - Details specifying EventHub capture
                     to persistent storage
                   properties:
@@ -429,13 +429,13 @@ spec:
                       description: Destination - Resource id of the storage account
                         to be used to create the blobs
                       properties:
-                        archivenameformat:
+                        archiveNameFormat:
                           description: ArchiveNameFormat - Blob naming convention
                             for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}.
                             Here all the parameters (Namespace,EventHub .. etc) are
                             mandatory irrespective of order
                           type: string
-                        blobcontainer:
+                        blobContainer:
                           description: BlobContainer - Blob container Name
                           type: string
                         name:
@@ -444,16 +444,16 @@ spec:
                           - EventHubArchive.AzureBlockBlob
                           - EventHubArchive.AzureDataLake
                           type: string
-                        storageaccount:
+                        storageAccount:
                           description: StorageAccount - Details of the storage account
                           properties:
-                            accountname:
+                            accountName:
                               description: AccountName - Name of the storage account
                               maxLength: 24
                               minLength: 3
                               pattern: ^[a-z0-9]+$
                               type: string
-                            resourcegroup:
+                            resourceGroup:
                               description: ResourceGroup - Name of the storage account
                                 resource group
                               pattern: ^[-\w\._\(\)]+$
@@ -463,7 +463,7 @@ spec:
                     enabled:
                       description: Enabled - indicates whether capture is enabled
                       type: boolean
-                    intervalinseconds:
+                    intervalInSeconds:
                       description: IntervalInSeconds - The time window allows you
                         to set the frequency with which the capture to Azure Blobs
                         will happen
@@ -471,7 +471,7 @@ spec:
                       maximum: 900
                       minimum: 60
                       type: integer
-                    sizelimitinbytes:
+                    sizeLimitInBytes:
                       description: SizeLimitInBytes - The size window defines the
                         amount of data built up in your Event Hub before an capture
                         operation
@@ -482,14 +482,14 @@ spec:
                   required:
                   - enabled
                   type: object
-                messageretentionindays:
+                messageRetentionInDays:
                   description: MessageRetentionInDays - Number of days to retain the
                     events for this Event Hub, value should be 1 to 7 days
                   format: int32
                   maximum: 7
                   minimum: 1
                   type: integer
-                partitioncount:
+                partitionCount:
                   description: PartitionCount - Number of partitions created for the
                     Event Hub, allowed values are from 1 to 32 partitions.
                   format: int32
@@ -497,9 +497,9 @@ spec:
                   minimum: 1
                   type: integer
               type: object
-            resourcegroup:
+            resourceGroup:
               type: string
-            secretname:
+            secretName:
               description: SecretName - Used to specify the name of the secret. Defaults
                 to Event Hub name if omitted.
               type: string

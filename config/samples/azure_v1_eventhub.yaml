@@ -4,15 +4,15 @@ metadata:
   name: eventhub-sample-2307-09
 spec:
   location: "westus"
-  resourcegroup: "resourcegroup-sample-1907"
+  resourceGroup: "resourcegroup-sample-1907"
   namespace: "eventhubnamespace-sample-6"
   properties:
-    messageretentionindays: 7
-    partitioncount: 1
-  authorizationrule:
+    messageRetentionInDays: 7
+    partitionCount: 1
+  authorizationRule: 
     name : "RootManageSharedAccessKey"
     rights: 
       - "Listen"
       - "Manage"
       - "Send"
-  secretname: "secret-stream-eventhub-sample"
+  secretName: "secret-stream-eventhub-sample"
