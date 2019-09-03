@@ -17,15 +17,15 @@ package controllers
 
 import (
 	"context"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	"os"
 	"path/filepath"
 	"testing"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-
-	eventhubs "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+	resoucegroupsconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -45,32 +45,45 @@ import (
 
 var cfg *rest.Config
 var k8sClient client.Client
+
 var k8sManager ctrl.Manager
+
 var testEnv *envtest.Environment
 var resourceGroupName string
 var resourcegroupLocation string
 var eventhubNamespaceName string
 var eventhubName string
 var namespaceLocation string
+var storageAccountName string
+var blobContainerName string
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
-	resourcegroupLocation = "westus"
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
-	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
-	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{envtest.NewlineReporter{}})
 }
 
-var _ = BeforeSuite(func(done Done) {
+var _ = SynchronizedBeforeSuite(func() []byte {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
+	resoucegroupsconfig.ParseEnvironment()
+	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourcegroupLocation = resoucegroupsconfig.DefaultLocation()
+
+	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
+	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
+	namespaceLocation = resoucegroupsconfig.DefaultLocation()
+
+	storageAccountName = "tsadeveh" + helpers.RandomString(10)
+	blobContainerName = "t-bc-dev-eh-" + helpers.RandomString(10)
+
 	By("bootstrapping test environment")
+	testEnv = &envtest.Environment{
+		CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
+	}
 
 	if os.Getenv("TEST_USE_EXISTING_CLUSTER") == "true" {
 		t := true
@@ -82,8 +95,6 @@ var _ = BeforeSuite(func(done Done) {
 			CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
 		}
 	}
-
-	resourcemanagerconfig.LoadSettings()
 
 	cfg, err := testEnv.Start()
 	Expect(err).ToNot(HaveOccurred())
@@ -141,8 +152,10 @@ var _ = BeforeSuite(func(done Done) {
 		Expect(err).ToNot(HaveOccurred())
 	}()
 
-	k8sClient = k8sManager.GetClient()
-	Expect(k8sClient).ToNot(BeNil())
+	//k8sClient = k8sManager.GetClient()
+	k8sClient, err = client.New(cfg, client.Options{Scheme: scheme.Scheme})
+	Expect(err).ToNot(HaveOccurred())
+	//Expect(k8sClient).ToNot(BeNil())
 
 	// Create the Resourcegroup resource
 	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
@@ -154,20 +167,27 @@ var _ = BeforeSuite(func(done Done) {
 	_, err = eventhubs.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 
 	// Create the Eventhub resource
-	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1))
+	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
 
-	close(done)
-}, 120)
+	// Create the Storage Account and Container
+	_, err = storages.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1.StorageSku{
+		Name: "Standard_LRS",
+	}, "Storage", map[string]*string{}, "", nil)
 
-var _ = AfterSuite(func(done Done) {
+	_, err = storages.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
+
+	return []byte{}
+}, func(r []byte) {}, 120)
+
+var _ = SynchronizedAfterSuite(func() {}, func() {
 	//clean up the resources created for test
 
+	//clean up the resources created for test
 	By("tearing down the test environment")
 
+	// delete the resource group and contained resources
 	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
 
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
-	close(done)
-
 }, 60)

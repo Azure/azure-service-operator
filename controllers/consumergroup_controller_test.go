@@ -43,7 +43,6 @@ var _ = Describe("ConsumerGroup Controller", func() {
 		rgName = resourceGroupName
 		ehnName = eventhubNamespaceName
 		ehName = eventhubName
-
 	})
 
 	AfterEach(func() {

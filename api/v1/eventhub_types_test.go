@@ -41,32 +41,74 @@ var _ = Describe("Eventhub", func() {
 		// Add any teardown steps that needs to be executed after each test
 	})
 
+	createEventHub := func(captureDescription CaptureDescription) *Eventhub {
+		created := &Eventhub{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      "foo",
+				Namespace: "default",
+			},
+			Spec: EventhubSpec{
+				Location:      resourcegroupLocation,
+				Namespace:     "foo-eventhub-ns-name",
+				ResourceGroup: "foo-resource-group",
+				Properties: EventhubProperties{
+					MessageRetentionInDays: 7,
+					PartitionCount:         2,
+					CaptureDescription:     captureDescription,
+				},
+			},
+		}
+		return created
+	}
+
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
 	// your API definition.
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create API", func() {
 
-		It("should create an object successfully", func() {
-
+		It("should create an object successfully (without Capture)", func() {
 			key = types.NamespacedName{
 				Name:      "foo",
 				Namespace: "default",
 			}
-			created = &Eventhub{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "foo",
-					Namespace: "default",
-				},
-				Spec: EventhubSpec{
-					Location:      "westus",
-					Namespace:     "fooeventhubNamespaceName",
-					ResourceGroup: "fooresourceGroupName",
-					Properties: EventhubProperties{
-						MessageRetentionInDays: 7,
-						PartitionCount:         1,
+
+			created = createEventHub(CaptureDescription{})
+
+			By("creating an API obj")
+			Expect(k8sClient.Create(context.TODO(), created)).To(Succeed())
+
+			fetched = &Eventhub{}
+			Expect(k8sClient.Get(context.TODO(), key, fetched)).To(Succeed())
+			Expect(fetched).To(Equal(created))
+
+			By("deleting the created object")
+			Expect(k8sClient.Delete(context.TODO(), created)).To(Succeed())
+			Expect(k8sClient.Get(context.TODO(), key, created)).ToNot(Succeed())
+		})
+
+		It("should create an object successfully (with Capture)", func() {
+			key = types.NamespacedName{
+				Name:      "foo",
+				Namespace: "default",
+			}
+
+			capture := CaptureDescription{
+				Destination: Destination{
+					ArchiveNameFormat: "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
+					BlobContainer:     "foo-blob-container",
+					Name:              "EventHubArchive.AzureBlockBlob",
+					StorageAccount: StorageAccount{
+						ResourceGroup: "foo-resource-group",
+						AccountName:   "fooaccountname",
 					},
-				}}
+				},
+				Enabled:           true,
+				SizeLimitInBytes:  524288000,
+				IntervalInSeconds: 90,
+			}
+
+			created = createEventHub(capture)
 
 			By("creating an API obj")
 			Expect(k8sClient.Create(context.TODO(), created)).To(Succeed())
