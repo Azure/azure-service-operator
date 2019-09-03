@@ -371,7 +371,7 @@ var _ = Describe("EventHub Controller", func() {
 					ResourceGroup: rgName,
 					Properties: azurev1.EventhubProperties{
 						MessageRetentionInDays: 7,
-						PartitionCount:         1,
+						PartitionCount:         2,
 					},
 					AuthorizationRule: azurev1.EventhubAuthorizationRule{
 						Name:   "RootManageSharedAccessKey",

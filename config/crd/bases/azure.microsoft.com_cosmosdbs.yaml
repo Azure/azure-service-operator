@@ -4,19 +4,27 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: sqlfirewallrules.azure.microsoft.com
+  name: cosmosdbs.azure.microsoft.com
 spec:
   group: azure.microsoft.com
   names:
-    kind: SqlFirewallRule
-    plural: sqlfirewallrules
+    kind: CosmosDB
+    plural: cosmosdbs
   scope: ""
   subresources:
     status: {}
   validation:
     openAPIV3Schema:
-      description: SqlFirewallRule is the Schema for the sqlfirewallrules API
+      description: CosmosDB is the Schema for the cosmosdbs API
       properties:
+        additionalResources:
+          description: CosmosDBAdditionalResources holds the additional resources
+          properties:
+            secrets:
+              items:
+                type: string
+              type: array
+          type: object
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
             of an object. Servers should convert recognized schemas to the latest
@@ -398,42 +406,50 @@ spec:
                 by the system. Read-only. More info: http://kubernetes.io/docs/user-guide/identifiers#uids"
               type: string
           type: object
-        spec:
-          description: SqlFirewallRuleSpec defines the desired state of SqlFirewallRule
+        output:
           properties:
-            endipaddress:
+            cosmosDBName:
+              type: string
+            primaryMasterKey:
+              type: string
+          type: object
+        spec:
+          description: CosmosDBSpec defines the desired state of CosmosDB
+          properties:
+            kind:
+              description: CosmosDBKind enumerates the values for kind. Only one of
+                the following kinds may be specified. If none of the following kinds
+                is specified, the default one is GlobalDocumentDBKind.
+              enum:
+              - GlobalDocumentDB
+              - MongoDB
               type: string
             location:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "make" to regenerate code after modifying this file'
+              minLength: 0
               type: string
             properties:
-              description: EventhubNamespaceProperties defines the namespace properties
+              description: CosmosDBProperties the CosmosDBProperties of CosmosDB.
               properties:
-                isAutoInflateEnabled:
-                  type: boolean
-                kafkaEnabled:
-                  type: boolean
-                maximumThroughputUnits:
-                  format: int32
-                  type: integer
+                databaseAccountOfferType:
+                  description: CosmosDBDatabaseAccountOfferType - The offer type for
+                    the Cosmos DB database account.
+                  enum:
+                  - Standard
+                  type: string
               type: object
             resourceGroup:
               type: string
-            startipaddress:
-              type: string
           required:
-          - location
+          - resourceGroup
           type: object
         status:
-          description: SqlFirewallRuleStatus defines the observed state of SqlFirewallRule
+          description: CosmosDBStatus defines the observed state of CosmosDB
           properties:
             provisioned:
               type: boolean
             provisioning:
-              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
-                of cluster Important: Run "make" to regenerate code after modifying
-                this file'
+              description: DeploymentName    string `json:"deploymentName,omitempty"`
+                ProvisioningState string `json:"provisioningState,omitempty"` Generation        int64  `json:"generation,omitempty"`
               type: boolean
           type: object
       type: object

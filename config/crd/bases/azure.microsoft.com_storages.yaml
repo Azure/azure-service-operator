@@ -4,19 +4,27 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: sqlfirewallrules.azure.microsoft.com
+  name: storages.azure.microsoft.com
 spec:
   group: azure.microsoft.com
   names:
-    kind: SqlFirewallRule
-    plural: sqlfirewallrules
+    kind: Storage
+    plural: storages
   scope: ""
   subresources:
     status: {}
   validation:
     openAPIV3Schema:
-      description: SqlFirewallRule is the Schema for the sqlfirewallrules API
+      description: Storage is the Schema for the storages API
       properties:
+        additionalResources:
+          description: StorageAdditionalResources holds the additional resources
+          properties:
+            secrets:
+              items:
+                type: string
+              type: array
+          type: object
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
             of an object. Servers should convert recognized schemas to the latest
@@ -398,42 +406,78 @@ spec:
                 by the system. Read-only. More info: http://kubernetes.io/docs/user-guide/identifiers#uids"
               type: string
           type: object
-        spec:
-          description: SqlFirewallRuleSpec defines the desired state of SqlFirewallRule
+        output:
           properties:
-            endipaddress:
+            connectionString1:
+              type: string
+            connectionString2:
+              type: string
+            key1:
+              type: string
+            key2:
+              type: string
+            storageAccountName:
+              type: string
+          type: object
+        spec:
+          description: StorageSpec defines the desired state of Storage
+          properties:
+            accessTier:
+              description: AccessTier enumerates the values for access tier. Only
+                one of the following access tiers may be specified. If none of the
+                following access tiers is specified, the default one is Hot.
+              enum:
+              - Cool
+              - Hot
+              type: string
+            kind:
+              description: StorageKind enumerates the values for kind. Only one of
+                the following kinds may be specified. If none of the following kinds
+                is specified, the default one is StorageV2.
+              enum:
+              - BlobStorage
+              - BlockBlobStorage
+              - FileStorage
+              - Storage
+              - StorageV2
               type: string
             location:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "make" to regenerate code after modifying this file'
+              minLength: 0
               type: string
-            properties:
-              description: EventhubNamespaceProperties defines the namespace properties
-              properties:
-                isAutoInflateEnabled:
-                  type: boolean
-                kafkaEnabled:
-                  type: boolean
-                maximumThroughputUnits:
-                  format: int32
-                  type: integer
-              type: object
             resourceGroup:
               type: string
-            startipaddress:
-              type: string
+            sku:
+              description: Sku the SKU of the storage account.
+              properties:
+                name:
+                  description: 'Name - The SKU name. Required for account creation;
+                    optional for update. Possible values include: ''StandardLRS'',
+                    ''StandardGRS'', ''StandardRAGRS'', ''StandardZRS'', ''PremiumLRS'',
+                    ''PremiumZRS'', ''StandardGZRS'', ''StandardRAGZRS'''
+                  enum:
+                  - Premium_LRS
+                  - Premium_ZRS
+                  - Standard_GRS
+                  - Standard_GZRS
+                  - Standard_LRS
+                  - Standard_RAGRS
+                  - Standard_RAGZRS
+                  - Standard_ZRS
+                  type: string
+              type: object
+            supportsHttpsTrafficOnly:
+              type: boolean
           required:
-          - location
+          - resourceGroup
           type: object
         status:
-          description: SqlFirewallRuleStatus defines the observed state of SqlFirewallRule
+          description: StorageStatus defines the observed state of Storage
           properties:
             provisioned:
               type: boolean
             provisioning:
-              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
-                of cluster Important: Run "make" to regenerate code after modifying
-                this file'
+              description: DeploymentName    string `json:"deploymentName,omitempty"`
+                ProvisioningState string `json:"provisioningState,omitempty"` Generation        int64  `json:"generation,omitempty"`
               type: boolean
           type: object
       type: object

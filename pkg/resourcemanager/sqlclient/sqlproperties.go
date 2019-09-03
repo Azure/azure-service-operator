@@ -53,6 +53,9 @@ type SQLServerProperties struct {
 
 	// AdministratorLoginPassword - The administrator login password (required for server creation).
 	AdministratorLoginPassword *string
+
+	// AllowAzureServicesAccess - allow Azure services and resources to access this server
+	AllowAzureServicesAccess bool
 }
 
 // SQLDatabaseProperties contains values needed for adding / updating SQL servers,

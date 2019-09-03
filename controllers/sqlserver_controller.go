@@ -61,7 +61,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete SqlServer failed with ", err.Error())
+				log.Info("Delete SqlServer failed with ", "error", err.Error())
 				return ctrl.Result{}, err
 			}
 

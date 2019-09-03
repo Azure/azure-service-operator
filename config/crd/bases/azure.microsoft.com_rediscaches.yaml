@@ -4,19 +4,27 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: sqlfirewallrules.azure.microsoft.com
+  name: rediscaches.azure.microsoft.com
 spec:
   group: azure.microsoft.com
   names:
-    kind: SqlFirewallRule
-    plural: sqlfirewallrules
+    kind: RedisCache
+    plural: rediscaches
   scope: ""
   subresources:
     status: {}
   validation:
     openAPIV3Schema:
-      description: SqlFirewallRule is the Schema for the sqlfirewallrules API
+      description: RedisCache is the Schema for the rediscaches API
       properties:
+        additionalResources:
+          description: StorageAdditionalResources holds the additional resources
+          properties:
+            secrets:
+              items:
+                type: string
+              type: array
+          type: object
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
             of an object. Servers should convert recognized schemas to the latest
@@ -398,42 +406,55 @@ spec:
                 by the system. Read-only. More info: http://kubernetes.io/docs/user-guide/identifiers#uids"
               type: string
           type: object
-        spec:
-          description: SqlFirewallRuleSpec defines the desired state of SqlFirewallRule
+        output:
           properties:
-            endipaddress:
+            primaryKey:
               type: string
+            redisCacheName:
+              type: string
+            secondaryKey:
+              type: string
+          type: object
+        spec:
+          description: RedisCacheSpec defines the desired state of RedisCache
+          properties:
             location:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "make" to regenerate code after modifying this file'
+              minLength: 0
               type: string
             properties:
-              description: EventhubNamespaceProperties defines the namespace properties
+              description: RedisCacheProperties the properties of the Redis Cache.
               properties:
-                isAutoInflateEnabled:
+                enableNonSslPort:
                   type: boolean
-                kafkaEnabled:
-                  type: boolean
-                maximumThroughputUnits:
-                  format: int32
-                  type: integer
+                sku:
+                  description: RedisCacheSku the SKU of the Redis Cache.
+                  properties:
+                    capacity:
+                      format: int32
+                      type: integer
+                    family:
+                      type: string
+                    name:
+                      description: 'Name - The SKU name. Required for account creation;
+                        optional for update. Possible values include: ''StandardLRS'',
+                        ''StandardGRS'', ''StandardRAGRS'', ''StandardZRS'', ''PremiumLRS'',
+                        ''PremiumZRS'', ''StandardGZRS'', ''StandardRAGZRS'''
+                      type: string
+                  type: object
               type: object
             resourceGroup:
               type: string
-            startipaddress:
-              type: string
           required:
-          - location
+          - resourceGroup
           type: object
         status:
-          description: SqlFirewallRuleStatus defines the observed state of SqlFirewallRule
+          description: RedisCacheStatus defines the observed state of RedisCache
           properties:
             provisioned:
               type: boolean
             provisioning:
-              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
-                of cluster Important: Run "make" to regenerate code after modifying
-                this file'
+              description: DeploymentName    string `json:"deploymentName,omitempty"`
+                ProvisioningState string `json:"provisioningState,omitempty"` Generation        int64  `json:"generation,omitempty"`
               type: boolean
           type: object
       type: object

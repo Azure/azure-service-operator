@@ -61,6 +61,8 @@ var resourcegroupLocation string
 var eventhubNamespaceName string
 var eventhubName string
 var namespaceLocation string
+var storageAccountName string
+var blobContainerName string
 
 type testContext struct {
 	k8sClient             client.Client
@@ -114,6 +116,17 @@ var _ = BeforeSuite(func() {
 	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
 
 	var timeout time.Duration
+
+	resoucegroupsconfig.ParseEnvironment()
+	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourcegroupLocation = resoucegroupsconfig.DefaultLocation()
+
+	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
+	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
+	namespaceLocation = resoucegroupsconfig.DefaultLocation()
+
+	storageAccountName = "tsadeveh" + helpers.RandomString(10)
+	blobContainerName = "t-bc-dev-eh-" + helpers.RandomString(10)
 
 	By("bootstrapping test environment")
 	testEnv = &envtest.Environment{

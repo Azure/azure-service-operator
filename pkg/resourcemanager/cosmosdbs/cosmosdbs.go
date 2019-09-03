@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
 MIT License
 
@@ -22,6 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE
 */
 
+=======
+>>>>>>> Pull and merge changes from master into Azure-sql (#182)
 package cosmosdbs
 
 import (
@@ -53,8 +56,27 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 	location string,
 	kind azurev1.CosmosDBKind,
 	dbType azurev1.CosmosDBDatabaseAccountOfferType,
+<<<<<<< HEAD
 	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
 	cosmosDBClient := getCosmosDBClient()
+=======
+	tags map[string]*string) (documentdb.DatabaseAccount, error) {
+	cosmosDBClient := getCosmosDBClient()
+
+	log.Println("CosmosDB:CosmosDBName" + cosmosDBName)
+
+	/* Uncomment and update if we should be checking for name exists first
+	result, err = cosmosDBClient.CheckNameExists(ctx, cosmosDBName)
+	if err != nil {
+		return documentdb.DatabaseAccount.{}, err
+	}
+	result.
+	if *result.NameAvailable == false {
+		log.Fatalf("storage account not available: %v\n", result.Reason)
+		return storage.Account{}, errors.New("storage account not available")
+	}*/
+
+>>>>>>> Pull and merge changes from master into Azure-sql (#182)
 	dbKind := documentdb.DatabaseAccountKind(kind)
 	sDBType := string(dbType)
 
@@ -80,6 +102,10 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 	locationsArray := []documentdb.Location{
 		locationObj,
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> Pull and merge changes from master into Azure-sql (#182)
 	createUpdateParams := documentdb.DatabaseAccountCreateUpdateParameters{
 		Location: to.StringPtr(location),
 		Tags:     tags,
@@ -94,6 +120,7 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 			Locations:                     &locationsArray,
 		},
 	}
+<<<<<<< HEAD
 	future, err := cosmosDBClient.CreateOrUpdate(
 		ctx, groupName, cosmosDBName, createUpdateParams)
 
@@ -108,6 +135,18 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 
 	result, err := future.Result(cosmosDBClient)
 	return &result, err
+=======
+
+	log.Println(fmt.Sprintf("creating cosmosDB '%s' in resource group '%s' and location: %v", cosmosDBName, groupName, location))
+
+	future, err := cosmosDBClient.CreateOrUpdate(
+		ctx, groupName, cosmosDBName, createUpdateParams)
+	if err != nil {
+		log.Println(fmt.Sprintf("ERROR creating cosmosDB '%s' in resource group '%s' and location: %v", cosmosDBName, groupName, location))
+		log.Println(fmt.Printf("failed to initialize cosmosdb: %v\n", err))
+	}
+	return future.Result(cosmosDBClient)
+>>>>>>> Pull and merge changes from master into Azure-sql (#182)
 }
 
 // DeleteCosmosDB removes the resource group named by env var

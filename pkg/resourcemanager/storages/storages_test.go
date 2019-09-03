@@ -14,22 +14,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controllers
+package storages
 
 import (
 	"context"
+	apiv1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/go-autorest/autorest/to"
+	"time"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("ResourceGroup Controller", func() {
+var _ = Describe("Storage Account", func() {
+
+	const timeout = time.Second * 180
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -45,42 +46,34 @@ var _ = Describe("ResourceGroup Controller", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		It("should create and delete resource groups in k8s", func() {
-			resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
+		It("should create and delete storage account in azure", func() {
+
+			storageAccountName := "tdevsa" + helpers.RandomString(10)
+			storageLocation := config.DefaultLocation()
 
 			var err error
 
-			// Create the Resourcegroup object and expect the Reconcile to be created
-			resourceGroupInstance := &azurev1.ResourceGroup{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      resourceGroupName,
-					Namespace: "default",
-				},
-				Spec: azurev1.ResourceGroupSpec{
-					Location: tc.resourceGroupLocation,
-				},
-			}
+			_, err = CreateStorage(context.Background(), resourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
+				Name: "Standard_LRS",
+			}, "Storage", map[string]*string{}, "", to.BoolPtr(false))
 
-			err = tc.k8sClient.Create(context.Background(), resourceGroupInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
-
-			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.IsSubmitted()
-			}, tc.timeout,
-			).Should(BeTrue())
-
-			err = tc.k8sClient.Delete(context.Background(), resourceGroupInstance)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.IsBeingDeleted()
-			}, tc.timeout,
+				result, _ := GetStorage(context.Background(), resourceGroupName, storageAccountName)
+				return result.Response.StatusCode == 200
+			}, timeout,
 			).Should(BeTrue())
 
+			_, err = DeleteStorage(context.Background(), resourceGroupName, storageAccountName)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				result, _ := GetStorage(context.Background(), resourceGroupName, storageAccountName)
+				return result.Response.StatusCode == 404
+			}, timeout,
+			).Should(BeTrue())
 		})
+
 	})
 })
