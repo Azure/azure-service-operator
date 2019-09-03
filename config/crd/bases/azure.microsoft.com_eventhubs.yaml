@@ -491,10 +491,10 @@ spec:
                   type: integer
                 partitionCount:
                   description: PartitionCount - Number of partitions created for the
-                    Event Hub, allowed values are from 1 to 32 partitions.
+                    Event Hub, allowed values are from 2 to 32 partitions.
                   format: int32
                   maximum: 32
-                  minimum: 1
+                  minimum: 2
                   type: integer
               type: object
             resourceGroup:
