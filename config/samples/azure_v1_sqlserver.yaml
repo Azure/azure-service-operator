@@ -5,3 +5,4 @@ metadata:
 spec:
   location: "westus"
   resourcegroup: "resourcegroup-sample-1907"
+  allowazureserviceaccess: true

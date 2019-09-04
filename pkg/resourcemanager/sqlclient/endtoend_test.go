@@ -45,7 +45,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	sqlServerProperties := SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("Moss"),
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
-		AllowAzureServicesAccess:   true,
 	}
 
 	// wait for server to be created, then only proceed once activated
