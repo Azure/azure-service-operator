@@ -109,12 +109,6 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	r.Recorder.Event(&instance, "Normal", "Provisioned", "sqlserver "+instance.ObjectMeta.Name+" provisioned ")
-
-	// Add the firewall rule to allow Azure services to access the server once server is ready
-	if instance.Spec.AllowAzureServiceAccess == true {
-
-	}
-
 	return ctrl.Result{}, nil
 }
 
@@ -165,7 +159,6 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
-	allowAzureServiceAccess := instance.Spec.AllowAzureServiceAccess
 
 	sdkClient := sql.GoSDKClient{
 		Ctx:               ctx,
@@ -190,7 +183,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 
 	if instance.Status.State == "Ready" {
 
-		if allowAzureServiceAccess == true {
+		if instance.Spec.AllowAzureServiceAccess == true {
 			// Add firewall rule to allow azure service access
 			_, err := sdkClient.CreateOrUpdateSQLFirewallRule("AllowAzureAccess", "0.0.0.0", "0.0.0.0")
 			if err != nil {
