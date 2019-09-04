@@ -26,9 +26,10 @@ import (
 type SqlServerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string `json:"location"`
-	ResourceGroup string `json:"resourcegroup,omitempty"`
-	AdminUser     string `json:"adminuser,omitempty"`
+	Location                string `json:"location"`
+	ResourceGroup           string `json:"resourcegroup,omitempty"`
+	AdminUser               string `json:"adminuser,omitempty"`
+	AllowAzureServiceAccess bool   `json:"allowazureserviceaccess,omitempty"`
 }
 
 // SqlServerStatus defines the observed state of SqlServer
