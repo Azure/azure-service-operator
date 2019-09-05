@@ -3,7 +3,6 @@ package rediscaches
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
@@ -31,10 +30,10 @@ func CreateRedisCache(ctx context.Context,
 	location string,
 	sku azurev1.RedisCacheSku,
 	enableNonSSLPort bool,
-	tags map[string]*string) (redis.ResourceType, error) {
+	tags map[string]*string) (*redis.ResourceType, error) {
 	redisClient := getRedisCacheClient()
 
-	log.Println("RedisCache:CacheName" + redisCacheName)
+	//log.Println("RedisCache:CacheName" + redisCacheName)
 
 	//Check if name is available
 	redisType := "Microsoft.Cache/redis"
@@ -42,17 +41,15 @@ func CreateRedisCache(ctx context.Context,
 		Name: &redisCacheName,
 		Type: &redisType,
 	}
-	result, err := redisClient.CheckNameAvailability(ctx, checkNameParams)
+	checkNameResult, err := redisClient.CheckNameAvailability(ctx, checkNameParams)
 	if err != nil {
-		return redis.ResourceType{}, err
+		return nil, err
 	}
 
-	if result.StatusCode != 200 {
-		log.Fatalf("redis cache name (%s) not available: %v\n", redisCacheName, result.Status)
-		return redis.ResourceType{}, errors.New("redis cache name not available")
+	if checkNameResult.StatusCode != 200 {
+		log.Fatalf("redis cache name (%s) not available: %v\n", redisCacheName, checkNameResult.Status)
+		return nil, errors.New("redis cache name not available")
 	}
-
-	log.Println(fmt.Sprintf("creating rediscache '%s' in resource group '%s' and location: %v", redisCacheName, groupName, location))
 
 	redisSku := redis.Sku{
 		Name:     redis.SkuName(sku.Name),
@@ -72,10 +69,15 @@ func CreateRedisCache(ctx context.Context,
 	future, err := redisClient.Create(
 		ctx, groupName, redisCacheName, createParams)
 	if err != nil {
-		log.Println(fmt.Sprintf("ERROR creating redisCache '%s' in resource group '%s' and location: %v", redisCacheName, groupName, location))
-		log.Println(fmt.Printf("failed to initialize redis Cache: %v\n", err))
+		return nil, err
 	}
-	return future.Result(redisClient)
+
+	err = future.WaitForCompletionRef(ctx, redisClient.Client)
+	if err != nil {
+		return nil, err
+	}
+	result, err := future.Result(redisClient)
+	return &result, err
 }
 
 // DeleteRedisCache removes the resource group named by env var
