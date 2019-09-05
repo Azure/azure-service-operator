@@ -34,6 +34,7 @@ var _ = Describe("KeyVault Controller", func() {
 	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
 	resourceGroupName := "t-rg-dev-kv-" + helpers.RandomString(10)
 	const timeout = time.Second * 240
+	const poll = time.Second * 10
 
 	Context("Key Vault Controller", func() {
 
@@ -111,13 +112,13 @@ var _ = Describe("KeyVault Controller", func() {
 					err = fmt.Errorf("")
 				}
 				return strings.Contains(err.Error(), "not found")
-			}, timeout,
+			}, timeout, poll, 
 			).Should(BeTrue())
 
 			// confirm key vault is gone from Azure
 			Eventually(func() bool {
 				result, _ := keyvaultresourcemanager.GetVault(context.Background(), resourceGroupName, keyVaultInstance.Name)
-				return result.Response.StatusCode == 200
+				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())
 		})
