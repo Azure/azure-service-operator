@@ -1,9 +1,32 @@
+/*
+MIT License
+
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE
+*/
+
 package storages
 
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
@@ -33,22 +56,22 @@ func CreateStorage(ctx context.Context, groupName string,
 	kind azurev1.StorageKind,
 	tags map[string]*string,
 	accessTier azurev1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool) (storage.Account, error) {
+	enableHTTPsTrafficOnly *bool) (*storage.Account, error) {
 	storagesClient := getStoragesClient()
-	
-	log.Println("Storage:AccountName" + storageAccountName)
+
+	//Check if name is available
 	storageType := "Microsoft.Storage/storageAccounts"
 	checkAccountParams := storage.AccountCheckNameAvailabilityParameters{Name: &storageAccountName, Type: &storageType}
-	result, err := storagesClient.CheckNameAvailability(ctx, checkAccountParams)
+	checkNameResult, err := storagesClient.CheckNameAvailability(ctx, checkAccountParams)
 	if err != nil {
-		return storage.Account{}, err
+		return nil, err
 	}
 
-	if *result.NameAvailable == false {
-		log.Fatalf("storage account not available: %v\n", result.Reason)
-		return storage.Account{}, errors.New("storage account not available")
+	if *checkNameResult.NameAvailable == false {
+		log.Fatalf("storage account not available: %v\n", checkNameResult.Reason)
+		return nil, errors.New("storage account name not available")
 	}
-	
+
 	sSku := storage.Sku{Name: storage.SkuName(sku.Name)}
 	sKind := storage.Kind(kind)
 	sAccessTier := storage.AccessTier(accessTier)
@@ -65,9 +88,18 @@ func CreateStorage(ctx context.Context, groupName string,
 		},
 	}
 
-	log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
+	//log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
 	future, err := storagesClient.Create(ctx, groupName, storageAccountName, params)
-	return future.Result(storagesClient)
+	if err != nil {
+		return nil, err
+	}
+
+	err = future.WaitForCompletionRef(ctx, storagesClient.Client)
+	if err != nil {
+		return nil, err
+	}
+	result, err := future.Result(storagesClient)
+	return &result, err
 }
 
 // DeleteStorage removes the resource group named by env var
