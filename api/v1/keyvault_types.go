@@ -60,3 +60,7 @@ func init() {
 func (keyVault *KeyVault) IsSubmitted() bool {
 	return keyVault.Status.Provisioning || keyVault.Status.Provisioned
 }
+
+func (keyVault *KeyVault) IsProvisioned() bool {
+	return keyVault.Status.Provisioned
+}
