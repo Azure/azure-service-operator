@@ -108,8 +108,8 @@ type EventhubProperties struct {
 	// MessageRetentionInDays - Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	MessageRetentionInDays int32 `json:"messageRetentionInDays,omitempty"`
 	// +kubebuilder:validation:Maximum=32
-	// +kubebuilder:validation:Minimum=1
-	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
+	// +kubebuilder:validation:Minimum=2
+	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 2 to 32 partitions.
 	PartitionCount int32 `json:"partitionCount,omitempty"`
 	// CaptureDescription - Details specifying EventHub capture to persistent storage
 	CaptureDescription CaptureDescription `json:"captureDescription,omitempty"`

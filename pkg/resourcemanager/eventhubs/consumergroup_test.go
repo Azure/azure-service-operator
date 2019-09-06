@@ -42,7 +42,7 @@ var _ = Describe("ConsumerGroup", func() {
 		namespaceLocation = resourcegroupLocation
 		eventhubName = "t-eh-dev-ehs-" + helpers.RandomString(10)
 		messageRetentionInDays = int32(7)
-		partitionCount = int32(1)
+		partitionCount = int32(2)
 
 		_, _ = CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
 		_, _ = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)

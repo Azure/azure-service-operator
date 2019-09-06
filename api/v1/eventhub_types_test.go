@@ -53,7 +53,7 @@ var _ = Describe("Eventhub", func() {
 				ResourceGroup: "foo-resource-group",
 				Properties: EventhubProperties{
 					MessageRetentionInDays: 7,
-					PartitionCount:         1,
+					PartitionCount:         2,
 					CaptureDescription:     captureDescription,
 				},
 			},
