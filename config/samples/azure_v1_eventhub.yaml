@@ -8,7 +8,7 @@ spec:
   namespace: "eventhubnamespace-sample-6"
   properties:
     messageRetentionInDays: 7
-    partitionCount: 1
+    partitionCount: 2
   authorizationRule: 
     name : "RootManageSharedAccessKey"
     rights: 
