@@ -52,8 +52,8 @@ type StorageReconciler struct {
 	RequeueTime time.Duration
 }
 
-// +kubebuilder:rbac:groups=service.azure,resources=storages,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=service.azure,resources=storages/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=storages,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=storages/status,verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {

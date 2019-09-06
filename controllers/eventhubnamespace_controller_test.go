@@ -35,11 +35,12 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 	const timeout = time.Second * 240
 	var rgName string
+	var rgLocation string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = resourceGroupName
-
+		rgLocation = resourcegroupLocation
 	})
 
 	AfterEach(func() {
@@ -64,7 +65,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.EventhubNamespaceSpec{
-					Location:      "westus",
+					Location:      resourcegroupLocation,
 					ResourceGroup: resourceGroupName,
 				},
 			}
@@ -93,7 +94,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.EventhubNamespaceSpec{
-					Location:      "westus",
+					Location:      resourcegroupLocation,
 					ResourceGroup: resourceGroupName,
 				},
 			}
@@ -123,7 +124,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.EventhubNamespaceSpec{
-					Location:      "westus",
+					Location:      rgLocation,
 					ResourceGroup: rgName,
 				},
 			}

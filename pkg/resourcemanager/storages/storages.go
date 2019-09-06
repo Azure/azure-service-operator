@@ -30,7 +30,7 @@ import (
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	apiv1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
@@ -52,8 +52,8 @@ func getStoragesClient() storage.AccountsClient {
 func CreateStorage(ctx context.Context, groupName string,
 	storageAccountName string,
 	location string,
-	sku azurev1.StorageSku,
-	kind azurev1.StorageKind,
+	sku apiv1.StorageSku,
+	kind apiv1.StorageKind,
 	tags map[string]*string,
 	accessTier azurev1.StorageAccessTier,
 	enableHTTPsTrafficOnly *bool) (*storage.Account, error) {
@@ -100,6 +100,15 @@ func CreateStorage(ctx context.Context, groupName string,
 	}
 	result, err := future.Result(storagesClient)
 	return &result, err
+}
+
+// Get gets the description of the specified storage account.
+// Parameters:
+// resourceGroupName - name of the resource group within the azure subscription.
+// accountName - the name of the storage account
+func GetStorage(ctx context.Context, resourceGroupName string, accountName string) (result storage.Account, err error) {
+	storagesClient := getStoragesClient()
+	return storagesClient.GetProperties(ctx, resourceGroupName, accountName, "")
 }
 
 // DeleteStorage removes the resource group named by env var

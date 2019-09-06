@@ -7,7 +7,7 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - service.azure
+  - azure.microsoft.com
   resources:
   - cosmosdbs
   verbs:
@@ -19,7 +19,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - service.azure
+  - azure.microsoft.com
   resources:
   - cosmosdbs/status
   verbs:
@@ -27,7 +27,7 @@ rules:
   - patch
   - update
 - apiGroups:
-  - service.azure
+  - azure.microsoft.com
   resources:
   - rediscaches
   verbs:
@@ -39,7 +39,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - service.azure
+  - azure.microsoft.com
   resources:
   - rediscaches/status
   verbs:
@@ -47,7 +47,7 @@ rules:
   - patch
   - update
 - apiGroups:
-  - service.azure
+  - azure.microsoft.com
   resources:
   - storages
   verbs:
@@ -59,7 +59,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - service.azure
+  - azure.microsoft.com
   resources:
   - storages/status
   verbs:
