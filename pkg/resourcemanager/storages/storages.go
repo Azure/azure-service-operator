@@ -55,7 +55,7 @@ func CreateStorage(ctx context.Context, groupName string,
 	sku apiv1.StorageSku,
 	kind apiv1.StorageKind,
 	tags map[string]*string,
-	accessTier azurev1.StorageAccessTier,
+	accessTier apiv1.StorageAccessTier,
 	enableHTTPsTrafficOnly *bool) (*storage.Account, error) {
 	storagesClient := getStoragesClient()
 
