@@ -13,47 +13,66 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package resourcegroups
+package storages
 
 import (
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"testing"
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+
+	"context"
+
 	"k8s.io/client-go/rest"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+	// +kubebuilder:scaffold:imports
 )
 
 // These tests use Ginkgo (BDD-style Go testing framework). Refer to
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
+// TODO: consolidate these shared fixtures between this and eventhubs (and other services)
+
 var cfg *rest.Config
+var resourcegroupLocation string
+
+var resourceGroupName = "t-rg-dev-rm-st-" + helpers.RandomString(10)
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	if testing.Short() {
-		t.Skip("skipping Resource Manager Resource Group Suite")
+		t.Skip("skipping Resource Manager Eventhubs Suite")
 	}
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Resource Manager Suite")
 
+	RunSpecs(t, "Storage Suite")
 }
 
-var _ = BeforeSuite(func(done Done) {
+var _ = SynchronizedBeforeSuite(func() []byte {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	By("bootstrapping test environment")
 
 	resourcemanagerconfig.ParseEnvironment()
+	resourcegroupLocation = resourcemanagerconfig.DefaultLocation()
 
-	close(done)
-}, 60)
+	//create resourcegroup for this suite
+	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
+	if result.Response.StatusCode != 204 {
+		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+	}
 
-var _ = AfterSuite(func() {
+	return []byte{}
+}, func(r []byte) {}, 60)
+
+var _ = SynchronizedAfterSuite(func() {}, func() {
 	//clean up the resources created for test
-
 	By("tearing down the test environment")
 
-})
+	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
+}, 60)

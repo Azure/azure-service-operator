@@ -14,38 +14,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package eventhubs
+package storages
 
 import (
 	"context"
+	apiv1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/go-autorest/autorest/to"
 	"time"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("ConsumerGroup", func() {
+var _ = Describe("Storage Account", func() {
 
-	const timeout = time.Second * 240
-	var rgName string
-	var eventhubNamespaceName string
-	var eventhubName string
-	var namespaceLocation string
-	var messageRetentionInDays int32
-	var partitionCount int32
+	const timeout = time.Second * 180
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		rgName = resourceGroupName
-		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
-		namespaceLocation = resourcegroupLocation
-		eventhubName = "t-eh-dev-ehs-" + helpers.RandomString(10)
-		messageRetentionInDays = int32(7)
-		partitionCount = int32(2)
-
-		_, _ = CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
-		_, _ = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
 	})
 
 	AfterEach(func() {
@@ -58,30 +46,33 @@ var _ = Describe("ConsumerGroup", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		It("should create and delete consumer groups in azure", func() {
+		It("should create and delete storage account in azure", func() {
 
-			consumerGroupName := "t-cg-" + helpers.RandomString(10)
+			storageAccountName := "tdevsa" + helpers.RandomString(10)
+			storageLocation := config.DefaultLocation()
 
 			var err error
 
-			_, err = CreateConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+			_, err = CreateStorage(context.Background(), resourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
+				Name: "Standard_LRS",
+			}, "Storage", map[string]*string{}, "", to.BoolPtr(false))
+
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+				result, _ := GetStorage(context.Background(), resourceGroupName, storageAccountName)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+			_, err = DeleteStorage(context.Background(), resourceGroupName, storageAccountName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+				result, _ := GetStorage(context.Background(), resourceGroupName, storageAccountName)
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())
-
 		})
 
 	})

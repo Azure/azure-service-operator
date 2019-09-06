@@ -70,3 +70,10 @@ func DeleteVault(ctx context.Context, groupName string, vaultName string) (resul
 	vaultsClient := getVaultsClient()
 	return vaultsClient.Delete(ctx, groupName, vaultName)
 }
+
+// CheckExistence checks for the presence of a keyvault instance on Azure
+func GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
+	vaultsClient := getVaultsClient()
+	return vaultsClient.Get(ctx, groupName, vaultName)
+
+}

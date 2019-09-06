@@ -60,7 +60,7 @@ var _ = Describe("ResourceGroup Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.ResourceGroupSpec{
-					Location: "westus",
+					Location: resourcegroupLocation,
 				},
 			}
 
