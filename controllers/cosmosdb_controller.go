@@ -69,14 +69,12 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Error(err, "unable to fetch CosmosDB")
+		log.Info("Unable to retrieve cosmosDB resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
-	log.Info("Getting CosmosDB Account", "CosmosDB.Namespace", instance.Namespace, "CosmosDB.Name", instance.Name)
-	log.V(1).Info("Describing CosmosDB Account", "CosmosDB", instance)
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, cosmosDBFinalizerName) {
@@ -94,27 +92,28 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !helpers.HasFinalizer(&instance, cosmosDBFinalizerName) {
-		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Error", "Adding cosmosDB finalizer failed with ", err)
-			return ctrl.Result{}, err
-		}
-	}
-
-	if !instance.IsSubmitted() {
-		if err := r.reconcileExternal(&instance); err != nil {
-			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-				log.Info("Requeuing as the async operation is not complete")
-				return ctrl.Result{
-					Requeue:      true,
-					RequeueAfter: time.Second * time.Duration(requeueAfter),
-				}, nil
-			}
-			return ctrl.Result{}, fmt.Errorf("error reconciling cosmosdb in azure: %v", err)
+		err := r.addFinalizer(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when adding finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	r.Recorder.Event(&instance, "Normal", "Provisioned", "CosmosDB "+instance.ObjectMeta.Name+" provisioned ")
+	if !instance.IsSubmitted() {
+		err := r.reconcileExternal(&instance)
+		if err != nil {
+			catch := []string{
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.ResourceGroupNotFoundErrorCode,
+			}
+			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
+				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
+				return ctrl.Result{Requeue: true, RequeueAfter: time.Second * time.Duration(requeueAfter)}, nil
+			}
+			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
 	return ctrl.Result{}, nil
 }
 
@@ -136,34 +135,34 @@ func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1.CosmosDB) error
 	kind := instance.Spec.Kind
 	dbType := instance.Spec.Properties.DatabaseAccountOfferType
 
+	var err error
+
 	// write information back to instance
 	instance.Status.Provisioning = true
-
-	if err := r.Status().Update(ctx, instance); err != nil {
+	err = r.Update(ctx, instance)
+	if err != nil {
+		//log error and kill it
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
-
-	_, err := cosmosdbs.CreateCosmosDB(ctx, groupName, name, location, kind, dbType, nil)
+	_, err = cosmosdbs.CreateCosmosDB(ctx, groupName, name, location, kind, dbType, nil)
 	if err != nil {
-		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-			r.Recorder.Event(instance, "Normal", "Provisioning", name+" provisioning")
-			return err
-		}
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
-		errUpdate := r.Status().Update(ctx, instance)
+		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
+			//log error and kill it
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
-		return err
+		return errhelp.NewAzureError(err)
 	}
-
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
-	if err = r.Status().Update(ctx, instance); err != nil {
+	err = r.Update(ctx, instance)
+	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
+	r.Recorder.Event(instance, "Normal", "Updated", name+" provisioned")
 
 	return nil
 }
