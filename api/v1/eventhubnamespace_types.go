@@ -30,7 +30,7 @@ type EventhubNamespaceSpec struct {
 	Location      string                      `json:"location"`
 	Sku           EventhubNamespaceSku        `json:"sku,omitempty"`
 	Properties    EventhubNamespaceProperties `json:"properties,omitempty"`
-	ResourceGroup string                      `json:"resourcegroup,omitempty"`
+	ResourceGroup string                      `json:"resourceGroup,omitempty"`
 }
 
 // EventhubNamespaceStatus defines the observed state of EventhubNamespace
@@ -70,9 +70,9 @@ type EventhubNamespaceSku struct {
 
 //EventhubNamespaceProperties defines the namespace properties
 type EventhubNamespaceProperties struct {
-	IsAutoInflateEnabled   bool  `json:"isautoinflateenabled,omitempty"`
-	MaximumThroughputUnits int32 `json:"maximumthroughputunits,omitempty"`
-	KafkaEnabled           bool  `json:"kafkaenabled,omitempty"`
+	IsAutoInflateEnabled   bool  `json:"isAutoInflateEnabled,omitempty"`
+	MaximumThroughputUnits int32 `json:"maximumThroughputUnits,omitempty"`
+	KafkaEnabled           bool  `json:"kafkaEnabled,omitempty"`
 }
 
 func init() {

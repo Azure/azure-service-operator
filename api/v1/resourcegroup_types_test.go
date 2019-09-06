@@ -59,7 +59,7 @@ var _ = Describe("ResourceGroup", func() {
 					Namespace: "default",
 				},
 				Spec: ResourceGroupSpec{
-					Location: "westus",
+					Location: resourcegroupLocation,
 				}}
 
 			By("creating an API obj")
