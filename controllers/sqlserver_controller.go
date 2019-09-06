@@ -18,6 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"strings"
 	"time"
 
@@ -34,6 +35,7 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -42,6 +44,7 @@ type SqlServerReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
+	Scheme   *runtime.Scheme
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlservers,verbs=get;list;watch;create;update;patch;delete
@@ -136,8 +139,8 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	sqlServerProperties := sql.SQLServerProperties{
-		AdministratorLogin:         to.StringPtr("iamadmin"),
-		AdministratorLoginPassword: to.StringPtr("generate_me_1234"),
+		AdministratorLogin:         to.StringPtr(""),
+		AdministratorLoginPassword: to.StringPtr(""),
 	}
 
 	// Check to see if secret already exists for admin username/password
@@ -280,4 +283,19 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 
 	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
 	return nil
+}
+
+// helper function to generate username/password for secrets
+func generateRandomString(n int) string {
+	rand.Seed(time.Now().UnixNano())
+
+	const characterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()_+-=<>"
+
+	// TODO: add logic to enforce password policy rules for sql server
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = characterBytes[rand.Intn(len(characterBytes))]
+	}
+
+	return string(b)
 }
