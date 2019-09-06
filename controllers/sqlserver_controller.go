@@ -33,8 +33,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -143,14 +143,14 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		AdministratorLoginPassword: to.StringPtr(""),
 	}
 
-	// check to see if secret already exists for admin username/password
+	// Check to see if secret already exists for admin username/password
 	var checkForSecretsErr error
 	secret := &v1.Secret{}
 
 	checkForSecretsErr = r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret)
 
-	// if secret doesn't exist, generate creds
-	// note: sql server enforces password policy:
+	// If secret doesn't exist, generate creds
+	// Note: sql server enforces password policy.  Details can be found here:
 	// https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017
 	if checkForSecretsErr != nil {
 		r.Log.Info("secret did not exist, generating creds now")
@@ -161,10 +161,6 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		sqlServerProperties.AdministratorLogin = to.StringPtr(string(secret.Data["username"]))
 		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(string(secret.Data["password"]))
 	}
-
-	// debugging
-	r.Log.Info("sqlServerProperties.AdministratorLogin: " + *sqlServerProperties.AdministratorLogin)
-	r.Log.Info("sqlServerProperties.AdministratorLoginPassword: " + *sqlServerProperties.AdministratorLoginPassword)
 
 	csecret := &v1.Secret{
 		TypeMeta: metav1.TypeMeta{
@@ -184,27 +180,17 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		Type: "Opaque",
 	}
 
-	// TODO: nil pointer dereference error is happening in this block
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, csecret, func() error {
 		r.Log.Info("mutating secret bundle")
-		//r.Log.Info("after CreateorupdateSecret", "error", createOrUpdateSecretErr)
-		r.Log.Info("Just before logging scheme")
-		r.Log.Info("logging r.Scheme", "info", r.Scheme)
-		r.Log.Info("logging instance", "info", instance)
-		r.Log.Info("logging csecret", "info", csecret)
 		innerErr := controllerutil.SetControllerReference(instance, csecret, r.Scheme)
 		if innerErr != nil {
-			r.Log.Info("innerErr is not nil")
 			return innerErr
 		}
-
 		return nil
 	})
 
 	if createOrUpdateSecretErr != nil {
-		r.Log.Info("createOrUpdateSecretErr is not nil ")
 		return createOrUpdateSecretErr
-
 	}
 
 	// create the sql server
