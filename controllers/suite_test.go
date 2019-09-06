@@ -26,7 +26,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	v1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
@@ -106,16 +106,16 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	Expect(cfg).ToNot(BeNil())
 
 	// not sure why there are four of these
-	err = v1.AddToScheme(scheme.Scheme)
+	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	err = v1.AddToScheme(scheme.Scheme)
+	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	err = v1.AddToScheme(scheme.Scheme)
+	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	err = v1.AddToScheme(scheme.Scheme)
+	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	var k8sManager ctrl.Manager
@@ -177,7 +177,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
 
 	// Create the Storage Account and Container
-	_, err = storages.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, v1.StorageSku{
+	_, err = storages.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1.StorageSku{
 		Name: "Standard_LRS",
 	}, "Storage", map[string]*string{}, "", nil)
 
@@ -203,7 +203,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	err := helpers.FromByteArray(r, &tc)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = v1.AddToScheme(scheme.Scheme)
+	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).ToNot(HaveOccurred())
 
 	k8sClient, err := client.New(&tc.Cfg, client.Options{Scheme: scheme.Scheme})
