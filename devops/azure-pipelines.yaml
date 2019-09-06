@@ -83,9 +83,7 @@ steps:
     go get -u gopkg.in/matm/v1/gocov-html
     go get golang.org/x/tools/cmd/cover
     go get github.com/onsi/ginkgo/ginkgo
-    TEST_USE_EXISTING_CLUSTER=false ginkgo -nodes=4 -stream -progress -cover -outputdir $(MODULE_PATH) -coverprofile coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
-    go-junit-report < testlogs.txt  > report.xml
-    go tool cover -html=coverage.txt -o cover.html
+    make test
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml
     mkdir coverage
