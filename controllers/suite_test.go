@@ -195,6 +195,15 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	}
 	bytes, err := helpers.ToByteArray(&tc)
 
+	Eventually(func() bool {
+		namespace, _ := eventhubs.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+		if *namespace.ProvisioningState == "Succeeded" {
+			return true
+		}
+		return false
+	}, 60,
+	).Should(BeTrue())
+
 	log.Println(fmt.Sprintf("Completed common controller test setup"))
 	return bytes
 }, func(r []byte) {
