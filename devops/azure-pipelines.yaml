@@ -75,19 +75,23 @@ steps:
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
   workingDirectory: '$(MODULE_PATH)'
 
-- script: |
-    go mod download
-    go get -u github.com/jstemmer/go-junit-report
-    go get github.com/axw/gocov/gocov
-    go get github.com/AlekSi/gocov-xml
-    go get -u gopkg.in/matm/v1/gocov-html
-    go get golang.org/x/tools/cmd/cover
-    make test
-    gocov convert coverage.txt > coverage.json
-    gocov-xml < coverage.json > coverage.xml
-    mkdir coverage
-  continueOnError: 'false'
+- task: Bash@3
   displayName: 'Run unit tests'
+  inputs:
+    targetType: 'inline'
+    script: |
+      go mod download
+      go get -u github.com/jstemmer/go-junit-report
+      go get github.com/axw/gocov/gocov
+      go get github.com/AlekSi/gocov-xml
+      go get -u gopkg.in/matm/v1/gocov-html
+      go get golang.org/x/tools/cmd/cover
+      make test
+      gocov convert coverage.txt > coverage.json
+      gocov-xml < coverage.json > coverage.xml
+      mkdir coverage
+    workingDirectory: '$(MODULE_PATH)'
+    failOnStderr: true
   env:
     GO111MODULE: on
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
@@ -96,37 +100,40 @@ steps:
     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
-  workingDirectory: '$(MODULE_PATH)'
 
-- script: |
-    GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
-    kind create cluster
-    export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
-    kubectl cluster-info
-    kubectl create namespace cert-manager
-    kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
-    kubectl create namespace azureoperator-system 
-    kubectl --namespace azureoperator-system \
-      create secret generic azureoperatorsettings \
-      --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
-      --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
-      --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
-      --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
-    #create image and load it into cluster
-    IMG="docker.io/controllertest:1" make docker-build
-    kind load docker-image docker.io/controllertest:1 --loglevel "trace"
-    make install
-    kubectl get namespaces
-    echo "sleep 80 seconds to get the cert pods running"
-    sleep 80
-    echo "end of sleep"
-    kubectl get pods --namespace cert-manager
-    echo "all the pods should be running"
-    make deploy
-    make test-existing
-  continueOnError: 'false'
+- task: Bash@3
   displayName: 'Set kind cluster and Run unit tests'
+  inputs:
+    targetType: 'inline'
+    script: |
+      GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
+      kind create cluster
+      export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
+      kubectl cluster-info
+      kubectl create namespace cert-manager
+      kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+      kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+      kubectl create namespace azureoperator-system 
+      kubectl --namespace azureoperator-system \
+        create secret generic azureoperatorsettings \
+        --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
+        --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
+        --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
+        --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+      #create image and load it into cluster
+      IMG="docker.io/controllertest:1" make docker-build
+      kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+      make install
+      kubectl get namespaces
+      echo "sleep 80 seconds to get the cert pods running"
+      sleep 80
+      echo "end of sleep"
+      kubectl get pods --namespace cert-manager
+      echo "all the pods should be running"
+      make deploy
+      make test-existing
+    workingDirectory: '$(MODULE_PATH)'
+    failOnStderr: true
   env:
     GO111MODULE: on
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
@@ -135,31 +142,27 @@ steps:
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-  workingDirectory: '$(MODULE_PATH)'
 
 - task: PublishTestResults@2
   displayName: 'test cluster'
   inputs:    
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
-    failTaskOnFailedTests: 'true'
-    failOnStandardError: 'true'
+    failTaskOnFailedTests: true
 
 - task: PublishTestResults@2
   displayName: 'existing cluster'
   inputs:    
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
-    failTaskOnFailedTests: 'true'
-    failOnStandardError: 'true'
+    failTaskOnFailedTests: true
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura 
     summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
     reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
-    failIfCoverageEmpty: 'true'
-    failOnStandardError: 'true'
+    failIfCoverageEmpty: true
 
 - script: docker build -t $(IMAGE_NAME) .  # add options to this command to meet your needs
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
