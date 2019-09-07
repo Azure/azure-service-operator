@@ -18,13 +18,13 @@ require (
 	github.com/google/gofuzz v1.0.0 // indirect
 	github.com/googleapis/gnostic v0.3.0 // indirect
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
-	github.com/onsi/ginkgo v1.8.0
+	github.com/onsi/ginkgo v1.10.1
 	github.com/onsi/gomega v1.5.0
 	github.com/satori/go.uuid v1.2.0
 	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8 // indirect
 	golang.org/x/net v0.0.0-20190620200207-3b0461eec859
 	golang.org/x/sys v0.0.0-20190621203818-d432491b9138 // indirect
-	golang.org/x/tools v0.0.0-20190822191935-b1e2c8edcefd // indirect
+	golang.org/x/tools v0.0.0-20190905235650-93dcc2f048f5 // indirect
 	k8s.io/api v0.0.0-20190409021203-6e4e0e4f393b
 	k8s.io/apimachinery v0.0.0-20190404173353-6a84e37a896d
 	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible

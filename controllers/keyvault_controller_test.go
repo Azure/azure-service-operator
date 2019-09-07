@@ -16,6 +16,7 @@ import (
 	"context"
 	"fmt"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	keyvaultresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -25,7 +26,6 @@ import (
 	"log"
 	"strings"
 	"time"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 var _ = Describe("KeyVault Controller", func() {
@@ -52,16 +52,16 @@ var _ = Describe("KeyVault Controller", func() {
 			}
 
 			// Create the resource group object and expect the Reconcile to be created
-			err := k8sClient.Create(context.Background(), resourceGroupInstance)
+			err := tc.K8sClient.Create(context.Background(), resourceGroupInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
-			// Prep query for get 
+			// Prep query for get
 			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 
 			// Wait until resource group is provisioned
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
+				_ = tc.K8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.Status.Provisioned == true
 			}, timeout,
 			).Should(BeTrue())
@@ -80,7 +80,7 @@ var _ = Describe("KeyVault Controller", func() {
 
 			// Create the Keyvault object and expect the Reconcile to be created
 			log.Print("Create")
-			err = k8sClient.Create(context.Background(), keyVaultInstance)
+			err = tc.K8sClient.Create(context.Background(), keyVaultInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
@@ -89,7 +89,7 @@ var _ = Describe("KeyVault Controller", func() {
 
 			// Wait until key vault is provisioned
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
+				_ = tc.K8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
 				//log.Print(keyVaultInstance.Status)
 				return keyVaultInstance.Status.Provisioned == true
 			}, timeout,
@@ -103,16 +103,16 @@ var _ = Describe("KeyVault Controller", func() {
 			).Should(BeTrue())
 
 			// delete key vault
-			k8sClient.Delete(context.Background(), keyVaultInstance)
+			tc.K8sClient.Delete(context.Background(), keyVaultInstance)
 
 			// verify key vault is gone from kubernetes
 			Eventually(func() bool {
-				err := k8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
+				err := tc.K8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
 				if err == nil {
 					err = fmt.Errorf("")
 				}
 				return strings.Contains(err.Error(), "not found")
-			}, timeout,  
+			}, timeout,
 			).Should(BeTrue())
 
 			// confirm key vault is gone from Azure
