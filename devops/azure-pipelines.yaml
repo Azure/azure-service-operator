@@ -25,10 +25,6 @@ variables:
  
 steps:
 
-- task: DeleteFiles@1
-  inputs:
-    contents: '\*'
-
 - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
   lfs: "true"
 
