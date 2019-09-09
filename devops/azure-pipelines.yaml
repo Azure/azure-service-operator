@@ -67,7 +67,7 @@ steps:
     go get -u github.com/jstemmer/go-junit-report
     go get github.com/axw/gocov/gocov
     go get github.com/AlekSi/gocov-xml
-    go get -u gopkg.in/matm/v1/gocov-html
+    go get -u github.com/matm/gocov-html
     go get golang.org/x/tools/cmd/cover
   displayName: 'Install kubebuilder, kustomize and set environment'
   env:
@@ -84,7 +84,7 @@ steps:
       go get -u github.com/jstemmer/go-junit-report
       go get github.com/axw/gocov/gocov
       go get github.com/AlekSi/gocov-xml
-      go get -u gopkg.in/matm/v1/gocov-html
+      go get -u github.com/matm/gocov-html
       go get golang.org/x/tools/cmd/cover
       make test
       gocov convert coverage.txt > coverage.json
