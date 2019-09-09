@@ -45,6 +45,8 @@ RUN apt-get update \
         github.com/golangci/golangci-lint/cmd/golangci-lint \
         github.com/mgechev/revive \
         github.com/derekparker/delve/cmd/dlv 2>&1 \
+        github.com/onsi/ginkgo/ginkgo \
+        github.com/onsi/gomega/... \
     #
     # Clean up
     && apt-get autoremove -y \
