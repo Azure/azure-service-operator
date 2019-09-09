@@ -81,19 +81,19 @@ steps:
     targetType: 'inline'
     script: |
       go mod download
-      # go get -u github.com/jstemmer/go-junit-report
+      go get -u github.com/jstemmer/go-junit-report 2>&1 > /dev/null
       go get github.com/axw/gocov/gocov 2>&1 > /dev/null
-      # go get github.com/AlekSi/gocov-xml
-      # go get -u github.com/matm/gocov-html
-      # go get golang.org/x/tools/cmd/cover
-      # make test
-      # gocov convert coverage.txt > coverage.json
-      # gocov-xml < coverage.json > coverage.xml
+      go get github.com/AlekSi/gocov-xml 2>&1 > /dev/null
+      go get -u github.com/matm/gocov-html 2>&1 > /dev/null
+      go get golang.org/x/tools/cmd/cover 2>&1 > /dev/null
+      make test
+      gocov convert coverage.txt > coverage.json
+      gocov-xml < coverage.json > coverage.xml
       # echo $?
-      # go tool cover -html=coverage.txt -o cover.html
+      go tool cover -html=coverage.txt -o cover.html
       # echo $?
       # echo "mkdir coverage"
-      # mkdir coverage
+      mkdir coverage
       # echo "successful?"
     workingDirectory: '$(MODULE_PATH)'
     failOnStderr: true
