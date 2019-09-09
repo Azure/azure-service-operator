@@ -17,13 +17,13 @@ all: manager
 
 # Run tests
 test: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=false ginkgo -nodes=4 -stream -progress -cover -outputdir $(CURDIR) -coverprofile coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
+	TEST_USE_EXISTING_CLUSTER=false ginkgo -nodes=4 -progress -cover -outputdir $(CURDIR) -coverprofile coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
 	sed -i'' '2,$$ s/mode: atomic//' coverage.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true ginkgo -nodes=4 -stream -progress -cover -outputdir $(CURDIR) -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs-existing.txt
+	TEST_USE_EXISTING_CLUSTER=true ginkgo -nodes=4 -progress -cover -outputdir $(CURDIR) -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs-existing.txt
 	sed -i'' '2,$$ s/mode: atomic//' coverage-existing.txt
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
