@@ -51,7 +51,7 @@ type TestContext struct {
 	Cfg                   rest.Config
 	K8sClient             client.Client
 	ResourceGroupName     string
-	ResourcegroupLocation string
+	ResourceGroupLocation string
 	EventhubNamespaceName string
 	EventhubName          string
 	NamespaceLocation     string
@@ -193,7 +193,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	tc := TestContext{
 		Cfg:                   *cfg,
 		ResourceGroupName:     resourceGroupName,
-		ResourcegroupLocation: resourcegroupLocation,
+		ResourceGroupLocation: resourcegroupLocation,
 		EventhubNamespaceName: eventhubNamespaceName,
 		EventhubName:          eventhubName,
 		NamespaceLocation:     namespaceLocation,

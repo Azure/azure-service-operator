@@ -30,9 +30,7 @@ import (
 
 var _ = Describe("KeyVault Controller", func() {
 
-	keyVaultLocation := "westus"
 	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
-	resourceGroupName := "t-rg-dev-kv-" + helpers.RandomString(10)
 	const timeout = time.Second * 240
 	const poll = time.Second * 10
 
@@ -40,31 +38,7 @@ var _ = Describe("KeyVault Controller", func() {
 
 		It("Should Create and Delete Key Vault instances", func() {
 
-			// Declare resource group object
-			resourceGroupInstance := &azurev1.ResourceGroup{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      resourceGroupName,
-					Namespace: "default",
-				},
-				Spec: azurev1.ResourceGroupSpec{
-					Location: "westus",
-				},
-			}
-
-			// Create the resource group object and expect the Reconcile to be created
-			err := tc.K8sClient.Create(context.Background(), resourceGroupInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
-
-			// Prep query for get
-			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
-
-			// Wait until resource group is provisioned
-			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.Status.Provisioned == true
-			}, timeout,
-			).Should(BeTrue())
+			keyVaultLocation := tc.ResourceGroupLocation
 
 			// Declare KeyVault object
 			keyVaultInstance := &azurev1.KeyVault{
@@ -74,13 +48,13 @@ var _ = Describe("KeyVault Controller", func() {
 				},
 				Spec: azurev1.KeyVaultSpec{
 					Location:          keyVaultLocation,
-					ResourceGroupName: resourceGroupName,
+					ResourceGroupName: tc.ResourceGroupName,
 				},
 			}
 
 			// Create the Keyvault object and expect the Reconcile to be created
 			log.Print("Create")
-			err = tc.K8sClient.Create(context.Background(), keyVaultInstance)
+			err := tc.K8sClient.Create(context.Background(), keyVaultInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
@@ -97,7 +71,7 @@ var _ = Describe("KeyVault Controller", func() {
 
 			// verify key vault exists in Azure
 			Eventually(func() bool {
-				result, _ := keyvaultresourcemanager.GetVault(context.Background(), resourceGroupName, keyVaultInstance.Name)
+				result, _ := keyvaultresourcemanager.GetVault(context.Background(), tc.ResourceGroupName, keyVaultInstance.Name)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
@@ -117,7 +91,7 @@ var _ = Describe("KeyVault Controller", func() {
 
 			// confirm key vault is gone from Azure
 			Eventually(func() bool {
-				result, _ := keyvaultresourcemanager.GetVault(context.Background(), resourceGroupName, keyVaultInstance.Name)
+				result, _ := keyvaultresourcemanager.GetVault(context.Background(), tc.ResourceGroupName, keyVaultInstance.Name)
 				return result.Response.StatusCode == 404
 			}, timeout, poll,
 			).Should(BeTrue())

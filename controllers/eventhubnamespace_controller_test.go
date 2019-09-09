@@ -40,7 +40,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.ResourceGroupName
-		rgLocation = tc.ResourcegroupLocation
+		rgLocation = tc.ResourceGroupLocation
 	})
 
 	AfterEach(func() {

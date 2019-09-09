@@ -45,7 +45,7 @@ var _ = Describe("EventHub Controller", func() {
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.ResourceGroupName
-		rgLocation = tc.ResourcegroupLocation
+		rgLocation = tc.ResourceGroupLocation
 		ehnName = tc.EventhubNamespaceName
 		saName = tc.StorageAccountName
 		bcName = tc.BlobContainerName
