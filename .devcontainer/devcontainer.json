@@ -4,7 +4,8 @@
 	"dockerComposeFile": "docker-compose.yml",
     "service": "docker-in-docker",
     "workspaceFolder": "/workspace",
-    "shutdownAction": "stopCompose",
+	"shutdownAction": "stopCompose",
+	"postCreateCommand": "make set-kindcluster",
 	"extensions": [
 		"ms-azuretools.vscode-docker",
 		"ms-vscode.go"
