@@ -1,9 +1,7 @@
 version: '3'
 services:
   docker-in-docker:
-    build: 
-      context: ../
-      dockerfile: .devcontainer/Dockerfile
+    image: azure-service-operator-dev-container:0.1.0
     network_mode: "host"
     volumes:
       # Update this to wherever you want VS Code to mount the folder of your project
