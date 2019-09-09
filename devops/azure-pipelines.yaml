@@ -89,6 +89,9 @@ steps:
       make test
       gocov convert coverage.txt > coverage.json
       gocov-xml < coverage.json > coverage.xml
+      echo $?
+      go tool cover -html=coverage.txt -o cover.html
+      echo $?
       mkdir coverage
     workingDirectory: '$(MODULE_PATH)'
     failOnStderr: true
