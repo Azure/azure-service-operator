@@ -1,3 +1,11 @@
+# Operators
+
+[Event Hub Operator] (operators/eventhuboperator.md)
+
+[SQL Operator] (operators/sqloperator.md)
+
+[KeyVault Operator] (operators/keyvaultoperator.md)
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/melonrush13/csci5839/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
