@@ -185,7 +185,6 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		}
 		return nil
 	})
-
 	if createOrUpdateSecretErr != nil {
 		return createOrUpdateSecretErr
 	}
