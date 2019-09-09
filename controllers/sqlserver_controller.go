@@ -27,11 +27,9 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 )
@@ -140,21 +138,6 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	instance.Status.Provisioning = true
-
-	//get owner instance
-	var ownerInstance azurev1.ResourceGroup
-	resourceGroupNamespacedName := types.NamespacedName{Name: groupName, Namespace: instance.Namespace}
-	err := r.Get(ctx, resourceGroupNamespacedName, &ownerInstance)
-
-	if err != nil {
-		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of resourcegroup")
-	} else {
-		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
-		if innerErr != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to set controller reference to resourcegroup")
-		}
-	}
 
 	_, err = sdkClient.CreateOrUpdateSQLServer(sqlServerProperties)
 	if err != nil {
