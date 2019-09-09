@@ -33,8 +33,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -139,8 +139,8 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	sqlServerProperties := sql.SQLServerProperties{
-		AdministratorLogin:         to.StringPtr(""),
-		AdministratorLoginPassword: to.StringPtr(""),
+		AdministratorLogin:         to.StringPtr(generateRandomString(8)),
+		AdministratorLoginPassword: to.StringPtr(generateRandomString(16)),
 	}
 
 	// Check to see if secret already exists for admin username/password
@@ -153,36 +153,33 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	// Note: sql server enforces password policy.  Details can be found here:
 	// https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017
 	if checkForSecretsErr != nil {
-		r.Log.Info("secret did not exist, generating creds now")
-		sqlServerProperties.AdministratorLogin = to.StringPtr(generateRandomString(8))
-		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(generateRandomString(16))
+		r.Log.Info("secret does not exist, using randomly generated creds")
+		secret = &v1.Secret{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "Secret",
+				APIVersion: "apps/v1beta1",
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      name,
+				Namespace: instance.Namespace,
+			},
+			Data: map[string][]byte{
+				"username":           []byte(*sqlServerProperties.AdministratorLogin),
+				"password":           []byte(*sqlServerProperties.AdministratorLoginPassword),
+				"sqlservernamespace": []byte(instance.Namespace),
+				"sqlservername":      []byte(name),
+			},
+			Type: "Opaque",
+		}
 	} else {
 		r.Log.Info("secret already exists, pulling creds now")
 		sqlServerProperties.AdministratorLogin = to.StringPtr(string(secret.Data["username"]))
 		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(string(secret.Data["password"]))
 	}
 
-	csecret := &v1.Secret{
-		TypeMeta: metav1.TypeMeta{
-			Kind:       "Secret",
-			APIVersion: "apps/v1beta1",
-		},
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
-			Namespace: instance.Namespace,
-		},
-		Data: map[string][]byte{
-			"username":           []byte(*sqlServerProperties.AdministratorLogin),
-			"password":           []byte(*sqlServerProperties.AdministratorLoginPassword),
-			"sqlservernamespace": []byte(instance.Namespace),
-			"sqlservername":      []byte(name),
-		},
-		Type: "Opaque",
-	}
-
-	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, csecret, func() error {
+	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
 		r.Log.Info("mutating secret bundle")
-		innerErr := controllerutil.SetControllerReference(instance, csecret, r.Scheme)
+		innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
 		if innerErr != nil {
 			return innerErr
 		}
