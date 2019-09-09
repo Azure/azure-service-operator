@@ -45,9 +45,8 @@ RUN apt-get update \
         github.com/golangci/golangci-lint/cmd/golangci-lint \
         github.com/mgechev/revive \
         github.com/onsi/ginkgo/ginkgo \
-        github.com/derekparker/delve/cmd/dlv 2>&1 \
-        github.com/onsi/ginkgo/ginkgo \
         github.com/onsi/gomega/... \
+        github.com/derekparker/delve/cmd/dlv 2>&1 \
     #
     # Clean up
     && apt-get autoremove -y \
@@ -85,21 +84,10 @@ ENV AZURE_SUBSCRIPTION_ID=""
 ENV AZURE_TENANT_ID=""
 ENV KUBECONFIG="/root/.kube/kind-config-kind"
 
-WORKDIR /workspace/
-# Copy the Go Modules manifests
-COPY go.mod go.mod
-COPY go.sum go.sum
-# cache deps before building and copying source so that we don't need to re-download as much
-# and so that source changes don't invalidate our downloaded layer
-RUN go mod download
-
 COPY ./Makefile ./
 RUN make install-kind
 RUN make install-kubebuilder
 RUN make install-kustomize
 RUN make install-test-dependency
-
-WORKDIR /
-RUN rm -rf /workspace
 
 ENV SHELL /bin/bash
