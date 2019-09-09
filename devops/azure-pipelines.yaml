@@ -92,7 +92,9 @@ steps:
       echo $?
       go tool cover -html=coverage.txt -o cover.html
       echo $?
+      echo "mkdir coverage"
       mkdir coverage
+      echo "successful?"
     workingDirectory: '$(MODULE_PATH)'
     failOnStderr: true
   env:
