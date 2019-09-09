@@ -80,21 +80,11 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      go mod download
-      go get -u github.com/jstemmer/go-junit-report 2>&1 > /dev/null
-      go get github.com/axw/gocov/gocov 2>&1 > /dev/null
-      go get github.com/AlekSi/gocov-xml 2>&1 > /dev/null
-      go get -u github.com/matm/gocov-html 2>&1 > /dev/null
-      go get golang.org/x/tools/cmd/cover 2>&1 > /dev/null
       make test
       gocov convert coverage.txt > coverage.json
       gocov-xml < coverage.json > coverage.xml
-      # echo $?
       go tool cover -html=coverage.txt -o cover.html
-      # echo $?
-      # echo "mkdir coverage"
       mkdir coverage
-      # echo "successful?"
     workingDirectory: '$(MODULE_PATH)'
     failOnStderr: true
   env:
@@ -130,10 +120,7 @@ steps:
       kind load docker-image docker.io/controllertest:1 --loglevel "trace"
       make install
       kubectl get namespaces
-      echo "sleep 80 seconds to get the cert pods running"
-      sleep 80
-      echo "end of sleep"
-      kubectl get pods --namespace cert-manager
+      kubectl wait pod -n cert-manager --for condition=ready --timeout=80s --all
       echo "all the pods should be running"
       make deploy
       make test-existing
