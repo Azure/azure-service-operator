@@ -181,6 +181,7 @@ func main() {
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("SqlServer"),
 		Recorder: mgr.GetEventRecorderFor("SqlServer-controller"),
+		Scheme:   scheme,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlServer")
 		os.Exit(1)
