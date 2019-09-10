@@ -144,7 +144,6 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	// Check to see if secret already exists for admin username/password
-	var checkForSecretsErr error
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
@@ -159,11 +158,10 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		Type: "Opaque",
 	}
 
-	checkForSecretsErr = r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret)
 	// If secret doesn't exist, generate creds
 	// Note: sql server enforces password policy.  Details can be found here:
 	// https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017
-	if checkForSecretsErr == nil {
+	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err != nil {
 		r.Log.Info("secret already exists, pulling creds now")
 		sqlServerProperties.AdministratorLogin = to.StringPtr(string(secret.Data["username"]))
 		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(string(secret.Data["password"]))
