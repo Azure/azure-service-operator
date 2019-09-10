@@ -15,6 +15,15 @@ CRD_OPTIONS ?= "crd:trivialVersions=true"
 
 all: manager
 
+# Generate test certs for development
+generate-test-certs: 
+	echo "[req]" > config.txt
+	echo "distinguished_name = req_distinguished_name" >> config.txt
+	echo "[req_distinguished_name]" >> config.txt
+	echo "[SAN]" >> config.txt
+	echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> config.txt
+	openssl req -x509 -days 730 -out tls.crt -keyout tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config config.txt -nodes
+
 # Run tests
 test: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=false ginkgo -nodes=4 -progress -cover -outputdir $(CURDIR) -coverprofile coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
