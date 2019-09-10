@@ -161,7 +161,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	// If secret doesn't exist, generate creds
 	// Note: sql server enforces password policy.  Details can be found here:
 	// https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017
-	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err != nil {
+	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
 		sqlServerProperties.AdministratorLogin = to.StringPtr(string(secret.Data["username"]))
 		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(string(secret.Data["password"]))
