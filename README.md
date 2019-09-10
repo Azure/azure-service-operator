@@ -166,6 +166,22 @@ To Extend the operator `github.com/Azure/azure-service-operator`:
 
 If you make changes to the operator and want to update the deployment without recreating the cluster (when testing locally), you can use the `make update` to update your Azure Operator pod. If you need to rebuild the docker image without cache, use `make ARGS="--no-cache" update`.
 
+## Testing
+
+Testing the full project can be done in two ways:
+* `make test` - Test against the Kubernetes integration testing framework.
+* `make test-existing` - Test against an existing cluster. This is currently easiest to do run against a kind cluster setup.
+
+Both of these invoke the Ginkgo test runner, running tests in parallel across 4 nodes by default.
+
+### Focus tests
+
+The ginkgo runner makes it simple to test single test cases, or packages in isolation.
+* Rename the spec from `Describe` to `FDescribe`, or the individual test case from `It` to `FIt` excludes all other tests at the same level.
+* Adding an additional parameter to ginkgo runner `--focus=REGEXP`.
+
+See [https://onsi.github.io/ginkgo/#focused-specs]() for more details.
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
