@@ -198,4 +198,6 @@ install-test-dependency:
 	go get -u github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
-	&& go get golang.org/x/tools/cmd/cover
+	&& go get github.com/onsi/ginkgo/ginkgo \
+	&& go get github.com/onsi/gomega/... \
+    && go get golang.org/x/tools/cmd/cover

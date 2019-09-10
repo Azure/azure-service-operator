@@ -44,8 +44,6 @@ RUN apt-get update \
         honnef.co/go/tools/... \
         github.com/golangci/golangci-lint/cmd/golangci-lint \
         github.com/mgechev/revive \
-        github.com/onsi/ginkgo/ginkgo \
-        github.com/onsi/gomega/... \
         github.com/derekparker/delve/cmd/dlv 2>&1 \
     #
     # Clean up
