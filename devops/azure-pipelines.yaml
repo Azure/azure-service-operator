@@ -44,36 +44,21 @@ steps:
   env:
     GO111MODULE: on
 
-- script: |
-    set -x
-    mkdir -p $(MODULE_PATH)/bin
-    os=$(go env GOOS)
-    arch=$(go env GOARCH)
-    # download kubebuilder
-    curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(MODULE_PATH)/bin
-    mv $(MODULE_PATH)/bin/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(MODULE_PATH)/bin
-    # download kustomize
-    curl -o $(MODULE_PATH)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
-    # set permission
-    chmod a+x $(MODULE_PATH)/bin/*
-    # export PATH
-    export PATH=$PATH:$(MODULE_PATH)/bin
-    echo '##vso[task.prependpath]$(MODULE_PATH)/bin'
-    #which kustomize
-    which kustomize
-    #kustomize version
-    kustomize  version
-    go mod download
-    go get -u github.com/jstemmer/go-junit-report
-    go get github.com/axw/gocov/gocov
-    go get github.com/AlekSi/gocov-xml
-    go get -u github.com/matm/gocov-html
-    go get golang.org/x/tools/cmd/cover
+- task: Bash@3
   displayName: 'Install kubebuilder, kustomize and set environment'
+  inputs:
+    targetType: 'inline'
+    script: |
+      set -x
+      make install-kind
+      make install-kubebuilder
+      make install-kustomize
+      make install-test-dependency
+    workingDirectory: '$(MODULE_PATH)'
+    failOnStderr: false
   env:
     GO111MODULE: on
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-  workingDirectory: '$(MODULE_PATH)'
 
 - task: Bash@3
   displayName: 'Run unit tests'
@@ -161,25 +146,25 @@ steps:
   displayName: 'Docker build'
   workingDirectory: '$(MODULE_PATH)'
 
-# - task: Docker@2
-#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-#   displayName: Login to ACR
-#   inputs:
-#     command: login
-#     containerRegistry: $(CONTAINER_REGISTRY)
+- task: Docker@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Login to ACR
+  inputs:
+    command: login
+    containerRegistry: $(CONTAINER_REGISTRY)
 
-# - task: Docker@2
-#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-#   displayName: Build and Push Docker Image $(IMAGE_NAME)
-#   inputs:
-#     command: buildAndPush
-#     containerRegistry: $(CONTAINER_REGISTRY)
-#     repository: $(IMAGE_NAME)
-#     Dockerfile: "$(MODULE_PATH)/Dockerfile"    
-#     buildContext: $(MODULE_PATH)
-#     tags: |
-#       latest
-#       $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+- task: Docker@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Build and Push Docker Image $(IMAGE_NAME)
+  inputs:
+    command: buildAndPush
+    containerRegistry: $(CONTAINER_REGISTRY)
+    repository: $(IMAGE_NAME)
+    Dockerfile: "$(MODULE_PATH)/Dockerfile"    
+    buildContext: $(MODULE_PATH)
+    tags: |
+      latest
+      $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
 
 
 - script: |
