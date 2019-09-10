@@ -37,9 +37,9 @@ var _ = Describe("ConsumerGroup", func() {
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		rgName = resourceGroupName
+		rgName = tc.ResourceGroupName
 		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
-		namespaceLocation = resourcegroupLocation
+		namespaceLocation = tc.ResourcegroupLocation
 		eventhubName = "t-eh-dev-ehs-" + helpers.RandomString(10)
 		messageRetentionInDays = int32(7)
 		partitionCount = int32(2)

@@ -84,7 +84,7 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
-	if !instance.IsSubmitted() {
+	if !instance.IsProvisioned() {
 		if err := r.reconcileExternal(&instance); err != nil {
 			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 				log.Info("Requeuing as the async operation is not complete")
