@@ -51,9 +51,11 @@ deploy: manifests
 	kubectl apply -f config/crd/bases
 	kustomize build config/default | kubectl apply -f -
 
+timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
+
 update:
-	IMG="docker.io/controllertest:1" make ARGS="${ARGS}" docker-build
-	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+	IMG="docker.io/controllertest:$(timestamp)" make ARGS="${ARGS}" docker-build
+	kind load docker-image docker.io/controllertest:$(timestamp) --loglevel "trace"
 	make install
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
