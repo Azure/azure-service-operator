@@ -66,9 +66,8 @@ var _ = Describe("ResourceGroups", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := CheckExistence(context.Background(), resourcegroupName)
-
-				return result.Response.StatusCode == 404
+				result, _ := GetGroup(context.Background(), resourcegroupName)
+				return result.Response.StatusCode == 404 || *result.Properties.ProvisioningState == "Deleting"
 			}, timeout,
 			).Should(BeTrue())
 

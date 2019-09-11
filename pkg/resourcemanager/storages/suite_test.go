@@ -39,9 +39,13 @@ import (
 // TODO: consolidate these shared fixtures between this and eventhubs (and other services)
 
 var cfg *rest.Config
-var resourcegroupLocation string
 
-var resourceGroupName = "t-rg-dev-rm-st-" + helpers.RandomString(10)
+type TestContext struct {
+	ResourceGroupName     string
+	ResourceGroupLocation string
+}
+
+var tc TestContext
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
@@ -58,21 +62,35 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 
 	By("bootstrapping test environment")
 
+	resourceGroupName := "t-rg-dev-rm-st-" + helpers.RandomString(10)
 	resourcemanagerconfig.ParseEnvironment()
-	resourcegroupLocation = resourcemanagerconfig.DefaultLocation()
+	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
 
 	//create resourcegroup for this suite
 	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
 	if result.Response.StatusCode != 204 {
-		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)
 	}
 
-	return []byte{}
-}, func(r []byte) {}, 60)
+	tc := TestContext{
+		ResourceGroupName:     resourceGroupName,
+		ResourceGroupLocation: resourceGroupLocation,
+	}
+
+	bytes, err := helpers.ToByteArray(&tc)
+	Expect(err).ToNot(HaveOccurred())
+
+	return bytes
+}, func(b []byte) {
+	resourcemanagerconfig.ParseEnvironment()
+
+	err := helpers.FromByteArray(b, &tc)
+	Expect(err).ToNot(HaveOccurred())
+}, 120)
 
 var _ = SynchronizedAfterSuite(func() {}, func() {
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
-	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
+	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), tc.ResourceGroupName)
 }, 60)

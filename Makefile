@@ -15,7 +15,7 @@ CRD_OPTIONS ?= "crd:trivialVersions=true"
 all: manager
 
 # Generate test certs for development
-generate-test-certs: 
+generate-test-certs:
 	echo "[req]" > config.txt
 	echo "distinguished_name = req_distinguished_name" >> config.txt
 	echo "[req_distinguished_name]" >> config.txt
@@ -200,4 +200,6 @@ install-test-dependency:
 	go get -u github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
+	&& go get github.com/onsi/ginkgo/ginkgo \
+	&& go get github.com/onsi/gomega/... \
 	&& go get golang.org/x/tools/cmd/cover

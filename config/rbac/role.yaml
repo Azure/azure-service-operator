@@ -9,49 +9,6 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - storages
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - events
-  verbs:
-  - create
-  - patch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - cosmosdbs
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - eventhubs
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
   - eventhubnamespaces
   verbs:
   - create
@@ -61,26 +18,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - rediscaches
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - rediscaches/status
-  verbs:
-  - get
-  - patch
-  - update
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -111,19 +48,15 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - consumergroups/status
+  - eventhubs
   verbs:
+  - create
+  - delete
   - get
+  - list
   - patch
   - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - cosmosdbs/status
-  verbs:
-  - get
-  - patch
-  - update
+  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -135,11 +68,82 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - eventhubnamespaces/status
+  - keyvaults
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - keyvaults/status
   verbs:
   - get
   - patch
   - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - rediscaches
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - cosmosdbs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - cosmosdbs/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - resourcegroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - storages
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - ""
   resources:
@@ -167,6 +171,30 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - consumergroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - eventhubnamespaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - storages/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - consumergroups
   verbs:
   - create
@@ -179,35 +207,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - keyvaults
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - keyvaults/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - resourcegroups/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - azure.microsoft.com
-  resources:
-  - storages/status
+  - rediscaches/status
   verbs:
   - get
   - patch
