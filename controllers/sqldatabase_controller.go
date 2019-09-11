@@ -85,9 +85,18 @@ func (r *SqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error)
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation for SqlDatabase")
 		if err := r.reconcileExternal(&instance); err != nil {
-			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-				r.Recorder.Event(&instance, "Normal", "Provisioning", "async op still running")
-				return ctrl.Result{Requeue: true, RequeueAfter: 10 * time.Second}, nil
+
+			catch := []string{
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.NotFoundErrorCode,
+				errhelp.AsyncOpIncompleteError,
+			}
+			if azerr, ok := err.(*errhelp.AzureError); ok {
+				if helpers.ContainsString(catch, azerr.Type) {
+					log.Info("Got ignorable error", "type", azerr.Type)
+					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+				}
 			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling sql database in azure: %v", err)
 		}
@@ -127,26 +136,29 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 	}
 
 	r.Log.Info("Calling createorupdate SQL database")
-	instance.Status.Provisioning = true
+	// instance.Status.Provisioning = true
 
-	// write information back to instance
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
-	}
+	// // write information back to instance
+	// if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+	// 	r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+	// }
 
 	_, err := sdkClient.CreateOrUpdateDB(sqlDatabaseProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
-			return err
+			instance.Status.Provisioning = true
+			if errup := r.Status().Update(ctx, instance); errup != nil {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			}
 		}
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
-		instance.Status.Provisioning = false
-		errUpdate := r.Status().Update(ctx, instance)
-		if errUpdate != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
-		}
-		return err
+
+		return errhelp.NewAzureError(err)
+	}
+
+	_, err = sdkClient.GetDB(dbName)
+	if err != nil {
+		return errhelp.NewAzureError(err)
 	}
 
 	instance.Status.Provisioning = false
@@ -174,6 +186,7 @@ func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) er
 		Location:          location,
 	}
 
+	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/database/%s"+groupName, server, dbname))
 	_, err := sdk.DeleteDB(dbname)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {

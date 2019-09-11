@@ -65,5 +65,5 @@ func init() {
 }
 
 func (s *SqlDatabase) IsSubmitted() bool {
-	return s.Status.Provisioning || s.Status.Provisioned
+	return s.Status.Provisioned
 }
