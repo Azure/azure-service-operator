@@ -46,7 +46,7 @@ Basic commands to check your cluster
 
 ### Quick Start
 
-If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you quickly have you're environment set up and ready to go with everything you need to get started.
+If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you can quickly have you're environment set up and ready to go with everything you need to get started.
 
 1. Open this project in VSCode.
 2. Inside `.devcontainer`, create a file called `.env` and using the following template, copy your Service Principal's details.
@@ -65,9 +65,7 @@ If you're using VSCode with [Remote - Containers](https://marketplace.visualstud
 4. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
 5. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment.
 
-**Note**: after the DevContainer has finished building, the kind cluster will initialising and installing the Azure Service Operator in the background. This will take some time before it is available.
-
-To see when the kind cluster is ready, use `docker ps -a` to list your running containers, look for `IMAGE` with the name `azure-service-operator_devcontainer_docker-in-docker...`. Using that image's `CONTAINER ID`, use `docker logs -f CONTAINER ID` to view the logs from the container setting up your cluster.
+**Note**: if you do not want to create a kind cluster when starting the devcontainer, comment out `"postCreateCommand": "make set-kindcluster",` in `.devcontainer/devcontainer.json` and reopen the devcontainer.
 
 ### Getting started
 
