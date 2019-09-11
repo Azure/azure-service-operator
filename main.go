@@ -156,18 +156,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	if !resourcemanagerconfig.Declarative() {
-		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
-			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
-			os.Exit(1)
-		}
-
-		if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
-			setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
-			os.Exit(1)
-		}
-	}
-
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
