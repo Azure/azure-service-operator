@@ -34,6 +34,10 @@ func getGoDbClient() sql.DatabasesClient {
 	return dbClient
 }
 
+func NewDBClient() sql.DatabasesClient {
+	return getGoDbClient()
+}
+
 // getGoFirewallClient retrieves a FirewallRulesClient
 func getGoFirewallClient() sql.FirewallRulesClient {
 	firewallClient := sql.NewFirewallRulesClient(config.SubscriptionID())
@@ -47,16 +51,6 @@ func getGoFirewallClient() sql.FirewallRulesClient {
 func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (result sql.Server, err error) {
 	serversClient := getGoServersClient()
 	serverProp := SQLServerPropertiesToServer(properties)
-
-	// check to see if the server exists, if it does then short-circuit
-	server, err := serversClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-	)
-	if err == nil && *server.State == "Ready" {
-		return server, nil
-	}
 
 	// issue the creation
 	future, err := serversClient.CreateOrUpdate(
@@ -112,23 +106,11 @@ func (sdk GoSDKClient) CreateOrUpdateSQLFirewallRule(ruleName string, startIP st
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
-func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (result sql.Database, err error) {
+func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
 	dbClient := getGoDbClient()
 	dbProp := SQLDatabasePropertiesToDatabase(properties)
 
-	// check to see if the db exists, if it does then short-circuit
-	db, err := dbClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-		properties.DatabaseName,
-		"serviceTierAdvisors, transparentDataEncryption",
-	)
-	if err == nil && *db.Status == "Online" {
-		return db, nil
-	}
-
-	future, err := dbClient.CreateOrUpdate(
+	return dbClient.CreateOrUpdate(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
 		sdk.ServerName,
@@ -137,20 +119,20 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (resul
 			Location:           to.StringPtr(sdk.Location),
 			DatabaseProperties: &dbProp,
 		})
-	if err != nil {
-		return result, err
-	}
 
-	// TODO: Will needs to remove the sync
-	err = future.WaitForCompletionRef(
+}
+
+// CreateOrUpdateDB creates or updates a DB in Azure
+func (sdk GoSDKClient) GetDB(name string) (sql.Database, error) {
+	dbClient := getGoDbClient()
+
+	return dbClient.Get(
 		sdk.Ctx,
-		dbClient.Client,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		name,
+		"serviceTierAdvisors, transparentDataEncryption",
 	)
-	if err != nil {
-		return result, err
-	}
-
-	return future.Result(dbClient)
 }
 
 // DeleteDB deletes a DB
