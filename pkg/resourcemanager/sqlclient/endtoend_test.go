@@ -77,8 +77,11 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// wait for db to be created, then only proceed once activated
 	for {
 		time.Sleep(time.Second)
-		db, err := sdk.CreateOrUpdateDB(sqlDBProperties)
+		future, err := sdk.CreateOrUpdateDB(sqlDBProperties)
+
+		db, err := future.Result(getGoDbClient())
 		if err == nil {
+
 			if *db.Status == "Online" {
 				util.PrintAndLog("db ready")
 				break
