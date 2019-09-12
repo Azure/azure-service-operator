@@ -27,7 +27,6 @@ import (
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -68,7 +67,17 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
+				catch := []string{
+					errhelp.AsyncOpIncompleteError,
+				}
+				if azerr, ok := err.(*errhelp.AzureError); ok {
+					if helpers.ContainsString(catch, azerr.Type) {
+						log.Info("Got ignorable error", "type", azerr.Type)
+						return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+					}
+				}
 				log.Info("Delete SqlServer failed with ", "error", err.Error())
+
 				return ctrl.Result{}, err
 			}
 
@@ -90,14 +99,23 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation")
 		if err := r.reconcileExternal(&instance); err != nil {
-			if strings.Contains(err.Error(), "asynchronous operation has not completed") {
-				r.Recorder.Event(&instance, "Normal", "Provisioning", "async op still running")
-				return ctrl.Result{Requeue: true, RequeueAfter: 10 * time.Second}, nil
+			catch := []string{
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.NotFoundErrorCode,
+				errhelp.AsyncOpIncompleteError,
+			}
+			if azerr, ok := err.(*errhelp.AzureError); ok {
+				if helpers.ContainsString(catch, azerr.Type) {
+					log.Info("Got ignorable error", "type", azerr.Type)
+					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+				}
 			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling sql server in azure: %v", err)
 		}
-		// if the request was just sent to azure, the resource probably isn't ready yet
-		return ctrl.Result{Requeue: true, RequeueAfter: 10 * time.Second}, nil
+		// give azure some time to catch up
+		log.Info("waiting for provision to take effect")
+		return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 	}
 
 	if err := r.verifyExternal(&instance); err != nil {
@@ -105,6 +123,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
+			errhelp.AsyncOpIncompleteError,
 		}
 		if azerr, ok := err.(*errhelp.AzureError); ok {
 			if helpers.ContainsString(catch, azerr.Type) {
@@ -138,33 +157,22 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		Location:          location,
 	}
 
-	sqlServerProperties := sql.SQLServerProperties{
-		AdministratorLogin:         to.StringPtr(generateRandomString(8)),
-		AdministratorLoginPassword: to.StringPtr(generateRandomString(16)),
-	}
-
 	// Check to see if secret already exists for admin username/password
-	secret := &v1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
-			Namespace: instance.Namespace,
-		},
-		Data: map[string][]byte{
-			"username":           []byte(*sqlServerProperties.AdministratorLogin),
-			"password":           []byte(*sqlServerProperties.AdministratorLoginPassword),
-			"sqlservernamespace": []byte(instance.Namespace),
-			"sqlservername":      []byte(name),
-		},
-		Type: "Opaque",
+	secret := r.GetOrPrepareSecret(instance)
+	sqlServerProperties := sql.SQLServerProperties{
+		AdministratorLogin:         to.StringPtr(string(secret.Data["username"])),
+		AdministratorLoginPassword: to.StringPtr(string(secret.Data["password"])),
 	}
 
-	// If secret doesn't exist, generate creds
-	// Note: sql server enforces password policy.  Details can be found here:
-	// https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017
-	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
-		r.Log.Info("secret already exists, pulling creds now")
-		sqlServerProperties.AdministratorLogin = to.StringPtr(string(secret.Data["username"]))
-		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(string(secret.Data["password"]))
+	// create the sql server
+	//instance.Status.Provisioning = true
+	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
+		if !strings.Contains(err.Error(), "not complete") {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
+			return errhelp.NewAzureError(err)
+		}
+	} else {
+		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully dubmitted to Azure")
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
@@ -179,24 +187,14 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		return createOrUpdateSecretErr
 	}
 
-	// create the sql server
 	instance.Status.Provisioning = true
-
-	_, err = sdkClient.CreateOrUpdateSQLServer(sqlServerProperties)
-	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
-		instance.Status.Provisioning = false
-		err = errhelp.NewAzureError(err)
-	} else {
-		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully dubmitted to Azure")
-	}
 
 	// write information back to instance
 	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	return err
+	return nil
 }
 
 func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error {
@@ -265,11 +263,35 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 	_, err := sdkClient.DeleteSQLServer()
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
-		return err
+		return errhelp.NewAzureError(err)
 	}
 
 	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
 	return nil
+}
+
+func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) *v1.Secret {
+	name := instance.ObjectMeta.Name
+
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: instance.Namespace,
+		},
+		Data: map[string][]byte{
+			"username":           []byte(generateRandomString(8)),
+			"password":           []byte(generateRandomString(16)),
+			"sqlservernamespace": []byte(instance.Namespace),
+			"sqlservername":      []byte(name),
+		},
+		Type: "Opaque",
+	}
+
+	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
+		r.Log.Info("secret already exists, pulling creds now")
+	}
+
+	return secret
 }
 
 // helper function to generate username/password for secrets
