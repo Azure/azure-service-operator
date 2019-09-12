@@ -59,7 +59,10 @@ var _ = Describe("SqlDatabase", func() {
 					Namespace: "default",
 				},
 				Spec: SqlDatabaseSpec{
-					//TODO: fill out
+					Location:      "westus",
+					ResourceGroup: "foo-resourcegroup",
+					Server:        "sqlsrvsample",
+					Edition:       0,
 				}}
 
 			By("creating an API obj")

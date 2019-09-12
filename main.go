@@ -168,7 +168,7 @@ func main() {
 		ConsumerGroupManager: eventhubManagers.ConsumerGroup,
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
+		setupLog.Error(err, "unable to create controller", "controller", "Storage")
 		os.Exit(1)
 	}
 
@@ -176,7 +176,7 @@ func main() {
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("SqlServer"),
 		Recorder: mgr.GetEventRecorderFor("SqlServer-controller"),
-		Scheme:   scheme,
+		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlServer")
 		os.Exit(1)
@@ -185,6 +185,7 @@ func main() {
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
 		Recorder: mgr.GetEventRecorderFor("SqlDatabase-controller"),
+		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlDatabase")
 		os.Exit(1)

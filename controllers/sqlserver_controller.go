@@ -27,6 +27,7 @@ import (
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -91,7 +92,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding SqlServer finalizer failed with ", err.Error())
+			log.Info("Adding SqlServer finalizer failed with ", "error", err.Error())
 			return ctrl.Result{}, err
 		}
 	}
@@ -192,6 +193,16 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	instance.Status.Provisioning = true
+
+	_, err = sdkClient.CreateOrUpdateSQLServer(sqlServerProperties)
+	if err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
+		instance.Status.Provisioning = false
+		err = errhelp.NewAzureError(err)
+	} else {
+		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully dubmitted to Azure")
+	}
+
 	// write information back to instance
 	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
