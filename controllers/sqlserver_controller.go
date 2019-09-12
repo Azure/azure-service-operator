@@ -18,6 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"strings"
 	"time"
 
@@ -30,8 +31,13 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 // SqlServerReconciler reconciles a SqlServer object
@@ -133,10 +139,47 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	sqlServerProperties := sql.SQLServerProperties{
-		AdministratorLogin:         to.StringPtr("iamadmin"),
-		AdministratorLoginPassword: to.StringPtr("generate_me_1234"),
+		AdministratorLogin:         to.StringPtr(generateRandomString(8)),
+		AdministratorLoginPassword: to.StringPtr(generateRandomString(16)),
 	}
 
+	// Check to see if secret already exists for admin username/password
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: instance.Namespace,
+		},
+		Data: map[string][]byte{
+			"username":           []byte(*sqlServerProperties.AdministratorLogin),
+			"password":           []byte(*sqlServerProperties.AdministratorLoginPassword),
+			"sqlservernamespace": []byte(instance.Namespace),
+			"sqlservername":      []byte(name),
+		},
+		Type: "Opaque",
+	}
+
+	// If secret doesn't exist, generate creds
+	// Note: sql server enforces password policy.  Details can be found here:
+	// https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017
+	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
+		r.Log.Info("secret already exists, pulling creds now")
+		sqlServerProperties.AdministratorLogin = to.StringPtr(string(secret.Data["username"]))
+		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(string(secret.Data["password"]))
+	}
+
+	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
+		r.Log.Info("mutating secret bundle")
+		innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
+		if innerErr != nil {
+			return innerErr
+		}
+		return nil
+	})
+	if createOrUpdateSecretErr != nil {
+		return createOrUpdateSecretErr
+	}
+
+	// create the sql server
 	instance.Status.Provisioning = true
 
 	_, err = sdkClient.CreateOrUpdateSQLServer(sqlServerProperties)
@@ -227,4 +270,19 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 
 	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
 	return nil
+}
+
+// helper function to generate username/password for secrets
+func generateRandomString(n int) string {
+	rand.Seed(time.Now().UnixNano())
+
+	const characterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()_+-=<>"
+
+	// TODO: add logic to enforce password policy rules for sql server
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = characterBytes[rand.Intn(len(characterBytes))]
+	}
+
+	return string(b)
 }
