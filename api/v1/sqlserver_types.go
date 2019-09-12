@@ -66,5 +66,5 @@ func init() {
 }
 
 func (s *SqlServer) IsSubmitted() bool {
-	return s.Status.Provisioning || s.Status.Provisioned
+	return s.Status.Provisioned || s.Status.Provisioning
 }
