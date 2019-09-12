@@ -148,34 +148,24 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	// Check to see if secret already exists for admin username/password
-	var checkForSecretsErr error
-	secret := &v1.Secret{}
-
-	checkForSecretsErr = r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret)
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: instance.Namespace,
+		},
+		Data: map[string][]byte{
+			"username":           []byte(*sqlServerProperties.AdministratorLogin),
+			"password":           []byte(*sqlServerProperties.AdministratorLoginPassword),
+			"sqlservernamespace": []byte(instance.Namespace),
+			"sqlservername":      []byte(name),
+		},
+		Type: "Opaque",
+	}
 
 	// If secret doesn't exist, generate creds
 	// Note: sql server enforces password policy.  Details can be found here:
 	// https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-2017
-	if checkForSecretsErr != nil {
-		r.Log.Info("secret does not exist, using randomly generated creds")
-		secret = &v1.Secret{
-			TypeMeta: metav1.TypeMeta{
-				Kind:       "Secret",
-				APIVersion: "apps/v1beta1",
-			},
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      name,
-				Namespace: instance.Namespace,
-			},
-			Data: map[string][]byte{
-				"username":           []byte(*sqlServerProperties.AdministratorLogin),
-				"password":           []byte(*sqlServerProperties.AdministratorLoginPassword),
-				"sqlservernamespace": []byte(instance.Namespace),
-				"sqlservername":      []byte(name),
-			},
-			Type: "Opaque",
-		}
-	} else {
+	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
 		sqlServerProperties.AdministratorLogin = to.StringPtr(string(secret.Data["username"]))
 		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(string(secret.Data["password"]))
