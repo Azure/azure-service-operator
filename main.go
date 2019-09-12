@@ -77,33 +77,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = (&controllers.StorageReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("Storage"),
-		Recorder: mgr.GetEventRecorderFor("Storage-controller"),
-	}).SetupWithManager(mgr)
-	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Storage")
-		os.Exit(1)
-	}
-	err = (&controllers.CosmosDBReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("CosmosDB"),
-		Recorder: mgr.GetEventRecorderFor("CosmosDB-controller"),
-	}).SetupWithManager(mgr)
-	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
-		os.Exit(1)
-	}
-	if err = (&controllers.RedisCacheReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("RedisCache"),
-		Recorder: mgr.GetEventRecorderFor("RedisCache-controller"),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
-		os.Exit(1)
-	}
-
 	err = resourcemanagerconfig.LoadSettings()
 	if err != nil {
 		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
@@ -157,6 +130,33 @@ func main() {
 		os.Exit(1)
 	}
 
+	err = (&controllers.StorageReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("Storage"),
+		Recorder: mgr.GetEventRecorderFor("Storage-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Storage")
+		os.Exit(1)
+	}
+	err = (&controllers.CosmosDBReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("CosmosDB"),
+		Recorder: mgr.GetEventRecorderFor("CosmosDB-controller"),
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
+		os.Exit(1)
+	}
+	if err = (&controllers.RedisCacheReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("RedisCache"),
+		Recorder: mgr.GetEventRecorderFor("RedisCache-controller"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
+		os.Exit(1)
+	}
+
 	if !resourcemanagerconfig.Declarative() {
 		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
 			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
@@ -173,7 +173,7 @@ func main() {
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("SqlServer"),
 		Recorder: mgr.GetEventRecorderFor("SqlServer-controller"),
-		Scheme:   scheme,
+		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlServer")
 		os.Exit(1)
@@ -182,6 +182,7 @@ func main() {
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
 		Recorder: mgr.GetEventRecorderFor("SqlDatabase-controller"),
+		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlDatabase")
 		os.Exit(1)

@@ -91,7 +91,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding SqlServer finalizer failed with ", err.Error())
+			log.Info("Adding SqlServer finalizer failed with ", "error", err.Error())
 			return ctrl.Result{}, err
 		}
 	}
@@ -99,10 +99,6 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation")
 		if err := r.reconcileExternal(&instance); err != nil {
-			// if strings.Contains(err.Error(), "asynchronous operation has not completed") {
-			// 	r.Recorder.Event(&instance, "Normal", "Provisioning", "async op still running")
-			// 	return ctrl.Result{Requeue: true, RequeueAfter: 10 * time.Second}, nil
-			// }
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -192,6 +188,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	instance.Status.Provisioning = true
+
 	// write information back to instance
 	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
