@@ -162,11 +162,13 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		Location:          location,
 	}
 
-	// Check to see if secret already exists for admin username/password
-	secret := r.GetOrPrepareSecret(instance)
+	// Find a central location for these consts or make configurable by user
+	const usernameLength = 8
+	const passwordLength = 16
+
 	sqlServerProperties := sql.SQLServerProperties{
-		AdministratorLogin:         to.StringPtr(string(secret.Data["username"])),
-		AdministratorLoginPassword: to.StringPtr(string(secret.Data["password"])),
+		AdministratorLogin:         to.StringPtr(generateRandomString(usernameLength)),
+		AdministratorLoginPassword: to.StringPtr(generateRandomString(passwordLength)),
 	}
 
 	// create the sql server
@@ -200,7 +202,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		instance.Status.Provisioning = false
 		err = errhelp.NewAzureError(err)
 	} else {
-		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully dubmitted to Azure")
+		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully submitted to Azure")
 	}
 
 	// write information back to instance

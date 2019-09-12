@@ -35,3 +35,7 @@ resources:
 - group: azure
   version: v1
   kind: SqlFirewallRule
+  kind: ConsumerGroup
+- group: azure
+  version: v1
+  kind: SqlAction
