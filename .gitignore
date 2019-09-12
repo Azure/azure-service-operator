@@ -23,11 +23,6 @@ coverage.xml
 testlogs.txt
 .DS_Store
 
-# Generated CRDS
-config/crd/bases/*
-config/rbac/role.yaml
-api/v1/zz_generated.*
-
 # Kubernetes Generated files - skip generated files, except for vendored files
 
 !vendor/**/zz_generated.*
