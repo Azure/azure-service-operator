@@ -22,6 +22,9 @@ generate-test-certs:
 	echo "[SAN]" >> config.txt
 	echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> config.txt
 	openssl req -x509 -days 730 -out tls.crt -keyout tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config config.txt -nodes
+	rm -rf /tmp/k8s-webhook-server
+	mkdir -p /tmp/k8s-webhook-server/serving-certs
+	mv tls.* /tmp/k8s-webhook-server/serving-certs/
 
 # Run tests
 test: generate fmt vet manifests
@@ -51,9 +54,11 @@ deploy: manifests
 	kubectl apply -f config/crd/bases
 	kustomize build config/default | kubectl apply -f -
 
+timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
+
 update:
-	IMG="docker.io/controllertest:1" make ARGS="${ARGS}" docker-build
-	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+	IMG="docker.io/controllertest:$(timestamp)" make ARGS="${ARGS}" docker-build
+	kind load docker-image docker.io/controllertest:$(timestamp) --loglevel "trace"
 	make install
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
@@ -199,5 +204,4 @@ install-test-dependency:
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/onsi/ginkgo/ginkgo \
-	&& go get github.com/onsi/gomega/... \
 	&& go get golang.org/x/tools/cmd/cover
