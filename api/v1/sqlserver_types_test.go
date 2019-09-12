@@ -59,7 +59,10 @@ var _ = Describe("SqlServer", func() {
 					Namespace: "default",
 				},
 				Spec: SqlServerSpec{
-					//TODO: fill out
+					Location:                "westus",
+					ResourceGroup:           "foo-resourcegroup",
+					AdminUser:               "iamadmin",
+					AllowAzureServiceAccess: true,
 				}}
 
 			By("creating an API obj")

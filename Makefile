@@ -14,11 +14,18 @@ CRD_OPTIONS ?= "crd:trivialVersions=true"
 
 all: manager
 
+# Run API unittests
+api-test: generate fmt vet manifests
+	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/...  2>&1 | tee testlogs.txt
+	go-junit-report < testlogs.txt  > report.xml
+	go tool cover -html=coverage.txt -o cover.html
+
 # Run tests
 test: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
+
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=true go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs-existing.txt

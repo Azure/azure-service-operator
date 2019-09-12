@@ -26,9 +26,12 @@ import (
 
 	//"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 )
@@ -40,6 +43,7 @@ type SqlDatabaseReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
+	Scheme   *runtime.Scheme
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqldatabases,verbs=get;list;watch;create;update;patch;delete
@@ -49,7 +53,6 @@ func (r *SqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error)
 	ctx := context.Background()
 	log := r.Log.WithValues("sqldatabase", req.NamespacedName)
 
-	// your logic here
 	var instance azurev1.SqlDatabase
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
@@ -77,7 +80,7 @@ func (r *SqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error)
 
 	if !helpers.HasFinalizer(&instance, SQLDatabaseFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding SqlDatabase finalizer failed with ", err.Error())
+			log.Info("Adding SqlDatabase finalizer failed with ", "error", err.Error())
 			return ctrl.Result{}, err
 		}
 	}
@@ -129,12 +132,30 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 	r.Log.Info("Calling createorupdate SQL database")
 	instance.Status.Provisioning = true
 
+	//get owner instance of SqlServer
+	r.Recorder.Event(instance, "Normal", "UpdatingOwner", "Updating owner SqlServer instance")
+	var ownerInstance azurev1.SqlServer
+	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
+	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
+
+	if err != nil {
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of SqlServer")
+	} else {
+		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Got owner instance of Sql Server and assigning controller reference now")
+		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
+		if innerErr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to set controller reference to SqlServer")
+		}
+		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Owner instance assigned successfully")
+	}
+
 	// write information back to instance
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+	if updateerr := r.Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err := sdkClient.CreateOrUpdateDB(sqlDatabaseProperties)
+	_, err = sdkClient.CreateOrUpdateDB(sqlDatabaseProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
