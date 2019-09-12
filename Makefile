@@ -23,10 +23,8 @@ generate-test-certs:
 	echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> config.txt
 	openssl req -x509 -days 730 -out tls.crt -keyout tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config config.txt -nodes
 	rm -rf /tmp/k8s-webhook-server
-	mkdir /tmp/k8s-webhook-server
-	mkdir /tmp/k8s-webhook-server/serving-certs
-	mv tls.crt /tmp/k8s-webhook-server/serving-certs/.
-	mv tls.key /tmp/k8s-webhook-server/serving-certs/.
+	mkdir -p /tmp/k8s-webhook-server/serving-certs
+	mv tls.* /tmp/k8s-webhook-server/serving-certs/
 
 # Run tests
 test: generate fmt vet manifests
