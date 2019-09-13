@@ -60,7 +60,7 @@ var _ = Describe("EventHub Controller", func() {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create and Delete", func() {
-		It("should validate eventhubnamespaces exist before creating eventhubs", func() {
+		It("should fail to create eventhub if eventhubnamespace doesn't exist", func() {
 
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
