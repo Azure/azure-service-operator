@@ -51,6 +51,8 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("sqlaction", req.NamespacedName)
 
 	// your logic here
+	// Debugging
+	r.Log.Info("starting sqlaction reconciler")
 	var instance azurev1.SqlServer
 	var action azurev1.SqlAction
 
@@ -65,8 +67,8 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		Location:          location,
 	}
 
-	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Info("Unable to retrieve sql-server resource", "err", err.Error())
+	if err := r.Get(ctx, req.NamespacedName, &action); err != nil {
+		log.Info("Unable to retrieve sql-action resource", "err", err.Error())
 		return ctrl.Result{}, err
 	}
 
@@ -88,8 +90,13 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		if checkForSecretsErr == nil {
 			// Secret exists
 			// Update sqlserverproperties object with secret admin login + new password
-			sqlServerProperties.AdministratorLogin = to.StringPtr(string(secret.Data["username"]))
+			// Testing
+			r.Log.Info("Old username:")
+			r.Log.Info(string(secret.Data["username"]))
+			sqlServerProperties.AdministratorLogin = to.StringPtr(string(RollCreds(8))) // hard-coding for testing
 			sqlServerProperties.AdministratorLoginPassword = to.StringPtr(RollCreds(passwordLength))
+			r.Log.Info("New username:")
+			r.Log.Info(*sqlServerProperties.AdministratorLogin)
 
 			// Update sql server with new sqlserverproperties
 			instance.Status.Provisioning = true
