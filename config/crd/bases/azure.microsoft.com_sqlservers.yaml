@@ -401,8 +401,6 @@ spec:
         spec:
           description: SqlServerSpec defines the desired state of SqlServer
           properties:
-            adminuser:
-              type: string
             allowazureserviceaccess:
               type: boolean
             location:
