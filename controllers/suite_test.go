@@ -18,13 +18,14 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
-	"k8s.io/client-go/rest"
 	"log"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	"k8s.io/client-go/rest"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -39,6 +40,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -90,30 +93,24 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 		CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
 	}
 
+	var cfg *rest.Config
+	var err error
 	if os.Getenv("TEST_USE_EXISTING_CLUSTER") == "true" {
 		t := true
 		testEnv = &envtest.Environment{
 			UseExistingCluster: &t,
 		}
+		cfg, err = ctrl.GetConfig()
+		Expect(err).ToNot(HaveOccurred())
 	} else {
 		testEnv = &envtest.Environment{
 			CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
 		}
+		cfg, err = testEnv.Start()
+		Expect(err).ToNot(HaveOccurred())
 	}
 
-	cfg, err := testEnv.Start()
-	Expect(err).ToNot(HaveOccurred())
 	Expect(cfg).ToNot(BeNil())
-
-	// not sure why there are four of these
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
 
 	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
@@ -204,19 +201,17 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 
 	Eventually(func() bool {
 		namespace, _ := eventhubs.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
-		if *namespace.ProvisioningState == "Succeeded" {
-			return true
-		}
-		return false
+		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
 	}, 60,
 	).Should(BeTrue())
 
 	log.Println(fmt.Sprintf("Completed common controller test setup"))
 	return bytes
 }, func(r []byte) {
-	resourcemanagerconfig.ParseEnvironment()
+	err := resourcemanagerconfig.ParseEnvironment()
+	Expect(err).ToNot(HaveOccurred())
 
-	err := helpers.FromByteArray(r, &tc)
+	err = helpers.FromByteArray(r, &tc)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = azurev1.AddToScheme(scheme.Scheme)
