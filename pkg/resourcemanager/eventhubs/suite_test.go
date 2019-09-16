@@ -68,7 +68,6 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	tc := TestContext{
 		ResourceGroupName:     resourceGroupName,
 		ResourcegroupLocation: resourcegroupLocation,
-		Managers:              AzureEventHubManagers,
 	}
 
 	bytes, err := helpers.ToByteArray(&tc)
@@ -79,6 +78,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	resourcemanagerconfig.ParseEnvironment()
 
 	err := helpers.FromByteArray(b, &tc)
+	tc.Managers = AzureEventHubManagers
 	Expect(err).ToNot(HaveOccurred())
 }, 120)
 

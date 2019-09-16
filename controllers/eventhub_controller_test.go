@@ -21,8 +21,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"time"
 
-	eventhubsmanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
-
 	. "github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -327,7 +325,7 @@ var _ = Describe("EventHub Controller", func() {
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				hub, _ := eventhubsmanager.AzureEventHubManager{}.GetHub(context.Background(), rgName, ehnName, eventHubName)
+				hub, _ := tc.EventHubManagers.EventHub.GetHub(context.Background(), rgName, ehnName, eventHubName)
 				if hub.Properties == nil || hub.CaptureDescription == nil || hub.CaptureDescription.Enabled == nil {
 					return false
 				}

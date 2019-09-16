@@ -190,7 +190,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	_, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 
 	// Create the Eventhub resource
-	_, err = eventhubs.AzureEventHubManager{}.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
+	_, err = resourceManagers.EventHubManagers.EventHub.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
 
 	// Create the Storage Account and Container
 	_, err = storages.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1.StorageSku{
@@ -223,6 +223,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	log.Println(fmt.Sprintf("Completed common controller test setup"))
 	return bytes
 }, func(r []byte) {
+	tc.EventHubManagers = resourcemanager.AzureResourceManagers.EventHubManagers
 	resourcemanagerconfig.ParseEnvironment()
 
 	err := helpers.FromByteArray(r, &tc)
