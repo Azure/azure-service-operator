@@ -37,8 +37,8 @@ import (
 // EventhubNamespaceReconciler reconciles a EventhubNamespace object
 type EventhubNamespaceReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
+	Log                      logr.Logger
+	Recorder                 record.EventRecorder
 	EventHubNamespaceManager eventhubsresourcemanager.EventHubNamespaceManager
 }
 

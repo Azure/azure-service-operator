@@ -46,11 +46,10 @@ import (
 // EventhubReconciler reconciles a Eventhub object
 type EventhubReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Log             logr.Logger
+	Recorder        record.EventRecorder
+	Scheme          *runtime.Scheme
 	EventHubManager eventhubsresourcemanager.EventHubManager
-
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete

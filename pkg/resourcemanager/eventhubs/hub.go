@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-type AzureEventHubManager struct {}
+type AzureEventHubManager struct{}
 
 func getHubsClient() eventhub.EventHubsClient {
 	hubClient := eventhub.NewEventHubsClient(config.SubscriptionID())

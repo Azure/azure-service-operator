@@ -59,7 +59,7 @@ type TestContext struct {
 	NamespaceLocation     string
 	StorageAccountName    string
 	BlobContainerName     string
-	EventHubManagers	  eventhubs.EventHubManagers
+	EventHubManagers      eventhubs.EventHubManagers
 }
 
 var tc TestContext
@@ -138,11 +138,11 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&EventhubReconciler{
-Client:   					k8sManager.GetClient(),
-	Log:      				ctrl.Log.WithName("controllers").WithName("EventHub"),
-		Recorder: 			k8sManager.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:   			scheme.Scheme,
-		EventHubManager:    resourceManagers.EventHubManagers.EventHub,
+		Client:          k8sManager.GetClient(),
+		Log:             ctrl.Log.WithName("controllers").WithName("EventHub"),
+		Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
+		Scheme:          scheme.Scheme,
+		EventHubManager: resourceManagers.EventHubManagers.EventHub,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -154,18 +154,18 @@ Client:   					k8sManager.GetClient(),
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&EventhubNamespaceReconciler{
-		Client:   k8sManager.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder: k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
-		EventHubNamespaceManager:    resourceManagers.EventHubManagers.EventHubNamespace,
+		Client:                   k8sManager.GetClient(),
+		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+		Recorder:                 k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
+		EventHubNamespaceManager: resourceManagers.EventHubManagers.EventHubNamespace,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&ConsumerGroupReconciler{
-		Client:   k8sManager.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
-		Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
-		ConsumerGroupManager:    resourceManagers.EventHubManagers.ConsumerGroup,
+		Client:               k8sManager.GetClient(),
+		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder:             k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
+		ConsumerGroupManager: resourceManagers.EventHubManagers.ConsumerGroup,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

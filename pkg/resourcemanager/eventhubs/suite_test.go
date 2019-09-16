@@ -38,7 +38,7 @@ import (
 type TestContext struct {
 	ResourceGroupName     string
 	ResourcegroupLocation string
-	Managers			  EventHubManagers
+	Managers              EventHubManagers
 }
 
 var tc TestContext
@@ -68,7 +68,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	tc := TestContext{
 		ResourceGroupName:     resourceGroupName,
 		ResourcegroupLocation: resourcegroupLocation,
-		Managers:			   azureEventHubManagers,
+		Managers:              AzureEventHubManagers,
 	}
 
 	bytes, err := helpers.ToByteArray(&tc)
