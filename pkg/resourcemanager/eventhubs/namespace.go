@@ -10,6 +10,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
+type AzureEventHubNamespaceManager struct {}
+
 func getNamespacesClient() eventhub.NamespacesClient {
 	nsClient := eventhub.NewNamespacesClient(config.SubscriptionID())
 	auth, _ := iam.GetResourceManagementAuthorizer()
@@ -22,7 +24,7 @@ func getNamespacesClient() eventhub.NamespacesClient {
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
 // namespaceName - the Namespace name
-func DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (result eventhub.NamespacesDeleteFuture, err error) {
+func  (_ AzureEventHubNamespaceManager) DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (result eventhub.NamespacesDeleteFuture, err error) {
 
 	nsClient := getNamespacesClient()
 	return nsClient.Delete(ctx,
@@ -35,7 +37,7 @@ func DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceNam
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
 // namespaceName - the Namespace name
-func GetNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (result eventhub.EHNamespace, err error) {
+func  (_ AzureEventHubNamespaceManager) GetNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (result eventhub.EHNamespace, err error) {
 	nsClient := getNamespacesClient()
 	return nsClient.Get(ctx, resourceGroupName, namespaceName)
 }
@@ -45,7 +47,7 @@ func GetNamespace(ctx context.Context, resourceGroupName string, namespaceName s
 // resourceGroupName - name of the resource group within the azure subscription.
 // namespaceName - the Namespace name
 // location - azure region
-func CreateNamespaceAndWait(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error) {
+func  (_ AzureEventHubNamespaceManager) CreateNamespaceAndWait(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error) {
 	nsClient := getNamespacesClient()
 	future, err := nsClient.CreateOrUpdate(
 		ctx,

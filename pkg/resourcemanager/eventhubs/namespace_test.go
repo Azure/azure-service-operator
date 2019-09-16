@@ -28,11 +28,13 @@ import (
 var _ = Describe("Namespace", func() {
 
 	const timeout = time.Second * 240
+	var eventHubNamespaceManager EventHubNamespaceManager
 
 	var rgName string
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.ResourceGroupName
+		eventHubNamespaceManager = tc.Managers.EventHubNamespace
 	})
 
 	AfterEach(func() {
@@ -52,20 +54,20 @@ var _ = Describe("Namespace", func() {
 
 			var err error
 
-			_, err = CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
+			_, err = eventHubNamespaceManager.CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetNamespace(context.Background(), rgName, eventhubNamespaceName)
+				result, _ := eventHubNamespaceManager.GetNamespace(context.Background(), rgName, eventhubNamespaceName)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteNamespace(context.Background(), rgName, eventhubNamespaceName)
+			_, err = eventHubNamespaceManager.DeleteNamespace(context.Background(), rgName, eventhubNamespaceName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetNamespace(context.Background(), rgName, eventhubNamespaceName)
+				result, _ := eventHubNamespaceManager.GetNamespace(context.Background(), rgName, eventhubNamespaceName)
 				return result.Response.StatusCode == 404 || *result.ProvisioningState == "Deleting"
 			}, timeout,
 			).Should(BeTrue())

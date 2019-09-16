@@ -10,6 +10,8 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 )
 
+type AzureConsumerGroupManager struct {}
+
 func getConsumerGroupsClient() eventhub.ConsumerGroupsClient {
 	consumerGroupClient := eventhub.NewConsumerGroupsClient(config.SubscriptionID())
 	auth, _ := iam.GetResourceManagementAuthorizer()
@@ -25,7 +27,7 @@ func getConsumerGroupsClient() eventhub.ConsumerGroupsClient {
 // eventHubName - the Event Hub name
 // consumerGroupName - the consumer group name
 // parameters - parameters supplied to create or update a consumer group resource.
-func CreateConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
+func (_ AzureConsumerGroupManager) CreateConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
 	consumerGroupClient := getConsumerGroupsClient()
 
 	parameters := eventhub.ConsumerGroup{}
@@ -46,7 +48,7 @@ func CreateConsumerGroup(ctx context.Context, resourceGroupName string, namespac
 // namespaceName - the Namespace name
 // eventHubName - the Event Hub name
 // consumerGroupName - the consumer group name
-func DeleteConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (result autorest.Response, err error) {
+func (_ AzureConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (result autorest.Response, err error) {
 	consumerGroupClient := getConsumerGroupsClient()
 	return consumerGroupClient.Delete(
 		ctx,
@@ -59,7 +61,7 @@ func DeleteConsumerGroup(ctx context.Context, resourceGroupName string, namespac
 }
 
 //GetConsumerGroup gets consumer group description for the specified Consumer Group.
-func GetConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
+func (_ AzureConsumerGroupManager) GetConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
 	consumerGroupClient := getConsumerGroupsClient()
 	return consumerGroupClient.Get(ctx, resourceGroupName, namespaceName, eventHubName, consumerGroupName)
 }

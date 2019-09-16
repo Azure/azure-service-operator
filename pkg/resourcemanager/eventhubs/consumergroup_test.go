@@ -34,6 +34,7 @@ var _ = Describe("ConsumerGroup", func() {
 	var namespaceLocation string
 	var messageRetentionInDays int32
 	var partitionCount int32
+	var consumerGroupManager ConsumerGroupManager
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -43,9 +44,10 @@ var _ = Describe("ConsumerGroup", func() {
 		eventhubName = "t-eh-dev-ehs-" + helpers.RandomString(10)
 		messageRetentionInDays = int32(7)
 		partitionCount = int32(2)
+		consumerGroupManager = tc.Managers.ConsumerGroup
 
-		_, _ = CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
-		_, _ = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
+		_, _ = tc.Managers.EventHubNamespace.CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
+		_, _ = tc.Managers.EventHub.CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
 	})
 
 	AfterEach(func() {
@@ -64,20 +66,20 @@ var _ = Describe("ConsumerGroup", func() {
 
 			var err error
 
-			_, err = CreateConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+			_, err = consumerGroupManager.CreateConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+				result, _ := consumerGroupManager.GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+			_, err = consumerGroupManager.DeleteConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+				result, _ := consumerGroupManager.GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())

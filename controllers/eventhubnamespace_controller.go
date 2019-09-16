@@ -39,6 +39,7 @@ type EventhubNamespaceReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
+	EventHubNamespaceManager eventhubsresourcemanager.EventHubNamespaceManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
@@ -140,7 +141,7 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.Eventh
 	}
 
 	// create Event Hubs namespace
-	_, err = eventhubsresourcemanager.CreateNamespaceAndWait(ctx, resourcegroup, namespaceName, namespaceLocation)
+	_, err = r.EventHubNamespaceManager.CreateNamespaceAndWait(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -176,7 +177,7 @@ func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1.
 	resourcegroup := instance.Spec.ResourceGroup
 
 	var err error
-	_, err = eventhubsresourcemanager.DeleteNamespace(ctx, resourcegroup, namespaceName)
+	_, err = r.EventHubNamespaceManager.DeleteNamespace(ctx, resourcegroup, namespaceName)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
 		return err

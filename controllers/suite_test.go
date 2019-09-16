@@ -27,9 +27,11 @@ import (
 	"testing"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -57,6 +59,7 @@ type TestContext struct {
 	NamespaceLocation     string
 	StorageAccountName    string
 	BlobContainerName     string
+	EventHubManagers	  eventhubs.EventHubManagers
 }
 
 var tc TestContext
@@ -73,6 +76,8 @@ func TestAPIs(t *testing.T) {
 var _ = SynchronizedBeforeSuite(func() []byte {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 	log.Println(fmt.Sprintf("Starting common controller test setup"))
+
+	var resourceManagers = resourcemanager.AzureResourceManagers
 
 	resourcemanagerconfig.ParseEnvironment()
 	resourceGroupName := "t-rg-dev-controller-" + helpers.RandomString(10)
@@ -133,10 +138,11 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&EventhubReconciler{
-		Client:   k8sManager.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("EventHub"),
-		Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:   scheme.Scheme,
+Client:   					k8sManager.GetClient(),
+	Log:      				ctrl.Log.WithName("controllers").WithName("EventHub"),
+		Recorder: 			k8sManager.GetEventRecorderFor("Eventhub-controller"),
+		Scheme:   			scheme.Scheme,
+		EventHubManager:    resourceManagers.EventHubManagers.EventHub,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -151,6 +157,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
 		Recorder: k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
+		EventHubNamespaceManager:    resourceManagers.EventHubManagers.EventHubNamespace,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -158,6 +165,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 		Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
+		ConsumerGroupManager:    resourceManagers.EventHubManagers.ConsumerGroup,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -177,11 +185,12 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
 	}
 
+	eventHubNSManager := resourceManagers.EventHubManagers.EventHubNamespace
 	// Create the Eventhub namespace resource
-	_, err = eventhubs.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+	_, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 
 	// Create the Eventhub resource
-	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
+	_, err = eventhubs.AzureEventHubManager{}.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
 
 	// Create the Storage Account and Container
 	_, err = storages.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1.StorageSku{
@@ -203,7 +212,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	bytes, err := helpers.ToByteArray(&tc)
 
 	Eventually(func() bool {
-		namespace, _ := eventhubs.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+		namespace, _ := eventHubNSManager.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
 		if *namespace.ProvisioningState == "Succeeded" {
 			return true
 		}
