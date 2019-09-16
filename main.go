@@ -22,6 +22,7 @@ import (
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/controllers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"os"
 
@@ -76,6 +77,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	resourceManagers := resourcemanager.AzureResourceManagers
+
 	err = (&controllers.StorageReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("Storage"),
@@ -109,10 +112,11 @@ func main() {
 	}
 
 	err = (&controllers.EventhubReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("Eventhub"),
-		Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:   scheme,
+		Client:          mgr.GetClient(),
+		Log:             ctrl.Log.WithName("controllers").WithName("Eventhub"),
+		Recorder:        mgr.GetEventRecorderFor("Eventhub-controller"),
+		Scheme:          scheme,
+		EventHubManager: resourceManagers.EventHubManagers.EventHub,
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
@@ -128,9 +132,10 @@ func main() {
 		os.Exit(1)
 	}
 	err = (&controllers.EventhubNamespaceReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+		Client:                   mgr.GetClient(),
+		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+		Recorder:                 mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+		EventHubNamespaceManager: resourceManagers.EventHubManagers.EventHubNamespace,
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
@@ -147,9 +152,10 @@ func main() {
 	}
 
 	err = (&controllers.ConsumerGroupReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
-		Recorder: mgr.GetEventRecorderFor("ConsumerGroup-controller"),
+		Client:               mgr.GetClient(),
+		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder:             mgr.GetEventRecorderFor("ConsumerGroup-controller"),
+		ConsumerGroupManager: resourceManagers.EventHubManagers.ConsumerGroup,
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
