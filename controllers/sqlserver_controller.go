@@ -171,6 +171,10 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		AdministratorLoginPassword: to.StringPtr(generateRandomString(passwordLength)),
 	}
 
+	// testing
+	r.Log.Info("Info", "Username: ", *sqlServerProperties.AdministratorLogin)
+	r.Log.Info("Info", "Password: ", *sqlServerProperties.AdministratorLoginPassword)
+
 	// create the sql server
 	//instance.Status.Provisioning = true
 	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
