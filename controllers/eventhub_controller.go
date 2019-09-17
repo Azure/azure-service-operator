@@ -105,7 +105,24 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 		return ctrl.Result{}, nil
 	}
-
+	if instance.IsSubmitted() {
+		eventhubName := instance.ObjectMeta.Name
+		eventhubNamespace := instance.Spec.Namespace
+		resourcegroup := instance.Spec.ResourceGroup
+		secretName := instance.Spec.SecretName
+		if secretName == "" {
+			secretName = instance.ObjectMeta.Name
+		}
+		err2 := r.getEventhubSecrets(secretName, &instance)
+		if err2 != nil {
+			err := r.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, &instance)
+			if err != nil {
+				r.Recorder.Event(&instance, "Warning", "Failed", "Unable to listAccessKeysAndCreateSecrets")
+				return ctrl.Result{}, err
+			}
+		}
+		return ctrl.Result{}, nil
+	}
 	return ctrl.Result{}, nil
 }
 
