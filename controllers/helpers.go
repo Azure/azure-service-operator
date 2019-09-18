@@ -37,7 +37,7 @@ func AddFinalizerAndUpdate(ctx context.Context, client client.Client, finalizer 
 	if err != nil {
 		return err
 	}
-	if contains(m.GetFinalizers(), finalizer) {
+	if hasString(m.GetFinalizers(), finalizer) {
 		return nil
 	}
 	AddFinalizer(m, finalizer)
@@ -54,7 +54,7 @@ func RemoveFinalizerAndUpdate(ctx context.Context, client client.Client, finaliz
 	if err != nil {
 		return err
 	}
-	if !contains(m.GetFinalizers(), finalizer) {
+	if !hasString(m.GetFinalizers(), finalizer) {
 		return nil
 	}
 	RemoveFinalizer(m, finalizer)
@@ -66,18 +66,13 @@ func RemoveFinalizerAndUpdate(ctx context.Context, client client.Client, finaliz
 
 // AddFinalizer accepts a metav1 object and adds the provided finalizer if not present.
 func AddFinalizer(o metav1.Object, finalizer string) {
-	f := o.GetFinalizers()
-	for _, e := range f {
-		if e == finalizer {
-			return
-		}
-	}
-	o.SetFinalizers(append(f, finalizer))
+	newFinalizers := addString(o.GetFinalizers(), finalizer)
+	o.SetFinalizers(newFinalizers)
 }
 
-// AddFinalizerWithError tries to convert a runtime object to a metav1 object and add the provided finalizer.
+// AddFinalizerIfPossible tries to convert a runtime object to a metav1 object and add the provided finalizer.
 // It returns an error if the provided object cannot provide an accessor.
-func AddFinalizerWithError(o runtime.Object, finalizer string) error {
+func AddFinalizerIfPossible(o runtime.Object, finalizer string) error {
 	m, err := meta.Accessor(o)
 	if err != nil {
 		return err
@@ -88,14 +83,8 @@ func AddFinalizerWithError(o runtime.Object, finalizer string) error {
 
 // RemoveFinalizer accepts a metav1 object and removes the provided finalizer if present.
 func RemoveFinalizer(o metav1.Object, finalizer string) {
-	f := o.GetFinalizers()
-	for i, e := range f {
-		if e == finalizer {
-			f = append(f[:i], f[i+1:]...)
-			o.SetFinalizers(f)
-			return
-		}
-	}
+	newFinalizers := removeString(o.GetFinalizers(), finalizer)
+	o.SetFinalizers(newFinalizers)
 }
 
 // HasFinalizer accepts a metav1 object and returns true if the the object has the provided finalizer.
@@ -109,9 +98,9 @@ func HasFinalizer(o metav1.Object, finalizer string) bool {
 	return false
 }
 
-// RemoveFinalizerWithError tries to convert a runtime object to a metav1 object and remove the provided finalizer.
+// RemoveFinalizerIfPossible tries to convert a runtime object to a metav1 object and remove the provided finalizer.
 // It returns an error if the provided object cannot provide an accessor.
-func RemoveFinalizerWithError(o runtime.Object, finalizer string) error {
+func RemoveFinalizerIfPossible(o runtime.Object, finalizer string) error {
 	m, err := meta.Accessor(o)
 	if err != nil {
 		return err
@@ -127,25 +116,8 @@ func DeleteIfFound(ctx context.Context, client client.Client, obj runtime.Object
 	return nil
 }
 
-func contains(vals []string, val string) bool {
-	for _, v := range vals {
-		if v == val {
-			return true
-		}
-	}
-	return false
-}
-
-// func remove(vals []string, val string) []string {
-// 	for i, v := range vals {
-// 		if v == val {
-// 			return append(vals[:i], vals[i+1:]...)
-// 		}
-// 	}
-// 	return vals
-// }
-
-func containsString(slice []string, s string) bool {
+// hasString returns true if a given slice has the provided string s.
+func hasString(slice []string, s string) bool {
 	for _, item := range slice {
 		if item == s {
 			return true
@@ -154,12 +126,24 @@ func containsString(slice []string, s string) bool {
 	return false
 }
 
-func removeString(slice []string, s string) (result []string) {
+// addString returns a []string with s appended if it is not already found in the provided slice.
+func addString(slice []string, s string) []string {
+	for _, item := range slice {
+		if item == s {
+			return slice
+		}
+	}
+	return append(slice, s)
+}
+
+// removeString returns a newly created []string that contains all items from slice that are not equal to s.
+func removeString(slice []string, s string) []string {
+	new := make([]string, 0)
 	for _, item := range slice {
 		if item == s {
 			continue
 		}
-		result = append(result, item)
+		new = append(new, item)
 	}
-	return
+	return new
 }
