@@ -9,10 +9,10 @@ import (
 )
 
 type BlobContainerResource struct {
-	ResourceGroupName string
+	ResourceGroupName  string
 	StorageAccountName string
-	BlobContainerName string
-	BlobContainer     storage.BlobContainer
+	BlobContainerName  string
+	BlobContainer      storage.BlobContainer
 }
 
 type mockBlobContainerManager struct {
@@ -78,7 +78,6 @@ func (manager *mockBlobContainerManager) DeleteBlobContainer(ctx context.Context
 			g.StorageAccountName == accountName &&
 			g.BlobContainerName == containerName
 	})
-
 
 	if index == -1 {
 		return helpers.GetRestResponse(404), errors.New("blob container not found")

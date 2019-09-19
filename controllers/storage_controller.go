@@ -47,10 +47,10 @@ const storageFinalizerName = "storage.finalizers.azure.com"
 // StorageReconciler reconciles a Storage object
 type StorageReconciler struct {
 	client.Client
-	Log         	logr.Logger
-	Recorder    	record.EventRecorder
-	RequeueTime 	time.Duration
-	StorageManager 	storages.StorageManager
+	Log            logr.Logger
+	Recorder       record.EventRecorder
+	RequeueTime    time.Duration
+	StorageManager storages.StorageManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=storages,verbs=get;list;watch;create;update;patch;delete

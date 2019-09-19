@@ -50,26 +50,27 @@ var _ = Describe("Storage Account", func() {
 
 			storageAccountName := "tdevsa" + helpers.RandomString(10)
 			storageLocation := config.DefaultLocation()
+			storageManagers := tc.StorageManagers
 
 			var err error
 
-			_, err = CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
+			_, err = storageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
 				Name: "Standard_LRS",
 			}, "Storage", map[string]*string{}, "", to.BoolPtr(false))
 
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+				result, _ := storageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+			_, err = storageManagers.Storage.DeleteStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+				result, _ := storageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())

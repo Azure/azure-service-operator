@@ -11,9 +11,9 @@ import (
 )
 
 type StorageResource struct {
-	ResourceGroupName 		string
-	StorageAccountName     	string
-	StorageAccount    		storage.Account
+	ResourceGroupName  string
+	StorageAccountName string
+	StorageAccount     storage.Account
 }
 
 type mockStorageManager struct {
@@ -30,7 +30,6 @@ func findStorage(res []StorageResource, predicate func(StorageResource) bool) (i
 }
 
 type Finder interface {
-
 }
 
 type StorageResources []StorageResource
@@ -50,11 +49,11 @@ func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName 
 	s := StorageResource{
 		ResourceGroupName:  groupName,
 		StorageAccountName: storageAccountName,
-		StorageAccount:     storage.Account{
-			Response:          helpers.GetRestResponse(201),
-			Tags:              tags,
-			Location:          to.StringPtr(location),
-			Name:              to.StringPtr(storageAccountName),
+		StorageAccount: storage.Account{
+			Response: helpers.GetRestResponse(201),
+			Tags:     tags,
+			Location: to.StringPtr(location),
+			Name:     to.StringPtr(storageAccountName),
 		},
 	}
 
@@ -63,7 +62,7 @@ func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName 
 }
 
 // Get gets the description of the specified storage account.
-func (manager *mockStorageManager) GetStorage(ctx context.Context, resourceGroupName string, accountName string) (result storage.Account, err error){
+func (manager *mockStorageManager) GetStorage(ctx context.Context, resourceGroupName string, accountName string) (result storage.Account, err error) {
 	groups := manager.storageResource
 
 	index, group := findStorage(groups, func(g StorageResource) bool {
@@ -79,7 +78,7 @@ func (manager *mockStorageManager) GetStorage(ctx context.Context, resourceGroup
 }
 
 // removes the storage account
-func (manager *mockStorageManager) DeleteStorage(ctx context.Context, resourceGroupName string, accountName string) (result autorest.Response, err error){
+func (manager *mockStorageManager) DeleteStorage(ctx context.Context, resourceGroupName string, accountName string) (result autorest.Response, err error) {
 	groups := manager.storageResource
 
 	index, _ := findStorage(groups, func(g StorageResource) bool {

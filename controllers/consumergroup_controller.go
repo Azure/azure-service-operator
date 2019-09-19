@@ -183,4 +183,3 @@ func (r *ConsumerGroupReconciler) deleteConsumerGroup(instance *azurev1.Consumer
 	}
 	return nil
 }
-

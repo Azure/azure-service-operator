@@ -28,13 +28,13 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
-	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
-	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	resourcemanagereventhubmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/eventhubs"
+	resourcemanagerkeyvaultsmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/keyvaults"
 	resourcegroupsresourcemanagermock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/resourcegroups"
 	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/storages"
-	resourcemanagerkeyvaultsmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/keyvaults"
+	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -66,7 +66,7 @@ type TestContext struct {
 	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
 	EventHubManagers      resourcemanagereventhub.EventHubManagers
 	StorageManagers       resourcemanagerstorages.StorageManagers
-	KeyVaultManager		  resourcemanagerkeyvaults.KeyVaultManager
+	KeyVaultManager       resourcemanagerkeyvaults.KeyVaultManager
 }
 
 var tc TestContext
@@ -145,9 +145,9 @@ var _ = BeforeSuite(func() {
 	var keyVaultManager = resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
 
 	err = (&KeyVaultReconciler{
-		Client:   k8sManager.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("KeyVault"),
-		Recorder: k8sManager.GetEventRecorderFor("KeyVault-controller"),
+		Client:          k8sManager.GetClient(),
+		Log:             ctrl.Log.WithName("controllers").WithName("KeyVault"),
+		Recorder:        k8sManager.GetEventRecorderFor("KeyVault-controller"),
 		KeyVaultManager: &keyVaultManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
@@ -227,8 +227,8 @@ var _ = BeforeSuite(func() {
 		BlobContainerName:     blobContainerName,
 		EventHubManagers:      eventHubManagers,
 		ResourceGroupManager:  &resourceGroupManager,
-		StorageManagers: 	   storageManagers,
-		KeyVaultManager:	   &keyVaultManager,
+		StorageManagers:       storageManagers,
+		KeyVaultManager:       &keyVaultManager,
 	}
 })
 

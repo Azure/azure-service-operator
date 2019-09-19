@@ -57,7 +57,7 @@ var _ = Describe("ResourceGroups", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := CheckExistence(context.Background(), resourcegroupName)
+				result, _ := resourceGroupManager.CheckExistence(context.Background(), resourcegroupName)
 
 				return result.Response.StatusCode == 204
 			}, timeout,

@@ -44,7 +44,7 @@ type TestContext struct {
 	ResourceGroupName     string
 	ResourceGroupLocation string
 	ResourceGroupManager  resoucegroupsresourcemanager.ResourceGroupManager
-	StorageManagers  	  StorageManagers
+	StorageManagers       StorageManagers
 }
 
 var tc TestContext
@@ -66,15 +66,16 @@ var _ = BeforeSuite(func() {
 
 	resourcemanagerconfig.ParseEnvironment()
 
+	ressourceGroupManager := resoucegroupsresourcemanager.AzureResourceGroupManager
 	tc = TestContext{
 		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
 		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
-		ResourceGroupManager:  resoucegroupsresourcemanager.AzureResourceGroupManager,
-		StorageManagers: 	   AzureStorageManagers,
+		ResourceGroupManager:  ressourceGroupManager,
+		StorageManagers:       AzureStorageManagers,
 	}
 
 	// create resourcegroup for this suite
-	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), tc.ResourceGroupName)
+	result, _ := ressourceGroupManager.CheckExistence(context.Background(), tc.ResourceGroupName)
 	if result.Response.StatusCode != 204 {
 		_, _ = tc.ResourceGroupManager.CreateGroup(context.Background(), tc.ResourceGroupName, tc.ResourceGroupLocation)
 	}

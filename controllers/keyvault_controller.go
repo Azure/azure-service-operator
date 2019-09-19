@@ -37,9 +37,9 @@ const keyVaultFinalizerName = "keyvault.finalizers.azure.com"
 // KeyVaultReconciler reconciles a KeyVault object
 type KeyVaultReconciler struct {
 	client.Client
-	Log         logr.Logger
-	Recorder    record.EventRecorder
-	RequeueTime time.Duration
+	Log             logr.Logger
+	Recorder        record.EventRecorder
+	RequeueTime     time.Duration
 	KeyVaultManager keyvaults.KeyVaultManager
 }
 

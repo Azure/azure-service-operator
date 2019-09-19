@@ -11,8 +11,8 @@ import (
 
 type KeyVaultResource struct {
 	ResourceGroupName string
-	VaultName     string
-	KeyVault       keyvault.Vault
+	VaultName         string
+	KeyVault          keyvault.Vault
 }
 
 type MockKeyVaultManager struct {
@@ -27,7 +27,6 @@ func findKeyVault(res []KeyVaultResource, predicate func(KeyVaultResource) bool)
 	}
 	return -1, KeyVaultResource{}
 }
-
 
 // CreateVault creates a new key vault
 func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string) (keyvault.Vault, error) {

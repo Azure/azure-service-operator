@@ -1,6 +1,6 @@
 package eventhubs
 
-import ."github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+import . "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 
 var MockEventHubManagers = EventHubManagers{
 	EventHubNamespace: &mockEventHubNamespaceManager{},
