@@ -7,7 +7,7 @@ type EventHubManagers struct {
 }
 
 var AzureEventHubManagers = EventHubManagers{
-	EventHubNamespace: azureEventHubNamespaceManager{},
-	EventHub:          azureEventHubManager{},
-	ConsumerGroup:     azureConsumerGroupManager{},
+	EventHubNamespace: &azureEventHubNamespaceManager{},
+	EventHub:          &azureEventHubManager{},
+	ConsumerGroup:     &azureConsumerGroupManager{},
 }

@@ -43,6 +43,8 @@ var cfg *rest.Config
 type TestContext struct {
 	ResourceGroupName     string
 	ResourceGroupLocation string
+	ResourceGroupManager  resoucegroupsresourcemanager.ResourceGroupManager
+	StorageManagers  	  StorageManagers
 }
 
 var tc TestContext
@@ -57,40 +59,30 @@ func TestAPIs(t *testing.T) {
 	RunSpecs(t, "Storage Suite")
 }
 
-var _ = SynchronizedBeforeSuite(func() []byte {
+var _ = BeforeSuite(func() {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	By("bootstrapping test environment")
 
-	resourceGroupName := "t-rg-dev-rm-st-" + helpers.RandomString(10)
 	resourcemanagerconfig.ParseEnvironment()
-	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
 
-	//create resourcegroup for this suite
-	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
+	tc = TestContext{
+		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
+		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
+		ResourceGroupManager:  resoucegroupsresourcemanager.AzureResourceGroupManager,
+		StorageManagers: 	   AzureStorageManagers,
+	}
+
+	// create resourcegroup for this suite
+	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), tc.ResourceGroupName)
 	if result.Response.StatusCode != 204 {
-		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)
+		_, _ = tc.ResourceGroupManager.CreateGroup(context.Background(), tc.ResourceGroupName, tc.ResourceGroupLocation)
 	}
+})
 
-	tc := TestContext{
-		ResourceGroupName:     resourceGroupName,
-		ResourceGroupLocation: resourceGroupLocation,
-	}
-
-	bytes, err := helpers.ToByteArray(&tc)
-	Expect(err).ToNot(HaveOccurred())
-
-	return bytes
-}, func(b []byte) {
-	resourcemanagerconfig.ParseEnvironment()
-
-	err := helpers.FromByteArray(b, &tc)
-	Expect(err).ToNot(HaveOccurred())
-}, 120)
-
-var _ = SynchronizedAfterSuite(func() {}, func() {
+var _ = AfterSuite(func() {
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
-	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), tc.ResourceGroupName)
-}, 60)
+	_, _ = tc.ResourceGroupManager.DeleteGroup(context.Background(), tc.ResourceGroupName)
+})

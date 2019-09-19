@@ -37,6 +37,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
+type azureStorageManager struct{}
+
 func getStoragesClient() storage.AccountsClient {
 	storagesClient := storage.NewAccountsClient(config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
@@ -49,7 +51,7 @@ func getStoragesClient() storage.AccountsClient {
 }
 
 // CreateStorage creates a new storage account
-func CreateStorage(ctx context.Context, groupName string,
+func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName string,
 	storageAccountName string,
 	location string,
 	sku apiv1.StorageSku,
@@ -106,13 +108,13 @@ func CreateStorage(ctx context.Context, groupName string,
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
 // accountName - the name of the storage account
-func GetStorage(ctx context.Context, resourceGroupName string, accountName string) (result storage.Account, err error) {
+func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName string, accountName string) (result storage.Account, err error) {
 	storagesClient := getStoragesClient()
 	return storagesClient.GetProperties(ctx, resourceGroupName, accountName, "")
 }
 
 // DeleteStorage removes the resource group named by env var
-func DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
+func (_ *azureStorageManager) DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
 	storagesClient := getStoragesClient()
 	return storagesClient.Delete(ctx, groupName, storageAccountName)
 }

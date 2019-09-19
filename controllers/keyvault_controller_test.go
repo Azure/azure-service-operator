@@ -17,7 +17,6 @@ import (
 	"fmt"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	keyvaultresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -71,7 +70,7 @@ var _ = Describe("KeyVault Controller", func() {
 
 			// verify key vault exists in Azure
 			Eventually(func() bool {
-				result, _ := keyvaultresourcemanager.GetVault(context.Background(), tc.ResourceGroupName, keyVaultInstance.Name)
+				result, _ := tc.KeyVaultManager.GetVault(context.Background(), tc.ResourceGroupName, keyVaultInstance.Name)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
@@ -91,7 +90,7 @@ var _ = Describe("KeyVault Controller", func() {
 
 			// confirm key vault is gone from Azure
 			Eventually(func() bool {
-				result, _ := keyvaultresourcemanager.GetVault(context.Background(), tc.ResourceGroupName, keyVaultInstance.Name)
+				result, _ := tc.KeyVaultManager.GetVault(context.Background(), tc.ResourceGroupName, keyVaultInstance.Name)
 				return result.Response.StatusCode == 404
 			}, timeout, poll,
 			).Should(BeTrue())

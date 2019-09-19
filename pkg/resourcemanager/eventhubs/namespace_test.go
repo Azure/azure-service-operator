@@ -34,7 +34,7 @@ var _ = Describe("Namespace", func() {
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.ResourceGroupName
-		eventHubNamespaceManager = tc.Managers.EventHubNamespace
+		eventHubNamespaceManager = tc.EventHubManagers.EventHubNamespace
 	})
 
 	AfterEach(func() {
@@ -50,7 +50,7 @@ var _ = Describe("Namespace", func() {
 		It("should create and delete namespace in azure", func() {
 
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
-			namespaceLocation := tc.ResourcegroupLocation
+			namespaceLocation := tc.ResourceGroupLocation
 
 			var err error
 

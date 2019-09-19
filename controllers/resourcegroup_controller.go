@@ -33,8 +33,9 @@ import (
 // ResourceGroupReconciler reconciles a ResourceGroup object
 type ResourceGroupReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
+	Log                  logr.Logger
+	Recorder             record.EventRecorder
+	ResourceGroupManager resoucegroupsresourcemanager.ResourceGroupManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
@@ -104,7 +105,7 @@ func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1.ResourceGr
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = resoucegroupsresourcemanager.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
+	_, err = r.ResourceGroupManager.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
 
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
@@ -138,7 +139,7 @@ func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1.Resource
 	resourcegroup := instance.ObjectMeta.Name
 
 	var err error
-	_, err = resoucegroupsresourcemanager.DeleteGroup(ctx, resourcegroup)
+	_, err = r.ResourceGroupManager.DeleteGroup(ctx, resourcegroup)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
 		return err

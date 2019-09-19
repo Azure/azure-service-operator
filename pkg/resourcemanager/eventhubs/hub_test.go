@@ -40,9 +40,9 @@ var _ = Describe("Eventhub", func() {
 
 		rgName = tc.ResourceGroupName
 		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
-		namespaceLocation = tc.ResourcegroupLocation
-		eventHubManager = tc.Managers.EventHub
-		eventHubNamespaceManager = tc.Managers.EventHubNamespace
+		namespaceLocation = tc.ResourceGroupLocation
+		eventHubManager = tc.EventHubManagers.EventHub
+		eventHubNamespaceManager = tc.EventHubManagers.EventHubNamespace
 
 		_, _ = eventHubNamespaceManager.CreateNamespaceAndWait(context.Background(), tc.ResourceGroupName, eventhubNamespaceName, namespaceLocation)
 	})

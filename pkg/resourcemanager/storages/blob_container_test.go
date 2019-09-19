@@ -35,14 +35,14 @@ var _ = Describe("Blob Container", func() {
 	BeforeEach(func() {
 		storageLocation := config.DefaultLocation()
 		// Add any setup steps that needs to be executed before each test
-		_, _ = CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
+		_, _ = tc.StorageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
 			Name: "Standard_LRS",
 		}, "Storage", map[string]*string{}, "", nil)
 	})
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
-		_, _ = DeleteStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+		_, _ = tc.StorageManagers.Storage.DeleteStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
 	})
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
@@ -57,20 +57,20 @@ var _ = Describe("Blob Container", func() {
 
 			containerName := "t-dev-bc-" + helpers.RandomString(10)
 
-			_, err = CreateBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
+			_, err = tc.StorageManagers.BlobContainer.CreateBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
+				result, _ := tc.StorageManagers.BlobContainer.GetBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
 				return result.Response.StatusCode == 200
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
+			_, err = tc.StorageManagers.BlobContainer.DeleteBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
+				result, _ := tc.StorageManagers.BlobContainer.GetBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
 				return result.Response.StatusCode == 404
 			}, timeout,
 			).Should(BeTrue())

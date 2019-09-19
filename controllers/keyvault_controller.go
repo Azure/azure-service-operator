@@ -40,6 +40,7 @@ type KeyVaultReconciler struct {
 	Log         logr.Logger
 	Recorder    record.EventRecorder
 	RequeueTime time.Duration
+	KeyVaultManager keyvaults.KeyVaultManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=keyvaults,verbs=get;list;watch;create;update;patch;delete
@@ -125,7 +126,7 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err := keyvaults.CreateVault(ctx, groupName, name, location)
+	_, err := r.KeyVaultManager.CreateVault(ctx, groupName, name, location)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Recorder.Event(instance, "Normal", "Provisioning", name+" provisioning")
@@ -154,7 +155,7 @@ func (r *KeyVaultReconciler) deleteExternal(instance *azurev1.KeyVault) error {
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
-	_, err := keyvaults.DeleteVault(ctx, groupName, name)
+	_, err := r.KeyVaultManager.DeleteVault(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
