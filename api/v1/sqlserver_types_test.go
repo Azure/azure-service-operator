@@ -61,7 +61,6 @@ var _ = Describe("SqlServer", func() {
 				Spec: SqlServerSpec{
 					Location:                "westus",
 					ResourceGroup:           "foo-resourcegroup",
-					AdminUser:               "iamadmin",
 					AllowAzureServiceAccess: true,
 				}}
 

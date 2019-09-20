@@ -40,9 +40,9 @@ var _ = Describe("ConsumerGroup Controller", func() {
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		rgName = resourceGroupName
-		ehnName = eventhubNamespaceName
-		ehName = eventhubName
+		rgName = tc.ResourceGroupName
+		ehnName = tc.EventhubNamespaceName
+		ehName = tc.EventhubName
 	})
 
 	AfterEach(func() {
@@ -73,27 +73,27 @@ var _ = Describe("ConsumerGroup Controller", func() {
 				},
 			}
 
-			err = k8sClient.Create(context.Background(), consumerGroupInstance)
+			err = tc.K8sClient.Create(context.Background(), consumerGroupInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			consumerGroupNamespacedName := types.NamespacedName{Name: consumerGroupName, Namespace: "default"}
 
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.K8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName)
 			}, timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.K8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsSubmitted()
 			}, timeout,
 			).Should(BeTrue())
 
-			k8sClient.Delete(context.Background(), consumerGroupInstance)
+			tc.K8sClient.Delete(context.Background(), consumerGroupInstance)
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.K8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsBeingDeleted()
 			}, timeout,
 			).Should(BeTrue())
