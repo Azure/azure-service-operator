@@ -139,11 +139,16 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
-	var resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
-	eventHubManagers := resourcemanagereventhub.AzureEventHubManagers
-	storageManagers := resourcemanagerstorages.AzureStorageManagers
-	keyVaultManager := resourcemanagerkeyvaults.AzureKeyVaultManager
-	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") != "false" {
+	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
+	var eventHubManagers resourcemanagereventhub.EventHubManagers = resourcemanagereventhub.AzureEventHubManagers
+	var storageManagers resourcemanagerstorages.StorageManagers = resourcemanagerstorages.AzureStorageManagers
+	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
+	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
+		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
+		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
+		storageManagers = resourcemanagerstorages.AzureStorageManagers
+		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
+	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
