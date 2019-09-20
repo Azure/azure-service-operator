@@ -35,6 +35,9 @@ type SqlActionSpec struct {
 type SqlActionStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Provisioning bool   `json:"provisioning,omitempty"`
+	Provisioned  bool   `json:"provisioned,omitempty"`
+	State        string `json:"state,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -59,4 +62,8 @@ type SqlActionList struct {
 
 func init() {
 	SchemeBuilder.Register(&SqlAction{}, &SqlActionList{})
+}
+
+func (s *SqlAction) IsSubmitted() bool {
+	return s.Status.Provisioned || s.Status.Provisioning
 }

@@ -198,8 +198,10 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.SqlActionReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("SqlAction"),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlAction"),
+		Recorder: mgr.GetEventRecorderFor("SqlAction-controller"),
+		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
 		os.Exit(1)

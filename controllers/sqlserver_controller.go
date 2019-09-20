@@ -176,7 +176,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	r.Log.Info("Info", "Password: ", *sqlServerProperties.AdministratorLoginPassword)
 
 	// create the sql server
-	//instance.Status.Provisioning = true
+	instance.Status.Provisioning = true
 	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
@@ -196,17 +196,6 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	})
 	if createOrUpdateSecretErr != nil {
 		return createOrUpdateSecretErr
-	}
-
-	instance.Status.Provisioning = true
-
-	_, err = sdkClient.CreateOrUpdateSQLServer(sqlServerProperties)
-	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
-		instance.Status.Provisioning = false
-		err = errhelp.NewAzureError(err)
-	} else {
-		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully submitted to Azure")
 	}
 
 	// write information back to instance
