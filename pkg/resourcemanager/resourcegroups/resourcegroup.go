@@ -87,7 +87,11 @@ func (_ *azureResourceGroupManager) DeleteGroup(ctx context.Context, groupName s
 	return future.Result(client)
 }
 
-func deleteGroup(ctx context.Context, groupName string) (result resources.GroupsDeleteFuture, err error) {
+func (_ *azureResourceGroupManager) DeleteGroupAsync(ctx context.Context, groupName string) (result resources.GroupsDeleteFuture, err error) {
+	return deleteGroupAsync(ctx, groupName)
+}
+
+func deleteGroupAsync(ctx context.Context, groupName string) (result resources.GroupsDeleteFuture, err error) {
 	groupsClient := getGroupsClient()
 	return groupsClient.Delete(ctx, groupName)
 }
@@ -114,7 +118,7 @@ func DeleteAllGroupsWithPrefix(ctx context.Context, prefix string) (futures []re
 		rgName := *list.Value().Name
 		if strings.HasPrefix(rgName, prefix) {
 			fmt.Printf("deleting group '%s'\n", rgName)
-			future, err := deleteGroup(ctx, rgName)
+			future, err := deleteGroupAsync(ctx, rgName)
 			if err != nil {
 				log.Fatalf("got error: %s", err)
 			}

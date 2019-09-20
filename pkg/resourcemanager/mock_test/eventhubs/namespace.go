@@ -45,7 +45,7 @@ func (manager *mockEventHubNamespaceManager) CreateNamespaceAndWait(ctx context.
 	return &eventHubNamespace, nil
 }
 
-func (manager *mockEventHubNamespaceManager) DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (result autorest.Response, err error) {
+func (manager *mockEventHubNamespaceManager) DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (autorest.Response, error) {
 	namespaces := manager.eventHubNamespaceResources
 
 	index, _ := findEventHubNamespace(namespaces, func(g EventHubNamespaceResource) bool {

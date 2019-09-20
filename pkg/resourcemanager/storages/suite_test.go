@@ -85,5 +85,5 @@ var _ = AfterSuite(func() {
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
-	_, _ = tc.ResourceGroupManager.DeleteGroup(context.Background(), tc.ResourceGroupName)
+	_, _ = tc.ResourceGroupManager.DeleteGroupAsync(context.Background(), tc.ResourceGroupName)
 })

@@ -25,7 +25,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Namespace", func() {
+var _ = FDescribe("Namespace", func() {
 
 	const timeout = time.Second * 240
 	var eventHubNamespaceManager EventHubNamespaceManager

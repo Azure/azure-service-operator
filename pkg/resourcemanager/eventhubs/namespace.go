@@ -25,33 +25,28 @@ func getNamespacesClient() eventhub.NamespacesClient {
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
 // namespaceName - the Namespace name
-func (_ *azureEventHubNamespaceManager) DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (result autorest.Response, err error) {
+func (_ *azureEventHubNamespaceManager) DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (autorest.Response, error) {
 
 	nsClient := getNamespacesClient()
 	future, err := nsClient.Delete(ctx,
 		resourceGroupName,
 		namespaceName)
 
-	err = future.WaitForCompletionRef(ctx, nsClient.Client)
-	if err != nil {
-		return autorest.Response{}, err
-	}
-
-	result, err = future.Result(nsClient)
-	return result, err
-
+	return autorest.Response{Response: future.Response()}, err
 }
 
 // Get gets the description of the specified namespace.
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
 // namespaceName - the Namespace name
-func (_ *azureEventHubNamespaceManager) GetNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (result *eventhub.EHNamespace, err error) {
+func (_ *azureEventHubNamespaceManager) GetNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (*eventhub.EHNamespace, error) {
 	nsClient := getNamespacesClient()
 	x, err := nsClient.Get(ctx, resourceGroupName, namespaceName)
 
 	if err != nil {
-		return &eventhub.EHNamespace{}, err
+		return &eventhub.EHNamespace{
+			Response: x.Response,
+		}, err
 	}
 
 	return &x, err

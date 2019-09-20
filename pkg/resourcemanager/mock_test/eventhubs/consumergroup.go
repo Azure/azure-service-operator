@@ -54,7 +54,7 @@ func (manager *mockConsumerGroupManager) CreateConsumerGroup(ctx context.Context
 	return consumerGroup, nil
 }
 
-func (manager *mockConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (result autorest.Response, err error) {
+func (manager *mockConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (autorest.Response, error) {
 	groups := manager.consumerGroupResources
 
 	index, _ := findConsumerGroup(groups, func(g ConsumerGroupResource) bool {

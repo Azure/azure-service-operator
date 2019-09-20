@@ -139,16 +139,22 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
-	var resourceGroupManager = resourcegroupsresourcemanagermock.MockResourceGroupManager{}
-	var eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
-	var storageManagers = resourcemanagerstoragesmock.MockStorageManagers
-	var keyVaultManager = resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
+	var resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
+	eventHubManagers := resourcemanagereventhub.AzureEventHubManagers
+	storageManagers := resourcemanagerstorages.AzureStorageManagers
+	keyVaultManager := resourcemanagerkeyvaults.AzureKeyVaultManager
+	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") != "false" {
+		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
+		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
+		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
+		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
+	}
 
 	err = (&KeyVaultReconciler{
 		Client:          k8sManager.GetClient(),
 		Log:             ctrl.Log.WithName("controllers").WithName("KeyVault"),
 		Recorder:        k8sManager.GetEventRecorderFor("KeyVault-controller"),
-		KeyVaultManager: &keyVaultManager,
+		KeyVaultManager: keyVaultManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -165,7 +171,7 @@ var _ = BeforeSuite(func() {
 		Client:               k8sManager.GetClient(),
 		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 		Recorder:             k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
-		ResourceGroupManager: &resourceGroupManager,
+		ResourceGroupManager: resourceGroupManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -226,9 +232,9 @@ var _ = BeforeSuite(func() {
 		StorageAccountName:    storageAccountName,
 		BlobContainerName:     blobContainerName,
 		EventHubManagers:      eventHubManagers,
-		ResourceGroupManager:  &resourceGroupManager,
+		ResourceGroupManager:  resourceGroupManager,
 		StorageManagers:       storageManagers,
-		KeyVaultManager:       &keyVaultManager,
+		KeyVaultManager:       keyVaultManager,
 	}
 })
 

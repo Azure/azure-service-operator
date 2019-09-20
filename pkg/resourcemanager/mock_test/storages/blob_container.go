@@ -49,7 +49,7 @@ func (manager *mockBlobContainerManager) CreateBlobContainer(ctx context.Context
 // resourceGroupName - name of the resource group within the azure subscription.
 // accountName - the name of the storage account
 // containerName - the name of the container
-func (manager *mockBlobContainerManager) GetBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result storage.BlobContainer, err error) {
+func (manager *mockBlobContainerManager) GetBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (storage.BlobContainer, error) {
 	containers := manager.blobContainerResource
 
 	index, c := findBlobContainer(containers, func(g BlobContainerResource) bool {
@@ -70,7 +70,7 @@ func (manager *mockBlobContainerManager) GetBlobContainer(ctx context.Context, r
 // resourceGroupName - name of the resource group within the azure subscription.
 // accountName - the name of the storage account
 // containerName - the name of the container
-func (manager *mockBlobContainerManager) DeleteBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result autorest.Response, err error) {
+func (manager *mockBlobContainerManager) DeleteBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (autorest.Response, error) {
 	containers := manager.blobContainerResource
 
 	index, _ := findBlobContainer(containers, func(g BlobContainerResource) bool {

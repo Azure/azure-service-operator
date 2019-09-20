@@ -15,6 +15,9 @@ type ResourceGroupManager interface {
 	// DeleteGroup removes the resource group named by env var
 	DeleteGroup(ctx context.Context, groupName string) (result autorest.Response, err error)
 
+	// DeleteGroup removes the resource group named by env var
+	DeleteGroupAsync(ctx context.Context, groupName string) (result resources.GroupsDeleteFuture, err error)
+
 	// CheckExistence checks whether a resource exists
 	CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error)
 }

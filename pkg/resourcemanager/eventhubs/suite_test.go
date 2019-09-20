@@ -66,6 +66,8 @@ var _ = BeforeSuite(func() {
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
 	resourceGroupManager := resoucegroupsresourcemanager.AzureResourceGroupManager
 
+	// resoucegroupsresourcemanager.DeleteAllGroupsWithPrefix(context.Background(), "t-rg-dev-")
+
 	//create resourcegroup for this suite
 	_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)
 	Expect(err).ToNot(HaveOccurred())
@@ -81,5 +83,5 @@ var _ = BeforeSuite(func() {
 var _ = SynchronizedAfterSuite(func() {
 }, func() {
 	By("tearing down the test environment")
-	_, _ = tc.ResourceGroupManager.DeleteGroup(context.Background(), tc.ResourceGroupName)
+	_, _ = tc.ResourceGroupManager.DeleteGroupAsync(context.Background(), tc.ResourceGroupName)
 }, 60)

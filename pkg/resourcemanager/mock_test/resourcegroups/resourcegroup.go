@@ -37,7 +37,7 @@ func (manager *MockResourceGroupManager) CreateGroup(ctx context.Context, groupN
 }
 
 // DeleteGroup removes the resource group
-func (manager *MockResourceGroupManager) DeleteGroup(ctx context.Context, groupName string) (result autorest.Response, err error) {
+func (manager *MockResourceGroupManager) DeleteGroup(ctx context.Context, groupName string) (autorest.Response, error) {
 	groups := manager.resourceGroups
 	index, _ := findResourceGroup(groups, func(g resources.Group) bool {
 		return *g.Name == groupName
@@ -52,7 +52,13 @@ func (manager *MockResourceGroupManager) DeleteGroup(ctx context.Context, groupN
 	return helpers.GetRestResponse(200), nil
 }
 
-func (manager *MockResourceGroupManager) CheckExistence(ctx context.Context, groupName string) (result autorest.Response, err error) {
+func (manager *MockResourceGroupManager) DeleteGroupAsync(ctx context.Context, groupName string) (resources.GroupsDeleteFuture, error) {
+	_, err := manager.DeleteGroup(ctx, groupName)
+
+	return resources.GroupsDeleteFuture{}, err
+}
+
+func (manager *MockResourceGroupManager) CheckExistence(ctx context.Context, groupName string) (autorest.Response, error) {
 	groups := manager.resourceGroups
 	index, _ := findResourceGroup(groups, func(g resources.Group) bool {
 		return *g.Name == groupName

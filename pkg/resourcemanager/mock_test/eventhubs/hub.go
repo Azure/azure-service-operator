@@ -102,7 +102,7 @@ func (manager *mockEventHubManager) getHubAccess(resourceGroupName string, names
 	return hub, ruleIndex, rule, nil
 }
 
-func (manager *mockEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string, parameters eventhub.AuthorizationRule) (result eventhub.AuthorizationRule, err error) {
+func (manager *mockEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string, parameters eventhub.AuthorizationRule) (eventhub.AuthorizationRule, error) {
 	hub, accessIndex, _, err := manager.getHubAccess(resourceGroupName, namespaceName, eventHubName, authorizationRuleName)
 	if err != nil {
 		return eventhub.AuthorizationRule{}, err
@@ -129,7 +129,7 @@ func (manager *mockEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.
 	return parameters, nil
 }
 
-func (manager *mockEventHubManager) ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error) {
+func (manager *mockEventHubManager) ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (eventhub.AccessKeys, error) {
 	_, accessIndex, access, err := manager.getHubAccess(resourceGroupName, namespaceName, eventHubName, authorizationRuleName)
 
 	if err != nil {
