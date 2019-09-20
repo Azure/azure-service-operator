@@ -27,7 +27,9 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	"k8s.io/client-go/rest"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -49,6 +51,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -85,12 +89,7 @@ var tc testContext
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
-	resourcegroupLocation = "westus"
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
-	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
-	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{envtest.NewlineReporter{}})
@@ -117,16 +116,16 @@ var _ = BeforeSuite(func() {
 
 	var timeout time.Duration
 
-	resoucegroupsconfig.ParseEnvironment()
-	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
-	resourcegroupLocation = resoucegroupsconfig.DefaultLocation()
+	resourcemanagerconfig.ParseEnvironment()
+	resourceGroupName := "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
-	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
-	namespaceLocation = resoucegroupsconfig.DefaultLocation()
+	eventhubNamespaceName := "t-ns-dev-eh-ns-" + helpers.RandomString(10)
+	eventhubName := "t-eh-dev-sample-" + helpers.RandomString(10)
+	namespaceLocation := resourcemanagerconfig.DefaultLocation()
 
-	storageAccountName = "tsadeveh" + helpers.RandomString(10)
-	blobContainerName = "t-bc-dev-eh-" + helpers.RandomString(10)
+	storageAccountName := "tsadeveh" + helpers.RandomString(10)
+	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
 
 	By("bootstrapping test environment")
 	testEnv = &envtest.Environment{
