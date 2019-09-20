@@ -10,31 +10,31 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-type StorageResource struct {
-	ResourceGroupName  string
-	StorageAccountName string
+type storageResource struct {
+	resourceGroupName  string
+	storageAccountName string
 	StorageAccount     storage.Account
 }
 
 type mockStorageManager struct {
-	storageResource []StorageResource
+	storageResource []storageResource
 }
 
-func findStorage(res []StorageResource, predicate func(StorageResource) bool) (int, StorageResource) {
+func findStorage(res []storageResource, predicate func(storageResource) bool) (int, storageResource) {
 	for index, r := range res {
 		if predicate(r) {
 			return index, r
 		}
 	}
-	return -1, StorageResource{}
+	return -1, storageResource{}
 }
 
 type Finder interface {
 }
 
-type StorageResources []StorageResource
+type StorageResources []storageResource
 
-func (srs *StorageResources) Find(predicate func(StorageResource) bool) {
+func (srs *StorageResources) Find(predicate func(storageResource) bool) {
 
 }
 
@@ -46,9 +46,9 @@ func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName 
 	tags map[string]*string,
 	accessTier apiv1.StorageAccessTier,
 	enableHTTPsTrafficOnly *bool) (*storage.Account, error) {
-	s := StorageResource{
-		ResourceGroupName:  groupName,
-		StorageAccountName: storageAccountName,
+	s := storageResource{
+		resourceGroupName:  groupName,
+		storageAccountName: storageAccountName,
 		StorageAccount: storage.Account{
 			Response: helpers.GetRestResponse(201),
 			Tags:     tags,
@@ -65,9 +65,9 @@ func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName 
 func (manager *mockStorageManager) GetStorage(ctx context.Context, resourceGroupName string, accountName string) (storage.Account, error) {
 	groups := manager.storageResource
 
-	index, group := findStorage(groups, func(g StorageResource) bool {
-		return g.ResourceGroupName == resourceGroupName &&
-			g.StorageAccountName == accountName
+	index, group := findStorage(groups, func(g storageResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.storageAccountName == accountName
 	})
 
 	if index == -1 {
@@ -81,9 +81,9 @@ func (manager *mockStorageManager) GetStorage(ctx context.Context, resourceGroup
 func (manager *mockStorageManager) DeleteStorage(ctx context.Context, resourceGroupName string, accountName string) (autorest.Response, error) {
 	groups := manager.storageResource
 
-	index, _ := findStorage(groups, func(g StorageResource) bool {
-		return g.ResourceGroupName == resourceGroupName &&
-			g.StorageAccountName == accountName
+	index, _ := findStorage(groups, func(g storageResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.storageAccountName == accountName
 	})
 
 	if index == -1 {

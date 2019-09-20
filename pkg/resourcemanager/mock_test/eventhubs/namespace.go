@@ -9,23 +9,23 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-type EventHubNamespaceResource struct {
-	ResourceGroupName string
-	NamespaceName     string
-	EHNamespace       eventhub.EHNamespace
+type eventHubNamespaceResource struct {
+	resourceGroupName string
+	namespaceName     string
+	eHNamespace       eventhub.EHNamespace
 }
 
 type mockEventHubNamespaceManager struct {
-	eventHubNamespaceResources []EventHubNamespaceResource
+	eventHubNamespaceResources []eventHubNamespaceResource
 }
 
-func findEventHubNamespace(res []EventHubNamespaceResource, predicate func(EventHubNamespaceResource) bool) (int, EventHubNamespaceResource) {
+func findEventHubNamespace(res []eventHubNamespaceResource, predicate func(eventHubNamespaceResource) bool) (int, eventHubNamespaceResource) {
 	for index, r := range res {
 		if predicate(r) {
 			return index, r
 		}
 	}
-	return -1, EventHubNamespaceResource{}
+	return -1, eventHubNamespaceResource{}
 }
 
 func (manager *mockEventHubNamespaceManager) CreateNamespaceAndWait(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error) {
@@ -37,10 +37,10 @@ func (manager *mockEventHubNamespaceManager) CreateNamespaceAndWait(ctx context.
 		Location: &location,
 		Name:     to.StringPtr(namespaceName),
 	}
-	manager.eventHubNamespaceResources = append(manager.eventHubNamespaceResources, EventHubNamespaceResource{
-		ResourceGroupName: resourceGroupName,
-		NamespaceName:     namespaceName,
-		EHNamespace:       eventHubNamespace,
+	manager.eventHubNamespaceResources = append(manager.eventHubNamespaceResources, eventHubNamespaceResource{
+		resourceGroupName: resourceGroupName,
+		namespaceName:     namespaceName,
+		eHNamespace:       eventHubNamespace,
 	})
 	return &eventHubNamespace, nil
 }
@@ -48,9 +48,9 @@ func (manager *mockEventHubNamespaceManager) CreateNamespaceAndWait(ctx context.
 func (manager *mockEventHubNamespaceManager) DeleteNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (autorest.Response, error) {
 	namespaces := manager.eventHubNamespaceResources
 
-	index, _ := findEventHubNamespace(namespaces, func(g EventHubNamespaceResource) bool {
-		return g.ResourceGroupName == resourceGroupName &&
-			g.NamespaceName == namespaceName
+	index, _ := findEventHubNamespace(namespaces, func(g eventHubNamespaceResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.namespaceName == namespaceName
 	})
 
 	if index == -1 {
@@ -65,14 +65,14 @@ func (manager *mockEventHubNamespaceManager) DeleteNamespace(ctx context.Context
 func (manager *mockEventHubNamespaceManager) GetNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (*eventhub.EHNamespace, error) {
 	groups := manager.eventHubNamespaceResources
 
-	index, group := findEventHubNamespace(groups, func(g EventHubNamespaceResource) bool {
-		return g.ResourceGroupName == resourceGroupName &&
-			g.NamespaceName == namespaceName
+	index, group := findEventHubNamespace(groups, func(g eventHubNamespaceResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.namespaceName == namespaceName
 	})
 
 	if index == -1 {
 		return &eventhub.EHNamespace{}, errors.New("eventhub namespace not found")
 	}
 
-	return &group.EHNamespace, nil
+	return &group.eHNamespace, nil
 }

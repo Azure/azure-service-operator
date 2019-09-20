@@ -8,24 +8,24 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 )
 
-type BlobContainerResource struct {
-	ResourceGroupName  string
-	StorageAccountName string
-	BlobContainerName  string
-	BlobContainer      storage.BlobContainer
+type blobContainerResource struct {
+	resourceGroupName  string
+	storageAccountName string
+	blobContainerName  string
+	blobContainer      storage.BlobContainer
 }
 
 type mockBlobContainerManager struct {
-	blobContainerResource []BlobContainerResource
+	blobContainerResource []blobContainerResource
 }
 
-func findBlobContainer(res []BlobContainerResource, predicate func(BlobContainerResource) bool) (int, BlobContainerResource) {
+func findBlobContainer(res []blobContainerResource, predicate func(blobContainerResource) bool) (int, blobContainerResource) {
 	for index, r := range res {
 		if predicate(r) {
 			return index, r
 		}
 	}
-	return -1, BlobContainerResource{}
+	return -1, blobContainerResource{}
 }
 
 // Creates a blob container in a storage account.
@@ -34,14 +34,14 @@ func findBlobContainer(res []BlobContainerResource, predicate func(BlobContainer
 // accountName - the name of the storage account
 // containerName - the name of the container
 func (manager *mockBlobContainerManager) CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (*storage.BlobContainer, error) {
-	bc := BlobContainerResource{
-		ResourceGroupName:  resourceGroupName,
-		StorageAccountName: accountName,
-		BlobContainerName:  containerName,
-		BlobContainer:      storage.BlobContainer{},
+	bc := blobContainerResource{
+		resourceGroupName:  resourceGroupName,
+		storageAccountName: accountName,
+		blobContainerName:  containerName,
+		blobContainer:      storage.BlobContainer{},
 	}
 	manager.blobContainerResource = append(manager.blobContainerResource, bc)
-	return &bc.BlobContainer, nil
+	return &bc.blobContainer, nil
 }
 
 // Get gets the description of the specified blob container.
@@ -52,17 +52,17 @@ func (manager *mockBlobContainerManager) CreateBlobContainer(ctx context.Context
 func (manager *mockBlobContainerManager) GetBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (storage.BlobContainer, error) {
 	containers := manager.blobContainerResource
 
-	index, c := findBlobContainer(containers, func(g BlobContainerResource) bool {
-		return g.ResourceGroupName == resourceGroupName &&
-			g.StorageAccountName == accountName &&
-			g.BlobContainerName == containerName
+	index, c := findBlobContainer(containers, func(g blobContainerResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.storageAccountName == accountName &&
+			g.blobContainerName == containerName
 	})
 
 	if index == -1 {
 		return storage.BlobContainer{}, errors.New("blob container not found")
 	}
 
-	return c.BlobContainer, nil
+	return c.blobContainer, nil
 }
 
 // Deletes a blob container in a storage account.
@@ -73,10 +73,10 @@ func (manager *mockBlobContainerManager) GetBlobContainer(ctx context.Context, r
 func (manager *mockBlobContainerManager) DeleteBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (autorest.Response, error) {
 	containers := manager.blobContainerResource
 
-	index, _ := findBlobContainer(containers, func(g BlobContainerResource) bool {
-		return g.ResourceGroupName == resourceGroupName &&
-			g.StorageAccountName == accountName &&
-			g.BlobContainerName == containerName
+	index, _ := findBlobContainer(containers, func(g blobContainerResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.storageAccountName == accountName &&
+			g.blobContainerName == containerName
 	})
 
 	if index == -1 {

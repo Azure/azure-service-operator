@@ -15,21 +15,21 @@ type eventHubAccess struct {
 	keys eventhub.AccessKeys
 }
 
-type EventHubResource struct {
-	ResourceGroupName  string
-	NamespaceName      string
-	EventHubName       string
-	EventHub           eventhub.Model
-	AuthorizationRules []eventHubAccess
+type eventHubResource struct {
+	resourceGroupName string
+	namespaceName     string
+	eventHubName      string
+	eventHub          eventhub.Model
+	eventHubAccesses  []eventHubAccess
 }
 
-func findEventHub(res []EventHubResource, predicate func(EventHubResource) bool) (int, EventHubResource) {
+func findEventHub(res []eventHubResource, predicate func(eventHubResource) bool) (int, eventHubResource) {
 	for index, r := range res {
 		if predicate(r) {
 			return index, r
 		}
 	}
-	return -1, EventHubResource{}
+	return -1, eventHubResource{}
 }
 
 func findAccess(res []eventHubAccess, name string) (int, eventHubAccess) {
@@ -42,7 +42,7 @@ func findAccess(res []eventHubAccess, name string) (int, eventHubAccess) {
 }
 
 type mockEventHubManager struct {
-	eventHubResources []EventHubResource
+	eventHubResources []eventHubResource
 }
 
 func (manager *mockEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
@@ -60,12 +60,12 @@ func (manager *mockEventHubManager) CreateHub(ctx context.Context, resourceGroup
 		},
 		Name: &eventHubName,
 	}
-	manager.eventHubResources = append(manager.eventHubResources, EventHubResource{
-		ResourceGroupName:  resourceGroupName,
-		NamespaceName:      namespaceName,
-		EventHubName:       eventHubName,
-		EventHub:           eventHub,
-		AuthorizationRules: []eventHubAccess{},
+	manager.eventHubResources = append(manager.eventHubResources, eventHubResource{
+		resourceGroupName: resourceGroupName,
+		namespaceName:     namespaceName,
+		eventHubName:      eventHubName,
+		eventHub:          eventHub,
+		eventHubAccesses:  []eventHubAccess{},
 	})
 	return eventHub, nil
 }
@@ -73,30 +73,30 @@ func (manager *mockEventHubManager) CreateHub(ctx context.Context, resourceGroup
 func (manager *mockEventHubManager) GetHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (eventhub.Model, error) {
 	hubs := manager.eventHubResources
 
-	index, hub := findEventHub(hubs, func(g EventHubResource) bool {
-		return g.ResourceGroupName == resourceGroupName &&
-			g.NamespaceName == namespaceName &&
-			g.EventHubName == eventHubName
+	index, hub := findEventHub(hubs, func(g eventHubResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.namespaceName == namespaceName &&
+			g.eventHubName == eventHubName
 	})
 
 	if index == -1 {
 		return eventhub.Model{}, errors.New("eventhub not found")
 	}
 
-	return hub.EventHub, nil
+	return hub.eventHub, nil
 }
 
-func (manager *mockEventHubManager) getHubAccess(resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (EventHubResource, int, eventHubAccess, error) {
+func (manager *mockEventHubManager) getHubAccess(resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (eventHubResource, int, eventHubAccess, error) {
 	hubs := manager.eventHubResources
-	hubIndex, hub := findEventHub(hubs, func(g EventHubResource) bool {
-		return g.ResourceGroupName == resourceGroupName &&
-			g.NamespaceName == namespaceName &&
-			g.EventHubName == eventHubName
+	hubIndex, hub := findEventHub(hubs, func(g eventHubResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.namespaceName == namespaceName &&
+			g.eventHubName == eventHubName
 	})
 	if hubIndex == -1 {
-		return EventHubResource{}, 0, eventHubAccess{}, errors.New("eventhub not found")
+		return eventHubResource{}, 0, eventHubAccess{}, errors.New("eventhub not found")
 	}
-	authRules := hub.AuthorizationRules
+	authRules := hub.eventHubAccesses
 	ruleIndex, rule := findAccess(authRules, authorizationRuleName)
 
 	return hub, ruleIndex, rule, nil
@@ -109,7 +109,7 @@ func (manager *mockEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.
 	}
 
 	if accessIndex == -1 {
-		hub.AuthorizationRules = append(hub.AuthorizationRules, eventHubAccess{
+		hub.eventHubAccesses = append(hub.eventHubAccesses, eventHubAccess{
 			rule: parameters,
 			keys: eventhub.AccessKeys{
 				Response:                       helpers.GetRestResponse(200),
@@ -123,7 +123,7 @@ func (manager *mockEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.
 			},
 		})
 	} else {
-		hub.AuthorizationRules[accessIndex].rule = parameters
+		hub.eventHubAccesses[accessIndex].rule = parameters
 	}
 
 	return parameters, nil

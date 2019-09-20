@@ -9,23 +9,23 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-type KeyVaultResource struct {
-	ResourceGroupName string
-	VaultName         string
+type keyVaultResource struct {
+	resourceGroupName string
+	vaultName         string
 	KeyVault          keyvault.Vault
 }
 
 type MockKeyVaultManager struct {
-	keyVaultResources []KeyVaultResource
+	keyVaultResources []keyVaultResource
 }
 
-func findKeyVault(res []KeyVaultResource, predicate func(KeyVaultResource) bool) (int, KeyVaultResource) {
+func findKeyVault(res []keyVaultResource, predicate func(keyVaultResource) bool) (int, keyVaultResource) {
 	for index, r := range res {
 		if predicate(r) {
 			return index, r
 		}
 	}
-	return -1, KeyVaultResource{}
+	return -1, keyVaultResource{}
 }
 
 // CreateVault creates a new key vault
@@ -36,9 +36,9 @@ func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, groupName s
 		Name:       to.StringPtr(vaultName),
 		Location:   to.StringPtr(location),
 	}
-	manager.keyVaultResources = append(manager.keyVaultResources, KeyVaultResource{
-		ResourceGroupName: groupName,
-		VaultName:         vaultName,
+	manager.keyVaultResources = append(manager.keyVaultResources, keyVaultResource{
+		resourceGroupName: groupName,
+		vaultName:         vaultName,
 		KeyVault:          v,
 	})
 
@@ -49,9 +49,9 @@ func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, groupName s
 func (manager *MockKeyVaultManager) DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
 	vaults := manager.keyVaultResources
 
-	index, _ := findKeyVault(vaults, func(g KeyVaultResource) bool {
-		return g.ResourceGroupName == groupName &&
-			g.VaultName == vaultName
+	index, _ := findKeyVault(vaults, func(g keyVaultResource) bool {
+		return g.resourceGroupName == groupName &&
+			g.vaultName == vaultName
 	})
 
 	if index == -1 {
@@ -67,9 +67,9 @@ func (manager *MockKeyVaultManager) DeleteVault(ctx context.Context, groupName s
 func (manager *MockKeyVaultManager) GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
 	vaults := manager.keyVaultResources
 
-	index, v := findKeyVault(vaults, func(g KeyVaultResource) bool {
-		return g.ResourceGroupName == groupName &&
-			g.VaultName == vaultName
+	index, v := findKeyVault(vaults, func(g keyVaultResource) bool {
+		return g.resourceGroupName == groupName &&
+			g.vaultName == vaultName
 	})
 
 	if index == -1 {

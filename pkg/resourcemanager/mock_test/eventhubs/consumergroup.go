@@ -9,25 +9,25 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-type ConsumerGroupResource struct {
-	ResourceGroupName string
-	NamespaceName     string
-	EventHubName      string
-	ConsumerGroupName string
+type consumerGroupResource struct {
+	resourceGroupName string
+	namespaceName     string
+	eventHubName      string
+	consumerGroupName string
 	ConsumerGroup     eventhub.ConsumerGroup
 }
 
 type mockConsumerGroupManager struct {
-	consumerGroupResources []ConsumerGroupResource
+	consumerGroupResources []consumerGroupResource
 }
 
-func findConsumerGroup(res []ConsumerGroupResource, predicate func(ConsumerGroupResource) bool) (int, ConsumerGroupResource) {
+func findConsumerGroup(res []consumerGroupResource, predicate func(consumerGroupResource) bool) (int, consumerGroupResource) {
 	for index, r := range res {
 		if predicate(r) {
 			return index, r
 		}
 	}
-	return -1, ConsumerGroupResource{}
+	return -1, consumerGroupResource{}
 }
 
 func find(res []interface{}, predicate func(interface{}) bool) (int, interface{}) {
@@ -36,7 +36,7 @@ func find(res []interface{}, predicate func(interface{}) bool) (int, interface{}
 			return index, r
 		}
 	}
-	return -1, ConsumerGroupResource{}
+	return -1, consumerGroupResource{}
 }
 
 func (manager *mockConsumerGroupManager) CreateConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
@@ -44,11 +44,11 @@ func (manager *mockConsumerGroupManager) CreateConsumerGroup(ctx context.Context
 		Response: helpers.GetRestResponse(201),
 		Name:     to.StringPtr(consumerGroupName),
 	}
-	manager.consumerGroupResources = append(manager.consumerGroupResources, ConsumerGroupResource{
-		ResourceGroupName: resourceGroupName,
-		NamespaceName:     namespaceName,
-		EventHubName:      eventHubName,
-		ConsumerGroupName: consumerGroupName,
+	manager.consumerGroupResources = append(manager.consumerGroupResources, consumerGroupResource{
+		resourceGroupName: resourceGroupName,
+		namespaceName:     namespaceName,
+		eventHubName:      eventHubName,
+		consumerGroupName: consumerGroupName,
 		ConsumerGroup:     consumerGroup,
 	})
 	return consumerGroup, nil
@@ -57,11 +57,11 @@ func (manager *mockConsumerGroupManager) CreateConsumerGroup(ctx context.Context
 func (manager *mockConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (autorest.Response, error) {
 	groups := manager.consumerGroupResources
 
-	index, _ := findConsumerGroup(groups, func(g ConsumerGroupResource) bool {
-		return g.ResourceGroupName == resourceGroupName &&
-			g.NamespaceName == namespaceName &&
-			g.EventHubName == eventHubName &&
-			g.ConsumerGroupName == consumerGroupName
+	index, _ := findConsumerGroup(groups, func(g consumerGroupResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.namespaceName == namespaceName &&
+			g.eventHubName == eventHubName &&
+			g.consumerGroupName == consumerGroupName
 	})
 
 	if index == -1 {
@@ -76,11 +76,11 @@ func (manager *mockConsumerGroupManager) DeleteConsumerGroup(ctx context.Context
 func (manager *mockConsumerGroupManager) GetConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
 	groups := manager.consumerGroupResources
 
-	index, group := findConsumerGroup(groups, func(g ConsumerGroupResource) bool {
-		return g.ResourceGroupName == resourceGroupName &&
-			g.NamespaceName == namespaceName &&
-			g.EventHubName == eventHubName &&
-			g.ConsumerGroupName == consumerGroupName
+	index, group := findConsumerGroup(groups, func(g consumerGroupResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.namespaceName == namespaceName &&
+			g.eventHubName == eventHubName &&
+			g.consumerGroupName == consumerGroupName
 	})
 
 	if index == -1 {
