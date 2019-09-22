@@ -46,7 +46,21 @@ type mockEventHubManager struct {
 }
 
 func (manager *mockEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
-	return autorest.Response{}, nil
+	hubs := manager.eventHubResources
+
+	index, _ := findEventHub(hubs, func(g eventHubResource) bool {
+		return g.resourceGroupName == resourceGroupName &&
+			g.namespaceName == namespaceName &&
+			g.eventHubName == eventHubName
+	})
+
+	if index == -1 {
+		return helpers.GetRestResponse(404), errors.New("eventhub not found")
+	}
+
+	manager.eventHubResources = append(hubs[:index], hubs[index+1:]...)
+
+	return helpers.GetRestResponse(200), nil
 }
 
 func (manager *mockEventHubManager) CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, messageRetentionInDays int32, partitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
