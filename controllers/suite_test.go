@@ -124,16 +124,6 @@ var _ = BeforeSuite(func() {
 
 	Expect(cfg).ToNot(BeNil())
 
-	//// not sure why there are four of these
-	//err = azurev1.AddToScheme(scheme.Scheme)
-	//Expect(err).NotTo(HaveOccurred())
-	//
-	//err = azurev1.AddToScheme(scheme.Scheme)
-	//Expect(err).NotTo(HaveOccurred())
-	//
-	//err = azurev1.AddToScheme(scheme.Scheme)
-	//Expect(err).NotTo(HaveOccurred())
-
 	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
