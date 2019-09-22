@@ -19,7 +19,7 @@ import (
 	"fmt"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
 	"context"
 
@@ -35,7 +35,7 @@ type ResourceGroupReconciler struct {
 	client.Client
 	Log                  logr.Logger
 	Recorder             record.EventRecorder
-	ResourceGroupManager resoucegroupsresourcemanager.ResourceGroupManager
+	ResourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
@@ -63,7 +63,7 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		return ctrl.Result{}, nil
 	}
 
-	if !instance.HasFinalizer(resouceGroupFinalizerName) {
+	if !instance.HasFinalizer(resourceGroupFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
@@ -141,7 +141,7 @@ func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1.Resource
 	var err error
 	_, err = r.ResourceGroupManager.DeleteGroup(ctx, resourcegroup)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 	return nil

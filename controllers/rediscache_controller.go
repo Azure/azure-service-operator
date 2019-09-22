@@ -182,7 +182,7 @@ func (r *RedisCacheReconciler) deleteExternal(instance *azurev1.RedisCache) erro
 			return nil
 		}
 
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")

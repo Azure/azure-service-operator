@@ -179,7 +179,7 @@ func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1.
 	var err error
 	_, err = r.EventHubNamespaceManager.DeleteNamespace(ctx, resourcegroup, namespaceName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 	return nil

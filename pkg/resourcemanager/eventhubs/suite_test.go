@@ -20,7 +20,7 @@ import (
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -39,7 +39,7 @@ type TestContext struct {
 	ResourceGroupName     string
 	ResourceGroupLocation string
 	EventHubManagers      EventHubManagers
-	ResourceGroupManager  resoucegroupsresourcemanager.ResourceGroupManager
+	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
 }
 
 var tc TestContext
@@ -64,9 +64,9 @@ var _ = BeforeSuite(func() {
 
 	resourceGroupName := "t-rg-dev-rm-eh-" + helpers.RandomString(10)
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
-	resourceGroupManager := resoucegroupsresourcemanager.AzureResourceGroupManager
+	resourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
 
-	// resoucegroupsresourcemanager.DeleteAllGroupsWithPrefix(context.Background(), "t-rg-dev-")
+	// resourcegroupsresourcemanager.DeleteAllGroupsWithPrefix(context.Background(), "t-rg-dev-")
 
 	//create resourcegroup for this suite
 	_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)

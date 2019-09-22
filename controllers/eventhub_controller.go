@@ -148,7 +148,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 	} else {
 		//set owner reference for eventhub if it exists
 		references := []metav1.OwnerReference{
-			metav1.OwnerReference{
+			{
 				APIVersion: "v1",
 				Kind:       "EventhubNamespace",
 				Name:       ownerInstance.GetName(),
@@ -241,7 +241,7 @@ func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
 	var err error
 	_, err = r.EventHubManager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 	return nil

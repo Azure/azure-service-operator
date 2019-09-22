@@ -190,7 +190,7 @@ func (r *StorageReconciler) deleteExternal(instance *azurev1.Storage) error {
 			return nil
 		}
 
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 

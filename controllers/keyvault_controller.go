@@ -162,7 +162,7 @@ func (r *KeyVaultReconciler) deleteExternal(instance *azurev1.KeyVault) error {
 			return nil
 		}
 
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 

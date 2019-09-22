@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -43,7 +43,7 @@ var cfg *rest.Config
 type TestContext struct {
 	ResourceGroupName     string
 	ResourceGroupLocation string
-	ResourceGroupManager  resoucegroupsresourcemanager.ResourceGroupManager
+	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
 	StorageManagers       StorageManagers
 }
 
@@ -66,7 +66,7 @@ var _ = BeforeSuite(func() {
 
 	resourcemanagerconfig.ParseEnvironment()
 
-	ressourceGroupManager := resoucegroupsresourcemanager.AzureResourceGroupManager
+	ressourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
 	tc = TestContext{
 		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
 		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
