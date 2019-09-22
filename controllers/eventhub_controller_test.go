@@ -32,7 +32,7 @@ import (
 
 var _ = Describe("EventHub Controller", func() {
 
-	const timeout = time.Second * 60
+	const timeout = time.Second * timeoutSeconds
 
 	var rgName string
 	var rgLocation string

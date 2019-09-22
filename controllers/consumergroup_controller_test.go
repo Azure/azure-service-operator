@@ -33,7 +33,7 @@ import (
 
 var _ = Describe("ConsumerGroup Controller", func() {
 
-	const timeout = time.Second * 240
+	const timeout = time.Second * timeoutSeconds
 	var rgName string
 	var ehnName string
 	var ehName string

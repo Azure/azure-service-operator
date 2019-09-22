@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
+	pkghelpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/helpers"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -33,14 +34,19 @@ func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, groupName s
 	v := keyvault.Vault{
 		Response:   helpers.GetRestResponse(200),
 		Properties: &keyvault.VaultProperties{},
+		ID:         to.StringPtr(pkghelpers.RandomString(10)),
 		Name:       to.StringPtr(vaultName),
 		Location:   to.StringPtr(location),
 	}
-	manager.keyVaultResources = append(manager.keyVaultResources, keyVaultResource{
-		resourceGroupName: groupName,
-		vaultName:         vaultName,
-		KeyVault:          v,
-	})
+
+	_, err := manager.GetVault(ctx, groupName, vaultName)
+	if err != nil {
+		manager.keyVaultResources = append(manager.keyVaultResources, keyVaultResource{
+			resourceGroupName: groupName,
+			vaultName:         vaultName,
+			KeyVault:          v,
+		})
+	}
 
 	return v, nil
 }

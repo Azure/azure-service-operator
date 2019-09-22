@@ -52,6 +52,7 @@ import (
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
 var testEnv *envtest.Environment
+const timeoutSeconds = 20
 
 type TestContext struct {
 	Cfg                   rest.Config
@@ -104,30 +105,33 @@ var _ = BeforeSuite(func() {
 		CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
 	}
 
+	var cfg *rest.Config
 	if os.Getenv("TEST_USE_EXISTING_CLUSTER") == "true" {
 		t := true
 		testEnv = &envtest.Environment{
 			UseExistingCluster: &t,
 		}
+		cfg, err = ctrl.GetConfig()
+		Expect(err).ToNot(HaveOccurred())
 	} else {
 		testEnv = &envtest.Environment{
 			CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
 		}
+		cfg, err = testEnv.Start()
+		Expect(err).ToNot(HaveOccurred())
 	}
 
-	cfg, err := testEnv.Start()
-	Expect(err).ToNot(HaveOccurred())
 	Expect(cfg).ToNot(BeNil())
 
-	// not sure why there are four of these
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
+	//// not sure why there are four of these
+	//err = azurev1.AddToScheme(scheme.Scheme)
+	//Expect(err).NotTo(HaveOccurred())
+	//
+	//err = azurev1.AddToScheme(scheme.Scheme)
+	//Expect(err).NotTo(HaveOccurred())
+	//
+	//err = azurev1.AddToScheme(scheme.Scheme)
+	//Expect(err).NotTo(HaveOccurred())
 
 	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
@@ -139,10 +143,10 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
-	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
-	var eventHubManagers resourcemanagereventhub.EventHubManagers = resourcemanagereventhub.AzureEventHubManagers
-	var storageManagers resourcemanagerstorages.StorageManagers = resourcemanagerstorages.AzureStorageManagers
-	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
+	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
+	var eventHubManagers resourcemanagereventhub.EventHubManagers
+	var storageManagers resourcemanagerstorages.StorageManagers
+	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
@@ -206,7 +210,7 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 	Expect(k8sClient).ToNot(BeNil())
 
-	// Create the Resourcegroup resource
+	// Create the ResourceGroup resource
 	result, _ := resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
 	if result.Response.StatusCode != 204 {
 		_, _ = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
@@ -241,6 +245,12 @@ var _ = BeforeSuite(func() {
 		StorageManagers:       storageManagers,
 		KeyVaultManager:       keyVaultManager,
 	}
+
+	Eventually(func() bool {
+		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
+	}, 60,
+	).Should(BeTrue())
 })
 
 var _ = AfterSuite(func() {
