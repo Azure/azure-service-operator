@@ -15,6 +15,10 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"log"
+	"strings"
+	"time"
+
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	keyvaultresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -23,9 +27,6 @@ import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
-	"log"
-	"strings"
-	"time"
 )
 
 var _ = Describe("KeyVault Controller", func() {
@@ -65,7 +66,7 @@ var _ = Describe("KeyVault Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
 				//log.Print(keyVaultInstance.Status)
-				return keyVaultInstance.Status.Provisioned == true
+				return keyVaultInstance.Status.ID != nil
 			}, timeout,
 			).Should(BeTrue())
 
