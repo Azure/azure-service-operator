@@ -52,7 +52,8 @@ import (
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
 var testEnv *envtest.Environment
-const timeoutSeconds = 20
+
+const timeoutSeconds = 120
 
 type TestContext struct {
 	Cfg                   rest.Config
