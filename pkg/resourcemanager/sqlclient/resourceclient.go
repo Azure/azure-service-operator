@@ -19,6 +19,6 @@ type ResourceClient interface {
 	DeleteDB(databaseName string) (result autorest.Response, err error)
 	DeleteSQLServer() (result autorest.Response, err error)
 	DeleteSQLFirewallRule(ruleName string) (err error)
-
+	GetServer(rgroup, name string) (sql.Server, error)
 	IsAsyncNotCompleted(err error) (result bool)
 }
