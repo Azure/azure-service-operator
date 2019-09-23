@@ -10,6 +10,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package controllers
 
 import (
@@ -20,7 +21,7 @@ import (
 	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -76,7 +77,8 @@ var _ = Describe("KeyVault Controller", func() {
 			).Should(BeTrue())
 
 			// delete key vault
-			tc.k8sClient.Delete(context.Background(), keyVaultInstance)
+			err = tc.k8sClient.Delete(context.Background(), keyVaultInstance)
+			Expect(err).NotTo(HaveOccurred())
 
 			// verify key vault is gone from kubernetes
 			Eventually(func() bool {

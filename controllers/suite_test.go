@@ -30,10 +30,10 @@ import (
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
-	resourcemanagereventhubmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/eventhubs"
-	resourcemanagerkeyvaultsmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/keyvaults"
-	resourcegroupsresourcemanagermock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/resourcegroups"
-	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/storages"
+	resourcemanagereventhubmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/eventhubs"
+	resourcemanagerkeyvaultsmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/keyvaults"
+	resourcegroupsresourcemanagermock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/resourcegroups"
+	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/storages"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 
@@ -54,7 +54,7 @@ import (
 
 var testEnv *envtest.Environment
 
-type TestContext struct {
+type testContext struct {
 	k8sClient             client.Client
 	resourceGroupName     string
 	resourceGroupLocation string
@@ -70,7 +70,7 @@ type TestContext struct {
 	timeout               time.Duration
 }
 
-var tc TestContext
+var tc testContext
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
@@ -224,7 +224,7 @@ var _ = BeforeSuite(func() {
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
 
-	tc = TestContext{
+	tc = testContext{
 		k8sClient:             k8sClient,
 		resourceGroupName:     resourceGroupName,
 		resourceGroupLocation: resourcegroupLocation,

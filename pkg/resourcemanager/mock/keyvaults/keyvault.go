@@ -21,7 +21,7 @@ import (
 	"errors"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	pkghelpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )

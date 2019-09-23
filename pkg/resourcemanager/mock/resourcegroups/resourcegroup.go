@@ -19,7 +19,7 @@ package resourcegroups
 import (
 	"context"
 	"errors"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
 

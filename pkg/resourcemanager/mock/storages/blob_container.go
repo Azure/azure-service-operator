@@ -20,7 +20,7 @@ import (
 	"context"
 	"errors"
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock_test/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
 )
 
