@@ -26,8 +26,7 @@ import (
 
 	"context"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	"k8s.io/client-go/rest"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	// +kubebuilder:scaffold:imports
@@ -36,9 +35,12 @@ import (
 // These tests use Ginkgo (BDD-style Go testing framework). Refer to
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
-var cfg *rest.Config
-var resourceGroupName string
-var resourcegroupLocation string
+type TestContext struct {
+	ResourceGroupName     string
+	ResourcegroupLocation string
+}
+
+var tc TestContext
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
@@ -46,35 +48,40 @@ func TestAPIs(t *testing.T) {
 		t.Skip("skipping Resource Manager Eventhubs Suite")
 	}
 	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-rm-eh-" + helpers.RandomString(10)
-	resourcegroupLocation = "westus"
-
 	RunSpecs(t, "Eventhubs Suite")
 }
 
-var _ = BeforeSuite(func(done Done) {
+var _ = SynchronizedBeforeSuite(func() []byte {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	By("bootstrapping test environment")
 
 	resourcemanagerconfig.ParseEnvironment()
-	resourceGroupName = "t-rg-dev-rm-eh-" + helpers.RandomString(10)
-	resourcegroupLocation = resourcemanagerconfig.DefaultLocation()
+	resourceGroupName := "t-rg-dev-rm-eh-" + helpers.RandomString(10)
+	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
 
 	//create resourcegroup for this suite
-	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
-	if result.Response.StatusCode != 204 {
-		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+	_, err := resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+	Expect(err).ToNot(HaveOccurred())
+
+	tc := TestContext{
+		ResourceGroupName:     resourceGroupName,
+		ResourcegroupLocation: resourcegroupLocation,
 	}
 
-	close(done)
-}, 60)
+	bytes, err := helpers.ToByteArray(&tc)
+	Expect(err).ToNot(HaveOccurred())
 
-var _ = AfterSuite(func(done Done) {
-	//clean up the resources created for test
+	return bytes
+}, func(b []byte) {
+	resourcemanagerconfig.ParseEnvironment()
+
+	err := helpers.FromByteArray(b, &tc)
+	Expect(err).ToNot(HaveOccurred())
+}, 120)
+
+var _ = SynchronizedAfterSuite(func() {
+}, func() {
 	By("tearing down the test environment")
-
-	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
-
-	close(done)
+	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), tc.ResourceGroupName)
 }, 60)
