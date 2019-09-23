@@ -20,4 +20,5 @@ type ResourceClient interface {
 	DeleteSQLFirewallRule(ruleName string) (err error)
 	GetServer() (sql.Server, error)
 	IsAsyncNotCompleted(err error) (result bool)
+	CheckNameAvailability(name string) (result AvailabilityResponse, err error)
 }

@@ -243,3 +243,21 @@ func (sdk GoSDKClient) GetServer() (sql.Server, error) {
 		sdk.ServerName,
 	)
 }
+
+func (sdk GoSDKClient) CheckNameAvailablity() (result AvailabilityResponse, err error) {
+	serversClient := getGoServersClient()
+	typeOfService := "Microsoft.Sql/servers"
+
+	response, err := serversClient.CheckNameAvailability(
+		sdk.Ctx,
+		sql.CheckNameAvailabilityRequest {
+			Name: to.StringPtr(sdk.ServerName),
+			Type: to.StringPtr(typeOfService),
+		},
+	)
+	if err != nil {
+		return result, err
+	}
+
+	return ToAvailabilityResponse(response), err
+}
