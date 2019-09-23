@@ -36,8 +36,8 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		rgName = tc.ResourceGroupName
-		rgLocation = tc.ResourceGroupLocation
+		rgName = tc.resourceGroupName
+		rgLocation = tc.resourceGroupLocation
 	})
 
 	AfterEach(func() {
@@ -67,14 +67,15 @@ var _ = Describe("EventHubNamespace Controller", func() {
 				},
 			}
 
-			tc.K8sClient.Create(context.Background(), eventhubNamespaceInstance)
+			err := tc.k8sClient.Create(context.Background(), eventhubNamespaceInstance)
+			Expect(err).NotTo(HaveOccurred())
 
 			eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
 
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.IsSubmitted()
-			}, tc.Timeout,
+			}, tc.timeout,
 			).Should(BeFalse())
 		})
 
@@ -96,29 +97,31 @@ var _ = Describe("EventHubNamespace Controller", func() {
 				},
 			}
 
-			err = tc.K8sClient.Create(context.Background(), eventhubNamespaceInstance)
+			err = tc.k8sClient.Create(context.Background(), eventhubNamespaceInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
 
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName)
-			}, tc.Timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.IsSubmitted()
-			}, tc.Timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
-			tc.K8sClient.Delete(context.Background(), eventhubNamespaceInstance)
+			err = tc.k8sClient.Delete(context.Background(), eventhubNamespaceInstance)
+			Expect(err).NotTo(HaveOccurred())
+
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.IsBeingDeleted()
-			}, tc.Timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 		})

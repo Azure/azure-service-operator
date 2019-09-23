@@ -56,26 +56,28 @@ var _ = Describe("ResourceGroup Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.ResourceGroupSpec{
-					Location: tc.ResourceGroupLocation,
+					Location: tc.resourceGroupLocation,
 				},
 			}
 
-			err = tc.K8sClient.Create(context.Background(), resourceGroupInstance)
+			err = tc.k8sClient.Create(context.Background(), resourceGroupInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
+				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.IsSubmitted()
-			}, tc.Timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
-			tc.K8sClient.Delete(context.Background(), resourceGroupInstance)
+			err = tc.k8sClient.Delete(context.Background(), resourceGroupInstance)
+			Expect(err).NotTo(HaveOccurred())
+
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
+				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.IsBeingDeleted()
-			}, tc.Timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 		})

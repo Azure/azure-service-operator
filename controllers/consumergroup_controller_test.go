@@ -37,9 +37,9 @@ var _ = Describe("ConsumerGroup Controller", func() {
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		rgName = tc.ResourceGroupName
-		ehnName = tc.EventhubNamespaceName
-		ehName = tc.EventhubName
+		rgName = tc.resourceGroupName
+		ehnName = tc.eventhubNamespaceName
+		ehName = tc.eventhubName
 	})
 
 	AfterEach(func() {
@@ -70,29 +70,31 @@ var _ = Describe("ConsumerGroup Controller", func() {
 				},
 			}
 
-			err = tc.K8sClient.Create(context.Background(), consumerGroupInstance)
+			err = tc.k8sClient.Create(context.Background(), consumerGroupInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			consumerGroupNamespacedName := types.NamespacedName{Name: consumerGroupName, Namespace: "default"}
 
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName)
-			}, tc.Timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsSubmitted()
-			}, tc.Timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
-			tc.K8sClient.Delete(context.Background(), consumerGroupInstance)
+			err = tc.k8sClient.Delete(context.Background(), consumerGroupInstance)
+			Expect(err).NotTo(HaveOccurred())
+
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsBeingDeleted()
-			}, tc.Timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 		})

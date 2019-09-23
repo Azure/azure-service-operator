@@ -55,20 +55,19 @@ import (
 var testEnv *envtest.Environment
 
 type TestContext struct {
-	Cfg                   rest.Config
-	K8sClient             client.Client
-	ResourceGroupName     string
-	ResourceGroupLocation string
-	EventhubNamespaceName string
-	EventhubName          string
-	NamespaceLocation     string
-	StorageAccountName    string
-	BlobContainerName     string
-	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
-	EventHubManagers      resourcemanagereventhub.EventHubManagers
-	StorageManagers       resourcemanagerstorages.StorageManagers
-	KeyVaultManager       resourcemanagerkeyvaults.KeyVaultManager
-	Timeout               time.Duration
+	k8sClient             client.Client
+	resourceGroupName     string
+	resourceGroupLocation string
+	eventhubNamespaceName string
+	eventhubName          string
+	namespaceLocation     string
+	storageAccountName    string
+	blobContainerName     string
+	resourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
+	eventHubManagers      resourcemanagereventhub.EventHubManagers
+	storageManagers       resourcemanagerstorages.StorageManagers
+	keyVaultManager       resourcemanagerkeyvaults.KeyVaultManager
+	timeout               time.Duration
 }
 
 var tc TestContext
@@ -226,20 +225,19 @@ var _ = BeforeSuite(func() {
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
 
 	tc = TestContext{
-		Cfg:                   *cfg,
-		K8sClient:             k8sClient,
-		ResourceGroupName:     resourceGroupName,
-		ResourceGroupLocation: resourcegroupLocation,
-		EventhubNamespaceName: eventhubNamespaceName,
-		EventhubName:          eventhubName,
-		NamespaceLocation:     namespaceLocation,
-		StorageAccountName:    storageAccountName,
-		BlobContainerName:     blobContainerName,
-		EventHubManagers:      eventHubManagers,
-		ResourceGroupManager:  resourceGroupManager,
-		StorageManagers:       storageManagers,
-		KeyVaultManager:       keyVaultManager,
-		Timeout:               timeout,
+		k8sClient:             k8sClient,
+		resourceGroupName:     resourceGroupName,
+		resourceGroupLocation: resourcegroupLocation,
+		eventhubNamespaceName: eventhubNamespaceName,
+		eventhubName:          eventhubName,
+		namespaceLocation:     namespaceLocation,
+		storageAccountName:    storageAccountName,
+		blobContainerName:     blobContainerName,
+		eventHubManagers:      eventHubManagers,
+		resourceGroupManager:  resourceGroupManager,
+		storageManagers:       storageManagers,
+		keyVaultManager:       keyVaultManager,
+		timeout:               timeout,
 	}
 
 	Eventually(func() bool {
@@ -255,7 +253,7 @@ var _ = AfterSuite(func() {
 	By("tearing down the test environment")
 
 	// delete the resource group and contained resources
-	_, _ = tc.ResourceGroupManager.DeleteGroup(context.Background(), tc.ResourceGroupName)
+	_, _ = tc.resourceGroupManager.DeleteGroup(context.Background(), tc.resourceGroupName)
 
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
