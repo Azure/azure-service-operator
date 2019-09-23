@@ -19,8 +19,6 @@ import (
 	"context"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"time"
-
 	. "github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -31,8 +29,6 @@ import (
 )
 
 var _ = Describe("EventHub Controller", func() {
-
-	const timeout = time.Second * timeoutSeconds
 
 	var rgName string
 	var rgLocation string
@@ -86,7 +82,7 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsSubmitted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeFalse())
 		})
 
@@ -126,13 +122,13 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.HasFinalizer(eventhubFinalizerName)
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsSubmitted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			//create secret in k8s
@@ -171,7 +167,7 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsBeingDeleted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 		})
@@ -214,13 +210,13 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.HasFinalizer(eventhubFinalizerName)
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsSubmitted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			//create secret in k8s
@@ -264,7 +260,7 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsBeingDeleted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 		})
@@ -315,13 +311,13 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
 				return eventHubInstance.HasFinalizer(eventhubFinalizerName)
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
 				return eventHubInstance.IsSubmitted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
@@ -330,14 +326,14 @@ var _ = Describe("EventHub Controller", func() {
 					return false
 				}
 				return *hub.CaptureDescription.Enabled
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			tc.K8sClient.Delete(context.Background(), eventHubInstance)
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
 				return eventHubInstance.IsBeingDeleted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 		})

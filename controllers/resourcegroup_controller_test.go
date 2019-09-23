@@ -18,10 +18,8 @@ package controllers
 
 import (
 	"context"
-	"time"
-
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -31,8 +29,6 @@ import (
 )
 
 var _ = Describe("ResourceGroup Controller", func() {
-
-	const timeout = time.Second * timeoutSeconds
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -72,14 +68,14 @@ var _ = Describe("ResourceGroup Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.IsSubmitted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			tc.K8sClient.Delete(context.Background(), resourceGroupInstance)
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.IsBeingDeleted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 		})

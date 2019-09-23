@@ -19,9 +19,7 @@ import (
 	"context"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-
-	"time"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -33,7 +31,6 @@ import (
 
 var _ = Describe("ConsumerGroup Controller", func() {
 
-	const timeout = time.Second * timeoutSeconds
 	var rgName string
 	var ehnName string
 	var ehName string
@@ -82,20 +79,20 @@ var _ = Describe("ConsumerGroup Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName)
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsSubmitted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			tc.K8sClient.Delete(context.Background(), consumerGroupInstance)
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsBeingDeleted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 		})

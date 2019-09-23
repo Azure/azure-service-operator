@@ -24,6 +24,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -53,8 +54,6 @@ import (
 
 var testEnv *envtest.Environment
 
-const timeoutSeconds = 120
-
 type TestContext struct {
 	Cfg                   rest.Config
 	K8sClient             client.Client
@@ -69,6 +68,7 @@ type TestContext struct {
 	EventHubManagers      resourcemanagereventhub.EventHubManagers
 	StorageManagers       resourcemanagerstorages.StorageManagers
 	KeyVaultManager       resourcemanagerkeyvaults.KeyVaultManager
+	Timeout               time.Duration
 }
 
 var tc TestContext
@@ -100,6 +100,8 @@ var _ = BeforeSuite(func() {
 
 	storageAccountName := "tsadeveh" + helpers.RandomString(10)
 	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
+
+	var timeout time.Duration
 
 	By("bootstrapping test environment")
 	testEnv = &envtest.Environment{
@@ -143,11 +145,13 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
+		timeout = time.Second * 120
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
+		timeout = time.Second * 5
 	}
 
 	err = (&KeyVaultReconciler{
@@ -235,6 +239,7 @@ var _ = BeforeSuite(func() {
 		ResourceGroupManager:  resourceGroupManager,
 		StorageManagers:       storageManagers,
 		KeyVaultManager:       keyVaultManager,
+		Timeout:               timeout,
 	}
 
 	Eventually(func() bool {

@@ -31,7 +31,6 @@ import (
 var _ = Describe("KeyVault Controller", func() {
 
 	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
-	const timeout = time.Second * timeoutSeconds
 	const poll = time.Second * 10
 
 	Context("Key Vault Controller", func() {
@@ -66,14 +65,14 @@ var _ = Describe("KeyVault Controller", func() {
 				_ = tc.K8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
 				//log.Print(keyVaultInstance.Status)
 				return keyVaultInstance.Status.ID != nil
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			// verify key vault exists in Azure
 			Eventually(func() bool {
 				result, _ := tc.KeyVaultManager.GetVault(context.Background(), tc.ResourceGroupName, keyVaultInstance.Name)
 				return result.Response.StatusCode == 200
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			// delete key vault
@@ -86,14 +85,14 @@ var _ = Describe("KeyVault Controller", func() {
 					err = fmt.Errorf("")
 				}
 				return strings.Contains(err.Error(), "not found")
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			// confirm key vault is gone from Azure
 			Eventually(func() bool {
 				result, _ := tc.KeyVaultManager.GetVault(context.Background(), tc.ResourceGroupName, keyVaultInstance.Name)
 				return result.Response.StatusCode == 404
-			}, timeout, poll,
+			}, tc.Timeout, poll,
 			).Should(BeTrue())
 		})
 	})

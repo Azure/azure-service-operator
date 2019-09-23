@@ -19,9 +19,7 @@ import (
 	"context"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-
-	"time"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
 
@@ -33,7 +31,6 @@ import (
 
 var _ = Describe("EventHubNamespace Controller", func() {
 
-	const timeout = time.Second * 240
 	var rgName string
 	var rgLocation string
 
@@ -77,7 +74,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.IsSubmitted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeFalse())
 		})
 
@@ -108,20 +105,20 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName)
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.IsSubmitted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 			tc.K8sClient.Delete(context.Background(), eventhubNamespaceInstance)
 			Eventually(func() bool {
 				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.IsBeingDeleted()
-			}, timeout,
+			}, tc.Timeout,
 			).Should(BeTrue())
 
 		})
