@@ -234,12 +234,12 @@ func (sdk GoSDKClient) IsAsyncNotCompleted(err error) (result bool) {
 }
 
 // GetServer returns a server
-func (sdk GoSDKClient) GetServer(rgroup, name string) (sql.Server, error) {
+func (sdk GoSDKClient) GetServer() (sql.Server, error) {
 	serversClient := getGoServersClient()
 
 	return serversClient.Get(
 		sdk.Ctx,
-		rgroup,
-		name,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
 	)
 }
