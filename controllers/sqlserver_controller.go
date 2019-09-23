@@ -53,6 +53,16 @@ type SqlServerReconciler struct {
 func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("sqlserver", req.NamespacedName)
+	location := instance.Spec.Location
+	name := instance.ObjectMeta.Name
+	groupName := instance.Spec.ResourceGroup
+
+	sdkClient := sql.GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: groupName,
+		ServerName:        name,
+		Location:          location,
+	}
 
 	var instance azurev1.SqlServer
 
@@ -96,6 +106,14 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
+	availableResp, err := sdkClient.CheckNameAvailability(SQLServerFinalizerName)
+	if availableResp.Available {
+		log.Info("Successfull name submitted")
+	} else {
+		log.Info("Unsuccessful name submission")
+		return ctrl.Result{}, err
+	}
+	
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation")
 		if err := r.reconcileExternal(&instance); err != nil {
