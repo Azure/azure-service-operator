@@ -106,6 +106,9 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	availableResp, err := sdkClient.CheckNameAvailability()
+	if err != nil {
+		return ctrl.Result{}, err
+	}
 	if availableResp.Available {
 		log.Info("Successfull name submitted")
 	} else {
