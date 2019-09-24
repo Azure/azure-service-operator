@@ -18,12 +18,13 @@ package resourcegroups
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 var _ = Describe("ResourceGroups", func() {
@@ -48,7 +49,7 @@ var _ = Describe("ResourceGroups", func() {
 			const timeout = time.Second * 240
 
 			resourcegroupName := "t-rg-" + helpers.RandomString(10)
-			resourcegroupLocation := "westus"
+			resourcegroupLocation := config.DefaultLocation()
 			var err error
 
 			_, err = CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)

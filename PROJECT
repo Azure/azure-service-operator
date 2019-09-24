@@ -4,6 +4,15 @@ repo: github.com/Azure/azure-service-operator
 resources:
 - group: azure
   version: v1
+  kind: Storage
+- group: azure
+  version: v1
+  kind: CosmosDB
+- group: azure
+  version: v1
+  kind: RedisCache
+- group: azure
+  version: v1
   kind: Eventhub
 - group: azure
   version: v1
@@ -23,3 +32,6 @@ resources:
 - group: azure
   version: v1
   kind: KeyVault
+- group: azure
+  version: v1
+  kind: ConsumerGroup

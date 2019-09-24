@@ -401,8 +401,8 @@ spec:
         spec:
           description: SqlServerSpec defines the desired state of SqlServer
           properties:
-            adminuser:
-              type: string
+            allowazureserviceaccess:
+              type: boolean
             location:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'

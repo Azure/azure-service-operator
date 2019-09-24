@@ -17,97 +17,123 @@ package controllers
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"testing"
 
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	"k8s.io/client-go/rest"
+
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-
-	eventhubs "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
 	"k8s.io/client-go/kubernetes/scheme"
-	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	// +kubebuilder:scaffold:imports
 )
 
 // These tests use Ginkgo (BDD-style Go testing framework). Refer to
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
-var cfg *rest.Config
-var k8sClient client.Client
-var k8sManager ctrl.Manager
 var testEnv *envtest.Environment
-var resourceGroupName string
-var resourcegroupLocation string
-var eventhubNamespaceName string
-var namespaceLocation string
+
+type TestContext struct {
+	Cfg                   rest.Config
+	K8sClient             client.Client
+	ResourceGroupName     string
+	ResourceGroupLocation string
+	EventhubNamespaceName string
+	EventhubName          string
+	NamespaceLocation     string
+	StorageAccountName    string
+	BlobContainerName     string
+}
+
+var tc TestContext
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-controller"
-	resourcegroupLocation = "westus"
 
-	eventhubNamespaceName = "t-ns-dev-eh-ns"
-	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{envtest.NewlineReporter{}})
 }
 
-var _ = BeforeSuite(func(done Done) {
+var _ = SynchronizedBeforeSuite(func() []byte {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
+	log.Println(fmt.Sprintf("Starting common controller test setup"))
+
+	resourcemanagerconfig.ParseEnvironment()
+	resourceGroupName := "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
+
+	eventhubNamespaceName := "t-ns-dev-eh-ns-" + helpers.RandomString(10)
+	eventhubName := "t-eh-dev-sample-" + helpers.RandomString(10)
+	namespaceLocation := resourcemanagerconfig.DefaultLocation()
+
+	storageAccountName := "tsadeveh" + helpers.RandomString(10)
+	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
 
 	By("bootstrapping test environment")
+	testEnv = &envtest.Environment{
+		CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
+	}
 
+	var cfg *rest.Config
+	var err error
 	if os.Getenv("TEST_USE_EXISTING_CLUSTER") == "true" {
 		t := true
 		testEnv = &envtest.Environment{
 			UseExistingCluster: &t,
 		}
+		cfg, err = ctrl.GetConfig()
+		Expect(err).ToNot(HaveOccurred())
 	} else {
 		testEnv = &envtest.Environment{
 			CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
 		}
+		cfg, err = testEnv.Start()
+		Expect(err).ToNot(HaveOccurred())
 	}
 
-	resourcemanagerconfig.LoadSettings()
-
-	cfg, err := testEnv.Start()
-	Expect(err).ToNot(HaveOccurred())
 	Expect(cfg).ToNot(BeNil())
 
 	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
-	err = azurev1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
+	var k8sManager ctrl.Manager
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
 	})
 	Expect(err).ToNot(HaveOccurred())
 
+	err = (&KeyVaultReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("KeyVault"),
+		Recorder: k8sManager.GetEventRecorderFor("KeyVault-controller"),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
 	err = (&EventhubReconciler{
 		Client:   k8sManager.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("EventHub"),
 		Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
+		Scheme:   scheme.Scheme,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -125,12 +151,21 @@ var _ = BeforeSuite(func(done Done) {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+	err = (&ConsumerGroupReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())
 	}()
 
-	k8sClient = k8sManager.GetClient()
+	//k8sClient = k8sManager.GetClient()
+	k8sClient, _ := client.New(cfg, client.Options{Scheme: scheme.Scheme})
+	Expect(err).ToNot(HaveOccurred())
 	Expect(k8sClient).ToNot(BeNil())
 
 	// Create the Resourcegroup resource
@@ -142,18 +177,63 @@ var _ = BeforeSuite(func(done Done) {
 	// Create the Eventhub namespace resource
 	_, err = eventhubs.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 
-	close(done)
+	// Create the Eventhub resource
+	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
+
+	// Create the Storage Account and Container
+	_, err = storages.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1.StorageSku{
+		Name: "Standard_LRS",
+	}, "Storage", map[string]*string{}, "", nil)
+
+	_, err = storages.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
+
+	tc := TestContext{
+		Cfg:                   *cfg,
+		ResourceGroupName:     resourceGroupName,
+		ResourceGroupLocation: resourcegroupLocation,
+		EventhubNamespaceName: eventhubNamespaceName,
+		EventhubName:          eventhubName,
+		NamespaceLocation:     namespaceLocation,
+		StorageAccountName:    storageAccountName,
+		BlobContainerName:     blobContainerName,
+	}
+	bytes, err := helpers.ToByteArray(&tc)
+
+	Eventually(func() bool {
+		namespace, _ := eventhubs.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
+	}, 60,
+	).Should(BeTrue())
+
+	log.Println(fmt.Sprintf("Completed common controller test setup"))
+	return bytes
+}, func(r []byte) {
+	err := resourcemanagerconfig.ParseEnvironment()
+	Expect(err).ToNot(HaveOccurred())
+
+	err = helpers.FromByteArray(r, &tc)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = azurev1.AddToScheme(scheme.Scheme)
+	Expect(err).ToNot(HaveOccurred())
+
+	k8sClient, err := client.New(&tc.Cfg, client.Options{Scheme: scheme.Scheme})
+	Expect(err).ToNot(HaveOccurred())
+
+	tc.K8sClient = k8sClient
+
 }, 120)
 
-var _ = AfterSuite(func(done Done) {
+var _ = SynchronizedAfterSuite(func() {
+}, func() {
+	log.Println(fmt.Sprintf("Started common controller test teardown"))
 	//clean up the resources created for test
-
 	By("tearing down the test environment")
 
-	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
+	// delete the resource group and contained resources
+	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), tc.ResourceGroupName)
 
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
-	close(done)
-
+	log.Println(fmt.Sprintf("Finished common controller test teardown"))
 }, 60)

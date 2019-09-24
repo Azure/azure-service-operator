@@ -20,6 +20,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/go-autorest/autorest/to"
+
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -38,6 +41,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
 // EventhubReconciler reconciles a Eventhub object
@@ -70,14 +74,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if instance.IsBeingDeleted() {
 		err := r.handleFinalizer(&instance)
 		if err != nil {
-			catch := []string{
-				errhelp.ResourceGroupNotFoundErrorCode,
-			}
-			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
-				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
-				return ctrl.Result{RequeueAfter: time.Second * 30}, nil
-			}
-			return ctrl.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
+			return reconcile.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
@@ -130,6 +127,12 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 	resourcegroup := instance.Spec.ResourceGroup
 	partitionCount := instance.Spec.Properties.PartitionCount
 	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
+	captureDescription := instance.Spec.Properties.CaptureDescription
+	secretName := instance.Spec.SecretName
+
+	if secretName == "" {
+		secretName = eventhubName
+	}
 
 	// write information back to instance
 	instance.Status.Provisioning = true
@@ -161,7 +164,9 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount)
+	capturePtr := getCaptureDescriptionPtr(captureDescription)
+
+	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -179,7 +184,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 		return err
 	}
 
-	err = r.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, instance.Spec.AuthorizationRule.Name, instance)
+	err = r.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to listAccessKeysAndCreateSecrets")
 		return err
@@ -194,6 +199,35 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 	return nil
+}
+
+const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
+
+func getCaptureDescriptionPtr(captureDescription azurev1.CaptureDescription) *model.CaptureDescription {
+	// add capture details
+	var capturePtr *model.CaptureDescription
+
+	storage := captureDescription.Destination.StorageAccount
+	storageAccountResourceId := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+
+	if captureDescription.Enabled {
+		capturePtr = &model.CaptureDescription{
+			Enabled:           to.BoolPtr(true),
+			Encoding:          model.Avro,
+			IntervalInSeconds: &captureDescription.IntervalInSeconds,
+			SizeLimitInBytes:  &captureDescription.SizeLimitInBytes,
+			Destination: &model.Destination{
+				Name: &captureDescription.Destination.Name,
+				DestinationProperties: &model.DestinationProperties{
+					StorageAccountResourceID: &storageAccountResourceId,
+					BlobContainer:            &captureDescription.Destination.BlobContainer,
+					ArchiveNameFormat:        &captureDescription.Destination.ArchiveNameFormat,
+				},
+			},
+			SkipEmptyArchives: to.BoolPtr(true),
+		}
+	}
+	return capturePtr
 }
 
 func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
@@ -237,7 +271,7 @@ func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup st
 	return nil
 }
 
-func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, authorizationRuleName string, instance *azurev1.Eventhub) error {
+func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1.Eventhub) error {
 
 	var err error
 	var result model.AccessKeys
@@ -257,6 +291,7 @@ func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string
 			*result.PrimaryKey,
 			*result.SecondaryKey,
 			eventhubNamespace,
+			secretName,
 			authorizationRuleName,
 			instance,
 		)
@@ -277,6 +312,7 @@ func (r *EventhubReconciler) createEventhubSecrets(
 	primaryKey string,
 	secondaryKey string,
 	eventhubNamespace string,
+	secretName string,
 	sharedAccessKey string,
 	instance *azurev1.Eventhub) error {
 
@@ -286,7 +322,7 @@ func (r *EventhubReconciler) createEventhubSecrets(
 			APIVersion: "apps/v1beta1",
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      eventhubName,
+			Name:      secretName,
 			Namespace: namespace,
 		},
 		Data: map[string][]byte{
@@ -296,6 +332,7 @@ func (r *EventhubReconciler) createEventhubSecrets(
 			"secondaryKey":              []byte(secondaryKey),
 			"sharedaccesskey":           []byte(sharedAccessKey),
 			"eventhubnamespace":         []byte(eventhubNamespace),
+			"eventhubName":              []byte(eventhubName),
 		},
 		Type: "Opaque",
 	}

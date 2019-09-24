@@ -401,6 +401,9 @@ spec:
         spec:
           description: SqlDatabaseSpec defines the desired state of SqlDatabase
           properties:
+            edition:
+              description: 'DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition'
+              type: integer
             location:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
@@ -410,6 +413,7 @@ spec:
             server:
               type: string
           required:
+          - edition
           - location
           - server
           type: object

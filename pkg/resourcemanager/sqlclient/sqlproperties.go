@@ -9,38 +9,38 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 )
 
-// DBAddition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
-type DBAddition byte
+// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
+type DBEdition byte
 
 const (
 	// Basic ...
-	Basic DBAddition = 0
+	Basic DBEdition = 0
 	// Business ...
-	Business DBAddition = 1
+	Business DBEdition = 1
 	// BusinessCritical ...
-	BusinessCritical DBAddition = 2
+	BusinessCritical DBEdition = 2
 	// DataWarehouse ...
-	DataWarehouse DBAddition = 3
+	DataWarehouse DBEdition = 3
 	// Free ...
-	Free DBAddition = 4
+	Free DBEdition = 4
 	// GeneralPurpose ...
-	GeneralPurpose DBAddition = 5
+	GeneralPurpose DBEdition = 5
 	// Hyperscale ...
-	Hyperscale DBAddition = 6
+	Hyperscale DBEdition = 6
 	// Premium ...
-	Premium DBAddition = 7
+	Premium DBEdition = 7
 	// PremiumRS ...
-	PremiumRS DBAddition = 8
+	PremiumRS DBEdition = 8
 	// Standard ...
-	Standard DBAddition = 9
+	Standard DBEdition = 9
 	// Stretch ...
-	Stretch DBAddition = 10
+	Stretch DBEdition = 10
 	// System ...
-	System DBAddition = 11
+	System DBEdition = 11
 	// System2 ...
-	System2 DBAddition = 12
+	System2 DBEdition = 12
 	// Web ...
-	Web DBAddition = 13
+	Web DBEdition = 13
 )
 
 // SQLServerProperties contains values needed for adding / updating SQL servers,
@@ -53,9 +53,6 @@ type SQLServerProperties struct {
 
 	// AdministratorLoginPassword - The administrator login password (required for server creation).
 	AdministratorLoginPassword *string
-
-	// AllowAzureServicesAccess - allow Azure services and resources to access this server
-	AllowAzureServicesAccess bool
 }
 
 // SQLDatabaseProperties contains values needed for adding / updating SQL servers,
@@ -78,7 +75,7 @@ type SQLDatabaseProperties struct {
 	// Get-AzSqlServerServiceObjective -Location <location>
 	// ````
 	// . Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium', 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse', 'System', 'System2', 'GeneralPurpose', 'BusinessCritical', 'Hyperscale'
-	Edition DBAddition
+	Edition DBEdition
 }
 
 // SQLServerPropertiesToServer translates SQLServerProperties to ServerProperties
@@ -96,14 +93,14 @@ func SQLServerPropertiesToServer(properties SQLServerProperties) (result sql.Ser
 func SQLDatabasePropertiesToDatabase(properties SQLDatabaseProperties) (result sql.DatabaseProperties) {
 
 	result = sql.DatabaseProperties{
-		Edition: translateDBAddition(properties.Edition),
+		Edition: translateDBEdition(properties.Edition),
 	}
 
 	return result
 }
 
-// translateDBAddition translates enums
-func translateDBAddition(in DBAddition) (result sql.DatabaseEdition) {
+// translateDBEdition translates enums
+func translateDBEdition(in DBEdition) (result sql.DatabaseEdition) {
 	switch in {
 	case 0:
 		result = sql.Basic

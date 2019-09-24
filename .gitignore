@@ -12,6 +12,9 @@ default.etcd
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+bin/
+vendor/
 coverage.txt
 report.xml
 cover.html
@@ -32,7 +35,6 @@ testlogs.txt
 .env
 __debug_bin
 .vscode
-.devcontainer
 .DS_Store
 cover-existing.html
 coverage-existing.txt

@@ -11,8 +11,6 @@ spec:
     kind: Eventhub
     plural: eventhubs
   scope: ""
-  subresources:
-    status: {}
   validation:
     openAPIV3Schema:
       description: Eventhub is the Schema for the eventhubs API
@@ -423,22 +421,87 @@ spec:
             properties:
               description: EventhubProperties defines the namespace properties
               properties:
-                messageretentionindays:
+                captureDescription:
+                  description: CaptureDescription - Details specifying EventHub capture
+                    to persistent storage
+                  properties:
+                    destination:
+                      description: Destination - Resource id of the storage account
+                        to be used to create the blobs
+                      properties:
+                        archiveNameFormat:
+                          description: ArchiveNameFormat - Blob naming convention
+                            for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}.
+                            Here all the parameters (Namespace,EventHub .. etc) are
+                            mandatory irrespective of order
+                          type: string
+                        blobContainer:
+                          description: BlobContainer - Blob container Name
+                          type: string
+                        name:
+                          description: Name - Name for capture destination
+                          enum:
+                          - EventHubArchive.AzureBlockBlob
+                          - EventHubArchive.AzureDataLake
+                          type: string
+                        storageAccount:
+                          description: StorageAccount - Details of the storage account
+                          properties:
+                            accountName:
+                              description: AccountName - Name of the storage account
+                              maxLength: 24
+                              minLength: 3
+                              pattern: ^[a-z0-9]+$
+                              type: string
+                            resourceGroup:
+                              description: ResourceGroup - Name of the storage account
+                                resource group
+                              pattern: ^[-\w\._\(\)]+$
+                              type: string
+                          type: object
+                      type: object
+                    enabled:
+                      description: Enabled - indicates whether capture is enabled
+                      type: boolean
+                    intervalInSeconds:
+                      description: IntervalInSeconds - The time window allows you
+                        to set the frequency with which the capture to Azure Blobs
+                        will happen
+                      format: int32
+                      maximum: 900
+                      minimum: 60
+                      type: integer
+                    sizeLimitInBytes:
+                      description: SizeLimitInBytes - The size window defines the
+                        amount of data built up in your Event Hub before an capture
+                        operation
+                      format: int32
+                      maximum: 524288000
+                      minimum: 10485760
+                      type: integer
+                  required:
+                  - enabled
+                  type: object
+                messageRetentionInDays:
                   description: MessageRetentionInDays - Number of days to retain the
                     events for this Event Hub, value should be 1 to 7 days
                   format: int32
                   maximum: 7
                   minimum: 1
                   type: integer
-                partitioncount:
+                partitionCount:
                   description: PartitionCount - Number of partitions created for the
-                    Event Hub, allowed values are from 1 to 32 partitions.
+                    Event Hub, allowed values are from 2 to 32 partitions.
                   format: int32
                   maximum: 32
-                  minimum: 1
+                  minimum: 2
                   type: integer
               type: object
             resourcegroup:
+              type: string
+            secretname:
+              description: SecretName - Used to specify the name of the secret. Defaults
+                to Event Hub name if omitted.
               type: string
           required:
           - location
