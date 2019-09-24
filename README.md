@@ -26,7 +26,7 @@ The project was built using
 2. EventHub
 3. Azure SQL
 
-## Building and Running from Source
+## Building and Testing the Operator
 
 ### Prerequisites And Assumptions
 
@@ -139,7 +139,7 @@ If you're using VSCode with [Remote - Containers](https://marketplace.visualstud
    ```make run```
    This will cause the operator to run and "watch" for events on this terminal. You will need to open a new terminal to trigger the creation of a custom resource.
 
-   You will see something like this on the terminal windows indicating that the controller is running.
+   You will see something like this on the terminal window indicating that the controller is running.
 
    ```shell
     go fmt ./...
@@ -197,12 +197,45 @@ If you're using VSCode with [Remote - Containers](https://marketplace.visualstud
     2019-09-24T12:28:19.010-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194518"}, "reason": "Provisioned", "message": "sqlserver sqlserver-sample1 provisioned "}
     2019-09-24T12:28:19.202-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194518"}, "reason": "Checking", "message": "instance in Ready state"}
     2019-09-24T12:28:20.331-0600	DEBUG	controller-runtime.controller	Successfully Reconciled	{"controller": "sqlserver", "request": "default/sqlserver-sample1"}
-    2019-09-24T12:28:20.331-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194518"}, "reason": "Provisioned", "message": "sqlserver sqlserver-sample1 provisioned "}
-```
+    2019-09-24T12:28:20.331-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194518"}, "reason": "Provisioned", "message": "sqlserver sqlserver-sample1 provisioned "}```
+
+
+
+
+### Developing - Using VSCode with Remote-Containers extension 
+
+If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you can quickly have your environment set up and ready to go, with everything you need to get started.
+
+1. Open this project in VSCode.
+2. Inside the folder `.devcontainer`, create a file called `.env` and using the following template, copy your environment variable details.
+
+    ```txt
+    AZURE_CLIENT_ID=
+
+    AZURE_CLIENT_SECRET=
+
+    AZURE_SUBSCRIPTION_ID=
+
+    AZURE_TENANT_ID=
+    ```
+
+3. Open the Command Pallet (`Command+Shift+P` on MacOS or `CTRL+Shift+P` on Windows), type `Remote-Containers: Open Folder in Container...`, select the ```Azure-service-operator``` folder and hit enter.
+
+4. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
+
+5. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment via the terminal inside VSCode.
+
+**Note**: after the DevContainer has finished building, the kind cluster will start initialising and installing the Azure Service Operator in the background. This will take some time before it is available.
+
+To see when the kind cluster is ready, use `docker ps -a` to list your running containers, look for `IMAGE` with the name `azure-service-operator_devcontainer_docker-in-docker...`. Using that image's `CONTAINER ID`, use `docker logs -f CONTAINER ID` to view the logs from the container setting up your cluster.
+
+6. Use ```kubectl apply``` with the sample YAML files to create custom resources for testing. 
+For eg., use ```kubectl apply -f config/samples/azure_v1_sqlserver.yaml``` from the terminal to create a SQL server using the operator. 
+```kubectl describe SqlServer``` would show the events that indicate if the resource is created or being created.
 
 ### Deploying the operator on a Kubernetes cluster
 
-3. Get your Kubernetes cluster setup:
+1. Get your Kubernetes cluster setup:
    
    (i) If you use Kind, install [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 
@@ -219,7 +252,7 @@ If you're using VSCode with [Remote - Containers](https://marketplace.visualstud
     (ii) If you use Docker for Desktop, enable [Kubernetes](https://docs.docker.com/docker-for-mac/#kubernetes). For Windows users, you can follow [these](https://blog.docker.com/2018/01/docker-windows-desktop-now-kubernetes/) steps
 
 
-6. Set up the Cluster
+2. Set up the Cluster
 
    If you are using Kind:
 
@@ -229,16 +262,18 @@ If you're using VSCode with [Remote - Containers](https://marketplace.visualstud
 
     If you are not using Kind, it's a manual process, as follows:
 
-    a. Create the namespace
+    a. Create the namespace you want to deploy the operator to. Skip this step if you use the ```default``` namespace
+
+    **Note** If you deploy the operator to any other namespace other than ```default```, you will need to give the operator ```cluster-admin``` permissiosn to be able to install the resources in a different namespace than the operator (default is the ```default``` namespace)
 
     ```shell
     kubectl create namespace azureoperator-system
     ```
 
-    b. Set the azureoperatorsettings secret
+    b. Set the ```azureoperatorsettings``` secret. Run the below command from the same terminal where you have set the environment variables for these values.
 
     ```shell
-    kubectl --namespace azureoperator-system \
+    kubectl --namespace <Namespace_Operator_Is_Deployed_To> \
         create secret generic azureoperatorsettings \
         --from-literal=AZURE_CLIENT_ID="$AZURE_CLIENT_ID" \
         --from-literal=AZURE_CLIENT_SECRET="$AZURE_CLIENT_SECRET" \
@@ -246,19 +281,15 @@ If you're using VSCode with [Remote - Containers](https://marketplace.visualstud
         --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID"
     ```
 
-    c. [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
+    c. Install [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
 
     ```shell
-    kubectl get secret webhook-server-cert -n azureoperator-system -o yaml > certs.txt
+    make install-cert-manager
     ```
-
-    you can use `https://inbrowser.tools/` and extract `ca.crt`, `tls.crt` and `tls.key`
-
-
 
 8. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config,
 
-    run `kubectl apply -f config/crd/bases` or `make install`
+    Use `kubectl apply -f config/crd/bases` or `make install`
 
 ## Add support for a new Azure service
 
