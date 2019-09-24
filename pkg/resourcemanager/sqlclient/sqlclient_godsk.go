@@ -244,7 +244,7 @@ func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
 	)
 }
 
-// CheckNameAvailability validates the SQL server name for availability, and validness
+// CheckNameAvailability determines whether a SQL resource can be created with the specified name
 func (sdk GoSDKClient) CheckNameAvailability() (result AvailabilityResponse, err error) {
 	serversClient := getGoServersClient()
 	typeOfService := "Microsoft.Sql/servers"
