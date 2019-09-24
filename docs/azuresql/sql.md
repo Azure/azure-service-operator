@@ -1,11 +1,11 @@
-# Azure SQL Operator
+# Azure SQL Operator
 
-## Resources supported
+## Resources supported
 
-1. Azure SQL server
-2. SQL database
-3. SQL firewall rule
-4. Action (Rolling user credentials for the SQL server)
+1. Azure SQL server
+2. SQL database
+3. SQL firewall rule
+4. Action (Rolling user credentials for the SQL server)
 
 ## Deploying SQL Resources
 
