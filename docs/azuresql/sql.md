@@ -16,9 +16,10 @@ We will use two terminal windows to deploy SQL resouces.
 
 In the first terminal window, run the operator by running the following commands:
 
-```make install```
-
-```make run```
+```bash
+make install
+make run
+```
 
 Now that the operator is running, open your second terminal window. Here we will use our yaml files to create different Azure resources.
 
@@ -26,17 +27,25 @@ Now that the operator is running, open your second terminal window. Here we will
 
 Create a resource group by running the following yaml file. Update the name variable to your preferred resource group name.
 
-```$ kubectl create -f config/samples/azure_v1_resourcegroup.yaml```
+```bash
+kubectl create -f config/samples/azure_v1_resourcegroup.yaml
+```
 
 ### 2. Create SQL resources
 
 Create your SQL resources by running the following yaml files. Update the resource group name, and SQL resource names to your preferred names.
 
-- ```$ kubectl create -f config/samples/azure_v1_sqldatabase.yaml```
+```bash
+kubectl create -f config/samples/azure_v1_sqldatabase.yaml
+```
 
-- ```$ kubectl create -f config/samples/azure_v1_sqlfirewallrule.yaml```
+```bash
+kubectl create -f config/samples/azure_v1_sqlfirewallrule.yaml
+```
 
-- ```$ kubectl create -f config/samples/azure_v1_sqlserver.yaml```
+```bash
+kubectl create -f config/samples/azure_v1_sqlserver.yaml
+```
 
 ## Updating SQL Resources
 
@@ -44,7 +53,9 @@ Create your SQL resources by running the following yaml files. Update�
 
 To view your created SQL resources, such as sqlserver, run the following command:
 
-`$ k get sqlserver`
+```bash
+k get sqlserver
+```
 
 Your servers should be displayed with their name and age.
 
@@ -52,11 +63,15 @@ Your servers should be displayed with their name and age.
 
 To delete an existing resource from Kubernetes and Azure, such as SQL server, run:
 
-`$ k edit sqlserver $sqlservername`
+```bash
+k edit sqlserver $sqlservername
+```
 
 Remove the lines under the finalizer, and then delete the sql server instance:
 
-`$ k delete sqlserver $sqlservername`
+```bash
+k delete sqlserver $sqlservername
+```
 
 The following message should appear:
 
