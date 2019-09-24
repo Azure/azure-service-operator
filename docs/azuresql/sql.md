@@ -7,15 +7,15 @@
 3. SQL firewall rule
 4. Action (Rolling user credentials for the SQL server)
 
-## Deploying SQL Resources
+## Deploying SQL Resources
 
-### Create a Resource Group
+### Create a Resource Group
 
 Create a resource group by running the following yaml file. Update the name variable to your preferred resource group name.
 
 ```kubectl create -f config/samples/azure_v1_resourcegroup.yaml```
 
-### Create SQL resources
+### Create SQL resources
 
 Create your SQL resources by running the following yaml files. Update the resource group name, and SQL resource names to your preferred names.
 
@@ -25,7 +25,7 @@ Create your SQL resources by running the following yaml files. Update�
 
 ```kubectl create -f config/samples/azure_v1_sqlserver.yaml```
 
-### View SQL Resources
+### View SQL Resources
 
 To view your created SQL resources, such as sqlserver, run the following command:
 
@@ -33,7 +33,7 @@ To view your created SQL resources, such as sqlserver, run the follow
 
 Your servers should be displayed with their name and age.
 
-### Delete a SQL Resource
+### Delete a SQL Resource
 
 To delete an existing resource from Kubernetes and Azure, such as SQL server, run:
 
@@ -47,11 +47,10 @@ The following message should appear:
 
 `sqlserver.azure.microsoft.com "$sqlservername" deleted.`
 
-## Troubleshooting resource provisioning
+## Troubleshooting resource provisioning
 
 kubectl describe to see events
 
-# How would you use the Azure SQL Operator from a real application
+## How would you use the Azure SQL Operator from a real application
 
 describe demo app
-
