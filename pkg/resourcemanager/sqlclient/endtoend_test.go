@@ -38,7 +38,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		Ctx:               ctx,
 		ResourceGroupName: groupName,
 		ServerName:        generateName("sqlsrvtest"),
-		Location:          "eastus2",
+		Location:          "westus",
 	}
 
 	// create the server
@@ -70,7 +70,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// create a DB
 	sqlDBProperties := SQLDatabaseProperties{
-		DatabaseName: "testDB",
+		DatabaseName: "sqldatabase-sample",
 		Edition:      Basic,
 	}
 
@@ -78,7 +78,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	for {
 		time.Sleep(time.Second)
 		future, err := sdk.CreateOrUpdateDB(sqlDBProperties)
-
 		db, err := future.Result(getGoDbClient())
 		if err == nil {
 
@@ -98,9 +97,28 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		}
 	}
 
+	// create a firewall rule
+	util.PrintAndLog("creating firewall rule...")
+	_, err = sdk.CreateOrUpdateSQLFirewallRule("test-rule1", "1.1.1.1", "2.2.2.2")
+	if err != nil {
+		util.PrintAndLog(fmt.Sprintf("cannot create firewall rule: %v", err))
+		t.FailNow()
+	}
+	util.PrintAndLog("firewall rule created")
+	time.Sleep(time.Second)
+
+	// delete firewall rule
+	util.PrintAndLog("deleting firewall rule...")
+	err = sdk.DeleteSQLFirewallRule("test-rule1")
+	if err != nil {
+		util.PrintAndLog(fmt.Sprintf("cannot delete firewall rule: %v", err))
+		t.FailNow()
+	}
+	util.PrintAndLog("firewall rule deleted")
+
 	// delete the DB
 	time.Sleep(time.Second)
-	response, err := sdk.DeleteDB("testDB")
+	response, err := sdk.DeleteDB("test-db")
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("db deleted")

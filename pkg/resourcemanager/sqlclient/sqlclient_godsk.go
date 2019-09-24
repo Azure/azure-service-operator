@@ -122,7 +122,7 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (sql.D
 
 }
 
-// CreateOrUpdateDB creates or updates a DB in Azure
+// GetDB retrieves a database
 func (sdk GoSDKClient) GetDB(name string) (sql.Database, error) {
 	dbClient := getGoDbClient()
 
