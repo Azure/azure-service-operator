@@ -6,4 +6,4 @@ spec:
   resourcegroup: resourcegroup-sample-1907
   server:  sqlserver-sample
   startipaddress: 1.1.1.1
-  endipaddress: 3.3.3.3
+  endipaddress: 6.6.6.6

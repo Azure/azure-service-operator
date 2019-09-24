@@ -169,6 +169,11 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1.SqlFirew
 		return errhelp.NewAzureError(err)
 	}
 
+	_, err = sdkClient.GetSQLFirewallRule(ruleName)
+	if err != nil {
+		return errhelp.NewAzureError(err)
+	}
+
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
