@@ -18,9 +18,10 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest/to"
-	"time"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
@@ -106,6 +107,14 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
+	if instance.IsSubmitted() {
+		err := r.reapply(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when reapplying resource in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
 	return ctrl.Result{}, nil
 }
 
@@ -113,7 +122,47 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.Eventhub{}).
+		Owns(&v1.Secret{}).
 		Complete(r)
+}
+
+func (r *EventhubReconciler) reapply(instance *azurev1.Eventhub) error {
+	ctx := context.Background()
+	var err error
+	eventhubName := instance.ObjectMeta.Name
+	eventhubNamespace := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+	secretName := instance.Spec.SecretName
+
+	result, _ := eventhubsresourcemanager.GetHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+	if result.Response.StatusCode == 404 {
+		r.reconcileExternal(instance)
+		r.Recorder.Event(instance, "Normal", "Updated", "Resource does not exist in azure, reapplied it")
+	}
+
+	if result.Response.StatusCode == 200 {
+		//get secret for eventhub
+		err = r.getEventhubSecrets(secretName, instance)
+		if err != nil {
+			//check if access policy exists, create if it does not and apply secret
+			_, err := eventhubsresourcemanager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, instance.Spec.AuthorizationRule.Name)
+			if err != nil {
+				err = r.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
+				if err != nil {
+					r.Recorder.Event(instance, "Warning", "Failed", "Unable to reapply createAccessPolicyEventHub")
+					return err
+				}
+			}
+
+			err = r.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
+			if err != nil {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to reapply listAccessKeysAndCreateSecrets")
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error {
