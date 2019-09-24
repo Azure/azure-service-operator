@@ -1,6 +1,6 @@
 # Azure SQL Operator
 
-## Resources supported
+## Resources Supported
 
 1. Azure SQL server
 2. SQL database
@@ -13,17 +13,17 @@
 
 Create a resource group by running the following yaml file. Update the name variable to your preferred resource group name.
 
-```kubectl create -f config/samples/azure_v1_resourcegroup.yaml```
+```$ kubectl create -f config/samples/azure_v1_resourcegroup.yaml```
 
 ### 2. Create SQL resources
 
 Create your SQL resources by running the following yaml files. Update the resource group name, and SQL resource names to your preferred names.
 
-```kubectl create -f config/samples/azure_v1_sqldatabase.yaml```
+- ```$ kubectl create -f config/samples/azure_v1_sqldatabase.yaml```
 
-```kubectl create -f config/samples/azure_v1_sqlfirewallrule.yaml```
+- ```$ kubectl create -f config/samples/azure_v1_sqlfirewallrule.yaml```
 
-```kubectl create -f config/samples/azure_v1_sqlserver.yaml```
+- ```$ kubectl create -f config/samples/azure_v1_sqlserver.yaml```
 
 ## Updating SQL Resources
 
@@ -31,7 +31,7 @@ Create your SQL resources by running the following yaml files. Update�
 
 To view your created SQL resources, such as sqlserver, run the following command:
 
-`k get sqlserver`
+`$ k get sqlserver`
 
 Your servers should be displayed with their name and age.
 
@@ -39,11 +39,11 @@ Your servers should be displayed with their name and age.
 
 To delete an existing resource from Kubernetes and Azure, such as SQL server, run:
 
-`k edit sqlserver $sqlservername`
+`$ k edit sqlserver $sqlservername`
 
 Remove the lines under the finalizer, and then delete the sql server instance:
 
-`k delete sqlserver $sqlservername`
+`$ k delete sqlserver $sqlservername`
 
 The following message should appear:
 
