@@ -83,5 +83,4 @@ kubectl describe to see events
 
 ## Demo App
 
-Watch this demo <https://bit.ly/2lUIX6Y> to observe how you would you use the Azure SQL Operator from a real application
-
+Watch this demo <https://bit.ly/2lUIX6Y> to observe how you would you use the Azure SQL Operator from a real application.
