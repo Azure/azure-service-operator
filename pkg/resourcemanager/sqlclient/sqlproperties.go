@@ -139,9 +139,9 @@ func translateDBEdition(in DBEdition) (result sql.DatabaseEdition) {
 
 // AvailabilityResponse is the response for checking name validation
 type AvailabilityResponse struct {
-	Available bool
-	Message   string
-	Name      string
+	Available 	bool
+	Message   	string
+	Name      	string
 }
 
 // ToAvailabilityResponse converts CheckNameAvailabilityResponse to AvailabilityResponse
