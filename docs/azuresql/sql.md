@@ -9,6 +9,19 @@
 
 ## Deploying SQL Resources
 
+We will use two terminal windows to deploy SQL resouces.
+
+- Terminal Window #1 - used to run the operator
+- Terminal Window #2 - used to create new Azure resources.
+
+In the first terminal window, run the operator by running the following commands:
+
+```make install```
+
+```make run```
+
+Now that the operator is running, open your second terminal window. Here we will use our yaml files to create different Azure resources.
+
 ### 1. Create a Resource Group
 
 Create a resource group by running the following yaml file. Update the name variable to your preferred resource group name.
