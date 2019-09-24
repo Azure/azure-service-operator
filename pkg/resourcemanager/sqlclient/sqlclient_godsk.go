@@ -7,7 +7,6 @@ package sqlclient
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -119,11 +118,10 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (sql.D
 			Location:           to.StringPtr(sdk.Location),
 			DatabaseProperties: &dbProp,
 		})
-
 }
 
-// GetServer returns a server
-func (sdk GoSDKClient) GetServer() (sql.Server, error) {
+// GetServer returns a SQL server
+func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
 	serversClient := getGoServersClient()
 
 	return serversClient.Get(
@@ -240,15 +238,4 @@ func (sdk GoSDKClient) DeleteSQLServer() (result autorest.Response, err error) {
 	}
 
 	return future.Result(serversClient)
-}
-
-// IsAsyncNotCompleted returns true if the error is due to async not completed
-func (sdk GoSDKClient) IsAsyncNotCompleted(err error) (result bool) {
-	result = false
-	if err != nil && strings.Contains(err.Error(), "asynchronous operation has not completed") {
-		result = true
-	} else if strings.Contains(err.Error(), "is busy with another operation") {
-		result = true
-	}
-	return result
 }
