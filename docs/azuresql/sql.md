@@ -9,13 +9,13 @@
 
 ## Deploying SQL Resources
 
-### Create a Resource Group
+### 1. Create a Resource Group
 
 Create a resource group by running the following yaml file. Update the name variable to your preferred resource group name.
 
 ```kubectl create -f config/samples/azure_v1_resourcegroup.yaml```
 
-### Create SQL resources
+### 2. Create SQL resources
 
 Create your SQL resources by running the following yaml files. Update the resource group name, and SQL resource names to your preferred names.
 
@@ -24,6 +24,8 @@ Create your SQL resources by running the following yaml files. Update�
 ```kubectl create -f config/samples/azure_v1_sqlfirewallrule.yaml```
 
 ```kubectl create -f config/samples/azure_v1_sqlserver.yaml```
+
+## Updating SQL Resources
 
 ### View SQL Resources
 
