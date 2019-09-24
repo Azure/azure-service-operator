@@ -210,7 +210,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 		Location:          location,
 	}
 
-	serv, err := sdkClient.GetServer(groupName, name)
+	serv, err := sdkClient.GetServer()
 	if err != nil {
 		azerr := errhelp.NewAzureError(err).(*errhelp.AzureError)
 		if azerr.Type != errhelp.ResourceNotFound {
