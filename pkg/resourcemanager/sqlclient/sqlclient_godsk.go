@@ -234,7 +234,7 @@ func (sdk GoSDKClient) IsAsyncNotCompleted(err error) (result bool) {
 }
 
 // GetServer returns a server
-func (sdk GoSDKClient) GetServer() (sql.Server, error) {
+func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
 	serversClient := getGoServersClient()
 
 	return serversClient.Get(
@@ -244,14 +244,14 @@ func (sdk GoSDKClient) GetServer() (sql.Server, error) {
 	)
 }
 
-// CheckNameAvailability validates the SQL server name for availability, and validness  
+// CheckNameAvailability validates the SQL server name for availability, and validness
 func (sdk GoSDKClient) CheckNameAvailability() (result AvailabilityResponse, err error) {
 	serversClient := getGoServersClient()
 	typeOfService := "Microsoft.Sql/servers"
 
 	response, err := serversClient.CheckNameAvailability(
 		sdk.Ctx,
-		sql.CheckNameAvailabilityRequest {
+		sql.CheckNameAvailabilityRequest{
 			Name: to.StringPtr(sdk.ServerName),
 			Type: to.StringPtr(typeOfService),
 		},
