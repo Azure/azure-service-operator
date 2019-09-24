@@ -54,7 +54,7 @@ kubectl create -f config/samples/azure_v1_sqlserver.yaml
 To view your created SQL resources, such as sqlserver, run the following command:
 
 ```bash
-k get sqlserver
+kubectl get sqlserver
 ```
 
 Your servers should be displayed with their name and age.
@@ -64,23 +64,24 @@ Your servers should be displayed with their name and age.
 To delete an existing resource from Kubernetes and Azure, such as SQL server, run:
 
 ```bash
-k edit sqlserver $sqlservername
+kubectl edit sqlserver $sqlservername
 ```
 
 Remove the lines under the finalizer, and then delete the sql server instance:
 
 ```bash
-k delete sqlserver $sqlservername
+kubectl delete sqlserver $sqlservername
 ```
 
 The following message should appear:
 
 `sqlserver.azure.microsoft.com "$sqlservername" deleted.`
 
-## Troubleshooting resource provisioning
+## Troubleshooting Provisioning Resources
 
 kubectl describe to see events
 
-## How would you use the Azure SQL Operator from a real application
+## Demo App
 
-describe demo app
+Watch this demo <https://bit.ly/2lUIX6Y> to observe how you would you use the Azure SQL Operator from a real application
+
