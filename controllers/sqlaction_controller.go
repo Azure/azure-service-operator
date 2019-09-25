@@ -102,7 +102,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 					RequeueAfter: time.Second * time.Duration(requeueAfter),
 				}, nil
 			} else if errhelp.IsResourceNotFound(err) {
-				log.Info("Not requeueing as a specified resource (such as Sql Server instance) was not found")
+				log.Info("Not requeueing as a specified resource was not found")
 				instance.Status.Message = "Resource not found error"
 				// write information back to instance
 				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
@@ -110,6 +110,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				}
 				return ctrl.Result{}, nil
 			}
+			// TODO: Add error handling for other types of errors we might encounter here
 			return ctrl.Result{}, fmt.Errorf("error reconciling sqlaction in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
@@ -140,6 +141,7 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 
 		instance.Status.Provisioning = true
 		instance.Status.Message = "SqlAction in progress"
+
 		// write information back to instance
 		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
@@ -163,7 +165,6 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 		// Get the Sql Server instance that corresponds to the Server name in the spec for this action
 		server, err := sdkClient.GetServer()
 		if err != nil {
-			//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to get instance of SqlServer")
 			r.Log.Info("Error", "Sql Server instance not found", err)
 			instance.Status.Message = "Sql Server instance not found"
@@ -172,17 +173,15 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 
 		sdkClient.Location = *server.Location
 
+		// rollcreds action
 		if instance.Spec.ActionName == "rollcreds" {
 			sqlServerProperties := sql.SQLServerProperties{
 				AdministratorLogin:         server.ServerProperties.AdministratorLogin,
 				AdministratorLoginPassword: server.ServerProperties.AdministratorLoginPassword,
 			}
 
+			// Generate a new password
 			sqlServerProperties.AdministratorLoginPassword = to.StringPtr(RollCreds(16))
-
-			//debugging
-			r.Log.Info("Info", "Username: ", *sqlServerProperties.AdministratorLogin)
-			r.Log.Info("Info", "New Password: ", *sqlServerProperties.AdministratorLoginPassword)
 
 			if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
 				if !strings.Contains(err.Error(), "not complete") {
@@ -194,6 +193,7 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 			}
 
 			// Update the k8s secret
+			// TODO: Question: Do we need to define the entire secret as below to send the CreateOrUpdate request?
 			secret := &v1.Secret{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      serverName,
@@ -208,7 +208,7 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 				Type: "Opaque",
 			}
 
-			result, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
+			_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
 				r.Log.Info("mutating secret bundle")
 				secret.Data["password"] = []byte(*sqlServerProperties.AdministratorLoginPassword)
 				return nil
@@ -217,9 +217,6 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 				r.Log.Info("Error", "CreateOrUpdateSecretErr", createOrUpdateSecretErr)
 				return createOrUpdateSecretErr
 			}
-
-			// log result for debugging
-			r.Log.Info("Info", "OperationResult", result)
 
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = true
@@ -236,14 +233,14 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 			}
 		}
 
-		// Add other actions here (instance.Spec.ActionName)
+		// Add implementations for other SqlActions here (instance.Spec.ActionName)
 	}
 
 	return nil
 }
 
 func (r *SqlActionReconciler) deleteExternal(instance *azurev1.SqlAction) error {
-	r.Log.Info("deleteExternal function for SqlAction: do nothing")
+	r.Log.Info("deleteExternal function for SqlAction: Do nothing")
 	return nil
 }
 

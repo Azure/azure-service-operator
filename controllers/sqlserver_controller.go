@@ -183,7 +183,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 			return errhelp.NewAzureError(err)
 		}
 	} else {
-		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully submitted to Azure")
+		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully dubmitted to Azure")
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
@@ -219,7 +219,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 		Location:          location,
 	}
 
-	serv, err := sdkClient.GetServer()
+	serv, err := sdkClient.GetServer(groupName, name)
 	if err != nil {
 		azerr := errhelp.NewAzureError(err).(*errhelp.AzureError)
 		if azerr.Type != errhelp.ResourceNotFound {
