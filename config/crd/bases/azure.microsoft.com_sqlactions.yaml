@@ -11,6 +11,8 @@ spec:
     kind: SqlAction
     plural: sqlactions
   scope: ""
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: SqlAction is the Schema for the sqlactions API
