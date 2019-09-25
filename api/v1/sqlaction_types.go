@@ -37,10 +37,11 @@ type SqlActionStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool   `json:"provisioning,omitempty"`
 	Provisioned  bool   `json:"provisioned,omitempty"`
-	State        string `json:"state,omitempty"`
+	Message      string `json:"state,omitempty"`
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // SqlAction is the Schema for the sqlactions API
 type SqlAction struct {
