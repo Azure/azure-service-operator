@@ -98,6 +98,8 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation")
+		// TODO: Add error handling for cases where username or password are invalid:
+		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
 		if err := r.reconcileExternal(&instance); err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
@@ -157,20 +159,12 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		Location:          location,
 	}
 
-	// Find a central location for these consts or make configurable by user
-	const usernameLength = 8
-	const passwordLength = 16
-
 	// Check to see if secret already exists for admin username/password
 	secret := r.GetOrPrepareSecret(instance)
 	sqlServerProperties := sql.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr(string(secret.Data["username"])),
 		AdministratorLoginPassword: to.StringPtr(string(secret.Data["password"])),
 	}
-
-	// testing
-	r.Log.Info("Info", "Username: ", *sqlServerProperties.AdministratorLogin)
-	r.Log.Info("Info", "Password: ", *sqlServerProperties.AdministratorLoginPassword)
 
 	// create the sql server
 	instance.Status.Provisioning = true
@@ -279,19 +273,24 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) *v1.Secret {
 	name := instance.ObjectMeta.Name
 
+	const usernameLength = 8
+	const passwordLength = 16
+
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
 			Namespace: instance.Namespace,
 		},
 		Data: map[string][]byte{
-			"username":           []byte(generateRandomString(8)),
-			"password":           []byte(generateRandomString(16)),
+			"username":           []byte(generateRandomString(usernameLength)),
+			"password":           []byte(generateRandomString(passwordLength)),
 			"sqlservernamespace": []byte(instance.Namespace),
 			"sqlservername":      []byte(name),
 		},
 		Type: "Opaque",
 	}
+
+	// TODO: Add logic to validate username and password before sending CreateOrUpdate server request to Azure
 
 	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
@@ -306,7 +305,6 @@ func generateRandomString(n int) string {
 
 	const characterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()_+-=<>"
 
-	// TODO: add logic to enforce password policy rules for sql server
 	b := make([]byte, n)
 	for i := range b {
 		b[i] = characterBytes[rand.Intn(len(characterBytes))]
