@@ -17,6 +17,9 @@
     `az aks get-credentials --resource-group $RESOURCEGROUP_NAME --name $CLUSTER_NAME`
 
 5. Install [Kubebuilder](https://book.kubebuilder.io/), following the linked installation instructions.
+
+If you are running on MacOS, look at the notes [here](/docs/kubebuilder.md) for issues you may encounter.
+
 6. [Kustomize](https://github.com/kubernetes-sigs/kustomize) is also required. This must be installed via `make install-kustomize` (see section below).
 
 Basic commands to check if you have an active Kubernetes cluster:
@@ -186,7 +189,6 @@ For eg., use ```kubectl apply -f config/samples/azure_v1_sqlserver.yaml``` from 
 ### Deploying the operator on a Kubernetes cluster
 
 1. Create your Kubernetes cluster
-   
    (i) If you use Kind, install [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 
     ```shell
@@ -233,7 +235,26 @@ For eg., use ```kubectl apply -f config/samples/azure_v1_sqlserver.yaml``` from 
 
     b. Set the ```azureoperatorsettings``` secret. 
     
-    Run the below command from the same terminal where you have set the environment variables for these values. If you haven't done this yet, first do that before running the below command.
+    First, set the following environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`.
+
+    ```shell
+        export AZURE_TENANT_ID=xxxxxxx
+        export AZURE_CLIENT_ID=yyyyyyy
+        export AZURE_CLIENT_SECRET=zzzzzz
+        export AZURE_SUBSCRIPTION_ID=aaaaaaa
+        export REQUEUE_AFTER=30
+    ```
+
+    If running on Windows, the environment variables should not have quotes and should be set like below.
+
+    ```shell
+        set AZURE_TENANT_ID=xxxxxxx
+        set AZURE_CLIENT_ID=yyyyyyy
+        set AZURE_CLIENT_SECRET=zzzzzz
+        set AZURE_SUBSCRIPTION_ID=aaaaaaa
+        set REQUEUE_AFTER=30
+    ```
+    From the same terminal, run the below command.
 
     ```shell
     kubectl --namespace azureoperator-system \
@@ -263,7 +284,7 @@ For eg., use ```kubectl apply -f config/samples/azure_v1_sqlserver.yaml``` from 
 **Note** If you deploy resources to a different namespace than default then you will need to provide permission to that namespace too.
 
     ```shell
-    kubectl create rolebinding default-admin-binding --clusterrole=cluster-admin --user=system:serviceaccount:azureoperator-system:default --namespace=default
+    kubectl create clusterrolebinding default-admin-binding --clusterrole=cluster-admin --user=system:serviceaccount:azureoperator-system:default --namespace=default
     ```
 10. Install the Custom Resource Definitions (CRDs) in the configured Kubernetes cluster
 
@@ -341,31 +362,29 @@ For eg., use ```kubectl apply -f config/samples/azure_v1_sqlserver.yaml``` from 
 
 If you want to create a new custom resource for a new Azure service, you will need to follow the following steps:
 
-1. Add a New API - 
-
-### 1. Add a New API
+1. Add a New API using the following Kubebuilder command.
 
 ```shell
 kubebuilder create api --group service --version v1alpha1 --kind <Azure-Service-Name>
 ```
 
+For instance, this is how I would create a new API/scaffold for a Redis operator
+
+```shell
+kubebuilder create api --group azure --version v1 --kind RedisCache
+```
+
 Refer to [kubebuilder's doc](https://book.kubebuilder.io/cronjob-tutorial/new-api.html)
 
-### 2. Design an API
+2. Define the Spec and the Status for the new `Kind` in the appropriate types.go file under `api\v1`
 
-1. Try to create the specific Azure service, and download the template in the `Review+Create` step.
-2. Upload the template to a storage account. For now, we can use the storage account `azureserviceoperator`.
-3. Based on the template, we can figure out what the `Spec` should be like.
-4. The `Status` should contain the resource group name, which can be used to delete the resource.
+3. Implement the Reconcile logic for the controller in the appropriate controller file under `controllers` directory.
 
-Refer to [kubebuilder's doc](https://book.kubebuilder.io/cronjob-tutorial/api-design.html)
 
-Note:
+**Notes:**
 
-- Don't forget to add `// +kubebuilder:subresource:status` if we want a status subresource.
+- Don't forget to add `// +kubebuilder:subresource:status` if we want a status subresource. This is recommended as it makes updates to status more efficient (without having to update the whole instance)
 
 - Run `make manifests` if you find the property you add doesn't work.
 
-### 3. Delete external resource
-
-[Using Finalizers](https://book.kubebuilder.io/reference/using-finalizers.html)
+- Finalizers are recommended as they make deleting a resource more robust. Refer to [Using Finalizers](https://book.kubebuilder.io/reference/using-finalizers.html) for more information
