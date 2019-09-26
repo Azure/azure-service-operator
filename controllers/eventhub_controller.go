@@ -135,7 +135,7 @@ func (r *EventhubReconciler) reapply(instance *azurev1.Eventhub) error {
 	resourcegroup := instance.Spec.ResourceGroup
 	secretName := instance.Spec.SecretName
 
-	result, _ := eventhubsresourcemanager.GetHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+	result, _ := r.EventHubManager.GetHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
 	if result.Response.StatusCode == 404 {
 		r.reconcileExternal(instance)
 		r.Recorder.Event(instance, "Normal", "Updated", "Resource does not exist in azure, reapplied it")
@@ -146,7 +146,7 @@ func (r *EventhubReconciler) reapply(instance *azurev1.Eventhub) error {
 		err = r.getEventhubSecrets(secretName, instance)
 		if err != nil {
 			//check if access policy exists, create if it does not and apply secret
-			_, err := eventhubsresourcemanager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, instance.Spec.AuthorizationRule.Name)
+			_, err := r.EventHubManager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, instance.Spec.AuthorizationRule.Name)
 			if err != nil {
 				err = r.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
 				if err != nil {
