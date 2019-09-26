@@ -54,6 +54,15 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("sqlserver", req.NamespacedName)
 	var instance azurev1.SqlServer
+
+	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
+		log.Info("Unable to retrieve sql-server resource", "err", err.Error())
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
@@ -63,14 +72,6 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		ResourceGroupName: groupName,
 		ServerName:        name,
 		Location:          location,
-	}
-
-	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Info("Unable to retrieve sql-server resource", "err", err.Error())
-		// we'll ignore not-found errors, since they can't be fixed by an immediate
-		// requeue (we'll need to wait for a new notification), and we can get them
-		// on deleted requests.
-		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
@@ -107,6 +108,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	availableResp, err := sdkClient.CheckNameAvailability()
 	if err != nil {
+		log.Info("error validating name")
 		return ctrl.Result{}, err
 	}
 	if availableResp.Available {
