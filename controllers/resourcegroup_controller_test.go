@@ -18,10 +18,8 @@ package controllers
 
 import (
 	"context"
-	"time"
-
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -31,8 +29,6 @@ import (
 )
 
 var _ = Describe("ResourceGroup Controller", func() {
-
-	const timeout = time.Second * 240
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -60,26 +56,28 @@ var _ = Describe("ResourceGroup Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.ResourceGroupSpec{
-					Location: tc.ResourceGroupLocation,
+					Location: tc.resourceGroupLocation,
 				},
 			}
 
-			err = tc.K8sClient.Create(context.Background(), resourceGroupInstance)
+			err = tc.k8sClient.Create(context.Background(), resourceGroupInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
+				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.IsSubmitted()
-			}, timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
-			tc.K8sClient.Delete(context.Background(), resourceGroupInstance)
+			err = tc.k8sClient.Delete(context.Background(), resourceGroupInstance)
+			Expect(err).NotTo(HaveOccurred())
+
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
+				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.IsBeingDeleted()
-			}, timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 		})

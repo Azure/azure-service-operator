@@ -1,3 +1,19 @@
+/*
+Copyright 2019 microsoft.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package eventhubs
 
 import (
@@ -11,6 +27,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
+type azureEventHubManager struct{}
+
 func getHubsClient() eventhub.EventHubsClient {
 	hubClient := eventhub.NewEventHubsClient(config.SubscriptionID())
 	auth, _ := iam.GetResourceManagementAuthorizer()
@@ -19,12 +37,7 @@ func getHubsClient() eventhub.EventHubsClient {
 	return hubClient
 }
 
-// DeleteHub deletes an Event Hub from the specified Namespace and resource group.
-// Parameters:
-// resourceGroupName - name of the resource group within the azure subscription.
-// namespaceName - the Namespace name
-// eventHubName - the Event Hub name
-func DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
+func (_ *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
 	hubClient := getHubsClient()
 	return hubClient.Delete(ctx,
 		resourceGroupName,
@@ -33,12 +46,7 @@ func DeleteHub(ctx context.Context, resourceGroupName string, namespaceName stri
 
 }
 
-// CreateHub creates an Event Hubs hub in a namespace
-// Parameters:
-// resourceGroupName - name of the resource group within the azure subscription.
-// namespaceName - the Namespace name
-// eventHubName - the Event Hub name
-func CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, MessageRetentionInDays int32, PartitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
+func (_ *azureEventHubManager) CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, MessageRetentionInDays int32, PartitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
 	hubClient := getHubsClient()
 
 	// MessageRetentionInDays - Number of days to retain the events for this Event Hub, value should be 1 to 7 days
@@ -68,31 +76,17 @@ func CreateHub(ctx context.Context, resourceGroupName string, namespaceName stri
 	)
 }
 
-//GetHub gets an Event Hubs description for the specified Event Hub.
-func GetHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (eventhub.Model, error) {
+func (_ *azureEventHubManager) GetHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (eventhub.Model, error) {
 	hubClient := getHubsClient()
 	return hubClient.Get(ctx, resourceGroupName, namespaceName, eventHubName)
 }
 
-// CreateOrUpdateAuthorizationRule creates or updates an AuthorizationRule for the specified Event Hub.
-// Parameters:
-// resourceGroupName - name of the resource group within the azure subscription.
-// namespaceName - the Namespace name
-// eventHubName - the Event Hub name
-// authorizationRuleName - the authorization rule name.
-// parameters - the shared access AuthorizationRule.
-func CreateOrUpdateAuthorizationRule(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string, parameters eventhub.AuthorizationRule) (result eventhub.AuthorizationRule, err error) {
+func (_ *azureEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string, parameters eventhub.AuthorizationRule) (result eventhub.AuthorizationRule, err error) {
 	hubClient := getHubsClient()
 	return hubClient.CreateOrUpdateAuthorizationRule(ctx, resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters)
 }
 
-// ListKeys gets the ACS and SAS connection strings for the Event Hub.
-// Parameters:
-// resourceGroupName - name of the resource group within the azure subscription.
-// namespaceName - the Namespace name
-// eventHubName - the Event Hub name
-// authorizationRuleName - the authorization rule name.
-func ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error) {
+func (_ *azureEventHubManager) ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error) {
 	hubClient := getHubsClient()
 	return hubClient.ListKeys(ctx, resourceGroupName, namespaceName, eventHubName, authorizationRuleName)
 }

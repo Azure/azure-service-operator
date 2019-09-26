@@ -47,9 +47,10 @@ const storageFinalizerName = "storage.finalizers.azure.com"
 // StorageReconciler reconciles a Storage object
 type StorageReconciler struct {
 	client.Client
-	Log         logr.Logger
-	Recorder    record.EventRecorder
-	RequeueTime time.Duration
+	Log            logr.Logger
+	Recorder       record.EventRecorder
+	RequeueTime    time.Duration
+	StorageManager storages.StorageManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=storages,verbs=get;list;watch;create;update;patch;delete
@@ -153,7 +154,7 @@ func (r *StorageReconciler) reconcileExternal(instance *azurev1.Storage) error {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = storages.CreateStorage(ctx, groupName, name, location, sku, kind, nil, accessTier, enableHTTPSTrafficOnly)
+	_, err = r.StorageManager.CreateStorage(ctx, groupName, name, location, sku, kind, nil, accessTier, enableHTTPSTrafficOnly)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -182,14 +183,14 @@ func (r *StorageReconciler) deleteExternal(instance *azurev1.Storage) error {
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
-	_, err := storages.DeleteStorage(ctx, groupName, name)
+	_, err := r.StorageManager.DeleteStorage(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
 			return nil
 		}
 
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 

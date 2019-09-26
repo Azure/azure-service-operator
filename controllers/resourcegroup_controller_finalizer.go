@@ -23,26 +23,26 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 )
 
-const resouceGroupFinalizerName = "resoucegroup.finalizers.com"
+const resourceGroupFinalizerName = "resourcegroup.finalizers.com"
 
 func (r *ResourceGroupReconciler) addFinalizer(instance *azurev1.ResourceGroup) error {
-	instance.AddFinalizer(resouceGroupFinalizerName)
+	instance.AddFinalizer(resourceGroupFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", resouceGroupFinalizerName))
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", resourceGroupFinalizerName))
 	return nil
 }
 
 func (r *ResourceGroupReconciler) handleFinalizer(instance *azurev1.ResourceGroup) error {
-	if instance.HasFinalizer(resouceGroupFinalizerName) {
+	if instance.HasFinalizer(resourceGroupFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
 			return err
 		}
 
-		instance.RemoveFinalizer(resouceGroupFinalizerName)
+		instance.RemoveFinalizer(resourceGroupFinalizerName)
 		if err := r.Update(context.Background(), instance); err != nil {
 			return err
 		}

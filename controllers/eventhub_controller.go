@@ -46,9 +46,10 @@ import (
 // EventhubReconciler reconciles a Eventhub object
 type EventhubReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Log             logr.Logger
+	Recorder        record.EventRecorder
+	Scheme          *runtime.Scheme
+	EventHubManager eventhubsresourcemanager.EventHubManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
@@ -147,7 +148,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 	} else {
 		//set owner reference for eventhub if it exists
 		references := []metav1.OwnerReference{
-			metav1.OwnerReference{
+			{
 				APIVersion: "v1",
 				Kind:       "EventhubNamespace",
 				Name:       ownerInstance.GetName(),
@@ -165,7 +166,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 
 	capturePtr := getCaptureDescriptionPtr(captureDescription)
 
-	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	_, err = r.EventHubManager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -238,9 +239,9 @@ func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
 	resourcegroup := instance.Spec.ResourceGroup
 
 	var err error
-	_, err = eventhubsresourcemanager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
+	_, err = r.EventHubManager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 	return nil
@@ -262,7 +263,7 @@ func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup st
 			Rights: &accessRights,
 		},
 	}
-	_, err = eventhubsresourcemanager.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, parameters)
+	_, err = r.EventHubManager.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, parameters)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to createorupdateauthorizationrule")
 		return err
@@ -276,7 +277,7 @@ func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string
 	var result model.AccessKeys
 	ctx := context.Background()
 
-	result, err = eventhubsresourcemanager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName)
+	result, err = r.EventHubManager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName)
 	if err != nil {
 		//log error and kill it
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to list keys")

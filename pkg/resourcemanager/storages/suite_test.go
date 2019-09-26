@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -43,6 +43,8 @@ var cfg *rest.Config
 type TestContext struct {
 	ResourceGroupName     string
 	ResourceGroupLocation string
+	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
+	StorageManagers       StorageManagers
 }
 
 var tc TestContext
@@ -57,40 +59,31 @@ func TestAPIs(t *testing.T) {
 	RunSpecs(t, "Storage Suite")
 }
 
-var _ = SynchronizedBeforeSuite(func() []byte {
+var _ = BeforeSuite(func() {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	By("bootstrapping test environment")
 
-	resourceGroupName := "t-rg-dev-rm-st-" + helpers.RandomString(10)
 	resourcemanagerconfig.ParseEnvironment()
-	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
 
-	//create resourcegroup for this suite
-	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
+	ressourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
+	tc = TestContext{
+		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
+		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
+		ResourceGroupManager:  ressourceGroupManager,
+		StorageManagers:       AzureStorageManagers,
+	}
+
+	// create resourcegroup for this suite
+	result, _ := ressourceGroupManager.CheckExistence(context.Background(), tc.ResourceGroupName)
 	if result.Response.StatusCode != 204 {
-		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)
+		_, _ = tc.ResourceGroupManager.CreateGroup(context.Background(), tc.ResourceGroupName, tc.ResourceGroupLocation)
 	}
+})
 
-	tc := TestContext{
-		ResourceGroupName:     resourceGroupName,
-		ResourceGroupLocation: resourceGroupLocation,
-	}
-
-	bytes, err := helpers.ToByteArray(&tc)
-	Expect(err).ToNot(HaveOccurred())
-
-	return bytes
-}, func(b []byte) {
-	resourcemanagerconfig.ParseEnvironment()
-
-	err := helpers.FromByteArray(b, &tc)
-	Expect(err).ToNot(HaveOccurred())
-}, 120)
-
-var _ = SynchronizedAfterSuite(func() {}, func() {
+var _ = AfterSuite(func() {
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
-	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), tc.ResourceGroupName)
-}, 60)
+	_, _ = tc.ResourceGroupManager.DeleteGroupAsync(context.Background(), tc.ResourceGroupName)
+})
