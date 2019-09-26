@@ -120,42 +120,42 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1.SqlFirew
 	ctx := context.Background()
 	ruleName := instance.ObjectMeta.Name
 	server := instance.Spec.Server
-	groupName := instance.Spec.ResourceGroup
 	startIP := instance.Spec.StartIPAddress
 	endIP := instance.Spec.EndIPAddress
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        server,
-	}
-
 	r.Log.Info("Calling createorupdate SQL firewall rule")
 
-	//get owner instance of SqlServer
+	// get owner instance of SqlServer
 	r.Recorder.Event(instance, "Normal", "UpdatingOwner", "Updating owner SqlServer instance")
 	var ownerInstance azurev1.SqlServer
 	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
 	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
-
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of SqlServer")
-	} else {
-		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Got owner instance of Sql Server and assigning controller reference now")
-		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
-		if innerErr != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to set controller reference to SqlServer")
-		}
-		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Owner instance assigned successfully")
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of SqlServer when setting firewall parent")
+		return err
 	}
 
+	// set owner instance to the SqlServer instance
+	r.Recorder.Event(instance, "Normal", "OwnerAssign", "Got owner instance of Sql Server and assigning controller reference now")
+	err = controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
+	if err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to set controller reference to SqlServer")
+		return err
+	}
+	r.Recorder.Event(instance, "Normal", "OwnerAssign", "Owner instance assigned successfully")
+
 	// write information back to instance
-	if updateerr := r.Update(ctx, instance); updateerr != nil {
+	if err := r.Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
 	// actually add the firewall rule
+	sdkClient := sql.GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: ownerInstance.Spec.ResourceGroup,
+		ServerName:        server,
+	}
 	_, err = sdkClient.CreateOrUpdateSQLFirewallRule(ruleName, startIP, endIP)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
@@ -188,7 +188,17 @@ func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1.SqlFirewall
 	ctx := context.Background()
 	ruleName := instance.ObjectMeta.Name
 	server := instance.Spec.Server
-	groupName := instance.Spec.ResourceGroup
+
+	//get owner instance of SqlServer
+	var ownerInstance azurev1.SqlServer
+	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
+	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
+	if err != nil {
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
+		r.Recorder.Event(instance, "Warning", "DoesNotExist", "Unable to get owner instance of SqlServer when removing firewall rule (OK)")
+		return nil
+	}
+	groupName := ownerInstance.Spec.ResourceGroup
 
 	// create the Go SDK client with relevant info
 	sdk := sql.GoSDKClient{
@@ -198,7 +208,7 @@ func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1.SqlFirewall
 	}
 
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s"+groupName, server, ruleName))
-	err := sdk.DeleteSQLFirewallRule(ruleName)
+	err = sdk.DeleteSQLFirewallRule(ruleName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")

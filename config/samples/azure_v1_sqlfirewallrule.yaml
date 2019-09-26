@@ -1,9 +1,8 @@
 apiVersion: azure.microsoft.com/v1
 kind: SqlFirewallRule
 metadata:
-  name: sample-rule1
+  name: sqlfirewallrule-sample
 spec:
-  resourcegroup: resourcegroup-sample-1907
   server:  sqlserver-sample
   startipaddress: 1.1.1.1
   endipaddress: 6.6.6.6
