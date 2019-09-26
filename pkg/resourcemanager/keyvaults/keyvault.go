@@ -28,6 +28,8 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
+type azureKeyVaultManager struct{}
+
 func getVaultsClient() keyvault.VaultsClient {
 	vaultsClient := keyvault.NewVaultsClient(config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
@@ -40,7 +42,7 @@ func getVaultsClient() keyvault.VaultsClient {
 }
 
 // CreateVault creates a new key vault
-func CreateVault(ctx context.Context, groupName string, vaultName string, location string) (keyvault.Vault, error) {
+func (_ *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string) (keyvault.Vault, error) {
 	vaultsClient := getVaultsClient()
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
@@ -66,13 +68,13 @@ func CreateVault(ctx context.Context, groupName string, vaultName string, locati
 }
 
 // DeleteVault removes the resource group named by env var
-func DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
+func (_ *azureKeyVaultManager) DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
 	vaultsClient := getVaultsClient()
 	return vaultsClient.Delete(ctx, groupName, vaultName)
 }
 
 // CheckExistence checks for the presence of a keyvault instance on Azure
-func GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
+func (_ *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
 	vaultsClient := getVaultsClient()
 	return vaultsClient.Get(ctx, groupName, vaultName)
 

@@ -1,11 +1,8 @@
 /*
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,9 +25,9 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -39,9 +36,10 @@ const keyVaultFinalizerName = "keyvault.finalizers.azure.com"
 // KeyVaultReconciler reconciles a KeyVault object
 type KeyVaultReconciler struct {
 	client.Client
-	Log         logr.Logger
-	Recorder    record.EventRecorder
-	RequeueTime time.Duration
+	Log             logr.Logger
+	Recorder        record.EventRecorder
+	RequeueTime     time.Duration
+	KeyVaultManager keyvaults.KeyVaultManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=keyvaults,verbs=get;list;watch;create;update;patch;delete
@@ -116,7 +114,7 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error
 	groupName := instance.Spec.ResourceGroupName
 
 	var final error
-	if vault, err := keyvaults.CreateVault(ctx, groupName, name, location); err != nil {
+	if vault, err := r.KeyVaultManager.CreateVault(ctx, groupName, name, location); err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Recorder.Event(instance, "Normal", "Provisioning", name+" provisioning")
 			return err
@@ -143,7 +141,7 @@ func (r *KeyVaultReconciler) deleteExternal(instance *azurev1.KeyVault) error {
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
-	_, err := keyvaults.DeleteVault(ctx, groupName, name)
+	_, err := r.KeyVaultManager.DeleteVault(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")

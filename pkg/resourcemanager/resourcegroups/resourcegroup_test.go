@@ -50,19 +50,20 @@ var _ = Describe("ResourceGroups", func() {
 
 			resourcegroupName := "t-rg-" + helpers.RandomString(10)
 			resourcegroupLocation := config.DefaultLocation()
+			resourceGroupManager := AzureResourceGroupManager
 			var err error
 
-			_, err = CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)
+			_, err = resourceGroupManager.CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := CheckExistence(context.Background(), resourcegroupName)
+				result, _ := resourceGroupManager.CheckExistence(context.Background(), resourcegroupName)
 
 				return result.Response.StatusCode == 204
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteGroup(context.Background(), resourcegroupName)
+			_, err = resourceGroupManager.DeleteGroup(context.Background(), resourcegroupName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {

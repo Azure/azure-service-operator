@@ -26,6 +26,8 @@ import (
 	"log"
 )
 
+type azureBlobContainerManager struct{}
+
 func getContainerClient() s.BlobContainersClient {
 	containersClient := s.NewBlobContainersClient(config.SubscriptionID())
 	auth, _ := iam.GetResourceManagementAuthorizer()
@@ -39,7 +41,7 @@ func getContainerClient() s.BlobContainersClient {
 // resourceGroupName - name of the resource group within the azure subscription.
 // accountName - the name of the storage account
 // containerName - the name of the container
-func CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (*s.BlobContainer, error) {
+func (_ *azureBlobContainerManager) CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (*s.BlobContainer, error) {
 	containerClient := getContainerClient()
 
 	log.Println(fmt.Sprintf("Creating blob container '%s' in storage account: %s", containerName, accountName))
@@ -63,7 +65,7 @@ func CreateBlobContainer(ctx context.Context, resourceGroupName string, accountN
 // resourceGroupName - name of the resource group within the azure subscription.
 // accountName - the name of the storage account
 // containerName - the name of the container
-func GetBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result s.BlobContainer, err error) {
+func (_ *azureBlobContainerManager) GetBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result s.BlobContainer, err error) {
 	containerClient := getContainerClient()
 	return containerClient.Get(ctx, resourceGroupName, accountName, containerName)
 }
@@ -73,7 +75,7 @@ func GetBlobContainer(ctx context.Context, resourceGroupName string, accountName
 // resourceGroupName - name of the resource group within the azure subscription.
 // accountName - the name of the storage account
 // containerName - the name of the container
-func DeleteBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result autorest.Response, err error) {
+func (_ *azureBlobContainerManager) DeleteBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result autorest.Response, err error) {
 	containerClient := getContainerClient()
 	log.Println(fmt.Sprintf("Deleting blob container '%s' for resource group: %s", containerName, accountName))
 
