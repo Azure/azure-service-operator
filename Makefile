@@ -8,6 +8,8 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
+GOOS=$(shell go env GOOS)
+
 IMG ?= controller:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
@@ -177,11 +179,16 @@ endif
 
 install-kustomize:
 ifeq (,$(shell which kustomize))
-	@echo "installing kustomize"
+	@echo "installing kustomize for $(GOOS)"
 	# download kustomize
-	curl -o /usr/local/kubebuilder/bin/kustomize -sL "https://go.kubebuilder.io/kustomize/$(shell go env GOOS)/$(shell go env GOARCH)"
-	# set permission
-	chmod a+x /usr/local/kubebuilder/bin/kustomize
+	curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest |\
+	grep browser_download |\
+	grep $(GOOS) |\
+	cut -d '"' -f 4 |\
+	xargs curl -O -L
+	mv kustomize_*_$(GOOS)_amd64 kustomize
+	chmod u+x kustomize
+	sudo mv kustomize /usr/local/kubebuilder/bin/
 	$(shell which kustomize)
 else
 	@echo "kustomize has been installed"
