@@ -21,14 +21,17 @@ The project was built using
 
 [Kubebuilder](https://book.kubebuilder.io/)
 
+## Install the operator
+
+Information on how to build, test and run the operator, refer to the link below.
+[Building, testing and running the operator](/docs/contents.md)
+
 ## Azure Services supported
 
 1. Resource Group
 2. EventHub
 3. [Azure SQL](/docs/azuresql/azuresql.md)
 
-For information on how to build, test and run the operator, refer to the link below.
-[Building, testing and running the operator](/docs/development.md)
 
 ## Testing
 
