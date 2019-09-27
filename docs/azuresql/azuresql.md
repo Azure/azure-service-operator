@@ -1,6 +1,7 @@
 # Azure SQL Operator
 
 ## Resources Supported
+
 The Azure SQL operator can be used to provision the following resources.
 
 1. Azure SQL server - Deploys an Azure SQL server given the location and Resource group
@@ -19,7 +20,7 @@ You can use the YAML files in the `config/samples` folder to create the resource
 ### Azure SQL server
 
 For instance, this is the sample YAML for the Azure SQL server.
-Repl
+
   ```yaml
     apiVersion: azure.microsoft.com/v1
     kind: SqlServer
@@ -61,6 +62,7 @@ spec:
   edition: 0
   server:  sqlserver-sample
 ```
+
 Update the `location` and the `resourcegroup` to where you want to provisiong the SQL database. `server` is the name of the Azure SQL server where you want to create the database in.
 The `edition` represents the SQL database edition you want to use when creating the resource and should be one of the values above.
 
@@ -162,6 +164,8 @@ The following message should appear:
 
 `sqlserver.azure.microsoft.com sqlserver-sample deleted.`
 
-## Demo App
+## Demo
 
 Watch this demo <https://bit.ly/2lUIX6Y> to observe how you would you use the Azure SQL Operator from a real application.
+
+In this demo, we use YAML to deploy the application and the SQL server. Once the SQL server is provisioned, the connection details are stored as secrets which the application can use to access the SQL server.
