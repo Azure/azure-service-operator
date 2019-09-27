@@ -23,15 +23,14 @@ The project was built using
 
 ## Install the operator
 
-Information on how to build, test and run the operator, refer to the link below.
+For information on how to build, test and run the operator, refer to the link below.
 [Building, testing and running the operator](/docs/contents.md)
 
 ## Azure Services supported
 
-1. Resource Group
-2. EventHub
+1. [Resource Group](/docs/resourcegroup/resourcegroup.md)
+2. [EventHub](/docs/eventhub/eventhub.md)
 3. [Azure SQL](/docs/azuresql/azuresql.md)
-
 
 ## Contributing
 

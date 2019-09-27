@@ -1,11 +1,11 @@
 # Building and deploying the Azure Service Operator
 
-
 ## Build the operator
 
 1. Clone the repository.
 
 2. Make sure the environment variable `GO111MODULE` is set to `on`.
+
     ```bash
     export GO111MODULE=on
     ```
@@ -19,18 +19,20 @@
 
 ## Deploy the operator
 
+**Note** You should already have a Kuberenetes cluster prerequisites [here](prereqs.md) for information on creating a Kubernetes cluster.
+
 1. Set up the Cluster
 
-    a. Create the namespace you want to deploy the operator to. 
-    
+    a. Create the namespace you want to deploy the operator to.
+
     **Note** The scripts currently are configured to deploy to the ```azureoperator-system``` namespace
 
     ```shell
     kubectl create namespace azureoperator-system
     ```
 
-    b. Set the ```azureoperatorsettings``` secret. 
-    
+    b. Set the ```azureoperatorsettings``` secret.
+
     First, set the following environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`.
 
     ```shell
@@ -68,7 +70,6 @@
       --user=system:serviceaccount:azureoperator-system:default
     ```
 
-
 4. Deploy the operator to the Kubernetes cluster
 
     ```shell
@@ -76,6 +77,7 @@
     ```
 
 5. Check that the operator is deployed to the cluster using the following commands.
+
     ```shell
     kubectl get pods -n azureoperator-system
     ```
@@ -85,4 +87,3 @@
     ```shell
     kubectl logs <podname> -c manager -n azureoperator-system
     ```
-
