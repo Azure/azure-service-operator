@@ -15,9 +15,10 @@ type ResourceClient interface {
 	CreateOrUpdateSQLServer(properties SQLServerProperties) (result sql.Server, err error)
 	CreateOrUpdateSQLFirewallRule(ruleName string, startIP string, endIP string) (result bool, err error)
 	CreateOrUpdateDB(properties SQLDatabaseProperties) (result sql.Database, err error)
+	GetServer() (result sql.Server, err error)
+	GetDB(databaseName string) (sql.Database, error)
+	GetSQLFirewallRule(ruleName string) (result sql.FirewallRule, err error)
 	DeleteDB(databaseName string) (result autorest.Response, err error)
 	DeleteSQLServer() (result autorest.Response, err error)
 	DeleteSQLFirewallRule(ruleName string) (err error)
-	GetServer() (result sql.Server, err error)
-	IsAsyncNotCompleted(err error) (result bool)
 }
