@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-var typeOfService = "Microsoft.Sql/servers"
+const typeOfService = "Microsoft.Sql/servers"
 
 // getGoServersClient retrieves a ServersClient
 func getGoServersClient() sql.ServersClient {
