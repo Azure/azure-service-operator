@@ -3,5 +3,6 @@ kind: SqlFirewallRule
 metadata:
   name: sqlfirewallrule-sample
 spec:
-  # Add fields here
-  foo: bar
+  server:  sqlserver-sample
+  startipaddress: 1.1.1.1
+  endipaddress: 6.6.6.6
