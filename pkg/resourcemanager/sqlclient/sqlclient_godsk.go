@@ -16,6 +16,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
+var typeOfService = "Microsoft.Sql/servers"
+
 // getGoServersClient retrieves a ServersClient
 func getGoServersClient() sql.ServersClient {
 	serversClient := sql.NewServersClient(config.SubscriptionID())
@@ -247,7 +249,6 @@ func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
 // CheckNameAvailability determines whether a SQL resource can be created with the specified name
 func (sdk GoSDKClient) CheckNameAvailability() (result AvailabilityResponse, err error) {
 	serversClient := getGoServersClient()
-	typeOfService := "Microsoft.Sql/servers"
 
 	response, err := serversClient.CheckNameAvailability(
 		sdk.Ctx,
