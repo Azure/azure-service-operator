@@ -424,6 +424,8 @@ spec:
               type: boolean
             state:
               type: string
+            message:
+              type: string
           type: object
       type: object
   versions:
