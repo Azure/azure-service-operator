@@ -180,6 +180,12 @@ The ginkgo runner makes it simple to test single test cases, or packages in isol
 
 See [https://onsi.github.io/ginkgo/#focused-specs]() for more details.
 
+
+### Help
+
+1. If the secret for the Eventhub in k8s gets deleted accidentally, the reconcile for the parent eventhub is triggered and secret gets created again.
+2. If EventhubNamespace and Eventhub are deleted in Azure, then we need to delete the objects in k8s for the resources to be recreated. Reason being, if we apply the same manifest k8s does it recognise it as a change and the reconcile is not triggered. 
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
