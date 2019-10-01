@@ -168,6 +168,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	//instance.Status.Provisioning = true
 	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
+			instance.Status.Message = "Unable to Provision or Update Instance"
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
 			return errhelp.NewAzureError(err)
 		}
@@ -188,6 +189,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	instance.Status.Provisioning = true
+	instance.Status.Message = "Successfully Submitted to Azure"
 
 	// write information back to instance
 	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
@@ -236,6 +238,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 		}
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+		instance.Status.Message = "Unable to add firewall rule to SQL server"
 	}
 
 	// write information back to instance
@@ -262,8 +265,13 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 
 	_, err := sdkClient.DeleteSQLServer()
 	if err != nil {
+		instance.Status.Message = "Couldn't delete resource in Azure"
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
 		return errhelp.NewAzureError(err)
+	}
+
+	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
 	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
