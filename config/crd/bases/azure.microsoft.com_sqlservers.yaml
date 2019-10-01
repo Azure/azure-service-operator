@@ -415,6 +415,8 @@ spec:
         status:
           description: SqlServerStatus defines the observed state of SqlServer
           properties:
+            message:
+              type: string
             provisioned:
               type: boolean
             provisioning:
@@ -423,8 +425,6 @@ spec:
                 this file'
               type: boolean
             state:
-              type: string
-            message:
               type: string
           type: object
       type: object
