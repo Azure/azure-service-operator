@@ -112,7 +112,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, err
 	}
 	if !availableResp.Available {
-		log.Info("Servername is invalid")
+		log.Info("Servername is invalid or not available")
 		r.Recorder.Event(&instance, "Warning", "Failed", "Servername is invalid")
 		return ctrl.Result{Requeue: false}, fmt.Errorf("Servername invalid %s", availableResp.Name)
 	}
