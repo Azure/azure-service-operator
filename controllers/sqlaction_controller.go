@@ -93,7 +93,6 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !instance.IsSubmitted() {
-		r.Log.Info("Info", "Debugging", "Entering IsSubmitted block in Reconcile")
 		if err := r.reconcileExternal(&instance); err != nil {
 			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 				log.Info("Requeuing as the async operation is not complete")
@@ -103,7 +102,6 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				}, nil
 			} else if errhelp.IsResourceNotFound(err) {
 				log.Info("Not requeueing as a specified resource was not found")
-				instance.Status.Provisioning = false
 				instance.Status.Message = "Resource not found error"
 				// write information back to instance
 				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
@@ -138,15 +136,12 @@ func (r *SqlActionReconciler) addFinalizer(instance *azurev1.SqlAction) error {
 
 func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) error {
 	ctx := context.Background()
-	// name := instance.ObjectMeta.Name		// Declared but not used?
 	serverName := instance.Spec.ServerName
 	groupName := instance.Spec.ResourceGroup
 	namespace := instance.Namespace
 
-	// Debugging
-	r.Log.Info("Info", "Info", "Entering reconcileExternal")
-
-	// TODO: Bug: SqlAction will runa again on actions that weren't completed due to error
+	instance.Status.Provisioning = true
+	instance.Status.Provisioned = false
 	instance.Status.Message = "SqlAction in progress"
 	// write information back to instance
 	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
@@ -178,8 +173,7 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 		}
 
 		// Generate a new password
-		newPassword, _ := RollCreds(16)                 // TODO: Get rid of the hard-coding here
-		r.Log.Info("Info", "New password", newPassword) // Debugging
+		newPassword, _ := generateRandomPassword(16) // TODO: Get rid of the hard-coding here
 		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
 		if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
@@ -239,13 +233,4 @@ func (r *SqlActionReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.SqlAction{}).
 		Complete(r)
-}
-
-func RollCreds(length int) (string, error) {
-	// logic to generate new password and return it
-	newPassword, err := generateRandomPassword(length)
-	if err != nil {
-		return "", err
-	}
-	return newPassword, nil
 }
