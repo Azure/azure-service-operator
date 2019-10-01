@@ -280,16 +280,23 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) (*
 	randomUsername, usernameErr := generateRandomUsername(usernameLength)
 	randomPassword, passwordErr := generateRandomPassword(passwordLength)
 
+	// TODO: Move these constants to a central location
+	usernameSuffix := "@" + name
+	servernameSuffix := ".database.windows.net"
+	fullyQualifiedAdminUsername := randomUsername + usernameSuffix // "<username>@<sqlservername>""
+	fullyQualifiedServername := name + servernameSuffix            // "<sqlservername>.database.windows.net"
+
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
 			Namespace: instance.Namespace,
 		},
 		Data: map[string][]byte{
-			"username": []byte(randomUsername),
-			"password": []byte(randomPassword),
-			//"sqlservernamespace": []byte(instance.Namespace),
-			"sqlservername": []byte(name),
+			"username":                 []byte(randomUsername),
+			"fullyqualifiedusername":   []byte(fullyQualifiedAdminUsername),
+			"password":                 []byte(randomPassword),
+			"sqlservername":            []byte(name),
+			"fullyqualifiedservername": []byte(fullyQualifiedServername),
 		},
 		Type: "Opaque",
 	}
