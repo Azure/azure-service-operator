@@ -17,8 +17,8 @@ package controllers
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"math/rand"
 	"strings"
 	"time"
 
@@ -27,6 +27,7 @@ import (
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+	"github.com/sethvargo/go-password/password"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -160,7 +161,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	// Check to see if secret already exists for admin username/password
-	secret := r.GetOrPrepareSecret(instance)
+	secret, _ := r.GetOrPrepareSecret(instance)
 	sqlServerProperties := sql.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr(string(secret.Data["username"])),
 		AdministratorLoginPassword: to.StringPtr(string(secret.Data["password"])),
@@ -270,11 +271,14 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 	return nil
 }
 
-func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) *v1.Secret {
+func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) (*v1.Secret, error) {
 	name := instance.ObjectMeta.Name
 
 	const usernameLength = 8
 	const passwordLength = 16
+
+	randomUsername, usernameErr := generateRandomUsername(usernameLength)
+	randomPassword, passwordErr := generateRandomPassword(passwordLength)
 
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
@@ -282,12 +286,20 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) *v
 			Namespace: instance.Namespace,
 		},
 		Data: map[string][]byte{
-			"username":           []byte(generateRandomString(usernameLength)),
-			"password":           []byte(generateRandomString(passwordLength)),
-			"sqlservernamespace": []byte(instance.Namespace),
-			"sqlservername":      []byte(name),
+			"username": []byte(randomUsername),
+			"password": []byte(randomPassword),
+			//"sqlservernamespace": []byte(instance.Namespace),
+			"sqlservername": []byte(name),
 		},
 		Type: "Opaque",
+	}
+
+	if usernameErr != nil {
+		return secret, usernameErr
+	}
+
+	if passwordErr != nil {
+		return secret, passwordErr
 	}
 
 	// TODO: Add logic to validate username and password before sending CreateOrUpdate server request to Azure
@@ -296,19 +308,43 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) *v
 		r.Log.Info("secret already exists, pulling creds now")
 	}
 
-	return secret
+	return secret, nil
 }
 
-// helper function to generate username/password for secrets
-func generateRandomString(n int) string {
-	rand.Seed(time.Now().UnixNano())
-
-	const characterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()_+-=<>"
-
-	b := make([]byte, n)
-	for i := range b {
-		b[i] = characterBytes[rand.Intn(len(characterBytes))]
+// helper function to generate random username for sql server
+func generateRandomUsername(n int) (string, error) {
+	if n < 8 || n > 63 {
+		return "", errors.New("Username length should be between 8 and 63 characters.")
 	}
 
-	return string(b)
+	// Generate a password that is n characters long, with n/2 digits and 0 symbols (not allowed),
+	// allowing only lower case letters (upper case not allowed), and disallowing repeat characters.
+	res, err := password.Generate(n, (n / 2), 0, true, false)
+	if err != nil {
+		return "", err
+	}
+
+	return res, nil
+}
+
+// helper function to generate random password for sql server
+func generateRandomPassword(n int) (string, error) {
+	if n < 8 || n > 128 {
+		return "", errors.New("Password length must be between 8 and 128 characters.")
+	}
+
+	// Math - Generate a password where: 1/3 of the # of chars are digits,
+	//									 1/3 of the # of chars are symbols, and
+	//									 the remaining 1/3 is a mix of upper- and lower-case letters
+	digits := n / 3
+	symbols := n / 3
+
+	// Generate a password that is n characters long, with # of digits and symbols described above,
+	// allowing upper and lower case letters, and disallowing repeat characters.
+	res, err := password.Generate(n, digits, symbols, false, false)
+	if err != nil {
+		return "", err
+	}
+
+	return res, nil
 }
