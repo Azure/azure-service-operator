@@ -81,6 +81,7 @@ ENV PATH="/usr/local/kubebuilder/bin:${PATH}"
 ENV GO111MODULE=on
 
 # Set the default shell to bash instead of sh
+ENV SHELL /bin/bash
 
 ENV AZURE_CLIENT_ID=${AZURE_CLIENT_ID}
 ENV AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
@@ -93,5 +94,3 @@ RUN make install-kind
 RUN make install-kubebuilder
 RUN make install-kustomize
 RUN make install-test-dependency
-
-ENV SHELL /bin/bash
