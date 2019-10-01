@@ -3,7 +3,6 @@ package eventhubs
 import (
 	"context"
 	"fmt"
-
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 
@@ -39,7 +38,7 @@ func DeleteHub(ctx context.Context, resourceGroupName string, namespaceName stri
 // resourceGroupName - name of the resource group within the azure subscription.
 // namespaceName - the Namespace name
 // eventHubName - the Event Hub name
-func CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, MessageRetentionInDays int32, PartitionCount int32) (eventhub.Model, error) {
+func CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, MessageRetentionInDays int32, PartitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
 	hubClient := getHubsClient()
 
 	// MessageRetentionInDays - Number of days to retain the events for this Event Hub, value should be 1 to 7 days
@@ -47,9 +46,15 @@ func CreateHub(ctx context.Context, resourceGroupName string, namespaceName stri
 		return eventhub.Model{}, fmt.Errorf("MessageRetentionInDays is invalid")
 	}
 
-	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
-	if PartitionCount < 1 || PartitionCount > 32 {
+	// PartitionCount - Number of partitions created for the Event Hub, allowed values are from 2 to 32 partitions.
+	if PartitionCount < 2 || PartitionCount > 32 {
 		return eventhub.Model{}, fmt.Errorf("PartitionCount is invalid")
+	}
+
+	properties := eventhub.Properties{
+		PartitionCount:         to.Int64Ptr(int64(PartitionCount)),
+		MessageRetentionInDays: to.Int64Ptr(int64(MessageRetentionInDays)),
+		CaptureDescription:     captureDescription,
 	}
 
 	return hubClient.CreateOrUpdate(
@@ -58,10 +63,7 @@ func CreateHub(ctx context.Context, resourceGroupName string, namespaceName stri
 		namespaceName,
 		eventHubName,
 		eventhub.Model{
-			Properties: &eventhub.Properties{
-				PartitionCount:         to.Int64Ptr(int64(PartitionCount)),
-				MessageRetentionInDays: to.Int64Ptr(int64(MessageRetentionInDays)),
-			},
+			Properties: &properties,
 		},
 	)
 }

@@ -406,15 +406,15 @@ spec:
             properties:
               description: EventhubNamespaceProperties defines the namespace properties
               properties:
-                isautoinflateenabled:
+                isAutoInflateEnabled:
                   type: boolean
-                kafkaenabled:
+                kafkaEnabled:
                   type: boolean
-                maximumthroughputunits:
+                maximumThroughputUnits:
                   format: int32
                   type: integer
               type: object
-            resourcegroup:
+            resourceGroup:
               type: string
             sku:
               description: EventhubNamespaceSku defines the sku
@@ -443,7 +443,7 @@ spec:
           type: object
       type: object
   versions:
-  - name: v1
+  - name: v1alpha1
     served: true
     storage: true
 status:

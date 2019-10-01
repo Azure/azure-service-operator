@@ -20,7 +20,7 @@ import (
 	"context"
 	"time"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
@@ -54,30 +54,30 @@ var _ = Describe("ResourceGroup Controller", func() {
 			var err error
 
 			// Create the Resourcegroup object and expect the Reconcile to be created
-			resourceGroupInstance := &azurev1.ResourceGroup{
+			resourceGroupInstance := &azurev1alpha1.ResourceGroup{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      resourceGroupName,
 					Namespace: "default",
 				},
-				Spec: azurev1.ResourceGroupSpec{
-					Location: "westus",
+				Spec: azurev1alpha1.ResourceGroupSpec{
+					Location: tc.ResourceGroupLocation,
 				},
 			}
 
-			err = k8sClient.Create(context.Background(), resourceGroupInstance)
+			err = tc.K8sClient.Create(context.Background(), resourceGroupInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
+				_ = tc.K8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.IsSubmitted()
 			}, timeout,
 			).Should(BeTrue())
 
-			k8sClient.Delete(context.Background(), resourceGroupInstance)
+			tc.K8sClient.Delete(context.Background(), resourceGroupInstance)
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
+				_ = tc.K8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.IsBeingDeleted()
 			}, timeout,
 			).Should(BeTrue())

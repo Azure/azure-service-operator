@@ -49,7 +49,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 	ctx := context.Background()
 	log := r.Log.WithValues("eventhubnamespace", req.NamespacedName)
 
-	var instance azurev1.EventhubNamespace
+	var instance azurev1alpha1.EventhubNamespace
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve eventhub namespace resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate

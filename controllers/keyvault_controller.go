@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"time"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -50,7 +50,7 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("keyvault", req.NamespacedName)
 
-	var instance azurev1.KeyVault
+	var instance azurev1alpha1.KeyVault
 
 	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
 	if err != nil {
@@ -65,7 +65,7 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete KeyVault failed with ", err.Error())
+				log.Info("Delete KeyVault failed with ", "err", err)
 				return ctrl.Result{}, err
 			}
 
@@ -102,7 +102,7 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-func (r *KeyVaultReconciler) addFinalizer(instance *azurev1.KeyVault) error {
+func (r *KeyVaultReconciler) addFinalizer(instance *azurev1alpha1.KeyVault) error {
 	helpers.AddFinalizer(instance, keyVaultFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -112,7 +112,7 @@ func (r *KeyVaultReconciler) addFinalizer(instance *azurev1.KeyVault) error {
 	return nil
 }
 
-func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error {
+func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1alpha1.KeyVault) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
@@ -150,7 +150,7 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1.KeyVault) error
 	return nil
 }
 
-func (r *KeyVaultReconciler) deleteExternal(instance *azurev1.KeyVault) error {
+func (r *KeyVaultReconciler) deleteExternal(instance *azurev1alpha1.KeyVault) error {
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
@@ -172,6 +172,6 @@ func (r *KeyVaultReconciler) deleteExternal(instance *azurev1.KeyVault) error {
 // SetupWithManager sets up the controller functions
 func (r *KeyVaultReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.KeyVault{}).
+		For(&azurev1alpha1.KeyVault{}).
 		Complete(r)
 }

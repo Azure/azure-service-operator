@@ -20,6 +20,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/go-autorest/autorest/to"
+
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -124,6 +127,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 	resourcegroup := instance.Spec.ResourceGroup
 	partitionCount := instance.Spec.Properties.PartitionCount
 	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
+	captureDescription := instance.Spec.Properties.CaptureDescription
 	secretName := instance.Spec.SecretName
 
 	if secretName == "" {
@@ -145,7 +149,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 		//set owner reference for eventhub if it exists
 		references := []metav1.OwnerReference{
 			metav1.OwnerReference{
-				APIVersion: "v1",
+				APIVersion: "v1alpha1",
 				Kind:       "EventhubNamespace",
 				Name:       ownerInstance.GetName(),
 				UID:        ownerInstance.GetUID(),
@@ -160,7 +164,9 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount)
+	capturePtr := getCaptureDescriptionPtr(captureDescription)
+
+	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -195,6 +201,35 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 	return nil
 }
 
+const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
+
+func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescription) *model.CaptureDescription {
+	// add capture details
+	var capturePtr *model.CaptureDescription
+
+	storage := captureDescription.Destination.StorageAccount
+	storageAccountResourceId := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+
+	if captureDescription.Enabled {
+		capturePtr = &model.CaptureDescription{
+			Enabled:           to.BoolPtr(true),
+			Encoding:          model.Avro,
+			IntervalInSeconds: &captureDescription.IntervalInSeconds,
+			SizeLimitInBytes:  &captureDescription.SizeLimitInBytes,
+			Destination: &model.Destination{
+				Name: &captureDescription.Destination.Name,
+				DestinationProperties: &model.DestinationProperties{
+					StorageAccountResourceID: &storageAccountResourceId,
+					BlobContainer:            &captureDescription.Destination.BlobContainer,
+					ArchiveNameFormat:        &captureDescription.Destination.ArchiveNameFormat,
+				},
+			},
+			SkipEmptyArchives: to.BoolPtr(true),
+		}
+	}
+	return capturePtr
+}
+
 func (r *EventhubReconciler) deleteEventhub(instance *azurev1alpha1.Eventhub) error {
 
 	ctx := context.Background()
@@ -212,7 +247,7 @@ func (r *EventhubReconciler) deleteEventhub(instance *azurev1alpha1.Eventhub) er
 	return nil
 }
 
-func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup string, eventhubNamespace string, eventhubName string, instance *azurev1.Eventhub) error {
+func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup string, eventhubNamespace string, eventhubName string, instance *azurev1alpha1.Eventhub) error {
 
 	var err error
 	ctx := context.Background()
@@ -236,7 +271,7 @@ func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup st
 	return nil
 }
 
-func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1.Eventhub) error {
+func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1alpha1.Eventhub) error {
 
 	var err error
 	var result model.AccessKeys

@@ -32,7 +32,7 @@ var _ = Describe("Namespace", func() {
 	var rgName string
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		rgName = resourceGroupName
+		rgName = tc.ResourceGroupName
 	})
 
 	AfterEach(func() {
@@ -48,7 +48,7 @@ var _ = Describe("Namespace", func() {
 		It("should create and delete namespace in azure", func() {
 
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
-			namespaceLocation := "westus"
+			namespaceLocation := tc.ResourcegroupLocation
 
 			var err error
 
@@ -66,7 +66,7 @@ var _ = Describe("Namespace", func() {
 
 			Eventually(func() bool {
 				result, _ := GetNamespace(context.Background(), rgName, eventhubNamespaceName)
-				return result.Response.StatusCode == 404
+				return result.Response.StatusCode == 404 || *result.ProvisioningState == "Deleting"
 			}, timeout,
 			).Should(BeTrue())
 
