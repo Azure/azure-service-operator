@@ -1,4 +1,4 @@
-package v1
+package v1alpha1
 
 import (
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"

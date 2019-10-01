@@ -1,4 +1,4 @@
-package v1
+package v1alpha1
 
 import (
 	eventhubsmanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"

@@ -3,17 +3,17 @@ domain: microsoft.com
 repo: github.com/Azure/azure-service-operator
 resources:
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: Eventhub
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: ResourceGroup
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: EventhubNamespace
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: KeyVault
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: ConsumerGroup

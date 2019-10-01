@@ -17,12 +17,13 @@ package controllers
 
 import (
 	"context"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"os"
 	"path/filepath"
 	"testing"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	eventhubs "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
@@ -89,16 +90,16 @@ var _ = BeforeSuite(func(done Done) {
 	Expect(err).ToNot(HaveOccurred())
 	Expect(cfg).ToNot(BeNil())
 
-	err = azurev1.AddToScheme(scheme.Scheme)
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	err = azurev1.AddToScheme(scheme.Scheme)
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	err = azurev1.AddToScheme(scheme.Scheme)
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	err = azurev1.AddToScheme(scheme.Scheme)
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	// +kubebuilder:scaffold:scheme

@@ -18,7 +18,7 @@ package controllers
 import (
 	"context"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
 	"time"
@@ -59,12 +59,12 @@ var _ = Describe("EventHub Controller", func() {
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &azurev1.Eventhub{
+			eventhubInstance := &azurev1alpha1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubSpec{
+				Spec: azurev1alpha1.EventhubSpec{
 					Location:      "westus",
 					Namespace:     "t-ns-dev-eh-" + helpers.RandomString(10),
 					ResourceGroup: "t-rg-dev-eh-" + helpers.RandomString(10),
@@ -93,20 +93,20 @@ var _ = Describe("EventHub Controller", func() {
 			var err error
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &azurev1.Eventhub{
+			eventhubInstance := &azurev1alpha1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubSpec{
+				Spec: azurev1alpha1.EventhubSpec{
 					Location:      "westus",
 					Namespace:     ehnName,
 					ResourceGroup: rgName,
-					Properties: azurev1.EventhubProperties{
+					Properties: azurev1alpha1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         1,
 					},
-					AuthorizationRule: azurev1.EventhubAuthorizationRule{
+					AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
 						Name:   "RootManageSharedAccessKey",
 						Rights: []string{"Listen"},
 					},
@@ -180,20 +180,20 @@ var _ = Describe("EventHub Controller", func() {
 			var err error
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &azurev1.Eventhub{
+			eventhubInstance := &azurev1alpha1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubSpec{
+				Spec: azurev1alpha1.EventhubSpec{
 					Location:      "westus",
 					Namespace:     ehnName,
 					ResourceGroup: rgName,
-					Properties: azurev1.EventhubProperties{
+					Properties: azurev1alpha1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         1,
 					},
-					AuthorizationRule: azurev1.EventhubAuthorizationRule{
+					AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
 						Name:   "RootManageSharedAccessKey",
 						Rights: []string{"Listen"},
 					},

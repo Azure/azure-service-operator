@@ -19,7 +19,7 @@ import (
 	"flag"
 	"os"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/controllers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
@@ -38,9 +38,9 @@ var (
 
 func init() {
 
-	azurev1.AddToScheme(scheme)
+	azurev1alpha1.AddToScheme(scheme)
 	kscheme.AddToScheme(scheme)
-	_ = azurev1.AddToScheme(scheme)
+	_ = azurev1alpha1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
