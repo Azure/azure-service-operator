@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1
+package v1alpha1
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -27,10 +27,10 @@ import (
 // These tests are written in BDD-style using Ginkgo framework. Refer to
 // http://onsi.github.io/ginkgo to learn more.
 
-var _ = Describe("ResourceGroup", func() {
+var _ = Describe("EventhubNamespace", func() {
 	var (
 		key              types.NamespacedName
-		created, fetched *ResourceGroup
+		created, fetched *EventhubNamespace
 	)
 
 	BeforeEach(func() {
@@ -53,19 +53,20 @@ var _ = Describe("ResourceGroup", func() {
 				Name:      "foo",
 				Namespace: "default",
 			}
-			created = &ResourceGroup{
+			created = &EventhubNamespace{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "foo",
 					Namespace: "default",
 				},
-				Spec: ResourceGroupSpec{
-					Location: resourcegroupLocation,
+				Spec: EventhubNamespaceSpec{
+					Location:      resourcegroupLocation,
+					ResourceGroup: "bar",
 				}}
 
 			By("creating an API obj")
 			Expect(k8sClient.Create(context.TODO(), created)).To(Succeed())
 
-			fetched = &ResourceGroup{}
+			fetched = &EventhubNamespace{}
 			Expect(k8sClient.Get(context.TODO(), key, fetched)).To(Succeed())
 			Expect(fetched).To(Equal(created))
 

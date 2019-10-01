@@ -58,7 +58,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
 			// Create the EventHubNamespace object and expect the Reconcile to be created
-			eventhubNamespaceInstance := &azurev1.EventhubNamespace{
+			eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
@@ -88,7 +88,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			var err error
 
 			// Create the Eventhub namespace object and expect the Reconcile to be created
-			eventhubNamespaceInstance := &azurev1.EventhubNamespace{
+			eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",

@@ -20,7 +20,7 @@ import (
 	"context"
 	"fmt"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
 const consumerGroupFinalizerName = "consumergroup.finalizers.com"

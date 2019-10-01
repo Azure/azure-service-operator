@@ -15,16 +15,16 @@ resources:
   version: v1
   kind: Eventhub
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: ResourceGroup
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: EventhubNamespace
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: KeyVault
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: ConsumerGroup
 - group: azure
   version: v1

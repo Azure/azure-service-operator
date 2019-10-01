@@ -28,10 +28,11 @@ import (
 	"k8s.io/client-go/rest"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	"k8s.io/client-go/rest"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -150,7 +151,7 @@ var _ = BeforeSuite(func() {
 
 	Expect(cfg).ToNot(BeNil())
 
-	err = azurev1.AddToScheme(scheme.Scheme)
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	var k8sManager ctrl.Manager
