@@ -10,7 +10,12 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Configure apt, install packages and tools
 RUN apt-get update \
+    # 
+    # Install recommended utils
     && apt-get -y install --no-install-recommends apt-utils 2>&1 \
+    #
+    # Install sudo
+    && apt-get -y install sudo \
     #
     # Verify git, process tools, lsb-release (common in install instructions for CLIs) installed
     && apt-get -y install git procps lsb-release \
@@ -76,6 +81,7 @@ ENV PATH="/usr/local/kubebuilder/bin:${PATH}"
 ENV GO111MODULE=on
 
 # Set the default shell to bash instead of sh
+
 ENV AZURE_CLIENT_ID=""
 ENV AZURE_CLIENT_SECRET=""
 ENV AZURE_SUBSCRIPTION_ID=""
