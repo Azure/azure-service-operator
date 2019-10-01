@@ -33,7 +33,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/go-autorest/autorest/to"
 	v1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -94,6 +93,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !instance.IsSubmitted() {
+		r.Log.Info("Info", "Debugging", "Entering IsSubmitted block in Reconcile")
 		if err := r.reconcileExternal(&instance); err != nil {
 			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 				log.Info("Requeuing as the async operation is not complete")
@@ -103,6 +103,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				}, nil
 			} else if errhelp.IsResourceNotFound(err) {
 				log.Info("Not requeueing as a specified resource was not found")
+				instance.Status.Provisioning = false
 				instance.Status.Message = "Resource not found error"
 				// write information back to instance
 				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
@@ -127,114 +128,106 @@ func (r *SqlActionReconciler) addFinalizer(instance *azurev1.SqlAction) error {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
 	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", sqlActionFinalizerName))
+	instance.Status.Provisioning = true
+	instance.Status.Provisioned = false
+	instance.Status.Message = "Finalizer added"
+	// write information back to instance
+	if updateerr := r.Status().Update(context.Background(), instance); updateerr != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+	}
 	return nil
 }
 
 func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) error {
 	ctx := context.Background()
-	name := instance.ObjectMeta.Name
+	// name := instance.ObjectMeta.Name		// Declared but not used?
 	serverName := instance.Spec.ServerName
 	groupName := instance.Spec.ResourceGroup
 	namespace := instance.Namespace
 
-	if instance.Status.Provisioned != true {
+	// Debugging
+	r.Log.Info("Info", "Info", "Entering reconcileExternal")
 
-		instance.Status.Provisioning = true
-		instance.Status.Message = "SqlAction in progress"
+	// TODO: Bug: SqlAction will runa again on actions that weren't completed due to error
+	instance.Status.Message = "SqlAction in progress"
+	// write information back to instance
+	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+	}
+
+	sdkClient := sql.GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: groupName,
+		ServerName:        serverName,
+	}
+
+	// Get the Sql Server instance that corresponds to the Server name in the spec for this action
+	server, err := sdkClient.GetServer()
+	if err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get instance of SqlServer")
+		r.Log.Info("Error", "Sql Server instance not found", err)
+		instance.Status.Message = "Sql Server instance not found"
+		return err
+	}
+
+	sdkClient.Location = *server.Location
+
+	// rollcreds action
+	if instance.Spec.ActionName == "rollcreds" {
+		sqlServerProperties := sql.SQLServerProperties{
+			AdministratorLogin:         server.ServerProperties.AdministratorLogin,
+			AdministratorLoginPassword: server.ServerProperties.AdministratorLoginPassword,
+		}
+
+		// Generate a new password
+		newPassword, _ := RollCreds(16)                 // TODO: Get rid of the hard-coding here
+		r.Log.Info("Info", "New password", newPassword) // Debugging
+		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
+
+		if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
+			if !strings.Contains(err.Error(), "not complete") {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
+				return errhelp.NewAzureError(err)
+			}
+		} else {
+			r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully submitted to Azure")
+		}
+
+		// Update the k8s secret
+		secret := &v1.Secret{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      serverName,
+				Namespace: namespace,
+			},
+			Type: "Opaque",
+		}
+
+		_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
+			r.Log.Info("mutating secret bundle")
+			secret.Data["password"] = []byte(*sqlServerProperties.AdministratorLoginPassword)
+			return nil
+		})
+		if createOrUpdateSecretErr != nil {
+			r.Log.Info("Error", "CreateOrUpdateSecretErr", createOrUpdateSecretErr)
+			return createOrUpdateSecretErr
+		}
+
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = true
+		instance.Status.Message = "SqlAction completed successfully."
 
 		// write information back to instance
 		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
 
-		sdkClient := sql.GoSDKClient{
-			Ctx:               ctx,
-			ResourceGroupName: groupName,
-			ServerName:        serverName,
+		// write information back to instance
+		if updateerr := r.Update(ctx, instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
-
-		sqlActionNamespacedName := types.NamespacedName{Name: name, Namespace: namespace}
-		if err := r.Get(ctx, sqlActionNamespacedName, instance); err != nil {
-			r.Log.Info("Unable to retrieve SqlAction resource", "err", err.Error())
-			// we'll ignore not-found errors, since they can't be fixed by an immediate
-			// requeue (we'll need to wait for a new notification), and we can get them
-			// on deleted requests.
-			return (err)
-		}
-
-		// Get the Sql Server instance that corresponds to the Server name in the spec for this action
-		server, err := sdkClient.GetServer()
-		if err != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to get instance of SqlServer")
-			r.Log.Info("Error", "Sql Server instance not found", err)
-			instance.Status.Message = "Sql Server instance not found"
-			return err
-		}
-
-		sdkClient.Location = *server.Location
-
-		// rollcreds action
-		if instance.Spec.ActionName == "rollcreds" {
-			sqlServerProperties := sql.SQLServerProperties{
-				AdministratorLogin:         server.ServerProperties.AdministratorLogin,
-				AdministratorLoginPassword: server.ServerProperties.AdministratorLoginPassword,
-			}
-
-			// Generate a new password
-			sqlServerProperties.AdministratorLoginPassword = to.StringPtr(RollCreds(16))
-
-			if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
-				if !strings.Contains(err.Error(), "not complete") {
-					r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
-					return errhelp.NewAzureError(err)
-				}
-			} else {
-				r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully submitted to Azure")
-			}
-
-			// Update the k8s secret
-			// TODO: Question: Do we need to define the entire secret as below to send the CreateOrUpdate request?
-			secret := &v1.Secret{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      serverName,
-					Namespace: namespace,
-				},
-				Data: map[string][]byte{
-					"username":           []byte(*sqlServerProperties.AdministratorLogin),
-					"password":           []byte(*sqlServerProperties.AdministratorLoginPassword),
-					"sqlservernamespace": []byte(instance.Namespace),
-					"sqlservername":      []byte(name),
-				},
-				Type: "Opaque",
-			}
-
-			_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
-				r.Log.Info("mutating secret bundle")
-				secret.Data["password"] = []byte(*sqlServerProperties.AdministratorLoginPassword)
-				return nil
-			})
-			if createOrUpdateSecretErr != nil {
-				r.Log.Info("Error", "CreateOrUpdateSecretErr", createOrUpdateSecretErr)
-				return createOrUpdateSecretErr
-			}
-
-			instance.Status.Provisioning = false
-			instance.Status.Provisioned = true
-			instance.Status.Message = "SqlAction completed successfully."
-
-			// write information back to instance
-			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
-			}
-
-			// write information back to instance
-			if updateerr := r.Update(ctx, instance); updateerr != nil {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
-			}
-		}
-
-		// Add implementations for other SqlActions here (instance.Spec.ActionName)
 	}
+
+	// Add implementations for other SqlActions here (instance.Spec.ActionName)
 
 	return nil
 }
@@ -250,8 +243,11 @@ func (r *SqlActionReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func RollCreds(length int) string {
+func RollCreds(length int) (string, error) {
 	// logic to generate new password and return it
-	newPassword := generateRandomString(length)
-	return newPassword
+	newPassword, err := generateRandomPassword(length)
+	if err != nil {
+		return "", err
+	}
+	return newPassword, nil
 }
