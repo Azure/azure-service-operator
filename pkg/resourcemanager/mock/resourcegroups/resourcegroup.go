@@ -19,6 +19,8 @@ package resourcegroups
 import (
 	"context"
 	"errors"
+	"net/http"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
@@ -60,12 +62,12 @@ func (manager *MockResourceGroupManager) DeleteGroup(ctx context.Context, groupN
 	})
 
 	if index == -1 {
-		return helpers.GetRestResponse(404), errors.New("resource group not found")
+		return helpers.GetRestResponse(http.StatusNotFound), errors.New("resource group not found")
 	}
 
 	manager.resourceGroups = append(groups[:index], groups[index+1:]...)
 
-	return helpers.GetRestResponse(200), nil
+	return helpers.GetRestResponse(http.StatusOK), nil
 }
 
 func (manager *MockResourceGroupManager) DeleteGroupAsync(ctx context.Context, groupName string) (resources.GroupsDeleteFuture, error) {
@@ -81,8 +83,8 @@ func (manager *MockResourceGroupManager) CheckExistence(ctx context.Context, gro
 	})
 
 	if index == -1 {
-		return helpers.GetRestResponse(404), errors.New("resource group not found")
+		return helpers.GetRestResponse(http.StatusNotFound), errors.New("resource group not found")
 	}
 
-	return helpers.GetRestResponse(204), nil
+	return helpers.GetRestResponse(http.StatusNoContent), nil
 }

@@ -19,6 +19,8 @@ package storages
 import (
 	"context"
 	"errors"
+	"net/http"
+
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
@@ -96,10 +98,10 @@ func (manager *mockBlobContainerManager) DeleteBlobContainer(ctx context.Context
 	})
 
 	if index == -1 {
-		return helpers.GetRestResponse(404), errors.New("blob container not found")
+		return helpers.GetRestResponse(http.StatusNotFound), errors.New("blob container not found")
 	}
 
 	manager.blobContainerResource = append(containers[:index], containers[index+1:]...)
 
-	return helpers.GetRestResponse(200), nil
+	return helpers.GetRestResponse(http.StatusOK), nil
 }
