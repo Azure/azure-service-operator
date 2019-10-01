@@ -111,7 +111,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		log.Info("error validating name")
 		return ctrl.Result{}, err
 	}
-	if strings.Contains(availableResp.Message, "unsupported characters") {
+	if !availableResp.Available {
 		log.Info("Servername is invalid")
 		r.Recorder.Event(&instance, "Warning", "Failed", "Servername is invalid")
 		return ctrl.Result{Requeue: false}, fmt.Errorf("Servername invalid %s", availableResp.Name)
