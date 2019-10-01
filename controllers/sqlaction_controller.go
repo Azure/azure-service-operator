@@ -128,8 +128,6 @@ func (r *SqlActionReconciler) addFinalizer(instance *azurev1.SqlAction) error {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
 	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", sqlActionFinalizerName))
-	instance.Status.Provisioning = true
-	instance.Status.Provisioned = false
 	instance.Status.Message = "Finalizer added"
 	// write information back to instance
 	if updateerr := r.Status().Update(context.Background(), instance); updateerr != nil {
