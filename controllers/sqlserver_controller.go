@@ -172,7 +172,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 			return errhelp.NewAzureError(err)
 		}
 	} else {
-		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully dubmitted to Azure")
+		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully submitted to Azure")
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
