@@ -3,6 +3,7 @@ kind: SqlDatabase
 metadata:
   name:  sqldatabase-sample
 spec:
-  server: sqlserver-sample1000
   location: westus
+  resourcegroup: resourcegroup-azure-operators
+  server: sqlserver-sample1000
   edition: 0

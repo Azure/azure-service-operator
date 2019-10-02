@@ -120,6 +120,7 @@ func (r *SqlDatabaseReconciler) SetupWithManager(mgr ctrl.Manager) error {
 func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDatabase) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
+	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	dbEdition := instance.Spec.Edition
 
@@ -130,6 +131,13 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDat
 		Edition:      dbEdition,
 	}
 
+	sdkClient := sql.GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: groupName,
+		ServerName:        server,
+		Location:          location,
+	}
+
 	r.Log.Info("Calling createorupdate SQL database")
 
 	// get owner instance of SqlServer
@@ -137,19 +145,6 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDat
 	var ownerInstance azurev1alpha1.SqlServer
 	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
 	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
-	if err != nil {
-		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of SqlServer when setting database parent")
-		return err
-	}
-
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: ownerInstance.Spec.ResourceGroup,
-		ServerName:        server,
-		Location:          location,
-	}
-
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of SqlServer")
@@ -197,20 +192,10 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDat
 
 func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.SqlDatabase) error {
 	ctx := context.Background()
-	dbname := instance.ObjectMeta.Name
-	server := instance.Spec.Server
+	groupName := instance.Spec.ResourceGroup
 	location := instance.Spec.Location
-
-	//get owner instance of SqlServer
-	var ownerInstance azurev1alpha1.SqlServer
-	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
-	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
-	if err != nil {
-		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "DoesNotExist", "Unable to get owner instance of SqlServer when deleting the database (OK)")
-		return nil
-	}
-	groupName := ownerInstance.Spec.ResourceGroup
+	server := instance.Spec.Server
+	dbname := instance.ObjectMeta.Name
 
 	// create the Go SDK client with relevant info
 	sdk := sql.GoSDKClient{
@@ -221,7 +206,7 @@ func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.SqlDataba
 	}
 
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/database/%s"+groupName, server, dbname))
-	_, err = sdk.DeleteDB(dbname)
+	_, err := sdk.DeleteDB(dbname)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
