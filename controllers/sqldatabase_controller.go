@@ -123,7 +123,6 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDat
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	dbEdition := instance.Spec.Edition
-
 	dbName := instance.ObjectMeta.Name
 
 	sqlDatabaseProperties := sql.SQLDatabaseProperties{
@@ -192,8 +191,8 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDat
 
 func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.SqlDatabase) error {
 	ctx := context.Background()
-	groupName := instance.Spec.ResourceGroup
 	location := instance.Spec.Location
+	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	dbname := instance.ObjectMeta.Name
 
