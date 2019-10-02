@@ -123,17 +123,6 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (sql.D
 		})
 }
 
-// GetServer returns a SQL server
-func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
-	serversClient := getGoServersClient()
-
-	return serversClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-	)
-}
-
 // GetDB retrieves a database
 func (sdk GoSDKClient) GetDB(databaseName string) (sql.Database, error) {
 	dbClient := getGoDbClient()
