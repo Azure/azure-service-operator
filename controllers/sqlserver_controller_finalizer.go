@@ -28,10 +28,10 @@ const SQLServerFinalizerName = "sqlserver.finalizers.azure.com"
 
 func (r *SqlServerReconciler) addFinalizer(instance *azurev1.SqlServer) error {
 	helpers.AddFinalizer(instance, SQLServerFinalizerName)
-	err := r.Update(context.Background(), instance)
-	if err != nil {
-		return fmt.Errorf("failed to update finalizer: %v", err)
+	if updateerr := r.Status().Update(context.Background(), instance); updateerr != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Failed to update finalizer")
 	}
+	instance.Status.Message = "Finalizer successfully added"
 	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLServerFinalizerName))
 	return nil
 }
