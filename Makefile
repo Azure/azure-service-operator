@@ -14,12 +14,36 @@ CRD_OPTIONS ?= "crd:trivialVersions=true"
 
 all: manager
 
+# Generate test certs for development
+generate-test-certs:
+	echo "[req]" > config.txt
+	echo "distinguished_name = req_distinguished_name" >> config.txt
+	echo "[req_distinguished_name]" >> config.txt
+	echo "[SAN]" >> config.txt
+	echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> config.txt
+	openssl req -x509 -days 730 -out tls.crt -keyout tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config config.txt -nodes
+	rm -rf /tmp/k8s-webhook-server
+	mkdir -p /tmp/k8s-webhook-server/serving-certs
+	mv tls.* /tmp/k8s-webhook-server/serving-certs/
+
 # Run API unittests
 api-test: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/...  2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 
+# Generate test certs for development
+generate-test-certs:
+	echo "[req]" > config.txt
+	echo "distinguished_name = req_distinguished_name" >> config.txt
+	echo "[req_distinguished_name]" >> config.txt
+	echo "[SAN]" >> config.txt
+	echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> config.txt
+	openssl req -x509 -days 730 -out tls.crt -keyout tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config config.txt -nodes
+	rm -rf /tmp/k8s-webhook-server
+	mkdir -p /tmp/k8s-webhook-server/serving-certs
+	mv tls.* /tmp/k8s-webhook-server/serving-certs/
+	
 # Run tests
 test: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
