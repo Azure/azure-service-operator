@@ -97,6 +97,27 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
+	// Re-create secret if server is provisioned but secret doesn't exist
+	if instance.IsProvisioned() {
+		name := instance.ObjectMeta.Name
+
+		secret := &v1.Secret{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      name,
+				Namespace: instance.Namespace,
+			},
+			Type: "Opaque",
+		}
+
+		if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err != nil {
+			r.Log.Info("Error", "ReconcileSecret", "Server exists but secret does not, recreating now")
+
+			// Add admin credentials to "data" block in secret
+
+			// CreateOrUpdate secret
+		}
+	}
+
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation")
 		// TODO: Add error handling for cases where username or password are invalid:
