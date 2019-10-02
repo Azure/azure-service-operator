@@ -18,7 +18,7 @@ package storages
 
 import (
 	"context"
-	apiv1 "github.com/Azure/azure-service-operator/api/v1"
+	apiv1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	. "github.com/onsi/ginkgo"
