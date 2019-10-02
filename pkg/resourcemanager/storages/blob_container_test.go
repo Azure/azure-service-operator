@@ -18,12 +18,14 @@ package storages
 
 import (
 	"context"
+	"net/http"
+	"time"
+
 	apiv1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"time"
 )
 
 var _ = Describe("Blob Container", func() {
@@ -62,7 +64,7 @@ var _ = Describe("Blob Container", func() {
 
 			Eventually(func() bool {
 				result, _ := tc.StorageManagers.BlobContainer.GetBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
-				return result.Response.StatusCode == 200
+				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
 
@@ -71,7 +73,7 @@ var _ = Describe("Blob Container", func() {
 
 			Eventually(func() bool {
 				result, _ := tc.StorageManagers.BlobContainer.GetBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
-				return result.Response.StatusCode == 404
+				return result.Response.StatusCode == http.StatusNotFound
 			}, timeout,
 			).Should(BeTrue())
 

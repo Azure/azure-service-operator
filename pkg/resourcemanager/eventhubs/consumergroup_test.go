@@ -18,6 +18,7 @@ package eventhubs
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
@@ -71,7 +72,7 @@ var _ = Describe("ConsumerGroup", func() {
 
 			Eventually(func() bool {
 				result, _ := consumerGroupManager.GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
-				return result.Response.StatusCode == 200
+				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
 
@@ -80,7 +81,7 @@ var _ = Describe("ConsumerGroup", func() {
 
 			Eventually(func() bool {
 				result, _ := consumerGroupManager.GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
-				return result.Response.StatusCode == 404
+				return result.Response.StatusCode == http.StatusNotFound
 			}, timeout,
 			).Should(BeTrue())
 

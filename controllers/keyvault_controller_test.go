@@ -17,6 +17,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"strings"
 	"time"
 
@@ -72,7 +73,7 @@ var _ = Describe("KeyVault Controller", func() {
 			// verify key vault exists in Azure
 			Eventually(func() bool {
 				result, _ := tc.keyVaultManager.GetVault(context.Background(), tc.resourceGroupName, keyVaultInstance.Name)
-				return result.Response.StatusCode == 200
+				return result.Response.StatusCode == http.StatusOK
 			}, tc.timeout,
 			).Should(BeTrue())
 
@@ -93,7 +94,7 @@ var _ = Describe("KeyVault Controller", func() {
 			// confirm key vault is gone from Azure
 			Eventually(func() bool {
 				result, _ := tc.keyVaultManager.GetVault(context.Background(), tc.resourceGroupName, keyVaultInstance.Name)
-				return result.Response.StatusCode == 404
+				return result.Response.StatusCode == http.StatusNotFound
 			}, tc.timeout, poll,
 			).Should(BeTrue())
 		})

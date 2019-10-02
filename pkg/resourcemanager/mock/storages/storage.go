@@ -19,6 +19,8 @@ package storages
 import (
 	"context"
 	"errors"
+	"net/http"
+
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	apiv1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
@@ -103,10 +105,10 @@ func (manager *mockStorageManager) DeleteStorage(ctx context.Context, resourceGr
 	})
 
 	if index == -1 {
-		return helpers.GetRestResponse(404), errors.New("storage account not found")
+		return helpers.GetRestResponse(http.StatusNotFound), errors.New("storage account not found")
 	}
 
 	manager.storageResource = append(groups[:index], groups[index+1:]...)
 
-	return helpers.GetRestResponse(200), nil
+	return helpers.GetRestResponse(http.StatusOK), nil
 }

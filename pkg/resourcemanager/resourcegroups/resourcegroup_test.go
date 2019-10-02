@@ -18,8 +18,10 @@ package resourcegroups
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"net/http"
 	"time"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -59,7 +61,7 @@ var _ = Describe("ResourceGroups", func() {
 			Eventually(func() bool {
 				result, _ := resourceGroupManager.CheckExistence(context.Background(), resourcegroupName)
 
-				return result.Response.StatusCode == 204
+				return result.Response.StatusCode == http.StatusNoContent
 			}, timeout,
 			).Should(BeTrue())
 
@@ -68,7 +70,7 @@ var _ = Describe("ResourceGroups", func() {
 
 			Eventually(func() bool {
 				result, _ := GetGroup(context.Background(), resourcegroupName)
-				return result.Response.StatusCode == 404 || *result.Properties.ProvisioningState == "Deleting"
+				return result.Response.StatusCode == http.StatusNotFound || *result.Properties.ProvisioningState == "Deleting"
 			}, timeout,
 			).Should(BeTrue())
 

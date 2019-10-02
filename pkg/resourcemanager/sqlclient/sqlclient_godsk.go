@@ -122,7 +122,7 @@ func (sdk GoSDKClient) DeleteDB(databaseName string) (result autorest.Response, 
 	if err != nil {
 		result = autorest.Response{
 			Response: &http.Response{
-				StatusCode: 200,
+				StatusCode: http.StatusOK,
 			},
 		}
 		return result, nil
@@ -151,7 +151,7 @@ func (sdk GoSDKClient) DeleteSQLServer() (result autorest.Response, err error) {
 	if err != nil {
 		result = autorest.Response{
 			Response: &http.Response{
-				StatusCode: 200,
+				StatusCode: http.StatusOK,
 			},
 		}
 		return result, nil

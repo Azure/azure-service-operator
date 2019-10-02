@@ -16,8 +16,10 @@ limitations under the License.
 package storages
 
 import (
-	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"net/http"
 	"testing"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
@@ -76,7 +78,7 @@ var _ = BeforeSuite(func() {
 
 	// create resourcegroup for this suite
 	result, _ := ressourceGroupManager.CheckExistence(context.Background(), tc.ResourceGroupName)
-	if result.Response.StatusCode != 204 {
+	if result.Response.StatusCode != http.StatusNoContent {
 		_, _ = tc.ResourceGroupManager.CreateGroup(context.Background(), tc.ResourceGroupName, tc.ResourceGroupLocation)
 	}
 })
