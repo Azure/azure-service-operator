@@ -65,16 +65,16 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	location := instance.Spec.Location
-	name := instance.ObjectMeta.Name
-	groupName := instance.Spec.ResourceGroup
+	// location := instance.Spec.Location
+	// name := instance.ObjectMeta.Name
+	// groupName := instance.Spec.ResourceGroup
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        name,
-		Location:          location,
-	}
+	// sdkClient := sql.GoSDKClient{
+	// 	Ctx:               ctx,
+	// 	ResourceGroupName: groupName,
+	// 	ServerName:        name,
+	// 	Location:          location,
+	// }
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
@@ -130,16 +130,16 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	}
 
-	availableResp, err := sdkClient.CheckNameAvailability()
-	if err != nil {
-		log.Info("error validating name")
-		return ctrl.Result{}, err
-	}
-	if !availableResp.Available {
-		log.Info("Servername is invalid or not available")
-		r.Recorder.Event(&instance, "Warning", "Failed", "Servername is invalid")
-		return ctrl.Result{Requeue: false}, fmt.Errorf("Servername invalid %s", availableResp.Name)
-	}
+	// availableResp, err := sdkClient.CheckNameAvailability()
+	// if err != nil {
+	// 	log.Info("error validating name")
+	// 	return ctrl.Result{}, err
+	// }
+	// if !availableResp.Available {
+	// 	log.Info("Servername is invalid or not available")
+	// 	r.Recorder.Event(&instance, "Warning", "Failed", "Servername is invalid")
+	// 	return ctrl.Result{Requeue: false}, fmt.Errorf("Servername invalid %s", availableResp.Name)
+	// }
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation")
