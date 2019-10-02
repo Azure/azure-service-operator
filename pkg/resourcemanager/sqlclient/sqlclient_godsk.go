@@ -15,6 +15,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
+const typeOfService = "Microsoft.Sql/servers"
+
 // getGoServersClient retrieves a ServersClient
 func getGoServersClient() sql.ServersClient {
 	serversClient := sql.NewServersClient(config.SubscriptionID())
@@ -238,4 +240,44 @@ func (sdk GoSDKClient) DeleteSQLServer() (result autorest.Response, err error) {
 	}
 
 	return future.Result(serversClient)
+}
+
+// IsAsyncNotCompleted returns true if the error is due to async not completed
+func (sdk GoSDKClient) IsAsyncNotCompleted(err error) (result bool) {
+	result = false
+	if err != nil && strings.Contains(err.Error(), "asynchronous operation has not completed") {
+		result = true
+	} else if strings.Contains(err.Error(), "is busy with another operation") {
+		result = true
+	}
+	return result
+}
+
+// GetServer returns a server
+func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
+	serversClient := getGoServersClient()
+
+	return serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+}
+
+// CheckNameAvailability determines whether a SQL resource can be created with the specified name
+func (sdk GoSDKClient) CheckNameAvailability() (result AvailabilityResponse, err error) {
+	serversClient := getGoServersClient()
+
+	response, err := serversClient.CheckNameAvailability(
+		sdk.Ctx,
+		sql.CheckNameAvailabilityRequest{
+			Name: to.StringPtr(sdk.ServerName),
+			Type: to.StringPtr(typeOfService),
+		},
+	)
+	if err != nil {
+		return result, err
+	}
+
+	return ToAvailabilityResponse(response), err
 }
