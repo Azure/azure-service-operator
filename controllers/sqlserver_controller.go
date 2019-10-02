@@ -238,7 +238,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 		}
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
-		instance.Status.Message = "Unable to add firewall rule to SQL server"
+		instance.Status.Message = "SqlServer successfully provisioned"
 	}
 
 	// write information back to instance
