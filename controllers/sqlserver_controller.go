@@ -168,7 +168,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	//instance.Status.Provisioning = true
 	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
-			instance.Status.Message = "Unable to Provision or Update Instance"
+			instance.Status.Message = "CreateOrUpdateSQLServer not complete"
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
 			return errhelp.NewAzureError(err)
 		}
