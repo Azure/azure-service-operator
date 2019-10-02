@@ -1,0 +1,8 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: SqlAction
+metadata:
+  name: some-name
+spec:
+  resourcegroup: some-resourcegroup
+  actionname: rollcreds
+  servername: some-server
