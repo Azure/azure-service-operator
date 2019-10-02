@@ -3,7 +3,6 @@ kind: SqlDatabase
 metadata:
   name:  sqldatabase-sample
 spec:
+  server: sqlserver-sample1000
   location: westus
-  resourcegroup: Janani-testRG
   edition: 0
-  server:  sqlserver-sample987

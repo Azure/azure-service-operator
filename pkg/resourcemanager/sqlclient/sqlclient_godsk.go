@@ -35,10 +35,6 @@ func getGoDbClient() sql.DatabasesClient {
 	return dbClient
 }
 
-func NewDBClient() sql.DatabasesClient {
-	return getGoDbClient()
-}
-
 // getGoFirewallClient retrieves a FirewallRulesClient
 func getGoFirewallClient() sql.FirewallRulesClient {
 	firewallClient := sql.NewFirewallRulesClient(config.SubscriptionID())
@@ -73,19 +69,14 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServer(properties SQLServerProperties) (
 // based on code from: https://github.com/Azure-Samples/azure-sdk-for-go-samples/blob/master/sql/sql.go#L111
 // to allow allow Azure services to connect example: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure#manage-firewall-rules-using-azure-cli
 func (sdk GoSDKClient) CreateOrUpdateSQLFirewallRule(ruleName string, startIP string, endIP string) (result bool, err error) {
-	serversClient := getGoServersClient()
-	firewallClient := getGoFirewallClient()
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := serversClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-	)
+	server, err := sdk.GetServer()
 	if err != nil || *server.State != "Ready" {
 		return false, err
 	}
 
+	firewallClient := getGoFirewallClient()
 	_, err = firewallClient.CreateOrUpdate(
 		sdk.Ctx,
 		sdk.ResourceGroupName,
@@ -133,6 +124,18 @@ func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
 	)
 }
 
+// GetSQLFirewallRule returns a firewall rule
+func (sdk GoSDKClient) GetSQLFirewallRule(ruleName string) (result sql.FirewallRule, err error) {
+	firewallClient := getGoFirewallClient()
+
+	return firewallClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		ruleName,
+	)
+}
+
 // GetDB retrieves a database
 func (sdk GoSDKClient) GetDB(databaseName string) (sql.Database, error) {
 	dbClient := getGoDbClient()
@@ -143,18 +146,6 @@ func (sdk GoSDKClient) GetDB(databaseName string) (sql.Database, error) {
 		sdk.ServerName,
 		databaseName,
 		"serviceTierAdvisors, transparentDataEncryption",
-	)
-}
-
-// GetSQLFirewallRule returns a firewall rule
-func (sdk GoSDKClient) GetSQLFirewallRule(ruleName string) (result sql.FirewallRule, err error) {
-	firewallClient := getGoFirewallClient()
-
-	return firewallClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-		ruleName,
 	)
 }
 
@@ -240,28 +231,6 @@ func (sdk GoSDKClient) DeleteSQLServer() (result autorest.Response, err error) {
 	}
 
 	return future.Result(serversClient)
-}
-
-// IsAsyncNotCompleted returns true if the error is due to async not completed
-func (sdk GoSDKClient) IsAsyncNotCompleted(err error) (result bool) {
-	result = false
-	if err != nil && strings.Contains(err.Error(), "asynchronous operation has not completed") {
-		result = true
-	} else if strings.Contains(err.Error(), "is busy with another operation") {
-		result = true
-	}
-	return result
-}
-
-// GetServer returns a server
-func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
-	serversClient := getGoServersClient()
-
-	return serversClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-	)
 }
 
 // CheckNameAvailability determines whether a SQL resource can be created with the specified name
