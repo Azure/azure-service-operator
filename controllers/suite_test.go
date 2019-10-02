@@ -27,7 +27,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	"k8s.io/client-go/rest"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
@@ -49,6 +49,11 @@ import (
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
 var testEnv *envtest.Environment
+var resourceGroupName string
+var resourcegroupLocation string
+var eventhubNamespaceName string
+var eventhubName string
+var namespaceLocation string
 
 type TestContext struct {
 	Cfg                   rest.Config
@@ -67,7 +72,12 @@ var tc TestContext
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
+	resourceGroupName = "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourcegroupLocation = "westus"
 
+	eventhubNamespaceName = "t-ns-dev-eh-ns-" + helpers.RandomString(10)
+	eventhubName = "t-eh-dev-sample-" + helpers.RandomString(10)
+	namespaceLocation = "westus"
 	RunSpecsWithDefaultAndCustomReporters(t,
 		"Controller Suite",
 		[]Reporter{envtest.NewlineReporter{}})
@@ -112,7 +122,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 
 	Expect(cfg).ToNot(BeNil())
 
-	err = azurev1.AddToScheme(scheme.Scheme)
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	var k8sManager ctrl.Manager
@@ -181,7 +191,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	_, err = eventhubs.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
 
 	// Create the Storage Account and Container
-	_, err = storages.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1.StorageSku{
+	_, err = storages.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
 		Name: "Standard_LRS",
 	}, "Storage", map[string]*string{}, "", nil)
 
@@ -214,7 +224,7 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	err = helpers.FromByteArray(r, &tc)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = azurev1.AddToScheme(scheme.Scheme)
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).ToNot(HaveOccurred())
 
 	k8sClient, err := client.New(&tc.Cfg, client.Options{Scheme: scheme.Scheme})

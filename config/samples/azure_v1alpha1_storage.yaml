@@ -1,0 +1,12 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: Storage
+metadata:
+  name: storagesample1908xyzkj
+spec:
+  location: westus
+  resourceGroup: resourcegroup-sample-1908
+  sku:
+    name: Standard_RAGRS
+  kind: StorageV2
+  accessTier: Hot
+  supportsHttpsTrafficOnly: true

@@ -20,13 +20,13 @@ import (
 	"context"
 	"fmt"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 const SQLServerFinalizerName = "sqlserver.finalizers.azure.com"
 
-func (r *SqlServerReconciler) addFinalizer(instance *azurev1.SqlServer) error {
+func (r *SqlServerReconciler) addFinalizer(instance *azurev1alpha1.SqlServer) error {
 	helpers.AddFinalizer(instance, SQLServerFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {

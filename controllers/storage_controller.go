@@ -35,7 +35,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
@@ -61,7 +61,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("storage", req.NamespacedName)
 
 	// Fetch the Storage instance
-	var instance azurev1.Storage
+	var instance azurev1alpha1.Storage
 
 	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
 	if err != nil {
@@ -120,7 +120,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-func (r *StorageReconciler) addFinalizer(instance *azurev1.Storage) error {
+func (r *StorageReconciler) addFinalizer(instance *azurev1alpha1.Storage) error {
 	helpers.AddFinalizer(instance, storageFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -130,7 +130,7 @@ func (r *StorageReconciler) addFinalizer(instance *azurev1.Storage) error {
 	return nil
 }
 
-func (r *StorageReconciler) reconcileExternal(instance *azurev1.Storage) error {
+func (r *StorageReconciler) reconcileExternal(instance *azurev1alpha1.Storage) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
@@ -172,7 +172,7 @@ func (r *StorageReconciler) reconcileExternal(instance *azurev1.Storage) error {
 	return nil
 }
 
-func (r *StorageReconciler) deleteExternal(instance *azurev1.Storage) error {
+func (r *StorageReconciler) deleteExternal(instance *azurev1alpha1.Storage) error {
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
@@ -194,7 +194,7 @@ func (r *StorageReconciler) deleteExternal(instance *azurev1.Storage) error {
 // SetupWithManager sets up the controller functions
 func (r *StorageReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.Storage{}).
+		For(&azurev1alpha1.Storage{}).
 		Complete(r)
 }
 

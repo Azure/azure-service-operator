@@ -1,0 +1,9 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: ConsumerGroup
+metadata:
+  name: consumergroup-sample-1
+spec:
+  # Add fields here
+  resourcegroup: "resourcegroup-sample-1"
+  namespace: "eventhubnamespace-sample-1"
+  eventhub: "eventhub-sample-2"

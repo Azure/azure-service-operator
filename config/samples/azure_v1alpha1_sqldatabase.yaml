@@ -1,0 +1,9 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: SqlDatabase
+metadata:
+  name:  sqldatabase-sample
+spec:
+  location: westus
+  resourcegroup: Janani-testRG
+  edition: 0
+  server:  sqlserver-sample987
