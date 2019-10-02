@@ -265,7 +265,7 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 
 	_, err := sdkClient.DeleteSQLServer()
 	if err != nil {
-		instance.Status.Message = "Couldn't delete resource in Azure"
+		instance.Status.Message = fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
 		return errhelp.NewAzureError(err)
 	}
