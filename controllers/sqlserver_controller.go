@@ -54,7 +54,6 @@ type SqlServerReconciler struct {
 func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("sqlserver", req.NamespacedName)
-
 	var instance azurev1.SqlServer
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
@@ -63,6 +62,17 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	location := instance.Spec.Location
+	name := instance.ObjectMeta.Name
+	groupName := instance.Spec.ResourceGroup
+
+	sdkClient := sql.GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: groupName,
+		ServerName:        name,
+		Location:          location,
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
@@ -95,6 +105,17 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			log.Info("Adding SqlServer finalizer failed with ", "error", err.Error())
 			return ctrl.Result{}, err
 		}
+	}
+
+	availableResp, err := sdkClient.CheckNameAvailability()
+	if err != nil {
+		log.Info("error validating name")
+		return ctrl.Result{}, err
+	}
+	if !availableResp.Available {
+		log.Info("Servername is invalid or not available")
+		r.Recorder.Event(&instance, "Warning", "Failed", "Servername is invalid")
+		return ctrl.Result{Requeue: false}, fmt.Errorf("Servername invalid %s", availableResp.Name)
 	}
 
 	if !instance.IsSubmitted() {
