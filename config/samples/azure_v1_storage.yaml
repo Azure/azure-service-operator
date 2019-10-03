@@ -4,7 +4,7 @@ metadata:
   name: storagesample1908ayzkj
 spec:
   location: westus
-  resourceGroup: resourcegroup-azure-operators
+  resourceGroup: resourcegroup-sample-1908
   sku:
     name: Standard_RAGRS
   kind: StorageV2

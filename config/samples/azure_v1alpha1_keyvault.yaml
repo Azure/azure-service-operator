@@ -1,7 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: KeyVault
-metadata:
-  name: keyvaultsample123
-spec:
-  resourceGroup: resourcegroup-azure-operators
-  location: westus

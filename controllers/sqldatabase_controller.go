@@ -120,15 +120,11 @@ func (r *SqlDatabaseReconciler) SetupWithManager(mgr ctrl.Manager) error {
 func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
-	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
+	groupName := instance.Spec.ResourceGroup
 	dbEdition := instance.Spec.Edition
-	dbName := instance.ObjectMeta.Name
 
-	sqlDatabaseProperties := sql.SQLDatabaseProperties{
-		DatabaseName: dbName,
-		Edition:      dbEdition,
-	}
+	dbName := instance.ObjectMeta.Name
 
 	sdkClient := sql.GoSDKClient{
 		Ctx:               ctx,
@@ -137,14 +133,20 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 		Location:          location,
 	}
 
+	sqlDatabaseProperties := sql.SQLDatabaseProperties{
+		DatabaseName: dbName,
+		Edition:      dbEdition,
+	}
+
 	r.Log.Info("Calling createorupdate SQL database")
 	// instance.Status.Provisioning = true
 
-	// get owner instance of SqlServer
+	//get owner instance of SqlServer
 	r.Recorder.Event(instance, "Normal", "UpdatingOwner", "Updating owner SqlServer instance")
 	var ownerInstance azurev1.SqlServer
 	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
 	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
+
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of SqlServer")
@@ -192,10 +194,10 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 
 func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) error {
 	ctx := context.Background()
-	location := instance.Spec.Location
+	dbname := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
-	dbname := instance.ObjectMeta.Name
+	location := instance.Spec.Location
 
 	// create the Go SDK client with relevant info
 	sdk := sql.GoSDKClient{
