@@ -64,17 +64,6 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	// location := instance.Spec.Location
-	// name := instance.ObjectMeta.Name
-	// groupName := instance.Spec.ResourceGroup
-
-	// sdkClient := sql.GoSDKClient{
-	// 	Ctx:               ctx,
-	// 	ResourceGroupName: groupName,
-	// 	ServerName:        name,
-	// 	Location:          location,
-	// }
-
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
@@ -107,27 +96,25 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
-	// Re-create secret if server is provisioned but secret doesn't exist
-	if instance.IsProvisioned() {
-		name := instance.ObjectMeta.Name
-
-		secret := &v1.Secret{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      name,
-				Namespace: instance.Namespace,
-			},
-			Type: "Opaque",
+	// TODO: Mel! Fix me!
+	/*
+		sdkClient := sql.GoSDKClient{
+			Ctx:               ctx,
+			ResourceGroupName: instance.Spec.ResourceGroup,
+			ServerName:        instance.ObjectMeta.Name,
+			Location:          instance.Spec.Location,
 		}
-
-		if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err != nil {
-			r.Log.Info("Error", "ReconcileSecret", "Server exists but secret does not, recreating now")
-
-			// Add admin credentials to "data" block in secret
-
-			// CreateOrUpdate secret
+		availableResp, err := sdkClient.CheckNameAvailability()
+		if err != nil {
+			log.Info("error validating name")
+			return ctrl.Result{}, err
 		}
-
-	}
+		if !availableResp.Available {
+			log.Info("Servername is invalid or not available")
+			r.Recorder.Event(&instance, "Warning", "Failed", "Servername is invalid")
+			return ctrl.Result{Requeue: false}, fmt.Errorf("Servername invalid %s", availableResp.Name)
+		}
+	*/
 
 	// availableResp, err := sdkClient.CheckNameAvailability()
 	// if err != nil {

@@ -1,10 +1,10 @@
-apiVersion: azure.microsoft.com/v1
+apiVersion: azure.microsoft.com/v1alpha1
 kind: EventhubNamespace
 metadata:
   name: eventhubnamespace-sample-6
 spec:    
     location: "westus"
-    resourceGroup: "resourcegroup-sample-1907"
+    resourceGroup: resourcegroup-azure-operators
     sku:
       name: "Standard"
       tier: "Standard"
