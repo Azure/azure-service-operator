@@ -32,7 +32,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -53,8 +53,7 @@ type SqlServerReconciler struct {
 func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("sqlserver", req.NamespacedName)
-
-	var instance azurev1alpha1.SqlServer
+	var instance azurev1.SqlServer
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve sql-server resource", "err", err.Error())
@@ -162,11 +161,11 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 func (r *SqlServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.SqlServer{}).
+		For(&azurev1.SqlServer{}).
 		Complete(r)
 }
 
-func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServer) error {
+func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
@@ -219,7 +218,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServe
 	return nil
 }
 
-func (r *SqlServerReconciler) verifyExternal(instance *azurev1alpha1.SqlServer) error {
+func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
@@ -247,6 +246,15 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1alpha1.SqlServer) 
 	r.Recorder.Event(instance, "Normal", "Checking", fmt.Sprintf("instance in %s state", instance.Status.State))
 
 	if instance.Status.State == "Ready" {
+
+		if instance.Spec.AllowAzureServiceAccess == true {
+			// Add firewall rule to allow azure service access
+			_, err := sdkClient.CreateOrUpdateSQLFirewallRule("AllowAzureAccess", "0.0.0.0", "0.0.0.0")
+			if err != nil {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to add firewall rule to SQL server")
+				return errhelp.NewAzureError(err)
+			}
+		}
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 	}
@@ -260,7 +268,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1alpha1.SqlServer) 
 	return errhelp.NewAzureError(err)
 }
 
-func (r *SqlServerReconciler) deleteExternal(instance *azurev1alpha1.SqlServer) error {
+func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error {
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
@@ -283,7 +291,7 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1alpha1.SqlServer) 
 	return nil
 }
 
-func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.SqlServer) *v1.Secret {
+func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) *v1.Secret {
 	name := instance.ObjectMeta.Name
 
 	secret := &v1.Secret{

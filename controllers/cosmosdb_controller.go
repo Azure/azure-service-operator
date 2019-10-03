@@ -35,7 +35,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
@@ -61,7 +61,7 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("cosmosdb", req.NamespacedName)
 
 	// Fetch the CosmosDB instance
-	var instance azurev1alpha1.CosmosDB
+	var instance azurev1.CosmosDB
 
 	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
 	if err != nil {
@@ -118,7 +118,7 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-func (r *CosmosDBReconciler) addFinalizer(instance *azurev1alpha1.CosmosDB) error {
+func (r *CosmosDBReconciler) addFinalizer(instance *azurev1.CosmosDB) error {
 	helpers.AddFinalizer(instance, cosmosDBFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -128,7 +128,7 @@ func (r *CosmosDBReconciler) addFinalizer(instance *azurev1alpha1.CosmosDB) erro
 	return nil
 }
 
-func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1alpha1.CosmosDB) error {
+func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1.CosmosDB) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
@@ -168,7 +168,7 @@ func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1alpha1.CosmosDB)
 	return nil
 }
 
-func (r *CosmosDBReconciler) deleteExternal(instance *azurev1alpha1.CosmosDB) error {
+func (r *CosmosDBReconciler) deleteExternal(instance *azurev1.CosmosDB) error {
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
@@ -190,7 +190,7 @@ func (r *CosmosDBReconciler) deleteExternal(instance *azurev1alpha1.CosmosDB) er
 // SetupWithManager sets up the controller functions
 func (r *CosmosDBReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.CosmosDB{}).
+		For(&azurev1.CosmosDB{}).
 		Complete(r)
 }
 
