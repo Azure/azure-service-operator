@@ -24,7 +24,6 @@ import (
 	"strings"
 	"time"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -71,28 +70,6 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	if helpers.IsBeingDeleted(&instance) {
-		if helpers.HasFinalizer(&instance, sqlActionFinalizerName) {
-			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete SqlAction failed with ", "err", err)
-				return ctrl.Result{}, err
-			}
-
-			helpers.RemoveFinalizer(&instance, sqlActionFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
-				return ctrl.Result{}, err
-			}
-		}
-		return ctrl.Result{}, nil
-	}
-
-	if !helpers.HasFinalizer(&instance, sqlActionFinalizerName) {
-		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding sqlaction finalizer failed with ", err.Error())
-			return ctrl.Result{}, err
-		}
-	}
-
 	if !instance.IsSubmitted() {
 		if err := r.reconcileExternal(&instance); err != nil {
 			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
@@ -118,21 +95,6 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	r.Recorder.Event(&instance, "Normal", "Provisioned", "SqlAction "+instance.ObjectMeta.Name+" provisioned ")
 	return ctrl.Result{}, nil
-}
-
-func (r *SqlActionReconciler) addFinalizer(instance *azurev1.SqlAction) error {
-	helpers.AddFinalizer(instance, sqlActionFinalizerName)
-	err := r.Update(context.Background(), instance)
-	if err != nil {
-		return fmt.Errorf("failed to update finalizer: %v", err)
-	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", sqlActionFinalizerName))
-	instance.Status.Message = "Finalizer added"
-	// write information back to instance
-	if updateerr := r.Status().Update(context.Background(), instance); updateerr != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
-	}
-	return nil
 }
 
 func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) error {
@@ -232,11 +194,6 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 
 	// Add implementations for other SqlActions here (instance.Spec.ActionName)
 
-	return nil
-}
-
-func (r *SqlActionReconciler) deleteExternal(instance *azurev1.SqlAction) error {
-	r.Log.Info("deleteExternal function for SqlAction: Do nothing")
 	return nil
 }
 
