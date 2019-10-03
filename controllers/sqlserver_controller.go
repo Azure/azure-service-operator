@@ -247,15 +247,6 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 	r.Recorder.Event(instance, "Normal", "Checking", fmt.Sprintf("instance in %s state", instance.Status.State))
 
 	if instance.Status.State == "Ready" {
-
-		if instance.Spec.AllowAzureServiceAccess == true {
-			// Add firewall rule to allow azure service access
-			_, err := sdkClient.CreateOrUpdateSQLFirewallRule("AllowAzureAccess", "0.0.0.0", "0.0.0.0")
-			if err != nil {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to add firewall rule to SQL server")
-				return errhelp.NewAzureError(err)
-			}
-		}
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 	}

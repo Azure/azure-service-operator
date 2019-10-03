@@ -3,6 +3,7 @@ kind: SqlFirewallRule
 metadata:
   name: sqlfirewallrule-sample
 spec:
-  server:  sqlserver-sample
+  resourcegroup: resourcegroup-azure-operators
+  server:  sqlserver-sample-777
   startipaddress: 1.1.1.1
   endipaddress: 6.6.6.6
