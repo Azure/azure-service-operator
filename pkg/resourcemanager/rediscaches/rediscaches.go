@@ -7,7 +7,7 @@ import (
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -29,7 +29,7 @@ func CreateRedisCache(ctx context.Context,
 	groupName string,
 	redisCacheName string,
 	location string,
-	sku azurev1alpha1.RedisCacheSku,
+	sku azurev1.RedisCacheSku,
 	enableNonSSLPort bool,
 	tags map[string]*string) (redis.ResourceType, error) {
 	redisClient := getRedisCacheClient()

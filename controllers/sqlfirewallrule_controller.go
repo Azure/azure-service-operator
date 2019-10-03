@@ -31,7 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 )
 
 const SQLFirewallRuleFinalizerName = "sqlfirewallrule.finalizers.azure.com"
@@ -52,7 +52,7 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 	log := r.Log.WithValues("sqlfirewallrule", req.NamespacedName)
 
 	// your logic here
-	var instance azurev1alpha1.SqlFirewallRule
+	var instance azurev1.SqlFirewallRule
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve sql-firewall-rule resource", "err", err.Error())
@@ -112,11 +112,11 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 
 func (r *SqlFirewallRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.SqlFirewallRule{}).
+		For(&azurev1.SqlFirewallRule{}).
 		Complete(r)
 }
 
-func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.SqlFirewallRule) error {
+func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1.SqlFirewallRule) error {
 	ctx := context.Background()
 	ruleName := instance.ObjectMeta.Name
 	server := instance.Spec.Server
@@ -127,7 +127,7 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.Sq
 
 	// get owner instance of SqlServer
 	r.Recorder.Event(instance, "Normal", "UpdatingOwner", "Updating owner SqlServer instance")
-	var ownerInstance azurev1alpha1.SqlServer
+	var ownerInstance azurev1.SqlServer
 	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
 	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
 	if err != nil {
@@ -184,13 +184,13 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.Sq
 	return nil
 }
 
-func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.SqlFirewallRule) error {
+func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1.SqlFirewallRule) error {
 	ctx := context.Background()
 	ruleName := instance.ObjectMeta.Name
 	server := instance.Spec.Server
 
 	//get owner instance of SqlServer
-	var ownerInstance azurev1alpha1.SqlServer
+	var ownerInstance azurev1.SqlServer
 	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
 	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
 	if err != nil {
@@ -222,7 +222,7 @@ func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.SqlFi
 	return nil
 }
 
-func (r *SqlFirewallRuleReconciler) addFinalizer(instance *azurev1alpha1.SqlFirewallRule) error {
+func (r *SqlFirewallRuleReconciler) addFinalizer(instance *azurev1.SqlFirewallRule) error {
 	helpers.AddFinalizer(instance, SQLFirewallRuleFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {

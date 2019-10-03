@@ -22,7 +22,7 @@ import (
 
 	"os"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/controllers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
@@ -44,9 +44,9 @@ var (
 
 func init() {
 
-	azurev1alpha1.AddToScheme(scheme)
+	azurev1.AddToScheme(scheme)
 	kscheme.AddToScheme(scheme)
-	_ = azurev1alpha1.AddToScheme(scheme)
+	_ = azurev1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -156,13 +156,14 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
 		os.Exit(1)
 	}
+
 	if !resourcemanagerconfig.Declarative() {
-		if err = (&azurev1alpha1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
+		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
 			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
 			os.Exit(1)
 		}
 
-		if err = (&azurev1alpha1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
+		if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
 			setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
 			os.Exit(1)
 		}
