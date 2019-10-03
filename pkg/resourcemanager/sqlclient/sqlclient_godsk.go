@@ -7,6 +7,7 @@ package sqlclient
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -253,17 +254,6 @@ func (sdk GoSDKClient) IsAsyncNotCompleted(err error) (result bool) {
 	return result
 }
 
-// GetServer returns a server
-func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
-	serversClient := getGoServersClient()
-
-	return serversClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-	)
-}
-
 // CheckNameAvailability determines whether a SQL resource can be created with the specified name
 func (sdk GoSDKClient) CheckNameAvailability() (result AvailabilityResponse, err error) {
 	serversClient := getGoServersClient()
@@ -280,4 +270,15 @@ func (sdk GoSDKClient) CheckNameAvailability() (result AvailabilityResponse, err
 	}
 
 	return ToAvailabilityResponse(response), err
+}
+
+// GetServer returns a SQL server
+func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
+	serversClient := getGoServersClient()
+
+	return serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
 }
