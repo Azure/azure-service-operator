@@ -19,6 +19,8 @@ package eventhubs
 import (
 	"context"
 	"errors"
+	"net/http"
+
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
@@ -81,12 +83,12 @@ func (manager *mockConsumerGroupManager) DeleteConsumerGroup(ctx context.Context
 	})
 
 	if index == -1 {
-		return helpers.GetRestResponse(404), errors.New("consumer group not found")
+		return helpers.GetRestResponse(http.StatusNotFound), errors.New("consumer group not found")
 	}
 
 	manager.consumerGroupResources = append(groups[:index], groups[index+1:]...)
 
-	return helpers.GetRestResponse(200), nil
+	return helpers.GetRestResponse(http.StatusOK), nil
 }
 
 func (manager *mockConsumerGroupManager) GetConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {

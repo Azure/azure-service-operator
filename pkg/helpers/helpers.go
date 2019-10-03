@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"fmt"
 	"io"
+	"net/http"
 	"regexp"
 	"strings"
 
@@ -36,7 +37,7 @@ func IgnoreKubernetesResourceNotFound(err error) error {
 }
 
 func IgnoreAzureResourceNotFound(err error) error {
-	if err.(autorest.DetailedError).StatusCode.(int) == 404 {
+	if err.(autorest.DetailedError).StatusCode.(int) == http.StatusNotFound {
 		return nil
 	}
 	return err

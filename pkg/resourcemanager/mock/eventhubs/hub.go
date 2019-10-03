@@ -19,6 +19,8 @@ package eventhubs
 import (
 	"context"
 	"errors"
+	"net/http"
+
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	pkghelpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
@@ -71,12 +73,12 @@ func (manager *mockEventHubManager) DeleteHub(ctx context.Context, resourceGroup
 	})
 
 	if index == -1 {
-		return helpers.GetRestResponse(404), errors.New("eventhub not found")
+		return helpers.GetRestResponse(http.StatusNotFound), errors.New("eventhub not found")
 	}
 
 	manager.eventHubResources = append(hubs[:index], hubs[index+1:]...)
 
-	return helpers.GetRestResponse(200), nil
+	return helpers.GetRestResponse(http.StatusOK), nil
 }
 
 func (manager *mockEventHubManager) CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, messageRetentionInDays int32, partitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
@@ -142,7 +144,7 @@ func (manager *mockEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.
 		hub.eventHubAccesses = append(hub.eventHubAccesses, eventHubAccess{
 			rule: parameters,
 			keys: eventhub.AccessKeys{
-				Response:                       helpers.GetRestResponse(200),
+				Response:                       helpers.GetRestResponse(http.StatusOK),
 				PrimaryConnectionString:        to.StringPtr(pkghelpers.RandomString(40)),
 				SecondaryConnectionString:      to.StringPtr(pkghelpers.RandomString(40)),
 				AliasPrimaryConnectionString:   to.StringPtr(pkghelpers.RandomString(40)),

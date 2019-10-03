@@ -18,10 +18,12 @@ package storages
 
 import (
 	"context"
+	"net/http"
+	"time"
+
 	apiv1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest/to"
-	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
@@ -62,7 +64,7 @@ var _ = Describe("Storage Account", func() {
 
 			Eventually(func() bool {
 				result, _ := storageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
-				return result.Response.StatusCode == 200
+				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
 
@@ -71,7 +73,7 @@ var _ = Describe("Storage Account", func() {
 
 			Eventually(func() bool {
 				result, _ := storageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
-				return result.Response.StatusCode == 404
+				return result.Response.StatusCode == http.StatusNotFound
 			}, timeout,
 			).Should(BeTrue())
 		})

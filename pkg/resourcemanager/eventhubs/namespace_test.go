@@ -18,6 +18,7 @@ package eventhubs
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
@@ -59,7 +60,7 @@ var _ = Describe("Namespace", func() {
 
 			Eventually(func() bool {
 				result, _ := eventHubNamespaceManager.GetNamespace(context.Background(), rgName, eventhubNamespaceName)
-				return result.Response.StatusCode == 200
+				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
 
@@ -68,7 +69,7 @@ var _ = Describe("Namespace", func() {
 
 			Eventually(func() bool {
 				result, _ := eventHubNamespaceManager.GetNamespace(context.Background(), rgName, eventhubNamespaceName)
-				return result.Response.StatusCode == 404 || *result.ProvisioningState == "Deleting"
+				return result.Response.StatusCode == http.StatusNotFound || *result.ProvisioningState == "Deleting"
 			}, timeout,
 			).Should(BeTrue())
 
