@@ -24,7 +24,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
@@ -61,7 +61,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("eventhub", req.NamespacedName)
 
 	// your logic here
-	var instance azurev1alpha1.Eventhub
+	var instance azurev1.Eventhub
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve eventhub resource", "err", err.Error())
@@ -113,11 +113,11 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 // SetupWithManager binds the reconciler to a manager instance
 func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.Eventhub{}).
+		For(&azurev1.Eventhub{}).
 		Complete(r)
 }
 
-func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub) error {
+func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error {
 	ctx := context.Background()
 
 	var err error
@@ -138,7 +138,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 	instance.Status.Provisioning = true
 
 	//get owner instance
-	var ownerInstance azurev1alpha1.EventhubNamespace
+	var ownerInstance azurev1.EventhubNamespace
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespace, Namespace: instance.Namespace}
 
 	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
@@ -149,7 +149,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 		//set owner reference for eventhub if it exists
 		references := []metav1.OwnerReference{
 			metav1.OwnerReference{
-				APIVersion: "v1alpha1",
+				APIVersion: "v1",
 				Kind:       "EventhubNamespace",
 				Name:       ownerInstance.GetName(),
 				UID:        ownerInstance.GetUID(),
@@ -203,7 +203,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 
 const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
 
-func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescription) *model.CaptureDescription {
+func getCaptureDescriptionPtr(captureDescription azurev1.CaptureDescription) *model.CaptureDescription {
 	// add capture details
 	var capturePtr *model.CaptureDescription
 
@@ -230,7 +230,7 @@ func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescriptio
 	return capturePtr
 }
 
-func (r *EventhubReconciler) deleteEventhub(instance *azurev1alpha1.Eventhub) error {
+func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
 
 	ctx := context.Background()
 
@@ -247,7 +247,7 @@ func (r *EventhubReconciler) deleteEventhub(instance *azurev1alpha1.Eventhub) er
 	return nil
 }
 
-func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup string, eventhubNamespace string, eventhubName string, instance *azurev1alpha1.Eventhub) error {
+func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup string, eventhubNamespace string, eventhubName string, instance *azurev1.Eventhub) error {
 
 	var err error
 	ctx := context.Background()
@@ -271,7 +271,7 @@ func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup st
 	return nil
 }
 
-func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1alpha1.Eventhub) error {
+func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1.Eventhub) error {
 
 	var err error
 	var result model.AccessKeys
@@ -314,7 +314,7 @@ func (r *EventhubReconciler) createEventhubSecrets(
 	eventhubNamespace string,
 	secretName string,
 	sharedAccessKey string,
-	instance *azurev1alpha1.Eventhub) error {
+	instance *azurev1.Eventhub) error {
 
 	csecret := &v1.Secret{
 		TypeMeta: metav1.TypeMeta{
@@ -354,7 +354,7 @@ func (r *EventhubReconciler) createEventhubSecrets(
 	return nil
 }
 
-func (r *EventhubReconciler) getEventhubSecrets(name string, instance *azurev1alpha1.Eventhub) error {
+func (r *EventhubReconciler) getEventhubSecrets(name string, instance *azurev1.Eventhub) error {
 
 	var err error
 	secret := &v1.Secret{}

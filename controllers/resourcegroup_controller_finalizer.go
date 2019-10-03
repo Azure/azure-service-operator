@@ -20,12 +20,12 @@ import (
 	"context"
 	"fmt"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 )
 
 const resouceGroupFinalizerName = "resoucegroup.finalizers.com"
 
-func (r *ResourceGroupReconciler) addFinalizer(instance *azurev1alpha1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) addFinalizer(instance *azurev1.ResourceGroup) error {
 	instance.AddFinalizer(resouceGroupFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -35,7 +35,7 @@ func (r *ResourceGroupReconciler) addFinalizer(instance *azurev1alpha1.ResourceG
 	return nil
 }
 
-func (r *ResourceGroupReconciler) handleFinalizer(instance *azurev1alpha1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) handleFinalizer(instance *azurev1.ResourceGroup) error {
 	if instance.HasFinalizer(resouceGroupFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
@@ -51,7 +51,7 @@ func (r *ResourceGroupReconciler) handleFinalizer(instance *azurev1alpha1.Resour
 	return nil
 }
 
-func (r *ResourceGroupReconciler) deleteExternalDependency(instance *azurev1alpha1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) deleteExternalDependency(instance *azurev1.ResourceGroup) error {
 
 	return r.deleteResourceGroup(instance)
 }
