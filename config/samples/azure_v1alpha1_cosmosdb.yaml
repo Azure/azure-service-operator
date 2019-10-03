@@ -5,6 +5,6 @@ metadata:
 spec:
   kind: GlobalDocumentDB
   location: westus
-  resourceGroup: resourcegroup-azure-operators
+  resourceGroup: resourcegroup-sample-1908
   properties:
     databaseAccountOfferType: Standard

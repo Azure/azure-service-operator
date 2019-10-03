@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: SqlServer
 metadata:
-  name: sqlserver-sample1000
+  name: sqlserver-sample987
 spec:
   location: "westus"
-  resourcegroup: resourcegroup-azure-operators
+  resourcegroup: "Janani-testRG"
