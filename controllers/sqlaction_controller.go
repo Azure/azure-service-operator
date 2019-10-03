@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -218,6 +219,16 @@ func (r *SqlActionReconciler) reconcileExternal(instance *v1alpha1.SqlAction) er
 		if updateerr := r.Update(ctx, instance); updateerr != nil {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
+	} else {
+		r.Log.Info("Error", "reconcileExternal", "Unknown action name")
+
+		instance.Status.Message = "Unknown action name error"
+
+		// write information back to instance
+		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		}
+		return errors.New("Unknown action name")
 	}
 
 	// Add implementations for other SqlActions here (instance.Spec.ActionName)
