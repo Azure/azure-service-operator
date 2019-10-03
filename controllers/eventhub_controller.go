@@ -25,7 +25,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
@@ -63,7 +63,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("eventhub", req.NamespacedName)
 
 	// your logic here
-	var instance azurev1alpha1.Eventhub
+	var instance azurev1.Eventhub
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve eventhub resource", "err", err.Error())
@@ -188,7 +188,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 	instance.Status.Provisioning = true
 
 	//get owner instance
-	var ownerInstance azurev1alpha1.EventhubNamespace
+	var ownerInstance azurev1.EventhubNamespace
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespace, Namespace: instance.Namespace}
 
 	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
@@ -364,7 +364,7 @@ func (r *EventhubReconciler) createEventhubSecrets(
 	eventhubNamespace string,
 	secretName string,
 	sharedAccessKey string,
-	instance *azurev1alpha1.Eventhub) error {
+	instance *azurev1.Eventhub) error {
 
 	csecret := &v1.Secret{
 		TypeMeta: metav1.TypeMeta{
@@ -404,7 +404,7 @@ func (r *EventhubReconciler) createEventhubSecrets(
 	return nil
 }
 
-func (r *EventhubReconciler) getEventhubSecrets(name string, instance *azurev1alpha1.Eventhub) error {
+func (r *EventhubReconciler) getEventhubSecrets(name string, instance *azurev1.Eventhub) error {
 
 	var err error
 	secret := &v1.Secret{}

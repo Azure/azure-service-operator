@@ -309,7 +309,7 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 	return nil
 }
 
-func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) (*v1.Secret, error) {
+func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) *v1.Secret {
 	name := instance.ObjectMeta.Name
 
 	const usernameLength = 8

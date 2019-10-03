@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"time"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
@@ -97,11 +97,11 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 //SetupWithManager sets up the functions for the controller
 func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.EventhubNamespace{}).
+		For(&azurev1.EventhubNamespace{}).
 		Complete(r)
 }
 
-func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1alpha1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.EventhubNamespace) error {
 	ctx := context.Background()
 
 	var err error
@@ -114,7 +114,7 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1alpha1.
 	instance.Status.Provisioning = true
 
 	//get owner instance
-	var ownerInstance azurev1alpha1.ResourceGroup
+	var ownerInstance azurev1.ResourceGroup
 	resourceGroupNamespacedName := types.NamespacedName{Name: resourcegroup, Namespace: instance.Namespace}
 	err = r.Get(ctx, resourceGroupNamespacedName, &ownerInstance)
 
@@ -169,7 +169,7 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1alpha1.
 
 }
 
-func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1alpha1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1.EventhubNamespace) error {
 
 	ctx := context.Background()
 

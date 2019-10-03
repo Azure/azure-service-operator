@@ -17,9 +17,18 @@ package controllers
 
 import (
 	"context"
+<<<<<<< HEAD
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+=======
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"time"
+
+	eventhubsmanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+
+>>>>>>> Revert "Updating version to v1alpha1 from v1"
 	. "github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -66,12 +75,12 @@ var _ = Describe("EventHub Controller", func() {
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &azurev1alpha1.Eventhub{
+			eventhubInstance := &azurev1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
 				},
-				Spec: azurev1alpha1.EventhubSpec{
+				Spec: azurev1.EventhubSpec{
 					Location:      "westus",
 					Namespace:     "t-ns-dev-eh-" + helpers.RandomString(10),
 					ResourceGroup: "t-rg-dev-eh-" + helpers.RandomString(10),
@@ -100,24 +109,27 @@ var _ = Describe("EventHub Controller", func() {
 			var err error
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &azurev1alpha1.Eventhub{
+			eventhubInstance := &azurev1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
 				},
-				Spec: azurev1alpha1.EventhubSpec{
+				Spec: azurev1.EventhubSpec{
 					Location:      "westus",
 					Namespace:     ehnName,
 					ResourceGroup: rgName,
-					Properties: azurev1alpha1.EventhubProperties{
+					Properties: azurev1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         2,
 					},
 					AuthorizationRule: azurev1.EventhubAuthorizationRule{
+<<<<<<< HEAD
 						Name:   "RootManageSharedAccessKey",
 						Rights: []string{"Listen"},
 					},
 					AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
+=======
+>>>>>>> Revert "Updating version to v1alpha1 from v1"
 						Name:   "RootManageSharedAccessKey",
 						Rights: []string{"Listen"},
 					},
@@ -193,12 +205,13 @@ var _ = Describe("EventHub Controller", func() {
 			var err error
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &azurev1alpha1.Eventhub{
+			eventhubInstance := &azurev1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
 				},
 				Spec: azurev1.EventhubSpec{
+<<<<<<< HEAD
 					Location:      rgLocation,
 					Namespace:     ehnName,
 					ResourceGroup: rgName,
@@ -369,14 +382,16 @@ var _ = Describe("EventHub Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1.EventhubSpec{
+=======
+>>>>>>> Revert "Updating version to v1alpha1 from v1"
 					Location:      rgLocation,
 					Namespace:     ehnName,
 					ResourceGroup: rgName,
-					Properties: azurev1alpha1.EventhubProperties{
+					Properties: azurev1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         2,
 					},
-					AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
+					AuthorizationRule: azurev1.EventhubAuthorizationRule{
 						Name:   "RootManageSharedAccessKey",
 						Rights: []string{"Listen"},
 					},

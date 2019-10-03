@@ -57,12 +57,12 @@ var _ = Describe("ConsumerGroup Controller", func() {
 			var err error
 
 			// Create the consumer group object and expect the Reconcile to be created
-			consumerGroupInstance := &azurev1alpha1.ConsumerGroup{
+			consumerGroupInstance := &azurev1.ConsumerGroup{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      consumerGroupName,
 					Namespace: "default",
 				},
-				Spec: azurev1alpha1.ConsumerGroupSpec{
+				Spec: azurev1.ConsumerGroupSpec{
 					NamespaceName:     ehnName,
 					ResourceGroupName: rgName,
 					EventhubName:      ehName,

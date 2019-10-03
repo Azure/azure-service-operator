@@ -151,7 +151,7 @@ var _ = BeforeSuite(func() {
 
 	Expect(cfg).ToNot(BeNil())
 
-	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	var k8sManager ctrl.Manager
