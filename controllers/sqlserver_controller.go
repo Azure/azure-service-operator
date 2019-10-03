@@ -48,6 +48,10 @@ type SqlServerReconciler struct {
 	Scheme   *runtime.Scheme
 }
 
+// Constants
+const usernameLength = 8
+const passwordLength = 16
+
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlservers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlservers/status,verbs=get;update;patch
 
@@ -222,7 +226,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
-		r.Log.Info("mutating secret bundle")
+		r.Log.Info("Creating or updating secret with SQL Server credentials")
 		innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
 		if innerErr != nil {
 			return innerErr
@@ -317,13 +321,9 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) (*v1.Secret, error) {
 	name := instance.ObjectMeta.Name
 
-	const usernameLength = 8
-	const passwordLength = 16
-
 	randomUsername, usernameErr := generateRandomUsername(usernameLength)
 	randomPassword, passwordErr := generateRandomPassword(passwordLength)
 
-	// TODO: Move these constants to a central location
 	usernameSuffix := "@" + name
 	servernameSuffix := ".database.windows.net"
 	fullyQualifiedAdminUsername := randomUsername + usernameSuffix // "<username>@<sqlservername>""

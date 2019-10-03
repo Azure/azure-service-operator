@@ -129,14 +129,14 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 	sdkClient.Location = *server.Location
 
 	// rollcreds action
-	if instance.Spec.ActionName == "rollcreds" {
+	if strings.ToLower(instance.Spec.ActionName) == "rollcreds" {
 		sqlServerProperties := sql.SQLServerProperties{
 			AdministratorLogin:         server.ServerProperties.AdministratorLogin,
 			AdministratorLoginPassword: server.ServerProperties.AdministratorLoginPassword,
 		}
 
 		// Generate a new password
-		newPassword, _ := generateRandomPassword(16) // TODO: Get rid of the hard-coding here
+		newPassword, _ := generateRandomPassword(passwordLength)
 		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
 		if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
@@ -158,7 +158,7 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 		}
 
 		_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
-			r.Log.Info("mutating secret bundle")
+			r.Log.Info("Creating or updating secret with SQL Server credentials")
 			secret.Data["password"] = []byte(*sqlServerProperties.AdministratorLoginPassword)
 			return nil
 		})
