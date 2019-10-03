@@ -202,6 +202,7 @@ endif
 install-kustomize:
 ifeq (,$(shell which kustomize))
 	@echo "installing kustomize"
+	mkdir -p /usr/local/kubebuilder/bin
 	# download kustomize
 	curl -o /usr/local/kubebuilder/bin/kustomize -sL "https://go.kubebuilder.io/kustomize/$(shell go env GOOS)/$(shell go env GOARCH)"
 	# set permission
