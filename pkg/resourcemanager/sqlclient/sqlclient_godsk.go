@@ -260,3 +260,14 @@ func (sdk GoSDKClient) CheckNameAvailability() (result AvailabilityResponse, err
 
 	return ToAvailabilityResponse(response), err
 }
+
+// GetServer returns a SQL server
+func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
+	serversClient := getGoServersClient()
+
+	return serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+}

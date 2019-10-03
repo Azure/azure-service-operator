@@ -30,8 +30,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/go-autorest/autorest/to"
 	v1 "k8s.io/api/core/v1"
@@ -60,7 +59,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("sqlaction", req.NamespacedName)
 
-	var instance azurev1alpha1.SqlAction
+	var instance azurev1.SqlAction
 
 	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
 	if err != nil {
@@ -121,7 +120,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-func (r *SqlActionReconciler) addFinalizer(instance *azurev1alpha1.SqlAction) error {
+func (r *SqlActionReconciler) addFinalizer(instance *azurev1.SqlAction) error {
 	helpers.AddFinalizer(instance, sqlActionFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -136,7 +135,7 @@ func (r *SqlActionReconciler) addFinalizer(instance *azurev1alpha1.SqlAction) er
 	return nil
 }
 
-func (r *SqlActionReconciler) reconcileExternal(instance *v1alpha1.SqlAction) error {
+func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) error {
 	ctx := context.Background()
 	serverName := instance.Spec.ServerName
 	groupName := instance.Spec.ResourceGroup
@@ -236,13 +235,13 @@ func (r *SqlActionReconciler) reconcileExternal(instance *v1alpha1.SqlAction) er
 	return nil
 }
 
-func (r *SqlActionReconciler) deleteExternal(instance *azurev1alpha1.SqlAction) error {
+func (r *SqlActionReconciler) deleteExternal(instance *azurev1.SqlAction) error {
 	r.Log.Info("deleteExternal function for SqlAction: Do nothing")
 	return nil
 }
 
 func (r *SqlActionReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.SqlAction{}).
+		For(&azurev1.SqlAction{}).
 		Complete(r)
 }
