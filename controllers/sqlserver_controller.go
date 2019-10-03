@@ -362,7 +362,7 @@ func generateRandomUsername(n int) (string, error) {
 		return "", errors.New("Username length should be between 8 and 63 characters.")
 	}
 
-	// Generate a password that is n characters long, with n/2 digits and 0 symbols (not allowed),
+	// Generate a username that is n characters long, with n/2 digits and 0 symbols (not allowed),
 	// allowing only lower case letters (upper case not allowed), and disallowing repeat characters.
 	res, err := password.Generate(n, (n / 2), 0, true, false)
 	if err != nil {

@@ -1,8 +1,8 @@
 apiVersion: azure.microsoft.com/v1
 kind: SqlAction
 metadata:
-  name: some-name
+  name: sqlaction-name
 spec:
-  resourcegroup: some-resourcegroup
+  resourcegroup: resourcegroup-sample-1907
   actionname: rollcreds
-  servername: some-server
+  servername: sqlserver-sample
