@@ -24,6 +24,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -72,15 +73,27 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !instance.IsSubmitted() {
 		if err := r.reconcileExternal(&instance); err != nil {
-			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-				log.Info("Requeuing as the async operation is not complete")
-				return ctrl.Result{
-					Requeue:      true,
-					RequeueAfter: time.Second * time.Duration(requeueAfter),
-				}, nil
-			} else if errhelp.IsResourceNotFound(err) {
-				log.Info("Not requeueing as a specified resource was not found")
-				return ctrl.Result{}, nil
+			catchIgnorable := []string{
+				errhelp.AsyncOpIncompleteError,
+				errhelp.ResourceGroupNotFoundErrorCode,
+			}
+			if azerr, ok := err.(*errhelp.AzureError); ok {
+				if helpers.ContainsString(catchIgnorable, azerr.Type) {
+					log.Info("Requeuing as the async operation is not complete")
+					return ctrl.Result{
+						Requeue:      true,
+						RequeueAfter: time.Second * time.Duration(requeueAfter),
+					}, nil
+				}
+			}
+			catchNotIgnorable := []string{
+				errhelp.ResourceNotFound,
+			}
+			if azerr, ok := err.(*errhelp.AzureError); ok {
+				if helpers.ContainsString(catchNotIgnorable, azerr.Type) {
+					log.Info("Not requeueing as a specified resource was not found")
+					return ctrl.Result{}, nil
+				}
 			}
 			// TODO: Add error handling for other types of errors we might encounter here
 			return ctrl.Result{}, fmt.Errorf("error reconciling sqlaction in azure: %v", err)
