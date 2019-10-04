@@ -321,38 +321,34 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) (*v1.Secret, error) {
 	name := instance.ObjectMeta.Name
 
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: instance.Namespace,
+		},
+		Type: "Opaque",
+	}
+
 	randomUsername, usernameErr := generateRandomUsername(usernameLength)
+	if usernameErr != nil {
+		return secret, usernameErr
+	}
+
 	randomPassword, passwordErr := generateRandomPassword(passwordLength)
+	if passwordErr != nil {
+		return secret, passwordErr
+	}
 
 	usernameSuffix := "@" + name
 	servernameSuffix := ".database.windows.net"
 	fullyQualifiedAdminUsername := randomUsername + usernameSuffix // "<username>@<sqlservername>""
 	fullyQualifiedServername := name + servernameSuffix            // "<sqlservername>.database.windows.net"
 
-	secret := &v1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
-			Namespace: instance.Namespace,
-		},
-		Data: map[string][]byte{
-			"username":                 []byte(randomUsername),
-			"fullyqualifiedusername":   []byte(fullyQualifiedAdminUsername),
-			"password":                 []byte(randomPassword),
-			"sqlservername":            []byte(name),
-			"fullyqualifiedservername": []byte(fullyQualifiedServername),
-		},
-		Type: "Opaque",
-	}
-
-	if usernameErr != nil {
-		return secret, usernameErr
-	}
-
-	if passwordErr != nil {
-		return secret, passwordErr
-	}
-
-	// TODO: Add logic to validate username and password before sending CreateOrUpdate server request to Azure
+	secret.Data["username"] = []byte(randomUsername)
+	secret.Data["fullyqualifiedusername"] = []byte(fullyQualifiedAdminUsername)
+	secret.Data["password"] = []byte(randomPassword)
+	secret.Data["sqlservername"] = []byte(name)
+	secret.Data["fullyqualifiedservername"] = []byte(fullyQualifiedServername)
 
 	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
