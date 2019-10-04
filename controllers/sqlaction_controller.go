@@ -75,7 +75,6 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		if err := r.reconcileExternal(&instance); err != nil {
 			catchIgnorable := []string{
 				errhelp.AsyncOpIncompleteError,
-				errhelp.ResourceGroupNotFoundErrorCode,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catchIgnorable, azerr.Type) {
@@ -88,6 +87,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			}
 			catchNotIgnorable := []string{
 				errhelp.ResourceNotFound,
+				errhelp.ResourceGroupNotFoundErrorCode,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catchNotIgnorable, azerr.Type) {
@@ -128,14 +128,25 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 	// Get the Sql Server instance that corresponds to the Server name in the spec for this action
 	server, err := sdkClient.GetServer()
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get instance of SqlServer")
-		r.Log.Info("Error", "Sql Server instance not found", err)
-		instance.Status.Message = "Sql Server instance not found"
-		// write information back to instance
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		if strings.Contains(err.Error(), "ResourceGroupNotFound") {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to get instance of SqlServer: Resource group not found")
+			r.Log.Info("Error", "Unable to get instance of SqlServer: Resource group not found", err)
+			instance.Status.Message = "Resource group not found"
+			// write information back to instance
+			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			}
+			return err
+		} else {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to get instance of SqlServer")
+			r.Log.Info("Error", "Sql Server instance not found", err)
+			instance.Status.Message = "Sql server instance not found"
+			// write information back to instance
+			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			}
+			return err
 		}
-		return err
 	}
 
 	sdkClient.Location = *server.Location
