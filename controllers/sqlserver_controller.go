@@ -51,6 +51,10 @@ type SqlServerReconciler struct {
 // Constants
 const usernameLength = 8
 const passwordLength = 16
+const minUsernameAllowedLength = 8
+const maxUsernameAllowedLength = 63
+const minPasswordAllowedLength = 8
+const maxPasswordAllowedLength = 128
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlservers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlservers/status,verbs=get;update;patch
@@ -359,7 +363,7 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) (*
 
 // helper function to generate random username for sql server
 func generateRandomUsername(n int) (string, error) {
-	if n < 8 || n > 63 {
+	if n < minUsernameAllowedLength || n > maxUsernameAllowedLength {
 		return "", errors.New("Username length should be between 8 and 63 characters.")
 	}
 
@@ -375,13 +379,12 @@ func generateRandomUsername(n int) (string, error) {
 
 // helper function to generate random password for sql server
 func generateRandomPassword(n int) (string, error) {
-	if n < 8 || n > 128 {
+	if n < minPasswordAllowedLength || n > maxPasswordAllowedLength {
 		return "", errors.New("Password length must be between 8 and 128 characters.")
 	}
 
-	// Math - Generate a password where: 1/3 of the # of chars are digits,
-	//									 1/3 of the # of chars are symbols, and
-	//									 the remaining 1/3 is a mix of upper- and lower-case letters
+	// Math - Generate a password where: 1/3 of the # of chars are digits, 1/3 of the # of chars are symbols,
+	// and the remaining 1/3 is a mix of upper- and lower-case letters
 	digits := n / 3
 	symbols := n / 3
 
