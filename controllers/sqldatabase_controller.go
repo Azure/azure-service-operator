@@ -66,7 +66,7 @@ func (r *SqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error)
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLDatabaseFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete SqlDatabase failed with ", err.Error())
+				log.Info("Delete SqlDatabase failed with ", "err", err.Error())
 				return ctrl.Result{}, err
 			}
 
