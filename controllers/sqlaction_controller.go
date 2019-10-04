@@ -80,11 +80,6 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				}, nil
 			} else if errhelp.IsResourceNotFound(err) {
 				log.Info("Not requeueing as a specified resource was not found")
-				instance.Status.Message = "Resource not found error"
-				// write information back to instance
-				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-					r.Recorder.Event(&instance, "Warning", "Failed", "Unable to update instance")
-				}
 				return ctrl.Result{}, nil
 			}
 			// TODO: Add error handling for other types of errors we might encounter here
@@ -123,6 +118,10 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get instance of SqlServer")
 		r.Log.Info("Error", "Sql Server instance not found", err)
 		instance.Status.Message = "Sql Server instance not found"
+		// write information back to instance
+		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		}
 		return err
 	}
 
