@@ -37,7 +37,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
-	//sqlclient "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	_ "github.com/denisenkom/go-mssqldb"
 )
 
@@ -179,7 +178,7 @@ func (r *SqlUserReconciler) reconcileExternal(instance azurev1.SqlUser) error {
 		return nil
 	})
 	if createOrUpdateSecretErr != nil {
-		log.Info("createOrUpdateSecretErr", "err", err.Error())
+		log.Info("createOrUpdateSecretErr", "err", createOrUpdateSecretErr.Error())
 		return err
 	}
 
