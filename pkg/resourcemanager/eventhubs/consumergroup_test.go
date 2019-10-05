@@ -18,6 +18,7 @@ package eventhubs
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
@@ -34,20 +35,20 @@ var _ = Describe("ConsumerGroup", func() {
 	var namespaceLocation string
 	var messageRetentionInDays int32
 	var partitionCount int32
+	var consumerGroupManager ConsumerGroupManager
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		rgName = resourceGroupName
+		rgName = tc.ResourceGroupName
 		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
-		namespaceLocation = "westus"
+		namespaceLocation = tc.ResourceGroupLocation
 		eventhubName = "t-eh-dev-ehs-" + helpers.RandomString(10)
 		messageRetentionInDays = int32(7)
-		partitionCount = int32(1)
+		partitionCount = int32(2)
+		consumerGroupManager = tc.EventHubManagers.ConsumerGroup
 
-		_, _ = CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
-
-		_, _ = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount)
-
+		_, _ = tc.EventHubManagers.EventHubNamespace.CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
+		_, _ = tc.EventHubManagers.EventHub.CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
 	})
 
 	AfterEach(func() {
@@ -66,21 +67,21 @@ var _ = Describe("ConsumerGroup", func() {
 
 			var err error
 
-			_, err = CreateConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+			_, err = consumerGroupManager.CreateConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
-				return result.Response.StatusCode == 200
+				result, _ := consumerGroupManager.GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+			_, err = consumerGroupManager.DeleteConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
-				return result.Response.StatusCode == 404
+				result, _ := consumerGroupManager.GetConsumerGroup(context.Background(), rgName, eventhubNamespaceName, eventhubName, consumerGroupName)
+				return result.Response.StatusCode == http.StatusNotFound
 			}, timeout,
 			).Should(BeTrue())
 

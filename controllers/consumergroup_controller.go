@@ -37,8 +37,9 @@ import (
 // ConsumerGroupReconciler reconciles a ConsumerGroup object
 type ConsumerGroupReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
+	Log                  logr.Logger
+	Recorder             record.EventRecorder
+	ConsumerGroupManager eventhubsresourcemanager.ConsumerGroupManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumergroups,verbs=get;list;watch;create;update;patch;delete
@@ -138,7 +139,7 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.Consumer
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = eventhubsresourcemanager.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
+	_, err = r.ConsumerGroupManager.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
 	if err != nil {
 
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create consumer group in azure")
@@ -175,7 +176,7 @@ func (r *ConsumerGroupReconciler) deleteConsumerGroup(instance *azurev1.Consumer
 	eventhubName := instance.Spec.EventhubName
 
 	var err error
-	_, err = eventhubsresourcemanager.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
+	_, err = r.ConsumerGroupManager.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete consumer group in azure")
 		return err

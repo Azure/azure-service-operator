@@ -20,14 +20,13 @@ import (
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
 	"context"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	"k8s.io/client-go/rest"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	// +kubebuilder:scaffold:imports
@@ -36,9 +35,14 @@ import (
 // These tests use Ginkgo (BDD-style Go testing framework). Refer to
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
-var cfg *rest.Config
-var resourceGroupName string
-var resourcegroupLocation string
+type TestContext struct {
+	ResourceGroupName     string
+	ResourceGroupLocation string
+	EventHubManagers      EventHubManagers
+	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
+}
+
+var tc TestContext
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
@@ -46,33 +50,38 @@ func TestAPIs(t *testing.T) {
 		t.Skip("skipping Resource Manager Eventhubs Suite")
 	}
 	RegisterFailHandler(Fail)
-	resourceGroupName = "t-rg-dev-rm-eh-" + helpers.RandomString(10)
-	resourcegroupLocation = "westus"
-
 	RunSpecs(t, "Eventhubs Suite")
 }
 
-var _ = BeforeSuite(func(done Done) {
+var _ = BeforeSuite(func() {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	By("bootstrapping test environment")
 
-	resourcemanagerconfig.LoadSettings()
+	err := resourcemanagerconfig.ParseEnvironment()
+	Expect(err).ToNot(HaveOccurred())
+	Expect(err).ToNot(HaveOccurred())
+
+	resourceGroupName := "t-rg-dev-rm-eh-" + helpers.RandomString(10)
+	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
+	resourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
+
+	// resourcegroupsresourcemanager.DeleteAllGroupsWithPrefix(context.Background(), "t-rg-dev-")
 
 	//create resourcegroup for this suite
-	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
-	if result.Response.StatusCode != 204 {
-		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+	_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)
+	Expect(err).ToNot(HaveOccurred())
+
+	tc = TestContext{
+		ResourceGroupName:     resourceGroupName,
+		ResourceGroupLocation: resourceGroupLocation,
+		EventHubManagers:      AzureEventHubManagers,
+		ResourceGroupManager:  resourceGroupManager,
 	}
+})
 
-	close(done)
-}, 60)
-
-var _ = AfterSuite(func(done Done) {
-	//clean up the resources created for test
+var _ = SynchronizedAfterSuite(func() {
+}, func() {
 	By("tearing down the test environment")
-
-	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
-
-	close(done)
+	_, _ = tc.ResourceGroupManager.DeleteGroupAsync(context.Background(), tc.ResourceGroupName)
 }, 60)

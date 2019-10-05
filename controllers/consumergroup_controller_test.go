@@ -19,9 +19,7 @@ import (
 	"context"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-
-	"time"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -33,17 +31,15 @@ import (
 
 var _ = Describe("ConsumerGroup Controller", func() {
 
-	const timeout = time.Second * 240
 	var rgName string
 	var ehnName string
 	var ehName string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		rgName = resourceGroupName
-		ehnName = eventhubNamespaceName
-		ehName = eventhubName
-
+		rgName = tc.resourceGroupName
+		ehnName = tc.eventhubNamespaceName
+		ehName = tc.eventhubName
 	})
 
 	AfterEach(func() {
@@ -74,29 +70,31 @@ var _ = Describe("ConsumerGroup Controller", func() {
 				},
 			}
 
-			err = k8sClient.Create(context.Background(), consumerGroupInstance)
+			err = tc.k8sClient.Create(context.Background(), consumerGroupInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			consumerGroupNamespacedName := types.NamespacedName{Name: consumerGroupName, Namespace: "default"}
 
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName)
-			}, timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsSubmitted()
-			}, timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
-			k8sClient.Delete(context.Background(), consumerGroupInstance)
+			err = tc.k8sClient.Delete(context.Background(), consumerGroupInstance)
+			Expect(err).NotTo(HaveOccurred())
+
 			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsBeingDeleted()
-			}, timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 		})

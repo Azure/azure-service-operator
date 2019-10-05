@@ -1,18 +1,39 @@
 # Image URL to use all building/pushing image targets
+
+
+# Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
+ifeq (,$(shell go env GOBIN))
+GOBIN=$(shell go env GOPATH)/bin
+else
+GOBIN=$(shell go env GOBIN)
+endif
+
 IMG ?= controller:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
 all: manager
 
+# Generate test certs for development
+generate-test-certs:
+	echo "[req]" > config.txt
+	echo "distinguished_name = req_distinguished_name" >> config.txt
+	echo "[req_distinguished_name]" >> config.txt
+	echo "[SAN]" >> config.txt
+	echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> config.txt
+	openssl req -x509 -days 730 -out tls.crt -keyout tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config config.txt -nodes
+	rm -rf /tmp/k8s-webhook-server
+	mkdir -p /tmp/k8s-webhook-server/serving-certs
+	mv tls.* /tmp/k8s-webhook-server/serving-certs/
+
 # Run tests
 test: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/... 2>&1 | tee testlogs.txt
+	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/... 2>&1 | tee testlogs-existing.txt
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs-existing.txt
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
 
@@ -33,9 +54,11 @@ deploy: manifests
 	kubectl apply -f config/crd/bases
 	kustomize build config/default | kubectl apply -f -
 
+timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
+
 update:
-	IMG="docker.io/controllertest:1" make ARGS="${ARGS}" docker-build
-	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+	IMG="docker.io/controllertest:$(timestamp)" make ARGS="${ARGS}" docker-build
+	kind load docker-image docker.io/controllertest:$(timestamp) --loglevel "trace"
 	make install
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
@@ -70,15 +93,26 @@ docker-build:
 docker-push:
 	docker push ${IMG}
 
+# Build and Push the docker image
+build-and-push: docker-build docker-push
+
 # find or download controller-gen
 # download controller-gen if necessary
 controller-gen:
 ifeq (, $(shell which controller-gen))
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0-beta.3
+	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
 CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
+
+.PHONY: install-bindata
+install-bindata:
+	go get -u github.com/jteeuwen/go-bindata/...
+
+.PHONE:
+generate-template:
+	go-bindata -pkg template -prefix pkg/template/assets/ -o pkg/template/templates.go pkg/template/assets/
 
 create-kindcluster:
 ifeq (,$(shell kind get clusters))
@@ -139,11 +173,12 @@ install-kubebuilder:
 ifeq (,$(shell which kubebuilder))
 	@echo "installing kubebuilder"
 	# download kubebuilder and extract it to tmp
-	curl -sL https://go.kubebuilder.io/dl/2.0.0-rc.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C /tmp/
+	curl -sL https://go.kubebuilder.io/dl/2.0.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C /tmp/
 	# move to a long-term location and put it on your path
 	# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
-	mv /tmp/kubebuilder_2.0.0-rc.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
-	export PATH=$PATH:/usr/local/kubebuilder/bin
+	# sudo mkdir -p /usr/local/kubebuilder/
+	sudo mv /tmp/kubebuilder_2.0.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
+	export PATH=$$PATH:/usr/local/kubebuilder/bin
 else
 	@echo "kubebuilder has been installed"
 endif
@@ -169,4 +204,5 @@ install-test-dependency:
 	go get -u github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
+	&& go get github.com/onsi/ginkgo/ginkgo \
 	&& go get golang.org/x/tools/cmd/cover

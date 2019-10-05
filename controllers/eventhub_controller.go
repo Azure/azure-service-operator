@@ -18,7 +18,11 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"time"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/go-autorest/autorest/to"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
@@ -44,9 +48,10 @@ import (
 // EventhubReconciler reconciles a Eventhub object
 type EventhubReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Log             logr.Logger
+	Recorder        record.EventRecorder
+	Scheme          *runtime.Scheme
+	EventHubManager eventhubsresourcemanager.EventHubManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
@@ -104,6 +109,14 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
+	if instance.IsSubmitted() {
+		err := r.reapply(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when reapplying resource in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
 	return ctrl.Result{}, nil
 }
 
@@ -111,7 +124,47 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 func (r *EventhubReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.Eventhub{}).
+		Owns(&v1.Secret{}).
 		Complete(r)
+}
+
+func (r *EventhubReconciler) reapply(instance *azurev1.Eventhub) error {
+	ctx := context.Background()
+	var err error
+	eventhubName := instance.ObjectMeta.Name
+	eventhubNamespace := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+	secretName := instance.Spec.SecretName
+
+	result, _ := r.EventHubManager.GetHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+	if result.Response.StatusCode == http.StatusNotFound {
+		r.reconcileExternal(instance)
+		r.Recorder.Event(instance, "Normal", "Updated", "Resource does not exist in azure, reapplied it")
+	}
+
+	if result.Response.StatusCode == http.StatusOK {
+		//get secret for eventhub
+		err = r.getEventhubSecrets(secretName, instance)
+		if err != nil {
+			//check if access policy exists, create if it does not and apply secret
+			_, err := r.EventHubManager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, instance.Spec.AuthorizationRule.Name)
+			if err != nil {
+				err = r.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
+				if err != nil {
+					r.Recorder.Event(instance, "Warning", "Failed", "Unable to reapply createAccessPolicyEventHub")
+					return err
+				}
+			}
+
+			err = r.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
+			if err != nil {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to reapply listAccessKeysAndCreateSecrets")
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error {
@@ -124,6 +177,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 	resourcegroup := instance.Spec.ResourceGroup
 	partitionCount := instance.Spec.Properties.PartitionCount
 	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
+	captureDescription := instance.Spec.Properties.CaptureDescription
 	secretName := instance.Spec.SecretName
 
 	if secretName == "" {
@@ -144,7 +198,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 	} else {
 		//set owner reference for eventhub if it exists
 		references := []metav1.OwnerReference{
-			metav1.OwnerReference{
+			{
 				APIVersion: "v1",
 				Kind:       "EventhubNamespace",
 				Name:       ownerInstance.GetName(),
@@ -160,7 +214,9 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = eventhubsresourcemanager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount)
+	capturePtr := getCaptureDescriptionPtr(captureDescription)
+
+	_, err = r.EventHubManager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -195,6 +251,35 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1.Eventhub) error
 	return nil
 }
 
+const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
+
+func getCaptureDescriptionPtr(captureDescription azurev1.CaptureDescription) *model.CaptureDescription {
+	// add capture details
+	var capturePtr *model.CaptureDescription
+
+	storage := captureDescription.Destination.StorageAccount
+	storageAccountResourceId := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+
+	if captureDescription.Enabled {
+		capturePtr = &model.CaptureDescription{
+			Enabled:           to.BoolPtr(true),
+			Encoding:          model.Avro,
+			IntervalInSeconds: &captureDescription.IntervalInSeconds,
+			SizeLimitInBytes:  &captureDescription.SizeLimitInBytes,
+			Destination: &model.Destination{
+				Name: &captureDescription.Destination.Name,
+				DestinationProperties: &model.DestinationProperties{
+					StorageAccountResourceID: &storageAccountResourceId,
+					BlobContainer:            &captureDescription.Destination.BlobContainer,
+					ArchiveNameFormat:        &captureDescription.Destination.ArchiveNameFormat,
+				},
+			},
+			SkipEmptyArchives: to.BoolPtr(true),
+		}
+	}
+	return capturePtr
+}
+
 func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
 
 	ctx := context.Background()
@@ -204,9 +289,9 @@ func (r *EventhubReconciler) deleteEventhub(instance *azurev1.Eventhub) error {
 	resourcegroup := instance.Spec.ResourceGroup
 
 	var err error
-	_, err = eventhubsresourcemanager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
+	_, err = r.EventHubManager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 	return nil
@@ -228,7 +313,7 @@ func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup st
 			Rights: &accessRights,
 		},
 	}
-	_, err = eventhubsresourcemanager.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, parameters)
+	_, err = r.EventHubManager.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, parameters)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to createorupdateauthorizationrule")
 		return err
@@ -242,7 +327,7 @@ func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string
 	var result model.AccessKeys
 	ctx := context.Background()
 
-	result, err = eventhubsresourcemanager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName)
+	result, err = r.EventHubManager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName)
 	if err != nil {
 		//log error and kill it
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to list keys")

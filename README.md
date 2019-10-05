@@ -46,7 +46,7 @@ Basic commands to check your cluster
 
 ### Quick Start
 
-If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you quickly have you're environment set up and ready to go with everything you need to get started.
+If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you can quickly have you're environment set up and ready to go with everything you need to get started.
 
 1. Open this project in VSCode.
 2. Inside `.devcontainer`, create a file called `.env` and using the following template, copy your Service Principal's details.
@@ -65,9 +65,7 @@ If you're using VSCode with [Remote - Containers](https://marketplace.visualstud
 4. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
 5. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment.
 
-**Note**: after the DevContainer has finished building, the kind cluster will initialising and installing the Azure Service Operator in the background. This will take some time before it is available.
-
-To see when the kind cluster is ready, use `docker ps -a` to list your running containers, look for `IMAGE` with the name `azure-service-operator_devcontainer_docker-in-docker...`. Using that image's `CONTAINER ID`, use `docker logs -f CONTAINER ID` to view the logs from the container setting up your cluster.
+**Note**: if you do not want to create a kind cluster when starting the devcontainer, comment out `"postCreateCommand": "make set-kindcluster",` in `.devcontainer/devcontainer.json` and reopen the devcontainer.
 
 ### Getting started
 
@@ -165,6 +163,28 @@ To Extend the operator `github.com/Azure/azure-service-operator`:
 8. Deploy `make deploy`
 
 If you make changes to the operator and want to update the deployment without recreating the cluster (when testing locally), you can use the `make update` to update your Azure Operator pod. If you need to rebuild the docker image without cache, use `make ARGS="--no-cache" update`.
+
+## Testing
+
+Testing the full project can be done in two ways:
+* `make test` - Test against the Kubernetes integration testing framework.
+* `make test-existing` - Test against an existing cluster. This is currently easiest to do run against a kind cluster setup.
+
+Both of these invoke the Ginkgo test runner, running tests in parallel across 4 nodes by default.
+
+### Focus tests
+
+The ginkgo runner makes it simple to test single test cases, or packages in isolation.
+* Rename the spec from `Describe` to `FDescribe`, or the individual test case from `It` to `FIt` excludes all other tests at the same level.
+* Adding an additional parameter to ginkgo runner `--focus=REGEXP`.
+
+See [https://onsi.github.io/ginkgo/#focused-specs]() for more details.
+
+
+### Help
+
+1. If the secret for the Eventhub in k8s gets deleted accidentally, the reconcile for the parent eventhub is triggered and secret gets created again.
+2. If EventhubNamespace and Eventhub are deleted in Azure, then we need to delete the objects in k8s for the resources to be recreated. Reason being, if we apply the same manifest k8s does it recognise it as a change and the reconcile is not triggered. 
 
 ## Contributing
 
