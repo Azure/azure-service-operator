@@ -24,18 +24,21 @@ import (
 
 // SqlUserSpec defines the desired state of SqlUser
 type SqlUserSpec struct {
-	Location      string `json:"location"`
-	ResourceGroup string `json:"resourcegroup,omitempty"`
-	Server        string `json:"server"`
-	DbName        string `json:"dbname"`
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Location      string   `json:"location"`
+	ResourceGroup string   `json:"resourcegroup,omitempty"`
+	Server        string   `json:"server"`
+	DbName        string   `json:"dbname"`
+	Roles         []string `json:"roles"`
 }
 
 // SqlUserStatus defines the observed state of SqlUser
 type SqlUserStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -60,4 +63,9 @@ type SqlUserList struct {
 
 func init() {
 	SchemeBuilder.Register(&SqlUser{}, &SqlUserList{})
+}
+
+// IsSubmitted checks if sqluser is provisioning
+func (s *SqlUser) IsSubmitted() bool {
+	return s.Status.Provisioning || s.Status.Provisioned
 }

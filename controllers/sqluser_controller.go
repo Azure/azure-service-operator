@@ -19,8 +19,11 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strings"
+	"time"
 
 	"github.com/go-logr/logr"
+	"github.com/prometheus/common/log"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -31,10 +34,27 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	//sqlclient "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	_ "github.com/denisenkom/go-mssqldb"
 )
+
+// SqlServerPort is the default server port for sql server
+const SqlServerPort = 1433
+
+// DriverName is driver name for db connection
+const DriverName = "sqlserver"
+
+// SecretUsernameKey is the username key in secret
+const SecretUsernameKey = "username"
+
+// SecretPasswordKey is the password key in secret
+const SecretPasswordKey = "password"
+
+// SQLUserFinalizerName is the name of the finalizer
+const SQLUserFinalizerName = "sqluser.finalizers.azure.com"
 
 // SqlUserReconciler reconciles a SqlUser object
 type SqlUserReconciler struct {
@@ -49,61 +69,106 @@ type SqlUserReconciler struct {
 
 func (r *SqlUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	var instance azurev1.SqlUser
 	log := r.Log.WithValues("sqluser", req.NamespacedName)
+
+	var instance azurev1.SqlUser
+
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Info("Unable to retrieve sql user resource", "err", err.Error())
+		log.Info("Unable to retrieve sqluser resource", "err", err.Error())
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	if helpers.IsBeingDeleted(&instance) {
+		if helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
+			if err := r.deleteExternal(instance); err != nil {
+				log.Info("Delete Sqluser failed with ", "error", err.Error())
+				return ctrl.Result{}, err
+			}
+
+			helpers.RemoveFinalizer(&instance, SQLFirewallRuleFinalizerName)
+			if err := r.Update(context.Background(), &instance); err != nil {
+				return ctrl.Result{}, err
+			}
+		}
+		return ctrl.Result{}, nil
+	}
+
+	if !helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
+		if err := r.addFinalizer(&instance); err != nil {
+			log.Info("Adding SqlUser finalizer failed with ", "error", err.Error())
+			return ctrl.Result{}, err
+		}
+	}
+
+	if !instance.IsSubmitted() {
+		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation for SqlUser")
+		if err := r.reconcileExternal(instance); err != nil {
+
+			catch := []string{
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.NotFoundErrorCode,
+				errhelp.AsyncOpIncompleteError,
+			}
+			if azerr, ok := err.(*errhelp.AzureError); ok {
+				if helpers.ContainsString(catch, azerr.Type) {
+					log.Info("Got ignorable error", "type", azerr.Type)
+					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+				}
+			}
+			return ctrl.Result{}, fmt.Errorf("error reconciling sql user in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	r.Recorder.Event(&instance, "Normal", "Provisioned", "sqluser "+instance.ObjectMeta.Name+" provisioned ")
+
+	return ctrl.Result{}, nil
+}
+
+func (r *SqlUserReconciler) deleteExternal(instance azurev1.SqlUser) error {
+	// Add DB call to drop user and delete secret
+	return nil
+}
+
+// Reconcile user sql request
+func (r *SqlUserReconciler) reconcileExternal(instance azurev1.SqlUser) error {
+	ctx := context.Background()
+
+	// get admin credentials to connect to db
 	secret := r.GetOrPrepareSecret(&instance, instance.Spec.Server)
+	var user = string(secret.Data[SecretUsernameKey])
+	var password = string(secret.Data[SecretPasswordKey])
+	connString := r.getConnectionString(instance.Spec.Server, user, password, SqlServerPort, instance.Spec.DbName)
 
-	log.Info("GOT SECRET", "secret", string(secret.Data["username"]))
-	log.Info("GOT SECRET", "secret", string(secret.Data["password"]))
-
-	//location := instance.Spec.Location
-	server := fmt.Sprintf("%s.database.windows.net", instance.Spec.Server)
-	//groupName := instance.Spec.ResourceGroup
-	database := "sqldatabase-aso-sql"
-	var port = 1433
-	var user = string(secret.Data["username"])
-	var password = string(secret.Data["password"])
-
-	// Build connection string
-	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
-		server, user, password, port, database)
-
-	db, _ := sql.Open("sqlserver", connString)
+	db, _ := sql.Open(DriverName, connString)
 	err := db.Ping()
 	if err != nil {
-		log.Info("Unable to ping server", "err", err.Error())
-	} else {
-		log.Info("succesfully logged in")
+		log.Error(err, "Unable to ping server")
+		return err
 	}
 
-	newUser := "usernametest0"
-	newPassword := "pass@word1"
-	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
-
-	// Execute non-query with named parameters
-	_, err = db.ExecContext(ctx, tsql)
+	// create or get new user secret
+	secret = r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name)
+	user, err = createUser(ctx, secret, db)
 	if err != nil {
-		log.Info("Error executing", "err", err.Error())
-	} else {
-		log.Info("Successfully executed user create")
+		log.Error(err, "Unable to create user")
+		return err
 	}
 
-	tsql = fmt.Sprintf("sp_addrolemember '%s', %s", "db_owner", newUser)
-	_, err = db.ExecContext(ctx, tsql)
-	if err != nil {
-		log.Info("Error executing", "err", err.Error())
+	// apply roles to user
+	roles := instance.Spec.Roles
+	if len(roles) == 0 {
+		log.Info("No roles specified for user")
 	} else {
-		log.Info("Successfully gave user owner creds")
+		grantUserRoles(ctx, user, roles, db)
 	}
 
-	secret = r.GetOrPrepareSecret(&instance, newUser)
-	log.Info("GOT NEW SECRET", "secret", string(secret.Data["username"]))
-	log.Info("GOT NEW SECRET", "secret", string(secret.Data["password"]))
+	// create and publish secret
+	secret = r.GetOrPrepareSecret(&instance, user)
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
 		r.Log.Info("mutating secret bundle")
@@ -115,13 +180,55 @@ func (r *SqlUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	})
 	if createOrUpdateSecretErr != nil {
 		log.Info("createOrUpdateSecretErr", "err", err.Error())
+		return err
 	}
 
-	// TODO: write the secret
-	return ctrl.Result{}, nil
+	return nil
 }
 
-// Get or prepare secret
+// Grants roles to a user for a given database
+func grantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
+	var errorStrings []string
+	for _, role := range roles {
+		tsql := fmt.Sprintf("sp_addrolemember '%s', %s", role, user)
+		_, err := db.ExecContext(ctx, tsql)
+		if err != nil {
+			log.Info("Error executing", "err", err.Error())
+			errorStrings = append(errorStrings, err.Error())
+		}
+	}
+
+	if len(errorStrings) != 0 {
+		return fmt.Errorf(strings.Join(errorStrings, "\n"))
+	}
+	return nil
+}
+
+// Creates user with secret credentials
+func createUser(ctx context.Context, secret *v1.Secret, db *sql.DB) (string, error) {
+	newUser := string(secret.Data[SecretUsernameKey])
+	newPassword := string(secret.Data[SecretPasswordKey])
+	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
+
+	// Execute non-query with named parameters
+	_, err := db.ExecContext(ctx, tsql)
+	if err != nil {
+		log.Error("Error executing", "err", err.Error())
+		return newUser, err
+	}
+
+	log.Info("User created", "username", newUser)
+	return newUser, nil
+}
+
+// Builds connection string to connect to database
+func (r *SqlUserReconciler) getConnectionString(server string, user string, password string, port int, database string) string {
+	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
+	return fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
+		fullServerAddress, user, password, port, database)
+}
+
+// GetOrPrepareSecret gets or creates a secret
 func (r *SqlUserReconciler) GetOrPrepareSecret(instance *azurev1.SqlUser, name string) *v1.Secret {
 
 	secret := &v1.Secret{
@@ -145,8 +252,20 @@ func (r *SqlUserReconciler) GetOrPrepareSecret(instance *azurev1.SqlUser, name s
 	return secret
 }
 
+// SetupWithManager runs reconcile loop with manager
 func (r *SqlUserReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.SqlUser{}).
 		Complete(r)
+}
+
+// add finalizer
+func (r *SqlUserReconciler) addFinalizer(instance *azurev1.SqlUser) error {
+	helpers.AddFinalizer(instance, SQLUserFinalizerName)
+	err := r.Update(context.Background(), instance)
+	if err != nil {
+		return fmt.Errorf("failed to update finalizer: %v", err)
+	}
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLFirewallRuleFinalizerName))
+	return nil
 }
