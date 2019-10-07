@@ -1,0 +1,10 @@
+apiVersion: azure.microsoft.com/v1
+kind: SqlUser
+metadata:
+  name: sqluser-sample0
+spec:
+  server: sqlserver
+  dbname: sqldatabase-aso-sql
+  adminsecret: sqlserver
+  roles:
+    - "db_owner"

@@ -26,11 +26,10 @@ import (
 type SqlUserSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string   `json:"location"`
-	ResourceGroup string   `json:"resourcegroup,omitempty"`
-	Server        string   `json:"server"`
-	DbName        string   `json:"dbname"`
-	Roles         []string `json:"roles"`
+	Server      string   `json:"server"`
+	DbName      string   `json:"dbname"`
+	AdminSecret string   `json:"adminsecret,omitempty"`
+	Roles       []string `json:"roles"`
 }
 
 // SqlUserStatus defines the observed state of SqlUser
