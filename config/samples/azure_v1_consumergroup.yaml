@@ -4,6 +4,6 @@ metadata:
   name: consumergroup-sample-1
 spec:
   # Add fields here
-  resourcegroup: "resourcegroup-sample-1"
+  resourcegroup: resourcegroup-azure-operators
   namespace: "eventhubnamespace-sample-1"
   eventHub: "eventhub-sample-2"
