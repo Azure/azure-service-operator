@@ -330,6 +330,14 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) (*
 			Name:      name,
 			Namespace: instance.Namespace,
 		},
+		// Needed to avoid nil map error
+		Data: map[string][]byte{
+			"username":                 []byte(""),
+			"fullyqualifiedusername":   []byte(""),
+			"password":                 []byte(""),
+			"sqlservername":            []byte(""),
+			"fullyqualifiedservername": []byte(""),
+		},
 		Type: "Opaque",
 	}
 
