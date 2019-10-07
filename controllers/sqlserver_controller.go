@@ -95,7 +95,6 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
-	// TODO: Melanie!!!! Fix me! You'r emy only hope
 	/*
 		location := instance.Spec.Location
 		name := instance.ObjectMeta.Name
