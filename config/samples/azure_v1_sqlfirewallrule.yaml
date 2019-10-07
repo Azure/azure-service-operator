@@ -1,8 +1,11 @@
 apiVersion: azure.microsoft.com/v1
 kind: SqlFirewallRule
 metadata:
-  name: sqlfirewallrule-sample
+  name: sqlf-allowazuresvcaccess
 spec:
-  server:  sqlserver-sample
-  startipaddress: 1.1.1.1
-  endipaddress: 6.6.6.6
+  resourcegroup: resourcegroup-azure-operators
+  server:  sqlserver-sample-777
+  
+  # this IP range enables Azure Service access
+  startipaddress: 0.0.0.0
+  endipaddress: 0.0.0.0

@@ -63,17 +63,6 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	location := instance.Spec.Location
-	name := instance.ObjectMeta.Name
-	groupName := instance.Spec.ResourceGroup
-
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        name,
-		Location:          location,
-	}
-
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
@@ -106,16 +95,27 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
-	availableResp, err := sdkClient.CheckNameAvailability()
-	if err != nil {
-		log.Info("error validating name")
-		return ctrl.Result{}, err
-	}
-	if !availableResp.Available {
-		log.Info("Servername is invalid or not available")
-		r.Recorder.Event(&instance, "Warning", "Failed", "Servername is invalid")
-		return ctrl.Result{Requeue: false}, fmt.Errorf("Servername invalid %s", availableResp.Name)
-	}
+	/*
+		location := instance.Spec.Location
+		name := instance.ObjectMeta.Name
+		groupName := instance.Spec.ResourceGroup
+		sdkClient := sql.GoSDKClient{
+			Ctx:               ctx,
+			ResourceGroupName: groupName,
+			ServerName:        name,
+			Location:          location,
+		}
+		availableResp, err := sdkClient.CheckNameAvailability()
+		if err != nil {
+			log.Info("error validating name")
+			return ctrl.Result{}, err
+		}
+		if !availableResp.Available {
+			log.Info("Servername is invalid or not available")
+			r.Recorder.Event(&instance, "Warning", "Failed", "Servername is invalid")
+			return ctrl.Result{Requeue: false}, fmt.Errorf("Servername invalid %s", availableResp.Name)
+		}
+	*/
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation")
@@ -246,15 +246,6 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 	r.Recorder.Event(instance, "Normal", "Checking", fmt.Sprintf("instance in %s state", instance.Status.State))
 
 	if instance.Status.State == "Ready" {
-
-		if instance.Spec.AllowAzureServiceAccess == true {
-			// Add firewall rule to allow azure service access
-			_, err := sdkClient.CreateOrUpdateSQLFirewallRule("AllowAzureAccess", "0.0.0.0", "0.0.0.0")
-			if err != nil {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to add firewall rule to SQL server")
-				return errhelp.NewAzureError(err)
-			}
-		}
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 	}
