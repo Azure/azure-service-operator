@@ -49,6 +49,8 @@ func (r *AdlsGen2Reconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	log.Info("retrieved ADLS Gen2 just fine!")
+
 	return ctrl.Result{}, nil
 }
 
