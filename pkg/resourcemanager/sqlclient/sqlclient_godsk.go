@@ -120,13 +120,6 @@ func (sdk GoSDKClient) GetDB(databaseName string) (sql.Database, error) {
 func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
 	serversClient := getGoServersClient()
 
-	return serversClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-	)
-}
-
 // GetSQLFirewallRule returns a firewall rule
 func (sdk GoSDKClient) GetSQLFirewallRule(ruleName string) (result sql.FirewallRule, err error) {
 	firewallClient := getGoFirewallClient()
