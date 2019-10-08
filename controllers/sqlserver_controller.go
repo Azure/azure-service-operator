@@ -290,11 +290,10 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		}
 		return errhelp.NewAzureError(err)
-	}
-
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
 	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
