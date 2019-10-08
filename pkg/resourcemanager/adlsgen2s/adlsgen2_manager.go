@@ -1,9 +1,9 @@
 package adlsgen2s
 
 import (
-	"context"
+// "context"
 
-	apiv1 "github.com/Azure/azure-service-operator/api/v1"
+// apiv1 "github.com/Azure/azure-service-operator/api/v1"
 )
 
 type AdlsGen2Manager interface {
