@@ -46,7 +46,7 @@ run: generate fmt vet
 	go run ./main.go
 
 # Install CRDs into a cluster
-install: manifests
+install: generate
 	kubectl apply -f config/crd/bases
 
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
@@ -80,7 +80,7 @@ vet:
 	go vet ./...
 
 # Generate code
-generate: controller-gen
+generate: manifests
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
 
 # Build the docker image
@@ -150,9 +150,10 @@ endif
 	make install-cert-manager
 
 	#create image and load it into cluster
+	make install
 	IMG="docker.io/controllertest:1" make docker-build
 	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
-	make install
+	
 	kubectl get namespaces
 	kubectl get pods --namespace cert-manager
 	@echo "Waiting for cert-manager to be ready"
@@ -160,7 +161,6 @@ endif
 	@echo "all the pods should be running"
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
-	make generate
 
 install-kind:
 ifeq (,$(shell which kind))
