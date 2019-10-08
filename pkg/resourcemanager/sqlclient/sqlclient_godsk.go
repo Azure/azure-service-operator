@@ -113,12 +113,16 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (sql.D
 		})
 }
 
-// GetDB retrieves a database
-func (sdk GoSDKClient) GetDB(databaseName string) (sql.Database, error) {
-	dbClient := getGoDbClient()
 // GetServer returns a SQL server
 func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
 	serversClient := getGoServersClient()
+
+	return serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
+}
 
 // GetSQLFirewallRule returns a firewall rule
 func (sdk GoSDKClient) GetSQLFirewallRule(ruleName string) (result sql.FirewallRule, err error) {
@@ -245,15 +249,4 @@ func (sdk GoSDKClient) CheckNameAvailability() (result AvailabilityResponse, err
 	}
 
 	return ToAvailabilityResponse(response), err
-}
-
-// GetServer returns a SQL server
-func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
-	serversClient := getGoServersClient()
-
-	return serversClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-	)
 }

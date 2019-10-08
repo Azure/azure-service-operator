@@ -403,14 +403,16 @@ spec:
           properties:
             endipaddress:
               type: string
-            server:
+            location:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
+              type: string
+            resourcegroup:
               type: string
             startipaddress:
               type: string
           required:
-          - server
+          - location
           type: object
         status:
           description: SqlFirewallRuleStatus defines the observed state of SqlFirewallRule
