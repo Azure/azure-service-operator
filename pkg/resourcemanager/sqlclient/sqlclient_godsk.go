@@ -1,8 +1,3 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
-
 package sqlclient
 
 import (
@@ -111,17 +106,6 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (sql.D
 			Location:           to.StringPtr(sdk.Location),
 			DatabaseProperties: &dbProp,
 		})
-}
-
-// GetServer returns a SQL server
-func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
-	serversClient := getGoServersClient()
-
-	return serversClient.Get(
-		sdk.Ctx,
-		sdk.ResourceGroupName,
-		sdk.ServerName,
-	)
 }
 
 // GetSQLFirewallRule returns a firewall rule
@@ -249,4 +233,15 @@ func (sdk GoSDKClient) CheckNameAvailability() (result AvailabilityResponse, err
 	}
 
 	return ToAvailabilityResponse(response), err
+}
+
+// GetServer returns a SQL server
+func (sdk GoSDKClient) GetServer() (result sql.Server, err error) {
+	serversClient := getGoServersClient()
+
+	return serversClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+	)
 }
