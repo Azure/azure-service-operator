@@ -120,11 +120,10 @@ func (r *SqlDatabaseReconciler) SetupWithManager(mgr ctrl.Manager) error {
 func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
-	server := instance.Spec.Server
 	groupName := instance.Spec.ResourceGroup
-	dbEdition := instance.Spec.Edition
-
+	server := instance.Spec.Server
 	dbName := instance.ObjectMeta.Name
+	dbEdition := instance.Spec.Edition
 
 	sdkClient := sql.GoSDKClient{
 		Ctx:               ctx,
@@ -145,7 +144,6 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 	var ownerInstance azurev1.SqlServer
 	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
 	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
-
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of SqlServer")
@@ -193,10 +191,10 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 
 func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) error {
 	ctx := context.Background()
-	dbname := instance.ObjectMeta.Name
+	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
-	location := instance.Spec.Location
+	dbName := instance.ObjectMeta.Name
 
 	// create the Go SDK client with relevant info
 	sdk := sql.GoSDKClient{
@@ -206,8 +204,8 @@ func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) er
 		Location:          location,
 	}
 
-	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/database/%s"+groupName, server, dbname))
-	_, err := sdk.DeleteDB(dbname)
+	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/database/%s"+groupName, server, dbName))
+	_, err := sdk.DeleteDB(dbName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
@@ -217,7 +215,7 @@ func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) er
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
 		return err
 	}
-	r.Recorder.Event(instance, "Normal", "Deleted", dbname+" deleted")
+	r.Recorder.Event(instance, "Normal", "Deleted", dbName+" deleted")
 	return nil
 }
 

@@ -4,6 +4,6 @@ metadata:
   name:  sqldatabase-sample
 spec:
   location: westus
-  resourcegroup: resourcegroup-sample-1907
+  resourcegroup: resourcegroup-azure-operators
+  server:  sqlserver-sample-777
   edition: 0
-  server:  sqlserver-sample
