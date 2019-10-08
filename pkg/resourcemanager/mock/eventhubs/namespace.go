@@ -19,6 +19,8 @@ package eventhubs
 import (
 	"context"
 	"errors"
+	"net/http"
+
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
@@ -70,12 +72,12 @@ func (manager *mockEventHubNamespaceManager) DeleteNamespace(ctx context.Context
 	})
 
 	if index == -1 {
-		return helpers.GetRestResponse(404), errors.New("eventhub namespace not found")
+		return helpers.GetRestResponse(http.StatusNotFound), errors.New("eventhub namespace not found")
 	}
 
 	manager.eventHubNamespaceResources = append(namespaces[:index], namespaces[index+1:]...)
 
-	return helpers.GetRestResponse(200), nil
+	return helpers.GetRestResponse(http.StatusOK), nil
 }
 
 func (manager *mockEventHubNamespaceManager) GetNamespace(ctx context.Context, resourceGroupName string, namespaceName string) (*eventhub.EHNamespace, error) {

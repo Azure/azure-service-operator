@@ -19,6 +19,8 @@ package keyvaults
 import (
 	"context"
 	"errors"
+	"net/http"
+
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	pkghelpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
@@ -48,7 +50,7 @@ func findKeyVault(res []keyVaultResource, predicate func(keyVaultResource) bool)
 // CreateVault creates a new key vault
 func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string) (keyvault.Vault, error) {
 	v := keyvault.Vault{
-		Response:   helpers.GetRestResponse(200),
+		Response:   helpers.GetRestResponse(http.StatusOK),
 		Properties: &keyvault.VaultProperties{},
 		ID:         to.StringPtr(pkghelpers.RandomString(10)),
 		Name:       to.StringPtr(vaultName),
@@ -77,12 +79,12 @@ func (manager *MockKeyVaultManager) DeleteVault(ctx context.Context, groupName s
 	})
 
 	if index == -1 {
-		return helpers.GetRestResponse(404), errors.New("key vault not found")
+		return helpers.GetRestResponse(http.StatusNotFound), errors.New("key vault not found")
 	}
 
 	manager.keyVaultResources = append(vaults[:index], vaults[index+1:]...)
 
-	return helpers.GetRestResponse(200), nil
+	return helpers.GetRestResponse(http.StatusOK), nil
 }
 
 // Returns an existing keyvault instance
@@ -96,7 +98,7 @@ func (manager *MockKeyVaultManager) GetVault(ctx context.Context, groupName stri
 
 	if index == -1 {
 		return keyvault.Vault{
-			Response: helpers.GetRestResponse(404),
+			Response: helpers.GetRestResponse(http.StatusNotFound),
 		}, errors.New("key vault not found")
 	}
 

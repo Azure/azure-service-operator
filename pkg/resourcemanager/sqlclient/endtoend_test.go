@@ -8,6 +8,7 @@ package sqlclient
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"testing"
 	"time"
 
@@ -100,7 +101,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	time.Sleep(time.Second)
 	response, err := sdk.DeleteDB("testDB")
 	if err == nil {
-		if response.StatusCode == 200 {
+		if response.StatusCode == http.StatusOK {
 			util.PrintAndLog("db deleted")
 		}
 	} else {
@@ -113,7 +114,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		time.Sleep(time.Second)
 		response, err := sdk.DeleteSQLServer()
 		if err == nil {
-			if response.StatusCode == 200 {
+			if response.StatusCode == http.StatusOK {
 				util.PrintAndLog("sql server deleted")
 				break
 			}
