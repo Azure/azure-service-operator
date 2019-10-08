@@ -22,51 +22,49 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// SqlServerSpec defines the desired state of SqlServer
-type SqlServerSpec struct {
+// SqlActionSpec defines the desired state of SqlAction
+type SqlActionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string `json:"location"`
-	ResourceGroup string `json:"resourcegroup,omitempty"`
+	ResourceGroup string `json:"resourcegroup"`
+	ActionName    string `json:"actionname"`
+	ServerName    string `json:"servername"`
 }
 
-// SqlServerStatus defines the observed state of SqlServer
-type SqlServerStatus struct {
+// SqlActionStatus defines the observed state of SqlAction
+type SqlActionStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool   `json:"provisioning,omitempty"`
 	Provisioned  bool   `json:"provisioned,omitempty"`
-	State        string `json:"state,omitempty"`
+	Message      string `json:"state,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// SqlServer is the Schema for the sqlservers API
-type SqlServer struct {
+
+// SqlAction is the Schema for the sqlactions API
+type SqlAction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SqlServerSpec   `json:"spec,omitempty"`
-	Status SqlServerStatus `json:"status,omitempty"`
+	Spec   SqlActionSpec   `json:"spec,omitempty"`
+	Status SqlActionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SqlServerList contains a list of SqlServer
-type SqlServerList struct {
+// SqlActionList contains a list of SqlAction
+type SqlActionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SqlServer `json:"items"`
+	Items           []SqlAction `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&SqlServer{}, &SqlServerList{})
+	SchemeBuilder.Register(&SqlAction{}, &SqlActionList{})
 }
 
-func (s *SqlServer) IsSubmitted() bool {
+func (s *SqlAction) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
-}
-
-func (s *SqlServer) IsProvisioned() bool {
-	return s.Status.Provisioned
 }
