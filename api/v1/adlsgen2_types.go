@@ -26,16 +26,16 @@ import (
 type AdlsGen2Spec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location			string `json:"location,omitempty"`
-	ResourceGroupName 	string `json:"resourceGroup"`
+	Location          string `json:"location,omitempty"`
+	ResourceGroupName string `json:"resourceGroup"`
 }
 
 // AdlsGen2Status defines the observed state of AdlsGen2
 type AdlsGen2Status struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning	bool `json:"provisioning,omitempty"`
-	Provisioned 	bool `json:"provisioned,omitempty"`
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -45,18 +45,18 @@ type AdlsGen2 struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   	AdlsGen2Spec   	`json:"spec,omitempty"`
-	Status 	AdlsGen2Status 	`json:"status,omitempty"`
-	Output 	AdlsGen2Output	`json:"output,omitempty"`
+	Spec   AdlsGen2Spec   `json:"spec,omitempty"`
+	Status AdlsGen2Status `json:"status,omitempty"`
+	Output AdlsGen2Output `json:"output,omitempty"`
 }
 
 // AdlsGen2Output is the object that contains the output from creating and AdlsGen2 object
 type AdlsGen2Output struct {
-	AdlsGen2AccountName	string `json:"AdlsGen2AccountName,omitempty"`
-	Key1				string `json:"key1,omitempty"`
-	Key2				string `json:"key2,omitempty"`
-	ConnectionString1  	string `json:"connectionString1,omitempty"`
-	ConnectionString2  	string `json:"connectionString2,omitempty"`
+	AdlsGen2AccountName string `json:"AdlsGen2AccountName,omitempty"`
+	Key1                string `json:"key1,omitempty"`
+	Key2                string `json:"key2,omitempty"`
+	ConnectionString1   string `json:"connectionString1,omitempty"`
+	ConnectionString2   string `json:"connectionString2,omitempty"`
 }
 
 // +kubebuilder:object:root=true

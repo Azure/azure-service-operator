@@ -4,4 +4,5 @@ metadata:
   name: adlsgen2-sample
 spec:
   # Add fields here
-  foo: bar
+  location: westus
+  resourceGroup: resourcegroup-sample-1908
