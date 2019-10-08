@@ -31,7 +31,6 @@ func (r *SqlServerReconciler) addFinalizer(instance *azurev1.SqlServer) error {
 	if updateerr := r.Status().Update(context.Background(), instance); updateerr != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Failed to update finalizer")
 	}
-	instance.Status.Message = "Finalizer successfully added"
 	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLServerFinalizerName))
 	return nil
 }
