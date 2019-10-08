@@ -195,6 +195,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		}
 	} else {
 		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully submitted to Azure")
+		instance.Status.Message = "Successfully Submitted to Azure"
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
@@ -308,6 +309,7 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) *v
 
 	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
+		instance.Status.Message = "Secret exists on instance"
 	}
 
 	return secret
