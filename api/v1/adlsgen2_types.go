@@ -26,7 +26,7 @@ import (
 type AdlsGen2Spec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location			string `json:"location, omitempty"`
+	Location			string `json:"location,omitempty"`
 	ResourceGroupName 	string `json:"resourceGroup"`
 }
 
@@ -34,6 +34,8 @@ type AdlsGen2Spec struct {
 type AdlsGen2Status struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Provisioning	bool `json:"provisioning,omitempty"`
+	Provisioned 	bool `json:"provisioned,omitempty"`
 }
 
 // +kubebuilder:object:root=true
