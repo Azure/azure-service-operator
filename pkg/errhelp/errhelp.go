@@ -28,8 +28,3 @@ func IsAsynchronousOperationNotComplete(err error) bool {
 func IsStatusCode204(err error) bool {
 	return strings.Contains(err.Error(), "StatusCode=204")
 }
-
-// IsResourceNotFound checks if error reports that a referenced resource is not found
-func IsResourceNotFound(err error) bool {
-	return strings.Contains(err.Error(), "ResourceNotFound")
-}
