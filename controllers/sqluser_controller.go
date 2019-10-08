@@ -19,9 +19,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"math/rand"
 	"strings"
-	"time"
 
 	"github.com/go-logr/logr"
 	"github.com/prometheus/common/log"
@@ -163,11 +161,15 @@ func (r *SqlUserReconciler) reconcileExternal(instance azurev1.SqlUser) error {
 
 	// create or get new user secret
 	secret = r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name)
-	user, err = createUser(ctx, secret, db)
+	containsUser, err := ContainsUser(ctx, db, instance.ObjectMeta.Name)
 	if err != nil {
-		log.Error(err, "Unable to create user")
-		if !strings.Contains(err.Error(), "already exists") {
-			return err
+		log.Info("Error or couldn't find user", "err:", err.Error())
+	}
+
+	if !containsUser {
+		user, err = createUser(ctx, secret, db)
+		if err != nil {
+			return nil
 		}
 	}
 
@@ -179,9 +181,7 @@ func (r *SqlUserReconciler) reconcileExternal(instance azurev1.SqlUser) error {
 		grantUserRoles(ctx, user, roles, db)
 	}
 
-	// create and publish secret
-	secret = r.GetOrPrepareSecret(&instance, user)
-
+	// publish user secret
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
 		r.Log.Info("mutating secret bundle")
 		innerErr := controllerutil.SetControllerReference(&instance, secret, r.Scheme)
@@ -221,6 +221,7 @@ func createUser(ctx context.Context, secret *v1.Secret, db *sql.DB) (string, err
 	newUser := string(secret.Data[SecretUsernameKey])
 	newPassword := string(secret.Data[SecretPasswordKey])
 	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
+
 	// Execute non-query with named parameters
 	_, err := db.ExecContext(ctx, tsql)
 	if err != nil {
@@ -237,6 +238,17 @@ func (r *SqlUserReconciler) getConnectionString(server string, user string, pass
 		fullServerAddress, user, password, port, database)
 }
 
+// ContainsUser checks if db contains user
+func ContainsUser(ctx context.Context, db *sql.DB, username string) (bool, error) {
+	tsql := fmt.Sprintf("SELECT * FROM sysusers WHERE NAME='%s'", username)
+	res, err := db.ExecContext(ctx, tsql)
+	if err != nil {
+		return false, err
+	}
+	rows, err := res.RowsAffected()
+	return rows > 0, err
+}
+
 // GetOrPrepareSecret gets or creates a secret
 func (r *SqlUserReconciler) GetOrPrepareSecret(instance *azurev1.SqlUser, name string) *v1.Secret {
 	secret := &v1.Secret{
@@ -248,7 +260,7 @@ func (r *SqlUserReconciler) GetOrPrepareSecret(instance *azurev1.SqlUser, name s
 			"username":           []byte(name),
 			"password":           []byte(generateRandomString(16)),
 			"sqlservernamespace": []byte(instance.Namespace),
-			"sqlservername":      []byte(name),
+			"sqlservername":      []byte(instance.Spec.Server),
 		},
 		Type: "Opaque",
 	}
@@ -276,14 +288,4 @@ func (r *SqlUserReconciler) addFinalizer(instance *azurev1.SqlUser) error {
 	}
 	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLFirewallRuleFinalizerName))
 	return nil
-}
-
-// StringWithCharset generates string with charset
-func StringWithCharset(length int, charset string) string {
-	var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
-	b := make([]byte, length)
-	for i := range b {
-		b[i] = charset[seededRand.Intn(len(charset))]
-	}
-	return string(b)
 }
