@@ -17,8 +17,8 @@ package controllers
 
 import (
 	"context"
-	"errors"
 	"fmt"
+	"math/rand"
 	"strings"
 	"time"
 
@@ -27,7 +27,6 @@ import (
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
-	"github.com/sethvargo/go-password/password"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -47,14 +46,6 @@ type SqlServerReconciler struct {
 	Recorder record.EventRecorder
 	Scheme   *runtime.Scheme
 }
-
-// Constants
-const usernameLength = 8
-const passwordLength = 16
-const minUsernameAllowedLength = 8
-const maxUsernameAllowedLength = 63
-const minPasswordAllowedLength = 8
-const maxPasswordAllowedLength = 128
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlservers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlservers/status,verbs=get;update;patch
@@ -126,17 +117,6 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	*/
 
-	// availableResp, err := sdkClient.CheckNameAvailability()
-	// if err != nil {
-	// 	log.Info("error validating name")
-	// 	return ctrl.Result{}, err
-	// }
-	// if !availableResp.Available {
-	// 	log.Info("Servername is invalid or not available")
-	// 	r.Recorder.Event(&instance, "Warning", "Failed", "Servername is invalid")
-	// 	return ctrl.Result{Requeue: false}, fmt.Errorf("Servername invalid %s", availableResp.Name)
-	// }
-
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation")
 		if err := r.reconcileExternal(&instance); err != nil {
@@ -203,7 +183,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	// Check to see if secret already exists for admin username/password
-	secret, _ := r.GetOrPrepareSecret(instance)
+	secret := r.GetOrPrepareSecret(instance)
 	sqlServerProperties := sql.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr(generateRandomString(usernameLength)),
 		AdministratorLoginPassword: to.StringPtr(generateRandomString(passwordLength)),
@@ -214,7 +194,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	r.Log.Info("Info", "Password: ", *sqlServerProperties.AdministratorLoginPassword)
 
 	// create the sql server
-	instance.Status.Provisioning = true
+	//instance.Status.Provisioning = true
 	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
@@ -225,7 +205,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
-		r.Log.Info("Creating or updating secret with SQL Server credentials")
+		r.Log.Info("mutating secret bundle")
 		innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
 		if innerErr != nil {
 			return innerErr
@@ -235,6 +215,8 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	if createOrUpdateSecretErr != nil {
 		return createOrUpdateSecretErr
 	}
+
+	instance.Status.Provisioning = true
 
 	// write information back to instance
 	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
@@ -316,78 +298,33 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) *v
 			Name:      name,
 			Namespace: instance.Namespace,
 		},
-		// Needed to avoid nil map error
 		Data: map[string][]byte{
-			"username":                 []byte(""),
-			"fullyqualifiedusername":   []byte(""),
-			"password":                 []byte(""),
-			"sqlservername":            []byte(""),
-			"fullyqualifiedservername": []byte(""),
+			"username":           []byte(generateRandomString(8)),
+			"password":           []byte(generateRandomString(16)),
+			"sqlservernamespace": []byte(instance.Namespace),
+			"sqlservername":      []byte(name),
 		},
 		Type: "Opaque",
 	}
-
-	randomUsername, usernameErr := generateRandomUsername(usernameLength)
-	if usernameErr != nil {
-		return secret, usernameErr
-	}
-
-	randomPassword, passwordErr := generateRandomPassword(passwordLength)
-	if passwordErr != nil {
-		return secret, passwordErr
-	}
-
-	usernameSuffix := "@" + name
-	servernameSuffix := ".database.windows.net"
-	fullyQualifiedAdminUsername := randomUsername + usernameSuffix // "<username>@<sqlservername>""
-	fullyQualifiedServername := name + servernameSuffix            // "<sqlservername>.database.windows.net"
-
-	secret.Data["username"] = []byte(randomUsername)
-	secret.Data["fullyqualifiedusername"] = []byte(fullyQualifiedAdminUsername)
-	secret.Data["password"] = []byte(randomPassword)
-	secret.Data["sqlservername"] = []byte(name)
-	secret.Data["fullyqualifiedservername"] = []byte(fullyQualifiedServername)
 
 	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
 	}
 
-	return secret, nil
+	return secret
 }
 
-// helper function to generate random username for sql server
-func generateRandomUsername(n int) (string, error) {
-	if n < minUsernameAllowedLength || n > maxUsernameAllowedLength {
-		return "", errors.New("Username length should be between 8 and 63 characters.")
+// helper function to generate username/password for secrets
+func generateRandomString(n int) string {
+	rand.Seed(time.Now().UnixNano())
+
+	const characterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()_+-=<>"
+
+	// TODO: add logic to enforce password policy rules for sql server
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = characterBytes[rand.Intn(len(characterBytes))]
 	}
 
-	// Generate a username that is n characters long, with n/2 digits and 0 symbols (not allowed),
-	// allowing only lower case letters (upper case not allowed), and disallowing repeat characters.
-	res, err := password.Generate(n, (n / 2), 0, true, false)
-	if err != nil {
-		return "", err
-	}
-
-	return res, nil
-}
-
-// helper function to generate random password for sql server
-func generateRandomPassword(n int) (string, error) {
-	if n < minPasswordAllowedLength || n > maxPasswordAllowedLength {
-		return "", errors.New("Password length must be between 8 and 128 characters.")
-	}
-
-	// Math - Generate a password where: 1/3 of the # of chars are digits, 1/3 of the # of chars are symbols,
-	// and the remaining 1/3 is a mix of upper- and lower-case letters
-	digits := n / 3
-	symbols := n / 3
-
-	// Generate a password that is n characters long, with # of digits and symbols described above,
-	// allowing upper and lower case letters, and disallowing repeat characters.
-	res, err := password.Generate(n, digits, symbols, false, false)
-	if err != nil {
-		return "", err
-	}
-
-	return res, nil
+	return string(b)
 }
