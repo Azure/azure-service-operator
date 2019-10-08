@@ -64,6 +64,7 @@ If you're using VSCode with [Remote - Containers](https://marketplace.visualstud
 3. Open the Command Pallet (`Command+Shift+P` on MacOS or `CTRL+Shift+P` on Windows), type `Remote-Containers: Open Folder in Container...` and hit enter.
 4. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
 5. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment.
+6. There is also a debugger installed inside the container. In order to use the debugger, you can either run `dlv debug main.go` from the terminal or press F5 within VSCode (just make sure to add a configuration in the configuration drop down menu) 
 
 **Note**: if you do not want to create a kind cluster when starting the devcontainer, comment out `"postCreateCommand": "make set-kindcluster",` in `.devcontainer/devcontainer.json` and reopen the devcontainer.
 
