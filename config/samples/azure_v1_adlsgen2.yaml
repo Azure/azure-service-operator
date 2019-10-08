@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1
+kind: AdlsGen2
+metadata:
+  name: adlsgen2-sample
+spec:
+  # Add fields here
+  foo: bar
