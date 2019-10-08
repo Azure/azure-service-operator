@@ -34,15 +34,25 @@ type AdlsGen2Reconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=adlsgen2s,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=adlsgen2s/status,verbs=get;update;patch
 
+// Reconcile function does the main reconciliation loop of the operator
 func (r *AdlsGen2Reconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("adlsgen2", req.NamespacedName)
+	ctx := context.Background()
+	log := r.Log.WithValues("adlsgen2", req.NamespacedName)
 
-	// your logic here
+	var instance azurev1.AdlsGen2
+
+	// TODO: requeue after a certain amount of time. example in storage_controller
+
+	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
+		log.Info("unable to retrieve ADLS Gen2 resource", "err", err.Error())
+
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
 
 	return ctrl.Result{}, nil
 }
 
+// SetupWithManager sets up the controller functions
 func (r *AdlsGen2Reconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.AdlsGen2{}).
