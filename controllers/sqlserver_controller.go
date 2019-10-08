@@ -190,12 +190,23 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			instance.Status.Message = fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
+			
+			// write information back to instance
+			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			}
+
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
 			return errhelp.NewAzureError(err)
 		}
 	} else {
 		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully submitted to Azure")
 		instance.Status.Message = "Successfully Submitted to Azure"
+
+		// write information back to instance
+		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		}
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
