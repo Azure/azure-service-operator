@@ -52,9 +52,6 @@ const SecretPasswordKey = "password"
 // SQLUserFinalizerName is the name of the finalizer
 const SQLUserFinalizerName = "sqluser.finalizers.azure.com"
 
-// Charset for username generation
-const Charset = "abcdefghijklmnopqrstuvwxyz"
-
 // SqlUserReconciler reconciles a SqlUser object
 type SqlUserReconciler struct {
 	client.Client
@@ -84,7 +81,6 @@ func (r *SqlUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		if helpers.HasFinalizer(&instance, SQLUserFinalizerName) {
 			if err := r.deleteExternal(instance); err != nil {
 				log.Info("Delete Sqluser failed with ", "error", err.Error())
-				return ctrl.Result{}, err
 			}
 			helpers.RemoveFinalizer(&instance, SQLUserFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
@@ -94,7 +90,7 @@ func (r *SqlUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
+	if !helpers.HasFinalizer(&instance, SQLUserFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
 			log.Info("Adding SqlUser finalizer failed with ", "error", err.Error())
 			return ctrl.Result{}, err
@@ -109,7 +105,7 @@ func (r *SqlUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	r.Recorder.Event(&instance, "Normal", "Provisioned", "sqluser "+instance.ObjectMeta.Name+" provisioned ")
+	r.Recorder.Event(&instance, "Normal", "Provisioned", fmt.Sprintf("sqluser %s provisioned", instance.ObjectMeta.Name))
 
 	return ctrl.Result{}, nil
 }
@@ -127,7 +123,6 @@ func (r *SqlUserReconciler) deleteExternal(instance azurev1.SqlUser) error {
 	err := db.Ping()
 	if err != nil {
 		log.Error(err, "Unable to ping server")
-		return err
 	}
 	err = dropUser(ctx, db, instance.ObjectMeta.Name)
 	if err != nil {
@@ -146,6 +141,29 @@ func dropUser(ctx context.Context, db *sql.DB, user string) error {
 // Reconcile user sql request
 func (r *SqlUserReconciler) reconcileExternal(instance azurev1.SqlUser) error {
 	ctx := context.Background()
+
+	// set DB as owner of user
+	r.Recorder.Event(&instance, "Normal", "UpdatingOwner", "Updating owner SqlDatabase instance")
+	var ownerInstance azurev1.SqlDatabase
+	sqlDatabaseNamespaceName := types.NamespacedName{Name: instance.Spec.DbName, Namespace: instance.Namespace}
+	err := r.Get(ctx, sqlDatabaseNamespaceName, &ownerInstance)
+	if err != nil {
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
+		r.Recorder.Event(&instance, "Warning", "Failed", "Unable to get owner instance of SqlDatabase")
+	} else {
+		r.Recorder.Event(&instance, "Normal", "OwnerAssign", "Got owner instance of Sql Database and assigning controller reference now")
+		innerErr := controllerutil.SetControllerReference(&ownerInstance, &instance, r.Scheme)
+		if innerErr != nil {
+			r.Recorder.Event(&instance, "Warning", "Failed", "Unable to set controller reference to SqlDatabase")
+		}
+		r.Recorder.Event(&instance, "Normal", "OwnerAssign", "Owner instance assigned successfully")
+	}
+
+	// write information back to instance
+	if updateerr := r.Update(ctx, &instance); updateerr != nil {
+		r.Recorder.Event(&instance, "Warning", "Failed", "Unable to update instance")
+	}
+
 	// get admin credentials to connect to db
 	secret := r.GetOrPrepareSecret(&instance, instance.Spec.AdminSecret)
 	var user = string(secret.Data[SecretUsernameKey])
@@ -153,7 +171,7 @@ func (r *SqlUserReconciler) reconcileExternal(instance azurev1.SqlUser) error {
 	connString := r.getConnectionString(instance.Spec.Server, user, password, SqlServerPort, instance.Spec.DbName)
 
 	db, _ := sql.Open(DriverName, connString)
-	err := db.Ping()
+	err = db.Ping()
 	if err != nil {
 		log.Error(err, "Unable to ping server")
 		return err
@@ -286,6 +304,6 @@ func (r *SqlUserReconciler) addFinalizer(instance *azurev1.SqlUser) error {
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLFirewallRuleFinalizerName))
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLUserFinalizerName))
 	return nil
 }
