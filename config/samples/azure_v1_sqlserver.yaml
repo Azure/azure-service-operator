@@ -1,8 +1,7 @@
 apiVersion: azure.microsoft.com/v1
 kind: SqlServer
 metadata:
-  name: sqlserver-sample
+  name: sqlserver-sample-777
 spec:
   location: "westus"
-  resourcegroup: "resourcegroup-sample-1907"
-  allowazureserviceaccess: true
+  resourcegroup: resourcegroup-azure-operators
