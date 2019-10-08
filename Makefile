@@ -160,6 +160,7 @@ endif
 	@echo "all the pods should be running"
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
+	make generate
 
 install-kind:
 ifeq (,$(shell which kind))
