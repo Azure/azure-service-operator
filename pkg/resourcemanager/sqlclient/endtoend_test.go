@@ -11,6 +11,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
 	"github.com/Azure/azure-service-operator/pkg/util"
@@ -55,9 +56,12 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
 				break
+			} else {
+				util.PrintAndLog("waiting for sql server to be ready...")
+				continue
 			}
 		} else {
-			if sdk.IsAsyncNotCompleted(err) {
+			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 				util.PrintAndLog("waiting for sql server to be ready...")
 				continue
 			} else {
@@ -70,7 +74,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// create a DB
 	sqlDBProperties := SQLDatabaseProperties{
-		DatabaseName: "testDB",
+		DatabaseName: "sqldatabase-sample",
 		Edition:      Basic,
 	}
 
@@ -78,16 +82,19 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	for {
 		time.Sleep(time.Second)
 		future, err := sdk.CreateOrUpdateDB(sqlDBProperties)
-
-		db, err := future.Result(getGoDbClient())
 		if err == nil {
-
-			if *db.Status == "Online" {
-				util.PrintAndLog("db ready")
-				break
+			db, err := future.Result(getGoDbClient())
+			if err == nil {
+				if *db.Status == "Online" {
+					util.PrintAndLog("db ready")
+					break
+				}
+			} else {
+				util.PrintAndLog("waiting for db to be ready...")
+				continue
 			}
 		} else {
-			if sdk.IsAsyncNotCompleted(err) {
+			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 				util.PrintAndLog("waiting for db to be ready...")
 				continue
 			} else {
@@ -98,9 +105,28 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		}
 	}
 
+	// create a firewall rule
+	util.PrintAndLog("creating firewall rule...")
+	_, err = sdk.CreateOrUpdateSQLFirewallRule("test-rule1", "1.1.1.1", "2.2.2.2")
+	if err != nil {
+		util.PrintAndLog(fmt.Sprintf("cannot create firewall rule: %v", err))
+		t.FailNow()
+	}
+	util.PrintAndLog("firewall rule created")
+	time.Sleep(time.Second)
+
+	// delete firewall rule
+	util.PrintAndLog("deleting firewall rule...")
+	err = sdk.DeleteSQLFirewallRule("test-rule1")
+	if err != nil {
+		util.PrintAndLog(fmt.Sprintf("cannot delete firewall rule: %v", err))
+		t.FailNow()
+	}
+	util.PrintAndLog("firewall rule deleted")
+
 	// delete the DB
 	time.Sleep(time.Second)
-	response, err := sdk.DeleteDB("testDB")
+	response, err := sdk.DeleteDB("sqldatabase-sample")
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("db deleted")
@@ -111,23 +137,19 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// delete the server
-	for {
-		time.Sleep(time.Second)
-		response, err := sdk.DeleteSQLServer()
-		if err == nil {
-			if response.StatusCode == 200 {
-				util.PrintAndLog("sql server deleted")
-				break
-			}
+	time.Sleep(time.Second)
+	response, err = sdk.DeleteSQLServer()
+	if err == nil {
+		if response.StatusCode == 200 {
+			util.PrintAndLog("sql server deleted")
 		} else {
-			if sdk.IsAsyncNotCompleted(err) {
-				util.PrintAndLog("waiting for sql server to be deleted...")
-				continue
-			} else {
-				util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
-				t.FailNow()
-				break
-			}
+			util.PrintAndLog(fmt.Sprintf("cannot delete sql server, code: %v", response.StatusCode))
+			t.FailNow()
+		}
+	} else {
+		if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
+			util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
+			t.FailNow()
 		}
 	}
 }
