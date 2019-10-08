@@ -18,6 +18,7 @@ package eventhubs
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
@@ -71,7 +72,7 @@ var _ = Describe("Eventhub", func() {
 
 			Eventually(func() bool {
 				result, _ := eventHubManager.GetHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
-				return result.Response.StatusCode == 200
+				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
 
@@ -88,7 +89,7 @@ var _ = Describe("Eventhub", func() {
 
 			Eventually(func() bool {
 				result, _ := eventHubManager.ListKeys(context.Background(), rgName, eventhubNamespaceName, eventhubName, authorizationRuleName)
-				return result.Response.StatusCode == 200
+				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
 
@@ -97,7 +98,7 @@ var _ = Describe("Eventhub", func() {
 
 			Eventually(func() bool {
 				result, _ := eventHubManager.GetHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
-				return result.Response.StatusCode == 404
+				return result.Response.StatusCode == http.StatusNotFound
 			}, timeout,
 			).Should(BeTrue())
 

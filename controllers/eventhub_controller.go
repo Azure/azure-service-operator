@@ -18,6 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -136,12 +137,12 @@ func (r *EventhubReconciler) reapply(instance *azurev1.Eventhub) error {
 	secretName := instance.Spec.SecretName
 
 	result, _ := r.EventHubManager.GetHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
-	if result.Response.StatusCode == 404 {
+	if result.Response.StatusCode == http.StatusNotFound {
 		r.reconcileExternal(instance)
 		r.Recorder.Event(instance, "Normal", "Updated", "Resource does not exist in azure, reapplied it")
 	}
 
-	if result.Response.StatusCode == 200 {
+	if result.Response.StatusCode == http.StatusOK {
 		//get secret for eventhub
 		err = r.getEventhubSecrets(secretName, instance)
 		if err != nil {
