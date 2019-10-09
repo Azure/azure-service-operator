@@ -37,6 +37,7 @@ type SqlServerStatus struct {
 	Provisioning bool   `json:"provisioning,omitempty"`
 	Provisioned  bool   `json:"provisioned,omitempty"`
 	State        string `json:"state,omitempty"`
+	Message      string `json:"message,omitempty"`
 }
 
 // +kubebuilder:object:root=true
