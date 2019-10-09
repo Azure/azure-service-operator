@@ -1,14 +1,7 @@
 apiVersion: azure.microsoft.com/v1
 kind: KeyVault
 metadata:
-<<<<<<< HEAD
   name: keyvaultsample123
 spec:
   resourceGroup: resourcegroup-sample-6
   location: westus
-=======
-  name: ace-kv-sample
-spec:
-  resourceGroup: ace-crd
-  location: westus2
->>>>>>> feat: implement keyvault controller

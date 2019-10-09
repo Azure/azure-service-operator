@@ -49,9 +49,13 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-<<<<<<< HEAD:config/default/manager_role_patch.yaml
   - storages
-=======
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - events
   verbs:
   - create
@@ -80,7 +84,6 @@ rules:
   - azure.microsoft.com
   resources:
   - resourcegroups
->>>>>>> feat: implement keyvault controller:config/rbac/role.yaml
   verbs:
   - create
   - delete
