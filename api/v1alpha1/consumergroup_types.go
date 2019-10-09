@@ -30,6 +30,7 @@ type ConsumerGroupSpec struct {
 	ResourceGroupName string `json:"resourceGroup,omitempty"`
 	NamespaceName     string `json:"namespace,omitempty"`
 	EventhubName      string `json:"eventHub,omitempty"`
+	ConsumerGroupName string `json:"consumerGroupName,omitempty"`
 }
 
 // ConsumerGroupStatus defines the observed state of ConsumerGroup
