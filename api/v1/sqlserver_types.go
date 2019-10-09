@@ -26,9 +26,8 @@ import (
 type SqlServerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location                string `json:"location"`
-	ResourceGroup           string `json:"resourcegroup,omitempty"`
-	AllowAzureServiceAccess bool   `json:"allowazureserviceaccess,omitempty"`
+	Location      string `json:"location"`
+	ResourceGroup string `json:"resourcegroup,omitempty"`
 }
 
 // SqlServerStatus defines the observed state of SqlServer
@@ -66,4 +65,8 @@ func init() {
 
 func (s *SqlServer) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
+}
+
+func (s *SqlServer) IsProvisioned() bool {
+	return s.Status.Provisioned
 }

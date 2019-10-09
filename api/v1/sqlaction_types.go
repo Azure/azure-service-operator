@@ -22,48 +22,49 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// SqlFirewallRuleSpec defines the desired state of SqlFirewallRule
-type SqlFirewallRuleSpec struct {
+// SqlActionSpec defines the desired state of SqlAction
+type SqlActionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ResourceGroup  string `json:"resourcegroup,omitempty"`
-	Server         string `json:"server"`
-	StartIPAddress string `json:"startipaddress,omitempty"`
-	EndIPAddress   string `json:"endipaddress,omitempty"`
+	ResourceGroup string `json:"resourcegroup"`
+	ActionName    string `json:"actionname"`
+	ServerName    string `json:"servername"`
 }
 
-// SqlFirewallRuleStatus defines the observed state of SqlFirewallRule
-type SqlFirewallRuleStatus struct {
+// SqlActionStatus defines the observed state of SqlAction
+type SqlActionStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
+	Provisioning bool   `json:"provisioning,omitempty"`
+	Provisioned  bool   `json:"provisioned,omitempty"`
+	Message      string `json:"state,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// SqlFirewallRule is the Schema for the sqlfirewallrules API
-type SqlFirewallRule struct {
+
+// SqlAction is the Schema for the sqlactions API
+type SqlAction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SqlFirewallRuleSpec   `json:"spec,omitempty"`
-	Status SqlFirewallRuleStatus `json:"status,omitempty"`
+	Spec   SqlActionSpec   `json:"spec,omitempty"`
+	Status SqlActionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SqlFirewallRuleList contains a list of SqlFirewallRule
-type SqlFirewallRuleList struct {
+// SqlActionList contains a list of SqlAction
+type SqlActionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SqlFirewallRule `json:"items"`
+	Items           []SqlAction `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&SqlFirewallRule{}, &SqlFirewallRuleList{})
+	SchemeBuilder.Register(&SqlAction{}, &SqlActionList{})
 }
 
-func (s *SqlFirewallRule) IsSubmitted() bool {
-	return s.Status.Provisioning || s.Status.Provisioned
+func (s *SqlAction) IsSubmitted() bool {
+	return s.Status.Provisioned || s.Status.Provisioning
 }
