@@ -21,9 +21,8 @@ const (
 	errorPrefix = "Cannot create resource group, reason: %v"
 )
 
-func getGroupsClient(activeDirectoryEndpoint, tokenAudience string) resources.GroupsClient {
-	token, err := iam.GetResourceManagementTokenHybrid(
-		activeDirectoryEndpoint, tokenAudience)
+func getGroupsClient(tokenAudience string) resources.GroupsClient {
+	var tokenAuthorizer, err := iam.getAuthorizerForResource(tokenAudience)
 	if err != nil {
 		log.Fatalf("failed to get token: %v\n", err)
 	}
@@ -31,16 +30,15 @@ func getGroupsClient(activeDirectoryEndpoint, tokenAudience string) resources.Gr
 	groupsClient := resources.NewGroupsClientWithBaseURI(
 		config.Environment().ResourceManagerEndpoint,
 		config.SubscriptionID())
-	groupsClient.Authorizer = autorest.NewBearerAuthorizer(token)
+	groupsClient.Authorizer = tokenAuthorizer
 	groupsClient.AddToUserAgent(config.UserAgent())
+
 	return groupsClient
 }
 
 // CreateGroup creates a new resource group named by env var
 func CreateGroup(ctx context.Context) (resources.Group, error) {
-	groupClient := getGroupsClient(
-		config.Environment().ActiveDirectoryEndpoint,
-		config.Environment().TokenAudience)
+	groupClient := getGroupsClient(config.Environment().TokenAudience)
 
 	return groupClient.CreateOrUpdate(ctx,
 		config.GroupName(),
@@ -52,9 +50,7 @@ func CreateGroup(ctx context.Context) (resources.Group, error) {
 
 // DeleteGroup removes the resource group named by env var
 func DeleteGroup(ctx context.Context) (result resources.GroupsDeleteFuture, err error) {
-	groupsClient := getGroupsClient(
-		config.Environment().ActiveDirectoryEndpoint,
-		config.Environment().TokenAudience)
+	groupsClient := getGroupsClient(config.Environment().TokenAudience)
 
 	return groupsClient.Delete(ctx, config.GroupName())
 }

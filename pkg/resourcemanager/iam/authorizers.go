@@ -27,12 +27,17 @@ const (
 	OAuthGrantTypeServicePrincipal OAuthGrantType = iota
 	// OAuthGrantTypeDeviceFlow for device flow
 	OAuthGrantTypeDeviceFlow
+	// OAuthGrantTypeMSI for aad-pod-identity
+	OAuthGrantTypeMSI
 )
 
 // GrantType returns what grant type has been configured.
 func grantType() OAuthGrantType {
 	if config.UseDeviceFlow() {
 		return OAuthGrantTypeDeviceFlow
+	}
+	if config.UseMSI() {
+		return OAuthGrantTypeMSI
 	}
 	return OAuthGrantTypeServicePrincipal
 }
@@ -46,8 +51,7 @@ func GetResourceManagementAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	a, err = getAuthorizerForResource(
-		grantType(), config.Environment().ResourceManagerEndpoint)
+	a, err = getAuthorizerForResource(config.Environment().ResourceManagerEndpoint)
 
 	if err == nil {
 		// cache
@@ -68,8 +72,7 @@ func GetBatchAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	a, err = getAuthorizerForResource(
-		grantType(), config.Environment().BatchManagementEndpoint)
+	a, err = getAuthorizerForResource(config.Environment().BatchManagementEndpoint)
 
 	if err == nil {
 		// cache
@@ -91,7 +94,7 @@ func GetGraphAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	a, err = getAuthorizerForResource(grantType(), config.Environment().GraphEndpoint)
+	a, err = getAuthorizerForResource(config.Environment().GraphEndpoint)
 
 	if err == nil {
 		// cache
@@ -137,6 +140,19 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 
 		a = autorest.NewBearerAuthorizer(token)
 
+	case OAuthGrantTypeMSI:
+		msiEndpoint, err := adal.GetMSIVMEndpoint()
+		if err != nil {
+			return nil, err
+		}
+
+		token, err := adal.NewServicePrincipalTokenFromMSI(msiEndpoint, vaultEndpoint)
+		if err != nil {
+			return nil, err
+		}
+
+		a = autorest.NewBearerAuthorizer(token)
+
 	case OAuthGrantTypeDeviceFlow:
 		deviceConfig := auth.NewDeviceFlowConfig(config.ClientID(), config.TenantID())
 		deviceConfig.Resource = vaultEndpoint
@@ -155,13 +171,12 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 	return keyvaultAuthorizer, err
 }
 
-func getAuthorizerForResource(grantType OAuthGrantType, resource string) (autorest.Authorizer, error) {
+func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 
 	var a autorest.Authorizer
 	var err error
 
-	switch grantType {
-
+	switch grantType() {
 	case OAuthGrantTypeServicePrincipal:
 		oauthConfig, err := adal.NewOAuthConfig(
 			config.Environment().ActiveDirectoryEndpoint, config.TenantID())
@@ -174,6 +189,19 @@ func getAuthorizerForResource(grantType OAuthGrantType, resource string) (autore
 		if err != nil {
 			return nil, err
 		}
+		a = autorest.NewBearerAuthorizer(token)
+
+	case OAuthGrantTypeMSI:
+		msiEndpoint, err := adal.GetMSIVMEndpoint()
+		if err != nil {
+			return nil, err
+		}
+
+		token, err := adal.NewServicePrincipalTokenFromMSI(msiEndpoint, resource)
+		if err != nil {
+			return nil, err
+		}
+
 		a = autorest.NewBearerAuthorizer(token)
 
 	case OAuthGrantTypeDeviceFlow:
@@ -189,17 +217,4 @@ func getAuthorizerForResource(grantType OAuthGrantType, resource string) (autore
 	}
 
 	return a, err
-}
-
-// GetResourceManagementTokenHybrid retrieves auth token for hybrid environment
-func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience string) (adal.OAuthTokenProvider, error) {
-	var tokenProvider adal.OAuthTokenProvider
-	oauthConfig, err := adal.NewOAuthConfig(activeDirectoryEndpoint, config.TenantID())
-	tokenProvider, err = adal.NewServicePrincipalToken(
-		*oauthConfig,
-		config.ClientID(),
-		config.ClientSecret(),
-		tokenAudience)
-
-	return tokenProvider, err
 }

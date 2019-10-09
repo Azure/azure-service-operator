@@ -22,6 +22,7 @@ var (
 	authorizationServerURL string
 	cloudName              string = "AzurePublicCloud"
 	useDeviceFlow          bool
+	useMSI                 bool
 
 	declarative   bool // determines whether we reject calls to the kube api via webhooks
 	keepResources bool
@@ -79,6 +80,12 @@ func AuthorizationServerURL() string {
 // auth uses the OAuth Device Flow grant type.
 func UseDeviceFlow() bool {
 	return useDeviceFlow
+}
+
+// UseMSI() specifies if managed service identity auth should be used. Used for
+// aad-pod-identity
+func UseMSI() bool {
+	return useMSI
 }
 
 // deprecated: do not use global group names
