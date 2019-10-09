@@ -161,13 +161,8 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 			errhelp.AsyncOpIncompleteError,
-			errhelp.InvalidServerName,
 		}
 		if azerr, ok := err.(*errhelp.AzureError); ok {
-			if helpers.ContainsString(catch, azerr.Type) {
-				log.Info("Got ignorable error", "type", azerr.Type)
-				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
-			}
 			if helpers.ContainsString(catch, azerr.Type) {
 				log.Info("Got ignorable error", "type", azerr.Type)
 				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
