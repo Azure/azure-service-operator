@@ -54,13 +54,13 @@ func (r *AdlsGen2Reconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
-		log.Info("Success", "deletion requested successfully", nil)
+		log.Info("Success", "deletion requested successfully - stubbed", nil)
 		return ctrl.Result{}, nil
 	}
 
 	if !instance.IsSubmitted() {
 		_ = r.reconcileExternal(&instance)
-		log.Info("Success", "Here we would submit for creation", nil)
+		log.Info("Success", "Here we would submit for creation - stubbed", nil)
 	}
 
 	return ctrl.Result{}, nil
@@ -99,6 +99,6 @@ func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1.AdlsGen2) error
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", name+" provisioned")
+	r.Recorder.Event(instance, "Normal", "Updated", name+" provisioned - stubbed")
 	return nil
 }
