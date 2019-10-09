@@ -403,9 +403,11 @@ spec:
           properties:
             endipaddress:
               type: string
-            server:
+            resourcegroup:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
+              type: string
+            server:
               type: string
             startipaddress:
               type: string
