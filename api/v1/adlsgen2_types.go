@@ -26,11 +26,11 @@ import (
 type AdlsGen2Spec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	FileSystem          string 	`json:"filesystem"`
-	XMsProperties 		string 	`json:"xmsproperties,omitempty"`
-	XMsClientRequestID	string 	`json:"xmsclientrequestid,omitempty"`
-	Timeout 			int32	`json:"timeout,omitempty"`
-	XMsDate				string 	`json:"xmsdate,omitempty"`
+	FileSystem         string `json:"filesystem"`
+	XMsProperties      string `json:"xmsproperties,omitempty"`
+	XMsClientRequestID string `json:"xmsclientrequestid,omitempty"`
+	Timeout            int32  `json:"timeout,omitempty"`
+	XMsDate            string `json:"xmsdate,omitempty"`
 }
 
 // AdlsGen2Status defines the observed state of AdlsGen2

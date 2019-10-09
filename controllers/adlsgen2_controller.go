@@ -18,20 +18,20 @@ package controllers
 import (
 	"context"
 
-	"github.com/go-logr/logr"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/adlsgen2s" 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/adlsgen2s"
+	"github.com/go-logr/logr"
 	"k8s.io/client-go/tools/record"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // AdlsGen2Reconciler reconciles a AdlsGen2 object
 type AdlsGen2Reconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
+	Log             logr.Logger
+	Recorder        record.EventRecorder
 	AdlsGen2Manager adlsgen2s.AdlsGen2Manager
 }
 
@@ -76,7 +76,7 @@ func (r *AdlsGen2Reconciler) SetupWithManager(mgr ctrl.Manager) error {
 func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1.AdlsGen2) error {
 	ctx := context.Background()
 	filesystem := instance.Spec.FileSystem
-	xMsProperties := instance.Spec.XMsProperties 
+	xMsProperties := instance.Spec.XMsProperties
 	xMsClientRequestID := instance.Spec.XMsClientRequestID
 	timeout := instance.Spec.Timeout
 	xMsDate := instance.Spec.XMsDate
