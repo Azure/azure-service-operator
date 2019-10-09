@@ -23,15 +23,6 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-//EventhubNamespaceResource defines the namespace
-type EventhubNamespaceResource struct {
-	Name              string                      `json:"name"`
-	Location          string                      `json:"location"`
-	Sku               EventhubNamespaceSku        `json:"sku,omitempty"`
-	Properties        EventhubNamespaceProperties `json:"properties,omitempty"`
-	ResourceGroupName string                      `json:"resourceGroup,omitempty"`
-}
-
 // EventhubSpec defines the desired state of Eventhub
 type EventhubSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
