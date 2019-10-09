@@ -8,7 +8,10 @@ resources:
 - bases/azure.microsoft.com_eventhubs.yaml
 - bases/azure.microsoft.com_resourcegroups.yaml
 - bases/azure.microsoft.com_eventhubnamespaces.yaml
+<<<<<<< HEAD
 - bases/azure.microsoft.com_consumergroups.yaml
+=======
+>>>>>>> feat: implement keyvault controller
 - bases/azure.microsoft.com_keyvaults.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
@@ -17,7 +20,10 @@ patches:
 #- patches/webhook_in_eventhubs.yaml
 #- patches/webhook_in_resourcegroups.yaml
 #- patches/webhook_in_eventhubnamespaces.yaml
+<<<<<<< HEAD
 #- patches/webhook_in_consumergroups.yaml
+=======
+>>>>>>> feat: implement keyvault controller
 #- patches/webhook_in_keyvaults.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
 
@@ -25,7 +31,10 @@ patches:
 #- patches/cainjection_in_eventhubs.yaml
 #- patches/cainjection_in_resourcegroups.yaml
 #- patches/cainjection_in_eventhubnamespaces.yaml
+<<<<<<< HEAD
 #- patches/cainjection_in_consumergroups.yaml
+=======
+>>>>>>> feat: implement keyvault controller
 #- patches/cainjection_in_keyvaults.yaml
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch
 
