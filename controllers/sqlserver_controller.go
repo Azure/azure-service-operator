@@ -104,28 +104,6 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
-	/*
-		location := instance.Spec.Location
-		name := instance.ObjectMeta.Name
-		groupName := instance.Spec.ResourceGroup
-		sdkClient := sql.GoSDKClient{
-			Ctx:               ctx,
-			ResourceGroupName: groupName,
-			ServerName:        name,
-			Location:          location,
-		}
-		availableResp, err := sdkClient.CheckNameAvailability()
-		if err != nil {
-			log.Info("error validating name")
-			return ctrl.Result{}, err
-		}
-		if !availableResp.Available {
-			log.Info("Servername is invalid or not available")
-			r.Recorder.Event(&instance, "Warning", "Failed", "Servername is invalid")
-			return ctrl.Result{Requeue: false}, fmt.Errorf("Servername invalid %s", availableResp.Name)
-		}
-	*/
-
 	// Re-create secret if server is provisioned but secret doesn't exist
 	if instance.IsProvisioned() {
 		name := instance.ObjectMeta.Name
@@ -162,9 +140,14 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				errhelp.ResourceGroupNotFoundErrorCode,
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
+				errhelp.InvalidServerName,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
+					if azerr.Type == errhelp.InvalidServerName {
+						r.Recorder.Event(&instance, "Warning", "Failed", "Invalid Server Name")
+						return ctrl.Result{Requeue: false}, nil
+					}
 					log.Info("Got ignorable error", "type", azerr.Type)
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
