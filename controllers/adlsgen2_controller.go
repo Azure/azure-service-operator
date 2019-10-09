@@ -24,12 +24,15 @@ import (
 	// "github.com/azure-service-operator/pkg/resourcemanager/adlsgen2s"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"k8s.io/client-go/tools/record"
+
 )
 
 // AdlsGen2Reconciler reconciles a AdlsGen2 object
 type AdlsGen2Reconciler struct {
 	client.Client
-	Log logr.Logger
+	Log 			logr.Logger
+	Recorder		record.EventRecorder
 	// AdlsGen2Manager adlsgen2s.AdlsGen2Manager
 }
 
@@ -57,6 +60,7 @@ func (r *AdlsGen2Reconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !instance.IsSubmitted() {
+		err := r.reconcileExternal(&instance)
 		log.Info("Success", "Here we would submit for creation", nil)
 	}
 
@@ -68,4 +72,21 @@ func (r *AdlsGen2Reconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1.AdlsGen2{}).
 		Complete(r)
+}
+
+func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1.AdlsGen2) error {
+	ctx := context.Background()
+	location := instance.Spec.Location
+	groupName := instance.Spec.ResourceGroupName
+	name := instance.ObjectMeta.Name
+
+	var err error
+
+	// write info back to instance
+	instance.Status.Provisioning = true
+
+	err = r.Update(ctx, instance)
+	if err != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "unable to update instance")
+	}
 }
