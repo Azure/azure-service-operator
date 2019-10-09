@@ -373,7 +373,6 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1.SqlServer) (*
 
 	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
-		instance.Status.Message = "Secret exists on instance"
 	}
 
 	return secret, nil
