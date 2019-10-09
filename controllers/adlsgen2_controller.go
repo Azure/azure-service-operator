@@ -21,7 +21,7 @@ import (
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	// "github.com/azure-service-operator/pkg/resourcemanager/adlsgen2s"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/adlsgen2s" 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/tools/record"
@@ -32,7 +32,7 @@ type AdlsGen2Reconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
-	// AdlsGen2Manager adlsgen2s.AdlsGen2Manager
+	AdlsGen2Manager adlsgen2s.AdlsGen2Manager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=adlsgen2s,verbs=get;list;watch;create;update;patch;delete
