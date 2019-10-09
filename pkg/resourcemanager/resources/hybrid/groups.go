@@ -22,7 +22,7 @@ const (
 )
 
 func getGroupsClient(tokenAudience string) resources.GroupsClient {
-	var tokenAuthorizer, err := iam.getAuthorizerForResource(tokenAudience)
+	tokenAuthorizer, err := iam.getAuthorizerForResource(tokenAudience)
 	if err != nil {
 		log.Fatalf("failed to get token: %v\n", err)
 	}

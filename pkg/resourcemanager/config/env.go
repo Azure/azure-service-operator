@@ -27,12 +27,12 @@ func ParseEnvironment() error {
 
 	// AZURE_GROUP_NAME and `config.GroupName()` are deprecated.
 	// Use AZURE_BASE_GROUP_NAME and `config.GenerateGroupName()` instead.
-	groupName       = envy.Get("AZURE_GROUP_NAME", "azure-go-samples") // GroupName()
-	baseGroupName   = envy.Get("AZURE_BASE_GROUP_NAME", groupName) // BaseGroupName()
+	groupName = envy.Get("AZURE_GROUP_NAME", "azure-go-samples")    // GroupName()
+	baseGroupName = envy.Get("AZURE_BASE_GROUP_NAME", groupName)    // BaseGroupName()
 	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "westus2") // DefaultLocation()
 
-	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW") // UseDeviceFlow()
-	useMSI        = ParseBoolFromEnvironment("AZURE_USE_MSI") // UseMSI()
+	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW")         // UseDeviceFlow()
+	useMSI = ParseBoolFromEnvironment("AZURE_USE_MSI")                       // UseMSI()
 	keepResources = ParseBoolFromEnvironment("AZURE_SAMPLES_KEEP_RESOURCES") // KeepResources()
 
 	var err error
@@ -68,14 +68,14 @@ func ParseEnvironment() error {
 func GetRequiredConfigs() []ConfigRequirementType {
 	if useDeviceFlow {
 		// Device flow required Configs
-		return []ConfigRequirementType {RequireClientID, RequireTenantID, RequireSubscriptionID}
+		return []ConfigRequirementType{RequireClientID, RequireTenantID, RequireSubscriptionID}
 	}
 	if useMSI {
 		// Managed Service Identity required Configs
-		return []ConfigRequirementType {RequireTenantID, RequireSubscriptionID}
+		return []ConfigRequirementType{RequireTenantID, RequireSubscriptionID}
 	}
 	// Default required Configs
-	return []ConfigRequirementType {RequireClientID, RequireClientSecret, RequireTenantID, RequireSubscriptionID}
+	return []ConfigRequirementType{RequireClientID, RequireClientSecret, RequireTenantID, RequireSubscriptionID}
 }
 
 func ParseBoolFromEnvironment(variable_name string) bool {
