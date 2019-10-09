@@ -23,6 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -49,13 +50,16 @@ type SqlFirewallRuleReconciler struct {
 
 func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	log := r.Log.WithValues("sqlfirewallrule", req.NamespacedName)
 
 	// your logic here
 	var instance azurev1.SqlFirewallRule
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Info("Unable to retrieve sql-firewall-rule resource", "err", err.Error())
+		telemetry.LogWarning(
+			"SQLFirewallRule.Reconcile",
+			"IgnorableError",
+			fmt.Sprintf("Unable to retrieve sql-firewall-rule resource: %s", err.Error()),
+			r.Log)
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -65,7 +69,11 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete SqlFirewallRule failed with ", "error", err.Error())
+				telemetry.LogError(
+					"SQLFirewallRule.Reconcile",
+					"Unable to retrieve sql-firewall-rule resource",
+					err,
+					r.Log)
 				return ctrl.Result{}, err
 			}
 
@@ -79,7 +87,11 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 
 	if !helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding SqlFirewallRule finalizer failed with ", "error", err.Error())
+			telemetry.LogError(
+				"SQLFirewallRule.Reconcile",
+				"Adding SqlFirewallRule finalizer failed",
+				err,
+				r.Log)
 			return ctrl.Result{}, err
 		}
 	}
@@ -96,7 +108,11 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
-					log.Info("Got ignorable error", "type", azerr.Type)
+					telemetry.LogWarning(
+						"SQLFirewallRule.Reconcile",
+						"IgnorableError",
+						fmt.Sprintf("Reconcile external ignorable error of type: %s", azerr.Type),
+						r.Log)
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
 			}
@@ -130,7 +146,13 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1.SqlFirew
 		ServerName:        server,
 	}
 
-	r.Log.Info("Calling createorupdate SQL firewall rule")
+	telemetry.LogTrace(
+		"SQLFirewallRule.reconcileExternal",
+		"Status",
+		"Calling createorupdate SQL firewall rule",
+		r.Log)
+
+	r.Log.Info("")
 
 	//get owner instance of SqlServer
 	r.Recorder.Event(instance, "Normal", "UpdatingOwner", "Updating owner SqlServer instance")
@@ -157,7 +179,11 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1.SqlFirew
 	_, err = sdkClient.CreateOrUpdateSQLFirewallRule(ruleName, startIP, endIP)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-			r.Log.Info("Async operation not complete or group not found")
+			telemetry.LogWarning(
+				"SQLFirewallRule.reconcileExternal",
+				"IgnorableError",
+				"Async operation not complete or group not found",
+				r.Log)
 			instance.Status.Provisioning = true
 			if errup := r.Status().Update(ctx, instance); errup != nil {
 				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
@@ -195,7 +221,11 @@ func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1.SqlFirewall
 		ServerName:        server,
 	}
 
-	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s"+groupName, server, ruleName))
+	telemetry.LogTrace(
+		"SQLFirewallRule.deleteExternal",
+		"Status",
+		fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s"+groupName, server, ruleName),
+		r.Log)
 	err := sdk.DeleteSQLFirewallRule(ruleName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
