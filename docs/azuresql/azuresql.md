@@ -5,9 +5,9 @@
 The Azure SQL operator can be used to provision the following resources.
 
 1. Azure SQL server - Deploys an Azure SQL server given the location and Resource group
-2. SQL database - Deploys an SQL database given the SQL server
-3. SQL firewall rule - Deploys a firewall rule to allow access to the SQL server from specific IPs
-4. Action (Rolling user credentials for the SQL server) - Allows you to roll the password for the specified SQL server
+2. Azure SQL database - Deploys an SQL database given the SQL server
+3. Azure SQL firewall rule - Deploys a firewall rule to allow access to the SQL server from specific IPs
+4. Azure SQL Action - Allows you to roll the password for the specified SQL server
 
 ## Deploying SQL Resources
 
@@ -29,7 +29,6 @@ For instance, this is the sample YAML for the Azure SQL server.
     spec:
      location: westus
      resourcegroup: resourceGroup1
-     allowazureserviceaccess: true
   ```
 
 The value for kind, `SqlServer` is the Custom Resource Definition (CRD) name.
@@ -41,6 +40,42 @@ Once you've updated the YAML with the settings you need, and you have the operat
 
 ```bash
 kubectl apply -f config/samples/azure_v1_sqlserver.yaml
+```
+
+Along with creating the SQL server, this operator also generates the admin username and password for the SQL server and stores it in a kube secret with the same name as the SQL server.
+
+You can retrieve this secret using the following command for the sample YAML
+
+```bash
+kubectl get secret sqlserver-sample -o yaml
+```
+
+This would show you the details of the secret. `username` and `password` in the `data` section are the base64 encoded admin credentials to the SQL server.
+
+```bash
+apiVersion: v1
+data:
+  fullyqualifiedservername: c3Fsc2VydmVyLXNhbXBsZS04ODguZGF0YWJhc2Uud2luZG93cy5uZXQ=
+  fullyqualifiedusername: aGFzMTUzMnVAc3Fsc2VydmVyLXNhbXBsZS04ODg=
+  password: XTdpMmQqNsd7YlpFdEApMw==
+  sqlservername: c3Fsc2VyfmVyLXNhbXBsZS04ODg=
+  username: aGFzMTFzMnU=
+kind: Secret
+metadata:
+  creationTimestamp: "2019-10-09T21:02:02Z"
+  name: sqlserver-sample-888
+  namespace: default
+  ownerReferences:
+  - apiVersion: azure.microsoft.com/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: SqlServer
+    name: sqlserver-sample-888
+    uid: 08fdbf42-ead8-11e9-91e0-025000000001
+  resourceVersion: "131163"
+  selfLink: /api/v1/namespaces/default/secrets/sqlserver-sample-888
+  uid: 0aeb2429-ead8-11e9-91e0-025000000001
+type: Opaque
 ```
 
 ### SQL Database
@@ -68,11 +103,48 @@ The `edition` represents the SQL database edition you want to use when creating 
 
 ### SQL firewall
 
-In progress. Will be updated soon.
+The SQL firewall operator allows you to add a SQL firewall rule to the SQL server.
+
+Below is the sample YAML for SQL firewall rule
+
+```yaml
+apiVersion: azure.microsoft.com/v1
+kind: SqlFirewallRule
+metadata:
+  name: sqlf-allowazuresvcaccess
+spec:
+  resourcegroup: ResourceGroup1
+  server:  sqlserver-sample
+  
+  # this IP range enables Azure Service access
+  startipaddress: 0.0.0.0
+  endipaddress: 0.0.0.0
+```
+
+The `server` indicates the SQL server on which you want to configure the new SQL firewall rule on and `resourcegroup` is the resource group of the SQL server. The `startipaddress` and `endipaddress` indicate the IP range of sources to allow access to the SQL server.
+
+When the `startipadress` and `endipaddress` are 0.0.0.0, it is a special case that adds a firewall rule to allow all Azure services to access the SQL server.
 
 ### SQL Action
 
-In progress. Will be updated soon.
+The SQL Action operator is used to trigger an action on the SQL server. Right now, the only action supported is `rollcreds` which rolls the password for the SQL server to a new one.
+
+Below is a sample YAML for rolling the password
+
+```yaml
+apiVersion: azure.microsoft.com/v1
+kind: SqlAction
+metadata:
+  name: Sql-rollcreds-action
+spec:
+  resourcegroup: ResourceGroup1
+  actionname: rollcreds
+  servername: sqlserver-sample
+```
+
+The `name` is a name for the action that we want to trigger. The type of action is determined by the value of `actionname` in the spec which in this case is `rollcreds`. The `resourcegroup` and `servername` identify the SQL server on which the action should be triggered on.
+
+Once you apply this, the kube secret with the name as the SQL server is updated with the rolled password.
 
 ## View and Troubleshoot SQL Resources
 
