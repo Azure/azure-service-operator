@@ -136,9 +136,14 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				errhelp.ResourceGroupNotFoundErrorCode,
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
+				errhelp.InvalidServerName,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
+					if azerr.Type == errhelp.InvalidServerName {
+						r.Recorder.Event(&instance, "Warning", "Failed", "Invalid Server Name")
+						return ctrl.Result{Requeue: false}, nil
+					}
 					log.Info("Got ignorable error", "type", azerr.Type)
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
@@ -199,11 +204,24 @@ func (r *SqlServerReconciler) reconcileExternal(ctx context.Context, instance *a
 	instance.Status.Provisioning = true
 	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
+			instance.Status.Message = fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
+			
+			// write information back to instance
+			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+				r.Recorder.Event(instance, v1.EventTypeWarning "Failed", "Unable to update instance")
+			}
+
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 			return errhelp.NewAzureError(err)
 		}
 	} else {
 		r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", "resource request successfully submitted to Azure")
+		instance.Status.Message = "Successfully Submitted to Azure"
+
+		// write information back to instance
+		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		}
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
@@ -255,6 +273,7 @@ func (r *SqlServerReconciler) verifyExternal(ctx context.Context, instance *azur
 	if instance.Status.State == "Ready" {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+		instance.Status.Message = "SqlServer successfully provisioned"
 	}
 
 	// write information back to instance
@@ -280,7 +299,11 @@ func (r *SqlServerReconciler) deleteExternal(ctx context.Context, instance *azur
 
 	_, err := sdkClient.DeleteSQLServer()
 	if err != nil {
+		instance.Status.Message = fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resouce in azure")
+		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		}
 		return errhelp.NewAzureError(err)
 	}
 
