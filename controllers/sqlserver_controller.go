@@ -230,11 +230,24 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	instance.Status.Provisioning = true
 	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
+			instance.Status.Message = fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
+			
+			// write information back to instance
+			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			}
+
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
 			return errhelp.NewAzureError(err)
 		}
 	} else {
 		r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully submitted to Azure")
+		instance.Status.Message = "Successfully Submitted to Azure"
+
+		// write information back to instance
+		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		}
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
@@ -287,6 +300,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 	if instance.Status.State == "Ready" {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+		instance.Status.Message = "SqlServer successfully provisioned"
 	}
 
 	// write information back to instance
@@ -313,7 +327,11 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 
 	_, err := sdkClient.DeleteSQLServer()
 	if err != nil {
+		instance.Status.Message = fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		}
 		return errhelp.NewAzureError(err)
 	}
 

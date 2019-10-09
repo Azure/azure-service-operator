@@ -500,6 +500,8 @@ spec:
         status:
           description: SqlServerStatus defines the observed state of SqlServer
           properties:
+            message:
+              type: string
             provisioned:
               type: boolean
             provisioning:
