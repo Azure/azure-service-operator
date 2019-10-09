@@ -25,6 +25,7 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/controllers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -32,6 +33,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	// +kubebuilder:scaffold:imports
 )
+
+const AzureOperatorNamespace = "Azure"
+const AzureOperatorSubsystem = "Operators"
+const SQLFirewallRuleOperatorName = "SQLFirewallRule"
 
 var (
 	masterURL, kubeconfig, resources, clusterName               string
@@ -188,8 +193,15 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.SqlFirewallRuleReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("SqlFirewallRule"),
+		Client: mgr.GetClient(),
+		TelemetryClient: telemetry.PrometheusClient{
+			BaseClient: telemetry.BaseClient{
+				Logger: ctrl.Log.WithName("controllers").WithName("SqlFirewallRule"),
+			},
+			Namespace: AzureOperatorNamespace,
+			Subsystem: AzureOperatorSubsystem,
+			Operator:  SQLFirewallRuleOperatorName,
+		},
 		Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
 		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
