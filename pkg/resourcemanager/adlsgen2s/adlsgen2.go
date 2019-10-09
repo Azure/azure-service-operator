@@ -6,7 +6,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/storage/datalake/2019-10-31/storagedatalake"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-
 )
 
 type azureAdlsGen2Manager struct{}
