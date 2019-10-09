@@ -23,6 +23,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	// "github.com/azure-service-operator/pkg/resourcemanager/adlsgen2s"
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 // AdlsGen2Reconciler reconciles a AdlsGen2 object
@@ -48,6 +49,15 @@ func (r *AdlsGen2Reconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		log.Info("unable to retrieve ADLS Gen2 resource", "err", err.Error())
 
 		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	if helpers.IsBeingDeleted(&instance) {
+		log.Info("Success", "deletion requested successfully", nil)
+		return ctrl.Result{}, nil
+	}
+
+	if !instance.IsSubmitted() {
+		log.Info("Success", "Here we would submit for creation", nil)
 	}
 
 	return ctrl.Result{}, nil

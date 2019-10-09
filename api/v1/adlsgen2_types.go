@@ -71,3 +71,8 @@ type AdlsGen2List struct {
 func init() {
 	SchemeBuilder.Register(&AdlsGen2{}, &AdlsGen2List{})
 }
+
+// IsSubmitted checks to see if resource has been successfully submitted for creation
+func (adlsgen2 *AdlsGen2) IsSubmitted() bool {
+	return adlsgen2.Status.Provisioning || adlsgen2.Status.Provisioned
+}
