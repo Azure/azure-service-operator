@@ -21,6 +21,8 @@ import (
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+
 	"context"
 
 	"github.com/go-logr/logr"
@@ -140,6 +142,10 @@ func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1.Resource
 	var err error
 	_, err = resoucegroupsresourcemanager.DeleteGroup(ctx, resourcegroup)
 	if err != nil {
+		if errhelp.IsGroupNotFound(err) {
+			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
+			return nil
+		}
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
 		return err
 	}
