@@ -120,7 +120,7 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.Consumer
 
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of eventhub")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to get owner instance of eventhub")
 	} else {
 		//set owner reference for consumer group if it exists
 		references := []metav1.OwnerReference{

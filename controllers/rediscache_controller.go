@@ -149,7 +149,7 @@ func (r *RedisCacheReconciler) reconcileExternal(instance *azurev1.RedisCache) e
 
 	_, err = rediscaches.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, nil)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
