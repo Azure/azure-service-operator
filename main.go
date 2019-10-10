@@ -168,7 +168,7 @@ func main() {
 		ConsumerGroupManager: eventhubManagers.ConsumerGroup,
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Storage")
+		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
 		os.Exit(1)
 	}
 
