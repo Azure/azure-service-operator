@@ -5,7 +5,6 @@ import (
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/adal"
-	"github.com/Azure/go-autorest/autorest/azure/auth"
 )
 
 var (
@@ -21,11 +20,7 @@ func GetResourceManagementAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	if config.Instance.UseAADPodIdentity {
-		a, err = auth.NewAuthorizerFromEnvironment()
-	} else {
-		a, err = getAuthorizerForResource(config.Environment().ResourceManagerEndpoint)
-	}
+	a, err = getAuthorizerForResource(config.Environment().ResourceManagerEndpoint)
 	if err == nil {
 		// cache
 		armAuthorizer = a

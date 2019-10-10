@@ -16,6 +16,7 @@ var (
 	armAuthorizer      autorest.Authorizer
 	batchAuthorizer    autorest.Authorizer
 	graphAuthorizer    autorest.Authorizer
+	groupsAuthorizer   autorest.Authorizer
 	keyvaultAuthorizer autorest.Authorizer
 )
 
@@ -104,6 +105,27 @@ func GetGraphAuthorizer() (autorest.Authorizer, error) {
 	}
 
 	return graphAuthorizer, err
+}
+
+// GetGroupsAuthorizer gets an OAuthTokenAuthorizer for resource group API.
+func GetGroupsAuthorizer() (autorest.Authorizer, error) {
+	if groupsAuthorizer != nil {
+		return groupsAuthorizer, nil
+	}
+
+	var a autorest.Authorizer
+	var err error
+
+	a, err = getAuthorizerForResource(config.Environment().TokenAudience)
+
+	if err == nil {
+		// cache
+		groupsAuthorizer = a
+	} else {
+		groupsAuthorizer = nil
+	}
+
+	return groupsAuthorizer, err
 }
 
 // GetKeyvaultAuthorizer gets an OAuthTokenAuthorizer for use with Key Vault
