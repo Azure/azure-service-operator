@@ -55,6 +55,7 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 	dbType azurev1.CosmosDBDatabaseAccountOfferType,
 	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
 	cosmosDBClient := getCosmosDBClient()
+
 	dbKind := documentdb.DatabaseAccountKind(kind)
 	sDBType := string(dbType)
 
