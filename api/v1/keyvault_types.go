@@ -27,8 +27,10 @@ type KeyVaultSpec struct {
 
 // KeyVaultStatus defines the observed state of KeyVault
 type KeyVaultStatus struct {
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
+	// ID is the fully qualified Azure resource ID of this object.
+	ID *string `json:"id,omitempty"`
+	// ProvisioningState is the state of the Key Vault.
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -55,8 +57,4 @@ type KeyVaultList struct {
 
 func init() {
 	SchemeBuilder.Register(&KeyVault{}, &KeyVaultList{})
-}
-
-func (keyVault *KeyVault) IsSubmitted() bool {
-	return keyVault.Status.Provisioning || keyVault.Status.Provisioned
 }
