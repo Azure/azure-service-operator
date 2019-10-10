@@ -72,7 +72,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !instance.IsSubmitted() {
-		if err := r.reconcileExternal(&instance); err != nil {
+		if err := r.reconcileExternal(ctx, &instance); err != nil {
 			catchIgnorable := []string{
 				errhelp.AsyncOpIncompleteError,
 			}
@@ -105,8 +105,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-func (r *SqlActionReconciler) reconcileExternal(instance *azurev1alpha1.SqlAction) error {
-	ctx := context.Background()
+func (r *SqlActionReconciler) reconcileExternal(ctx context.Context, instance *azurev1alpha1.SqlAction) error {
 	serverName := instance.Spec.ServerName
 	groupName := instance.Spec.ResourceGroup
 	namespace := instance.Namespace
@@ -180,7 +179,7 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1alpha1.SqlActio
 			Type: "Opaque",
 		}
 
-		_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
+		_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(ctx, r.Client, secret, func() error {
 			r.Log.Info("Creating or updating secret with SQL Server credentials")
 			secret.Data["password"] = []byte(*sqlServerProperties.AdministratorLoginPassword)
 			return nil
