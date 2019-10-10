@@ -40,6 +40,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	"k8s.io/client-go/tools/record"
+	v1 "k8s.io/api/core/v1"
 )
 
 const storageFinalizerName = "storage.finalizers.azure.com"
@@ -129,7 +130,7 @@ func (r *StorageReconciler) addFinalizer(instance *azurev1.Storage) error {
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", storageFinalizerName))
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", storageFinalizerName))
 	return nil
 }
 
@@ -151,17 +152,17 @@ func (r *StorageReconciler) reconcileExternal(instance *azurev1.Storage) error {
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	_, err = r.StorageManager.CreateStorage(ctx, groupName, name, location, sku, kind, nil, accessTier, enableHTTPSTrafficOnly)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
 			//log error and kill it
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 		return errhelp.NewAzureError(err)
 	}
@@ -171,10 +172,10 @@ func (r *StorageReconciler) reconcileExternal(instance *azurev1.Storage) error {
 
 	err = r.Update(ctx, instance)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", name+" provisioned")
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", name+" provisioned")
 
 	return nil
 }
@@ -186,15 +187,15 @@ func (r *StorageReconciler) deleteExternal(instance *azurev1.Storage) error {
 	_, err := r.StorageManager.DeleteStorage(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
-			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
+			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
 			return nil
 		}
 
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 
-	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", name+" deleted")
 	return nil
 }
 
