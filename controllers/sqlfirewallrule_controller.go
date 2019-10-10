@@ -153,13 +153,30 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1.SqlFirew
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of SqlServer")
+		instance.Status.Message = "Unable to get owner instance of SqlServer"	
+		if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+		}
 	} else {
 		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Got owner instance of Sql Server and assigning controller reference now")
+		instance.status.Message = "Grabbed Owner instance. Assigning controller Reference."
+		if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+		}
 		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
+		
 		if innerErr != nil {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to set controller reference to SqlServer")
+			instance.Message = "Unable to set controller reference to SqlServer")
+			if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+			}
 		}
 		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Owner instance assigned successfully")
+		instance.Message = "Owner instance assigned successfully")
+		if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+		}
 	}
 
 	// write information back to instance
@@ -170,8 +187,8 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1.SqlFirew
 	_, err = sdkClient.CreateOrUpdateSQLFirewallRule(ruleName, startIP, endIP)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-			r.Log.Info("Async operation not complete or group not found")
 			instance.Status.Provisioning = true
+			instance.Status.Message = "Async operation not complete or group not found"
 			if errup := r.Status().Update(ctx, instance); errup != nil {
 				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 			}
@@ -217,9 +234,17 @@ func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1.SqlFirewall
 		}
 
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		instance.status.Message = "Couldn't delete resource in Azure"
+		if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+		}
 		return err
 	}
 	r.Recorder.Event(instance, "Normal", "Deleted", ruleName+" deleted")
+	instance.status.Message = fmt.Sprintf("Deleted", ruleName)
+	if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+	}
 	return nil
 }
 
@@ -228,7 +253,15 @@ func (r *SqlFirewallRuleReconciler) addFinalizer(instance *azurev1.SqlFirewallRu
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
+		instance.status.Message = fmt.Sprintf("failed to update finalizer: %v", err)
+		if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+		}
 	}
 	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLFirewallRuleFinalizerName))
+	instance.status.Message = fmt.Sprintf("Finalizer %s added", SQLFirewallRuleFinalizerName)
+	if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+	}
 	return nil
 }
