@@ -92,7 +92,7 @@ var _ = Describe("Storage Account", func() {
 
 			_, err = storageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
 				Name: "Standard_LRS",
-			}, "Storage", map[string]*string{}, "", to.BoolPtr(false), to.BoolPtr(datalakeEnabled))
+			}, "StorageV2", map[string]*string{}, "", to.BoolPtr(true), to.BoolPtr(datalakeEnabled))
 
 			Expect(err).NotTo(HaveOccurred())
 
