@@ -1,4 +1,4 @@
-# Azure Operator (for Kubernetes)
+# Azure Service Operator (for Kubernetes)
 
 [![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
 
@@ -6,164 +6,32 @@
 
 ## Introduction
 
-Kubernetes offers the facility of extending it's API through the concept of 'Operators' ([Introducing Operators: Putting Operational Knowledge into Software](https://coreos.com/blog/introducing-operators.html)). This repository contains the resources and code to provision a Resource group and Azure Event Hub using Kubernetes operator.
+Kubernetes offers the facility of extending it's API through the concept of 'Operators' ([Introducing Operators: Putting Operational Knowledge into Software](https://coreos.com/blog/introducing-operators.html)).
+
+An Operator is an application-specific controller that extends the Kubernetes API to create, configure, and manage instances of complex stateful applications on behalf of a Kubernetes user. It builds upon the basic Kubernetes resource and controller concepts but includes domain or application-specific knowledge to automate common tasks.
+
+This repository contains the resources and code to provision and deprovision different Azure services using a Kubernetes operator.
 
 The Azure Operator comprises of:
 
-- The golang application is a Kubernetes controller that watches Customer Resource Definitions (CRDs) that define a Resource Group and Event Hub
+- The Custom Resource Definitions (CRDs) for each of the Azure services that the Kubernetes user can provision
+- The Kubernetes controller that watches for requests to create Custom Resources for these CRDs and creates them
 
 The project was built using
 
-1. [Kubebuilder](https://book.kubebuilder.io/)
+[Kubebuilder](https://book.kubebuilder.io/)
 
-## Building and Running from Source
+## Install the operator
 
-### Prerequisites And Assumptions
+For information on how to build, test and run the operator, refer to the link below.
+[Building, testing and running the operator](/docs/contents.md)
 
-1. You have GoLang installed.
-2. [Docker](https://docs.docker.com/install/) is installed and running.
-3. You have the kubectl command line (kubectl CLI) installed.
-4. You have access to a Kubernetes cluster.
-    - It can be a local hosted Cluster like
-    [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/),
-    [Kind](https://github.com/kubernetes-sigs/kind) or Docker for desktop installed locally with RBAC enabled.
-    - If you opt for Azure Kubernetes Service ([AKS](https://azure.microsoft.com/en-au/services/kubernetes-service/)), you can use:
-    `az aks get-credentials --resource-group $RG_NAME --name $Cluster_NAME`
-    - Kubectl: Client version 1.14 Server Version 1.12
+## Azure Services supported
 
-    **Note:** it is recommended to use [Kind](https://github.com/kubernetes-sigs/kind) as it is needed for testing Webhooks.
-5. Install [Kubebuilder](https://book.kubebuilder.io/), following the linked installation instructions.
-6. [Kustomize](https://github.com/kubernetes-sigs/kustomize) is also needed. This must be installed via `make install-kustomize` (see section below).
+1. [Resource Group](/docs/resourcegroup/resourcegroup.md)
+2. [EventHub](/docs/eventhub/eventhub.md)
+3. [Azure SQL](/docs/azuresql/azuresql.md)
 
-Basic commands to check your cluster
-
-```shell
-    kubectl config get-contexts
-    kubectl cluster-info
-    kubectl version
-    kubectl get pods -n kube-system
-```
-
-### Quick Start
-
-If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you can quickly have you're environment set up and ready to go with everything you need to get started.
-
-1. Open this project in VSCode.
-2. Inside `.devcontainer`, create a file called `.env` and using the following template, copy your Service Principal's details.
-
-    ```txt
-    AZURE_CLIENT_ID=
-
-    AZURE_CLIENT_SECRET=
-
-    AZURE_SUBSCRIPTION_ID=
-
-    AZURE_TENANT_ID=
-    ```
-
-3. Open the Command Pallet (`Command+Shift+P` on MacOS or `CTRL+Shift+P` on Windows), type `Remote-Containers: Open Folder in Container...` and hit enter.
-4. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
-5. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment.
-6. There is also a debugger installed inside the container. In order to use the debugger, you can either run `dlv debug main.go` from the terminal or press F5 within VSCode (just make sure to add a configuration in the configuration drop down menu) 
-
-**Note**: if you do not want to create a kind cluster when starting the devcontainer, comment out `"postCreateCommand": "make set-kindcluster",` in `.devcontainer/devcontainer.json` and reopen the devcontainer.
-
-### Getting started
-
-1. Clone the repository from the following folder `<GOPATH>/src/github.com/Azure`.
-
-2. Make sure the environment variable `GO111MODULE=on` is set.
-
-3. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
-
-4. Install [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
-
-    ```shell
-        GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0 && kind create cluster
-        kind create cluster
-        export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
-        kubectl cluster-info
-        IMG="docker.io/yourimage:tag" make docker-build
-        kind load docker-image docker.io/yourimage:tag --loglevel "trace"
-        make deploy
-    ```
-
-5. Create a Service Principal
-    If you don't have a Service Principal create one from the Azure CLI:
-
-    ```bash
-    az ad sp create-for-rbac --role Contributor
-    ```
-
-    Then make sure this service principal has rights assigned to provision resources on your Azure account.
-  
-6. Set the environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`.
-
-    If you are running it on Windows the environment variables should not have quotes.
-
-    It should be set in this way:
-    `SET  AZURE_TENANT_ID=11xxxx-xxx-xxx-xxx-xxxxx`
-    and the VSCode should be run from the same session/command window
-
-7. Set up the Cluster
-
-   If you are using Kind:
-
-    ```shell
-    make set-kindcluster
-    ```
-
-    If you are not using Kind, it's a manual process, as follows:
-
-    a. Create the namespace
-
-    ```shell
-    kubectl create namespace azureoperator-system
-    ```
-
-    b. Set the azureoperatorsettings secret
-
-    ```shell
-    kubectl --namespace azureoperator-system \
-        create secret generic azureoperatorsettings \
-        --from-literal=AZURE_CLIENT_ID="$AZURE_CLIENT_ID" \
-        --from-literal=AZURE_CLIENT_SECRET="$AZURE_CLIENT_SECRET" \
-        --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
-        --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID"
-    ```
-
-    c. [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
-
-    ```shell
-    kubectl get secret webhook-server-cert -n azureoperator-system -o yaml > certs.txt
-    ```
-
-    you can use `https://inbrowser.tools/` and extract `ca.crt`, `tls.crt` and `tls.key`
-
-8. Install [kustomize](https://github.com/kubernetes-sigs/kustomize) using `make install-kustomize`.
-
-9. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config,
-
-    run `kubectl apply -f config/crd/bases` or `make install`
-
-## How to extend the operator and build your own images
-
-### Updating the Azure operator
-
-This repository is generated by [Kubebuilder](https://book.kubebuilder.io/).
-
-To Extend the operator `github.com/Azure/azure-service-operator`:
-
-1. Run `go mod download` to download dependencies. It doesn't show any progress bar and takes a while to download all of dependencies.
-2. Update `api\v1\eventhub_types.go`.
-3. Regenerate CRD `make manifests`.
-4. Install updated CRD `make install`
-5. Generate code `make generate`
-6. Update operator `controller\eventhub_controller.go`
-7. Update tests and run `make test`
-8. Deploy `make deploy`
-
-If you make changes to the operator and want to update the deployment without recreating the cluster (when testing locally), you can use the `make update` to update your Azure Operator pod. If you need to rebuild the docker image without cache, use `make ARGS="--no-cache" update`.
 
 ## Testing
 
