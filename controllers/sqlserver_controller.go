@@ -86,7 +86,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				}
 				instance.Status.Message = fmt.Sprintf("Delete SqlServer failed with %s", err.Error())
 				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-					r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+					r.Recorder.Event(&instance, "Warning", "Failed", "Unable to update instance")
 				}
 				return ctrl.Result{}, err
 			}
@@ -101,9 +101,9 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			instance.Status.Message = fmt.Sprintf("Adding SqlServer finalizer failed with error %s", err.Error())	
+			instance.Status.Message = fmt.Sprintf("Adding SqlServer finalizer failed with error %s", err.Error())
 			if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+				r.Recorder.Event(&instance, "Warning", "Failed", "Unable to update instance")
 			}
 			return ctrl.Result{}, err
 		}
