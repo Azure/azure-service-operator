@@ -21,6 +21,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/constants"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest/to"
 
@@ -81,7 +82,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(eventhubFinalizerName) {
+	if !helpers.HasFinalizer(&instance, constants.Finalizer) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)

@@ -19,6 +19,7 @@ import (
 	"context"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/constants"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
@@ -105,7 +106,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
-				return eventhubNamespacehelpers.HasFinalizer(eventhubNamespaceFinalizerName)
+				return helpers.HasFinalizer(eventhubNamespaceInstance, constants.Finalizer)
 			}, tc.timeout,
 			).Should(BeTrue())
 

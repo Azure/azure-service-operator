@@ -19,6 +19,7 @@ import (
 	"context"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/constants"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
@@ -123,7 +124,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubhelpers.HasFinalizer(eventhubFinalizerName)
+				return helpers.HasFinalizer(eventhubInstance, constants.Finalizer)
 			}, tc.timeout,
 			).Should(BeTrue())
 
@@ -213,7 +214,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubhelpers.HasFinalizer(eventhubFinalizerName)
+				return helpers.HasFinalizer(eventhubInstance, constants.Finalizer)
 			}, tc.timeout,
 			).Should(BeTrue())
 
@@ -316,7 +317,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
-				return eventHubhelpers.HasFinalizer(eventhubFinalizerName)
+				return helpers.HasFinalizer(eventHubInstance, constants.Finalizer)
 			}, tc.timeout,
 			).Should(BeTrue())
 

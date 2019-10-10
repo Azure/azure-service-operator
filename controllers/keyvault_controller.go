@@ -20,6 +20,7 @@ import (
 	"time"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/constants"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -30,8 +31,6 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
-
-const keyVaultFinalizerName = "keyvault.finalizers.azure.com"
 
 // KeyVaultReconciler reconciles a KeyVault object
 type KeyVaultReconciler struct {
@@ -63,19 +62,19 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !helpers.IsBeingDeleted(&instance) {
-		if !helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
+		if !helpers.HasFinalizer(&instance, constants.Finalizer) {
 			if err := r.addFinalizer(&instance); err != nil {
 				log.Info("Adding keyvault finalizer failed with ", "err", err.Error())
 				return ctrl.Result{}, err
 			}
 		}
 	} else {
-		if helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
+		if helpers.HasFinalizer(&instance, constants.Finalizer) {
 			if err := r.deleteExternal(&instance); err != nil {
 				log.Info("Delete KeyVault failed with ", "err", err.Error())
 				return ctrl.Result{}, err
 			}
-			helpers.RemoveFinalizer(&instance, keyVaultFinalizerName)
+			helpers.RemoveFinalizer(&instance, constants.Finalizer)
 			if err := r.Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -98,12 +97,12 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 }
 
 func (r *KeyVaultReconciler) addFinalizer(instance *azurev1.KeyVault) error {
-	helpers.AddFinalizer(instance, keyVaultFinalizerName)
+	helpers.AddFinalizer(instance, constants.Finalizer)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", keyVaultFinalizerName))
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", constants.Finalizer))
 	return nil
 }
 

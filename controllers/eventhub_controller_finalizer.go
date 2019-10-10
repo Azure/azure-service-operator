@@ -21,31 +21,30 @@ import (
 	"fmt"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/constants"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
-const eventhubFinalizerName = "eventhub.finalizers.com"
-
 func (r *EventhubReconciler) addFinalizer(instance *azurev1.Eventhub) error {
-	helpers.AddFinalizer(eventhubFinalizerName)
+	helpers.AddFinalizer(instance, constants.Finalizer)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", eventhubFinalizerName))
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", constants.Finalizer))
 	return nil
 }
 
 func (r *EventhubReconciler) handleFinalizer(instance *azurev1.Eventhub) error {
-	if helpers.HasFinalizer(eventhubFinalizerName) {
+	if helpers.HasFinalizer(instance, constants.Finalizer) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
 
 			return errhelp.NewAzureError(err)
 		}
 
-		helpers.RemoveFinalizer(eventhubFinalizerName)
+		helpers.RemoveFinalizer(instance, constants.Finalizer)
 		if err := r.Update(context.Background(), instance); err != nil {
 			return err
 		}

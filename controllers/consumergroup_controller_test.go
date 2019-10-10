@@ -19,6 +19,7 @@ import (
 	"context"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/constants"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
@@ -78,7 +79,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
-				return consumerGrouphelpers.HasFinalizer(consumerGroupFinalizerName)
+				return helpers.HasFinalizer(consumerGroupInstance, constants.Finalizer)
 			}, tc.timeout,
 			).Should(BeTrue())
 
