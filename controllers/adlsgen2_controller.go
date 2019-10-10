@@ -104,6 +104,6 @@ func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1.AdlsGen2) error
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", name + " provisioned - stubbed")
+	r.Recorder.Event(instance, "Normal", "Updated", name+" provisioned - stubbed")
 	return nil
 }
