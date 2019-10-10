@@ -10,6 +10,10 @@ resources:
 - bases/azure.microsoft.com_eventhubnamespaces.yaml
 - bases/azure.microsoft.com_consumergroups.yaml
 - bases/azure.microsoft.com_keyvaults.yaml
+- bases/azure.microsoft.com_sqlservers.yaml
+- bases/azure.microsoft.com_sqldatabases.yaml
+- bases/azure.microsoft.com_sqlfirewallrules.yaml
+- bases/azure.microsoft.com_sqlactions.yaml
 - bases/azure.microsoft.com_adlsgen2s.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
@@ -20,6 +24,10 @@ patches:
 #- patches/webhook_in_eventhubnamespaces.yaml
 #- patches/webhook_in_consumergroups.yaml
 #- patches/webhook_in_keyvaults.yaml
+#- patches/webhook_in_sqlservers.yaml
+#- patches/webhook_in_sqldatabases.yaml
+#- patches/webhook_in_sqlfirewallrules.yaml
+#- patches/webhook_in_sqlactions.yaml
 #- patches/webhook_in_adlsgen2s.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
 
@@ -29,6 +37,10 @@ patches:
 #- patches/cainjection_in_eventhubnamespaces.yaml
 #- patches/cainjection_in_consumergroups.yaml
 #- patches/cainjection_in_keyvaults.yaml
+#- patches/cainjection_in_sqlservers.yaml
+#- patches/cainjection_in_sqldatabases.yaml
+#- patches/cainjection_in_sqlfirewallrules.yaml
+#- patches/cainjection_in_sqlactions.yaml
 #- patches/cainjection_in_adlsgen2s.yaml
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch
 

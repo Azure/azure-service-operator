@@ -55,8 +55,8 @@ func init() {
 }
 
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=core,resources=events,verbs=create;watch
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=create;patch
+// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
 
@@ -171,15 +171,48 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
 		os.Exit(1)
 	}
-
+	if err = (&controllers.SqlServerReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlServer"),
+		Recorder: mgr.GetEventRecorderFor("SqlServer-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlServer")
+		os.Exit(1)
+	}
+	if err = (&controllers.SqlDatabaseReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
+		Recorder: mgr.GetEventRecorderFor("SqlDatabase-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlDatabase")
+		os.Exit(1)
+	}
+	if err = (&controllers.SqlFirewallRuleReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlFirewallRule"),
+		Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
+		os.Exit(1)
+	}
+	if err = (&controllers.SqlActionReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlAction"),
+		Recorder: mgr.GetEventRecorderFor("SqlAction-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
+		os.Exit(1)
+	}
 	if err = (&controllers.AdlsGen2Reconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("AdlsGen2"),
 		Recorder: mgr.GetEventRecorderFor("AdlsGen2-controller"),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AdlsGen2")
-		os.Exit(1)
-	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
