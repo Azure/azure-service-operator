@@ -29,6 +29,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
+	v1 "k8s.io/api/core/v1"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
@@ -136,18 +137,18 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.Consumer
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	_, err = r.ConsumerGroupManager.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
 	if err != nil {
 
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create consumer group in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create consumer group in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
 			//log error and kill it
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 		return err
 	}
@@ -158,10 +159,10 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.Consumer
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", consumergroupName+" provisioned")
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", consumergroupName+" provisioned")
 
 	return nil
 
@@ -178,7 +179,7 @@ func (r *ConsumerGroupReconciler) deleteConsumerGroup(instance *azurev1.Consumer
 	var err error
 	_, err = r.ConsumerGroupManager.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete consumer group in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete consumer group in azure")
 		return err
 	}
 	return nil
