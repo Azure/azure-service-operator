@@ -74,7 +74,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
-			if err := r.deleteExternal(&instance); err != nil {
+			if err := r.deleteExternal(ctx, &instance); err != nil {
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
 				}
@@ -90,7 +90,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			}
 
 			helpers.RemoveFinalizer(&instance, SQLServerFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
+			if err := r.Update(ctx, &instance); err != nil {
 				return ctrl.Result{}, err
 			}
 		}
@@ -116,7 +116,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			Type: "Opaque",
 		}
 
-		if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err != nil {
+		if err := r.Get(ctx, types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err != nil {
 			r.Log.Info("Error", "ReconcileSecret", "Server exists but secret does not, recreating now")
 
 			// Add admin credentials to "data" block in secret
@@ -130,7 +130,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
 		// TODO: Add error handling for cases where username or password are invalid:
 		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
-		if err := r.reconcileExternal(&instance); err != nil {
+		if err := r.reconcileExternal(ctx, &instance); err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -155,7 +155,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 	}
 
-	if err := r.verifyExternal(&instance); err != nil {
+	if err := r.verifyExternal(ctx, &instance); err != nil {
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
@@ -181,8 +181,7 @@ func (r *SqlServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServer) error {
-	ctx := context.Background()
+func (r *SqlServerReconciler) reconcileExternal(ctx context.Context, instance *azurev1alpha1.SqlServer) error {
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
@@ -195,7 +194,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServe
 	}
 
 	// Check to see if secret already exists for admin username/password
-	secret, _ := r.GetOrPrepareSecret(instance)
+	secret, _ := r.GetOrPrepareSecret(ctx, instance)
 	sqlServerProperties := sql.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr(string(secret.Data["username"])),
 		AdministratorLoginPassword: to.StringPtr(string(secret.Data["password"])),
@@ -225,7 +224,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServe
 		}
 	}
 
-	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
+	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(ctx, r.Client, secret, func() error {
 		r.Log.Info("Creating or updating secret with SQL Server credentials")
 		innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
 		if innerErr != nil {
@@ -245,8 +244,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServe
 	return nil
 }
 
-func (r *SqlServerReconciler) verifyExternal(instance *azurev1alpha1.SqlServer) error {
-	ctx := context.Background()
+func (r *SqlServerReconciler) verifyExternal(ctx context.Context, instance *azurev1alpha1.SqlServer) error {
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
@@ -287,8 +285,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1alpha1.SqlServer) 
 	return errhelp.NewAzureError(err)
 }
 
-func (r *SqlServerReconciler) deleteExternal(instance *azurev1alpha1.SqlServer) error {
-	ctx := context.Background()
+func (r *SqlServerReconciler) deleteExternal(ctx context.Context, instance *azurev1alpha1.SqlServer) error {
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 	location := instance.Spec.Location
@@ -314,7 +311,7 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1alpha1.SqlServer) 
 	return nil
 }
 
-func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.SqlServer) (*v1.Secret, error) {
+func (r *SqlServerReconciler) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.SqlServer) (*v1.Secret, error) {
 	name := instance.ObjectMeta.Name
 
 	secret := &v1.Secret{
@@ -354,7 +351,7 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.SqlServ
 	secret.Data["sqlservername"] = []byte(name)
 	secret.Data["fullyqualifiedservername"] = []byte(fullyQualifiedServername)
 
-	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
+	if err := r.Get(ctx, types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
 	}
 
