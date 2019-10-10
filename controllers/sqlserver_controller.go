@@ -84,8 +84,10 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 						return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 					}
 				}
-				log.Info("Delete SqlServer failed with ", "error", err.Error())
-
+				instance.Status.Message = fmt.Sprintf("Delete SqlServer failed with %s", err.Error())
+				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+					r.Recorder.Event(&instance, "Warning", "Failed", "Delete SqlServer failed")
+				}
 				return ctrl.Result{}, err
 			}
 
@@ -99,7 +101,10 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if !helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding SqlServer finalizer failed with ", "error", err.Error())
+			instance.Status.Message = fmt.Sprintf("Adding SqlServer finalizer failed with error %s", err.Error())	
+			if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+				r.Recorder.Event(&instance, "Warning", "Failed", "Adding SqlServer finalizer failed")
+			}
 			return ctrl.Result{}, err
 		}
 	}
@@ -141,10 +146,16 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
 					if azerr.Type == errhelp.InvalidServerName {
-						r.Recorder.Event(&instance, "Warning", "Failed", "Invalid Server Name")
+						instance.Status.Message = "Invalid Server Name"
+						if updateerr := r.Status().Update(context.Background(), &instance); updateerr != nil {
+							r.Recorder.Event(&instance, "Warning", "Failed", "Invalid Server Name")
+						}
 						return ctrl.Result{Requeue: false}, nil
 					}
-					log.Info("Got ignorable error", "type", azerr.Type)
+					instance.Status.Message = fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
+					if updateerr := r.Status().Update(context.Background(), &instance); updateerr != nil {
+						r.Recorder.Event(&instance, "Warning", "Failed", fmt.Sprintf("Got ignorable error type %v", azerr.Type))
+					}
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
 			}
@@ -164,7 +175,10 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 		if azerr, ok := err.(*errhelp.AzureError); ok {
 			if helpers.ContainsString(catch, azerr.Type) {
-				log.Info("Got ignorable error", "type", azerr.Type)
+				instance.Status.Message = fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
+				if updateerr := r.Status().Update(context.Background(), &instance); updateerr != nil {
+					r.Recorder.Event(&instance, "Warning", "Failed", fmt.Sprintf("Got ignorable error type %v", azerr.Type))
+				}
 				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 			}
 		}
