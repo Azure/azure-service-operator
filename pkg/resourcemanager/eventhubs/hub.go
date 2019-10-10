@@ -19,6 +19,7 @@ package eventhubs
 import (
 	"context"
 	"fmt"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 
