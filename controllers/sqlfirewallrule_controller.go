@@ -167,13 +167,13 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1.SqlFirew
 		
 		if innerErr != nil {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to set controller reference to SqlServer")
-			instance.Message = "Unable to set controller reference to SqlServer")
+			instance.Message = "Unable to set controller reference to SqlServer"
 			if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
 				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
 			}
 		}
 		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Owner instance assigned successfully")
-		instance.Message = "Owner instance assigned successfully")
+		instance.Message = "Owner instance assigned successfully"
 		if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
 		}
