@@ -65,7 +65,10 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete SqlFirewallRule failed with ", "error", err.Error())
+				instance.Status.Message = fmt.Sprintf("Delete SqlFirewallRule failed with %s", err.Error())
+				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+					r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+				}
 				return ctrl.Result{}, err
 			}
 
@@ -79,7 +82,10 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 
 	if !helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding SqlFirewallRule finalizer failed with ", "error", err.Error())
+			instance.Status.Message = fmt.Sprintf("Adding SqlFirewallRule finalizer failed with error %s", err.Error())	
+			if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
+				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+			}
 			return ctrl.Result{}, err
 		}
 	}
