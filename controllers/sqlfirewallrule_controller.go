@@ -65,13 +65,13 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
-			if err := r.deleteExternal(&instance); err != nil {
+			if err := r.deleteExternal(ctx, &instance); err != nil {
 				log.Info("Delete SqlFirewallRule failed with ", "error", err.Error())
 				return ctrl.Result{}, err
 			}
 
 			helpers.RemoveFinalizer(&instance, SQLFirewallRuleFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
+			if err := r.Update(ctx, &instance); err != nil {
 				return ctrl.Result{}, err
 			}
 		}
@@ -79,7 +79,7 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 	}
 
 	if !helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
-		if err := r.addFinalizer(&instance); err != nil {
+		if err := r.addFinalizer(ctx, &instance); err != nil {
 			log.Info("Adding SqlFirewallRule finalizer failed with ", "error", err.Error())
 			return ctrl.Result{}, err
 		}
@@ -87,7 +87,7 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation for SqlFirewallRule")
-		if err := r.reconcileExternal(&instance); err != nil {
+		if err := r.reconcileExternal(ctx, &instance); err != nil {
 
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
@@ -117,8 +117,7 @@ func (r *SqlFirewallRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.SqlFirewallRule) error {
-	ctx := context.Background()
+func (r *SqlFirewallRuleReconciler) reconcileExternal(ctx context.Context, instance *azurev1alpha1.SqlFirewallRule) error {
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
@@ -183,8 +182,7 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.Sq
 	return nil
 }
 
-func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.SqlFirewallRule) error {
-	ctx := context.Background()
+func (r *SqlFirewallRuleReconciler) deleteExternal(ctx context.Context, instance *azurev1alpha1.SqlFirewallRule) error {
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
@@ -211,9 +209,9 @@ func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.SqlFi
 	return nil
 }
 
-func (r *SqlFirewallRuleReconciler) addFinalizer(instance *azurev1alpha1.SqlFirewallRule) error {
+func (r *SqlFirewallRuleReconciler) addFinalizer(ctx context.Context, instance *azurev1alpha1.SqlFirewallRule) error {
 	helpers.AddFinalizer(instance, SQLFirewallRuleFinalizerName)
-	err := r.Update(context.Background(), instance)
+	err := r.Update(ctx, instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
