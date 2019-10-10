@@ -67,7 +67,7 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 			if err := r.deleteExternal(&instance); err != nil {
 				instance.Status.Message = fmt.Sprintf("Delete SqlFirewallRule failed with %s", err.Error())
 				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-					r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+					r.Recorder.Event(&instance, "Warning", "Failed", "Unable to update instance")				
 				}
 				return ctrl.Result{}, err
 			}
@@ -84,7 +84,7 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 		if err := r.addFinalizer(&instance); err != nil {
 			instance.Status.Message = fmt.Sprintf("Adding SqlFirewallRule finalizer failed with error %s", err.Error())	
 			if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+				r.Recorder.Event(&instance, "Warning", "Failed", "Unable to update instance")				
 			}
 			return ctrl.Result{}, err
 		}
@@ -104,7 +104,7 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 				if helpers.ContainsString(catch, azerr.Type) {
 					instance.Status.Message = fmt.Sprintf("Got ignorable error of type %s", azerr.Type)	
 					if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-						r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+						r.Recorder.Event(&instance, "Warning", "Failed", "Unable to update instance")				
 					}
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
@@ -117,7 +117,7 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 	r.Recorder.Event(&instance, "Normal", "Provisioned", "sqlfirewallrule "+instance.ObjectMeta.Name+" provisioned ")
 	instance.Status.Message = fmt.Sprintf("SqlFirewall %s successfully provisioned", instance.ObjectMeta.Name)	
 	if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")				
+		r.Recorder.Event(&instance, "Warning", "Failed", "Unable to update instance")				
 	}
 
 	return ctrl.Result{}, nil
