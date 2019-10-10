@@ -75,12 +75,12 @@ func (r *AdlsGen2Reconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1.AdlsGen2) error {
 	ctx := context.Background()
-	filesystem := instance.Spec.FileSystem
-	xMsProperties := instance.Spec.XMsProperties
-	xMsClientRequestID := instance.Spec.XMsClientRequestID
-	timeout := instance.Spec.Timeout
-	xMsDate := instance.Spec.XMsDate
-	accountName := instance.Output.AdlsGen2AccountName
+	// filesystem := instance.Spec.FileSystem
+	// xMsProperties := instance.Spec.XMsProperties
+	// xMsClientRequestID := instance.Spec.XMsClientRequestID
+	// timeout := instance.Spec.Timeout
+	// xMsDate := instance.Spec.XMsDate
+	// accountName := instance.Output.AdlsGen2AccountName
 	name := instance.ObjectMeta.Name
 
 	var err error
@@ -94,7 +94,7 @@ func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1.AdlsGen2) error
 	}
 
 	// TODO: add logic to actually create a data lake
-	r.AdlsGen2Manager.CreateAdlsGen2(ctx, filesystem, xMsProperties, xMsClientRequestID, &timeout, xMsDate, accountName)
+	// r.AdlsGen2Manager.CreateAdlsGen2(ctx, filesystem, xMsProperties, xMsClientRequestID, &timeout, xMsDate, accountName)
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
@@ -104,6 +104,6 @@ func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1.AdlsGen2) error
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", name+" provisioned - stubbed")
+	r.Recorder.Event(instance, "Normal", "Updated", name + " provisioned - stubbed")
 	return nil
 }
