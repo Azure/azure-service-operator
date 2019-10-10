@@ -22,12 +22,13 @@ import (
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 const eventhubFinalizerName = "eventhub.finalizers.com"
 
 func (r *EventhubReconciler) addFinalizer(instance *azurev1.Eventhub) error {
-	instance.AddFinalizer(eventhubFinalizerName)
+	helpers.AddFinalizer(eventhubFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
@@ -37,14 +38,14 @@ func (r *EventhubReconciler) addFinalizer(instance *azurev1.Eventhub) error {
 }
 
 func (r *EventhubReconciler) handleFinalizer(instance *azurev1.Eventhub) error {
-	if instance.HasFinalizer(eventhubFinalizerName) {
+	if helpers.HasFinalizer(eventhubFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
 
 			return errhelp.NewAzureError(err)
 		}
 
-		instance.RemoveFinalizer(eventhubFinalizerName)
+		helpers.RemoveFinalizer(eventhubFinalizerName)
 		if err := r.Update(context.Background(), instance); err != nil {
 			return err
 		}

@@ -18,8 +18,9 @@ package helpers
 
 import (
 	"fmt"
-	"github.com/Azure/go-autorest/autorest"
 	"net/http"
+
+	"github.com/Azure/go-autorest/autorest"
 )
 
 func GetRestResponse(statusCode int) autorest.Response {

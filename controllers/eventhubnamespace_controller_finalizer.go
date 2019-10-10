@@ -21,12 +21,13 @@ import (
 	"fmt"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 const eventhubNamespaceFinalizerName = "eventhubnamespace.finalizers.com"
 
 func (r *EventhubNamespaceReconciler) addFinalizer(instance *azurev1.EventhubNamespace) error {
-	instance.AddFinalizer(eventhubNamespaceFinalizerName)
+	helpers.AddFinalizer(eventhubNamespaceFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
@@ -36,13 +37,13 @@ func (r *EventhubNamespaceReconciler) addFinalizer(instance *azurev1.EventhubNam
 }
 
 func (r *EventhubNamespaceReconciler) handleFinalizer(instance *azurev1.EventhubNamespace) error {
-	if instance.HasFinalizer(eventhubNamespaceFinalizerName) {
+	if helpers.HasFinalizer(eventhubNamespaceFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
 			return err
 		}
 
-		instance.RemoveFinalizer(eventhubNamespaceFinalizerName)
+		helpers.RemoveFinalizer(eventhubNamespaceFinalizerName)
 		if err := r.Update(context.Background(), instance); err != nil {
 			return err
 		}

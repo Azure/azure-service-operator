@@ -18,6 +18,7 @@ package eventhubs
 
 import (
 	"context"
+
 	"github.com/Azure/go-autorest/autorest"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"

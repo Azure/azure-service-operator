@@ -19,11 +19,12 @@ package storages
 import (
 	"context"
 	"fmt"
+	"log"
+
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
-	"log"
 )
 
 type azureBlobContainerManager struct{}

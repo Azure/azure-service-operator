@@ -66,7 +66,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 		return ctrl.Result{}, nil
 	}
 
-	if !instance.HasFinalizer(eventhubNamespaceFinalizerName) {
+	if !helpers.HasFinalizer(eventhubNamespaceFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)

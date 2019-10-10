@@ -16,7 +16,6 @@ limitations under the License.
 package v1
 
 import (
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -75,16 +74,4 @@ func (consumerGroup *ConsumerGroup) IsBeingDeleted() bool {
 func (consumerGroup *ConsumerGroup) IsSubmitted() bool {
 	return consumerGroup.Status.Provisioning || consumerGroup.Status.Provisioned
 
-}
-
-func (consumerGroup *ConsumerGroup) HasFinalizer(finalizerName string) bool {
-	return helpers.ContainsString(consumerGroup.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (consumerGroup *ConsumerGroup) AddFinalizer(finalizerName string) {
-	consumerGroup.ObjectMeta.Finalizers = append(consumerGroup.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (consumerGroup *ConsumerGroup) RemoveFinalizer(finalizerName string) {
-	consumerGroup.ObjectMeta.Finalizers = helpers.RemoveString(consumerGroup.ObjectMeta.Finalizers, finalizerName)
 }

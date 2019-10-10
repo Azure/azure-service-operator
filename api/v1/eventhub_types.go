@@ -16,7 +16,6 @@ limitations under the License.
 package v1
 
 import (
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -144,16 +143,4 @@ func (eventhub *Eventhub) IsBeingDeleted() bool {
 
 func (eventhub *Eventhub) IsSubmitted() bool {
 	return eventhub.Status.Provisioning || eventhub.Status.Provisioned
-}
-
-func (eventhub *Eventhub) HasFinalizer(finalizerName string) bool {
-	return helpers.ContainsString(eventhub.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (eventhub *Eventhub) AddFinalizer(finalizerName string) {
-	eventhub.ObjectMeta.Finalizers = append(eventhub.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (eventhub *Eventhub) RemoveFinalizer(finalizerName string) {
-	eventhub.ObjectMeta.Finalizers = helpers.RemoveString(eventhub.ObjectMeta.Finalizers, finalizerName)
 }
