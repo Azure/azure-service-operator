@@ -131,10 +131,6 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		// TODO: Add error handling for cases where username or password are invalid:
 		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
 		if err := r.reconcileExternal(&instance); err != nil {
-			// if strings.Contains(err.Error(), "asynchronous operation has not completed") {
-			// 	r.Recorder.Event(&instance, "Normal", "Provisioning", "async op still running")
-			// 	return ctrl.Result{Requeue: true, RequeueAfter: 10 * time.Second}, nil
-			// }
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -201,20 +197,16 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	// Check to see if secret already exists for admin username/password
 	secret, _ := r.GetOrPrepareSecret(instance)
 	sqlServerProperties := sql.SQLServerProperties{
-		AdministratorLogin:         to.StringPtr(generateRandomString(usernameLength)),
-		AdministratorLoginPassword: to.StringPtr(generateRandomString(passwordLength)),
+		AdministratorLogin:         to.StringPtr(string(secret.Data["username"])),
+		AdministratorLoginPassword: to.StringPtr(string(secret.Data["password"])),
 	}
-
-	// testing
-	r.Log.Info("Info", "Username: ", *sqlServerProperties.AdministratorLogin)
-	r.Log.Info("Info", "Password: ", *sqlServerProperties.AdministratorLoginPassword)
 
 	// create the sql server
 	instance.Status.Provisioning = true
 	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			instance.Status.Message = fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
-			
+
 			// write information back to instance
 			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
@@ -266,7 +258,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 		Location:          location,
 	}
 
-	serv, err := sdkClient.GetServer(groupName, name)
+	serv, err := sdkClient.GetServer()
 	if err != nil {
 		azerr := errhelp.NewAzureError(err).(*errhelp.AzureError)
 		if azerr.Type != errhelp.ResourceNotFound {

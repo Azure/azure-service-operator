@@ -18,21 +18,15 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"k8s.io/client-go/rest"
 	"log"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"k8s.io/client-go/rest"
-
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"k8s.io/client-go/rest"
-
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -52,8 +46,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
-
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -61,13 +53,6 @@ import (
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
 var testEnv *envtest.Environment
-var resourceGroupName string
-var resourcegroupLocation string
-var eventhubNamespaceName string
-var eventhubName string
-var namespaceLocation string
-var storageAccountName string
-var blobContainerName string
 
 type testContext struct {
 	k8sClient             client.Client
@@ -116,17 +101,6 @@ var _ = BeforeSuite(func() {
 	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
 
 	var timeout time.Duration
-
-	resourcemanagerconfig.ParseEnvironment()
-	resourceGroupName := "t-rg-dev-controller-" + helpers.RandomString(10)
-	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
-
-	eventhubNamespaceName := "t-ns-dev-eh-ns-" + helpers.RandomString(10)
-	eventhubName := "t-eh-dev-sample-" + helpers.RandomString(10)
-	namespaceLocation := resourcemanagerconfig.DefaultLocation()
-
-	storageAccountName := "tsadeveh" + helpers.RandomString(10)
-	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
 
 	By("bootstrapping test environment")
 	testEnv = &envtest.Environment{
@@ -217,13 +191,6 @@ var _ = BeforeSuite(func() {
 		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 		Recorder:             k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 		ConsumerGroupManager: eventHubManagers.ConsumerGroup,
-	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
-
-	err = (&ConsumerGroupReconciler{
-		Client:   k8sManager.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
-		Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

@@ -23,8 +23,6 @@ import (
 
 	. "github.com/onsi/ginkgo"
 
-	. "github.com/onsi/ginkgo"
-
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -54,7 +52,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 		It("should fail to create eventhubnamespace if resourcegroup doesn't exist", func() {
 
-			resourceGroupName := "t-rg-dev-controller"
+			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
 			// Create the EventHubNamespace object and expect the Reconcile to be created
