@@ -63,7 +63,7 @@ func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName 
 	kind apiv1.StorageKind,
 	tags map[string]*string,
 	accessTier apiv1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool) (*storage.Account, error) {
+	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (*storage.Account, error) {
 	s := storageResource{
 		resourceGroupName:  groupName,
 		storageAccountName: storageAccountName,

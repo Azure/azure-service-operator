@@ -10,3 +10,4 @@ spec:
   kind: StorageV2
   accessTier: Hot
   supportsHttpsTrafficOnly: true
+  dataLakeEnabled: false

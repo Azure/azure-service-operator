@@ -32,7 +32,7 @@ type StorageManager interface {
 		kind apiv1.StorageKind,
 		tags map[string]*string,
 		accessTier apiv1.StorageAccessTier,
-		enableHTTPsTrafficOnly *bool) (*storage.Account, error)
+		enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (*storage.Account, error)
 
 	// Get gets the description of the specified storage account.
 	// Parameters:

@@ -58,7 +58,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	kind apiv1.StorageKind,
 	tags map[string]*string,
 	accessTier apiv1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool) (*storage.Account, error) {
+	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (*storage.Account, error) {
 	storagesClient := getStoragesClient()
 
 	//Check if name is available
@@ -87,6 +87,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 		AccountPropertiesCreateParameters: &storage.AccountPropertiesCreateParameters{
 			AccessTier:             sAccessTier,
 			EnableHTTPSTrafficOnly: enableHTTPsTrafficOnly,
+			IsHnsEnabled:			dataLakeEnabled,
 		},
 	}
 
