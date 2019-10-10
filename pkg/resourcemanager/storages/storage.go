@@ -87,7 +87,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 		AccountPropertiesCreateParameters: &storage.AccountPropertiesCreateParameters{
 			AccessTier:             sAccessTier,
 			EnableHTTPSTrafficOnly: enableHTTPsTrafficOnly,
-			IsHnsEnabled:			dataLakeEnabled,
+			IsHnsEnabled:           dataLakeEnabled,
 		},
 	}
 

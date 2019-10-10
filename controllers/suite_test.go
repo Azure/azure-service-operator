@@ -220,7 +220,7 @@ var _ = BeforeSuite(func() {
 	// Create the Storage Account and Container
 	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1.StorageSku{
 		Name: "Standard_LRS",
-	}, "Storage", map[string]*string{}, "", nil)
+	}, "Storage", map[string]*string{}, "", nil, nil)
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
 
