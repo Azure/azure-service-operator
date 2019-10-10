@@ -26,8 +26,7 @@ import (
 type AdlsGen2Spec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location          string `json:"location,omitempty"`
-	ResourceGroupName string `json:"resourceGroup"`
+	StorageAccountName	string `json:"storageAccountName,omitempty"`
 }
 
 // AdlsGen2Status defines the observed state of AdlsGen2

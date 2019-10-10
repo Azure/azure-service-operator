@@ -75,8 +75,7 @@ func (r *AdlsGen2Reconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1.AdlsGen2) error {
 	ctx := context.Background()
-	// location := instance.Spec.Location
-	// groupName := instance.Spec.ResourceGroupName
+	// storageAccountName := instance.Spec.StorageAccountName
 	name := instance.ObjectMeta.Name
 
 	var err error
