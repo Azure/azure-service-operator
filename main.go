@@ -208,6 +208,15 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
 		os.Exit(1)
 	}
+	if err = (&controllers.AzureSQLUserReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
+		Recorder: mgr.GetEventRecorderFor("AzureSQLUser-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

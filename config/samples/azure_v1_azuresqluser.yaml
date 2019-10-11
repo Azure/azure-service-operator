@@ -1,0 +1,10 @@
+apiVersion: azure.microsoft.com/v1
+kind: AzureSQLUser
+metadata:
+  name: sqluser-sample
+spec:
+  server: azvotessqlserver
+  dbname: azvotessqldb
+  adminsecret: azvotessqlserver
+  roles:
+    - "db_owner"
