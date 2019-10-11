@@ -22,7 +22,7 @@ resources:
   kind: EventhubNamespace
 - group: azure
   version: v1alpha1
-  kind: SqlServer
+  kind: AzureSqlServer
 - group: azure
   version: v1alpha1
   kind: SqlDatabase

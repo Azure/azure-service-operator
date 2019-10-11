@@ -129,8 +129,8 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	server, err := sdkClient.GetServer()
 	if err != nil {
 		if strings.Contains(err.Error(), "ResourceGroupNotFound") {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of SqlServer: Resource group not found")
-			r.Log.Info("Error", "Unable to get instance of SqlServer: Resource group not found", err)
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of AzureSqlServer: Resource group not found")
+			r.Log.Info("Error", "Unable to get instance of AzureSqlServer: Resource group not found", err)
 			instance.Status.Message = "Resource group not found"
 			// write information back to instance
 			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
@@ -138,7 +138,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 			}
 			return err
 		} else {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of SqlServer")
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of AzureSqlServer")
 			r.Log.Info("Error", "Sql Server instance not found", err)
 			instance.Status.Message = "Sql server instance not found"
 			// write information back to instance
@@ -153,16 +153,16 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// rollcreds action
 	if strings.ToLower(instance.Spec.ActionName) == "rollcreds" {
-		sqlServerProperties := sql.SQLServerProperties{
+		azureSqlServerProperties := sql.SQLServerProperties{
 			AdministratorLogin:         server.ServerProperties.AdministratorLogin,
 			AdministratorLoginPassword: server.ServerProperties.AdministratorLoginPassword,
 		}
 
 		// Generate a new password
 		newPassword, _ := generateRandomPassword(passwordLength)
-		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
+		azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
-		if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
+		if _, err := sdkClient.CreateOrUpdateSQLServer(azureSqlServerProperties); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 				return errhelp.NewAzureError(err)
@@ -182,7 +182,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 		_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
 			r.Log.Info("Creating or updating secret with SQL Server credentials")
-			secret.Data["password"] = []byte(*sqlServerProperties.AdministratorLoginPassword)
+			secret.Data["password"] = []byte(*azureSqlServerProperties.AdministratorLoginPassword)
 			return nil
 		})
 		if createOrUpdateSecretErr != nil {
