@@ -22,7 +22,6 @@ import (
 
 	"os"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/controllers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
@@ -31,6 +30,7 @@ import (
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -49,9 +49,8 @@ var (
 
 func init() {
 
-	azurev1.AddToScheme(scheme)
 	kscheme.AddToScheme(scheme)
-	_ = azurev1.AddToScheme(scheme)
+	_ = azurev1alpha1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -214,6 +213,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
 		os.Exit(1)
 	}
+
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

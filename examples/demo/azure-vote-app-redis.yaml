@@ -1,4 +1,4 @@
-apiVersion: azure.microsoft.com/v1alpha1
+apiVersion: azure.microsoft.com/v1alpha1alpha1
 kind: RedisCache
 metadata:
   name: azure-redis
