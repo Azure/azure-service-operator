@@ -33,7 +33,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
 const SQLDatabaseFinalizerName = "sqldatabase.finalizers.azure.com"
@@ -53,7 +53,7 @@ func (r *SqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error)
 	ctx := context.Background()
 	log := r.Log.WithValues("sqldatabase", req.NamespacedName)
 
-	var instance azurev1.SqlDatabase
+	var instance azurev1alpha1.SqlDatabase
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve sql-database resource", "err", err.Error())
@@ -113,11 +113,11 @@ func (r *SqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error)
 
 func (r *SqlDatabaseReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.SqlDatabase{}).
+		For(&azurev1alpha1.SqlDatabase{}).
 		Complete(r)
 }
 
-func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase) error {
+func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDatabase) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
@@ -142,7 +142,7 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 
 	//get owner instance of SqlServer
 	r.Recorder.Event(instance, "Normal", "UpdatingOwner", "Updating owner SqlServer instance")
-	var ownerInstance azurev1.SqlServer
+	var ownerInstance azurev1alpha1.SqlServer
 	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
 	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
 	if err != nil {
@@ -190,7 +190,7 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 	return nil
 }
 
-func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) error {
+func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.SqlDatabase) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
@@ -220,7 +220,7 @@ func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) er
 	return nil
 }
 
-func (r *SqlDatabaseReconciler) addFinalizer(instance *azurev1.SqlDatabase) error {
+func (r *SqlDatabaseReconciler) addFinalizer(instance *azurev1alpha1.SqlDatabase) error {
 	helpers.AddFinalizer(instance, SQLDatabaseFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {

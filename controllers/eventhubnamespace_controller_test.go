@@ -18,7 +18,7 @@ package controllers
 import (
 	"context"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
@@ -56,12 +56,12 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
 			// Create the EventHubNamespace object and expect the Reconcile to be created
-			eventhubNamespaceInstance := &azurev1.EventhubNamespace{
+			eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubNamespaceSpec{
+				Spec: azurev1alpha1.EventhubNamespaceSpec{
 					Location:      rgLocation,
 					ResourceGroup: resourceGroupName,
 				},
@@ -86,12 +86,12 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			var err error
 
 			// Create the Eventhub namespace object and expect the Reconcile to be created
-			eventhubNamespaceInstance := &azurev1.EventhubNamespace{
+			eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubNamespaceSpec{
+				Spec: azurev1alpha1.EventhubNamespaceSpec{
 					Location:      rgLocation,
 					ResourceGroup: rgName,
 				},

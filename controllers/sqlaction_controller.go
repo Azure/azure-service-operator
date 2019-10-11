@@ -30,7 +30,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/go-autorest/autorest/to"
 	v1 "k8s.io/api/core/v1"
@@ -59,7 +59,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("sqlaction", req.NamespacedName)
 
-	var instance azurev1.SqlAction
+	var instance azurev1alpha1.SqlAction
 
 	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
 	if err != nil {
@@ -105,7 +105,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) error {
+func (r *SqlActionReconciler) reconcileExternal(instance *azurev1alpha1.SqlAction) error {
 	ctx := context.Background()
 	serverName := instance.Spec.ServerName
 	groupName := instance.Spec.ResourceGroup
@@ -222,6 +222,6 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 
 func (r *SqlActionReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.SqlAction{}).
+		For(&azurev1alpha1.SqlAction{}).
 		Complete(r)
 }
