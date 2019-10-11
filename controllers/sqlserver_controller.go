@@ -209,7 +209,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServe
 			instance.Status.Message = fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 
 			// write information back to instance
-			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+			if updateerr := r.Update(ctx, instance); updateerr != nil {
 				r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 			}
 
@@ -221,7 +221,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServe
 		instance.Status.Message = "Successfully Submitted to Azure"
 
 		// write information back to instance
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+		if updateerr := r.Update(ctx, instance); updateerr != nil {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 	}
@@ -239,7 +239,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServe
 	}
 
 	// write information back to instance
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+	if updateerr := r.Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
@@ -280,7 +280,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1alpha1.SqlServer) 
 	}
 
 	// write information back to instance
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+	if updateerr := r.Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		return updateerr
 	}
@@ -305,7 +305,7 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1alpha1.SqlServer) 
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resouce in azure")
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+		if updateerr := r.Update(ctx, instance); updateerr != nil {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 		return errhelp.NewAzureError(err)
