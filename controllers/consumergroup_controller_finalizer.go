@@ -20,12 +20,12 @@ import (
 	"context"
 	"fmt"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
 const consumerGroupFinalizerName = "consumergroup.finalizers.com"
 
-func (r *ConsumerGroupReconciler) addFinalizer(instance *azurev1.ConsumerGroup) error {
+func (r *ConsumerGroupReconciler) addFinalizer(instance *azurev1alpha1.ConsumerGroup) error {
 	instance.AddFinalizer(consumerGroupFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -35,7 +35,7 @@ func (r *ConsumerGroupReconciler) addFinalizer(instance *azurev1.ConsumerGroup) 
 	return nil
 }
 
-func (r *ConsumerGroupReconciler) handleFinalizer(instance *azurev1.ConsumerGroup) error {
+func (r *ConsumerGroupReconciler) handleFinalizer(instance *azurev1alpha1.ConsumerGroup) error {
 	if instance.HasFinalizer(consumerGroupFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
@@ -51,7 +51,7 @@ func (r *ConsumerGroupReconciler) handleFinalizer(instance *azurev1.ConsumerGrou
 	return nil
 }
 
-func (r *ConsumerGroupReconciler) deleteExternalDependency(instance *azurev1.ConsumerGroup) error {
+func (r *ConsumerGroupReconciler) deleteExternalDependency(instance *azurev1alpha1.ConsumerGroup) error {
 
 	return r.deleteConsumerGroup(instance)
 }
