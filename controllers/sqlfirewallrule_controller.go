@@ -39,9 +39,10 @@ const SQLFirewallRuleFinalizerName = "sqlfirewallrule.finalizers.azure.com"
 // SqlFirewallRuleReconciler reconciles a SqlFirewallRule object
 type SqlFirewallRuleReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Log        logr.Logger
+	Recorder   record.EventRecorder
+	Scheme     *runtime.Scheme
+	SQLManager sql.SQLManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlfirewallrules,verbs=get;list;watch;create;update;patch;delete
@@ -154,7 +155,7 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1.SqlFirew
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = sdkClient.CreateOrUpdateSQLFirewallRule(ruleName, startIP, endIP)
+	_, err = r.SQLManager.CreateOrUpdateSQLFirewallRule(sdkClient, ruleName, startIP, endIP)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -167,7 +168,7 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1.SqlFirew
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = sdkClient.GetSQLFirewallRule(ruleName)
+	_, err = r.SQLManager.GetSQLFirewallRule(sdkClient, ruleName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -189,14 +190,14 @@ func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1.SqlFirewall
 	ruleName := instance.ObjectMeta.Name
 
 	// create the Go SDK client with relevant info
-	sdk := sql.GoSDKClient{
+	sdkClient := sql.GoSDKClient{
 		Ctx:               ctx,
 		ResourceGroupName: groupName,
 		ServerName:        server,
 	}
 
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s"+groupName, server, ruleName))
-	err := sdk.DeleteSQLFirewallRule(ruleName)
+	err := r.SQLManager.DeleteSQLFirewallRule(sdkClient, ruleName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")

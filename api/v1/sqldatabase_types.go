@@ -41,7 +41,6 @@ type SqlDatabaseStatus struct {
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:subresource:status
 // SqlDatabase is the Schema for the sqldatabases API
 type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`

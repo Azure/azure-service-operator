@@ -43,9 +43,10 @@ import (
 // SqlServerReconciler reconciles a SqlServer object
 type SqlServerReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Log        logr.Logger
+	Recorder   record.EventRecorder
+	Scheme     *runtime.Scheme
+	SQLManager sql.SQLManager
 }
 
 // Constants
@@ -203,12 +204,12 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
+	if _, err := r.SQLManager.CreateOrUpdateSQLServer(sdkClient, sqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			instance.Status.Message = fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 
 			// write information back to instance
-			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+			if updateerr := r.Update(ctx, instance); updateerr != nil {
 				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 			}
 
@@ -220,17 +221,17 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 		instance.Status.Message = "Successfully Submitted to Azure"
 
 		// write information back to instance
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+		if updateerr := r.Update(ctx, instance); updateerr != nil {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
-		r.Log.Info("Creating or updating secret with SQL Server credentials")
-		innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
-		if innerErr != nil {
-			return innerErr
-		}
+		r.Log.Info("mutating secret bundle")
+		// innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
+		// if innerErr != nil {
+		// 	return innerErr
+		// }
 		return nil
 	})
 	if createOrUpdateSecretErr != nil {
@@ -238,7 +239,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1.SqlServer) err
 	}
 
 	// write information back to instance
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+	if updateerr := r.Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
@@ -258,7 +259,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1.SqlServer) error 
 		Location:          location,
 	}
 
-	serv, err := sdkClient.GetServer()
+	serv, err := r.SQLManager.GetServer(sdkClient)
 	if err != nil {
 		azerr := errhelp.NewAzureError(err).(*errhelp.AzureError)
 		if azerr.Type != errhelp.ResourceNotFound {
@@ -300,7 +301,7 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1.SqlServer) error 
 		Location:          location,
 	}
 
-	_, err := sdkClient.DeleteSQLServer()
+	_, err := r.SQLManager.DeleteSQLServer(sdkClient)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")

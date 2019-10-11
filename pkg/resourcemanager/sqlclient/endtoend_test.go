@@ -35,7 +35,8 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// create the Go SDK client with relevant info
-	sdk := GoSDKClient{
+	manager := AzureSQLManager
+	sdkClient := GoSDKClient{
 		Ctx:               ctx,
 		ResourceGroupName: groupName,
 		ServerName:        generateName("sqlsrvtest"),
@@ -51,7 +52,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// wait for server to be created, then only proceed once activated
 	for {
 		time.Sleep(time.Second)
-		server, err := sdk.CreateOrUpdateSQLServer(sqlServerProperties)
+		server, err := manager.CreateOrUpdateSQLServer(sdkClient, sqlServerProperties)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -81,7 +82,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// wait for db to be created, then only proceed once activated
 	for {
 		time.Sleep(time.Second)
-		future, err := sdk.CreateOrUpdateDB(sqlDBProperties)
+		future, err := manager.CreateOrUpdateDB(sdkClient, sqlDBProperties)
 		if err == nil {
 			db, err := future.Result(getGoDbClient())
 			if err == nil {
@@ -107,7 +108,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// create a firewall rule
 	util.PrintAndLog("creating firewall rule...")
-	_, err = sdk.CreateOrUpdateSQLFirewallRule("test-rule1", "1.1.1.1", "2.2.2.2")
+	_, err = manager.CreateOrUpdateSQLFirewallRule(sdkClient, "test-rule1", "1.1.1.1", "2.2.2.2")
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot create firewall rule: %v", err))
 		t.FailNow()
@@ -117,7 +118,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete firewall rule
 	util.PrintAndLog("deleting firewall rule...")
-	err = sdk.DeleteSQLFirewallRule("test-rule1")
+	err = manager.DeleteSQLFirewallRule(sdkClient, "test-rule1")
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot delete firewall rule: %v", err))
 		t.FailNow()
@@ -126,7 +127,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete the DB
 	time.Sleep(time.Second)
-	response, err := sdk.DeleteDB("sqldatabase-sample")
+	response, err := manager.DeleteDB(sdkClient, "sqldatabase-sample")
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("db deleted")
@@ -138,7 +139,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete the server
 	time.Sleep(time.Second)
-	response, err = sdk.DeleteSQLServer()
+	response, err = manager.DeleteSQLServer(sdkClient)
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("sql server deleted")

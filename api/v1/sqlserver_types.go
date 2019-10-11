@@ -41,7 +41,6 @@ type SqlServerStatus struct {
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:subresource:status
 // SqlServer is the Schema for the sqlservers API
 type SqlServer struct {
 	metav1.TypeMeta   `json:",inline"`

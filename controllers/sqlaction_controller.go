@@ -46,9 +46,10 @@ const sqlActionFinalizerName = "sqlaction.finalizers.azure.com"
 // SqlActionReconciler reconciles a SqlAction object
 type SqlActionReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Log        logr.Logger
+	Recorder   record.EventRecorder
+	Scheme     *runtime.Scheme
+	SQLManager sql.SQLManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlactions,verbs=get;list;watch;create;update;patch;delete
@@ -126,7 +127,7 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 	}
 
 	// Get the Sql Server instance that corresponds to the Server name in the spec for this action
-	server, err := sdkClient.GetServer()
+	server, err := r.SQLManager.GetServer(sdkClient)
 	if err != nil {
 		if strings.Contains(err.Error(), "ResourceGroupNotFound") {
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to get instance of SqlServer: Resource group not found")
@@ -162,7 +163,7 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1.SqlAction) err
 		newPassword, _ := generateRandomPassword(passwordLength)
 		sqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
-		if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
+		if _, err := r.SQLManager.CreateOrUpdateSQLServer(sdkClient, sqlServerProperties); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
 				r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
 				return errhelp.NewAzureError(err)

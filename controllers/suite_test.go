@@ -18,13 +18,14 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"k8s.io/client-go/rest"
 	"log"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"k8s.io/client-go/rest"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -36,6 +37,8 @@ import (
 	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/storages"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+
+	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -139,17 +142,22 @@ var _ = BeforeSuite(func() {
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
+	var sqlManager resourcemanagersql.SQLManager
+	//using mock for sql controller tests irrespective of the flag, as the end to end tests cover azure tests and it saves time
+	sqlManager = &resourcemanagersql.MockSqlManager{}
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
+		//sqlManager = resourcemanagersql.AzureSQLManager
 		timeout = time.Second * 120
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
+		//sqlManager = &resourcemanagersql.MockSqlManager{}
 		timeout = time.Second * 5
 	}
 
@@ -191,6 +199,22 @@ var _ = BeforeSuite(func() {
 		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 		Recorder:             k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 		ConsumerGroupManager: eventHubManagers.ConsumerGroup,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&SqlServerReconciler{
+		Client:     k8sManager.GetClient(),
+		Log:        ctrl.Log.WithName("controllers").WithName("SqlServer"),
+		Recorder:   k8sManager.GetEventRecorderFor("SqlServer-controller"),
+		SQLManager: sqlManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&SqlDatabaseReconciler{
+		Client:     k8sManager.GetClient(),
+		Log:        ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
+		Recorder:   k8sManager.GetEventRecorderFor("SqlDatabase-controller"),
+		SQLManager: sqlManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

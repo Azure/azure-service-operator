@@ -26,12 +26,12 @@ import (
 
 	//"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 )
@@ -41,9 +41,10 @@ const SQLDatabaseFinalizerName = "sqldatabase.finalizers.azure.com"
 // SqlDatabaseReconciler reconciles a SqlDatabase object
 type SqlDatabaseReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Log        logr.Logger
+	Recorder   record.EventRecorder
+	Scheme     *runtime.Scheme
+	SQLManager sql.SQLManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqldatabases,verbs=get;list;watch;create;update;patch;delete
@@ -150,10 +151,20 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of SqlServer")
 	} else {
 		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Got owner instance of Sql Server and assigning controller reference now")
-		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
-		if innerErr != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to set controller reference to SqlServer")
+		// innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
+
+		// if innerErr != nil {
+		// 	r.Recorder.Event(instance, "Warning", "Failed", "Unable to set controller reference to SqlServer")
+		// }
+		references := []metav1.OwnerReference{
+			metav1.OwnerReference{
+				APIVersion: "v1",
+				Kind:       "SqlServer",
+				Name:       ownerInstance.GetName(),
+				UID:        ownerInstance.GetUID(),
+			},
 		}
+		instance.ObjectMeta.SetOwnerReferences(references)
 		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Owner instance assigned successfully")
 	}
 
@@ -162,12 +173,12 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = sdkClient.CreateOrUpdateDB(sqlDatabaseProperties)
+	_, err = r.SQLManager.CreateOrUpdateDB(sdkClient, sqlDatabaseProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
 			instance.Status.Provisioning = true
-			if errup := r.Status().Update(ctx, instance); errup != nil {
+			if errup := r.Update(ctx, instance); errup != nil {
 				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 			}
 		}
@@ -175,7 +186,7 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = sdkClient.GetDB(dbName)
+	_, err = r.SQLManager.GetDB(sdkClient, dbName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -183,7 +194,7 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1.SqlDatabase)
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
-	if err = r.Status().Update(ctx, instance); err != nil {
+	if err = r.Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
@@ -198,7 +209,7 @@ func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) er
 	dbName := instance.ObjectMeta.Name
 
 	// create the Go SDK client with relevant info
-	sdk := sql.GoSDKClient{
+	sdkClient := sql.GoSDKClient{
 		Ctx:               ctx,
 		ResourceGroupName: groupName,
 		ServerName:        server,
@@ -206,7 +217,7 @@ func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1.SqlDatabase) er
 	}
 
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/database/%s"+groupName, server, dbName))
-	_, err := sdk.DeleteDB(dbName)
+	_, err := r.SQLManager.DeleteDB(sdkClient, dbName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
