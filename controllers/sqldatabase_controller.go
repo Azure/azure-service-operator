@@ -26,6 +26,7 @@ import (
 
 	//"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
@@ -86,7 +87,7 @@ func (r *SqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error)
 	}
 
 	if !instance.IsSubmitted() {
-		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation for SqlDatabase")
+		r.Recorder.Event(&instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation for SqlDatabase")
 		if err := r.reconcileExternal(&instance); err != nil {
 
 			catch := []string{
@@ -106,7 +107,7 @@ func (r *SqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error)
 		return ctrl.Result{}, nil
 	}
 
-	r.Recorder.Event(&instance, "Normal", "Provisioned", "sqldatabase "+instance.ObjectMeta.Name+" provisioned ")
+	r.Recorder.Event(&instance, corev1.EventTypeNormal, "Provisioned", "sqldatabase "+instance.ObjectMeta.Name+" provisioned ")
 
 	return ctrl.Result{}, nil
 }
@@ -141,25 +142,25 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDat
 	// instance.Status.Provisioning = true
 
 	//get owner instance of SqlServer
-	r.Recorder.Event(instance, "Normal", "UpdatingOwner", "Updating owner SqlServer instance")
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner SqlServer instance")
 	var ownerInstance azurev1alpha1.SqlServer
 	sqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
 	err := r.Get(ctx, sqlServerNamespacedName, &ownerInstance)
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of SqlServer")
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get owner instance of SqlServer")
 	} else {
-		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Got owner instance of Sql Server and assigning controller reference now")
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Got owner instance of Sql Server and assigning controller reference now")
 		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
 		if innerErr != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to set controller reference to SqlServer")
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to set controller reference to SqlServer")
 		}
-		r.Recorder.Event(instance, "Normal", "OwnerAssign", "Owner instance assigned successfully")
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Owner instance assigned successfully")
 	}
 
 	// write information back to instance
 	if updateerr := r.Update(ctx, instance); updateerr != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	_, err = sdkClient.CreateOrUpdateDB(sqlDatabaseProperties)
@@ -168,7 +169,7 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDat
 			r.Log.Info("Async operation not complete or group not found")
 			instance.Status.Provisioning = true
 			if errup := r.Status().Update(ctx, instance); errup != nil {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 			}
 		}
 
@@ -184,7 +185,7 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDat
 	instance.Status.Provisioned = true
 
 	if err = r.Status().Update(ctx, instance); err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	return nil
@@ -209,14 +210,14 @@ func (r *SqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.SqlDataba
 	_, err := sdk.DeleteDB(dbName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
-			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
 			return nil
 		}
 
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Couldn't delete resouce in azure")
 		return err
 	}
-	r.Recorder.Event(instance, "Normal", "Deleted", dbName+" deleted")
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "Deleted", dbName+" deleted")
 	return nil
 }
 
@@ -226,6 +227,6 @@ func (r *SqlDatabaseReconciler) addFinalizer(instance *azurev1alpha1.SqlDatabase
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", SQLDatabaseFinalizerName))
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", SQLDatabaseFinalizerName))
 	return nil
 }

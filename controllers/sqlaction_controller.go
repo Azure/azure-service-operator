@@ -33,7 +33,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/go-autorest/autorest/to"
-	v1 "k8s.io/api/core/v1"
+	corev1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -101,7 +101,7 @@ func (r *SqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	r.Recorder.Event(&instance, "Normal", "Provisioned", "SqlAction "+instance.ObjectMeta.Name+" provisioned ")
+	r.Recorder.Event(&instance, corev1.EventTypeNormal, "Provisioned", "SqlAction "+instance.ObjectMeta.Name+" provisioned ")
 	return ctrl.Result{}, nil
 }
 
@@ -116,7 +116,7 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1alpha1.SqlActio
 	instance.Status.Message = "SqlAction in progress"
 	// write information back to instance
 	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	sdkClient := sql.GoSDKClient{
@@ -129,21 +129,21 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1alpha1.SqlActio
 	server, err := sdkClient.GetServer()
 	if err != nil {
 		if strings.Contains(err.Error(), "ResourceGroupNotFound") {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to get instance of SqlServer: Resource group not found")
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of SqlServer: Resource group not found")
 			r.Log.Info("Error", "Unable to get instance of SqlServer: Resource group not found", err)
 			instance.Status.Message = "Resource group not found"
 			// write information back to instance
 			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 			}
 			return err
 		} else {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to get instance of SqlServer")
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of SqlServer")
 			r.Log.Info("Error", "Sql Server instance not found", err)
 			instance.Status.Message = "Sql server instance not found"
 			// write information back to instance
 			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 			}
 			return err
 		}
@@ -164,15 +164,15 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1alpha1.SqlActio
 
 		if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to provision or update instance")
+				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 				return errhelp.NewAzureError(err)
 			}
 		} else {
-			r.Recorder.Event(instance, "Normal", "Provisioned", "resource request successfully submitted to Azure")
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Provisioned", "resource request successfully submitted to Azure")
 		}
 
 		// Update the k8s secret
-		secret := &v1.Secret{
+		secret := &corev1.Secret{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      serverName,
 				Namespace: namespace,
@@ -196,12 +196,12 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1alpha1.SqlActio
 
 		// write information back to instance
 		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 
 		// write information back to instance
 		if updateerr := r.Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 	} else {
 		r.Log.Info("Error", "reconcileExternal", "Unknown action name")
@@ -210,7 +210,7 @@ func (r *SqlActionReconciler) reconcileExternal(instance *azurev1alpha1.SqlActio
 
 		// write information back to instance
 		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 		return errors.New("Unknown action name")
 	}
