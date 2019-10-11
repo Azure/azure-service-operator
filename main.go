@@ -198,13 +198,13 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
 		os.Exit(1)
 	}
-	if err = (&controllers.SqlActionReconciler{
+	if err = (&controllers.AzureSqlActionReconciler{
 		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("SqlAction"),
-		Recorder: mgr.GetEventRecorderFor("SqlAction-controller"),
+		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
+		Recorder: mgr.GetEventRecorderFor("AzureSqlAction-controller"),
 		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
 		os.Exit(1)
 	}
 

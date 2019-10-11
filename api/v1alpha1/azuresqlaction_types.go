@@ -22,8 +22,8 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// SqlActionSpec defines the desired state of SqlAction
-type SqlActionSpec struct {
+// AzureSqlActionSpec defines the desired state of AzureSqlAction
+type AzureSqlActionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	ResourceGroup string `json:"resourcegroup"`
@@ -31,8 +31,8 @@ type SqlActionSpec struct {
 	ServerName    string `json:"servername"`
 }
 
-// SqlActionStatus defines the observed state of SqlAction
-type SqlActionStatus struct {
+// AzureSqlActionStatus defines the observed state of AzureSqlAction
+type AzureSqlActionStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool   `json:"provisioning,omitempty"`
@@ -43,28 +43,28 @@ type SqlActionStatus struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// SqlAction is the Schema for the sqlactions API
-type SqlAction struct {
+// AzureSqlAction is the Schema for the azuresqlactions API
+type AzureSqlAction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SqlActionSpec   `json:"spec,omitempty"`
-	Status SqlActionStatus `json:"status,omitempty"`
+	Spec   AzureSqlActionSpec   `json:"spec,omitempty"`
+	Status AzureSqlActionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SqlActionList contains a list of SqlAction
-type SqlActionList struct {
+// AzureSqlActionList contains a list of AzureSqlAction
+type AzureSqlActionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SqlAction `json:"items"`
+	Items           []AzureSqlAction `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&SqlAction{}, &SqlActionList{})
+	SchemeBuilder.Register(&AzureSqlAction{}, &AzureSqlActionList{})
 }
 
-func (s *SqlAction) IsSubmitted() bool {
+func (s *AzureSqlAction) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
 }

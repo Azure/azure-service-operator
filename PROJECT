@@ -37,4 +37,4 @@ resources:
   kind: ConsumerGroup
 - group: azure
   version: v1alpha1
-  kind: SqlAction
+  kind: AzureSqlAction
