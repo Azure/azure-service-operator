@@ -19,10 +19,8 @@ variables:
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Service Connection
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
-  # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
-  # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
   # REQUEUE_AFTER:          - set this value in Azure Devops variables
- 
+
 steps:
 
 - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
@@ -39,7 +37,7 @@ steps:
     echo '##vso[task.prependpath]$(GOBIN)'
     echo '##vso[task.prependpath]$(GOROOT)/bin'
     go version
-    go env 
+    go env
   displayName: 'Set up the Go workspace'
   env:
     GO111MODULE: on
@@ -93,8 +91,6 @@ steps:
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(MODULE_PATH)'
 
@@ -106,13 +102,12 @@ steps:
     kubectl create namespace cert-manager
     kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
     kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
-    kubectl create namespace azureoperator-system 
+    kubectl create namespace azureoperator-system
     kubectl --namespace azureoperator-system \
       create secret generic azureoperatorsettings \
-      --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
-      --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
       --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
-      --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+      --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID} \
+      --from-literal=AZURE_USE_MSI="1"
     #create image and load it into cluster
     IMG="docker.io/controllertest:1" make docker-build
     kind load docker-image docker.io/controllertest:1 --loglevel "trace"
@@ -131,15 +126,13 @@ steps:
     GO111MODULE: on
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
   workingDirectory: '$(MODULE_PATH)'
 
 - task: PublishTestResults@2
   displayName: 'test cluster'
-  inputs:    
+  inputs:
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
     failTaskOnFailedTests: 'true'
@@ -147,7 +140,7 @@ steps:
 
 - task: PublishTestResults@2
   displayName: 'existing cluster'
-  inputs:    
+  inputs:
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
     failTaskOnFailedTests: 'true'
@@ -155,7 +148,7 @@ steps:
 
 - task: PublishCodeCoverageResults@1
   inputs:
-    codeCoverageTool: Cobertura 
+    codeCoverageTool: Cobertura
     summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
     reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
     failIfCoverageEmpty: 'true'
@@ -180,7 +173,7 @@ steps:
     command: buildAndPush
     containerRegistry: $(CONTAINER_REGISTRY)
     repository: $(IMAGE_NAME)
-    Dockerfile: "$(MODULE_PATH)/Dockerfile"    
+    Dockerfile: "$(MODULE_PATH)/Dockerfile"
     buildContext: $(MODULE_PATH)
     tags: |
       latest
@@ -199,7 +192,7 @@ steps:
   continueOnError: 'false'
   displayName: 'Prepare manifests for publish'
   workingDirectory: '$(MODULE_PATH)'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: PublishBuildArtifacts@1
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
