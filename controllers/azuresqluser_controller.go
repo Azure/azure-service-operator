@@ -20,6 +20,7 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/go-logr/logr"
 	"github.com/prometheus/common/log"
@@ -100,7 +101,8 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation for AzureSQLUser")
 		if err := r.reconcileExternal(instance); err != nil {
-			return ctrl.Result{}, fmt.Errorf("error reconciling sql user in azure: %v", err)
+			log.Info("Ignorable error", "error: ", err.Error())
+			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 		}
 		return ctrl.Result{}, nil
 	}
@@ -173,7 +175,6 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1.AzureSQLUser
 	db, _ := sql.Open(DriverName, connString)
 	err = db.Ping()
 	if err != nil {
-		log.Error(err, "Unable to ping server")
 		return err
 	}
 
@@ -181,13 +182,13 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1.AzureSQLUser
 	secret = r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name)
 	containsUser, err := ContainsUser(ctx, db, instance.ObjectMeta.Name)
 	if err != nil {
-		log.Info("Error or couldn't find user", "err:", err.Error())
+		log.Info("Couldn't find user", "err:", err.Error())
 	}
 
 	if !containsUser {
 		user, err = createUser(ctx, secret, db)
 		if err != nil {
-			return nil
+			return err
 		}
 	}
 
