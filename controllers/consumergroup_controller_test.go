@@ -92,7 +92,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(),rgName, ehnName, ehName, consumerGroupAzureName)
+				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, consumerGroupAzureName)
 				return cg.Name != nil && *cg.Name == consumerGroupAzureName
 			}, tc.timeout,
 			).Should(BeTrue())
@@ -107,7 +107,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(),rgName, ehnName, ehName, consumerGroupAzureName)
+				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, consumerGroupAzureName)
 				return cg.Response.StatusCode == http.StatusNotFound
 			}, tc.timeout,
 			).Should(BeTrue())

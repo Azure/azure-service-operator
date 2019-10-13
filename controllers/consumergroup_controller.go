@@ -140,7 +140,7 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1alpha1.Co
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = r.ConsumerGroupManager.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
+	_, err = r.ConsumerGroupManager.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupAzureName)
 	if err != nil {
 
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create consumer group in azure")
@@ -171,13 +171,13 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1alpha1.Co
 func (r *ConsumerGroupReconciler) deleteConsumerGroup(instance *azurev1alpha1.ConsumerGroup) error {
 	ctx := context.Background()
 
-	consumergroupName := instance.ObjectMeta.Name
 	namespaceName := instance.Spec.NamespaceName
 	resourcegroup := instance.Spec.ResourceGroupName
 	eventhubName := instance.Spec.EventhubName
+	consumergroupAzureName := instance.Spec.ConsumerGroupName
 
 	var err error
-	_, err = r.ConsumerGroupManager.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
+	_, err = r.ConsumerGroupManager.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupAzureName)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete consumer group in azure")
 		return err

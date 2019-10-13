@@ -103,7 +103,7 @@ func (manager *mockConsumerGroupManager) GetConsumerGroup(ctx context.Context, r
 
 	if index == -1 {
 		return eventhub.ConsumerGroup{
-			Response:  helpers.GetRestResponse(http.StatusNotFound),
+			Response: helpers.GetRestResponse(http.StatusNotFound),
 		}, errors.New("consumer group not found")
 	}
 
