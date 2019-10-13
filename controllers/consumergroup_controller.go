@@ -108,6 +108,7 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1alpha1.Co
 	namespaceName := instance.Spec.NamespaceName
 	resourcegroup := instance.Spec.ResourceGroupName
 	eventhubName := instance.Spec.EventhubName
+	consumergroupAzureName := instance.Spec.ConsumerGroupName
 
 	// write information back to instance
 	instance.Status.Provisioning = true
