@@ -59,10 +59,10 @@ var _ = Describe("ConsumerGroup", func() {
 					Namespace: "default",
 				},
 				Spec: ConsumerGroupSpec{
-					ResourceGroupName: "rg",
-					NamespaceName:     "ns",
-					EventhubName:      "eh",
-					ConsumerGroupName: "cg",
+					ResourceGroupName:      "rg",
+					NamespaceName:          "ns",
+					EventhubName:           "eh",
+					AzureConsumerGroupName: "cg",
 				},
 			}
 

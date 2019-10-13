@@ -55,7 +55,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 		It("should create and delete consumer groups", func() {
 
 			consumerGroupName := "t-cg-" + helpers.RandomString(10)
-			consumerGroupAzureName := consumerGroupName + "-azure"
+			azureConsumerGroupName := consumerGroupName + "-azure"
 
 			var err error
 
@@ -66,10 +66,10 @@ var _ = Describe("ConsumerGroup Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.ConsumerGroupSpec{
-					NamespaceName:     ehnName,
-					ResourceGroupName: rgName,
-					EventhubName:      ehName,
-					ConsumerGroupName: consumerGroupAzureName,
+					NamespaceName:          ehnName,
+					ResourceGroupName:      rgName,
+					EventhubName:           ehName,
+					AzureConsumerGroupName: azureConsumerGroupName,
 				},
 			}
 
@@ -92,8 +92,8 @@ var _ = Describe("ConsumerGroup Controller", func() {
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, consumerGroupAzureName)
-				return cg.Name != nil && *cg.Name == consumerGroupAzureName && cg.Response.StatusCode == http.StatusOK
+				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, azureConsumerGroupName)
+				return cg.Name != nil && *cg.Name == azureConsumerGroupName && cg.Response.StatusCode == http.StatusOK
 			}, tc.timeout,
 			).Should(BeTrue())
 
@@ -107,7 +107,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, consumerGroupAzureName)
+				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, azureConsumerGroupName)
 				return cg.Response.StatusCode != http.StatusOK
 			}, tc.timeout,
 			).Should(BeTrue())
