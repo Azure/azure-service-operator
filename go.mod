@@ -23,6 +23,7 @@ require (
 	github.com/onsi/gomega v1.7.0
 	github.com/pkg/errors v0.8.1
 	github.com/satori/go.uuid v1.2.0
+	github.com/sethvargo/go-password v0.1.2
 	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8 // indirect
 	golang.org/x/net v0.0.0-20190620200207-3b0461eec859
 	golang.org/x/sys v0.0.0-20190621203818-d432491b9138 // indirect
@@ -32,5 +33,6 @@ require (
 	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible
 	k8s.io/klog v0.3.3 // indirect
 	k8s.io/kube-openapi v0.0.0-20190603182131-db7b694dc208 // indirect
-	sigs.k8s.io/controller-runtime v0.2.0
+	sigs.k8s.io/controller-runtime v0.2.0-beta.4
+	sigs.k8s.io/controller-tools v0.2.0-beta.3 // indirect
 )
