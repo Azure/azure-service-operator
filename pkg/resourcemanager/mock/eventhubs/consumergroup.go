@@ -107,5 +107,6 @@ func (manager *mockConsumerGroupManager) GetConsumerGroup(ctx context.Context, r
 		}, errors.New("consumer group not found")
 	}
 
+	group.ConsumerGroup.Response = helpers.GetRestResponse(http.StatusOK)
 	return group.ConsumerGroup, nil
 }
