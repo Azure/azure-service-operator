@@ -19,7 +19,7 @@ import (
 	"context"
 	"net/http"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
@@ -60,12 +60,12 @@ var _ = Describe("ConsumerGroup Controller", func() {
 			var err error
 
 			// Create the consumer group object and expect the Reconcile to be created
-			consumerGroupInstance := &azurev1.ConsumerGroup{
+			consumerGroupInstance := &azurev1alpha1.ConsumerGroup{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      consumerGroupName,
 					Namespace: "default",
 				},
-				Spec: azurev1.ConsumerGroupSpec{
+				Spec: azurev1alpha1.ConsumerGroupSpec{
 					NamespaceName:     ehnName,
 					ResourceGroupName: rgName,
 					EventhubName:      ehName,

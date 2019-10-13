@@ -30,7 +30,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 )
 
@@ -50,7 +50,7 @@ func (r *ConsumerGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	ctx := context.Background()
 	log := r.Log.WithValues("consumergroup", req.NamespacedName)
 
-	var instance azurev1.ConsumerGroup
+	var instance azurev1alpha1.ConsumerGroup
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Error(err, "unable to fetch consumergroup")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -96,11 +96,11 @@ func (r *ConsumerGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 
 func (r *ConsumerGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.ConsumerGroup{}).
+		For(&azurev1alpha1.ConsumerGroup{}).
 		Complete(r)
 }
 
-func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.ConsumerGroup) error {
+func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1alpha1.ConsumerGroup) error {
 
 	ctx := context.Background()
 	var err error
@@ -114,7 +114,7 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.Consumer
 	instance.Status.Provisioning = true
 
 	//get owner instance
-	var ownerInstance azurev1.Eventhub
+	var ownerInstance azurev1alpha1.Eventhub
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: instance.Namespace}
 	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
 
@@ -168,7 +168,7 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.Consumer
 
 }
 
-func (r *ConsumerGroupReconciler) deleteConsumerGroup(instance *azurev1.ConsumerGroup) error {
+func (r *ConsumerGroupReconciler) deleteConsumerGroup(instance *azurev1alpha1.ConsumerGroup) error {
 	ctx := context.Background()
 
 	namespaceName := instance.Spec.NamespaceName
