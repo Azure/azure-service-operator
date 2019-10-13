@@ -22,8 +22,8 @@ import (
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// SqlDatabaseSpec defines the desired state of SqlDatabase
-type SqlDatabaseSpec struct {
+// AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
+type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location      string        `json:"location"`
@@ -32,8 +32,8 @@ type SqlDatabaseSpec struct {
 	Edition       sql.DBEdition `json:"edition"`
 }
 
-// SqlDatabaseStatus defines the observed state of SqlDatabase
-type SqlDatabaseStatus struct {
+// AzureSqlDatabaseStatus defines the observed state of AzureSqlDatabase
+type AzureSqlDatabaseStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool `json:"provisioning,omitempty"`
@@ -42,28 +42,28 @@ type SqlDatabaseStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// SqlDatabase is the Schema for the sqldatabases API
-type SqlDatabase struct {
+// AzureSqlDatabase is the Schema for the azuresqldatabases API
+type AzureSqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SqlDatabaseSpec   `json:"spec,omitempty"`
-	Status SqlDatabaseStatus `json:"status,omitempty"`
+	Spec   AzureSqlDatabaseSpec   `json:"spec,omitempty"`
+	Status AzureSqlDatabaseStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SqlDatabaseList contains a list of SqlDatabase
-type SqlDatabaseList struct {
+// AzureSqlDatabaseList contains a list of AzureSqlDatabase
+type AzureSqlDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SqlDatabase `json:"items"`
+	Items           []AzureSqlDatabase `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&SqlDatabase{}, &SqlDatabaseList{})
+	SchemeBuilder.Register(&AzureSqlDatabase{}, &AzureSqlDatabaseList{})
 }
 
-func (s *SqlDatabase) IsSubmitted() bool {
+func (s *AzureSqlDatabase) IsSubmitted() bool {
 	return s.Status.Provisioned
 }

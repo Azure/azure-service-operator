@@ -25,7 +25,7 @@ resources:
   kind: AzureSqlServer
 - group: azure
   version: v1alpha1
-  kind: SqlDatabase
+  kind: AzureSqlDatabase
 - group: azure
   version: v1alpha1
   kind: SqlFirewallRule

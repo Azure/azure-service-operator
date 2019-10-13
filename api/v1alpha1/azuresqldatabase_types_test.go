@@ -27,10 +27,10 @@ import (
 // These tests are written in BDD-style using Ginkgo framework. Refer to
 // http://onsi.github.io/ginkgo to learn more.
 
-var _ = Describe("SqlDatabase", func() {
+var _ = Describe("AzureSqlDatabase", func() {
 	var (
 		key              types.NamespacedName
-		created, fetched *SqlDatabase
+		created, fetched *AzureSqlDatabase
 	)
 
 	BeforeEach(func() {
@@ -53,12 +53,12 @@ var _ = Describe("SqlDatabase", func() {
 				Name:      "foo",
 				Namespace: "default",
 			}
-			created = &SqlDatabase{
+			created = &AzureSqlDatabase{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "foo",
 					Namespace: "default",
 				},
-				Spec: SqlDatabaseSpec{
+				Spec: AzureSqlDatabaseSpec{
 					Location:      "westus",
 					ResourceGroup: "foo-resourcegroup",
 					Server:        "sqlsrvsample",
@@ -68,7 +68,7 @@ var _ = Describe("SqlDatabase", func() {
 			By("creating an API obj")
 			Expect(k8sClient.Create(context.TODO(), created)).To(Succeed())
 
-			fetched = &SqlDatabase{}
+			fetched = &AzureSqlDatabase{}
 			Expect(k8sClient.Get(context.TODO(), key, fetched)).To(Succeed())
 			Expect(fetched).To(Equal(created))
 

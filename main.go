@@ -180,13 +180,13 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
 		os.Exit(1)
 	}
-	if err = (&controllers.SqlDatabaseReconciler{
+	if err = (&controllers.AzureSqlDatabaseReconciler{
 		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
-		Recorder: mgr.GetEventRecorderFor("SqlDatabase-controller"),
+		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
+		Recorder: mgr.GetEventRecorderFor("AzureSqlDatabase-controller"),
 		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "SqlDatabase")
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDatabase")
 		os.Exit(1)
 	}
 	if err = (&controllers.SqlFirewallRuleReconciler{

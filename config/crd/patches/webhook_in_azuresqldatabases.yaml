@@ -3,7 +3,7 @@
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
-  name: sqldatabases.azure.microsoft.com
+  name: azuresqldatabases.azure.microsoft.com
 spec:
   conversion:
     strategy: Webhook
