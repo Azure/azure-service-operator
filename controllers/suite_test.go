@@ -217,6 +217,12 @@ var _ = BeforeSuite(func() {
 	_, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 	Expect(err).ToNot(HaveOccurred())
 
+	Eventually(func() bool {
+		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
+	}, 60,
+	).Should(BeTrue())
+
 	// Create the Eventhub resource
 	_, err = eventHubManagers.EventHub.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(2), nil)
 	Expect(err).ToNot(HaveOccurred())
@@ -245,12 +251,6 @@ var _ = BeforeSuite(func() {
 		keyVaultManager:       keyVaultManager,
 		timeout:               timeout,
 	}
-
-	Eventually(func() bool {
-		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
-		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
-	}, 60,
-	).Should(BeTrue())
 })
 
 var _ = AfterSuite(func() {
