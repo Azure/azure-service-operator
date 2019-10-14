@@ -66,15 +66,11 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Resul
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, azureSQLFirewallRuleFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-<<<<<<< HEAD:controllers/sqlfirewallrule_controller.go
-				log.Info("Delete SqlFirewallRule failed with ", "error", err.Error())
-				instance.Status.Message = fmt.Sprintf("Delete SqlFirewallRule failed with %s", err.Error())
+				log.Info("Delete AzureSqlFirewallRule failed with ", "error", err.Error())
+				instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule failed with %s", err.Error())
 				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
 					r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")				
 				}
-=======
-				log.Info("Delete AzureSqlFirewallRule failed with ", "error", err.Error())
->>>>>>> 2da53fd6e7859a7062f36af3b14a85331e93feb1:controllers/azuresqlfirewallrule_controller.go
 				return ctrl.Result{}, err
 			}
 
@@ -88,15 +84,11 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Resul
 
 	if !helpers.HasFinalizer(&instance, azureSQLFirewallRuleFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-<<<<<<< HEAD:controllers/sqlfirewallrule_controller.go
-			log.Info("Adding SqlFirewallRule finalizer failed with ", "error", err.Error())
-			instance.Status.Message = fmt.Sprintf("Adding SqlFirewallRule finalizer failed with error %s", err.Error())	
+			log.Info("Adding AzureSqlFirewallRule finalizer failed with ", "error", err.Error())
+			instance.Status.Message = fmt.Sprintf("Adding AzureSqlFirewallRule finalizer failed with error %s", err.Error())	
 			if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
 				r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")				
 			}
-=======
-			log.Info("Adding AzureSqlFirewallRule finalizer failed with ", "error", err.Error())
->>>>>>> 2da53fd6e7859a7062f36af3b14a85331e93feb1:controllers/azuresqlfirewallrule_controller.go
 			return ctrl.Result{}, err
 		}
 	}
@@ -126,15 +118,11 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Resul
 		return ctrl.Result{}, nil
 	}
 
-<<<<<<< HEAD:controllers/sqlfirewallrule_controller.go
-	r.Recorder.Event(&instance, corev1.EventTypeNormal, "Provisioned", "sqlfirewallrule "+instance.ObjectMeta.Name+" provisioned ")
-	instance.Status.Message = fmt.Sprintf("SqlFirewallRule %s successfully provisioned", instance.ObjectMeta.Name)	
+	r.Recorder.Event(&instance, corev1.EventTypeNormal, "Provisioned", "azuresqlfirewallrule "+instance.ObjectMeta.Name+" provisioned ")
+	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallrule%s successfully provisioned", instance.ObjectMeta.Name)	
 	if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
 		r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")				
 	}
-=======
-	r.Recorder.Event(&instance, corev1.EventTypeNormal, "Provisioned", "azuresqlfirewallrule "+instance.ObjectMeta.Name+" provisioned ")
->>>>>>> 2da53fd6e7859a7062f36af3b14a85331e93feb1:controllers/azuresqlfirewallrule_controller.go
 
 	return ctrl.Result{}, nil
 }
@@ -168,15 +156,11 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 	err := r.Get(ctx, azureSqlServerNamespacedName, &ownerInstance)
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-<<<<<<< HEAD:controllers/sqlfirewallrule_controller.go
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get owner instance of SqlServer")
-		instance.Status.Message = "Unable to get owner instance of SqlServer"	
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get owner instance of AzureSqlServer")
+		instance.Status.Message = "Unable to get owner instance of AzureSqlServer"	
 		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")				
 		}
-=======
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get owner instance of AzureSqlServer")
->>>>>>> 2da53fd6e7859a7062f36af3b14a85331e93feb1:controllers/azuresqlfirewallrule_controller.go
 	} else {
 		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Got owner instance of Sql Server and assigning controller reference now")
 		instance.Status.Message = "Grabbed Owner instance. Assigning controller Reference."
@@ -185,15 +169,11 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 		}
 		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
 		if innerErr != nil {
-<<<<<<< HEAD:controllers/sqlfirewallrule_controller.go
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to set controller reference to SqlServer")
-			instance.Status.Message = "Unable to set controller reference to SqlServer"
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to set controller reference to AzureSqlServer")
+			instance.Status.Message = "Unable to set controller reference to AzureSqlServer"
 			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")				
 			}
-=======
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to set controller reference to AzureSqlServer")
->>>>>>> 2da53fd6e7859a7062f36af3b14a85331e93feb1:controllers/azuresqlfirewallrule_controller.go
 		}
 		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Owner instance assigned successfully")
 		instance.Status.Message = "Owner instance assigned successfully"
