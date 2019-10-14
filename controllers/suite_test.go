@@ -37,6 +37,7 @@ import (
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 
+	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 
 	. "github.com/onsi/ginkgo"
@@ -144,8 +145,8 @@ var _ = BeforeSuite(func() {
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	var sqlManager resourcemanagersql.SQLManager
-	//using mock for sql controller tests irrespective of the flag, as the end to end tests cover azure tests and it saves time
-	sqlManager = &resourcemanagersql.MockSqlManager{}
+
+	sqlManager = &resourcemanagersqlmock.MockSqlManager{}
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
@@ -158,7 +159,7 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		//sqlManager = &resourcemanagersql.MockSqlManager{}
+		//sqlManager = &resourcemanagersqlmock.MockSqlManager{}
 		timeout = time.Second * 5
 	}
 
@@ -207,6 +208,7 @@ var _ = BeforeSuite(func() {
 		Client:     k8sManager.GetClient(),
 		Log:        ctrl.Log.WithName("controllers").WithName("SqlServer"),
 		Recorder:   k8sManager.GetEventRecorderFor("SqlServer-controller"),
+		Scheme:     scheme.Scheme,
 		SQLManager: sqlManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
@@ -215,6 +217,7 @@ var _ = BeforeSuite(func() {
 		Client:     k8sManager.GetClient(),
 		Log:        ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
 		Recorder:   k8sManager.GetEventRecorderFor("SqlDatabase-controller"),
+		Scheme:     scheme.Scheme,
 		SQLManager: sqlManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())

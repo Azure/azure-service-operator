@@ -228,10 +228,10 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServe
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
 		r.Log.Info("mutating secret bundle")
-		// innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
-		// if innerErr != nil {
-		// 	return innerErr
-		// }
+		innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
+		if innerErr != nil {
+			return innerErr
+		}
 		return nil
 	})
 	if createOrUpdateSecretErr != nil {

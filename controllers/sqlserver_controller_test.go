@@ -27,6 +27,7 @@ import (
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -90,11 +91,11 @@ var _ = Describe("SqlServer Controller", func() {
 			).Should(BeTrue())
 
 			//verify secret exists in k8s
-			// secret := &v1.Secret{}
-			// err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: sqlServerName, Namespace: sqlServerInstance.Namespace}, secret)
-			// Expect(err).NotTo(HaveOccurred())
-			// Expect(secret.ObjectMeta.Name).To(Equal(sqlServerName))
-			// Expect(secret.ObjectMeta.Namespace).To(Equal(sqlServerInstance.Namespace))
+			secret := &v1.Secret{}
+			err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: sqlServerName, Namespace: sqlServerInstance.Namespace}, secret)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(secret.ObjectMeta.Name).To(Equal(sqlServerName))
+			Expect(secret.ObjectMeta.Namespace).To(Equal(sqlServerInstance.Namespace))
 
 			err = tc.k8sClient.Delete(context.Background(), sqlServerInstance)
 			Expect(err).NotTo(HaveOccurred())

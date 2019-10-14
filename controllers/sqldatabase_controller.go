@@ -27,12 +27,12 @@ import (
 	//"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
@@ -152,20 +152,10 @@ func (r *SqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.SqlDat
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get owner instance of SqlServer")
 	} else {
 		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Got owner instance of Sql Server and assigning controller reference now")
-		// innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
-		// if innerErr != nil {
-		// 	r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to set controller reference to SqlServer")
-		// }
-		references := []metav1.OwnerReference{
-			metav1.OwnerReference{
-				APIVersion: "v1",
-				Kind:       "SqlServer",
-				Name:       ownerInstance.GetName(),
-				UID:        ownerInstance.GetUID(),
-			},
+		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
+		if innerErr != nil {
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to set controller reference to SqlServer")
 		}
-		instance.ObjectMeta.SetOwnerReferences(references)
-
 		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Owner instance assigned successfully")
 	}
 
