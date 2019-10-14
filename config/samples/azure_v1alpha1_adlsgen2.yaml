@@ -1,0 +1,8 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AdlsGen2
+metadata:
+  name: adls-test
+spec:
+  # Add fields here
+  location: westus
+  resourceGroup: resourcegroup-sample-1908
