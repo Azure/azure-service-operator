@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/pkg/config"
-	apiv1 "k8s.io/api/core/v1"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -31,18 +31,18 @@ func CreateExternalNameService(resource interface{}, svcName string, svcNamespac
 		return ""
 	}
 
-	// ParseInt only returns an int64, must convert to int32 for apiv1.ServicePort field
+	// ParseInt only returns an int64, must convert to int32 for azurev1alpha1.ServicePort field
 	svcPort := int32(svcPortInt64)
 
-	service := &apiv1.Service{
+	service := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: KubernetesResourceName(svcName),
 		},
-		Spec: apiv1.ServiceSpec{
-			Type:         apiv1.ServiceTypeExternalName,
+		Spec: corev1.ServiceSpec{
+			Type:         corev1.ServiceTypeExternalName,
 			ExternalName: externalName,
-			Ports: []apiv1.ServicePort{
-				apiv1.ServicePort{
+			Ports: []corev1.ServicePort{
+				corev1.ServicePort{
 					Port: svcPort,
 				},
 			},

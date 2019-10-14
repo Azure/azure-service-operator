@@ -21,7 +21,7 @@ import (
 	"net/http"
 	"time"
 
-	apiv1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	. "github.com/onsi/ginkgo"
@@ -37,7 +37,7 @@ var _ = Describe("Blob Container", func() {
 	BeforeEach(func() {
 		storageLocation := config.DefaultLocation()
 		// Add any setup steps that needs to be executed before each test
-		_, _ = tc.StorageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
+		_, _ = tc.StorageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
 			Name: "Standard_LRS",
 		}, "Storage", map[string]*string{}, "", nil)
 	})
