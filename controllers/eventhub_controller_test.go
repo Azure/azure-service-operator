@@ -17,7 +17,7 @@ package controllers
 
 import (
 	"context"
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	v1 "k8s.io/api/core/v1"
@@ -59,16 +59,16 @@ var _ = Describe("EventHub Controller", func() {
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &azurev1.Eventhub{
+			eventhubInstance := &azurev1alpha1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubSpec{
+				Spec: azurev1alpha1.EventhubSpec{
 					Location:      "westus",
 					Namespace:     "t-ns-dev-eh-" + helpers.RandomString(10),
 					ResourceGroup: "t-rg-dev-eh-" + helpers.RandomString(10),
-					Properties: azurev1.EventhubProperties{
+					Properties: azurev1alpha1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         2,
 					},
@@ -94,20 +94,20 @@ var _ = Describe("EventHub Controller", func() {
 			var err error
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &azurev1.Eventhub{
+			eventhubInstance := &azurev1alpha1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubSpec{
+				Spec: azurev1alpha1.EventhubSpec{
 					Location:      "westus",
 					Namespace:     ehnName,
 					ResourceGroup: rgName,
-					Properties: azurev1.EventhubProperties{
+					Properties: azurev1alpha1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         2,
 					},
-					AuthorizationRule: azurev1.EventhubAuthorizationRule{
+					AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
 						Name:   "RootManageSharedAccessKey",
 						Rights: []string{"Listen"},
 					},
@@ -183,20 +183,20 @@ var _ = Describe("EventHub Controller", func() {
 			var err error
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventhubInstance := &azurev1.Eventhub{
+			eventhubInstance := &azurev1alpha1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubSpec{
+				Spec: azurev1alpha1.EventhubSpec{
 					Location:      rgLocation,
 					Namespace:     ehnName,
 					ResourceGroup: rgName,
-					Properties: azurev1.EventhubProperties{
+					Properties: azurev1alpha1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         2,
 					},
-					AuthorizationRule: azurev1.EventhubAuthorizationRule{
+					AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
 						Name:   "RootManageSharedAccessKey",
 						Rights: []string{"Listen"},
 					},
@@ -277,24 +277,24 @@ var _ = Describe("EventHub Controller", func() {
 			var err error
 
 			// Create the EventHub object and expect the Reconcile to be created
-			eventHubInstance := &azurev1.Eventhub{
+			eventHubInstance := &azurev1alpha1.Eventhub{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventHubName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubSpec{
+				Spec: azurev1alpha1.EventhubSpec{
 					Location:      rgLocation,
 					Namespace:     ehnName,
 					ResourceGroup: rgName,
-					Properties: azurev1.EventhubProperties{
+					Properties: azurev1alpha1.EventhubProperties{
 						MessageRetentionInDays: 7,
 						PartitionCount:         2,
-						CaptureDescription: azurev1.CaptureDescription{
-							Destination: azurev1.Destination{
+						CaptureDescription: azurev1alpha1.CaptureDescription{
+							Destination: azurev1alpha1.Destination{
 								ArchiveNameFormat: "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
 								BlobContainer:     bcName,
 								Name:              "EventHubArchive.AzureBlockBlob",
-								StorageAccount: azurev1.StorageAccount{
+								StorageAccount: azurev1alpha1.StorageAccount{
 									ResourceGroup: rgName,
 									AccountName:   saName,
 								},
