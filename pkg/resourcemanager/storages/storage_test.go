@@ -90,7 +90,7 @@ var _ = Describe("Storage Account", func() {
 
 			var err error
 
-			_, err = storageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
+			_, err = storageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
 				Name: "Standard_LRS",
 			}, "StorageV2", map[string]*string{}, "", to.BoolPtr(true), to.BoolPtr(datalakeEnabled))
 

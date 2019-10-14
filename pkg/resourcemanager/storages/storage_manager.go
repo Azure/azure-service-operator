@@ -34,7 +34,6 @@ type StorageManager interface {
 		accessTier azurev1alpha1.StorageAccessTier,
 		enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (*storage.Account, error)
 
-
 	// Get gets the description of the specified storage account.
 	// Parameters:
 	// resourceGroupName - name of the resource group within the azure subscription.
