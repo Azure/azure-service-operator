@@ -22,52 +22,49 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// SqlServerSpec defines the desired state of SqlServer
-type SqlServerSpec struct {
+// AzureSqlActionSpec defines the desired state of AzureSqlAction
+type AzureSqlActionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string `json:"location"`
-	ResourceGroup string `json:"resourcegroup,omitempty"`
+	ResourceGroup string `json:"resourcegroup"`
+	ActionName    string `json:"actionname"`
+	ServerName    string `json:"servername"`
 }
 
-// SqlServerStatus defines the observed state of SqlServer
-type SqlServerStatus struct {
+// AzureSqlActionStatus defines the observed state of AzureSqlAction
+type AzureSqlActionStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool   `json:"provisioning,omitempty"`
 	Provisioned  bool   `json:"provisioned,omitempty"`
-	State        string `json:"state,omitempty"`
-	Message      string `json:"message,omitempty"`
+	Message      string `json:"state,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// SqlServer is the Schema for the sqlservers API
-type SqlServer struct {
+
+// AzureSqlAction is the Schema for the azuresqlactions API
+type AzureSqlAction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SqlServerSpec   `json:"spec,omitempty"`
-	Status SqlServerStatus `json:"status,omitempty"`
+	Spec   AzureSqlActionSpec   `json:"spec,omitempty"`
+	Status AzureSqlActionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SqlServerList contains a list of SqlServer
-type SqlServerList struct {
+// AzureSqlActionList contains a list of AzureSqlAction
+type AzureSqlActionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SqlServer `json:"items"`
+	Items           []AzureSqlAction `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&SqlServer{}, &SqlServerList{})
+	SchemeBuilder.Register(&AzureSqlAction{}, &AzureSqlActionList{})
 }
 
-func (s *SqlServer) IsSubmitted() bool {
+func (s *AzureSqlAction) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
-}
-
-func (s *SqlServer) IsProvisioned() bool {
-	return s.Status.Provisioned
 }
