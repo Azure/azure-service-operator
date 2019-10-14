@@ -5,26 +5,21 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/storage/datalake/2019-10-31/storagedatalake"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	// "github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest"
 	"log"
 )
 
 type azureFileSystemManager struct{}
 
-func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, filesystem string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, accountName string) (*storagedatalake.Filesystem, error) {
+func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, filesystem string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, accountName string) (*autorest.Response, error) {
 	fsClient := getFsClient(accountName)
 	// TODO: check to make sure filesystem name conforms correctly
-	_, err := fsClient.Create(ctx, filesystem, xMsProperties, xMsClientRequestID, timeout, xMsDate)
+	result, err := fsClient.Create(ctx, filesystem, xMsProperties, xMsClientRequestID, timeout, xMsDate)
 	if err != nil {
 		return nil, err
 	}
 
-	// err = future.WaitForCompletionRef(ctx, fsClient)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// result, err := future.Responder.Respond(fsClient)
-	return &storagedatalake.Filesystem{}, err
+	return &result, err
 }
 
 func (_ *azureFileSystemManager) GetFileSystem() {

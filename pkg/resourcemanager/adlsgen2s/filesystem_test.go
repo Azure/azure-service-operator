@@ -7,7 +7,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/go-autorest/autorest/to"
+	// "github.com/Azure/go-autorest/autorest/to"
 
 	// "github.com/Azure/azure-service-operator/pkg/resourcemanager/adlsgen2s"
 	. "github.com/onsi/ginkgo"
@@ -37,15 +37,14 @@ var _ = Describe("ADLS Gen2", func() {
 	Context("No error on Create File System Instances", func() {
 		It("should create and delete filesystems in azure data lake", func() {
 			fileSystemManager := tc.DataLakeManagers.FileSystem
-			fileSystemName := ""
+			fileSystemName := "tfilesystem" + helpers.RandomString(5)
 			xMsProperties := ""
 			xMsClientRequestID := ""
 			xMsDate := ""
-			accountName := ""
 
 			var err error
 
-			_, err = fileSystemManager.CreateFileSystem(context.Background(), fileSystemName, xMsProperties, xMsClientRequestID, to.Int32Ptr(10), xMsDate, accountName)
+			_, err = fileSystemManager.CreateFileSystem(context.Background(), fileSystemName, xMsProperties, xMsClientRequestID, nil, xMsDate, adlsName)
 
 			Expect(err).NotTo(HaveOccurred())
 
