@@ -17,8 +17,9 @@ package controllers
 
 import (
 	"context"
+	"net/http"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
@@ -54,19 +55,21 @@ var _ = Describe("ConsumerGroup Controller", func() {
 		It("should create and delete consumer groups", func() {
 
 			consumerGroupName := "t-cg-" + helpers.RandomString(10)
+			azureConsumerGroupName := consumerGroupName + "-azure"
 
 			var err error
 
 			// Create the consumer group object and expect the Reconcile to be created
-			consumerGroupInstance := &azurev1.ConsumerGroup{
+			consumerGroupInstance := &azurev1alpha1.ConsumerGroup{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      consumerGroupName,
 					Namespace: "default",
 				},
-				Spec: azurev1.ConsumerGroupSpec{
-					NamespaceName:     ehnName,
-					ResourceGroupName: rgName,
-					EventhubName:      ehName,
+				Spec: azurev1alpha1.ConsumerGroupSpec{
+					NamespaceName:          ehnName,
+					ResourceGroupName:      rgName,
+					EventhubName:           ehName,
+					AzureConsumerGroupName: azureConsumerGroupName,
 				},
 			}
 
@@ -88,12 +91,24 @@ var _ = Describe("ConsumerGroup Controller", func() {
 			}, tc.timeout,
 			).Should(BeTrue())
 
+			Eventually(func() bool {
+				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, azureConsumerGroupName)
+				return cg.Name != nil && *cg.Name == azureConsumerGroupName && cg.Response.StatusCode == http.StatusOK
+			}, tc.timeout,
+			).Should(BeTrue())
+
 			err = tc.k8sClient.Delete(context.Background(), consumerGroupInstance)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsBeingDeleted()
+			}, tc.timeout,
+			).Should(BeTrue())
+
+			Eventually(func() bool {
+				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, azureConsumerGroupName)
+				return cg.Response.StatusCode != http.StatusOK
 			}, tc.timeout,
 			).Should(BeTrue())
 

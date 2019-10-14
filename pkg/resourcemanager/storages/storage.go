@@ -30,7 +30,7 @@ import (
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
-	apiv1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
@@ -54,11 +54,16 @@ func getStoragesClient() storage.AccountsClient {
 func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName string,
 	storageAccountName string,
 	location string,
-	sku apiv1.StorageSku,
-	kind apiv1.StorageKind,
+	sku azurev1alpha1.StorageSku,
+	kind azurev1alpha1.StorageKind,
 	tags map[string]*string,
+<<<<<<< HEAD
 	accessTier apiv1.StorageAccessTier,
 	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (*storage.Account, error) {
+=======
+	accessTier azurev1alpha1.StorageAccessTier,
+	enableHTTPsTrafficOnly *bool) (*storage.Account, error) {
+>>>>>>> master
 	storagesClient := getStoragesClient()
 
 	//Check if name is available

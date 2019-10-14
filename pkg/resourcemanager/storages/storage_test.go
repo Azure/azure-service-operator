@@ -21,7 +21,7 @@ import (
 	"net/http"
 	"time"
 
-	apiv1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest/to"
 
@@ -56,7 +56,7 @@ var _ = Describe("Storage Account", func() {
 
 			var err error
 
-			_, err = storageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, apiv1.StorageSku{
+			_, err = storageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
 				Name: "Standard_LRS",
 			}, "Storage", map[string]*string{}, "", to.BoolPtr(false), to.BoolPtr(false))
 
