@@ -191,7 +191,6 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
-			instance.Status.Message = "Async operation not complete or group not found"
 			instance.Status.Provisioning = true
 			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
