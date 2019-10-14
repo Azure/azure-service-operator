@@ -19,7 +19,7 @@ package controllers
 import (
 	"context"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
@@ -51,12 +51,12 @@ var _ = Describe("ResourceGroup Controller", func() {
 			var err error
 
 			// Create the Resourcegroup object and expect the Reconcile to be created
-			resourceGroupInstance := &azurev1.ResourceGroup{
+			resourceGroupInstance := &azurev1alpha1.ResourceGroup{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      resourceGroupName,
 					Namespace: "default",
 				},
-				Spec: azurev1.ResourceGroupSpec{
+				Spec: azurev1alpha1.ResourceGroupSpec{
 					Location: tc.resourceGroupLocation,
 				},
 			}

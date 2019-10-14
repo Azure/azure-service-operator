@@ -35,7 +35,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
@@ -60,7 +60,7 @@ func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 	log := r.Log.WithValues("rediscache", req.NamespacedName)
 
 	// Fetch the Redis Cache instance
-	var instance azurev1.RedisCache
+	var instance azurev1alpha1.RedisCache
 
 	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
 	if err != nil {
@@ -116,7 +116,7 @@ func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 	return ctrl.Result{}, nil
 }
 
-func (r *RedisCacheReconciler) addFinalizer(instance *azurev1.RedisCache) error {
+func (r *RedisCacheReconciler) addFinalizer(instance *azurev1alpha1.RedisCache) error {
 	helpers.AddFinalizer(instance, redisCacheFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -126,7 +126,7 @@ func (r *RedisCacheReconciler) addFinalizer(instance *azurev1.RedisCache) error 
 	return nil
 }
 
-func (r *RedisCacheReconciler) reconcileExternal(instance *azurev1.RedisCache) error {
+func (r *RedisCacheReconciler) reconcileExternal(instance *azurev1alpha1.RedisCache) error {
 	ctx := context.Background()
 
 	var err error
@@ -171,7 +171,7 @@ func (r *RedisCacheReconciler) reconcileExternal(instance *azurev1.RedisCache) e
 	return nil
 }
 
-func (r *RedisCacheReconciler) deleteExternal(instance *azurev1.RedisCache) error {
+func (r *RedisCacheReconciler) deleteExternal(instance *azurev1alpha1.RedisCache) error {
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
@@ -192,7 +192,7 @@ func (r *RedisCacheReconciler) deleteExternal(instance *azurev1.RedisCache) erro
 // SetupWithManager sets up the controller functions
 func (r *RedisCacheReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.RedisCache{}).
+		For(&azurev1alpha1.RedisCache{}).
 		Complete(r)
 }
 
