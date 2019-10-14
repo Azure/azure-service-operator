@@ -206,7 +206,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
 		os.Exit(1)
 	}
-<<<<<<< HEAD
 	if err = (&controllers.AdlsGen2Reconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("AdlsGen2"),
@@ -215,9 +214,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AdlsGen2")
 		os.Exit(1)
 	}
-=======
-
->>>>>>> master
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

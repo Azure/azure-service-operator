@@ -230,12 +230,10 @@ var _ = BeforeSuite(func() {
 	// Create the Storage Account and Container
 	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
 		Name: "Standard_LRS",
-<<<<<<< HEAD
 	}, "Storage", map[string]*string{}, "", nil, nil)
-=======
-	}, "Storage", map[string]*string{}, "", nil)
+
 	Expect(err).ToNot(HaveOccurred())
->>>>>>> master
+
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
 	Expect(err).ToNot(HaveOccurred())
