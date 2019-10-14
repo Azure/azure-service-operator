@@ -46,7 +46,7 @@ type TestContext struct {
 	ResourceGroupName     string
 	ResourceGroupLocation string
 	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
-	// DataLakeManagers      DataLakeManagers
+	DataLakeManagers      DataLakeManagers
 }
 
 var tc TestContext
@@ -73,7 +73,7 @@ var _ = BeforeSuite(func() {
 		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
 		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
 		ResourceGroupManager:  ressourceGroupManager,
-		DataLakeManagers:       AzureDataLakeManagers,
+		DataLakeManagers:      AzureDataLakeManagers,
 	}
 
 	// create resourcegroup for this suite

@@ -17,11 +17,11 @@ limitations under the License.
 package adlsgen2s
 
 type DataLakeManagers struct {
-	Storage      	AdlsGen2Manager
-	FileSystem 		FileSystemManager
+	Storage    AdlsGen2Manager
+	FileSystem FileSystemManager
 }
 
 var AzureDataLakeManagers = DataLakeManagers{
-	Storage:       	&azureAdlsGen2Manager{},
-	FileSystem:		&azureFileSystemManager{},
+	Storage:    &azureAdlsGen2Manager{},
+	FileSystem: &azureFileSystemManager{},
 }

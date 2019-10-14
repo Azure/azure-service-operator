@@ -5,12 +5,11 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/storage/datalake/2019-10-31/storagedatalake"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest"
+	// "github.com/Azure/go-autorest/autorest"
 	"log"
 )
 
 type azureFileSystemManager struct{}
-
 
 func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, filesystem string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, accountName string) (*storagedatalake.Filesystem, error) {
 	fsClient := getFsClient(accountName)
