@@ -70,7 +70,7 @@ var _ = BeforeSuite(func() {
 
 	ressourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
 	tc = TestContext{
-		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
+		ResourceGroupName:     "t-rg-dev-rm-dl-" + helpers.RandomString(10),
 		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
 		ResourceGroupManager:  ressourceGroupManager,
 		DataLakeManagers:      AzureDataLakeManagers,
