@@ -22,8 +22,8 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// SqlFirewallRuleSpec defines the desired state of SqlFirewallRule
-type SqlFirewallRuleSpec struct {
+// AzureSqlFirewallRuleSpec defines the desired state of AzureSqlFirewallRule
+type AzureSqlFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	ResourceGroup  string `json:"resourcegroup,omitempty"`
@@ -32,8 +32,8 @@ type SqlFirewallRuleSpec struct {
 	EndIPAddress   string `json:"endipaddress,omitempty"`
 }
 
-// SqlFirewallRuleStatus defines the observed state of SqlFirewallRule
-type SqlFirewallRuleStatus struct {
+// AzureSqlFirewallRuleStatus defines the observed state of AzureSqlFirewallRule
+type AzureSqlFirewallRuleStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool `json:"provisioning,omitempty"`
@@ -42,28 +42,28 @@ type SqlFirewallRuleStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// SqlFirewallRule is the Schema for the sqlfirewallrules API
-type SqlFirewallRule struct {
+// AzureSqlFirewallRule is the Schema for the azuresqlfirewallrules API
+type AzureSqlFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SqlFirewallRuleSpec   `json:"spec,omitempty"`
-	Status SqlFirewallRuleStatus `json:"status,omitempty"`
+	Spec   AzureSqlFirewallRuleSpec   `json:"spec,omitempty"`
+	Status AzureSqlFirewallRuleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SqlFirewallRuleList contains a list of SqlFirewallRule
-type SqlFirewallRuleList struct {
+// AzureSqlFirewallRuleList contains a list of AzureSqlFirewallRule
+type AzureSqlFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SqlFirewallRule `json:"items"`
+	Items           []AzureSqlFirewallRule `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&SqlFirewallRule{}, &SqlFirewallRuleList{})
+	SchemeBuilder.Register(&AzureSqlFirewallRule{}, &AzureSqlFirewallRuleList{})
 }
 
-func (s *SqlFirewallRule) IsSubmitted() bool {
+func (s *AzureSqlFirewallRule) IsSubmitted() bool {
 	return s.Status.Provisioning || s.Status.Provisioned
 }

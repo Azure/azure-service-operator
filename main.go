@@ -189,7 +189,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDatabase")
 		os.Exit(1)
 	}
-	if err = (&controllers.SqlFirewallRuleReconciler{
+	if err = (&controllers.AzureSqlFirewallRuleReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("SqlFirewallRule"),
 		Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),

@@ -35,28 +35,28 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
-const SQLFirewallRuleFinalizerName = "sqlfirewallrule.finalizers.azure.com"
+const azureSQLFirewallRuleFinalizerName = "azuresqlfirewallrule.finalizers.azure.com"
 
-// SqlFirewallRuleReconciler reconciles a SqlFirewallRule object
-type SqlFirewallRuleReconciler struct {
+// AzureSqlFirewallRuleReconciler reconciles a AzureSqlFirewallRule object
+type AzureSqlFirewallRuleReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
 	Scheme   *runtime.Scheme
 }
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlfirewallrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlfirewallrules/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfirewallrules,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfirewallrules/status,verbs=get;update;patch
 
-func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	log := r.Log.WithValues("sqlfirewallrule", req.NamespacedName)
+	log := r.Log.WithValues("azuresqlfirewallrule", req.NamespacedName)
 
 	// your logic here
-	var instance azurev1alpha1.SqlFirewallRule
+	var instance azurev1alpha1.AzureSqlFirewallRule
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Info("Unable to retrieve sql-firewall-rule resource", "err", err.Error())
+		log.Info("Unable to retrieve azure-sql-firewall-rule resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -64,13 +64,13 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
-		if helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
+		if helpers.HasFinalizer(&instance, azureSQLFirewallRuleFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete SqlFirewallRule failed with ", "error", err.Error())
+				log.Info("Delete AzureSqlFirewallRule failed with ", "error", err.Error())
 				return ctrl.Result{}, err
 			}
 
-			helpers.RemoveFinalizer(&instance, SQLFirewallRuleFinalizerName)
+			helpers.RemoveFinalizer(&instance, azureSQLFirewallRuleFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -78,15 +78,15 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(&instance, SQLFirewallRuleFinalizerName) {
+	if !helpers.HasFinalizer(&instance, azureSQLFirewallRuleFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding SqlFirewallRule finalizer failed with ", "error", err.Error())
+			log.Info("Adding AzureSqlFirewallRule finalizer failed with ", "error", err.Error())
 			return ctrl.Result{}, err
 		}
 	}
 
 	if !instance.IsSubmitted() {
-		r.Recorder.Event(&instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation for SqlFirewallRule")
+		r.Recorder.Event(&instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation for AzureSqlFirewallRule")
 		if err := r.reconcileExternal(&instance); err != nil {
 
 			catch := []string{
@@ -101,23 +101,23 @@ func (r *SqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, er
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
 			}
-			return ctrl.Result{}, fmt.Errorf("error reconciling sql firewall rule in azure: %v", err)
+			return ctrl.Result{}, fmt.Errorf("error reconciling azure sql firewall rule in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	r.Recorder.Event(&instance, corev1.EventTypeNormal, "Provisioned", "sqlfirewallrule "+instance.ObjectMeta.Name+" provisioned ")
+	r.Recorder.Event(&instance, corev1.EventTypeNormal, "Provisioned", "azuresqlfirewallrule "+instance.ObjectMeta.Name+" provisioned ")
 
 	return ctrl.Result{}, nil
 }
 
-func (r *SqlFirewallRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *AzureSqlFirewallRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.SqlFirewallRule{}).
+		For(&azurev1alpha1.AzureSqlFirewallRule{}).
 		Complete(r)
 }
 
-func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.SqlFirewallRule) error {
+func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFirewallRule) error {
 	ctx := context.Background()
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
@@ -131,7 +131,7 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.Sq
 		ServerName:        server,
 	}
 
-	r.Log.Info("Calling createorupdate SQL firewall rule")
+	r.Log.Info("Calling createorupdate Azure SQL firewall rule")
 
 	//get owner instance of AzureSqlServer
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner AzureSqlServer instance")
@@ -183,7 +183,7 @@ func (r *SqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.Sq
 	return nil
 }
 
-func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.SqlFirewallRule) error {
+func (r *AzureSqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFirewallRule) error {
 	ctx := context.Background()
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
@@ -211,12 +211,12 @@ func (r *SqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.SqlFi
 	return nil
 }
 
-func (r *SqlFirewallRuleReconciler) addFinalizer(instance *azurev1alpha1.SqlFirewallRule) error {
-	helpers.AddFinalizer(instance, SQLFirewallRuleFinalizerName)
+func (r *AzureSqlFirewallRuleReconciler) addFinalizer(instance *azurev1alpha1.AzureSqlFirewallRule) error {
+	helpers.AddFinalizer(instance, azureSQLFirewallRuleFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", SQLFirewallRuleFinalizerName))
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", azureSQLFirewallRuleFinalizerName))
 	return nil
 }
