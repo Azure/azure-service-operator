@@ -36,8 +36,9 @@ type SqlFirewallRuleSpec struct {
 type SqlFirewallRuleStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
+	Provisioning bool 	`json:"provisioning,omitempty"`
+	Provisioned  bool 	`json:"provisioned,omitempty"`
+	Message		 string	`json:"message,omitempty"`
 }
 
 // +kubebuilder:object:root=true
