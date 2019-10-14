@@ -152,17 +152,17 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
-		//sqlManager = resourcemanagersql.AzureSQLManager
+		sqlManager = resourcemanagersql.AzureSQLManager
 		timeout = time.Second * 120
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		//sqlManager = &resourcemanagersqlmock.MockSqlManager{}
+		sqlManager = &resourcemanagersqlmock.MockSqlManager{}
 		timeout = time.Second * 5
 	}
-	sqlManager = &resourcemanagersqlmock.MockSqlManager{}
+	//sqlManager = &resourcemanagersqlmock.MockSqlManager{}
 
 	err = (&KeyVaultReconciler{
 		Client:          k8sManager.GetClient(),
@@ -205,7 +205,7 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&SqlServerReconciler{
+	err = (&AzureSqlServerReconciler{
 		Client:     k8sManager.GetClient(),
 		Log:        ctrl.Log.WithName("controllers").WithName("SqlServer"),
 		Recorder:   k8sManager.GetEventRecorderFor("SqlServer-controller"),
@@ -214,7 +214,7 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&SqlDatabaseReconciler{
+	err = (&AzureSqlDatabaseReconciler{
 		Client:     k8sManager.GetClient(),
 		Log:        ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
 		Recorder:   k8sManager.GetEventRecorderFor("SqlDatabase-controller"),

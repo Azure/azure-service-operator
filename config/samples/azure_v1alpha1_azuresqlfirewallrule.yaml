@@ -1,5 +1,5 @@
 apiVersion: azure.microsoft.com/v1alpha1
-kind: SqlFirewallRule
+kind: AzureSqlFirewallRule
 metadata:
   name: sqlf-allowazuresvcaccess
 spec:

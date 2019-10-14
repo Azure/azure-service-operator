@@ -22,16 +22,16 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// SqlServerSpec defines the desired state of SqlServer
-type SqlServerSpec struct {
+// AzureSqlServerSpec defines the desired state of AzureSqlServer
+type AzureSqlServerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location      string `json:"location"`
 	ResourceGroup string `json:"resourcegroup,omitempty"`
 }
 
-// SqlServerStatus defines the observed state of SqlServer
-type SqlServerStatus struct {
+// AzureSqlServerStatus defines the observed state of AzureSqlServer
+type AzureSqlServerStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool   `json:"provisioning,omitempty"`
@@ -41,32 +41,33 @@ type SqlServerStatus struct {
 }
 
 // +kubebuilder:object:root=true
-// SqlServer is the Schema for the sqlservers API
-type SqlServer struct {
+// +kubebuilder:subresource:status
+// AzureSqlServer is the Schema for the azuresqlservers API
+type AzureSqlServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SqlServerSpec   `json:"spec,omitempty"`
-	Status SqlServerStatus `json:"status,omitempty"`
+	Spec   AzureSqlServerSpec   `json:"spec,omitempty"`
+	Status AzureSqlServerStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SqlServerList contains a list of SqlServer
-type SqlServerList struct {
+// AzureSqlServerList contains a list of AzureSqlServer
+type AzureSqlServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SqlServer `json:"items"`
+	Items           []AzureSqlServer `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&SqlServer{}, &SqlServerList{})
+	SchemeBuilder.Register(&AzureSqlServer{}, &AzureSqlServerList{})
 }
 
-func (s *SqlServer) IsSubmitted() bool {
+func (s *AzureSqlServer) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
 }
 
-func (s *SqlServer) IsProvisioned() bool {
+func (s *AzureSqlServer) IsProvisioned() bool {
 	return s.Status.Provisioned
 }

@@ -16,24 +16,24 @@ limitations under the License.
 package v1alpha1
 
 import (
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// SqlDatabaseSpec defines the desired state of SqlDatabase
-type SqlDatabaseSpec struct {
+// AzureSqlFirewallRuleSpec defines the desired state of AzureSqlFirewallRule
+type AzureSqlFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string        `json:"location"`
-	ResourceGroup string        `json:"resourcegroup,omitempty"`
-	Server        string        `json:"server"`
-	Edition       sql.DBEdition `json:"edition"`
+	ResourceGroup  string `json:"resourcegroup,omitempty"`
+	Server         string `json:"server"`
+	StartIPAddress string `json:"startipaddress,omitempty"`
+	EndIPAddress   string `json:"endipaddress,omitempty"`
 }
 
-// SqlDatabaseStatus defines the observed state of SqlDatabase
-type SqlDatabaseStatus struct {
+// AzureSqlFirewallRuleStatus defines the observed state of AzureSqlFirewallRule
+type AzureSqlFirewallRuleStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool `json:"provisioning,omitempty"`
@@ -41,28 +41,29 @@ type SqlDatabaseStatus struct {
 }
 
 // +kubebuilder:object:root=true
-// SqlDatabase is the Schema for the sqldatabases API
-type SqlDatabase struct {
+// +kubebuilder:subresource:status
+// AzureSqlFirewallRule is the Schema for the azuresqlfirewallrules API
+type AzureSqlFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SqlDatabaseSpec   `json:"spec,omitempty"`
-	Status SqlDatabaseStatus `json:"status,omitempty"`
+	Spec   AzureSqlFirewallRuleSpec   `json:"spec,omitempty"`
+	Status AzureSqlFirewallRuleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SqlDatabaseList contains a list of SqlDatabase
-type SqlDatabaseList struct {
+// AzureSqlFirewallRuleList contains a list of AzureSqlFirewallRule
+type AzureSqlFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SqlDatabase `json:"items"`
+	Items           []AzureSqlFirewallRule `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&SqlDatabase{}, &SqlDatabaseList{})
+	SchemeBuilder.Register(&AzureSqlFirewallRule{}, &AzureSqlFirewallRuleList{})
 }
 
-func (s *SqlDatabase) IsSubmitted() bool {
-	return s.Status.Provisioned
+func (s *AzureSqlFirewallRule) IsSubmitted() bool {
+	return s.Status.Provisioning || s.Status.Provisioned
 }

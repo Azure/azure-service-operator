@@ -61,12 +61,12 @@ var _ = Describe("SqlServer Controller", func() {
 			var err error
 
 			// Create the SqlServer object and expect the Reconcile to be created
-			sqlServerInstance := &azurev1alpha1.SqlServer{
+			sqlServerInstance := &azurev1alpha1.AzureSqlServer{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      sqlServerName,
 					Namespace: "default",
 				},
-				Spec: azurev1alpha1.SqlServerSpec{
+				Spec: azurev1alpha1.AzureSqlServerSpec{
 					Location:      rgLocation,
 					ResourceGroup: rgName,
 				},
@@ -80,7 +80,7 @@ var _ = Describe("SqlServer Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
-				return helpers.HasFinalizer(sqlServerInstance, SQLServerFinalizerName)
+				return helpers.HasFinalizer(sqlServerInstance, AzureSQLServerFinalizerName)
 			}, timeout,
 			).Should(BeTrue())
 

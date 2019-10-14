@@ -63,12 +63,12 @@ var _ = Describe("SqlDatabase Controller", func() {
 			var err error
 
 			// Create the SqlServer object and expect the Reconcile to be created
-			sqlServerInstance := &azurev1alpha1.SqlServer{
+			sqlServerInstance := &azurev1alpha1.AzureSqlServer{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      sqlServerName,
 					Namespace: "default",
 				},
-				Spec: azurev1alpha1.SqlServerSpec{
+				Spec: azurev1alpha1.AzureSqlServerSpec{
 					Location:      rgLocation,
 					ResourceGroup: rgName,
 				},
@@ -78,12 +78,12 @@ var _ = Describe("SqlDatabase Controller", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			// Create the SqlDatabase object and expect the Reconcile to be created
-			sqlDatabaseInstance := &azurev1alpha1.SqlDatabase{
+			sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      sqlDatabaseName,
 					Namespace: "default",
 				},
-				Spec: azurev1alpha1.SqlDatabaseSpec{
+				Spec: azurev1alpha1.AzureSqlDatabaseSpec{
 					Location:      rgLocation,
 					ResourceGroup: rgName,
 					Server:        sqlName,
@@ -99,7 +99,7 @@ var _ = Describe("SqlDatabase Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-				return helpers.HasFinalizer(sqlDatabaseInstance, SQLDatabaseFinalizerName)
+				return helpers.HasFinalizer(sqlDatabaseInstance, azureSQLDatabaseFinalizerName)
 			}, timeout,
 			).Should(BeTrue())
 
