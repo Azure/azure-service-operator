@@ -20,24 +20,22 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"time"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("SqlDatabase Controller", func() {
+var _ = Describe("AzureSqlServer Controller", func() {
 
-	const timeout = time.Second * 240
 	var rgName string
 	var rgLocation string
-	var sqlName string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -55,10 +53,8 @@ var _ = Describe("SqlDatabase Controller", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		It("should create and delete sql database in k8s", func() {
-
+		It("should create and delete sql server in k8s", func() {
 			sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
-			sqlDatabaseName := "t-sqldatabase-dev-" + helpers.RandomString(10)
 
 			var err error
 
@@ -75,56 +71,46 @@ var _ = Describe("SqlDatabase Controller", func() {
 			}
 
 			err = tc.k8sClient.Create(context.Background(), sqlServerInstance)
-			Expect(err).NotTo(HaveOccurred())
-
-			// Create the SqlDatabase object and expect the Reconcile to be created
-			sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      sqlDatabaseName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.AzureSqlDatabaseSpec{
-					Location:      rgLocation,
-					ResourceGroup: rgName,
-					Server:        sqlName,
-					Edition:       0,
-				},
-			}
-
-			err = tc.k8sClient.Create(context.Background(), sqlDatabaseInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
-			sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
+			sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-				return helpers.HasFinalizer(sqlDatabaseInstance, azureSQLDatabaseFinalizerName)
-			}, timeout,
+				_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+				return helpers.HasFinalizer(sqlServerInstance, AzureSQLServerFinalizerName)
+			}, tc.timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-				return sqlDatabaseInstance.IsSubmitted()
-			}, timeout,
+				_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+				return sqlServerInstance.IsSubmitted()
+			}, tc.timeout,
 			).Should(BeTrue())
 
-			err = tc.k8sClient.Delete(context.Background(), sqlDatabaseInstance)
+			//verify secret exists in k8s
+			secret := &v1.Secret{}
+			err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: sqlServerName, Namespace: sqlServerInstance.Namespace}, secret)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(secret.ObjectMeta.Name).To(Equal(sqlServerName))
+			Expect(secret.ObjectMeta.Namespace).To(Equal(sqlServerInstance.Namespace))
+
+			err = tc.k8sClient.Delete(context.Background(), sqlServerInstance)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-				return helpers.IsBeingDeleted(sqlDatabaseInstance)
-			}, timeout,
+				_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+				return helpers.IsBeingDeleted(sqlServerInstance)
+			}, tc.timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				err := tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
+				err := tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 				if err == nil {
 					err = fmt.Errorf("")
 				}
 				return strings.Contains(err.Error(), "not found")
-			}, timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 		})
