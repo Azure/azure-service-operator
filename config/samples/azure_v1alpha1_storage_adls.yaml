@@ -1,4 +1,4 @@
-apiVersion: azure.microsoft.com/v1
+apiVersion: azure.microsoft.com/v1alpha1
 kind: Storage
 metadata:
   name: datalake1908ayzkj
