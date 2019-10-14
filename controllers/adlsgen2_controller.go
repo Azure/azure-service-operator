@@ -17,8 +17,8 @@ package controllers
 
 import (
 	"context"
-
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	// "github.com/azure-service-operator/pkg/resourcemanager/adlsgen2s"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/adlsgen2s"
 	"github.com/go-logr/logr"
@@ -43,7 +43,7 @@ func (r *AdlsGen2Reconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("adlsgen2", req.NamespacedName)
 
-	var instance azurev1.AdlsGen2
+	var instance azurev1alpha1.AdlsGen2
 
 	// TODO: requeue after a certain amount of time. example in storage_controller
 
@@ -69,11 +69,11 @@ func (r *AdlsGen2Reconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 // SetupWithManager sets up the controller functions
 func (r *AdlsGen2Reconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.AdlsGen2{}).
+		For(&azurev1alpha1.AdlsGen2{}).
 		Complete(r)
 }
 
-func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1.AdlsGen2) error {
+func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1alpha1.AdlsGen2) error {
 	ctx := context.Background()
 	// storageAccountName := instance.Spec.StorageAccountName
 	// dnsSuffix := instance.Spec.DNSSuffix
