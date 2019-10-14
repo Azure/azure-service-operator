@@ -30,7 +30,7 @@ import (
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -51,10 +51,11 @@ func getCosmosDBClient() documentdb.DatabaseAccountsClient {
 func CreateCosmosDB(ctx context.Context, groupName string,
 	cosmosDBName string,
 	location string,
-	kind azurev1.CosmosDBKind,
-	dbType azurev1.CosmosDBDatabaseAccountOfferType,
+	kind azurev1alpha1.CosmosDBKind,
+	dbType azurev1alpha1.CosmosDBDatabaseAccountOfferType,
 	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
 	cosmosDBClient := getCosmosDBClient()
+
 	dbKind := documentdb.DatabaseAccountKind(kind)
 	sDBType := string(dbType)
 
