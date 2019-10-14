@@ -1,0 +1,8 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: SqlAction
+metadata:
+  name: sqlaction-name
+spec:
+  resourcegroup: resourcegroup-sample-1907
+  actionname: rollcreds
+  servername: sqlserver-sample
