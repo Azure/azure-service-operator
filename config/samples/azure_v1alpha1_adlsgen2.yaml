@@ -1,4 +1,4 @@
-apiVersion: azure.microsoft.com/v1
+apiVersion: azure.microsoft.com/v1alpha1
 kind: AdlsGen2
 metadata:
   name: adls-test
