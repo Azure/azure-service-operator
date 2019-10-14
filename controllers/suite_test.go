@@ -37,8 +37,9 @@ import (
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 
-	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+
+	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -77,7 +78,7 @@ type testContext struct {
 var tc testContext
 
 func TestAPIs(t *testing.T) {
-	t.Parallel()
+	//t.Parallel()
 	RegisterFailHandler(Fail)
 
 	RunSpecsWithDefaultAndCustomReporters(t,
@@ -146,20 +147,19 @@ var _ = BeforeSuite(func() {
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	var sqlManager resourcemanagersql.SQLManager
 
-	sqlManager = &resourcemanagersqlmock.MockSqlManager{}
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
-		//sqlManager = resourcemanagersql.AzureSQLManager
+		sqlManager = resourcemanagersql.AzureSQLManager
 		timeout = time.Second * 120
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		//sqlManager = &resourcemanagersqlmock.MockSqlManager{}
+		sqlManager = &resourcemanagersqlmock.MockSqlManager{}
 		timeout = time.Second * 5
 	}
 
