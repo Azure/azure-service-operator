@@ -142,9 +142,9 @@ spec:
   servername: sqlserver-sample
 ```
 
-The `name` is a name for the action that we want to trigger. The type of action is determined by the value of `actionname` in the spec which in this case is `rollcreds`. The `resourcegroup` and `servername` identify the SQL server on which the action should be triggered on.
+The `name` is a name for the action that we want to trigger. The type of action is determined by the value of `actionname` in the spec which is `rollcreds` if you want to roll the password (Note: This action name should be exactly `rollcreds` for the password to be rolled). The `resourcegroup` and `servername` identify the SQL server on which the action should be triggered on.
 
-Once you apply this, the kube secret with the name as the SQL server is updated with the rolled password.
+Once you apply this, the kube secret with the same name as the SQL server is updated with the rolled password.
 
 ## View and Troubleshoot SQL Resources
 
