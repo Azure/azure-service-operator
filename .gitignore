@@ -45,3 +45,6 @@ cover-existing.html
 coverage-existing.txt
 report-existing.xml
 testlogs-existing.txt
+
+# manager output from build
+manager
