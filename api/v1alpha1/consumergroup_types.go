@@ -27,9 +27,10 @@ import (
 type ConsumerGroupSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ResourceGroupName string `json:"resourceGroup,omitempty"`
-	NamespaceName     string `json:"namespace,omitempty"`
-	EventhubName      string `json:"eventHub,omitempty"`
+	ResourceGroupName      string `json:"resourceGroup,omitempty"`
+	NamespaceName          string `json:"namespace,omitempty"`
+	EventhubName           string `json:"eventHub,omitempty"`
+	AzureConsumerGroupName string `json:"consumerGroupName,omitempty"`
 }
 
 // ConsumerGroupStatus defines the observed state of ConsumerGroup

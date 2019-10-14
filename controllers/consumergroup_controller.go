@@ -108,6 +108,7 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1alpha1.Co
 	namespaceName := instance.Spec.NamespaceName
 	resourcegroup := instance.Spec.ResourceGroupName
 	eventhubName := instance.Spec.EventhubName
+	azureConsumerGroupName := instance.Spec.AzureConsumerGroupName
 
 	// write information back to instance
 	instance.Status.Provisioning = true
@@ -119,7 +120,7 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1alpha1.Co
 
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of eventhub")
+		r.Recorder.Event(instance, "Warning", "Failed", fmt.Sprintf("Unable to get owner eventhub '%s' of consumer group '%s'", eventhubName, consumergroupName))
 	} else {
 		//set owner reference for consumer group if it exists
 		references := []metav1.OwnerReference{
@@ -139,7 +140,7 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1alpha1.Co
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = r.ConsumerGroupManager.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
+	_, err = r.ConsumerGroupManager.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
 
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create consumer group in azure")
@@ -170,13 +171,13 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1alpha1.Co
 func (r *ConsumerGroupReconciler) deleteConsumerGroup(instance *azurev1alpha1.ConsumerGroup) error {
 	ctx := context.Background()
 
-	consumergroupName := instance.ObjectMeta.Name
 	namespaceName := instance.Spec.NamespaceName
 	resourcegroup := instance.Spec.ResourceGroupName
 	eventhubName := instance.Spec.EventhubName
+	azureConsumerGroupName := instance.Spec.AzureConsumerGroupName
 
 	var err error
-	_, err = r.ConsumerGroupManager.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
+	_, err = r.ConsumerGroupManager.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete consumer group in azure")
 		return err
