@@ -34,7 +34,7 @@ import (
 
 var _ = Describe("SqlDatabase Controller", func() {
 
-	const timeout = time.Second * 240
+	const timeout = time.Second * 360
 	var rgName string
 	var rgLocation string
 	var sqlName string
