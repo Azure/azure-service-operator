@@ -20,15 +20,16 @@ import (
 
 	"k8s.io/apimachinery/pkg/runtime"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"os"
+
 	"github.com/Azure/azure-service-operator/controllers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
-	"os"
 
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -47,15 +48,14 @@ var (
 
 func init() {
 
-	azurev1.AddToScheme(scheme)
 	kscheme.AddToScheme(scheme)
-	_ = azurev1.AddToScheme(scheme)
+	_ = azurev1alpha1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=core,resources=events,verbs=create;watch
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=create;patch
+// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
 
@@ -168,6 +168,43 @@ func main() {
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.SqlServerReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlServer"),
+		Recorder: mgr.GetEventRecorderFor("SqlServer-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlServer")
+		os.Exit(1)
+	}
+	if err = (&controllers.SqlDatabaseReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
+		Recorder: mgr.GetEventRecorderFor("SqlDatabase-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlDatabase")
+		os.Exit(1)
+	}
+	if err = (&controllers.SqlFirewallRuleReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlFirewallRule"),
+		Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
+		os.Exit(1)
+	}
+	if err = (&controllers.SqlActionReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlAction"),
+		Recorder: mgr.GetEventRecorderFor("SqlAction-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
 		os.Exit(1)
 	}
 

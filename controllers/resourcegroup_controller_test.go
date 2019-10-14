@@ -2,11 +2,16 @@ package controllers
 
 import ( 
 	"context"
+<<<<<<< HEAD
 	"fmt"
 	"net/http"
 	"strings"
 
 	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+=======
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+>>>>>>> master
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
@@ -43,7 +48,7 @@ var _ = Describe("ResourceGroup Controller", func() {
 					Name:      resourceGroupName,
 					Namespace: "default",
 				},
-				Spec: azurev1.ResourceGroupSpec{
+				Spec: azurev1alpha1.ResourceGroupSpec{
 					Location: tc.resourceGroupLocation,
 				},
 			}

@@ -20,7 +20,7 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
-	apiv1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/go-autorest/autorest"
 )
 
@@ -28,10 +28,10 @@ type StorageManager interface {
 	CreateStorage(ctx context.Context, groupName string,
 		storageAccountName string,
 		location string,
-		sku apiv1.StorageSku,
-		kind apiv1.StorageKind,
+		sku azurev1alpha1.StorageSku,
+		kind azurev1alpha1.StorageKind,
 		tags map[string]*string,
-		accessTier apiv1.StorageAccessTier,
+		accessTier azurev1alpha1.StorageAccessTier,
 		enableHTTPsTrafficOnly *bool) (*storage.Account, error)
 
 	// Get gets the description of the specified storage account.

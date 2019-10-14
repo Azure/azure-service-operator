@@ -53,9 +53,6 @@ type SQLServerProperties struct {
 
 	// AdministratorLoginPassword - The administrator login password (required for server creation).
 	AdministratorLoginPassword *string
-
-	// AllowAzureServicesAccess - allow Azure services and resources to access this server
-	AllowAzureServicesAccess bool
 }
 
 // SQLDatabaseProperties contains values needed for adding / updating SQL servers,
@@ -135,6 +132,26 @@ func translateDBEdition(in DBEdition) (result sql.DatabaseEdition) {
 		result = sql.Web
 	default:
 		result = sql.Free
+	}
+
+	return result
+}
+
+// AvailabilityResponse is the response for checking name validation
+type AvailabilityResponse struct {
+	Available bool
+	Message   string
+	Name      string
+}
+
+// ToAvailabilityResponse converts CheckNameAvailabilityResponse to AvailabilityResponse
+func ToAvailabilityResponse(response sql.CheckNameAvailabilityResponse) (result AvailabilityResponse) {
+	result.Available = *response.Available
+	if response.Message != nil {
+		result.Message = *response.Message
+	}
+	if response.Name != nil {
+		result.Name = *response.Name
 	}
 
 	return result
