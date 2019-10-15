@@ -51,6 +51,15 @@ var _ = Describe("ADLS Gen2", func() {
 				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
+
+			_, err = tc.DataLakeManagers.Storage.DeleteAdlsGen2(context.Background(), tc.ResourceGroupName, datalakeName)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				result, _ := tc.DataLakeManagers.Storage.GetAdlsGen2(context.Background(), tc.ResourceGroupName, datalakeName)
+				return result.Response.StatusCode == http.StatusNotFound
+			}, timeout,
+			).Should(BeTrue())
 		})
 	})
 })
