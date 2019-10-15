@@ -27,13 +27,13 @@ func getStoragesClient() storage.AccountsClient {
 	return storagesClient
 }
 
-func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName string, storageAccountName string, location string, sku azurev1alpha1.StorageSku, kind azurev1alpha1.StorageKind, tags map[string]*string, accessTier azurev1alpha1.StorageAccessTier, enableHTTPSTrafficOnly *bool) (*storage.Account, error) {
+func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName string, datalakeName string, location string, sku azurev1alpha1.StorageSku, kind azurev1alpha1.StorageKind, tags map[string]*string, accessTier azurev1alpha1.StorageAccessTier, enableHTTPSTrafficOnly *bool) (*storage.Account, error) {
 	// TODO: this is copy and pasted from storage.go. Figure out a better way to refactor so there isn't duplicate code
 	storagesClient := getStoragesClient()
 
 	//Check if name is available
 	storageType := "Microsoft.Storage/storageAccounts"
-	checkAccountParams := storage.AccountCheckNameAvailabilityParameters{Name: &storageAccountName, Type: &storageType}
+	checkAccountParams := storage.AccountCheckNameAvailabilityParameters{Name: &datalakeName, Type: &storageType}
 	checkNameResult, err := storagesClient.CheckNameAvailability(ctx, checkAccountParams)
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName str
 
 	// TODO: check to make sure that kind = StorageV2
 	//log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
-	future, err := storagesClient.Create(ctx, groupName, storageAccountName, params)
+	future, err := storagesClient.Create(ctx, groupName, datalakeName, params)
 	if err != nil {
 		return nil, err
 	}
@@ -76,11 +76,11 @@ func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName str
 	return &result, err
 }
 
-func (_ *azureAdlsGen2Manager) GetAdlsGen2() {
-
+func (_ *azureAdlsGen2Manager) GetAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result autorest.Response, err error) {
+	return autorest.Response{}, nil
 }
 
-func (_ *azureAdlsGen2Manager) DeleteAdlsGen2(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
+func (_ *azureAdlsGen2Manager) DeleteAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result autorest.Response, err error) {
 
 	return autorest.Response{}, err
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	// "github.com/Azure/go-autorest/autorest/to"
 	"time"
+	"net/http"
 
 	// "github.com/Azure/azure-service-operator/pkg/resourcemanager/adlsgen2s"
 	. "github.com/onsi/ginkgo"
@@ -18,7 +19,7 @@ var _ = Describe("ADLS Gen2", func() {
 
 	const timeout = time.Second * 180
 
-	adlsName := "tdevadls" + helpers.RandomString(10)
+	datalakeName := "tdevadls" + helpers.RandomString(10)
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -27,15 +28,15 @@ var _ = Describe("ADLS Gen2", func() {
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
 		// TODO: take this out
-		_, _ = tc.DataLakeManagers.Storage.DeleteAdlsGen2(context.Background(), tc.ResourceGroupName, adlsName)
+		_, _ = tc.DataLakeManagers.Storage.DeleteAdlsGen2(context.Background(), tc.ResourceGroupName, datalakeName)
 	})
 
-	Context("No error on Create Azure Datalake Instances", func() {
+	Context("Create and Delete Azure Datalake Instances", func() {
 		It("should create and delete a datalake in azure", func() {
 
 			// Create a data lake enbaled storage account
 			adlsLocation := config.DefaultLocation()
-			_, err := tc.DataLakeManagers.Storage.CreateAdlsGen2(context.Background(), tc.ResourceGroupName, adlsName, adlsLocation, azurev1alpha1.StorageSku{
+			_, err := tc.DataLakeManagers.Storage.CreateAdlsGen2(context.Background(), tc.ResourceGroupName, datalakeName, adlsLocation, azurev1alpha1.StorageSku{
 				Name: "Standard_LRS",
 			}, "StorageV2", map[string]*string{}, "", nil)
 
@@ -45,11 +46,11 @@ var _ = Describe("ADLS Gen2", func() {
 
 			Expect(err).NotTo(HaveOccurred())
 
-			// Eventually(func() bool {
-			// 	result, _ := tc.DataLakeManagers.Storage.GetAdlsGen2(context.Background(), tc.ResourceGroupName, storageAccountName)
-			// 	return result.Response.StatusCode == http.StatusOK
-			// }, timeout,
-			// ).Should(BeTrue())
+			Eventually(func() bool {
+				result, _ := tc.DataLakeManagers.Storage.GetAdlsGen2(context.Background(), tc.ResourceGroupName, datalakeName)
+				return result.Response.StatusCode == http.StatusOK
+			}, timeout,
+			).Should(BeTrue())
 		})
 	})
 })

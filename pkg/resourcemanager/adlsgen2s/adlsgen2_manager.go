@@ -9,7 +9,7 @@ import (
 
 type AdlsGen2Manager interface {
 	CreateAdlsGen2(ctx context.Context, groupName string,
-		storageAccountName string,
+		datalakeName string,
 		location string,
 		sku azurev1alpha1.StorageSku,
 		kind azurev1alpha1.StorageKind,
@@ -17,7 +17,7 @@ type AdlsGen2Manager interface {
 		accessTier azurev1alpha1.StorageAccessTier,
 		enableHTTPsTrafficOnly *bool) (*storage.Account, error)
 
-	GetAdlsGen2()
+	GetAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result autorest.Response, err error)
 
-	DeleteAdlsGen2(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error)
+	DeleteAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result autorest.Response, err error)
 }
