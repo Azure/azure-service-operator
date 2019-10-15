@@ -215,16 +215,26 @@ var _ = BeforeSuite(func() {
 	eventHubNSManager := eventHubManagers.EventHubNamespace
 	// Create the Eventhub namespace resource
 	_, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+	Expect(err).ToNot(HaveOccurred())
+
+	Eventually(func() bool {
+		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
+	}, 60,
+	).Should(BeTrue())
 
 	// Create the Eventhub resource
-	_, err = eventHubManagers.EventHub.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(1), nil)
+	_, err = eventHubManagers.EventHub.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(2), nil)
+	Expect(err).ToNot(HaveOccurred())
 
 	// Create the Storage Account and Container
 	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
 		Name: "Standard_LRS",
 	}, "Storage", map[string]*string{}, "", nil)
+	Expect(err).ToNot(HaveOccurred())
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
+	Expect(err).ToNot(HaveOccurred())
 
 	tc = testContext{
 		k8sClient:             k8sClient,
@@ -241,12 +251,6 @@ var _ = BeforeSuite(func() {
 		keyVaultManager:       keyVaultManager,
 		timeout:               timeout,
 	}
-
-	Eventually(func() bool {
-		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
-		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
-	}, 60,
-	).Should(BeTrue())
 })
 
 var _ = AfterSuite(func() {
