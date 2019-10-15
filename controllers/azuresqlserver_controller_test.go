@@ -90,10 +90,16 @@ var _ = Describe("AzureSqlServer Controller", func() {
 
 			//verify secret exists in k8s
 			secret := &v1.Secret{}
-			err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: sqlServerName, Namespace: sqlServerInstance.Namespace}, secret)
-			Expect(err).NotTo(HaveOccurred())
-			Expect(secret.ObjectMeta.Name).To(Equal(sqlServerName))
-			Expect(secret.ObjectMeta.Namespace).To(Equal(sqlServerInstance.Namespace))
+			Eventually(func() bool {
+				err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: sqlServerName, Namespace: sqlServerInstance.Namespace}, secret)
+				if err == nil {
+					if (secret.ObjectMeta.Name == sqlServerName) && (secret.ObjectMeta.Namespace == sqlServerInstance.Namespace) {
+						return true
+					}
+				}
+				return false
+			}, tc.timeout,
+			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), sqlServerInstance)
 			Expect(err).NotTo(HaveOccurred())
