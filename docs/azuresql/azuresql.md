@@ -186,7 +186,7 @@ Name:         sqlserver-sample234
 Namespace:    default
 Labels:       <none>
 Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"azure.microsoft.com/v1","kind":"SqlServer","metadata":{"annotations":{},"name":"sqlserver-sample234","namespace":"default"}...
+                {"apiVersion":"azure.microsoft.com/v1","kind":"AzureSqlServer","metadata":{"annotations":{},"name":"sqlserver-sample234","namespace":"default"}...
 API Version:  azure.microsoft.com/v1alpha1
 Kind:         AzureSqlServer
 Metadata:
