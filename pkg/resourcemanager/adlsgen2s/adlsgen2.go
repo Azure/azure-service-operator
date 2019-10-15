@@ -76,8 +76,9 @@ func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName str
 	return &result, err
 }
 
-func (_ *azureAdlsGen2Manager) GetAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result autorest.Response, err error) {
-	return autorest.Response{}, nil
+func (_ *azureAdlsGen2Manager) GetAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result storage.Account, err error) {
+	adlsClient := getStoragesClient()
+	return adlsClient.GetProperties(ctx, groupName, datalakeName, "")
 }
 
 func (_ *azureAdlsGen2Manager) DeleteAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result autorest.Response, err error) {

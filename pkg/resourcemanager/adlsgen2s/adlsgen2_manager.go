@@ -17,7 +17,7 @@ type AdlsGen2Manager interface {
 		accessTier azurev1alpha1.StorageAccessTier,
 		enableHTTPsTrafficOnly *bool) (*storage.Account, error)
 
-	GetAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result autorest.Response, err error)
+	GetAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result storage.Account, err error)
 
 	DeleteAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result autorest.Response, err error)
 }
