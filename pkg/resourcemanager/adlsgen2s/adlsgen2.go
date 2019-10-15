@@ -85,15 +85,15 @@ func (_ *azureAdlsGen2Manager) DeleteAdlsGen2(ctx context.Context, groupName str
 	return autorest.Response{}, err
 }
 
-func getFsClient(accountName string) storagedatalake.FilesystemClient {
-	xmsversion := "2019-10-31"
-	fsClient := storagedatalake.NewFilesystemClient(xmsversion, accountName)
+// func getFsClient(accountName string) storagedatalake.FilesystemClient {
+// 	xmsversion := "2019-10-31"
+// 	fsClient := storagedatalake.NewFilesystemClient(xmsversion, accountName)
 
-	a, err := iam.GetResourceManagementAuthorizer()
-	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
-	}
-	fsClient.Authorizer = a
-	fsClient.AddToUserAgent(config.UserAgent())
-	return fsClient
-}
+// 	a, err := iam.GetResourceManagementAuthorizer()
+// 	if err != nil {
+// 		log.Fatalf("failed to initialize authorizer: %v\n", err)
+// 	}
+// 	fsClient.Authorizer = a
+// 	fsClient.AddToUserAgent(config.UserAgent())
+// 	return fsClient
+// }
