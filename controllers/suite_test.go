@@ -78,7 +78,7 @@ type testContext struct {
 var tc testContext
 
 func TestAPIs(t *testing.T) {
-	t.Parallel()
+	//t.Parallel()
 	RegisterFailHandler(Fail)
 
 	RunSpecsWithDefaultAndCustomReporters(t,
