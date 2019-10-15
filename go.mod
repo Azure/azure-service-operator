@@ -19,7 +19,7 @@ require (
 	github.com/googleapis/gnostic v0.3.0 // indirect
 	github.com/gophercloud/gophercloud v0.4.0 // indirect
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
-	github.com/onsi/ginkgo v1.10.1
+	github.com/onsi/ginkgo v1.10.2
 	github.com/onsi/gomega v1.7.0
 	github.com/pkg/errors v0.8.1
 	github.com/satori/go.uuid v1.2.0
@@ -34,5 +34,5 @@ require (
 	k8s.io/klog v0.3.3 // indirect
 	k8s.io/kube-openapi v0.0.0-20190603182131-db7b694dc208 // indirect
 	sigs.k8s.io/controller-runtime v0.2.0-beta.4
-	sigs.k8s.io/controller-tools v0.2.0-beta.3 // indirect
+	sigs.k8s.io/controller-tools v0.2.0 // indirect
 )

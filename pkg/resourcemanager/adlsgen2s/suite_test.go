@@ -57,8 +57,7 @@ func TestAPIs(t *testing.T) {
 		t.Skip("skipping Resource Manager Eventhubs Suite")
 	}
 	RegisterFailHandler(Fail)
-
-	RunSpecs(t, "Storage Suite")
+	RunSpecs(t, "ADLS Suite")
 }
 
 var _ = BeforeSuite(func() {

@@ -14,7 +14,8 @@ type azureFileSystemManager struct{}
 func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, filesystem string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, accountName string) (*autorest.Response, error) {
 	fsClient := getFileSystemClient(accountName)
 	// TODO: check to make sure filesystem name conforms correctly
-	result, err := fsClient.Create(ctx, filesystem, xMsProperties, xMsClientRequestID, timeout, xMsDate)
+	//xMsClientRequestID = fsClient.XMsVersion
+	result, err := fsClient.Create(ctx, accountName, "", "", nil, "")
 	if err != nil {
 		return nil, err
 	}
@@ -41,6 +42,6 @@ func getFileSystemClient(accountName string) storagedatalake.FilesystemClient {
 
 	fsClient.Authorizer = a
 	fsClient.AddToUserAgent(config.UserAgent())
-	
+
 	return fsClient
 }
