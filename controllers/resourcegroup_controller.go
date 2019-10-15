@@ -99,6 +99,7 @@ func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1alpha1.Reso
 
 	// write information back to instance
 	instance.Status.Provisioning = true
+	instance.Status.ProvisionState = azurev1alpha1.Provisioning
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
@@ -120,6 +121,7 @@ func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1alpha1.Reso
 	// write information back to instance
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
+	instance.Status.ProvisionState = azurev1alpha1.Provisioning
 
 	err = r.Update(ctx, instance)
 	if err != nil {
@@ -130,7 +132,6 @@ func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1alpha1.Reso
 	r.Recorder.Event(instance, "Normal", "Updated", resourcegroupName+" provisioned")
 
 	return nil
-
 }
 
 func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1alpha1.ResourceGroup) error {

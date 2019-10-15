@@ -30,12 +30,27 @@ type ResourceGroupSpec struct {
 	Location string `json:"location"`
 }
 
+
+// ProvisionState enumerates the values for provisioning state.
+// +kubebuilder:validation:Enum=Pending;Provisioning;Verifying;Succeeded;Failed
+type ProvisionState string
+
+const (
+	Pending   ProvisionState = ""
+	Provisioning ProvisionState = ""
+	Verifying ProvisionState = ""
+	InProgress ProvisionState = ""
+	Succeeded ProvisionState = ""
+	Failed ProvisionState = ""
+)
+
 // ResourceGroupStatus defines the observed state of ResourceGroup
 type ResourceGroupStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool `json:"provisioning,omitempty"`
 	Provisioned  bool `json:"provisioned,omitempty"`
+	ProvisionState ProvisionState `json:"provisionState,omitempty"`
 }
 
 // +kubebuilder:object:root=true

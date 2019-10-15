@@ -23,6 +23,7 @@ import (
 	"os"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	// "github.com/Azure/azure-service-operator/cont"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
