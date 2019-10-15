@@ -55,6 +55,12 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Resul
 	// your logic here
 	var instance azurev1alpha1.AzureSqlFirewallRule
 
+	defer func() {
+		if err := r.Status().Update(ctx, &instance); err != nil {
+			r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
+		}
+	}()
+
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve azure-sql-firewall-rule resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -69,9 +75,6 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Resul
 				msg := fmt.Sprintf("Delete AzureSqlFirewallRule failed with %s", err.Error())
 				log.Info(msg)
 				instance.Status.Message = msg
-				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-					r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-				}
 				return ctrl.Result{}, err
 			}
 
@@ -88,9 +91,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Resul
 			msg := fmt.Sprintf("Adding AzureSqlFirewallRule finalizer failed with %s", err.Error())
 			log.Info(msg)
 			instance.Status.Message = msg
-			if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-				r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-			}
+
 			return ctrl.Result{}, err
 		}
 	}
@@ -110,9 +111,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Resul
 					msg := fmt.Sprintf("Got ignorable error of type %v", azerr.Type)
 					log.Info(msg)
 					instance.Status.Message = msg
-					if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-						r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-					}
+
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
 			}
@@ -125,9 +124,6 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Resul
 	msg := fmt.Sprintf("AzureSqlFirewallrule%s successfully provisioned", instance.ObjectMeta.Name)
 	log.Info(msg)
 	instance.Status.Message = msg
-	if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-		r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-	}
 
 	return ctrl.Result{}, nil
 }
@@ -164,31 +160,20 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 		msg := "Unable to get owner instance of AzureSqlServer"
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", msg)
 		instance.Status.Message = msg
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
 	} else {
 		msg := "Got owner instance of Sql Server and assigning controller reference now"
 		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", msg)
 		instance.Status.Message = msg
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
+
 		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
 		if innerErr != nil {
 			msg := "Unable to set controller reference to AzureSqlServer"
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", msg)
 			instance.Status.Message = msg
-			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-			}
 		}
 		successmsg := "Owner instance assigned successfully"
 		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", successmsg)
 		instance.Status.Message = successmsg
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
 	}
 
 	// write information back to instance
@@ -201,9 +186,6 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
 			instance.Status.Provisioning = true
-			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-			}
 		}
 
 		return errhelp.NewAzureError(err)
@@ -216,10 +198,6 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-
-	if err = r.Status().Update(ctx, instance); err != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-	}
 
 	return nil
 }
@@ -247,17 +225,13 @@ func (r *AzureSqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.
 		msg := "Couldn't delete resouce in azure"
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", msg)
 		instance.Status.Message = msg
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
+
 		return err
 	}
 	msg := fmt.Sprintf("Deleted %s", ruleName)
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "Deleted", msg)
 	instance.Status.Message = msg
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-	}
+
 	return nil
 }
 
@@ -267,9 +241,7 @@ func (r *AzureSqlFirewallRuleReconciler) addFinalizer(instance *azurev1alpha1.Az
 	if err != nil {
 		msg := fmt.Sprintf("Failed to update finalizer: %v", err)
 		instance.Status.Message = msg
-		if updateerr := r.Status().Update(context.Background(), instance); updateerr != nil {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
+
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", azureSQLFirewallRuleFinalizerName))
