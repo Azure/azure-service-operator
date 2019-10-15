@@ -38,7 +38,9 @@ func getFileSystemClient(accountName string) storagedatalake.FilesystemClient {
 	if err != nil {
 		log.Fatalf("failed to initialize authorizer: %v\n", err)
 	}
+
 	fsClient.Authorizer = a
 	fsClient.AddToUserAgent(config.UserAgent())
+	
 	return fsClient
 }
