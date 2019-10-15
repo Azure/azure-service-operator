@@ -39,5 +39,5 @@ resources:
   version: v1alpha1
   kind: SqlAction
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: AdlsGen2

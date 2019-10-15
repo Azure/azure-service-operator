@@ -25,6 +25,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	v1 "k8s.io/api/core/v1"
 )
 
 // AdlsGen2Reconciler reconciles a AdlsGen2 object
@@ -101,6 +102,6 @@ func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1alpha1.AdlsGen2)
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", name+" provisioned - stubbed")
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", name+" provisioned - stubbed")
 	return nil
 }
