@@ -78,7 +78,7 @@ type testContext struct {
 var tc testContext
 
 func TestAPIs(t *testing.T) {
-	t.Parallel()
+	//t.Parallel()
 	RegisterFailHandler(Fail)
 
 	RunSpecsWithDefaultAndCustomReporters(t,
@@ -152,17 +152,17 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
-		sqlManager = resourcemanagersql.AzureSQLManager
+		//sqlManager = resourcemanagersql.AzureSQLManager
 		timeout = time.Second * 120
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		sqlManager = &resourcemanagersqlmock.MockSqlManager{}
-		timeout = time.Second * 5
+		//sqlManager = &resourcemanagersqlmock.MockSqlManager{}
+		timeout = time.Second * 60
 	}
-	//sqlManager = &resourcemanagersqlmock.MockSqlManager{}
+	sqlManager = &resourcemanagersqlmock.MockSqlManager{}
 
 	err = (&KeyVaultReconciler{
 		Client:          k8sManager.GetClient(),
@@ -207,8 +207,8 @@ var _ = BeforeSuite(func() {
 
 	err = (&AzureSqlServerReconciler{
 		Client:     k8sManager.GetClient(),
-		Log:        ctrl.Log.WithName("controllers").WithName("SqlServer"),
-		Recorder:   k8sManager.GetEventRecorderFor("SqlServer-controller"),
+		Log:        ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+		Recorder:   k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
 		Scheme:     scheme.Scheme,
 		SQLManager: sqlManager,
 	}).SetupWithManager(k8sManager)
@@ -216,8 +216,8 @@ var _ = BeforeSuite(func() {
 
 	err = (&AzureSqlDatabaseReconciler{
 		Client:     k8sManager.GetClient(),
-		Log:        ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
-		Recorder:   k8sManager.GetEventRecorderFor("SqlDatabase-controller"),
+		Log:        ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
+		Recorder:   k8sManager.GetEventRecorderFor("AzureSqlDatabase-controller"),
 		Scheme:     scheme.Scheme,
 		SQLManager: sqlManager,
 	}).SetupWithManager(k8sManager)

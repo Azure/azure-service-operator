@@ -41,7 +41,6 @@ type AzureSqlDatabaseStatus struct {
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:subresource:status
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
 type AzureSqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
