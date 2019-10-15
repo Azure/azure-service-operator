@@ -61,6 +61,7 @@ func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName str
 		},
 	}
 
+	// TODO: check to make sure that kind = StorageV2
 	//log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
 	future, err := storagesClient.Create(ctx, groupName, storageAccountName, params)
 	if err != nil {
