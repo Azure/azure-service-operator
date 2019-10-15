@@ -27,8 +27,6 @@ var _ = Describe("ADLS Gen2", func() {
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
-		// TODO: take this out
-		_, _ = tc.DataLakeManagers.Storage.DeleteAdlsGen2(context.Background(), tc.ResourceGroupName, datalakeName)
 	})
 
 	Context("Create and Delete Azure Datalake Instances", func() {

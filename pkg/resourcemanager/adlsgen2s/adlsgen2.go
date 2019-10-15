@@ -82,8 +82,8 @@ func (_ *azureAdlsGen2Manager) GetAdlsGen2(ctx context.Context, groupName string
 }
 
 func (_ *azureAdlsGen2Manager) DeleteAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result autorest.Response, err error) {
-
-	return autorest.Response{}, err
+	adlsClient := getStoragesClient()
+	return adlsClient.Delete(ctx, groupName, datalakeName)
 }
 
 // func getFsClient(accountName string) storagedatalake.FilesystemClient {
