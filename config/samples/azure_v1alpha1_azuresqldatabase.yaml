@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
-kind: SqlDatabase
+kind: AzureSqlDatabase
 metadata:
-  name:  sqldatabase-sample
+  name:  azuresqldatabase-sample
 spec:
   location: westus
   resourcegroup: resourcegroup-azure-operators
