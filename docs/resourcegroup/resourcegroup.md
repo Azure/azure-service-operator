@@ -11,7 +11,7 @@ You can use the YAML files in the `config/samples` folder to create the resource
 Here is the sample YAML file for creating a  Resource group.
 
 ```yaml
-apiVersion: azure.microsoft.com/v1
+apiVersion: azure.microsoft.com/v1alpha1
 kind: ResourceGroup
 metadata:
   name: resourcegroup-sample-1907
@@ -36,4 +36,3 @@ You can delete the resource group using the below command.
 ```shell
 kubectl delete ResourceGroup <resourcegroupname>
 ```
-
