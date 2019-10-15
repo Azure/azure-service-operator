@@ -5,6 +5,9 @@ If this PR closes another issue, add 'closes #<issue number>' somewhere in the P
 
 **Special notes for your reviewer**:
 
+**How does this PR make you feel**:
+![gif](https://giphy.com/)
+
 **If applicable**:
 - [ ] this PR contains documentation
 - [ ] this PR contains tests
