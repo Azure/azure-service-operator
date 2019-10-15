@@ -48,6 +48,8 @@ type StorageSpec struct {
 	AccessTier StorageAccessTier `json:"accessTier,omitempty"`
 
 	EnableHTTPSTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
+
+	DataLakeEnabled *bool `json:"dataLakeEnabled,omitempty"`
 }
 
 // Sku the SKU of the storage account.
