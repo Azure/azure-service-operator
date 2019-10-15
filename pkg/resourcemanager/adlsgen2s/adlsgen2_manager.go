@@ -12,10 +12,9 @@ type AdlsGen2Manager interface {
 		datalakeName string,
 		location string,
 		sku azurev1alpha1.StorageSku,
-		kind azurev1alpha1.StorageKind,
 		tags map[string]*string,
 		accessTier azurev1alpha1.StorageAccessTier,
-		enableHTTPsTrafficOnly *bool) (*storage.Account, error)
+		enableHTTPSTrafficOnly *bool) (*storage.Account, error)
 
 	GetAdlsGen2(ctx context.Context, groupName string, datalakeName string) (result storage.Account, err error)
 

@@ -28,7 +28,7 @@ var _ = Describe("File System", func() {
 		adlsLocation := config.DefaultLocation()
 		_, err := tc.DataLakeManagers.Storage.CreateAdlsGen2(context.Background(), tc.ResourceGroupName, adlsName, adlsLocation, azurev1alpha1.StorageSku{
 			Name: "Standard_LRS",
-		}, "StorageV2", map[string]*string{}, "", nil)
+		}, map[string]*string{}, "", nil)
 
 		if err != nil {
 			fmt.Println("data lake wasn't created")

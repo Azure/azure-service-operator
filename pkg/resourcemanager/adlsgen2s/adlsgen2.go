@@ -27,7 +27,7 @@ func getStoragesClient() storage.AccountsClient {
 	return storagesClient
 }
 
-func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName string, datalakeName string, location string, sku azurev1alpha1.StorageSku, kind azurev1alpha1.StorageKind, tags map[string]*string, accessTier azurev1alpha1.StorageAccessTier, enableHTTPSTrafficOnly *bool) (*storage.Account, error) {
+func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName string, datalakeName string, location string, sku azurev1alpha1.StorageSku, tags map[string]*string, accessTier azurev1alpha1.StorageAccessTier, enableHTTPSTrafficOnly *bool) (*storage.Account, error) {
 	// TODO: this is copy and pasted from storage.go. Figure out a better way to refactor so there isn't duplicate code
 	storagesClient := getStoragesClient()
 
@@ -45,7 +45,7 @@ func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName str
 	}
 
 	sSku := storage.Sku{Name: storage.SkuName(sku.Name)}
-	sKind := storage.Kind(kind)
+	sKind := storage.Kind("StorageV2")
 	sAccessTier := storage.AccessTier(accessTier)
 
 	params := storage.AccountCreateParameters{
