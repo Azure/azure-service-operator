@@ -16,6 +16,7 @@ require (
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/envy v1.7.0
 	github.com/google/gofuzz v1.0.0 // indirect
+	github.com/google/uuid v1.1.1
 	github.com/googleapis/gnostic v0.3.0 // indirect
 	github.com/gophercloud/gophercloud v0.4.0 // indirect
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
