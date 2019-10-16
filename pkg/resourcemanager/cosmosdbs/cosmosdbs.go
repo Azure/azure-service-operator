@@ -64,7 +64,7 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 	*   Creating a Database account with CosmosDB requires
 	*   that DatabaseAccountCreateUpdateProperties be sent over
 	*   and currently we are not reading most of these values in
-	*   as part of the CRDInstance for CosmosDB.  We are currently
+	*   as part of the Spec for CosmosDB.  We are currently
 	*   specifying a single Location as part of a location array
 	*   which matches the location set for the overall CosmosDB
 	*   instance.  This matches the general behavior of creating

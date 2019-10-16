@@ -215,7 +215,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		return errors.New("Unknown action name")
 	}
 
-	// Add implementations for other AzureSqlActions here (instance.CRDInstance.ActionName)
+	// Add implementations for other AzureSqlActions here (instance.Spec.ActionName)
 
 	return nil
 }
