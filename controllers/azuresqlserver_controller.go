@@ -93,10 +93,6 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				msg := fmt.Sprintf("Delete AzureSqlServer failed with %s", err.Error())
 				log.Info(msg)
 				instance.Status.Message = msg
-				if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-					r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-				}
-
 				return ctrl.Result{}, err
 			}
 
@@ -113,9 +109,6 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 			msg := fmt.Sprintf("Adding AzureSqlServer finalizer failed with error %s", err.Error())
 			log.Info(msg)
 			instance.Status.Message = msg
-			if updateerr := r.Status().Update(ctx, &instance); updateerr != nil {
-				r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-			}
 			return ctrl.Result{}, err
 		}
 	}
@@ -160,17 +153,11 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 						msg := "Invalid Server Name"
 						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
 						instance.Status.Message = msg
-						if updateerr := r.Status().Update(context.Background(), &instance); updateerr != nil {
-							r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-						}
 						return ctrl.Result{Requeue: false}, nil
 					}
 					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
 					log.Info(msg)
 					instance.Status.Message = msg
-					if updateerr := r.Status().Update(context.Background(), &instance); updateerr != nil {
-						r.Recorder.Event(&instance, "Warning", "Failed", "Unable to update instance")
-					}
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
 			}
@@ -193,9 +180,6 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
 				log.Info(msg)
 				instance.Status.Message = msg
-				if updateerr := r.Status().Update(context.Background(), &instance); updateerr != nil {
-					r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-				}
 				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 			}
 		}
