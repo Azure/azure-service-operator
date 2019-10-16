@@ -146,7 +146,7 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
-		timeout = time.Second * 120
+		timeout = time.Second * 320
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
