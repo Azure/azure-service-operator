@@ -15,7 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("ResourceGroup Controller", func() {
+var _ = FDescribe("ResourceGroup Controller", func() {
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -38,9 +38,10 @@ var _ = Describe("ResourceGroup Controller", func() {
 
 			// Create the ResourceGroup object and expect the Reconcile to be created
 			resourceGroupInstance := &azurev1alpha1.ResourceGroup{
-				ObjectMeta: metav1.ObjectMeta{
+				ResourceBaseState: azurev1alpha1.ResourceBaseState{ObjectMeta: metav1.ObjectMeta{
 					Name:      resourceGroupName,
 					Namespace: "default",
+				},
 				},
 				Spec: azurev1alpha1.ResourceGroupSpec{
 					Location: tc.resourceGroupLocation,

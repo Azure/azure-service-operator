@@ -16,7 +16,6 @@ limitations under the License.
 package v1alpha1
 
 import (
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -30,40 +29,13 @@ type ResourceGroupSpec struct {
 	Location string `json:"location"`
 }
 
-
-// ProvisionState enumerates the values for provisioning state.
-// +kubebuilder:validation:Enum=Pending;Provisioning;Verifying;Succeeded;Failed
-type ProvisionState string
-
-const (
-	Pending   ProvisionState = "Pending"
-	Provisioning ProvisionState = "Provisioning"
-	Verifying ProvisionState = "Verifying"
-	InProgress ProvisionState = "InProgress"
-	Succeeded ProvisionState = "Succeeded"
-	Failed ProvisionState = "Failed"
-)
-
-
-// ResourceGroupStatus defines the observed state of ResourceGroup
-type ResourceGroupStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-	ProvisionState ProvisionState `json:"provisionState,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 
 // ResourceGroup is the Schema for the resourcegroups API
 // +kubebuilder:resource:shortName=rg,path=resourcegroups
 type ResourceGroup struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec   ResourceGroupSpec   `json:"spec,omitempty"`
-	Status ResourceGroupStatus `json:"status,omitempty"`
+	ResourceBaseState
+	Spec   ResourceGroupSpec    `json:"spec,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -77,25 +49,4 @@ type ResourceGroupList struct {
 
 func init() {
 	SchemeBuilder.Register(&ResourceGroup{}, &ResourceGroupList{})
-}
-
-func (resourceGroup *ResourceGroup) IsBeingDeleted() bool {
-	return !resourceGroup.ObjectMeta.DeletionTimestamp.IsZero()
-}
-
-func (resourceGroup *ResourceGroup) IsSubmitted() bool {
-	return resourceGroup.Status.Provisioning || resourceGroup.Status.Provisioned
-
-}
-
-func (resourceGroup *ResourceGroup) HasFinalizer(finalizerName string) bool {
-	return helpers.ContainsString(resourceGroup.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (resourceGroup *ResourceGroup) AddFinalizer(finalizerName string) {
-	resourceGroup.ObjectMeta.Finalizers = append(resourceGroup.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (resourceGroup *ResourceGroup) RemoveFinalizer(finalizerName string) {
-	resourceGroup.ObjectMeta.Finalizers = helpers.RemoveString(resourceGroup.ObjectMeta.Finalizers, finalizerName)
 }

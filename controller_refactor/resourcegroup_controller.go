@@ -32,7 +32,15 @@ type ResourceGroupControllerFactory struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups/status,verbs=get;update;patch
 
-func (factory *ResourceGroupControllerFactory) Create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *AzureController {
+func (factory *ResourceGroupControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&v1alpha1.ResourceGroup{}).
+		Complete(factory.create(mgr.GetClient(),
+			ctrl.Log.WithName("controllers").WithName("ResourceGroup") ,
+			mgr.GetEventRecorderFor("ResourceGroup-controller")))
+}
+
+func (factory *ResourceGroupControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *AzureController {
 	return &AzureController{
 		KubeClient: kubeClient,
 		Log:        logger,
@@ -40,17 +48,8 @@ func (factory *ResourceGroupControllerFactory) Create(kubeClient client.Client, 
 		ResourceClient: &ResourceGroupClient{
 			ResourceGroupManager: factory.ResourceGroupManager,
 		},
-		DefinitionFetcher:    &ResourceGroupDefinitionFetcher{},
+		CRDFetcher:           &ResourceGroupDefinitionFetcher{},
 		FinalizerName:        "resourcegroup.finalizers.com",
 		PostProvisionHandler: nil,
 	}
-}
-
-
-func (factory *ResourceGroupControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&v1alpha1.ResourceGroup{}).
-		Complete(factory.Create(mgr.GetClient(),
-			ctrl.Log.WithName("controllers").WithName("ResourceGroup") ,
-			mgr.GetEventRecorderFor("ResourceGroup-controller")))
 }

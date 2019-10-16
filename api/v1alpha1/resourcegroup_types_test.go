@@ -27,7 +27,7 @@ import (
 // These tests are written in BDD-style using Ginkgo framework. Refer to
 // http://onsi.github.io/ginkgo to learn more.
 
-var _ = Describe("ResourceGroup", func() {
+var _ = FDescribe("ResourceGroup", func() {
 	var (
 		key              types.NamespacedName
 		created, fetched *ResourceGroup
@@ -54,9 +54,10 @@ var _ = Describe("ResourceGroup", func() {
 				Namespace: "default",
 			}
 			created = &ResourceGroup{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "foo",
-					Namespace: "default",
+				ResourceBaseState: ResourceBaseState{ObjectMeta: metav1.ObjectMeta{
+						Name:      "foo",
+						Namespace: "default",
+					},
 				},
 				Spec: ResourceGroupSpec{
 					Location: resourcegroupLocation,
