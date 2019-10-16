@@ -1,6 +1,7 @@
 package sqlclient
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
@@ -37,6 +38,15 @@ func getGoFirewallClient() sql.FirewallRulesClient {
 	firewallClient.Authorizer = a
 	firewallClient.AddToUserAgent(config.UserAgent())
 	return firewallClient
+}
+
+// getGoFailoverGroupsClient retrieves a FailoverGroupsClient
+func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
+	failoverGroupsClient := sql.NewFailoverGroupsClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	failoverGroupsClient.Authorizer = a
+	failoverGroupsClient.AddToUserAgent(config.UserAgent())
+	return failoverGroupsClient
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
@@ -106,6 +116,64 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (sql.D
 			Location:           to.StringPtr(sdk.Location),
 			DatabaseProperties: &dbProp,
 		})
+}
+
+// CreateOrUpdateFailoverGroup creates a failover group
+func (sdk GoSDKClient) CreateOrUpdateFailoverGroup(failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+	failoverGroupsClient := getGoFailoverGroupsClient()
+	serversClient := getGoServersClient()
+
+	// Construct a PartnerInfo object from the server name
+	// Get resource ID from the servername to use
+	server, err := serversClient.Get(
+		context.Background(),
+		properties.SecondaryServerResourceGroup,
+		properties.SecondaryServerName,
+	)
+	if err != nil {
+		return result, nil
+	}
+
+	secServerResourceID := server.ID
+	partnerServerInfo := sql.PartnerInfo{
+		ID:              secServerResourceID,
+		ReplicationRole: sql.Secondary,
+	}
+
+	partnerServerInfoArray := []sql.PartnerInfo{partnerServerInfo}
+
+	var databaseIDArray []string
+
+	// Parse the Databases in the Databaselist and form array of Resource IDs
+	for _, each := range properties.DatabaseList {
+		database, err := sdk.GetDB(each)
+		if err != nil {
+			return result, err
+		}
+		databaseIDArray = append(databaseIDArray, *database.ID)
+	}
+
+	// Construct FailoverGroupProperties struct
+	failoverGroupProperties := sql.FailoverGroupProperties{
+		ReadWriteEndpoint: &sql.FailoverGroupReadWriteEndpoint{
+			FailoverPolicy:                         properties.FailoverPolicy,
+			FailoverWithDataLossGracePeriodMinutes: &properties.FailoverGracePeriod,
+		},
+		PartnerServers: &partnerServerInfoArray,
+		Databases:      &databaseIDArray,
+	}
+
+	failoverGroup := sql.FailoverGroup{
+		FailoverGroupProperties: &failoverGroupProperties,
+	}
+
+	return failoverGroupsClient.CreateOrUpdate(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		failovergroupname,
+		failoverGroup)
+
 }
 
 // GetSQLFirewallRule returns a firewall rule
@@ -215,6 +283,47 @@ func (sdk GoSDKClient) DeleteSQLServer() (result autorest.Response, err error) {
 	}
 
 	return future.Result(serversClient)
+}
+
+// GetFailoverGroup retrieves a failover group
+func (sdk GoSDKClient) GetFailoverGroup(failovergroupname string) (sql.FailoverGroup, error) {
+	failoverGroupsClient := getGoFailoverGroupsClient()
+
+	return failoverGroupsClient.Get(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		failovergroupname,
+	)
+}
+
+// DeleteFailoverGroup deletes a failover group
+func (sdk GoSDKClient) DeleteFailoverGroup(failoverGroupName string) (result autorest.Response, err error) {
+
+	result = autorest.Response{
+		Response: &http.Response{
+			StatusCode: 200,
+		},
+	}
+
+	// check to see if the failover group exists, if it doesn't then short-circuit
+	_, err = sdk.GetFailoverGroup(failoverGroupName)
+	if err != nil {
+		return result, nil
+	}
+
+	failoverGroupsClient := getGoFailoverGroupsClient()
+	future, err := failoverGroupsClient.Delete(
+		sdk.Ctx,
+		sdk.ResourceGroupName,
+		sdk.ServerName,
+		failoverGroupName,
+	)
+	if err != nil {
+		return result, err
+	}
+
+	return future.Result(failoverGroupsClient)
 }
 
 // CheckNameAvailability determines whether a SQL resource can be created with the specified name

@@ -11,6 +11,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
@@ -25,7 +26,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	config.SetGroupName(groupName)
 
 	ctx := context.Background()
-	defer resources.Cleanup(ctx)
+	//defer resources.Cleanup(ctx)
 
 	// create the resource group
 	_, err := resources.CreateGroup(ctx, config.GroupName())
@@ -115,6 +116,76 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	util.PrintAndLog("firewall rule created")
 	time.Sleep(time.Second)
 
+	// create a failover group
+
+	// create secondary SQL server
+	// create the Go SDK client with relevant info
+	secSrvName := generateName("sqlsrvsecondary")
+	sdk2 := GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: groupName,
+		ServerName:        secSrvName,
+		Location:          "westus",
+	}
+
+	// create the server
+	sqlServerProperties = SQLServerProperties{
+		AdministratorLogin:         to.StringPtr("Moss"),
+		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
+	}
+
+	// wait for server to be created, then only proceed once activated
+	for {
+		time.Sleep(time.Second)
+		server, err := sdk2.CreateOrUpdateSQLServer(sqlServerProperties)
+		if err == nil {
+			if *server.State == "Ready" {
+				util.PrintAndLog("sql server ready")
+				break
+			} else {
+				util.PrintAndLog("waiting for sql server to be ready...")
+				continue
+			}
+		} else {
+			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+				util.PrintAndLog("waiting for sql server to be ready...")
+				continue
+			} else {
+				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
+				t.FailNow()
+				break
+			}
+		}
+	}
+
+	// Initialize struct for failover group
+	sqlFailoverGroupProperties := SQLFailoverGroupProperties{
+		FailoverPolicy:               sql.Automatic,
+		FailoverGracePeriod:          30,
+		SecondaryServerName:          secSrvName,
+		SecondaryServerResourceGroup: groupName,
+		DatabaseList:                 []string{"sqldatabase-sample"},
+	}
+
+	failoverGroupName := generateName("failovergroup")
+	for {
+		time.Sleep(time.Second)
+		_, err := sdk.CreateOrUpdateFailoverGroup(failoverGroupName, sqlFailoverGroupProperties)
+		if err == nil {
+			util.PrintAndLog(fmt.Sprintf("failover group created successfully %s", failoverGroupName))
+			break
+		} else {
+			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+				util.PrintAndLog("waiting for failover group to be ready...")
+				continue
+			} else {
+				util.PrintAndLog(fmt.Sprintf("cannot create failovergroup: %v", err))
+				t.FailNow()
+				break
+			}
+		}
+	}
+
 	// delete firewall rule
 	util.PrintAndLog("deleting firewall rule...")
 	err = sdk.DeleteSQLFirewallRule("test-rule1")
@@ -124,9 +195,21 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 	util.PrintAndLog("firewall rule deleted")
 
+	// delete the failover group
+	util.PrintAndLog("deleting failover group...")
+	response, err := sdk.DeleteFailoverGroup(failoverGroupName)
+	if err == nil {
+		if response.StatusCode == 200 {
+			util.PrintAndLog("failover group deleted")
+		}
+	} else {
+		util.PrintAndLog(fmt.Sprintf("cannot delete failover group: %v", err))
+		t.FailNow()
+	}
+
 	// delete the DB
 	time.Sleep(time.Second)
-	response, err := sdk.DeleteDB("sqldatabase-sample")
+	response, err = sdk.DeleteDB("sqldatabase-sample")
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("db deleted")
@@ -152,4 +235,22 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			t.FailNow()
 		}
 	}
+
+	// delete the secondary server
+	time.Sleep(time.Second)
+	response, err = sdk2.DeleteSQLServer()
+	if err == nil {
+		if response.StatusCode == 200 {
+			util.PrintAndLog("sql server deleted")
+		} else {
+			util.PrintAndLog(fmt.Sprintf("cannot delete sql server, code: %v", response.StatusCode))
+			t.FailNow()
+		}
+	} else {
+		if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
+			util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
+			t.FailNow()
+		}
+	}
+
 }
