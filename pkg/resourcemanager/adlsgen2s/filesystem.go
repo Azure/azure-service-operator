@@ -57,7 +57,7 @@ func getFileSystemClient(accountName string) storagedatalake.FilesystemClient {
 	// I think this is where the issue is. 
 	// In all other examples, when you create a new "Client" you pass the subscription ID as a param. 
 	// NewFileSystemClient seems to be an anomaly 
-	xmsversion := storagedatalake.Version()//"2019-10-31"
+	xmsversion := "2019-02-02"
 	fsClient := storagedatalake.NewFilesystemClient(xmsversion, accountName)
 	a, err := iam.GetResourceManagementAuthorizer()
 
