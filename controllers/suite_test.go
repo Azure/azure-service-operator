@@ -142,7 +142,7 @@ var _ = BeforeSuite(func() {
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
-		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
+		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager

@@ -16,19 +16,16 @@ limitations under the License.
 package controllers
 
 import (
-	"fmt"
-
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
 	"context"
 
 	"github.com/go-logr/logr"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	v1 "k8s.io/api/core/v1"
 )
 
 // ResourceGroupReconciler reconciles a ResourceGroup object
@@ -36,6 +33,7 @@ type ResourceGroupReconciler struct {
 	client.Client
 	Log                  logr.Logger
 	Recorder             record.EventRecorder
+	Reconciler           *AsyncReconciler
 	ResourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 }
 
@@ -44,43 +42,45 @@ type ResourceGroupReconciler struct {
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	ctx := context.Background()
-	log := r.Log.WithValues("resourcegroup", req.NamespacedName)
+	// ctx := context.Background()
+	// log := r.Log.WithValues("resourcegroup", req.NamespacedName)
 
-	var instance azurev1alpha1.ResourceGroup
-	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Info("Unable to retrieve resourcegroup resource", "err", err.Error())
-		// we'll ignore not-found errors, since they can't be fixed by an immediate
-		// requeue (we'll need to wait for a new notification), and we can get them
-		// on deleted requests.
-		return ctrl.Result{}, client.IgnoreNotFound(err)
-	}
+	return r.Reconciler.Reconcile(req, &azurev1alpha1.ResourceGroup{})
 
-	if instance.IsBeingDeleted() {
-		err := r.handleFinalizer(&instance)
-		if err != nil {
-			return reconcile.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
-		}
-		return ctrl.Result{}, nil
-	}
+	// var instance azurev1alpha1.ResourceGroup
+	// if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
+	// 	log.Info("Unable to retrieve resourcegroup resource", "err", err.Error())
+	// 	// we'll ignore not-found errors, since they can't be fixed by an immediate
+	// 	// requeue (we'll need to wait for a new notification), and we can get them
+	// 	// on deleted requests.
+	// 	return ctrl.Result{}, client.IgnoreNotFound(err)
+	// }
 
-	if !instance.HasFinalizer(resourceGroupFinalizerName) {
-		err := r.addFinalizer(&instance)
-		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
-		}
-		return ctrl.Result{}, nil
-	}
+	// if instance.IsBeingDeleted() {
+	// 	err := r.handleFinalizer(&instance)
+	// 	if err != nil {
+	// 		return reconcile.Result{}, fmt.Errorf("error when handling finalizer: %v", err)
+	// 	}
+	// 	return ctrl.Result{}, nil
+	// }
 
-	if !instance.IsSubmitted() {
-		err := r.reconcileExternal(&instance)
-		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
-		}
-		return ctrl.Result{}, nil
-	}
+	// if !instance.HasFinalizer(resourceGroupFinalizerName) {
+	// 	err := r.addFinalizer(&instance)
+	// 	if err != nil {
+	// 		return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
+	// 	}
+	// 	return ctrl.Result{}, nil
+	// }
 
-	return ctrl.Result{}, nil
+	// if !instance.IsSubmitted() {
+	// 	err := r.reconcileExternal(&instance)
+	// 	if err != nil {
+	// 		return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
+	// 	}
+	// 	return ctrl.Result{}, nil
+	// }
+
+	// return ctrl.Result{}, nil
 
 }
 

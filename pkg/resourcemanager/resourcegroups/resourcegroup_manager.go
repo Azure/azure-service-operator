@@ -18,11 +18,16 @@ package resourcegroups
 
 import (
 	"context"
+
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
 	"github.com/Azure/go-autorest/autorest"
 )
 
-var AzureResourceGroupManager ResourceGroupManager = &azureResourceGroupManager{}
+// var AzureResourceGroupManager ResourceGroupManager = &azureResourceGroupManager{}
+
+func NewAzureResourceGroupManager() *AzureResourceGroupManager {
+	return &AzureResourceGroupManager{}
+}
 
 type ResourceGroupManager interface {
 	// CreateGroup creates a new resource group named by env var

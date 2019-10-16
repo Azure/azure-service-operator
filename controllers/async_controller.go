@@ -18,6 +18,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+const (
+	finalizerName string = "azure.microsoft.com/finalizer"
+)
+
 type AsyncClient interface {
 	ForSubscription(context.Context, runtime.Object) error
 	Ensure(context.Context, runtime.Object) (bool, error)
@@ -36,6 +40,8 @@ type AsyncReconciler struct {
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("type", local.GetObjectKind().GroupVersionKind().String(), "namespace", req.Namespace, "name", req.Name)
+
+	log.Info("test test test")
 
 	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
 		log.Info("error during fetch from api server")

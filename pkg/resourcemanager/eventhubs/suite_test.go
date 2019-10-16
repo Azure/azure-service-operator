@@ -64,7 +64,7 @@ var _ = BeforeSuite(func() {
 
 	resourceGroupName := "t-rg-dev-rm-eh-" + helpers.RandomString(10)
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
-	resourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
+	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 
 	// resourcegroupsresourcemanager.DeleteAllGroupsWithPrefix(context.Background(), "t-rg-dev-")
 

@@ -68,7 +68,7 @@ var _ = BeforeSuite(func() {
 
 	resourcemanagerconfig.ParseEnvironment()
 
-	ressourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
+	ressourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	tc = TestContext{
 		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
 		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),

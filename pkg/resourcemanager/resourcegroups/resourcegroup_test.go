@@ -52,7 +52,7 @@ var _ = Describe("ResourceGroups", func() {
 
 			resourcegroupName := "t-rg-" + helpers.RandomString(10)
 			resourcegroupLocation := config.DefaultLocation()
-			resourceGroupManager := AzureResourceGroupManager
+			resourceGroupManager := NewAzureResourceGroupManager()
 			var err error
 
 			_, err = resourceGroupManager.CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)

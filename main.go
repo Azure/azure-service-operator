@@ -83,7 +83,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	resourceGroupManager := resourcemanagerresourcegroup.AzureResourceGroupManager
+	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
@@ -137,11 +137,18 @@ func main() {
 		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 		Recorder:             mgr.GetEventRecorderFor("ResourceGroup-controller"),
 		ResourceGroupManager: resourceGroupManager,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:   mgr.GetClient(),
+			Az:       resourceGroupManager,
+			Log:      ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+			Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
 		os.Exit(1)
 	}
+
 	err = (&controllers.EventhubNamespaceReconciler{
 		Client:                   mgr.GetClient(),
 		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
