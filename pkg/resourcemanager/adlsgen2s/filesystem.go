@@ -35,7 +35,7 @@ func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, filesyste
 	client := getFileSystemClient(datalakeName)
 
 	// bear minimum logic to check auth
-	rep, err := client.Create(ctx, "test", "", "", nil, "2019-10-16T23:29:19.4490631Z")
+	rep, err := client.Create(ctx, "test", "", "", nil, "")
 
 
 	if err != nil {
