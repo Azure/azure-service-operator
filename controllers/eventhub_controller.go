@@ -307,7 +307,7 @@ func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup st
 	for i, v := range instance.Spec.AuthorizationRule.Rights {
 		accessRights[i] = model.AccessRights(v)
 	}
-	//accessRights := r.toAccessRights(instance.Spec.AuthorizationRule.Rights)
+	//accessRights := r.toAccessRights(instance.CRDInstance.AuthorizationRule.Rights)
 	parameters := model.AuthorizationRule{
 		AuthorizationRuleProperties: &model.AuthorizationRuleProperties{
 			Rights: &accessRights,

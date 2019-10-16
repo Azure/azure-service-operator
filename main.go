@@ -22,8 +22,8 @@ import (
 
 	"os"
 
+	"github.com/Azure/azure-service-operator/controller_refactor"
 	"github.com/Azure/azure-service-operator/controllers"
-	// "github.com/Azure/azure-service-operator/cont"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -130,6 +130,11 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
 		os.Exit(1)
 	}
+
+	err = (&controller_refactor.ResourceGroupControllerFactory{
+		ResourceGroupManager: resourceGroupManager,
+	}).SetupWithManager(mgr)
+
 	err = (&controllers.ResourceGroupReconciler{
 		Client:               mgr.GetClient(),
 		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),

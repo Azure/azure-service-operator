@@ -123,7 +123,6 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 
 			// CreateOrUpdate secret
 		}
-
 	}
 
 	if !instance.IsSubmitted() {

@@ -1,4 +1,4 @@
-package cont
+package controller_refactor
 
 import (
 	"context"
@@ -23,7 +23,15 @@ func (client *ResourceGroupClient) Create(ctx context.Context, r runtime.Object)
 }
 
 func (client *ResourceGroupClient) Validate(ctx context.Context, r runtime.Object) (bool, error) {
-	return true, nil
+	rg, err := client.convert(r)
+	if err != nil {
+		return false, err
+	}
+	resp, err := client.ResourceGroupManager.CheckExistence(ctx, rg.Name)
+	if err != nil {
+		return false, err
+	}
+	return resp.Response != nil && resp.StatusCode == http.StatusOK, nil
 }
 
 func (client *ResourceGroupClient) Delete(ctx context.Context, r runtime.Object) error {

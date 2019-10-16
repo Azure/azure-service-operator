@@ -18,6 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/controller_refactor"
 	"log"
 	"os"
 	"path/filepath"
@@ -172,12 +173,10 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&ResourceGroupReconciler{
-		Client:               k8sManager.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-		Recorder:             k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+	err = (&controller_refactor.ResourceGroupControllerFactory{
 		ResourceGroupManager: resourceGroupManager,
 	}).SetupWithManager(k8sManager)
+
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&EventhubNamespaceReconciler{
