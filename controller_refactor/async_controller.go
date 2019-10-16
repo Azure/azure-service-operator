@@ -41,7 +41,7 @@ type Definition struct {
 	IsBeingDeleted bool
 }
 
-type PostProvisionHandler func (definition Definition) error
+type PostProvisionHandler func (definition *Definition) error
 
 type CRDUpdater struct {
 	AddFinalizer func(string)
@@ -86,7 +86,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if definition.IsBeingDeleted {
-		result, err := r.handleFinalizer(definition, updater, r.FinalizerName)
+		result, err := r.handleFinalizer(&definition, &updater, r.FinalizerName)
 		if err != nil {
 			return result, fmt.Errorf("error when handling finalizer: %v", err)
 		}
@@ -94,24 +94,18 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !updater.HasFinalizer(r.FinalizerName) {
-		err := r.addFinalizer(definition, updater, r.FinalizerName)
+		err := r.addFinalizer(&definition, &updater, r.FinalizerName)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	if definition.ProvisionState ==Succeeded && r.PostProvisionHandler != nil {
-		if err := r.PostProvisionHandler(definition); err != nil {
-			r.Log.Info("Error", "PostProvisionHandler", fmt.Sprintf("PostProvisionHandler failed: %s", err.Error()))
-		}
-	}
-	
 	if definition.ProvisionState == Pending {
 		r.Recorder.Event(definition.CRDInstance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
 		// TODO: Add error handling for cases where username or password are invalid:
 		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
-		if err := r.reconcileExternal(definition, updater); err != nil {
+		if err := r.reconcileExternal(&definition, &updater); err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -137,7 +131,9 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if definition.ProvisionState == Verifying {
-		if err := r.verifyExternal(definition, updater); err != nil {
+		var completed bool
+		completed, err := r.verifyExternal(&definition, &updater)
+		if err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.NotFoundErrorCode,
@@ -152,6 +148,18 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			}
 			return ctrl.Result{}, fmt.Errorf("error verifying sql server in azure: %v", err)
 		}
+		if !completed {
+			log.Info("Retrying verification", "type", "verification not complete")
+			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+		}
+
+		return ctrl.Result{}, nil
+	}
+
+	if definition.ProvisionState ==Succeeded && r.PostProvisionHandler != nil {
+		if err := r.PostProvisionHandler(&definition); err != nil {
+			r.Log.Info("Error", "PostProvisionHandler", fmt.Sprintf("PostProvisionHandler failed: %s", err.Error()))
+		}
 	}
 
 	return ctrl.Result{}, nil
@@ -164,7 +172,7 @@ func (r *AzureController) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *AzureController) reconcileExternal(definition Definition, updater CRDUpdater) error {
+func (r *AzureController) reconcileExternal(definition *Definition, updater *CRDUpdater) error {
 
 	ctx := context.Background()
 	var err error
@@ -203,7 +211,7 @@ func (r *AzureController) reconcileExternal(definition Definition, updater CRDUp
 	return nil
 }
 
-func (r *AzureController) verifyExternal(definition Definition, updater CRDUpdater) error {
+func (r *AzureController) verifyExternal(definition *Definition, updater *CRDUpdater) (bool, error) {
 	ctx := context.Background()
 	instance := definition.CRDInstance
 	resourceName := definition.Name
@@ -211,21 +219,24 @@ func (r *AzureController) verifyExternal(definition Definition, updater CRDUpdat
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Checking", "instance is ready")
 	ready, err := r.ResourceClient.Validate(ctx, instance)
 
+	if err != nil {
+		r.Recorder.Event(definition.CRDInstance, v1.EventTypeWarning, "Failed", "Couldn't validate resource in azure")
+		return ready, errhelp.NewAzureError(err)
+	}
 	if ready {
 		updater.SetState(ProvisionState(azurev1alpha1.Succeeded))
-	}
+		err = r.KubeClient.Update(ctx, instance)
+		if err != nil {
+			//log error and kill it
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		}
 
-	err = r.KubeClient.Update(ctx, instance)
-	if err != nil {
-		//log error and kill it
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", resourceName + " provisioned")
 	}
-
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", resourceName + " provisioned")
-	return errhelp.NewAzureError(err)
+	return ready, nil
 }
 
-func (r *AzureController) deleteResourceGroup(definition Definition) error {
+func (r *AzureController) deleteResourceGroup(definition *Definition) error {
 	ctx := context.Background()
 
 	var err error
@@ -237,8 +248,9 @@ func (r *AzureController) deleteResourceGroup(definition Definition) error {
 	return nil
 }
 
-func (r *AzureController) addFinalizer(definition Definition, updater CRDUpdater, finalizerName string) error {
+func (r *AzureController) addFinalizer(definition *Definition, updater *CRDUpdater, finalizerName string) error {
 	updater.AddFinalizer(finalizerName)
+	updater.SetState(ProvisionState(azurev1alpha1.Pending))
 	if updateerr := r.KubeClient.Update(context.Background(), definition.CRDInstance); updateerr != nil {
 		r.Recorder.Event(definition.CRDInstance, v1.EventTypeWarning, "Failed", "Failed to update finalizer")
 	}
@@ -246,7 +258,7 @@ func (r *AzureController) addFinalizer(definition Definition, updater CRDUpdater
 	return nil
 }
 
-func (r *AzureController) handleFinalizer(definition Definition, updater CRDUpdater, finalizerName string) (ctrl.Result, error) {
+func (r *AzureController) handleFinalizer(definition *Definition, updater *CRDUpdater, finalizerName string) (ctrl.Result, error) {
 	if updater.HasFinalizer(finalizerName) {
 		ctx := context.Background()
 		if err := r.ResourceClient.Delete(ctx, definition.CRDInstance); err != nil {

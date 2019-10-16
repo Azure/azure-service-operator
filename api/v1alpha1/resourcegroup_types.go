@@ -36,13 +36,14 @@ type ResourceGroupSpec struct {
 type ProvisionState string
 
 const (
-	Pending   ProvisionState = ""
-	Provisioning ProvisionState = ""
-	Verifying ProvisionState = ""
-	InProgress ProvisionState = ""
-	Succeeded ProvisionState = ""
-	Failed ProvisionState = ""
+	Pending   ProvisionState = "Pending"
+	Provisioning ProvisionState = "Provisioning"
+	Verifying ProvisionState = "Verifying"
+	InProgress ProvisionState = "InProgress"
+	Succeeded ProvisionState = "Succeeded"
+	Failed ProvisionState = "Failed"
 )
+
 
 // ResourceGroupStatus defines the observed state of ResourceGroup
 type ResourceGroupStatus struct {

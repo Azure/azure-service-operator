@@ -31,7 +31,7 @@ func (client *ResourceGroupClient) Validate(ctx context.Context, r runtime.Objec
 	if err != nil {
 		return false, err
 	}
-	return resp.Response != nil && resp.StatusCode == http.StatusOK, nil
+	return resp.Response != nil && (resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusNoContent), nil
 }
 
 func (client *ResourceGroupClient) Delete(ctx context.Context, r runtime.Object) error {
