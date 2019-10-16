@@ -66,7 +66,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 
 	defer func() {
 		if err := r.Status().Update(ctx, &instance); err != nil {
-			r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
+			r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 	}()
 
