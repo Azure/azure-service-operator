@@ -6,12 +6,8 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	// "github.com/Azure/go-autorest/autorest/to"
+	"github.com/Azure/go-autorest/autorest/to"
 	"time"
-	"errors"
-
-
-	// "github.com/Azure/azure-service-operator/pkg/resourcemanager/adlsgen2s"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -43,19 +39,18 @@ var _ = Describe("File System", func() {
 	Context("No error on Create File System Instances", func() {
 		It("should create and delete filesystems in azure data lake", func() {
 
-			// fileSystemManager := tc.DataLakeManagers.FileSystem
-			// fileSystemName := "tfilesystem" + helpers.RandomString(5)
-			// xMsProperties := "n1=v1,n2=v2"
-			// xMsClientRequestID := "false"
-			// t := time.Now()
-			// xMsDate := t.String()
+			fileSystemManager := tc.DataLakeManagers.FileSystem
+			fileSystemName := "tfilesystem" + helpers.RandomString(5)
+			xMsProperties := ""
+			xMsClientRequestID := "false"
+			t := time.Now()
+			xMsDate := t.String()
 
 			var err error
-			err = errors.New("fake error")
 
-			// _, err = fileSystemManager.CreateFileSystem(context.Background(), fileSystemName, xMsProperties, xMsClientRequestID, to.Int32Ptr(100), xMsDate, adlsName)
+			_, err = fileSystemManager.CreateFileSystem(context.Background(), fileSystemName, xMsProperties, xMsClientRequestID, to.Int32Ptr(100), xMsDate, adlsName)
 			fmt.Println(err.Error())
-			Expect(err).To(HaveOccurred())
+			Expect(err).NotTo(HaveOccurred())
 
 		})
 	})

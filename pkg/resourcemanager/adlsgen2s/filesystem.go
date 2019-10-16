@@ -6,16 +6,25 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
+
 	"log"
 )
 
 type azureFileSystemManager struct{}
 
-func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, filesystem string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, accountName string) (*autorest.Response, error) {
-	fsClient := getFileSystemClient(accountName)
+func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, filesystem string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, datalakeName string) (*autorest.Response, error) {
+	fsClient := getFileSystemClient(datalakeName)
 	// TODO: check to make sure filesystem name conforms correctly
-	//xMsClientRequestID = fsClient.XMsVersion
-	result, err := fsClient.Create(ctx, accountName, "", "", nil, "")
+	_, err := fsClient.SetPropertiesPreparer(ctx, filesystem, "", "", "", "", nil, "")
+	if err != nil {
+		return nil, err
+	}
+	_, err = fsClient.SetProperties(ctx, filesystem, "", "", "", "", nil, "")
+	if err != nil {
+		return nil, err
+	}
+	result, err := fsClient.Create(ctx, filesystem, "", "", to.Int32Ptr(100), "")
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +41,7 @@ func (_ *azureFileSystemManager) DeleteFileSystem() {
 }
 
 func getFileSystemClient(accountName string) storagedatalake.FilesystemClient {
-	xmsversion := "2019-10-31"
+	xmsversion := storagedatalake.Version()
 	fsClient := storagedatalake.NewFilesystemClient(xmsversion, accountName)
 
 	a, err := iam.GetResourceManagementAuthorizer()
