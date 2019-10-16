@@ -36,4 +36,3 @@ func (_ *ResourceGroupDefinitionFetcher) getUpdater(instance *v1alpha1.ResourceG
 		GetBaseInstance: &(*instance).ResourceBaseState,
 	}
 }
-

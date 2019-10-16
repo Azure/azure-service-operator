@@ -35,7 +35,7 @@ type ResourceGroupSpec struct {
 // +kubebuilder:resource:shortName=rg,path=resourcegroups
 type ResourceGroup struct {
 	ResourceBaseState
-	Spec   ResourceGroupSpec    `json:"spec,omitempty"`
+	Spec ResourceGroupSpec `json:"spec,omitempty"`
 }
 
 // +kubebuilder:object:root=true

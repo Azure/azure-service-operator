@@ -52,4 +52,3 @@ func (_ *ResourceGroupClient) convert(obj runtime.Object) (*v1alpha1.ResourceGro
 	}
 	return local, nil
 }
-

@@ -15,31 +15,29 @@ limitations under the License.
 
 package v1alpha1
 
-
 import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
-
 
 // ProvisionState enumerates the values for provisioning state.
 // +kubebuilder:validation:Enum=Pending;Provisioning;Verifying;Succeeded;Failed
 type ProvisionState string
 
 const (
-	Pending   ProvisionState = "Pending"
+	Pending      ProvisionState = "Pending"
 	Provisioning ProvisionState = "Provisioning"
-	Verifying ProvisionState = "Verifying"
-	Succeeded ProvisionState = "Succeeded"
-	Failed ProvisionState = "Failed"
+	Verifying    ProvisionState = "Verifying"
+	Succeeded    ProvisionState = "Succeeded"
+	Failed       ProvisionState = "Failed"
 )
 
 // ResourceStatus defines the observed state of ResourceGroup
 type ResourceStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
+	Provisioning   bool           `json:"provisioning,omitempty"`
+	Provisioned    bool           `json:"provisioned,omitempty"`
 	ProvisionState ProvisionState `json:"provisionState,omitempty"`
 }
 
@@ -47,7 +45,7 @@ type ResourceBaseState struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Status ResourceStatus 		`json:"status,omitempty"`
+	Status ResourceStatus `json:"status,omitempty"`
 }
 
 func (resourceGroup *ResourceBaseState) IsBeingDeleted() bool {

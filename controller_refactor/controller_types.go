@@ -22,7 +22,7 @@ type CRDInfo struct {
 	IsBeingDeleted bool
 }
 
-type PostProvisionHandler func (definition *CRDInfo) error
+type PostProvisionHandler func(definition *CRDInfo) error
 
 type CRDFetcher interface {
 	GetThis(ctx context.Context, kubeClient client.Client, req ctrl.Request) (CRDInfo, CRDUpdater, error)
@@ -63,4 +63,3 @@ func (updater *CRDUpdater) SetState(provisionState azurev1alpha1.ProvisionState)
 
 	updater.UpdateInstance(state)
 }
-

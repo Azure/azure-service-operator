@@ -36,7 +36,7 @@ func (factory *ResourceGroupControllerFactory) SetupWithManager(mgr ctrl.Manager
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&v1alpha1.ResourceGroup{}).
 		Complete(factory.create(mgr.GetClient(),
-			ctrl.Log.WithName("controllers").WithName("ResourceGroup") ,
+			ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 			mgr.GetEventRecorderFor("ResourceGroup-controller")))
 }
 

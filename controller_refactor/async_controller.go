@@ -158,7 +158,7 @@ func (r *AzureController) reconcileExternal(definition *CRDInfo, updater *CRDUpd
 		}
 		return err
 	}
-	
+
 	// write information back to instance
 	updater.SetState(azurev1alpha1.Verifying)
 	err = r.KubeClient.Update(ctx, instance)
@@ -192,7 +192,7 @@ func (r *AzureController) verifyExternal(definition *CRDInfo, updater *CRDUpdate
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 
-		r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", resourceName + " provisioned")
+		r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", resourceName+" provisioned")
 	}
 	return ready, nil
 }
