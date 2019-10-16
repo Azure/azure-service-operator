@@ -21,7 +21,7 @@ import (
 	"strings"
 	"time"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -42,12 +42,12 @@ var _ = Describe("KeyVault Controller", func() {
 			keyVaultLocation := tc.resourceGroupLocation
 
 			// Declare KeyVault object
-			keyVaultInstance := &azurev1.KeyVault{
+			keyVaultInstance := &azurev1alpha1.KeyVault{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      keyVaultName,
 					Namespace: "default",
 				},
-				Spec: azurev1.KeyVaultSpec{
+				Spec: azurev1alpha1.KeyVaultSpec{
 					Location:          keyVaultLocation,
 					ResourceGroupName: tc.resourceGroupName,
 				},

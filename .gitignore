@@ -26,7 +26,7 @@ testlogs.txt
 # Generated CRDS
 config/crd/bases/*
 config/rbac/role.yaml
-api/v1/zz_generated.*
+api/*/zz_generated.*
 
 # Kubernetes Generated files - skip generated files, except for vendored files
 
@@ -45,3 +45,6 @@ cover-existing.html
 coverage-existing.txt
 report-existing.xml
 testlogs-existing.txt
+
+# manager output from build
+manager
