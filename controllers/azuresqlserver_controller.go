@@ -205,7 +205,8 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	instance.Status.Provisioning = true
 	if _, err := sdkClient.CreateOrUpdateSQLServer(azureSqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
-			instance.Status.Message = fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
+			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
+			instance.Status.Message = msg
 
 			// write information back to instance
 			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
@@ -216,8 +217,9 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 			return errhelp.NewAzureError(err)
 		}
 	} else {
-		r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", "resource request successfully submitted to Azure")
-		instance.Status.Message = "Successfully Submitted to Azure"
+		msg := "Resource request successfully submitted to Azure"
+		instance.Status.Message = msg
+		r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", msg)
 
 		// write information back to instance
 		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
@@ -273,9 +275,10 @@ func (r *AzureSqlServerReconciler) verifyExternal(instance *azurev1alpha1.AzureS
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Checking", fmt.Sprintf("instance in %s state", instance.Status.State))
 
 	if instance.Status.State == "Ready" {
+		msg := "AzureSqlServer successfully provisioned"
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
-		instance.Status.Message = "AzureSqlServer successfully provisioned"
+		instance.Status.Message = msg
 	}
 
 	// write information back to instance
@@ -302,8 +305,9 @@ func (r *AzureSqlServerReconciler) deleteExternal(instance *azurev1alpha1.AzureS
 
 	_, err := sdkClient.DeleteSQLServer()
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resouce in azure")
+		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
+		instance.Status.Message = msg
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
 		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
