@@ -29,12 +29,12 @@ type ResourceManagerClient interface {
 }
 
 type CRDInfo struct {
-	ProvisionState azurev1alpha1.ProvisionState
-	Name           string
-	Parameters     azurev1alpha1.Parameters
-	CRDInstance    runtime.Object
+	ProvisionState  azurev1alpha1.ProvisionState
+	Name            string
+	Parameters      azurev1alpha1.Parameters
+	CRDInstance     runtime.Object
 	GetBaseInstance *azurev1alpha1.ResourceBaseDefinition
-	IsBeingDeleted bool
+	IsBeingDeleted  bool
 }
 
 type PostProvisionHandler func(definition *CRDInfo) error
@@ -57,8 +57,8 @@ type DefinitionManager interface {
 
 // This is a mechanism to enable updating the Status section of the manifest
 type CRDUpdater struct {
-	CRDInfo *CRDInfo
-	UpdateInstance  func(*azurev1alpha1.ResourceBaseDefinition)
+	CRDInfo        *CRDInfo
+	UpdateInstance func(*azurev1alpha1.ResourceBaseDefinition)
 }
 
 func (updater *CRDUpdater) AddFinalizer(name string) {

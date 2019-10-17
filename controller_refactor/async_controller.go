@@ -49,8 +49,6 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	definition := thisDefs.CRDInfo
 	updater := thisDefs.CRDUpdater
 
-
-
 	if definition.IsBeingDeleted {
 		result, err := r.handleFinalizer(definition, updater, r.FinalizerName)
 		if err != nil {
@@ -96,6 +94,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
+	// set the owner reference if onwer is present
 	if owner != nil {
 		//set owner reference if it exists
 		updater.SetOwnerReference(owner)
