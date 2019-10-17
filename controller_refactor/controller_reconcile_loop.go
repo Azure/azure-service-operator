@@ -119,7 +119,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			return ctrl.Result{}, fmt.Errorf("error reconciling resource in azure: %v", reconErr)
 		}
 		if updateErr != nil {
-			return ctrl.Result{}, fmt.Errorf("error updating resource in azure: %v", updateErr)
+			return ctrl.Result{}, fmt.Errorf("error updating status in K8s: %v", updateErr)
 		}
 
 		if nextState.IsSucceeded() {
@@ -244,11 +244,7 @@ func (r *AzureController) handleFinalizer(details *CustomResourceDetails, update
 
 			return ctrl.Result{}, err
 		}
-		//
-		//updater.RemoveFinalizer(r.FinalizerName)
-		//if err := r.updateInstance(ctx, details.Instance); err != nil {
-		//	return ctrl.Result{}, err
-		//}
+		// NB: we don't need ot remove finalizer
 	}
 
 	// Our finalizer has finished, so the reconciler can do nothing.
