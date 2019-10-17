@@ -22,7 +22,7 @@ You can use the YAML files in the `config/samples` folder to create the resource
 For instance, this is the sample YAML for the Azure SQL server.
 
   ```yaml
-    apiVersion: azure.microsoft.com/v1
+    apiVersion: azure.microsoft.com/v1alpha1
     kind: SqlServer
     metadata:
     name: sqlserver-sample
@@ -48,7 +48,7 @@ kubectl apply -f config/samples/azure_v1_sqlserver.yaml
 Below is the sample YAML for SQL database
 
 ```yaml
-apiVersion: azure.microsoft.com/v1
+apiVersion: azure.microsoft.com/v1alpha1
 kind: SqlDatabase
 metadata:
   name:  sqldatabase-sample
@@ -114,8 +114,8 @@ Name:         sqlserver-sample234
 Namespace:    default
 Labels:       <none>
 Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"azure.microsoft.com/v1","kind":"SqlServer","metadata":{"annotations":{},"name":"sqlserver-sample234","namespace":"default"}...
-API Version:  azure.microsoft.com/v1
+                {"apiVersion":"azure.microsoft.com/v1alpha1","kind":"SqlServer","metadata":{"annotations":{},"name":"sqlserver-sample234","namespace":"default"}...
+API Version:  azure.microsoft.com/v1alpha1
 Kind:         SqlServer
 Metadata:
   Creation Timestamp:  2019-09-26T21:30:56Z
@@ -123,7 +123,7 @@ Metadata:
     sqlserver.finalizers.azure.com
   Generation:        1
   Resource Version:  20001
-  Self Link:         /apis/azure.microsoft.com/v1/namespaces/default/sqlservers/sqlserver-sample234
+  Self Link:         /apis/azure.microsoft.com/v1alpha1/namespaces/default/sqlservers/sqlserver-sample234
   UID:               ed1c5d1d-e0a4-11e9-9ee8-52a5c765e9d7
 Spec:
   Allowazureserviceaccess:  true

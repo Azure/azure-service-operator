@@ -30,7 +30,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 )
 
@@ -50,7 +50,7 @@ func (r *ConsumerGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	ctx := context.Background()
 	log := r.Log.WithValues("consumergroup", req.NamespacedName)
 
-	var instance azurev1.ConsumerGroup
+	var instance azurev1alpha1.ConsumerGroup
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Error(err, "unable to fetch consumergroup")
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -96,11 +96,11 @@ func (r *ConsumerGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 
 func (r *ConsumerGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.ConsumerGroup{}).
+		For(&azurev1alpha1.ConsumerGroup{}).
 		Complete(r)
 }
 
-func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.ConsumerGroup) error {
+func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1alpha1.ConsumerGroup) error {
 
 	ctx := context.Background()
 	var err error
@@ -108,18 +108,19 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.Consumer
 	namespaceName := instance.Spec.NamespaceName
 	resourcegroup := instance.Spec.ResourceGroupName
 	eventhubName := instance.Spec.EventhubName
+	azureConsumerGroupName := instance.Spec.AzureConsumerGroupName
 
 	// write information back to instance
 	instance.Status.Provisioning = true
 
 	//get owner instance
-	var ownerInstance azurev1.Eventhub
+	var ownerInstance azurev1alpha1.Eventhub
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: instance.Namespace}
 	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
 
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of eventhub")
+		r.Recorder.Event(instance, "Warning", "Failed", fmt.Sprintf("Unable to get owner eventhub '%s' of consumer group '%s'", eventhubName, consumergroupName))
 	} else {
 		//set owner reference for consumer group if it exists
 		references := []metav1.OwnerReference{
@@ -139,7 +140,7 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.Consumer
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	_, err = r.ConsumerGroupManager.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
+	_, err = r.ConsumerGroupManager.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
 
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create consumer group in azure")
@@ -167,16 +168,16 @@ func (r *ConsumerGroupReconciler) createConsumerGroup(instance *azurev1.Consumer
 
 }
 
-func (r *ConsumerGroupReconciler) deleteConsumerGroup(instance *azurev1.ConsumerGroup) error {
+func (r *ConsumerGroupReconciler) deleteConsumerGroup(instance *azurev1alpha1.ConsumerGroup) error {
 	ctx := context.Background()
 
-	consumergroupName := instance.ObjectMeta.Name
 	namespaceName := instance.Spec.NamespaceName
 	resourcegroup := instance.Spec.ResourceGroupName
 	eventhubName := instance.Spec.EventhubName
+	azureConsumerGroupName := instance.Spec.AzureConsumerGroupName
 
 	var err error
-	_, err = r.ConsumerGroupManager.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, consumergroupName)
+	_, err = r.ConsumerGroupManager.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete consumer group in azure")
 		return err

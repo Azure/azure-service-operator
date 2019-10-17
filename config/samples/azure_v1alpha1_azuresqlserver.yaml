@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlServer
+metadata:
+  name: sqlserver-sample-777
+spec:
+  location: westus
+  resourcegroup: resourcegroup-azure-operators

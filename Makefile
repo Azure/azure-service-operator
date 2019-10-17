@@ -33,7 +33,7 @@ api-test: generate fmt vet manifests
 	go tool cover -html=coverage.txt -o cover.html
 	
 # Run tests
-test: generate fmt vet manifests
+test: generate fmt vet manifests 
 	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
@@ -53,7 +53,7 @@ run: generate fmt vet
 	go run ./main.go
 
 # Install CRDs into a cluster
-install: manifests
+install: generate
 	kubectl apply -f config/crd/bases
 
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
@@ -87,7 +87,7 @@ vet:
 	go vet ./...
 
 # Generate code
-generate: controller-gen
+generate: manifests
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
 
 # Build the docker image
@@ -157,9 +157,10 @@ endif
 	make install-cert-manager
 
 	#create image and load it into cluster
+	make install
 	IMG="docker.io/controllertest:1" make docker-build
 	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
-	make install
+	
 	kubectl get namespaces
 	kubectl get pods --namespace cert-manager
 	@echo "Waiting for cert-manager to be ready"
@@ -183,8 +184,7 @@ ifeq (,$(shell which kubebuilder))
 	curl -sL https://go.kubebuilder.io/dl/2.0.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C /tmp/
 	# move to a long-term location and put it on your path
 	# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
-	# sudo mkdir -p /usr/local/kubebuilder/
-	sudo mv /tmp/kubebuilder_2.0.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
+	mv /tmp/kubebuilder_2.0.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
 	export PATH=$$PATH:/usr/local/kubebuilder/bin
 else
 	@echo "kubebuilder has been installed"
