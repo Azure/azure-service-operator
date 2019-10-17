@@ -91,13 +91,12 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
-	instance := details.Instance
 	// set the owner reference if owner is present and references have not been set
 	// currently we only have single object ownership, but it is poosible to have multiple owners
 	if owner != nil && len(details.BaseDefinition.ObjectMeta.GetOwnerReferences()) == 0 {
 		//set owner reference if it exists
 		updater.SetOwnerReferences([]*CustomResourceDetails{owner})
-		if err := r.updateInstance(ctx, instance); err != nil {
+		if err := r.updateInstance(ctx, details.Instance); err != nil {
 			return ctrl.Result{}, err
 		}
 		return ctrl.Result{}, nil
@@ -113,7 +112,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 		// we set the state even if there is an error
 		updater.SetProvisionState(nextState)
-		updateErr := r.updateStatus(ctx, instance)
+		updateErr := r.updateStatus(ctx, details.Instance)
 
 		if reconErr != nil {
 			return ctrl.Result{}, fmt.Errorf("error reconciling resource in azure: %v", reconErr)
@@ -123,7 +122,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 
 		if nextState.IsSucceeded() {
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated",
+			r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Updated",
 				fmt.Sprintf("%s resource '%s' provisioned and ready.", details.BaseDefinition.Kind, details.Name))
 			return ctrl.Result{}, nil
 		}
