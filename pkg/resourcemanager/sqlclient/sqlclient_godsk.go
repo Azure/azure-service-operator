@@ -306,6 +306,12 @@ func (sdk GoSDKClient) DeleteFailoverGroup(failoverGroupName string) (result aut
 		},
 	}
 
+	// check to see if the server exists, if it doesn't then short-circuit
+	_, err = sdk.GetServer()
+	if err != nil {
+		return result, nil
+	}
+
 	// check to see if the failover group exists, if it doesn't then short-circuit
 	_, err = sdk.GetFailoverGroup(failoverGroupName)
 	if err != nil {

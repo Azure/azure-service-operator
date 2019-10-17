@@ -26,7 +26,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	config.SetGroupName(groupName)
 
 	ctx := context.Background()
-	//defer resources.Cleanup(ctx)
+	defer resources.Cleanup(ctx)
 
 	// create the resource group
 	_, err := resources.CreateGroup(ctx, config.GroupName())
