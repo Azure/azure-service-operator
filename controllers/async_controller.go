@@ -8,6 +8,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/go-logr/logr"
 	multierror "github.com/hashicorp/go-multierror"
@@ -19,7 +20,8 @@ import (
 )
 
 const (
-	finalizerName string = "azure.microsoft.com/finalizer"
+	finalizerName string        = "azure.microsoft.com/finalizer"
+	requeDuration time.Duration = time.Second * 20
 )
 
 type AsyncClient interface {
@@ -41,23 +43,23 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 	ctx := context.Background()
 	log := r.Log.WithValues("type", local.GetObjectKind().GroupVersionKind().String(), "namespace", req.Namespace, "name", req.Name)
 
-	log.Info("test test test")
-
 	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
 		log.Info("error during fetch from api server")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	if err := r.Az.ForSubscription(ctx, local); err != nil {
-		return ctrl.Result{}, err
-	}
+	// if err := r.Az.ForSubscription(ctx, local); err != nil {
+	// 	return ctrl.Result{}, err
+	// }
 
 	res, convertErr := meta.Accessor(local)
 	if convertErr != nil {
+		log.Info("accessor fail")
 		return ctrl.Result{}, convertErr
 	}
 
 	if res.GetDeletionTimestamp().IsZero() {
+
 		if !HasFinalizer(res, finalizerName) {
 			AddFinalizer(res, finalizerName)
 			r.Recorder.Event(local, "Normal", "Added", "Object finalizer is added")
@@ -84,15 +86,22 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 	log.Info("reconciling object")
 	done, ensureErr := r.Az.Ensure(ctx, local)
 	if ensureErr != nil {
+
 		log.Error(ensureErr, "ensure err")
 	}
-	log.Info("successfully reconciled")
-	final := multierror.Append(ensureErr, r.Status().Update(ctx, local))
+
+	final := multierror.Append(ensureErr, r.Update(ctx, local))
 	err := final.ErrorOrNil()
 	if err != nil {
 		r.Recorder.Event(local, "Warning", "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
 	} else if done {
 		r.Recorder.Event(local, "Normal", "Reconciled", "Successfully reconciled")
 	}
-	return ctrl.Result{Requeue: !done}, err
+
+	result := ctrl.Result{Requeue: !done}
+	if !done {
+		result.RequeueAfter = requeDuration
+	}
+
+	return result, err
 }

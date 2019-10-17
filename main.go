@@ -51,7 +51,7 @@ var (
 
 func init() {
 
-	kscheme.AddToScheme(scheme)
+	_ = kscheme.AddToScheme(scheme)
 	_ = azurev1alpha1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }

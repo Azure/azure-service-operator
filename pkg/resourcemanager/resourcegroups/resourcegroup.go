@@ -90,7 +90,7 @@ func (_ *AzureResourceGroupManager) DeleteGroup(ctx context.Context, groupName s
 
 	future, err := client.Delete(ctx, groupName)
 	if err != nil {
-		log.Fatalf("got error: %s", err)
+		return autorest.Response{}, err
 	}
 
 	err = future.WaitForCompletionRef(ctx, client.Client)

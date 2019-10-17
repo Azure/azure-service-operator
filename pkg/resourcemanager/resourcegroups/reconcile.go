@@ -18,18 +18,81 @@ package resourcegroups
 
 import (
 	"context"
+	"fmt"
 
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
-func (_ *AzureResourceGroupManager) Ensure(context.Context, runtime.Object) (bool, error) {
+func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := g.convert(obj)
+	if err != nil {
+		return false, err
+	}
+	resourcegroupLocation := instance.Spec.Location
+	resourcegroupName := instance.ObjectMeta.Name
+
+	_, err = g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
+	if err != nil {
+
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+		}
+		if azerr, ok := err.(*errhelp.AzureError); ok {
+			if helpers.ContainsString(catch, azerr.Type) {
+				return true, nil
+			} else {
+				return false, fmt.Errorf(azerr.Type)
+			}
+		} else {
+			return false, fmt.Errorf("not catable")
+		}
+
+	}
+
 	return true, nil
 }
 
-func (_ *AzureResourceGroupManager) Delete(context.Context, runtime.Object) (bool, error) {
+func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	resourcegroup := instance.ObjectMeta.Name
+
+	_, err = g.DeleteGroup(ctx, resourcegroup)
+	if err != nil {
+
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+		}
+		if azerr, ok := err.(*errhelp.AzureError); ok {
+			if helpers.ContainsString(catch, azerr.Type) {
+				return true, nil
+			} else {
+				return false, fmt.Errorf(azerr.Type)
+			}
+		} else {
+			return false, fmt.Errorf("not catable")
+		}
+
+	}
+
 	return true, nil
 }
 
-func (_ *AzureResourceGroupManager) ForSubscription(context.Context, runtime.Object) error {
+func (g *AzureResourceGroupManager) ForSubscription(context.Context, runtime.Object) error {
 	return nil
+}
+
+func (g *AzureResourceGroupManager) convert(obj runtime.Object) (*azurev1alpha1.ResourceGroup, error) {
+	local, ok := obj.(*azurev1alpha1.ResourceGroup)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }
