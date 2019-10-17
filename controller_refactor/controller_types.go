@@ -22,13 +22,13 @@ const (
 type VerifyResult string
 
 const (
-	VerifyError        VerifyResult = "Error"
-	VerifyMissing      VerifyResult = "Missing"
+	VerifyError            VerifyResult = "Error"
+	VerifyMissing          VerifyResult = "Missing"
 	VerifyRecreateRequired VerifyResult = "RecreateRequired"
-	VerifyUpdateRequired VerifyResult = "UpdateRequired"
-	VerifyProvisioning VerifyResult = "Provisioning"
-	VerifyDeleting     VerifyResult = "Deleting"
-	VerifyReady        VerifyResult = "Ready"
+	VerifyUpdateRequired   VerifyResult = "UpdateRequired"
+	VerifyProvisioning     VerifyResult = "Provisioning"
+	VerifyDeleting         VerifyResult = "Deleting"
+	VerifyReady            VerifyResult = "Ready"
 )
 
 // ResourceManagerClient is a common abstraction for the controller to interact with the Azure resource managers
@@ -138,7 +138,6 @@ func (r *VerifyResult) ready() bool            { return *r == VerifyReady }
 //VerifyProvisioning VerifyResult = "Provisioning"
 //VerifyDeleting     VerifyResult = "Deleting"
 //VerifyReady        VerifyResult = "Ready"
-
 
 func (r *EnsureResult) invalidRequest() bool       { return *r == EnsureInvalidRequest }
 func (r *EnsureResult) succeeded() bool            { return *r == EnsureSucceeded }

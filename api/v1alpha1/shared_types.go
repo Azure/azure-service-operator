@@ -75,13 +75,12 @@ func (baseDef *ResourceBaseDefinition) RemoveFinalizer(finalizerName string) {
 	baseDef.ObjectMeta.Finalizers = helpers.RemoveString(baseDef.ObjectMeta.Finalizers, finalizerName)
 }
 
-
 //Creating  ProvisionState = "Creating"
 //Updating  ProvisionState = "Updating"
 
 func (s ProvisionState) IsPending() bool   { return s == Pending }
-func (s ProvisionState) IsCreating() bool { return s == Creating }
-func (s ProvisionState) IsUpdating() bool { return s == Updating }
+func (s ProvisionState) IsCreating() bool  { return s == Creating }
+func (s ProvisionState) IsUpdating() bool  { return s == Updating }
 func (s ProvisionState) IsVerifying() bool { return s == Verifying }
 func (s ProvisionState) IsSucceeded() bool { return s == Succeeded }
 func (s ProvisionState) IsFailed() bool    { return s == Failed }

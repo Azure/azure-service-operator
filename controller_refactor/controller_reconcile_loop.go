@@ -114,7 +114,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			}
 			return ctrl.Result{}, fmt.Errorf("error verifying resource in azure: %v", err)
 		}
-		
+
 		// Success case - the resource is is provisioned on Azure, and is ready
 		if verifyResult.ready() {
 			updater.SetProvisionState(azurev1alpha1.Succeeded)
@@ -122,7 +122,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			if err := r.updateInstance(ctx, instance); err != nil {
 				return ctrl.Result{}, err
 			}
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name + " provisioned")
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name+" provisioned")
 		}
 
 		// Missing case - we can now create the resource
@@ -132,7 +132,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			if err := r.updateInstance(ctx, instance); err != nil {
 				return ctrl.Result{}, err
 			}
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Creating", details.Name + " ready for creation")
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Creating", details.Name+" ready for creation")
 		}
 
 		// Update case - the resource exists in Azure, is invalid but updateable, so doesn't need to be recreated
@@ -142,7 +142,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			if err := r.updateInstance(ctx, instance); err != nil {
 				return ctrl.Result{}, err
 			}
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name + " provisioned")
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name+" provisioned")
 		}
 
 		// Recreate case - the resource exists in Azure, is invalid and needs to be created
@@ -158,7 +158,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			if err := r.updateInstance(ctx, instance); err != nil {
 				return ctrl.Result{}, err
 			}
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name + " provisioned")
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name+" provisioned")
 			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
 		}
 
@@ -306,14 +306,15 @@ func (r *AzureController) handleFinalizer(details *CustomResourceDetails, update
 	// Our finalizer has finished, so the reconciler can do nothing.
 	return ctrl.Result{}, nil
 }
-//
-//func (r *AzureController) updateStatus(ctx context.Context, instance runtime.Object) error {
-//	err := r.KubeClient.Status().Update(ctx, instance)
-//	if err != nil {
-//		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update CRD instance")
-//	}
-//	return err
-//}
+
+// not sure why this doesn't work on the Cluster, seems to work fine on tests
+func (r *AzureController) updateStatus(ctx context.Context, instance runtime.Object) error {
+	err := r.KubeClient.Status().Update(ctx, instance)
+	if err != nil {
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update CRD instance")
+	}
+	return err
+}
 
 func (r *AzureController) updateInstance(ctx context.Context, instance runtime.Object) error {
 	err := r.KubeClient.Update(ctx, instance)
