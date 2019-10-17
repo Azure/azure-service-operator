@@ -1,16 +1,17 @@
 package controller_refactor
 
 import (
+	"context"
 	"fmt"
+	"k8s.io/apimachinery/pkg/runtime"
+	"time"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	v1 "k8s.io/api/core/v1"
-	"time"
-
-	"context"
-
 	"github.com/go-logr/logr"
+
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -96,36 +97,37 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		updater.SetOwnerReference(owner)
 	}
 
-	// dependencies are now satisfied, can
+	// dependencies are now satisfied, can now reconcile the manfest and create or update the resource
 	if definition.ProvisionState.IsPending() {
-		r.Recorder.Event(definition.Instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
+		r.Recorder.Event(definition.Instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation")
 		// TODO: Add error handling for cases where username or password are invalid:
 		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
-		if err := r.reconcileExternal(definition, updater); err != nil {
-			catch := []string{
-				errhelp.ParentNotFoundErrorCode,
-				errhelp.ResourceGroupNotFoundErrorCode,
-				errhelp.NotFoundErrorCode,
-				errhelp.AsyncOpIncompleteError,
-				errhelp.InvalidServerName,
-			}
-			if azerr, ok := err.(*errhelp.AzureError); ok {
-				if helpers.ContainsString(catch, azerr.Type) {
-					if azerr.Type == errhelp.InvalidServerName {
-						r.Recorder.Event(definition.Instance, v1.EventTypeWarning, "Failed", "Invalid Server Name")
-						return ctrl.Result{Requeue: false}, nil
-					}
-					log.Info("Got ignorable error", "type", azerr.Type)
-					return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
-				}
-			}
-			return ctrl.Result{}, fmt.Errorf("error reconciling sql server in azure: %v", err)
+
+		nextState, reconErr := r.reconcileExternal(definition, updater)
+		instance := definition.Instance
+
+		updater.SetProvisionState(nextState)
+		updateErr := r.updateInstance(ctx, instance)
+
+		if reconErr != nil {
+			return ctrl.Result{}, fmt.Errorf("error reconciling resource in azure: %v", reconErr)
 		}
+		if updateErr != nil {
+			return ctrl.Result{}, fmt.Errorf("error updating resource in azure: %v", updateErr)
+		}
+
+		if nextState.IsSucceeded() {
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated",
+				fmt.Sprintf("%s resource '%s' provisioned and ready.", definition.BaseDefinition.Kind, definition.Name))
+			return ctrl.Result{}, nil
+		}
+
 		// give azure some time to catch up
 		log.Info("waiting for provision to take effect")
 		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
 	}
 
+	// now verify the resource has been created
 	if definition.ProvisionState.IsVerifying() {
 		verifyResult, err := r.verifyExternal(definition, updater)
 		if err != nil {
@@ -141,10 +143,12 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 					return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
 				}
 			}
-			return ctrl.Result{}, fmt.Errorf("error verifying sql server in azure: %v", err)
+			return ctrl.Result{}, fmt.Errorf("error verifying resource in azure: %v", err)
 		}
+
+		// if still is in progress with provisioning, requeue the recocile loop
 		if verifyResult.IsProvisioning() {
-			log.Info("Retrying verification", "type", "verification not complete")
+			log.Info("Retrying verification", "type", "Verification not complete, requeuing reconcile loop")
 			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
 		}
 
@@ -167,85 +171,71 @@ func (r *AzureController) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *AzureController) reconcileExternal(definition *CustomResourceDetails, updater *CustomResourceUpdater) error {
+func (r *AzureController) reconcileExternal(crDetails *CustomResourceDetails, updater *CustomResourceUpdater) (azurev1alpha1.ProvisionState, error) {
 
 	ctx := context.Background()
 	var err error
 
-	resourceName := definition.Name
-	instance := definition.Instance
-
-	// set pri
-	updater.SetProvisionState(azurev1alpha1.Provisioning)
-	err = r.KubeClient.Update(ctx, instance)
-	if err != nil {
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-	}
+	resourceName := crDetails.Name
+	instance := crDetails.Instance
 
 	// ensure that the resource is created or updated in Azure (though it won't necessarily be ready, it still needs to be verified)
-	err = r.ResourceManagerClient.Ensure(ctx, instance)
-	if err != nil {
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create or update resource in azure")
-		updater.SetProvisionState(azurev1alpha1.Failed)
-		errUpdate := r.KubeClient.Update(ctx, instance)
-		if errUpdate != nil {
-			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
-		return err
+	ensureResult, err := r.ResourceManagerClient.Ensure(ctx, instance)
+	if err != nil || ensureResult.Failed() || ensureResult.InvalidRequest() {
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Couldn't create or update resource in azure")
+		return azurev1alpha1.Failed, err
 	}
 
-	// write information back to instance
-	updater.SetProvisionState(azurev1alpha1.Verifying)
-	err = r.KubeClient.Update(ctx, instance)
-	if err != nil {
-		//log error and kill it
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+	// if successful, set it to succeeded, or await verification
+	var nextState azurev1alpha1.ProvisionState
+	if ensureResult.AwaitingVerification() {
+		nextState = azurev1alpha1.Verifying
+	} else if ensureResult.Succeeded() {
+		nextState = azurev1alpha1.Succeeded
+	} else {
+		return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid response from Ensure for resource '%s'", resourceName))
 	}
-
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", resourceName+" provisioned")
-
-	return nil
+	return nextState, nil
 }
 
-func (r *AzureController) verifyExternal(definition *CustomResourceDetails, updater *CustomResourceUpdater) (VerifyResult, error) {
+func (r *AzureController) verifyExternal(crDetails *CustomResourceDetails, updater *CustomResourceUpdater) (VerifyResult, error) {
 	ctx := context.Background()
-	instance := definition.Instance
-	resourceName := definition.Name
+	instance := crDetails.Instance
+	resourceName := crDetails.Name
 
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Checking", "instance is ready")
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "Checking", "instance is ready")
 	verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
 
 	if err != nil {
-		r.Recorder.Event(definition.Instance, v1.EventTypeWarning, "Failed", "Couldn't validate resource in azure")
+		r.Recorder.Event(crDetails.Instance, corev1.EventTypeWarning, "Failed", "Couldn't validate resource in azure")
 		return verifyResult, errhelp.NewAzureError(err)
 	}
 	if verifyResult.IsReady() {
 		updater.SetProvisionState(azurev1alpha1.Succeeded)
-		err = r.KubeClient.Update(ctx, instance)
-		if err != nil {
-			//log error and kill it
-			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+
+		if err := r.updateInstance(ctx, instance); err != nil {
+			return VerifyError, err
 		}
 
-		r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", resourceName+" provisioned")
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", resourceName+" provisioned")
 	}
 	return verifyResult, nil
 }
 
-func (r *AzureController) addFinalizer(definition *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) error {
+func (r *AzureController) addFinalizer(crDetails *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) error {
 	updater.AddFinalizer(finalizerName)
 	updater.SetProvisionState(azurev1alpha1.Pending)
-	if updateerr := r.KubeClient.Update(context.Background(), definition.Instance); updateerr != nil {
-		r.Recorder.Event(definition.Instance, v1.EventTypeWarning, "Failed", "Failed to update finalizer")
+	if err := r.updateInstance(context.Background(), crDetails.Instance); err != nil {
+		return err
 	}
-	r.Recorder.Event(definition.Instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", finalizerName))
+	r.Recorder.Event(crDetails.Instance, corev1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", finalizerName))
 	return nil
 }
 
-func (r *AzureController) handleFinalizer(definition *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) (ctrl.Result, error) {
-	if definition.BaseDefinition.HasFinalizer(finalizerName) {
+func (r *AzureController) handleFinalizer(crDetails *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) (ctrl.Result, error) {
+	if crDetails.BaseDefinition.HasFinalizer(finalizerName) {
 		ctx := context.Background()
-		if err := r.ResourceManagerClient.Delete(ctx, definition.Instance); err != nil {
+		if err := r.ResourceManagerClient.Delete(ctx, crDetails.Instance); err != nil {
 			catch := []string{
 				errhelp.AsyncOpIncompleteError,
 			}
@@ -261,11 +251,19 @@ func (r *AzureController) handleFinalizer(definition *CustomResourceDetails, upd
 		}
 
 		updater.RemoveFinalizer(r.FinalizerName)
-		if err := r.KubeClient.Update(ctx, definition.Instance); err != nil {
+		if err := r.updateInstance(ctx, crDetails.Instance); err != nil {
 			return ctrl.Result{}, err
 		}
 	}
 
 	// Our finalizer has finished, so the reconciler can do nothing.
 	return ctrl.Result{}, nil
+}
+
+func (r *AzureController) updateInstance(ctx context.Context, instance runtime.Object) error {
+	err := r.KubeClient.Update(ctx, instance)
+	if err != nil {
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update CRD instance")
+	}
+	return err
 }

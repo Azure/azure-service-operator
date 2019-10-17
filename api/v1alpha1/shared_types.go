@@ -25,11 +25,10 @@ import (
 type ProvisionState string
 
 const (
-	Pending      ProvisionState = "Pending"
-	Provisioning ProvisionState = "Provisioning"
-	Verifying    ProvisionState = "Verifying"
-	Succeeded    ProvisionState = "Succeeded"
-	Failed       ProvisionState = "Failed"
+	Pending   ProvisionState = "Pending"
+	Verifying ProvisionState = "Verifying"
+	Succeeded ProvisionState = "Succeeded"
+	Failed    ProvisionState = "Failed"
 )
 
 // ResourceStatus defines the observed state of ResourceGroup
@@ -74,8 +73,7 @@ func (baseDef *ResourceBaseDefinition) RemoveFinalizer(finalizerName string) {
 	baseDef.ObjectMeta.Finalizers = helpers.RemoveString(baseDef.ObjectMeta.Finalizers, finalizerName)
 }
 
-func (s ProvisionState) IsPending() bool      { return s == Pending }
-func (s ProvisionState) IsProvisioning() bool { return s == Provisioning }
-func (s ProvisionState) IsVerifying() bool    { return s == Verifying }
-func (s ProvisionState) IsSucceeded() bool    { return s == Succeeded }
-func (s ProvisionState) IsFailed() bool       { return s == Failed }
+func (s ProvisionState) IsPending() bool   { return s == Pending }
+func (s ProvisionState) IsVerifying() bool { return s == Verifying }
+func (s ProvisionState) IsSucceeded() bool { return s == Succeeded }
+func (s ProvisionState) IsFailed() bool    { return s == Failed }

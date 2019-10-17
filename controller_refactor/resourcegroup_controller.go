@@ -92,11 +92,11 @@ func (_ *ResourceGroupDefinitionFetcher) getDefinition(instance *v1alpha1.Resour
 	}
 }
 
-func (_ *ResourceGroupDefinitionFetcher) getUpdater(instance *v1alpha1.ResourceGroup, crdInfo *CustomResourceDetails) *CustomResourceUpdater {
+func (_ *ResourceGroupDefinitionFetcher) getUpdater(instance *v1alpha1.ResourceGroup, crDetails *CustomResourceDetails) *CustomResourceUpdater {
 	return &CustomResourceUpdater{
 		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
 			instance.ResourceBaseDefinition = *state
 		},
-		CRDInfo: crdInfo,
+		CustomResourceDetails: crDetails,
 	}
 }

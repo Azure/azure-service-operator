@@ -3,39 +3,45 @@ package controller_refactor
 import (
 	"context"
 	"fmt"
+	"net/http"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+
 	"k8s.io/apimachinery/pkg/runtime"
-	"net/http"
 )
 
 type ResourceGroupClient struct {
 	ResourceGroupManager resourcegroups.ResourceGroupManager
 }
 
-func (client *ResourceGroupClient) Ensure(ctx context.Context, r runtime.Object) error {
+func (client *ResourceGroupClient) Ensure(ctx context.Context, r runtime.Object) (EnsureResult, error) {
 	rg, err := client.convert(r)
 	if err != nil {
-		return err
+		return EnsureFailed, err
 	}
 	_, err = client.ResourceGroupManager.CreateGroup(ctx, rg.Name, rg.Spec.Location)
-	return err
+
+	if err != nil {
+		return EnsureFailed, err
+	}
+	return EnsureSucceeded, nil
 }
 
 func (client *ResourceGroupClient) Verify(ctx context.Context, r runtime.Object) (VerifyResult, error) {
 	rg, err := client.convert(r)
 	if err != nil {
-		return Invalid, err
+		return VerifyError, err
 	}
 	resp, err := client.ResourceGroupManager.CheckExistence(ctx, rg.Name)
 	if err != nil {
-		return Invalid, err
+		return VerifyError, err
 	}
 	if resp.Response != nil && (resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusNoContent) {
-		return Ready, nil
+		return VerifyReady, nil
 	}
 
-	return Missing, nil
+	return VerifyMissing, nil
 }
 
 func (client *ResourceGroupClient) Delete(ctx context.Context, r runtime.Object) error {

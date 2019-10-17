@@ -2,27 +2,38 @@ package controller_refactor
 
 import (
 	"context"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-
 	ctrl "sigs.k8s.io/controller-runtime"
+)
+
+type EnsureResult string
+
+const (
+	EnsureInvalidRequest       EnsureResult = "InvalidRequest"
+	EnsureAwaitingVerification EnsureResult = "AwaitingVerification"
+	EnsureSucceeded            EnsureResult = "Succeeded"
+	EnsureFailed               EnsureResult = "Failed"
 )
 
 type VerifyResult string
 
 const (
-	Missing      VerifyResult = "Missing"
-	Invalid      VerifyResult = "Invalid"
-	Provisioning VerifyResult = "Provisioning"
-	Deleting     VerifyResult = "Deleting"
-	Ready        VerifyResult = "Invalid"
+	VerifyError        VerifyResult = "Error"
+	VerifyMissing      VerifyResult = "VerifyMissing"
+	VerifyInvalid      VerifyResult = "VerifyInvalid"
+	VerifyProvisioning VerifyResult = "VerifyProvisioning"
+	VerifyDeleting     VerifyResult = "VerifyDeleting"
+	VerifyReady        VerifyResult = "VerifyInvalid"
 )
 
 // ResourceManagerClient is a common abstraction for the controller to interact with the Azure resource managers
 type ResourceManagerClient interface {
 	// Ensure creates an Azure resource if it doesn't exist or patches if it, though it doesn't verify the readiness for consumption
-	Ensure(context.Context, runtime.Object) error
+	Ensure(context.Context, runtime.Object) (EnsureResult, error)
 	// Verifies the state of the resource in Azure
 	Verify(context.Context, runtime.Object) (VerifyResult, error)
 	// Deletes resource in Azure
@@ -65,26 +76,26 @@ type DefinitionManager interface {
 // CustomResourceUpdater is a mechanism to enable updating the shared sections of the manifest
 // Typically the status section and the metadata.
 type CustomResourceUpdater struct {
-	CRDInfo        *CustomResourceDetails
-	UpdateInstance func(*azurev1alpha1.ResourceBaseDefinition)
+	CustomResourceDetails *CustomResourceDetails
+	UpdateInstance        func(*azurev1alpha1.ResourceBaseDefinition)
 }
 
 func (updater *CustomResourceUpdater) AddFinalizer(name string) {
-	baseState := updater.CRDInfo.BaseDefinition
+	baseState := updater.CustomResourceDetails.BaseDefinition
 	baseState.AddFinalizer(name)
 	updater.UpdateInstance(baseState)
 }
 
 func (updater *CustomResourceUpdater) RemoveFinalizer(name string) {
-	baseState := updater.CRDInfo.BaseDefinition
+	baseState := updater.CustomResourceDetails.BaseDefinition
 	baseState.RemoveFinalizer(name)
 	updater.UpdateInstance(baseState)
 }
 
 func (updater *CustomResourceUpdater) SetProvisionState(provisionState azurev1alpha1.ProvisionState) {
-	state := updater.CRDInfo.BaseDefinition
+	state := updater.CustomResourceDetails.BaseDefinition
 	state.Status.ProvisionState = provisionState
-	if provisionState == azurev1alpha1.Provisioning || provisionState == azurev1alpha1.Verifying {
+	if provisionState == azurev1alpha1.Verifying {
 		state.Status.Provisioning = true
 	}
 	if provisionState == azurev1alpha1.Succeeded {
@@ -94,9 +105,9 @@ func (updater *CustomResourceUpdater) SetProvisionState(provisionState azurev1al
 	updater.UpdateInstance(state)
 }
 
-func (updater *CustomResourceUpdater) SetOwnerReference(owner *CustomResourceDetails) {
+func (updater *CustomResourceUpdater) SetOwnerReference(ownerDetails *CustomResourceDetails) {
 	//set owner reference for eventhub if it exists
-	ownerBase := owner.BaseDefinition
+	ownerBase := ownerDetails.BaseDefinition
 	references := []metav1.OwnerReference{
 		{
 			APIVersion: "v1",
@@ -105,13 +116,18 @@ func (updater *CustomResourceUpdater) SetOwnerReference(owner *CustomResourceDet
 			UID:        ownerBase.GetUID(),
 		},
 	}
-	state := updater.CRDInfo.BaseDefinition
+	state := updater.CustomResourceDetails.BaseDefinition
 	state.ObjectMeta.SetOwnerReferences(references)
 	updater.UpdateInstance(state)
 }
 
-func (r *VerifyResult) IsMissing() bool      { return *r == Missing }
-func (r *VerifyResult) IsInvalid() bool      { return *r == Invalid }
-func (r *VerifyResult) IsProvisioning() bool { return *r == Provisioning }
-func (r *VerifyResult) IsDeleting() bool     { return *r == Deleting }
-func (r *VerifyResult) IsReady() bool        { return *r == Ready }
+func (r *VerifyResult) IsMissing() bool      { return *r == VerifyMissing }
+func (r *VerifyResult) IsInvalid() bool      { return *r == VerifyInvalid }
+func (r *VerifyResult) IsProvisioning() bool { return *r == VerifyProvisioning }
+func (r *VerifyResult) IsDeleting() bool     { return *r == VerifyDeleting }
+func (r *VerifyResult) IsReady() bool        { return *r == VerifyReady }
+
+func (r *EnsureResult) InvalidRequest() bool       { return *r == EnsureInvalidRequest }
+func (r *EnsureResult) Succeeded() bool            { return *r == EnsureSucceeded }
+func (r *EnsureResult) AwaitingVerification() bool { return *r == EnsureAwaitingVerification }
+func (r *EnsureResult) Failed() bool               { return *r == EnsureFailed }
