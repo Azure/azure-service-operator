@@ -15,7 +15,7 @@ type ResourceGroupClient struct {
 	ResourceGroupManager resourcegroups.ResourceGroupManager
 }
 
-func (client *ResourceGroupClient) Ensure(ctx context.Context, r runtime.Object) (EnsureResult, error) {
+func (client *ResourceGroupClient) Create(ctx context.Context, r runtime.Object) (EnsureResult, error) {
 	rg, err := client.convert(r)
 	if err != nil {
 		return EnsureFailed, err
@@ -26,6 +26,10 @@ func (client *ResourceGroupClient) Ensure(ctx context.Context, r runtime.Object)
 		return EnsureFailed, err
 	}
 	return EnsureAwaitingVerification, nil
+}
+
+func (client *ResourceGroupClient) Update(ctx context.Context, r runtime.Object) (EnsureResult, error) {
+	return EnsureFailed, fmt.Errorf("resource group cannon be updated")
 }
 
 func (client *ResourceGroupClient) Verify(ctx context.Context, r runtime.Object) (VerifyResult, error) {

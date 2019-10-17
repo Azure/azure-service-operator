@@ -103,20 +103,94 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
+	// now verify the resource state on Azure
+	if details.ProvisionState.IsVerifying() || details.ProvisionState.IsPending() {
+		verifyResult, err := r.verifyExternal(details, updater)
+		if err != nil {
+			// verification should not return an error - if this happens it's a terminal failure
+			updater.SetProvisionState(azurev1alpha1.Failed)
+			if err := r.updateInstance(ctx, instance); err != nil {
+				return ctrl.Result{}, err
+			}
+			return ctrl.Result{}, fmt.Errorf("error verifying resource in azure: %v", err)
+		}
+		
+		// Success case - the resource is is provisioned on Azure, and is ready
+		if verifyResult.ready() {
+			updater.SetProvisionState(azurev1alpha1.Succeeded)
+
+			if err := r.updateInstance(ctx, instance); err != nil {
+				return ctrl.Result{}, err
+			}
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name + " provisioned")
+		}
+
+		// Missing case - we can now create the resource
+		if verifyResult.missing() {
+			updater.SetProvisionState(azurev1alpha1.Creating)
+
+			if err := r.updateInstance(ctx, instance); err != nil {
+				return ctrl.Result{}, err
+			}
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Creating", details.Name + " ready for creation")
+		}
+
+		// Update case - the resource exists in Azure, is invalid but updateable, so doesn't need to be recreated
+		if verifyResult.updateRequired() {
+			updater.SetProvisionState(azurev1alpha1.Updating)
+
+			if err := r.updateInstance(ctx, instance); err != nil {
+				return ctrl.Result{}, err
+			}
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name + " provisioned")
+		}
+
+		// Recreate case - the resource exists in Azure, is invalid and needs to be created
+		if verifyResult.recreateRequired() {
+			if err = r.ResourceManagerClient.Delete(ctx, details.Instance); err != nil {
+				// TODO: proper error handling for delete
+				updater.SetProvisionState(azurev1alpha1.Failed)
+				return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
+			}
+
+			// set it back to pending and let it go through the whole process again
+			updater.SetProvisionState(azurev1alpha1.Pending)
+			if err := r.updateInstance(ctx, instance); err != nil {
+				return ctrl.Result{}, err
+			}
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name + " provisioned")
+			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
+		}
+
+		// if resource is deleting, requeue the reconcile loop
+		if verifyResult.deleting() {
+			log.Info("Retrying verification", "type", "Resource awaiting deletion before recreation can begin, requeuing reconcile loop")
+			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
+		}
+
+		// if still is in progress with provisioning or if it is busy deleting, requeue the reconcile loop
+		if verifyResult.provisioning() {
+			log.Info("Retrying verification", "type", "Verification not complete, requeuing reconcile loop")
+			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
+		}
+
+		return ctrl.Result{}, nil
+	}
+
 	// dependencies are now satisfied, can now reconcile the manfest and create or update the resource
-	if details.ProvisionState.IsPending() {
+	if details.ProvisionState.IsCreating() || details.ProvisionState.IsUpdating() {
 		r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation")
 		// TODO: Add error handling for cases where username or password are invalid:
 		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
 
-		nextState, reconErr := r.reconcileExternal(details, updater)
+		nextState, ensureErr := r.ensureExternal(details, updater)
 
 		// we set the state even if there is an error
 		updater.SetProvisionState(nextState)
 		updateErr := r.updateInstance(ctx, instance)
 
-		if reconErr != nil {
-			return ctrl.Result{}, fmt.Errorf("error reconciling resource in azure: %v", reconErr)
+		if ensureErr != nil {
+			return ctrl.Result{}, fmt.Errorf("error ensuring resource in azure: %v", ensureErr)
 		}
 		if updateErr != nil {
 			return ctrl.Result{}, fmt.Errorf("error updating resource in azure: %v", updateErr)
@@ -131,22 +205,6 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		// give azure some time to catch up
 		log.Info("waiting for provision to take effect")
 		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
-	}
-
-	// now verify the resource has been created
-	if details.ProvisionState.IsVerifying() {
-		verifyResult, err := r.verifyExternal(details, updater)
-		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("error verifying resource in azure: %v", err)
-		}
-
-		// if still is in progress with provisioning, requeue the reconcile loop
-		if verifyResult.IsProvisioning() {
-			log.Info("Retrying verification", "type", "Verification not complete, requeuing reconcile loop")
-			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
-		}
-
-		return ctrl.Result{}, nil
 	}
 
 	if details.ProvisionState.IsSucceeded() && r.PostProvisionHandler != nil {
@@ -165,71 +223,66 @@ func (r *AzureController) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *AzureController) reconcileExternal(crDetails *CustomResourceDetails, updater *CustomResourceUpdater) (azurev1alpha1.ProvisionState, error) {
+func (r *AzureController) ensureExternal(details *CustomResourceDetails, updater *CustomResourceUpdater) (azurev1alpha1.ProvisionState, error) {
 
 	ctx := context.Background()
 	var err error
 
-	resourceName := crDetails.Name
-	instance := crDetails.Instance
+	resourceName := details.Name
+	instance := details.Instance
 
 	// ensure that the resource is created or updated in Azure (though it won't necessarily be ready, it still needs to be verified)
-	ensureResult, err := r.ResourceManagerClient.Ensure(ctx, instance)
-	if err != nil || ensureResult.Failed() || ensureResult.InvalidRequest() {
+	var ensureResult EnsureResult
+	if details.ProvisionState.IsCreating() {
+		ensureResult, err = r.ResourceManagerClient.Create(ctx, instance)
+	} else {
+		ensureResult, err = r.ResourceManagerClient.Update(ctx, instance)
+	}
+	if err != nil || ensureResult.failed() || ensureResult.invalidRequest() {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Couldn't create or update resource in azure")
 		return azurev1alpha1.Failed, err
 	}
 
 	// if successful, set it to succeeded, or await verification
 	var nextState azurev1alpha1.ProvisionState
-	if ensureResult.AwaitingVerification() {
+	if ensureResult.awaitingVerification() {
 		nextState = azurev1alpha1.Verifying
-	} else if ensureResult.Succeeded() {
+	} else if ensureResult.succeeded() {
 		nextState = azurev1alpha1.Succeeded
 	} else {
-		return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid response from Ensure for resource '%s'", resourceName))
+		return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid response from Create for resource '%s'", resourceName))
 	}
 	return nextState, nil
 }
 
-func (r *AzureController) verifyExternal(crDetails *CustomResourceDetails, updater *CustomResourceUpdater) (VerifyResult, error) {
+func (r *AzureController) verifyExternal(details *CustomResourceDetails, updater *CustomResourceUpdater) (VerifyResult, error) {
 	ctx := context.Background()
-	instance := crDetails.Instance
-	resourceName := crDetails.Name
+	instance := details.Instance
 
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "Checking", "instance is ready")
 	verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
 
 	if err != nil {
-		r.Recorder.Event(crDetails.Instance, corev1.EventTypeWarning, "Failed", "Couldn't validate resource in azure")
+		r.Recorder.Event(details.Instance, corev1.EventTypeWarning, "Failed", "Couldn't verify resource in azure")
 		return verifyResult, errhelp.NewAzureError(err)
-	}
-	if verifyResult.IsReady() {
-		updater.SetProvisionState(azurev1alpha1.Succeeded)
-
-		if err := r.updateInstance(ctx, instance); err != nil {
-			return VerifyError, err
-		}
-
-		r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", resourceName+" provisioned")
 	}
 	return verifyResult, nil
 }
 
-func (r *AzureController) addFinalizer(crDetails *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) error {
+func (r *AzureController) addFinalizer(details *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) error {
 	updater.AddFinalizer(finalizerName)
 	updater.SetProvisionState(azurev1alpha1.Pending)
-	if err := r.updateInstance(context.Background(), crDetails.Instance); err != nil {
+	if err := r.updateInstance(context.Background(), details.Instance); err != nil {
 		return err
 	}
-	r.Recorder.Event(crDetails.Instance, corev1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", finalizerName))
+	r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", finalizerName))
 	return nil
 }
 
-func (r *AzureController) handleFinalizer(crDetails *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) (ctrl.Result, error) {
-	if crDetails.BaseDefinition.HasFinalizer(finalizerName) {
+func (r *AzureController) handleFinalizer(details *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) (ctrl.Result, error) {
+	if details.BaseDefinition.HasFinalizer(finalizerName) {
 		ctx := context.Background()
-		if err := r.ResourceManagerClient.Delete(ctx, crDetails.Instance); err != nil {
+		if err := r.ResourceManagerClient.Delete(ctx, details.Instance); err != nil {
 			catch := []string{
 				errhelp.AsyncOpIncompleteError,
 			}
@@ -245,7 +298,7 @@ func (r *AzureController) handleFinalizer(crDetails *CustomResourceDetails, upda
 		}
 
 		updater.RemoveFinalizer(r.FinalizerName)
-		if err := r.updateInstance(ctx, crDetails.Instance); err != nil {
+		if err := r.updateInstance(ctx, details.Instance); err != nil {
 			return ctrl.Result{}, err
 		}
 	}

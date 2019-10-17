@@ -23,17 +23,20 @@ type VerifyResult string
 
 const (
 	VerifyError        VerifyResult = "Error"
-	VerifyMissing      VerifyResult = "VerifyMissing"
-	VerifyInvalid      VerifyResult = "VerifyInvalid"
-	VerifyProvisioning VerifyResult = "VerifyProvisioning"
-	VerifyDeleting     VerifyResult = "VerifyDeleting"
-	VerifyReady        VerifyResult = "VerifyReady"
+	VerifyMissing      VerifyResult = "Missing"
+	VerifyRecreateRequired VerifyResult = "RecreateRequired"
+	VerifyUpdateRequired VerifyResult = "UpdateRequired"
+	VerifyProvisioning VerifyResult = "Provisioning"
+	VerifyDeleting     VerifyResult = "Deleting"
+	VerifyReady        VerifyResult = "Ready"
 )
 
 // ResourceManagerClient is a common abstraction for the controller to interact with the Azure resource managers
 type ResourceManagerClient interface {
-	// Ensure creates an Azure resource if it doesn't exist or patches if it, though it doesn't verify the readiness for consumption
-	Ensure(context.Context, runtime.Object) (EnsureResult, error)
+	// Creates an Azure resource, though it doesn't verify the readiness for consumption
+	Create(context.Context, runtime.Object) (EnsureResult, error)
+	// Updates an Azure resource
+	Update(context.Context, runtime.Object) (EnsureResult, error)
 	// Verifies the state of the resource in Azure
 	Verify(context.Context, runtime.Object) (VerifyResult, error)
 	// Deletes resource in Azure
@@ -120,13 +123,24 @@ func (updater *CustomResourceUpdater) SetOwnerReferences(ownerDetails []*CustomR
 	updater.UpdateInstance(state)
 }
 
-func (r *VerifyResult) IsMissing() bool      { return *r == VerifyMissing }
-func (r *VerifyResult) IsInvalid() bool      { return *r == VerifyInvalid }
-func (r *VerifyResult) IsProvisioning() bool { return *r == VerifyProvisioning }
-func (r *VerifyResult) IsDeleting() bool     { return *r == VerifyDeleting }
-func (r *VerifyResult) IsReady() bool        { return *r == VerifyReady }
+func (r *VerifyResult) error() bool            { return *r == VerifyError }
+func (r *VerifyResult) missing() bool          { return *r == VerifyMissing }
+func (r *VerifyResult) recreateRequired() bool { return *r == VerifyRecreateRequired }
+func (r *VerifyResult) updateRequired() bool   { return *r == VerifyUpdateRequired }
+func (r *VerifyResult) provisioning() bool     { return *r == VerifyProvisioning }
+func (r *VerifyResult) deleting() bool         { return *r == VerifyDeleting }
+func (r *VerifyResult) ready() bool            { return *r == VerifyReady }
 
-func (r *EnsureResult) InvalidRequest() bool       { return *r == EnsureInvalidRequest }
-func (r *EnsureResult) Succeeded() bool            { return *r == EnsureSucceeded }
-func (r *EnsureResult) AwaitingVerification() bool { return *r == EnsureAwaitingVerification }
-func (r *EnsureResult) Failed() bool               { return *r == EnsureFailed }
+//VerifyError        VerifyResult = "Error"
+//VerifyMissing      VerifyResult = "Missing"
+//VerifyRecreateRequired VerifyResult = "RecreateRequired"
+//VerifyUpdateRequired VerifyResult = "UpdateRequired"
+//VerifyProvisioning VerifyResult = "Provisioning"
+//VerifyDeleting     VerifyResult = "Deleting"
+//VerifyReady        VerifyResult = "Ready"
+
+
+func (r *EnsureResult) invalidRequest() bool       { return *r == EnsureInvalidRequest }
+func (r *EnsureResult) succeeded() bool            { return *r == EnsureSucceeded }
+func (r *EnsureResult) awaitingVerification() bool { return *r == EnsureAwaitingVerification }
+func (r *EnsureResult) failed() bool               { return *r == EnsureFailed }
