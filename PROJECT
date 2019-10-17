@@ -12,10 +12,10 @@ resources:
   version: v1alpha1
   kind: RedisCache
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: Eventhub
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: ResourceGroup
 - group: azure
   version: v1alpha1
