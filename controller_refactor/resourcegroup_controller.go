@@ -16,17 +16,20 @@ limitations under the License.
 package controller_refactor
 
 import (
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/go-logr/logr"
+	"context"
+
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/go-logr/logr"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 )
 
 type ResourceGroupControllerFactory struct {
-	ResourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
+	ResourceGroupManager resourcegroups.ResourceGroupManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
@@ -41,15 +44,59 @@ func (factory *ResourceGroupControllerFactory) SetupWithManager(mgr ctrl.Manager
 }
 
 func (factory *ResourceGroupControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *AzureController {
+	resourceManagerClient := &ResourceGroupClient{
+		ResourceGroupManager: factory.ResourceGroupManager,
+	}
 	return &AzureController{
-		KubeClient: kubeClient,
-		Log:        logger,
-		Recorder:   recorder,
-		ResourceClient: &ResourceGroupClient{
-			ResourceGroupManager: factory.ResourceGroupManager,
+		KubeClient:            kubeClient,
+		Log:                   logger,
+		Recorder:              recorder,
+		ResourceManagerClient: resourceManagerClient,
+		DefinitionManager: &ResourceGroupDefinitionFetcher{
+			kubeClient: kubeClient,
 		},
-		DefinitionManager:    &ResourceGroupDefinitionFetcher{},
 		FinalizerName:        "resourcegroup.finalizers.com",
 		PostProvisionHandler: nil,
+	}
+}
+
+type ResourceGroupDefinitionFetcher struct {
+	kubeClient client.Client
+}
+
+func (fetcher *ResourceGroupDefinitionFetcher) GetThis(ctx context.Context, req ctrl.Request) (*ThisResourceDefinitions, error) {
+	var instance v1alpha1.ResourceGroup
+	err := fetcher.kubeClient.Get(ctx, req.NamespacedName, &instance)
+	crdInfo := fetcher.getDefinition(&instance)
+	return &ThisResourceDefinitions{
+		Details: crdInfo,
+		Updater: fetcher.getUpdater(&instance, crdInfo),
+	}, err
+}
+
+func (_ *ResourceGroupDefinitionFetcher) GetDependencies(ctx context.Context, req ctrl.Request) (*DependencyDefinitions, error) {
+	return &DependencyDefinitions{
+		Dependencies: []*CustomResourceDetails{},
+		Owner:        nil,
+	}, nil
+}
+
+func (_ *ResourceGroupDefinitionFetcher) getDefinition(instance *v1alpha1.ResourceGroup) *CustomResourceDetails {
+	return &CustomResourceDetails{
+		ProvisionState: instance.Status.ProvisionState,
+		Name:           instance.Name,
+		Parameters:     instance.Spec.Parameters,
+		Instance:       instance,
+		BaseDefinition: &instance.ResourceBaseDefinition,
+		IsBeingDeleted: !instance.ObjectMeta.DeletionTimestamp.IsZero(),
+	}
+}
+
+func (_ *ResourceGroupDefinitionFetcher) getUpdater(instance *v1alpha1.ResourceGroup, crdInfo *CustomResourceDetails) *CustomResourceUpdater {
+	return &CustomResourceUpdater{
+		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
+			instance.ResourceBaseDefinition = *state
+		},
+		CRDInfo: crdInfo,
 	}
 }

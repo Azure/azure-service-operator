@@ -7,7 +7,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 
 	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type VerifyResult string
@@ -22,64 +21,68 @@ const (
 
 // ResourceManagerClient is a common abstraction for the controller to interact with the Azure resource managers
 type ResourceManagerClient interface {
-	//
+	// Ensure creates an Azure resource if it doesn't exist or patches if it, though it doesn't verify the readiness for consumption
 	Ensure(context.Context, runtime.Object) error
+	// Verifies the state of the resource in Azure
 	Verify(context.Context, runtime.Object) (VerifyResult, error)
+	// Deletes resource in Azure
 	Delete(context.Context, runtime.Object) error
 }
 
-type CRDInfo struct {
-	ProvisionState  azurev1alpha1.ProvisionState
-	Name            string
-	Parameters      azurev1alpha1.Parameters
-	CRDInstance     runtime.Object
-	GetBaseInstance *azurev1alpha1.ResourceBaseDefinition
-	IsBeingDeleted  bool
+type CustomResourceDetails struct {
+	Name           string
+	ProvisionState azurev1alpha1.ProvisionState
+	Parameters     azurev1alpha1.Parameters
+	Instance       runtime.Object
+	BaseDefinition *azurev1alpha1.ResourceBaseDefinition
+	IsBeingDeleted bool
 }
 
-type PostProvisionHandler func(definition *CRDInfo) error
+// A handler that is invoked after the resource has been successfully created
+// and it has been verified to be ready for consumption (ProvisionState=Success)
+// This is typically used for example to create secrets with authentication information
+type PostProvisionHandler func(definition *CustomResourceDetails) error
 
+// Details of the current resource being reconciled
 type ThisResourceDefinitions struct {
-	CRDInfo    *CRDInfo
-	CRDUpdater *CRDUpdater
+	Details *CustomResourceDetails
+	Updater *CustomResourceUpdater
 }
 
+// Details of the owner and the dependencies of the resource
 type DependencyDefinitions struct {
-	Dependencies []*CRDInfo
-	Owner        *CRDInfo
+	Owner        *CustomResourceDetails
+	Dependencies []*CustomResourceDetails
 }
 
-// The de
+// DefinitionManager is used to retrieve the required custom resource definitions
+// and convert them into a state that can be consumed and updated (where applicable) generically
 type DefinitionManager interface {
-	GetThis(ctx context.Context, kubeClient client.Client, req ctrl.Request) (*ThisResourceDefinitions, error)
-	GetDependencies(ctx context.Context, kubeClient client.Client, req ctrl.Request) (*DependencyDefinitions, error)
+	GetThis(ctx context.Context, req ctrl.Request) (*ThisResourceDefinitions, error)
+	GetDependencies(ctx context.Context, req ctrl.Request) (*DependencyDefinitions, error)
 }
 
-// This is a mechanism to enable updating the Status section of the manifest
-type CRDUpdater struct {
-	CRDInfo        *CRDInfo
+// CustomResourceUpdater is a mechanism to enable updating the shared sections of the manifest
+// Typically the status section and the metadata.
+type CustomResourceUpdater struct {
+	CRDInfo        *CustomResourceDetails
 	UpdateInstance func(*azurev1alpha1.ResourceBaseDefinition)
 }
 
-func (updater *CRDUpdater) AddFinalizer(name string) {
-	state := updater.CRDInfo.GetBaseInstance
-	state.AddFinalizer(name)
-	updater.UpdateInstance(state)
+func (updater *CustomResourceUpdater) AddFinalizer(name string) {
+	baseState := updater.CRDInfo.BaseDefinition
+	baseState.AddFinalizer(name)
+	updater.UpdateInstance(baseState)
 }
 
-func (updater *CRDUpdater) RemoveFinalizer(name string) {
-	state := updater.CRDInfo.GetBaseInstance
-	state.RemoveFinalizer(name)
-	updater.UpdateInstance(state)
+func (updater *CustomResourceUpdater) RemoveFinalizer(name string) {
+	baseState := updater.CRDInfo.BaseDefinition
+	baseState.RemoveFinalizer(name)
+	updater.UpdateInstance(baseState)
 }
 
-func (updater *CRDUpdater) HasFinalizer(name string) bool {
-	state := updater.CRDInfo.GetBaseInstance
-	return state.HasFinalizer(name)
-}
-
-func (updater *CRDUpdater) SetState(provisionState azurev1alpha1.ProvisionState) {
-	state := updater.CRDInfo.GetBaseInstance
+func (updater *CustomResourceUpdater) SetProvisionState(provisionState azurev1alpha1.ProvisionState) {
+	state := updater.CRDInfo.BaseDefinition
 	state.Status.ProvisionState = provisionState
 	if provisionState == azurev1alpha1.Provisioning || provisionState == azurev1alpha1.Verifying {
 		state.Status.Provisioning = true
@@ -91,9 +94,9 @@ func (updater *CRDUpdater) SetState(provisionState azurev1alpha1.ProvisionState)
 	updater.UpdateInstance(state)
 }
 
-func (updater *CRDUpdater) SetOwnerReference(owner *CRDInfo) {
+func (updater *CustomResourceUpdater) SetOwnerReference(owner *CustomResourceDetails) {
 	//set owner reference for eventhub if it exists
-	ownerBase := owner.GetBaseInstance
+	ownerBase := owner.BaseDefinition
 	references := []metav1.OwnerReference{
 		{
 			APIVersion: "v1",
@@ -102,7 +105,7 @@ func (updater *CRDUpdater) SetOwnerReference(owner *CRDInfo) {
 			UID:        ownerBase.GetUID(),
 		},
 	}
-	state := updater.CRDInfo.GetBaseInstance
+	state := updater.CRDInfo.BaseDefinition
 	state.ObjectMeta.SetOwnerReferences(references)
 	updater.UpdateInstance(state)
 }
