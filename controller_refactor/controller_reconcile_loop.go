@@ -91,12 +91,13 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
+	instance := details.Instance
 	// set the owner reference if owner is present and references have not been set
 	// currently we only have single object ownership, but it is poosible to have multiple owners
 	if owner != nil && len(details.BaseDefinition.ObjectMeta.GetOwnerReferences()) == 0 {
 		//set owner reference if it exists
 		updater.SetOwnerReferences([]*CustomResourceDetails{owner})
-		if err := r.updateInstance(ctx, details.Instance); err != nil {
+		if err := r.updateInstance(ctx, instance); err != nil {
 			return ctrl.Result{}, err
 		}
 		return ctrl.Result{}, nil
@@ -112,17 +113,17 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 		// we set the state even if there is an error
 		updater.SetProvisionState(nextState)
-		updateErr := r.updateStatus(ctx, details.Instance)
+		updateErr := r.updateInstance(ctx, instance)
 
 		if reconErr != nil {
 			return ctrl.Result{}, fmt.Errorf("error reconciling resource in azure: %v", reconErr)
 		}
 		if updateErr != nil {
-			return ctrl.Result{}, fmt.Errorf("error updating status in K8s: %v", updateErr)
+			return ctrl.Result{}, fmt.Errorf("error updating resource in azure: %v", updateErr)
 		}
 
 		if nextState.IsSucceeded() {
-			r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Updated",
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated",
 				fmt.Sprintf("%s resource '%s' provisioned and ready.", details.BaseDefinition.Kind, details.Name))
 			return ctrl.Result{}, nil
 		}
@@ -206,7 +207,7 @@ func (r *AzureController) verifyExternal(crDetails *CustomResourceDetails, updat
 	if verifyResult.IsReady() {
 		updater.SetProvisionState(azurev1alpha1.Succeeded)
 
-		if err := r.updateStatus(ctx, instance); err != nil {
+		if err := r.updateInstance(ctx, instance); err != nil {
 			return VerifyError, err
 		}
 
@@ -225,11 +226,10 @@ func (r *AzureController) addFinalizer(crDetails *CustomResourceDetails, updater
 	return nil
 }
 
-func (r *AzureController) handleFinalizer(details *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) (ctrl.Result, error) {
-	if details.BaseDefinition.HasFinalizer(finalizerName) {
+func (r *AzureController) handleFinalizer(crDetails *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) (ctrl.Result, error) {
+	if crDetails.BaseDefinition.HasFinalizer(finalizerName) {
 		ctx := context.Background()
-		r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Deleting", "handling finalizer")
-		if err := r.ResourceManagerClient.Delete(ctx, details.Instance); err != nil {
+		if err := r.ResourceManagerClient.Delete(ctx, crDetails.Instance); err != nil {
 			catch := []string{
 				errhelp.AsyncOpIncompleteError,
 			}
@@ -243,20 +243,24 @@ func (r *AzureController) handleFinalizer(details *CustomResourceDetails, update
 
 			return ctrl.Result{}, err
 		}
-		// NB: we don't need ot remove finalizer
+
+		updater.RemoveFinalizer(r.FinalizerName)
+		if err := r.updateInstance(ctx, crDetails.Instance); err != nil {
+			return ctrl.Result{}, err
+		}
 	}
 
 	// Our finalizer has finished, so the reconciler can do nothing.
 	return ctrl.Result{}, nil
 }
-
-func (r *AzureController) updateStatus(ctx context.Context, instance runtime.Object) error {
-	err := r.KubeClient.Status().Update(ctx, instance)
-	if err != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update CRD status")
-	}
-	return err
-}
+//
+//func (r *AzureController) updateStatus(ctx context.Context, instance runtime.Object) error {
+//	err := r.KubeClient.Status().Update(ctx, instance)
+//	if err != nil {
+//		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update CRD instance")
+//	}
+//	return err
+//}
 
 func (r *AzureController) updateInstance(ctx context.Context, instance runtime.Object) error {
 	err := r.KubeClient.Update(ctx, instance)
