@@ -91,10 +91,16 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
-	// set the owner reference if owner is present
-	if owner != nil {
+	instance := details.Instance
+	// set the owner reference if owner is present and references have not been set
+	// currently we only have single object ownership, but it is poosible to have multiple owners
+	if owner != nil && len(details.BaseDefinition.ObjectMeta.GetOwnerReferences()) == 0 {
 		//set owner reference if it exists
-		updater.SetOwnerReference(owner)
+		updater.SetOwnerReferences([]*CustomResourceDetails{owner})
+		if err := r.updateInstance(ctx, instance); err != nil {
+			return ctrl.Result{}, err
+		}
+		return ctrl.Result{}, nil
 	}
 
 	// dependencies are now satisfied, can now reconcile the manfest and create or update the resource
@@ -104,10 +110,10 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
 
 		nextState, reconErr := r.reconcileExternal(details, updater)
-		instance := details.Instance
 
+		// we set the state even if there is an error
 		updater.SetProvisionState(nextState)
-		updateErr := r.updateInstance(ctx, instance)
+		updateErr := r.updateStatus(ctx, instance)
 
 		if reconErr != nil {
 			return ctrl.Result{}, fmt.Errorf("error reconciling resource in azure: %v", reconErr)
@@ -131,18 +137,6 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if details.ProvisionState.IsVerifying() {
 		verifyResult, err := r.verifyExternal(details, updater)
 		if err != nil {
-			catch := []string{
-				errhelp.ParentNotFoundErrorCode,
-				errhelp.NotFoundErrorCode,
-				errhelp.ResourceNotFound,
-				errhelp.AsyncOpIncompleteError,
-			}
-			if azerr, ok := err.(*errhelp.AzureError); ok {
-				if helpers.ContainsString(catch, azerr.Type) {
-					log.Info("Got ignorable error", "type", azerr.Type)
-					return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
-				}
-			}
 			return ctrl.Result{}, fmt.Errorf("error verifying resource in azure: %v", err)
 		}
 
@@ -213,7 +207,7 @@ func (r *AzureController) verifyExternal(crDetails *CustomResourceDetails, updat
 	if verifyResult.IsReady() {
 		updater.SetProvisionState(azurev1alpha1.Succeeded)
 
-		if err := r.updateInstance(ctx, instance); err != nil {
+		if err := r.updateStatus(ctx, instance); err != nil {
 			return VerifyError, err
 		}
 
@@ -232,10 +226,11 @@ func (r *AzureController) addFinalizer(crDetails *CustomResourceDetails, updater
 	return nil
 }
 
-func (r *AzureController) handleFinalizer(crDetails *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) (ctrl.Result, error) {
-	if crDetails.BaseDefinition.HasFinalizer(finalizerName) {
+func (r *AzureController) handleFinalizer(details *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) (ctrl.Result, error) {
+	if details.BaseDefinition.HasFinalizer(finalizerName) {
 		ctx := context.Background()
-		if err := r.ResourceManagerClient.Delete(ctx, crDetails.Instance); err != nil {
+		r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Deleting", "handling finalizer")
+		if err := r.ResourceManagerClient.Delete(ctx, details.Instance); err != nil {
 			catch := []string{
 				errhelp.AsyncOpIncompleteError,
 			}
@@ -249,15 +244,23 @@ func (r *AzureController) handleFinalizer(crDetails *CustomResourceDetails, upda
 
 			return ctrl.Result{}, err
 		}
-
-		updater.RemoveFinalizer(r.FinalizerName)
-		if err := r.updateInstance(ctx, crDetails.Instance); err != nil {
-			return ctrl.Result{}, err
-		}
+		//
+		//updater.RemoveFinalizer(r.FinalizerName)
+		//if err := r.updateInstance(ctx, details.Instance); err != nil {
+		//	return ctrl.Result{}, err
+		//}
 	}
 
 	// Our finalizer has finished, so the reconciler can do nothing.
 	return ctrl.Result{}, nil
+}
+
+func (r *AzureController) updateStatus(ctx context.Context, instance runtime.Object) error {
+	err := r.KubeClient.Status().Update(ctx, instance)
+	if err != nil {
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update CRD status")
+	}
+	return err
 }
 
 func (r *AzureController) updateInstance(ctx context.Context, instance runtime.Object) error {

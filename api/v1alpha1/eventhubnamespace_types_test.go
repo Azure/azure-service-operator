@@ -54,9 +54,11 @@ var _ = Describe("EventhubNamespace", func() {
 				Namespace: "default",
 			}
 			created = &EventhubNamespace{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "foo",
-					Namespace: "default",
+				ResourceBaseDefinition: ResourceBaseDefinition{
+					ObjectMeta: metav1.ObjectMeta{
+						Name:      "foo",
+						Namespace: "default",
+					},
 				},
 				Spec: EventhubNamespaceSpec{
 					Location:      resourcegroupLocation,

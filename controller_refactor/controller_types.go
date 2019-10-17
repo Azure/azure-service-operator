@@ -101,20 +101,19 @@ func (updater *CustomResourceUpdater) SetProvisionState(provisionState azurev1al
 	if provisionState == azurev1alpha1.Succeeded {
 		state.Status.Provisioned = true
 	}
-
 	updater.UpdateInstance(state)
 }
 
-func (updater *CustomResourceUpdater) SetOwnerReference(ownerDetails *CustomResourceDetails) {
-	//set owner reference for eventhub if it exists
-	ownerBase := ownerDetails.BaseDefinition
-	references := []metav1.OwnerReference{
-		{
+func (updater *CustomResourceUpdater) SetOwnerReferences(ownerDetails []*CustomResourceDetails) {
+	references := make([]metav1.OwnerReference, len(ownerDetails))
+	for i, o := range ownerDetails {
+		ownerBase := o.BaseDefinition
+		references[i] = metav1.OwnerReference{
 			APIVersion: "v1",
 			Kind:       ownerBase.Kind,
 			Name:       ownerBase.Name,
 			UID:        ownerBase.GetUID(),
-		},
+		}
 	}
 	state := updater.CustomResourceDetails.BaseDefinition
 	state.ObjectMeta.SetOwnerReferences(references)

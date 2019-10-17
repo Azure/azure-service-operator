@@ -34,6 +34,9 @@ func (client *ResourceGroupClient) Verify(ctx context.Context, r runtime.Object)
 		return VerifyError, err
 	}
 	resp, err := client.ResourceGroupManager.CheckExistence(ctx, rg.Name)
+	if resp.Response != nil && resp.StatusCode == http.StatusNotFound {
+		return VerifyMissing, nil
+	}
 	if err != nil {
 		return VerifyError, err
 	}

@@ -16,41 +16,11 @@ limitations under the License.
 package v1alpha1
 
 import (
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
-// EventhubNamespaceSpec defines the desired state of EventhubNamespace
-type EventhubNamespaceSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Location      string                      `json:"location"`
-	Sku           EventhubNamespaceSku        `json:"sku,omitempty"`
-	Properties    EventhubNamespaceProperties `json:"properties,omitempty"`
-	ResourceGroup string                      `json:"resourceGroup,omitempty"`
-}
-
-// EventhubNamespaceStatus defines the observed state of EventhubNamespace
-type EventhubNamespaceStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
-// +kubebuilder:object:root=true
-
-// EventhubNamespace is the Schema for the eventhubnamespaces API
-type EventhubNamespace struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec   EventhubNamespaceSpec   `json:"spec,omitempty"`
-	Status EventhubNamespaceStatus `json:"status,omitempty"`
-}
 
 // +kubebuilder:object:root=true
 
@@ -79,23 +49,44 @@ func init() {
 	SchemeBuilder.Register(&EventhubNamespace{}, &EventhubNamespaceList{})
 }
 
-func (eventhubNamespace *EventhubNamespace) IsBeingDeleted() bool {
-	return !eventhubNamespace.ObjectMeta.DeletionTimestamp.IsZero()
+//func (eventhubNamespace *EventhubNamespace) IsBeingDeleted() bool {
+//	return !eventhubNamespace.ObjectMeta.DeletionTimestamp.IsZero()
+//}
+//
+//func (eventhubNamespace *EventhubNamespace) IsSubmitted() bool {
+//	return eventhubNamespace.Status.Provisioning || eventhubNamespace.Status.Provisioned
+//
+//}
+//
+//func (eventhubNamespace *EventhubNamespace) HasFinalizer(finalizerName string) bool {
+//	return helpers.ContainsString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
+//}
+//
+//func (eventhubNamespace *EventhubNamespace) AddFinalizer(finalizerName string) {
+//	eventhubNamespace.ObjectMeta.Finalizers = append(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
+//}
+//
+//func (eventhubNamespace *EventhubNamespace) RemoveFinalizer(finalizerName string) {
+//	eventhubNamespace.ObjectMeta.Finalizers = helpers.RemoveString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
+//}
+//
+type EventhubNamespaceSpec struct {
+	Parameters Parameters `json:"parameters,omitempty"`
+	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+	// Important: Run "make" to regenerate code after modifying this file
+	Location      string                      `json:"location"`
+	Sku           EventhubNamespaceSku        `json:"sku,omitempty"`
+	Properties    EventhubNamespaceProperties `json:"properties,omitempty"`
+	ResourceGroup string                      `json:"resourceGroup,omitempty"`
 }
 
-func (eventhubNamespace *EventhubNamespace) IsSubmitted() bool {
-	return eventhubNamespace.Status.Provisioning || eventhubNamespace.Status.Provisioned
+// +kubebuilder:object:root=true
 
+// ResourceGroup is the Schema for the resourcegroups API
+// +kubebuilder:resource:shortName=rg,path=resourcegroups
+type EventhubNamespace struct {
+	ResourceBaseDefinition
+	Spec EventhubNamespaceSpec `json:"spec,omitempty"`
 }
 
-func (eventhubNamespace *EventhubNamespace) HasFinalizer(finalizerName string) bool {
-	return helpers.ContainsString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (eventhubNamespace *EventhubNamespace) AddFinalizer(finalizerName string) {
-	eventhubNamespace.ObjectMeta.Finalizers = append(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (eventhubNamespace *EventhubNamespace) RemoveFinalizer(finalizerName string) {
-	eventhubNamespace.ObjectMeta.Finalizers = helpers.RemoveString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
-}
+// +kubebuilder:object:root=true
