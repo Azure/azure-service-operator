@@ -135,16 +135,16 @@ func main() {
 		ResourceGroupManager: resourceGroupManager,
 	}).SetupWithManager(mgr)
 
-	err = (&controllers.ResourceGroupReconciler{
-		Client:               mgr.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-		Recorder:             mgr.GetEventRecorderFor("ResourceGroup-controller"),
-		ResourceGroupManager: resourceGroupManager,
-	}).SetupWithManager(mgr)
-	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
-		os.Exit(1)
-	}
+	//err = (&controllers.ResourceGroupReconciler{
+	//	Client:               mgr.GetClient(),
+	//	Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+	//	Recorder:             mgr.GetEventRecorderFor("ResourceGroup-controller"),
+	//	ResourceGroupManager: resourceGroupManager,
+	//}).SetupWithManager(mgr)
+	//if err != nil {
+	//	setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
+	//	os.Exit(1)
+	//}
 	err = (&controllers.EventhubNamespaceReconciler{
 		Client:                   mgr.GetClient(),
 		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
