@@ -28,10 +28,6 @@ type AzureController struct {
 	PostProvisionHandler PostProvisionHandler
 }
 
-type AzureControllerFactory interface {
-	Create(kubeClient client.Client, log logr.Logger, recorder record.EventRecorder) *AzureController
-}
-
 // Reconcile function does the main reconciliation loop of the operator
 func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
@@ -94,12 +90,13 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 	}
 
-	// set the owner reference if onwer is present
+	// set the owner reference if owner is present
 	if owner != nil {
 		//set owner reference if it exists
 		updater.SetOwnerReference(owner)
 	}
 
+	// dependencies are now satisfied, can
 	if definition.ProvisionState.IsPending() {
 		r.Recorder.Event(definition.CRDInstance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
 		// TODO: Add error handling for cases where username or password are invalid:

@@ -27,7 +27,7 @@ import (
 // These tests are written in BDD-style using Ginkgo framework. Refer to
 // http://onsi.github.io/ginkgo to learn more.
 
-var _ = FDescribe("ResourceGroup", func() {
+var _ = Describe("ResourceGroup", func() {
 	var (
 		key              types.NamespacedName
 		created, fetched *ResourceGroup
