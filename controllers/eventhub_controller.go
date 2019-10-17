@@ -259,7 +259,7 @@ func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescriptio
 	var capturePtr *model.CaptureDescription
 
 	storage := captureDescription.Destination.StorageAccount
-	storageAccountResourceId := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
 
 	if captureDescription.Enabled {
 		capturePtr = &model.CaptureDescription{
@@ -270,7 +270,7 @@ func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescriptio
 			Destination: &model.Destination{
 				Name: &captureDescription.Destination.Name,
 				DestinationProperties: &model.DestinationProperties{
-					StorageAccountResourceID: &storageAccountResourceId,
+					StorageAccountResourceID: &storageAccountResourceID,
 					BlobContainer:            &captureDescription.Destination.BlobContainer,
 					ArchiveNameFormat:        &captureDescription.Destination.ArchiveNameFormat,
 				},
