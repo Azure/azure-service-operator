@@ -10,47 +10,51 @@ import (
 	// "github.com/google/uuid"
 	// "github.com/Azure/go-autorest/autorest/azure/auth"
 	// "github.com/Azure/go-autorest/autorest/to"
-	"fmt"
 	"log"
 	// "github.com/Azure/azure-sdk-for-go/services/datalake/store/2016-11-01/filesystem"
 )
 
 type azureFileSystemManager struct{}
 
-// func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, filesystem string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, datalakeName string) (*autorest.Response, error) {
-// 	fsClient := getFileSystemClient(datalakeName)
 
-// 	req, err := fsClient.CreatePreparer(ctx, filesystem, "", "", to.Int32Ptr(100), "")	// TODO: check to make sure filesystem name conforms correctly
-// 	// result, err := fsClient.Create(ctx, filesystem, "", "", to.Int32Ptr(100), "")
-// 	response, err := fsClient.CreateSender(req)
-// 	result, err := fsClient.CreateResponder(response)
-
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return &result, err
-// }
 func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, filesystemName string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, datalakeName string) (*autorest.Response, error) {
 	client := getFileSystemClient(datalakeName)
+	// req, err := client.CreatePreparer(ctx, filesystemName, "", "", nil, "")
+	// if err != nil {
+	// 	fmt.Println("failed to create preparer")
+	// 	return nil, err
+	// }
+	// fmt.Println(req)
+	// resp, err := client.CreateSender(req)
+	resp, err := client.GetProperties(ctx, filesystemName, xMsClientRequestID, timeout, xMsDate)
+	xMsProperties = resp.Header.Get("xMsProperties")
+	xMsClientRequestID = resp.Header.Get("xMsClientRequestID")
+	xMsDate = resp.Header.Get("xMsDate")
+
+	// result, err := client.CreateResponder(resp)
 
 	// bear minimum logic to check auth
-	rep, err := client.Create(ctx, "test", "", "", nil, "")
-
+	result, err := client.Create(ctx, filesystemName, xMsProperties, xMsClientRequestID, timeout, xMsDate)
 
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(rep)
-	return nil, err
+
+	return &result, err
 }
 
-func (_ *azureFileSystemManager) GetFileSystem() {
-
+func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, filesystemName string, xMsClientRequestID string, xMsDate string, datalakeName string) (autorest.Response, error) {
+	client := getFileSystemClient(datalakeName)
+	
+	list, err := client.List(ctx, filesystemName, "", nil, xMsClientRequestID, nil, xMsDate)
+	response := list.Response
+	return response, err
 }
 
-func (_ *azureFileSystemManager) DeleteFileSystem() {
+func (_ *azureFileSystemManager) DeleteFileSystem(ctx context.Context, filesystemName string, xMsClientRequestID string, xMsDate string, datalakeName string) (autorest.Response, error) {
+	client := getFileSystemClient(datalakeName)
 
+	return client.Delete(ctx, filesystemName, "", "", xMsClientRequestID, nil, xMsDate)
 }
 
 func getFileSystemClient(accountName string) storagedatalake.FilesystemClient {
@@ -65,7 +69,9 @@ func getFileSystemClient(accountName string) storagedatalake.FilesystemClient {
 		log.Fatalf("failed to initialize authorizer: %v\n", err)
 	}
 	fsClient.Authorizer = a
+	// fsClient.AddToUserAgent(storagedatalake.UserAgent())
 	fsClient.AddToUserAgent(config.UserAgent())
 
 	return fsClient
 }
+

@@ -11,6 +11,7 @@ import (
 	"errors"
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"log"
+	"fmt"
 )
 
 type azureAdlsGen2Manager struct{}
@@ -72,6 +73,10 @@ func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName str
 		return nil, err
 	}
 	result, err := future.Result(storagesClient)
+
+	// sasParams := storage.AccountSasParameters{}
+	list, err := storagesClient.ListKeys(ctx, groupName, datalakeName)
+	fmt.Println(list)
 	return &result, err
 }
 

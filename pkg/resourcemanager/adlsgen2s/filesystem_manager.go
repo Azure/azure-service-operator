@@ -9,7 +9,7 @@ import (
 type FileSystemManager interface {
 	CreateFileSystem(ctx context.Context, filesystem string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, accountName string) (*autorest.Response, error)
 
-	GetFileSystem()
+	GetFileSystem(ctx context.Context, filesystemName string, xMsClientRequestID string, xMsDate string, datalakeName string) (autorest.Response, error) 
 
-	DeleteFileSystem()
+	DeleteFileSystem(ctx context.Context, filesystemName string, xMsClientRequestID string, xMsDate string, datalakeName string) (autorest.Response, error)
 }

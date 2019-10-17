@@ -3,6 +3,8 @@ package adlsgen2s
 import (
 	"context"
 	"fmt"
+	"net/http"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -42,15 +44,29 @@ var _ = Describe("File System", func() {
 			fileSystemManager := tc.DataLakeManagers.FileSystem
 			fileSystemName := "tfilesystem" + helpers.RandomString(5)
 			xMsProperties := ""
-			xMsClientRequestID := "false"
-			t := time.Now()
-			xMsDate := t.String()
+			xMsClientRequestID := ""
+			xMsDate := time.Now().String()
 
 			var err error
 
-			_, err = fileSystemManager.CreateFileSystem(context.Background(), fileSystemName, xMsProperties, xMsClientRequestID, to.Int32Ptr(100), xMsDate, adlsName)
+			_, err = fileSystemManager.CreateFileSystem(context.Background(), fileSystemName, xMsProperties, xMsClientRequestID, to.Int32Ptr(20), xMsDate, adlsName)
 			fmt.Println(err.Error())
 			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				result, _ := fileSystemManager.GetFileSystem(context.Background(), fileSystemName, xMsClientRequestID, xMsDate, adlsName)
+				return result.Response.StatusCode == http.StatusOK
+			}, timeout,
+			).Should(BeTrue())
+
+			_, err = fileSystemManager.DeleteFileSystem(context.Background(), fileSystemName, xMsClientRequestID, xMsDate, adlsName)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				result, _ := fileSystemManager.GetFileSystem(context.Background(), fileSystemName, xMsClientRequestID, xMsDate, adlsName)
+				return result.Response.StatusCode == http.StatusNotFound
+			}, timeout,
+			).Should(BeTrue())
 
 		})
 	})
