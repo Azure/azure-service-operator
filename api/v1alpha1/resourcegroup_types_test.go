@@ -54,12 +54,15 @@ var _ = FDescribe("ResourceGroup", func() {
 				Namespace: "default",
 			}
 			created = &ResourceGroup{
-				ResourceBaseState: ResourceBaseState{ObjectMeta: metav1.ObjectMeta{
+				ResourceBaseDefinition: ResourceBaseDefinition{ObjectMeta: metav1.ObjectMeta{
 					Name:      "foo",
 					Namespace: "default",
 				},
 				},
 				Spec: ResourceGroupSpec{
+					Parameters: Parameters{
+						RequeueAfterSeconds: 5,
+					},
 					Location: resourcegroupLocation,
 				}}
 
@@ -74,7 +77,6 @@ var _ = FDescribe("ResourceGroup", func() {
 			Expect(k8sClient.Delete(context.TODO(), created)).To(Succeed())
 			Expect(k8sClient.Get(context.TODO(), key, created)).ToNot(Succeed())
 		})
-
 	})
 
 })

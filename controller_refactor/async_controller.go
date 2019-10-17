@@ -23,7 +23,7 @@ type AzureController struct {
 	Log                  logr.Logger
 	Recorder             record.EventRecorder
 	ResourceClient       ResourceManagerClient
-	CRDFetcher           CRDFetcher
+	DefinitionManager    DefinitionManager
 	FinalizerName        string
 	PostProvisionHandler PostProvisionHandler
 }
@@ -37,7 +37,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("resourcegroup", req.NamespacedName)
 
-	definition, updater, err := r.CRDFetcher.GetThis(ctx, r.KubeClient, req)
+	thisDefs, err := r.DefinitionManager.GetThis(ctx, r.KubeClient, req)
 	if err != nil {
 		log.Info("Unable to retrieve resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -46,8 +46,13 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	definition := thisDefs.CRDInfo
+	updater := thisDefs.CRDUpdater
+
+
+
 	if definition.IsBeingDeleted {
-		result, err := r.handleFinalizer(&definition, &updater, r.FinalizerName)
+		result, err := r.handleFinalizer(definition, updater, r.FinalizerName)
 		if err != nil {
 			return result, fmt.Errorf("error when handling finalizer: %v", err)
 		}
@@ -55,18 +60,52 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !updater.HasFinalizer(r.FinalizerName) {
-		err := r.addFinalizer(&definition, &updater, r.FinalizerName)
+		err := r.addFinalizer(definition, updater, r.FinalizerName)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	if definition.ProvisionState == azurev1alpha1.Pending {
+	// verify status of dependencies
+	dependencyInfo, err := r.DefinitionManager.GetDependencies(ctx, r.KubeClient, req)
+	if err != nil {
+		log.Info("Unable to retrieve resource", "err", err.Error())
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	// get parameters
+	parameters := definition.Parameters
+	requeueSeconds := parameters.RequeueAfterSeconds
+	if requeueSeconds == 0 {
+		requeueSeconds = 30
+	}
+	requeueAfter := time.Duration(requeueSeconds) * time.Second
+
+	// Verify that all dependencies are present in the cluster, and they are
+	owner := dependencyInfo.Owner
+	allDeps := append([]*CRDInfo{owner}, dependencyInfo.Dependencies...)
+
+	for _, dep := range allDeps {
+		if dep != nil && !dep.ProvisionState.IsSucceeded() {
+			log.Info("One of the dependencies is not in Succeeded state, requeuing")
+			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
+		}
+	}
+
+	if owner != nil {
+		//set owner reference if it exists
+		updater.SetOwnerReference(owner)
+	}
+
+	if definition.ProvisionState.IsPending() {
 		r.Recorder.Event(definition.CRDInstance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
 		// TODO: Add error handling for cases where username or password are invalid:
 		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
-		if err := r.reconcileExternal(&definition, &updater); err != nil {
+		if err := r.reconcileExternal(definition, updater); err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -81,19 +120,18 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 						return ctrl.Result{Requeue: false}, nil
 					}
 					log.Info("Got ignorable error", "type", azerr.Type)
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+					return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
 				}
 			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling sql server in azure: %v", err)
 		}
 		// give azure some time to catch up
 		log.Info("waiting for provision to take effect")
-		return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
 	}
 
-	if definition.ProvisionState == azurev1alpha1.Verifying {
-		var completed bool
-		completed, err := r.verifyExternal(&definition, &updater)
+	if definition.ProvisionState.IsVerifying() {
+		verifyResult, err := r.verifyExternal(definition, updater)
 		if err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
@@ -104,21 +142,21 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
 					log.Info("Got ignorable error", "type", azerr.Type)
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+					return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
 				}
 			}
 			return ctrl.Result{}, fmt.Errorf("error verifying sql server in azure: %v", err)
 		}
-		if !completed {
+		if verifyResult.IsProvisioning() {
 			log.Info("Retrying verification", "type", "verification not complete")
-			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
 		}
 
 		return ctrl.Result{}, nil
 	}
 
-	if definition.ProvisionState == azurev1alpha1.Succeeded && r.PostProvisionHandler != nil {
-		if err := r.PostProvisionHandler(&definition); err != nil {
+	if definition.ProvisionState.IsSucceeded() && r.PostProvisionHandler != nil {
+		if err := r.PostProvisionHandler(definition); err != nil {
 			r.Log.Info("Error", "PostProvisionHandler", fmt.Sprintf("PostProvisionHandler failed: %s", err.Error()))
 		}
 	}
@@ -148,7 +186,7 @@ func (r *AzureController) reconcileExternal(definition *CRDInfo, updater *CRDUpd
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	err = r.ResourceClient.Create(ctx, instance)
+	err = r.ResourceClient.Ensure(ctx, instance)
 	if err != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 		updater.SetState(azurev1alpha1.Failed)
@@ -172,19 +210,19 @@ func (r *AzureController) reconcileExternal(definition *CRDInfo, updater *CRDUpd
 	return nil
 }
 
-func (r *AzureController) verifyExternal(definition *CRDInfo, updater *CRDUpdater) (bool, error) {
+func (r *AzureController) verifyExternal(definition *CRDInfo, updater *CRDUpdater) (VerifyResult, error) {
 	ctx := context.Background()
 	instance := definition.CRDInstance
 	resourceName := definition.Name
 
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Checking", "instance is ready")
-	ready, err := r.ResourceClient.Validate(ctx, instance)
+	verifyResult, err := r.ResourceClient.Verify(ctx, instance)
 
 	if err != nil {
 		r.Recorder.Event(definition.CRDInstance, v1.EventTypeWarning, "Failed", "Couldn't validate resource in azure")
-		return ready, errhelp.NewAzureError(err)
+		return verifyResult, errhelp.NewAzureError(err)
 	}
-	if ready {
+	if verifyResult.IsReady() {
 		updater.SetState(azurev1alpha1.Succeeded)
 		err = r.KubeClient.Update(ctx, instance)
 		if err != nil {
@@ -194,7 +232,7 @@ func (r *AzureController) verifyExternal(definition *CRDInfo, updater *CRDUpdate
 
 		r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", resourceName+" provisioned")
 	}
-	return ready, nil
+	return verifyResult, nil
 }
 
 func (r *AzureController) addFinalizer(definition *CRDInfo, updater *CRDUpdater, finalizerName string) error {

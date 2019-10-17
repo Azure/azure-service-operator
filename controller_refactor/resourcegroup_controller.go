@@ -48,7 +48,7 @@ func (factory *ResourceGroupControllerFactory) create(kubeClient client.Client, 
 		ResourceClient: &ResourceGroupClient{
 			ResourceGroupManager: factory.ResourceGroupManager,
 		},
-		CRDFetcher:           &ResourceGroupDefinitionFetcher{},
+		DefinitionManager:    &ResourceGroupDefinitionFetcher{},
 		FinalizerName:        "resourcegroup.finalizers.com",
 		PostProvisionHandler: nil,
 	}

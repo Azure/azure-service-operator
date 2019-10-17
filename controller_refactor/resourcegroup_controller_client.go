@@ -13,7 +13,7 @@ type ResourceGroupClient struct {
 	ResourceGroupManager resourcegroups.ResourceGroupManager
 }
 
-func (client *ResourceGroupClient) Create(ctx context.Context, r runtime.Object) error {
+func (client *ResourceGroupClient) Ensure(ctx context.Context, r runtime.Object) error {
 	rg, err := client.convert(r)
 	if err != nil {
 		return err
@@ -22,16 +22,20 @@ func (client *ResourceGroupClient) Create(ctx context.Context, r runtime.Object)
 	return err
 }
 
-func (client *ResourceGroupClient) Validate(ctx context.Context, r runtime.Object) (bool, error) {
+func (client *ResourceGroupClient) Verify(ctx context.Context, r runtime.Object) (VerifyResult, error) {
 	rg, err := client.convert(r)
 	if err != nil {
-		return false, err
+		return Invalid, err
 	}
 	resp, err := client.ResourceGroupManager.CheckExistence(ctx, rg.Name)
 	if err != nil {
-		return false, err
+		return Invalid, err
 	}
-	return resp.Response != nil && (resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusNoContent), nil
+	if resp.Response != nil && (resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusNoContent) {
+		return Ready, nil
+	}
+
+	return Missing, nil
 }
 
 func (client *ResourceGroupClient) Delete(ctx context.Context, r runtime.Object) error {

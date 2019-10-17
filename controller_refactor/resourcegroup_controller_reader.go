@@ -9,30 +9,39 @@ import (
 
 type ResourceGroupDefinitionFetcher struct{}
 
-func (fetcher *ResourceGroupDefinitionFetcher) GetThis(ctx context.Context, kubeClient client.Client, req controllerruntime.Request) (CRDInfo, CRDUpdater, error) {
+func (fetcher *ResourceGroupDefinitionFetcher) GetThis(ctx context.Context, kubeClient client.Client, req controllerruntime.Request) (*ThisResourceDefinitions, error) {
 	var instance v1alpha1.ResourceGroup
 	err := kubeClient.Get(ctx, req.NamespacedName, &instance)
-	return fetcher.getDefinition(&instance), fetcher.getUpdater(&instance), err
+	crdInfo := fetcher.getDefinition(&instance)
+	return &ThisResourceDefinitions{
+		CRDInfo:    crdInfo,
+		CRDUpdater: fetcher.getUpdater(&instance, crdInfo),
+	}, err
 }
 
-func (_ *ResourceGroupDefinitionFetcher) GetDependencies(ctx context.Context, kubeClient client.Client, req controllerruntime.Request) ([]CRDInfo, error) {
-	return []CRDInfo{}, nil
+func (_ *ResourceGroupDefinitionFetcher) GetDependencies(ctx context.Context, kubeClient client.Client, req controllerruntime.Request) (*DependencyDefinitions, error) {
+	return &DependencyDefinitions{
+		Dependencies: []*CRDInfo{},
+		Owner:        nil,
+	}, nil
 }
 
-func (_ *ResourceGroupDefinitionFetcher) getDefinition(instance *v1alpha1.ResourceGroup) CRDInfo {
-	return CRDInfo{
-		ProvisionState: instance.Status.ProvisionState,
-		Name:           instance.Name,
-		CRDInstance:    instance,
-		IsBeingDeleted: !instance.ObjectMeta.DeletionTimestamp.IsZero(),
+func (_ *ResourceGroupDefinitionFetcher) getDefinition(instance *v1alpha1.ResourceGroup) *CRDInfo {
+	return &CRDInfo{
+		ProvisionState:  instance.Status.ProvisionState,
+		Name:            instance.Name,
+		Parameters:      instance.Spec.Parameters,
+		CRDInstance:     instance,
+		GetBaseInstance: &instance.ResourceBaseDefinition,
+		IsBeingDeleted:  !instance.ObjectMeta.DeletionTimestamp.IsZero(),
 	}
 }
 
-func (_ *ResourceGroupDefinitionFetcher) getUpdater(instance *v1alpha1.ResourceGroup) CRDUpdater {
-	return CRDUpdater{
-		UpdateInstance: func(state *v1alpha1.ResourceBaseState) {
-			instance.ResourceBaseState = *state
+func (_ *ResourceGroupDefinitionFetcher) getUpdater(instance *v1alpha1.ResourceGroup, crdInfo *CRDInfo) *CRDUpdater {
+	return &CRDUpdater{
+		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
+			instance.ResourceBaseDefinition = *state
 		},
-		GetBaseInstance: &(*instance).ResourceBaseState,
+		CRDInfo: crdInfo,
 	}
 }

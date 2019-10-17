@@ -38,12 +38,15 @@ var _ = FDescribe("ResourceGroup Controller", func() {
 
 			// Create the ResourceGroup object and expect the Reconcile to be created
 			resourceGroupInstance := &azurev1alpha1.ResourceGroup{
-				ResourceBaseState: azurev1alpha1.ResourceBaseState{ObjectMeta: metav1.ObjectMeta{
+				ResourceBaseDefinition: azurev1alpha1.ResourceBaseDefinition{ObjectMeta: metav1.ObjectMeta{
 					Name:      resourceGroupName,
 					Namespace: "default",
 				},
 				},
 				Spec: azurev1alpha1.ResourceGroupSpec{
+					Parameters: azurev1alpha1.Parameters{
+						RequeueAfterSeconds: 5,
+					},
 					Location: tc.resourceGroupLocation,
 				},
 			}

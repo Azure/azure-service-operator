@@ -36,35 +36,46 @@ const (
 type ResourceStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning   bool           `json:"provisioning,omitempty"`
-	Provisioned    bool           `json:"provisioned,omitempty"`
 	ProvisionState ProvisionState `json:"provisionState,omitempty"`
+	// Deprecated fields - to be removed
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
-type ResourceBaseState struct {
+type ResourceBaseDefinition struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Status ResourceStatus `json:"status,omitempty"`
 }
 
-func (resourceGroup *ResourceBaseState) IsBeingDeleted() bool {
-	return !resourceGroup.ObjectMeta.DeletionTimestamp.IsZero()
+type Parameters struct {
+	RequeueAfterSeconds int `json:"requeueAfterSeconds,omitempty"`
 }
 
-func (resourceGroup *ResourceBaseState) IsSubmitted() bool {
-	return resourceGroup.Status.Provisioning || resourceGroup.Status.Provisioned
+func (baseDef *ResourceBaseDefinition) IsBeingDeleted() bool {
+	return !baseDef.ObjectMeta.DeletionTimestamp.IsZero()
+}
+
+func (baseDef *ResourceBaseDefinition) IsSubmitted() bool {
+	return baseDef.Status.Provisioning || baseDef.Status.Provisioned
 
 }
 
-func (resourceGroup *ResourceBaseState) HasFinalizer(finalizerName string) bool {
-	return helpers.ContainsString(resourceGroup.ObjectMeta.Finalizers, finalizerName)
+func (baseDef *ResourceBaseDefinition) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(baseDef.ObjectMeta.Finalizers, finalizerName)
 }
 
-func (resourceGroup *ResourceBaseState) AddFinalizer(finalizerName string) {
-	resourceGroup.ObjectMeta.Finalizers = append(resourceGroup.ObjectMeta.Finalizers, finalizerName)
+func (baseDef *ResourceBaseDefinition) AddFinalizer(finalizerName string) {
+	baseDef.ObjectMeta.Finalizers = append(baseDef.ObjectMeta.Finalizers, finalizerName)
 }
 
-func (resourceGroup *ResourceBaseState) RemoveFinalizer(finalizerName string) {
-	resourceGroup.ObjectMeta.Finalizers = helpers.RemoveString(resourceGroup.ObjectMeta.Finalizers, finalizerName)
+func (baseDef *ResourceBaseDefinition) RemoveFinalizer(finalizerName string) {
+	baseDef.ObjectMeta.Finalizers = helpers.RemoveString(baseDef.ObjectMeta.Finalizers, finalizerName)
 }
+
+func (s ProvisionState) IsPending() bool      { return s == Pending }
+func (s ProvisionState) IsProvisioning() bool { return s == Provisioning }
+func (s ProvisionState) IsVerifying() bool    { return s == Verifying }
+func (s ProvisionState) IsSucceeded() bool    { return s == Succeeded }
+func (s ProvisionState) IsFailed() bool       { return s == Failed }
