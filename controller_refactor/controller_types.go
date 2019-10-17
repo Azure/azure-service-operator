@@ -27,7 +27,7 @@ const (
 	VerifyInvalid      VerifyResult = "VerifyInvalid"
 	VerifyProvisioning VerifyResult = "VerifyProvisioning"
 	VerifyDeleting     VerifyResult = "VerifyDeleting"
-	VerifyReady        VerifyResult = "VerifyInvalid"
+	VerifyReady        VerifyResult = "VerifyReady"
 )
 
 // ResourceManagerClient is a common abstraction for the controller to interact with the Azure resource managers

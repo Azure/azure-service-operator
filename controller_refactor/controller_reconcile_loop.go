@@ -43,19 +43,19 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	definition := thisDefs.Details
+	details := thisDefs.Details
 	updater := thisDefs.Updater
 
-	if definition.IsBeingDeleted {
-		result, err := r.handleFinalizer(definition, updater, r.FinalizerName)
+	if details.IsBeingDeleted {
+		result, err := r.handleFinalizer(details, updater, r.FinalizerName)
 		if err != nil {
 			return result, fmt.Errorf("error when handling finalizer: %v", err)
 		}
 		return result, nil
 	}
 
-	if !definition.BaseDefinition.HasFinalizer(r.FinalizerName) {
-		err := r.addFinalizer(definition, updater, r.FinalizerName)
+	if !details.BaseDefinition.HasFinalizer(r.FinalizerName) {
+		err := r.addFinalizer(details, updater, r.FinalizerName)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
 		}
@@ -73,7 +73,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// get parameters
-	parameters := definition.Parameters
+	parameters := details.Parameters
 	requeueSeconds := parameters.RequeueAfterSeconds
 	if requeueSeconds == 0 {
 		requeueSeconds = 30
@@ -98,13 +98,13 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// dependencies are now satisfied, can now reconcile the manfest and create or update the resource
-	if definition.ProvisionState.IsPending() {
-		r.Recorder.Event(definition.Instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation")
+	if details.ProvisionState.IsPending() {
+		r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation")
 		// TODO: Add error handling for cases where username or password are invalid:
 		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
 
-		nextState, reconErr := r.reconcileExternal(definition, updater)
-		instance := definition.Instance
+		nextState, reconErr := r.reconcileExternal(details, updater)
+		instance := details.Instance
 
 		updater.SetProvisionState(nextState)
 		updateErr := r.updateInstance(ctx, instance)
@@ -118,7 +118,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 		if nextState.IsSucceeded() {
 			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated",
-				fmt.Sprintf("%s resource '%s' provisioned and ready.", definition.BaseDefinition.Kind, definition.Name))
+				fmt.Sprintf("%s resource '%s' provisioned and ready.", details.BaseDefinition.Kind, details.Name))
 			return ctrl.Result{}, nil
 		}
 
@@ -128,8 +128,8 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// now verify the resource has been created
-	if definition.ProvisionState.IsVerifying() {
-		verifyResult, err := r.verifyExternal(definition, updater)
+	if details.ProvisionState.IsVerifying() {
+		verifyResult, err := r.verifyExternal(details, updater)
 		if err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
@@ -155,8 +155,8 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	if definition.ProvisionState.IsSucceeded() && r.PostProvisionHandler != nil {
-		if err := r.PostProvisionHandler(definition); err != nil {
+	if details.ProvisionState.IsSucceeded() && r.PostProvisionHandler != nil {
+		if err := r.PostProvisionHandler(details); err != nil {
 			r.Log.Info("Error", "PostProvisionHandler", fmt.Sprintf("PostProvisionHandler failed: %s", err.Error()))
 		}
 	}
