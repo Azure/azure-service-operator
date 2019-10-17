@@ -146,7 +146,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			return ctrl.Result{}, fmt.Errorf("error verifying resource in azure: %v", err)
 		}
 
-		// if still is in progress with provisioning, requeue the recocile loop
+		// if still is in progress with provisioning, requeue the reconcile loop
 		if verifyResult.IsProvisioning() {
 			log.Info("Retrying verification", "type", "Verification not complete, requeuing reconcile loop")
 			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil

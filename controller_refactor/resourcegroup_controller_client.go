@@ -25,7 +25,7 @@ func (client *ResourceGroupClient) Ensure(ctx context.Context, r runtime.Object)
 	if err != nil {
 		return EnsureFailed, err
 	}
-	return EnsureSucceeded, nil
+	return EnsureAwaitingVerification, nil
 }
 
 func (client *ResourceGroupClient) Verify(ctx context.Context, r runtime.Object) (VerifyResult, error) {
