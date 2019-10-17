@@ -180,7 +180,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 	captureDescription := instance.Spec.Properties.CaptureDescription
 	secretName := instance.Spec.SecretName
 
-	if secretName == "" {
+	if len(secretName) == 0 {
 		secretName = eventhubName
 	}
 
