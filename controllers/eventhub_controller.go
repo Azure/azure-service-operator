@@ -182,6 +182,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 
 	if len(secretName) == 0 {
 		secretName = eventhubName
+		instance.Spec.SecretName = eventhubName
 	}
 
 	// write information back to instance
