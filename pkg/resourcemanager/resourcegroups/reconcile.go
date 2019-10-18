@@ -72,9 +72,6 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 		}
 		err = errhelp.NewAzureError(err)
 		if azerr, ok := err.(*errhelp.AzureError); ok {
-			if azerr.Type == errhelp.AsyncOpIncompleteError {
-				g.Log.Info("async err", "headers", resp)
-			}
 			if helpers.ContainsString(catch, azerr.Type) {
 				return false, nil
 			}
