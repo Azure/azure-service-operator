@@ -15,7 +15,7 @@ package autorest
 //  limitations under the License.
 
 import (
-	. "github.com/Azure/go-autorest/autorest" 
+	. "github.com/Azure/go-autorest/autorest"
 	"net/http"
 	"strings"
 )

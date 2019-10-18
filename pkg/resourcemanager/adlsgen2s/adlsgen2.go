@@ -84,4 +84,3 @@ func (_ *azureAdlsGen2Manager) DeleteAdlsGen2(ctx context.Context, groupName str
 	adlsClient := getStoragesClient()
 	return adlsClient.Delete(ctx, groupName, datalakeName)
 }
-

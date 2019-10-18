@@ -12,7 +12,6 @@ import (
 
 type azureFileSystemManager struct{}
 
-
 func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName string, filesystemName string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, datalakeName string) (*autorest.Response, error) {
 	client := getFileSystemClient(ctx, groupName, datalakeName)
 
@@ -29,7 +28,7 @@ func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName
 func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName string, filesystemName string, xMsClientRequestID string, xMsDate string, datalakeName string) (autorest.Response, error) {
 	response := autorest.Response{Response: &http.Response{StatusCode: http.StatusNotFound}}
 	client := getFileSystemClient(ctx, groupName, datalakeName)
-	
+
 	list, err := client.List(ctx, filesystemName, "", nil, xMsClientRequestID, nil, xMsDate)
 
 	if len(*list.Filesystems) == 0 {
@@ -62,7 +61,3 @@ func getFileSystemClient(ctx context.Context, groupName string, accountName stri
 
 	return fsClient
 }
-
-
-
-

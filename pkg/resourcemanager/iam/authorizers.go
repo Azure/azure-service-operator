@@ -8,11 +8,11 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
+	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	autorestPatch "github.com/Azure/azure-service-operator/pkg/resourcemanager/autorest"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/adal"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
-	autorestPatch "github.com/Azure/azure-service-operator/pkg/resourcemanager/autorest"
-	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 )
 
 var (
@@ -207,11 +207,11 @@ func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience str
 	return tokenProvider, err
 }
 
-// GetSharedKeyAuthorizer gets the shared key authorizer needed for adlsgen2. Pulls in from a patch from an incoming PR to the azure autorest sdk. 
+// GetSharedKeyAuthorizer gets the shared key authorizer needed for adlsgen2. Pulls in from a patch from an incoming PR to the azure autorest sdk.
 // Once that PR is merged in, we can change like 220 from autorestPatch. to autorest.
 func GetSharedKeyAuthorizer(ctx context.Context, groupName string, accountName string, adlsClient storage.AccountsClient) (authorizer autorest.Authorizer, err error) {
 	var a autorest.Authorizer
-	
+
 	accountKey, err := getAccountKey(ctx, groupName, accountName, adlsClient)
 	if err != nil {
 		return nil, err
@@ -227,7 +227,7 @@ func getAccountKey(ctx context.Context, groupName string, accountName string, ad
 	if err != nil {
 		return "", err
 	}
-	
+
 	for _, key := range *keys.Keys {
 		if *key.KeyName == "key1" {
 			accountKey = *key.Value
