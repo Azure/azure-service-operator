@@ -231,6 +231,11 @@ func main() {
 		ResourceClient: resourceClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
+	if err = (&controllers.BlobContainerReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("BlobContainer"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

@@ -41,3 +41,4 @@ resources:
 - group: azure
   version: v1alpha1
   kind: AzureSqlFailoverGroup
+  kind: BlobContainer
