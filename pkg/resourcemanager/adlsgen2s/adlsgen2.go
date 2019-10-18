@@ -11,7 +11,6 @@ import (
 	"errors"
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"log"
-	"fmt"
 )
 
 type azureAdlsGen2Manager struct{}
@@ -62,7 +61,6 @@ func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName str
 	}
 
 	// TODO: check to make sure that kind = StorageV2
-	//log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
 	future, err := storagesClient.Create(ctx, groupName, datalakeName, params)
 	if err != nil {
 		return nil, err
@@ -74,9 +72,6 @@ func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName str
 	}
 	result, err := future.Result(storagesClient)
 
-	// sasParams := storage.AccountSasParameters{}
-	list, err := storagesClient.ListKeys(ctx, groupName, datalakeName)
-	fmt.Println(list)
 	return &result, err
 }
 
@@ -90,15 +85,3 @@ func (_ *azureAdlsGen2Manager) DeleteAdlsGen2(ctx context.Context, groupName str
 	return adlsClient.Delete(ctx, groupName, datalakeName)
 }
 
-// func getFsClient(accountName string) storagedatalake.FilesystemClient {
-// 	xmsversion := "2019-10-31"
-// 	fsClient := storagedatalake.NewFilesystemClient(xmsversion, accountName)
-
-// 	a, err := iam.GetResourceManagementAuthorizer()
-// 	if err != nil {
-// 		log.Fatalf("failed to initialize authorizer: %v\n", err)
-// 	}
-// 	fsClient.Authorizer = a
-// 	fsClient.AddToUserAgent(config.UserAgent())
-// 	return fsClient
-// }
