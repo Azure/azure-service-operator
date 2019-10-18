@@ -35,21 +35,19 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	resourcegroupLocation := instance.Spec.Location
 	resourcegroupName := instance.ObjectMeta.Name
 
+	g.Log.Info("creating resource group", "name", resourcegroupName, "location", resourcegroupLocation)
 	_, err = g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
 
-		catch := []string{
-			errhelp.ResourceGroupNotFoundErrorCode,
-		}
-		if azerr, ok := err.(*errhelp.AzureError); ok {
-			if helpers.ContainsString(catch, azerr.Type) {
-				return true, nil
-			} else {
-				return false, fmt.Errorf(azerr.Type)
-			}
-		} else {
-			return false, fmt.Errorf("not catable")
-		}
+		// catch := []string{}
+		// err = errhelp.NewAzureError(err)
+		// if azerr, ok := err.(*errhelp.AzureError); ok {
+		// 	if helpers.ContainsString(catch, azerr.Type) {
+		// 		return true, nil
+		// 	}
+		// }
+
+		return false, fmt.Errorf("ResourceGroup create error %v", err)
 
 	}
 
@@ -63,22 +61,26 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 	}
 
 	resourcegroup := instance.ObjectMeta.Name
+	g.Log.Info("Deleting resource group", "name", resourcegroup)
 
-	_, err = g.DeleteGroup(ctx, resourcegroup)
+	_, err := g.DeleteGroup(ctx, resourcegroup)
 	if err != nil {
 
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.AsyncOpIncompleteError,
 		}
+		err = errhelp.NewAzureError(err)
 		if azerr, ok := err.(*errhelp.AzureError); ok {
-			if helpers.ContainsString(catch, azerr.Type) {
-				return true, nil
-			} else {
-				return false, fmt.Errorf(azerr.Type)
+			if azerr.Type == errhelp.AsyncOpIncompleteError {
+				g.Log.Info("async err", "headers", resp)
 			}
-		} else {
-			return false, fmt.Errorf("not catable")
+			if helpers.ContainsString(catch, azerr.Type) {
+				return false, nil
+			}
 		}
+
+		return true, fmt.Errorf("ResourceGroup delete error %v", err)
 
 	}
 

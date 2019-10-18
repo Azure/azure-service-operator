@@ -6,12 +6,12 @@ package controllers
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
 	"github.com/go-logr/logr"
 	multierror "github.com/hashicorp/go-multierror"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
@@ -70,15 +70,17 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 			found, deleteErr := r.Az.Delete(ctx, local)
 			final := multierror.Append(deleteErr, r.Status().Update(ctx, local))
 			if err := final.ErrorOrNil(); err != nil {
+				log.Info("error deleting object", "error", err.Error())
 				r.Recorder.Event(local, "Warning", "FailedDelete", fmt.Sprintf("Failed to delete resource: %s", err.Error()))
 				return ctrl.Result{}, err
 			}
 			if !found {
-				r.Recorder.Event(local, "Normal", "Deleted", "Successfully deleted")
+				r.Recorder.Event(local, corev1.EventTypeNormal, "Deleted", "Successfully deleted")
 				RemoveFinalizer(res, finalizerName)
 				return ctrl.Result{}, r.Update(ctx, local)
 			}
-			return ctrl.Result{}, errors.New("requeuing, deletion unfinished")
+			log.Info("requeuing, deletion unfinished")
+			return ctrl.Result{RequeueAfter: requeDuration}, nil
 		}
 		return ctrl.Result{}, nil
 	}

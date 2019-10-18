@@ -24,6 +24,7 @@ import (
 	"sync"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
+	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
@@ -33,7 +34,9 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-type AzureResourceGroupManager struct{}
+type AzureResourceGroupManager struct {
+	Log logr.Logger
+}
 
 func getGroupsClient() resources.GroupsClient {
 	groupsClient := resources.NewGroupsClient(config.SubscriptionID())
@@ -62,7 +65,7 @@ func getGroupsClientWithAuthFile() resources.GroupsClient {
 // CreateGroup creates a new resource group named by env var
 func (_ *AzureResourceGroupManager) CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
 	groupsClient := getGroupsClient()
-	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, location))
+
 	return groupsClient.CreateOrUpdate(
 		ctx,
 		groupName,
@@ -93,12 +96,13 @@ func (_ *AzureResourceGroupManager) DeleteGroup(ctx context.Context, groupName s
 		return autorest.Response{}, err
 	}
 
-	err = future.WaitForCompletionRef(ctx, client.Client)
-	if err != nil {
-		log.Fatalf("got error: %s", err)
-	} else {
-		fmt.Printf("finished deleting group '%s'\n", groupName)
-	}
+	// @TODO remove the wait and let the reconciler do the check
+	// err = future.WaitForCompletionRef(ctx, client.Client)
+	// if err != nil {
+	// 	log.Fatalf("got error: %s", err)
+	// } else {
+	// 	fmt.Printf("finished deleting group '%s'\n", groupName)
+	// }
 
 	return future.Result(client)
 }

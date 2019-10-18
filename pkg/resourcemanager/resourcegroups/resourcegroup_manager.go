@@ -21,12 +21,13 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
 	"github.com/Azure/go-autorest/autorest"
+	"github.com/go-logr/logr"
 )
 
 // var AzureResourceGroupManager ResourceGroupManager = &azureResourceGroupManager{}
 
-func NewAzureResourceGroupManager() *AzureResourceGroupManager {
-	return &AzureResourceGroupManager{}
+func NewAzureResourceGroupManager(log logr.Logger) *AzureResourceGroupManager {
+	return &AzureResourceGroupManager{Log: log}
 }
 
 type ResourceGroupManager interface {
