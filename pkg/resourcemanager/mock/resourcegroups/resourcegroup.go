@@ -22,6 +22,7 @@ import (
 	"net/http"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
+	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
 
@@ -87,4 +88,12 @@ func (manager *MockResourceGroupManager) CheckExistence(ctx context.Context, gro
 	}
 
 	return helpers.GetRestResponse(http.StatusNoContent), nil
+}
+
+func (g *MockResourceGroupManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+	return true, nil
+}
+
+func (g *MockResourceGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	return true, nil
 }

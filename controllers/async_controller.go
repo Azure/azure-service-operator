@@ -25,7 +25,6 @@ const (
 )
 
 type AsyncClient interface {
-	ForSubscription(context.Context, runtime.Object) error
 	Ensure(context.Context, runtime.Object) (bool, error)
 	Delete(context.Context, runtime.Object) (bool, error)
 }
