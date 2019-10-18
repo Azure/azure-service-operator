@@ -51,15 +51,15 @@ func (client *ResourceGroupClient) Verify(ctx context.Context, r runtime.Object)
 	return VerifyMissing, nil
 }
 
-func (client *ResourceGroupClient) Delete(ctx context.Context, r runtime.Object) error {
+func (client *ResourceGroupClient) Delete(ctx context.Context, r runtime.Object) (DeleteResult, error) {
 	rg, err := client.convert(r)
 	if err != nil {
-		return err
+		return DeleteError, err
 	}
-	if resp, err := client.ResourceGroupManager.DeleteGroup(ctx, rg.Name); err == nil || resp.IsHTTPStatus(http.StatusNotFound) {
-		return nil
+	if _, err := client.ResourceGroupManager.DeleteGroupAsync(ctx, rg.Name); err == nil {
+		return DeleteAwaitingVerification, nil
 	}
-	return nil
+	return DeleteSucceed, nil
 }
 
 func (_ *ResourceGroupClient) convert(obj runtime.Object) (*v1alpha1.ResourceGroup, error) {

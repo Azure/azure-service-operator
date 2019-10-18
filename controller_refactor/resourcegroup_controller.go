@@ -35,12 +35,16 @@ type ResourceGroupControllerFactory struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups/status,verbs=get;update;patch
 
+const ResourceGroupLogName = "ResourceGroup"
+const EventRecorderName = "ResourceGroup-controller"
+const ResourceGroupFinalizerName = "resourcegroup.finalizers.azure.com"
+
 func (factory *ResourceGroupControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&v1alpha1.ResourceGroup{}).
 		Complete(factory.create(mgr.GetClient(),
-			ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-			mgr.GetEventRecorderFor("ResourceGroup-controller")))
+			ctrl.Log.WithName("controllers").WithName(ResourceGroupLogName),
+			mgr.GetEventRecorderFor(EventRecorderName)))
 }
 
 func (factory *ResourceGroupControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *AzureController {
@@ -52,19 +56,19 @@ func (factory *ResourceGroupControllerFactory) create(kubeClient client.Client, 
 		Log:                   logger,
 		Recorder:              recorder,
 		ResourceManagerClient: resourceManagerClient,
-		DefinitionManager: &ResourceGroupDefinitionFetcher{
+		DefinitionManager: &ResourceGroupDefinitionManager{
 			kubeClient: kubeClient,
 		},
-		FinalizerName:        "resourcegroup.finalizers.com",
+		FinalizerName:        ResourceGroupFinalizerName,
 		PostProvisionHandler: nil,
 	}
 }
 
-type ResourceGroupDefinitionFetcher struct {
+type ResourceGroupDefinitionManager struct {
 	kubeClient client.Client
 }
 
-func (fetcher *ResourceGroupDefinitionFetcher) GetThis(ctx context.Context, req ctrl.Request) (*ThisResourceDefinitions, error) {
+func (fetcher *ResourceGroupDefinitionManager) GetThis(ctx context.Context, req ctrl.Request) (*ThisResourceDefinitions, error) {
 	var instance v1alpha1.ResourceGroup
 	err := fetcher.kubeClient.Get(ctx, req.NamespacedName, &instance)
 	crdInfo := fetcher.getDefinition(&instance)
@@ -74,14 +78,14 @@ func (fetcher *ResourceGroupDefinitionFetcher) GetThis(ctx context.Context, req 
 	}, err
 }
 
-func (_ *ResourceGroupDefinitionFetcher) GetDependencies(ctx context.Context, req ctrl.Request) (*DependencyDefinitions, error) {
+func (_ *ResourceGroupDefinitionManager) GetDependencies(ctx context.Context, req ctrl.Request) (*DependencyDefinitions, error) {
 	return &DependencyDefinitions{
 		Dependencies: []*CustomResourceDetails{},
 		Owner:        nil,
 	}, nil
 }
 
-func (_ *ResourceGroupDefinitionFetcher) getDefinition(instance *v1alpha1.ResourceGroup) *CustomResourceDetails {
+func (_ *ResourceGroupDefinitionManager) getDefinition(instance *v1alpha1.ResourceGroup) *CustomResourceDetails {
 	return &CustomResourceDetails{
 		ProvisionState: instance.Status.ProvisionState,
 		Name:           instance.Name,
@@ -92,7 +96,7 @@ func (_ *ResourceGroupDefinitionFetcher) getDefinition(instance *v1alpha1.Resour
 	}
 }
 
-func (_ *ResourceGroupDefinitionFetcher) getUpdater(instance *v1alpha1.ResourceGroup, crDetails *CustomResourceDetails) *CustomResourceUpdater {
+func (_ *ResourceGroupDefinitionManager) getUpdater(instance *v1alpha1.ResourceGroup, crDetails *CustomResourceDetails) *CustomResourceUpdater {
 	return &CustomResourceUpdater{
 		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
 			instance.ResourceBaseDefinition = *state

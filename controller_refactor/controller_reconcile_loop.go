@@ -8,7 +8,6 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/go-logr/logr"
 
 	corev1 "k8s.io/api/core/v1"
@@ -34,6 +33,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("resourcegroup", req.NamespacedName)
 
+	// fetch the manifest object
 	thisDefs, err := r.DefinitionManager.GetThis(ctx, req)
 	if err != nil {
 		log.Info("Unable to retrieve resource", "err", err.Error())
@@ -46,18 +46,19 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	details := thisDefs.Details
 	updater := thisDefs.Updater
 
+	//
 	if details.IsBeingDeleted {
-		result, err := r.handleFinalizer(details, updater, r.FinalizerName)
+		result, err := r.handleFinalizer(details, updater)
 		if err != nil {
 			return result, fmt.Errorf("error when handling finalizer: %v", err)
 		}
 		return result, nil
 	}
 
-	if !details.BaseDefinition.HasFinalizer(r.FinalizerName) {
-		err := r.addFinalizer(details, updater, r.FinalizerName)
+	if len(details.BaseDefinition.Finalizers) == 0 {
+		err := r.addFinalizers(details, updater)
 		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
+			return ctrl.Result{}, fmt.Errorf("error adding finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
@@ -75,10 +76,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	// get parameters
 	parameters := details.Parameters
 	requeueSeconds := parameters.RequeueAfterSeconds
-	if requeueSeconds == 0 {
-		requeueSeconds = 30
-	}
-	requeueAfter := time.Duration(requeueSeconds) * time.Second
+	requeueAfter := r.getRequeueAfter(requeueSeconds)
 
 	// Verify that all dependencies are present in the cluster, and they are
 	owner := dependencyInfo.Owner
@@ -104,7 +102,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// now verify the resource state on Azure
-	if details.ProvisionState.IsVerifying() || details.ProvisionState.IsPending() {
+	if details.ProvisionState.IsVerifying() || details.ProvisionState.IsPending() || details.ProvisionState.IsSucceeded() {
 		verifyResult, err := r.verifyExternal(details, updater)
 		if err != nil {
 			// verification should not return an error - if this happens it's a terminal failure
@@ -117,12 +115,21 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 		// Success case - the resource is is provisioned on Azure, and is ready
 		if verifyResult.ready() {
-			updater.SetProvisionState(azurev1alpha1.Succeeded)
+			if !details.ProvisionState.IsSucceeded() {
+				if err := r.PostProvisionHandler; err != nil {
+					updater.SetProvisionState(azurev1alpha1.Failed)
+				}
+				if err := r.updateInstance(ctx, instance); err != nil {
+					return ctrl.Result{}, err
+				}
 
-			if err := r.updateInstance(ctx, instance); err != nil {
-				return ctrl.Result{}, err
+				updater.SetProvisionState(azurev1alpha1.Succeeded)
+
+				if err := r.updateInstance(ctx, instance); err != nil {
+					return ctrl.Result{}, err
+				}
+				r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name+" provisioned")
 			}
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name+" provisioned")
 		}
 
 		// Missing case - we can now create the resource
@@ -147,18 +154,25 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 		// Recreate case - the resource exists in Azure, is invalid and needs to be created
 		if verifyResult.recreateRequired() {
-			if err = r.ResourceManagerClient.Delete(ctx, details.Instance); err != nil {
-				// TODO: proper error handling for delete
+			deleteResult, err := r.ResourceManagerClient.Delete(ctx, details.Instance)
+			if err != nil || deleteResult == DeleteError {
 				updater.SetProvisionState(azurev1alpha1.Failed)
-				return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
+				return ctrl.Result{}, err
+			}
+
+			if deleteResult.alreadyDeleted() || deleteResult.succeed() {
+				updater.SetProvisionState(azurev1alpha1.Creating)
 			}
 
 			// set it back to pending and let it go through the whole process again
-			updater.SetProvisionState(azurev1alpha1.Pending)
+			if deleteResult.awaitingVerification() {
+				updater.SetProvisionState(azurev1alpha1.Pending)
+			}
+
 			if err := r.updateInstance(ctx, instance); err != nil {
 				return ctrl.Result{}, err
 			}
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name+" provisioned")
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Recreate", details.Name+" delete and recreate started")
 			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
 		}
 
@@ -216,6 +230,14 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
+func (r *AzureController) getRequeueAfter(requeueSeconds int) time.Duration {
+	if requeueSeconds == 0 {
+		requeueSeconds = 30
+	}
+	requeueAfter := time.Duration(requeueSeconds) * time.Second
+	return requeueAfter
+}
+
 // SetupWithManager function sets up the functions with the controller
 func (r *AzureController) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
@@ -269,42 +291,85 @@ func (r *AzureController) verifyExternal(details *CustomResourceDetails, updater
 	return verifyResult, nil
 }
 
-func (r *AzureController) addFinalizer(details *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) error {
-	updater.AddFinalizer(finalizerName)
+func (r *AzureController) addFinalizers(details *CustomResourceDetails, updater *CustomResourceUpdater) error {
+	updater.AddFinalizer(finalizerExecute.FullName(r))
+	updater.AddFinalizer(finalizerVerify.FullName(r))
 	updater.SetProvisionState(azurev1alpha1.Pending)
 	if err := r.updateInstance(context.Background(), details.Instance); err != nil {
 		return err
 	}
-	r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", finalizerName))
+	r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Updated", "finalizers added")
 	return nil
 }
 
-func (r *AzureController) handleFinalizer(details *CustomResourceDetails, updater *CustomResourceUpdater, finalizerName string) (ctrl.Result, error) {
-	if details.BaseDefinition.HasFinalizer(finalizerName) {
-		ctx := context.Background()
-		if err := r.ResourceManagerClient.Delete(ctx, details.Instance); err != nil {
-			catch := []string{
-				errhelp.AsyncOpIncompleteError,
-			}
-			if azerr, ok := err.(*errhelp.AzureError); ok {
-				if helpers.ContainsString(catch, azerr.Type) {
-					r.Log.Info("Got ignorable error", "type", azerr.Type)
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
-				}
-			}
-			r.Log.Info("Delete AzureSqlServer failed with ", "error", err.Error())
+func (r *AzureController) handleFinalizer(details *CustomResourceDetails, updater *CustomResourceUpdater) (ctrl.Result, error) {
+	instance := details.Instance
+	ctx := context.Background()
+	removeExecute := false
+	removeVerify := false
+	requeue := false
+	requeueAfter := r.getRequeueAfter(details.Parameters.RequeueAfterSeconds)
+	if details.BaseDefinition.HasFinalizer(finalizerExecute.FullName(r)) {
+		deleteResult, err := r.ResourceManagerClient.Delete(ctx, instance)
 
+		if err != nil || deleteResult == DeleteError {
+			// TODO: log error (this should not happen, but we carry on allowing the result to delete
+			removeExecute = true
+			removeVerify = true
 			return ctrl.Result{}, err
 		}
 
-		updater.RemoveFinalizer(r.FinalizerName)
+		if deleteResult.alreadyDeleted() || deleteResult.succeed() {
+			removeExecute = true
+			removeVerify = true
+		}
+
+		// set it back to pending and let it go through the whole process again
+		if deleteResult.awaitingVerification() {
+			removeExecute = true
+			requeue = true
+		}
+
 		if err := r.updateInstance(ctx, details.Instance); err != nil {
+			return ctrl.Result{}, err
+		}
+
+	} else if details.BaseDefinition.HasFinalizer(finalizerVerify.FullName(r)) {
+		verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
+
+		if verifyResult.missing() {
+			removeVerify = true
+		} else if verifyResult.deleting() {
+			requeue = true
+		} else {
+			// TODO: log error (this should not happen, but we carry on allowing the result to delete
+			removeExecute = true
+			removeVerify = true
 			return ctrl.Result{}, err
 		}
 	}
 
-	// Our finalizer has finished, so the reconciler can do nothing.
-	return ctrl.Result{}, nil
+	if removeExecute {
+		updater.RemoveFinalizer(finalizerExecute.FullName(r))
+	}
+	if removeVerify {
+		updater.RemoveFinalizer(finalizerVerify.FullName(r))
+	}
+
+	if removeVerify || removeExecute {
+		if err := r.updateInstance(ctx, details.Instance); err != nil {
+			// it's going to be stuck if it ever gets to here
+			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
+		}
+	}
+
+	if requeue {
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", details.Name+" finalizer verify requeued")
+		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
+	} else {
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", details.Name+" finalizer complete")
+		return ctrl.Result{}, nil
+	}
 }
 
 // not sure why this doesn't work on the Cluster, seems to work fine on tests
