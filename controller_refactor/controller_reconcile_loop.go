@@ -28,6 +28,13 @@ type AzureController struct {
 	PostProvisionHandler  PostProvisionHandler
 }
 
+// SetupWithManager function sets up the functions with the controller
+func (r *AzureController) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&azurev1alpha1.ResourceGroup{}).
+		Complete(r)
+}
+
 // Reconcile function does the main reconciliation loop of the operator
 func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
@@ -95,7 +102,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if owner != nil && len(details.BaseDefinition.ObjectMeta.GetOwnerReferences()) == 0 {
 		//set owner reference if it exists
 		updater.SetOwnerReferences([]*CustomResourceDetails{owner})
-		if err := r.updateInstance(ctx, instance); err != nil {
+		if err := r.updateAndLog(ctx, instance, corev1.EventTypeNormal, "OwnerReferences", "Setting OwnerReferences for "+details.Name); err != nil {
 			return ctrl.Result{}, err
 		}
 		return ctrl.Result{}, nil
@@ -107,49 +114,46 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		if err != nil {
 			// verification should not return an error - if this happens it's a terminal failure
 			updater.SetProvisionState(azurev1alpha1.Failed)
-			if err := r.updateInstance(ctx, instance); err != nil {
-				return ctrl.Result{}, err
-			}
+			_ = r.updateAndLog(ctx, instance, corev1.EventTypeWarning, "Verification", "Verification failed for "+details.Name)
 			return ctrl.Result{}, fmt.Errorf("error verifying resource in azure: %v", err)
 		}
 
 		// Success case - the resource is is provisioned on Azure, and is ready
 		if verifyResult.ready() {
 			if !details.ProvisionState.IsSucceeded() {
-				if err := r.PostProvisionHandler; err != nil {
+				var ppError error = nil
+				if r.PostProvisionHandler != nil {
+					ppError = r.PostProvisionHandler(details)
+				}
+				if ppError != nil {
 					updater.SetProvisionState(azurev1alpha1.Failed)
+					_ = r.updateAndLog(ctx, instance, corev1.EventTypeWarning, "PostProvisionHandler", "PostProvisionHandler failed to execute successfully for "+details.Name)
+				} else {
+					updater.SetProvisionState(azurev1alpha1.Succeeded)
+					if err := r.updateAndLog(ctx, instance, corev1.EventTypeNormal, "Succeeded", details.Name+" provisioned"); err != nil {
+						return ctrl.Result{}, err
+					}
 				}
-				if err := r.updateInstance(ctx, instance); err != nil {
-					return ctrl.Result{}, err
-				}
-
-				updater.SetProvisionState(azurev1alpha1.Succeeded)
-
-				if err := r.updateInstance(ctx, instance); err != nil {
-					return ctrl.Result{}, err
-				}
-				r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name+" provisioned")
+				return ctrl.Result{}, err
 			}
 		}
 
 		// Missing case - we can now create the resource
 		if verifyResult.missing() {
 			updater.SetProvisionState(azurev1alpha1.Creating)
-
-			if err := r.updateInstance(ctx, instance); err != nil {
+			err := r.updateAndLog(ctx, instance, corev1.EventTypeNormal, "Creating", details.Name+" ready for creation")
+			if err != nil {
 				return ctrl.Result{}, err
 			}
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Creating", details.Name+" ready for creation")
 		}
 
 		// Update case - the resource exists in Azure, is invalid but updateable, so doesn't need to be recreated
 		if verifyResult.updateRequired() {
 			updater.SetProvisionState(azurev1alpha1.Updating)
 
-			if err := r.updateInstance(ctx, instance); err != nil {
+			if err := r.updateAndLog(ctx, instance, corev1.EventTypeNormal, "Updating", details.Name+" flagged for update"); err != nil {
 				return ctrl.Result{}, err
 			}
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", details.Name+" provisioned")
 		}
 
 		// Recreate case - the resource exists in Azure, is invalid and needs to be created
@@ -169,10 +173,9 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				updater.SetProvisionState(azurev1alpha1.Pending)
 			}
 
-			if err := r.updateInstance(ctx, instance); err != nil {
+			if err := r.updateAndLog(ctx, instance, corev1.EventTypeNormal, "Recreating", details.Name+" delete and recreate started"); err != nil {
 				return ctrl.Result{}, err
 			}
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Recreate", details.Name+" delete and recreate started")
 			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
 		}
 
@@ -201,7 +204,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 		// we set the state even if there is an error
 		updater.SetProvisionState(nextState)
-		updateErr := r.updateInstance(ctx, instance)
+		updateErr := r.updateAndLog(ctx, instance, corev1.EventTypeNormal, "Ensure", details.Name+" state set to "+string(nextState))
 
 		if ensureErr != nil {
 			return ctrl.Result{}, fmt.Errorf("error ensuring resource in azure: %v", ensureErr)
@@ -228,21 +231,6 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	return ctrl.Result{}, nil
-}
-
-func (r *AzureController) getRequeueAfter(requeueSeconds int) time.Duration {
-	if requeueSeconds == 0 {
-		requeueSeconds = 30
-	}
-	requeueAfter := time.Duration(requeueSeconds) * time.Second
-	return requeueAfter
-}
-
-// SetupWithManager function sets up the functions with the controller
-func (r *AzureController) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.ResourceGroup{}).
-		Complete(r)
 }
 
 func (r *AzureController) ensureExternal(details *CustomResourceDetails, updater *CustomResourceUpdater) (azurev1alpha1.ProvisionState, error) {
@@ -295,7 +283,7 @@ func (r *AzureController) addFinalizers(details *CustomResourceDetails, updater 
 	updater.AddFinalizer(finalizerExecute.FullName(r))
 	updater.AddFinalizer(finalizerVerify.FullName(r))
 	updater.SetProvisionState(azurev1alpha1.Pending)
-	if err := r.updateInstance(context.Background(), details.Instance); err != nil {
+	if err := r.updateAndLog(context.Background(), details.Instance, corev1.EventTypeNormal, "Updated", "finalizers added"); err != nil {
 		return err
 	}
 	r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Updated", "finalizers added")
@@ -329,17 +317,12 @@ func (r *AzureController) handleFinalizer(details *CustomResourceDetails, update
 			removeExecute = true
 			requeue = true
 		}
-
-		if err := r.updateInstance(ctx, details.Instance); err != nil {
-			return ctrl.Result{}, err
-		}
-
 	} else if details.BaseDefinition.HasFinalizer(finalizerVerify.FullName(r)) {
 		verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
 
 		if verifyResult.missing() {
 			removeVerify = true
-		} else if verifyResult.deleting() {
+		} else if verifyResult.deleting() || verifyResult.ready() { // TODO: should not accept ready, but need to know how to know if an azure object is busy de
 			requeue = true
 		} else {
 			// TODO: log error (this should not happen, but we carry on allowing the result to delete
@@ -357,14 +340,13 @@ func (r *AzureController) handleFinalizer(details *CustomResourceDetails, update
 	}
 
 	if removeVerify || removeExecute {
-		if err := r.updateInstance(ctx, details.Instance); err != nil {
+		if err := r.updateAndLog(ctx, details.Instance, corev1.EventTypeNormal, "Finalizer", "Removing finalizer for "+details.Name); err != nil {
 			// it's going to be stuck if it ever gets to here
 			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
 		}
 	}
 
 	if requeue {
-		r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", details.Name+" finalizer verify requeued")
 		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
 	} else {
 		r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", details.Name+" finalizer complete")
@@ -387,4 +369,19 @@ func (r *AzureController) updateInstance(ctx context.Context, instance runtime.O
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update CRD instance")
 	}
 	return err
+}
+func (r *AzureController) updateAndLog(ctx context.Context, instance runtime.Object, eventType string, reason string, message string) error {
+	if err := r.updateInstance(ctx, instance); err != nil {
+		return err
+	}
+	r.Recorder.Event(instance, eventType, reason, message)
+	return nil
+}
+
+func (r *AzureController) getRequeueAfter(requeueSeconds int) time.Duration {
+	if requeueSeconds == 0 {
+		requeueSeconds = 30
+	}
+	requeueAfter := time.Duration(requeueSeconds) * time.Second
+	return requeueAfter
 }

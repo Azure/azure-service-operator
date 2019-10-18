@@ -62,7 +62,7 @@ var _ = Describe("ResourceGroup Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.HasFinalizer(resourceGroupFinalizerName) ||
-					resourceGroupInstance.HasFinalizer("execute."+resourceGroupFinalizerName)
+					resourceGroupInstance.HasFinalizer("execute.resourcegroup.finalizers.azure.microsoft.com") // hard coded to support the new test cases for now
 			}, tc.timeout,
 			).Should(BeTrue())
 

@@ -37,7 +37,7 @@ type ResourceGroupControllerFactory struct {
 
 const ResourceGroupLogName = "ResourceGroup"
 const EventRecorderName = "ResourceGroup-controller"
-const ResourceGroupFinalizerName = "resourcegroup.finalizers.azure.com"
+const ResourceGroupFinalizerBaseName = "resourcegroup.finalizers.azure.microsoft.com"
 
 func (factory *ResourceGroupControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
@@ -59,7 +59,7 @@ func (factory *ResourceGroupControllerFactory) create(kubeClient client.Client, 
 		DefinitionManager: &ResourceGroupDefinitionManager{
 			kubeClient: kubeClient,
 		},
-		FinalizerName:        ResourceGroupFinalizerName,
+		FinalizerName:        ResourceGroupFinalizerBaseName,
 		PostProvisionHandler: nil,
 	}
 }
