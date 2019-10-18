@@ -48,7 +48,7 @@ func NewAzureError(err error) error {
 			reason = NotFoundErrorCode
 		}
 
-	} else if e, ok := err.(azure.AsyncOpIncompleteError); ok {
+	} else if _, ok := err.(azure.AsyncOpIncompleteError); ok {
 		kind = "AsyncOpIncomplete"
 		reason = "AsyncOpIncomplete"
 	}

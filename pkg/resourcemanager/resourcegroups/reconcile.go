@@ -63,7 +63,7 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 	resourcegroup := instance.ObjectMeta.Name
 	g.Log.Info("Deleting resource group", "name", resourcegroup)
 
-	_, err := g.DeleteGroup(ctx, resourcegroup)
+	_, err = g.DeleteGroup(ctx, resourcegroup)
 	if err != nil {
 
 		catch := []string{
