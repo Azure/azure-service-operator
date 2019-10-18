@@ -17,23 +17,23 @@ package controllers
 
 import (
 	"context"
+
+	"github.com/go-logr/logr"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	// "github.com/azure-service-operator/pkg/resourcemanager/adlsgen2s"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/adlsgen2s"
-	"github.com/go-logr/logr"
-	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+	v1 "k8s.io/api/core/v1"
 )
 
 // AdlsGen2Reconciler reconciles a AdlsGen2 object
 type AdlsGen2Reconciler struct {
 	client.Client
-	Log             logr.Logger
-	Recorder        record.EventRecorder
-	AdlsGen2Manager adlsgen2s.AdlsGen2Manager
+	Log      logr.Logger
+	Recorder record.EventRecorder
+	// AdlsGen2Manager adlsgen2s.AdlsGen2Manager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=adlsgen2s,verbs=get;list;watch;create;update;patch;delete
@@ -76,9 +76,8 @@ func (r *AdlsGen2Reconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1alpha1.AdlsGen2) error {
 	ctx := context.Background()
-	// storageAccountName := instance.Spec.StorageAccountName
-	// dnsSuffix := instance.Spec.DNSSuffix
-	// fileSystemIdentifier := instance.Spec.FileSystemIdentifier
+	// location := instance.Spec.Location
+	// groupName := instance.Spec.ResourceGroupName
 	name := instance.ObjectMeta.Name
 
 	var err error
@@ -92,7 +91,6 @@ func (r *AdlsGen2Reconciler) reconcileExternal(instance *azurev1alpha1.AdlsGen2)
 	}
 
 	// TODO: add logic to actually create a data lake
-	// r.AdlsGen2Manager.CreateAdlsGen2(ctx, filesystem, xMsProperties, xMsClientRequestID, &timeout, xMsDate, accountName)
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
