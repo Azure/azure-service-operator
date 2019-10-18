@@ -1,4 +1,4 @@
-package adlsgen2s
+package autorest
 
 // Copyright 2017 Microsoft Corporation
 //

@@ -58,3 +58,5 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 }
 
 
+
+

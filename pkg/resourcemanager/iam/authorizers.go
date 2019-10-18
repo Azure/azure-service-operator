@@ -1,6 +1,7 @@
 package iam
 
 import (
+	"context"
 	"fmt"
 	"net/url"
 	"strings"
@@ -10,6 +11,8 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/adal"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
+	autorest1 "github.com/Azure/azure-service-operator/pkg/resourcemanager/autorest"
+	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 )
 
 var (
@@ -202,4 +205,32 @@ func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience str
 		tokenAudience)
 
 	return tokenProvider, err
+}
+
+// GetSharedKeyAuthorizer gets the shared key authorizer needed for adlsgen2
+func GetSharedKeyAuthorizer(ctx context.Context, groupName string, accountName string, adlsClient storage.AccountsClient) (authorizer autorest.Authorizer, err error) {
+	var a autorest.Authorizer
+	
+	accountKey, err := getAccountKey(ctx, groupName, accountName, adlsClient)
+	if err != nil {
+		return nil, err
+	}
+
+	a = autorest1.NewSharedKeyAuthorizer(accountName, accountKey)
+
+	return a, err
+}
+
+func getAccountKey(ctx context.Context, groupName string, accountName string, adlsClient storage.AccountsClient) (accountKey string, err error) {
+	keys, err := adlsClient.ListKeys(ctx, groupName, accountName)
+	if err != nil {
+		return "", err
+	}
+	
+	for _, key := range *keys.Keys {
+		if *key.KeyName == "key1" {
+			accountKey = *key.Value
+		}
+	}
+	return accountKey, err
 }

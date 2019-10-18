@@ -5,7 +5,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/datalake/2019-10-31/storagedatalake"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	// "github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 
 	"github.com/Azure/go-autorest/autorest"
 	// foo "github.com/clmccart/go-autorest/tree/master/autorest"
@@ -14,7 +14,6 @@ import (
 	// "github.com/Azure/go-autorest/autorest/to"
 	"log"
 	// "github.com/Azure/azure-sdk-for-go/services/datalake/store/2016-11-01/filesystem"
-	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 )
 
 type azureFileSystemManager struct{}
@@ -68,10 +67,11 @@ func getFileSystemClient(ctx context.Context, groupName string, accountName stri
 	// I think this is where the issue is. 
 	// In all other examples, when you create a new "Client" you pass the subscription ID as a param. 
 	// NewFileSystemClient seems to be an anomaly 
-	adlsClient := getStoragesClient()
 	xmsversion := "2019-02-02"
 	fsClient := storagedatalake.NewFilesystemClient(xmsversion, accountName)
-	a, err := GetSharedKeyAuthorizer(ctx, groupName, accountName, adlsClient)
+	adlsClient := getStoragesClient()
+
+	a, err := iam.GetSharedKeyAuthorizer(ctx, groupName, accountName, adlsClient)
 
 	if err != nil {
 		log.Fatalf("failed to initialize authorizer: %v\n", err)
@@ -83,30 +83,6 @@ func getFileSystemClient(ctx context.Context, groupName string, accountName stri
 	return fsClient
 }
 
-func GetSharedKeyAuthorizer(ctx context.Context, groupName string, accountName string, adlsClient storage.AccountsClient) (authorizer autorest.Authorizer, err error) {
-	var a autorest.Authorizer
 
-	accountKey, err := getAccountKey(ctx, groupName, accountName, adlsClient)
-	if err != nil {
-		return nil, err
-	}
-	a = NewSharedKeyAuthorizer(accountName, accountKey)
 
-	return a, err
-}
-
-func getAccountKey(ctx context.Context, groupName string, accountName string, adlsClient storage.AccountsClient) (accountKey string, err error) {
-	keys, err := adlsClient.ListKeys(ctx, groupName, accountName)
-	if err != nil {
-		return "", err
-	}
-	
-	for _, key := range *keys.Keys {
-		if *key.KeyName == "key1" {
-			accountKey = *key.Value
-		}
-	}
-	return accountKey, err
-
-}
 
