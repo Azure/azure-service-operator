@@ -40,7 +40,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		Ctx:               ctx,
 		ResourceGroupName: groupName,
 		ServerName:        generateName("sqlsrvtest"),
-		Location:          "eastus2",
+		Location:          "eastus",
 	}
 
 	// create the server
@@ -185,72 +185,72 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			}
 		}
 	}
-
-	// delete firewall rule
-	util.PrintAndLog("deleting firewall rule...")
-	err = sdk.DeleteSQLFirewallRule("test-rule1")
-	if err != nil {
-		util.PrintAndLog(fmt.Sprintf("cannot delete firewall rule: %v", err))
-		t.FailNow()
-	}
-	util.PrintAndLog("firewall rule deleted")
-
-	// delete the failover group
-	util.PrintAndLog("deleting failover group...")
-	response, err := sdk.DeleteFailoverGroup(failoverGroupName)
-	if err == nil {
-		if response.StatusCode == 200 {
-			util.PrintAndLog("failover group deleted")
+	/*
+		// delete firewall rule
+		util.PrintAndLog("deleting firewall rule...")
+		err = sdk.DeleteSQLFirewallRule("test-rule1")
+		if err != nil {
+			util.PrintAndLog(fmt.Sprintf("cannot delete firewall rule: %v", err))
+			t.FailNow()
 		}
-	} else {
-		util.PrintAndLog(fmt.Sprintf("cannot delete failover group: %v", err))
-		t.FailNow()
-	}
+		util.PrintAndLog("firewall rule deleted")
 
-	// delete the DB
-	time.Sleep(time.Second)
-	response, err = sdk.DeleteDB("sqldatabase-sample")
-	if err == nil {
-		if response.StatusCode == 200 {
-			util.PrintAndLog("db deleted")
-		}
-	} else {
-		util.PrintAndLog(fmt.Sprintf("cannot delete db: %v", err))
-		t.FailNow()
-	}
-
-	// delete the server
-	time.Sleep(time.Second)
-	response, err = sdk.DeleteSQLServer()
-	if err == nil {
-		if response.StatusCode == 200 {
-			util.PrintAndLog("sql server deleted")
+		// delete the failover group
+		util.PrintAndLog("deleting failover group...")
+		response, err := sdk.DeleteFailoverGroup(failoverGroupName)
+		if err == nil {
+			if response.StatusCode == 200 {
+				util.PrintAndLog("failover group deleted")
+			}
 		} else {
-			util.PrintAndLog(fmt.Sprintf("cannot delete sql server, code: %v", response.StatusCode))
+			util.PrintAndLog(fmt.Sprintf("cannot delete failover group: %v", err))
 			t.FailNow()
 		}
-	} else {
-		if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
-			util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
-			t.FailNow()
-		}
-	}
 
-	// delete the secondary server
-	time.Sleep(time.Second)
-	response, err = sdk2.DeleteSQLServer()
-	if err == nil {
-		if response.StatusCode == 200 {
-			util.PrintAndLog("sql server deleted")
+		// delete the DB
+		time.Sleep(time.Second)
+		response, err = sdk.DeleteDB("sqldatabase-sample")
+		if err == nil {
+			if response.StatusCode == 200 {
+				util.PrintAndLog("db deleted")
+			}
 		} else {
-			util.PrintAndLog(fmt.Sprintf("cannot delete sql server, code: %v", response.StatusCode))
+			util.PrintAndLog(fmt.Sprintf("cannot delete db: %v", err))
 			t.FailNow()
 		}
-	} else {
-		if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
-			util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
-			t.FailNow()
+
+		// delete the server
+		time.Sleep(time.Second)
+		response, err = sdk.DeleteSQLServer()
+		if err == nil {
+			if response.StatusCode == 200 {
+				util.PrintAndLog("sql server deleted")
+			} else {
+				util.PrintAndLog(fmt.Sprintf("cannot delete sql server, code: %v", response.StatusCode))
+				t.FailNow()
+			}
+		} else {
+			if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
+				util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
+				t.FailNow()
+			}
 		}
-	}
+
+		// delete the secondary server
+		time.Sleep(time.Second)
+		response, err = sdk2.DeleteSQLServer()
+		if err == nil {
+			if response.StatusCode == 200 {
+				util.PrintAndLog("sql server deleted")
+			} else {
+				util.PrintAndLog(fmt.Sprintf("cannot delete sql server, code: %v", response.StatusCode))
+				t.FailNow()
+			}
+		} else {
+			if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
+				util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
+				t.FailNow()
+			}
+		}*/
 
 }

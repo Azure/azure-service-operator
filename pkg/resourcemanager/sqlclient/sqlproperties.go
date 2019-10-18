@@ -12,6 +12,9 @@ import (
 // DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
 type DBEdition byte
 
+// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ReadWriteEndpointFailoverPolicy
+type ReadWriteEndpointFailoverPolicy string
+
 const (
 	// Basic ...
 	Basic DBEdition = 0
