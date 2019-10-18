@@ -162,11 +162,6 @@ func formatSharedKeyAuthorizationHeader(accountName, key string) string {
 	return fmt.Sprintf("SharedKey %s:%s", canonicalizedAccountName, key)
 }
 
-func formatSharedKeyLiteAuthorizationHeader(accountName, key string) string {
-	canonicalizedAccountName := primaryStorageAccountName(accountName)
-	return fmt.Sprintf("SharedKeyLite %s:%s", canonicalizedAccountName, key)
-}
-
 // hmacValue base-64 decodes the storageAccountKey, then signs the string with it
 // as outlined here: https://docs.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key
 func hmacValue(storageAccountKey, canonicalizedString string) string {
