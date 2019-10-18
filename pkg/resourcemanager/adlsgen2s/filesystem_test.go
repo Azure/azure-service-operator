@@ -38,7 +38,7 @@ var _ = Describe("File System", func() {
 		_, _ = tc.DataLakeManagers.Storage.DeleteAdlsGen2(context.Background(), tc.ResourceGroupName, adlsName)
 	})
 
-	Context("No error on Create File System Instances", func() {
+	Context("Create and Delete File System Instances", func() {
 		It("should create and delete filesystems in azure data lake", func() {
 
 			fileSystemManager := tc.DataLakeManagers.FileSystem

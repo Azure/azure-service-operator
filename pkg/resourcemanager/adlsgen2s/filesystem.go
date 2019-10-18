@@ -7,6 +7,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"log"
+	"net/http"
 )
 
 type azureFileSystemManager struct{}
@@ -26,10 +27,17 @@ func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName
 }
 
 func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName string, filesystemName string, xMsClientRequestID string, xMsDate string, datalakeName string) (autorest.Response, error) {
+	response := autorest.Response{Response: &http.Response{StatusCode: http.StatusNotFound}}
 	client := getFileSystemClient(ctx, groupName, datalakeName)
 	
 	list, err := client.List(ctx, filesystemName, "", nil, xMsClientRequestID, nil, xMsDate)
-	response := list.Response
+
+	if len(*list.Filesystems) == 0 {
+		return response, err
+	}
+
+	response = list.Response
+
 	return response, err
 }
 
