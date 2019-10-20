@@ -57,6 +57,11 @@ The `Status` section gives you the current state of the resource that it is prov
 
 The `Events` have a chronological record of what occurred through the process of provisioning the resource.
 
-# How would you use the Eventhub Operator from a real application
+## Help
+
+1. If the secret for the Eventhub in k8s gets deleted accidentally, the reconcile for the parent eventhub is triggered and secret gets created again.
+2. If EventhubNamespace and Eventhub are deleted in Azure, then we need to delete the objects in k8s for the resources to be recreated. Reason being, if we apply the same manifest k8s does it recognise it as a change and the reconcile is not triggered.
+
+## How would you use the Eventhub Operator from a real application
 
 TODO: Demo app

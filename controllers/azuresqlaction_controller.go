@@ -34,6 +34,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/go-autorest/autorest/to"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -124,6 +125,28 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		Ctx:               ctx,
 		ResourceGroupName: groupName,
 		ServerName:        serverName,
+	}
+
+	//get owner instance of AzureSqlServer
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner AzureSqlServer instance")
+	var ownerInstance azurev1alpha1.AzureSqlServer
+	azureSqlServerNamespacedName := types.NamespacedName{Name: serverName, Namespace: instance.Namespace}
+	err := r.Get(ctx, azureSqlServerNamespacedName, &ownerInstance)
+	if err != nil {
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get owner instance of AzureSqlServer")
+	} else {
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Got owner instance of Sql Server and assigning controller reference now")
+		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
+		if innerErr != nil {
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to set controller reference to AzureSqlServer")
+		}
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Owner instance assigned successfully")
+	}
+
+	// write information back to instance
+	if err := r.Update(ctx, instance); err != nil {
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	// Get the Sql Server instance that corresponds to the Server name in the spec for this action
