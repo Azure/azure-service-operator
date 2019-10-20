@@ -298,32 +298,35 @@ func (r *AzureController) handleFinalizer(details *CustomResourceDetails, update
 	isTerminating := details.ProvisionState.IsTerminating()
 
 	if details.BaseDefinition.HasFinalizer(r.FinalizerName) {
+		// Even before we cal ResourceManagerClient.Delete, we verify the state of the resource
+		// If it has not been created, we don't need to delete anything.
 		verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
 
 		if verifyResult.error() || err != nil {
-			// TODO: log error (this should not happen, but we carry on allowing the result to delete
+			// TODO: log error (this should not happen, but we carry on allowing the result to delete)
+			// TODO: maybe should rather retry a certain number of times before failing
 			removeFinalizer = true
 		} else if verifyResult.missing() {
 			removeFinalizer = true
 		} else if verifyResult.deleting() {
 			requeue = true
 		} else if !isTerminating { // and one of verifyResult.ready() || verifyResult.recreateRequired() || verifyResult.updateRequired()
+			// This block of code should only ever get called once.
 			deleteResult, err := r.ResourceManagerClient.Delete(ctx, instance)
-
 			if err != nil || deleteResult.error() {
-				// TODO: log error (this should not happen, but we carry on allowing the result to delete
+				// TODO: log error (this should not happen, but we carry on allowing the result to delete)
+				// Neither ResourceManagerClient.Verify nor ResourceManagerClient.Delete should error under usual conditions.
+				// This is an unexpected error.
 				removeFinalizer = true
 			} else if deleteResult.alreadyDeleted() || deleteResult.succeed() {
 				removeFinalizer = true
 			} else if deleteResult.awaitingVerification() {
-				// set it back to pending and let it go through the whole process again
 				requeue = true
 			} else {
 				// assert no more cases
 				removeFinalizer = true
 			}
 		} else {
-			// i.e. verify
 			// this should never be called, as the first time r.ResourceManagerClient.Delete is called isTerminating should be false
 			// this implies that r.ResourceManagerClient.Delete didn't throw an error, but didn't do anything either
 			removeFinalizer = true
@@ -339,7 +342,7 @@ func (r *AzureController) handleFinalizer(details *CustomResourceDetails, update
 
 	if removeFinalizer || !isTerminating {
 		if err := r.updateInstance(ctx, details.Instance); err != nil {
-			// it's going to be stuck if it ever gets to here
+			// it's going to be stuck if it ever gets to here, because we are not able to remove the finalizer.
 			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
 		}
 		if !isTerminating {
