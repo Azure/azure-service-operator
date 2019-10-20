@@ -312,6 +312,7 @@ golang.org/x/net v0.0.0-20190213061140-3a22650c66bd/go.mod h1:mL1N/T3taQHkDXs73r
 golang.org/x/net v0.0.0-20190311183353-d8887717615a/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
 golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
 golang.org/x/net v0.0.0-20190501004415-9ce7a6920f09/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
+golang.org/x/net v0.0.0-20190514140710-3ec191127204/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
 golang.org/x/net v0.0.0-20190620200207-3b0461eec859 h1:R/3boaszxrf1GEUWTVDzSKVwLmSJpwZ1yqXm8j0v2QI=
 golang.org/x/net v0.0.0-20190620200207-3b0461eec859/go.mod h1:z5CRVTTTmAJ677TzLLGU+0bjPO0LkuOLi4/5GtJWs/s=
 golang.org/x/oauth2 v0.0.0-20180821212333-d2e6202438be h1:vEDujvNQGv4jgYKudGeI/+DAX4Jffq6hpD55MmoEvKs=
@@ -416,8 +417,12 @@ k8s.io/apiextensions-apiserver v0.0.0-20190409022649-727a075fdec8/go.mod h1:Ixke
 k8s.io/apimachinery v0.0.0-20190404173353-6a84e37a896d h1:Jmdtdt1ZnoGfWWIIik61Z7nKYgO3J+swQJtPYsP9wHA=
 k8s.io/apimachinery v0.0.0-20190404173353-6a84e37a896d/go.mod h1:ccL7Eh7zubPUSh9A3USN90/OzHNSVN6zxzde07TDCL0=
 k8s.io/apimachinery v0.0.0-20190814100815-533d101be9a6 h1:g3kHsVIF7tLDtdP1RPw/Kuy3ANzPG5QPVwQ52qYkI0U=
+<<<<<<< Updated upstream
 k8s.io/apimachinery v0.0.0-20190831074630-461753078381 h1:gySvpxrHatsZtG3qOkyPIHjWY7D5ogkrrWnD7+5/RGs=
 k8s.io/client-go v11.0.0+incompatible h1:LBbX2+lOwY9flffWlJM7f1Ct8V2SRNiMRDFeiwnJo9o=
+=======
+k8s.io/client-go v11.0.0+incompatible/go.mod h1:7vJpHMYJwNQCWgzmNV+VYUl1zCObLyodBc8nIyt8L5s=
+>>>>>>> Stashed changes
 k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible h1:U5Bt+dab9K8qaUmXINrkXO135kA11/i5Kg1RUydgaMQ=
 k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible/go.mod h1:7vJpHMYJwNQCWgzmNV+VYUl1zCObLyodBc8nIyt8L5s=
 k8s.io/gengo v0.0.0-20190128074634-0689ccc1d7d6/go.mod h1:ezvh/TsK7cY6rbqRK0oQQ8IAqLxYwwyPxAX1Pzy0ii0=
@@ -440,6 +445,11 @@ sigs.k8s.io/controller-runtime v0.2.0 h1:5gL30PXOisGZl+Osi4CmLhvMUj77BO3wJeouKF2
 sigs.k8s.io/controller-runtime v0.2.0/go.mod h1:ZHqrRDZi3f6BzONcvlUxkqCKgwasGk5FZrnSv9TVZF4=
 sigs.k8s.io/controller-tools v0.2.0-beta.3 h1:7h1Hx+vpg79dktBILuQq/aDed4GZcdxeUwuEb59G1bw=
 sigs.k8s.io/controller-tools v0.2.0-beta.3/go.mod h1:bPfk8OXC5AhzPGuPZjcwcltUhQUXYFmUtrJCCF2XaaE=
+sigs.k8s.io/kind v0.4.0 h1:C/QMxmF5Sp3yyKkTJ5+VJPcclZyu/JV8wLyihZbsHaI=
+sigs.k8s.io/kind v0.4.0/go.mod h1:bgGo2cWxKGQ7esVxtGp9H17Ttlexju92CTMjCg08HNQ=
+sigs.k8s.io/kustomize v2.0.3+incompatible h1:JUufWFNlI44MdtnjUqVnvh29rR37PQFzPbLXqhyOyX0=
+sigs.k8s.io/kustomize v2.0.3+incompatible/go.mod h1:MkjgH3RdOWrievjo6c9T245dYlB5QeXV4WCbnt/PEpU=
+sigs.k8s.io/structured-merge-diff v0.0.0-20190426204423-ea680f03cc65/go.mod h1:wWxsB5ozmmv/SG7nM11ayaAW51xMvak/t1r0CSlcokI=
 sigs.k8s.io/structured-merge-diff v0.0.0-20190525122527-15d366b2352e/go.mod h1:wWxsB5ozmmv/SG7nM11ayaAW51xMvak/t1r0CSlcokI=
 sigs.k8s.io/testing_frameworks v0.1.1 h1:cP2l8fkA3O9vekpy5Ks8mmA0NW/F7yBdXf8brkWhVrs=
 sigs.k8s.io/testing_frameworks v0.1.1/go.mod h1:VVBKrHmJ6Ekkfz284YKhQePcdycOzNH9qL6ht1zEr/U=
