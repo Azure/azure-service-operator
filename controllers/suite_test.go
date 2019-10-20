@@ -36,6 +36,9 @@ import (
 	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/storages"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 
@@ -136,6 +139,9 @@ var _ = BeforeSuite(func() {
 	var k8sManager ctrl.Manager
 
 	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
+	err = azurev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	// +kubebuilder:scaffold:scheme
