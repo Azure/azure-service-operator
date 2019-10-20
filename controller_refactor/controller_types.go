@@ -40,13 +40,6 @@ const (
 	DeleteAwaitingVerification DeleteResult = "AwaitingVerification"
 )
 
-type FinalizerName string
-
-const (
-	finalizerExecute FinalizerName = "execute"
-	finalizerVerify  FinalizerName = "verify"
-)
-
 // ResourceManagerClient is a common abstraction for the controller to interact with the Azure resource managers
 type ResourceManagerClient interface {
 	// Creates an Azure resource, though it doesn't verify the readiness for consumption
@@ -137,10 +130,6 @@ func (updater *CustomResourceUpdater) SetOwnerReferences(ownerDetails []*CustomR
 	state := updater.CustomResourceDetails.BaseDefinition
 	state.ObjectMeta.SetOwnerReferences(references)
 	updater.UpdateInstance(state)
-}
-
-func (f FinalizerName) FullName(controller *AzureController) string {
-	return string(f) + "." + controller.FinalizerName
 }
 
 func (r VerifyResult) error() bool            { return r == VerifyError }

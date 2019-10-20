@@ -280,8 +280,7 @@ func (r *AzureController) verifyExternal(details *CustomResourceDetails, updater
 }
 
 func (r *AzureController) addFinalizers(details *CustomResourceDetails, updater *CustomResourceUpdater) error {
-	updater.AddFinalizer(finalizerExecute.FullName(r))
-	updater.AddFinalizer(finalizerVerify.FullName(r))
+	updater.AddFinalizer(r.FinalizerName)
 	updater.SetProvisionState(azurev1alpha1.Pending)
 	if err := r.updateAndLog(context.Background(), details.Instance, corev1.EventTypeNormal, "Updated", "finalizers added"); err != nil {
 		return err
@@ -293,56 +292,61 @@ func (r *AzureController) addFinalizers(details *CustomResourceDetails, updater 
 func (r *AzureController) handleFinalizer(details *CustomResourceDetails, updater *CustomResourceUpdater) (ctrl.Result, error) {
 	instance := details.Instance
 	ctx := context.Background()
-	removeExecute := false
-	removeVerify := false
+	removeFinalizer := false
 	requeue := false
 	requeueAfter := r.getRequeueAfter(details.Parameters.RequeueAfterSeconds)
-	if details.BaseDefinition.HasFinalizer(finalizerExecute.FullName(r)) {
-		deleteResult, err := r.ResourceManagerClient.Delete(ctx, instance)
+	isTerminating := details.ProvisionState.IsTerminating()
 
-		if err != nil || deleteResult == DeleteError {
-			// TODO: log error (this should not happen, but we carry on allowing the result to delete
-			removeExecute = true
-			removeVerify = true
-			return ctrl.Result{}, err
-		}
-
-		if deleteResult.alreadyDeleted() || deleteResult.succeed() {
-			removeExecute = true
-			removeVerify = true
-		}
-
-		// set it back to pending and let it go through the whole process again
-		if deleteResult.awaitingVerification() {
-			removeExecute = true
-			requeue = true
-		}
-	} else if details.BaseDefinition.HasFinalizer(finalizerVerify.FullName(r)) {
+	if details.BaseDefinition.HasFinalizer(r.FinalizerName) {
 		verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
 
-		if verifyResult.missing() {
-			removeVerify = true
-		} else if verifyResult.deleting() || verifyResult.ready() { // TODO: should not accept ready, but need to know how to know if an azure object is busy de
-			requeue = true
-		} else {
+		if verifyResult.error() || err != nil {
 			// TODO: log error (this should not happen, but we carry on allowing the result to delete
-			removeExecute = true
-			removeVerify = true
-			return ctrl.Result{}, err
+			removeFinalizer = true
+		} else if verifyResult.missing() {
+			removeFinalizer = true
+		} else if verifyResult.deleting() {
+			requeue = true
+		} else if !isTerminating { // and one of verifyResult.ready() || verifyResult.recreateRequired() || verifyResult.updateRequired()
+			deleteResult, err := r.ResourceManagerClient.Delete(ctx, instance)
+
+			if err != nil || deleteResult.error() {
+				// TODO: log error (this should not happen, but we carry on allowing the result to delete
+				removeFinalizer = true
+			} else if deleteResult.alreadyDeleted() || deleteResult.succeed() {
+				removeFinalizer = true
+			} else if deleteResult.awaitingVerification() {
+				// set it back to pending and let it go through the whole process again
+				requeue = true
+			} else {
+				// assert no more cases
+				removeFinalizer = true
+			}
+		} else {
+			// i.e. verify
+			// this should never be called, as the first time r.ResourceManagerClient.Delete is called isTerminating should be false
+			// this implies that r.ResourceManagerClient.Delete didn't throw an error, but didn't do anything either
+			removeFinalizer = true
 		}
 	}
 
-	if removeExecute {
-		updater.RemoveFinalizer(finalizerExecute.FullName(r))
+	if !isTerminating {
+		updater.SetProvisionState(azurev1alpha1.Terminating)
 	}
-	if removeVerify {
-		updater.RemoveFinalizer(finalizerVerify.FullName(r))
+	if removeFinalizer {
+		updater.RemoveFinalizer(r.FinalizerName)
 	}
 
-	if removeVerify || removeExecute {
-		if err := r.updateAndLog(ctx, details.Instance, corev1.EventTypeNormal, "Finalizer", "Removing finalizer for "+details.Name); err != nil {
+	if removeFinalizer || !isTerminating {
+		if err := r.updateInstance(ctx, details.Instance); err != nil {
 			// it's going to be stuck if it ever gets to here
 			return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
+		}
+		if !isTerminating {
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "Setting state to terminating for "+details.Name)
+		}
+		if removeFinalizer {
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "Removing finalizer for "+details.Name)
 		}
 	}
 

@@ -31,6 +31,7 @@ const (
 	Verifying ProvisionState = "Verifying"
 	Succeeded ProvisionState = "Succeeded"
 	Failed    ProvisionState = "Failed"
+	Terminating    ProvisionState = "Terminating"
 )
 
 // ResourceStatus defines the observed state of ResourceGroup
@@ -84,3 +85,4 @@ func (s ProvisionState) IsUpdating() bool  { return s == Updating }
 func (s ProvisionState) IsVerifying() bool { return s == Verifying }
 func (s ProvisionState) IsSucceeded() bool { return s == Succeeded }
 func (s ProvisionState) IsFailed() bool    { return s == Failed }
+func (s ProvisionState) IsTerminating() bool    { return s == Terminating }
