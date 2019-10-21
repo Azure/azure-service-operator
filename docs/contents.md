@@ -8,5 +8,8 @@
 2. [Developing](development.md)
     Useful information for running the operator locally can be found here.
 
-3. [Deploying](deploy.md)
+3. [Testing](test.md)
+    Information about how to run and author tests can be found here.
+
+4. [Deploying](deploy.md)
     If you are ready to deploy to a Kubernetes cluster go here.

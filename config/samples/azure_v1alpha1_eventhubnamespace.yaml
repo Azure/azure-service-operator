@@ -8,7 +8,7 @@ spec:
     sku:
       name: "Standard"
       tier: "Standard"
-      capacity: 1      
+      capacity: 1
     properties:
       isAutoInflateEnabled: false
       maximumThroughputUnits: 0
