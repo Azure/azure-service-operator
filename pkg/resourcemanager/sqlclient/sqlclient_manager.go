@@ -18,6 +18,8 @@ type SQLManager interface {
 	DeleteSQLServer(sdkClient GoSDKClient) (result autorest.Response, err error)
 	GetServer(sdkClient GoSDKClient) (result sql.Server, err error)
 	DeleteSQLFirewallRule(sdkClient GoSDKClient, ruleName string) (err error)
+	CreateOrUpdateFailoverGroup(sdkClient GoSDKClient, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error)
+	DeleteFailoverGroup(sdkClient GoSDKClient, failoverGroupName string) (result autorest.Response, err error)
 	DeleteDB(sdkClient GoSDKClient, databaseName string) (result autorest.Response, err error)
 	GetSQLFirewallRule(sdkClient GoSDKClient, ruleName string) (result sql.FirewallRule, err error)
 	GetDB(sdkClient GoSDKClient, databaseName string) (sql.Database, error)
