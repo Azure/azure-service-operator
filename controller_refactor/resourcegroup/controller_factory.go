@@ -106,7 +106,6 @@ func (dm *definitionManager) getUpdater(instance *v1alpha1.ResourceGroup, crDeta
 		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
 			instance.ResourceBaseDefinition = *state
 		},
-		CustomResourceDetails: crDetails,
 	}
 }
 

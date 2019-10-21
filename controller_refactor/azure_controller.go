@@ -66,6 +66,7 @@ func (ac *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		ThisResourceDefinitions: thisDefs,
 		requeueAfter:            requeueAfter,
 		log:                     log,
+		req:                     req,
 	}
 
 	// if no finalizers have been defined, do that and requeue

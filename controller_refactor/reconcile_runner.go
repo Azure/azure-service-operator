@@ -331,21 +331,20 @@ func (r *reconcileRunner) runPostProvisionHandler() (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-// not sure why this doesn't work on the Cluster, using updateInstance rather
-func (r *reconcileRunner) updateStatus(ctx context.Context) error {
-	instance := r.Details.Instance
-	err := r.KubeClient.Status().Update(ctx, instance)
-	if err != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update CRD instance")
-	}
-	return err
-}
-
 func (r *reconcileRunner) updateInstance(ctx context.Context) error {
-	instance := r.Details.Instance
-	err := r.KubeClient.Update(ctx, instance)
+	// refetch the instance and apply the updates to it
+	thisDefs, err := r.DefinitionManager.GetThis(ctx, r.req)
+	if err != nil {
+		r.Log.Info("Unable to retrieve resource. Falling back to prior instance", "err", err.Error())
+		thisDefs = r.ThisResourceDefinitions
+	}
+	r.Updater.ApplyUpdates(thisDefs.Details.BaseDefinition)
+	instance := thisDefs.Details.Instance
+	err = r.KubeClient.Update(ctx, instance)
 	if err != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update CRD instance")
+	} else {
+		r.Updater.Clear()
 	}
 	return err
 }

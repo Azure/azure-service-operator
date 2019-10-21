@@ -38,49 +38,63 @@ type CustomResourceDetails struct {
 	IsBeingDeleted bool
 }
 
+// modifies the runtime.Object in place
+type stateUpdate = func(*azurev1alpha1.ResourceBaseDefinition)
+
 // CustomResourceUpdater is a mechanism to enable updating the shared sections of the manifest
 // Typically the status section and the metadata.
 type CustomResourceUpdater struct {
-	CustomResourceDetails *CustomResourceDetails
-	UpdateInstance        func(*azurev1alpha1.ResourceBaseDefinition)
+	UpdateInstance func(*azurev1alpha1.ResourceBaseDefinition)
+	stateUpdates   []stateUpdate
 }
 
 func (updater *CustomResourceUpdater) AddFinalizer(name string) {
-	baseState := updater.CustomResourceDetails.BaseDefinition
-	baseState.AddFinalizer(name)
-	updater.UpdateInstance(baseState)
+	updateFunc := func(s *azurev1alpha1.ResourceBaseDefinition) { s.AddFinalizer(name) }
+	updater.stateUpdates = append(updater.stateUpdates, updateFunc)
 }
 
 func (updater *CustomResourceUpdater) RemoveFinalizer(name string) {
-	baseState := updater.CustomResourceDetails.BaseDefinition
-	baseState.RemoveFinalizer(name)
-	updater.UpdateInstance(baseState)
+	updateFunc := func(s *azurev1alpha1.ResourceBaseDefinition) { s.RemoveFinalizer(name) }
+	updater.stateUpdates = append(updater.stateUpdates, updateFunc)
 }
 
 func (updater *CustomResourceUpdater) SetProvisionState(provisionState azurev1alpha1.ProvisionState) {
-	state := updater.CustomResourceDetails.BaseDefinition
-	state.Status.ProvisionState = provisionState
-	if provisionState == azurev1alpha1.Verifying {
-		state.Status.Provisioning = true
+	updateFunc := func(s *azurev1alpha1.ResourceBaseDefinition) {
+		s.Status.ProvisionState = provisionState
+		if provisionState == azurev1alpha1.Verifying {
+			s.Status.Provisioning = true
+		}
+		if provisionState == azurev1alpha1.Succeeded {
+			s.Status.Provisioned = true
+		}
 	}
-	if provisionState == azurev1alpha1.Succeeded {
-		state.Status.Provisioned = true
+	updater.stateUpdates = append(updater.stateUpdates, updateFunc)
+}
+
+func (updater *CustomResourceUpdater) SetOwnerReferences(ownerDetails []*CustomResourceDetails) {
+	updateFunc := func(s *azurev1alpha1.ResourceBaseDefinition) {
+		references := make([]metav1.OwnerReference, len(ownerDetails))
+		for i, o := range ownerDetails {
+			ownerBase := o.BaseDefinition
+			references[i] = metav1.OwnerReference{
+				APIVersion: "v1",
+				Kind:       ownerBase.Kind,
+				Name:       ownerBase.Name,
+				UID:        ownerBase.GetUID(),
+			}
+		}
+		s.ObjectMeta.SetOwnerReferences(references)
+	}
+	updater.stateUpdates = append(updater.stateUpdates, updateFunc)
+}
+
+func (updater *CustomResourceUpdater) ApplyUpdates(state *azurev1alpha1.ResourceBaseDefinition) {
+	for _, f := range updater.stateUpdates {
+		f(state)
 	}
 	updater.UpdateInstance(state)
 }
 
-func (updater *CustomResourceUpdater) SetOwnerReferences(ownerDetails []*CustomResourceDetails) {
-	references := make([]metav1.OwnerReference, len(ownerDetails))
-	for i, o := range ownerDetails {
-		ownerBase := o.BaseDefinition
-		references[i] = metav1.OwnerReference{
-			APIVersion: "v1",
-			Kind:       ownerBase.Kind,
-			Name:       ownerBase.Name,
-			UID:        ownerBase.GetUID(),
-		}
-	}
-	state := updater.CustomResourceDetails.BaseDefinition
-	state.ObjectMeta.SetOwnerReferences(references)
-	updater.UpdateInstance(state)
+func (updater *CustomResourceUpdater) Clear() {
+	updater.stateUpdates = []stateUpdate{}
 }
