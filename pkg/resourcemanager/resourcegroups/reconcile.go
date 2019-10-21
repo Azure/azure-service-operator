@@ -46,11 +46,11 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 		// 		return true, nil
 		// 	}
 		// }
-
+		instance.Status.Provisioned = false
 		return false, fmt.Errorf("ResourceGroup create error %v", err)
 
 	}
-
+	instance.Status.Provisioned = true
 	return true, nil
 }
 
