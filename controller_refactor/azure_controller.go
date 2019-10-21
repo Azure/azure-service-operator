@@ -104,4 +104,3 @@ func getRequeueAfter(parameters azurev1alpha1.Parameters) time.Duration {
 	requeueAfter := time.Duration(requeueSeconds) * time.Second
 	return requeueAfter
 }
-

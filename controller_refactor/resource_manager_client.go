@@ -46,6 +46,7 @@ type ResourceManagerClient interface {
 	// Deletes resource in Azure
 	Delete(context.Context, runtime.Object) (DeleteResult, error)
 }
+
 func (r VerifyResult) error() bool            { return r == VerifyError }
 func (r VerifyResult) missing() bool          { return r == VerifyMissing }
 func (r VerifyResult) recreateRequired() bool { return r == VerifyRecreateRequired }

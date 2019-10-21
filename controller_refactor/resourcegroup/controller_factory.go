@@ -49,7 +49,7 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
 }
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *controller_refactor.AzureController {
-	resourceManagerClient := &ResourceGroupClient{
+	resourceManagerClient := &ResourceManagerClient{
 		ResourceGroupManager: factory.ResourceGroupManager,
 	}
 	return &controller_refactor.AzureController{
@@ -57,7 +57,7 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 		Log:                   logger,
 		Recorder:              recorder,
 		ResourceManagerClient: resourceManagerClient,
-		DefinitionManager: &ResourceGroupDefinitionManager{
+		DefinitionManager: &DefinitionManager{
 			kubeClient: kubeClient,
 		},
 		FinalizerName:        FinalizerName,
@@ -65,11 +65,11 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 	}
 }
 
-type ResourceGroupDefinitionManager struct {
+type DefinitionManager struct {
 	kubeClient client.Client
 }
 
-func (fetcher *ResourceGroupDefinitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
+func (fetcher *DefinitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
 	var instance v1alpha1.ResourceGroup
 	err := fetcher.kubeClient.Get(ctx, req.NamespacedName, &instance)
 	crdInfo := fetcher.getDefinition(&instance)
@@ -79,14 +79,14 @@ func (fetcher *ResourceGroupDefinitionManager) GetThis(ctx context.Context, req 
 	}, err
 }
 
-func (_ *ResourceGroupDefinitionManager) GetDependencies(ctx context.Context, req ctrl.Request) (*controller_refactor.DependencyDefinitions, error) {
+func (_ *DefinitionManager) GetDependencies(ctx context.Context, req ctrl.Request) (*controller_refactor.DependencyDefinitions, error) {
 	return &controller_refactor.DependencyDefinitions{
 		Dependencies: []*controller_refactor.CustomResourceDetails{},
 		Owner:        nil,
 	}, nil
 }
 
-func (_ *ResourceGroupDefinitionManager) getDefinition(instance *v1alpha1.ResourceGroup) *controller_refactor.CustomResourceDetails {
+func (_ *DefinitionManager) getDefinition(instance *v1alpha1.ResourceGroup) *controller_refactor.CustomResourceDetails {
 	return &controller_refactor.CustomResourceDetails{
 		ProvisionState: instance.Status.ProvisionState,
 		Name:           instance.Name,
@@ -97,7 +97,7 @@ func (_ *ResourceGroupDefinitionManager) getDefinition(instance *v1alpha1.Resour
 	}
 }
 
-func (_ *ResourceGroupDefinitionManager) getUpdater(instance *v1alpha1.ResourceGroup, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
+func (_ *DefinitionManager) getUpdater(instance *v1alpha1.ResourceGroup, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
 	return &controller_refactor.CustomResourceUpdater{
 		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
 			instance.ResourceBaseDefinition = *state

@@ -12,11 +12,11 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
-type ResourceGroupClient struct {
+type ResourceManagerClient struct {
 	ResourceGroupManager resourcegroups.ResourceGroupManager
 }
 
-func (client *ResourceGroupClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
+func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
 	rg, err := client.convert(r)
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
@@ -29,11 +29,11 @@ func (client *ResourceGroupClient) Create(ctx context.Context, r runtime.Object)
 	return controller_refactor.EnsureAwaitingVerification, nil
 }
 
-func (client *ResourceGroupClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
+func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
 	return controller_refactor.EnsureFailed, fmt.Errorf("resource group cannon be updated")
 }
 
-func (client *ResourceGroupClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
+func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
 	rg, err := client.convert(r)
 	if err != nil {
 		return controller_refactor.VerifyError, err
@@ -52,7 +52,7 @@ func (client *ResourceGroupClient) Verify(ctx context.Context, r runtime.Object)
 	return controller_refactor.VerifyMissing, nil
 }
 
-func (client *ResourceGroupClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
+func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
 	rg, err := client.convert(r)
 	if err != nil {
 		return controller_refactor.DeleteError, err
@@ -63,7 +63,7 @@ func (client *ResourceGroupClient) Delete(ctx context.Context, r runtime.Object)
 	return controller_refactor.DeleteSucceed, nil
 }
 
-func (_ *ResourceGroupClient) convert(obj runtime.Object) (*v1alpha1.ResourceGroup, error) {
+func (_ *ResourceManagerClient) convert(obj runtime.Object) (*v1alpha1.ResourceGroup, error) {
 	local, ok := obj.(*v1alpha1.ResourceGroup)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())

@@ -19,10 +19,10 @@ type reconcileRunner struct {
 	*AzureController
 	*ThisResourceDefinitions
 	*DependencyDefinitions
-	req ctrl.Request
+	req          ctrl.Request
 	requeueAfter time.Duration
-	ctx context.Context
-	log logr.Logger
+	ctx          context.Context
+	log          logr.Logger
 }
 
 //runs a single reconcile on the
