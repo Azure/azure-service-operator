@@ -71,3 +71,8 @@ type AzureDataLakeGen2FileSystemList struct {
 func init() {
 	SchemeBuilder.Register(&AzureDataLakeGen2FileSystem{}, &AzureDataLakeGen2FileSystemList{})
 }
+
+// IsSubmitted checks to see if resource has been successfully submitted for creation
+func (adlsGen2FileSystem *AzureDataLakeGen2FileSystem) IsSubmitted() bool {
+	return adlsGen2FileSystem.Status.Provisioning || adlsGen2FileSystem.Status.Provisioned
+}
