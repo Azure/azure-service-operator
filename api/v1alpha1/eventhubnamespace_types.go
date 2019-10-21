@@ -49,27 +49,6 @@ func init() {
 	SchemeBuilder.Register(&EventhubNamespace{}, &EventhubNamespaceList{})
 }
 
-//func (eventhubNamespace *EventhubNamespace) IsBeingDeleted() bool {
-//	return !eventhubNamespace.ObjectMeta.DeletionTimestamp.IsZero()
-//}
-//
-//func (eventhubNamespace *EventhubNamespace) IsSubmitted() bool {
-//	return eventhubNamespace.Status.Provisioning || eventhubNamespace.Status.Provisioned
-//
-//}
-//
-//func (eventhubNamespace *EventhubNamespace) HasFinalizer(finalizerName string) bool {
-//	return helpers.ContainsString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
-//}
-//
-//func (eventhubNamespace *EventhubNamespace) AddFinalizer(finalizerName string) {
-//	eventhubNamespace.ObjectMeta.Finalizers = append(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
-//}
-//
-//func (eventhubNamespace *EventhubNamespace) RemoveFinalizer(finalizerName string) {
-//	eventhubNamespace.ObjectMeta.Finalizers = helpers.RemoveString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
-//}
-//
 type EventhubNamespaceSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
