@@ -102,12 +102,12 @@ func (ac *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	// get parameters
 	result, err := reconcileCycle.run(ctx)
 
-	// this seems to make a lot of the following errors go away
-	// "the object has been modified; please apply your changes to the latest version and try again"
-	// TODO: figure out how to solve these completely
-	if result.Requeue == false {
-		return ctrl.Result{RequeueAfter: getRequeueAfter(1)}, err
-	}
+	//// this seems to make a lot of the following errors go away
+	//// "the object has been modified; please apply your changes to the latest version and try again"
+	//// TODO: figure out how to solve these completely
+	//if result.Requeue == false {
+	//	return ctrl.Result{RequeueAfter: getRequeueAfter(1)}, err
+	//}
 	return result, err
 }
 

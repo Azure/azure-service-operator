@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
 	corev1 "k8s.io/api/core/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
@@ -332,21 +333,39 @@ func (r *reconcileRunner) runPostProvisionHandler() (ctrl.Result, error) {
 }
 
 func (r *reconcileRunner) updateInstance(ctx context.Context) error {
+	return r.tryUpdateInstance(ctx , 2)
+}
+
+// this is to get rid of the pesky errors
+// "Operation cannot be fulfilled on xxx:the object has been modified; please apply your changes to the latest version and try again"
+func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) error {
 	// refetch the instance and apply the updates to it
 	thisDefs, err := r.DefinitionManager.GetThis(ctx, r.req)
 	if err != nil {
-		r.Log.Info("Unable to retrieve resource. Falling back to prior instance", "err", err.Error())
-		thisDefs = r.ThisResourceDefinitions
+		if apierrors.IsNotFound(err) {
+			r.Log.Info("Unable to update deleted resource. It may have already been finalized. This error is ignored. Resource: " + r.Details.Name)
+			return nil
+		} else {
+			r.Log.Info("Unable to retrieve resource. Falling back to prior instance: "+r.Details.Name, "err", err.Error())
+			thisDefs = r.ThisResourceDefinitions
+		}
 	}
 	r.Updater.ApplyUpdates(thisDefs.Details.BaseDefinition)
 	instance := thisDefs.Details.Instance
 	err = r.KubeClient.Update(ctx, instance)
 	if err != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update CRD instance")
+		if count == 0 {
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Update", "failed to update CRD instance on K8s cluster.")
+			r.Updater.Clear()
+			return err
+		}
+		r.Log.Info(fmt.Sprintf("failed to update CRD instance on K8s cluster. Retries left=%d", count))
+		time.Sleep(2 * time.Second)
+		return r.tryUpdateInstance(ctx, count - 1)
 	} else {
 		r.Updater.Clear()
+		return nil
 	}
-	return err
 }
 
 func (r *reconcileRunner) updateAndLog(ctx context.Context, eventType string, reason string, message string) error {
