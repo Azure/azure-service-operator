@@ -44,9 +44,6 @@ var _ = Describe("ResourceGroup Controller", func() {
 				},
 				},
 				Spec: azurev1alpha1.ResourceGroupSpec{
-					Parameters: azurev1alpha1.Parameters{
-						RequeueAfterSeconds: 5,
-					},
 					Location: tc.resourceGroupLocation,
 				},
 			}

@@ -24,8 +24,6 @@ import (
 
 // ResourceGroupSpec defines the desired state of ResourceGroup
 type ResourceGroupSpec struct {
-	// Shared parameters struct
-	Parameters Parameters `json:"parameters,omitempty"`
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location string `json:"location"`

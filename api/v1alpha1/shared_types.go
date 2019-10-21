@@ -51,10 +51,6 @@ type ResourceBaseDefinition struct {
 	Status ResourceStatus `json:"status,omitempty"`
 }
 
-type Parameters struct {
-	RequeueAfterSeconds int `json:"requeueAfterSeconds,omitempty"`
-}
-
 func (baseDef *ResourceBaseDefinition) IsBeingDeleted() bool {
 	return !baseDef.ObjectMeta.DeletionTimestamp.IsZero()
 }

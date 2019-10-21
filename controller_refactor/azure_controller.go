@@ -16,6 +16,7 @@ import (
 
 // AzureController reconciles a ResourceGroup object
 type AzureController struct {
+	Parameters            Parameters
 	ResourceKind          string
 	KubeClient            client.Client
 	Log                   logr.Logger
@@ -31,19 +32,23 @@ type AzureController struct {
 // This is typically used for example to create secrets with authentication information
 type PostProvisionHandler func(definition *CustomResourceDetails) error
 
-// SetupWithManager function sets up the functions with the controller
-func (r *AzureController) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.ResourceGroup{}).
-		Complete(r)
+type Parameters struct {
+	RequeueAfterSeconds int
 }
 
-func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+// SetupWithManager function sets up the functions with the controller
+func (ac *AzureController) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&azurev1alpha1.ResourceGroup{}).
+		Complete(ac)
+}
+
+func (ac *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	log := r.Log.WithValues("resourcegroup", req.NamespacedName)
+	log := ac.Log.WithValues("resourcegroup", req.NamespacedName)
 
 	// fetch the manifest object
-	thisDefs, err := r.DefinitionManager.GetThis(ctx, req)
+	thisDefs, err := ac.DefinitionManager.GetThis(ctx, req)
 	if err != nil {
 		log.Info("Unable to retrieve resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -53,12 +58,11 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	details := thisDefs.Details
-	parameters := details.Parameters
-	requeueAfter := getRequeueAfter(parameters)
+	requeueAfter := getRequeueAfter(ac.Parameters)
 
 	// create a reconcile cycle object
 	reconcileCycle := reconcileRunner{
-		AzureController:         r,
+		AzureController:         ac,
 		ThisResourceDefinitions: thisDefs,
 		requeueAfter:            requeueAfter,
 		ctx:                     ctx,
@@ -84,7 +88,7 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// get dependency details
-	dependencies, err := r.DefinitionManager.GetDependencies(ctx, details.Instance)
+	dependencies, err := ac.DefinitionManager.GetDependencies(ctx, details.Instance)
 	if err != nil || dependencies == nil {
 		if apierrors.IsNotFound(err) {
 			log.Info("Dependency not found for " + details.Name)
@@ -99,10 +103,10 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return reconcileCycle.run()
 }
 
-func getRequeueAfter(parameters azurev1alpha1.Parameters) time.Duration {
+func getRequeueAfter(parameters Parameters) time.Duration {
 	requeueSeconds := parameters.RequeueAfterSeconds
 	if requeueSeconds == 0 {
-		requeueSeconds = 30
+		requeueSeconds = 10
 	}
 	requeueAfter := time.Duration(requeueSeconds) * time.Second
 	return requeueAfter

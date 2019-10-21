@@ -60,9 +60,6 @@ var _ = Describe("ResourceGroup", func() {
 				},
 				},
 				Spec: ResourceGroupSpec{
-					Parameters: Parameters{
-						RequeueAfterSeconds: 5,
-					},
 					Location: resourcegroupLocation,
 				}}
 

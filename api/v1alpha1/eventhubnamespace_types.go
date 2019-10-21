@@ -71,7 +71,6 @@ func init() {
 //}
 //
 type EventhubNamespaceSpec struct {
-	Parameters Parameters `json:"parameters,omitempty"`
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location      string                      `json:"location"`

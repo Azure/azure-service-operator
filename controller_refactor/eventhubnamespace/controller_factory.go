@@ -44,20 +44,21 @@ const LogName = "EventhubNamespace"
 const EventRecorderName = "EventhubNamespace-controller"
 const FinalizerName = "eventhubnamespace.finalizers.azure.microsoft.com"
 
-func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
+func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters controller_refactor.Parameters) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&v1alpha1.EventhubNamespace{}).
 		Complete(factory.create(mgr.GetClient(),
 			ctrl.Log.WithName("controllers").WithName(LogName),
-			mgr.GetEventRecorderFor(EventRecorderName)))
+			mgr.GetEventRecorderFor(EventRecorderName), parameters))
 }
 
-func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *controller_refactor.AzureController {
+func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.AzureController {
 	resourceManagerClient := &resourceManagerClient{
 		logger:                   logger,
 		eventHubNamespaceManager: factory.EventHubNamespaceManager,
 	}
 	return &controller_refactor.AzureController{
+		Parameters:            parameters,
 		KubeClient:            kubeClient,
 		Log:                   logger,
 		Recorder:              recorder,

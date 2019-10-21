@@ -17,6 +17,7 @@ package main
 
 import (
 	"flag"
+	"github.com/Azure/azure-service-operator/controller_refactor"
 
 	"github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
 	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
@@ -88,6 +89,11 @@ func main() {
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 
+	// TODO: where does this config come from? Per controller, or global?
+	controllerParams := controller_refactor.Parameters{
+		RequeueAfterSeconds: 10,
+	}
+
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("Storage"),
@@ -135,13 +141,7 @@ func main() {
 
 	err = (&resourcegroup.ControllerFactory{
 		ResourceGroupManager: resourceGroupManager,
-	}).SetupWithManager(mgr)
-	//err = (&controllers.ResourceGroupReconciler{
-	//	Client:               mgr.GetClient(),
-	//	Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-	//	Recorder:             mgr.GetEventRecorderFor("ResourceGroup-controller"),
-	//	resourceGroupManager: resourceGroupManager,
-	//}).SetupWithManager(mgr)
+	}).SetupWithManager(mgr, controllerParams)
 
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
@@ -150,13 +150,7 @@ func main() {
 
 	err = (&eventhubnamespace.ControllerFactory{
 		EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
-	}).SetupWithManager(mgr)
-	//err = (&controllers.EventhubNamespaceReconciler{
-	//	Client:                   mgr.GetClient(),
-	//	Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-	//	Recorder:                 mgr.GetEventRecorderFor("EventhubNamespace-controller"),
-	//	EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
-	//}).SetupWithManager(mgr)
+	}).SetupWithManager(mgr, controllerParams)
 
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")

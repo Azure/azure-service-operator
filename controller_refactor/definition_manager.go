@@ -33,7 +33,6 @@ type DependencyDefinitions struct {
 type CustomResourceDetails struct {
 	Name           string
 	ProvisionState azurev1alpha1.ProvisionState
-	Parameters     azurev1alpha1.Parameters
 	Instance       runtime.Object
 	BaseDefinition *azurev1alpha1.ResourceBaseDefinition
 	IsBeingDeleted bool

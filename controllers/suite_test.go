@@ -18,6 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/controller_refactor"
 	"github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
 	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
 	"log"
@@ -139,22 +140,31 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
+	usingMocks := os.Getenv("TEST_CONTROLLER_WITH_MOCKS") != "false"
+	requeueAfter := 10
+	if usingMocks {
+		requeueAfter = 1
+	}
+	controllerParams := controller_refactor.Parameters{
+		RequeueAfterSeconds: requeueAfter,
+	}
+
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
-	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
-		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
-		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
-		storageManagers = resourcemanagerstorages.AzureStorageManagers
-		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
-		timeout = time.Second * 320
-	} else {
+	if usingMocks {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
 		timeout = time.Second * 20
+	} else {
+		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
+		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
+		storageManagers = resourcemanagerstorages.AzureStorageManagers
+		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
+		timeout = time.Second * 320
 	}
 
 	err = (&KeyVaultReconciler{
@@ -176,13 +186,13 @@ var _ = BeforeSuite(func() {
 
 	err = (&resourcegroup.ControllerFactory{
 		ResourceGroupManager: resourceGroupManager,
-	}).SetupWithManager(k8sManager)
+	}).SetupWithManager(k8sManager, controllerParams)
 
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&eventhubnamespace.ControllerFactory{
 		EventHubNamespaceManager: eventHubManagers.EventHubNamespace,
-	}).SetupWithManager(k8sManager)
+	}).SetupWithManager(k8sManager, controllerParams)
 
 	Expect(err).ToNot(HaveOccurred())
 
