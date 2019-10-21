@@ -18,7 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/controller_refactor"
+	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
 	"log"
 	"os"
 	"path/filepath"
@@ -173,7 +173,7 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&controller_refactor.ResourceGroupControllerFactory{
+	err = (&resourcegroup.ControllerFactory{
 		ResourceGroupManager: resourceGroupManager,
 	}).SetupWithManager(k8sManager)
 

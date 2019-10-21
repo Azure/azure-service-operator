@@ -13,10 +13,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controller_refactor
+package resourcegroup
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/controller_refactor"
 
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -28,30 +29,30 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 )
 
-type ResourceGroupControllerFactory struct {
+type ControllerFactory struct {
 	ResourceGroupManager resourcegroups.ResourceGroupManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups/status,verbs=get;update;patch
 
-const ResourceGroupLogName = "ResourceGroup"
+const LogName = "ResourceGroup"
 const EventRecorderName = "ResourceGroup-controller"
-const ResourceGroupFinalizerBaseName = "resourcegroup.finalizers.azure.microsoft.com"
+const FinalizerName = "resourcegroup.finalizers.azure.microsoft.com"
 
-func (factory *ResourceGroupControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
+func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&v1alpha1.ResourceGroup{}).
 		Complete(factory.create(mgr.GetClient(),
-			ctrl.Log.WithName("controllers").WithName(ResourceGroupLogName),
+			ctrl.Log.WithName("controllers").WithName(LogName),
 			mgr.GetEventRecorderFor(EventRecorderName)))
 }
 
-func (factory *ResourceGroupControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *AzureController {
+func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *controller_refactor.AzureController {
 	resourceManagerClient := &ResourceGroupClient{
 		ResourceGroupManager: factory.ResourceGroupManager,
 	}
-	return &AzureController{
+	return &controller_refactor.AzureController{
 		KubeClient:            kubeClient,
 		Log:                   logger,
 		Recorder:              recorder,
@@ -59,7 +60,7 @@ func (factory *ResourceGroupControllerFactory) create(kubeClient client.Client, 
 		DefinitionManager: &ResourceGroupDefinitionManager{
 			kubeClient: kubeClient,
 		},
-		FinalizerName:        ResourceGroupFinalizerBaseName,
+		FinalizerName:        FinalizerName,
 		PostProvisionHandler: nil,
 	}
 }
@@ -68,25 +69,25 @@ type ResourceGroupDefinitionManager struct {
 	kubeClient client.Client
 }
 
-func (fetcher *ResourceGroupDefinitionManager) GetThis(ctx context.Context, req ctrl.Request) (*ThisResourceDefinitions, error) {
+func (fetcher *ResourceGroupDefinitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
 	var instance v1alpha1.ResourceGroup
 	err := fetcher.kubeClient.Get(ctx, req.NamespacedName, &instance)
 	crdInfo := fetcher.getDefinition(&instance)
-	return &ThisResourceDefinitions{
+	return &controller_refactor.ThisResourceDefinitions{
 		Details: crdInfo,
 		Updater: fetcher.getUpdater(&instance, crdInfo),
 	}, err
 }
 
-func (_ *ResourceGroupDefinitionManager) GetDependencies(ctx context.Context, req ctrl.Request) (*DependencyDefinitions, error) {
-	return &DependencyDefinitions{
-		Dependencies: []*CustomResourceDetails{},
+func (_ *ResourceGroupDefinitionManager) GetDependencies(ctx context.Context, req ctrl.Request) (*controller_refactor.DependencyDefinitions, error) {
+	return &controller_refactor.DependencyDefinitions{
+		Dependencies: []*controller_refactor.CustomResourceDetails{},
 		Owner:        nil,
 	}, nil
 }
 
-func (_ *ResourceGroupDefinitionManager) getDefinition(instance *v1alpha1.ResourceGroup) *CustomResourceDetails {
-	return &CustomResourceDetails{
+func (_ *ResourceGroupDefinitionManager) getDefinition(instance *v1alpha1.ResourceGroup) *controller_refactor.CustomResourceDetails {
+	return &controller_refactor.CustomResourceDetails{
 		ProvisionState: instance.Status.ProvisionState,
 		Name:           instance.Name,
 		Parameters:     instance.Spec.Parameters,
@@ -96,8 +97,8 @@ func (_ *ResourceGroupDefinitionManager) getDefinition(instance *v1alpha1.Resour
 	}
 }
 
-func (_ *ResourceGroupDefinitionManager) getUpdater(instance *v1alpha1.ResourceGroup, crDetails *CustomResourceDetails) *CustomResourceUpdater {
-	return &CustomResourceUpdater{
+func (_ *ResourceGroupDefinitionManager) getUpdater(instance *v1alpha1.ResourceGroup, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
+	return &controller_refactor.CustomResourceUpdater{
 		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
 			instance.ResourceBaseDefinition = *state
 		},

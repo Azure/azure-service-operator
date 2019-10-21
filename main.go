@@ -17,12 +17,12 @@ package main
 
 import (
 	"flag"
+	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
 
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"os"
 
-	"github.com/Azure/azure-service-operator/controller_refactor"
 	"github.com/Azure/azure-service-operator/controllers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
@@ -131,7 +131,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = (&controller_refactor.ResourceGroupControllerFactory{
+	err = (&resourcegroup.ControllerFactory{
 		ResourceGroupManager: resourceGroupManager,
 	}).SetupWithManager(mgr)
 

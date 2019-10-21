@@ -25,13 +25,13 @@ import (
 type ProvisionState string
 
 const (
-	Pending   ProvisionState = "Pending"
-	Creating  ProvisionState = "Creating"
-	Updating  ProvisionState = "Updating"
-	Verifying ProvisionState = "Verifying"
-	Succeeded ProvisionState = "Succeeded"
-	Failed    ProvisionState = "Failed"
-	Terminating    ProvisionState = "Terminating"
+	Pending     ProvisionState = "Pending"
+	Creating    ProvisionState = "Creating"
+	Updating    ProvisionState = "Updating"
+	Verifying   ProvisionState = "Verifying"
+	Succeeded   ProvisionState = "Succeeded"
+	Failed      ProvisionState = "Failed"
+	Terminating ProvisionState = "Terminating"
 )
 
 // ResourceStatus defines the observed state of ResourceGroup
@@ -79,10 +79,10 @@ func (baseDef *ResourceBaseDefinition) RemoveFinalizer(finalizerName string) {
 //Creating  ProvisionState = "Creating"
 //Updating  ProvisionState = "Updating"
 
-func (s ProvisionState) IsPending() bool   { return s == Pending }
-func (s ProvisionState) IsCreating() bool  { return s == Creating }
-func (s ProvisionState) IsUpdating() bool  { return s == Updating }
-func (s ProvisionState) IsVerifying() bool { return s == Verifying }
-func (s ProvisionState) IsSucceeded() bool { return s == Succeeded }
-func (s ProvisionState) IsFailed() bool    { return s == Failed }
-func (s ProvisionState) IsTerminating() bool    { return s == Terminating }
+func (s ProvisionState) IsPending() bool     { return s == Pending }
+func (s ProvisionState) IsCreating() bool    { return s == Creating }
+func (s ProvisionState) IsUpdating() bool    { return s == Updating }
+func (s ProvisionState) IsVerifying() bool   { return s == Verifying }
+func (s ProvisionState) IsSucceeded() bool   { return s == Succeeded }
+func (s ProvisionState) IsFailed() bool      { return s == Failed }
+func (s ProvisionState) IsTerminating() bool { return s == Terminating }
