@@ -18,6 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
 	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
 	"log"
 	"os"
@@ -175,6 +176,12 @@ var _ = BeforeSuite(func() {
 
 	err = (&resourcegroup.ControllerFactory{
 		ResourceGroupManager: resourceGroupManager,
+	}).SetupWithManager(k8sManager)
+
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&eventhubnamespace.ControllerFactory{
+		EventHubNamespaceManager: eventHubManagers.EventHubNamespace,
 	}).SetupWithManager(k8sManager)
 
 	Expect(err).ToNot(HaveOccurred())

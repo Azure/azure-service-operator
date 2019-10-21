@@ -45,7 +45,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 }
 
 func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	return controller_refactor.EnsureFailed, fmt.Errorf("resource group cannon be updated")
+	return controller_refactor.EnsureFailed, fmt.Errorf("resource group cannot be updated")
 }
 
 func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {

@@ -15,7 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("ResourceGroup Controller", func() {
+var _ = FDescribe("ResourceGroup Controller", func() {
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
