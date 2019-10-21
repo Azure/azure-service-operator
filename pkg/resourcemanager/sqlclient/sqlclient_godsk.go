@@ -1,6 +1,7 @@
 package sqlclient
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
@@ -39,6 +40,15 @@ func getGoFirewallClient() sql.FirewallRulesClient {
 	firewallClient.Authorizer = a
 	firewallClient.AddToUserAgent(config.UserAgent())
 	return firewallClient
+}
+
+// getGoFailoverGroupsClient retrieves a FailoverGroupsClient
+func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
+	failoverGroupsClient := sql.NewFailoverGroupsClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	failoverGroupsClient.Authorizer = a
+	failoverGroupsClient.AddToUserAgent(config.UserAgent())
+	return failoverGroupsClient
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
@@ -108,6 +118,65 @@ func (manager *azureSqlManager) CreateOrUpdateDB(sdkClient GoSDKClient, properti
 			Location:           to.StringPtr(sdkClient.Location),
 			DatabaseProperties: &dbProp,
 		})
+}
+
+// CreateOrUpdateFailoverGroup creates a failover group
+func (manager *azureSqlManager) CreateOrUpdateFailoverGroup(sdkClient GoSDKClient, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+	failoverGroupsClient := getGoFailoverGroupsClient()
+
+	// Construct a PartnerInfo object from the server name
+	// Get resource ID from the servername to use
+	secServerSDKClient := GoSDKClient{
+		Ctx:               context.Background(),
+		ResourceGroupName: properties.SecondaryServerResourceGroup,
+		ServerName:        properties.SecondaryServerName,
+		Location:          "", // We dont get the location from the user for the secondary server as it is not required
+	}
+	server, err := manager.GetServer(secServerSDKClient)
+	if err != nil {
+		return result, nil
+	}
+
+	secServerResourceID := server.ID
+	partnerServerInfo := sql.PartnerInfo{
+		ID:              secServerResourceID,
+		ReplicationRole: sql.Secondary,
+	}
+
+	partnerServerInfoArray := []sql.PartnerInfo{partnerServerInfo}
+
+	var databaseIDArray []string
+
+	// Parse the Databases in the Databaselist and form array of Resource IDs
+	for _, each := range properties.DatabaseList {
+		database, err := manager.GetDB(sdkClient, each)
+		if err != nil {
+			return result, err
+		}
+		databaseIDArray = append(databaseIDArray, *database.ID)
+	}
+
+	// Construct FailoverGroupProperties struct
+	failoverGroupProperties := sql.FailoverGroupProperties{
+		ReadWriteEndpoint: &sql.FailoverGroupReadWriteEndpoint{
+			FailoverPolicy:                         properties.FailoverPolicy,
+			FailoverWithDataLossGracePeriodMinutes: &properties.FailoverGracePeriod,
+		},
+		PartnerServers: &partnerServerInfoArray,
+		Databases:      &databaseIDArray,
+	}
+
+	failoverGroup := sql.FailoverGroup{
+		FailoverGroupProperties: &failoverGroupProperties,
+	}
+
+	return failoverGroupsClient.CreateOrUpdate(
+		sdkClient.Ctx,
+		sdkClient.ResourceGroupName,
+		sdkClient.ServerName,
+		failovergroupname,
+		failoverGroup)
+
 }
 
 // GetSQLFirewallRule returns a firewall rule
@@ -217,6 +286,53 @@ func (manager *azureSqlManager) DeleteSQLServer(sdkClient GoSDKClient) (result a
 	}
 
 	return future.Result(serversClient)
+}
+
+// GetFailoverGroup retrieves a failover group
+func (manager *azureSqlManager) GetFailoverGroup(sdkClient GoSDKClient, failovergroupname string) (sql.FailoverGroup, error) {
+	failoverGroupsClient := getGoFailoverGroupsClient()
+
+	return failoverGroupsClient.Get(
+		sdkClient.Ctx,
+		sdkClient.ResourceGroupName,
+		sdkClient.ServerName,
+		failovergroupname,
+	)
+}
+
+// DeleteFailoverGroup deletes a failover group
+func (manager *azureSqlManager) DeleteFailoverGroup(sdkClient GoSDKClient, failoverGroupName string) (result autorest.Response, err error) {
+
+	result = autorest.Response{
+		Response: &http.Response{
+			StatusCode: 200,
+		},
+	}
+
+	// check to see if the server exists, if it doesn't then short-circuit
+	_, err = manager.GetServer(sdkClient)
+	if err != nil {
+		return result, nil
+	}
+
+	// check to see if the failover group exists, if it doesn't then short-circuit
+	_, err = manager.GetFailoverGroup(sdkClient, failoverGroupName)
+	if err != nil {
+		return result, nil
+	}
+
+	failoverGroupsClient := getGoFailoverGroupsClient()
+	future, err := failoverGroupsClient.Delete(
+		sdkClient.Ctx,
+		sdkClient.ResourceGroupName,
+		sdkClient.ServerName,
+		failoverGroupName,
+	)
+	if err != nil {
+		return result, err
+	}
+
+	return future.Result(failoverGroupsClient)
 }
 
 // CheckNameAvailability determines whether a SQL resource can be created with the specified name

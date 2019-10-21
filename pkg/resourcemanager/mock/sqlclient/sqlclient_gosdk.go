@@ -27,10 +27,11 @@ import (
 
 // MockSqlManager struct
 type MockSqlManager struct {
-	sqlServer                        sql.Server
-	sqlDatabase                      sql.Database
-	sqlFirewallRule                  sql.FirewallRule
-	sqlDatabasesCreateOrUpdateFuture sql.DatabasesCreateOrUpdateFuture
+	sqlServer                             sql.Server
+	sqlDatabase                           sql.Database
+	sqlFirewallRule                       sql.FirewallRule
+	sqlDatabasesCreateOrUpdateFuture      sql.DatabasesCreateOrUpdateFuture
+	sqlFailoverGroupsCreateOrUpdateFuture sql.FailoverGroupsCreateOrUpdateFuture
 }
 
 // CreateOrUpdateSQLServer creates a new sql server
@@ -113,4 +114,20 @@ func (manager *MockSqlManager) CreateOrUpdateDB(sdkClient sqlclient.GoSDKClient,
 	manager.sqlDatabasesCreateOrUpdateFuture = sqlDatabasesCreateOrUpdateFuture
 
 	return sqlDatabasesCreateOrUpdateFuture, nil
+}
+
+//CreateOrUpdateFailoverGroup create or update failover group
+func (manager *MockSqlManager) CreateOrUpdateFailoverGroup(sdkClient sqlclient.GoSDKClient, failovergroupname string, properties sqlclient.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+
+	var sqlFailoverGroupsCreateOrUpdateFuture = sql.FailoverGroupsCreateOrUpdateFuture{}
+	manager.sqlFailoverGroupsCreateOrUpdateFuture = sqlFailoverGroupsCreateOrUpdateFuture
+
+	return sqlFailoverGroupsCreateOrUpdateFuture, nil
+
+}
+
+//DeleteFailoverGroup delete fail over group
+func (manager *MockSqlManager) DeleteFailoverGroup(sdkClient sqlclient.GoSDKClient, failoverGroupName string) (result autorest.Response, err error) {
+
+	return helpers.GetRestResponse(http.StatusOK), nil
 }

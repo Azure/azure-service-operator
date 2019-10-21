@@ -78,6 +78,26 @@ type SQLDatabaseProperties struct {
 	Edition DBEdition
 }
 
+// SQLFailoverGroupProperties contains values needed for adding / updating SQL failover groups,
+// wraps: https://github.com/Azure/azure-sdk-for-go/blob/master/services/preview/sql/mgmt/2015-05-01-preview/sql/failovergroups.go#L53
+type SQLFailoverGroupProperties struct {
+
+	// FailoverPolicy can be Automatic or Manual
+	FailoverPolicy sql.ReadWriteEndpointFailoverPolicy
+
+	// Read/Write Grace Period in minutes
+	FailoverGracePeriod int32
+
+	// Secondary server to failover to (should be in a different region)
+	SecondaryServerName string
+
+	// Resource Group for the Secondary server
+	SecondaryServerResourceGroup string
+
+	// Names of Databases to add to the failover group
+	DatabaseList []string
+}
+
 // SQLServerPropertiesToServer translates SQLServerProperties to ServerProperties
 func SQLServerPropertiesToServer(properties SQLServerProperties) (result sql.ServerProperties) {
 
