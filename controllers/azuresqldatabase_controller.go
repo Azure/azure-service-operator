@@ -73,7 +73,7 @@ func (r *AzureSqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 			}
 
 			helpers.RemoveFinalizer(&instance, azureSQLDatabaseFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
+			if err := r.Status().Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
 		}
@@ -160,7 +160,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 	}
 
 	// write information back to instance
-	if updateerr := r.Update(ctx, instance); updateerr != nil {
+	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
@@ -169,7 +169,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
 			instance.Status.Provisioning = true
-			if errup := r.Update(ctx, instance); errup != nil {
+			if errup := r.Status().Update(ctx, instance); errup != nil {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 			}
 		}
@@ -185,7 +185,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
-	if err = r.Update(ctx, instance); err != nil {
+	if err = r.Status().Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
@@ -224,7 +224,7 @@ func (r *AzureSqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.Azur
 
 func (r *AzureSqlDatabaseReconciler) addFinalizer(instance *azurev1alpha1.AzureSqlDatabase) error {
 	helpers.AddFinalizer(instance, azureSQLDatabaseFinalizerName)
-	err := r.Update(context.Background(), instance)
+	err := r.Status().Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}

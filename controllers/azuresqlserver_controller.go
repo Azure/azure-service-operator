@@ -99,7 +99,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 			}
 
 			helpers.RemoveFinalizer(&instance, AzureSQLServerFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
+			if err := r.Status().Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
 		}
@@ -231,7 +231,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	// write information back to instance
-	if err := r.Update(ctx, instance); err != nil {
+	if err := r.Status().Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
@@ -270,7 +270,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	// write information back to instance
-	if updateerr := r.Update(ctx, instance); updateerr != nil {
+	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
@@ -312,7 +312,7 @@ func (r *AzureSqlServerReconciler) verifyExternal(instance *azurev1alpha1.AzureS
 	}
 
 	// write information back to instance
-	if updateerr := r.Update(ctx, instance); updateerr != nil {
+	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		return updateerr
 	}
