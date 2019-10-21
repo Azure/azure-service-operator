@@ -26,11 +26,11 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
 
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 )
 
 type ControllerFactory struct {
-	ResourceGroupManager resourcegroups.ResourceGroupManager
+	EventHubNamespaceManager eventhubs.EventHubNamespaceManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
@@ -50,7 +50,7 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *controller_refactor.AzureController {
 	resourceManagerClient := &ResourceManagerClient{
-		ResourceGroupManager: factory.ResourceGroupManager,
+		EventHubNamespaceManager: factory.EventHubNamespaceManager,
 	}
 	return &controller_refactor.AzureController{
 		KubeClient:            kubeClient,
