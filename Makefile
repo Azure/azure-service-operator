@@ -34,7 +34,7 @@ api-test: generate fmt vet manifests
 	
 # Run tests
 test: generate fmt vet manifests 
-	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/adlsgen2s/... 2>&1 | tee testlogs.txt
+	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 
