@@ -26,12 +26,16 @@ import (
 type AzureDataLakeGen2FileSystemSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	StorageAccountName string `json:"storageAccountName,omitempty"`
+	ResourceGroupName  string `json:"resourceGroup"`
 }
 
 // AzureDataLakeGen2FileSystemStatus defines the observed state of AzureDataLakeGen2FileSystem
 type AzureDataLakeGen2FileSystemStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -43,6 +47,16 @@ type AzureDataLakeGen2FileSystem struct {
 
 	Spec   AzureDataLakeGen2FileSystemSpec   `json:"spec,omitempty"`
 	Status AzureDataLakeGen2FileSystemStatus `json:"status,omitempty"`
+	Output AzureDataLakeGen2FileSystemOutput `json:"output,omitempty"`
+}
+
+// AzureDataLakeGen2FileSystemOutput is the object that contains the output from creating and AdlsGen2 object
+type AzureDataLakeGen2FileSystemOutput struct {
+	AzureDataLakeGen2FileSystemName string `json:"AzureDataLakeGen2FileSystemName,omitempty"`
+	Key1                            string `json:"key1,omitempty"`
+	Key2                            string `json:"key2,omitempty"`
+	ConnectionString1               string `json:"connectionString1,omitempty"`
+	ConnectionString2               string `json:"connectionString2,omitempty"`
 }
 
 // +kubebuilder:object:root=true
