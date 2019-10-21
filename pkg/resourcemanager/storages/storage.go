@@ -68,7 +68,10 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	if err != nil {
 		return nil, err
 	}
-
+	if dataLakeEnabled == to.BoolPtr(true) && kind != "StorageV2" {
+		log.Fatalf("Cannot create storage account. Datalake enabled storage account must be of kind: StorageV2")
+		return nil, errors.New("unable to create datalake enabled storage account")
+	}
 	if *checkNameResult.NameAvailable == false {
 		log.Fatalf("storage account not available: %v\n", checkNameResult.Reason)
 		return nil, errors.New("storage account name not available")
