@@ -333,7 +333,7 @@ func (r *reconcileRunner) runPostProvisionHandler() (ctrl.Result, error) {
 }
 
 func (r *reconcileRunner) updateInstance(ctx context.Context) error {
-	return r.tryUpdateInstance(ctx , 2)
+	return r.tryUpdateInstance(ctx, 2)
 }
 
 // this is to get rid of the pesky errors
@@ -361,7 +361,7 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 		}
 		r.Log.Info(fmt.Sprintf("failed to update CRD instance on K8s cluster. Retries left=%d", count))
 		time.Sleep(2 * time.Second)
-		return r.tryUpdateInstance(ctx, count - 1)
+		return r.tryUpdateInstance(ctx, count-1)
 	} else {
 		r.Updater.Clear()
 		return nil
