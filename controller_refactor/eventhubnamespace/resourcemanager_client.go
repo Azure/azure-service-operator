@@ -39,7 +39,9 @@ func (client *resourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
 	}
+	client.logger.Info("EventhubNamespace " + ehnDef.Name + " creating on Azure. Please be patient.")
 	_, err = client.eventHubNamespaceManager.CreateNamespaceAndWait(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name, ehnDef.Spec.Location)
+	client.logger.Info("EventhubNamespace " + ehnDef.Name + " finished creating on Azure.")
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
 	}
@@ -56,13 +58,14 @@ func (client *resourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 		return controller_refactor.VerifyError, err
 	}
 
+	client.logger.Info("Fetching EventhubNamespace " + ehnDef.Name + " from Azure.")
 	ehn, err := client.eventHubNamespaceManager.GetNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
-	if err == nil {
-		return controller_refactor.VerifyError, err
-	} else if ehn == nil {
+	if ehn == nil {
 		return controller_refactor.VerifyError, fmt.Errorf("eventhubnamespace verify was nil for %s", ehnDef.Name)
 	} else if ehn.Response.StatusCode == http.StatusNotFound {
 		return controller_refactor.VerifyMissing, nil
+	} else if err != nil {
+		return controller_refactor.VerifyError, err
 	} else if ehn.Response.StatusCode == http.StatusOK {
 		if ehn.ProvisioningState != nil && *ehn.ProvisioningState == "Succeeded" {
 			// TODO: handle cases that lead to VerifyUpdateRequired and VerifyRecreateRequired
@@ -83,13 +86,14 @@ func (client *resourceManagerClient) Delete(ctx context.Context, r runtime.Objec
 		return controller_refactor.DeleteError, err
 	}
 
+	client.logger.Info("EventhubNamespace " + ehnDef.Name + " deleting on Azure. Please be patient.")
 	resp, err := client.eventHubNamespaceManager.DeleteNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
-	if resp.Response != nil {
+	if resp.Response == nil {
 		return controller_refactor.DeleteError, err
 	}
 	if resp.StatusCode == http.StatusNotFound {
 		return controller_refactor.DeleteAlreadyDeleted, nil
-	} else if resp.StatusCode == http.StatusOK {
+	} else if resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusAccepted {
 		return controller_refactor.DeleteSucceed, nil
 	}
 

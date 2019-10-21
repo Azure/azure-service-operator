@@ -54,6 +54,8 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 	if err != nil {
 		return controller_refactor.VerifyError, err
 	}
+
+	// TODO: need to get the object itself to check if it's creating or deleting
 	resp, err := client.resourceGroupManager.CheckExistence(ctx, rg.Name)
 	if resp.Response != nil && resp.StatusCode == http.StatusNotFound {
 		return controller_refactor.VerifyMissing, nil

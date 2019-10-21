@@ -77,17 +77,17 @@ type definitionManager struct {
 	kubeClient client.Client
 }
 
-func (fetcher *definitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
+func (dm *definitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
 	var instance v1alpha1.EventhubNamespace
-	err := fetcher.kubeClient.Get(ctx, req.NamespacedName, &instance)
-	details := fetcher.getDefinition(&instance.ResourceBaseDefinition, &instance)
+	err := dm.kubeClient.Get(ctx, req.NamespacedName, &instance)
+	details := dm.getDefinition(&instance.ResourceBaseDefinition, &instance)
 	return &controller_refactor.ThisResourceDefinitions{
 		Details: details,
-		Updater: fetcher.getUpdater(&instance, details),
+		Updater: dm.getUpdater(&instance, details),
 	}, err
 }
 
-func (fetcher *definitionManager) GetDependencies(ctx context.Context, thisInstance runtime.Object) (*controller_refactor.DependencyDefinitions, error) {
+func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance runtime.Object) (*controller_refactor.DependencyDefinitions, error) {
 	ehnInstance, err := convertInstance(thisInstance)
 	if err != nil {
 		return nil, err
@@ -100,10 +100,12 @@ func (fetcher *definitionManager) GetDependencies(ctx context.Context, thisInsta
 		Name:      ownerName,
 	}
 	var instance v1alpha1.ResourceGroup
-	err = fetcher.kubeClient.Get(ctx, ownerNSName, &instance)
+	err = dm.kubeClient.Get(ctx, ownerNSName, &instance)
 	var owner *controller_refactor.CustomResourceDetails
 	if apierrors.IsNotFound(err) {
 		return nil, err
+	} else {
+		owner = dm.getDefinition(&instance.ResourceBaseDefinition, &instance)
 	}
 
 	return &controller_refactor.DependencyDefinitions{
@@ -112,7 +114,7 @@ func (fetcher *definitionManager) GetDependencies(ctx context.Context, thisInsta
 	}, err
 }
 
-func (_ *definitionManager) getDefinition(base *v1alpha1.ResourceBaseDefinition, instance runtime.Object) *controller_refactor.CustomResourceDetails {
+func (dm *definitionManager) getDefinition(base *v1alpha1.ResourceBaseDefinition, instance runtime.Object) *controller_refactor.CustomResourceDetails {
 	return &controller_refactor.CustomResourceDetails{
 		ProvisionState: base.Status.ProvisionState,
 		Name:           base.Name,
@@ -122,7 +124,7 @@ func (_ *definitionManager) getDefinition(base *v1alpha1.ResourceBaseDefinition,
 	}
 }
 
-func (_ *definitionManager) getUpdater(instance *v1alpha1.EventhubNamespace, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
+func (dm *definitionManager) getUpdater(instance *v1alpha1.EventhubNamespace, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
 	return &controller_refactor.CustomResourceUpdater{
 		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
 			instance.ResourceBaseDefinition = *state

@@ -44,7 +44,7 @@ func (ac *AzureController) SetupWithManager(mgr ctrl.Manager) error {
 }
 
 func (ac *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	ctx := context.Background()
+	ctx := context.TODO()
 	log := ac.Log.WithValues("resourcegroup", req.NamespacedName)
 
 	// fetch the manifest object
@@ -58,20 +58,19 @@ func (ac *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	details := thisDefs.Details
-	requeueAfter := getRequeueAfter(ac.Parameters)
+	requeueAfter := getRequeueAfter(ac.Parameters.RequeueAfterSeconds)
 
 	// create a reconcile cycle object
 	reconcileCycle := reconcileRunner{
 		AzureController:         ac,
 		ThisResourceDefinitions: thisDefs,
 		requeueAfter:            requeueAfter,
-		ctx:                     ctx,
 		log:                     log,
 	}
 
 	// if no finalizers have been defined, do that and requeue
 	if len(details.BaseDefinition.Finalizers) == 0 {
-		err := reconcileCycle.addFinalizers()
+		err := reconcileCycle.addFinalizers(ctx)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error adding finalizer: %v", err)
 		}
@@ -100,11 +99,15 @@ func (ac *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	reconcileCycle.DependencyDefinitions = dependencies
 
 	// get parameters
-	return reconcileCycle.run()
+	result, err := reconcileCycle.run(ctx)
+
+	if result.Requeue == false {
+		return ctrl.Result{RequeueAfter: getRequeueAfter(1)}, err
+	}
+	return result, err
 }
 
-func getRequeueAfter(parameters Parameters) time.Duration {
-	requeueSeconds := parameters.RequeueAfterSeconds
+func getRequeueAfter(requeueSeconds int) time.Duration {
 	if requeueSeconds == 0 {
 		requeueSeconds = 10
 	}
