@@ -1,4 +1,4 @@
-package adlsgen2s
+package storages
 
 import (
 	"context"

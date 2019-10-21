@@ -1,4 +1,4 @@
-package adlsgen2s
+package storages
 
 import (
 	"context"
@@ -24,9 +24,9 @@ var _ = Describe("File System", func() {
 		// Add any setup steps that needs to be executed before each test
 		// Create a data lake enbaled storage account
 		adlsLocation := config.DefaultLocation()
-		_, err := tc.DataLakeManagers.Storage.CreateAdlsGen2(context.Background(), tc.ResourceGroupName, adlsName, adlsLocation, azurev1alpha1.StorageSku{
+		_, err := tc.StorageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, adlsName, adlsLocation, azurev1alpha1.StorageSku{
 			Name: "Standard_LRS",
-		}, map[string]*string{}, "", nil)
+		}, "StorageV2", map[string]*string{}, "", nil, to.BoolPtr(true))
 
 		if err != nil {
 			fmt.Println("data lake wasn't created")
@@ -35,13 +35,13 @@ var _ = Describe("File System", func() {
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
-		_, _ = tc.DataLakeManagers.Storage.DeleteAdlsGen2(context.Background(), tc.ResourceGroupName, adlsName)
+		_, _ = tc.StorageManagers.Storage.DeleteStorage(context.Background(), tc.ResourceGroupName, adlsName)
 	})
 
 	Context("Create and Delete File System Instances", func() {
 		It("should create and delete filesystems in azure data lake", func() {
 
-			fileSystemManager := tc.DataLakeManagers.FileSystem
+			fileSystemManager := tc.StorageManagers.FileSystem
 			fileSystemName := "tfilesystem" + helpers.RandomString(5)
 			xMsProperties := ""
 			xMsClientRequestID := ""
