@@ -65,3 +65,11 @@ type BlobContainerList struct {
 func init() {
 	SchemeBuilder.Register(&BlobContainer{}, &BlobContainerList{})
 }
+
+func (s *BlobContainer) IsSubmitted() bool {
+	return s.Status.Provisioned || s.Status.Provisioning
+}
+
+func (s *BlobContainer) IsProvisioned() bool {
+	return s.Status.Provisioned
+}
