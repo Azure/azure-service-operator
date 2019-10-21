@@ -20,6 +20,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/go-logr/logr"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -96,6 +97,6 @@ func (r *AzureDataLakeGen2FileSystemReconciler) reconcileExternal(instance *azur
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, azurev1alpha1.EventTypeNormal, "Updated", name+" provisioned - stubbed")
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", name+" provisioned - stubbed")
 	return nil
 }
