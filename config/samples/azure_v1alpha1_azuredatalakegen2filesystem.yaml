@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureDataLakeGen2FileSystem
+metadata:
+  name: azuredatalakegen2filesystem-sample
+spec:
+  # Add fields here
+  foo: bar

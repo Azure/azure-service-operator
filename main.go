@@ -214,6 +214,13 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AdlsGen2")
 		os.Exit(1)
 	}
+	if err = (&controllers.AzureDataLakeGen2FileSystemReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureDataLakeGen2FileSystem")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

@@ -24,8 +24,8 @@ import (
 	// "github.com/azure-service-operator/pkg/resourcemanager/adlsgen2s"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"k8s.io/client-go/tools/record"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/client-go/tools/record"
 )
 
 // AdlsGen2Reconciler reconciles a AdlsGen2 object
