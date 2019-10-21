@@ -21,41 +21,42 @@ import (
 	"context"
 	"fmt"
 	"github.com/Azure/azure-service-operator/controller_refactor"
+	"github.com/go-logr/logr"
 	"net/http"
 
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
-type ResourceManagerClient struct {
-	EventHubNamespaceManager eventhubs.EventHubNamespaceManager
+type resourceManagerClient struct {
+	logger                   logr.Logger
+	eventHubNamespaceManager eventhubs.EventHubNamespaceManager
 }
 
-func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	ehnDef, err := client.convert(r)
+func (client *resourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
+	ehnDef, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
 	}
-	_, err = client.EventHubNamespaceManager.CreateNamespaceAndWait(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name, ehnDef.Spec.Location)
+	_, err = client.eventHubNamespaceManager.CreateNamespaceAndWait(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name, ehnDef.Spec.Location)
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
 	}
 	return controller_refactor.EnsureAwaitingVerification, nil
 }
 
-func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
+func (client *resourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
 	return controller_refactor.EnsureFailed, fmt.Errorf("eventhubnamespace cannot be updated")
 }
 
-func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
-	ehnDef, err := client.convert(r)
+func (client *resourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
+	ehnDef, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.VerifyError, err
 	}
 
-	ehn, err := client.EventHubNamespaceManager.GetNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
+	ehn, err := client.eventHubNamespaceManager.GetNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
 	if err == nil {
 		return controller_refactor.VerifyError, err
 	} else if ehn == nil {
@@ -76,13 +77,13 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 	return controller_refactor.VerifyMissing, nil
 }
 
-func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
-	ehnDef, err := client.convert(r)
+func (client *resourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
+	ehnDef, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.DeleteError, err
 	}
 
-	resp, err := client.EventHubNamespaceManager.DeleteNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
+	resp, err := client.eventHubNamespaceManager.DeleteNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
 	if resp.Response != nil {
 		return controller_refactor.DeleteError, err
 	}
@@ -94,12 +95,4 @@ func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Objec
 
 	// TODO: handle all other cases
 	return controller_refactor.DeleteSucceed, nil
-}
-
-func (_ *ResourceManagerClient) convert(obj runtime.Object) (*v1alpha1.EventhubNamespace, error) {
-	local, ok := obj.(*v1alpha1.EventhubNamespace)
-	if !ok {
-		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
-	}
-	return local, nil
 }

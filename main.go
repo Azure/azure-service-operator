@@ -17,6 +17,8 @@ package main
 
 import (
 	"flag"
+
+	"github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
 	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
 
 	"k8s.io/apimachinery/pkg/runtime"
@@ -134,23 +136,28 @@ func main() {
 	err = (&resourcegroup.ControllerFactory{
 		ResourceGroupManager: resourceGroupManager,
 	}).SetupWithManager(mgr)
-
 	//err = (&controllers.ResourceGroupReconciler{
 	//	Client:               mgr.GetClient(),
 	//	Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 	//	Recorder:             mgr.GetEventRecorderFor("ResourceGroup-controller"),
-	//	ResourceGroupManager: resourceGroupManager,
+	//	resourceGroupManager: resourceGroupManager,
 	//}).SetupWithManager(mgr)
-	//if err != nil {
-	//	setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
-	//	os.Exit(1)
-	//}
-	err = (&controllers.EventhubNamespaceReconciler{
-		Client:                   mgr.GetClient(),
-		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder:                 mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
+		os.Exit(1)
+	}
+
+	err = (&eventhubnamespace.ControllerFactory{
 		EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
 	}).SetupWithManager(mgr)
+	//err = (&controllers.EventhubNamespaceReconciler{
+	//	Client:                   mgr.GetClient(),
+	//	Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+	//	Recorder:                 mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+	//	EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
+	//}).SetupWithManager(mgr)
+
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
 		os.Exit(1)

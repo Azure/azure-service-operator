@@ -8,6 +8,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
 
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -83,14 +84,16 @@ func (r *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// get dependency details
-	reconcileCycle.DependencyDefinitions, err = r.DefinitionManager.GetDependencies(ctx, req)
-	if err != nil {
-		log.Info("Unable to retrieve resource", "err", err.Error())
-		// we'll ignore not-found errors, since they can't be fixed by an immediate
-		// requeue (we'll need to wait for a new notification), and we can get them
-		// on deleted requests.
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+	dependencies, err := r.DefinitionManager.GetDependencies(ctx, details.Instance)
+	if err != nil || dependencies == nil {
+		if apierrors.IsNotFound(err) {
+			log.Info("Dependency not found for " + details.Name)
+		} else {
+			log.Info("Unable to retrieve dependency for "+details.Name, "err", err.Error())
+		}
+		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, client.IgnoreNotFound(err)
 	}
+	reconcileCycle.DependencyDefinitions = dependencies
 
 	// get parameters
 	return reconcileCycle.run()

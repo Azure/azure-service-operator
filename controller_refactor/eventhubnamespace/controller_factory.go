@@ -17,8 +17,12 @@ package eventhubnamespace
 
 import (
 	"context"
+	"fmt"
 	"github.com/Azure/azure-service-operator/controller_refactor"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -49,15 +53,17 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
 }
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *controller_refactor.AzureController {
-	resourceManagerClient := &ResourceManagerClient{
-		EventHubNamespaceManager: factory.EventHubNamespaceManager,
+	resourceManagerClient := &resourceManagerClient{
+		logger:                   logger,
+		eventHubNamespaceManager: factory.EventHubNamespaceManager,
 	}
 	return &controller_refactor.AzureController{
 		KubeClient:            kubeClient,
 		Log:                   logger,
 		Recorder:              recorder,
 		ResourceManagerClient: resourceManagerClient,
-		DefinitionManager: &DefinitionManager{
+		DefinitionManager: &definitionManager{
+			logger:     logger,
 			kubeClient: kubeClient,
 		},
 		FinalizerName:        FinalizerName,
@@ -65,43 +71,69 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 	}
 }
 
-type DefinitionManager struct {
+type definitionManager struct {
+	logger     logr.Logger
 	kubeClient client.Client
 }
 
-func (fetcher *DefinitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
+func (fetcher *definitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
 	var instance v1alpha1.EventhubNamespace
 	err := fetcher.kubeClient.Get(ctx, req.NamespacedName, &instance)
-	crdInfo := fetcher.getDefinition(&instance)
+	details := fetcher.getDefinition(&instance.ResourceBaseDefinition, &instance)
 	return &controller_refactor.ThisResourceDefinitions{
-		Details: crdInfo,
-		Updater: fetcher.getUpdater(&instance, crdInfo),
+		Details: details,
+		Updater: fetcher.getUpdater(&instance, details),
 	}, err
 }
 
-func (_ *DefinitionManager) GetDependencies(ctx context.Context, req ctrl.Request) (*controller_refactor.DependencyDefinitions, error) {
+func (fetcher *definitionManager) GetDependencies(ctx context.Context, thisInstance runtime.Object) (*controller_refactor.DependencyDefinitions, error) {
+	ehnInstance, err := convertInstance(thisInstance)
+	if err != nil {
+		return nil, err
+	}
+
+	// fetch the owner details
+	ownerName := ehnInstance.Spec.ResourceGroup
+	ownerNSName := types.NamespacedName{
+		Namespace: ehnInstance.Namespace,
+		Name:      ownerName,
+	}
+	var instance v1alpha1.ResourceGroup
+	err = fetcher.kubeClient.Get(ctx, ownerNSName, &instance)
+	var owner *controller_refactor.CustomResourceDetails
+	if apierrors.IsNotFound(err) {
+		return nil, err
+	}
+
 	return &controller_refactor.DependencyDefinitions{
 		Dependencies: []*controller_refactor.CustomResourceDetails{},
-		Owner:        nil,
-	}, nil
+		Owner:        owner,
+	}, err
 }
 
-func (_ *DefinitionManager) getDefinition(instance *v1alpha1.EventhubNamespace) *controller_refactor.CustomResourceDetails {
+func (_ *definitionManager) getDefinition(base *v1alpha1.ResourceBaseDefinition, instance runtime.Object) *controller_refactor.CustomResourceDetails {
 	return &controller_refactor.CustomResourceDetails{
-		ProvisionState: instance.Status.ProvisionState,
-		Name:           instance.Name,
-		Parameters:     instance.Spec.Parameters,
+		ProvisionState: base.Status.ProvisionState,
+		Name:           base.Name,
 		Instance:       instance,
-		BaseDefinition: &instance.ResourceBaseDefinition,
-		IsBeingDeleted: !instance.ObjectMeta.DeletionTimestamp.IsZero(),
+		BaseDefinition: base,
+		IsBeingDeleted: !base.ObjectMeta.DeletionTimestamp.IsZero(),
 	}
 }
 
-func (_ *DefinitionManager) getUpdater(instance *v1alpha1.EventhubNamespace, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
+func (_ *definitionManager) getUpdater(instance *v1alpha1.EventhubNamespace, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
 	return &controller_refactor.CustomResourceUpdater{
 		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
 			instance.ResourceBaseDefinition = *state
 		},
 		CustomResourceDetails: crDetails,
 	}
+}
+
+func convertInstance(obj runtime.Object) (*v1alpha1.EventhubNamespace, error) {
+	local, ok := obj.(*v1alpha1.EventhubNamespace)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }

@@ -17,7 +17,9 @@ package resourcegroup
 
 import (
 	"context"
+	"fmt"
 	"github.com/Azure/azure-service-operator/controller_refactor"
+	"k8s.io/apimachinery/pkg/runtime"
 
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -50,14 +52,15 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager) error {
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder) *controller_refactor.AzureController {
 	resourceManagerClient := &ResourceManagerClient{
-		ResourceGroupManager: factory.ResourceGroupManager,
+		resourceGroupManager: factory.ResourceGroupManager,
 	}
 	return &controller_refactor.AzureController{
 		KubeClient:            kubeClient,
 		Log:                   logger,
 		Recorder:              recorder,
 		ResourceManagerClient: resourceManagerClient,
-		DefinitionManager: &DefinitionManager{
+		DefinitionManager: &definitionManager{
+			logger:     logger,
 			kubeClient: kubeClient,
 		},
 		FinalizerName:        FinalizerName,
@@ -65,43 +68,51 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 	}
 }
 
-type DefinitionManager struct {
+type definitionManager struct {
+	logger     logr.Logger
 	kubeClient client.Client
 }
 
-func (fetcher *DefinitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
+func (fetcher *definitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
 	var instance v1alpha1.ResourceGroup
 	err := fetcher.kubeClient.Get(ctx, req.NamespacedName, &instance)
-	crdInfo := fetcher.getDefinition(&instance)
+	details := fetcher.getDefinition(&instance.ResourceBaseDefinition, &instance)
 	return &controller_refactor.ThisResourceDefinitions{
-		Details: crdInfo,
-		Updater: fetcher.getUpdater(&instance, crdInfo),
+		Details: details,
+		Updater: fetcher.getUpdater(&instance, details),
 	}, err
 }
 
-func (_ *DefinitionManager) GetDependencies(ctx context.Context, req ctrl.Request) (*controller_refactor.DependencyDefinitions, error) {
+func (_ *definitionManager) GetDependencies(context.Context, runtime.Object) (*controller_refactor.DependencyDefinitions, error) {
 	return &controller_refactor.DependencyDefinitions{
 		Dependencies: []*controller_refactor.CustomResourceDetails{},
 		Owner:        nil,
 	}, nil
 }
 
-func (_ *DefinitionManager) getDefinition(instance *v1alpha1.ResourceGroup) *controller_refactor.CustomResourceDetails {
+func (_ *definitionManager) getDefinition(base *v1alpha1.ResourceBaseDefinition, instance runtime.Object) *controller_refactor.CustomResourceDetails {
 	return &controller_refactor.CustomResourceDetails{
-		ProvisionState: instance.Status.ProvisionState,
-		Name:           instance.Name,
-		Parameters:     instance.Spec.Parameters,
+		ProvisionState: base.Status.ProvisionState,
+		Name:           base.Name,
 		Instance:       instance,
-		BaseDefinition: &instance.ResourceBaseDefinition,
-		IsBeingDeleted: !instance.ObjectMeta.DeletionTimestamp.IsZero(),
+		BaseDefinition: base,
+		IsBeingDeleted: !base.ObjectMeta.DeletionTimestamp.IsZero(),
 	}
 }
 
-func (_ *DefinitionManager) getUpdater(instance *v1alpha1.ResourceGroup, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
+func (_ *definitionManager) getUpdater(instance *v1alpha1.ResourceGroup, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
 	return &controller_refactor.CustomResourceUpdater{
 		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
 			instance.ResourceBaseDefinition = *state
 		},
 		CustomResourceDetails: crDetails,
 	}
+}
+
+func convertInstance(obj runtime.Object) (*v1alpha1.ResourceGroup, error) {
+	local, ok := obj.(*v1alpha1.ResourceGroup)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }
