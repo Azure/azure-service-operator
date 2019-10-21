@@ -20,14 +20,14 @@ import (
 	"context"
 	"fmt"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	v1 "k8s.io/api/core/v1"
 )
 
 const eventhubFinalizerName = "eventhub.finalizers.com"
 
-func (r *EventhubReconciler) addFinalizer(instance *azurev1.Eventhub) error {
+func (r *EventhubReconciler) addFinalizer(instance *azurev1alpha1.Eventhub) error {
 	instance.AddFinalizer(eventhubFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -37,7 +37,7 @@ func (r *EventhubReconciler) addFinalizer(instance *azurev1.Eventhub) error {
 	return nil
 }
 
-func (r *EventhubReconciler) handleFinalizer(instance *azurev1.Eventhub) error {
+func (r *EventhubReconciler) handleFinalizer(instance *azurev1alpha1.Eventhub) error {
 	if instance.HasFinalizer(eventhubFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
@@ -54,7 +54,7 @@ func (r *EventhubReconciler) handleFinalizer(instance *azurev1.Eventhub) error {
 	return nil
 }
 
-func (r *EventhubReconciler) deleteExternalDependency(instance *azurev1.Eventhub) error {
+func (r *EventhubReconciler) deleteExternalDependency(instance *azurev1alpha1.Eventhub) error {
 
 	return r.deleteEventhub(instance)
 }

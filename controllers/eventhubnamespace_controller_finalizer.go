@@ -20,13 +20,13 @@ import (
 	"context"
 	"fmt"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	v1 "k8s.io/api/core/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
 const eventhubNamespaceFinalizerName = "eventhubnamespace.finalizers.com"
 
-func (r *EventhubNamespaceReconciler) addFinalizer(instance *azurev1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) addFinalizer(instance *azurev1alpha1.EventhubNamespace) error {
 	instance.AddFinalizer(eventhubNamespaceFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -36,7 +36,7 @@ func (r *EventhubNamespaceReconciler) addFinalizer(instance *azurev1.EventhubNam
 	return nil
 }
 
-func (r *EventhubNamespaceReconciler) handleFinalizer(instance *azurev1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) handleFinalizer(instance *azurev1alpha1.EventhubNamespace) error {
 	if instance.HasFinalizer(eventhubNamespaceFinalizerName) {
 		// our finalizer is present, so lets handle our external dependency
 		if err := r.deleteExternalDependency(instance); err != nil {
@@ -52,7 +52,7 @@ func (r *EventhubNamespaceReconciler) handleFinalizer(instance *azurev1.Eventhub
 	return nil
 }
 
-func (r *EventhubNamespaceReconciler) deleteExternalDependency(instance *azurev1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) deleteExternalDependency(instance *azurev1alpha1.EventhubNamespace) error {
 
 	return r.deleteEventhubNamespace(instance)
 }

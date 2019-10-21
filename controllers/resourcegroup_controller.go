@@ -18,7 +18,7 @@ package controllers
 import (
 	"fmt"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
 	"context"
@@ -47,7 +47,7 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	ctx := context.Background()
 	log := r.Log.WithValues("resourcegroup", req.NamespacedName)
 
-	var instance azurev1.ResourceGroup
+	var instance azurev1alpha1.ResourceGroup
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve resourcegroup resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -87,11 +87,11 @@ func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 // SetupWithManager function sets up the functions with the controller
 func (r *ResourceGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.ResourceGroup{}).
+		For(&azurev1alpha1.ResourceGroup{}).
 		Complete(r)
 }
 
-func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1alpha1.ResourceGroup) error {
 
 	ctx := context.Background()
 	var err error
@@ -134,7 +134,7 @@ func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1.ResourceGr
 
 }
 
-func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1.ResourceGroup) error {
+func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1alpha1.ResourceGroup) error {
 	ctx := context.Background()
 
 	resourcegroup := instance.ObjectMeta.Name

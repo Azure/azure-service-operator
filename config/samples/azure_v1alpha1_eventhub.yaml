@@ -1,0 +1,18 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: Eventhub
+metadata:
+  name: eventhub-sample-2307-09
+spec:
+  location: "westus"
+  resourceGroup: resourcegroup-azure-operators
+  namespace: "eventhubnamespace-sample-6"
+  properties:
+    messageRetentionInDays: 7
+    partitionCount: 2
+  authorizationRule: 
+    name : "RootManageSharedAccessKey"
+    rights: 
+      - "Listen"
+      - "Manage"
+      - "Send"
+  secretName: "secret-stream-eventhub-sample"
