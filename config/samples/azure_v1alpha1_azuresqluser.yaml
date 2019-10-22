@@ -1,4 +1,4 @@
-apiVersion: azure.microsoft.com/v1
+apiVersion: azure.microsoft.com/v1alpha1
 kind: AzureSQLUser
 metadata:
   name: sqluser-sample
