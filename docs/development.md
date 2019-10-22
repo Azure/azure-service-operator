@@ -21,9 +21,9 @@
         customresourcedefinition.apiextensions.k8s.io/eventhubnamespaces.azure.microsoft.com created
         customresourcedefinition.apiextensions.k8s.io/eventhubs.azure.microsoft.com created
         customresourcedefinition.apiextensions.k8s.io/resourcegroups.azure.microsoft.com created
-        customresourcedefinition.apiextensions.k8s.io/sqldatabases.azure.microsoft.com created
-        customresourcedefinition.apiextensions.k8s.io/sqlfirewallrules.azure.microsoft.com created
-        customresourcedefinition.apiextensions.k8s.io/sqlservers.azure.microsoft.com configured
+        customresourcedefinition.apiextensions.k8s.io/azuresqldatabases.azure.microsoft.com created
+        customresourcedefinition.apiextensions.k8s.io/azuresqlfirewallrules.azure.microsoft.com created
+        customresourcedefinition.apiextensions.k8s.io/azuresqlservers.azure.microsoft.com configured
     ```
 
 5. Run the operator locally using
@@ -45,24 +45,24 @@
     2019-09-24T12:18:10.420-0600	INFO	controller-runtime.builder	Registering a validating webhook	{"GVK": "azure.microsoft.com/v1, Kind=EventhubNamespace", "path": "/validate-azure-microsoft-com-v1-eventhubnamespace"}
     2019-09-24T12:18:10.420-0600	INFO	controller-runtime.builder	Registering a mutating webhook	{"GVK": "azure.microsoft.com/v1, Kind=Eventhub", "path": "/mutate-azure-microsoft-com-v1-eventhub"}
     2019-09-24T12:18:10.424-0600	INFO	controller-runtime.builder	Registering a validating webhook	{"GVK": "azure.microsoft.com/v1, Kind=Eventhub", "path": "/validate-azure-microsoft-com-v1-eventhub"}
-    2019-09-24T12:18:10.424-0600	INFO	controller-runtime.controller	Starting EventSource	{"controller": "sqlserver", "source": "kind source: /, Kind="}
-    2019-09-24T12:18:10.424-0600	INFO	controller-runtime.controller	Starting EventSource	{"controller": "sqldatabase", "source": "kind source: /, Kind="}
-    2019-09-24T12:18:10.424-0600	INFO	controller-runtime.controller	Starting EventSource	{"controller": "sqlfirewallrule", "source": "kind source: /, Kind="}
+    2019-09-24T12:18:10.424-0600	INFO	controller-runtime.controller	Starting EventSource	{"controller": "azuresqlserver", "source": "kind source: /, Kind="}
+    2019-09-24T12:18:10.424-0600	INFO	controller-runtime.controller	Starting EventSource	{"controller": "azuresqldatabase", "source": "kind source: /, Kind="}
+    2019-09-24T12:18:10.424-0600	INFO	controller-runtime.controller	Starting EventSource	{"controller": "azuresqlfirewallrule", "source": "kind source: /, Kind="}
     2019-09-24T12:18:10.424-0600	INFO	setup	starting manager
     2019-09-24T12:18:10.424-0600	INFO	controller-runtime.manager	starting metrics server	{"path": "/metrics"}
     2019-09-24T12:18:10.526-0600	INFO	controller-runtime.controller	Starting Controller	{"controller": "eventhub"}
     2019-09-24T12:18:10.526-0600	INFO	controller-runtime.controller	Starting Controller	{"controller": "resourcegroup"}
-    2019-09-24T12:18:10.526-0600	INFO	controller-runtime.controller	Starting Controller	{"controller": "sqldatabase"}
-    2019-09-24T12:18:10.526-0600	INFO	controller-runtime.controller	Starting Controller	{"controller": "sqlfirewallrule"}
+    2019-09-24T12:18:10.526-0600	INFO	controller-runtime.controller	Starting Controller	{"controller": "azuresqldatabase"}
+    2019-09-24T12:18:10.526-0600	INFO	controller-runtime.controller	Starting Controller	{"controller": "azuresqlfirewallrule"}
     2019-09-24T12:18:10.526-0600	INFO	controller-runtime.controller	Starting Controller	{"controller": "eventhubnamespace"}
-    2019-09-24T12:18:10.526-0600	INFO	controller-runtime.controller	Starting Controller	{"controller": "sqlserver"}
+    2019-09-24T12:18:10.526-0600	INFO	controller-runtime.controller	Starting Controller	{"controller": "azuresqlserver"}
     2019-09-24T12:18:10.527-0600	INFO	controller-runtime.certwatcher	Updated current TLS certiface
     2019-09-24T12:18:10.527-0600	INFO	controller-runtime.certwatcher	Starting certificate watcher
-    2019-09-24T12:18:10.626-0600	INFO	controller-runtime.controller	Starting workers	{"controller": "sqldatabase", "worker count": 1}
+    2019-09-24T12:18:10.626-0600	INFO	controller-runtime.controller	Starting workers	{"controller": "azuresqldatabase", "worker count": 1}
     2019-09-24T12:18:10.626-0600	INFO	controller-runtime.controller	Starting workers	{"controller": "resourcegroup", "worker count": 1}
-    2019-09-24T12:18:10.626-0600	INFO	controller-runtime.controller	Starting workers	{"controller": "sqlfirewallrule", "worker count": 1}
+    2019-09-24T12:18:10.626-0600	INFO	controller-runtime.controller	Starting workers	{"controller": "azuresqlfirewallrule", "worker count": 1}
     2019-09-24T12:18:10.626-0600	INFO	controller-runtime.controller	Starting workers	{"controller": "eventhub", "worker count": 1}
-    2019-09-24T12:18:10.626-0600	INFO	controller-runtime.controller	Starting workers	{"controller": "sqlserver", "worker count": 1}
+    2019-09-24T12:18:10.626-0600	INFO	controller-runtime.controller	Starting workers	{"controller": "azuresqlserver", "worker count": 1}
     2019-09-24T12:18:10.626-0600	INFO	controller-runtime.controller	Starting workers	{"controller": "eventhubnamespace", "worker count": 1}
    ```
 
@@ -71,27 +71,27 @@
 
    ```shell
    kubectl apply -f config/samples/azure_v1_sqlserver.yaml
-   sqlserver.azure.microsoft.com/sqlserver-sample created
+   azuresqlserver.azure.microsoft.com/sqlserver-sample created
    ```
 
 7. You should see logs on the other terminal from the operator when this custom     resource is being created.
 
     ``` shell
-    2019-09-24T12:27:12.450-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194427"}, "reason": "Updated", "message": "finalizer sqlserver.finalizers.azure.com added"}
-    2019-09-24T12:27:12.450-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194427"}, "reason": "Submitting", "message": "starting resource reconciliation"}
-    2019-09-24T12:27:17.129-0600	INFO	controllers.SqlServer	mutating secret bundle
-    2019-09-24T12:27:17.144-0600	INFO	controllers.SqlServer	waiting for provision to take effect	{"sqlserver": "default/sqlserver-sample1"}
-    2019-09-24T12:27:17.350-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194437"}, "reason": "Checking", "message": "instance in NotReady state"}
-    2019-09-24T12:27:17.359-0600	INFO	controllers.SqlServer	Got ignorable error	{"sqlserver": "default/sqlserver-sample1", "type": "ResourceNotFound"}
-    2019-09-24T12:27:17.564-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194439"}, "reason": "Checking", "message": "instance in NotReady state"}
-    2019-09-24T12:27:17.570-0600	INFO	controllers.SqlServer	Got ignorable error	{"sqlserver": "default/sqlserver-sample1", "type": "ResourceNotFound"}
-    2019-09-24T12:28:17.805-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194439"}, "reason": "Checking", "message": "instance in Ready state"}
+    2019-09-24T12:27:12.450-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194427"}, "reason": "Updated", "message": "finalizer azuresqlserver.finalizers.azure.com added"}
+    2019-09-24T12:27:12.450-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194427"}, "reason": "Submitting", "message": "starting resource reconciliation"}
+    2019-09-24T12:27:17.129-0600	INFO	controllers.AzureSqlServer	mutating secret bundle
+    2019-09-24T12:27:17.144-0600	INFO	controllers.AzureSqlServer	waiting for provision to take effect	{"azuresqlserver": "default/sqlserver-sample1"}
+    2019-09-24T12:27:17.350-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194437"}, "reason": "Checking", "message": "instance in NotReady state"}
+    2019-09-24T12:27:17.359-0600	INFO	controllers.AzureSqlServer	Got ignorable error	{"azuresqlserver": "default/sqlserver-sample1", "type": "ResourceNotFound"}
+    2019-09-24T12:27:17.564-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194439"}, "reason": "Checking", "message": "instance in NotReady state"}
+    2019-09-24T12:27:17.570-0600	INFO	controllers.AzureSqlServer	Got ignorable error	{"azuresqlserver": "default/sqlserver-sample1", "type": "ResourceNotFound"}
+    2019-09-24T12:28:17.805-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194439"}, "reason": "Checking", "message": "instance in Ready state"}
     2019-09-24T12:28:19.010-0600	DEBUG	controller-runtime.controller	Successfully Reconciled	{"controller": "sqlserver", "request": "default/sqlserver-sample1"}
-    2019-09-24T12:28:19.010-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194518"}, "reason": "Provisioned", "message": "sqlserver sqlserver-sample1 provisioned "}
-    2019-09-24T12:28:19.202-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194518"}, "reason": "Checking", "message": "instance in Ready state"}
-    2019-09-24T12:28:20.331-0600	DEBUG	controller-runtime.controller	Successfully Reconciled	{"controller": "sqlserver", "request": "default/sqlserver-sample1"}
-    2019-09-24T12:28:20.331-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"SqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1","resourceVersion":"194518"}, "reason": "Provisioned", "message": "sqlserver sqlserver-sample1 provisioned "}```
-
+    2019-09-24T12:28:19.010-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194518"}, "reason": "Provisioned", "message": "sqlserver sqlserver-sample1 provisioned "}
+    2019-09-24T12:28:19.202-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194518"}, "reason": "Checking", "message": "instance in Ready state"}
+    2019-09-24T12:28:20.331-0600	DEBUG	controller-runtime.controller	Successfully Reconciled	{"controller": "azuresqlserver", "request": "default/sqlserver-sample1"}
+    2019-09-24T12:28:20.331-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194518"}, "reason": "Provisioned", "message": "sqlserver sqlserver-sample1 provisioned "}
+    ```
 
 ## Developing using VSCode with Remote - Containers
 
@@ -124,7 +124,7 @@ To see when the kind cluster is ready, use `docker ps -a` to list your running c
 For eg., use  `kubectl apply -f config/samples/azure_v1_sqlserver.yaml` from the terminal to create a SQL server using the operator. 
 `kubectl describe SqlServer` would show the events that indicate if the resource is created or being created.
 
-## Development info 
+## Development info
 
 This repository is generated by [Kubebuilder](https://book.kubebuilder.io/).
 

@@ -18,6 +18,7 @@ package eventhubs
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
@@ -32,15 +33,19 @@ var _ = Describe("Eventhub", func() {
 	var rgName string
 	var eventhubNamespaceName string
 	var namespaceLocation string
+	var eventHubManager EventHubManager
+	var eventHubNamespaceManager EventHubNamespaceManager
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 
 		rgName = tc.ResourceGroupName
 		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
-		namespaceLocation = tc.ResourcegroupLocation
+		namespaceLocation = tc.ResourceGroupLocation
+		eventHubManager = tc.EventHubManagers.EventHub
+		eventHubNamespaceManager = tc.EventHubManagers.EventHubNamespace
 
-		_, _ = CreateNamespaceAndWait(context.Background(), tc.ResourceGroupName, eventhubNamespaceName, namespaceLocation)
+		_, _ = eventHubNamespaceManager.CreateNamespaceAndWait(context.Background(), tc.ResourceGroupName, eventhubNamespaceName, namespaceLocation)
 	})
 
 	AfterEach(func() {
@@ -62,12 +67,12 @@ var _ = Describe("Eventhub", func() {
 			var err error
 
 			// TODO: add test for Capture
-			_, err = CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
+			_, err = eventHubManager.CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
-				return result.Response.StatusCode == 200
+				result, _ := eventHubManager.GetHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
+				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
 
@@ -79,21 +84,21 @@ var _ = Describe("Eventhub", func() {
 				},
 			}
 
-			_, err = CreateOrUpdateAuthorizationRule(context.Background(), rgName, eventhubNamespaceName, eventhubName, authorizationRuleName, parameters)
+			_, err = eventHubManager.CreateOrUpdateAuthorizationRule(context.Background(), rgName, eventhubNamespaceName, eventhubName, authorizationRuleName, parameters)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := ListKeys(context.Background(), rgName, eventhubNamespaceName, eventhubName, authorizationRuleName)
-				return result.Response.StatusCode == 200
+				result, _ := eventHubManager.ListKeys(context.Background(), rgName, eventhubNamespaceName, eventhubName, authorizationRuleName)
+				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
+			_, err = eventHubManager.DeleteHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
-				return result.Response.StatusCode == 404
+				result, _ := eventHubManager.GetHub(context.Background(), rgName, eventhubNamespaceName, eventhubName)
+				return result.Response.StatusCode == http.StatusNotFound
 			}, timeout,
 			).Should(BeTrue())
 

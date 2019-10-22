@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"time"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
@@ -37,8 +37,9 @@ import (
 // EventhubNamespaceReconciler reconciles a EventhubNamespace object
 type EventhubNamespaceReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
+	Log                      logr.Logger
+	Recorder                 record.EventRecorder
+	EventHubNamespaceManager eventhubsresourcemanager.EventHubNamespaceManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
@@ -49,7 +50,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 	ctx := context.Background()
 	log := r.Log.WithValues("eventhubnamespace", req.NamespacedName)
 
-	var instance azurev1.EventhubNamespace
+	var instance azurev1alpha1.EventhubNamespace
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve eventhub namespace resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -96,11 +97,11 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 //SetupWithManager sets up the functions for the controller
 func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.EventhubNamespace{}).
+		For(&azurev1alpha1.EventhubNamespace{}).
 		Complete(r)
 }
 
-func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1alpha1.EventhubNamespace) error {
 	ctx := context.Background()
 
 	var err error
@@ -113,7 +114,7 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.Eventh
 	instance.Status.Provisioning = true
 
 	//get owner instance
-	var ownerInstance azurev1.ResourceGroup
+	var ownerInstance azurev1alpha1.ResourceGroup
 	resourceGroupNamespacedName := types.NamespacedName{Name: resourcegroup, Namespace: instance.Namespace}
 	err = r.Get(ctx, resourceGroupNamespacedName, &ownerInstance)
 
@@ -140,7 +141,7 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.Eventh
 	}
 
 	// create Event Hubs namespace
-	_, err = eventhubsresourcemanager.CreateNamespaceAndWait(ctx, resourcegroup, namespaceName, namespaceLocation)
+	_, err = r.EventHubNamespaceManager.CreateNamespaceAndWait(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -168,7 +169,7 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1.Eventh
 
 }
 
-func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1.EventhubNamespace) error {
+func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1alpha1.EventhubNamespace) error {
 
 	ctx := context.Background()
 
@@ -176,9 +177,9 @@ func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1.
 	resourcegroup := instance.Spec.ResourceGroup
 
 	var err error
-	_, err = eventhubsresourcemanager.DeleteNamespace(ctx, resourcegroup, namespaceName)
+	_, err = r.EventHubNamespaceManager.DeleteNamespace(ctx, resourcegroup, namespaceName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 	return nil

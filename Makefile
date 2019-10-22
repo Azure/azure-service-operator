@@ -33,14 +33,14 @@ api-test: generate fmt vet manifests
 	go tool cover -html=coverage.txt -o cover.html
 	
 # Run tests
-test: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
+test: generate fmt vet manifests 
+	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs-existing.txt
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs-existing.txt
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
 
@@ -53,7 +53,7 @@ run: generate fmt vet
 	go run ./main.go
 
 # Install CRDs into a cluster
-install: manifests
+install: generate
 	kubectl apply -f config/crd/bases
 
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
@@ -61,9 +61,11 @@ deploy: manifests
 	kubectl apply -f config/crd/bases
 	kustomize build config/default | kubectl apply -f -
 
+timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
+
 update:
-	IMG="docker.io/controllertest:1" make ARGS="${ARGS}" docker-build
-	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+	IMG="docker.io/controllertest:$(timestamp)" make ARGS="${ARGS}" docker-build
+	kind load docker-image docker.io/controllertest:$(timestamp) --loglevel "trace"
 	make install
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
@@ -85,7 +87,7 @@ vet:
 	go vet ./...
 
 # Generate code
-generate: controller-gen
+generate: manifests
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
 
 # Build the docker image
@@ -105,7 +107,7 @@ build-and-push: docker-build docker-push
 # download controller-gen if necessary
 controller-gen:
 ifeq (, $(shell which controller-gen))
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0-beta.3
+	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
 CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 else
 CONTROLLER_GEN=$(shell which controller-gen)
@@ -155,9 +157,10 @@ endif
 	make install-cert-manager
 
 	#create image and load it into cluster
+	make install
 	IMG="docker.io/controllertest:1" make docker-build
 	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
-	make install
+	
 	kubectl get namespaces
 	kubectl get pods --namespace cert-manager
 	@echo "Waiting for cert-manager to be ready"
@@ -178,11 +181,11 @@ install-kubebuilder:
 ifeq (,$(shell which kubebuilder))
 	@echo "installing kubebuilder"
 	# download kubebuilder and extract it to tmp
-	curl -sL https://go.kubebuilder.io/dl/2.0.0-rc.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C /tmp/
+	curl -sL https://go.kubebuilder.io/dl/2.0.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C /tmp/
 	# move to a long-term location and put it on your path
 	# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
-	mv /tmp/kubebuilder_2.0.0-rc.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
-	export PATH=$PATH:/usr/local/kubebuilder/bin
+	mv /tmp/kubebuilder_2.0.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
+	export PATH=$$PATH:/usr/local/kubebuilder/bin
 else
 	@echo "kubebuilder has been installed"
 endif
@@ -209,4 +212,5 @@ install-test-dependency:
 	go get -u github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
+	&& go get github.com/onsi/ginkgo/ginkgo \
 	&& go get golang.org/x/tools/cmd/cover

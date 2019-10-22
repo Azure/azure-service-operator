@@ -18,10 +18,8 @@ package controllers
 import (
 	"context"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-
-	"time"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
 
@@ -33,14 +31,13 @@ import (
 
 var _ = Describe("EventHubNamespace Controller", func() {
 
-	const timeout = time.Second * 240
 	var rgName string
 	var rgLocation string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
-		rgName = tc.ResourceGroupName
-		rgLocation = tc.ResourceGroupLocation
+		rgName = tc.resourceGroupName
+		rgLocation = tc.resourceGroupLocation
 	})
 
 	AfterEach(func() {
@@ -59,25 +56,26 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
 			// Create the EventHubNamespace object and expect the Reconcile to be created
-			eventhubNamespaceInstance := &azurev1.EventhubNamespace{
+			eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubNamespaceSpec{
+				Spec: azurev1alpha1.EventhubNamespaceSpec{
 					Location:      rgLocation,
 					ResourceGroup: resourceGroupName,
 				},
 			}
 
-			tc.K8sClient.Create(context.Background(), eventhubNamespaceInstance)
+			err := tc.k8sClient.Create(context.Background(), eventhubNamespaceInstance)
+			Expect(err).NotTo(HaveOccurred())
 
 			eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
 
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.IsSubmitted()
-			}, timeout,
+			}, tc.timeout,
 			).Should(BeFalse())
 		})
 
@@ -88,40 +86,42 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			var err error
 
 			// Create the Eventhub namespace object and expect the Reconcile to be created
-			eventhubNamespaceInstance := &azurev1.EventhubNamespace{
+			eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
 				},
-				Spec: azurev1.EventhubNamespaceSpec{
+				Spec: azurev1alpha1.EventhubNamespaceSpec{
 					Location:      rgLocation,
 					ResourceGroup: rgName,
 				},
 			}
 
-			err = tc.K8sClient.Create(context.Background(), eventhubNamespaceInstance)
+			err = tc.k8sClient.Create(context.Background(), eventhubNamespaceInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
 
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName)
-			}, timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.IsSubmitted()
-			}, timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
-			tc.K8sClient.Delete(context.Background(), eventhubNamespaceInstance)
+			err = tc.k8sClient.Delete(context.Background(), eventhubNamespaceInstance)
+			Expect(err).NotTo(HaveOccurred())
+
 			Eventually(func() bool {
-				_ = tc.K8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
 				return eventhubNamespaceInstance.IsBeingDeleted()
-			}, timeout,
+			}, tc.timeout,
 			).Should(BeTrue())
 
 		})

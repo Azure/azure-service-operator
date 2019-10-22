@@ -5,9 +5,9 @@
 The Azure SQL operator can be used to provision the following resources.
 
 1. Azure SQL server - Deploys an Azure SQL server given the location and Resource group
-2. SQL database - Deploys an SQL database given the SQL server
-3. SQL firewall rule - Deploys a firewall rule to allow access to the SQL server from specific IPs
-4. Action (Rolling user credentials for the SQL server) - Allows you to roll the password for the specified SQL server
+2. Azure SQL database - Deploys an SQL database given the SQL server
+3. Azure SQL firewall rule - Deploys a firewall rule to allow access to the SQL server from specific IPs
+4. Azure SQL Action - Allows you to roll the password for the specified SQL server
 
 ## Deploying SQL Resources
 
@@ -22,20 +22,19 @@ You can use the YAML files in the `config/samples` folder to create the resource
 For instance, this is the sample YAML for the Azure SQL server.
 
   ```yaml
-    apiVersion: azure.microsoft.com/v1
-    kind: SqlServer
+    apiVersion: azure.microsoft.com/v1alpha1
+    kind: AzureSqlServer
     metadata:
     name: sqlserver-sample
     spec:
      location: westus
      resourcegroup: resourceGroup1
-     allowazureserviceaccess: true
   ```
 
-The value for kind, `SqlServer` is the Custom Resource Definition (CRD) name.
+The value for kind, `AzureSqlServer` is the Custom Resource Definition (CRD) name.
 `sqlserver-sample` is the name of the SQL server resource that will be created.
 
-The values under `spec` provide the values for the location where you want to create the SQL server at and the Resource group in which you want to create it under. The `allowazureserviceaccess' boolean allows you to specify if you want Azure services to have access to your SQL server.
+The values under `spec` provide the values for the location where you want to create the Azure SQL server at and the Resource group in which you want to create it under.
 
 Once you've updated the YAML with the settings you need, and you have the operator running, you can create a Custom SQL server resource using the command.
 
@@ -43,13 +42,49 @@ Once you've updated the YAML with the settings you need, and you have the operat
 kubectl apply -f config/samples/azure_v1_sqlserver.yaml
 ```
 
+Along with creating the SQL server, this operator also generates the admin username and password for the SQL server and stores it in a kube secret with the same name as the SQL server.
+
+You can retrieve this secret using the following command for the sample YAML
+
+```bash
+kubectl get secret sqlserver-sample -o yaml
+```
+
+This would show you the details of the secret. `username` and `password` in the `data` section are the base64 encoded admin credentials to the SQL server.
+
+```bash
+apiVersion: v1alpha1
+data:
+  fullyqualifiedservername: c3Fsc2VydmVyLXNhbXBsZS04ODguZGF0YWJhc2Uud2luZG93cy5uZXQ=
+  fullyqualifiedusername: aGFzMTUzMnVAc3Fsc2VydmVyLXNhbXBsZS04ODg=
+  password: XTdpMmQqNsd7YlpFdEApMw==
+  sqlservername: c3Fsc2VyfmVyLXNhbXBsZS04ODg=
+  username: aGFzMTFzMnU=
+kind: Secret
+metadata:
+  creationTimestamp: "2019-10-09T21:02:02Z"
+  name: sqlserver-sample-888
+  namespace: default
+  ownerReferences:
+  - apiVersion: azure.microsoft.com/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: AzureSqlServer
+    name: sqlserver-sample-888
+    uid: 08fdbf42-ead8-11e9-91e0-025000000001
+  resourceVersion: "131163"
+  selfLink: /api/v1/namespaces/default/secrets/sqlserver-sample-888
+  uid: 0aeb2429-ead8-11e9-91e0-025000000001
+type: Opaque
+```
+
 ### SQL Database
 
 Below is the sample YAML for SQL database
 
 ```yaml
-apiVersion: azure.microsoft.com/v1
-kind: SqlDatabase
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlDatabase
 metadata:
   name:  sqldatabase-sample
 spec:
@@ -68,11 +103,48 @@ The `edition` represents the SQL database edition you want to use when creating 
 
 ### SQL firewall
 
-In progress. Will be updated soon.
+The SQL firewall operator allows you to add a SQL firewall rule to the SQL server.
+
+Below is the sample YAML for SQL firewall rule
+
+```yaml
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlFirewallRule
+metadata:
+  name: sqlf-allowazuresvcaccess
+spec:
+  resourcegroup: ResourceGroup1
+  server:  sqlserver-sample
+  
+  # this IP range enables Azure Service access
+  startipaddress: 0.0.0.0
+  endipaddress: 0.0.0.0
+```
+
+The `server` indicates the SQL server on which you want to configure the new SQL firewall rule on and `resourcegroup` is the resource group of the SQL server. The `startipaddress` and `endipaddress` indicate the IP range of sources to allow access to the SQL server.
+
+When the `startipadress` and `endipaddress` are 0.0.0.0, it is a special case that adds a firewall rule to allow all Azure services to access the SQL server.
 
 ### SQL Action
 
-In progress. Will be updated soon.
+The SQL Action operator is used to trigger an action on the SQL server. Right now, the only action supported is `rollcreds` which rolls the password for the SQL server to a new one.
+
+Below is a sample YAML for rolling the password
+
+```yaml
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlAction
+metadata:
+  name: Sql-rollcreds-action
+spec:
+  resourcegroup: ResourceGroup1
+  actionname: rollcreds
+  servername: sqlserver-sample
+```
+
+The `name` is a name for the action that we want to trigger. The type of action is determined by the value of `actionname` in the spec which is `rollcreds` if you want to roll the password (Note: This action name should be exactly `rollcreds` for the password to be rolled). The `resourcegroup` and `servername` identify the SQL server on which the action should be triggered on.
+
+Once you apply this, the kube secret with the same name as the SQL server is updated with the rolled password.
 
 ## View and Troubleshoot SQL Resources
 
@@ -87,10 +159,10 @@ where CRD is the Custom Resource Definition name or `Kind` for the resource.
 For instance, you can get the Azure SQL servers provisioned using the command
 
 ```shell
-kubectl get SqlServer
+kubectl get AzureSqlServer
 ```
 
-You should see the SqlServer instances as below
+You should see the AzureSqlServer instances as below
 
 ```shell
 NAME                  AGE
@@ -106,7 +178,7 @@ kubectl describe <Kind> <instance name>
 For instance, the below command is used to get more details about the `sqlserver-sample` instance
 
 ```shell
-kubectl describe SqlServer sqlserver-sample
+kubectl describe AzureSqlServer sqlserver-sample
 ```
 
 ```shell
@@ -114,32 +186,31 @@ Name:         sqlserver-sample234
 Namespace:    default
 Labels:       <none>
 Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"azure.microsoft.com/v1","kind":"SqlServer","metadata":{"annotations":{},"name":"sqlserver-sample234","namespace":"default"}...
-API Version:  azure.microsoft.com/v1
+                {"apiVersion":"azure.microsoft.com/v1alpha1","kind":"AzureSqlServer","metadata":{"annotations":{},"name":"sqlserver-sample234","namespace":"default"}...
+API Version:  azure.microsoft.com/v1alpha1
 Kind:         SqlServer
 Metadata:
   Creation Timestamp:  2019-09-26T21:30:56Z
   Finalizers:
-    sqlserver.finalizers.azure.com
+    azuresqlserver.finalizers.azure.com
   Generation:        1
   Resource Version:  20001
-  Self Link:         /apis/azure.microsoft.com/v1/namespaces/default/sqlservers/sqlserver-sample234
+  Self Link:         /apis/azure.microsoft.com/v1/namespaces/default/azuresqlservers/sqlserver-sample234
   UID:               ed1c5d1d-e0a4-11e9-9ee8-52a5c765e9d7
 Spec:
-  Allowazureserviceaccess:  true
   Location:                 westus
-  Resourcegroup:            Janani-testRG
+  Resourcegroup:            resourceGroup1
 Status:
   Provisioned:  true
   State:        Ready
 Events:
   Type    Reason       Age                   From                  Message
   ----    ------       ----                  ----                  -------
-  Normal  Updated      2m21s                 SqlServer-controller  finalizer sqlserver.finalizers.azure.com added
+  Normal  Updated      2m21s                 SqlServer-controller  finalizer azuresqlserver.finalizers.azure.com added
   Normal  Submitting   2m21s                 SqlServer-controller  starting resource reconciliation
   Normal  Checking     108s (x3 over 2m18s)  SqlServer-controller  instance in NotReady state
   Normal  Checking     76s (x2 over 78s)     SqlServer-controller  instance in Ready state
-  Normal  Provisioned  75s (x2 over 76s)     SqlServer-controller  sqlserver sqlserver-sample234 provisioned
+  Normal  Provisioned  75s (x2 over 76s)     SqlServer-controller  azuresqlserver sqlserver-sample234 provisioned
 ```
 
 The `Status` section gives you the current state of the resource that it's Ready and is provisioned.
@@ -157,12 +228,12 @@ kubectl delete <Kind> <instancename>
 For instance, deleting the above SqlServer instance would look like this.
 
 ```shell
-kubectl delete SqlServer sqlserver-sample
+kubectl delete AzureSqlServer sqlserver-sample
 ```
 
 The following message should appear:
 
-`sqlserver.azure.microsoft.com sqlserver-sample deleted.`
+`azuresqlserver.azure.microsoft.com sqlserver-sample deleted.`
 
 ## Demo
 

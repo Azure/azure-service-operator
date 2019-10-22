@@ -1,13 +1,36 @@
+/*
+MIT License
+
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE
+*/
+
 package rediscaches
 
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -29,12 +52,10 @@ func CreateRedisCache(ctx context.Context,
 	groupName string,
 	redisCacheName string,
 	location string,
-	sku azurev1.RedisCacheSku,
+	sku azurev1alpha1.RedisCacheSku,
 	enableNonSSLPort bool,
-	tags map[string]*string) (redis.ResourceType, error) {
+	tags map[string]*string) (*redis.ResourceType, error) {
 	redisClient := getRedisCacheClient()
-
-	log.Println("RedisCache:CacheName" + redisCacheName)
 
 	//Check if name is available
 	redisType := "Microsoft.Cache/redis"
@@ -42,17 +63,15 @@ func CreateRedisCache(ctx context.Context,
 		Name: &redisCacheName,
 		Type: &redisType,
 	}
-	result, err := redisClient.CheckNameAvailability(ctx, checkNameParams)
+	checkNameResult, err := redisClient.CheckNameAvailability(ctx, checkNameParams)
 	if err != nil {
-		return redis.ResourceType{}, err
+		return nil, err
 	}
 
-	if result.StatusCode != 200 {
-		log.Fatalf("redis cache name (%s) not available: %v\n", redisCacheName, result.Status)
-		return redis.ResourceType{}, errors.New("redis cache name not available")
+	if checkNameResult.StatusCode != 200 {
+		log.Fatalf("redis cache name (%s) not available: %v\n", redisCacheName, checkNameResult.Status)
+		return nil, errors.New("redis cache name not available")
 	}
-
-	log.Println(fmt.Sprintf("creating rediscache '%s' in resource group '%s' and location: %v", redisCacheName, groupName, location))
 
 	redisSku := redis.Sku{
 		Name:     redis.SkuName(sku.Name),
@@ -72,10 +91,15 @@ func CreateRedisCache(ctx context.Context,
 	future, err := redisClient.Create(
 		ctx, groupName, redisCacheName, createParams)
 	if err != nil {
-		log.Println(fmt.Sprintf("ERROR creating redisCache '%s' in resource group '%s' and location: %v", redisCacheName, groupName, location))
-		log.Println(fmt.Printf("failed to initialize redis Cache: %v\n", err))
+		return nil, err
 	}
-	return future.Result(redisClient)
+
+	err = future.WaitForCompletionRef(ctx, redisClient.Client)
+	if err != nil {
+		return nil, err
+	}
+	result, err := future.Result(redisClient)
+	return &result, err
 }
 
 // DeleteRedisCache removes the resource group named by env var

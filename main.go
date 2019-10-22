@@ -22,10 +22,14 @@ import (
 
 	"os"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
 	"github.com/Azure/azure-service-operator/controllers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -44,15 +48,14 @@ var (
 
 func init() {
 
-	azurev1.AddToScheme(scheme)
 	kscheme.AddToScheme(scheme)
-	_ = azurev1.AddToScheme(scheme)
+	_ = azurev1alpha1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=core,resources=events,verbs=create;watch
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=create;patch
+// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
 
@@ -77,63 +80,16 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = resourcemanagerconfig.ParseEnvironment()
-	if err != nil {
-		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
-	}
-
-	err = (&controllers.EventhubReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("Eventhub"),
-		Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:   scheme,
-	}).SetupWithManager(mgr)
-	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
-		os.Exit(1)
-	}
-	err = (&controllers.ResourceGroupReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-		Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
-	}).SetupWithManager(mgr)
-	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
-		os.Exit(1)
-	}
-	err = (&controllers.EventhubNamespaceReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
-	}).SetupWithManager(mgr)
-	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
-		os.Exit(1)
-	}
-
-	if err = (&controllers.KeyVaultReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("KeyVault"),
-		Recorder: mgr.GetEventRecorderFor("KeyVault-controller"),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "KeyVault")
-		os.Exit(1)
-	}
-
-	err = (&controllers.ConsumerGroupReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
-		Recorder: mgr.GetEventRecorderFor("ConsumerGroup-controller"),
-	}).SetupWithManager(mgr)
-	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
-		os.Exit(1)
-	}
+	resourceGroupManager := resourcemanagerresourcegroup.AzureResourceGroupManager
+	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
+	storageManagers := resourcemanagerstorage.AzureStorageManagers
+	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 
 	err = (&controllers.StorageReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("Storage"),
-		Recorder: mgr.GetEventRecorderFor("Storage-controller"),
+		Client:         mgr.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("Storage"),
+		Recorder:       mgr.GetEventRecorderFor("Storage-controller"),
+		StorageManager: storageManagers.Storage,
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Storage")
@@ -157,16 +113,99 @@ func main() {
 		os.Exit(1)
 	}
 
-	if !resourcemanagerconfig.Declarative() {
-		if err = (&azurev1.EventhubNamespace{}).SetupWebhookWithManager(mgr); err != nil {
-			setupLog.Error(err, "unable to create webhook", "webhook", "EventhubNamespace")
-			os.Exit(1)
-		}
+	err = resourcemanagerconfig.LoadSettings()
+	if err != nil {
+		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
+	}
 
-		if err = (&azurev1.Eventhub{}).SetupWebhookWithManager(mgr); err != nil {
-			setupLog.Error(err, "unable to create webhook", "webhook", "Eventhub")
-			os.Exit(1)
-		}
+	err = (&controllers.EventhubReconciler{
+		Client:          mgr.GetClient(),
+		Log:             ctrl.Log.WithName("controllers").WithName("Eventhub"),
+		Recorder:        mgr.GetEventRecorderFor("Eventhub-controller"),
+		Scheme:          scheme,
+		EventHubManager: eventhubManagers.EventHub,
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
+		os.Exit(1)
+	}
+	err = (&controllers.ResourceGroupReconciler{
+		Client:               mgr.GetClient(),
+		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+		Recorder:             mgr.GetEventRecorderFor("ResourceGroup-controller"),
+		ResourceGroupManager: resourceGroupManager,
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
+		os.Exit(1)
+	}
+	err = (&controllers.EventhubNamespaceReconciler{
+		Client:                   mgr.GetClient(),
+		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+		Recorder:                 mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+		EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.KeyVaultReconciler{
+		Client:          mgr.GetClient(),
+		Log:             ctrl.Log.WithName("controllers").WithName("KeyVault"),
+		Recorder:        mgr.GetEventRecorderFor("KeyVault-controller"),
+		KeyVaultManager: keyVaultManager,
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "KeyVault")
+		os.Exit(1)
+	}
+
+	err = (&controllers.ConsumerGroupReconciler{
+		Client:               mgr.GetClient(),
+		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+		Recorder:             mgr.GetEventRecorderFor("ConsumerGroup-controller"),
+		ConsumerGroupManager: eventhubManagers.ConsumerGroup,
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.AzureSqlServerReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+		Recorder: mgr.GetEventRecorderFor("AzureSqlServer-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
+		os.Exit(1)
+	}
+	if err = (&controllers.AzureSqlDatabaseReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
+		Recorder: mgr.GetEventRecorderFor("AzureSqlDatabase-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDatabase")
+		os.Exit(1)
+	}
+	if err = (&controllers.AzureSqlFirewallRuleReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("SqlFirewallRule"),
+		Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
+		os.Exit(1)
+	}
+	if err = (&controllers.AzureSqlActionReconciler{
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
+		Recorder: mgr.GetEventRecorderFor("AzureSqlAction-controller"),
+		Scheme:   mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
+		os.Exit(1)
 	}
 
 	if err = (&controllers.SqlServerReconciler{

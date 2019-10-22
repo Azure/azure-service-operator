@@ -16,11 +16,13 @@ limitations under the License.
 package storages
 
 import (
-	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"net/http"
 	"testing"
 
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -39,9 +41,15 @@ import (
 // TODO: consolidate these shared fixtures between this and eventhubs (and other services)
 
 var cfg *rest.Config
-var resourcegroupLocation string
 
-var resourceGroupName = "t-rg-dev-rm-st-" + helpers.RandomString(10)
+type TestContext struct {
+	ResourceGroupName     string
+	ResourceGroupLocation string
+	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
+	StorageManagers       StorageManagers
+}
+
+var tc TestContext
 
 func TestAPIs(t *testing.T) {
 	t.Parallel()
@@ -53,26 +61,31 @@ func TestAPIs(t *testing.T) {
 	RunSpecs(t, "Storage Suite")
 }
 
-var _ = SynchronizedBeforeSuite(func() []byte {
+var _ = BeforeSuite(func() {
 	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
 
 	By("bootstrapping test environment")
 
 	resourcemanagerconfig.ParseEnvironment()
-	resourcegroupLocation = resourcemanagerconfig.DefaultLocation()
 
-	//create resourcegroup for this suite
-	result, _ := resoucegroupsresourcemanager.CheckExistence(context.Background(), resourceGroupName)
-	if result.Response.StatusCode != 204 {
-		_, _ = resoucegroupsresourcemanager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+	ressourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
+	tc = TestContext{
+		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
+		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
+		ResourceGroupManager:  ressourceGroupManager,
+		StorageManagers:       AzureStorageManagers,
 	}
 
-	return []byte{}
-}, func(r []byte) {}, 60)
+	// create resourcegroup for this suite
+	result, _ := ressourceGroupManager.CheckExistence(context.Background(), tc.ResourceGroupName)
+	if result.Response.StatusCode != http.StatusNoContent {
+		_, _ = tc.ResourceGroupManager.CreateGroup(context.Background(), tc.ResourceGroupName, tc.ResourceGroupLocation)
+	}
+})
 
-var _ = SynchronizedAfterSuite(func() {}, func() {
+var _ = AfterSuite(func() {
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
-	_, _ = resoucegroupsresourcemanager.DeleteGroup(context.Background(), resourceGroupName)
-}, 60)
+	_, _ = tc.ResourceGroupManager.DeleteGroupAsync(context.Background(), tc.ResourceGroupName)
+})

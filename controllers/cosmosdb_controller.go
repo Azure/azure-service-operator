@@ -35,7 +35,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
@@ -61,7 +61,7 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("cosmosdb", req.NamespacedName)
 
 	// Fetch the CosmosDB instance
-	var instance azurev1.CosmosDB
+	var instance azurev1alpha1.CosmosDB
 
 	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
 	if err != nil {
@@ -69,14 +69,12 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Error(err, "unable to fetch CosmosDB")
+		log.Info("Unable to retrieve cosmosDB resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
-	log.Info("Getting CosmosDB Account", "CosmosDB.Namespace", instance.Namespace, "CosmosDB.Name", instance.Name)
-	log.V(1).Info("Describing CosmosDB Account", "CosmosDB", instance)
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, cosmosDBFinalizerName) {
@@ -94,31 +92,32 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if !helpers.HasFinalizer(&instance, cosmosDBFinalizerName) {
-		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Error", "Adding cosmosDB finalizer failed with ", err)
-			return ctrl.Result{}, err
-		}
-	}
-
-	if !instance.IsSubmitted() {
-		if err := r.reconcileExternal(&instance); err != nil {
-			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-				log.Info("Requeuing as the async operation is not complete")
-				return ctrl.Result{
-					Requeue:      true,
-					RequeueAfter: time.Second * time.Duration(requeueAfter),
-				}, nil
-			}
-			return ctrl.Result{}, fmt.Errorf("error reconciling cosmosdb in azure: %v", err)
+		err := r.addFinalizer(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when adding finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	r.Recorder.Event(&instance, "Normal", "Provisioned", "CosmosDB "+instance.ObjectMeta.Name+" provisioned ")
+	if !instance.IsSubmitted() {
+		err := r.reconcileExternal(&instance)
+		if err != nil {
+			catch := []string{
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.ResourceGroupNotFoundErrorCode,
+			}
+			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
+				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
+				return ctrl.Result{Requeue: true, RequeueAfter: time.Second * time.Duration(requeueAfter)}, nil
+			}
+			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
 	return ctrl.Result{}, nil
 }
 
-func (r *CosmosDBReconciler) addFinalizer(instance *azurev1.CosmosDB) error {
+func (r *CosmosDBReconciler) addFinalizer(instance *azurev1alpha1.CosmosDB) error {
 	helpers.AddFinalizer(instance, cosmosDBFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -128,7 +127,7 @@ func (r *CosmosDBReconciler) addFinalizer(instance *azurev1.CosmosDB) error {
 	return nil
 }
 
-func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1.CosmosDB) error {
+func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1alpha1.CosmosDB) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
@@ -136,39 +135,39 @@ func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1.CosmosDB) error
 	kind := instance.Spec.Kind
 	dbType := instance.Spec.Properties.DatabaseAccountOfferType
 
+	var err error
+
 	// write information back to instance
 	instance.Status.Provisioning = true
-
-	if err := r.Status().Update(ctx, instance); err != nil {
+	err = r.Update(ctx, instance)
+	if err != nil {
+		//log error and kill it
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
-
-	_, err := cosmosdbs.CreateCosmosDB(ctx, groupName, name, location, kind, dbType, nil)
+	_, err = cosmosdbs.CreateCosmosDB(ctx, groupName, name, location, kind, dbType, nil)
 	if err != nil {
-		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-			r.Recorder.Event(instance, "Normal", "Provisioning", name+" provisioning")
-			return err
-		}
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
-		errUpdate := r.Status().Update(ctx, instance)
+		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
+			//log error and kill it
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
-		return err
+		return errhelp.NewAzureError(err)
 	}
-
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
-	if err = r.Status().Update(ctx, instance); err != nil {
+	err = r.Update(ctx, instance)
+	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
+	r.Recorder.Event(instance, "Normal", "Updated", name+" provisioned")
 
 	return nil
 }
 
-func (r *CosmosDBReconciler) deleteExternal(instance *azurev1.CosmosDB) error {
+func (r *CosmosDBReconciler) deleteExternal(instance *azurev1alpha1.CosmosDB) error {
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
@@ -179,7 +178,7 @@ func (r *CosmosDBReconciler) deleteExternal(instance *azurev1.CosmosDB) error {
 			return nil
 		}
 
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resouce in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 
@@ -190,7 +189,7 @@ func (r *CosmosDBReconciler) deleteExternal(instance *azurev1.CosmosDB) error {
 // SetupWithManager sets up the controller functions
 func (r *CosmosDBReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.CosmosDB{}).
+		For(&azurev1alpha1.CosmosDB{}).
 		Complete(r)
 }
 
