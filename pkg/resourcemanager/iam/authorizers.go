@@ -209,9 +209,8 @@ func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience str
 // Once that PR is merged in, we can change line 214 from autorestPatch. to autorest.
 func GetSharedKeyAuthorizer(accountName string, accountKey string) (authorizer autorest.Authorizer, err error) {
 	var a autorest.Authorizer
-	
+
 	a = autorestPatch.NewSharedKeyAuthorizer(accountName, accountKey)
 
 	return a, err
 }
-
