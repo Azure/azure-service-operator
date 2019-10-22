@@ -20,9 +20,11 @@ type reconcileRunner struct {
 	*AzureController
 	*ThisResourceDefinitions
 	*DependencyDefinitions
-	req          ctrl.Request
-	requeueAfter time.Duration
-	log          logr.Logger
+	name           string
+	provisionState azurev1alpha1.ProvisionState
+	req            ctrl.Request
+	requeueAfter   time.Duration
+	log            logr.Logger
 }
 
 //runs a single reconcile on the
@@ -32,12 +34,12 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 	owner := r.Owner
 	details := r.Details
 	updater := r.Updater
-	provisionState := details.ProvisionState
+	provisionState := details.BaseDefinition.Status.ProvisionState
 	allDeps := append([]*CustomResourceDetails{owner}, r.Dependencies...)
 
 	// jump out and requeue if any of the dependencies are missing
 	for _, dep := range allDeps {
-		if dep != nil && !dep.ProvisionState.IsSucceeded() {
+		if dep != nil && !dep.BaseDefinition.Status.ProvisionState.IsSucceeded() {
 			r.log.Info("One of the dependencies is not in Succeeded state, requeuing")
 			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, nil
 		}
@@ -55,12 +57,12 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 	}
 
 	// dependencies are now satisfied, can now reconcile the manfest and create or update the resource
-	if details.ProvisionState.IsCreating() || details.ProvisionState.IsUpdating() {
+	if provisionState.IsCreating() || provisionState.IsUpdating() {
 		return r.ensure(ctx)
 	}
 
 	// reverify if in succeeded state
-	if details.ProvisionState.IsSucceeded() && r.PostProvisionHandler != nil {
+	if provisionState.IsSucceeded() && r.PostProvisionHandler != nil {
 		result, err := r.verify(ctx)
 		// if still succeeded run the post provision handler (set secrets in k8s etc)...
 		if details.BaseDefinition.Status.ProvisionState.IsSucceeded() && err == nil {
@@ -76,7 +78,7 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 func (r *reconcileRunner) setOwner(ctx context.Context, updater *CustomResourceUpdater, owner *CustomResourceDetails, details *CustomResourceDetails) (ctrl.Result, error) {
 	//set owner reference if it exists
 	updater.SetOwnerReferences([]*CustomResourceDetails{owner})
-	if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "OwnerReferences", "Setting OwnerReferences for "+details.Name); err != nil {
+	if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "OwnerReferences", "Setting OwnerReferences for "+r.name); err != nil {
 		return ctrl.Result{}, err
 	}
 	return ctrl.Result{}, nil
@@ -91,22 +93,22 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	if err != nil {
 		// verification should not return an error - if this happens it's a terminal failure
 		updater.SetProvisionState(azurev1alpha1.Failed)
-		_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "Verification", "Verification failed for "+details.Name)
+		_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "Verification", "Verification failed for "+r.name)
 		return ctrl.Result{}, fmt.Errorf("error verifying resource in azure: %v", err)
 	}
 	// Success case - the resource is is provisioned on Azure, and is ready
 	if verifyResult.ready() {
-		if !details.ProvisionState.IsSucceeded() {
+		if !r.provisionState.IsSucceeded() {
 			var ppError error = nil
 			if r.PostProvisionHandler != nil {
 				ppError = r.PostProvisionHandler(details)
 			}
 			if ppError != nil {
 				updater.SetProvisionState(azurev1alpha1.Failed)
-				_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "PostProvisionHandler", "PostProvisionHandler failed to execute successfully for "+details.Name)
+				_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "PostProvisionHandler", "PostProvisionHandler failed to execute successfully for "+r.name)
 			} else {
 				updater.SetProvisionState(azurev1alpha1.Succeeded)
-				if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", details.Name+" provisioned"); err != nil {
+				if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", r.name+" provisioned"); err != nil {
 					return ctrl.Result{}, err
 				}
 			}
@@ -116,7 +118,7 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	// Missing case - we can now create the resource
 	if verifyResult.missing() {
 		updater.SetProvisionState(azurev1alpha1.Creating)
-		err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Creating", details.Name+" ready for creation")
+		err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Creating", r.name+" ready for creation")
 		if err != nil {
 			return ctrl.Result{}, err
 		}
@@ -125,7 +127,7 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	if verifyResult.updateRequired() {
 		updater.SetProvisionState(azurev1alpha1.Updating)
 
-		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Updating", details.Name+" flagged for update"); err != nil {
+		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Updating", r.name+" flagged for update"); err != nil {
 			return ctrl.Result{}, err
 		}
 	}
@@ -146,7 +148,7 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 			updater.SetProvisionState(azurev1alpha1.Pending)
 		}
 
-		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Recreating", details.Name+" delete and recreate started"); err != nil {
+		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Recreating", r.name+" delete and recreate started"); err != nil {
 			return ctrl.Result{}, err
 		}
 		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
@@ -189,7 +191,7 @@ func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
 	nextState, ensureErr := r.ensureExternal(ctx)
 	// we set the state even if there is an error
 	updater.SetProvisionState(nextState)
-	updateErr := r.updateAndLog(ctx, corev1.EventTypeNormal, "Ensure", details.Name+" state set to "+string(nextState))
+	updateErr := r.updateAndLog(ctx, corev1.EventTypeNormal, "Ensure", r.name+" state set to "+string(nextState))
 	if ensureErr != nil {
 		return ctrl.Result{}, fmt.Errorf("error ensuring resource in azure: %v", ensureErr)
 	}
@@ -198,7 +200,7 @@ func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
 	}
 	if nextState.IsSucceeded() {
 		r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated",
-			fmt.Sprintf("%s resource '%s' provisioned and ready.", details.BaseDefinition.Kind, details.Name))
+			fmt.Sprintf("%s resource '%s' provisioned and ready.", details.BaseDefinition.Kind, r.name))
 		return ctrl.Result{}, nil
 	}
 	// give azure some time to catch up
@@ -211,12 +213,12 @@ func (r *reconcileRunner) ensureExternal(ctx context.Context) (azurev1alpha1.Pro
 	var err error
 
 	details := r.Details
-	resourceName := details.Name
+	resourceName := r.name
 	instance := details.Instance
 
 	// ensure that the resource is created or updated in Azure (though it won't necessarily be ready, it still needs to be verified)
 	var ensureResult EnsureResult
-	if details.ProvisionState.IsCreating() {
+	if r.provisionState.IsCreating() {
 		ensureResult, err = r.ResourceManagerClient.Create(ctx, instance)
 	} else {
 		ensureResult, err = r.ResourceManagerClient.Update(ctx, instance)
@@ -259,7 +261,7 @@ func (r *reconcileRunner) handleFinalizer() (ctrl.Result, error) {
 	removeFinalizer := false
 	requeue := false
 
-	isTerminating := details.ProvisionState.IsTerminating()
+	isTerminating := r.provisionState.IsTerminating()
 
 	if details.BaseDefinition.HasFinalizer(r.FinalizerName) {
 		// Even before we cal ResourceManagerClient.Delete, we verify the state of the resource
@@ -310,17 +312,17 @@ func (r *reconcileRunner) handleFinalizer() (ctrl.Result, error) {
 			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, err
 		}
 		if !isTerminating {
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "Setting state to terminating for "+details.Name)
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "Setting state to terminating for "+r.name)
 		}
 		if removeFinalizer {
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "Removing finalizer for "+details.Name)
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "Removing finalizer for "+r.name)
 		}
 	}
 
 	if requeue {
 		return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, nil
 	} else {
-		r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", details.Name+" finalizer complete")
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", r.name+" finalizer complete")
 		return ctrl.Result{}, nil
 	}
 }
@@ -343,10 +345,10 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 	thisDefs, err := r.DefinitionManager.GetThis(ctx, r.req)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
-			r.Log.Info("Unable to update deleted resource. It may have already been finalized. This error is ignored. Resource: " + r.Details.Name)
+			r.Log.Info("Unable to update deleted resource. It may have already been finalized. This error is ignored. Resource: " + r.name)
 			return nil
 		} else {
-			r.Log.Info("Unable to retrieve resource. Falling back to prior instance: "+r.Details.Name, "err", err.Error())
+			r.Log.Info("Unable to retrieve resource. Falling back to prior instance: "+r.name, "err", err.Error())
 			thisDefs = r.ThisResourceDefinitions
 		}
 	}

@@ -116,11 +116,8 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 
 func (dm *definitionManager) getDefinition(base *v1alpha1.ResourceBaseDefinition, instance runtime.Object) *controller_refactor.CustomResourceDetails {
 	return &controller_refactor.CustomResourceDetails{
-		ProvisionState: base.Status.ProvisionState,
-		Name:           base.Name,
 		Instance:       instance,
 		BaseDefinition: base,
-		IsBeingDeleted: !base.ObjectMeta.DeletionTimestamp.IsZero(),
 	}
 }
 

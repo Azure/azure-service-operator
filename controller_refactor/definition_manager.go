@@ -30,12 +30,14 @@ type DependencyDefinitions struct {
 	Dependencies []*CustomResourceDetails
 }
 
+var NoDependencies = DependencyDefinitions{
+	Dependencies: []*CustomResourceDetails{},
+	Owner:        nil,
+}
+
 type CustomResourceDetails struct {
-	Name           string
-	ProvisionState azurev1alpha1.ProvisionState
 	Instance       runtime.Object
 	BaseDefinition *azurev1alpha1.ResourceBaseDefinition
-	IsBeingDeleted bool
 }
 
 // modifies the runtime.Object in place

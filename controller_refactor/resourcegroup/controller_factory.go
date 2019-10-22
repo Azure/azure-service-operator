@@ -80,32 +80,22 @@ func (dm *definitionManager) GetThis(ctx context.Context, req ctrl.Request) (*co
 	details := dm.getDefinition(&instance.ResourceBaseDefinition, &instance)
 	return &controller_refactor.ThisResourceDefinitions{
 		Details: details,
-		Updater: dm.getUpdater(&instance, details),
+		Updater: &controller_refactor.CustomResourceUpdater{
+			UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
+				instance.ResourceBaseDefinition = *state
+			},
+		},
 	}, err
 }
 
 func (dm *definitionManager) GetDependencies(context.Context, runtime.Object) (*controller_refactor.DependencyDefinitions, error) {
-	return &controller_refactor.DependencyDefinitions{
-		Dependencies: []*controller_refactor.CustomResourceDetails{},
-		Owner:        nil,
-	}, nil
+	return &controller_refactor.NoDependencies, nil
 }
 
 func (dm *definitionManager) getDefinition(base *v1alpha1.ResourceBaseDefinition, instance runtime.Object) *controller_refactor.CustomResourceDetails {
 	return &controller_refactor.CustomResourceDetails{
-		ProvisionState: base.Status.ProvisionState,
-		Name:           base.Name,
 		Instance:       instance,
 		BaseDefinition: base,
-		IsBeingDeleted: !base.ObjectMeta.DeletionTimestamp.IsZero(),
-	}
-}
-
-func (dm *definitionManager) getUpdater(instance *v1alpha1.ResourceGroup, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
-	return &controller_refactor.CustomResourceUpdater{
-		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
-			instance.ResourceBaseDefinition = *state
-		},
 	}
 }
 

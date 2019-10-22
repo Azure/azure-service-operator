@@ -79,7 +79,7 @@ func (ac *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// if it's being deleted go straight to the finalizer step
-	if details.IsBeingDeleted {
+	if details.BaseDefinition.ObjectMeta.DeletionTimestamp.IsZero() {
 		result, err := reconcileCycle.handleFinalizer()
 		if err != nil {
 			return result, fmt.Errorf("error when handling finalizer: %v", err)
@@ -91,9 +91,9 @@ func (ac *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	dependencies, err := ac.DefinitionManager.GetDependencies(ctx, details.Instance)
 	if err != nil || dependencies == nil {
 		if apierrors.IsNotFound(err) {
-			log.Info("Dependency not found for " + details.Name)
+			log.Info("Dependency not found for " + details.BaseDefinition.Name)
 		} else {
-			log.Info("Unable to retrieve dependency for "+details.Name, "err", err.Error())
+			log.Info("Unable to retrieve dependency for "+details.BaseDefinition.Name, "err", err.Error())
 		}
 		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, client.IgnoreNotFound(err)
 	}
