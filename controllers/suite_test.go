@@ -152,7 +152,7 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		timeout = time.Second * 20
+		timeout = time.Second * 40
 	}
 
 	err = (&KeyVaultReconciler{

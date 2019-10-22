@@ -91,8 +91,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 		log.Error(ensureErr, "ensure err")
 	}
 
-	log.Info("local", "object", local)
-
 	final := multierror.Append(ensureErr, r.Status().Update(ctx, local))
 	err := final.ErrorOrNil()
 	if err != nil {

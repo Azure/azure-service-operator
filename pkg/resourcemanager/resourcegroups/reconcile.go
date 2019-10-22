@@ -34,6 +34,7 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	}
 	resourcegroupLocation := instance.Spec.Location
 	resourcegroupName := instance.ObjectMeta.Name
+	instance.Status.Provisioning = true
 
 	g.Log.Info("creating resource group", "name", resourcegroupName, "location", resourcegroupLocation)
 	_, err = g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
@@ -50,7 +51,14 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 		return false, fmt.Errorf("ResourceGroup create error %v", err)
 
 	}
-	instance.Status.Provisioned = true
+	if instance.Status.Provisioning {
+		instance.Status.Provisioned = true
+		instance.Status.Provisioning = false
+	} else {
+		instance.Status.Provisioned = false
+		instance.Status.Provisioning = true
+	}
+
 	return true, nil
 }
 
