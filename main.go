@@ -208,7 +208,7 @@ func main() {
 		os.Exit(1)
 	}
 
-  if err = (&controllers.AzureSQLUserReconciler{
+	if err = (&controllers.AzureSQLUserReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
 		Recorder: mgr.GetEventRecorderFor("AzureSQLUser-controller"),

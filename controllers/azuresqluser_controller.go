@@ -68,7 +68,7 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	ctx := context.Background()
 	log := r.Log.WithValues("AzureSQLUser", req.NamespacedName)
 
-	var instance azurev1.AzureSQLUser
+	var instance azurev1alpha1.AzureSQLUser
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve AzureSQLUser resource", "err", err.Error())
@@ -112,7 +112,7 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	return ctrl.Result{}, nil
 }
 
-func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1.AzureSQLUser) error {
+func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLUser) error {
 	ctx := context.Background()
 
 	// get admin credentials to connect to db
@@ -141,12 +141,12 @@ func dropUser(ctx context.Context, db *sql.DB, user string) error {
 }
 
 // Reconcile user sql request
-func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1.AzureSQLUser) error {
+func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureSQLUser) error {
 	ctx := context.Background()
 
 	// set DB as owner of user
 	r.Recorder.Event(&instance, "Normal", "UpdatingOwner", "Updating owner SqlDatabase instance")
-	var ownerInstance azurev1.SqlDatabase
+	var ownerInstance azurev1alpha1.AzureSqlDatabase
 	sqlDatabaseNamespaceName := types.NamespacedName{Name: instance.Spec.DbName, Namespace: instance.Namespace}
 	err := r.Get(ctx, sqlDatabaseNamespaceName, &ownerInstance)
 	if err != nil {
@@ -269,7 +269,7 @@ func ContainsUser(ctx context.Context, db *sql.DB, username string) (bool, error
 }
 
 // GetOrPrepareSecret gets or creates a secret
-func (r *AzureSQLUserReconciler) GetOrPrepareSecret(instance *azurev1.AzureSQLUser, name string) *v1.Secret {
+func (r *AzureSQLUserReconciler) GetOrPrepareSecret(instance *azurev1alpha1.AzureSQLUser, name string) *v1.Secret {
 	pw, _ := generateRandomPassword(16)
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
@@ -295,12 +295,12 @@ func (r *AzureSQLUserReconciler) GetOrPrepareSecret(instance *azurev1.AzureSQLUs
 // SetupWithManager runs reconcile loop with manager
 func (r *AzureSQLUserReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1.AzureSQLUser{}).
+		For(&azurev1alpha1.AzureSQLUser{}).
 		Complete(r)
 }
 
 // add finalizer
-func (r *AzureSQLUserReconciler) addFinalizer(instance *azurev1.AzureSQLUser) error {
+func (r *AzureSQLUserReconciler) addFinalizer(instance *azurev1alpha1.AzureSQLUser) error {
 	helpers.AddFinalizer(instance, AzureSQLUserFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
