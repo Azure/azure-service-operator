@@ -67,6 +67,7 @@ func InitializePrometheus(logger log.Logger, component string, namespaceLog stri
 	return &PrometheusClient{
 		Logger:    logger,
 		Component: component,
+		StartTime: time.Now(),
 	}
 }
 

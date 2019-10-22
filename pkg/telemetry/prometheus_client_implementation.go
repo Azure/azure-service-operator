@@ -6,32 +6,31 @@
 package telemetry
 
 import (
-	"math"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 )
 
 // LogTrace logs a trace message, it does not send telemetry to Prometheus
-func (client PrometheusClient) LogTrace(typeTrace string, message string) {
+func (client *PrometheusClient) LogTrace(typeTrace string, message string) {
 	client.Logger.Info(message, "Trace Type", typeTrace, "Component", client.Component)
 }
 
 // LogInfo logs an informational message
-func (client PrometheusClient) LogInfo(typeInfo string, message string) {
+func (client *PrometheusClient) LogInfo(typeInfo string, message string) {
 	client.Logger.Info(message, "Info Type", typeInfo, "Component", client.Component)
 	infoCounter.WithLabelValues(client.Component, typeInfo, message).Inc()
 }
 
 // LogWarning logs a warning
-func (client PrometheusClient) LogWarning(typeWarning string, message string) {
+func (client *PrometheusClient) LogWarning(typeWarning string, message string) {
 	// logs this as info as there's no go-logr warning level
 	client.Logger.Info(message, "Warning Type", typeWarning, "Component", client.Component)
 	warningCounter.WithLabelValues(client.Component, typeWarning, message).Inc()
 }
 
 // LogError logs an error
-func (client PrometheusClient) LogError(message string, err error) {
+func (client *PrometheusClient) LogError(message string, err error) {
 	errorString := err.Error()
 
 	// logs the error as info (eventhough there's an error) as this follows the previous pattern
@@ -40,7 +39,7 @@ func (client PrometheusClient) LogError(message string, err error) {
 }
 
 // LogStart logs the start of a component
-func (client PrometheusClient) LogStart() {
+func (client *PrometheusClient) LogStart() {
 
 	// mark now as the start time
 	client.StartTime = time.Now()
@@ -51,19 +50,20 @@ func (client PrometheusClient) LogStart() {
 }
 
 // logCompletedOperation logs a component as completed
-func logCompleted(client PrometheusClient) {
+func logCompleted(client *PrometheusClient) {
 
 	// log that operator has completed
 	activeGuage.WithLabelValues(client.Component).Dec()
 
 	// record the time for the histogram
-	durationInSecs := float64(time.Since(client.StartTime)) * math.Pow10(9)
+	timeNow := time.Now()
+	durationInSecs := timeNow.Sub(client.StartTime).Seconds()
 	client.Logger.Info("Component has completed", "Component", client.Component, "Duration", durationInSecs)
 	executionTime.WithLabelValues(client.Component).Observe(durationInSecs)
 }
 
 // LogSuccess logs the successful completion of a component
-func (client PrometheusClient) LogSuccess() {
+func (client *PrometheusClient) LogSuccess() {
 
 	// log the completion
 	logCompleted(client)
@@ -74,7 +74,7 @@ func (client PrometheusClient) LogSuccess() {
 }
 
 // LogFailure logs the successful completion of a component
-func (client PrometheusClient) LogFailure() {
+func (client *PrometheusClient) LogFailure() {
 
 	// log the completion
 	logCompleted(client)
@@ -86,7 +86,7 @@ func (client PrometheusClient) LogFailure() {
 
 // CreateHistogram creates a histogram, start = what value the historgram starts at, width = how wide are the buckets,
 // numberOfBuckets = the number of buckets in the histogram
-func (client PrometheusClient) CreateHistogram(name string, start float64, width float64, numberOfBuckets int) (histogram prometheus.Histogram) {
+func (client *PrometheusClient) CreateHistogram(name string, start float64, width float64, numberOfBuckets int) (histogram prometheus.Histogram) {
 	histogram = prometheus.NewHistogram(
 		prometheus.HistogramOpts{
 			Namespace: *namespace,
