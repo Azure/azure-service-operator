@@ -33,13 +33,12 @@
 
     b. Set the ```azureoperatorsettings``` secret.
 
-    First, set the following environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`.
+    First, set the following environment variables `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `AZURE_USE_MSI`, `REQUEUE_AFTER`.
 
     ```shell
         export AZURE_TENANT_ID=xxxxxxx
-        export AZURE_CLIENT_ID=yyyyyyy
-        export AZURE_CLIENT_SECRET=zzzzzz
         export AZURE_SUBSCRIPTION_ID=aaaaaaa
+        export AZURE_USE_MSI=1
         export REQUEUE_AFTER=30
     ```
 
@@ -48,16 +47,25 @@
     ```shell
     kubectl --namespace azureoperator-system \
         create secret generic azureoperatorsettings \
-        --from-literal=AZURE_CLIENT_ID="$AZURE_CLIENT_ID" \
-        --from-literal=AZURE_CLIENT_SECRET="$AZURE_CLIENT_SECRET" \
         --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
-        --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID"
+        --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID" \
+        --from-literal=AZURE_USE_MSI="$AZURE_USE_MSI"
     ```
 
     c. Install [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
 
     ```shell
     make install-cert-manager
+    ```
+
+    d. Install [aad-pod-identity](https://github.com/Azure/aad-pod-identity#1-create-the-deployment)
+
+    ```shell
+    kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
+    az identity create -g <resourcegroup> -n <name> -o json
+    # TODO: Use two identities here
+    az role assignment create --role "Managed Identity Operator" --assignee <sp id> --scope <full id of the managed identity>
+    az role assignment create --role "Owner" --assignee <sp id> --scope <full id of the managed identity>
     ```
 
 3. Give the default service account on the azureoperator-system namespace "cluster-admin" access to the namespace where the operator deploys the resources by default.
@@ -70,19 +78,42 @@
       --user=system:serviceaccount:azureoperator-system:default
     ```
 
-4. Deploy the operator to the Kubernetes cluster
+4. Create and apply the AzureIdentity and Binding manifests
+
+    ```yaml
+    apiVersion: "aadpodidentity.k8s.io/v1"
+    kind: AzureIdentity
+    metadata:
+      name: <a-idname>
+    spec:
+      type: 0
+      ResourceID: /subscriptions/<subid>/resourcegroups/<resourcegroup>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<name>
+      ClientID: <clientId>
+    ```
+
+    ```yaml
+    apiVersion: "aadpodidentity.k8s.io/v1"
+    kind: AzureIdentityBinding
+    metadata:
+      name: aso-identity-binding
+    spec:
+      AzureIdentity: <a-idname>
+      Selector: cluster_identity_binding
+    ```
+
+5. Deploy the operator to the Kubernetes cluster
 
     ```shell
     make deploy
     ```
 
-5. Check that the operator is deployed to the cluster using the following commands.
+6. Check that the operator is deployed to the cluster using the following commands.
 
     ```shell
     kubectl get pods -n azureoperator-system
     ```
 
-6. You can view the logs from the operator using the following command. The `podname` is the name of the pod in the output from `kubectl get pods -n azureoperator-system`, `manager` is the name of the container inside the pod.
+7. You can view the logs from the operator using the following command. The `podname` is the name of the pod in the output from `kubectl get pods -n azureoperator-system`, `manager` is the name of the container inside the pod.
 
     ```shell
     kubectl logs <podname> -c manager -n azureoperator-system
