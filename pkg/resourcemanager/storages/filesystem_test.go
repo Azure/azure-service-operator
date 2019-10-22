@@ -43,26 +43,25 @@ var _ = Describe("File System", func() {
 
 			fileSystemManager := tc.StorageManagers.FileSystem
 			fileSystemName := "tfilesystem" + helpers.RandomString(5)
-			xMsProperties := ""
-			xMsClientRequestID := ""
+			requestTimeout := to.Int32Ptr(20)
 			xMsDate := time.Now().String()
 
 			var err error
 
-			_, err = fileSystemManager.CreateFileSystem(context.Background(), tc.ResourceGroupName, fileSystemName, xMsProperties, xMsClientRequestID, to.Int32Ptr(20), xMsDate, adlsName)
+			_, err = fileSystemManager.CreateFileSystem(context.Background(), tc.ResourceGroupName, fileSystemName, requestTimeout, xMsDate, adlsName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := fileSystemManager.GetFileSystem(context.Background(), tc.ResourceGroupName, fileSystemName, xMsClientRequestID, xMsDate, adlsName)
+				result, _ := fileSystemManager.GetFileSystem(context.Background(), tc.ResourceGroupName, fileSystemName, requestTimeout, xMsDate, adlsName)
 				return result.Response.StatusCode == http.StatusOK
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = fileSystemManager.DeleteFileSystem(context.Background(), tc.ResourceGroupName, fileSystemName, xMsClientRequestID, xMsDate, adlsName)
+			_, err = fileSystemManager.DeleteFileSystem(context.Background(), tc.ResourceGroupName, fileSystemName, requestTimeout, xMsDate, adlsName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := fileSystemManager.GetFileSystem(context.Background(), tc.ResourceGroupName, fileSystemName, xMsClientRequestID, xMsDate, adlsName)
+				result, _ := fileSystemManager.GetFileSystem(context.Background(), tc.ResourceGroupName, fileSystemName, requestTimeout, xMsDate, adlsName)
 				return result.Response.StatusCode == http.StatusNotFound
 			}, timeout,
 			).Should(BeTrue())

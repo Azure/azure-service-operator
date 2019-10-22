@@ -13,10 +13,10 @@ import (
 
 type azureFileSystemManager struct{}
 
-func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName string, filesystemName string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, datalakeName string) (*autorest.Response, error) {
+func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName string, filesystemName string, timeout *int32, xMsDate string, datalakeName string) (*autorest.Response, error) {
 	client := getFileSystemClient(ctx, groupName, datalakeName)
-
-	result, err := client.Create(ctx, filesystemName, xMsProperties, xMsClientRequestID, timeout, xMsDate)
+	// empty parameters are optional request headers (properties, requestid)
+	result, err := client.Create(ctx, filesystemName, "", "", timeout, xMsDate)
 	if err != nil {
 		return nil, err
 	}
@@ -24,11 +24,12 @@ func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName
 	return &result, err
 }
 
-func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName string, filesystemName string, xMsClientRequestID string, xMsDate string, datalakeName string) (autorest.Response, error) {
+func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName string, filesystemName string, timeout *int32, xMsDate string, datalakeName string) (autorest.Response, error) {
 	response := autorest.Response{Response: &http.Response{StatusCode: http.StatusNotFound}}
 	client := getFileSystemClient(ctx, groupName, datalakeName)
 
-	list, err := client.List(ctx, filesystemName, "", nil, xMsClientRequestID, nil, xMsDate)
+	// empty parameters are optional request headers (continuation, maxresults, requestid)
+	list, err := client.List(ctx, filesystemName, "", nil, "", timeout, xMsDate)
 
 	if len(*list.Filesystems) == 0 {
 		return response, err
@@ -39,10 +40,10 @@ func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName st
 	return response, err
 }
 
-func (_ *azureFileSystemManager) DeleteFileSystem(ctx context.Context, groupName string, filesystemName string, xMsClientRequestID string, xMsDate string, datalakeName string) (autorest.Response, error) {
+func (_ *azureFileSystemManager) DeleteFileSystem(ctx context.Context, groupName string, filesystemName string, timeout *int32, xMsDate string, datalakeName string) (autorest.Response, error) {
 	client := getFileSystemClient(ctx, groupName, datalakeName)
-
-	return client.Delete(ctx, filesystemName, "", "", xMsClientRequestID, nil, xMsDate)
+	// empty parameters are optional request headers (ifmodifiedsince, ifunmodifiedsince, requestid)
+	return client.Delete(ctx, filesystemName, "", "", "", timeout, xMsDate)
 }
 
 func getFileSystemClient(ctx context.Context, groupName string, accountName string) storagedatalake.FilesystemClient {
