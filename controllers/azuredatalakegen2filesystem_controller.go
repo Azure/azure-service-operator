@@ -59,7 +59,6 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("unable to retrieve ADLS Gen2 resource", "err", err.Error())
-
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
@@ -102,11 +101,6 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 		return ctrl.Result{}, nil
 	}
 
-	if !instance.IsSubmitted() {
-		_ = r.reconcileExternal(&instance)
-		log.Info("Success", "Here we would submit for creation - stubbed", nil)
-	}
-
 	return ctrl.Result{}, nil
 }
 
@@ -137,7 +131,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) reconcileExternal(instance *azur
 		r.Recorder.Event(instance, "Warning", "Failed", "unable to update instance")
 	}
 
-	_, err = r.FileSystemManager.CreateFileSystem(ctx, groupName, fileSystemName, "", "", to.Int32Ptr(20), xMsDate, storageAccountName)
+	_, err = r.FileSystemManager.CreateFileSystem(ctx, groupName, fileSystemName, to.Int32Ptr(20), xMsDate, storageAccountName)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -169,7 +163,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) deleteExternal(instance *azurev1
 	storageAccountName := instance.Spec.StorageAccountName
 	xMsDate := time.Now().String()
 
-	resp, err := r.FileSystemManager.DeleteFileSystem(ctx, groupName, fileSystemName, "", xMsDate, storageAccountName)
+	resp, err := r.FileSystemManager.DeleteFileSystem(ctx, groupName, fileSystemName, to.Int32Ptr(40), xMsDate, storageAccountName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
