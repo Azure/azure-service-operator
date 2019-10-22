@@ -61,12 +61,16 @@ func (ac *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	requeueAfter := getRequeueAfter(ac.Parameters.RequeueAfterSeconds)
 
 	// create a reconcile cycle object
+	baseDef := thisDefs.Details.BaseDefinition
 	reconcileCycle := reconcileRunner{
 		AzureController:         ac,
 		ThisResourceDefinitions: thisDefs,
+		DependencyDefinitions:   nil,
+		name:                    baseDef.Name,
+		provisionState:          baseDef.Status.ProvisionState,
+		req:                     req,
 		requeueAfter:            requeueAfter,
 		log:                     log,
-		req:                     req,
 	}
 
 	// if no finalizers have been defined, do that and requeue
@@ -79,7 +83,8 @@ func (ac *AzureController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// if it's being deleted go straight to the finalizer step
-	if details.BaseDefinition.ObjectMeta.DeletionTimestamp.IsZero() {
+	isBeingDeleted := !details.BaseDefinition.ObjectMeta.DeletionTimestamp.IsZero()
+	if isBeingDeleted {
 		result, err := reconcileCycle.handleFinalizer()
 		if err != nil {
 			return result, fmt.Errorf("error when handling finalizer: %v", err)
