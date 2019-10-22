@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/services/storage/datalake/2019-10-31/storagedatalake"
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
-
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
@@ -17,9 +16,7 @@ type azureFileSystemManager struct{}
 func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName string, filesystemName string, xMsProperties string, xMsClientRequestID string, timeout *int32, xMsDate string, datalakeName string) (*autorest.Response, error) {
 	client := getFileSystemClient(ctx, groupName, datalakeName)
 
-	// bear minimum logic to check auth
 	result, err := client.Create(ctx, filesystemName, xMsProperties, xMsClientRequestID, timeout, xMsDate)
-
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +52,7 @@ func getFileSystemClient(ctx context.Context, groupName string, accountName stri
 
 	accountKey, err := getAccountKey(ctx, groupName, accountName, adlsClient)
 	if err != nil {
-		log.Fatalf("failed to get the account key for the authorizer: %v\n", err)		
+		log.Fatalf("failed to get the account key for the authorizer: %v\n", err)
 	}
 
 	a, err := iam.GetSharedKeyAuthorizer(accountName, accountKey)
