@@ -6,6 +6,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
 	"log"
 	"net/http"
 )
@@ -43,7 +44,7 @@ func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName st
 func (_ *azureFileSystemManager) DeleteFileSystem(ctx context.Context, groupName string, filesystemName string, xMsClientRequestID string, xMsDate string, datalakeName string) (autorest.Response, error) {
 	client := getFileSystemClient(ctx, groupName, datalakeName)
 
-	return client.Delete(ctx, filesystemName, "", "", xMsClientRequestID, nil, xMsDate)
+	return client.Delete(ctx, filesystemName, "", "", xMsClientRequestID, to.Int32Ptr(20), xMsDate)
 }
 
 func getFileSystemClient(ctx context.Context, groupName string, accountName string) storagedatalake.FilesystemClient {
