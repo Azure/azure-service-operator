@@ -40,6 +40,7 @@ type AzureDataLakeGen2FileSystemReconciler struct {
 	client.Client
 	Log               logr.Logger
 	Recorder          record.EventRecorder
+	RequeueTime       time.Duration
 	FileSystemManager storages.FileSystemManager
 }
 
@@ -47,7 +48,7 @@ type AzureDataLakeGen2FileSystemReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuredatalakegen2filesystems/status,verbs=get;update;patch
 
 func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	ctx := context.Background()
+	// ctx := context.Background()
 	log := r.Log.WithValues("adlsgen2", req.NamespacedName)
 
 	var instance azurev1alpha1.AzureDataLakeGen2FileSystem
@@ -57,10 +58,10 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 		requeueAfter = 30
 	}
 
-	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		log.Info("unable to retrieve ADLS Gen2 resource", "err", err.Error())
-		return ctrl.Result{}, client.IgnoreNotFound(err)
-	}
+	// if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
+	// 	log.Info("unable to retrieve ADLS Gen2 resource", "err", err.Error())
+	// 	return ctrl.Result{}, client.IgnoreNotFound(err)
+	// }
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, fileSystemFinalizerName) {
@@ -93,6 +94,10 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 				errhelp.ResourceGroupNotFoundErrorCode,
 			}
 			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
+				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
+				return ctrl.Result{Requeue: true, RequeueAfter: time.Second * time.Duration(requeueAfter)}, nil
+			}
+			if helpers.ContainsString([]string{"ResourceGroupNotFound"}, err.Error()) {
 				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
 				return ctrl.Result{Requeue: true, RequeueAfter: time.Second * time.Duration(requeueAfter)}, nil
 			}

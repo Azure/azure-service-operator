@@ -42,7 +42,7 @@ func checkRG(ctx context.Context, groupName string) error {
 
 	response, err := rgClient.CheckExistence(ctx, groupName)
 	if response.IsHTTPStatus(404) {
-		return errors.New("resource group does not exist")
+		return errors.New("ResourceGroupNotFound")
 	}
 	return err
 }
