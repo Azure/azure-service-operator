@@ -71,7 +71,3 @@ func init() {
 func (s *AzureSQLFailoverGroup) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
 }
-
-func (s *AzureSQLFailoverGroup) IsProvisioned() bool {
-	return s.Status.Provisioned
-}

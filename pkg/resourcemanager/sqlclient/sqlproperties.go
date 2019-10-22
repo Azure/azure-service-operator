@@ -12,9 +12,6 @@ import (
 // DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
 type DBEdition byte
 
-// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ReadWriteEndpointFailoverPolicy
-type ReadWriteEndpointFailoverPolicy string
-
 const (
 	// Basic ...
 	Basic DBEdition = 0
@@ -44,6 +41,16 @@ const (
 	System2 DBEdition = 12
 	// Web ...
 	Web DBEdition = 13
+)
+
+// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ReadWriteEndpointFailoverPolicy
+type ReadWriteEndpointFailoverPolicy string
+
+const (
+	// Automatic ...
+	Automatic ReadWriteEndpointFailoverPolicy = "Automatic"
+	// Manual ...
+	Manual ReadWriteEndpointFailoverPolicy = "Manual"
 )
 
 // SQLServerProperties contains values needed for adding / updating SQL servers,
@@ -86,7 +93,7 @@ type SQLDatabaseProperties struct {
 type SQLFailoverGroupProperties struct {
 
 	// FailoverPolicy can be Automatic or Manual
-	FailoverPolicy sql.ReadWriteEndpointFailoverPolicy
+	FailoverPolicy ReadWriteEndpointFailoverPolicy
 
 	// Read/Write Grace Period in minutes
 	FailoverGracePeriod int32
@@ -155,6 +162,20 @@ func translateDBEdition(in DBEdition) (result sql.DatabaseEdition) {
 		result = sql.Web
 	default:
 		result = sql.Free
+	}
+
+	return result
+}
+
+// translateFailoverPolicy translates the enum
+func translateFailoverPolicy(in ReadWriteEndpointFailoverPolicy) (result sql.ReadWriteEndpointFailoverPolicy) {
+	switch in {
+	case Automatic:
+		result = sql.Automatic
+	case Manual:
+		result = sql.Manual
+	default:
+		result = sql.Automatic
 	}
 
 	return result

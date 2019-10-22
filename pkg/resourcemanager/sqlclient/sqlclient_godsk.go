@@ -7,6 +7,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/util"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
@@ -156,7 +157,7 @@ func (sdk GoSDKClient) CreateOrUpdateFailoverGroup(failovergroupname string, pro
 	// Construct FailoverGroupProperties struct
 	failoverGroupProperties := sql.FailoverGroupProperties{
 		ReadWriteEndpoint: &sql.FailoverGroupReadWriteEndpoint{
-			FailoverPolicy:                         properties.FailoverPolicy,
+			FailoverPolicy:                         translateFailoverPolicy(properties.FailoverPolicy),
 			FailoverWithDataLossGracePeriodMinutes: &properties.FailoverGracePeriod,
 		},
 		PartnerServers: &partnerServerInfoArray,
@@ -305,19 +306,18 @@ func (sdk GoSDKClient) DeleteFailoverGroup(failoverGroupName string) (result aut
 			StatusCode: 200,
 		},
 	}
-
 	// check to see if the server exists, if it doesn't then short-circuit
 	_, err = sdk.GetServer()
 	if err != nil {
+		util.PrintAndLog("GetServer failed")
+		util.PrintAndLog(err.Error())
 		return result, nil
 	}
-
 	// check to see if the failover group exists, if it doesn't then short-circuit
 	_, err = sdk.GetFailoverGroup(failoverGroupName)
 	if err != nil {
 		return result, nil
 	}
-
 	failoverGroupsClient := getGoFailoverGroupsClient()
 	future, err := failoverGroupsClient.Delete(
 		sdk.Ctx,

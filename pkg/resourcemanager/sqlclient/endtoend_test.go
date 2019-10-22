@@ -11,7 +11,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
@@ -160,7 +159,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// Initialize struct for failover group
 	sqlFailoverGroupProperties := SQLFailoverGroupProperties{
-		FailoverPolicy:               sql.Automatic,
+		FailoverPolicy:               Automatic,
 		FailoverGracePeriod:          30,
 		SecondaryServerName:          secSrvName,
 		SecondaryServerResourceGroup: groupName,
@@ -185,72 +184,72 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			}
 		}
 	}
-	/*
-		// delete firewall rule
-		util.PrintAndLog("deleting firewall rule...")
-		err = sdk.DeleteSQLFirewallRule("test-rule1")
-		if err != nil {
-			util.PrintAndLog(fmt.Sprintf("cannot delete firewall rule: %v", err))
+
+	// delete firewall rule
+	util.PrintAndLog("deleting firewall rule...")
+	err = sdk.DeleteSQLFirewallRule("test-rule1")
+	if err != nil {
+		util.PrintAndLog(fmt.Sprintf("cannot delete firewall rule: %v", err))
+		t.FailNow()
+	}
+	util.PrintAndLog("firewall rule deleted")
+
+	// delete the failover group
+	util.PrintAndLog("deleting failover group...")
+	response, err := sdk.DeleteFailoverGroup(failoverGroupName)
+	if err == nil {
+		if response.StatusCode == 200 {
+			util.PrintAndLog("failover group deleted")
+		}
+	} else {
+		util.PrintAndLog(fmt.Sprintf("cannot delete failover group: %v", err))
+		t.FailNow()
+	}
+
+	// delete the DB
+	time.Sleep(time.Second)
+	response, err = sdk.DeleteDB("sqldatabase-sample")
+	if err == nil {
+		if response.StatusCode == 200 {
+			util.PrintAndLog("db deleted")
+		}
+	} else {
+		util.PrintAndLog(fmt.Sprintf("cannot delete db: %v", err))
+		t.FailNow()
+	}
+
+	// delete the server
+	time.Sleep(time.Second)
+	response, err = sdk.DeleteSQLServer()
+	if err == nil {
+		if response.StatusCode == 200 {
+			util.PrintAndLog("sql server deleted")
+		} else {
+			util.PrintAndLog(fmt.Sprintf("cannot delete sql server, code: %v", response.StatusCode))
 			t.FailNow()
 		}
-		util.PrintAndLog("firewall rule deleted")
-
-		// delete the failover group
-		util.PrintAndLog("deleting failover group...")
-		response, err := sdk.DeleteFailoverGroup(failoverGroupName)
-		if err == nil {
-			if response.StatusCode == 200 {
-				util.PrintAndLog("failover group deleted")
-			}
-		} else {
-			util.PrintAndLog(fmt.Sprintf("cannot delete failover group: %v", err))
+	} else {
+		if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
+			util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
 			t.FailNow()
 		}
+	}
 
-		// delete the DB
-		time.Sleep(time.Second)
-		response, err = sdk.DeleteDB("sqldatabase-sample")
-		if err == nil {
-			if response.StatusCode == 200 {
-				util.PrintAndLog("db deleted")
-			}
+	// delete the secondary server
+	time.Sleep(time.Second)
+	response, err = sdk2.DeleteSQLServer()
+	if err == nil {
+		if response.StatusCode == 200 {
+			util.PrintAndLog("sql server deleted")
 		} else {
-			util.PrintAndLog(fmt.Sprintf("cannot delete db: %v", err))
+			util.PrintAndLog(fmt.Sprintf("cannot delete sql server, code: %v", response.StatusCode))
 			t.FailNow()
 		}
-
-		// delete the server
-		time.Sleep(time.Second)
-		response, err = sdk.DeleteSQLServer()
-		if err == nil {
-			if response.StatusCode == 200 {
-				util.PrintAndLog("sql server deleted")
-			} else {
-				util.PrintAndLog(fmt.Sprintf("cannot delete sql server, code: %v", response.StatusCode))
-				t.FailNow()
-			}
-		} else {
-			if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
-				util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
-				t.FailNow()
-			}
+	} else {
+		if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
+			util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
+			t.FailNow()
 		}
-
-		// delete the secondary server
-		time.Sleep(time.Second)
-		response, err = sdk2.DeleteSQLServer()
-		if err == nil {
-			if response.StatusCode == 200 {
-				util.PrintAndLog("sql server deleted")
-			} else {
-				util.PrintAndLog(fmt.Sprintf("cannot delete sql server, code: %v", response.StatusCode))
-				t.FailNow()
-			}
-		} else {
-			if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
-				util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
-				t.FailNow()
-			}
-		}*/
+	}
 
 }
