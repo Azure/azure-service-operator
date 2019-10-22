@@ -57,7 +57,8 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	var instance azurev1alpha1.AzureSqlFirewallRule
 
 	// init telemetry for this reconcilliation
-	telemetryClient := telemetry.InitializePrometheusClient(r.Log, azureSQLFirewallRuleOperatorName)
+	telemetryClient := telemetry.InitializePrometheusDefault(r.Log, azureSQLFirewallRuleOperatorName)
+	telemetryClient.LogStart()
 
 	defer func() {
 
