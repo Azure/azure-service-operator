@@ -2,10 +2,10 @@ package errhelp
 
 import (
 	"encoding/json"
-
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"k8s.io/apimachinery/pkg/api/errors"
+	"reflect"
 )
 
 const (
@@ -51,6 +51,9 @@ func NewAzureError(err error) error {
 	} else if _, ok := err.(azure.AsyncOpIncompleteError); ok {
 		kind = "AsyncOpIncomplete"
 		reason = "AsyncOpIncomplete"
+	} else if reflect.TypeOf(err).String() == "*errors.errorString" {
+		kind = err.Error()
+		reason = err.Error()
 	}
 	ae.Reason = reason
 	ae.Type = kind

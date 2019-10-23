@@ -92,6 +92,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.ResourceNotFound,
 			}
 			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) || helpers.ContainsString(catch, err.Error()) {
 				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
