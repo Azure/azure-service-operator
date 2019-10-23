@@ -89,6 +89,7 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	// get dependency details
 	dependencies, err := ac.DefinitionManager.GetDependencies(ctx, details.Instance)
+	// if any of the dependencies are not found, we jump out.
 	if err != nil || dependencies == nil { // note that dependencies should be an empty array
 		if apierrors.IsNotFound(err) {
 			log.Info("dependency not found for " + details.BaseDefinition.Name + ". requeuing request.")

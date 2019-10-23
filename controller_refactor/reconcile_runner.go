@@ -190,9 +190,8 @@ func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
 	instance := details.Instance
 	requeueAfter := r.requeueAfter
 
-	r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation")
-	// TODO: Add error handling for cases where username or password are invalid:
-	// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
+	// TODO: keep this line ?
+	r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Ensure", "ready to create or update resource")
 	nextState, ensureErr := r.ensureExternal(ctx)
 	// we set the state even if there is an error
 	updater.SetProvisionState(nextState)

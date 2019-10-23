@@ -13,6 +13,7 @@ import (
 // DefinitionManager is used to retrieve the required custom resource definitions
 // and convert them into a state that can be consumed and updated (where applicable) generically
 type DefinitionManager interface {
+	// returns ThisResourceDefinitions
 	GetThis(ctx context.Context, req ctrl.Request) (*ThisResourceDefinitions, error)
 	// if any dependency is not found, should return nil and a NotFound api error
 	GetDependencies(ctx context.Context, thisInstance runtime.Object) (*DependencyDefinitions, error)
