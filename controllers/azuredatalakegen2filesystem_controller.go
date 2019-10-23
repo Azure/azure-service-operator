@@ -49,7 +49,7 @@ type AzureDataLakeGen2FileSystemReconciler struct {
 
 func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	log := r.Log.WithValues("adlsgen2", req.NamespacedName)
+	log := r.Log.WithValues("adlsgen2FileSystem", req.NamespacedName)
 
 	var instance azurev1alpha1.AzureDataLakeGen2FileSystem
 
@@ -93,11 +93,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
 			}
-			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
-				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
-				return ctrl.Result{Requeue: true, RequeueAfter: time.Second * time.Duration(requeueAfter)}, nil
-			}
-			if helpers.ContainsString([]string{"ResourceGroupNotFound"}, err.Error()) {
+			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) || helpers.ContainsString(catch, err.Error()) {
 				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
 				return ctrl.Result{Requeue: true, RequeueAfter: time.Second * time.Duration(requeueAfter)}, nil
 			}
@@ -145,6 +141,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) reconcileExternal(instance *azur
 			//log error and kill it
 			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
+
 		return errhelp.NewAzureError(err)
 	}
 
@@ -185,6 +182,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) deleteExternal(instance *azurev1
 	return nil
 }
 
+// SetupWithManager sets up the controller functions
 func (r *AzureDataLakeGen2FileSystemReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1alpha1.AzureDataLakeGen2FileSystem{}).

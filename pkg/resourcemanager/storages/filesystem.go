@@ -3,7 +3,6 @@ package storages
 import (
 	"context"
 	"errors"
-
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2018-02-01/resources"
 	"github.com/Azure/azure-sdk-for-go/services/storage/datalake/2019-10-31/storagedatalake"
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
@@ -17,7 +16,7 @@ import (
 type azureFileSystemManager struct{}
 
 func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName string, filesystemName string, timeout *int32, xMsDate string, datalakeName string) (*autorest.Response, error) {
-	err := checkRG(ctx, groupName)
+	err := checkRGAndStorageAccount(ctx, groupName, datalakeName)
 	if err != nil {
 		return nil, err
 	}
@@ -37,19 +36,27 @@ func getResourcesClient() resources.GroupsClient {
 	resourcesClient.AddToUserAgent(config.UserAgent())
 	return resourcesClient
 }
-func checkRG(ctx context.Context, groupName string) error {
+func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeName string) error {
 	rgClient := getResourcesClient()
+	storagesClient := getStoragesClient()
 
 	response, err := rgClient.CheckExistence(ctx, groupName)
 	if response.IsHTTPStatus(404) {
 		return errors.New("ResourceGroupNotFound")
 	}
+
+	_, err = storagesClient.ListKeys(ctx, groupName, datalakeName)
+
+	if err != nil {
+		return errors.New("ParentResourceNotFound")
+	}
+
 	return err
 }
 func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName string, filesystemName string, timeout *int32, xMsDate string, datalakeName string) (autorest.Response, error) {
 	response := autorest.Response{Response: &http.Response{StatusCode: http.StatusNotFound}}
 
-	err := checkRG(ctx, groupName)
+	err := checkRGAndStorageAccount(ctx, groupName, datalakeName)
 	if err != nil {
 		return response, errors.New("unable to create filesystem")
 	}
@@ -70,7 +77,7 @@ func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName st
 
 func (_ *azureFileSystemManager) DeleteFileSystem(ctx context.Context, groupName string, filesystemName string, timeout *int32, xMsDate string, datalakeName string) (autorest.Response, error) {
 	response := autorest.Response{Response: &http.Response{StatusCode: http.StatusAccepted}}
-	err := checkRG(ctx, groupName)
+	err := checkRGAndStorageAccount(ctx, groupName, datalakeName)
 	if err != nil {
 		return response, nil
 	}

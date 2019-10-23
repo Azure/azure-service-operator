@@ -5,4 +5,4 @@ metadata:
 spec:
   # Add fields here
   storageAccountName: adlsaccount1908
-  resourceGroup: resourcegroup-azure-operators1
+  resourceGroup: resourcegroup-azure-operators
