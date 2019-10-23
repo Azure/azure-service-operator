@@ -17,12 +17,11 @@ package eventhubnamespace
 
 import (
 	"context"
-	"fmt"
 	"github.com/Azure/azure-service-operator/controller_refactor"
+	resourcegrouphelpers "github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -63,31 +62,20 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 		Log:                   logger,
 		Recorder:              recorder,
 		ResourceManagerClient: resourceManagerClient,
-		DefinitionManager: &definitionManager{
-			logger:     logger,
-			kubeClient: kubeClient,
-		},
-		FinalizerName:        FinalizerName,
-		PostProvisionHandler: nil,
+		DefinitionManager:     &definitionManager{},
+		FinalizerName:         FinalizerName,
+		PostProvisionHandler:  nil,
 	}
 }
 
-type definitionManager struct {
-	logger     logr.Logger
-	kubeClient client.Client
-}
+type definitionManager struct{}
 
-func (dm *definitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
-	var instance v1alpha1.EventhubNamespace
-	err := dm.kubeClient.Get(ctx, req.NamespacedName, &instance)
-	details := controller_refactor.CustomResourceDetails{
-		Instance: &instance,
-		Status:   &instance.Status,
+func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller_refactor.ResourceDefinition {
+	return &controller_refactor.ResourceDefinition{
+		InitialInstance: &v1alpha1.EventhubNamespace{},
+		StatusGetter:    getStatus,
+		StatusUpdater:   updateStatus,
 	}
-	return &controller_refactor.ThisResourceDefinitions{
-		Details:       &details,
-		StatusUpdater: updateStatus,
-	}, err
 }
 
 func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance runtime.Object) (*controller_refactor.DependencyDefinitions, error) {
@@ -96,47 +84,15 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 		return nil, err
 	}
 
-	// fetch the owner details
-	ownerName := ehnInstance.Spec.ResourceGroup
-	ownerNSName := types.NamespacedName{
-		Namespace: ehnInstance.Namespace,
-		Name:      ownerName,
-	}
-	var instance v1alpha1.ResourceGroup
-	err = dm.kubeClient.Get(ctx, ownerNSName, &instance)
-	var owner *controller_refactor.CustomResourceDetails
-	if apierrors.IsNotFound(err) {
-		return nil, err
-	} else {
-		owner = dm.getDefinition(&instance)
-	}
-
 	return &controller_refactor.DependencyDefinitions{
-		Dependencies: []*controller_refactor.CustomResourceDetails{},
-		Owner:        owner,
-	}, err
-}
-
-func (dm *definitionManager) getDefinition(instance *v1alpha1.ResourceGroup) *controller_refactor.CustomResourceDetails {
-	return &controller_refactor.CustomResourceDetails{
-		Instance: instance,
-		Status:   &instance.Status,
-	}
-}
-
-func updateStatus(instance runtime.Object, status v1alpha1.ResourceStatus) error {
-	x, err := convertInstance(instance)
-	if err != nil {
-		return err
-	}
-	x.Status = status
-	return nil
-}
-
-func convertInstance(obj runtime.Object) (*v1alpha1.EventhubNamespace, error) {
-	local, ok := obj.(*v1alpha1.EventhubNamespace)
-	if !ok {
-		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
-	}
-	return local, nil
+		Dependencies: []*controller_refactor.Dependency{},
+		Owner: &controller_refactor.Dependency{
+			InitialInstance: &v1alpha1.ResourceGroup{},
+			NamespacedName: types.NamespacedName{
+				Namespace: ehnInstance.Namespace,
+				Name:      ehnInstance.Spec.ResourceGroup,
+			},
+			StatusGetter: resourcegrouphelpers.GetStatus,
+		},
+	}, nil
 }

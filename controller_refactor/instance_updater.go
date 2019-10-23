@@ -3,6 +3,8 @@ package controller_refactor
 import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	// "k8s.io/apimachinery/pkg/api/meta"
 
 	apimeta "k8s.io/apimachinery/pkg/api/meta"
@@ -44,14 +46,14 @@ func (updater *customResourceUpdater) setProvisionState(provisionState azurev1al
 	updater.statusUpdates = append(updater.statusUpdates, updateFunc)
 }
 
-func (updater *customResourceUpdater) setOwnerReferences(ownerDetails []*CustomResourceDetails) {
+func (updater *customResourceUpdater) setOwnerReferences(owners []runtime.Object) {
 	updateFunc := func(s metav1.Object) {
-		references := make([]metav1.OwnerReference, len(ownerDetails))
-		for i, o := range ownerDetails {
+		references := make([]metav1.OwnerReference, len(owners))
+		for i, o := range owners {
 			meta, _ := apimeta.Accessor(o)
 			references[i] = metav1.OwnerReference{
 				APIVersion: "v1",
-				Kind:       o.Instance.GetObjectKind().GroupVersionKind().Kind,
+				Kind:       o.GetObjectKind().GroupVersionKind().Kind,
 				Name:       meta.GetName(),
 				UID:        meta.GetUID(),
 			}
@@ -61,14 +63,12 @@ func (updater *customResourceUpdater) setOwnerReferences(ownerDetails []*CustomR
 	updater.metaUpdates = append(updater.metaUpdates, updateFunc)
 }
 
-func (updater *customResourceUpdater) applyUpdates(r *CustomResourceDetails) error {
-	status := r.Status
+func (updater *customResourceUpdater) applyUpdates(instance runtime.Object, status *azurev1alpha1.ResourceStatus) error {
 	for _, f := range updater.statusUpdates {
 		f(status)
 	}
-
-	err := updater.StatusUpdater(r.Instance, *status)
-	m, _ := apimeta.Accessor(r.Instance)
+	err := updater.StatusUpdater(instance, status)
+	m, _ := apimeta.Accessor(instance)
 	for _, f := range updater.metaUpdates {
 		f(m)
 	}

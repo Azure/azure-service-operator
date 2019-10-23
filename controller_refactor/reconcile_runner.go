@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -20,12 +22,12 @@ import (
 // Contains all the state involved in running a single reconcile event in the reconcile loo[
 type reconcileRunner struct {
 	*GenericController
-	*ThisResourceDefinitions
+	*ResourceDefinition
 	*DependencyDefinitions
 	types.NamespacedName
+	instance        runtime.Object
 	objectMeta      metav1.Object
-	typeMeta        metav1.Type
-	provisionState  azurev1alpha1.ProvisionState
+	status          *azurev1alpha1.ResourceStatus
 	req             ctrl.Request
 	requeueAfter    time.Duration
 	log             logr.Logger
@@ -41,21 +43,45 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 
 	// Verify that all dependencies are present in the cluster, and they are
 	owner := r.Owner
-	allDeps := append([]*CustomResourceDetails{owner}, r.Dependencies...)
-	provisionState := r.Details.Status.ProvisionState
+	var allDeps []*Dependency
+	if owner != nil {
+		allDeps = append([]*Dependency{owner}, r.Dependencies...)
+	} else {
+		allDeps = r.Dependencies
+	}
+	provisionState := r.status.ProvisionState
 
 	// jump out and requeue if any of the dependencies are missing
-	for _, dep := range allDeps {
-		if dep != nil && !dep.Status.ProvisionState.IsSucceeded() {
+	for i, dep := range allDeps {
+		instance := dep.InitialInstance
+		err := r.KubeClient.Get(ctx, dep.NamespacedName, instance)
+
+		// set the owner reference if owner is present and references have not been set
+		// currently we only have single object ownership, but it is poosible to have multiple owners
+		if i == 0 && owner != nil && len(r.objectMeta.GetOwnerReferences()) == 0 {
+			return r.setOwner(ctx, instance)
+		}
+
+		// if any of the dependencies are not found, we jump out.
+		if err != nil { // note that dependencies should be an empty array
+			if apierrors.IsNotFound(err) {
+				r.Log.Info("dependency not found for " + dep.NamespacedName.Name + ". requeuing request.")
+			} else {
+				r.Log.Info("unable to retrieve dependency for "+dep.NamespacedName.Name, "err", err.Error())
+			}
+			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, client.IgnoreNotFound(err)
+		}
+		status, err := dep.StatusGetter(instance)
+		if err != nil {
+			r.log.Info(fmt.Sprintf("cannot get status for %s. terminal failure.", dep.NamespacedName.Name))
+			// TODO fail - this is terminal
+			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, nil
+		}
+
+		if !status.ProvisionState.IsSucceeded() {
 			r.log.Info("one of the dependencies is not in 'Succeeded' state, requeuing")
 			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, nil
 		}
-	}
-
-	// set the owner reference if owner is present and references have not been set
-	// currently we only have single object ownership, but it is poosible to have multiple owners
-	if owner != nil && len(r.objectMeta.GetOwnerReferences()) == 0 {
-		return r.setOwner(ctx, owner)
 	}
 
 	// now verify the resource state on Azure
@@ -72,7 +98,7 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 	if provisionState.IsSucceeded() && r.PostProvisionHandler != nil {
 		result, err := r.verify(ctx)
 		// if still succeeded run the post provision handler (set secrets in k8s etc)...
-		if r.provisionState.IsSucceeded() && err == nil {
+		if provisionState.IsSucceeded() && err == nil {
 			return r.runPostProvisionHandler()
 		} else {
 			return result, err
@@ -82,9 +108,9 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-func (r *reconcileRunner) setOwner(ctx context.Context, owner *CustomResourceDetails) (ctrl.Result, error) {
+func (r *reconcileRunner) setOwner(ctx context.Context, owner runtime.Object) (ctrl.Result, error) {
 	//set owner reference if it exists
-	r.instanceUpdater.setOwnerReferences([]*CustomResourceDetails{owner})
+	r.instanceUpdater.setOwnerReferences([]runtime.Object{owner})
 	if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "OwnerReferences", "setting OwnerReferences for "+r.Name); err != nil {
 		return ctrl.Result{}, err
 	}
@@ -93,8 +119,8 @@ func (r *reconcileRunner) setOwner(ctx context.Context, owner *CustomResourceDet
 
 func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	updater := r.instanceUpdater
-	details := r.Details
 	requeueAfter := r.requeueAfter
+	provisionState := r.status.ProvisionState
 
 	verifyResult, err := r.verifyExternal(ctx)
 	if err != nil {
@@ -105,10 +131,10 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	}
 	// Success case - the resource is is provisioned on Azure, and is ready
 	if verifyResult.ready() {
-		if !r.provisionState.IsSucceeded() {
+		if !provisionState.IsSucceeded() {
 			var ppError error = nil
 			if r.PostProvisionHandler != nil {
-				ppError = r.PostProvisionHandler(details)
+				ppError = r.PostProvisionHandler(r.instance)
 			}
 			if ppError != nil {
 				updater.setProvisionState(azurev1alpha1.Failed)
@@ -140,7 +166,7 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	}
 	// Recreate case - the resource exists in Azure, is invalid and needs to be created
 	if verifyResult.recreateRequired() {
-		deleteResult, err := r.ResourceManagerClient.Delete(ctx, details.Instance)
+		deleteResult, err := r.ResourceManagerClient.Delete(ctx, r.instance)
 		if err != nil || deleteResult == DeleteError {
 			updater.setProvisionState(azurev1alpha1.Failed)
 			return ctrl.Result{}, err
@@ -174,7 +200,7 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 }
 
 func (r *reconcileRunner) verifyExternal(ctx context.Context) (VerifyResult, error) {
-	instance := r.Details.Instance
+	instance := r.instance
 
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "Checking", "instance is ready")
 	verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
@@ -188,12 +214,11 @@ func (r *reconcileRunner) verifyExternal(ctx context.Context) (VerifyResult, err
 
 func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
 	updater := r.instanceUpdater
-	details := r.Details
-	instance := details.Instance
+	instance := r.instance
 	requeueAfter := r.requeueAfter
 
 	// TODO: keep this line ?
-	r.Recorder.Event(details.Instance, corev1.EventTypeNormal, "Ensure", "ready to create or update resource")
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "Ensure", "ready to create or update resource")
 	nextState, ensureErr := r.ensureExternal(ctx)
 	// we set the state even if there is an error
 	updater.setProvisionState(nextState)
@@ -218,13 +243,13 @@ func (r *reconcileRunner) ensureExternal(ctx context.Context) (azurev1alpha1.Pro
 
 	var err error
 
-	details := r.Details
 	resourceName := r.Name
-	instance := details.Instance
+	instance := r.instance
+	provisionState := r.status.ProvisionState
 
 	// ensure that the resource is created or updated in Azure (though it won't necessarily be ready, it still needs to be verified)
 	var ensureResult EnsureResult
-	if r.provisionState.IsCreating() {
+	if provisionState.IsCreating() {
 		ensureResult, err = r.ResourceManagerClient.Create(ctx, instance)
 	} else {
 		ensureResult, err = r.ResourceManagerClient.Update(ctx, instance)
@@ -247,7 +272,7 @@ func (r *reconcileRunner) ensureExternal(ctx context.Context) (azurev1alpha1.Pro
 }
 
 func (r *reconcileRunner) runPostProvisionHandler() (ctrl.Result, error) {
-	if err := r.PostProvisionHandler(r.Details); err != nil {
+	if err := r.PostProvisionHandler(r.instance); err != nil {
 		r.Log.Info("Error", "PostProvisionHandler", fmt.Sprintf("PostProvisionHandler failed: %s", err.Error()))
 	}
 	return ctrl.Result{}, nil
@@ -261,18 +286,19 @@ func (r *reconcileRunner) updateInstance(ctx context.Context) error {
 // "Operation cannot be fulfilled on xxx:the object has been modified; please apply your changes to the latest version and try again"
 func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) error {
 	// refetch the instance and apply the updates to it
-	thisDefs, err := r.DefinitionManager.GetThis(ctx, r.req)
+	baseInstance := r.instance
+	instance := baseInstance.DeepCopyObject()
+	err := r.KubeClient.Get(ctx, r.NamespacedName, baseInstance)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
 			r.Log.Info("unable to update deleted resource. it may have already been finalized. this error is ignorable. Resource: " + r.Name)
 			return nil
 		} else {
 			r.Log.Info("unable to retrieve resource. falling back to prior instance: "+r.Name, "err", err.Error())
-			thisDefs = r.ThisResourceDefinitions
 		}
 	}
-	instance := thisDefs.Details.Instance
-	err = r.instanceUpdater.applyUpdates(thisDefs.Details)
+	status, _ := r.StatusGetter(instance)
+	err = r.instanceUpdater.applyUpdates(instance, status)
 	if err != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Update", "unable to convert Object to resource.")
 		r.instanceUpdater.clear()
@@ -295,7 +321,7 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 }
 
 func (r *reconcileRunner) updateAndLog(ctx context.Context, eventType string, reason string, message string) error {
-	instance := r.Details.Instance
+	instance := r.instance
 	if err := r.updateInstance(ctx); err != nil {
 		return err
 	}

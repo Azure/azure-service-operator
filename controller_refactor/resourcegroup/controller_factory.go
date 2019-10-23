@@ -17,9 +17,9 @@ package resourcegroup
 
 import (
 	"context"
-	"fmt"
 	"github.com/Azure/azure-service-operator/controller_refactor"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -60,49 +60,22 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 		Log:                   logger,
 		Recorder:              recorder,
 		ResourceManagerClient: resourceManagerClient,
-		DefinitionManager: &definitionManager{
-			logger:     logger,
-			kubeClient: kubeClient,
-		},
-		FinalizerName:        FinalizerName,
-		PostProvisionHandler: nil,
+		DefinitionManager:     &definitionManager{},
+		FinalizerName:         FinalizerName,
+		PostProvisionHandler:  nil,
 	}
 }
 
-type definitionManager struct {
-	logger     logr.Logger
-	kubeClient client.Client
-}
+type definitionManager struct{}
 
-func (dm *definitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
-	var instance v1alpha1.ResourceGroup
-	err := dm.kubeClient.Get(ctx, req.NamespacedName, &instance)
-	return &controller_refactor.ThisResourceDefinitions{
-		Details: &controller_refactor.CustomResourceDetails{
-			Instance: &instance,
-			Status:   &instance.Status,
-		},
-		StatusUpdater: updateStatus,
-	}, err
+func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller_refactor.ResourceDefinition {
+	return &controller_refactor.ResourceDefinition{
+		InitialInstance: &v1alpha1.ResourceGroup{},
+		StatusGetter:    GetStatus,
+		StatusUpdater:   updateStatus,
+	}
 }
 
 func (dm *definitionManager) GetDependencies(context.Context, runtime.Object) (*controller_refactor.DependencyDefinitions, error) {
 	return &controller_refactor.NoDependencies, nil
-}
-
-func updateStatus(instance runtime.Object, status v1alpha1.ResourceStatus) error {
-	x, err := convertInstance(instance)
-	if err != nil {
-		return err
-	}
-	x.Status = status
-	return nil
-}
-
-func convertInstance(obj runtime.Object) (*v1alpha1.ResourceGroup, error) {
-	local, ok := obj.(*v1alpha1.ResourceGroup)
-	if !ok {
-		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
-	}
-	return local, nil
 }

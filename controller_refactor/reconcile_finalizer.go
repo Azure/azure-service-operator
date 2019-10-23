@@ -14,7 +14,7 @@ func (r *reconcileFinalizer) isDefined() bool {
 }
 
 func (r *reconcileFinalizer) add(ctx context.Context) (ctrl.Result, error) {
-	instance := r.Details.Instance
+	instance := r.instance
 	updater := r.instanceUpdater
 
 	updater.addFinalizer(r.FinalizerName)
@@ -27,14 +27,13 @@ func (r *reconcileFinalizer) add(ctx context.Context) (ctrl.Result, error) {
 }
 
 func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
-	details := r.Details
-	instance := details.Instance
+	instance := r.instance
 	updater := r.instanceUpdater
 	ctx := context.Background()
 	removeFinalizer := false
 	requeue := false
 
-	isTerminating := r.provisionState.IsTerminating()
+	isTerminating := r.status.ProvisionState.IsTerminating()
 
 	if r.isDefined() {
 		// Even before we cal ResourceManagerClient.Delete, we verify the state of the resource
