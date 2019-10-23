@@ -160,7 +160,7 @@ resource "kubernetes_cluster_role_binding" "operator-admin" {
 
 // Setup kubeconfig to facilitate running kubectl outside of terraform
 resource "null_resource" "k8s" {
-  depends_on = ["azurerm_kubernetes_cluster.operator.id"]
+  depends_on = ["azurerm_kubernetes_cluster.operator"]
   provisioner "local-exec" {
     command = "az aks get-credentials --overwrite-existing --resource-group ${azurerm_resource_group.operator.name} --name ${local.cluster_name}"
   }
