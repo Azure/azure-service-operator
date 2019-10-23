@@ -57,11 +57,9 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 			// Create the EventHubNamespace object and expect the Reconcile to be created
 			eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
-				ResourceBaseDefinition: azurev1alpha1.ResourceBaseDefinition{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      eventhubNamespaceName,
-						Namespace: "default",
-					},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      eventhubNamespaceName,
+					Namespace: "default",
 				},
 				Spec: azurev1alpha1.EventhubNamespaceSpec{
 					Location:      rgLocation,
@@ -89,11 +87,9 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 			// Create the Eventhub namespace object and expect the Reconcile to be created
 			eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
-				ResourceBaseDefinition: azurev1alpha1.ResourceBaseDefinition{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      eventhubNamespaceName,
-						Namespace: "default",
-					},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      eventhubNamespaceName,
+					Namespace: "default",
 				},
 				Spec: azurev1alpha1.EventhubNamespaceSpec{
 					Location:      rgLocation,

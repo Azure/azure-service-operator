@@ -54,10 +54,9 @@ var _ = Describe("ResourceGroup", func() {
 				Namespace: "default",
 			}
 			created = &ResourceGroup{
-				ResourceBaseDefinition: ResourceBaseDefinition{ObjectMeta: metav1.ObjectMeta{
+				ObjectMeta: metav1.ObjectMeta{
 					Name:      "foo",
 					Namespace: "default",
-				},
 				},
 				Spec: ResourceGroupSpec{
 					Location: resourcegroupLocation,

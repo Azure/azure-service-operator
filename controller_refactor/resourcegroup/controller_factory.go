@@ -77,14 +77,12 @@ type definitionManager struct {
 func (dm *definitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
 	var instance v1alpha1.ResourceGroup
 	err := dm.kubeClient.Get(ctx, req.NamespacedName, &instance)
-	details := dm.getDefinition(&instance.ResourceBaseDefinition, &instance)
 	return &controller_refactor.ThisResourceDefinitions{
-		Details: details,
-		Updater: &controller_refactor.CustomResourceUpdater{
-			UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
-				instance.ResourceBaseDefinition = *state
-			},
+		Details: &controller_refactor.CustomResourceDetails{
+			Instance: &instance,
+			Status:   &instance.Status,
 		},
+		StatusUpdater: updateStatus,
 	}, err
 }
 
@@ -92,11 +90,13 @@ func (dm *definitionManager) GetDependencies(context.Context, runtime.Object) (*
 	return &controller_refactor.NoDependencies, nil
 }
 
-func (dm *definitionManager) getDefinition(base *v1alpha1.ResourceBaseDefinition, instance runtime.Object) *controller_refactor.CustomResourceDetails {
-	return &controller_refactor.CustomResourceDetails{
-		Instance:       instance,
-		BaseDefinition: base,
+func updateStatus(instance runtime.Object, status v1alpha1.ResourceStatus) error {
+	x, err := convertInstance(instance)
+	if err != nil {
+		return err
 	}
+	x.Status = status
+	return nil
 }
 
 func convertInstance(obj runtime.Object) (*v1alpha1.ResourceGroup, error) {

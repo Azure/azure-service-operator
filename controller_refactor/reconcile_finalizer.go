@@ -4,20 +4,21 @@ import (
 	"context"
 	"fmt"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	corev1 "k8s.io/api/core/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
-func (r *reconcileFinalizer) exists() bool {
-	return r.Details.BaseDefinition.HasFinalizer(r.FinalizerName)
+func (r *reconcileFinalizer) isDefined() bool {
+	return helpers.HasFinalizer(r.objectMeta, r.FinalizerName)
 }
 
 func (r *reconcileFinalizer) add(ctx context.Context) (ctrl.Result, error) {
 	instance := r.Details.Instance
-	updater := r.Updater
+	updater := r.instanceUpdater
 
-	updater.AddFinalizer(r.FinalizerName)
-	updater.SetProvisionState(azurev1alpha1.Pending)
+	updater.addFinalizer(r.FinalizerName)
+	updater.setProvisionState(azurev1alpha1.Pending)
 	if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Updated", "finalizers added"); err != nil {
 		return ctrl.Result{}, fmt.Errorf("error adding finalizer: %v", err)
 	}
@@ -28,14 +29,14 @@ func (r *reconcileFinalizer) add(ctx context.Context) (ctrl.Result, error) {
 func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 	details := r.Details
 	instance := details.Instance
-	updater := r.Updater
+	updater := r.instanceUpdater
 	ctx := context.Background()
 	removeFinalizer := false
 	requeue := false
 
 	isTerminating := r.provisionState.IsTerminating()
 
-	if details.BaseDefinition.HasFinalizer(r.FinalizerName) {
+	if r.isDefined() {
 		// Even before we cal ResourceManagerClient.Delete, we verify the state of the resource
 		// If it has not been created, we don't need to delete anything.
 		verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
@@ -72,10 +73,10 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 	}
 
 	if !isTerminating {
-		updater.SetProvisionState(azurev1alpha1.Terminating)
+		updater.setProvisionState(azurev1alpha1.Terminating)
 	}
 	if removeFinalizer {
-		updater.RemoveFinalizer(r.FinalizerName)
+		updater.removeFinalizer(r.FinalizerName)
 	}
 
 	if removeFinalizer || !isTerminating {
@@ -84,10 +85,10 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, fmt.Errorf("error removing finalizer: %v", err)
 		}
 		if !isTerminating {
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "setting state to terminating for " + r.Name)
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "setting state to terminating for "+r.Name)
 		}
 		if removeFinalizer {
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "removing finalizer for " + r.Name)
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "removing finalizer for "+r.Name)
 		}
 	}
 
@@ -98,4 +99,3 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 }
-

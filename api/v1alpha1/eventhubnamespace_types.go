@@ -16,6 +16,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -63,8 +64,32 @@ type EventhubNamespaceSpec struct {
 // ResourceGroup is the Schema for the resourcegroups API
 // +kubebuilder:resource:shortName=rg,path=resourcegroups
 type EventhubNamespace struct {
-	ResourceBaseDefinition
-	Spec EventhubNamespaceSpec `json:"spec,omitempty"`
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   EventhubNamespaceSpec `json:"spec,omitempty"`
+	Status ResourceStatus        `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
+
+func (eventhubNamespace *EventhubNamespace) IsBeingDeleted() bool {
+	return !eventhubNamespace.ObjectMeta.DeletionTimestamp.IsZero()
+}
+
+func (eventhubNamespace *EventhubNamespace) IsSubmitted() bool {
+	return eventhubNamespace.Status.Provisioning || eventhubNamespace.Status.Provisioned
+
+}
+
+func (eventhubNamespace *EventhubNamespace) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (eventhubNamespace *EventhubNamespace) AddFinalizer(finalizerName string) {
+	eventhubNamespace.ObjectMeta.Finalizers = append(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (eventhubNamespace *EventhubNamespace) RemoveFinalizer(finalizerName string) {
+	eventhubNamespace.ObjectMeta.Finalizers = helpers.RemoveString(eventhubNamespace.ObjectMeta.Finalizers, finalizerName)
+}

@@ -21,7 +21,7 @@ import (
 )
 
 // ProvisionState enumerates the values for provisioning state.
-// +kubebuilder:validation:Enum=Pending;Provisioning;Verifying;Succeeded;Failed
+// +kubebuilder:validation:Enum=Pending;Creating;Updating;Verifying;Succeeded;Failed;Terminating
 type ProvisionState string
 
 const (

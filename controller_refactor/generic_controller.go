@@ -2,6 +2,7 @@ package controller_refactor
 
 import (
 	"context"
+	apimeta "k8s.io/apimachinery/pkg/api/meta"
 	"time"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -58,18 +59,25 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	details := thisDefs.Details
 	requeueAfter := getRequeueAfter(ac.Parameters.RequeueAfterSeconds)
+	metaObject, _ := apimeta.Accessor(details.Instance)
+
+	instanceUpdater := customResourceUpdater{
+		StatusUpdater: thisDefs.StatusUpdater,
+	}
 
 	// create a reconcile runner object. this runs a single cycle of the reconcile loop
-	baseDef := thisDefs.Details.BaseDefinition
 	reconcileRunner := reconcileRunner{
 		GenericController:       ac,
 		ThisResourceDefinitions: thisDefs,
 		DependencyDefinitions:   nil,
 		NamespacedName:          req.NamespacedName,
-		provisionState:          baseDef.Status.ProvisionState,
+		objectMeta:              metaObject,
+		typeMeta:                nil,
+		provisionState:          thisDefs.Details.Status.ProvisionState,
 		req:                     req,
 		requeueAfter:            requeueAfter,
 		log:                     log,
+		instanceUpdater:         &instanceUpdater,
 	}
 
 	reconcileFinalizer := reconcileFinalizer{
@@ -77,12 +85,12 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// if no finalizers have been defined, do that and requeue
-	if !reconcileFinalizer.exists() {
+	if !reconcileFinalizer.isDefined() {
 		return reconcileFinalizer.add(ctx)
 	}
 
 	// if it's being deleted go straight to the finalizer step
-	isBeingDeleted := !details.BaseDefinition.ObjectMeta.DeletionTimestamp.IsZero()
+	isBeingDeleted := !metaObject.GetDeletionTimestamp().IsZero()
 	if isBeingDeleted {
 		return reconcileFinalizer.handle()
 	}
@@ -92,9 +100,9 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	// if any of the dependencies are not found, we jump out.
 	if err != nil || dependencies == nil { // note that dependencies should be an empty array
 		if apierrors.IsNotFound(err) {
-			log.Info("dependency not found for " + details.BaseDefinition.Name + ". requeuing request.")
+			log.Info("dependency not found for " + req.Name + ". requeuing request.")
 		} else {
-			log.Info("unable to retrieve dependency for "+details.BaseDefinition.Name, "err", err.Error())
+			log.Info("unable to retrieve dependency for "+req.Name, "err", err.Error())
 		}
 		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, client.IgnoreNotFound(err)
 	}

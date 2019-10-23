@@ -80,10 +80,13 @@ type definitionManager struct {
 func (dm *definitionManager) GetThis(ctx context.Context, req ctrl.Request) (*controller_refactor.ThisResourceDefinitions, error) {
 	var instance v1alpha1.EventhubNamespace
 	err := dm.kubeClient.Get(ctx, req.NamespacedName, &instance)
-	details := dm.getDefinition(&instance.ResourceBaseDefinition, &instance)
+	details := controller_refactor.CustomResourceDetails{
+		Instance: &instance,
+		Status:   &instance.Status,
+	}
 	return &controller_refactor.ThisResourceDefinitions{
-		Details: details,
-		Updater: dm.getUpdater(&instance, details),
+		Details:       &details,
+		StatusUpdater: updateStatus,
 	}, err
 }
 
@@ -105,7 +108,7 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 	if apierrors.IsNotFound(err) {
 		return nil, err
 	} else {
-		owner = dm.getDefinition(&instance.ResourceBaseDefinition, &instance)
+		owner = dm.getDefinition(&instance)
 	}
 
 	return &controller_refactor.DependencyDefinitions{
@@ -114,19 +117,20 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 	}, err
 }
 
-func (dm *definitionManager) getDefinition(base *v1alpha1.ResourceBaseDefinition, instance runtime.Object) *controller_refactor.CustomResourceDetails {
+func (dm *definitionManager) getDefinition(instance *v1alpha1.ResourceGroup) *controller_refactor.CustomResourceDetails {
 	return &controller_refactor.CustomResourceDetails{
-		Instance:       instance,
-		BaseDefinition: base,
+		Instance: instance,
+		Status:   &instance.Status,
 	}
 }
 
-func (dm *definitionManager) getUpdater(instance *v1alpha1.EventhubNamespace, crDetails *controller_refactor.CustomResourceDetails) *controller_refactor.CustomResourceUpdater {
-	return &controller_refactor.CustomResourceUpdater{
-		UpdateInstance: func(state *v1alpha1.ResourceBaseDefinition) {
-			instance.ResourceBaseDefinition = *state
-		},
+func updateStatus(instance runtime.Object, status v1alpha1.ResourceStatus) error {
+	x, err := convertInstance(instance)
+	if err != nil {
+		return err
 	}
+	x.Status = status
+	return nil
 }
 
 func convertInstance(obj runtime.Object) (*v1alpha1.EventhubNamespace, error) {
