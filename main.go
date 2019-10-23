@@ -113,7 +113,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = resourcemanagerconfig.LoadSettings()
+	err = resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
 		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
 	}
