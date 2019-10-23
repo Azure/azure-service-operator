@@ -16,12 +16,33 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"github.com/Azure/azure-service-operator/pkg/helpers"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
+
+// EventhubNamespaceSpec defines the desired state of EventhubNamespace
+type EventhubNamespaceSpec struct {
+	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+	// Important: Run "make" to regenerate code after modifying this file
+	Location      string                      `json:"location"`
+	Sku           EventhubNamespaceSku        `json:"sku,omitempty"`
+	Properties    EventhubNamespaceProperties `json:"properties,omitempty"`
+	ResourceGroup string                      `json:"resourceGroup,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+
+// EventhubNamespace is the Schema for the eventhubnamespaces API
+type EventhubNamespace struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   EventhubNamespaceSpec `json:"spec,omitempty"`
+	Status ResourceStatus        `json:"status,omitempty"`
+}
 
 // +kubebuilder:object:root=true
 
@@ -49,29 +70,6 @@ type EventhubNamespaceProperties struct {
 func init() {
 	SchemeBuilder.Register(&EventhubNamespace{}, &EventhubNamespaceList{})
 }
-
-type EventhubNamespaceSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Location      string                      `json:"location"`
-	Sku           EventhubNamespaceSku        `json:"sku,omitempty"`
-	Properties    EventhubNamespaceProperties `json:"properties,omitempty"`
-	ResourceGroup string                      `json:"resourceGroup,omitempty"`
-}
-
-// +kubebuilder:object:root=true
-
-// ResourceGroup is the Schema for the resourcegroups API
-// +kubebuilder:resource:shortName=rg,path=resourcegroups
-type EventhubNamespace struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec   EventhubNamespaceSpec `json:"spec,omitempty"`
-	Status ResourceStatus        `json:"status,omitempty"`
-}
-
-// +kubebuilder:object:root=true
 
 func (eventhubNamespace *EventhubNamespace) IsBeingDeleted() bool {
 	return !eventhubNamespace.ObjectMeta.DeletionTimestamp.IsZero()
