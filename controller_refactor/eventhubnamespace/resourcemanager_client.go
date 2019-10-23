@@ -60,7 +60,7 @@ func (client *resourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 
 	client.logger.Info("Fetching EventhubNamespace " + ehnDef.Name + " from Azure.")
 	ehn, err := client.eventHubNamespaceManager.GetNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
-	if ehn == nil {
+	if ehn == nil || ehn.Response.Response == nil {
 		return controller_refactor.VerifyError, fmt.Errorf("eventhubnamespace verify was nil for %s", ehnDef.Name)
 	} else if ehn.Response.StatusCode == http.StatusNotFound {
 		return controller_refactor.VerifyMissing, nil

@@ -52,12 +52,12 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 			mgr.GetEventRecorderFor(EventRecorderName), parameters))
 }
 
-func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.AzureController {
+func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.GenericController {
 	resourceManagerClient := &resourceManagerClient{
 		logger:                   logger,
 		eventHubNamespaceManager: factory.EventHubNamespaceManager,
 	}
-	return &controller_refactor.AzureController{
+	return &controller_refactor.GenericController{
 		Parameters:            parameters,
 		KubeClient:            kubeClient,
 		Log:                   logger,
