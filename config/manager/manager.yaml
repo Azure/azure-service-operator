@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       labels:
-        aadpodidbinding: cluster_identity_binding
+        aadpodidbinding: aso_manager_binding
         control-plane: controller-manager
     spec:
       containers:

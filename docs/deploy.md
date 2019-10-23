@@ -58,15 +58,24 @@
     make install-cert-manager
     ```
 
+    e. Create an identity that will be able to manage resources
+
+    ```shell
+    # Create an identity to give to our operator-manager that will be used to authorize creation of resources in our
+    # subscription. This could be restricted to a resource group by changing the scope on the "Contributor" role below
+    az identity create -g <resourcegroup> -n aso-manager-identity -o json
+
+    # Give the AKS SP control over managing the identity we just created
+    az role assignment create --role "Managed Identity Operator" --assignee <AKS Service Principal ID> --scope <Managed Identity ID Path>
+
+    # Give our aso-manager-identity authorization to provision resources in our subscription
+    az role assignment create --role "Contributor" --assignee <Managed Identity Principal ID> --scope <Subscription ID Path>
+    ```
+
     d. Install [aad-pod-identity](https://github.com/Azure/aad-pod-identity#1-create-the-deployment)
 
     ```shell
     make install-aad-pod-identity
-
-    az identity create -g <resourcegroup> -n <name> -o json
-    # TODO: Use two identities here
-    az role assignment create --role "Managed Identity Operator" --assignee <sp id> --scope <full id of the managed identity>
-    az role assignment create --role "Owner" --assignee <sp id> --scope <full id of the managed identity>
     ```
 
 3. Give the default service account on the azureoperator-system namespace "cluster-admin" access to the namespace where the operator deploys the resources by default.
