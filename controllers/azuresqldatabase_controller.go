@@ -42,10 +42,10 @@ const azureSQLDatabaseFinalizerName = "azuresqldatabase.finalizers.azure.com"
 // AzureSqlDatabaseReconciler reconciles a AzureSqlDatabase object
 type AzureSqlDatabaseReconciler struct {
 	client.Client
-	Log        logr.Logger
-	Recorder   record.EventRecorder
-	Scheme     *runtime.Scheme
-	SQLManager sql.SQLManager
+	Log            logr.Logger
+	Recorder       record.EventRecorder
+	Scheme         *runtime.Scheme
+	ResourceClient sql.ResourceClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqldatabases,verbs=get;list;watch;create;update;patch;delete
@@ -157,7 +157,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	_, err = r.SQLManager.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
+	_, err = r.ResourceClient.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -170,7 +170,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = r.SQLManager.GetDB(ctx, groupName, server, dbName)
+	_, err = r.ResourceClient.GetDB(ctx, groupName, server, dbName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -192,7 +192,7 @@ func (r *AzureSqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.Azur
 	dbName := instance.ObjectMeta.Name
 
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/database/%s"+groupName, server, dbName))
-	_, err := r.SQLManager.DeleteDB(ctx, groupName, server, dbName)
+	_, err := r.ResourceClient.DeleteDB(ctx, groupName, server, dbName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")

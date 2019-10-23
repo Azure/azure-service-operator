@@ -44,10 +44,10 @@ import (
 // AzureSqlServerReconciler reconciles an AzureSqlServer object
 type AzureSqlServerReconciler struct {
 	client.Client
-	Log        logr.Logger
-	Recorder   record.EventRecorder
-	Scheme     *runtime.Scheme
-	SQLManager sql.SQLManager
+	Log            logr.Logger
+	Recorder       record.EventRecorder
+	Scheme         *runtime.Scheme
+	ResourceClient sql.ResourceClient
 }
 
 // Constants
@@ -237,7 +237,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := r.SQLManager.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
+	if _, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 			instance.Status.Message = msg
@@ -275,7 +275,7 @@ func (r *AzureSqlServerReconciler) verifyExternal(instance *azurev1alpha1.AzureS
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	serv, err := r.SQLManager.GetServer(ctx, groupName, name)
+	serv, err := r.ResourceClient.GetServer(ctx, groupName, name)
 	if err != nil {
 		azerr := errhelp.NewAzureError(err).(*errhelp.AzureError)
 		if azerr.Type != errhelp.ResourceNotFound {
@@ -310,7 +310,7 @@ func (r *AzureSqlServerReconciler) deleteExternal(instance *azurev1alpha1.AzureS
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	_, err := r.SQLManager.DeleteSQLServer(ctx, groupName, name)
+	_, err := r.ResourceClient.DeleteSQLServer(ctx, groupName, name)
 	if err != nil {
 		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		instance.Status.Message = msg

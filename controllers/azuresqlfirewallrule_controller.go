@@ -40,10 +40,10 @@ const azureSQLFirewallRuleFinalizerName = "azuresqlfirewallrule.finalizers.azure
 // AzureSqlFirewallRuleReconciler reconciles a AzureSqlFirewallRule object
 type AzureSqlFirewallRuleReconciler struct {
 	client.Client
-	Log        logr.Logger
-	Recorder   record.EventRecorder
-	Scheme     *runtime.Scheme
-	SQLManager sql.SQLManager
+	Log            logr.Logger
+	Recorder       record.EventRecorder
+	Scheme         *runtime.Scheme
+	ResourceClient sql.ResourceClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfirewallrules,verbs=get;list;watch;create;update;patch;delete
@@ -176,7 +176,7 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	_, err = r.SQLManager.CreateOrUpdateSQLFirewallRule(ctx, groupName, server, ruleName, startIP, endIP)
+	_, err = r.ResourceClient.CreateOrUpdateSQLFirewallRule(ctx, groupName, server, ruleName, startIP, endIP)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -186,7 +186,7 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = r.SQLManager.GetSQLFirewallRule(ctx, groupName, server, ruleName)
+	_, err = r.ResourceClient.GetSQLFirewallRule(ctx, groupName, server, ruleName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -204,7 +204,7 @@ func (r *AzureSqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.
 	ruleName := instance.ObjectMeta.Name
 
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s"+groupName, server, ruleName))
-	err := r.SQLManager.DeleteSQLFirewallRule(ctx, groupName, server, ruleName)
+	err := r.ResourceClient.DeleteSQLFirewallRule(ctx, groupName, server, ruleName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")

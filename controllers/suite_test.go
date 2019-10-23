@@ -145,21 +145,21 @@ var _ = BeforeSuite(func() {
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
-	var sqlManager resourcemanagersql.SQLManager
+	var resourceClient resourcemanagersql.ResourceClient
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
-		sqlManager = &resourcemanagersql.GoSDKClient{}
+		resourceClient = &resourcemanagersql.GoSDKClient{}
 		timeout = time.Second * 320
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		sqlManager = &resourcemanagersqlmock.MockGoSDKClient{}
+		resourceClient = &resourcemanagersqlmock.MockGoSDKClient{}
 		timeout = time.Second * 20
 	}
 
@@ -205,20 +205,20 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlServerReconciler{
-		Client:     k8sManager.GetClient(),
-		Log:        ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
-		Recorder:   k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
-		Scheme:     scheme.Scheme,
-		SQLManager: sqlManager,
+		Client:         k8sManager.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
+		Scheme:         scheme.Scheme,
+		ResourceClient: resourceClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlDatabaseReconciler{
-		Client:     k8sManager.GetClient(),
-		Log:        ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
-		Recorder:   k8sManager.GetEventRecorderFor("AzureSqlDatabase-controller"),
-		Scheme:     scheme.Scheme,
-		SQLManager: sqlManager,
+		Client:         k8sManager.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
+		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlDatabase-controller"),
+		Scheme:         scheme.Scheme,
+		ResourceClient: resourceClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
