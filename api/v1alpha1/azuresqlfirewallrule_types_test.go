@@ -27,10 +27,10 @@ import (
 // These tests are written in BDD-style using Ginkgo framework. Refer to
 // http://onsi.github.io/ginkgo to learn more.
 
-var _ = Describe("SqlServer", func() {
+var _ = Describe("AzureSqlFirewallRule", func() {
 	var (
 		key              types.NamespacedName
-		created, fetched *SqlServer
+		created, fetched *AzureSqlFirewallRule
 	)
 
 	BeforeEach(func() {
@@ -53,20 +53,22 @@ var _ = Describe("SqlServer", func() {
 				Name:      "foo",
 				Namespace: "default",
 			}
-			created = &SqlServer{
+			created = &AzureSqlFirewallRule{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "foo",
 					Namespace: "default",
 				},
-				Spec: SqlServerSpec{
-					Location:      "westus",
-					ResourceGroup: "foo-resourcegroup",
+				Spec: AzureSqlFirewallRuleSpec{
+					ResourceGroup:  "foo-firewallrule",
+					Server:         "sqlsrvsample",
+					StartIPAddress: "0.0.0.0",
+					EndIPAddress:   "0.0.0.0",
 				}}
 
 			By("creating an API obj")
 			Expect(k8sClient.Create(context.TODO(), created)).To(Succeed())
 
-			fetched = &SqlServer{}
+			fetched = &AzureSqlFirewallRule{}
 			Expect(k8sClient.Get(context.TODO(), key, fetched)).To(Succeed())
 			Expect(fetched).To(Equal(created))
 
