@@ -15,11 +15,6 @@ limitations under the License.
 
 package v1alpha1
 
-import (
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-)
-
 // ProvisionState enumerates the values for provisioning state.
 // +kubebuilder:validation:Enum=Pending;Creating;Updating;Verifying;Succeeded;Failed;Terminating
 type ProvisionState string
@@ -34,7 +29,7 @@ const (
 	Terminating ProvisionState = "Terminating"
 )
 
-// ResourceStatus defines the observed state of ResourceGroup
+// ResourceStatus defines the observed state of any resources
 type ResourceStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
@@ -43,37 +38,6 @@ type ResourceStatus struct {
 	Provisioning bool `json:"provisioning,omitempty"`
 	Provisioned  bool `json:"provisioned,omitempty"`
 }
-
-type ResourceBaseDefinition struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Status ResourceStatus `json:"status,omitempty"`
-}
-
-func (baseDef *ResourceBaseDefinition) IsBeingDeleted() bool {
-	return !baseDef.ObjectMeta.DeletionTimestamp.IsZero()
-}
-
-func (baseDef *ResourceBaseDefinition) IsSubmitted() bool {
-	return baseDef.Status.Provisioning || baseDef.Status.Provisioned
-
-}
-
-func (baseDef *ResourceBaseDefinition) HasFinalizer(finalizerName string) bool {
-	return helpers.ContainsString(baseDef.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (baseDef *ResourceBaseDefinition) AddFinalizer(finalizerName string) {
-	baseDef.ObjectMeta.Finalizers = append(baseDef.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (baseDef *ResourceBaseDefinition) RemoveFinalizer(finalizerName string) {
-	baseDef.ObjectMeta.Finalizers = helpers.RemoveString(baseDef.ObjectMeta.Finalizers, finalizerName)
-}
-
-//Creating  ProvisionState = "Creating"
-//Updating  ProvisionState = "Updating"
 
 func (s ProvisionState) IsPending() bool     { return s == Pending }
 func (s ProvisionState) IsCreating() bool    { return s == Creating }
