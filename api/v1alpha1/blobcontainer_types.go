@@ -16,6 +16,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -26,10 +28,10 @@ import (
 type BlobContainerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string `json:"location"`
-	ResourceGroup string `json:"resourcegroup,omitempty"`
-	AccountName   string `json:"accountname,omitempty"`
-	ContainerName string `json:"containername,omitempty"`
+	Location      string         `json:"location"`
+	ResourceGroup string         `json:"resourcegroup,omitempty"`
+	AccountName   string         `json:"accountname,omitempty"`
+	AccessLevel   s.PublicAccess `json:"accesslevel,omitempty"`
 }
 
 // BlobContainerStatus defines the observed state of BlobContainer
@@ -66,10 +68,18 @@ func init() {
 	SchemeBuilder.Register(&BlobContainer{}, &BlobContainerList{})
 }
 
-func (s *BlobContainer) IsSubmitted() bool {
-	return s.Status.Provisioned || s.Status.Provisioning
+func (bc *BlobContainer) IsSubmitted() bool {
+	return bc.Status.Provisioned || bc.Status.Provisioning
 }
 
-func (s *BlobContainer) IsProvisioned() bool {
-	return s.Status.Provisioned
+func (bc *BlobContainer) IsProvisioned() bool {
+	return bc.Status.Provisioned
+}
+
+func (bc *BlobContainer) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(bc.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (bc *BlobContainer) IsBeingDeleted() bool {
+	return !bc.ObjectMeta.DeletionTimestamp.IsZero()
 }

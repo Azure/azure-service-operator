@@ -21,6 +21,7 @@ import (
 	"net/http"
 	"time"
 
+	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -59,7 +60,11 @@ var _ = Describe("Blob Container", func() {
 
 			containerName := "t-dev-bc-" + helpers.RandomString(10)
 
-			_, err = tc.StorageManagers.BlobContainer.CreateBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
+			// accessLevel - Specifies whether data in the container may be accessed publicly and the level of access.
+			// Possible values include: 'PublicAccessContainer', 'PublicAccessBlob', 'PublicAccessNone'
+			accessLevel := s.PublicAccessContainer
+
+			_, err = tc.StorageManagers.BlobContainer.CreateBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName, accessLevel)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
