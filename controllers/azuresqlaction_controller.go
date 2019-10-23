@@ -144,7 +144,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	// Get the Sql Server instance that corresponds to the Server name in the spec for this action
-	server, err := r.SQLManager.GetServer(ctx, groupName, "", serverName)
+	server, err := r.SQLManager.GetServer(ctx, groupName, serverName)
 	if err != nil {
 		if strings.Contains(err.Error(), "ResourceGroupNotFound") {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of AzureSqlServer: Resource group not found")

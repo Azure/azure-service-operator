@@ -170,7 +170,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = r.SQLManager.GetDB(ctx, groupName, location, server, dbName)
+	_, err = r.SQLManager.GetDB(ctx, groupName, server, dbName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -187,13 +187,12 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 
 func (r *AzureSqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlDatabase) error {
 	ctx := context.Background()
-	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	dbName := instance.ObjectMeta.Name
 
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/database/%s"+groupName, server, dbName))
-	_, err := r.SQLManager.DeleteDB(ctx, groupName, location, server, dbName)
+	_, err := r.SQLManager.DeleteDB(ctx, groupName, server, dbName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
