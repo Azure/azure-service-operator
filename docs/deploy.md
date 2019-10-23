@@ -61,7 +61,8 @@
     d. Install [aad-pod-identity](https://github.com/Azure/aad-pod-identity#1-create-the-deployment)
 
     ```shell
-    kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
+    make install-aad-pod-identity
+
     az identity create -g <resourcegroup> -n <name> -o json
     # TODO: Use two identities here
     az role assignment create --role "Managed Identity Operator" --assignee <sp id> --scope <full id of the managed identity>
