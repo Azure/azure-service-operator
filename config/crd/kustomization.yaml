@@ -14,7 +14,6 @@ resources:
 - bases/azure.microsoft.com_sqldatabases.yaml
 - bases/azure.microsoft.com_sqlfirewallrules.yaml
 - bases/azure.microsoft.com_sqlactions.yaml
-- bases/azure.microsoft.com_adlsgen2s.yaml
 - bases/azure.microsoft.com_azuredatalakegen2filesystems.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
@@ -29,7 +28,6 @@ patches:
 #- patches/webhook_in_sqldatabases.yaml
 #- patches/webhook_in_sqlfirewallrules.yaml
 #- patches/webhook_in_sqlactions.yaml
-#- patches/webhook_in_adlsgen2s.yaml
 #- patches/webhook_in_azuredatalakegen2filesystems.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
 
@@ -43,7 +41,6 @@ patches:
 #- patches/cainjection_in_sqldatabases.yaml
 #- patches/cainjection_in_sqlfirewallrules.yaml
 #- patches/cainjection_in_sqlactions.yaml
-#- patches/cainjection_in_adlsgen2s.yaml
 #- patches/cainjection_in_azuredatalakegen2filesystems.yaml
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch
 
