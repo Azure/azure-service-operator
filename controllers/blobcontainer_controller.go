@@ -82,6 +82,8 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		return ctrl.Result{}, nil
 	}
 
+	// TODO: Add error handling for creating/deleting blob containers
+	// https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-error-codes
 	if !instance.IsSubmitted() {
 		err := r.reconcileExternal(&instance)
 		if err != nil {
