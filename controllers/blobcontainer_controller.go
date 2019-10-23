@@ -37,9 +37,9 @@ const blobContainerFinalizerName = "blobcontainer.finalizers.com"
 // BlobContainerReconciler reconciles a BlobContainer object
 type BlobContainerReconciler struct {
 	client.Client
-	Log                  logr.Logger
-	Recorder             record.EventRecorder
-	BlobContainerManager storages.BlobContainerManager
+	Log            logr.Logger
+	Recorder       record.EventRecorder
+	StorageManager storages.BlobContainerManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=blobcontainers,verbs=get;list;watch;create;update;patch;delete
@@ -55,6 +55,9 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		// TODO: What is the requeue logic here?  What exactly is client.IgnoreNotFound() doing
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
+
+	// Debugging
+	r.Log.Info("Info", "instance", instance)
 
 	if instance.IsBeingDeleted() {
 		if helpers.HasFinalizer(&instance, blobContainerFinalizerName) {
@@ -98,6 +101,27 @@ func (r *BlobContainerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.BlobContainer) error {
 	r.Log.Info("Info", "Info", "Entered reconcileExternal for BlobContainer")
+	ctx := context.Background()
+	groupName := instance.Spec.ResourceGroup
+	accountName := instance.Spec.AccountName
+	containerName := instance.ObjectMeta.Name
+	accessLevel := instance.Spec.AccessLevel
+
+	r.Log.Info(fmt.Sprintf("Creating blob container: %s", containerName))
+
+	_, err := r.StorageManager.CreateBlobContainer(ctx, groupName, accountName, containerName, accessLevel)
+	if err != nil {
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", err.Error())
+		msg := "Couldn't create blob container in azure"
+		instance.Status.Message = msg
+
+		return err
+	}
+
+	msg := fmt.Sprintf("Created blob container: %s", containerName)
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Created", msg)
+	instance.Status.Message = msg
+
 	return nil
 }
 
@@ -105,10 +129,10 @@ func (r *BlobContainerReconciler) deleteExternal(instance *azurev1alpha1.BlobCon
 	ctx := context.Background()
 	groupName := instance.Spec.ResourceGroup
 	accountName := instance.Spec.AccountName
-	containerName := instance.Spec.ContainerName
+	containerName := instance.ObjectMeta.Name
 
 	r.Log.Info(fmt.Sprintf("deleting blob container: " + containerName))
-	_, err := storages.BlobContainerManager.DeleteBlobContainer(ctx, groupName, accountName, containerName)
+	_, err := r.StorageManager.DeleteBlobContainer(ctx, groupName, accountName, containerName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
@@ -137,6 +161,11 @@ func (r *BlobContainerReconciler) addFinalizer(instance *azurev1alpha1.BlobConta
 
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", blobContainerFinalizerName))
+	// Debugging
+	r.Log.Info("Info", "instance", instance)
+
+	// Removing to see if this gets rid of panic - NOTE: It does  // TODO: Why?
+	//r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", blobContainerFinalizerName))
+
 	return nil
 }

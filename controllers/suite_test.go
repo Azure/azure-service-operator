@@ -26,6 +26,7 @@ import (
 
 	"k8s.io/client-go/rest"
 
+	"github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -69,6 +70,7 @@ type testContext struct {
 	namespaceLocation     string
 	storageAccountName    string
 	blobContainerName     string
+	containerAccessLevel  storage.PublicAccess
 	resourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
 	eventHubManagers      resourcemanagereventhub.EventHubManagers
 	storageManagers       resourcemanagerstorages.StorageManagers
@@ -105,6 +107,7 @@ var _ = BeforeSuite(func() {
 
 	storageAccountName := "tsadeveh" + helpers.RandomString(10)
 	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
+	containerAccessLevel := storage.PublicAccessContainer
 
 	var timeout time.Duration
 
@@ -268,7 +271,7 @@ var _ = BeforeSuite(func() {
 	}, "Storage", map[string]*string{}, "", nil)
 	Expect(err).ToNot(HaveOccurred())
 
-	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
+	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
 	Expect(err).ToNot(HaveOccurred())
 
 	tc = testContext{
