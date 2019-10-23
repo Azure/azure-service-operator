@@ -34,14 +34,15 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-// SqlServerReconciler reconciles a SqlServer object
-type SqlServerReconciler struct {
+// AzureSqlServerReconciler reconciles an AzureSqlServer object
+type AzureSqlServerReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
@@ -56,13 +57,19 @@ const maxUsernameAllowedLength = 63
 const minPasswordAllowedLength = 8
 const maxPasswordAllowedLength = 128
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlservers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=sqlservers/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlservers,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlservers/status,verbs=get;update;patch
 
-func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	log := r.Log.WithValues("sqlserver", req.NamespacedName)
-	var instance azurev1alpha1.SqlServer
+	log := r.Log.WithValues("azuresqlserver", req.NamespacedName)
+	var instance azurev1alpha1.AzureSqlServer
+
+	defer func() {
+		if err := r.Status().Update(ctx, &instance); err != nil {
+			r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		}
+	}()
 
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve sql-server resource", "err", err.Error())
@@ -73,7 +80,7 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
-		if helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
+		if helpers.HasFinalizer(&instance, AzureSQLServerFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
@@ -84,12 +91,13 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 						return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 					}
 				}
-				log.Info("Delete SqlServer failed with ", "error", err.Error())
-
+				msg := fmt.Sprintf("Delete AzureSqlServer failed with %s", err.Error())
+				log.Info(msg)
+				instance.Status.Message = msg
 				return ctrl.Result{}, err
 			}
 
-			helpers.RemoveFinalizer(&instance, SQLServerFinalizerName)
+			helpers.RemoveFinalizer(&instance, AzureSQLServerFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -97,9 +105,11 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(&instance, SQLServerFinalizerName) {
+	if !helpers.HasFinalizer(&instance, AzureSQLServerFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
-			log.Info("Adding SqlServer finalizer failed with ", "error", err.Error())
+			msg := fmt.Sprintf("Adding AzureSqlServer finalizer failed with error %s", err.Error())
+			log.Info(msg)
+			instance.Status.Message = msg
 			return ctrl.Result{}, err
 		}
 	}
@@ -141,10 +151,14 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
 					if azerr.Type == errhelp.InvalidServerName {
-						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Invalid Server Name")
+						msg := "Invalid Server Name"
+						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
+						instance.Status.Message = msg
 						return ctrl.Result{Requeue: false}, nil
 					}
-					log.Info("Got ignorable error", "type", azerr.Type)
+					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
+					log.Info(msg)
+					instance.Status.Message = msg
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
 			}
@@ -164,24 +178,26 @@ func (r *SqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 		if azerr, ok := err.(*errhelp.AzureError); ok {
 			if helpers.ContainsString(catch, azerr.Type) {
-				log.Info("Got ignorable error", "type", azerr.Type)
+				msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
+				log.Info(msg)
+				instance.Status.Message = msg
 				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 			}
 		}
 		return ctrl.Result{}, fmt.Errorf("error verifying sql server in azure: %v", err)
 	}
 
-	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "sqlserver "+instance.ObjectMeta.Name+" provisioned ")
+	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "azuresqlserver "+instance.ObjectMeta.Name+" provisioned ")
 	return ctrl.Result{}, nil
 }
 
-func (r *SqlServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *AzureSqlServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.SqlServer{}).
+		For(&azurev1alpha1.AzureSqlServer{}).
 		Complete(r)
 }
 
-func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServer) error {
+func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlServer) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
@@ -194,35 +210,50 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServe
 		Location:          location,
 	}
 
+	//get owner instance of ResourceGroup
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner ResourceGroup instance")
+	var ownerInstance azurev1alpha1.ResourceGroup
+
+	// Get resource group
+	resourceGroupNamespacedName := types.NamespacedName{Name: groupName, Namespace: instance.Namespace}
+	err := r.Get(ctx, resourceGroupNamespacedName, &ownerInstance)
+	if err != nil {
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get owner instance of ReourceGroup")
+	} else {
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Got owner instance of Resource Group and assigning controller reference now")
+		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
+		if innerErr != nil {
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to set controller reference to ResourceGroup")
+		}
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Owner instance assigned successfully")
+	}
+
+	// write information back to instance
+	if err := r.Update(ctx, instance); err != nil {
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
+	}
+
 	// Check to see if secret already exists for admin username/password
 	secret, _ := r.GetOrPrepareSecret(instance)
-	sqlServerProperties := sql.SQLServerProperties{
+	azureSqlServerProperties := sql.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr(string(secret.Data["username"])),
 		AdministratorLoginPassword: to.StringPtr(string(secret.Data["password"])),
 	}
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := sdkClient.CreateOrUpdateSQLServer(sqlServerProperties); err != nil {
+	if _, err := sdkClient.CreateOrUpdateSQLServer(azureSqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
-			instance.Status.Message = fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
-
-			// write information back to instance
-			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-				r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-			}
-
+			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
+			instance.Status.Message = msg
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 			return errhelp.NewAzureError(err)
 		}
 	} else {
-		r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", "resource request successfully submitted to Azure")
-		instance.Status.Message = "Successfully Submitted to Azure"
-
-		// write information back to instance
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
+		msg := "Resource request successfully submitted to Azure"
+		instance.Status.Message = msg
+		r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", msg)
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
@@ -245,7 +276,7 @@ func (r *SqlServerReconciler) reconcileExternal(instance *azurev1alpha1.SqlServe
 	return nil
 }
 
-func (r *SqlServerReconciler) verifyExternal(instance *azurev1alpha1.SqlServer) error {
+func (r *AzureSqlServerReconciler) verifyExternal(instance *azurev1alpha1.AzureSqlServer) error {
 	ctx := context.Background()
 	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
@@ -273,9 +304,10 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1alpha1.SqlServer) 
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Checking", fmt.Sprintf("instance in %s state", instance.Status.State))
 
 	if instance.Status.State == "Ready" {
+		msg := "AzureSqlServer successfully provisioned"
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
-		instance.Status.Message = "SqlServer successfully provisioned"
+		instance.Status.Message = msg
 	}
 
 	// write information back to instance
@@ -287,7 +319,7 @@ func (r *SqlServerReconciler) verifyExternal(instance *azurev1alpha1.SqlServer) 
 	return errhelp.NewAzureError(err)
 }
 
-func (r *SqlServerReconciler) deleteExternal(instance *azurev1alpha1.SqlServer) error {
+func (r *AzureSqlServerReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlServer) error {
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
@@ -302,11 +334,9 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1alpha1.SqlServer) 
 
 	_, err := sdkClient.DeleteSQLServer()
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resouce in azure")
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
+		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
+		instance.Status.Message = msg
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
 		return errhelp.NewAzureError(err)
 	}
 
@@ -314,7 +344,7 @@ func (r *SqlServerReconciler) deleteExternal(instance *azurev1alpha1.SqlServer) 
 	return nil
 }
 
-func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.SqlServer) (*v1.Secret, error) {
+func (r *AzureSqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.AzureSqlServer) (*v1.Secret, error) {
 	name := instance.ObjectMeta.Name
 
 	secret := &v1.Secret{
@@ -327,7 +357,7 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.SqlServ
 			"username":                 []byte(""),
 			"fullyqualifiedusername":   []byte(""),
 			"password":                 []byte(""),
-			"sqlservername":            []byte(""),
+			"azuresqlservername":       []byte(""),
 			"fullyqualifiedservername": []byte(""),
 		},
 		Type: "Opaque",
@@ -345,13 +375,13 @@ func (r *SqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.SqlServ
 
 	usernameSuffix := "@" + name
 	servernameSuffix := ".database.windows.net"
-	fullyQualifiedAdminUsername := randomUsername + usernameSuffix // "<username>@<sqlservername>""
-	fullyQualifiedServername := name + servernameSuffix            // "<sqlservername>.database.windows.net"
+	fullyQualifiedAdminUsername := randomUsername + usernameSuffix // "<username>@<azuresqlservername>""
+	fullyQualifiedServername := name + servernameSuffix            // "<azuresqlservername>.database.windows.net"
 
 	secret.Data["username"] = []byte(randomUsername)
 	secret.Data["fullyqualifiedusername"] = []byte(fullyQualifiedAdminUsername)
 	secret.Data["password"] = []byte(randomPassword)
-	secret.Data["sqlservername"] = []byte(name)
+	secret.Data["azuresqlservername"] = []byte(name)
 	secret.Data["fullyqualifiedservername"] = []byte(fullyQualifiedServername)
 
 	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {

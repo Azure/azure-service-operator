@@ -70,7 +70,10 @@ RUN apt-get update \
     && chmod +x /usr/local/bin/kubectl \
     #
     # Install Helm
-    && curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash -
+    && curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash - \
+    #
+    # Install Azure CLI
+    && curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
 # Verify git, process tools installed
 RUN apt-get -y install git procps wget nano zsh inotify-tools jq

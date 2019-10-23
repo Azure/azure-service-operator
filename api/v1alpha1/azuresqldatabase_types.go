@@ -16,58 +16,54 @@ limitations under the License.
 package v1alpha1
 
 import (
+	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// SqlServerSpec defines the desired state of SqlServer
-type SqlServerSpec struct {
+// AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
+type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string `json:"location"`
-	ResourceGroup string `json:"resourcegroup,omitempty"`
+	Location      string        `json:"location"`
+	ResourceGroup string        `json:"resourcegroup,omitempty"`
+	Server        string        `json:"server"`
+	Edition       sql.DBEdition `json:"edition"`
 }
 
-// SqlServerStatus defines the observed state of SqlServer
-type SqlServerStatus struct {
+// AzureSqlDatabaseStatus defines the observed state of AzureSqlDatabase
+type AzureSqlDatabaseStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool   `json:"provisioning,omitempty"`
-	Provisioned  bool   `json:"provisioned,omitempty"`
-	State        string `json:"state,omitempty"`
-	Message      string `json:"message,omitempty"`
+	Provisioning bool `json:"provisioning,omitempty"`
+	Provisioned  bool `json:"provisioned,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// SqlServer is the Schema for the sqlservers API
-type SqlServer struct {
+// AzureSqlDatabase is the Schema for the azuresqldatabases API
+type AzureSqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SqlServerSpec   `json:"spec,omitempty"`
-	Status SqlServerStatus `json:"status,omitempty"`
+	Spec   AzureSqlDatabaseSpec   `json:"spec,omitempty"`
+	Status AzureSqlDatabaseStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// SqlServerList contains a list of SqlServer
-type SqlServerList struct {
+// AzureSqlDatabaseList contains a list of AzureSqlDatabase
+type AzureSqlDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SqlServer `json:"items"`
+	Items           []AzureSqlDatabase `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&SqlServer{}, &SqlServerList{})
+	SchemeBuilder.Register(&AzureSqlDatabase{}, &AzureSqlDatabaseList{})
 }
 
-func (s *SqlServer) IsSubmitted() bool {
-	return s.Status.Provisioned || s.Status.Provisioning
-}
-
-func (s *SqlServer) IsProvisioned() bool {
+func (s *AzureSqlDatabase) IsSubmitted() bool {
 	return s.Status.Provisioned
 }
