@@ -51,7 +51,7 @@ const SecretUsernameKey = "username"
 const SecretPasswordKey = "password"
 
 // AzureSQLUserFinalizerName is the name of the finalizer
-const AzureSQLUserFinalizerName = "sqluser.finalizers.azure.com"
+const AzureSQLUserFinalizerName = "azuresqluser.finalizers.azure.com"
 
 // AzureAzureSQLUserReconciler reconciles a AzureSQLUser object
 type AzureSQLUserReconciler struct {
@@ -69,7 +69,6 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	log := r.Log.WithValues("AzureSQLUser", req.NamespacedName)
 
 	var instance azurev1alpha1.AzureSQLUser
-
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve AzureSQLUser resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -179,8 +178,9 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	}
 
 	// create or get new user secret
-	secret = r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name)
-	containsUser, err := ContainsUser(ctx, db, instance.ObjectMeta.Name)
+	user = instance.ObjectMeta.Name
+	secret = r.GetOrPrepareSecret(&instance, user)
+	containsUser, err := ContainsUser(ctx, db, user)
 	if err != nil {
 		log.Info("Couldn't find user", "err:", err.Error())
 	}
