@@ -15,5 +15,5 @@ variable "resource_group" {
 variable "location" {
   description = "Cloud resource location"
   type        = string
-  default     = "centralus"
+  default     = "westus2"
 }
