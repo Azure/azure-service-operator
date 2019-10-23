@@ -23,7 +23,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
-	"github.com/go-logr/logr"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -36,19 +35,18 @@ import (
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 )
 
-const azureSQLFirewallRuleOperatorName = "SQLFirewallRules"
 const azureSQLFirewallRuleFinalizerName = "azuresqlfirewallrule.finalizers.azure.com"
 
 // AzureSqlFirewallRuleReconciler reconciles a AzureSqlFirewallRule object
 type AzureSqlFirewallRuleReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Telemetry telemetry.PrometheusTelemetry
+	Recorder  record.EventRecorder
+	Scheme    *runtime.Scheme
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfirewallrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfirewallrules/status,verbs=get;update;patch 
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfirewallrules/status,verbs=get;update;patch
 
 func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctrl.Result, err error) {
 	ctx := context.Background()
@@ -56,20 +54,19 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	// your logic here
 	var instance azurev1alpha1.AzureSqlFirewallRule
 
-	// init telemetry for this reconcilliation
-	telemetryClient := telemetry.InitializePrometheusDefault(r.Log, azureSQLFirewallRuleOperatorName)
-	telemetryClient.LogStart()
+	// log operator start
+	r.Telemetry.LogStart()
 
 	defer func() {
 
 		// log failure / success
 		if err != nil {
-			telemetryClient.LogError(
+			r.Telemetry.LogError(
 				"Unable to retrieve sql-firewall-rule resource",
 				err)
-			telemetryClient.LogFailure()
+			r.Telemetry.LogFailure()
 		} else {
-			telemetryClient.LogSuccess()
+			r.Telemetry.LogSuccess()
 		}
 
 		if errUpdate := r.Status().Update(ctx, &instance); errUpdate != nil {
@@ -93,7 +90,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, azureSQLFirewallRuleFinalizerName) {
-			if err = r.deleteExternal(&instance, sdkClient, telemetryClient); err != nil {
+			if err = r.deleteExternal(&instance, sdkClient); err != nil {
 				instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule failed with %s", err.Error())
 				return ctrl.Result{}, err
 			}
@@ -115,7 +112,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation for AzureSqlFirewallRule")
-		if err := r.reconcileExternal(&instance, sdkClient, telemetryClient); err != nil {
+		if err := r.reconcileExternal(&instance, sdkClient); err != nil {
 
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
@@ -127,7 +124,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 				if helpers.ContainsString(catch, azerr.Type) {
 					msg := fmt.Sprintf("Got ignorable error of type %v", azerr.Type)
 					instance.Status.Message = msg
-					telemetryClient.LogInfo("IgnorableError", msg)
+					r.Telemetry.LogInfo("IgnorableError", msg)
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
 			}
@@ -137,7 +134,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	}
 
 	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "azuresqlfirewallrule "+instance.ObjectMeta.Name+" provisioned ")
-	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallrule%s successfully provisioned", instance.ObjectMeta.Name)
+	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallrule %s successfully provisioned", instance.ObjectMeta.Name)
 
 	return ctrl.Result{}, nil
 }
@@ -148,13 +145,13 @@ func (r *AzureSqlFirewallRuleReconciler) SetupWithManager(mgr ctrl.Manager) erro
 		Complete(r)
 }
 
-func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFirewallRule, sdk sql.GoSDKClient, telemetryClient telemetry.PrometheusTelemetry) error {
+func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFirewallRule, sdk sql.GoSDKClient) error {
 	ctx := context.Background()
 	ruleName := instance.ObjectMeta.Name
 	startIP := instance.Spec.StartIPAddress
 	endIP := instance.Spec.EndIPAddress
 
-	telemetryClient.LogTrace(
+	r.Telemetry.LogTrace(
 		"Status",
 		"Calling CreateOrUpdate Azure SQL firewall rule")
 
@@ -192,7 +189,7 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 	_, err = sdk.CreateOrUpdateSQLFirewallRule(ruleName, startIP, endIP)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-			telemetryClient.LogInfo(
+			r.Telemetry.LogInfo(
 				"IgnorableError",
 				"Async operation not complete or group not found")
 			instance.Status.Provisioning = true
@@ -212,12 +209,12 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 	return nil
 }
 
-func (r *AzureSqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFirewallRule, sdk sql.GoSDKClient, telemetryClient telemetry.PrometheusTelemetry) error {
+func (r *AzureSqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFirewallRule, sdk sql.GoSDKClient) error {
 	ruleName := instance.ObjectMeta.Name
 
-	telemetryClient.LogTrace(
+	r.Telemetry.LogTrace(
 		"Status",
-		fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s"+sdk.ResourceGroupName, sdk.ServerName, ruleName))
+		fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s", sdk.ResourceGroupName, sdk.ServerName, ruleName))
 	err := sdk.DeleteSQLFirewallRule(ruleName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {

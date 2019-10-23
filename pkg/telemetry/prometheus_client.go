@@ -17,9 +17,7 @@ import (
 var (
 	namespace      *string
 	subsystem      *string
-	infoCounter    *prometheus.CounterVec
-	warningCounter *prometheus.CounterVec
-	errorCounter   *prometheus.CounterVec
+	statusCounter  *prometheus.CounterVec
 	activeGuage    *prometheus.GaugeVec
 	successCounter *prometheus.CounterVec
 	failureCounter *prometheus.CounterVec
@@ -60,7 +58,7 @@ func InitializePrometheus(logger log.Logger, component string, namespaceLog stri
 	if namespace == nil {
 		namespace = to.StringPtr(namespaceLog)
 		subsystem = to.StringPtr(subsystemLog)
-		initializeAllCounters()
+		initializeGlobalPrometheusMetricsEtc()
 	}
 
 	// create the client
@@ -71,10 +69,10 @@ func InitializePrometheus(logger log.Logger, component string, namespaceLog stri
 	}
 }
 
-// initializeAllCounters inits all counts
-func initializeAllCounters() {
+// initializeAllPrometheusMetricsEtc inits all counts
+func initializeGlobalPrometheusMetricsEtc() {
 
-	infoCounter = prometheus.NewCounterVec(
+	statusCounter = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Namespace: *namespace,
 			Subsystem: *subsystem,
@@ -82,38 +80,12 @@ func initializeAllCounters() {
 		},
 		[]string{
 			"component",
+			"level",
 			"type",
 			"message",
 		},
 	)
-	prometheus.MustRegister(infoCounter)
-
-	warningCounter = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Namespace: *namespace,
-			Subsystem: *subsystem,
-			Name:      "Warning",
-		},
-		[]string{
-			"component",
-			"type",
-			"message",
-		},
-	)
-	prometheus.MustRegister(warningCounter)
-
-	errorCounter = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Namespace: *namespace,
-			Subsystem: *subsystem,
-			Name:      "Error",
-		},
-		[]string{
-			"component",
-			"error",
-		},
-	)
-	prometheus.MustRegister(errorCounter)
+	prometheus.MustRegister(statusCounter)
 
 	executionTime = prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{

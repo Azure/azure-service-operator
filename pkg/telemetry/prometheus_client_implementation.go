@@ -19,14 +19,14 @@ func (client *PrometheusClient) LogTrace(typeTrace string, message string) {
 // LogInfo logs an informational message
 func (client *PrometheusClient) LogInfo(typeInfo string, message string) {
 	client.Logger.Info(message, "Info Type", typeInfo, "Component", client.Component)
-	infoCounter.WithLabelValues(client.Component, typeInfo, message).Inc()
+	statusCounter.WithLabelValues(client.Component, "Info", typeInfo, message).Inc()
 }
 
 // LogWarning logs a warning
 func (client *PrometheusClient) LogWarning(typeWarning string, message string) {
 	// logs this as info as there's no go-logr warning level
 	client.Logger.Info(message, "Warning Type", typeWarning, "Component", client.Component)
-	warningCounter.WithLabelValues(client.Component, typeWarning, message).Inc()
+	statusCounter.WithLabelValues(client.Component, "Warning", typeWarning, message).Inc()
 }
 
 // LogError logs an error
@@ -35,7 +35,7 @@ func (client *PrometheusClient) LogError(message string, err error) {
 
 	// logs the error as info (eventhough there's an error) as this follows the previous pattern
 	client.Logger.Info(message, "Component", client.Component, "Error", errorString)
-	infoCounter.WithLabelValues(client.Component, errorString).Inc()
+	statusCounter.WithLabelValues(client.Component, "Error", "Error", errorString).Inc()
 }
 
 // LogStart logs the start of a component

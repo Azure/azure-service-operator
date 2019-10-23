@@ -37,6 +37,8 @@ import (
 	// +kubebuilder:scaffold:imports
 )
 
+const NameAzureSQLFirewallRuleOperator = "AzureSQLFirewallRuleOperator"
+
 var (
 	masterURL, kubeconfig, resources, clusterName               string
 	cloudName, tenantID, subscriptionID, clientID, clientSecret string
@@ -191,7 +193,10 @@ func main() {
 	}
 	if err = (&controllers.AzureSqlFirewallRuleReconciler{
 		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("SqlFirewallRule"),
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName(NameAzureSQLFirewallRuleOperator), 
+			NameAzureSQLFirewallRuleOperator,
+		)
 		Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
 		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
