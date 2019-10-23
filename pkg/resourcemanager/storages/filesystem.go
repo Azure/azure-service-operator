@@ -29,30 +29,7 @@ func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName
 
 	return &result, err
 }
-func getResourcesClient() resources.GroupsClient {
-	resourcesClient := resources.NewGroupsClient(config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
-	resourcesClient.Authorizer = a
-	resourcesClient.AddToUserAgent(config.UserAgent())
-	return resourcesClient
-}
-func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeName string) error {
-	rgClient := getResourcesClient()
-	storagesClient := getStoragesClient()
 
-	response, err := rgClient.CheckExistence(ctx, groupName)
-	if response.IsHTTPStatus(404) {
-		return errors.New("ResourceGroupNotFound")
-	}
-
-	_, err = storagesClient.ListKeys(ctx, groupName, datalakeName)
-
-	if err != nil {
-		return errors.New("ParentResourceNotFound")
-	}
-
-	return err
-}
 func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName string, filesystemName string, timeout *int32, xMsDate string, datalakeName string) (autorest.Response, error) {
 	response := autorest.Response{Response: &http.Response{StatusCode: http.StatusNotFound}}
 
@@ -105,6 +82,31 @@ func getFileSystemClient(ctx context.Context, groupName string, accountName stri
 	fsClient.AddToUserAgent(config.UserAgent())
 
 	return fsClient
+}
+
+func getResourcesClient() resources.GroupsClient {
+	resourcesClient := resources.NewGroupsClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	resourcesClient.Authorizer = a
+	resourcesClient.AddToUserAgent(config.UserAgent())
+	return resourcesClient
+}
+
+func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeName string) error {
+	rgClient := getResourcesClient()
+	storagesClient := getStoragesClient()
+
+	response, err := rgClient.CheckExistence(ctx, groupName)
+	if response.IsHTTPStatus(404) {
+		return errors.New("ResourceGroupNotFound")
+	}
+
+	_, err = storagesClient.ListKeys(ctx, groupName, datalakeName)
+	if err != nil {
+		return errors.New("ParentResourceNotFound")
+	}
+
+	return err
 }
 
 func getAccountKey(ctx context.Context, groupName string, accountName string, adlsClient storage.AccountsClient) (accountKey string, err error) {
