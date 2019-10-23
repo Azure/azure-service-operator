@@ -143,12 +143,6 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 	startIP := instance.Spec.StartIPAddress
 	endIP := instance.Spec.EndIPAddress
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        server,
-	}
-
 	r.Log.Info("Calling createorupdate Azure SQL firewall rule")
 
 	//get owner instance of AzureSqlServer
@@ -182,7 +176,7 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	_, err = r.SQLManager.CreateOrUpdateSQLFirewallRule(sdkClient, ruleName, startIP, endIP)
+	_, err = r.SQLManager.CreateOrUpdateSQLFirewallRule(ctx, groupName, "", server, ruleName, startIP, endIP)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -192,7 +186,7 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = r.SQLManager.GetSQLFirewallRule(sdkClient, ruleName)
+	_, err = r.SQLManager.GetSQLFirewallRule(ctx, groupName, "", server, ruleName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -209,15 +203,8 @@ func (r *AzureSqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.
 	server := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
 
-	// create the Go SDK client with relevant info
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        server,
-	}
-
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s"+groupName, server, ruleName))
-	err := r.SQLManager.DeleteSQLFirewallRule(sdkClient, ruleName)
+	err := r.SQLManager.DeleteSQLFirewallRule(ctx, groupName, "", server, ruleName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")

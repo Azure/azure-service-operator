@@ -121,12 +121,6 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        serverName,
-	}
-
 	//get owner instance of AzureSqlServer
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner AzureSqlServer instance")
 	var ownerInstance azurev1alpha1.AzureSqlServer
@@ -150,7 +144,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	// Get the Sql Server instance that corresponds to the Server name in the spec for this action
-	server, err := r.SQLManager.GetServer(sdkClient)
+	server, err := r.SQLManager.GetServer(ctx, groupName, "", serverName)
 	if err != nil {
 		if strings.Contains(err.Error(), "ResourceGroupNotFound") {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of AzureSqlServer: Resource group not found")
@@ -173,8 +167,6 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		}
 	}
 
-	sdkClient.Location = *server.Location
-
 	// rollcreds action
 	if strings.ToLower(instance.Spec.ActionName) == "rollcreds" {
 		azureSqlServerProperties := sql.SQLServerProperties{
@@ -186,7 +178,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		newPassword, _ := generateRandomPassword(passwordLength)
 		azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
-		if _, err := r.SQLManager.CreateOrUpdateSQLServer(sdkClient, azureSqlServerProperties); err != nil {
+		if _, err := r.SQLManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 				return errhelp.NewAzureError(err)

@@ -127,13 +127,6 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 	dbName := instance.ObjectMeta.Name
 	dbEdition := instance.Spec.Edition
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        server,
-		Location:          location,
-	}
-
 	azureSqlDatabaseProperties := sql.SQLDatabaseProperties{
 		DatabaseName: dbName,
 		Edition:      dbEdition,
@@ -164,7 +157,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	_, err = r.SQLManager.CreateOrUpdateDB(sdkClient, azureSqlDatabaseProperties)
+	_, err = r.SQLManager.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -177,7 +170,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = r.SQLManager.GetDB(sdkClient, dbName)
+	_, err = r.SQLManager.GetDB(ctx, groupName, location, server, dbName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -199,16 +192,8 @@ func (r *AzureSqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.Azur
 	server := instance.Spec.Server
 	dbName := instance.ObjectMeta.Name
 
-	// create the Go SDK client with relevant info
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        server,
-		Location:          location,
-	}
-
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/database/%s"+groupName, server, dbName))
-	_, err := r.SQLManager.DeleteDB(sdkClient, dbName)
+	_, err := r.SQLManager.DeleteDB(ctx, groupName, location, server, dbName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")

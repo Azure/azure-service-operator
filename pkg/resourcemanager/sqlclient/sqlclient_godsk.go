@@ -13,8 +13,6 @@ import (
 
 const typeOfService = "Microsoft.Sql/servers"
 
-type azureSqlManager struct{}
-
 // getGoServersClient retrieves a ServersClient
 func getGoServersClient() sql.ServersClient {
 	serversClient := sql.NewServersClient(config.SubscriptionID())
@@ -52,17 +50,17 @@ func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (*azureSqlManager) CreateOrUpdateSQLServer(sdkClient GoSDKClient, properties SQLServerProperties) (result sql.Server, err error) {
+func (sdk GoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLServerProperties) (result sql.Server, err error) {
 	serversClient := getGoServersClient()
 	serverProp := SQLServerPropertiesToServer(properties)
 
 	// issue the creation
 	future, err := serversClient.CreateOrUpdate(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 		sql.Server{
-			Location:         to.StringPtr(sdkClient.Location),
+			Location:         to.StringPtr(location),
 			ServerProperties: &serverProp,
 		})
 	if err != nil {
@@ -75,19 +73,19 @@ func (*azureSqlManager) CreateOrUpdateSQLServer(sdkClient GoSDKClient, propertie
 // CreateOrUpdateSQLFirewallRule creates or updates a firewall rule
 // based on code from: https://github.com/Azure-Samples/azure-sdk-for-go-samples/blob/master/sql/sql.go#L111
 // to allow allow Azure services to connect example: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure#manage-firewall-rules-using-azure-cli
-func (manager *azureSqlManager) CreateOrUpdateSQLFirewallRule(sdkClient GoSDKClient, ruleName string, startIP string, endIP string) (result bool, err error) {
+func (sdk GoSDKClient) CreateOrUpdateSQLFirewallRule(ctx context.Context, resourceGroupName string, location string, serverName string, ruleName string, startIP string, endIP string) (result bool, err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := manager.GetServer(sdkClient)
+	server, err := sdk.GetServer(ctx, resourceGroupName, location, serverName)
 	if err != nil || *server.State != "Ready" {
 		return false, err
 	}
 
 	firewallClient := getGoFirewallClient()
 	_, err = firewallClient.CreateOrUpdate(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 		ruleName,
 		sql.FirewallRule{
 			FirewallRuleProperties: &sql.FirewallRuleProperties{
@@ -105,34 +103,34 @@ func (manager *azureSqlManager) CreateOrUpdateSQLFirewallRule(sdkClient GoSDKCli
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
-func (manager *azureSqlManager) CreateOrUpdateDB(sdkClient GoSDKClient, properties SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
+func (sdk GoSDKClient) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
 	dbClient := getGoDbClient()
 	dbProp := SQLDatabasePropertiesToDatabase(properties)
 
 	return dbClient.CreateOrUpdate(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 		properties.DatabaseName,
 		sql.Database{
-			Location:           to.StringPtr(sdkClient.Location),
+			Location:           to.StringPtr(location),
 			DatabaseProperties: &dbProp,
 		})
 }
 
 // CreateOrUpdateFailoverGroup creates a failover group
-func (manager *azureSqlManager) CreateOrUpdateFailoverGroup(sdkClient GoSDKClient, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+func (sdk GoSDKClient) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, location string, serverName string, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
 	failoverGroupsClient := getGoFailoverGroupsClient()
 
 	// Construct a PartnerInfo object from the server name
 	// Get resource ID from the servername to use
-	secServerSDKClient := GoSDKClient{
-		Ctx:               context.Background(),
-		ResourceGroupName: properties.SecondaryServerResourceGroup,
-		ServerName:        properties.SecondaryServerName,
-		Location:          "", // We dont get the location from the user for the secondary server as it is not required
-	}
-	server, err := manager.GetServer(secServerSDKClient)
+	// secServerSDKClient := GoSDKClient{
+	// 	Ctx:               ctx,
+	// 	ResourceGroupName: properties.SecondaryServerResourceGroup,
+	// 	ServerName:        properties.SecondaryServerName,
+	// 	Location:          "", // We dont get the location from the user for the secondary server as it is not required
+	// }
+	server, err := sdk.GetServer(ctx, properties.SecondaryServerResourceGroup, "", properties.SecondaryServerName)
 	if err != nil {
 		return result, nil
 	}
@@ -149,7 +147,7 @@ func (manager *azureSqlManager) CreateOrUpdateFailoverGroup(sdkClient GoSDKClien
 
 	// Parse the Databases in the Databaselist and form array of Resource IDs
 	for _, each := range properties.DatabaseList {
-		database, err := manager.GetDB(sdkClient, each)
+		database, err := sdk.GetDB(ctx, resourceGroupName, location, serverName, each)
 		if err != nil {
 			return result, err
 		}
@@ -171,41 +169,41 @@ func (manager *azureSqlManager) CreateOrUpdateFailoverGroup(sdkClient GoSDKClien
 	}
 
 	return failoverGroupsClient.CreateOrUpdate(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 		failovergroupname,
 		failoverGroup)
 
 }
 
 // GetSQLFirewallRule returns a firewall rule
-func (manager *azureSqlManager) GetSQLFirewallRule(sdkClient GoSDKClient, ruleName string) (result sql.FirewallRule, err error) {
+func (sdk GoSDKClient) GetSQLFirewallRule(ctx context.Context, resourceGroupName string, location string, serverName string, ruleName string) (result sql.FirewallRule, err error) {
 	firewallClient := getGoFirewallClient()
 
 	return firewallClient.Get(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 		ruleName,
 	)
 }
 
 // GetDB retrieves a database
-func (manager *azureSqlManager) GetDB(sdkClient GoSDKClient, databaseName string) (sql.Database, error) {
+func (sdk GoSDKClient) GetDB(ctx context.Context, resourceGroupName string, location string, serverName string, databaseName string) (sql.Database, error) {
 	dbClient := getGoDbClient()
 
 	return dbClient.Get(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 		databaseName,
 		"serviceTierAdvisors, transparentDataEncryption",
 	)
 }
 
 // DeleteDB deletes a DB
-func (manager *azureSqlManager) DeleteDB(sdkClient GoSDKClient, databaseName string) (result autorest.Response, err error) {
+func (sdk GoSDKClient) DeleteDB(ctx context.Context, resourceGroupName string, location string, serverName string, databaseName string) (result autorest.Response, err error) {
 	result = autorest.Response{
 		Response: &http.Response{
 			StatusCode: 200,
@@ -213,22 +211,22 @@ func (manager *azureSqlManager) DeleteDB(sdkClient GoSDKClient, databaseName str
 	}
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := manager.GetServer(sdkClient)
+	server, err := sdk.GetServer(ctx, resourceGroupName, location, serverName)
 	if err != nil || *server.State != "Ready" {
 		return result, nil
 	}
 
 	// check to see if the db exists, if it doesn't then short-circuit
-	_, err = manager.GetDB(sdkClient, databaseName)
+	_, err = sdk.GetDB(ctx, resourceGroupName, location, serverName, databaseName)
 	if err != nil {
 		return result, nil
 	}
 
 	dbClient := getGoDbClient()
 	result, err = dbClient.Delete(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 		databaseName,
 	)
 
@@ -236,25 +234,25 @@ func (manager *azureSqlManager) DeleteDB(sdkClient GoSDKClient, databaseName str
 }
 
 // DeleteSQLFirewallRule deletes a firewall rule
-func (manager *azureSqlManager) DeleteSQLFirewallRule(sdkClient GoSDKClient, ruleName string) (err error) {
+func (sdk GoSDKClient) DeleteSQLFirewallRule(ctx context.Context, resourceGroupName string, location string, serverName string, ruleName string) (err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := manager.GetServer(sdkClient)
+	server, err := sdk.GetServer(ctx, resourceGroupName, location, serverName)
 	if err != nil || *server.State != "Ready" {
 		return nil
 	}
 
 	// check to see if the rule exists, if it doesn't then short-circuit
-	_, err = manager.GetSQLFirewallRule(sdkClient, ruleName)
+	_, err = sdk.GetSQLFirewallRule(ctx, resourceGroupName, location, serverName, ruleName)
 	if err != nil {
 		return nil
 	}
 
 	firewallClient := getGoFirewallClient()
 	_, err = firewallClient.Delete(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 		ruleName,
 	)
 
@@ -262,7 +260,7 @@ func (manager *azureSqlManager) DeleteSQLFirewallRule(sdkClient GoSDKClient, rul
 }
 
 // DeleteSQLServer deletes a SQL server
-func (manager *azureSqlManager) DeleteSQLServer(sdkClient GoSDKClient) (result autorest.Response, err error) {
+func (sdk GoSDKClient) DeleteSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string) (result autorest.Response, err error) {
 	result = autorest.Response{
 		Response: &http.Response{
 			StatusCode: 200,
@@ -270,16 +268,16 @@ func (manager *azureSqlManager) DeleteSQLServer(sdkClient GoSDKClient) (result a
 	}
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	_, err = manager.GetServer(sdkClient)
+	_, err = sdk.GetServer(ctx, resourceGroupName, location, serverName)
 	if err != nil {
 		return result, nil
 	}
 
 	serversClient := getGoServersClient()
 	future, err := serversClient.Delete(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 	)
 	if err != nil {
 		return result, err
@@ -289,19 +287,19 @@ func (manager *azureSqlManager) DeleteSQLServer(sdkClient GoSDKClient) (result a
 }
 
 // GetFailoverGroup retrieves a failover group
-func (manager *azureSqlManager) GetFailoverGroup(sdkClient GoSDKClient, failovergroupname string) (sql.FailoverGroup, error) {
+func (sdk GoSDKClient) GetFailoverGroup(ctx context.Context, resourceGroupName string, location string, serverName string, failovergroupname string) (sql.FailoverGroup, error) {
 	failoverGroupsClient := getGoFailoverGroupsClient()
 
 	return failoverGroupsClient.Get(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 		failovergroupname,
 	)
 }
 
 // DeleteFailoverGroup deletes a failover group
-func (manager *azureSqlManager) DeleteFailoverGroup(sdkClient GoSDKClient, failoverGroupName string) (result autorest.Response, err error) {
+func (sdk GoSDKClient) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, location string, serverName string, failoverGroupName string) (result autorest.Response, err error) {
 
 	result = autorest.Response{
 		Response: &http.Response{
@@ -310,22 +308,22 @@ func (manager *azureSqlManager) DeleteFailoverGroup(sdkClient GoSDKClient, failo
 	}
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	_, err = manager.GetServer(sdkClient)
+	_, err = sdk.GetServer(ctx, resourceGroupName, location, serverName)
 	if err != nil {
 		return result, nil
 	}
 
 	// check to see if the failover group exists, if it doesn't then short-circuit
-	_, err = manager.GetFailoverGroup(sdkClient, failoverGroupName)
+	_, err = sdk.GetFailoverGroup(ctx, resourceGroupName, location, serverName, failoverGroupName)
 	if err != nil {
 		return result, nil
 	}
 
 	failoverGroupsClient := getGoFailoverGroupsClient()
 	future, err := failoverGroupsClient.Delete(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 		failoverGroupName,
 	)
 	if err != nil {
@@ -336,13 +334,13 @@ func (manager *azureSqlManager) DeleteFailoverGroup(sdkClient GoSDKClient, failo
 }
 
 // CheckNameAvailability determines whether a SQL resource can be created with the specified name
-func (manager *azureSqlManager) CheckNameAvailability(sdkClient GoSDKClient) (result AvailabilityResponse, err error) {
+func (sdk GoSDKClient) CheckNameAvailability(ctx context.Context, resourceGroupName string, location string, serverName string) (result AvailabilityResponse, err error) {
 	serversClient := getGoServersClient()
 
 	response, err := serversClient.CheckNameAvailability(
-		sdkClient.Ctx,
+		ctx,
 		sql.CheckNameAvailabilityRequest{
-			Name: to.StringPtr(sdkClient.ServerName),
+			Name: to.StringPtr(serverName),
 			Type: to.StringPtr(typeOfService),
 		},
 	)
@@ -354,12 +352,12 @@ func (manager *azureSqlManager) CheckNameAvailability(sdkClient GoSDKClient) (re
 }
 
 // GetServer returns a SQL server
-func (manager *azureSqlManager) GetServer(sdkClient GoSDKClient) (result sql.Server, err error) {
+func (sdk GoSDKClient) GetServer(ctx context.Context, resourceGroupName string, location string, serverName string) (result sql.Server, err error) {
 	serversClient := getGoServersClient()
 
 	return serversClient.Get(
-		sdkClient.Ctx,
-		sdkClient.ResourceGroupName,
-		sdkClient.ServerName,
+		ctx,
+		resourceGroupName,
+		serverName,
 	)
 }

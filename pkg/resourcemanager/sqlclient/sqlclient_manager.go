@@ -6,23 +6,23 @@
 package sqlclient
 
 import (
+	"context"
+
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/go-autorest/autorest"
 )
 
-var AzureSQLManager SQLManager = &azureSqlManager{}
-
 // SQLManager interface
 type SQLManager interface {
-	CreateOrUpdateSQLServer(sdkClient GoSDKClient, properties SQLServerProperties) (result sql.Server, err error)
-	DeleteSQLServer(sdkClient GoSDKClient) (result autorest.Response, err error)
-	GetServer(sdkClient GoSDKClient) (result sql.Server, err error)
-	DeleteSQLFirewallRule(sdkClient GoSDKClient, ruleName string) (err error)
-	CreateOrUpdateFailoverGroup(sdkClient GoSDKClient, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error)
-	DeleteFailoverGroup(sdkClient GoSDKClient, failoverGroupName string) (result autorest.Response, err error)
-	DeleteDB(sdkClient GoSDKClient, databaseName string) (result autorest.Response, err error)
-	GetSQLFirewallRule(sdkClient GoSDKClient, ruleName string) (result sql.FirewallRule, err error)
-	GetDB(sdkClient GoSDKClient, databaseName string) (sql.Database, error)
-	CreateOrUpdateDB(sdkClient GoSDKClient, properties SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error)
-	CreateOrUpdateSQLFirewallRule(sdkClient GoSDKClient, ruleName string, startIP string, endIP string) (result bool, err error)
+	CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLServerProperties) (result sql.Server, err error)
+	DeleteSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string) (result autorest.Response, err error)
+	GetServer(ctx context.Context, resourceGroupName string, location string, serverName string) (result sql.Server, err error)
+	DeleteSQLFirewallRule(ctx context.Context, resourceGroupName string, location string, serverName string, ruleName string) (err error)
+	CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, location string, serverName string, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error)
+	DeleteFailoverGroup(ctx context.Context, resourceGroupName string, location string, serverName string, failoverGroupName string) (result autorest.Response, err error)
+	DeleteDB(ctx context.Context, resourceGroupName string, location string, serverName string, databaseName string) (result autorest.Response, err error)
+	GetSQLFirewallRule(ctx context.Context, resourceGroupName string, location string, serverName string, ruleName string) (result sql.FirewallRule, err error)
+	GetDB(ctx context.Context, resourceGroupName string, location string, serverName string, databaseName string) (sql.Database, error)
+	CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error)
+	CreateOrUpdateSQLFirewallRule(ctx context.Context, resourceGroupName string, location string, serverName string, ruleName string, startIP string, endIP string) (result bool, err error)
 }

@@ -17,6 +17,7 @@ limitations under the License.
 package sqlclient
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
@@ -25,8 +26,8 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 )
 
-// MockSqlManager struct
-type MockSqlManager struct {
+// MockGoSDKClient struct
+type MockGoSDKClient struct {
 	sqlServer                             sql.Server
 	sqlDatabase                           sql.Database
 	sqlFirewallRule                       sql.FirewallRule
@@ -35,24 +36,24 @@ type MockSqlManager struct {
 }
 
 // CreateOrUpdateSQLServer creates a new sql server
-func (manager *MockSqlManager) CreateOrUpdateSQLServer(sdkClient sqlclient.GoSDKClient, properties sqlclient.SQLServerProperties) (result sql.Server, err error) {
+func (sdk *MockGoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties sqlclient.SQLServerProperties) (result sql.Server, err error) {
 	var sqlServer = sql.Server{
 		Response: helpers.GetRestResponse(http.StatusCreated),
 	}
 
-	manager.sqlServer = sqlServer
+	sdk.sqlServer = sqlServer
 
 	return sqlServer, nil
 }
 
 //DeleteSQLServer return StatusOK
-func (manager *MockSqlManager) DeleteSQLServer(sdkClient sqlclient.GoSDKClient) (result autorest.Response, err error) {
+func (sdk *MockGoSDKClient) DeleteSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string) (result autorest.Response, err error) {
 
 	return helpers.GetRestResponse(http.StatusOK), nil
 }
 
 //GetServer get server
-func (manager *MockSqlManager) GetServer(sdkClient sqlclient.GoSDKClient) (result sql.Server, err error) {
+func (sdk *MockGoSDKClient) GetServer(ctx context.Context, resourceGroupName string, location string, serverName string) (result sql.Server, err error) {
 
 	state := "Ready"
 	serverProperties := sql.ServerProperties{State: &state}
@@ -61,73 +62,73 @@ func (manager *MockSqlManager) GetServer(sdkClient sqlclient.GoSDKClient) (resul
 		ServerProperties: &serverProperties,
 	}
 
-	manager.sqlServer = sqlServer
+	sdk.sqlServer = sqlServer
 
 	return sqlServer, nil
 }
 
 //CreateOrUpdateSQLFirewallRule create or
-func (manager *MockSqlManager) CreateOrUpdateSQLFirewallRule(sdkClient sqlclient.GoSDKClient, ruleName string, startIP string, endIP string) (result bool, err error) {
+func (sdk *MockGoSDKClient) CreateOrUpdateSQLFirewallRule(ctx context.Context, resourceGroupName string, location string, serverName string, ruleName string, startIP string, endIP string) (result bool, err error) {
 
 	return true, nil
 }
 
 //DeleteSQLFirewallRule delete sql firewall
-func (manager *MockSqlManager) DeleteSQLFirewallRule(sdkClient sqlclient.GoSDKClient, ruleName string) (err error) {
+func (sdk *MockGoSDKClient) DeleteSQLFirewallRule(ctx context.Context, resourceGroupName string, location string, serverName string, ruleName string) (err error) {
 	return nil
 }
 
 //DeleteDB delete database
-func (manager *MockSqlManager) DeleteDB(sdkClient sqlclient.GoSDKClient, databaseName string) (result autorest.Response, err error) {
+func (sdk *MockGoSDKClient) DeleteDB(ctx context.Context, resourceGroupName string, location string, serverName string, databaseName string) (result autorest.Response, err error) {
 
 	return helpers.GetRestResponse(http.StatusOK), nil
 }
 
 //GetSQLFirewallRule get sql firewall rule
-func (manager *MockSqlManager) GetSQLFirewallRule(sdkClient sqlclient.GoSDKClient, ruleName string) (result sql.FirewallRule, err error) {
+func (sdk *MockGoSDKClient) GetSQLFirewallRule(ctx context.Context, resourceGroupName string, location string, serverName string, ruleName string) (result sql.FirewallRule, err error) {
 
 	var sqlFirewallRule = sql.FirewallRule{
 		Response: helpers.GetRestResponse(http.StatusCreated),
 	}
 
-	manager.sqlFirewallRule = sqlFirewallRule
+	sdk.sqlFirewallRule = sqlFirewallRule
 
 	return sqlFirewallRule, nil
 }
 
 //GetDB get database
-func (manager *MockSqlManager) GetDB(sdkClient sqlclient.GoSDKClient, databaseName string) (sql.Database, error) {
+func (sdk *MockGoSDKClient) GetDB(ctx context.Context, resourceGroupName string, location string, serverName string, databaseName string) (sql.Database, error) {
 
 	var sqlDatabase = sql.Database{
 		Response: helpers.GetRestResponse(http.StatusCreated),
 	}
 
-	manager.sqlDatabase = sqlDatabase
+	sdk.sqlDatabase = sqlDatabase
 
 	return sqlDatabase, nil
 }
 
 //CreateOrUpdateDB create or update DB
-func (manager *MockSqlManager) CreateOrUpdateDB(sdkClient sqlclient.GoSDKClient, properties sqlclient.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
+func (sdk *MockGoSDKClient) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties sqlclient.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
 
 	var sqlDatabasesCreateOrUpdateFuture = sql.DatabasesCreateOrUpdateFuture{}
-	manager.sqlDatabasesCreateOrUpdateFuture = sqlDatabasesCreateOrUpdateFuture
+	sdk.sqlDatabasesCreateOrUpdateFuture = sqlDatabasesCreateOrUpdateFuture
 
 	return sqlDatabasesCreateOrUpdateFuture, nil
 }
 
 //CreateOrUpdateFailoverGroup create or update failover group
-func (manager *MockSqlManager) CreateOrUpdateFailoverGroup(sdkClient sqlclient.GoSDKClient, failovergroupname string, properties sqlclient.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+func (sdk *MockGoSDKClient) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, location string, serverName string, failovergroupname string, properties sqlclient.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
 
 	var sqlFailoverGroupsCreateOrUpdateFuture = sql.FailoverGroupsCreateOrUpdateFuture{}
-	manager.sqlFailoverGroupsCreateOrUpdateFuture = sqlFailoverGroupsCreateOrUpdateFuture
+	sdk.sqlFailoverGroupsCreateOrUpdateFuture = sqlFailoverGroupsCreateOrUpdateFuture
 
 	return sqlFailoverGroupsCreateOrUpdateFuture, nil
 
 }
 
 //DeleteFailoverGroup delete fail over group
-func (manager *MockSqlManager) DeleteFailoverGroup(sdkClient sqlclient.GoSDKClient, failoverGroupName string) (result autorest.Response, err error) {
+func (sdk *MockGoSDKClient) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, location string, serverName string, failoverGroupName string) (result autorest.Response, err error) {
 
 	return helpers.GetRestResponse(http.StatusOK), nil
 }

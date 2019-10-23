@@ -152,15 +152,16 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
+		sqlManager = &resourcemanagersql.GoSDKClient{}
 		timeout = time.Second * 320
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
+		sqlManager = &resourcemanagersqlmock.MockGoSDKClient{}
 		timeout = time.Second * 20
 	}
-	sqlManager = &resourcemanagersqlmock.MockSqlManager{}
 
 	err = (&KeyVaultReconciler{
 		Client:          k8sManager.GetClient(),

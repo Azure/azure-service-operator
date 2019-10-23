@@ -85,7 +85,7 @@ func main() {
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
-	sqlManager := resourcemanagersql.AzureSQLManager
+	sqlManager := resourcemanagersql.GoSDKClient{}
 
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),

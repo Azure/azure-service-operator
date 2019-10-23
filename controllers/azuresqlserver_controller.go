@@ -204,13 +204,6 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        name,
-		Location:          location,
-	}
-
 	//get owner instance of ResourceGroup
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner ResourceGroup instance")
 	var ownerInstance azurev1alpha1.ResourceGroup
@@ -244,7 +237,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := r.SQLManager.CreateOrUpdateSQLServer(sdkClient, azureSqlServerProperties); err != nil {
+	if _, err := r.SQLManager.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 			instance.Status.Message = msg
@@ -283,14 +276,7 @@ func (r *AzureSqlServerReconciler) verifyExternal(instance *azurev1alpha1.AzureS
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        name,
-		Location:          location,
-	}
-
-	serv, err := r.SQLManager.GetServer(sdkClient)
+	serv, err := r.SQLManager.GetServer(ctx, groupName, location, name)
 	if err != nil {
 		azerr := errhelp.NewAzureError(err).(*errhelp.AzureError)
 		if azerr.Type != errhelp.ResourceNotFound {
@@ -326,14 +312,7 @@ func (r *AzureSqlServerReconciler) deleteExternal(instance *azurev1alpha1.AzureS
 	groupName := instance.Spec.ResourceGroup
 	location := instance.Spec.Location
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        name,
-		Location:          location,
-	}
-
-	_, err := r.SQLManager.DeleteSQLServer(sdkClient)
+	_, err := r.SQLManager.DeleteSQLServer(ctx, groupName, location, name)
 	if err != nil {
 		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		instance.Status.Message = msg
