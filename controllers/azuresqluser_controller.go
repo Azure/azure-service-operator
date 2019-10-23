@@ -23,6 +23,7 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
+	"github.com/google/uuid"
 	"github.com/prometheus/common/log"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -80,7 +81,9 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, AzureSQLUserFinalizerName) {
 			if err := r.deleteExternal(instance); err != nil {
-				log.Info("Delete AzureSQLUser failed with ", "error", err.Error())
+				msg := fmt.Sprintf("Delete external failed with %s", err.Error())
+				log.Info(msg)
+				instance.Status.Message = msg
 			}
 			helpers.RemoveFinalizer(&instance, AzureSQLUserFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
@@ -100,14 +103,18 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation for AzureSQLUser")
 		if err := r.reconcileExternal(instance); err != nil {
-			log.Info("Ignorable error", "error: ", err.Error())
+			msg := fmt.Sprintf("Reconcile external failed with %s", err.Error())
+			log.Info(msg)
+			instance.Status.Message = msg
 			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 		}
 		return ctrl.Result{}, nil
 	}
 
 	r.Recorder.Event(&instance, "Normal", "Provisioned", fmt.Sprintf("AzureSQLUser %s provisioned", instance.ObjectMeta.Name))
-
+	msg := fmt.Sprintf("Create AzureSqlUser Successful")
+	log.Info(msg)
+	instance.Status.Message = msg
 	return ctrl.Result{}, nil
 }
 
@@ -115,7 +122,7 @@ func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLU
 	ctx := context.Background()
 
 	// get admin credentials to connect to db
-	secret := r.GetOrPrepareSecret(&instance, instance.Spec.AdminSecret)
+	secret := r.GetOrPrepareSecret(&instance, instance.Spec.AdminSecret, instance.Spec.AdminSecret)
 	var user = string(secret.Data[SecretUsernameKey])
 	var password = string(secret.Data[SecretPasswordKey])
 	connString := r.getConnectionString(instance.Spec.Server, user, password, SqlServerPort, instance.Spec.DbName)
@@ -123,12 +130,21 @@ func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLU
 	db, _ := sql.Open(DriverName, connString)
 	err := db.Ping()
 	if err != nil {
-		log.Error(err, "Unable to ping server")
+		return err
 	}
-	err = dropUser(ctx, db, instance.ObjectMeta.Name)
+	secret = r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name, instance.ObjectMeta.Name)
+	user = string(secret.Data[SecretUsernameKey])
+	err = dropUser(ctx, db, user)
 	if err != nil {
-		log.Error(err, fmt.Sprintf("Unable to drop user %s", instance.ObjectMeta.Name))
+		msg := fmt.Sprintf("Delete AzureSqlUser failed with %s", err.Error())
+		log.Info(msg)
+		instance.Status.Message = msg
+		return err
 	}
+
+	msg := fmt.Sprintf("Delete AzureSqlUser succeeded")
+	log.Info(msg)
+	instance.Status.Message = msg
 	return nil
 }
 
@@ -166,7 +182,7 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	}
 
 	// get admin credentials to connect to db
-	secret := r.GetOrPrepareSecret(&instance, instance.Spec.AdminSecret)
+	secret := r.GetOrPrepareSecret(&instance, instance.Spec.AdminSecret, instance.Spec.AdminSecret)
 	var user = string(secret.Data[SecretUsernameKey])
 	var password = string(secret.Data[SecretPasswordKey])
 	connString := r.getConnectionString(instance.Spec.Server, user, password, SqlServerPort, instance.Spec.DbName)
@@ -178,8 +194,8 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	}
 
 	// create or get new user secret
-	user = instance.ObjectMeta.Name
-	secret = r.GetOrPrepareSecret(&instance, user)
+	user = fmt.Sprintf("%s-%s", instance.ObjectMeta.Name, uuid.New())
+	secret = r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name, user)
 	containsUser, err := ContainsUser(ctx, db, user)
 	if err != nil {
 		log.Info("Couldn't find user", "err:", err.Error())
@@ -213,7 +229,9 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 		log.Info("createOrUpdateSecretErr", "err", createOrUpdateSecretErr.Error())
 		return err
 	}
-
+	msg := fmt.Sprintf("Apply AzureSqlUser succeeded")
+	log.Info(msg)
+	instance.Status.Message = msg
 	return nil
 }
 
@@ -269,15 +287,15 @@ func ContainsUser(ctx context.Context, db *sql.DB, username string) (bool, error
 }
 
 // GetOrPrepareSecret gets or creates a secret
-func (r *AzureSQLUserReconciler) GetOrPrepareSecret(instance *azurev1alpha1.AzureSQLUser, name string) *v1.Secret {
+func (r *AzureSQLUserReconciler) GetOrPrepareSecret(instance *azurev1alpha1.AzureSQLUser, secretname string, username string) *v1.Secret {
 	pw, _ := generateRandomPassword(16)
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
+			Name:      secretname,
 			Namespace: instance.Namespace,
 		},
 		Data: map[string][]byte{
-			"username":           []byte(name),
+			"username":           []byte(username),
 			"password":           []byte(pw),
 			"sqlservernamespace": []byte(instance.Namespace),
 			"sqlservername":      []byte(instance.Spec.Server),
@@ -285,7 +303,7 @@ func (r *AzureSQLUserReconciler) GetOrPrepareSecret(instance *azurev1alpha1.Azur
 		Type: "Opaque",
 	}
 
-	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
+	if err := r.Get(context.Background(), types.NamespacedName{Name: secretname, Namespace: instance.Namespace}, secret); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
 	}
 

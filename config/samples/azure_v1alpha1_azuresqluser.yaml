@@ -3,8 +3,10 @@ kind: AzureSQLUser
 metadata:
   name: sqluser-sample
 spec:
-  server: azvotessqlserver
-  dbname: azvotessqldb
-  adminsecret: azvotessqlserver
+  server: sqlserver-sample-777
+  dbname: azuresqldatabase-sample
+  adminsecret: sqlserver-sample-777
+  # possible roles:
+  # db_owner, db_securityadmin, db_accessadmin, db_backupoperator, db_ddladmin, db_datawriter, db_datareader, db_denydatawriter, db_denydatareader
   roles:
     - "db_owner"
