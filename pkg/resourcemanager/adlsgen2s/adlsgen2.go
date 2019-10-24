@@ -9,8 +9,8 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 
-	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"errors"
+	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"log"
 )
 
@@ -30,7 +30,7 @@ func getStoragesClient() storage.AccountsClient {
 func (_ *azureAdlsGen2Manager) CreateAdlsGen2(ctx context.Context, groupName string, storageAccountName string, location string, sku azurev1alpha1.StorageSku, kind azurev1alpha1.StorageKind, tags map[string]*string, accessTier azurev1alpha1.StorageAccessTier, enableHTTPSTrafficOnly *bool) (*storage.Account, error) {
 	// TODO: this is copy and pasted from storage.go. Figure out a better way to refactor so there isn't duplicate code
 	storagesClient := getStoragesClient()
-	
+
 	//Check if name is available
 	storageType := "Microsoft.Storage/storageAccounts"
 	checkAccountParams := storage.AccountCheckNameAvailabilityParameters{Name: &storageAccountName, Type: &storageType}

@@ -1,13 +1,13 @@
 package adlsgen2s
 
 import (
-	"time"
-	"fmt"
 	"context"
+	"fmt"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest/to"
+	"time"
 
 	// "github.com/Azure/azure-service-operator/pkg/resourcemanager/adlsgen2s"
 	. "github.com/onsi/ginkgo"
@@ -52,7 +52,6 @@ var _ = Describe("ADLS Gen2", func() {
 			_, err = fileSystemManager.CreateFileSystem(context.Background(), fileSystemName, xMsProperties, xMsClientRequestID, to.Int32Ptr(100), xMsDate, adlsName)
 			fmt.Println(err.Error())
 			Expect(err).NotTo(HaveOccurred())
-
 
 		})
 	})
