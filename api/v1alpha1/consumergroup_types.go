@@ -41,7 +41,7 @@ type ConsumerGroup struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   ConsumerGroupSpec `json:"spec,omitempty"`
-	Status ResourceStatus    `json:"status,omitempty"`
+	Status ASOStatus    `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

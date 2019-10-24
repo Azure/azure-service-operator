@@ -46,7 +46,7 @@ var NoDependencies = DependencyDefinitions{
 }
 
 // fetches the status of the instance of runtime.Object
-type StatusAccessor = func(instance runtime.Object) (*azurev1alpha1.ResourceStatus, error)
+type StatusAccessor = func(instance runtime.Object) (*azurev1alpha1.ASOStatus, error)
 
 // updates the status of the instance of runtime.Object with status
-type StatusUpdater = func(instance runtime.Object, status *azurev1alpha1.ResourceStatus) error
+type StatusUpdater = func(instance runtime.Object, status *azurev1alpha1.ASOStatus) error

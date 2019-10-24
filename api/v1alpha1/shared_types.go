@@ -30,21 +30,11 @@ const (
 	Terminating ProvisionState = "Terminating"
 )
 
-// ResourceStatus defines the observed state of any resources
-type ResourceStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	ProvisionState ProvisionState `json:"provisionState,omitempty"`
-	// Deprecated fields - to be removed
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
-func (s ProvisionState) IsPending() bool     { return s == Pending }
-func (s ProvisionState) IsCreating() bool    { return s == Creating }
-func (s ProvisionState) IsUpdating() bool    { return s == Updating }
-func (s ProvisionState) IsVerifying() bool   { return s == Verifying }
-func (s ProvisionState) IsPostProvisioning() bool   { return s == PostProvisioning }
-func (s ProvisionState) IsSucceeded() bool   { return s == Succeeded }
-func (s ProvisionState) IsFailed() bool      { return s == Failed }
-func (s ProvisionState) IsTerminating() bool { return s == Terminating }
+func (s *ASOStatus) IsPending() bool     { return ProvisionState(s.State) == Pending }
+func (s *ASOStatus) IsCreating() bool    { return ProvisionState(s.State) == Creating }
+func (s *ASOStatus) IsUpdating() bool    { return ProvisionState(s.State) == Updating }
+func (s *ASOStatus) IsVerifying() bool   { return ProvisionState(s.State) == Verifying }
+func (s *ASOStatus) IsPostProvisioning() bool   { return ProvisionState(s.State) == PostProvisioning }
+func (s *ASOStatus) IsSucceeded() bool   { return ProvisionState(s.State) == Succeeded }
+func (s *ASOStatus) IsFailed() bool      { return ProvisionState(s.State) == Failed }
+func (s *ASOStatus) IsTerminating() bool { return ProvisionState(s.State) == Terminating }

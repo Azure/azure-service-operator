@@ -105,7 +105,7 @@ type Eventhub struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   EventhubSpec   `json:"spec,omitempty"`
-	Status ResourceStatus `json:"status,omitempty"`
+	Status ASOStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

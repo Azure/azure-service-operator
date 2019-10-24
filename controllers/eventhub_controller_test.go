@@ -131,7 +131,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubInstance.Status.ProvisionState.IsSucceeded()
+				return eventhubInstance.Status.IsSucceeded()
 			}, tc.timeout,
 			).Should(BeTrue())
 
@@ -204,7 +204,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubInstance.Status.ProvisionState.IsSucceeded()
+				return eventhubInstance.Status.IsSucceeded()
 			}, tc.timeout,
 			).Should(BeTrue())
 

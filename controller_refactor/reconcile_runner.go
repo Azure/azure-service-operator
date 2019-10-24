@@ -27,7 +27,7 @@ type reconcileRunner struct {
 	types.NamespacedName
 	instance        runtime.Object
 	objectMeta      metav1.Object
-	status          *azurev1alpha1.ResourceStatus
+	status          *azurev1alpha1.ASOStatus
 	req             ctrl.Request
 	requeueAfter    time.Duration
 	log             logr.Logger
@@ -49,7 +49,7 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 	} else {
 		allDeps = r.Dependencies
 	}
-	provisionState := r.status.ProvisionState
+	status := r.status
 
 	// jump out and requeue if any of the dependencies are missing
 	for i, dep := range allDeps {
@@ -79,28 +79,28 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, nil
 		}
 
-		if !status.ProvisionState.IsSucceeded() {
+		if !status.IsSucceeded() {
 			r.log.Info("one of the dependencies is not in 'Succeeded' state, requeuing")
 			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, nil
 		}
 	}
 
 	// now verify the resource state on Azure
-	if provisionState.IsVerifying() || provisionState.IsPending() {
+	if status.IsVerifying() || status.IsPending() {
 		return r.verify(ctx)
 	}
 
 	// dependencies are now satisfied, can now reconcile the manfest and create or update the resource
-	if provisionState.IsCreating() || provisionState.IsUpdating() {
+	if status.IsCreating() || status.IsUpdating() {
 		return r.ensure(ctx)
 	}
 
-	if provisionState.IsPostProvisioning() {
+	if status.IsPostProvisioning() {
 		return r.runPostProvision(ctx)
 	}
 
 	// re-verify if in succeeded state
-	if provisionState.IsSucceeded() {
+	if status.IsSucceeded() {
 		return r.verify(ctx)
 	}
 
@@ -119,7 +119,7 @@ func (r *reconcileRunner) setOwner(ctx context.Context, owner runtime.Object) (c
 func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	updater := r.instanceUpdater
 	requeueAfter := r.requeueAfter
-	provisionState := r.status.ProvisionState
+	status := r.status
 
 	verifyResult, err := r.verifyExternal(ctx)
 	if err != nil {
@@ -130,7 +130,7 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	}
 	// Success case - the resource is provisioned on Azure, post provisioning can take place if necessary
 	if verifyResult.ready() {
-		if !provisionState.IsSucceeded() {
+		if !status.IsSucceeded() {
 			return r.succeedOrPostProvision(ctx)
 		}
 	}
@@ -205,6 +205,7 @@ func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
 	// TODO: keep this line ?
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "Ensure", "ready to create or update resource")
 	nextState, ensureErr := r.ensureExternal(ctx)
+	nextStatus := azurev1alpha1.ASOStatus{State: string(nextState)}
 	// we set the state even if there is an error
 	updater.setProvisionState(nextState)
 	updateErr := r.updateAndLog(ctx, corev1.EventTypeNormal, "Ensure", r.Name+" state set to "+string(nextState))
@@ -214,7 +215,7 @@ func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
 	if updateErr != nil {
 		return ctrl.Result{}, fmt.Errorf("error updating resource in azure: %v", updateErr)
 	}
-	if nextState.IsSucceeded() || nextState.IsPostProvisioning() {
+	if nextStatus.IsSucceeded() || nextStatus.IsPostProvisioning() {
 		return  ctrl.Result{}, nil
 	}
 	// give azure some time to catch up
@@ -226,12 +227,12 @@ func (r *reconcileRunner) ensureExternal(ctx context.Context) (azurev1alpha1.Pro
 
 	resourceName := r.Name
 	instance := r.instance
-	provisionState := r.status.ProvisionState
+	status := r.status
 
 	// ensure that the resource is created or updated in Azure (though it won't necessarily be ready, it still needs to be verified)
 	var err error
 	var ensureResult EnsureResult
-	if provisionState.IsCreating() {
+	if status.IsCreating() {
 		ensureResult, err = r.ResourceManagerClient.Create(ctx, instance)
 	} else {
 		ensureResult, err = r.ResourceManagerClient.Update(ctx, instance)
@@ -283,7 +284,7 @@ func (r *reconcileRunner) runPostProvision(ctx context.Context) (ctrl.Result, er
 		r.instanceUpdater.setProvisionState(azurev1alpha1.Failed)
 		_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "PostProvisionHandler", "PostProvisionHandler failed to execute successfully for "+r.Name)
 	} else {
-		if !r.status.ProvisionState.IsSucceeded() {
+		if !r.status.IsSucceeded() {
 			r.instanceUpdater.setProvisionState(azurev1alpha1.Succeeded)
 			if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' provisioned and ready.", r.ResourceKind, r.Name)); err != nil {
 				return ctrl.Result{}, err

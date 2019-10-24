@@ -7,7 +7,7 @@ import (
 )
 
 // exported because it's for getting status for dependencies
-func GetStatus(instance runtime.Object) (*v1alpha1.ResourceStatus, error) {
+func GetStatus(instance runtime.Object) (*v1alpha1.ASOStatus, error) {
 	x, err := convertInstance(instance)
 	if err != nil {
 		return nil, err
@@ -15,7 +15,7 @@ func GetStatus(instance runtime.Object) (*v1alpha1.ResourceStatus, error) {
 	return &x.Status, nil
 }
 
-func updateStatus(instance runtime.Object, status *v1alpha1.ResourceStatus) error {
+func updateStatus(instance runtime.Object, status *v1alpha1.ASOStatus) error {
 	x, err := convertInstance(instance)
 	if err != nil {
 		return err

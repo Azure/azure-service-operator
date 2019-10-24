@@ -6,7 +6,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
-func getStatus(instance runtime.Object) (*v1alpha1.ResourceStatus, error) {
+func getStatus(instance runtime.Object) (*v1alpha1.ASOStatus, error) {
 	x, err := convertInstance(instance)
 	if err != nil {
 		return nil, err
@@ -14,7 +14,7 @@ func getStatus(instance runtime.Object) (*v1alpha1.ResourceStatus, error) {
 	return &x.Status, nil
 }
 
-func updateStatus(instance runtime.Object, status *v1alpha1.ResourceStatus) error {
+func updateStatus(instance runtime.Object, status *v1alpha1.ASOStatus) error {
 	x, err := convertInstance(instance)
 	if err != nil {
 		return err

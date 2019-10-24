@@ -12,7 +12,7 @@ import (
 )
 
 // modifies the runtime.Object in place
-type statusUpdate = func(provisionState *azurev1alpha1.ResourceStatus)
+type statusUpdate = func(provisionState *azurev1alpha1.ASOStatus)
 type metaUpdate = func(meta metav1.Object)
 
 // customResourceUpdater is a mechanism to enable updating the shared sections of the manifest
@@ -34,8 +34,8 @@ func (updater *customResourceUpdater) removeFinalizer(name string) {
 }
 
 func (updater *customResourceUpdater) setProvisionState(provisionState azurev1alpha1.ProvisionState) {
-	updateFunc := func(s *azurev1alpha1.ResourceStatus) {
-		s.ProvisionState = provisionState
+	updateFunc := func(s *azurev1alpha1.ASOStatus) {
+		s.State = string(provisionState)
 		if provisionState == azurev1alpha1.Verifying {
 			s.Provisioning = true
 		}
@@ -63,7 +63,7 @@ func (updater *customResourceUpdater) setOwnerReferences(owners []runtime.Object
 	updater.metaUpdates = append(updater.metaUpdates, updateFunc)
 }
 
-func (updater *customResourceUpdater) applyUpdates(instance runtime.Object, status *azurev1alpha1.ResourceStatus) error {
+func (updater *customResourceUpdater) applyUpdates(instance runtime.Object, status *azurev1alpha1.ASOStatus) error {
 	for _, f := range updater.statusUpdates {
 		f(status)
 	}

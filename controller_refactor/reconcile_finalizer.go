@@ -31,7 +31,7 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 	removeFinalizer := false
 	requeue := false
 
-	isTerminating := r.status.ProvisionState.IsTerminating()
+	isTerminating := r.status.IsTerminating()
 
 	if r.isDefined() {
 		// Even before we cal ResourceManagerClient.Delete, we verify the state of the resource
