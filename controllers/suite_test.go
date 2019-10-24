@@ -78,7 +78,7 @@ type testContext struct {
 var tc testContext
 
 func TestAPIs(t *testing.T) {
-	//t.Parallel()
+	t.Parallel()
 	RegisterFailHandler(Fail)
 
 	RunSpecsWithDefaultAndCustomReporters(t,
@@ -160,7 +160,7 @@ var _ = BeforeSuite(func() {
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
 		resourceClient = &resourcemanagersqlmock.MockGoSDKClient{}
-		timeout = time.Second * 20
+		timeout = time.Second * 60
 	}
 
 	err = (&KeyVaultReconciler{
