@@ -95,6 +95,10 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 		return r.ensure(ctx)
 	}
 
+	if provisionState.IsPostProvisioning() {
+		return r.runPostProvision(ctx)
+	}
+
 	// re-verify if in succeeded state
 	if provisionState.IsSucceeded() {
 		return r.verify(ctx)
@@ -124,10 +128,10 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 		_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "Verification", "verification failed for "+r.Name)
 		return ctrl.Result{}, fmt.Errorf("error verifying resource in azure: %v", err)
 	}
-	// Success case - the resource is is provisioned on Azure, and is ready
+	// Success case - the resource is provisioned on Azure, post provisioning can take place if necessary
 	if verifyResult.ready() {
 		if !provisionState.IsSucceeded() {
-			return r.runPostProvision(ctx)
+			return r.succeedOrPostProvision(ctx)
 		}
 	}
 	// Missing case - we can now create the resource
@@ -141,7 +145,6 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	// Update case - the resource exists in Azure, is invalid but updateable, so doesn't need to be recreated
 	if verifyResult.updateRequired() {
 		updater.setProvisionState(azurev1alpha1.Updating)
-
 		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Updating", r.Name+" flagged for update"); err != nil {
 			return ctrl.Result{}, err
 		}
@@ -177,6 +180,21 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	if verifyResult.provisioning() {
 		r.log.Info("Retrying verification", "type", "verification not complete, requeuing reconcile loop")
 		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
+	}
+	return ctrl.Result{}, nil
+}
+
+func (r *reconcileRunner) succeedOrPostProvision(ctx context.Context) (ctrl.Result, error) {
+	if r.PostProvisionFactory == nil {
+		r.instanceUpdater.setProvisionState(azurev1alpha1.Succeeded)
+		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' provisioned and ready.", r.ResourceKind, r.Name)); err != nil {
+			return ctrl.Result{}, err
+		}
+	} else {
+		r.instanceUpdater.setProvisionState(azurev1alpha1.PostProvisioning)
+		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' ready for post provisioning step.", r.ResourceKind, r.Name)); err != nil {
+			return ctrl.Result{}, err
+		}
 	}
 	return ctrl.Result{}, nil
 }
@@ -233,8 +251,8 @@ func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
 	if updateErr != nil {
 		return ctrl.Result{}, fmt.Errorf("error updating resource in azure: %v", updateErr)
 	}
-	if nextState.IsSucceeded() {
-		return r.runPostProvision(ctx)
+	if nextState.IsSucceeded() || nextState.IsPostProvisioning() {
+		return  ctrl.Result{}, nil
 	}
 	// give azure some time to catch up
 	r.log.Info("waiting for provision to take effect")
@@ -261,12 +279,16 @@ func (r *reconcileRunner) ensureExternal(ctx context.Context) (azurev1alpha1.Pro
 		return azurev1alpha1.Failed, err
 	}
 
-	// if successful, set it to succeeded, or await verification
+	// if successful, set it to succeeded, post provisioning (if there is a PostProvisioning handler), or await verification
 	var nextState azurev1alpha1.ProvisionState
 	if ensureResult.awaitingVerification() {
 		nextState = azurev1alpha1.Verifying
 	} else if ensureResult.succeeded() {
-		nextState = azurev1alpha1.Succeeded
+		if r.PostProvisionFactory == nil {
+			nextState = azurev1alpha1.Succeeded
+		} else {
+			nextState = azurev1alpha1.PostProvisioning
+		}
 	} else {
 		return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid response from Create for resource '%s'", resourceName))
 	}

@@ -16,7 +16,7 @@ limitations under the License.
 package v1alpha1
 
 // ProvisionState enumerates the values for provisioning state.
-// +kubebuilder:validation:Enum=Pending;Creating;Updating;Verifying;Succeeded;Failed;Terminating
+// +kubebuilder:validation:Enum=Pending;Creating;Updating;Verifying;PostProvisioning;Succeeded;Failed;Terminating
 type ProvisionState string
 
 const (
@@ -24,6 +24,7 @@ const (
 	Creating    ProvisionState = "Creating"
 	Updating    ProvisionState = "Updating"
 	Verifying   ProvisionState = "Verifying"
+	PostProvisioning   ProvisionState = "PostProvisioning"
 	Succeeded   ProvisionState = "Succeeded"
 	Failed      ProvisionState = "Failed"
 	Terminating ProvisionState = "Terminating"
@@ -43,6 +44,7 @@ func (s ProvisionState) IsPending() bool     { return s == Pending }
 func (s ProvisionState) IsCreating() bool    { return s == Creating }
 func (s ProvisionState) IsUpdating() bool    { return s == Updating }
 func (s ProvisionState) IsVerifying() bool   { return s == Verifying }
+func (s ProvisionState) IsPostProvisioning() bool   { return s == PostProvisioning }
 func (s ProvisionState) IsSucceeded() bool   { return s == Succeeded }
 func (s ProvisionState) IsFailed() bool      { return s == Failed }
 func (s ProvisionState) IsTerminating() bool { return s == Terminating }
