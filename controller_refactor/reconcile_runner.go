@@ -184,43 +184,6 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-func (r *reconcileRunner) succeedOrPostProvision(ctx context.Context) (ctrl.Result, error) {
-	if r.PostProvisionFactory == nil {
-		r.instanceUpdater.setProvisionState(azurev1alpha1.Succeeded)
-		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' provisioned and ready.", r.ResourceKind, r.Name)); err != nil {
-			return ctrl.Result{}, err
-		}
-	} else {
-		r.instanceUpdater.setProvisionState(azurev1alpha1.PostProvisioning)
-		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' ready for post provisioning step.", r.ResourceKind, r.Name)); err != nil {
-			return ctrl.Result{}, err
-		}
-	}
-	return ctrl.Result{}, nil
-}
-
-func (r *reconcileRunner) runPostProvision(ctx context.Context) (ctrl.Result, error) {
-	var ppError error = nil
-	if r.PostProvisionFactory != nil {
-		if handler := r.PostProvisionFactory(r.GenericController); handler != nil {
-			ppError = handler.Run(ctx, r.instance)
-		}
-	}
-	if ppError != nil {
-		r.instanceUpdater.setProvisionState(azurev1alpha1.Failed)
-		_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "PostProvisionHandler", "PostProvisionHandler failed to execute successfully for "+r.Name)
-	} else {
-		if !r.status.ProvisionState.IsSucceeded() {
-			r.instanceUpdater.setProvisionState(azurev1alpha1.Succeeded)
-			if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' provisioned and ready.", r.ResourceKind, r.Name)); err != nil {
-				return ctrl.Result{}, err
-			}
-			return ctrl.Result{}, nil
-		}
-	}
-	return ctrl.Result{}, ppError
-}
-
 func (r *reconcileRunner) verifyExternal(ctx context.Context) (VerifyResult, error) {
 	instance := r.instance
 
@@ -261,13 +224,12 @@ func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
 
 func (r *reconcileRunner) ensureExternal(ctx context.Context) (azurev1alpha1.ProvisionState, error) {
 
-	var err error
-
 	resourceName := r.Name
 	instance := r.instance
 	provisionState := r.status.ProvisionState
 
 	// ensure that the resource is created or updated in Azure (though it won't necessarily be ready, it still needs to be verified)
+	var err error
 	var ensureResult EnsureResult
 	if provisionState.IsCreating() {
 		ensureResult, err = r.ResourceManagerClient.Create(ctx, instance)
@@ -293,6 +255,43 @@ func (r *reconcileRunner) ensureExternal(ctx context.Context) (azurev1alpha1.Pro
 		return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid response from Create for resource '%s'", resourceName))
 	}
 	return nextState, nil
+}
+
+func (r *reconcileRunner) succeedOrPostProvision(ctx context.Context) (ctrl.Result, error) {
+	if r.PostProvisionFactory == nil {
+		r.instanceUpdater.setProvisionState(azurev1alpha1.Succeeded)
+		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' provisioned and ready.", r.ResourceKind, r.Name)); err != nil {
+			return ctrl.Result{}, err
+		}
+	} else {
+		r.instanceUpdater.setProvisionState(azurev1alpha1.PostProvisioning)
+		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' ready for post provisioning step.", r.ResourceKind, r.Name)); err != nil {
+			return ctrl.Result{}, err
+		}
+	}
+	return ctrl.Result{}, nil
+}
+
+func (r *reconcileRunner) runPostProvision(ctx context.Context) (ctrl.Result, error) {
+	var ppError error = nil
+	if r.PostProvisionFactory != nil {
+		if handler := r.PostProvisionFactory(r.GenericController); handler != nil {
+			ppError = handler.Run(ctx, r.instance)
+		}
+	}
+	if ppError != nil {
+		r.instanceUpdater.setProvisionState(azurev1alpha1.Failed)
+		_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "PostProvisionHandler", "PostProvisionHandler failed to execute successfully for "+r.Name)
+	} else {
+		if !r.status.ProvisionState.IsSucceeded() {
+			r.instanceUpdater.setProvisionState(azurev1alpha1.Succeeded)
+			if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' provisioned and ready.", r.ResourceKind, r.Name)); err != nil {
+				return ctrl.Result{}, err
+			}
+			return ctrl.Result{}, nil
+		}
+	}
+	return ctrl.Result{}, ppError
 }
 
 func (r *reconcileRunner) updateInstance(ctx context.Context) error {
