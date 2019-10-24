@@ -20,10 +20,14 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
+	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -39,6 +43,7 @@ type BlobContainerReconciler struct {
 	client.Client
 	Log            logr.Logger
 	Recorder       record.EventRecorder
+	Scheme         *runtime.Scheme
 	StorageManager storages.BlobContainerManager
 }
 
@@ -85,6 +90,9 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	// TODO: Add error handling for creating/deleting blob containers
 	// https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-error-codes
 	if !instance.IsSubmitted() {
+		r.Log.Info("Info", "Debugging", "Entered !instance.IsSubmitted for BlobContainer")
+		r.Log.Info("Info", "instance.Status.Provisioning", instance.Status.Provisioning)
+		r.Log.Info("Info", "instance.Status.Provisioned", instance.Status.Provisioned)
 		err := r.reconcileExternal(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
@@ -109,7 +117,37 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 	containerName := instance.ObjectMeta.Name
 	accessLevel := instance.Spec.AccessLevel
 
+	//get owner instance of Storage
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner Storage Account instance")
+	var ownerInstance azurev1alpha1.Storage
+
+	// Get storage account
+	storageAccountNamespacedName := types.NamespacedName{Name: accountName, Namespace: instance.Namespace}
+	ownerreferr := r.Get(ctx, storageAccountNamespacedName, &ownerInstance)
+	if ownerreferr != nil {
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get owner instance of Storage Account")
+	} else {
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Got owner instance of Storage Account and assigning controller reference now")
+		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
+		if innerErr != nil {
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to set controller reference to Storage Account")
+		}
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Owner instance assigned successfully")
+	}
+
+	// write information back to instance
+	if ownerrefupdateerr := r.Update(ctx, instance); ownerrefupdateerr != nil {
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
+	}
+
 	r.Log.Info(fmt.Sprintf("Creating blob container: %s", containerName))
+	instance.Status.Provisioning = true
+
+	// write information back to instance
+	if statusupdateerr := r.Status().Update(ctx, instance); statusupdateerr != nil {
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+	}
 
 	_, err := r.StorageManager.CreateBlobContainer(ctx, groupName, accountName, containerName, accessLevel)
 	if err != nil {
@@ -122,7 +160,14 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 
 	msg := fmt.Sprintf("Created blob container: %s", containerName)
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Created", msg)
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
 	instance.Status.Message = msg
+
+	// write information back to instance
+	if statusupdateerr := r.Status().Update(ctx, instance); statusupdateerr != nil {
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+	}
 
 	return nil
 }
