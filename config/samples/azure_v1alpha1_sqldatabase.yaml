@@ -1,9 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: SqlDatabase
-metadata:
-  name:  sqldatabase-sample
-spec:
-  location: westus
-  resourcegroup: resourcegroup-azure-operators
-  server:  sqlserver-sample-777
-  edition: 0

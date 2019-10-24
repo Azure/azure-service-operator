@@ -100,6 +100,7 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
+    set -e
     GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
     kind create cluster
     export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
@@ -119,9 +120,7 @@ steps:
     kind load docker-image docker.io/controllertest:1 --loglevel "trace"
     make install
     kubectl get namespaces
-    echo "sleep 80 seconds to get the cert pods running"
-    sleep 80
-    echo "end of sleep"
+    kubectl -n cert-manager rollout status deployment.v1.apps/cert-manager
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
     make deploy
