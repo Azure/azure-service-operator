@@ -267,6 +267,10 @@ var _ = Describe("EventHub Controller", func() {
 							IntervalInSeconds: 300,
 						},
 					},
+					AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
+						Name:   "RootManageSharedAccessKey",
+						Rights: []string{"Listen"},
+					},
 				},
 			}
 
