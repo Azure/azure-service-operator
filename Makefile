@@ -65,7 +65,7 @@ deploy: manifests
 terraform:
 	terraform apply devops/terraform
 
-terraform-and-deploy: terraform install-cert-manager deploy
+terraform-and-deploy: terraform build-and-push install-cert-manager deploy
 
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
 
