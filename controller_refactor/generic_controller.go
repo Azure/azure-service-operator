@@ -9,7 +9,6 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
 
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -75,14 +74,10 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	// get dependency details
 	dependencies, err := ac.DefinitionManager.GetDependencies(ctx, instance)
-	// if any of the dependencies are not found, we jump out.
-	if err != nil || dependencies == nil { // note that dependencies should be an empty array
-		if apierrors.IsNotFound(err) {
-			log.Info("dependency not found for " + req.Name + ". requeuing request.")
-		} else {
-			log.Info("unable to retrieve dependency for "+req.Name, "err", err.Error())
-		}
-		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, client.IgnoreNotFound(err)
+	// this is only the names and initial values, if we can't fetch these it's terminal
+	if err != nil {
+		log.Info("unable to retrieve dependencies for resource " + req.Name, "err", err.Error())
+		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	// create a reconcile runner object. this runs a single cycle of the reconcile loop
