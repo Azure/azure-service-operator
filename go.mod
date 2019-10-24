@@ -5,7 +5,7 @@ go 1.12
 require (
 	github.com/AlekSi/gocov-xml v0.0.0-20190121064608-3a14fb1c4737 // indirect
 	github.com/Azure-Samples/azure-sdk-for-go-samples v0.0.0-20190805235326-79e3f3af791c
-	github.com/Azure/azure-sdk-for-go v32.0.0+incompatible
+	github.com/Azure/azure-sdk-for-go v34.1.0+incompatible
 	github.com/Azure/go-autorest/autorest v0.5.0
 	github.com/Azure/go-autorest/autorest/adal v0.2.0
 	github.com/Azure/go-autorest/autorest/azure/auth v0.1.0
@@ -16,10 +16,11 @@ require (
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/envy v1.7.0
 	github.com/google/gofuzz v1.0.0 // indirect
+	github.com/google/uuid v1.1.1
 	github.com/googleapis/gnostic v0.3.0 // indirect
 	github.com/gophercloud/gophercloud v0.4.0 // indirect
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
-	github.com/onsi/ginkgo v1.10.1
+	github.com/onsi/ginkgo v1.10.2
 	github.com/onsi/gomega v1.7.0
 	github.com/pkg/errors v0.8.1
 	github.com/satori/go.uuid v1.2.0
@@ -34,5 +35,5 @@ require (
 	k8s.io/klog v0.3.3 // indirect
 	k8s.io/kube-openapi v0.0.0-20190603182131-db7b694dc208 // indirect
 	sigs.k8s.io/controller-runtime v0.2.0-beta.4
-	sigs.k8s.io/controller-tools v0.2.0-beta.3 // indirect
+	sigs.k8s.io/controller-tools v0.2.0 // indirect
 )
