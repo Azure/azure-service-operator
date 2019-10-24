@@ -5,6 +5,21 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
+// ResourceManagerClient is a common abstraction for the controller to interact with the Azure resource managers
+// The ResourceManagerClient does not, or should not, modify the runtime.Object kubernetes object
+// it only needs to query or mutate Azure state, return the result of the operation
+type ResourceManagerClient interface {
+	// Creates an Azure resource, though it doesn't verify the readiness for consumption
+	Create(context.Context, runtime.Object) (EnsureResult, error)
+	// Updates an Azure resource
+	Update(context.Context, runtime.Object) (EnsureResult, error)
+	// Verifies the state of the resource in Azure
+	Verify(context.Context, runtime.Object) (VerifyResult, error)
+	// Deletes resource in Azure
+	Delete(context.Context, runtime.Object) (DeleteResult, error)
+}
+
+// The result of a create or update operation on Azure
 type EnsureResult string
 
 const (
@@ -14,6 +29,7 @@ const (
 	EnsureFailed               EnsureResult = "Failed"
 )
 
+// The result of a verify operation on Azure
 type VerifyResult string
 
 const (
@@ -26,6 +42,7 @@ const (
 	VerifyReady            VerifyResult = "Ready"
 )
 
+// The result of a delete operation on Azure
 type DeleteResult string
 
 const (
@@ -34,18 +51,6 @@ const (
 	DeleteSucceed              DeleteResult = "Succeed"
 	DeleteAwaitingVerification DeleteResult = "AwaitingVerification"
 )
-
-// ResourceManagerClient is a common abstraction for the controller to interact with the Azure resource managers
-type ResourceManagerClient interface {
-	// Creates an Azure resource, though it doesn't verify the readiness for consumption
-	Create(context.Context, runtime.Object) (EnsureResult, error)
-	// Updates an Azure resource
-	Update(context.Context, runtime.Object) (EnsureResult, error)
-	// Verifies the state of the resource in Azure
-	Verify(context.Context, runtime.Object) (VerifyResult, error)
-	// Deletes resource in Azure
-	Delete(context.Context, runtime.Object) (DeleteResult, error)
-}
 
 func (r VerifyResult) error() bool            { return r == VerifyError }
 func (r VerifyResult) missing() bool          { return r == VerifyMissing }

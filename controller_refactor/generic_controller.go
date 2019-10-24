@@ -22,16 +22,19 @@ type GenericController struct {
 	KubeClient            client.Client
 	Log                   logr.Logger
 	Recorder              record.EventRecorder
+	Scheme                *runtime.Scheme
 	ResourceManagerClient ResourceManagerClient
 	DefinitionManager     DefinitionManager
 	FinalizerName         string
-	PostProvisionHandler  PostProvisionHandler
+	PostProvisionFactory  func(*GenericController) PostProvisionHandler
 }
 
 // A handler that is invoked after the resource has been successfully created
 // and it has been verified to be ready for consumption (ProvisionState=Success)
 // This is typically used for example to create secrets with authentication information
-type PostProvisionHandler func(r runtime.Object) error
+type PostProvisionHandler interface {
+	Run(ctx context.Context, r runtime.Object) error
+}
 
 type Parameters struct {
 	RequeueAfterSeconds int
@@ -61,7 +64,7 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	instance := thisDefs.InitialInstance
-	status, err := thisDefs.StatusGetter(instance)
+	status, err := thisDefs.StatusAccessor(instance)
 
 	requeueAfter := getRequeueAfter(ac.Parameters.RequeueAfterSeconds)
 	metaObject, _ := apimeta.Accessor(instance)

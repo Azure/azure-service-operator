@@ -141,6 +141,7 @@ func main() {
 
 	err = (&resourcegroup.ControllerFactory{
 		ResourceGroupManager: resourceGroupManager,
+		Scheme:               scheme,
 	}).SetupWithManager(mgr, controllerParams)
 
 	if err != nil {
@@ -150,6 +151,7 @@ func main() {
 
 	err = (&eventhubnamespace.ControllerFactory{
 		EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
+		Scheme:                   scheme,
 	}).SetupWithManager(mgr, controllerParams)
 
 	if err != nil {

@@ -14,7 +14,6 @@ func (r *reconcileFinalizer) isDefined() bool {
 }
 
 func (r *reconcileFinalizer) add(ctx context.Context) (ctrl.Result, error) {
-	instance := r.instance
 	updater := r.instanceUpdater
 
 	updater.addFinalizer(r.FinalizerName)
@@ -22,7 +21,6 @@ func (r *reconcileFinalizer) add(ctx context.Context) (ctrl.Result, error) {
 	if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Updated", "finalizers added"); err != nil {
 		return ctrl.Result{}, fmt.Errorf("error adding finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", "finalizers added")
 	return ctrl.Result{}, nil
 }
 

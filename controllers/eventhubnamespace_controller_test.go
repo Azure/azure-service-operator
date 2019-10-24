@@ -60,6 +60,9 @@ var _ = Describe("EventHubNamespace Controller", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
+					Annotations: map[string]string{
+						"eventhubnamespace.azure.microsoft.com/managed-resource-group": "false",
+					},
 				},
 				Spec: azurev1alpha1.EventhubNamespaceSpec{
 					Location:      rgLocation,
@@ -90,6 +93,9 @@ var _ = Describe("EventHubNamespace Controller", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
+					Annotations: map[string]string{
+						"eventhubnamespace.azure.microsoft.com/managed-resource-group": "false",
+					},
 				},
 				Spec: azurev1alpha1.EventhubNamespaceSpec{
 					Location:      rgLocation,
@@ -105,7 +111,8 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
-				return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName)
+				return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName) ||
+					eventhubNamespaceInstance.HasFinalizer("eventhubnamespace.finalizers.azure.microsoft.com")
 			}, tc.timeout,
 			).Should(BeTrue())
 

@@ -13,23 +13,25 @@ import (
 // DefinitionManager is used to retrieve the required custom resource definitions
 // and convert them into a state that can be consumed and updated (where applicable) generically
 type DefinitionManager interface {
-	// returns ResourceDefinition
+	// returns a ResourceDefinition
 	GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *ResourceDefinition
-	// if any dependency is not found, should return nil and a NotFound api error
+	// returns the dependencies for a resource
 	GetDependencies(ctx context.Context, thisInstance runtime.Object) (*DependencyDefinitions, error)
 }
 
 // Details of the current resource being reconciled
 type ResourceDefinition struct {
+	// This can be an empty resource definition object of the required Kind
 	InitialInstance runtime.Object
-	StatusGetter    StatusGetter
+	StatusAccessor  StatusAccessor
 	StatusUpdater   StatusUpdater
 }
 
+// The information required to pull the resource definition of a dependency from kubernetes
 type Dependency struct {
 	InitialInstance runtime.Object
 	NamespacedName  types.NamespacedName
-	StatusGetter    StatusGetter
+	StatusAccessor  StatusAccessor
 }
 
 // Details of the owner and the dependencies of the resource
@@ -43,6 +45,8 @@ var NoDependencies = DependencyDefinitions{
 	Owner:        nil,
 }
 
+// fetches the status of the instance of runtime.Object
+type StatusAccessor = func(instance runtime.Object) (*azurev1alpha1.ResourceStatus, error)
+
 // updates the status of the instance of runtime.Object with status
-type StatusGetter = func(instance runtime.Object) (*azurev1alpha1.ResourceStatus, error)
 type StatusUpdater = func(instance runtime.Object, status *azurev1alpha1.ResourceStatus) error

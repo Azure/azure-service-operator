@@ -33,12 +33,13 @@ import (
 
 type ControllerFactory struct {
 	ResourceGroupManager resourcegroups.ResourceGroupManager
+	Scheme               *runtime.Scheme
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups/status,verbs=get;update;patch
 
-const LogName = "ResourceGroup"
+const ResourceKind = "ResourceGroup"
 const EventRecorderName = "ResourceGroup-controller"
 const FinalizerName = "resourcegroup.finalizers.azure.microsoft.com"
 
@@ -46,7 +47,7 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&v1alpha1.ResourceGroup{}).
 		Complete(factory.create(mgr.GetClient(),
-			ctrl.Log.WithName("controllers").WithName(LogName),
+			ctrl.Log.WithName("controllers").WithName(ResourceKind),
 			mgr.GetEventRecorderFor(EventRecorderName), parameters))
 }
 
@@ -56,13 +57,15 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 	}
 	return &controller_refactor.GenericController{
 		Parameters:            parameters,
+		ResourceKind:          ResourceKind,
 		KubeClient:            kubeClient,
 		Log:                   logger,
 		Recorder:              recorder,
+		Scheme:                factory.Scheme,
 		ResourceManagerClient: resourceManagerClient,
 		DefinitionManager:     &definitionManager{},
 		FinalizerName:         FinalizerName,
-		PostProvisionHandler:  nil,
+		PostProvisionFactory:  nil,
 	}
 }
 
@@ -71,7 +74,7 @@ type definitionManager struct{}
 func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller_refactor.ResourceDefinition {
 	return &controller_refactor.ResourceDefinition{
 		InitialInstance: &v1alpha1.ResourceGroup{},
-		StatusGetter:    GetStatus,
+		StatusAccessor:  GetStatus,
 		StatusUpdater:   updateStatus,
 	}
 }

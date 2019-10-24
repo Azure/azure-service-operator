@@ -56,12 +56,6 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 		instance := dep.InitialInstance
 		err := r.KubeClient.Get(ctx, dep.NamespacedName, instance)
 
-		// set the owner reference if owner is present and references have not been set
-		// currently we only have single object ownership, but it is poosible to have multiple owners
-		if i == 0 && owner != nil && len(r.objectMeta.GetOwnerReferences()) == 0 {
-			return r.setOwner(ctx, instance)
-		}
-
 		// if any of the dependencies are not found, we jump out.
 		if err != nil { // note that dependencies should be an empty array
 			if apierrors.IsNotFound(err) {
@@ -71,7 +65,14 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 			}
 			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, client.IgnoreNotFound(err)
 		}
-		status, err := dep.StatusGetter(instance)
+
+		// set the owner reference if owner is present and references have not been set
+		// currently we only have single object ownership, but it is poosible to have multiple owners
+		if i == 0 && owner != nil && len(r.objectMeta.GetOwnerReferences()) == 0 {
+			return r.setOwner(ctx, instance)
+		}
+
+		status, err := dep.StatusAccessor(instance)
 		if err != nil {
 			r.log.Info(fmt.Sprintf("cannot get status for %s. terminal failure.", dep.NamespacedName.Name))
 			// TODO fail - this is terminal
@@ -95,14 +96,8 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 	}
 
 	// re-verify if in succeeded state
-	if provisionState.IsSucceeded() && r.PostProvisionHandler != nil {
-		result, err := r.verify(ctx)
-		// if still succeeded run the post provision handler (set secrets in k8s etc)...
-		if provisionState.IsSucceeded() && err == nil {
-			return r.runPostProvisionHandler()
-		} else {
-			return result, err
-		}
+	if provisionState.IsSucceeded() {
+		return r.verify(ctx)
 	}
 
 	return ctrl.Result{}, nil
@@ -132,20 +127,7 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	// Success case - the resource is is provisioned on Azure, and is ready
 	if verifyResult.ready() {
 		if !provisionState.IsSucceeded() {
-			var ppError error = nil
-			if r.PostProvisionHandler != nil {
-				ppError = r.PostProvisionHandler(r.instance)
-			}
-			if ppError != nil {
-				updater.setProvisionState(azurev1alpha1.Failed)
-				_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "PostProvisionHandler", "PostProvisionHandler failed to execute successfully for "+r.Name)
-			} else {
-				updater.setProvisionState(azurev1alpha1.Succeeded)
-				if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", r.Name+" provisioned"); err != nil {
-					return ctrl.Result{}, err
-				}
-			}
-			return ctrl.Result{}, err
+			return r.runPostProvision(ctx)
 		}
 	}
 	// Missing case - we can now create the resource
@@ -199,6 +181,28 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
+func (r *reconcileRunner) runPostProvision(ctx context.Context) (ctrl.Result, error) {
+	var ppError error = nil
+	if r.PostProvisionFactory != nil {
+		if handler := r.PostProvisionFactory(r.GenericController); handler != nil {
+			ppError = handler.Run(ctx, r.instance)
+		}
+	}
+	if ppError != nil {
+		r.instanceUpdater.setProvisionState(azurev1alpha1.Failed)
+		_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "PostProvisionHandler", "PostProvisionHandler failed to execute successfully for "+r.Name)
+	} else {
+		if !r.status.ProvisionState.IsSucceeded() {
+			r.instanceUpdater.setProvisionState(azurev1alpha1.Succeeded)
+			if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' provisioned and ready.", r.ResourceKind, r.Name)); err != nil {
+				return ctrl.Result{}, err
+			}
+			return ctrl.Result{}, nil
+		}
+	}
+	return ctrl.Result{}, ppError
+}
+
 func (r *reconcileRunner) verifyExternal(ctx context.Context) (VerifyResult, error) {
 	instance := r.instance
 
@@ -230,9 +234,7 @@ func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
 		return ctrl.Result{}, fmt.Errorf("error updating resource in azure: %v", updateErr)
 	}
 	if nextState.IsSucceeded() {
-		r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated",
-			fmt.Sprintf("%s resource '%s' provisioned and ready.", r.ResourceKind, r.Name))
-		return ctrl.Result{}, nil
+		return r.runPostProvision(ctx)
 	}
 	// give azure some time to catch up
 	r.log.Info("waiting for provision to take effect")
@@ -271,13 +273,6 @@ func (r *reconcileRunner) ensureExternal(ctx context.Context) (azurev1alpha1.Pro
 	return nextState, nil
 }
 
-func (r *reconcileRunner) runPostProvisionHandler() (ctrl.Result, error) {
-	if err := r.PostProvisionHandler(r.instance); err != nil {
-		r.Log.Info("Error", "PostProvisionHandler", fmt.Sprintf("PostProvisionHandler failed: %s", err.Error()))
-	}
-	return ctrl.Result{}, nil
-}
-
 func (r *reconcileRunner) updateInstance(ctx context.Context) error {
 	return r.tryUpdateInstance(ctx, 2)
 }
@@ -297,7 +292,7 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 			r.Log.Info("unable to retrieve resource. falling back to prior instance: "+r.Name, "err", err.Error())
 		}
 	}
-	status, _ := r.StatusGetter(instance)
+	status, _ := r.StatusAccessor(instance)
 	err = r.instanceUpdater.applyUpdates(instance, status)
 	if err != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Update", "unable to convert Object to resource.")

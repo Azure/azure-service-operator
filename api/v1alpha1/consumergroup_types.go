@@ -33,14 +33,6 @@ type ConsumerGroupSpec struct {
 	AzureConsumerGroupName string `json:"consumerGroupName,omitempty"`
 }
 
-// ConsumerGroupStatus defines the observed state of ConsumerGroup
-type ConsumerGroupStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 
 // ConsumerGroup is the Schema for the consumergroups API
@@ -48,8 +40,8 @@ type ConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ConsumerGroupSpec   `json:"spec,omitempty"`
-	Status ConsumerGroupStatus `json:"status,omitempty"`
+	Spec   ConsumerGroupSpec `json:"spec,omitempty"`
+	Status ResourceStatus    `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

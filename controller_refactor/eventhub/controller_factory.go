@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package eventhubnamespace
+package eventhub
 
 import (
 	"context"
@@ -21,11 +21,10 @@ import (
 	resourcegrouphelpers "github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
-	"strings"
-
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
@@ -34,21 +33,21 @@ import (
 )
 
 type ControllerFactory struct {
-	EventHubNamespaceManager eventhubs.EventHubNamespaceManager
-	Scheme                   *runtime.Scheme
+	EventHubManager eventhubs.EventHubManager
+	Scheme          *runtime.Scheme
 }
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs/status,verbs=get;update;patch
 
-const ResourceKind = "EventhubNamespace"
-const EventRecorderName = "EventhubNamespace-controller"
-const FinalizerName = "eventhubnamespace.finalizers.azure.microsoft.com"
-const ManagedResourceGroupAnnotation = "eventhubnamespace.azure.microsoft.com/managed-resource-group"
+const ResourceKind = "Eventhub"
+const EventRecorderName = "Eventhub-controller"
+const FinalizerName = "eventhub.finalizers.azure.microsoft.com"
+const ManagedEventhubNamespaceAnnotation = "eventhub.azure.microsoft.com/managed-eventhub-namespace"
 
 func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters controller_refactor.Parameters) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&v1alpha1.EventhubNamespace{}).
+		For(&v1alpha1.Eventhub{}).
 		Complete(factory.create(mgr.GetClient(),
 			ctrl.Log.WithName("controllers").WithName(ResourceKind),
 			mgr.GetEventRecorderFor(EventRecorderName), parameters))
@@ -56,9 +55,19 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.GenericController {
 	resourceManagerClient := &resourceManagerClient{
-		logger:                   logger,
-		eventHubNamespaceManager: factory.EventHubNamespaceManager,
+		logger:          logger,
+		eventHubManager: factory.EventHubManager,
+		recorder:        recorder,
 	}
+
+	// create a PostProvisionHandler for writing secret
+	secretsWriterFactory := func(c *controller_refactor.GenericController) controller_refactor.PostProvisionHandler {
+		return &secretsWriter{
+			GenericController: c,
+			eventHubManager:   factory.EventHubManager,
+		}
+	}
+
 	return &controller_refactor.GenericController{
 		Parameters:            parameters,
 		ResourceKind:          ResourceKind,
@@ -69,7 +78,7 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 		ResourceManagerClient: resourceManagerClient,
 		DefinitionManager:     &definitionManager{},
 		FinalizerName:         FinalizerName,
-		PostProvisionFactory:  nil,
+		PostProvisionFactory:  secretsWriterFactory,
 	}
 }
 
@@ -77,7 +86,7 @@ type definitionManager struct{}
 
 func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller_refactor.ResourceDefinition {
 	return &controller_refactor.ResourceDefinition{
-		InitialInstance: &v1alpha1.EventhubNamespace{},
+		InitialInstance: &v1alpha1.Eventhub{},
 		StatusAccessor:  getStatus,
 		StatusUpdater:   updateStatus,
 	}
@@ -89,20 +98,19 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 		return nil, err
 	}
 
-	// get the metadata annotation to check if the eventhubnamespace belongs to a resourcegroup that is
-	// managed by Kubernetes, and if so, make this resourcegroup a dependency
-	managedResourceGroup := ehnInstance.Annotations[ManagedResourceGroupAnnotation]
+	managedEventhubNamespace := ehnInstance.Annotations[ManagedEventhubNamespaceAnnotation]
 
 	// defaults to true
-	isManaged := strings.ToLower(managedResourceGroup) != "false"
+	isManaged := strings.ToLower(managedEventhubNamespace) != "false"
 
 	var owner *controller_refactor.Dependency = nil
+
 	if isManaged {
 		owner = &controller_refactor.Dependency{
-			InitialInstance: &v1alpha1.ResourceGroup{},
+			InitialInstance: &v1alpha1.EventhubNamespace{},
 			NamespacedName: types.NamespacedName{
 				Namespace: ehnInstance.Namespace,
-				Name:      ehnInstance.Spec.ResourceGroup,
+				Name:      ehnInstance.Spec.Namespace,
 			},
 			StatusAccessor: resourcegrouphelpers.GetStatus,
 		}

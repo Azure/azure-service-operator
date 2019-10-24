@@ -158,7 +158,7 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		timeout = time.Second * 20
+		timeout = time.Second * 5
 	} else {
 		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
@@ -175,32 +175,30 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+	err = (&resourcegroup.ControllerFactory{
+		ResourceGroupManager: resourceGroupManager,
+		Scheme:               scheme.Scheme,
+	}).SetupWithManager(k8sManager, controllerParams)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&eventhubnamespace.ControllerFactory{
+		EventHubNamespaceManager: eventHubManagers.EventHubNamespace,
+		Scheme:                   scheme.Scheme,
+	}).SetupWithManager(k8sManager, controllerParams)
+	Expect(err).ToNot(HaveOccurred())
+
+	//err = (&eventhub.ControllerFactory{
+	//	EventHubManager: eventHubManagers.EventHub,
+	//	Scheme:          scheme.Scheme,
+	//}).SetupWithManager(k8sManager, controllerParams)
+	//Expect(err).ToNot(HaveOccurred())
+
 	err = (&EventhubReconciler{
 		Client:          k8sManager.GetClient(),
 		Log:             ctrl.Log.WithName("controllers").WithName("EventHub"),
 		Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
 		Scheme:          scheme.Scheme,
 		EventHubManager: eventHubManagers.EventHub,
-	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
-
-	err = (&resourcegroup.ControllerFactory{
-		ResourceGroupManager: resourceGroupManager,
-	}).SetupWithManager(k8sManager, controllerParams)
-
-	Expect(err).ToNot(HaveOccurred())
-
-	err = (&eventhubnamespace.ControllerFactory{
-		EventHubNamespaceManager: eventHubManagers.EventHubNamespace,
-	}).SetupWithManager(k8sManager, controllerParams)
-
-	Expect(err).ToNot(HaveOccurred())
-
-	err = (&EventhubNamespaceReconciler{
-		Client:                   k8sManager.GetClient(),
-		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder:                 k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
-		EventHubNamespaceManager: eventHubManagers.EventHubNamespace,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
