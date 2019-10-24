@@ -78,18 +78,6 @@ type CosmosDBLocation struct {
 }
 */
 
-// CosmosDBStatus defines the observed state of CosmosDB
-type CosmosDBStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// DeploymentName    string `json:"deploymentName,omitempty"`
-	// ProvisioningState string `json:"provisioningState,omitempty"`
-	// Generation        int64  `json:"generation,omitempty"`
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
 type CosmosDBOutput struct {
 	CosmosDBName     string `json:"cosmosDBName,omitempty"`
 	PrimaryMasterKey string `json:"primaryMasterKey,omitempty"`
@@ -112,7 +100,7 @@ type CosmosDB struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec                CosmosDBSpec                `json:"spec,omitempty"`
-	Status              CosmosDBStatus              `json:"status,omitempty"`
+	Status              ASOStatus              `json:"status,omitempty"`
 	Output              CosmosDBOutput              `json:"output,omitempty"`
 	AdditionalResources CosmosDBAdditionalResources `json:"additionalResources,omitempty"`
 }
