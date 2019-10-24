@@ -52,6 +52,12 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	var instance azurev1alpha1.KeyVault
 
+	defer func() {
+		if err := r.Status().Update(ctx, &instance); err != nil {
+			r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		}
+	}()
+
 	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
 	if err != nil {
 		requeueAfter = 30
@@ -72,7 +78,9 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	} else {
 		if helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Delete KeyVault failed with ", "err", err.Error())
+				msg := fmt.Sprintf("Delete KeyVault failed with %s", err.Error())
+				log.Info(msg)
+				instance.Status.Message = msg
 				return ctrl.Result{}, err
 			}
 			helpers.RemoveFinalizer(&instance, keyVaultFinalizerName)
@@ -93,8 +101,11 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 		return ctrl.Result{}, fmt.Errorf("error reconciling keyvault in azure: %v", err)
 	}
-
+	
 	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "Keyvault "+instance.ObjectMeta.Name+" provisioned ")
+	msg := fmt.Sprintf("Keyvault%s successfully provisioned", instance.ObjectMeta.Name)
+	log.Info(msg)
+	instance.Status.Message = msg
 	return ctrl.Result{}, nil
 }
 
@@ -102,6 +113,9 @@ func (r *KeyVaultReconciler) addFinalizer(instance *azurev1alpha1.KeyVault) erro
 	helpers.AddFinalizer(instance, keyVaultFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
+		msg := fmt.Sprintf("Failed to update finalizer: %v", err)
+		instance.Status.Message = msg
+
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", keyVaultFinalizerName))
@@ -120,7 +134,7 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1alpha1.KeyVault)
 			r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioning", name+" provisioning")
 			return err
 		}
-		instance.Status.ProvisioningState = to.StringPtr("Failed")
+		//instance.Status.ProvisioningState = to.StringPtr("Failed")
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 
 		if err := r.Status().Update(ctx, instance); err != nil {

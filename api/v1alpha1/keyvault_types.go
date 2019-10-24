@@ -28,9 +28,14 @@ type KeyVaultSpec struct {
 // KeyVaultStatus defines the observed state of KeyVault
 type KeyVaultStatus struct {
 	// ID is the fully qualified Azure resource ID of this object.
-	ID *string `json:"id,omitempty"`
+	// ID *string `json:"id,omitempty"`
 	// ProvisioningState is the state of the Key Vault.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
+	// Provisioned *string `json:"provisioned,omitempty"`
+	// Provisioning *string `json:"provisioning,omitempty"`
+
+	Provisioning bool   `json:"provisioning,omitempty"`
+	Provisioned  bool   `json:"provisioned,omitempty"`
+	Message      string `json:"message,omitempty"`
 }
 
 // +kubebuilder:object:root=true
