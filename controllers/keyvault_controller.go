@@ -15,6 +15,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	v1 "k8s.io/api/core/v1"
 	"os"
 	"strconv"
 	"time"
@@ -23,7 +24,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/record"
@@ -101,7 +101,6 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 		return ctrl.Result{}, fmt.Errorf("error reconciling keyvault in azure: %v", err)
 	}
-	
 	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "Keyvault "+instance.ObjectMeta.Name+" provisioned ")
 	msg := fmt.Sprintf("Keyvault%s successfully provisioned", instance.ObjectMeta.Name)
 	log.Info(msg)
@@ -129,21 +128,22 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1alpha1.KeyVault)
 	groupName := instance.Spec.ResourceGroupName
 
 	var final error
-	if vault, err := r.KeyVaultManager.CreateVault(ctx, groupName, name, location); err != nil {
+	if _, err := r.KeyVaultManager.CreateVault(ctx, groupName, name, location); err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-			r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioning", name+" provisioning")
+			msg := fmt.Sprintf("Keyvault%s provisioning", name)
+			r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioning", msg)
+			instance.Status.Message = msg
+			instance.Status.Provisioning = true
 			return err
 		}
-		//instance.Status.ProvisioningState = to.StringPtr("Failed")
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
-
-		if err := r.Status().Update(ctx, instance); err != nil {
-			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
+		instance.Status.Provisioned = false
+		msg := "Couldn't create resource in azure"
+		instance.Status.Message = msg
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
 		final = errors.Wrap(err, "failed to update status")
 	} else {
-		instance.Status.ProvisioningState = to.StringPtr("Succeeded")
-		instance.Status.ID = vault.ID
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = true
 		if err := r.Status().Update(ctx, instance); err != nil {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
@@ -162,8 +162,9 @@ func (r *KeyVaultReconciler) deleteExternal(instance *azurev1alpha1.KeyVault) er
 			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
 			return nil
 		}
-
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resouce in azure")
+		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
+		instance.Status.Message = msg
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
 		return err
 	}
 
