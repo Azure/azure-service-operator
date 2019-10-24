@@ -16,11 +16,13 @@ spec:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_CLIENT_ID
+                optional: true
           - name: AZURE_CLIENT_SECRET
             valueFrom:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_CLIENT_SECRET
+                optional: true
           - name: AZURE_TENANT_ID
             valueFrom:
               secretKeyRef:
