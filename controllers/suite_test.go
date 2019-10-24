@@ -19,6 +19,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/Azure/azure-service-operator/controller_refactor"
+	"github.com/Azure/azure-service-operator/controller_refactor/eventhub"
 	"github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
 	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
 	"log"
@@ -187,20 +188,20 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager, controllerParams)
 	Expect(err).ToNot(HaveOccurred())
 
-	//err = (&eventhub.ControllerFactory{
-	//	EventHubManager: eventHubManagers.EventHub,
-	//	Scheme:          scheme.Scheme,
-	//}).SetupWithManager(k8sManager, controllerParams)
-	//Expect(err).ToNot(HaveOccurred())
-
-	err = (&EventhubReconciler{
-		Client:          k8sManager.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("EventHub"),
-		Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:          scheme.Scheme,
+	err = (&eventhub.ControllerFactory{
 		EventHubManager: eventHubManagers.EventHub,
-	}).SetupWithManager(k8sManager)
+		Scheme:          scheme.Scheme,
+	}).SetupWithManager(k8sManager, controllerParams)
 	Expect(err).ToNot(HaveOccurred())
+
+	//err = (&EventhubReconciler{
+	//	Client:          k8sManager.GetClient(),
+	//	Log:             ctrl.Log.WithName("controllers").WithName("EventHub"),
+	//	Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
+	//	Scheme:          scheme.Scheme,
+	//	EventHubManager: eventHubManagers.EventHub,
+	//}).SetupWithManager(k8sManager)
+	//Expect(err).ToNot(HaveOccurred())
 
 	err = (&ConsumerGroupReconciler{
 		Client:               k8sManager.GetClient(),

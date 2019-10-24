@@ -131,21 +131,20 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubInstance.IsSubmitted()
+				return eventhubInstance.Status.ProvisionState.IsSucceeded()
 			}, tc.timeout,
 			).Should(BeTrue())
 
 			//get secret from k8s
+			secret := &v1.Secret{}
 			Eventually(func() bool {
 				//get secret from k8s
-				secret := &v1.Secret{}
 				err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: eventhubName, Namespace: eventhubInstance.Namespace}, secret)
-				Expect(err).NotTo(HaveOccurred())
-				Expect(secret.Data["eventhubName"]).To(Equal([]byte(eventhubName)))
-				Expect(secret.Data["eventhubnamespace"]).To(Equal([]byte(ehnName)))
-
-				return true
+				return err == nil
 			}, 60).Should(BeTrue())
+			Expect(err).NotTo(HaveOccurred())
+			Expect(secret.Data["eventhubName"]).To(Equal([]byte(eventhubName)))
+			Expect(secret.Data["eventhubnamespace"]).To(Equal([]byte(ehnName)))
 
 			err = tc.k8sClient.Delete(context.Background(), eventhubInstance)
 			Expect(err).NotTo(HaveOccurred())
@@ -205,21 +204,20 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubInstance.IsSubmitted()
+				return eventhubInstance.Status.ProvisionState.IsSucceeded()
 			}, tc.timeout,
 			).Should(BeTrue())
 
 			//get secret from k8s
+			secret := &v1.Secret{}
 			Eventually(func() bool {
 				//get secret from k8s
-				secret := &v1.Secret{}
 				err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: secretName, Namespace: eventhubInstance.Namespace}, secret)
-				Expect(err).NotTo(HaveOccurred())
-				Expect(secret.Data["eventhubName"]).To(Equal([]byte(eventhubName)))
-				Expect(secret.Data["eventhubnamespace"]).To(Equal([]byte(ehnName)))
-
-				return true
+				return err == nil
 			}, 60).Should(BeTrue())
+			Expect(err).NotTo(HaveOccurred())
+			Expect(secret.Data["eventhubName"]).To(Equal([]byte(eventhubName)))
+			Expect(secret.Data["eventhubnamespace"]).To(Equal([]byte(ehnName)))
 
 			err = tc.k8sClient.Delete(context.Background(), eventhubInstance)
 			Expect(err).NotTo(HaveOccurred())
