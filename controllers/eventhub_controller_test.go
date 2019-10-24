@@ -136,11 +136,16 @@ var _ = Describe("EventHub Controller", func() {
 			).Should(BeTrue())
 
 			//get secret from k8s
-			secret := &v1.Secret{}
-			err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: eventhubName, Namespace: eventhubInstance.Namespace}, secret)
-			Expect(err).NotTo(HaveOccurred())
-			Expect(secret.Data["eventhubName"]).To(Equal([]byte(eventhubName)))
-			Expect(secret.Data["eventhubnamespace"]).To(Equal([]byte(ehnName)))
+			Eventually(func() bool {
+				//get secret from k8s
+				secret := &v1.Secret{}
+				err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: eventhubName, Namespace: eventhubInstance.Namespace}, secret)
+				Expect(err).NotTo(HaveOccurred())
+				Expect(secret.Data["eventhubName"]).To(Equal([]byte(eventhubName)))
+				Expect(secret.Data["eventhubnamespace"]).To(Equal([]byte(ehnName)))
+
+				return true
+			}, 60).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), eventhubInstance)
 			Expect(err).NotTo(HaveOccurred())
@@ -201,16 +206,6 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsSubmitted()
-			}, tc.timeout,
-			).Should(BeTrue())
-
-			isecret := &v1.Secret{}
-			Eventually(func() bool {
-				err = tc.k8sClient.Get(context.Background(), types.NamespacedName{
-					Name:      secretName,
-					Namespace: "default",
-				}, isecret)
-				return isecret.Name == secretName
 			}, tc.timeout,
 			).Should(BeTrue())
 
