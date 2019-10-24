@@ -28,11 +28,11 @@ import (
 
 // MockGoSDKClient struct
 type MockGoSDKClient struct {
-	sqlServer                             sql.Server
-	sqlDatabase                           sql.Database
-	sqlFirewallRule                       sql.FirewallRule
-	sqlDatabasesCreateOrUpdateFuture      sql.DatabasesCreateOrUpdateFuture
-	sqlFailoverGroupsCreateOrUpdateFuture sql.FailoverGroupsCreateOrUpdateFuture
+	Server                             sql.Server
+	Database                           sql.Database
+	FirewallRule                       sql.FirewallRule
+	DatabasesCreateOrUpdateFuture      sql.DatabasesCreateOrUpdateFuture
+	FailoverGroupsCreateOrUpdateFuture sql.FailoverGroupsCreateOrUpdateFuture
 }
 
 // CreateOrUpdateSQLServer creates a new sql server
@@ -41,7 +41,7 @@ func (sdk *MockGoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourc
 		Response: helpers.GetRestResponse(http.StatusCreated),
 	}
 
-	sdk.sqlServer = sqlServer
+	sdk.Server = sqlServer
 
 	return sqlServer, nil
 }
@@ -62,7 +62,7 @@ func (sdk *MockGoSDKClient) GetServer(ctx context.Context, resourceGroupName str
 		ServerProperties: &serverProperties,
 	}
 
-	sdk.sqlServer = sqlServer
+	sdk.Server = sqlServer
 
 	return sqlServer, nil
 }
@@ -91,7 +91,7 @@ func (sdk *MockGoSDKClient) GetSQLFirewallRule(ctx context.Context, resourceGrou
 		Response: helpers.GetRestResponse(http.StatusCreated),
 	}
 
-	sdk.sqlFirewallRule = sqlFirewallRule
+	sdk.FirewallRule = sqlFirewallRule
 
 	return sqlFirewallRule, nil
 }
@@ -103,7 +103,7 @@ func (sdk *MockGoSDKClient) GetDB(ctx context.Context, resourceGroupName string,
 		Response: helpers.GetRestResponse(http.StatusCreated),
 	}
 
-	sdk.sqlDatabase = sqlDatabase
+	sdk.Database = sqlDatabase
 
 	return sqlDatabase, nil
 }
@@ -120,7 +120,7 @@ func (sdk *MockGoSDKClient) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 func (sdk *MockGoSDKClient) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties sqlclient.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
 
 	var sqlFailoverGroupsCreateOrUpdateFuture = sql.FailoverGroupsCreateOrUpdateFuture{}
-	sdk.sqlFailoverGroupsCreateOrUpdateFuture = sqlFailoverGroupsCreateOrUpdateFuture
+	sdk.FailoverGroupsCreateOrUpdateFuture = sqlFailoverGroupsCreateOrUpdateFuture
 
 	return sqlFailoverGroupsCreateOrUpdateFuture, nil
 
