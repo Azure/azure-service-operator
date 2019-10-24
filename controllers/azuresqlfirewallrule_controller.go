@@ -62,8 +62,10 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 		// log failure / success
 		if err != nil {
 			r.Telemetry.LogError(
-				"Unable to retrieve sql-firewall-rule resource",
+				"Failure occured during reconcilliation",
 				err)
+			r.Telemetry.LogFailure()
+		} else if result.Requeue {
 			r.Telemetry.LogFailure()
 		} else {
 			r.Telemetry.LogSuccess()
@@ -113,22 +115,9 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation for AzureSqlFirewallRule")
 		if err := r.reconcileExternal(&instance, sdkClient); err != nil {
-
-			catch := []string{
-				errhelp.ParentNotFoundErrorCode,
-				errhelp.ResourceGroupNotFoundErrorCode,
-				errhelp.NotFoundErrorCode,
-				errhelp.AsyncOpIncompleteError,
-			}
-			if azerr, ok := err.(*errhelp.AzureError); ok {
-				if helpers.ContainsString(catch, azerr.Type) {
-					msg := fmt.Sprintf("Got ignorable error of type %v", azerr.Type)
-					instance.Status.Message = msg
-					r.Telemetry.LogInfo("IgnorableError", msg)
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
-				}
-			}
-			return ctrl.Result{}, fmt.Errorf("error reconciling azure sql firewall rule in azure: %v", err)
+			instance.Status.Message = fmt.Sprintf("Reconcile external failed with %s", err.Error())
+			r.Telemetry.LogError("Reconcile external failed", err)
+			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 		}
 		return ctrl.Result{}, nil
 	}
