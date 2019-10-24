@@ -135,35 +135,6 @@ var _ = Describe("EventHub Controller", func() {
 			}, tc.timeout,
 			).Should(BeTrue())
 
-			//create secret in k8s
-			csecret := &v1.Secret{
-				TypeMeta: metav1.TypeMeta{
-					Kind:       "Secret",
-					APIVersion: "apps/v1beta1",
-				},
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      eventhubName,
-					Namespace: "default",
-					Annotations: map[string]string{
-						"eventhub.azure.microsoft.com/managed-eventhub-namespace": "false",
-					},
-				},
-				Data: map[string][]byte{
-					"primaryconnectionstring":   []byte("primaryConnectionValue"),
-					"secondaryconnectionstring": []byte("secondaryConnectionValue"),
-					"primaryKey":                []byte("primaryKeyValue"),
-					"secondaryKey":              []byte("secondaryKeyValue"),
-					"sharedaccesskey":           []byte("sharedAccessKeyValue"),
-					"eventhubnamespace":         []byte(eventhubInstance.Namespace),
-					"eventhubName":              []byte(eventhubName),
-				},
-				Type: "Opaque",
-			}
-
-			// it should cause an error, because the secret should already be present
-			err = tc.k8sClient.Create(context.Background(), csecret)
-			Expect(err).To(HaveOccurred())
-
 			//get secret from k8s
 			secret := &v1.Secret{}
 			err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: eventhubName, Namespace: eventhubInstance.Namespace}, secret)
@@ -185,7 +156,7 @@ var _ = Describe("EventHub Controller", func() {
 		It("should create and delete eventhubs with custom secret name", func() {
 
 			eventhubName := "t-eh-" + helpers.RandomString(10)
-			secretName := "secret-" + eventhubName
+			secretName := "custom-secret-" + eventhubName
 
 			var err error
 
@@ -233,7 +204,6 @@ var _ = Describe("EventHub Controller", func() {
 			}, tc.timeout,
 			).Should(BeTrue())
 
-
 			isecret := &v1.Secret{}
 			Eventually(func() bool {
 				err = tc.k8sClient.Get(context.Background(), types.NamespacedName{
@@ -243,33 +213,6 @@ var _ = Describe("EventHub Controller", func() {
 				return isecret.Name == secretName
 			}, tc.timeout,
 			).Should(BeTrue())
-
-
-			//create secret in k8s
-			csecret := &v1.Secret{
-				TypeMeta: metav1.TypeMeta{
-					Kind:       "Secret",
-					APIVersion: "apps/v1beta1",
-				},
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      secretName,
-					Namespace: "default",
-				},
-				Data: map[string][]byte{
-					"primaryconnectionstring":   []byte("primaryConnectionValue"),
-					"secondaryconnectionstring": []byte("secondaryConnectionValue"),
-					"primaryKey":                []byte("primaryKeyValue"),
-					"secondaryKey":              []byte("secondaryKeyValue"),
-					"sharedaccesskey":           []byte("sharedAccessKeyValue"),
-					"eventhubnamespace":         []byte(eventhubInstance.Namespace),
-					"eventhubName":              []byte(eventhubName),
-				},
-				Type: "Opaque",
-			}
-
-			// it should cause an error, because the secret should already be present
-			err = tc.k8sClient.Create(context.Background(), csecret)
-			Expect(err).To(HaveOccurred())
 
 			//get secret from k8s
 			Eventually(func() bool {
