@@ -15,7 +15,7 @@ provider "azurestack" {
 }
 
 data "azuread_service_principal" "cluster" {
-  display_name = "jakiefer-telstra-identity"
+  application_id = var.service_principal_app_id
 }
 
 data "azurerm_subscription" "primary" {}
@@ -126,7 +126,6 @@ resource "kubernetes_secret" "operator" {
     AZURE_CLIENT_SECRET   = var.service_principal_client_secret
     AZURE_SUBSCRIPTION_ID = data.azurerm_client_config.auth.subscription_id
     AZURE_TENANT_ID       = data.azurerm_client_config.auth.tenant_id
-
   }
 }
 
