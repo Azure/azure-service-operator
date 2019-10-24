@@ -4,7 +4,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,7 @@ import (
 
 const azureSQLFailoverGroupFinalizerName = "azuresqlfailovergroup.finalizers.azure.com"
 
-// AzureSQLFailoverGroupReconciler reconciles a AzureSQLFailoverGroup object
+// AzureSQLFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
 type AzureSQLFailoverGroupReconciler struct {
 	client.Client
 	Log      logr.Logger
@@ -51,7 +51,7 @@ type AzureSQLFailoverGroupReconciler struct {
 func (r *AzureSQLFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("azuresqlfailovergroup", req.NamespacedName)
-	var instance azurev1alpha1.AzureSQLFailoverGroup
+	var instance azurev1alpha1.AzureSqlFailoverGroup
 
 	defer func() {
 		if err := r.Status().Update(ctx, &instance); err != nil {
@@ -67,9 +67,20 @@ func (r *AzureSQLFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	groupName := instance.Spec.ResourceGroup
+	location := instance.Spec.Location
+	servername := instance.Spec.Server
+
+	sdkClient := sql.GoSDKClient{
+		Ctx:               ctx,
+		ResourceGroupName: groupName,
+		ServerName:        servername,
+		Location:          location,
+	}
+
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, azureSQLFailoverGroupFinalizerName) {
-			if err := r.deleteExternal(&instance); err != nil {
+			if err := r.deleteExternal(&instance, sdkClient); err != nil {
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
 				}
@@ -104,7 +115,7 @@ func (r *AzureSQLFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
-		if err := r.reconcileExternal(&instance); err != nil {
+		if err := r.reconcileExternal(&instance, sdkClient); err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -126,8 +137,8 @@ func (r *AzureSQLFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 		return ctrl.Result{}, nil
 	}
 
-	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "azuresqlfirewallrule "+instance.ObjectMeta.Name+" provisioned ")
-	msg := fmt.Sprintf("AzureSqlFirewallrule%s successfully provisioned", instance.ObjectMeta.Name)
+	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "azuresqlfailovergroup "+instance.ObjectMeta.Name+" provisioned ")
+	msg := fmt.Sprintf("AzureSqlFailoverGroup %s successfully provisioned", instance.ObjectMeta.Name)
 	log.Info(msg)
 	instance.Status.Message = msg
 
@@ -136,28 +147,19 @@ func (r *AzureSQLFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 
 func (r *AzureSQLFailoverGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.AzureSQLFailoverGroup{}).
+		For(&azurev1alpha1.AzureSqlFailoverGroup{}).
 		Complete(r)
 }
 
-func (r *AzureSQLFailoverGroupReconciler) reconcileExternal(instance *azurev1alpha1.AzureSQLFailoverGroup) error {
+func (r *AzureSQLFailoverGroupReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient) error {
 	ctx := context.Background()
-	groupName := instance.Spec.ResourceGroup
-	server := instance.Spec.Server
-	location := instance.Spec.Location
 	failoverGroupName := instance.ObjectMeta.Name
 	failoverPolicy := instance.Spec.FailoverPolicy
 	failoverGracePeriod := instance.Spec.FailoverGracePeriod
 	secondaryServer := instance.Spec.SecondaryServerName
 	secondaryResourceGroup := instance.Spec.SecondaryServerResourceGroup
 	databaseList := instance.Spec.DatabaseList
-
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        server,
-		Location:          location,
-	}
+	server := instance.Spec.Server
 
 	r.Log.Info("Calling createorupdate Azure SQL failover groups")
 
@@ -224,19 +226,8 @@ func (r *AzureSQLFailoverGroupReconciler) reconcileExternal(instance *azurev1alp
 	return nil
 }
 
-func (r *AzureSQLFailoverGroupReconciler) deleteExternal(instance *azurev1alpha1.AzureSQLFailoverGroup) error {
-	ctx := context.Background()
+func (r *AzureSQLFailoverGroupReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient) error {
 	name := instance.ObjectMeta.Name
-	groupName := instance.Spec.ResourceGroup
-	location := instance.Spec.Location
-	servername := instance.Spec.Server
-
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        servername,
-		Location:          location,
-	}
 
 	response, err := sdkClient.DeleteFailoverGroup(name)
 	if err == nil {
@@ -253,7 +244,7 @@ func (r *AzureSQLFailoverGroupReconciler) deleteExternal(instance *azurev1alpha1
 	return nil
 }
 
-func (r *AzureSQLFailoverGroupReconciler) addFinalizer(instance *azurev1alpha1.AzureSQLFailoverGroup) error {
+func (r *AzureSQLFailoverGroupReconciler) addFinalizer(instance *azurev1alpha1.AzureSqlFailoverGroup) error {
 	helpers.AddFinalizer(instance, azureSQLFailoverGroupFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {

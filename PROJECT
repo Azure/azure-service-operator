@@ -40,4 +40,4 @@ resources:
   kind: AzureSqlAction
 - group: azure
   version: v1alpha1
-  kind: AzureSQLFailoverGroup
+  kind: AzureSqlFailoverGroup

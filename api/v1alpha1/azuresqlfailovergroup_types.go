@@ -22,8 +22,8 @@ import (
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// AzureSQLFailoverGroupSpec defines the desired state of AzureSQLFailoverGroup
-type AzureSQLFailoverGroupSpec struct {
+// AzureSqlFailoverGroupSpec defines the desired state of AzureSQLFailoverGroup
+type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Location                     string                              `json:"location"`
 	ResourceGroup                string                              `json:"resourcegroup,omitempty"`
@@ -36,7 +36,7 @@ type AzureSQLFailoverGroupSpec struct {
 }
 
 // AzureSQLFailoverGroupStatus defines the observed state of AzureSQLFailoverGroup
-type AzureSQLFailoverGroupStatus struct {
+type AzureSqlFailoverGroupStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool   `json:"provisioning,omitempty"`
 	Provisioned  bool   `json:"provisioned,omitempty"`
@@ -46,28 +46,28 @@ type AzureSQLFailoverGroupStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// AzureSQLFailoverGroup is the Schema for the azuresqlfailovergroups API
-type AzureSQLFailoverGroup struct {
+// AzureSqlFailoverGroup is the Schema for the azuresqlfailovergroups API
+type AzureSqlFailoverGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSQLFailoverGroupSpec   `json:"spec,omitempty"`
-	Status AzureSQLFailoverGroupStatus `json:"status,omitempty"`
+	Spec   AzureSqlFailoverGroupSpec   `json:"spec,omitempty"`
+	Status AzureSqlFailoverGroupStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// AzureSQLFailoverGroupList contains a list of AzureSQLFailoverGroup
-type AzureSQLFailoverGroupList struct {
+// AzureSqlFailoverGroupList contains a list of AzureSQLFailoverGroup
+type AzureSqlFailoverGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []AzureSQLFailoverGroup `json:"items"`
+	Items           []AzureSqlFailoverGroup `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&AzureSQLFailoverGroup{}, &AzureSQLFailoverGroupList{})
+	SchemeBuilder.Register(&AzureSqlFailoverGroup{}, &AzureSqlFailoverGroupList{})
 }
 
-func (s *AzureSQLFailoverGroup) IsSubmitted() bool {
+func (s *AzureSqlFailoverGroup) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
 }
