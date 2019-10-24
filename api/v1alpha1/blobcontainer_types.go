@@ -45,7 +45,7 @@ type BlobContainerStatus struct {
 }
 
 // +kubebuilder:object:root=true
-
+// +kubebuilder:subresource:status
 // BlobContainer is the Schema for the blobcontainers API
 type BlobContainer struct {
 	metav1.TypeMeta   `json:",inline"`
