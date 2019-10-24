@@ -120,8 +120,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
+	sdk := sql.GoSDKClient{
 		ResourceGroupName: groupName,
 		ServerName:        serverName,
 	}
@@ -149,7 +148,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	// Get the Sql Server instance that corresponds to the Server name in the spec for this action
-	server, err := sdkClient.GetServer()
+	server, err := sdk.GetServer(ctx)
 	if err != nil {
 		if strings.Contains(err.Error(), "ResourceGroupNotFound") {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of AzureSqlServer: Resource group not found")
@@ -172,7 +171,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		}
 	}
 
-	sdkClient.Location = *server.Location
+	sdk.Location = *server.Location
 
 	// rollcreds action
 	if strings.ToLower(instance.Spec.ActionName) == "rollcreds" {
@@ -185,7 +184,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		newPassword, _ := generateRandomPassword(passwordLength)
 		azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
-		if _, err := sdkClient.CreateOrUpdateSQLServer(azureSqlServerProperties); err != nil {
+		if _, err := sdk.CreateOrUpdateSQLServer(ctx, azureSqlServerProperties); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 				return errhelp.NewAzureError(err)

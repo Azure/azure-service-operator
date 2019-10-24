@@ -84,15 +84,14 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	}
 
 	// init the resource manager for this reconcilliation
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
+	sdk := sql.GoSDKClient{
 		ResourceGroupName: instance.Spec.ResourceGroup,
 		ServerName:        instance.Spec.Server,
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, azureSQLFirewallRuleFinalizerName) {
-			if err = r.deleteExternal(&instance, sdkClient); err != nil {
+			if err = r.deleteExternal(&instance, ctx, sdk); err != nil {
 				instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule failed with %s", err.Error())
 				return ctrl.Result{}, err
 			}
@@ -114,7 +113,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation for AzureSqlFirewallRule")
-		if err := r.reconcileExternal(&instance, sdkClient); err != nil {
+		if err := r.reconcileExternal(&instance, ctx, sdk); err != nil {
 			instance.Status.Message = fmt.Sprintf("Reconcile external failed with %s", err.Error())
 			r.Telemetry.LogError("Reconcile external failed", err)
 			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
@@ -134,8 +133,7 @@ func (r *AzureSqlFirewallRuleReconciler) SetupWithManager(mgr ctrl.Manager) erro
 		Complete(r)
 }
 
-func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFirewallRule, sdk sql.GoSDKClient) error {
-	ctx := context.Background()
+func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFirewallRule, ctx context.Context, sdk sql.GoSDKClient) error {
 	ruleName := instance.ObjectMeta.Name
 	startIP := instance.Spec.StartIPAddress
 	endIP := instance.Spec.EndIPAddress
@@ -175,7 +173,7 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	_, err = sdk.CreateOrUpdateSQLFirewallRule(ruleName, startIP, endIP)
+	_, err = sdk.CreateOrUpdateSQLFirewallRule(ctx, ruleName, startIP, endIP)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Telemetry.LogInfo(
@@ -187,7 +185,7 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = sdk.GetSQLFirewallRule(ruleName)
+	_, err = sdk.GetSQLFirewallRule(ctx, ruleName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -198,13 +196,13 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 	return nil
 }
 
-func (r *AzureSqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFirewallRule, sdk sql.GoSDKClient) error {
+func (r *AzureSqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFirewallRule, ctx context.Context, sdk sql.GoSDKClient) error {
 	ruleName := instance.ObjectMeta.Name
 
 	r.Telemetry.LogTrace(
 		"Status",
 		fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s", sdk.ResourceGroupName, sdk.ServerName, ruleName))
-	err := sdk.DeleteSQLFirewallRule(ruleName)
+	err := sdk.DeleteSQLFirewallRule(ctx, ruleName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")

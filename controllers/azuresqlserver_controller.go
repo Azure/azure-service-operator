@@ -203,8 +203,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
+	sdk := sql.GoSDKClient{
 		ResourceGroupName: groupName,
 		ServerName:        name,
 		Location:          location,
@@ -243,7 +242,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := sdkClient.CreateOrUpdateSQLServer(azureSqlServerProperties); err != nil {
+	if _, err := sdk.CreateOrUpdateSQLServer(ctx, azureSqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 			instance.Status.Message = msg
@@ -282,14 +281,13 @@ func (r *AzureSqlServerReconciler) verifyExternal(instance *azurev1alpha1.AzureS
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
+	sdk := sql.GoSDKClient{
 		ResourceGroupName: groupName,
 		ServerName:        name,
 		Location:          location,
 	}
 
-	serv, err := sdkClient.GetServer()
+	serv, err := sdk.GetServer(ctx)
 	if err != nil {
 		azerr := errhelp.NewAzureError(err).(*errhelp.AzureError)
 		if azerr.Type != errhelp.ResourceNotFound {
@@ -325,14 +323,13 @@ func (r *AzureSqlServerReconciler) deleteExternal(instance *azurev1alpha1.AzureS
 	groupName := instance.Spec.ResourceGroup
 	location := instance.Spec.Location
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
+	sdk := sql.GoSDKClient{
 		ResourceGroupName: groupName,
 		ServerName:        name,
 		Location:          location,
 	}
 
-	_, err := sdkClient.DeleteSQLServer()
+	_, err := sdk.DeleteSQLServer(ctx)
 	if err != nil {
 		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		instance.Status.Message = msg
