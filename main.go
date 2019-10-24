@@ -212,6 +212,7 @@ func main() {
 		Client:         mgr.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
 		Recorder:       mgr.GetEventRecorderFor("BlobContainer-controller"),
+		Scheme:         mgr.GetScheme(),
 		StorageManager: storageManagers.BlobContainer,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")

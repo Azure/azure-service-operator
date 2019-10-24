@@ -33,6 +33,6 @@ require (
 	k8s.io/klog v0.3.3 // indirect
 	k8s.io/kube-openapi v0.0.0-20190603182131-db7b694dc208 // indirect
 	sigs.k8s.io/controller-runtime v0.2.0-beta.4
-	sigs.k8s.io/controller-tools v0.2.0-beta.3 // indirect
+	sigs.k8s.io/controller-tools v0.2.0 // indirect
 	sigs.k8s.io/kind v0.4.0 // indirect
 )
