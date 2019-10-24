@@ -115,6 +115,8 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	msg := fmt.Sprintf("Create AzureSqlUser Successful")
 	log.Info(msg)
 	instance.Status.Message = msg
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
 	return ctrl.Result{}, nil
 }
 
@@ -196,7 +198,7 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	// create or get new user secret
 	user = fmt.Sprintf("%s-%s", instance.ObjectMeta.Name, uuid.New())
 	secret = r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name, user)
-	containsUser, err := ContainsUser(ctx, db, user)
+	containsUser, err := ContainsUser(ctx, db, string(secret.Data[SecretUsernameKey]))
 	if err != nil {
 		log.Info("Couldn't find user", "err:", err.Error())
 	}
