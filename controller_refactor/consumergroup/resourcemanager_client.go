@@ -58,7 +58,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 }
 
 func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	return controller_refactor.EnsureError, fmt.Errorf("consumerGroup updating not supported")
+	return controller_refactor.EnsureError, fmt.Errorf("ConsumerGroup updating not supported")
 }
 
 func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
@@ -71,7 +71,7 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 	client.Logger.Info("Fetching ConsumerGroup " + cg.Name + " from Azure.")
 	consumerGroup, err := client.ConsumerGroupManager.GetConsumerGroup(ctx, spec.ResourceGroupName, spec.NamespaceName, spec.EventhubName, spec.AzureConsumerGroupName)
 	if consumerGroup.Response.Response == nil {
-		return controller_refactor.VerifyError, fmt.Errorf("consumerGroup verify was nil for %s", cg.Name)
+		return controller_refactor.VerifyError, fmt.Errorf("ConsumerGroup verify was nil for %s", cg.Name)
 	} else if consumerGroup.Response.StatusCode == http.StatusNotFound {
 		return controller_refactor.VerifyMissing, nil
 	} else if err != nil {

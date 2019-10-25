@@ -56,7 +56,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 }
 
 func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	return controller_refactor.EnsureError, fmt.Errorf("eventhubnamespace cannot be updated")
+	return controller_refactor.EnsureError, fmt.Errorf("EventhubNamespace cannot be updated")
 }
 
 func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {

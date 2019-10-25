@@ -68,7 +68,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	// create the eventhub
 	_, err = client.EventHubManager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
-		client.Recorder.Event(instance, "Warning", "Failed", "unable to create eventhub")
+		client.Recorder.Event(instance, "Warning", "Failed", "Unable to create eventhub")
 		return controller_refactor.EnsureError, errhelp.NewAzureError(err)
 	}
 
@@ -86,7 +86,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 }
 
 func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	return controller_refactor.EnsureError, fmt.Errorf("updating eventhub not currently supported")
+	return controller_refactor.EnsureError, fmt.Errorf("Updating eventhub not currently supported")
 }
 
 func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
@@ -107,7 +107,7 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 		return controller_refactor.VerifyError, errhelp.NewAzureError(err)
 	}
 	if eventhub.Response.Response == nil {
-		return controller_refactor.VerifyError, errhelp.NewAzureError(fmt.Errorf("nil response received for eventhub get"))
+		return controller_refactor.VerifyError, errhelp.NewAzureError(fmt.Errorf("Nil response received for eventhub get"))
 	}
 
 	_, err = client.EventHubManager.ListKeys(ctx, resourceGroup, eventhubNamespace, eventhubName, authorizationRuleName)

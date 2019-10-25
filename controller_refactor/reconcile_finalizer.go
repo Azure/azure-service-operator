@@ -76,13 +76,13 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 	if removeFinalizer || !isTerminating {
 		if err := r.updateInstance(ctx); err != nil {
 			// if we can't update we have to requeue and hopefully it will remove the finalizer next time
-			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, fmt.Errorf("error removing finalizer: %v", err)
+			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, fmt.Errorf("Error removing finalizer: %v", err)
 		}
 		if !isTerminating {
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "setting state to terminating for "+r.Name)
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "Setting state to terminating for "+r.Name)
 		}
 		if removeFinalizer {
-			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "removing finalizer for "+r.Name)
+			r.Recorder.Event(instance, corev1.EventTypeNormal, "Finalizer", "Removing finalizer for "+r.Name)
 		}
 	}
 

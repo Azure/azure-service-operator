@@ -63,7 +63,7 @@ func (writer *secretsWriter) Run(ctx context.Context, r runtime.Object) error {
 	}
 
 	_, err = controllerutil.CreateOrUpdate(context.Background(), writer.KubeClient, csecret, func() error {
-		writer.Log.Info("mutating secret bundle", "Secret", csecret.Name)
+		writer.Log.Info("Mutating secret bundle", "Secret", csecret.Name)
 		innerErr := controllerutil.SetControllerReference(instance, csecret, writer.Scheme)
 		if innerErr != nil {
 			return innerErr
