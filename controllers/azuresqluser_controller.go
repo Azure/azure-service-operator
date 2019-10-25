@@ -70,6 +70,7 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	log := r.Log.WithValues("AzureSQLUser", req.NamespacedName)
 
 	var instance azurev1alpha1.AzureSQLUser
+
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve AzureSQLUser resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -77,6 +78,12 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 		// on deleted requests.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
+
+	defer func() {
+		if err := r.Status().Update(ctx, &instance); err != nil {
+			r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		}
+	}()
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, AzureSQLUserFinalizerName) {
@@ -108,15 +115,15 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 			instance.Status.Message = msg
 			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 		}
+		msg := fmt.Sprintf("Create AzureSqlUser Successful")
+		log.Info(msg)
+		instance.Status.Message = msg
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = true
 		return ctrl.Result{}, nil
 	}
 
 	r.Recorder.Event(&instance, "Normal", "Provisioned", fmt.Sprintf("AzureSQLUser %s provisioned", instance.ObjectMeta.Name))
-	msg := fmt.Sprintf("Create AzureSqlUser Successful")
-	log.Info(msg)
-	instance.Status.Message = msg
-	instance.Status.Provisioning = false
-	instance.Status.Provisioned = true
 	return ctrl.Result{}, nil
 }
 
@@ -231,9 +238,6 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 		log.Info("createOrUpdateSecretErr", "err", createOrUpdateSecretErr.Error())
 		return err
 	}
-	msg := fmt.Sprintf("Apply AzureSqlUser succeeded")
-	log.Info(msg)
-	instance.Status.Message = msg
 	return nil
 }
 
