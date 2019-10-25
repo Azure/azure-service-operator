@@ -17,11 +17,8 @@ func (r *reconcileFinalizer) add(ctx context.Context) (ctrl.Result, error) {
 	updater := r.instanceUpdater
 
 	updater.addFinalizer(r.FinalizerName)
-	updater.setProvisionState(azurev1alpha1.Pending)
-	if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Updated", "finalizers added"); err != nil {
-		return ctrl.Result{}, fmt.Errorf("error adding finalizer: %v", err)
-	}
-	return ctrl.Result{}, nil
+	r.logInfo("Adding finalizer to resource")
+	return r.applyTransition(ctx, "Finalizer", azurev1alpha1.Pending, nil)
 }
 
 func (r *reconcileFinalizer) handle() (ctrl.Result, error) {

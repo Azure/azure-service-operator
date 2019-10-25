@@ -20,21 +20,25 @@ package v1alpha1
 type ProvisionState string
 
 const (
-	Pending     ProvisionState = "Pending"
-	Creating    ProvisionState = "Creating"
-	Updating    ProvisionState = "Updating"
-	Verifying   ProvisionState = "Verifying"
-	PostProvisioning   ProvisionState = "PostProvisioning"
-	Succeeded   ProvisionState = "Succeeded"
-	Failed      ProvisionState = "Failed"
-	Terminating ProvisionState = "Terminating"
+	Pending          ProvisionState = "Pending"
+	Creating         ProvisionState = "Creating"
+	Updating         ProvisionState = "Updating"
+	Verifying        ProvisionState = "Verifying"
+	PostProvisioning ProvisionState = "PostProvisioning"
+	Succeeded        ProvisionState = "Succeeded"
+	Recreating		 ProvisionState = "Recreating"
+	Failed           ProvisionState = "Failed"
+	Terminating      ProvisionState = "Terminating"
 )
 
-func (s *ASOStatus) IsPending() bool     { return ProvisionState(s.State) == Pending }
-func (s *ASOStatus) IsCreating() bool    { return ProvisionState(s.State) == Creating }
-func (s *ASOStatus) IsUpdating() bool    { return ProvisionState(s.State) == Updating }
-func (s *ASOStatus) IsVerifying() bool   { return ProvisionState(s.State) == Verifying }
-func (s *ASOStatus) IsPostProvisioning() bool   { return ProvisionState(s.State) == PostProvisioning }
-func (s *ASOStatus) IsSucceeded() bool   { return ProvisionState(s.State) == Succeeded }
-func (s *ASOStatus) IsFailed() bool      { return ProvisionState(s.State) == Failed }
-func (s *ASOStatus) IsTerminating() bool { return ProvisionState(s.State) == Terminating }
+func (s *ASOStatus) ProvisionState() ProvisionState { return ProvisionState(s.State) }
+
+func (s *ASOStatus) IsPending() bool          { return ProvisionState(s.State) == Pending }
+func (s *ASOStatus) IsCreating() bool         { return ProvisionState(s.State) == Creating }
+func (s *ASOStatus) IsUpdating() bool         { return ProvisionState(s.State) == Updating }
+func (s *ASOStatus) IsVerifying() bool        { return ProvisionState(s.State) == Verifying }
+func (s *ASOStatus) IsPostProvisioning() bool { return ProvisionState(s.State) == PostProvisioning }
+func (s *ASOStatus) IsSucceeded() bool        { return ProvisionState(s.State) == Succeeded }
+func (s *ASOStatus) IsRecreating() bool       { return ProvisionState(s.State) == Terminating }
+func (s *ASOStatus) IsFailed() bool           { return ProvisionState(s.State) == Failed }
+func (s *ASOStatus) IsTerminating() bool      { return ProvisionState(s.State) == Terminating }

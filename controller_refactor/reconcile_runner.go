@@ -31,7 +31,7 @@ type reconcileRunner struct {
 	req             ctrl.Request
 	requeueAfter    time.Duration
 	log             logr.Logger
-	instanceUpdater *customResourceUpdater
+	instanceUpdater *instanceUpdater
 }
 
 type reconcileFinalizer struct {
@@ -40,6 +40,15 @@ type reconcileFinalizer struct {
 
 //runs a single reconcile on the
 func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
+	result, err := r.runExecute(ctx)
+	//updateErr := r.updateInstance(ctx)
+	//if updateErr != nil {
+	//	return ctrl.Result{}, err
+	//}
+	return result, err
+}
+
+func (r *reconcileRunner) runExecute(ctx context.Context) (ctrl.Result, error) {
 
 	// Verify that all dependencies are present in the cluster, and they are
 	owner := r.Owner
@@ -59,9 +68,9 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 		// if any of the dependencies are not found, we jump out.
 		if err != nil { // note that dependencies should be an empty array
 			if apierrors.IsNotFound(err) {
-				r.Log.Info("dependency not found for " + dep.NamespacedName.Name + ". requeuing request.")
+				r.logInfo("dependency not found for " + dep.NamespacedName.Name + ". requeuing request.")
 			} else {
-				r.Log.Info("unable to retrieve dependency for "+dep.NamespacedName.Name, "err", err.Error())
+				r.logInfo(fmt.Sprintf("unable to retrieve dependency for %s: %v", dep.NamespacedName.Name, err.Error()))
 			}
 			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, client.IgnoreNotFound(err)
 		}
@@ -74,19 +83,19 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 
 		status, err := dep.StatusAccessor(instance)
 		if err != nil {
-			r.log.Info(fmt.Sprintf("cannot get status for %s. terminal failure.", dep.NamespacedName.Name))
+			r.logInfo(fmt.Sprintf("cannot get status for %s. terminal failure.", dep.NamespacedName.Name))
 			// TODO fail - this is terminal
 			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, nil
 		}
 
 		if !status.IsSucceeded() {
-			r.log.Info("one of the dependencies is not in 'Succeeded' state, requeuing")
+			r.logInfo("one of the dependencies is not in 'Succeeded' state, requeuing")
 			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, nil
 		}
 	}
 
 	// now verify the resource state on Azure
-	if status.IsVerifying() || status.IsPending() {
+	if status.IsVerifying() || status.IsPending() || status.IsSucceeded() {
 		return r.verify(ctx)
 	}
 
@@ -95,13 +104,9 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 		return r.ensure(ctx)
 	}
 
+	// has created or updated, post provisioning
 	if status.IsPostProvisioning() {
 		return r.runPostProvision(ctx)
-	}
-
-	// re-verify if in succeeded state
-	if status.IsSucceeded() {
-		return r.verify(ctx)
 	}
 
 	return ctrl.Result{}, nil
@@ -117,113 +122,77 @@ func (r *reconcileRunner) setOwner(ctx context.Context, owner runtime.Object) (c
 }
 
 func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
-	updater := r.instanceUpdater
-	requeueAfter := r.requeueAfter
-	status := r.status
+	r.logInfo("verifying state of resource in Azure")
+	nextState, ensureErr := r.verifyExecute(ctx)
+	return r.applyTransition(ctx, "Verify", nextState, ensureErr)
+}
 
-	verifyResult, err := r.verifyExternal(ctx)
+func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.ProvisionState, error) {
+	status := r.status
+	instance := r.instance
+	currentState := status.ProvisionState()
+
+	r.logInfo("checking state of resource on Azure")
+	verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
+
 	if err != nil {
 		// verification should not return an error - if this happens it's a terminal failure
-		r.instanceUpdater.setProvisionState(azurev1alpha1.Failed)
-		_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "Verification", "verification failed for "+r.Name)
-		return ctrl.Result{}, fmt.Errorf("error verifying resource in azure: %v", err)
+		return azurev1alpha1.Failed, err
 	}
 	// Success case - the resource is provisioned on Azure, post provisioning can take place if necessary
 	if verifyResult.ready() {
-		if !status.IsSucceeded() {
-			return r.succeedOrPostProvision(ctx)
-		}
+		return r.succeedOrPostProvision(), nil
 	}
 	// Missing case - we can now create the resource
 	if verifyResult.missing() {
-		updater.setProvisionState(azurev1alpha1.Creating)
-		err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Creating", r.Name+" ready for creation")
-		if err != nil {
-			return ctrl.Result{}, err
-		}
+		return azurev1alpha1.Creating, nil
 	}
+	// if resource is deleting, requeue the reconcile loop
+	if verifyResult.deleting() {
+		r.logInfo("retrying verification: resource awaiting deletion before recreation can begin, requeuing reconcile loop")
+		return currentState, nil
+	}
+	// if still is in progress with provisioning or if it is busy deleting, requeue the reconcile loop
+	if verifyResult.provisioning() {
+		r.logInfo("Retrying verification: verification of provisioning not complete, requeuing reconcile loop")
+		return currentState, nil
+	}
+
 	// Update case - the resource exists in Azure, is invalid but updateable, so doesn't need to be recreated
 	if verifyResult.updateRequired() {
-		updater.setProvisionState(azurev1alpha1.Updating)
-		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Updating", r.Name+" flagged for update"); err != nil {
-			return ctrl.Result{}, err
-		}
+		return azurev1alpha1.Updating, nil
 	}
 	// Recreate case - the resource exists in Azure, is invalid and needs to be created
 	if verifyResult.recreateRequired() {
-		deleteResult, err := r.ResourceManagerClient.Delete(ctx, r.instance)
+		deleteResult, err := r.ResourceManagerClient.Delete(ctx, instance)
 		if err != nil || deleteResult == DeleteError {
-			updater.setProvisionState(azurev1alpha1.Failed)
-			return ctrl.Result{}, err
-		}
-
-		if deleteResult.alreadyDeleted() || deleteResult.succeed() {
-			updater.setProvisionState(azurev1alpha1.Creating)
+			// TODO: add log here
+			return azurev1alpha1.Failed, err
 		}
 
 		// set it back to pending and let it go through the whole process again
 		if deleteResult.awaitingVerification() {
-			updater.setProvisionState(azurev1alpha1.Pending)
+			// TODO: make azurev1alpha1.Recreating
+			return azurev1alpha1.Pending, err
 		}
 
-		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Recreating", r.Name+" delete and recreate started"); err != nil {
-			return ctrl.Result{}, err
+		if deleteResult.alreadyDeleted() || deleteResult.succeed() {
+			return azurev1alpha1.Creating, err
 		}
-		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, err
-	}
-	// if resource is deleting, requeue the reconcile loop
-	if verifyResult.deleting() {
-		r.log.Info("Retrying verification", "type", "resource awaiting deletion before recreation can begin, requeuing reconcile loop")
-		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
-	}
-	// if still is in progress with provisioning or if it is busy deleting, requeue the reconcile loop
-	if verifyResult.provisioning() {
-		r.log.Info("Retrying verification", "type", "verification not complete, requeuing reconcile loop")
-		return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
-	}
-	return ctrl.Result{}, nil
-}
 
-func (r *reconcileRunner) verifyExternal(ctx context.Context) (VerifyResult, error) {
-	instance := r.instance
-
-	r.Recorder.Event(instance, corev1.EventTypeNormal, "Checking", "instance is ready")
-	verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
-
-	if err != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "couldn't verify resource in azure")
-		return verifyResult, errhelp.NewAzureError(err)
+		return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid DeleteResult for %s %s in Verify", r.ResourceKind, r.Name))
 	}
-	return verifyResult, nil
+
+	return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid VerifyResult for %s %s in Verify", r.ResourceKind, r.Name))
 }
 
 func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
-	updater := r.instanceUpdater
-	instance := r.instance
-	requeueAfter := r.requeueAfter
-
-	// TODO: keep this line ?
-	r.Recorder.Event(instance, corev1.EventTypeNormal, "Ensure", "ready to create or update resource")
-	nextState, ensureErr := r.ensureExternal(ctx)
-	nextStatus := azurev1alpha1.ASOStatus{State: string(nextState)}
-	// we set the state even if there is an error
-	updater.setProvisionState(nextState)
-	updateErr := r.updateAndLog(ctx, corev1.EventTypeNormal, "Ensure", r.Name+" state set to "+string(nextState))
-	if ensureErr != nil {
-		return ctrl.Result{}, fmt.Errorf("error ensuring resource in azure: %v", ensureErr)
-	}
-	if updateErr != nil {
-		return ctrl.Result{}, fmt.Errorf("error updating resource in azure: %v", updateErr)
-	}
-	if nextStatus.IsSucceeded() || nextStatus.IsPostProvisioning() {
-		return  ctrl.Result{}, nil
-	}
-	// give azure some time to catch up
-	r.log.Info("waiting for provision to take effect")
-	return ctrl.Result{Requeue: true, RequeueAfter: requeueAfter}, nil
+	r.logInfo("ready to create or update resource in Azure")
+	nextState, ensureErr := r.ensureExecute(ctx)
+	return r.applyTransition(ctx, "Ensure", nextState, ensureErr)
 }
 
-func (r *reconcileRunner) ensureExternal(ctx context.Context) (azurev1alpha1.ProvisionState, error) {
+func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.ProvisionState, error) {
 
 	resourceName := r.Name
 	instance := r.instance
@@ -258,19 +227,12 @@ func (r *reconcileRunner) ensureExternal(ctx context.Context) (azurev1alpha1.Pro
 	return nextState, nil
 }
 
-func (r *reconcileRunner) succeedOrPostProvision(ctx context.Context) (ctrl.Result, error) {
+func (r *reconcileRunner) succeedOrPostProvision() azurev1alpha1.ProvisionState {
 	if r.PostProvisionFactory == nil {
-		r.instanceUpdater.setProvisionState(azurev1alpha1.Succeeded)
-		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' provisioned and ready.", r.ResourceKind, r.Name)); err != nil {
-			return ctrl.Result{}, err
-		}
+		return azurev1alpha1.Succeeded
 	} else {
-		r.instanceUpdater.setProvisionState(azurev1alpha1.PostProvisioning)
-		if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' ready for post provisioning step.", r.ResourceKind, r.Name)); err != nil {
-			return ctrl.Result{}, err
-		}
+		return azurev1alpha1.PostProvisioning
 	}
-	return ctrl.Result{}, nil
 }
 
 func (r *reconcileRunner) runPostProvision(ctx context.Context) (ctrl.Result, error) {
@@ -281,21 +243,16 @@ func (r *reconcileRunner) runPostProvision(ctx context.Context) (ctrl.Result, er
 		}
 	}
 	if ppError != nil {
-		r.instanceUpdater.setProvisionState(azurev1alpha1.Failed)
-		_ = r.updateAndLog(ctx, corev1.EventTypeWarning, "PostProvisionHandler", "PostProvisionHandler failed to execute successfully for "+r.Name)
+		return r.applyTransition(ctx, "PostProvision", azurev1alpha1.Failed, ppError)
 	} else {
-		if !r.status.IsSucceeded() {
-			r.instanceUpdater.setProvisionState(azurev1alpha1.Succeeded)
-			if err := r.updateAndLog(ctx, corev1.EventTypeNormal, "Succeeded", fmt.Sprintf("%s resource '%s' provisioned and ready.", r.ResourceKind, r.Name)); err != nil {
-				return ctrl.Result{}, err
-			}
-			return ctrl.Result{}, nil
-		}
+		return r.applyTransition(ctx, "PostProvision", azurev1alpha1.Succeeded, nil)
 	}
-	return ctrl.Result{}, ppError
 }
 
 func (r *reconcileRunner) updateInstance(ctx context.Context) error {
+	if !r.instanceUpdater.hasUpdates() {
+		return nil
+	}
 	return r.tryUpdateInstance(ctx, 2)
 }
 
@@ -308,27 +265,27 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 	err := r.KubeClient.Get(ctx, r.NamespacedName, baseInstance)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
-			r.Log.Info("unable to update deleted resource. it may have already been finalized. this error is ignorable. Resource: " + r.Name)
+			r.logInfo("unable to update deleted resource. it may have already been finalized. this error is ignorable. Resource: " + r.Name)
 			return nil
 		} else {
-			r.Log.Info("unable to retrieve resource. falling back to prior instance: "+r.Name, "err", err.Error())
+			r.logInfo("unable to retrieve resource. falling back to prior instance: " + r.Name + ": err " + err.Error())
 		}
 	}
 	status, _ := r.StatusAccessor(instance)
 	err = r.instanceUpdater.applyUpdates(instance, status)
 	if err != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Update", "unable to convert Object to resource.")
+		r.Log.Info("unable to convert Object to resource")
 		r.instanceUpdater.clear()
 		return err
 	}
 	err = r.KubeClient.Update(ctx, instance)
 	if err != nil {
 		if count == 0 {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Update", "failed to update CRD instance on K8s cluster.")
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Update", fmt.Sprintf("failed to update  %s instance %s on K8s cluster.", r.ResourceKind, r.Name))
 			r.instanceUpdater.clear()
 			return err
 		}
-		r.Log.Info(fmt.Sprintf("failed to update CRD instance on K8s cluster. retries left=%d", count))
+		r.logInfo(fmt.Sprintf("failed to update CRD instance on K8s cluster. retries left=%d", count))
 		time.Sleep(2 * time.Second)
 		return r.tryUpdateInstance(ctx, count-1)
 	} else {
@@ -340,8 +297,62 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 func (r *reconcileRunner) updateAndLog(ctx context.Context, eventType string, reason string, message string) error {
 	instance := r.instance
 	if err := r.updateInstance(ctx); err != nil {
+		r.logInfo(fmt.Sprintf("K8s update failure: %v", err))
+		r.Recorder.Event(instance, corev1.EventTypeWarning, reason, fmt.Sprintf("failed to update instance of %s %s in kubernetes cluster", r.ResourceKind, r.Name))
 		return err
 	}
 	r.Recorder.Event(instance, eventType, reason, message)
 	return nil
+}
+
+func (r *reconcileRunner) getTransitionDetails(nextState azurev1alpha1.ProvisionState) (ctrl.Result, string) {
+	requeueResult := ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}
+	switch nextState {
+	case azurev1alpha1.Pending:
+		return ctrl.Result{}, fmt.Sprintf("%s %s in pending state.", r.ResourceKind, r.Name)
+	case azurev1alpha1.Creating:
+		return ctrl.Result{}, fmt.Sprintf("%s %s ready for creation.", r.ResourceKind, r.Name)
+	case azurev1alpha1.Updating:
+		return ctrl.Result{}, fmt.Sprintf("%s %s ready to be updated.", r.ResourceKind, r.Name)
+	case azurev1alpha1.Verifying:
+		return requeueResult, fmt.Sprintf("%s %s verification in progress.", r.ResourceKind, r.Name)
+	case azurev1alpha1.Succeeded:
+		return ctrl.Result{}, fmt.Sprintf("%s %s successfully provisioned and ready for use.", r.ResourceKind, r.Name)
+	case azurev1alpha1.PostProvisioning:
+		return ctrl.Result{}, fmt.Sprintf("%s %s provisioning succeeded and ready for post-provisioning step", r.ResourceKind, r.Name)
+	case azurev1alpha1.Failed:
+		return ctrl.Result{}, fmt.Sprintf("%s %s failed.", r.ResourceKind, r.Name)
+	case azurev1alpha1.Terminating:
+		return ctrl.Result{}, fmt.Sprintf("%s %s termination in progress.", r.ResourceKind, r.Name)
+	}
+	return ctrl.Result{}, fmt.Sprintf("%s %s set to state %s", r.ResourceKind, r.Name, nextState)
+}
+
+func (r *reconcileRunner) applyTransition(ctx context.Context, reason string, nextState azurev1alpha1.ProvisionState, transitionErr error) (ctrl.Result, error) {
+	eventType := corev1.EventTypeNormal
+	if nextState == azurev1alpha1.Failed {
+		eventType = corev1.EventTypeWarning
+	}
+	if nextState != r.status.ProvisionState() {
+		r.instanceUpdater.setProvisionState(nextState)
+	}
+	result, message := r.getTransitionDetails(nextState)
+	updateErr := r.updateAndLog(ctx, eventType, reason, message)
+	if transitionErr != nil {
+		if updateErr != nil {
+			// TODO: is the transition error is more important?
+			// we don't requeue if there is an update error
+			return ctrl.Result{}, transitionErr
+		} else {
+			return result, updateErr
+		}
+	}
+	if updateErr != nil {
+		return ctrl.Result{}, updateErr
+	}
+	return result, nil
+}
+
+func (r *reconcileRunner) logInfo(message string) {
+	r.log.Info(message, "Kind", r.ResourceKind, "Name", r.Name)
 }

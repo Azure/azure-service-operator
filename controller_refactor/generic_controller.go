@@ -55,7 +55,7 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	err := ac.KubeClient.Get(ctx, req.NamespacedName, thisDefs.InitialInstance)
 	if err != nil {
-		log.Info("unable to retrieve resource", "err", err.Error())
+		log.Info("unable to retrieve resource", "err", err.Error(), "Kind", ac.ResourceKind, "Name", req.Name)
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -68,7 +68,7 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	requeueAfter := getRequeueAfter(ac.Parameters.RequeueAfterSeconds)
 	metaObject, _ := apimeta.Accessor(instance)
 
-	instanceUpdater := customResourceUpdater{
+	instanceUpdater := instanceUpdater{
 		StatusUpdater: thisDefs.StatusUpdater,
 	}
 
@@ -76,7 +76,7 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	dependencies, err := ac.DefinitionManager.GetDependencies(ctx, instance)
 	// this is only the names and initial values, if we can't fetch these it's terminal
 	if err != nil {
-		log.Info("unable to retrieve dependencies for resource " + req.Name, "err", err.Error())
+		log.Info("unable to retrieve dependencies for resource "+req.Name, "err", err.Error(), "Kind", ac.ResourceKind, "Name", req.Name)
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 

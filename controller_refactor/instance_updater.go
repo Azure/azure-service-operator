@@ -15,25 +15,25 @@ import (
 type statusUpdate = func(provisionState *azurev1alpha1.ASOStatus)
 type metaUpdate = func(meta metav1.Object)
 
-// customResourceUpdater is a mechanism to enable updating the shared sections of the manifest
+// instanceUpdater is a mechanism to enable updating the shared sections of the manifest
 // Typically the status section and the metadata.
-type customResourceUpdater struct {
+type instanceUpdater struct {
 	StatusUpdater
-	metaUpdates   []metaUpdate
-	statusUpdates []statusUpdate
+	metaUpdates  []metaUpdate
+	statusUpdate *statusUpdate
 }
 
-func (updater *customResourceUpdater) addFinalizer(name string) {
+func (updater *instanceUpdater) addFinalizer(name string) {
 	updateFunc := func(meta metav1.Object) { helpers.AddFinalizer(meta, name) }
 	updater.metaUpdates = append(updater.metaUpdates, updateFunc)
 }
 
-func (updater *customResourceUpdater) removeFinalizer(name string) {
+func (updater *instanceUpdater) removeFinalizer(name string) {
 	updateFunc := func(meta metav1.Object) { helpers.RemoveFinalizer(meta, name) }
 	updater.metaUpdates = append(updater.metaUpdates, updateFunc)
 }
 
-func (updater *customResourceUpdater) setProvisionState(provisionState azurev1alpha1.ProvisionState) {
+func (updater *instanceUpdater) setProvisionState(provisionState azurev1alpha1.ProvisionState) {
 	updateFunc := func(s *azurev1alpha1.ASOStatus) {
 		s.State = string(provisionState)
 		if provisionState == azurev1alpha1.Verifying {
@@ -43,10 +43,10 @@ func (updater *customResourceUpdater) setProvisionState(provisionState azurev1al
 			s.Provisioned = true
 		}
 	}
-	updater.statusUpdates = append(updater.statusUpdates, updateFunc)
+	updater.statusUpdate = &updateFunc
 }
 
-func (updater *customResourceUpdater) setOwnerReferences(owners []runtime.Object) {
+func (updater *instanceUpdater) setOwnerReferences(owners []runtime.Object) {
 	updateFunc := func(s metav1.Object) {
 		references := make([]metav1.OwnerReference, len(owners))
 		for i, o := range owners {
@@ -63,9 +63,9 @@ func (updater *customResourceUpdater) setOwnerReferences(owners []runtime.Object
 	updater.metaUpdates = append(updater.metaUpdates, updateFunc)
 }
 
-func (updater *customResourceUpdater) applyUpdates(instance runtime.Object, status *azurev1alpha1.ASOStatus) error {
-	for _, f := range updater.statusUpdates {
-		f(status)
+func (updater *instanceUpdater) applyUpdates(instance runtime.Object, status *azurev1alpha1.ASOStatus) error {
+	if updater.statusUpdate != nil {
+		(*updater.statusUpdate)(status)
 	}
 	err := updater.StatusUpdater(instance, status)
 	m, _ := apimeta.Accessor(instance)
@@ -75,7 +75,11 @@ func (updater *customResourceUpdater) applyUpdates(instance runtime.Object, stat
 	return err
 }
 
-func (updater *customResourceUpdater) clear() {
+func (updater *instanceUpdater) clear() {
 	updater.metaUpdates = []metaUpdate{}
-	updater.statusUpdates = []statusUpdate{}
+	updater.statusUpdate = nil
+}
+
+func (updater *instanceUpdater) hasUpdates() bool {
+	return len(updater.metaUpdates) > 0 || updater.statusUpdate != nil
 }
