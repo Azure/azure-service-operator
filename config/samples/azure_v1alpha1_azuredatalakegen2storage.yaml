@@ -1,0 +1,13 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: Storage
+metadata:
+    name: adlsaccount1908
+spec:
+    location: westus
+    resourceGroup: resourcegroup-azure-operators
+    sku:
+        name: Standard_LRS
+    kind: StorageV2
+    accessTier: Hot
+    supportsHttpsTrafficOnly: true
+    dataLakeEnabled: true
