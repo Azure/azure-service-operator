@@ -22,6 +22,7 @@ import (
 	"github.com/Azure/azure-service-operator/controller_refactor/eventhub"
 	"github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
 	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
+	"strconv"
 
 	"k8s.io/apimachinery/pkg/runtime"
 
@@ -93,9 +94,13 @@ func main() {
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 
-	// TODO: where does this config come from? Per controller, or global?
+	requeueAfterSeconds, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfterSeconds = 30
+	}
+
 	controllerParams := controller_refactor.Parameters{
-		RequeueAfterSeconds: 10,
+		RequeueAfterSeconds: requeueAfterSeconds,
 	}
 
 	err = (&controllers.StorageReconciler{
