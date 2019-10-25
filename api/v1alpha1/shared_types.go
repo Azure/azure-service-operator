@@ -26,7 +26,7 @@ const (
 	Verifying        ProvisionState = "Verifying"
 	PostProvisioning ProvisionState = "PostProvisioning"
 	Succeeded        ProvisionState = "Succeeded"
-	Recreating		 ProvisionState = "Recreating"
+	Recreating       ProvisionState = "Recreating"
 	Failed           ProvisionState = "Failed"
 	Terminating      ProvisionState = "Terminating"
 )

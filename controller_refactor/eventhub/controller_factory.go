@@ -19,6 +19,7 @@ import (
 	"context"
 	"github.com/Azure/azure-service-operator/controller_refactor"
 	resourcegrouphelpers "github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
@@ -31,7 +32,8 @@ import (
 )
 
 type ControllerFactory struct {
-	ResourceManagerClient ResourceManagerClient
+	ClientCreator   func(eventhubs.EventHubManager, logr.Logger, record.EventRecorder) ResourceManagerClient
+	EventHubManager eventhubs.EventHubManager
 	Scheme          *runtime.Scheme
 }
 
@@ -47,11 +49,11 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 		For(&v1alpha1.Eventhub{}).
 		Complete(factory.create(mgr.GetClient(),
 			ctrl.Log.WithName("controllers").WithName(ResourceKind),
-			mgr.GetEventRecorderFor(ResourceKind + "-controller"), parameters))
+			mgr.GetEventRecorderFor(ResourceKind+"-controller"), parameters))
 }
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.GenericController {
-	resourceManagerClient := factory.ResourceManagerClient
+	resourceManagerClient := factory.ClientCreator(factory.EventHubManager, logger, recorder)
 
 	// create a PostProvisionHandler for writing secret
 	secretsWriterFactory := func(c *controller_refactor.GenericController) controller_refactor.PostProvisionHandler {

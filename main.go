@@ -18,7 +18,7 @@ package main
 import (
 	"flag"
 	"github.com/Azure/azure-service-operator/controller_refactor"
-
+	"github.com/Azure/azure-service-operator/controller_refactor/eventhub"
 	"github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
 	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
 
@@ -143,6 +143,7 @@ func main() {
 	}
 
 	err = (&resourcegroup.ControllerFactory{
+		ClientCreator:        resourcegroup.CreateResourceManagerClient,
 		ResourceGroupManager: resourceGroupManager,
 		Scheme:               scheme,
 	}).SetupWithManager(mgr, controllerParams)
@@ -153,12 +154,24 @@ func main() {
 	}
 
 	err = (&eventhubnamespace.ControllerFactory{
+		ClientCreator:            eventhubnamespace.CreateResourceManagerClient,
 		EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
 		Scheme:                   scheme,
 	}).SetupWithManager(mgr, controllerParams)
 
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
+		os.Exit(1)
+	}
+
+	err = (&eventhub.ControllerFactory{
+		ClientCreator:   eventhub.CreateResourceManagerClient,
+		EventHubManager: eventhubManagers.EventHub,
+		Scheme:          scheme,
+	}).SetupWithManager(mgr, controllerParams)
+
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
 		os.Exit(1)
 	}
 

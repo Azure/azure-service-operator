@@ -38,9 +38,17 @@ import (
 const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
 
 type ResourceManagerClient struct {
-	logger          logr.Logger
-	recorder        record.EventRecorder
+	Logger          logr.Logger
+	Recorder        record.EventRecorder
 	EventHubManager eventhubs.EventHubManager
+}
+
+func CreateResourceManagerClient(eventHubManager eventhubs.EventHubManager, logger logr.Logger, recorder record.EventRecorder) ResourceManagerClient {
+	return ResourceManagerClient{
+		Logger:          logger,
+		Recorder:        recorder,
+		EventHubManager: eventHubManager,
+	}
 }
 
 func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
@@ -59,7 +67,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	// create the eventhub
 	_, err = client.EventHubManager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
-		client.recorder.Event(instance, "Warning", "Failed", "unable to create eventhub")
+		client.Recorder.Event(instance, "Warning", "Failed", "unable to create eventhub")
 		return controller_refactor.EnsureFailed, errhelp.NewAzureError(err)
 	}
 
@@ -68,7 +76,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	authRuleParams := getAuthRuleParameters(instance)
 	_, err = client.EventHubManager.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, authRuleParams)
 	if err != nil {
-		client.recorder.Event(instance, "Warning", "Failed", "Unable to createorupdateauthorizationrule")
+		client.Recorder.Event(instance, "Warning", "Failed", "Unable to createorupdateauthorizationrule")
 		return controller_refactor.EnsureFailed, errhelp.NewAzureError(err)
 	}
 
@@ -103,7 +111,7 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 
 	_, err = client.EventHubManager.ListKeys(ctx, resourceGroup, eventhubNamespace, eventhubName, authorizationRuleName)
 	if err != nil {
-		client.recorder.Event(instance, "EventHub", "Failed", "Verify failed. If eventhub is created, AuthKeys must be present.")
+		client.Recorder.Event(instance, "EventHub", "Failed", "Verify failed. If eventhub is created, AuthKeys must be present.")
 		return controller_refactor.VerifyError, err
 	}
 

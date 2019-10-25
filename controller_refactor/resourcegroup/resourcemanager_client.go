@@ -28,8 +28,15 @@ import (
 )
 
 type ResourceManagerClient struct {
-	logger               logr.Logger
-	resourceGroupManager resourcegroups.ResourceGroupManager
+	Logger               logr.Logger
+	ResourceGroupManager resourcegroups.ResourceGroupManager
+}
+
+func CreateResourceManagerClient(resourceGroupManager resourcegroups.ResourceGroupManager, logger logr.Logger) ResourceManagerClient {
+	return ResourceManagerClient{
+		Logger:               logger,
+		ResourceGroupManager: resourceGroupManager,
+	}
 }
 
 func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
@@ -37,7 +44,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
 	}
-	_, err = client.resourceGroupManager.CreateGroup(ctx, rg.Name, rg.Spec.Location)
+	_, err = client.ResourceGroupManager.CreateGroup(ctx, rg.Name, rg.Spec.Location)
 
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
@@ -56,7 +63,7 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 	}
 
 	// TODO: need to get the object itself to check if it's creating or deleting
-	resp, err := client.resourceGroupManager.CheckExistence(ctx, rg.Name)
+	resp, err := client.ResourceGroupManager.CheckExistence(ctx, rg.Name)
 	if resp.Response != nil && resp.StatusCode == http.StatusNotFound {
 		return controller_refactor.VerifyMissing, nil
 	}
@@ -75,7 +82,7 @@ func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Objec
 	if err != nil {
 		return controller_refactor.DeleteError, err
 	}
-	if _, err := client.resourceGroupManager.DeleteGroupAsync(ctx, rg.Name); err == nil {
+	if _, err := client.ResourceGroupManager.DeleteGroupAsync(ctx, rg.Name); err == nil {
 		return controller_refactor.DeleteAwaitingVerification, nil
 	}
 	return controller_refactor.DeleteSucceed, nil

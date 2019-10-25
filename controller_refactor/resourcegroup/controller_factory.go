@@ -18,6 +18,7 @@ package resourcegroup
 import (
 	"context"
 	"github.com/Azure/azure-service-operator/controller_refactor"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 
@@ -27,11 +28,10 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
-
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 )
 
 type ControllerFactory struct {
+	ClientCreator        func(resourcegroups.ResourceGroupManager, logr.Logger) ResourceManagerClient
 	ResourceGroupManager resourcegroups.ResourceGroupManager
 	Scheme               *runtime.Scheme
 }
@@ -52,9 +52,7 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 }
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.GenericController {
-	resourceManagerClient := &ResourceManagerClient{
-		resourceGroupManager: factory.ResourceGroupManager,
-	}
+	resourceManagerClient := factory.ClientCreator(factory.ResourceGroupManager, logger)
 	return &controller_refactor.GenericController{
 		Parameters:            parameters,
 		ResourceKind:          ResourceKind,
@@ -62,7 +60,7 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 		Log:                   logger,
 		Recorder:              recorder,
 		Scheme:                factory.Scheme,
-		ResourceManagerClient: resourceManagerClient,
+		ResourceManagerClient: &resourceManagerClient,
 		DefinitionManager:     &definitionManager{},
 		FinalizerName:         FinalizerName,
 		PostProvisionFactory:  nil,

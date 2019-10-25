@@ -30,8 +30,15 @@ import (
 )
 
 type ResourceManagerClient struct {
-	logger                   logr.Logger
-	eventHubNamespaceManager eventhubs.EventHubNamespaceManager
+	Logger                   logr.Logger
+	EventHubNamespaceManager eventhubs.EventHubNamespaceManager
+}
+
+func CreateResourceManagerClient(eventHubNamespaceManager eventhubs.EventHubNamespaceManager, logger logr.Logger) ResourceManagerClient {
+	return ResourceManagerClient{
+		Logger:                   logger,
+		EventHubNamespaceManager: eventHubNamespaceManager,
+	}
 }
 
 func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
@@ -39,9 +46,9 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
 	}
-	client.logger.Info("EventhubNamespace " + ehnDef.Name + " creating on Azure. Please be patient.")
-	_, err = client.eventHubNamespaceManager.CreateNamespaceAndWait(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name, ehnDef.Spec.Location)
-	client.logger.Info("EventhubNamespace " + ehnDef.Name + " finished creating on Azure.")
+	client.Logger.Info("EventhubNamespace " + ehnDef.Name + " creating on Azure. Please be patient.")
+	_, err = client.EventHubNamespaceManager.CreateNamespaceAndWait(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name, ehnDef.Spec.Location)
+	client.Logger.Info("EventhubNamespace " + ehnDef.Name + " finished creating on Azure.")
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
 	}
@@ -58,8 +65,8 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 		return controller_refactor.VerifyError, err
 	}
 
-	client.logger.Info("Fetching EventhubNamespace " + ehnDef.Name + " from Azure.")
-	ehn, err := client.eventHubNamespaceManager.GetNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
+	client.Logger.Info("Fetching EventhubNamespace " + ehnDef.Name + " from Azure.")
+	ehn, err := client.EventHubNamespaceManager.GetNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
 	if ehn == nil || ehn.Response.Response == nil {
 		return controller_refactor.VerifyError, fmt.Errorf("eventhubnamespace verify was nil for %s", ehnDef.Name)
 	} else if ehn.Response.StatusCode == http.StatusNotFound {
@@ -86,8 +93,8 @@ func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Objec
 		return controller_refactor.DeleteError, err
 	}
 
-	client.logger.Info("EventhubNamespace " + ehnDef.Name + " deleting on Azure. Please be patient.")
-	resp, err := client.eventHubNamespaceManager.DeleteNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
+	client.Logger.Info("EventhubNamespace " + ehnDef.Name + " deleting on Azure. Please be patient.")
+	resp, err := client.EventHubNamespaceManager.DeleteNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
 	if resp.Response == nil {
 		return controller_refactor.DeleteError, err
 	}

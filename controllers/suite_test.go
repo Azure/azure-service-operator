@@ -177,31 +177,25 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&resourcegroup.ControllerFactory{
+		ClientCreator:        resourcegroup.CreateResourceManagerClient,
 		ResourceGroupManager: resourceGroupManager,
 		Scheme:               scheme.Scheme,
 	}).SetupWithManager(k8sManager, controllerParams)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&eventhubnamespace.ControllerFactory{
+		ClientCreator:            eventhubnamespace.CreateResourceManagerClient,
 		EventHubNamespaceManager: eventHubManagers.EventHubNamespace,
 		Scheme:                   scheme.Scheme,
 	}).SetupWithManager(k8sManager, controllerParams)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&eventhub.ControllerFactory{
-		ResourceManagerClient: eventHubManagers.EventHub,
+		ClientCreator:   eventhub.CreateResourceManagerClient,
+		EventHubManager: eventHubManagers.EventHub,
 		Scheme:          scheme.Scheme,
 	}).SetupWithManager(k8sManager, controllerParams)
 	Expect(err).ToNot(HaveOccurred())
-
-	//err = (&EventhubReconciler{
-	//	Client:          k8sManager.GetClient(),
-	//	Log:             ctrl.Log.WithName("controllers").WithName("EventHub"),
-	//	Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
-	//	Scheme:          scheme.Scheme,
-	//	EventHubManager: eventHubManagers.EventHub,
-	//}).SetupWithManager(k8sManager)
-	//Expect(err).ToNot(HaveOccurred())
 
 	err = (&ConsumerGroupReconciler{
 		Client:               k8sManager.GetClient(),
