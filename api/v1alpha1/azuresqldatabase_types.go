@@ -32,14 +32,6 @@ type AzureSqlDatabaseSpec struct {
 	Edition       sql.DBEdition `json:"edition"`
 }
 
-// AzureSqlDatabaseStatus defines the observed state of AzureSqlDatabase
-type AzureSqlDatabaseStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
@@ -48,7 +40,7 @@ type AzureSqlDatabase struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   AzureSqlDatabaseSpec   `json:"spec,omitempty"`
-	Status AzureSqlDatabaseStatus `json:"status,omitempty"`
+	Status ASOStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

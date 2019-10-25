@@ -33,14 +33,6 @@ type EventhubNamespaceSpec struct {
 	ResourceGroup string                      `json:"resourceGroup,omitempty"`
 }
 
-// EventhubNamespaceStatus defines the observed state of EventhubNamespace
-type EventhubNamespaceStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 
 // EventhubNamespace is the Schema for the eventhubnamespaces API
@@ -49,7 +41,7 @@ type EventhubNamespace struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   EventhubNamespaceSpec   `json:"spec,omitempty"`
-	Status EventhubNamespaceStatus `json:"status,omitempty"`
+	Status ASOStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
