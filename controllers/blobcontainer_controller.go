@@ -58,11 +58,8 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve blobcontainer resource", "err", err.Error())
 		// TODO: What is the requeue logic here?  What exactly is client.IgnoreNotFound() doing
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		return ctrl.Result{}, fmt.Errorf("Error getting instance of blobcontainer: %v", err)
 	}
-
-	// Debugging
-	r.Log.Info("Info", "instance", instance)
 
 	if instance.IsBeingDeleted() {
 		if helpers.HasFinalizer(&instance, blobContainerFinalizerName) {
@@ -73,7 +70,7 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 
 			helpers.RemoveFinalizer(&instance, blobContainerFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
-				return ctrl.Result{}, err
+				return ctrl.Result{}, fmt.Errorf("Error removing finalizer: %v", err)
 			}
 		}
 		return ctrl.Result{}, nil
@@ -82,24 +79,37 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	if !instance.HasFinalizer(blobContainerFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("error when adding finalizer: %v", err)
+			return ctrl.Result{}, fmt.Errorf("Error adding finalizer: %v", err)
 		}
 		return ctrl.Result{}, nil
 	}
 
-	// TODO: Add error handling for creating/deleting blob containers
-	// https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-error-codes
 	if !instance.IsSubmitted() {
-		r.Log.Info("Info", "Debugging", "Entered !instance.IsSubmitted for BlobContainer")
-		r.Log.Info("Info", "instance.Status.Provisioning", instance.Status.Provisioning)
-		r.Log.Info("Info", "instance.Status.Provisioned", instance.Status.Provisioned)
-		err := r.reconcileExternal(&instance)
-		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
+		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "Starting resource reconciliation")
+		if err := r.reconcileExternal(&instance); err != nil {
+			// Catch most common errors
+			// Blob service error codes:
+			// https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-error-codes
+			catch := []string{
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.NotFoundErrorCode,
+				errhelp.AsyncOpIncompleteError,
+			}
+			if azerr, ok := err.(*errhelp.AzureError); ok {
+				if helpers.ContainsString(catch, azerr.Type) {
+					r.Log.Info(fmt.Sprintf("Got error type: %s", azerr.Type))
+					msg := fmt.Sprintf("Got error type: %s", azerr.Type)
+					log.Info(msg)
+					instance.Status.Message = msg
+					// Do not requeue if ReconcileExternal errors on one of these codes
+					return ctrl.Result{Requeue: false}, fmt.Errorf("Error reconciling BlobContainer in azure: %v", err)
+				}
+			}
+		} else {
+			r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "blobcontainer "+instance.ObjectMeta.Name+" provisioned")
 		}
-		return ctrl.Result{}, nil
 	}
-
 	return ctrl.Result{}, nil
 }
 
@@ -110,7 +120,6 @@ func (r *BlobContainerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 }
 
 func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.BlobContainer) error {
-	r.Log.Info("Info", "Info", "Entered reconcileExternal for BlobContainer")
 	ctx := context.Background()
 	groupName := instance.Spec.ResourceGroup
 	accountName := instance.Spec.AccountName
@@ -118,7 +127,7 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 	accessLevel := instance.Spec.AccessLevel
 
 	//get owner instance of Storage
-	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner Storage Account instance")
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Attempting to get owner Storage Account instance")
 	var ownerInstance azurev1alpha1.Storage
 
 	// Get storage account
@@ -136,23 +145,25 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Owner instance assigned successfully")
 	}
 
-	// write information back to instance
+	// Write owner ref information back to instance
 	if ownerrefupdateerr := r.Update(ctx, instance); ownerrefupdateerr != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update owner ref information of instance")
 	}
 
-	r.Log.Info(fmt.Sprintf("Creating blob container: %s", containerName))
+	r.Log.Info("Info", "Starting provisioning", fmt.Sprintf("Creating blob container: %s", containerName))
 	instance.Status.Provisioning = true
+	instance.Status.Message = "Creating blob container in Azure"
 
-	// write information back to instance
+	// Write status information back to instance
 	if statusupdateerr := r.Status().Update(ctx, instance); statusupdateerr != nil {
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance status")
 	}
 
+	// Create the blob container
 	_, err := r.StorageManager.CreateBlobContainer(ctx, groupName, accountName, containerName, accessLevel)
 	if err != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", err.Error())
-		msg := "Couldn't create blob container in azure"
+		msg := fmt.Sprintf("Unable to create blob container in Azure: %v", err)
 		instance.Status.Message = msg
 
 		return err
@@ -164,9 +175,9 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 	instance.Status.Provisioned = true
 	instance.Status.Message = msg
 
-	// write information back to instance
+	// Write status information back to instance
 	if statusupdateerr := r.Status().Update(ctx, instance); statusupdateerr != nil {
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance status")
 	}
 
 	return nil
@@ -178,21 +189,17 @@ func (r *BlobContainerReconciler) deleteExternal(instance *azurev1alpha1.BlobCon
 	accountName := instance.Spec.AccountName
 	containerName := instance.ObjectMeta.Name
 
-	r.Log.Info(fmt.Sprintf("deleting blob container: " + containerName))
+	r.Log.Info(fmt.Sprintf("Deleting blob container: " + containerName))
 	_, err := r.StorageManager.DeleteBlobContainer(ctx, groupName, accountName, containerName)
 	if err != nil {
-		if errhelp.IsStatusCode204(err) {
-			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
-			return nil
-		}
-		msg := "Couldn't delete resouce in azure"
+		msg := fmt.Sprintf("Unable to delete blob container from Azure: %v", err)
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
 		instance.Status.Message = msg
 
 		return err
 	}
 
-	msg := fmt.Sprintf("Deleted %s", containerName)
+	msg := fmt.Sprintf("Deleted blob container: %s", containerName)
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", msg)
 	instance.Status.Message = msg
 
@@ -200,6 +207,7 @@ func (r *BlobContainerReconciler) deleteExternal(instance *azurev1alpha1.BlobCon
 }
 
 func (r *BlobContainerReconciler) addFinalizer(instance *azurev1alpha1.BlobContainer) error {
+	r.Log.Info("Entering addFinalizer")
 	helpers.AddFinalizer(instance, blobContainerFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -208,11 +216,10 @@ func (r *BlobContainerReconciler) addFinalizer(instance *azurev1alpha1.BlobConta
 
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	// Debugging
-	r.Log.Info("Info", "instance", instance)
 
-	// Removing to see if this gets rid of panic - NOTE: It does  // TODO: Why?
-	//r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", blobContainerFinalizerName))
+	// Debugging
+	r.Log.Info("Info", "Debugging AddFinalizer", "Attempting to record event for added finalizer - this statement previously caused a panic")
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("Finalizer added: %s", blobContainerFinalizerName))
 
 	return nil
 }
