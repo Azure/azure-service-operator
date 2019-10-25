@@ -40,7 +40,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	"k8s.io/client-go/tools/record"
-	v1 "k8s.io/api/core/v1"
 )
 
 const cosmosDBFinalizerName = "cosmosdb.finalizers.azure.com"
@@ -124,7 +123,7 @@ func (r *CosmosDBReconciler) addFinalizer(instance *azurev1alpha1.CosmosDB) erro
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", cosmosDBFinalizerName))
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", cosmosDBFinalizerName))
 	return nil
 }
 
@@ -143,16 +142,16 @@ func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1alpha1.CosmosDB)
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
 	_, err = cosmosdbs.CreateCosmosDB(ctx, groupName, name, location, kind, dbType, nil)
 	if err != nil {
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
 			//log error and kill it
-			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 		}
 		return errhelp.NewAzureError(err)
 	}
@@ -161,9 +160,9 @@ func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1alpha1.CosmosDB)
 
 	err = r.Update(ctx, instance)
 	if err != nil {
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", name+" provisioned")
+	r.Recorder.Event(instance, "Normal", "Updated", name+" provisioned")
 
 	return nil
 }
@@ -175,15 +174,15 @@ func (r *CosmosDBReconciler) deleteExternal(instance *azurev1alpha1.CosmosDB) er
 	_, err := cosmosdbs.DeleteCosmosDB(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
-			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
+			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
 			return nil
 		}
 
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resource in azure")
+		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", name+" deleted")
+	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
 	return nil
 }
 

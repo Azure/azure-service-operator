@@ -22,7 +22,6 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	v1 "k8s.io/api/core/v1"
 )
 
 const eventhubFinalizerName = "eventhub.finalizers.com"
@@ -33,7 +32,7 @@ func (r *EventhubReconciler) addFinalizer(instance *azurev1alpha1.Eventhub) erro
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", eventhubFinalizerName))
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", eventhubFinalizerName))
 	return nil
 }
 
