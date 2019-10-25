@@ -15,6 +15,7 @@ const (
 	ResourceNotFound               = "ResourceNotFound"
 	AsyncOpIncompleteError         = "AsyncOpIncomplete"
 	InvalidServerName              = "InvalidServerName"
+	ContainerOperationFailure      = "ContainerOperationFailure"
 )
 
 func NewAzureError(err error) error {
