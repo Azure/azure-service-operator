@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 
+	v1 "k8s.io/api/core/v1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
@@ -31,7 +32,7 @@ func (r *ResourceGroupReconciler) addFinalizer(instance *azurev1alpha1.ResourceG
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", resourceGroupFinalizerName))
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", resourceGroupFinalizerName))
 	return nil
 }
 
