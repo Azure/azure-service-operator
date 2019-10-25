@@ -95,7 +95,7 @@ func (r *reconcileRunner) runExecute(ctx context.Context) (ctrl.Result, error) {
 	}
 
 	// now verify the resource state on Azure
-	if status.IsVerifying() || status.IsPending() || status.IsSucceeded() {
+	if status.IsVerifying() || status.IsPending() || status.IsSucceeded() || status.IsRecreating() {
 		return r.verify(ctx)
 	}
 
@@ -141,6 +141,13 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.Prov
 	}
 	// Success case - the resource is provisioned on Azure, post provisioning can take place if necessary
 	if verifyResult.ready() {
+		// if the Azure resource is in ready state, but the K8s resource is recreating
+		// we assume that the resource is being deleted asynchronously in Azure, but there is no way to distinguish
+		// from the SDK that is deleting - it is either present or not. so we requeue the loop and wait for it to become `missing`
+		if status.IsRecreating() {
+			r.logInfo("retrying verification: resource awaiting deletion before recreation can begin, requeuing reconcile loop")
+			return currentState, nil
+		}
 		return r.succeedOrPostProvision(), nil
 	}
 	// Missing case - we can now create the resource
@@ -172,8 +179,7 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.Prov
 
 		// set it back to pending and let it go through the whole process again
 		if deleteResult.awaitingVerification() {
-			// TODO: make azurev1alpha1.Recreating
-			return azurev1alpha1.Pending, err
+			return azurev1alpha1.Recreating, err
 		}
 
 		if deleteResult.alreadyDeleted() || deleteResult.succeed() {
@@ -212,19 +218,13 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.Prov
 	}
 
 	// if successful, set it to succeeded, post provisioning (if there is a PostProvisioning handler), or await verification
-	var nextState azurev1alpha1.ProvisionState
 	if ensureResult.awaitingVerification() {
-		nextState = azurev1alpha1.Verifying
+		return azurev1alpha1.Verifying, nil
 	} else if ensureResult.succeeded() {
-		if r.PostProvisionFactory == nil {
-			nextState = azurev1alpha1.Succeeded
-		} else {
-			nextState = azurev1alpha1.PostProvisioning
-		}
+		return r.succeedOrPostProvision(), nil
 	} else {
 		return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid response from Create for resource '%s'", resourceName))
 	}
-	return nextState, nil
 }
 
 func (r *reconcileRunner) succeedOrPostProvision() azurev1alpha1.ProvisionState {
@@ -316,10 +316,12 @@ func (r *reconcileRunner) getTransitionDetails(nextState azurev1alpha1.Provision
 		return ctrl.Result{}, fmt.Sprintf("%s %s ready to be updated.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Verifying:
 		return requeueResult, fmt.Sprintf("%s %s verification in progress.", r.ResourceKind, r.Name)
-	case azurev1alpha1.Succeeded:
-		return ctrl.Result{}, fmt.Sprintf("%s %s successfully provisioned and ready for use.", r.ResourceKind, r.Name)
 	case azurev1alpha1.PostProvisioning:
 		return ctrl.Result{}, fmt.Sprintf("%s %s provisioning succeeded and ready for post-provisioning step", r.ResourceKind, r.Name)
+	case azurev1alpha1.Succeeded:
+		return ctrl.Result{}, fmt.Sprintf("%s %s successfully provisioned and ready for use.", r.ResourceKind, r.Name)
+	case azurev1alpha1.Recreating:
+		return requeueResult, fmt.Sprintf("%s %s deleting and recreating in progress.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Failed:
 		return ctrl.Result{}, fmt.Sprintf("%s %s failed.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Terminating:
