@@ -22,7 +22,7 @@ import (
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// AzureSqlFailoverGroupSpec defines the desired state of AzureSQLFailoverGroup
+// AzureSqlFailoverGroupSpec defines the desired state of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Location                     string                              `json:"location"`
@@ -35,7 +35,7 @@ type AzureSqlFailoverGroupSpec struct {
 	DatabaseList                 []string                            `json:"databaselist"`
 }
 
-// AzureSQLFailoverGroupStatus defines the observed state of AzureSQLFailoverGroup
+// AzureSQLFailoverGroupStatus defines the observed state of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool   `json:"provisioning,omitempty"`
@@ -57,7 +57,7 @@ type AzureSqlFailoverGroup struct {
 
 // +kubebuilder:object:root=true
 
-// AzureSqlFailoverGroupList contains a list of AzureSQLFailoverGroup
+// AzureSqlFailoverGroupList contains a list of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

@@ -35,7 +35,7 @@ import (
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 )
 
-const azureSQLFailoverGroupFinalizerName = "azuresqlfailovergroup.finalizers.azure.com"
+const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azure.com"
 
 // AzureSQLFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
 type AzureSQLFailoverGroupReconciler struct {
@@ -50,7 +50,7 @@ type AzureSQLFailoverGroupReconciler struct {
 
 func (r *AzureSQLFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	log := r.Log.WithValues("azuresqlfailovergroup", req.NamespacedName)
+	log := r.Log.WithValues("AzureSqlFailoverGroup", req.NamespacedName)
 	var instance azurev1alpha1.AzureSqlFailoverGroup
 
 	defer func() {
@@ -137,7 +137,7 @@ func (r *AzureSQLFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 		return ctrl.Result{}, nil
 	}
 
-	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "azuresqlfailovergroup "+instance.ObjectMeta.Name+" provisioned ")
+	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "AzureSqlFailoverGroup "+instance.ObjectMeta.Name+" provisioned ")
 	msg := fmt.Sprintf("AzureSqlFailoverGroup %s successfully provisioned", instance.ObjectMeta.Name)
 	log.Info(msg)
 	instance.Status.Message = msg
