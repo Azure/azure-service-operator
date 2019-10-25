@@ -40,15 +40,6 @@ type reconcileFinalizer struct {
 
 //runs a single reconcile on the
 func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
-	result, err := r.runExecute(ctx)
-	//updateErr := r.updateInstance(ctx)
-	//if updateErr != nil {
-	//	return ctrl.Result{}, err
-	//}
-	return result, err
-}
-
-func (r *reconcileRunner) runExecute(ctx context.Context) (ctrl.Result, error) {
 
 	// Verify that all dependencies are present in the cluster, and they are
 	owner := r.Owner
