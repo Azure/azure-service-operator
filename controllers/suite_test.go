@@ -19,6 +19,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/Azure/azure-service-operator/controller_refactor"
+	"github.com/Azure/azure-service-operator/controller_refactor/consumergroup"
 	"github.com/Azure/azure-service-operator/controller_refactor/eventhub"
 	"github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
 	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
@@ -197,12 +198,11 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager, controllerParams)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&ConsumerGroupReconciler{
-		Client:               k8sManager.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
-		Recorder:             k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
+	err = (&consumergroup.ControllerFactory{
+		ClientCreator:        consumergroup.CreateResourceManagerClient,
 		ConsumerGroupManager: eventHubManagers.ConsumerGroup,
-	}).SetupWithManager(k8sManager)
+		Scheme:               scheme.Scheme,
+	}).SetupWithManager(k8sManager, controllerParams)
 	Expect(err).ToNot(HaveOccurred())
 
 	go func() {

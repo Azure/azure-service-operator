@@ -42,18 +42,18 @@ func CreateResourceManagerClient(resourceGroupManager resourcegroups.ResourceGro
 func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
 	rg, err := convertInstance(r)
 	if err != nil {
-		return controller_refactor.EnsureFailed, err
+		return controller_refactor.EnsureError, err
 	}
 	_, err = client.ResourceGroupManager.CreateGroup(ctx, rg.Name, rg.Spec.Location)
 
 	if err != nil {
-		return controller_refactor.EnsureFailed, err
+		return controller_refactor.EnsureError, err
 	}
 	return controller_refactor.EnsureAwaitingVerification, nil
 }
 
 func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	return controller_refactor.EnsureFailed, fmt.Errorf("resource group cannot be updated")
+	return controller_refactor.EnsureError, fmt.Errorf("resource group cannot be updated")
 }
 
 func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {

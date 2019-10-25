@@ -64,6 +64,9 @@ var _ = Describe("ConsumerGroup Controller", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      consumerGroupName,
 					Namespace: "default",
+					Annotations: map[string]string{
+						"consumergroup.azure.microsoft.com/managed-eventhub": "false",
+					},
 				},
 				Spec: azurev1alpha1.ConsumerGroupSpec{
 					NamespaceName:          ehnName,
@@ -81,7 +84,8 @@ var _ = Describe("ConsumerGroup Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
-				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName)
+				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName) ||
+					consumerGroupInstance.HasFinalizer("consumergroup.finalizers.azure.microsoft.com")
 			}, tc.timeout,
 			).Should(BeTrue())
 

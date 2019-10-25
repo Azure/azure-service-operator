@@ -54,7 +54,7 @@ func CreateResourceManagerClient(eventHubManager eventhubs.EventHubManager, logg
 func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
 	instance, err := convertInstance(r)
 	if err != nil {
-		return controller_refactor.EnsureFailed, err
+		return controller_refactor.EnsureError, err
 	}
 	eventhubName := instance.ObjectMeta.Name
 	eventhubNamespace := instance.Spec.Namespace
@@ -68,7 +68,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	_, err = client.EventHubManager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		client.Recorder.Event(instance, "Warning", "Failed", "unable to create eventhub")
-		return controller_refactor.EnsureFailed, errhelp.NewAzureError(err)
+		return controller_refactor.EnsureError, errhelp.NewAzureError(err)
 	}
 
 	// create or update the authorisation rule
@@ -77,7 +77,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	_, err = client.EventHubManager.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, authRuleParams)
 	if err != nil {
 		client.Recorder.Event(instance, "Warning", "Failed", "Unable to createorupdateauthorizationrule")
-		return controller_refactor.EnsureFailed, errhelp.NewAzureError(err)
+		return controller_refactor.EnsureError, errhelp.NewAzureError(err)
 	}
 
 	// eventhub creation is synchronous, can return succeeded straight away
@@ -85,7 +85,7 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 }
 
 func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	return controller_refactor.EnsureFailed, fmt.Errorf("updating eventhub not currently supported")
+	return controller_refactor.EnsureError, fmt.Errorf("updating eventhub not currently supported")
 }
 
 func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {

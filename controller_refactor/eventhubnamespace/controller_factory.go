@@ -42,7 +42,6 @@ type ControllerFactory struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces/status,verbs=get;update;patch
 
 const ResourceKind = "EventhubNamespace"
-const EventRecorderName = "EventhubNamespace-controller"
 const FinalizerName = "eventhubnamespace.finalizers.azure.microsoft.com"
 const ManagedResourceGroupAnnotation = "eventhubnamespace.azure.microsoft.com/managed-resource-group"
 
@@ -51,7 +50,7 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 		For(&v1alpha1.EventhubNamespace{}).
 		Complete(factory.create(mgr.GetClient(),
 			ctrl.Log.WithName("controllers").WithName(ResourceKind),
-			mgr.GetEventRecorderFor(EventRecorderName), parameters))
+			mgr.GetEventRecorderFor(ResourceKind+"-controller"), parameters))
 }
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.GenericController {

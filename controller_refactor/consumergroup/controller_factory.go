@@ -13,45 +13,47 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package resourcegroup
+package consumergroup
 
 import (
 	"context"
 	"github.com/Azure/azure-service-operator/controller_refactor"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcegrouphelpers "github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
-
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
 )
 
 type ControllerFactory struct {
-	ClientCreator        func(resourcegroups.ResourceGroupManager, logr.Logger) ResourceManagerClient
-	ResourceGroupManager resourcegroups.ResourceGroupManager
+	ClientCreator        func(eventhubs.ConsumerGroupManager, logr.Logger) ResourceManagerClient
+	ConsumerGroupManager eventhubs.ConsumerGroupManager
 	Scheme               *runtime.Scheme
 }
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumerGroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumerGroups/status,verbs=get;update;patch
 
-const ResourceKind = "ResourceGroup"
-const FinalizerName = "resourcegroup.finalizers.azure.microsoft.com"
+const ResourceKind = "ConsumerGroup"
+const FinalizerName = "consumergroup.finalizers.azure.microsoft.com"
+const ManagedEventhubAnnotation = "consumergroup.azure.microsoft.com/managed-eventhub"
 
 func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters controller_refactor.Parameters) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&v1alpha1.ResourceGroup{}).
+		For(&v1alpha1.ConsumerGroup{}).
 		Complete(factory.create(mgr.GetClient(),
 			ctrl.Log.WithName("controllers").WithName(ResourceKind),
 			mgr.GetEventRecorderFor(ResourceKind+"-controller"), parameters))
 }
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.GenericController {
-	resourceManagerClient := factory.ClientCreator(factory.ResourceGroupManager, logger)
+	resourceManagerClient := factory.ClientCreator(factory.ConsumerGroupManager, logger)
 	return &controller_refactor.GenericController{
 		Parameters:            parameters,
 		ResourceKind:          ResourceKind,
@@ -70,12 +72,37 @@ type definitionManager struct{}
 
 func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller_refactor.ResourceDefinition {
 	return &controller_refactor.ResourceDefinition{
-		InitialInstance: &v1alpha1.ResourceGroup{},
-		StatusAccessor:  GetStatus,
+		InitialInstance: &v1alpha1.ConsumerGroup{},
+		StatusAccessor:  getStatus,
 		StatusUpdater:   updateStatus,
 	}
 }
 
-func (dm *definitionManager) GetDependencies(context.Context, runtime.Object) (*controller_refactor.DependencyDefinitions, error) {
-	return &controller_refactor.NoDependencies, nil
+func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance runtime.Object) (*controller_refactor.DependencyDefinitions, error) {
+	ehnInstance, err := convertInstance(thisInstance)
+	if err != nil {
+		return nil, err
+	}
+
+	managedEventhub := ehnInstance.Annotations[ManagedEventhubAnnotation]
+	// defaults to true
+	isManaged := strings.ToLower(managedEventhub) != "false"
+
+	var owner *controller_refactor.Dependency = nil
+	if isManaged {
+		owner = &controller_refactor.Dependency{
+			InitialInstance: &v1alpha1.Eventhub{},
+			NamespacedName: types.NamespacedName{
+				Namespace: ehnInstance.Namespace,
+				Name:      ehnInstance.Spec.EventhubName,
+			},
+			StatusAccessor: resourcegrouphelpers.GetStatus,
+		}
+	}
+
+	return &controller_refactor.DependencyDefinitions{
+		Dependencies: []*controller_refactor.Dependency{},
+		Owner:        owner,
+	}, nil
+
 }

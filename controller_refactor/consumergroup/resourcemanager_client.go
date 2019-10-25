@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package eventhubnamespace
+package consumergroup
 
 // TODO
 
@@ -30,57 +30,54 @@ import (
 )
 
 type ResourceManagerClient struct {
-	Logger                   logr.Logger
-	EventHubNamespaceManager eventhubs.EventHubNamespaceManager
+	Logger               logr.Logger
+	ConsumerGroupManager eventhubs.ConsumerGroupManager
 }
 
-func CreateResourceManagerClient(eventHubNamespaceManager eventhubs.EventHubNamespaceManager, logger logr.Logger) ResourceManagerClient {
+func CreateResourceManagerClient(consumerGroupManager eventhubs.ConsumerGroupManager, logger logr.Logger) ResourceManagerClient {
 	return ResourceManagerClient{
-		Logger:                   logger,
-		EventHubNamespaceManager: eventHubNamespaceManager,
+		Logger:               logger,
+		ConsumerGroupManager: consumerGroupManager,
 	}
 }
 
 func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	ehnDef, err := convertInstance(r)
+	cg, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.EnsureError, err
 	}
-	client.Logger.Info("EventhubNamespace " + ehnDef.Name + " creating on Azure. Please be patient.")
-	_, err = client.EventHubNamespaceManager.CreateNamespaceAndWait(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name, ehnDef.Spec.Location)
-	client.Logger.Info("EventhubNamespace " + ehnDef.Name + " finished creating on Azure.")
+	spec := cg.Spec
+
+	client.Logger.Info("ConsumerGroup " + cg.Name + " creating on Azure. Please be patient.")
+	_, err = client.ConsumerGroupManager.CreateConsumerGroup(ctx, spec.ResourceGroupName, spec.NamespaceName, spec.EventhubName, spec.AzureConsumerGroupName)
+	client.Logger.Info("ConsumerGroup " + cg.Name + " finished creating on Azure.")
 	if err != nil {
 		return controller_refactor.EnsureError, err
 	}
-	return controller_refactor.EnsureAwaitingVerification, nil
+	return controller_refactor.EnsureSucceeded, nil
 }
 
 func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	return controller_refactor.EnsureError, fmt.Errorf("eventhubnamespace cannot be updated")
+	return controller_refactor.EnsureError, fmt.Errorf("consumerGroup updating not supported")
 }
 
 func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
-	ehnDef, err := convertInstance(r)
+	cg, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.VerifyError, err
 	}
+	spec := cg.Spec
 
-	client.Logger.Info("Fetching EventhubNamespace " + ehnDef.Name + " from Azure.")
-	ehn, err := client.EventHubNamespaceManager.GetNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
-	if ehn == nil || ehn.Response.Response == nil {
-		return controller_refactor.VerifyError, fmt.Errorf("eventhubnamespace verify was nil for %s", ehnDef.Name)
-	} else if ehn.Response.StatusCode == http.StatusNotFound {
+	client.Logger.Info("Fetching ConsumerGroup " + cg.Name + " from Azure.")
+	consumerGroup, err := client.ConsumerGroupManager.GetConsumerGroup(ctx, spec.ResourceGroupName, spec.NamespaceName, spec.EventhubName, spec.AzureConsumerGroupName)
+	if consumerGroup.Response.Response == nil {
+		return controller_refactor.VerifyError, fmt.Errorf("consumerGroup verify was nil for %s", cg.Name)
+	} else if consumerGroup.Response.StatusCode == http.StatusNotFound {
 		return controller_refactor.VerifyMissing, nil
 	} else if err != nil {
 		return controller_refactor.VerifyError, err
-	} else if ehn.Response.StatusCode == http.StatusOK {
-		if ehn.ProvisioningState != nil && *ehn.ProvisioningState == "Succeeded" {
-			// TODO: handle cases that lead to VerifyUpdateRequired and VerifyRecreateRequired
-			return controller_refactor.VerifyReady, nil
-		} else {
-			// TODO: handle cases that lead to VerifyDeleting (what are the undocumented values of *ehn.ProvisioningState?)
-			return controller_refactor.VerifyProvisioning, nil
-		}
+	} else if consumerGroup.Response.StatusCode == http.StatusOK {
+		return controller_refactor.VerifyReady, nil
 	}
 
 	// we ideally shouldn't get to this point - all cases should be handled explicitly
@@ -88,13 +85,14 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 }
 
 func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
-	ehnDef, err := convertInstance(r)
+	cg, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.DeleteError, err
 	}
+	spec := cg.Spec
 
-	client.Logger.Info("EventhubNamespace " + ehnDef.Name + " deleting on Azure. Please be patient.")
-	resp, err := client.EventHubNamespaceManager.DeleteNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
+	client.Logger.Info("ConsumerGroup " + cg.Name + " deleting on Azure.")
+	resp, err := client.ConsumerGroupManager.DeleteConsumerGroup(ctx, spec.ResourceGroupName, spec.NamespaceName, spec.EventhubName, spec.AzureConsumerGroupName)
 	if resp.Response == nil {
 		return controller_refactor.DeleteError, err
 	}

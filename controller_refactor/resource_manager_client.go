@@ -26,7 +26,7 @@ const (
 	EnsureInvalidRequest       EnsureResult = "InvalidRequest"
 	EnsureAwaitingVerification EnsureResult = "AwaitingVerification"
 	EnsureSucceeded            EnsureResult = "Succeeded"
-	EnsureFailed               EnsureResult = "Failed"
+	EnsureError                EnsureResult = "Error"
 )
 
 // The result of a verify operation on Azure
@@ -63,7 +63,7 @@ func (r VerifyResult) ready() bool            { return r == VerifyReady }
 func (r EnsureResult) invalidRequest() bool       { return r == EnsureInvalidRequest }
 func (r EnsureResult) succeeded() bool            { return r == EnsureSucceeded }
 func (r EnsureResult) awaitingVerification() bool { return r == EnsureAwaitingVerification }
-func (r EnsureResult) failed() bool               { return r == EnsureFailed }
+func (r EnsureResult) failed() bool               { return r == EnsureError }
 
 func (r DeleteResult) error() bool                { return r == DeleteError }
 func (r DeleteResult) alreadyDeleted() bool       { return r == DeleteAlreadyDeleted }
