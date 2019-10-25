@@ -122,15 +122,16 @@ func (sdk GoSDKClient) CreateOrUpdateDB(properties SQLDatabaseProperties) (sql.D
 // CreateOrUpdateFailoverGroup creates a failover group
 func (sdk GoSDKClient) CreateOrUpdateFailoverGroup(failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
 	failoverGroupsClient := getGoFailoverGroupsClient()
-	serversClient := getGoServersClient()
 
 	// Construct a PartnerInfo object from the server name
 	// Get resource ID from the servername to use
-	server, err := serversClient.Get(
-		context.Background(),
-		properties.SecondaryServerResourceGroup,
-		properties.SecondaryServerName,
-	)
+	secServerSDKClient := GoSDKClient{
+		Ctx:               context.Background(),
+		ResourceGroupName: properties.SecondaryServerResourceGroup,
+		ServerName:        properties.SecondaryServerName,
+		Location:          "", // We dont get the location from the user for the secondary server as it is not required
+	}
+	server, err := secServerSDKClient.GetServer()
 	if err != nil {
 		return result, nil
 	}

@@ -76,18 +76,6 @@ const (
 	P RedisCacheSkuFamily = "P"
 )
 
-// RedisCacheStatus defines the observed state of RedisCache
-type RedisCacheStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// DeploymentName    string `json:"deploymentName,omitempty"`
-	// ProvisioningState string `json:"provisioningState,omitempty"`
-	// Generation        int64  `json:"generation,omitempty"`
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
 type RedisCacheOutput struct {
 	RedisCacheName string `json:"redisCacheName,omitempty"`
 	PrimaryKey     string `json:"primaryKey,omitempty"`
@@ -108,7 +96,7 @@ type RedisCache struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec                RedisCacheSpec                `json:"spec,omitempty"`
-	Status              RedisCacheStatus              `json:"status,omitempty"`
+	Status              ASOStatus              `json:"status,omitempty"`
 	Output              RedisCacheOutput              `json:"output,omitempty"`
 	AdditionalResources RedisCacheAdditionalResources `json:"additionalResources,omitempty"`
 }
