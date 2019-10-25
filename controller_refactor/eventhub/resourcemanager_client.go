@@ -26,6 +26,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	"net/http"
 
@@ -111,11 +112,11 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 
 	_, err = client.EventHubManager.ListKeys(ctx, resourceGroup, eventhubNamespace, eventhubName, authorizationRuleName)
 	if err != nil {
-		client.Recorder.Event(instance, "EventHub", "Failed", "Verify failed. If eventhub is created, AuthKeys must be present.")
+		client.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Verify failed. If eventhub is created, AuthKeys must be present.")
 		return controller_refactor.VerifyError, err
 	}
 
-	return controller_refactor.VerifyMissing, nil
+	return controller_refactor.VerifyReady, nil
 }
 
 func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {

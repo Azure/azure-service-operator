@@ -99,15 +99,15 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		reconcileRunner: reconcileRunner,
 	}
 
-	// if no finalizers have been defined, do that and requeue
-	if !reconcileFinalizer.isDefined() {
-		return reconcileFinalizer.add(ctx)
-	}
-
 	// if it's being deleted go straight to the finalizer step
 	isBeingDeleted := !metaObject.GetDeletionTimestamp().IsZero()
 	if isBeingDeleted {
 		return reconcileFinalizer.handle()
+	}
+
+	// if no finalizers have been defined, do that and requeue
+	if !reconcileFinalizer.isDefined() {
+		return reconcileFinalizer.add(ctx)
 	}
 
 	// run a single cycle of the reconcile loop

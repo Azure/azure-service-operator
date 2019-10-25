@@ -18,7 +18,7 @@ package eventhub
 import (
 	"context"
 	"github.com/Azure/azure-service-operator/controller_refactor"
-	resourcegrouphelpers "github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
+	eventhubnamespacehelpers "github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -82,7 +82,7 @@ type definitionManager struct{}
 func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller_refactor.ResourceDefinition {
 	return &controller_refactor.ResourceDefinition{
 		InitialInstance: &v1alpha1.Eventhub{},
-		StatusAccessor:  getStatus,
+		StatusAccessor:  GetStatus,
 		StatusUpdater:   updateStatus,
 	}
 }
@@ -107,7 +107,7 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 				Namespace: ehnInstance.Namespace,
 				Name:      ehnInstance.Spec.Namespace,
 			},
-			StatusAccessor: resourcegrouphelpers.GetStatus,
+			StatusAccessor: eventhubnamespacehelpers.GetStatus,
 		}
 	}
 

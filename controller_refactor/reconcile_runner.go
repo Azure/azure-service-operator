@@ -100,6 +100,11 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 		return r.runPostProvision(ctx)
 	}
 
+	// if has no status, set to pending
+	if status.IsPostProvisioning() {
+		return r.applyTransition(ctx, "run", azurev1alpha1.Pending, nil)
+	}
+
 	return ctrl.Result{}, nil
 }
 
@@ -219,7 +224,7 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.Prov
 }
 
 func (r *reconcileRunner) succeedOrPostProvision() azurev1alpha1.ProvisionState {
-	if r.PostProvisionFactory == nil {
+	if r.PostProvisionFactory == nil || r.status.IsSucceeded() {
 		return azurev1alpha1.Succeeded
 	} else {
 		return azurev1alpha1.PostProvisioning
@@ -244,7 +249,7 @@ func (r *reconcileRunner) updateInstance(ctx context.Context) error {
 	if !r.instanceUpdater.hasUpdates() {
 		return nil
 	}
-	return r.tryUpdateInstance(ctx, 2)
+	return r.tryUpdateInstance(ctx, 5)
 }
 
 // this is to get rid of the pesky errors
@@ -287,6 +292,10 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 
 func (r *reconcileRunner) updateAndLog(ctx context.Context, eventType string, reason string, message string) error {
 	instance := r.instance
+	if !r.instanceUpdater.hasUpdates() {
+		r.logInfo(fmt.Sprintf("resource up to date. no further update necessary."))
+		return nil
+	}
 	if err := r.updateInstance(ctx); err != nil {
 		r.logInfo(fmt.Sprintf("K8s update failure: %v", err))
 		r.Recorder.Event(instance, corev1.EventTypeWarning, reason, fmt.Sprintf("failed to update instance of %s %s in kubernetes cluster", r.ResourceKind, r.Name))
@@ -300,7 +309,7 @@ func (r *reconcileRunner) getTransitionDetails(nextState azurev1alpha1.Provision
 	requeueResult := ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}
 	switch nextState {
 	case azurev1alpha1.Pending:
-		return ctrl.Result{}, fmt.Sprintf("%s %s in pending state.", r.ResourceKind, r.Name)
+		return requeueResult, fmt.Sprintf("%s %s in pending state.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Creating:
 		return ctrl.Result{}, fmt.Sprintf("%s %s ready for creation.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Updating:
@@ -347,5 +356,5 @@ func (r *reconcileRunner) applyTransition(ctx context.Context, reason string, ne
 }
 
 func (r *reconcileRunner) logInfo(message string) {
-	r.log.Info(message, "Kind", r.ResourceKind, "Name", r.Name)
+	r.log.Info(message, "Kind", r.ResourceKind)
 }

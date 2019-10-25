@@ -18,7 +18,7 @@ package consumergroup
 import (
 	"context"
 	"github.com/Azure/azure-service-operator/controller_refactor"
-	resourcegrouphelpers "github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
+	eventhubhelpers "github.com/Azure/azure-service-operator/controller_refactor/eventhub"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -96,7 +96,7 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 				Namespace: ehnInstance.Namespace,
 				Name:      ehnInstance.Spec.EventhubName,
 			},
-			StatusAccessor: resourcegrouphelpers.GetStatus,
+			StatusAccessor: eventhubhelpers.GetStatus,
 		}
 	}
 

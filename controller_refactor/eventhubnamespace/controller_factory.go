@@ -74,7 +74,7 @@ type definitionManager struct{}
 func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller_refactor.ResourceDefinition {
 	return &controller_refactor.ResourceDefinition{
 		InitialInstance: &v1alpha1.EventhubNamespace{},
-		StatusAccessor:  getStatus,
+		StatusAccessor:  GetStatus,
 		StatusUpdater:   updateStatus,
 	}
 }
