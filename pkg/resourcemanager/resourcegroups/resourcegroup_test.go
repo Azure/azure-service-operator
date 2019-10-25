@@ -21,6 +21,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	. "github.com/onsi/ginkgo"
@@ -67,6 +68,12 @@ var _ = Describe("ResourceGroups", func() {
 			).Should(BeTrue())
 
 			_, err = resourceGroupManager.DeleteGroup(context.Background(), resourcegroupName)
+			if err != nil {
+				azerr := errhelp.NewAzureError(err).(*errhelp.AzureError)
+				if azerr.Type == errhelp.AsyncOpIncompleteError {
+					err = nil
+				}
+			}
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
