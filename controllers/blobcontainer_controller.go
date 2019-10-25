@@ -18,6 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
@@ -57,8 +58,10 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	var instance azurev1alpha1.BlobContainer
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve blobcontainer resource", "err", err.Error())
-		// TODO: What is the requeue logic here?  What exactly is client.IgnoreNotFound() doing
-		return ctrl.Result{}, fmt.Errorf("Error getting instance of blobcontainer: %v", err)
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
+		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	if instance.IsBeingDeleted() {
@@ -90,20 +93,34 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 			// Catch most common errors
 			// Blob service error codes:
 			// https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-error-codes
-			catch := []string{
+			catchIgnorable := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
-				if helpers.ContainsString(catch, azerr.Type) {
+				if helpers.ContainsString(catchIgnorable, azerr.Type) {
+					r.Log.Info(fmt.Sprintf("Got ignorable error type: %s", azerr.Type))
+					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
+					log.Info(msg)
+					instance.Status.Message = msg
+					// Requeue if ReconcileExternal errors on one of these codes
+					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+				}
+			}
+			catchNotIgnorable := []string{
+				errhelp.ContainerOperationFailure, // Container name was invalid
+				// TODO: Figure out how to catch container name that exceeds min/max length requirements
+			}
+			if azerr, ok := err.(*errhelp.AzureError); ok {
+				if helpers.ContainsString(catchNotIgnorable, azerr.Type) {
 					r.Log.Info(fmt.Sprintf("Got error type: %s", azerr.Type))
 					msg := fmt.Sprintf("Got error type: %s", azerr.Type)
 					log.Info(msg)
 					instance.Status.Message = msg
 					// Do not requeue if ReconcileExternal errors on one of these codes
-					return ctrl.Result{Requeue: false}, fmt.Errorf("Error reconciling BlobContainer in azure: %v", err)
+					return ctrl.Result{Requeue: false}, nil
 				}
 			}
 		} else {
@@ -207,7 +224,6 @@ func (r *BlobContainerReconciler) deleteExternal(instance *azurev1alpha1.BlobCon
 }
 
 func (r *BlobContainerReconciler) addFinalizer(instance *azurev1alpha1.BlobContainer) error {
-	r.Log.Info("Entering addFinalizer")
 	helpers.AddFinalizer(instance, blobContainerFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
@@ -217,8 +233,6 @@ func (r *BlobContainerReconciler) addFinalizer(instance *azurev1alpha1.BlobConta
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
 
-	// Debugging
-	r.Log.Info("Info", "Debugging AddFinalizer", "Attempting to record event for added finalizer - this statement previously caused a panic")
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("Finalizer added: %s", blobContainerFinalizerName))
 
 	return nil
