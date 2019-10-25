@@ -189,7 +189,7 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&eventhub.ControllerFactory{
-		EventHubManager: eventHubManagers.EventHub,
+		ResourceManagerClient: eventHubManagers.EventHub,
 		Scheme:          scheme.Scheme,
 	}).SetupWithManager(k8sManager, controllerParams)
 	Expect(err).ToNot(HaveOccurred())

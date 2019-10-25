@@ -28,12 +28,10 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
-
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 )
 
 type ControllerFactory struct {
-	EventHubManager eventhubs.EventHubManager
+	ResourceManagerClient ResourceManagerClient
 	Scheme          *runtime.Scheme
 }
 
@@ -41,7 +39,6 @@ type ControllerFactory struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs/status,verbs=get;update;patch
 
 const ResourceKind = "Eventhub"
-const EventRecorderName = "Eventhub-controller"
 const FinalizerName = "eventhub.finalizers.azure.microsoft.com"
 const ManagedEventhubNamespaceAnnotation = "eventhub.azure.microsoft.com/managed-eventhub-namespace"
 
@@ -50,21 +47,17 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 		For(&v1alpha1.Eventhub{}).
 		Complete(factory.create(mgr.GetClient(),
 			ctrl.Log.WithName("controllers").WithName(ResourceKind),
-			mgr.GetEventRecorderFor(EventRecorderName), parameters))
+			mgr.GetEventRecorderFor(ResourceKind + "-controller"), parameters))
 }
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.GenericController {
-	resourceManagerClient := &resourceManagerClient{
-		logger:          logger,
-		eventHubManager: factory.EventHubManager,
-		recorder:        recorder,
-	}
+	resourceManagerClient := factory.ResourceManagerClient
 
 	// create a PostProvisionHandler for writing secret
 	secretsWriterFactory := func(c *controller_refactor.GenericController) controller_refactor.PostProvisionHandler {
 		return &secretsWriter{
 			GenericController: c,
-			eventHubManager:   factory.EventHubManager,
+			eventHubManager:   resourceManagerClient.EventHubManager,
 		}
 	}
 
@@ -75,7 +68,7 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 		Log:                   logger,
 		Recorder:              recorder,
 		Scheme:                factory.Scheme,
-		ResourceManagerClient: resourceManagerClient,
+		ResourceManagerClient: &resourceManagerClient,
 		DefinitionManager:     &definitionManager{},
 		FinalizerName:         FinalizerName,
 		PostProvisionFactory:  secretsWriterFactory,

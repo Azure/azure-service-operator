@@ -29,12 +29,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
-type resourceManagerClient struct {
+type ResourceManagerClient struct {
 	logger                   logr.Logger
 	eventHubNamespaceManager eventhubs.EventHubNamespaceManager
 }
 
-func (client *resourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
+func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
 	ehnDef, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
@@ -48,11 +48,11 @@ func (client *resourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	return controller_refactor.EnsureAwaitingVerification, nil
 }
 
-func (client *resourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
+func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
 	return controller_refactor.EnsureFailed, fmt.Errorf("eventhubnamespace cannot be updated")
 }
 
-func (client *resourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
+func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
 	ehnDef, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.VerifyError, err
@@ -80,7 +80,7 @@ func (client *resourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 	return controller_refactor.VerifyMissing, nil
 }
 
-func (client *resourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
+func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
 	ehnDef, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.DeleteError, err

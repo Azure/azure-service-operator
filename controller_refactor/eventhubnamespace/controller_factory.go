@@ -55,7 +55,7 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 }
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.GenericController {
-	resourceManagerClient := &resourceManagerClient{
+	resourceManagerClient := &ResourceManagerClient{
 		logger:                   logger,
 		eventHubNamespaceManager: factory.EventHubNamespaceManager,
 	}

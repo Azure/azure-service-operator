@@ -37,13 +37,13 @@ import (
 
 const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
 
-type resourceManagerClient struct {
+type ResourceManagerClient struct {
 	logger          logr.Logger
 	recorder        record.EventRecorder
-	eventHubManager eventhubs.EventHubManager
+	EventHubManager eventhubs.EventHubManager
 }
 
-func (client *resourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
+func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
 	instance, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.EnsureFailed, err
@@ -57,7 +57,7 @@ func (client *resourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	capturePtr := getCaptureDescriptionPtr(captureDescription)
 
 	// create the eventhub
-	_, err = client.eventHubManager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	_, err = client.EventHubManager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		client.recorder.Event(instance, "Warning", "Failed", "unable to create eventhub")
 		return controller_refactor.EnsureFailed, errhelp.NewAzureError(err)
@@ -66,7 +66,7 @@ func (client *resourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	// create or update the authorisation rule
 	authorizationRuleName := instance.Spec.AuthorizationRule.Name
 	authRuleParams := getAuthRuleParameters(instance)
-	_, err = client.eventHubManager.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, authRuleParams)
+	_, err = client.EventHubManager.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, authRuleParams)
 	if err != nil {
 		client.recorder.Event(instance, "Warning", "Failed", "Unable to createorupdateauthorizationrule")
 		return controller_refactor.EnsureFailed, errhelp.NewAzureError(err)
@@ -76,11 +76,11 @@ func (client *resourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	return controller_refactor.EnsureSucceeded, nil
 }
 
-func (client *resourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
+func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
 	return controller_refactor.EnsureFailed, fmt.Errorf("updating eventhub not currently supported")
 }
 
-func (client *resourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
+func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
 	instance, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.VerifyError, err
@@ -90,7 +90,7 @@ func (client *resourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 	resourceGroup := instance.Spec.ResourceGroup
 	authorizationRuleName := instance.Spec.AuthorizationRule.Name
 
-	eventhub, err := client.eventHubManager.GetHub(ctx, resourceGroup, eventhubNamespace, eventhubName)
+	eventhub, err := client.EventHubManager.GetHub(ctx, resourceGroup, eventhubNamespace, eventhubName)
 	if eventhub.Response.StatusCode == http.StatusNotFound {
 		return controller_refactor.VerifyMissing, nil
 	}
@@ -101,7 +101,7 @@ func (client *resourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 		return controller_refactor.VerifyError, errhelp.NewAzureError(fmt.Errorf("nil response received for eventhub get"))
 	}
 
-	_, err = client.eventHubManager.ListKeys(ctx, resourceGroup, eventhubNamespace, eventhubName, authorizationRuleName)
+	_, err = client.EventHubManager.ListKeys(ctx, resourceGroup, eventhubNamespace, eventhubName, authorizationRuleName)
 	if err != nil {
 		client.recorder.Event(instance, "EventHub", "Failed", "Verify failed. If eventhub is created, AuthKeys must be present.")
 		return controller_refactor.VerifyError, err
@@ -110,7 +110,7 @@ func (client *resourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 	return controller_refactor.VerifyMissing, nil
 }
 
-func (client *resourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
+func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
 	instance, err := convertInstance(r)
 	if err != nil {
 		return controller_refactor.DeleteError, err
@@ -119,7 +119,7 @@ func (client *resourceManagerClient) Delete(ctx context.Context, r runtime.Objec
 	namespaceName := instance.Spec.Namespace
 	resourcegroup := instance.Spec.ResourceGroup
 
-	resp, err := client.eventHubManager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
+	resp, err := client.EventHubManager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
 	if resp.StatusCode == http.StatusNotFound {
 		return controller_refactor.DeleteAlreadyDeleted, nil
 	}
