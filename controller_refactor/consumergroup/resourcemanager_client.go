@@ -15,8 +15,6 @@ limitations under the License.
 
 package consumergroup
 
-// TODO
-
 import (
 	"context"
 	"fmt"

@@ -37,8 +37,8 @@ type ControllerFactory struct {
 	Scheme               *runtime.Scheme
 }
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumerGroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumerGroups/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumergroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumergroups/status,verbs=get;update;patch
 
 const ResourceKind = "ConsumerGroup"
 const FinalizerName = "consumergroup.finalizers.azure.microsoft.com"
