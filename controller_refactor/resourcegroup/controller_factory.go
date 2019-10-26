@@ -43,27 +43,21 @@ const ResourceKind = "ResourceGroup"
 const FinalizerName = "resourcegroup.finalizers.azure.microsoft.com"
 
 func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters controller_refactor.Parameters) error {
+	gc, err := factory.create(mgr.GetClient(),
+		ctrl.Log.WithName("controllers").WithName(ResourceKind),
+		mgr.GetEventRecorderFor(ResourceKind+"-controller"), parameters)
+	if err != nil {
+		return err
+	}
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&v1alpha1.ResourceGroup{}).
-		Complete(factory.create(mgr.GetClient(),
-			ctrl.Log.WithName("controllers").WithName(ResourceKind),
-			mgr.GetEventRecorderFor(ResourceKind+"-controller"), parameters))
+		Complete(gc)
 }
 
-func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) *controller_refactor.GenericController {
+
+func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) (*controller_refactor.GenericController, error) {
 	resourceManagerClient := factory.ClientCreator(factory.ResourceGroupManager, logger)
-	return &controller_refactor.GenericController{
-		Parameters:            parameters,
-		ResourceKind:          ResourceKind,
-		KubeClient:            kubeClient,
-		Log:                   logger,
-		Recorder:              recorder,
-		Scheme:                factory.Scheme,
-		ResourceManagerClient: &resourceManagerClient,
-		DefinitionManager:     &definitionManager{},
-		FinalizerName:         FinalizerName,
-		PostProvisionFactory:  nil,
-	}
+	return controller_refactor.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, nil)
 }
 
 type definitionManager struct{}

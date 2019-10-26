@@ -17,11 +17,11 @@ package controller_refactor
 
 import (
 	"context"
+	"fmt"
 	apimeta "k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime"
 	"time"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
 
 	"k8s.io/client-go/tools/record"
@@ -54,11 +54,43 @@ type Parameters struct {
 	RequeueAfterSeconds int
 }
 
-// SetupWithManager function sets up the functions with the controller
-func (ac *GenericController) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.ResourceGroup{}).
-		Complete(ac)
+func CreateGenericFactory(parameters Parameters, resourceKind string, kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, scheme *runtime.Scheme, resMgrClient ResourceManagerClient, defMgr DefinitionManager, finalizerName string, ppFactory func(*GenericController) PostProvisionHandler) (*GenericController, error) {
+	gc := &GenericController{
+		Parameters:            parameters,
+		ResourceKind:          resourceKind,
+		KubeClient:            kubeClient,
+		Log:                   logger,
+		Recorder:              recorder,
+		Scheme:                scheme,
+		ResourceManagerClient: resMgrClient,
+		DefinitionManager:     defMgr,
+		FinalizerName:         finalizerName,
+		PostProvisionFactory:  ppFactory,
+	}
+	if err := gc.validate(); err != nil {
+		return nil, err
+	}
+	return gc, nil
+}
+
+func (ac *GenericController) validate() error {
+	if ac.ResourceKind == "" {
+		return fmt.Errorf("resource Kind must be defined for GenericController")
+	}
+	kind := ac.ResourceKind
+	if ac.Scheme == nil {
+		return fmt.Errorf("no Scheme defined for controller for %s", kind)
+	}
+	if ac.ResourceManagerClient == nil {
+		return fmt.Errorf("no ResourceManagerClient defined for controller for %s", kind)
+	}
+	if ac.DefinitionManager == nil {
+		return fmt.Errorf("no DefinitionManager defined for controller for %s", kind)
+	}
+	if ac.FinalizerName == "" {
+		return fmt.Errorf("no FinalizerName set for controller for %s", kind)
+	}
+	return nil
 }
 
 func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
