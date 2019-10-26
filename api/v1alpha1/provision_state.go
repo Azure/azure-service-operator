@@ -16,7 +16,8 @@ limitations under the License.
 package v1alpha1
 
 // ProvisionState enumerates the values for provisioning state.
-// +kubebuilder:validation:Enum=Pending;Creating;Updating;Verifying;PostProvisioning;Succeeded;Failed;Terminating
+// This is basically an enum wrapper around ASOStatus.State
+// +kubebuilder:validation:Enum=Pending;Creating;Updating;Verifying;PostProvisioning;Succeeded;Recreating;Failed;Terminating
 type ProvisionState string
 
 const (
