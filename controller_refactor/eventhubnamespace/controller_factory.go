@@ -18,7 +18,7 @@ package eventhubnamespace
 import (
 	"context"
 	"github.com/Azure/azure-service-operator/controller_refactor"
-	resourcegrouphelpers "github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
+	resourcegroupaccessors "github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -94,7 +94,7 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 				Namespace: ehnInstance.Namespace,
 				Name:      ehnInstance.Spec.ResourceGroup,
 			},
-			StatusAccessor: resourcegrouphelpers.GetStatus,
+			StatusAccessor: resourcegroupaccessors.GetStatus,
 		}
 	}
 

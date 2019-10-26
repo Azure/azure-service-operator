@@ -18,7 +18,7 @@ package eventhub
 import (
 	"context"
 	"github.com/Azure/azure-service-operator/controller_refactor"
-	eventhubnamespacehelpers "github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
+	eventhubnamespaceaccessors "github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -101,7 +101,7 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 				Namespace: ehnInstance.Namespace,
 				Name:      ehnInstance.Spec.Namespace,
 			},
-			StatusAccessor: eventhubnamespacehelpers.GetStatus,
+			StatusAccessor: eventhubnamespaceaccessors.GetStatus,
 		}
 	}
 
