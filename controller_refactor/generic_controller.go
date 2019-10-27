@@ -111,7 +111,6 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	instance := thisDefs.InitialInstance
 	status, err := thisDefs.StatusAccessor(instance)
-
 	metaObject, _ := apimeta.Accessor(instance)
 
 	instanceUpdater := instanceUpdater{
@@ -140,6 +139,7 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		instanceUpdater:       &instanceUpdater,
 	}
 
+	// handle finalization first
 	reconcileFinalizer := reconcileFinalizer{
 		reconcileRunner: reconcileRunner,
 	}
