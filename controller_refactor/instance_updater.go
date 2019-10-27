@@ -48,15 +48,13 @@ func (updater *instanceUpdater) removeFinalizer(name string) {
 	updater.metaUpdates = append(updater.metaUpdates, updateFunc)
 }
 
-func (updater *instanceUpdater) setProvisionState(provisionState azurev1alpha1.ProvisionState) {
+func (updater *instanceUpdater) setProvisionState(state azurev1alpha1.ProvisionState) {
 	updateFunc := func(s *azurev1alpha1.ASOStatus) {
-		s.State = string(provisionState)
-		if provisionState == azurev1alpha1.Verifying {
-			s.Provisioning = true
-		}
-		if provisionState == azurev1alpha1.Succeeded {
-			s.Provisioned = true
-		}
+		s.State = string(state)
+		s.Provisioned = state == azurev1alpha1.Succeeded
+		s.Provisioning = state != azurev1alpha1.Pending &&
+			state != azurev1alpha1.Succeeded &&
+			state != azurev1alpha1.Failed
 	}
 	updater.statusUpdate = &updateFunc
 }
