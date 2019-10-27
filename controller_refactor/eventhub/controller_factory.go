@@ -44,7 +44,7 @@ const ResourceKind = "Eventhub"
 const FinalizerName = "eventhub.finalizers.azure.microsoft.com"
 const ManagedEventhubNamespaceAnnotation = "eventhub.azure.microsoft.com/managed-eventhub-namespace"
 
-func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters controller_refactor.Parameters) error {
+func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters controller_refactor.ReconcileParameters) error {
 	gc, err := factory.create(mgr.GetClient(),
 		ctrl.Log.WithName("controllers").WithName(ResourceKind),
 		mgr.GetEventRecorderFor(ResourceKind+"-controller"), parameters)
@@ -57,7 +57,7 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 		Complete(gc)
 }
 
-func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.Parameters) (*controller_refactor.GenericController, error) {
+func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.ReconcileParameters) (*controller_refactor.GenericController, error) {
 	resourceManagerClient := factory.ClientCreator(factory.EventHubManager, logger, recorder)
 
 	// create a PostProvisionHandler for writing secret

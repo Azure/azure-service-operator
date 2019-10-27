@@ -147,8 +147,8 @@ var _ = BeforeSuite(func() {
 	if usingMocks {
 		requeueAfter = 1
 	}
-	controllerParams := controller_refactor.Parameters{
-		RequeueAfterSeconds: requeueAfter,
+	controllerParams := controller_refactor.ReconcileParameters{
+		RequeueAfter: requeueAfter,
 	}
 
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager

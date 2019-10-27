@@ -18,11 +18,9 @@ package controller_refactor
 import (
 	"context"
 	"fmt"
+	"github.com/go-logr/logr"
 	apimeta "k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime"
-	"time"
-
-	"github.com/go-logr/logr"
 
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -31,7 +29,7 @@ import (
 
 // GenericController reconciles a ResourceGroup object
 type GenericController struct {
-	Parameters            Parameters
+	Parameters            ReconcileParameters
 	ResourceKind          string
 	KubeClient            client.Client
 	Log                   logr.Logger
@@ -50,11 +48,13 @@ type PostProvisionHandler interface {
 	Run(ctx context.Context, r runtime.Object) error
 }
 
-type Parameters struct {
-	RequeueAfterSeconds int
+type ReconcileParameters struct {
+	RequeueAfter        int
+	RequeueAfterSuccess int
+	RequeueAfterFailure int
 }
 
-func CreateGenericFactory(parameters Parameters, resourceKind string, kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, scheme *runtime.Scheme, resMgrClient ResourceManagerClient, defMgr DefinitionManager, finalizerName string, ppFactory func(*GenericController) PostProvisionHandler) (*GenericController, error) {
+func CreateGenericFactory(parameters ReconcileParameters, resourceKind string, kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, scheme *runtime.Scheme, resMgrClient ResourceManagerClient, defMgr DefinitionManager, finalizerName string, ppFactory func(*GenericController) PostProvisionHandler) (*GenericController, error) {
 	gc := &GenericController{
 		Parameters:            parameters,
 		ResourceKind:          resourceKind,
@@ -112,7 +112,6 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	instance := thisDefs.InitialInstance
 	status, err := thisDefs.StatusAccessor(instance)
 
-	requeueAfter := getRequeueAfter(ac.Parameters.RequeueAfterSeconds)
 	metaObject, _ := apimeta.Accessor(instance)
 
 	instanceUpdater := instanceUpdater{
@@ -137,7 +136,6 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		objectMeta:            metaObject,
 		status:                status,
 		req:                   req,
-		requeueAfter:          requeueAfter,
 		log:                   log,
 		instanceUpdater:       &instanceUpdater,
 	}
@@ -159,12 +157,4 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	// run a single cycle of the reconcile loop
 	return reconcileRunner.run(ctx)
-}
-
-func getRequeueAfter(requeueSeconds int) time.Duration {
-	if requeueSeconds == 0 {
-		requeueSeconds = 10
-	}
-	requeueAfter := time.Duration(requeueSeconds) * time.Second
-	return requeueAfter
 }

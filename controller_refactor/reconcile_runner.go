@@ -44,7 +44,6 @@ type reconcileRunner struct {
 	objectMeta      metav1.Object
 	status          *azurev1alpha1.ASOStatus
 	req             ctrl.Request
-	requeueAfter    time.Duration
 	log             logr.Logger
 	instanceUpdater *instanceUpdater
 }
@@ -70,6 +69,7 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 	for i, dep := range allDeps {
 		instance := dep.InitialInstance
 		err := r.KubeClient.Get(ctx, dep.NamespacedName, instance)
+		pendingResult := ctrl.Result{Requeue: true, RequeueAfter: r.getRequeueAfter(azurev1alpha1.Pending)}
 
 		// if any of the dependencies are not found, we jump out.
 		if err != nil { // note that dependencies should be an empty array
@@ -78,7 +78,7 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 			} else {
 				r.logInfo(fmt.Sprintf("Unable to retrieve dependency for %s: %v", dep.NamespacedName.Name, err.Error()))
 			}
-			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, client.IgnoreNotFound(err)
+			return pendingResult, client.IgnoreNotFound(err)
 		}
 
 		// set the owner reference if owner is present and references have not been set
@@ -91,12 +91,12 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 		if err != nil {
 			r.logInfo(fmt.Sprintf("Cannot get status for %s. terminal failure.", dep.NamespacedName.Name))
 			// TODO fail - this is terminal
-			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, nil
+			return ctrl.Result{}, err
 		}
 
 		if !status.IsSucceeded() {
 			r.logInfo("One of the dependencies is not in 'Succeeded' state, requeuing")
-			return ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}, nil
+			return pendingResult, nil
 		}
 	}
 
@@ -321,28 +321,32 @@ func (r *reconcileRunner) updateAndLog(ctx context.Context, eventType string, re
 }
 
 func (r *reconcileRunner) getTransitionDetails(nextState azurev1alpha1.ProvisionState) (ctrl.Result, string) {
-	requeueResult := ctrl.Result{Requeue: true, RequeueAfter: r.requeueAfter}
+	requeueAfter := r.getRequeueAfter(nextState)
+	requeueResult := ctrl.Result{Requeue: requeueAfter > 0, RequeueAfter: requeueAfter}
+	message := ""
 	switch nextState {
 	case azurev1alpha1.Pending:
-		return requeueResult, fmt.Sprintf("%s %s in pending state.", r.ResourceKind, r.Name)
+		message = fmt.Sprintf("%s %s in pending state.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Creating:
-		return ctrl.Result{}, fmt.Sprintf("%s %s ready for creation.", r.ResourceKind, r.Name)
+		message = fmt.Sprintf("%s %s ready for creation.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Updating:
-		return ctrl.Result{}, fmt.Sprintf("%s %s ready to be updated.", r.ResourceKind, r.Name)
+		message = fmt.Sprintf("%s %s ready to be updated.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Verifying:
-		return requeueResult, fmt.Sprintf("%s %s verification in progress.", r.ResourceKind, r.Name)
+		message = fmt.Sprintf("%s %s verification in progress.", r.ResourceKind, r.Name)
 	case azurev1alpha1.PostProvisioning:
-		return ctrl.Result{}, fmt.Sprintf("%s %s provisioning succeeded and ready for post-provisioning step", r.ResourceKind, r.Name)
+		message = fmt.Sprintf("%s %s provisioning succeeded and ready for post-provisioning step", r.ResourceKind, r.Name)
 	case azurev1alpha1.Succeeded:
-		return ctrl.Result{}, fmt.Sprintf("%s %s successfully provisioned and ready for use.", r.ResourceKind, r.Name)
+		message = fmt.Sprintf("%s %s successfully provisioned and ready for use.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Recreating:
-		return requeueResult, fmt.Sprintf("%s %s deleting and recreating in progress.", r.ResourceKind, r.Name)
+		message = fmt.Sprintf("%s %s deleting and recreating in progress.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Failed:
-		return ctrl.Result{}, fmt.Sprintf("%s %s failed.", r.ResourceKind, r.Name)
+		message = fmt.Sprintf("%s %s failed.", r.ResourceKind, r.Name)
 	case azurev1alpha1.Terminating:
-		return ctrl.Result{}, fmt.Sprintf("%s %s termination in progress.", r.ResourceKind, r.Name)
+		message = fmt.Sprintf("%s %s termination in progress.", r.ResourceKind, r.Name)
+	default:
+		message = fmt.Sprintf("%s %s set to state %s", r.ResourceKind, r.Name, nextState)
 	}
-	return ctrl.Result{}, fmt.Sprintf("%s %s set to state %s", r.ResourceKind, r.Name, nextState)
+	return requeueResult, message
 }
 
 func (r *reconcileRunner) applyTransition(ctx context.Context, reason string, nextState azurev1alpha1.ProvisionState, transitionErr error) (ctrl.Result, error) {
@@ -372,4 +376,28 @@ func (r *reconcileRunner) applyTransition(ctx context.Context, reason string, ne
 
 func (r *reconcileRunner) logInfo(message string) {
 	r.log.Info(message, "Kind", r.ResourceKind)
+}
+
+func (r *reconcileRunner) getRequeueAfter(transitionState azurev1alpha1.ProvisionState) time.Duration {
+	parameters := r.Parameters
+	requeueAfterDuration := func(requeueSeconds int) time.Duration {
+		requeueAfter := time.Duration(requeueSeconds) * time.Second
+		return requeueAfter
+	}
+
+	if transitionState == azurev1alpha1.Pending ||
+		transitionState == azurev1alpha1.Verifying ||
+		transitionState == azurev1alpha1.Recreating {
+		// must by default have a non zero requeue for these states
+		requeueSeconds := parameters.RequeueAfter
+		if requeueSeconds == 0 {
+			requeueSeconds = 10
+		}
+		return requeueAfterDuration(requeueSeconds)
+	} else if transitionState == azurev1alpha1.Failed {
+		return requeueAfterDuration(parameters.RequeueAfterFailure)
+	} else if transitionState == azurev1alpha1.Succeeded {
+		return requeueAfterDuration(parameters.RequeueAfterSuccess)
+	}
+	return 0
 }

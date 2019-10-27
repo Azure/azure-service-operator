@@ -99,8 +99,8 @@ func main() {
 		requeueAfterSeconds = 30
 	}
 
-	controllerParams := controller_refactor.Parameters{
-		RequeueAfterSeconds: requeueAfterSeconds,
+	controllerParams := controller_refactor.ReconcileParameters{
+		RequeueAfter: requeueAfterSeconds,
 	}
 
 	err = (&controllers.StorageReconciler{
