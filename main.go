@@ -94,13 +94,18 @@ func main() {
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 
-	requeueAfterSeconds, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
-	if err != nil {
-		requeueAfterSeconds = 30
+	requeueAfter := func(requeueVar string, defaultValue int) int {
+		requeueAfterSeconds, err := strconv.Atoi(os.Getenv(requeueVar))
+		if err != nil {
+			requeueAfterSeconds = defaultValue
+		}
+		return requeueAfterSeconds
 	}
 
 	controllerParams := controller_refactor.ReconcileParameters{
-		RequeueAfter: requeueAfterSeconds,
+		RequeueAfter:        requeueAfter("REQUEUE_AFTER", 30),
+		RequeueAfterSuccess: requeueAfter("REQUEUE_AFTER_SUCCESS", 0),
+		RequeueAfterFailure: requeueAfter("REQUEUE_AFTER_FAILURE", 0),
 	}
 
 	err = (&controllers.StorageReconciler{
