@@ -110,10 +110,12 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 					// Requeue if ReconcileExternal errors on one of these codes
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
+				// DEBUGGING
+				r.Log.Info(fmt.Sprintf("catchIgnorable did not include error: %s", azerr.Type))
 			}
 			catchNotIgnorable := []string{
 				errhelp.ContainerOperationFailure, // Container name was invalid
-				// TODO: Figure out type of error where container name that exceeds min/max length requirements
+				errhelp.ValidationError,           // Some validation (such as min/max length for ContainerName) failed
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catchNotIgnorable, azerr.Type) {
@@ -124,6 +126,8 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 					// Do not requeue if ReconcileExternal errors on one of these codes
 					return ctrl.Result{Requeue: false}, nil
 				}
+				// DEBUGGING
+				r.Log.Info(fmt.Sprintf("catchNotIgnorable did not include error: %s", azerr.Type))
 			}
 		} else {
 			r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "blobcontainer "+instance.ObjectMeta.Name+" provisioned")
@@ -187,16 +191,18 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 		// Log TypeOf error to identify type of MinLength/MaxLength validation error
 		if strings.Contains(err.Error(), "MinLength") {
 			r.Log.Info("ERROR", "VALIDATION ERROR - MinLength rule violated", reflect.TypeOf(err))
+			return errhelp.NewAzureError(err)
 		}
 		if strings.Contains(err.Error(), "MaxLength") {
 			r.Log.Info("ERROR", "VALIDATION ERROR - MaxLength rule violated", reflect.TypeOf(err))
+			return errhelp.NewAzureError(err)
 		}
 		// END WIP: Validation error handling investigation
 
 		msg := fmt.Sprintf("Unable to create blob container in Azure: %v", err)
 		instance.Status.Message = msg
 
-		return err
+		return errhelp.NewAzureError(err)
 	}
 
 	msg := fmt.Sprintf("Created blob container: %s", containerName)
@@ -226,7 +232,7 @@ func (r *BlobContainerReconciler) deleteExternal(instance *azurev1alpha1.BlobCon
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
 		instance.Status.Message = msg
 
-		return err
+		return errhelp.NewAzureError(err)
 	}
 
 	msg := fmt.Sprintf("Deleted blob container: %s", containerName)
