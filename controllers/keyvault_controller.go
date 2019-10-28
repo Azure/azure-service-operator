@@ -163,8 +163,8 @@ func (r *KeyVaultReconciler) deleteExternal(instance *azurev1alpha1.KeyVault) er
 			return nil
 		}
 		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
-		instance.Status.Message = msg
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
+		instance.Status.Message = msg
 		return err
 	}
 
