@@ -18,6 +18,8 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"reflect"
+	"strings"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -180,6 +182,17 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 	_, err := r.StorageManager.CreateBlobContainer(ctx, groupName, accountName, containerName, accessLevel)
 	if err != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", err.Error())
+
+		// WIP: Validation error handling investigation
+		// Log TypeOf error to identify type of MinLength/MaxLength validation error
+		if strings.Contains(err.Error(), "MinLength") {
+			r.Log.Info("ERROR", "VALIDATION ERROR - MinLength rule violated", reflect.TypeOf(err))
+		}
+		if strings.Contains(err.Error(), "MaxLength") {
+			r.Log.Info("ERROR", "VALIDATION ERROR - MaxLength rule violated", reflect.TypeOf(err))
+		}
+		// END WIP: Validation error handling investigation
+
 		msg := fmt.Sprintf("Unable to create blob container in Azure: %v", err)
 		instance.Status.Message = msg
 
