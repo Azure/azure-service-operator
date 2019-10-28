@@ -17,11 +17,11 @@ package main
 
 import (
 	"flag"
-	"github.com/Azure/azure-service-operator/controller_refactor/consumergroup"
-	"github.com/Azure/azure-service-operator/controller_refactor/eventhub"
-	"github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
-	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
-	"github.com/Azure/azure-service-operator/pkg/controller"
+	"github.com/Azure/azure-service-operator/controllers_new/consumergroup"
+	"github.com/Azure/azure-service-operator/controllers_new/eventhub"
+	"github.com/Azure/azure-service-operator/controllers_new/eventhubnamespace"
+	"github.com/Azure/azure-service-operator/controllers_new/resourcegroup"
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	"strconv"
 
 	"k8s.io/apimachinery/pkg/runtime"
@@ -102,7 +102,7 @@ func main() {
 		return requeueAfterSeconds
 	}
 
-	controllerParams := controller.ReconcileParameters{
+	controllerParams := reconciler.ReconcileParameters{
 		RequeueAfter:        requeueAfter("REQUEUE_AFTER", 30),
 		RequeueAfterSuccess: requeueAfter("REQUEUE_AFTER_SUCCESS", 0),
 		RequeueAfterFailure: requeueAfter("REQUEUE_AFTER_FAILURE", 0),

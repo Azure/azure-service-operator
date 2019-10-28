@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
@@ -100,7 +101,7 @@ func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1alpha1.Reso
 
 	// write information back to instance
 	instance.Status.Provisioning = true
-	instance.Status.State = string(azurev1alpha1.Pending)
+	instance.Status.State = string(reconciler.Pending)
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
@@ -122,7 +123,7 @@ func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1alpha1.Reso
 	// write information back to instance
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-	instance.Status.State = string(azurev1alpha1.Verifying)
+	instance.Status.State = string(reconciler.Verifying)
 
 	err = r.Update(ctx, instance)
 	if err != nil {

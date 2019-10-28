@@ -13,21 +13,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controller
+package reconciler
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"time"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"time"
 
 	"github.com/go-logr/logr"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
 	corev1 "k8s.io/api/core/v1"
@@ -45,7 +45,7 @@ type reconcileRunner struct {
 	types.NamespacedName
 	instance        runtime.Object
 	objectMeta      metav1.Object
-	status          *azurev1alpha1.ASOStatus
+	status          *Status
 	req             ctrl.Request
 	log             logr.Logger
 	instanceUpdater *instanceUpdater
@@ -81,7 +81,7 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 			} else {
 				log.Info(fmt.Sprintf("Unable to retrieve dependency for %s: %v", dep.NamespacedName.Name, err.Error()))
 			}
-			return r.applyTransition(ctx, "Dependency", azurev1alpha1.Pending, client.IgnoreNotFound(err))
+			return r.applyTransition(ctx, "Dependency", Pending, client.IgnoreNotFound(err))
 		}
 
 		// set the owner reference if owner is present and references have not been set
@@ -94,12 +94,12 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 		if err != nil {
 			log.Info(fmt.Sprintf("Cannot get status for %s. terminal failure.", dep.NamespacedName.Name))
 			// Fail if cannot get status accessor for dependency
-			return r.applyTransition(ctx, "Dependency", azurev1alpha1.Failed, err)
+			return r.applyTransition(ctx, "Dependency", Failed, err)
 		}
 
 		if !status.IsSucceeded() {
 			log.Info("One of the dependencies is not in 'Succeeded' state, requeuing")
-			return r.applyTransition(ctx, "Dependency", azurev1alpha1.Pending, nil)
+			return r.applyTransition(ctx, "Dependency", Pending, nil)
 		}
 	}
 
@@ -116,12 +116,11 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 	// has created or updated, post provisioning
 	if status.IsPostProvisioning() {
 
-
 		return r.runPostProvision(ctx)
 	}
 
 	// if has no status, set to pending
-	return r.applyTransition(ctx, "run", azurev1alpha1.Pending, nil)
+	return r.applyTransition(ctx, "run", Pending, nil)
 }
 
 func (r *reconcileRunner) setOwner(ctx context.Context, owner runtime.Object) (ctrl.Result, error) {
@@ -138,7 +137,7 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	return r.applyTransition(ctx, "Verify", nextState, ensureErr)
 }
 
-func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.ProvisionState, error) {
+func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, error) {
 	status := r.status
 	instance := r.instance
 	currentState := status.ProvisionState()
@@ -148,7 +147,7 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.Prov
 
 	if err != nil {
 		// verification should not return an error - if this happens it's a terminal failure
-		return azurev1alpha1.Failed, err
+		return Failed, err
 	}
 	// Success case - the resource is provisioned on Azure, post provisioning can take place if necessary
 	if verifyResult.ready() {
@@ -163,7 +162,7 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.Prov
 	}
 	// Missing case - we can now create the resource
 	if verifyResult.missing() {
-		return azurev1alpha1.Creating, nil
+		return Creating, nil
 	}
 	// if resource is deleting, requeue the reconcile loop
 	if verifyResult.deleting() {
@@ -178,29 +177,29 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.Prov
 
 	// Update case - the resource exists in Azure, is invalid but updateable, so doesn't need to be recreated
 	if verifyResult.updateRequired() {
-		return azurev1alpha1.Updating, nil
+		return Updating, nil
 	}
 	// Recreate case - the resource exists in Azure, is invalid and needs to be created
 	if verifyResult.recreateRequired() {
 		deleteResult, err := r.ResourceManagerClient.Delete(ctx, instance)
 		if err != nil || deleteResult == DeleteError {
 			// TODO: add log here
-			return azurev1alpha1.Failed, err
+			return Failed, err
 		}
 
 		// set it back to pending and let it go through the whole process again
 		if deleteResult.awaitingVerification() {
-			return azurev1alpha1.Recreating, err
+			return Recreating, err
 		}
 
 		if deleteResult.alreadyDeleted() || deleteResult.succeed() {
-			return azurev1alpha1.Creating, err
+			return Creating, err
 		}
 
-		return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid DeleteResult for %s %s in Verify", r.ResourceKind, r.Name))
+		return Failed, errhelp.NewAzureError(fmt.Errorf("invalid DeleteResult for %s %s in Verify", r.ResourceKind, r.Name))
 	}
 
-	return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid VerifyResult for %s %s in Verify", r.ResourceKind, r.Name))
+	return Failed, errhelp.NewAzureError(fmt.Errorf("invalid VerifyResult for %s %s in Verify", r.ResourceKind, r.Name))
 }
 
 func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
@@ -209,7 +208,7 @@ func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
 	return r.applyTransition(ctx, "Ensure", nextState, ensureErr)
 }
 
-func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.ProvisionState, error) {
+func (r *reconcileRunner) ensureExecute(ctx context.Context) (ProvisionState, error) {
 
 	resourceName := r.Name
 	instance := r.instance
@@ -227,7 +226,7 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.Prov
 		// clear last update annotation
 		r.instanceUpdater.setAnnotation(LastAppliedAnnotation, "")
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Couldn't create or update resource in azure")
-		return azurev1alpha1.Failed, err
+		return Failed, err
 	}
 
 	// if successful
@@ -236,19 +235,19 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.Prov
 
 	// set it to succeeded, post provisioning (if there is a PostProvisioning handler), or await verification
 	if ensureResult.awaitingVerification() {
-		return azurev1alpha1.Verifying, nil
+		return Verifying, nil
 	} else if ensureResult.succeeded() {
 		return r.succeedOrPostProvision(), nil
 	} else {
-		return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("invalid response from Create for resource '%s'", resourceName))
+		return Failed, errhelp.NewAzureError(fmt.Errorf("invalid response from Create for resource '%s'", resourceName))
 	}
 }
 
-func (r *reconcileRunner) succeedOrPostProvision() azurev1alpha1.ProvisionState {
+func (r *reconcileRunner) succeedOrPostProvision() ProvisionState {
 	if r.PostProvisionFactory == nil || r.status.IsSucceeded() {
-		return azurev1alpha1.Succeeded
+		return Succeeded
 	} else {
-		return azurev1alpha1.PostProvisioning
+		return PostProvisioning
 	}
 }
 
@@ -260,9 +259,9 @@ func (r *reconcileRunner) runPostProvision(ctx context.Context) (ctrl.Result, er
 		}
 	}
 	if ppError != nil {
-		return r.applyTransition(ctx, "PostProvision", azurev1alpha1.Failed, ppError)
+		return r.applyTransition(ctx, "PostProvision", Failed, ppError)
 	} else {
-		return r.applyTransition(ctx, "PostProvision", azurev1alpha1.Succeeded, nil)
+		return r.applyTransition(ctx, "PostProvision", Succeeded, nil)
 	}
 }
 
@@ -326,28 +325,28 @@ func (r *reconcileRunner) updateAndLog(ctx context.Context, eventType string, re
 	return nil
 }
 
-func (r *reconcileRunner) getTransitionDetails(nextState azurev1alpha1.ProvisionState) (ctrl.Result, string) {
+func (r *reconcileRunner) getTransitionDetails(nextState ProvisionState) (ctrl.Result, string) {
 	requeueAfter := r.getRequeueAfter(nextState)
 	requeueResult := ctrl.Result{Requeue: requeueAfter > 0, RequeueAfter: requeueAfter}
 	message := ""
 	switch nextState {
-	case azurev1alpha1.Pending:
+	case Pending:
 		message = fmt.Sprintf("%s %s in pending state.", r.ResourceKind, r.Name)
-	case azurev1alpha1.Creating:
+	case Creating:
 		message = fmt.Sprintf("%s %s ready for creation.", r.ResourceKind, r.Name)
-	case azurev1alpha1.Updating:
+	case Updating:
 		message = fmt.Sprintf("%s %s ready to be updated.", r.ResourceKind, r.Name)
-	case azurev1alpha1.Verifying:
+	case Verifying:
 		message = fmt.Sprintf("%s %s verification in progress.", r.ResourceKind, r.Name)
-	case azurev1alpha1.PostProvisioning:
+	case PostProvisioning:
 		message = fmt.Sprintf("%s %s provisioning succeeded and ready for post-provisioning step", r.ResourceKind, r.Name)
-	case azurev1alpha1.Succeeded:
+	case Succeeded:
 		message = fmt.Sprintf("%s %s successfully provisioned and ready for use.", r.ResourceKind, r.Name)
-	case azurev1alpha1.Recreating:
+	case Recreating:
 		message = fmt.Sprintf("%s %s deleting and recreating in progress.", r.ResourceKind, r.Name)
-	case azurev1alpha1.Failed:
+	case Failed:
 		message = fmt.Sprintf("%s %s failed.", r.ResourceKind, r.Name)
-	case azurev1alpha1.Terminating:
+	case Terminating:
 		message = fmt.Sprintf("%s %s termination in progress.", r.ResourceKind, r.Name)
 	default:
 		message = fmt.Sprintf("%s %s set to state %s", r.ResourceKind, r.Name, nextState)
@@ -355,9 +354,9 @@ func (r *reconcileRunner) getTransitionDetails(nextState azurev1alpha1.Provision
 	return requeueResult, message
 }
 
-func (r *reconcileRunner) applyTransition(ctx context.Context, reason string, nextState azurev1alpha1.ProvisionState, transitionErr error) (ctrl.Result, error) {
+func (r *reconcileRunner) applyTransition(ctx context.Context, reason string, nextState ProvisionState, transitionErr error) (ctrl.Result, error) {
 	eventType := corev1.EventTypeNormal
-	if nextState == azurev1alpha1.Failed {
+	if nextState == Failed {
 		eventType = corev1.EventTypeWarning
 	}
 	errorMsg := ""
@@ -384,25 +383,25 @@ func (r *reconcileRunner) applyTransition(ctx context.Context, reason string, ne
 	return result, nil
 }
 
-func (r *reconcileRunner) getRequeueAfter(transitionState azurev1alpha1.ProvisionState) time.Duration {
+func (r *reconcileRunner) getRequeueAfter(transitionState ProvisionState) time.Duration {
 	parameters := r.Parameters
 	requeueAfterDuration := func(requeueSeconds int) time.Duration {
 		requeueAfter := time.Duration(requeueSeconds) * time.Second
 		return requeueAfter
 	}
 
-	if transitionState == azurev1alpha1.Pending ||
-		transitionState == azurev1alpha1.Verifying ||
-		transitionState == azurev1alpha1.Recreating {
+	if transitionState == Pending ||
+		transitionState == Verifying ||
+		transitionState == Recreating {
 		// must by default have a non zero requeue for these states
 		requeueSeconds := parameters.RequeueAfter
 		if requeueSeconds == 0 {
 			requeueSeconds = 10
 		}
 		return requeueAfterDuration(requeueSeconds)
-	} else if transitionState == azurev1alpha1.Failed {
+	} else if transitionState == Failed {
 		return requeueAfterDuration(parameters.RequeueAfterFailure)
-	} else if transitionState == azurev1alpha1.Succeeded {
+	} else if transitionState == Succeeded {
 		return requeueAfterDuration(parameters.RequeueAfterSuccess)
 	}
 	return 0

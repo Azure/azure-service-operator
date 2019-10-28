@@ -13,10 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controller
+package reconciler
 
 import (
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/apimachinery/pkg/runtime"
 
@@ -27,7 +26,7 @@ import (
 )
 
 // modifies the runtime.Object in place
-type statusUpdate = func(provisionState *azurev1alpha1.ASOStatus)
+type statusUpdate = func(status *Status)
 type metaUpdate = func(meta metav1.Object)
 
 // instanceUpdater is a mechanism to enable updating the shared sections of the manifest
@@ -48,14 +47,10 @@ func (updater *instanceUpdater) removeFinalizer(name string) {
 	updater.metaUpdates = append(updater.metaUpdates, updateFunc)
 }
 
-func (updater *instanceUpdater) setProvisionState(state azurev1alpha1.ProvisionState, message string) {
-	updateFunc := func(s *azurev1alpha1.ASOStatus) {
-		s.State = string(state)
+func (updater *instanceUpdater) setProvisionState(state ProvisionState, message string) {
+	updateFunc := func(s *Status) {
+		s.State = state
 		s.Message = message
-		s.Provisioned = state == azurev1alpha1.Succeeded
-		s.Provisioning = state != azurev1alpha1.Pending &&
-			state != azurev1alpha1.Succeeded &&
-			state != azurev1alpha1.Failed
 	}
 	updater.statusUpdate = &updateFunc
 }
@@ -89,7 +84,7 @@ func (updater *instanceUpdater) setOwnerReferences(owners []runtime.Object) {
 	updater.metaUpdates = append(updater.metaUpdates, updateFunc)
 }
 
-func (updater *instanceUpdater) applyUpdates(instance runtime.Object, status *azurev1alpha1.ASOStatus) error {
+func (updater *instanceUpdater) applyUpdates(instance runtime.Object, status *Status) error {
 	if updater.statusUpdate != nil {
 		(*updater.statusUpdate)(status)
 	}

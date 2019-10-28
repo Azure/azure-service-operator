@@ -13,33 +13,36 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package eventhub
+package eventhubnamespace
 
 import (
 	"fmt"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	converter "github.com/Azure/azure-service-operator/controllers_new/shared"
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
-func GetStatus(instance runtime.Object) (*v1alpha1.ASOStatus, error) {
+func GetStatus(instance runtime.Object) (*reconciler.Status, error) {
 	x, err := convertInstance(instance)
 	if err != nil {
 		return nil, err
 	}
-	return &x.Status, nil
+	return converter.ToControllerStatus(x.Status), nil
 }
 
-func updateStatus(instance runtime.Object, status *v1alpha1.ASOStatus) error {
+func updateStatus(instance runtime.Object, status *reconciler.Status) error {
 	x, err := convertInstance(instance)
 	if err != nil {
 		return err
 	}
-	x.Status = *status
+	x.Status = converter.ToAsoStatus(status)
 	return nil
 }
 
-func convertInstance(obj runtime.Object) (*v1alpha1.Eventhub, error) {
-	local, ok := obj.(*v1alpha1.Eventhub)
+func convertInstance(obj runtime.Object) (*v1alpha1.EventhubNamespace, error) {
+	local, ok := obj.(*v1alpha1.EventhubNamespace)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: EventhubNamespace")
 	}

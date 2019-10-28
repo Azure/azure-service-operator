@@ -17,7 +17,8 @@ package resourcegroup
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/pkg/controller"
+
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -42,7 +43,7 @@ type ControllerFactory struct {
 const ResourceKind = "ResourceGroup"
 const FinalizerName = "resourcegroup.finalizers.azure.microsoft.com"
 
-func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters controller.ReconcileParameters) error {
+func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters reconciler.ReconcileParameters) error {
 	gc, err := factory.create(mgr.GetClient(),
 		ctrl.Log.WithName("controllers").WithName(ResourceKind),
 		mgr.GetEventRecorderFor(ResourceKind+"-controller"), parameters)
@@ -54,21 +55,21 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 		Complete(gc)
 }
 
-func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller.ReconcileParameters) (*controller.GenericController, error) {
+func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters reconciler.ReconcileParameters) (*reconciler.GenericController, error) {
 	resourceManagerClient := factory.ClientCreator(factory.ResourceGroupManager, logger)
-	return controller.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, nil)
+	return reconciler.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, nil)
 }
 
 type definitionManager struct{}
 
-func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller.ResourceDefinition {
-	return &controller.ResourceDefinition{
+func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *reconciler.ResourceDefinition {
+	return &reconciler.ResourceDefinition{
 		InitialInstance: &v1alpha1.ResourceGroup{},
 		StatusAccessor:  GetStatus,
 		StatusUpdater:   updateStatus,
 	}
 }
 
-func (dm *definitionManager) GetDependencies(context.Context, runtime.Object) (*controller.DependencyDefinitions, error) {
-	return &controller.NoDependencies, nil
+func (dm *definitionManager) GetDependencies(context.Context, runtime.Object) (*reconciler.DependencyDefinitions, error) {
+	return &reconciler.NoDependencies, nil
 }

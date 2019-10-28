@@ -18,9 +18,10 @@ package resourcegroup
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/pkg/controller"
-	"github.com/go-logr/logr"
 	"net/http"
+
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
+	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
@@ -39,56 +40,56 @@ func CreateResourceManagerClient(resourceGroupManager resourcegroups.ResourceGro
 	}
 }
 
-func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller.EnsureResult, error) {
+func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (reconciler.EnsureResult, error) {
 	rg, err := convertInstance(r)
 	if err != nil {
-		return controller.EnsureError, err
+		return reconciler.EnsureError, err
 	}
 	_, err = client.ResourceGroupManager.CreateGroup(ctx, rg.Name, rg.Spec.Location)
 
 	if err != nil {
-		return controller.EnsureError, err
+		return reconciler.EnsureError, err
 	}
-	return controller.EnsureAwaitingVerification, nil
+	return reconciler.EnsureAwaitingVerification, nil
 }
 
-func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller.EnsureResult, error) {
-	return controller.EnsureError, fmt.Errorf("resource group cannot be updated")
+func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (reconciler.EnsureResult, error) {
+	return reconciler.EnsureError, fmt.Errorf("resource group cannot be updated")
 }
 
-func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller.VerifyResult, error) {
+func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (reconciler.VerifyResult, error) {
 	rg, err := convertInstance(r)
 	if err != nil {
-		return controller.VerifyError, err
+		return reconciler.VerifyError, err
 	}
 
 	resp, err := client.ResourceGroupManager.GetGroup(ctx, rg.Name)
 	if resp.Response.Response == nil || resp.StatusCode == http.StatusNotFound || resp.Properties.ProvisioningState == nil {
-		return controller.VerifyMissing, nil
+		return reconciler.VerifyMissing, nil
 	} else if err != nil {
-		return controller.VerifyError, err
+		return reconciler.VerifyError, err
 	}
 	if resp.StatusCode == http.StatusOK {
 		switch *resp.Properties.ProvisioningState {
 		// TODO: capture other ProvisioningStates
 		case "Deleting":
-			return controller.VerifyDeleting, nil
+			return reconciler.VerifyDeleting, nil
 		default:
-			return controller.VerifyReady, nil
+			return reconciler.VerifyReady, nil
 		}
 	}
 
 	// we probably shouldn't get to this point
-	return controller.VerifyMissing, nil
+	return reconciler.VerifyMissing, nil
 }
 
-func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller.DeleteResult, error) {
+func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (reconciler.DeleteResult, error) {
 	rg, err := convertInstance(r)
 	if err != nil {
-		return controller.DeleteError, err
+		return reconciler.DeleteError, err
 	}
 	if _, err := client.ResourceGroupManager.DeleteGroupAsync(ctx, rg.Name); err == nil {
-		return controller.DeleteAwaitingVerification, nil
+		return reconciler.DeleteAwaitingVerification, nil
 	}
-	return controller.DeleteSucceed, nil
+	return reconciler.DeleteSucceed, nil
 }

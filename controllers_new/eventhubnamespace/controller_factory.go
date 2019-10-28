@@ -17,12 +17,13 @@ package eventhubnamespace
 
 import (
 	"context"
-	resourcegroupaccessors "github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
-	"github.com/Azure/azure-service-operator/pkg/controller"
+	"strings"
+
+	resourcegroupaccessors "github.com/Azure/azure-service-operator/controllers_new/resourcegroup"
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
-	"strings"
 
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -45,7 +46,7 @@ const ResourceKind = "EventhubNamespace"
 const FinalizerName = "eventhubnamespace.finalizers.azure.microsoft.com"
 const ManagedResourceGroupAnnotation = "eventhubnamespace.azure.microsoft.com/managed-resource-group"
 
-func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters controller.ReconcileParameters) error {
+func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters reconciler.ReconcileParameters) error {
 	gc, err := factory.create(mgr.GetClient(),
 		ctrl.Log.WithName("controllers").WithName(ResourceKind),
 		mgr.GetEventRecorderFor(ResourceKind+"-controller"), parameters)
@@ -58,22 +59,22 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 		Complete(gc)
 }
 
-func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller.ReconcileParameters) (*controller.GenericController, error) {
+func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters reconciler.ReconcileParameters) (*reconciler.GenericController, error) {
 	resourceManagerClient := factory.ClientCreator(factory.EventHubNamespaceManager, logger)
-	return controller.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, nil)
+	return reconciler.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, nil)
 }
 
 type definitionManager struct{}
 
-func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller.ResourceDefinition {
-	return &controller.ResourceDefinition{
+func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *reconciler.ResourceDefinition {
+	return &reconciler.ResourceDefinition{
 		InitialInstance: &v1alpha1.EventhubNamespace{},
 		StatusAccessor:  GetStatus,
 		StatusUpdater:   updateStatus,
 	}
 }
 
-func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance runtime.Object) (*controller.DependencyDefinitions, error) {
+func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance runtime.Object) (*reconciler.DependencyDefinitions, error) {
 	ehnInstance, err := convertInstance(thisInstance)
 	if err != nil {
 		return nil, err
@@ -86,9 +87,9 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 	// defaults to true
 	isManaged := strings.ToLower(managedResourceGroup) != "false"
 
-	var owner *controller.Dependency = nil
+	var owner *reconciler.Dependency = nil
 	if isManaged {
-		owner = &controller.Dependency{
+		owner = &reconciler.Dependency{
 			InitialInstance: &v1alpha1.ResourceGroup{},
 			NamespacedName: types.NamespacedName{
 				Namespace: ehnInstance.Namespace,
@@ -98,8 +99,8 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 		}
 	}
 
-	return &controller.DependencyDefinitions{
-		Dependencies: []*controller.Dependency{},
+	return &reconciler.DependencyDefinitions{
+		Dependencies: []*reconciler.Dependency{},
 		Owner:        owner,
 	}, nil
 }

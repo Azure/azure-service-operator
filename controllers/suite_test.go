@@ -18,11 +18,11 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/controller_refactor/consumergroup"
-	"github.com/Azure/azure-service-operator/controller_refactor/eventhub"
-	"github.com/Azure/azure-service-operator/controller_refactor/eventhubnamespace"
-	"github.com/Azure/azure-service-operator/controller_refactor/resourcegroup"
-	"github.com/Azure/azure-service-operator/pkg/controller"
+	"github.com/Azure/azure-service-operator/controllers_new/consumergroup"
+	"github.com/Azure/azure-service-operator/controllers_new/eventhub"
+	"github.com/Azure/azure-service-operator/controllers_new/eventhubnamespace"
+	"github.com/Azure/azure-service-operator/controllers_new/resourcegroup"
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	"log"
 	"os"
 	"path/filepath"
@@ -147,7 +147,7 @@ var _ = BeforeSuite(func() {
 	if usingMocks {
 		requeueAfter = 1
 	}
-	controllerParams := controller.ReconcileParameters{
+	controllerParams := reconciler.ReconcileParameters{
 		RequeueAfter: requeueAfter,
 	}
 

@@ -19,6 +19,7 @@ import (
 	"context"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
@@ -131,7 +132,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubInstance.Status.IsSucceeded()
+				return eventhubInstance.Status.State == string(reconciler.Succeeded)
 			}, tc.timeout,
 			).Should(BeTrue())
 
@@ -204,7 +205,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubInstance.Status.IsSucceeded()
+				return eventhubInstance.Status.State == string(reconciler.Succeeded)
 			}, tc.timeout,
 			).Should(BeTrue())
 

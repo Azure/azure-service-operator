@@ -13,11 +13,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controller
+package reconciler
 
 import (
 	"context"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+
 	"k8s.io/apimachinery/pkg/types"
 
 	// "k8s.io/apimachinery/pkg/api/meta"
@@ -61,7 +61,7 @@ var NoDependencies = DependencyDefinitions{
 }
 
 // fetches the status of the instance of runtime.Object
-type StatusAccessor = func(instance runtime.Object) (*azurev1alpha1.ASOStatus, error)
+type StatusAccessor = func(instance runtime.Object) (*Status, error)
 
 // updates the status of the instance of runtime.Object with status
-type StatusUpdater = func(instance runtime.Object, status *azurev1alpha1.ASOStatus) error
+type StatusUpdater = func(instance runtime.Object, status *Status) error

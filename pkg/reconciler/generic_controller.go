@@ -13,11 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controller
+package reconciler
 
 import (
 	"context"
 	"fmt"
+
 	"github.com/go-logr/logr"
 	apimeta "k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -73,34 +74,34 @@ func CreateGenericFactory(parameters ReconcileParameters, resourceKind string, k
 	return gc, nil
 }
 
-func (ac *GenericController) validate() error {
-	if ac.ResourceKind == "" {
+func (gc *GenericController) validate() error {
+	if gc.ResourceKind == "" {
 		return fmt.Errorf("resource Kind must be defined for GenericController")
 	}
-	kind := ac.ResourceKind
-	if ac.Scheme == nil {
+	kind := gc.ResourceKind
+	if gc.Scheme == nil {
 		return fmt.Errorf("no Scheme defined for controller for %s", kind)
 	}
-	if ac.ResourceManagerClient == nil {
+	if gc.ResourceManagerClient == nil {
 		return fmt.Errorf("no ResourceManagerClient defined for controller for %s", kind)
 	}
-	if ac.DefinitionManager == nil {
+	if gc.DefinitionManager == nil {
 		return fmt.Errorf("no DefinitionManager defined for controller for %s", kind)
 	}
-	if ac.FinalizerName == "" {
+	if gc.FinalizerName == "" {
 		return fmt.Errorf("no FinalizerName set for controller for %s", kind)
 	}
 	return nil
 }
 
-func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (gc *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.TODO()
-	log := ac.Log.WithValues("Name", req.NamespacedName)
+	log := gc.Log.WithValues("Name", req.NamespacedName)
 
 	// fetch the manifest object
-	thisDefs := ac.DefinitionManager.GetDefinition(ctx, req.NamespacedName)
+	thisDefs := gc.DefinitionManager.GetDefinition(ctx, req.NamespacedName)
 
-	err := ac.KubeClient.Get(ctx, req.NamespacedName, thisDefs.InitialInstance)
+	err := gc.KubeClient.Get(ctx, req.NamespacedName, thisDefs.InitialInstance)
 	if err != nil {
 		log.Info("Unable to retrieve resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -118,7 +119,7 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	// get dependency details
-	dependencies, err := ac.DefinitionManager.GetDependencies(ctx, instance)
+	dependencies, err := gc.DefinitionManager.GetDependencies(ctx, instance)
 	// this is only the names and initial values, if we can't fetch these it's terminal
 	if err != nil {
 		log.Info("Unable to retrieve dependencies for resource ", "err", err.Error())
@@ -127,7 +128,7 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	// create a reconcile runner object. this runs a single cycle of the reconcile loop
 	reconcileRunner := reconcileRunner{
-		GenericController:     ac,
+		GenericController:     gc,
 		ResourceDefinition:    thisDefs,
 		DependencyDefinitions: dependencies,
 		NamespacedName:        req.NamespacedName,

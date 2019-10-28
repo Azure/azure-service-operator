@@ -13,12 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controller
+package reconciler
 
 import (
 	"context"
 	"fmt"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	corev1 "k8s.io/api/core/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -33,7 +33,7 @@ func (r *reconcileFinalizer) add(ctx context.Context) (ctrl.Result, error) {
 
 	updater.addFinalizer(r.FinalizerName)
 	r.log.Info("Adding finalizer to resource")
-	return r.applyTransition(ctx, "Finalizer", azurev1alpha1.Pending, nil)
+	return r.applyTransition(ctx, "Finalizer", Pending, nil)
 }
 
 func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
@@ -82,13 +82,13 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 	}
 
 	if !isTerminating {
-		updater.setProvisionState(azurev1alpha1.Terminating, "")
+		updater.setProvisionState(Terminating, "")
 	}
 	if removeFinalizer {
 		updater.removeFinalizer(r.FinalizerName)
 	}
 
-	requeueAfter := r.getRequeueAfter(azurev1alpha1.Terminating)
+	requeueAfter := r.getRequeueAfter(Terminating)
 	if removeFinalizer || !isTerminating {
 		if err := r.updateInstance(ctx); err != nil {
 			// if we can't update we have to requeue and hopefully it will remove the finalizer next time

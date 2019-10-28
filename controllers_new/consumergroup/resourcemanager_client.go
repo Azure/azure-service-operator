@@ -18,9 +18,10 @@ package consumergroup
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/pkg/controller"
-	"github.com/go-logr/logr"
 	"net/http"
+
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
+	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 
@@ -39,10 +40,10 @@ func CreateResourceManagerClient(consumerGroupManager eventhubs.ConsumerGroupMan
 	}
 }
 
-func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller.EnsureResult, error) {
+func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (reconciler.EnsureResult, error) {
 	cg, err := convertInstance(r)
 	if err != nil {
-		return controller.EnsureError, err
+		return reconciler.EnsureError, err
 	}
 	spec := cg.Spec
 
@@ -50,56 +51,56 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	_, err = client.ConsumerGroupManager.CreateConsumerGroup(ctx, spec.ResourceGroupName, spec.NamespaceName, spec.EventhubName, spec.AzureConsumerGroupName)
 	client.Logger.Info("ConsumerGroup " + cg.Name + " finished creating on Azure.")
 	if err != nil {
-		return controller.EnsureError, err
+		return reconciler.EnsureError, err
 	}
-	return controller.EnsureSucceeded, nil
+	return reconciler.EnsureSucceeded, nil
 }
 
-func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller.EnsureResult, error) {
-	return controller.EnsureError, fmt.Errorf("ConsumerGroup updating not supported")
+func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (reconciler.EnsureResult, error) {
+	return reconciler.EnsureError, fmt.Errorf("ConsumerGroup updating not supported")
 }
 
-func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller.VerifyResult, error) {
+func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (reconciler.VerifyResult, error) {
 	cg, err := convertInstance(r)
 	if err != nil {
-		return controller.VerifyError, err
+		return reconciler.VerifyError, err
 	}
 	spec := cg.Spec
 
 	client.Logger.Info("Fetching ConsumerGroup " + cg.Name + " from Azure.")
 	consumerGroup, err := client.ConsumerGroupManager.GetConsumerGroup(ctx, spec.ResourceGroupName, spec.NamespaceName, spec.EventhubName, spec.AzureConsumerGroupName)
 	if consumerGroup.Response.Response == nil {
-		return controller.VerifyError, fmt.Errorf("ConsumerGroup verify was nil for %s", cg.Name)
+		return reconciler.VerifyError, fmt.Errorf("ConsumerGroup verify was nil for %s", cg.Name)
 	} else if consumerGroup.Response.StatusCode == http.StatusNotFound {
-		return controller.VerifyMissing, nil
+		return reconciler.VerifyMissing, nil
 	} else if err != nil {
-		return controller.VerifyError, err
+		return reconciler.VerifyError, err
 	} else if consumerGroup.Response.StatusCode == http.StatusOK {
-		return controller.VerifyReady, nil
+		return reconciler.VerifyReady, nil
 	}
 
 	// we ideally shouldn't get to this point - all cases should be handled explicitly
-	return controller.VerifyMissing, nil
+	return reconciler.VerifyMissing, nil
 }
 
-func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller.DeleteResult, error) {
+func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (reconciler.DeleteResult, error) {
 	cg, err := convertInstance(r)
 	if err != nil {
-		return controller.DeleteError, err
+		return reconciler.DeleteError, err
 	}
 	spec := cg.Spec
 
 	client.Logger.Info("ConsumerGroup " + cg.Name + " deleting on Azure.")
 	resp, err := client.ConsumerGroupManager.DeleteConsumerGroup(ctx, spec.ResourceGroupName, spec.NamespaceName, spec.EventhubName, spec.AzureConsumerGroupName)
 	if resp.Response == nil {
-		return controller.DeleteError, err
+		return reconciler.DeleteError, err
 	}
 	if resp.StatusCode == http.StatusNotFound {
-		return controller.DeleteAlreadyDeleted, nil
+		return reconciler.DeleteAlreadyDeleted, nil
 	} else if resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusAccepted {
-		return controller.DeleteSucceed, nil
+		return reconciler.DeleteSucceed, nil
 	}
 
 	// TODO: handle all other cases
-	return controller.DeleteSucceed, nil
+	return reconciler.DeleteSucceed, nil
 }

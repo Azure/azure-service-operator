@@ -17,24 +17,27 @@ package consumergroup
 
 import (
 	"fmt"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	converter "github.com/Azure/azure-service-operator/controllers_new/shared"
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
-func getStatus(instance runtime.Object) (*v1alpha1.ASOStatus, error) {
+func GetStatus(instance runtime.Object) (*reconciler.Status, error) {
 	x, err := convertInstance(instance)
 	if err != nil {
 		return nil, err
 	}
-	return &x.Status, nil
+	return converter.ToControllerStatus(x.Status), nil
 }
 
-func updateStatus(instance runtime.Object, status *v1alpha1.ASOStatus) error {
+func updateStatus(instance runtime.Object, status *reconciler.Status) error {
 	x, err := convertInstance(instance)
 	if err != nil {
 		return err
 	}
-	x.Status = *status
+	x.Status = converter.ToAsoStatus(status)
 	return nil
 }
 
