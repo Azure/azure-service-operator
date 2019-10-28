@@ -39,8 +39,8 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
-	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
+	v1 "k8s.io/api/core/v1"
 )
 
 const storageFinalizerName = "storage.finalizers.azure.com"

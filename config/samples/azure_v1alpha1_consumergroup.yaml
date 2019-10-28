@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: ConsumerGroup
 metadata:
-  name: consumergroup-sample-2
+  name: consumergroup-sample-1
 spec:
   # Add fields here
   resourcegroup: resourcegroup-azure-operators
