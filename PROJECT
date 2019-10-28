@@ -12,23 +12,23 @@ resources:
   version: v1alpha1
   kind: RedisCache
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: Eventhub
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: ResourceGroup
 - group: azure
   version: v1alpha1
   kind: EventhubNamespace
 - group: azure
   version: v1alpha1
-  kind: SqlServer
+  kind: AzureSqlServer
 - group: azure
   version: v1alpha1
-  kind: SqlDatabase
+  kind: AzureSqlDatabase
 - group: azure
   version: v1alpha1
-  kind: SqlFirewallRule
+  kind: AzureSqlFirewallRule
 - group: azure
   version: v1alpha1
   kind: KeyVault
@@ -37,7 +37,4 @@ resources:
   kind: ConsumerGroup
 - group: azure
   version: v1alpha1
-  kind: SqlAction
-- group: azure
-  version: v1alpha1
-  kind: AdlsGen2
+  kind: AzureSqlAction
