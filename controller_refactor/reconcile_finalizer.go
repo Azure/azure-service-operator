@@ -32,7 +32,7 @@ func (r *reconcileFinalizer) add(ctx context.Context) (ctrl.Result, error) {
 	updater := r.instanceUpdater
 
 	updater.addFinalizer(r.FinalizerName)
-	r.Log.Info("Adding finalizer to resource")
+	r.log.Info("Adding finalizer to resource")
 	return r.applyTransition(ctx, "Finalizer", azurev1alpha1.Pending, nil)
 }
 
@@ -82,7 +82,7 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 	}
 
 	if !isTerminating {
-		updater.setProvisionState(azurev1alpha1.Terminating)
+		updater.setProvisionState(azurev1alpha1.Terminating, "")
 	}
 	if removeFinalizer {
 		updater.removeFinalizer(r.FinalizerName)

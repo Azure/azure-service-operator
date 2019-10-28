@@ -45,12 +45,12 @@ func findResourceGroup(res []resources.Group, predicate func(resources.Group) bo
 // CreateGroup creates a new resource group
 func (manager *MockResourceGroupManager) CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
 	r := resources.Group{
-		Response:   helpers.GetRestResponse(201),
-		Name:       to.StringPtr(groupName),
+		Response: helpers.GetRestResponse(201),
+		Name:     to.StringPtr(groupName),
 		Properties: &resources.GroupProperties{
 			ProvisioningState: to.StringPtr("Succeeded"),
 		},
-		Location:   to.StringPtr(location),
+		Location: to.StringPtr(location),
 	}
 	manager.resourceGroups = append(manager.resourceGroups, r)
 

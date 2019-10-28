@@ -95,14 +95,14 @@ func (ac *GenericController) validate() error {
 
 func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.TODO()
-	log := ac.Log.WithValues("NamespacedName", req.NamespacedName)
+	log := ac.Log.WithValues("Name", req.NamespacedName)
 
 	// fetch the manifest object
 	thisDefs := ac.DefinitionManager.GetDefinition(ctx, req.NamespacedName)
 
 	err := ac.KubeClient.Get(ctx, req.NamespacedName, thisDefs.InitialInstance)
 	if err != nil {
-		log.Info("Unable to retrieve resource", "err", err.Error(), "Kind", ac.ResourceKind, "Name", req.Name)
+		log.Info("Unable to retrieve resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -121,7 +121,7 @@ func (ac *GenericController) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	dependencies, err := ac.DefinitionManager.GetDependencies(ctx, instance)
 	// this is only the names and initial values, if we can't fetch these it's terminal
 	if err != nil {
-		log.Info("Unable to retrieve dependencies for resource "+req.Name, "err", err.Error(), "Kind", ac.ResourceKind, "Name", req.Name)
+		log.Info("Unable to retrieve dependencies for resource ", "err", err.Error())
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
