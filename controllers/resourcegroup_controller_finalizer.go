@@ -24,7 +24,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
-const resourceGroupFinalizerName = "resourcegroup.finalizers.azure.com"
+const resourceGroupFinalizerName = "resourcegroup.finalizers.com"
 
 func (r *ResourceGroupReconciler) addFinalizer(instance *azurev1alpha1.ResourceGroup) error {
 	instance.AddFinalizer(resourceGroupFinalizerName)
