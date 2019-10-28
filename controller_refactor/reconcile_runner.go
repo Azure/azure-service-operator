@@ -17,6 +17,7 @@ package controller_refactor
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -33,6 +34,8 @@ import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
+
+const LastUpdateAnnotation = "azure.microsoft.com/last-update"
 
 // Contains all the state involved in running a single reconcile event in the reconcile loo[
 type reconcileRunner struct {
@@ -74,9 +77,9 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 		// if any of the dependencies are not found, we jump out.
 		if err != nil { // note that dependencies should be an empty array
 			if apierrors.IsNotFound(err) {
-				r.logInfo("Dependency not found for " + dep.NamespacedName.Name + ". Requeuing request.")
+				r.Log.Info("Dependency not found for " + dep.NamespacedName.Name + ". Requeuing request.")
 			} else {
-				r.logInfo(fmt.Sprintf("Unable to retrieve dependency for %s: %v", dep.NamespacedName.Name, err.Error()))
+				r.Log.Info(fmt.Sprintf("Unable to retrieve dependency for %s: %v", dep.NamespacedName.Name, err.Error()))
 			}
 			return pendingResult, client.IgnoreNotFound(err)
 		}
@@ -89,13 +92,13 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 
 		status, err := dep.StatusAccessor(instance)
 		if err != nil {
-			r.logInfo(fmt.Sprintf("Cannot get status for %s. terminal failure.", dep.NamespacedName.Name))
+			r.Log.Info(fmt.Sprintf("Cannot get status for %s. terminal failure.", dep.NamespacedName.Name))
 			// TODO fail - this is terminal
 			return ctrl.Result{}, err
 		}
 
 		if !status.IsSucceeded() {
-			r.logInfo("One of the dependencies is not in 'Succeeded' state, requeuing")
+			r.Log.Info("One of the dependencies is not in 'Succeeded' state, requeuing")
 			return pendingResult, nil
 		}
 	}
@@ -133,7 +136,7 @@ func (r *reconcileRunner) setOwner(ctx context.Context, owner runtime.Object) (c
 }
 
 func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
-	r.logInfo("Verifying state of resource in Azure")
+	r.Log.Info("Verifying state of resource in Azure")
 	nextState, ensureErr := r.verifyExecute(ctx)
 	return r.applyTransition(ctx, "Verify", nextState, ensureErr)
 }
@@ -143,7 +146,7 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.Prov
 	instance := r.instance
 	currentState := status.ProvisionState()
 
-	r.logInfo("Checking state of resource on Azure")
+	r.Log.Info("Checking state of resource on Azure")
 	verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
 
 	if err != nil {
@@ -156,7 +159,7 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.Prov
 		// we assume that the resource is being deleted asynchronously in Azure, but there is no way to distinguish
 		// from the SDK that is deleting - it is either present or not. so we requeue the loop and wait for it to become `missing`
 		if status.IsRecreating() {
-			r.logInfo("Retrying verification: resource awaiting deletion before recreation can begin, requeuing reconcile loop")
+			r.Log.Info("Retrying verification: resource awaiting deletion before recreation can begin, requeuing reconcile loop")
 			return currentState, nil
 		}
 		return r.succeedOrPostProvision(), nil
@@ -167,12 +170,12 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.Prov
 	}
 	// if resource is deleting, requeue the reconcile loop
 	if verifyResult.deleting() {
-		r.logInfo("Retrying verification: resource awaiting deletion before recreation can begin, requeuing reconcile loop")
+		r.Log.Info("Retrying verification: resource awaiting deletion before recreation can begin, requeuing reconcile loop")
 		return currentState, nil
 	}
 	// if still is in progress with provisioning or if it is busy deleting, requeue the reconcile loop
 	if verifyResult.provisioning() {
-		r.logInfo("Retrying verification: verification of provisioning not complete, requeuing reconcile loop")
+		r.Log.Info("Retrying verification: verification of provisioning not complete, requeuing reconcile loop")
 		return currentState, nil
 	}
 
@@ -204,9 +207,13 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (azurev1alpha1.Prov
 }
 
 func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
-	r.logInfo("Ready to create or update resource in Azure")
+	r.Log.Info("Ready to create or update resource in Azure")
 	nextState, ensureErr := r.ensureExecute(ctx)
 	return r.applyTransition(ctx, "Ensure", nextState, ensureErr)
+}
+
+type SU struct {
+	spec string
 }
 
 func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.ProvisionState, error) {
@@ -224,11 +231,18 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.Prov
 		ensureResult, err = r.ResourceManagerClient.Update(ctx, instance)
 	}
 	if err != nil || ensureResult.failed() || ensureResult.invalidRequest() {
+		// clear last update annotation
+		r.instanceUpdater.setAnnotation(LastUpdateAnnotation, "")
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Couldn't create or update resource in azure")
 		return azurev1alpha1.Failed, err
 	}
 
-	// if successful, set it to succeeded, post provisioning (if there is a PostProvisioning handler), or await verification
+	// if successful
+	// save the last updated spec as a metadata annotation
+	jsonSpec := r.getJsonSpec()
+	r.instanceUpdater.setAnnotation(LastUpdateAnnotation, jsonSpec)
+
+	// set it to succeeded, post provisioning (if there is a PostProvisioning handler), or await verification
 	if ensureResult.awaitingVerification() {
 		return azurev1alpha1.Verifying, nil
 	} else if ensureResult.succeeded() {
@@ -236,6 +250,33 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.Prov
 	} else {
 		return azurev1alpha1.Failed, errhelp.NewAzureError(fmt.Errorf("Invalid response from Create for resource '%s'", resourceName))
 	}
+}
+
+func (r *reconcileRunner) getJsonSpec() string {
+	fetch := func() (string, error) {
+		b, err := json.Marshal(r.instance)
+		if err != nil {
+			return "", err
+		}
+		var asMap map[string]interface{}
+		err = json.Unmarshal(b, &asMap)
+		if err != nil {
+			return "", err
+		}
+		spec := asMap["spec"]
+		b, err = json.Marshal(spec)
+		if err != nil {
+			return "", err
+		}
+		return string(b), nil
+	}
+
+	jsonSpec, err := fetch()
+	if err != nil {
+		r.Log.Info("Error fetching Json for instance spec")
+		return ""
+	}
+	return jsonSpec
 }
 
 func (r *reconcileRunner) succeedOrPostProvision() azurev1alpha1.ProvisionState {
@@ -276,10 +317,10 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 	err := r.KubeClient.Get(ctx, r.NamespacedName, baseInstance)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
-			r.logInfo("Unable to update deleted resource. it may have already been finalized. this error is ignorable. Resource: " + r.Name)
+			r.Log.Info("Unable to update deleted resource. it may have already been finalized. this error is ignorable. Resource: " + r.Name)
 			return nil
 		} else {
-			r.logInfo("Unable to retrieve resource. falling back to prior instance: " + r.Name + ": err " + err.Error())
+			r.Log.Info("Unable to retrieve resource. falling back to prior instance: " + r.Name + ": err " + err.Error())
 		}
 	}
 	status, _ := r.StatusAccessor(instance)
@@ -296,7 +337,7 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 			r.instanceUpdater.clear()
 			return err
 		}
-		r.logInfo(fmt.Sprintf("Failed to update CRD instance on K8s cluster. retries left=%d", count))
+		r.Log.Info(fmt.Sprintf("Failed to update CRD instance on K8s cluster. retries left=%d", count))
 		time.Sleep(2 * time.Second)
 		return r.tryUpdateInstance(ctx, count-1)
 	} else {
@@ -308,11 +349,11 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 func (r *reconcileRunner) updateAndLog(ctx context.Context, eventType string, reason string, message string) error {
 	instance := r.instance
 	if !r.instanceUpdater.hasUpdates() {
-		r.logInfo(fmt.Sprintf("Resource up to date. no further update necessary."))
+		r.Log.Info(fmt.Sprintf("Resource up to date. no further update necessary."))
 		return nil
 	}
 	if err := r.updateInstance(ctx); err != nil {
-		r.logInfo(fmt.Sprintf("K8s update failure: %v", err))
+		r.Log.Info(fmt.Sprintf("K8s update failure: %v", err))
 		r.Recorder.Event(instance, corev1.EventTypeWarning, reason, fmt.Sprintf("failed to update instance of %s %s in kubernetes cluster", r.ResourceKind, r.Name))
 		return err
 	}
@@ -372,10 +413,6 @@ func (r *reconcileRunner) applyTransition(ctx context.Context, reason string, ne
 		return ctrl.Result{}, updateErr
 	}
 	return result, nil
-}
-
-func (r *reconcileRunner) logInfo(message string) {
-	r.log.Info(message, "Kind", r.ResourceKind)
 }
 
 func (r *reconcileRunner) getRequeueAfter(transitionState azurev1alpha1.ProvisionState) time.Duration {

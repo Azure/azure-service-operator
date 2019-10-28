@@ -32,7 +32,7 @@ func (r *reconcileFinalizer) add(ctx context.Context) (ctrl.Result, error) {
 	updater := r.instanceUpdater
 
 	updater.addFinalizer(r.FinalizerName)
-	r.logInfo("Adding finalizer to resource")
+	r.Log.Info("Adding finalizer to resource")
 	return r.applyTransition(ctx, "Finalizer", azurev1alpha1.Pending, nil)
 }
 

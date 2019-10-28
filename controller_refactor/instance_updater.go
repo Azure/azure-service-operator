@@ -59,6 +59,18 @@ func (updater *instanceUpdater) setProvisionState(state azurev1alpha1.ProvisionS
 	updater.statusUpdate = &updateFunc
 }
 
+func (updater *instanceUpdater) setAnnotation(name string, value string) {
+	updateFunc := func(meta metav1.Object) {
+		annotations := meta.GetAnnotations()
+		if annotations == nil {
+			annotations = map[string]string{}
+		}
+		annotations[name] = value
+		meta.SetAnnotations(annotations)
+	}
+	updater.metaUpdates = append(updater.metaUpdates, updateFunc)
+}
+
 func (updater *instanceUpdater) setOwnerReferences(owners []runtime.Object) {
 	updateFunc := func(s metav1.Object) {
 		references := make([]metav1.OwnerReference, len(owners))
