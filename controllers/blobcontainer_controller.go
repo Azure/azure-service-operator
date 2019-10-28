@@ -111,7 +111,7 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 			}
 			catchNotIgnorable := []string{
 				errhelp.ContainerOperationFailure, // Container name was invalid
-				// TODO: Figure out how to catch container name that exceeds min/max length requirements
+				// TODO: Figure out type of error where container name that exceeds min/max length requirements
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catchNotIgnorable, azerr.Type) {
