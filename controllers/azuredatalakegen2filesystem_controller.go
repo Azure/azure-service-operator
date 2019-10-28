@@ -178,7 +178,6 @@ func (r *AzureDataLakeGen2FileSystemReconciler) deleteExternal(instance *azurev1
 	}
 
 	r.Recorder.Event(instance, "Normal", "Deleted", fileSystemName+" deleted")
-	r.Recorder.Event(instance, "Normal", "Deleted", resp.Status)
 
 	return nil
 }

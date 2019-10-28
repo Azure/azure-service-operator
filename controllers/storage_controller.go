@@ -196,7 +196,6 @@ func (r *StorageReconciler) deleteExternal(instance *azurev1alpha1.Storage) erro
 	}
 
 	r.Recorder.Event(instance, "Normal", "Deleted", name+" deleted")
-	r.Recorder.Event(instance, "Normal", "Deleted", resp.Status)
 
 	return nil
 }
