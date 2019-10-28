@@ -149,13 +149,13 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
-		timeout = time.Second * 120
+		timeout = time.Second * 120 * 4
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		timeout = time.Second * 5
+		timeout = time.Second * 5 * 4
 	}
 
 	err = (&KeyVaultReconciler{
@@ -196,6 +196,14 @@ var _ = BeforeSuite(func() {
 		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 		Recorder:             k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 		ConsumerGroupManager: eventHubManagers.ConsumerGroup,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureDataLakeGen2FileSystemReconciler{
+		Client:            k8sManager.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
+		Recorder:          k8sManager.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
+		FileSystemManager: storageManagers.FileSystem,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

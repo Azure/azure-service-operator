@@ -16,6 +16,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -75,4 +76,9 @@ func init() {
 // IsSubmitted checks to see if resource has been successfully submitted for creation
 func (adlsGen2FileSystem *AzureDataLakeGen2FileSystem) IsSubmitted() bool {
 	return adlsGen2FileSystem.Status.Provisioning || adlsGen2FileSystem.Status.Provisioned
+}
+
+// HasFinalizer checks to see if the finalizer exists on the instance
+func (adlsGen2FileSystem *AzureDataLakeGen2FileSystem) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(adlsGen2FileSystem.ObjectMeta.Finalizers, finalizerName)
 }
