@@ -18,7 +18,7 @@ package consumergroup
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/controller_refactor"
+	"github.com/Azure/azure-service-operator/pkg/controller"
 	"github.com/go-logr/logr"
 	"net/http"
 
@@ -39,10 +39,10 @@ func CreateResourceManagerClient(consumerGroupManager eventhubs.ConsumerGroupMan
 	}
 }
 
-func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
+func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller.EnsureResult, error) {
 	cg, err := convertInstance(r)
 	if err != nil {
-		return controller_refactor.EnsureError, err
+		return controller.EnsureError, err
 	}
 	spec := cg.Spec
 
@@ -50,56 +50,56 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	_, err = client.ConsumerGroupManager.CreateConsumerGroup(ctx, spec.ResourceGroupName, spec.NamespaceName, spec.EventhubName, spec.AzureConsumerGroupName)
 	client.Logger.Info("ConsumerGroup " + cg.Name + " finished creating on Azure.")
 	if err != nil {
-		return controller_refactor.EnsureError, err
+		return controller.EnsureError, err
 	}
-	return controller_refactor.EnsureSucceeded, nil
+	return controller.EnsureSucceeded, nil
 }
 
-func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	return controller_refactor.EnsureError, fmt.Errorf("ConsumerGroup updating not supported")
+func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller.EnsureResult, error) {
+	return controller.EnsureError, fmt.Errorf("ConsumerGroup updating not supported")
 }
 
-func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
+func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller.VerifyResult, error) {
 	cg, err := convertInstance(r)
 	if err != nil {
-		return controller_refactor.VerifyError, err
+		return controller.VerifyError, err
 	}
 	spec := cg.Spec
 
 	client.Logger.Info("Fetching ConsumerGroup " + cg.Name + " from Azure.")
 	consumerGroup, err := client.ConsumerGroupManager.GetConsumerGroup(ctx, spec.ResourceGroupName, spec.NamespaceName, spec.EventhubName, spec.AzureConsumerGroupName)
 	if consumerGroup.Response.Response == nil {
-		return controller_refactor.VerifyError, fmt.Errorf("ConsumerGroup verify was nil for %s", cg.Name)
+		return controller.VerifyError, fmt.Errorf("ConsumerGroup verify was nil for %s", cg.Name)
 	} else if consumerGroup.Response.StatusCode == http.StatusNotFound {
-		return controller_refactor.VerifyMissing, nil
+		return controller.VerifyMissing, nil
 	} else if err != nil {
-		return controller_refactor.VerifyError, err
+		return controller.VerifyError, err
 	} else if consumerGroup.Response.StatusCode == http.StatusOK {
-		return controller_refactor.VerifyReady, nil
+		return controller.VerifyReady, nil
 	}
 
 	// we ideally shouldn't get to this point - all cases should be handled explicitly
-	return controller_refactor.VerifyMissing, nil
+	return controller.VerifyMissing, nil
 }
 
-func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
+func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller.DeleteResult, error) {
 	cg, err := convertInstance(r)
 	if err != nil {
-		return controller_refactor.DeleteError, err
+		return controller.DeleteError, err
 	}
 	spec := cg.Spec
 
 	client.Logger.Info("ConsumerGroup " + cg.Name + " deleting on Azure.")
 	resp, err := client.ConsumerGroupManager.DeleteConsumerGroup(ctx, spec.ResourceGroupName, spec.NamespaceName, spec.EventhubName, spec.AzureConsumerGroupName)
 	if resp.Response == nil {
-		return controller_refactor.DeleteError, err
+		return controller.DeleteError, err
 	}
 	if resp.StatusCode == http.StatusNotFound {
-		return controller_refactor.DeleteAlreadyDeleted, nil
+		return controller.DeleteAlreadyDeleted, nil
 	} else if resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusAccepted {
-		return controller_refactor.DeleteSucceed, nil
+		return controller.DeleteSucceed, nil
 	}
 
 	// TODO: handle all other cases
-	return controller_refactor.DeleteSucceed, nil
+	return controller.DeleteSucceed, nil
 }

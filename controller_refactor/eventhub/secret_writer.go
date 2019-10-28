@@ -17,7 +17,7 @@ package eventhub
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/controller_refactor"
+	"github.com/Azure/azure-service-operator/pkg/controller"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	v1 "k8s.io/api/core/v1"
 	//metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -27,7 +27,7 @@ import (
 )
 
 type secretsWriter struct {
-	*controller_refactor.GenericController
+	*controller.GenericController
 	eventHubManager eventhubs.EventHubManager
 }
 

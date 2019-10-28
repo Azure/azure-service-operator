@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controller_refactor
+package controller
 
 import (
 	"context"
@@ -81,7 +81,7 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 			} else {
 				log.Info(fmt.Sprintf("Unable to retrieve dependency for %s: %v", dep.NamespacedName.Name, err.Error()))
 			}
-			return r.applyTransition(ctx, "Dependency", azurev1alpha1.Pending,  client.IgnoreNotFound(err))
+			return r.applyTransition(ctx, "Dependency", azurev1alpha1.Pending, client.IgnoreNotFound(err))
 		}
 
 		// set the owner reference if owner is present and references have not been set
@@ -94,12 +94,12 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 		if err != nil {
 			log.Info(fmt.Sprintf("Cannot get status for %s. terminal failure.", dep.NamespacedName.Name))
 			// Fail if cannot get status accessor for dependency
-			return r.applyTransition(ctx, "Dependency", azurev1alpha1.Failed,  err)
+			return r.applyTransition(ctx, "Dependency", azurev1alpha1.Failed, err)
 		}
 
 		if !status.IsSucceeded() {
 			log.Info("One of the dependencies is not in 'Succeeded' state, requeuing")
-			return r.applyTransition(ctx, "Dependency", azurev1alpha1.Pending,  nil)
+			return r.applyTransition(ctx, "Dependency", azurev1alpha1.Pending, nil)
 		}
 	}
 
@@ -115,6 +115,8 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 
 	// has created or updated, post provisioning
 	if status.IsPostProvisioning() {
+
+
 		return r.runPostProvision(ctx)
 	}
 

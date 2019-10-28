@@ -17,8 +17,8 @@ package consumergroup
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/controller_refactor"
 	eventhubaccessors "github.com/Azure/azure-service-operator/controller_refactor/eventhub"
+	"github.com/Azure/azure-service-operator/pkg/controller"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -44,7 +44,7 @@ const ResourceKind = "ConsumerGroup"
 const FinalizerName = "consumergroup.finalizers.azure.microsoft.com"
 const ManagedEventhubAnnotation = "consumergroup.azure.microsoft.com/managed-eventhub"
 
-func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters controller_refactor.ReconcileParameters) error {
+func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters controller.ReconcileParameters) error {
 	gc, err := factory.create(mgr.GetClient(),
 		ctrl.Log.WithName("controllers").WithName(ResourceKind),
 		mgr.GetEventRecorderFor(ResourceKind+"-controller"), parameters)
@@ -57,22 +57,22 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 		Complete(gc)
 }
 
-func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller_refactor.ReconcileParameters) (*controller_refactor.GenericController, error) {
+func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters controller.ReconcileParameters) (*controller.GenericController, error) {
 	resourceManagerClient := factory.ClientCreator(factory.ConsumerGroupManager, logger)
-	return controller_refactor.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, nil)
+	return controller.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, nil)
 }
 
 type definitionManager struct{}
 
-func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller_refactor.ResourceDefinition {
-	return &controller_refactor.ResourceDefinition{
+func (dm *definitionManager) GetDefinition(ctx context.Context, namespacedName types.NamespacedName) *controller.ResourceDefinition {
+	return &controller.ResourceDefinition{
 		InitialInstance: &v1alpha1.ConsumerGroup{},
 		StatusAccessor:  getStatus,
 		StatusUpdater:   updateStatus,
 	}
 }
 
-func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance runtime.Object) (*controller_refactor.DependencyDefinitions, error) {
+func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance runtime.Object) (*controller.DependencyDefinitions, error) {
 	ehnInstance, err := convertInstance(thisInstance)
 	if err != nil {
 		return nil, err
@@ -82,9 +82,9 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 	// defaults to true
 	isManaged := strings.ToLower(managedEventhub) != "false"
 
-	var owner *controller_refactor.Dependency = nil
+	var owner *controller.Dependency = nil
 	if isManaged {
-		owner = &controller_refactor.Dependency{
+		owner = &controller.Dependency{
 			InitialInstance: &v1alpha1.Eventhub{},
 			NamespacedName: types.NamespacedName{
 				Namespace: ehnInstance.Namespace,
@@ -94,8 +94,8 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 		}
 	}
 
-	return &controller_refactor.DependencyDefinitions{
-		Dependencies: []*controller_refactor.Dependency{},
+	return &controller.DependencyDefinitions{
+		Dependencies: []*controller.Dependency{},
 		Owner:        owner,
 	}, nil
 

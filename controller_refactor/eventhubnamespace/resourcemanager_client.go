@@ -20,7 +20,7 @@ package eventhubnamespace
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/controller_refactor"
+	"github.com/Azure/azure-service-operator/pkg/controller"
 	"github.com/go-logr/logr"
 	"net/http"
 
@@ -41,69 +41,69 @@ func CreateResourceManagerClient(eventHubNamespaceManager eventhubs.EventHubName
 	}
 }
 
-func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
+func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (controller.EnsureResult, error) {
 	ehnDef, err := convertInstance(r)
 	if err != nil {
-		return controller_refactor.EnsureError, err
+		return controller.EnsureError, err
 	}
 	client.Logger.Info("EventhubNamespace " + ehnDef.Name + " creating on Azure. Please be patient.")
 	_, err = client.EventHubNamespaceManager.CreateNamespaceAndWait(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name, ehnDef.Spec.Location)
 	client.Logger.Info("EventhubNamespace " + ehnDef.Name + " finished creating on Azure.")
 	if err != nil {
-		return controller_refactor.EnsureError, err
+		return controller.EnsureError, err
 	}
-	return controller_refactor.EnsureAwaitingVerification, nil
+	return controller.EnsureAwaitingVerification, nil
 }
 
-func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller_refactor.EnsureResult, error) {
-	return controller_refactor.EnsureError, fmt.Errorf("EventhubNamespace cannot be updated")
+func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (controller.EnsureResult, error) {
+	return controller.EnsureError, fmt.Errorf("EventhubNamespace cannot be updated")
 }
 
-func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller_refactor.VerifyResult, error) {
+func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (controller.VerifyResult, error) {
 	ehnDef, err := convertInstance(r)
 	if err != nil {
-		return controller_refactor.VerifyError, err
+		return controller.VerifyError, err
 	}
 
 	client.Logger.Info("Fetching EventhubNamespace " + ehnDef.Name + " from Azure.")
 	ehn, err := client.EventHubNamespaceManager.GetNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
 	if ehn == nil || ehn.Response.Response == nil {
-		return controller_refactor.VerifyError, fmt.Errorf("eventhubnamespace verify was nil for %s", ehnDef.Name)
+		return controller.VerifyError, fmt.Errorf("eventhubnamespace verify was nil for %s", ehnDef.Name)
 	} else if ehn.Response.StatusCode == http.StatusNotFound {
-		return controller_refactor.VerifyMissing, nil
+		return controller.VerifyMissing, nil
 	} else if err != nil {
-		return controller_refactor.VerifyError, err
+		return controller.VerifyError, err
 	} else if ehn.Response.StatusCode == http.StatusOK {
 		if ehn.ProvisioningState != nil && *ehn.ProvisioningState == "Succeeded" {
 			// TODO: handle cases that lead to VerifyUpdateRequired and VerifyRecreateRequired
-			return controller_refactor.VerifyReady, nil
+			return controller.VerifyReady, nil
 		} else {
 			// TODO: handle cases that lead to VerifyDeleting (what are the undocumented values of *ehn.ProvisioningState?)
-			return controller_refactor.VerifyProvisioning, nil
+			return controller.VerifyProvisioning, nil
 		}
 	}
 
 	// we ideally shouldn't get to this point - all cases should be handled explicitly
-	return controller_refactor.VerifyMissing, nil
+	return controller.VerifyMissing, nil
 }
 
-func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller_refactor.DeleteResult, error) {
+func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (controller.DeleteResult, error) {
 	ehnDef, err := convertInstance(r)
 	if err != nil {
-		return controller_refactor.DeleteError, err
+		return controller.DeleteError, err
 	}
 
 	client.Logger.Info("EventhubNamespace " + ehnDef.Name + " deleting on Azure. Please be patient.")
 	resp, err := client.EventHubNamespaceManager.DeleteNamespace(ctx, ehnDef.Spec.ResourceGroup, ehnDef.Name)
 	if resp.Response == nil {
-		return controller_refactor.DeleteError, err
+		return controller.DeleteError, err
 	}
 	if resp.StatusCode == http.StatusNotFound {
-		return controller_refactor.DeleteAlreadyDeleted, nil
+		return controller.DeleteAlreadyDeleted, nil
 	} else if resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusAccepted {
-		return controller_refactor.DeleteSucceed, nil
+		return controller.DeleteSucceed, nil
 	}
 
 	// TODO: handle all other cases
-	return controller_refactor.DeleteSucceed, nil
+	return controller.DeleteSucceed, nil
 }

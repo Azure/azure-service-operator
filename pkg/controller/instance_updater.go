@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controller_refactor
+package controller
 
 import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
