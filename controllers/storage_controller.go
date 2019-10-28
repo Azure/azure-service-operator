@@ -184,7 +184,7 @@ func (r *StorageReconciler) deleteExternal(instance *azurev1alpha1.Storage) erro
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
-	resp, err := r.StorageManager.DeleteStorage(ctx, groupName, name)
+	_, err := r.StorageManager.DeleteStorage(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
