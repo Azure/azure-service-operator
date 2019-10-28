@@ -28,6 +28,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
+	v1 "k8s.io/api/core/v1"
 )
 
 // ResourceGroupReconciler reconciles a ResourceGroup object
@@ -102,18 +103,18 @@ func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1alpha1.Reso
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	_, err = r.ResourceGroupManager.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
 
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
 			//log error and kill it
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 		return err
 	}
@@ -124,10 +125,10 @@ func (r *ResourceGroupReconciler) reconcileExternal(instance *azurev1alpha1.Reso
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", resourcegroupName+" provisioned")
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", resourcegroupName+" provisioned")
 
 	return nil
 
@@ -141,7 +142,7 @@ func (r *ResourceGroupReconciler) deleteResourceGroup(instance *azurev1alpha1.Re
 	var err error
 	_, err = r.ResourceGroupManager.DeleteGroup(ctx, resourcegroup)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 	return nil
