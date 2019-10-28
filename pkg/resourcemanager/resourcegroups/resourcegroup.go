@@ -119,7 +119,7 @@ func ListGroups(ctx context.Context) (resources.GroupListResultIterator, error) 
 }
 
 // GetGroup gets info on the resource group in use
-func GetGroup(ctx context.Context, groupName string) (resources.Group, error) {
+func (_ *azureResourceGroupManager)  GetGroup(ctx context.Context, groupName string) (resources.Group, error) {
 	groupsClient := getGroupsClient()
 	return groupsClient.Get(ctx, groupName)
 }

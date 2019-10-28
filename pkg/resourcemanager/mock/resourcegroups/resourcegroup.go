@@ -45,9 +45,12 @@ func findResourceGroup(res []resources.Group, predicate func(resources.Group) bo
 // CreateGroup creates a new resource group
 func (manager *MockResourceGroupManager) CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
 	r := resources.Group{
-		Response: helpers.GetRestResponse(201),
-		Location: to.StringPtr(location),
-		Name:     to.StringPtr(groupName),
+		Response:   helpers.GetRestResponse(201),
+		Name:       to.StringPtr(groupName),
+		Properties: &resources.GroupProperties{
+			ProvisioningState: to.StringPtr("Succeeded"),
+		},
+		Location:   to.StringPtr(location),
 	}
 	manager.resourceGroups = append(manager.resourceGroups, r)
 
@@ -74,6 +77,22 @@ func (manager *MockResourceGroupManager) DeleteGroupAsync(ctx context.Context, g
 	_, err := manager.DeleteGroup(ctx, groupName)
 
 	return resources.GroupsDeleteFuture{}, err
+}
+
+func (manager *MockResourceGroupManager) GetGroup(ctx context.Context, groupName string) (resources.Group, error) {
+	groups := manager.resourceGroups
+	index, group := findResourceGroup(groups, func(g resources.Group) bool {
+		return *g.Name == groupName
+	})
+
+	if index == -1 {
+		return resources.Group{
+			Response: helpers.GetRestResponse(http.StatusNotFound),
+		}, errors.New("resource group not found")
+	}
+
+	group.Response = helpers.GetRestResponse(http.StatusOK)
+	return group, nil
 }
 
 func (manager *MockResourceGroupManager) CheckExistence(ctx context.Context, groupName string) (autorest.Response, error) {

@@ -62,18 +62,23 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 		return controller_refactor.VerifyError, err
 	}
 
-	// TODO: need to get the object itself to check if it's creating or deleting
-	resp, err := client.ResourceGroupManager.CheckExistence(ctx, rg.Name)
-	if resp.Response != nil && resp.StatusCode == http.StatusNotFound {
+	resp, err := client.ResourceGroupManager.GetGroup(ctx, rg.Name)
+	if resp.Response.Response == nil || resp.StatusCode == http.StatusNotFound || resp.Properties.ProvisioningState == nil {
 		return controller_refactor.VerifyMissing, nil
-	}
-	if err != nil {
+	} else if err != nil {
 		return controller_refactor.VerifyError, err
 	}
-	if resp.Response != nil && (resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusNoContent) {
-		return controller_refactor.VerifyReady, nil
+	if resp.StatusCode == http.StatusOK {
+		switch *resp.Properties.ProvisioningState {
+		// TODO: capture other ProvisioningStates
+		case "Deleting":
+			return controller_refactor.VerifyDeleting, nil
+		default:
+			return controller_refactor.VerifyReady, nil
+		}
 	}
 
+	// we probably shouldn't get to this point
 	return controller_refactor.VerifyMissing, nil
 }
 

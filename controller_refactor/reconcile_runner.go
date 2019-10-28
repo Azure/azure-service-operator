@@ -35,7 +35,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
-const LastUpdateAnnotation = "azure.microsoft.com/last-update"
+const LastAppliedAnnotation = "azure.microsoft.com/last-applied-spec"
 
 // Contains all the state involved in running a single reconcile event in the reconcile loo[
 type reconcileRunner struct {
@@ -232,7 +232,7 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.Prov
 	}
 	if err != nil || ensureResult.failed() || ensureResult.invalidRequest() {
 		// clear last update annotation
-		r.instanceUpdater.setAnnotation(LastUpdateAnnotation, "")
+		r.instanceUpdater.setAnnotation(LastAppliedAnnotation, "")
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Couldn't create or update resource in azure")
 		return azurev1alpha1.Failed, err
 	}
@@ -240,7 +240,7 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (azurev1alpha1.Prov
 	// if successful
 	// save the last updated spec as a metadata annotation
 	jsonSpec := r.getJsonSpec()
-	r.instanceUpdater.setAnnotation(LastUpdateAnnotation, jsonSpec)
+	r.instanceUpdater.setAnnotation(LastAppliedAnnotation, jsonSpec)
 
 	// set it to succeeded, post provisioning (if there is a PostProvisioning handler), or await verification
 	if ensureResult.awaitingVerification() {
