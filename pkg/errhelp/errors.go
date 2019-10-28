@@ -5,6 +5,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
+	"github.com/Azure/go-autorest/autorest/validation"
 	"k8s.io/apimachinery/pkg/api/errors"
 )
 
@@ -16,6 +17,7 @@ const (
 	AsyncOpIncompleteError         = "AsyncOpIncomplete"
 	InvalidServerName              = "InvalidServerName"
 	ContainerOperationFailure      = "ContainerOperationFailure"
+	ValidationError                = "ValidationError"
 )
 
 func NewAzureError(err error) error {
@@ -52,6 +54,9 @@ func NewAzureError(err error) error {
 	} else if _, ok := err.(azure.AsyncOpIncompleteError); ok {
 		kind = "AsyncOpIncomplete"
 		reason = "AsyncOpIncomplete"
+	} else if verr, ok := err.(validation.Error); ok {
+		kind = "ValidationError"
+		reason = verr.Message
 	}
 	ae.Reason = reason
 	ae.Type = kind
