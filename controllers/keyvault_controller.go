@@ -78,9 +78,7 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	} else {
 		if helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				msg := fmt.Sprintf("Delete KeyVault failed with %s", err.Error())
-				log.Info(msg)
-				instance.Status.Message = msg
+				instance.Status.Message = fmt.Sprintf("Delete KeyVault failed with %s", err.Error())
 				return ctrl.Result{}, err
 			}
 			helpers.RemoveFinalizer(&instance, keyVaultFinalizerName)
@@ -113,8 +111,7 @@ func (r *KeyVaultReconciler) addFinalizer(instance *azurev1alpha1.KeyVault) erro
 	helpers.AddFinalizer(instance, keyVaultFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
-		msg := fmt.Sprintf("Failed to update finalizer: %v", err)
-		instance.Status.Message = msg
+		instance.Status.Message = fmt.Sprintf("Failed to update finalizer: %v", err)
 
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
@@ -137,10 +134,10 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1alpha1.KeyVault)
 			instance.Status.Provisioning = true
 			return err
 		}
-		instance.Status.Provisioned = false
 		msg := "Couldn't create resource in azure"
-		instance.Status.Message = msg
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
+		instance.Status.Message = msg
+		instance.Status.Provisioned = false
 		final = errors.Wrap(err, "failed to update status")
 	} else {
 		instance.Status.Provisioning = false
