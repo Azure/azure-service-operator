@@ -29,6 +29,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	v1 "k8s.io/api/core/v1"
 )
 
 const keyVaultFinalizerName = "keyvault.finalizers.azure.com"
@@ -101,10 +102,8 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		}
 		return ctrl.Result{}, fmt.Errorf("error reconciling keyvault in azure: %v", err)
 	}
-	msg := fmt.Sprintf("%s successfully provisioned", instance.ObjectMeta.Name)
-	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", msg)
-	log.Info(msg)
-	instance.Status.Message = msg
+
+	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "Keyvault "+instance.ObjectMeta.Name+" provisioned ")
 	return ctrl.Result{}, nil
 }
 
@@ -130,16 +129,15 @@ func (r *KeyVaultReconciler) reconcileExternal(instance *azurev1alpha1.KeyVault)
 	var final error
 	if _, err := r.KeyVaultManager.CreateVault(ctx, groupName, name, location); err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
-			msg := fmt.Sprintf("%s provisioning", name)
-			r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioning", msg)
-			instance.Status.Message = msg
-			instance.Status.Provisioning = true
+			r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioning", name+" provisioning")
 			return err
 		}
-		instance.Status.Provisioned = false
-		msg := "Couldn't create resource in azure"
-		instance.Status.Message = msg
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
+		instance.Status.ProvisioningState = to.StringPtr("Failed")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
+
+		if err := r.Status().Update(ctx, instance); err != nil {
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		}
 		final = errors.Wrap(err, "failed to update status")
 	} else {
 		instance.Status.Provisioning = false
