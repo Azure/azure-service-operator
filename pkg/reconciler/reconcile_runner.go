@@ -69,6 +69,7 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 		allDeps = r.Dependencies
 	}
 	status := r.status
+	r.dependencies = map[types.NamespacedName]runtime.Object{}
 
 	// jump out and requeue if any of the dependencies are missing
 	for i, dep := range allDeps {
@@ -93,9 +94,8 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 				return r.setOwner(ctx, instance)
 			}
 			r.owner = instance
-		} else {
-			r.dependencies[dep.NamespacedName] = instance
 		}
+		r.dependencies[dep.NamespacedName] = instance
 
 		status, err := dep.StatusAccessor(instance)
 		if err != nil {
@@ -319,7 +319,7 @@ func (r *reconcileRunner) tryUpdateInstance(ctx context.Context, count int) erro
 func (r *reconcileRunner) updateAndLog(ctx context.Context, eventType string, reason string, message string) error {
 	instance := r.instance
 	if !r.instanceUpdater.hasUpdates() {
-		r.log.Info(fmt.Sprintf("Resource up to date. no further update necessary."))
+		r.log.WithValues("State", r.status.State).Info(fmt.Sprintf("Resource up to date. no further update necessary."))
 		return nil
 	}
 	if err := r.updateInstance(ctx); err != nil {

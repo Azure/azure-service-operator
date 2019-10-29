@@ -23,7 +23,7 @@ import (
 )
 
 type ResourceSpec struct {
-	Instance runtime.Object
+	Instance     runtime.Object
 	Dependencies map[types.NamespacedName]runtime.Object
 }
 

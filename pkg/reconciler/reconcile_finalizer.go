@@ -60,6 +60,7 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 			requeue = true
 		} else if !isTerminating { // and one of verifyResult.ready() || verifyResult.recreateRequired() || verifyResult.updateRequired()
 			// This block of code should only ever get called once.
+			r.log.Info("Deleting resource in Azure")
 			deleteResult, err := r.ResourceManagerClient.Delete(ctx, r.resourceSpec())
 			if err != nil || deleteResult.error() {
 				// TODO: log error (this should not happen, but we carry on allowing the result to delete)
