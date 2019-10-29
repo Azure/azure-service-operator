@@ -50,7 +50,7 @@ type reconcileRunner struct {
 	log             logr.Logger
 	instanceUpdater *instanceUpdater
 	owner           runtime.Object
-	dependencies    []runtime.Object
+	dependencies    map[types.NamespacedName]runtime.Object
 }
 
 type reconcileFinalizer struct {
@@ -94,7 +94,7 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 			}
 			r.owner = instance
 		} else {
-			r.dependencies = append(r.dependencies, instance)
+			r.dependencies[dep.NamespacedName] = instance
 		}
 
 		status, err := dep.StatusAccessor(instance)
@@ -146,11 +146,10 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 
 func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, error) {
 	status := r.status
-	instance := r.instance
 	currentState := status.State
 
 	r.log.Info("Verifying state of resource on Azure")
-	verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
+	verifyResult, err := r.ResourceManagerClient.Verify(ctx, r.resourceSpec())
 
 	if err != nil {
 		// verification should not return an error - if this happens it's a terminal failure
@@ -188,7 +187,7 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, er
 	}
 	// Recreate case - the resource exists in Azure, is invalid and needs to be created
 	if verifyResult.recreateRequired() {
-		deleteResult, err := r.ResourceManagerClient.Delete(ctx, instance)
+		deleteResult, err := r.ResourceManagerClient.Delete(ctx, r.resourceSpec())
 		if err != nil || deleteResult == DeleteError {
 			// TODO: add log here
 			return Failed, err
@@ -225,11 +224,11 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (ProvisionState, er
 	var err error
 	var ensureResult EnsureResult
 	if status.IsCreating() {
-		ensureResult, err = r.ResourceManagerClient.Create(ctx, instance)
+		ensureResult, err = r.ResourceManagerClient.Create(ctx, r.resourceSpec())
 	} else {
-		ensureResult, err = r.ResourceManagerClient.Update(ctx, instance)
+		ensureResult, err = r.ResourceManagerClient.Update(ctx, r.resourceSpec())
 	}
-	if err != nil || ensureResult.failed() || ensureResult.invalidRequest() {
+	if ensureResult == "" || err != nil || ensureResult.failed() || ensureResult.invalidRequest() {
 		// clear last update annotation
 		r.instanceUpdater.setAnnotation(LastAppliedAnnotation, "")
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Couldn't create or update resource in azure")
@@ -439,4 +438,8 @@ func (r *reconcileRunner) getJsonSpec() string {
 		return ""
 	}
 	return jsonSpec
+}
+
+func (r *reconcileRunner) resourceSpec() ResourceSpec {
+	return ResourceSpec{Instance: r.instance, Dependencies: r.dependencies}
 }

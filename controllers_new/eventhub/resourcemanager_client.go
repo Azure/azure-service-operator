@@ -33,8 +33,6 @@ import (
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
@@ -53,8 +51,8 @@ func CreateResourceManagerClient(eventHubManager eventhubs.EventHubManager, logg
 	}
 }
 
-func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (reconciler.EnsureResult, error) {
-	instance, err := convertInstance(r)
+func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResult, error) {
+	instance, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.EnsureError, err
 	}
@@ -86,12 +84,12 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	return reconciler.EnsureSucceeded, nil
 }
 
-func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (reconciler.EnsureResult, error) {
+func (client *ResourceManagerClient) Update(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResult, error) {
 	return reconciler.EnsureError, fmt.Errorf("Updating eventhub not currently supported")
 }
 
-func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (reconciler.VerifyResult, error) {
-	instance, err := convertInstance(r)
+func (client *ResourceManagerClient) Verify(ctx context.Context, r reconciler.ResourceSpec) (reconciler.VerifyResult, error) {
+	instance, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.VerifyError, err
 	}
@@ -120,8 +118,8 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 	return reconciler.VerifyReady, nil
 }
 
-func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (reconciler.DeleteResult, error) {
-	instance, err := convertInstance(r)
+func (client *ResourceManagerClient) Delete(ctx context.Context, r reconciler.ResourceSpec) (reconciler.DeleteResult, error) {
+	instance, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.DeleteError, err
 	}

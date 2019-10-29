@@ -26,8 +26,6 @@ import (
 	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
-
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type ResourceManagerClient struct {
@@ -42,8 +40,8 @@ func CreateResourceManagerClient(eventHubNamespaceManager eventhubs.EventHubName
 	}
 }
 
-func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Object) (reconciler.EnsureResult, error) {
-	ehnDef, err := convertInstance(r)
+func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResult, error) {
+	ehnDef, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.EnsureError, err
 	}
@@ -56,12 +54,12 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r runtime.Objec
 	return reconciler.EnsureAwaitingVerification, nil
 }
 
-func (client *ResourceManagerClient) Update(ctx context.Context, r runtime.Object) (reconciler.EnsureResult, error) {
+func (client *ResourceManagerClient) Update(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResult, error) {
 	return reconciler.EnsureError, fmt.Errorf("EventhubNamespace cannot be updated")
 }
 
-func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Object) (reconciler.VerifyResult, error) {
-	ehnDef, err := convertInstance(r)
+func (client *ResourceManagerClient) Verify(ctx context.Context, r reconciler.ResourceSpec) (reconciler.VerifyResult, error) {
+	ehnDef, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.VerifyError, err
 	}
@@ -88,8 +86,8 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r runtime.Objec
 	return reconciler.VerifyMissing, nil
 }
 
-func (client *ResourceManagerClient) Delete(ctx context.Context, r runtime.Object) (reconciler.DeleteResult, error) {
-	ehnDef, err := convertInstance(r)
+func (client *ResourceManagerClient) Delete(ctx context.Context, r reconciler.ResourceSpec) (reconciler.DeleteResult, error) {
+	ehnDef, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.DeleteError, err
 	}

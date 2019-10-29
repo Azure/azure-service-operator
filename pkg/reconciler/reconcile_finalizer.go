@@ -48,7 +48,7 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 	if r.isDefined() {
 		// Even before we cal ResourceManagerClient.Delete, we verify the state of the resource
 		// If it has not been created, we don't need to delete anything.
-		verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
+		verifyResult, err := r.ResourceManagerClient.Verify(ctx, r.resourceSpec())
 
 		if verifyResult.error() || err != nil {
 			// TODO: log error (this should not happen, but we carry on allowing the result to delete)
@@ -60,7 +60,7 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 			requeue = true
 		} else if !isTerminating { // and one of verifyResult.ready() || verifyResult.recreateRequired() || verifyResult.updateRequired()
 			// This block of code should only ever get called once.
-			deleteResult, err := r.ResourceManagerClient.Delete(ctx, instance)
+			deleteResult, err := r.ResourceManagerClient.Delete(ctx, r.resourceSpec())
 			if err != nil || deleteResult.error() {
 				// TODO: log error (this should not happen, but we carry on allowing the result to delete)
 				// Neither ResourceManagerClient.Verify nor ResourceManagerClient.Delete should error under usual conditions.

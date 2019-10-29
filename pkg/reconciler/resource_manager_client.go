@@ -17,22 +17,28 @@ package reconciler
 
 import (
 	"context"
+	"k8s.io/apimachinery/pkg/types"
 
 	"k8s.io/apimachinery/pkg/runtime"
 )
+
+type ResourceSpec struct {
+	Instance runtime.Object
+	Dependencies map[types.NamespacedName]runtime.Object
+}
 
 // ResourceManagerClient is a common abstraction for the controller to interact with the Azure resource managers
 // The ResourceManagerClient does not, or should not, modify the runtime.Object kubernetes object
 // it only needs to query or mutate Azure state, return the result of the operation
 type ResourceManagerClient interface {
 	// Creates an Azure resource, though it doesn't verify the readiness for consumption
-	Create(context.Context, runtime.Object) (EnsureResult, error)
+	Create(context.Context, ResourceSpec) (EnsureResult, error)
 	// Updates an Azure resource
-	Update(context.Context, runtime.Object) (EnsureResult, error)
+	Update(context.Context, ResourceSpec) (EnsureResult, error)
 	// Verifies the state of the resource in Azure
-	Verify(context.Context, runtime.Object) (VerifyResult, error)
+	Verify(context.Context, ResourceSpec) (VerifyResult, error)
 	// Deletes resource in Azure
-	Delete(context.Context, runtime.Object) (DeleteResult, error)
+	Delete(context.Context, ResourceSpec) (DeleteResult, error)
 }
 
 // The result of a create or update operation on Azure
