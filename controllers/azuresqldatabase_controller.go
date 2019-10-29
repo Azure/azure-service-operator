@@ -18,6 +18,8 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -37,14 +39,13 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
-const azureSQLDatabaseFinalizerName = "azuresqldatabase.finalizers.azure.com"
-
 // AzureSqlDatabaseReconciler reconciles a AzureSqlDatabase object
 type AzureSqlDatabaseReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Log            logr.Logger
+	Recorder       record.EventRecorder
+	Scheme         *runtime.Scheme
+	ResourceClient sql.ResourceClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqldatabases,verbs=get;list;watch;create;update;patch;delete
@@ -65,25 +66,30 @@ func (r *AzureSqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
-		if helpers.HasFinalizer(&instance, azureSQLDatabaseFinalizerName) {
+		if helpers.HasFinalizer(&instance, AzureSQLDatabaseFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
 				log.Info("Delete AzureSqlDatabase failed with ", "err", err.Error())
 				return ctrl.Result{}, err
 			}
 
-			helpers.RemoveFinalizer(&instance, azureSQLDatabaseFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
+			helpers.RemoveFinalizer(&instance, AzureSQLDatabaseFinalizerName)
+			if err := r.Status().Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
 		}
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(&instance, azureSQLDatabaseFinalizerName) {
+	if !instance.HasFinalizer(AzureSQLDatabaseFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
 			log.Info("Adding AzureSqlDatabase finalizer failed with ", "error", err.Error())
 			return ctrl.Result{}, err
 		}
+	}
+
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfter = 30
 	}
 
 	if !instance.IsSubmitted() {
@@ -99,7 +105,7 @@ func (r *AzureSqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
 					log.Info("Got ignorable error", "type", azerr.Type)
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+					return ctrl.Result{Requeue: true, RequeueAfter: time.Duration(requeueAfter) * time.Second}, nil
 				}
 			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling azure sql database in azure: %v", err)
@@ -125,13 +131,6 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 	server := instance.Spec.Server
 	dbName := instance.ObjectMeta.Name
 	dbEdition := instance.Spec.Edition
-
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        server,
-		Location:          location,
-	}
 
 	azureSqlDatabaseProperties := sql.SQLDatabaseProperties{
 		DatabaseName: dbName,
@@ -159,11 +158,11 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 	}
 
 	// write information back to instance
-	if updateerr := r.Update(ctx, instance); updateerr != nil {
+	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	_, err = sdkClient.CreateOrUpdateDB(azureSqlDatabaseProperties)
+	_, err = r.ResourceClient.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -176,7 +175,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = sdkClient.GetDB(dbName)
+	_, err = r.ResourceClient.GetDB(ctx, groupName, server, dbName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -193,21 +192,12 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 
 func (r *AzureSqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlDatabase) error {
 	ctx := context.Background()
-	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	dbName := instance.ObjectMeta.Name
 
-	// create the Go SDK client with relevant info
-	sdk := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        server,
-		Location:          location,
-	}
-
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/database/%s"+groupName, server, dbName))
-	_, err := sdk.DeleteDB(dbName)
+	_, err := r.ResourceClient.DeleteDB(ctx, groupName, server, dbName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
@@ -218,15 +208,5 @@ func (r *AzureSqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.Azur
 		return err
 	}
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "Deleted", dbName+" deleted")
-	return nil
-}
-
-func (r *AzureSqlDatabaseReconciler) addFinalizer(instance *azurev1alpha1.AzureSqlDatabase) error {
-	helpers.AddFinalizer(instance, azureSQLDatabaseFinalizerName)
-	err := r.Update(context.Background(), instance)
-	if err != nil {
-		return fmt.Errorf("failed to update finalizer: %v", err)
-	}
-	r.Recorder.Event(instance, corev1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", azureSQLDatabaseFinalizerName))
 	return nil
 }
