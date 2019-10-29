@@ -18,6 +18,8 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"os"
+	"strconv"
 	"time"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -26,13 +28,13 @@ import (
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 
 	"github.com/go-logr/logr"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	v1 "k8s.io/api/core/v1"
 )
 
 // EventhubNamespaceReconciler reconciles a EventhubNamespace object
@@ -75,6 +77,11 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 		return ctrl.Result{}, nil
 	}
 
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfter = 30
+	}
+
 	if !instance.IsSubmitted() {
 		err := r.reconcileExternal(&instance)
 		if err != nil {
@@ -84,7 +91,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 			}
 			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
 				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
-				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+				return ctrl.Result{Requeue: true, RequeueAfter: time.Duration(requeueAfter) * time.Second}, nil
 			}
 
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
