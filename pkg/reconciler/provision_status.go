@@ -29,8 +29,6 @@ const (
 	Terminating      ProvisionState = "Terminating"
 )
 
-func (s *Status) ProvisionState() ProvisionState { return s.State }
-
 func (s *Status) IsPending() bool          { return s.State == Pending }
 func (s *Status) IsCreating() bool         { return s.State == Creating }
 func (s *Status) IsUpdating() bool         { return s.State == Updating }
@@ -42,6 +40,6 @@ func (s *Status) IsFailed() bool           { return s.State == Failed }
 func (s *Status) IsTerminating() bool      { return s.State == Terminating }
 
 type Status struct {
-	State   ProvisionState `json:"state,omitempty"`
-	Message string         `json:"message,omitempty"`
+	State   ProvisionState
+	Message string
 }

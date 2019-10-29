@@ -49,6 +49,8 @@ type reconcileRunner struct {
 	req             ctrl.Request
 	log             logr.Logger
 	instanceUpdater *instanceUpdater
+	owner           runtime.Object
+	dependencies    []runtime.Object
 }
 
 type reconcileFinalizer struct {
@@ -86,8 +88,13 @@ func (r *reconcileRunner) run(ctx context.Context) (ctrl.Result, error) {
 
 		// set the owner reference if owner is present and references have not been set
 		// currently we only have single object ownership, but it is poosible to have multiple owners
-		if i == 0 && owner != nil && len(r.objectMeta.GetOwnerReferences()) == 0 {
-			return r.setOwner(ctx, instance)
+		if owner != nil && i == 0 {
+			if len(r.objectMeta.GetOwnerReferences()) == 0 {
+				return r.setOwner(ctx, instance)
+			}
+			r.owner = instance
+		} else {
+			r.dependencies = append(r.dependencies, instance)
 		}
 
 		status, err := dep.StatusAccessor(instance)
@@ -140,7 +147,7 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, error) {
 	status := r.status
 	instance := r.instance
-	currentState := status.ProvisionState()
+	currentState := status.State
 
 	r.log.Info("Verifying state of resource on Azure")
 	verifyResult, err := r.ResourceManagerClient.Verify(ctx, instance)
@@ -363,7 +370,7 @@ func (r *reconcileRunner) applyTransition(ctx context.Context, reason string, ne
 	if transitionErr != nil {
 		errorMsg = transitionErr.Error()
 	}
-	if nextState != r.status.ProvisionState() {
+	if nextState != r.status.State {
 		r.instanceUpdater.setProvisionState(nextState, errorMsg)
 	}
 	result, transitionMsg := r.getTransitionDetails(nextState)
