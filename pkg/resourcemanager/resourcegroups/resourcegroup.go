@@ -96,14 +96,6 @@ func (_ *AzureResourceGroupManager) DeleteGroup(ctx context.Context, groupName s
 		return autorest.Response{}, err
 	}
 
-	// @TODO remove the wait and let the reconciler do the check
-	// err = future.WaitForCompletionRef(ctx, client.Client)
-	// if err != nil {
-	// 	log.Fatalf("got error: %s", err)
-	// } else {
-	// 	fmt.Printf("finished deleting group '%s'\n", groupName)
-	// }
-
 	return future.Result(client)
 }
 
