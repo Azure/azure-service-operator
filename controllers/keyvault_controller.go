@@ -165,8 +165,9 @@ func (r *KeyVaultReconciler) deleteExternal(instance *azurev1alpha1.KeyVault) er
 		instance.Status.Message = msg
 		return err
 	}
-
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", name+" deleted")
+	msg := fmt.Sprintf("Deleted %s", name)
+	instance.Status.Message = msg
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", msg)
 	return nil
 }
 
