@@ -39,14 +39,6 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	g.Log.Info("creating resource group", "name", resourcegroupName, "location", resourcegroupLocation)
 	_, err = g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
-
-		// catch := []string{}
-		// err = errhelp.NewAzureError(err)
-		// if azerr, ok := err.(*errhelp.AzureError); ok {
-		// 	if helpers.ContainsString(catch, azerr.Type) {
-		// 		return true, nil
-		// 	}
-		// }
 		instance.Status.Provisioned = false
 		return false, fmt.Errorf("ResourceGroup create error %v", err)
 

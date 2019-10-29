@@ -24,7 +24,7 @@ func Fetch(ctx context.Context, client client.Client, namespacedName types.Names
 		if apierrs.IsNotFound(err) {
 			return nil
 		}
-		log.Error(err, "unable to fetch secret")
+		log.Error(err, "unable to fetch object")
 		return err
 	}
 	return nil
