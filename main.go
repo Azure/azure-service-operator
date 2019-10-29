@@ -138,10 +138,10 @@ func main() {
 		Recorder:             mgr.GetEventRecorderFor("ResourceGroup-controller"),
 		ResourceGroupManager: resourceGroupManager,
 		Reconciler: &controllers.AsyncReconciler{
-			Client:   mgr.GetClient(),
-			Az:       resourceGroupManager,
-			Log:      ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-			Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
+			Client:      mgr.GetClient(),
+			AzureClient: resourceGroupManager,
+			Log:         ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+			Recorder:    mgr.GetEventRecorderFor("ResourceGroup-controller"),
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {

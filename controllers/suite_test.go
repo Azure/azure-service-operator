@@ -186,10 +186,10 @@ var _ = BeforeSuite(func() {
 		Recorder:             k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
 		ResourceGroupManager: resourceGroupManager,
 		Reconciler: &AsyncReconciler{
-			Client:   k8sManager.GetClient(),
-			Az:       resourceGroupManager,
-			Log:      ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-			Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+			Client:      k8sManager.GetClient(),
+			AzureClient: resourceGroupManager,
+			Log:         ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+			Recorder:    k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
 		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())

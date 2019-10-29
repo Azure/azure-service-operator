@@ -33,9 +33,9 @@ type AsyncClient interface {
 // It reconciles object which require long running operations.
 type AsyncReconciler struct {
 	client.Client
-	Az       AsyncClient
-	Log      logr.Logger
-	Recorder record.EventRecorder
+	AzureClient AsyncClient
+	Log         logr.Logger
+	Recorder    record.EventRecorder
 }
 
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctrl.Result, error) {
@@ -66,7 +66,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 		}
 	} else {
 		if HasFinalizer(res, finalizerName) {
-			found, deleteErr := r.Az.Delete(ctx, local)
+			found, deleteErr := r.AzureClient.Delete(ctx, local)
 			final := multierror.Append(deleteErr, r.Status().Update(ctx, local))
 			if err := final.ErrorOrNil(); err != nil {
 				log.Info("error deleting object", "error", err.Error())
@@ -85,7 +85,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 	}
 
 	log.Info("reconciling object")
-	done, ensureErr := r.Az.Ensure(ctx, local)
+	done, ensureErr := r.AzureClient.Ensure(ctx, local)
 	if ensureErr != nil {
 
 		log.Error(ensureErr, "ensure err")
