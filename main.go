@@ -206,12 +206,13 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
 		os.Exit(1)
 	}
-	if err = (&controllers.AdlsGen2Reconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("AdlsGen2"),
-		Recorder: mgr.GetEventRecorderFor("AdlsGen2-controller"),
+	if err = (&controllers.AzureDataLakeGen2FileSystemReconciler{
+		Client:            mgr.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
+		Recorder:          mgr.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
+		FileSystemManager: storageManagers.FileSystem,
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AdlsGen2")
+		setupLog.Error(err, "unable to create controller", "controller", "AzureDataLakeGen2FileSystem")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

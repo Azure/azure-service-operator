@@ -1,0 +1,8 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureDataLakeGen2FileSystem
+metadata:
+  name: adls-filesystem
+spec:
+  # Add fields here
+  storageAccountName: adlsaccount1908
+  resourceGroup: resourcegroup-azure-operators
