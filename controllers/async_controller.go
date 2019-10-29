@@ -57,7 +57,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 
 		if !HasFinalizer(res, finalizerName) {
 			AddFinalizer(res, finalizerName)
-			r.Recorder.Event(local, "Normal", "Added", "Object finalizer is added")
+			r.Recorder.Event(local, corev1.EventTypeNormal, "Added", "Object finalizer is added")
 			return ctrl.Result{}, r.Update(ctx, local)
 		}
 	} else {
@@ -66,7 +66,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 			final := multierror.Append(deleteErr, r.Status().Update(ctx, local))
 			if err := final.ErrorOrNil(); err != nil {
 				log.Info("error deleting object", "error", err.Error())
-				r.Recorder.Event(local, "Warning", "FailedDelete", fmt.Sprintf("Failed to delete resource: %s", err.Error()))
+				r.Recorder.Event(local, corev1.EventTypeWarning, "FailedDelete", fmt.Sprintf("Failed to delete resource: %s", err.Error()))
 				return ctrl.Result{}, err
 			}
 			if !found {
@@ -90,9 +90,9 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 	final := multierror.Append(ensureErr, r.Status().Update(ctx, local))
 	err := final.ErrorOrNil()
 	if err != nil {
-		r.Recorder.Event(local, "Warning", "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
+		r.Recorder.Event(local, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
 	} else if done {
-		r.Recorder.Event(local, "Normal", "Reconciled", "Successfully reconciled")
+		r.Recorder.Event(local, corev1.EventTypeNormal, "Reconciled", "Successfully reconciled")
 	}
 
 	result := ctrl.Result{Requeue: !done}
