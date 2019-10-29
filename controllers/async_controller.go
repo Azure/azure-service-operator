@@ -47,10 +47,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	// if err := r.Az.ForSubscription(ctx, local); err != nil {
-	// 	return ctrl.Result{}, err
-	// }
-
 	res, convertErr := meta.Accessor(local)
 	if convertErr != nil {
 		log.Info("accessor fail")
