@@ -135,10 +135,6 @@ func main() {
 		os.Exit(1)
 	}
 	err = (&controllers.ResourceGroupReconciler{
-		Client:               mgr.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-		Recorder:             mgr.GetEventRecorderFor("ResourceGroup-controller"),
-		ResourceGroupManager: resourceGroupManager,
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: resourceGroupManager,

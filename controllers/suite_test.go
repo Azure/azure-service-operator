@@ -181,10 +181,6 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&ResourceGroupReconciler{
-		Client:               k8sManager.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-		Recorder:             k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
-		ResourceGroupManager: resourceGroupManager,
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: resourceGroupManager,
