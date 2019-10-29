@@ -1,4 +1,4 @@
-# Azure Service Operator (for Kubernetes) 
+# Azure Service Operator (for Kubernetes)
 
 [![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
 
