@@ -33,6 +33,7 @@ import (
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -93,6 +94,7 @@ func main() {
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
+	resourceClient := resourcemanagersql.GoSDKClient{}
 
 	requeueAfter := func(requeueVar string, defaultValue int) int {
 		requeueAfterSeconds, err := strconv.Atoi(os.Getenv(requeueVar))
@@ -192,19 +194,21 @@ func main() {
 	}
 
 	if err = (&controllers.AzureSqlServerReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
-		Recorder: mgr.GetEventRecorderFor("AzureSqlServer-controller"),
-		Scheme:   mgr.GetScheme(),
+		Client:         mgr.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+		Recorder:       mgr.GetEventRecorderFor("AzureSqlServer-controller"),
+		Scheme:         mgr.GetScheme(),
+		ResourceClient: resourceClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
 		os.Exit(1)
 	}
 	if err = (&controllers.AzureSqlDatabaseReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
-		Recorder: mgr.GetEventRecorderFor("AzureSqlDatabase-controller"),
-		Scheme:   mgr.GetScheme(),
+		Client:         mgr.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
+		Recorder:       mgr.GetEventRecorderFor("AzureSqlDatabase-controller"),
+		Scheme:         mgr.GetScheme(),
+		ResourceClient: resourceClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDatabase")
 		os.Exit(1)
@@ -215,17 +219,19 @@ func main() {
 			ctrl.Log.WithName("controllers").WithName(NameAzureSQLFirewallRuleOperator),
 			NameAzureSQLFirewallRuleOperator,
 		),
-		Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
-		Scheme:   mgr.GetScheme(),
+		Recorder:       mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
+		Scheme:         mgr.GetScheme(),
+		ResourceClient: resourceClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
 		os.Exit(1)
 	}
 	if err = (&controllers.AzureSqlActionReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
-		Recorder: mgr.GetEventRecorderFor("AzureSqlAction-controller"),
-		Scheme:   mgr.GetScheme(),
+		Client:         mgr.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
+		Recorder:       mgr.GetEventRecorderFor("AzureSqlAction-controller"),
+		Scheme:         mgr.GetScheme(),
+		ResourceClient: resourceClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
 		os.Exit(1)
