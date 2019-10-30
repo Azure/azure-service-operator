@@ -38,7 +38,7 @@ func CreateResourceManagerClient(consumerGroupManager eventhubs.ConsumerGroupMan
 	}
 }
 
-func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResult, error) {
+func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResponse, error) {
 	cg, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.EnsureError, err
@@ -54,11 +54,11 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.Re
 	return reconciler.EnsureSucceeded, nil
 }
 
-func (client *ResourceManagerClient) Update(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResult, error) {
+func (client *ResourceManagerClient) Update(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResponse, error) {
 	return reconciler.EnsureError, fmt.Errorf("ConsumerGroup updating not supported")
 }
 
-func (client *ResourceManagerClient) Verify(ctx context.Context, r reconciler.ResourceSpec) (reconciler.VerifyResult, error) {
+func (client *ResourceManagerClient) Verify(ctx context.Context, r reconciler.ResourceSpec) (reconciler.VerifyResponse, error) {
 	cg, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.VerifyError, err

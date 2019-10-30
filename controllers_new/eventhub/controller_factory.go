@@ -17,6 +17,7 @@ package eventhub
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/controllers_new/shared"
 	"strings"
 
 	eventhubnamespaceaccessors "github.com/Azure/azure-service-operator/controllers_new/eventhubnamespace"
@@ -43,7 +44,6 @@ type ControllerFactory struct {
 
 const ResourceKind = "Eventhub"
 const FinalizerName = "eventhub.finalizers.azure.microsoft.com"
-const ManagedEventhubNamespaceAnnotation = "eventhub.azure.microsoft.com/managed-eventhub-namespace"
 
 func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters reconciler.ReconcileParameters) error {
 	gc, err := factory.create(mgr.GetClient(),
@@ -88,7 +88,7 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 		return nil, err
 	}
 
-	managedEventhubNamespace := ehnInstance.Annotations[ManagedEventhubNamespaceAnnotation]
+	managedEventhubNamespace := ehnInstance.Annotations[shared.ManagedParentAnnotation]
 
 	// defaults to true
 	isManaged := strings.ToLower(managedEventhubNamespace) != "false"

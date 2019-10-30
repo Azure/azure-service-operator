@@ -99,7 +99,7 @@ var _ = Describe("EventHub Controller", func() {
 					Name:      eventhubName,
 					Namespace: "default",
 					Annotations: map[string]string{
-						"eventhub.azure.microsoft.com/managed-eventhub-namespace": "false",
+						"azure.microsoft.com/k8s-managed-parent": "false",
 					},
 				},
 				Spec: azurev1alpha1.EventhubSpec{
@@ -171,7 +171,7 @@ var _ = Describe("EventHub Controller", func() {
 					Name:      eventhubName,
 					Namespace: "default",
 					Annotations: map[string]string{
-						"eventhub.azure.microsoft.com/managed-eventhub-namespace": "false",
+						"azure.microsoft.com/k8s-managed-parent": "false",
 					},
 				},
 				Spec: azurev1alpha1.EventhubSpec{
@@ -243,7 +243,7 @@ var _ = Describe("EventHub Controller", func() {
 					Name:      eventHubName,
 					Namespace: "default",
 					Annotations: map[string]string{
-						"eventhub.azure.microsoft.com/managed-eventhub-namespace": "false",
+						"azure.microsoft.com/k8s-managed-parent": "false",
 					},
 				},
 				Spec: azurev1alpha1.EventhubSpec{

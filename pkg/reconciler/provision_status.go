@@ -40,6 +40,7 @@ func (s *Status) IsFailed() bool           { return s.State == Failed }
 func (s *Status) IsTerminating() bool      { return s.State == Terminating }
 
 type Status struct {
-	State   ProvisionState
-	Message string
+	State         ProvisionState
+	Message       string
+	StatusPayload interface{}
 }

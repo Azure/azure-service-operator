@@ -65,7 +65,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 					Name:      consumerGroupName,
 					Namespace: "default",
 					Annotations: map[string]string{
-						"consumergroup.azure.microsoft.com/managed-eventhub": "false",
+						"azure.microsoft.com/k8s-managed-parent": "false",
 					},
 				},
 				Spec: azurev1alpha1.ConsumerGroupSpec{

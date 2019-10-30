@@ -17,6 +17,7 @@ package consumergroup
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/controllers_new/shared"
 	"strings"
 
 	eventhubaccessors "github.com/Azure/azure-service-operator/controllers_new/eventhub"
@@ -43,7 +44,6 @@ type ControllerFactory struct {
 
 const ResourceKind = "ConsumerGroup"
 const FinalizerName = "consumergroup.finalizers.azure.microsoft.com"
-const ManagedEventhubAnnotation = "consumergroup.azure.microsoft.com/managed-eventhub"
 
 func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters reconciler.ReconcileParameters) error {
 	gc, err := factory.create(mgr.GetClient(),
@@ -79,7 +79,7 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 		return nil, err
 	}
 
-	managedEventhub := ehnInstance.Annotations[ManagedEventhubAnnotation]
+	managedEventhub := ehnInstance.Annotations[shared.ManagedParentAnnotation]
 	// defaults to true
 	isManaged := strings.ToLower(managedEventhub) != "false"
 

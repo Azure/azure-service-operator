@@ -17,6 +17,7 @@ package eventhubnamespace
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/controllers_new/shared"
 	"strings"
 
 	resourcegroupaccessors "github.com/Azure/azure-service-operator/controllers_new/resourcegroup"
@@ -44,7 +45,6 @@ type ControllerFactory struct {
 
 const ResourceKind = "EventhubNamespace"
 const FinalizerName = "eventhubnamespace.finalizers.azure.microsoft.com"
-const ManagedResourceGroupAnnotation = "eventhubnamespace.azure.microsoft.com/managed-resource-group"
 
 func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters reconciler.ReconcileParameters) error {
 	gc, err := factory.create(mgr.GetClient(),
@@ -82,7 +82,7 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 
 	// get the metadata annotation to check if the eventhubnamespace belongs to a resourcegroup that is
 	// managed by Kubernetes, and if so, make this resourcegroup a dependency
-	managedResourceGroup := ehnInstance.Annotations[ManagedResourceGroupAnnotation]
+	managedResourceGroup := ehnInstance.Annotations[shared.ManagedParentAnnotation]
 
 	// defaults to true
 	isManaged := strings.ToLower(managedResourceGroup) != "false"

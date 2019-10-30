@@ -51,7 +51,7 @@ func CreateResourceManagerClient(eventHubManager eventhubs.EventHubManager, logg
 	}
 }
 
-func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResult, error) {
+func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResponse, error) {
 	instance, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.EnsureError, err
@@ -65,7 +65,8 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.Re
 	capturePtr := getCaptureDescriptionPtr(captureDescription)
 
 	// create the eventhub
-	_, err = client.EventHubManager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	var eventhub model.Model
+	eventhub, err = client.EventHubManager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		client.Recorder.Event(instance, "Warning", "Failed", "Unable to create eventhub")
 		return reconciler.EnsureError, errhelp.NewAzureError(err)
@@ -81,14 +82,14 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.Re
 	}
 
 	// eventhub creation is synchronous, can return succeeded straight away
-	return reconciler.EnsureSucceeded, nil
+	return reconciler.EnsureSucceededWithStatus(&eventhub), nil
 }
 
-func (client *ResourceManagerClient) Update(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResult, error) {
+func (client *ResourceManagerClient) Update(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResponse, error) {
 	return reconciler.EnsureError, fmt.Errorf("Updating eventhub not currently supported")
 }
 
-func (client *ResourceManagerClient) Verify(ctx context.Context, r reconciler.ResourceSpec) (reconciler.VerifyResult, error) {
+func (client *ResourceManagerClient) Verify(ctx context.Context, r reconciler.ResourceSpec) (reconciler.VerifyResponse, error) {
 	instance, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.VerifyError, err
@@ -98,7 +99,8 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r reconciler.Re
 	resourceGroup := instance.Spec.ResourceGroup
 	authorizationRuleName := instance.Spec.AuthorizationRule.Name
 
-	eventhub, err := client.EventHubManager.GetHub(ctx, resourceGroup, eventhubNamespace, eventhubName)
+	var eventhub model.Model
+	eventhub, err = client.EventHubManager.GetHub(ctx, resourceGroup, eventhubNamespace, eventhubName)
 	if eventhub.Response.StatusCode == http.StatusNotFound {
 		return reconciler.VerifyMissing, nil
 	}
@@ -115,7 +117,7 @@ func (client *ResourceManagerClient) Verify(ctx context.Context, r reconciler.Re
 		return reconciler.VerifyError, err
 	}
 
-	return reconciler.VerifyReady, nil
+	return reconciler.VerifyReadyWithStatus(&eventhub), nil
 }
 
 func (client *ResourceManagerClient) Delete(ctx context.Context, r reconciler.ResourceSpec) (reconciler.DeleteResult, error) {

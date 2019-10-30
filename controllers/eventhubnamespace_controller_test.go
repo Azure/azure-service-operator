@@ -61,7 +61,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
 					Annotations: map[string]string{
-						"eventhubnamespace.azure.microsoft.com/managed-resource-group": "false",
+						"azure.microsoft.com/k8s-managed-parent": "false",
 					},
 				},
 				Spec: azurev1alpha1.EventhubNamespaceSpec{
@@ -94,7 +94,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
 					Annotations: map[string]string{
-						"eventhubnamespace.azure.microsoft.com/managed-resource-group": "false",
+						"azure.microsoft.com/k8s-managed-parent": "false",
 					},
 				},
 				Spec: azurev1alpha1.EventhubNamespaceSpec{

@@ -38,7 +38,7 @@ func CreateResourceManagerClient(resourceGroupManager resourcegroups.ResourceGro
 	}
 }
 
-func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResult, error) {
+func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResponse, error) {
 	rg, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.EnsureError, err
@@ -51,11 +51,11 @@ func (client *ResourceManagerClient) Create(ctx context.Context, r reconciler.Re
 	return reconciler.EnsureAwaitingVerification, nil
 }
 
-func (client *ResourceManagerClient) Update(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResult, error) {
+func (client *ResourceManagerClient) Update(ctx context.Context, r reconciler.ResourceSpec) (reconciler.EnsureResponse, error) {
 	return reconciler.EnsureError, fmt.Errorf("resource group cannot be updated")
 }
 
-func (client *ResourceManagerClient) Verify(ctx context.Context, r reconciler.ResourceSpec) (reconciler.VerifyResult, error) {
+func (client *ResourceManagerClient) Verify(ctx context.Context, r reconciler.ResourceSpec) (reconciler.VerifyResponse, error) {
 	rg, err := convertInstance(r.Instance)
 	if err != nil {
 		return reconciler.VerifyError, err

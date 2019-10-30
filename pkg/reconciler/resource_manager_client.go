@@ -32,11 +32,11 @@ type ResourceSpec struct {
 // it only needs to query or mutate Azure state, return the result of the operation
 type ResourceManagerClient interface {
 	// Creates an Azure resource, though it doesn't verify the readiness for consumption
-	Create(context.Context, ResourceSpec) (EnsureResult, error)
+	Create(context.Context, ResourceSpec) (EnsureResponse, error)
 	// Updates an Azure resource
-	Update(context.Context, ResourceSpec) (EnsureResult, error)
+	Update(context.Context, ResourceSpec) (EnsureResponse, error)
 	// Verifies the state of the resource in Azure
-	Verify(context.Context, ResourceSpec) (VerifyResult, error)
+	Verify(context.Context, ResourceSpec) (VerifyResponse, error)
 	// Deletes resource in Azure
 	Delete(context.Context, ResourceSpec) (DeleteResult, error)
 }
@@ -45,23 +45,23 @@ type ResourceManagerClient interface {
 type EnsureResult string
 
 const (
-	EnsureInvalidRequest       EnsureResult = "InvalidRequest"
-	EnsureAwaitingVerification EnsureResult = "AwaitingVerification"
-	EnsureSucceeded            EnsureResult = "Succeeded"
-	EnsureError                EnsureResult = "Error"
+	EnsureResultInvalidRequest       EnsureResult = "InvalidRequest"
+	EnsureResultAwaitingVerification EnsureResult = "AwaitingVerification"
+	EnsureResultSucceeded            EnsureResult = "Succeeded"
+	EnsureResultError                EnsureResult = "Error"
 )
 
 // The result of a verify operation on Azure
 type VerifyResult string
 
 const (
-	VerifyError            VerifyResult = "Error"
-	VerifyMissing          VerifyResult = "Missing"
-	VerifyRecreateRequired VerifyResult = "RecreateRequired"
-	VerifyUpdateRequired   VerifyResult = "UpdateRequired"
-	VerifyProvisioning     VerifyResult = "Provisioning"
-	VerifyDeleting         VerifyResult = "Deleting"
-	VerifyReady            VerifyResult = "Ready"
+	VerifyResultError            VerifyResult = "Error"
+	VerifyResultMissing          VerifyResult = "Missing"
+	VerifyResultRecreateRequired VerifyResult = "RecreateRequired"
+	VerifyResultUpdateRequired   VerifyResult = "UpdateRequired"
+	VerifyResultProvisioning     VerifyResult = "Provisioning"
+	VerifyResultDeleting         VerifyResult = "Deleting"
+	VerifyResultReady            VerifyResult = "Ready"
 )
 
 // The result of a delete operation on Azure
@@ -74,20 +74,61 @@ const (
 	DeleteAwaitingVerification DeleteResult = "AwaitingVerification"
 )
 
-func (r VerifyResult) error() bool            { return r == VerifyError }
-func (r VerifyResult) missing() bool          { return r == VerifyMissing }
-func (r VerifyResult) recreateRequired() bool { return r == VerifyRecreateRequired }
-func (r VerifyResult) updateRequired() bool   { return r == VerifyUpdateRequired }
-func (r VerifyResult) provisioning() bool     { return r == VerifyProvisioning }
-func (r VerifyResult) deleting() bool         { return r == VerifyDeleting }
-func (r VerifyResult) ready() bool            { return r == VerifyReady }
+func (r VerifyResult) error() bool            { return r == VerifyResultError }
+func (r VerifyResult) missing() bool          { return r == VerifyResultMissing }
+func (r VerifyResult) recreateRequired() bool { return r == VerifyResultRecreateRequired }
+func (r VerifyResult) updateRequired() bool   { return r == VerifyResultUpdateRequired }
+func (r VerifyResult) provisioning() bool     { return r == VerifyResultProvisioning }
+func (r VerifyResult) deleting() bool         { return r == VerifyResultDeleting }
+func (r VerifyResult) ready() bool            { return r == VerifyResultReady }
 
-func (r EnsureResult) invalidRequest() bool       { return r == EnsureInvalidRequest }
-func (r EnsureResult) succeeded() bool            { return r == EnsureSucceeded }
-func (r EnsureResult) awaitingVerification() bool { return r == EnsureAwaitingVerification }
-func (r EnsureResult) failed() bool               { return r == EnsureError }
+func (r EnsureResult) invalidRequest() bool       { return r == EnsureResultInvalidRequest }
+func (r EnsureResult) succeeded() bool            { return r == EnsureResultSucceeded }
+func (r EnsureResult) awaitingVerification() bool { return r == EnsureResultAwaitingVerification }
+func (r EnsureResult) failed() bool               { return r == EnsureResultError }
 
 func (r DeleteResult) error() bool                { return r == DeleteError }
 func (r DeleteResult) alreadyDeleted() bool       { return r == DeleteAlreadyDeleted }
 func (r DeleteResult) succeed() bool              { return r == DeleteSucceed }
 func (r DeleteResult) awaitingVerification() bool { return r == DeleteAwaitingVerification }
+
+type EnsureResponse struct {
+	result EnsureResult
+	status interface{}
+}
+
+var (
+	EnsureInvalidRequest       = EnsureResponse{result: EnsureResultInvalidRequest}
+	EnsureAwaitingVerification = EnsureResponse{result: EnsureResultAwaitingVerification}
+	EnsureSucceeded            = EnsureResponse{result: EnsureResultSucceeded}
+	EnsureError                = EnsureResponse{result: EnsureResultError}
+)
+
+func EnsureSucceededWithStatus(status interface{}) EnsureResponse {
+	return EnsureResponse{
+		result: EnsureResultSucceeded,
+		status: status,
+	}
+}
+
+type VerifyResponse struct {
+	result VerifyResult
+	status interface{}
+}
+
+var (
+	VerifyError            = VerifyResponse{result: VerifyResultError}
+	VerifyMissing          = VerifyResponse{result: VerifyResultMissing}
+	VerifyRecreateRequired = VerifyResponse{result: VerifyResultRecreateRequired}
+	VerifyUpdateRequired   = VerifyResponse{result: VerifyResultUpdateRequired}
+	VerifyProvisioning     = VerifyResponse{result: VerifyResultProvisioning}
+	VerifyDeleting         = VerifyResponse{result: VerifyResultDeleting}
+	VerifyReady            = VerifyResponse{result: VerifyResultReady}
+)
+
+func VerifyReadyWithStatus(status interface{}) VerifyResponse {
+	return VerifyResponse{
+		result: VerifyResultReady,
+		status: status,
+	}
+}

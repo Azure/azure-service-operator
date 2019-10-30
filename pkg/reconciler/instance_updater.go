@@ -31,8 +31,8 @@ type metaUpdate = func(meta metav1.Object)
 // Typically the status section and the metadata.
 type instanceUpdater struct {
 	StatusUpdater
-	metaUpdates  []metaUpdate
-	statusUpdate *statusUpdate
+	metaUpdates   []metaUpdate
+	statusUpdates []statusUpdate
 }
 
 func (updater *instanceUpdater) addFinalizer(name string) {
@@ -45,12 +45,19 @@ func (updater *instanceUpdater) removeFinalizer(name string) {
 	updater.metaUpdates = append(updater.metaUpdates, updateFunc)
 }
 
+func (updater *instanceUpdater) setStatusPayload(statusPayload interface{}) {
+	updateFunc := func(s *Status) {
+		s.StatusPayload = statusPayload
+	}
+	updater.statusUpdates = append(updater.statusUpdates, updateFunc)
+}
+
 func (updater *instanceUpdater) setProvisionState(state ProvisionState, message string) {
 	updateFunc := func(s *Status) {
 		s.State = state
 		s.Message = message
 	}
-	updater.statusUpdate = &updateFunc
+	updater.statusUpdates = append(updater.statusUpdates, updateFunc)
 }
 
 func (updater *instanceUpdater) setAnnotation(name string, value string) {
@@ -83,8 +90,8 @@ func (updater *instanceUpdater) setOwnerReferences(owners []runtime.Object) {
 }
 
 func (updater *instanceUpdater) applyUpdates(instance runtime.Object, status *Status) error {
-	if updater.statusUpdate != nil {
-		(*updater.statusUpdate)(status)
+	for _, f := range updater.statusUpdates {
+		f(status)
 	}
 	err := updater.StatusUpdater(instance, status)
 	m, _ := apimeta.Accessor(instance)
@@ -96,9 +103,9 @@ func (updater *instanceUpdater) applyUpdates(instance runtime.Object, status *St
 
 func (updater *instanceUpdater) clear() {
 	updater.metaUpdates = []metaUpdate{}
-	updater.statusUpdate = nil
+	updater.statusUpdates = []statusUpdate{}
 }
 
 func (updater *instanceUpdater) hasUpdates() bool {
-	return len(updater.metaUpdates) > 0 || updater.statusUpdate != nil
+	return len(updater.metaUpdates) > 0 || len(updater.statusUpdates) > 0
 }
