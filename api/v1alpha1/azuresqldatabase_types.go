@@ -40,8 +40,8 @@ type AzureSqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSqlDatabaseSpec   `json:"spec,omitempty"`
-	Status ASOStatus `json:"status,omitempty"`
+	Spec   AzureSqlDatabaseSpec `json:"spec,omitempty"`
+	Status ASOStatus            `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -40,8 +40,8 @@ type ResourceGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ResourceGroupSpec   `json:"spec,omitempty"`
-	Status ASOStatus `json:"status,omitempty"`
+	Spec   ResourceGroupSpec `json:"spec,omitempty"`
+	Status ASOStatus         `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
