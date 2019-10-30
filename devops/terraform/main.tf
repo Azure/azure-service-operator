@@ -161,5 +161,5 @@ resource "kubernetes_cluster_role_binding" "operator-admin" {
 resource "local_file" "kubeconfig" {
   content  = azurerm_kubernetes_cluster.operator.kube_config_raw
   filename = pathexpand("~/.kube/config")
-  directory_permission = "0644"
+  directory_permission = "0600"
 }

@@ -138,13 +138,8 @@ steps:
 
 - script: |
     terraform destroy -auto-approve
-  env:
-    GO111MODULE: on
-    ARM_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-    ARM_TENANT_ID: $(AZURE_TENANT_ID)
-    ARM_CLIENT_ID: $(AZURE_CLIENT_ID)
-    ARM_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
   condition: always()
+  workingDirectory: '$(MODULE_PATH)'
   displayName: 'Terraform Cleanup'
 
 - task: PublishTestResults@2
