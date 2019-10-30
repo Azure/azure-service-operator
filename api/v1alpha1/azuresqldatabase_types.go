@@ -16,6 +16,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -39,8 +40,8 @@ type AzureSqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSqlDatabaseSpec   `json:"spec,omitempty"`
-	Status ASOStatus `json:"status,omitempty"`
+	Spec   AzureSqlDatabaseSpec `json:"spec,omitempty"`
+	Status ASOStatus            `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -58,4 +59,12 @@ func init() {
 
 func (s *AzureSqlDatabase) IsSubmitted() bool {
 	return s.Status.Provisioned
+}
+
+func (s *AzureSqlDatabase) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(s.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (s *AzureSqlDatabase) IsBeingDeleted() bool {
+	return !s.ObjectMeta.DeletionTimestamp.IsZero()
 }

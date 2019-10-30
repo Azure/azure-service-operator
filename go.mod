@@ -22,6 +22,7 @@ require (
 	github.com/onsi/ginkgo v1.10.1
 	github.com/onsi/gomega v1.7.0
 	github.com/pkg/errors v0.8.1
+	github.com/prometheus/client_golang v0.9.3-0.20190127221311-3c4408c8b829
 	github.com/satori/go.uuid v1.2.0
 	github.com/sethvargo/go-password v0.1.2
 	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8 // indirect
