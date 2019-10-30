@@ -80,6 +80,7 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
+    set -e
     make test
     make test-api
     gocov convert coverage.txt > coverage.json
@@ -98,6 +99,7 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
+    set -e
     make terraform-and-deploy
     kubectl wait pod -n azureoperator-system --for condition=ready --timeout=60s --all
     make test-existing
@@ -119,7 +121,7 @@ steps:
   displayName: 'Terraform Cleanup'
 
 - task: PublishTestResults@2
-  displayName: 'test cluster'
+  displayName: 'Publish `make test` JUnit Report'
   inputs:
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
@@ -127,7 +129,7 @@ steps:
     failOnStandardError: 'true'
 
 - task: PublishTestResults@2
-  displayName: 'existing cluster'
+  displayName: 'Publish `make test-existing` JUnit Report'
   inputs:
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
@@ -171,7 +173,7 @@ steps:
     make kustomize > $(Build.ArtifactStagingDirectory)/setup.yaml
     echo $IMG > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
   continueOnError: 'false'
-  displayName: 'Prepare manifests for publish'
+  displayName: 'Publish deployment manifests'
   workingDirectory: '$(MODULE_PATH)'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
