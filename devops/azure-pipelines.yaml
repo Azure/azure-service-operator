@@ -82,7 +82,7 @@ steps:
 - script: |
     set -e
     make test
-    make test-api
+    make api-test
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml
     mkdir coverage
