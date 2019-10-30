@@ -53,12 +53,6 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	var instance azurev1alpha1.KeyVault
 
-	defer func() {
-		if err := r.Status().Update(ctx, &instance); err != nil {
-			r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
-	}()
-
 	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
 	if err != nil {
 		requeueAfter = 30
@@ -68,6 +62,12 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		log.Info("Unable to fetch KeyVault", "err", err.Error())
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
+
+	defer func() {
+		if err := r.Status().Update(ctx, &instance); err != nil {
+			r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		}
+	}()
 
 	if !helpers.IsBeingDeleted(&instance) {
 		if !helpers.HasFinalizer(&instance, keyVaultFinalizerName) {
