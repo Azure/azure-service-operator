@@ -113,6 +113,11 @@ steps:
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
   workingDirectory: '$(MODULE_PATH)'
 
+- script: |
+    terraform destroy
+  condition: always()
+  displayName: 'Terraform Cleanup'
+
 - task: PublishTestResults@2
   displayName: 'test cluster'
   inputs:
