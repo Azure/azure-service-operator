@@ -16,6 +16,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -32,14 +33,6 @@ type AzureSqlDatabaseSpec struct {
 	Edition       sql.DBEdition `json:"edition"`
 }
 
-// AzureSqlDatabaseStatus defines the observed state of AzureSqlDatabase
-type AzureSqlDatabaseStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
@@ -48,7 +41,7 @@ type AzureSqlDatabase struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   AzureSqlDatabaseSpec   `json:"spec,omitempty"`
-	Status AzureSqlDatabaseStatus `json:"status,omitempty"`
+	Status ASOStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -66,4 +59,12 @@ func init() {
 
 func (s *AzureSqlDatabase) IsSubmitted() bool {
 	return s.Status.Provisioned
+}
+
+func (s *AzureSqlDatabase) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(s.ObjectMeta.Finalizers, finalizerName)
+}
+
+func (s *AzureSqlDatabase) IsBeingDeleted() bool {
+	return !s.ObjectMeta.DeletionTimestamp.IsZero()
 }

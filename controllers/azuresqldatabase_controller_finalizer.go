@@ -20,18 +20,17 @@ import (
 	"context"
 	"fmt"
 
-	v1 "k8s.io/api/core/v1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
-const AzureSQLServerFinalizerName = "azuresqlserver.finalizers.azure.com"
+const AzureSQLDatabaseFinalizerName = "azuresqldatabase.finalizers.azure.com"
 
-func (r *AzureSqlServerReconciler) addFinalizer(instance *azurev1alpha1.AzureSqlServer) error {
-	helpers.AddFinalizer(instance, AzureSQLServerFinalizerName)
+func (r *AzureSqlDatabaseReconciler) addFinalizer(instance *azurev1alpha1.AzureSqlDatabase) error {
+	helpers.AddFinalizer(instance, AzureSQLDatabaseFinalizerName)
 	if updateerr := r.Update(context.Background(), instance); updateerr != nil {
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Failed to update finalizer")
+		r.Recorder.Event(instance, "Warning", "Failed", "Failed to update finalizer")
 	}
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", AzureSQLServerFinalizerName))
+	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", AzureSQLDatabaseFinalizerName))
 	return nil
 }
