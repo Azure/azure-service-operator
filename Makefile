@@ -61,12 +61,6 @@ deploy: manifests
 	kubectl apply -f config/crd/bases
 	kustomize build config/default | kubectl apply -f -
 
-# Deploy operator infrastructure
-terraform:
-	terraform apply devops/terraform
-
-terraform-and-deploy: terraform build-and-push install-cert-manager deploy
-
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
 
 update:
@@ -108,6 +102,12 @@ docker-push:
 
 # Build and Push the docker image
 build-and-push: docker-build docker-push
+
+# Deploy operator infrastructure
+terraform:
+	terraform apply devops/terraform
+
+terraform-and-deploy: terraform generate install-cert-manager build-and-push deploy
 
 # find or download controller-gen
 # download controller-gen if necessary
