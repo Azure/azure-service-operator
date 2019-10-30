@@ -93,7 +93,6 @@ generate: manifests
 # Build the docker image
 docker-build:
 	docker build . -t ${IMG} ${ARGS}
-	@echo "updating kustomize image patch file for manager resource"
 
 # Push the docker image
 docker-push:
@@ -169,8 +168,7 @@ endif
 
 	kubectl get namespaces
 	kubectl get pods --namespace cert-manager
-	@echo "Waiting for cert-manager to be ready"
-	kubectl wait pod -n cert-manager --for condition=ready --timeout=60s --all
+
 	@echo "all the pods should be running"
 	make deploy
 
@@ -212,6 +210,8 @@ install-cert-manager:
 	kubectl create namespace cert-manager
 	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+	@echo "Waiting for cert-manager to be ready"
+	kubectl wait pod -n cert-manager --for condition=ready --timeout=60s --all
 
 install-test-dependency:
 	go get -u github.com/jstemmer/go-junit-report \
