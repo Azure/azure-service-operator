@@ -9,13 +9,14 @@ import (
 )
 
 const (
-	ParentNotFoundErrorCode        = "ParentResourceNotFound"
-	ResourceGroupNotFoundErrorCode = "ResourceGroupNotFound"
-	NotFoundErrorCode              = "NotFound"
-	ResourceNotFound               = "ResourceNotFound"
-	AsyncOpIncompleteError         = "AsyncOpIncomplete"
-	InvalidServerName              = "InvalidServerName"
-	RegionDoesNotAllowProvisioning = "RegionDoesNotAllowProvisioning"
+	ParentNotFoundErrorCode        	= "ParentResourceNotFound"
+	ResourceGroupNotFoundErrorCode 	= "ResourceGroupNotFound"
+	NotFoundErrorCode              	= "NotFound"
+	ResourceNotFound               	= "ResourceNotFound"
+	AsyncOpIncompleteError         	= "AsyncOpIncomplete"
+	InvalidServerName              	= "InvalidServerName"
+	RegionDoesNotAllowProvisioning 	= "RegionDoesNotAllowProvisioning"
+	ResourceOperationFailure		= "ResourceOperationFailure"
 )
 
 func NewAzureError(err error) error {

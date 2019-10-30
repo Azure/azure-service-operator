@@ -149,6 +149,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				errhelp.AsyncOpIncompleteError,
 				errhelp.InvalidServerName,
 				errhelp.RegionDoesNotAllowProvisioning,
+				errhelp.ResourceOperationFailure,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
@@ -160,6 +161,12 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 					} 
 					if azerr.Type == errhelp.RegionDoesNotAllowProvisioning {
 						msg := "Region Does Not Allow Provisioning"
+						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
+						instance.Status.Message = msg
+						return ctrl.Result{Requeue: false}, nil
+					}
+					if azerr.Type == errhelp.ResourceOperationFailure {
+						msg := "It's not working"
 						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
 						instance.Status.Message = msg
 						return ctrl.Result{Requeue: false}, nil
