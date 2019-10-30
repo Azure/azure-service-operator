@@ -109,7 +109,7 @@ steps:
     EOL
 
     # terraform-and-deploy
-    make terraform -auto-approve
+    make terraform ARGS="-auto-approve"
     make generate
     make install-cert-manager
     make build-and-push
@@ -133,7 +133,7 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
-    terraform destroy
+    terraform destroy -auto-approve
   condition: always()
   displayName: 'Terraform Cleanup'
 
