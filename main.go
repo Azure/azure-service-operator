@@ -170,25 +170,25 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
 		os.Exit(1)
 	}
-	if err = (&controllers.SqlServerReconciler{
+	if err = (&controllers.AzureSqlServerReconciler{
 		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("SqlServer"),
-		Recorder: mgr.GetEventRecorderFor("SqlServer-controller"),
+		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+		Recorder: mgr.GetEventRecorderFor("AzureSqlServer-controller"),
 		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "SqlServer")
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
 		os.Exit(1)
 	}
-	if err = (&controllers.SqlDatabaseReconciler{
+	if err = (&controllers.AzureSqlDatabaseReconciler{
 		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("SqlDatabase"),
-		Recorder: mgr.GetEventRecorderFor("SqlDatabase-controller"),
+		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
+		Recorder: mgr.GetEventRecorderFor("AzureSqlDatabase-controller"),
 		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "SqlDatabase")
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDatabase")
 		os.Exit(1)
 	}
-	if err = (&controllers.SqlFirewallRuleReconciler{
+	if err = (&controllers.AzureSqlFirewallRuleReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("SqlFirewallRule"),
 		Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
@@ -197,21 +197,22 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
 		os.Exit(1)
 	}
-	if err = (&controllers.SqlActionReconciler{
+	if err = (&controllers.AzureSqlActionReconciler{
 		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("SqlAction"),
-		Recorder: mgr.GetEventRecorderFor("SqlAction-controller"),
+		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
+		Recorder: mgr.GetEventRecorderFor("AzureSqlAction-controller"),
 		Scheme:   mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
 		os.Exit(1)
 	}
-	if err = (&controllers.AdlsGen2Reconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("AdlsGen2"),
-		Recorder: mgr.GetEventRecorderFor("AdlsGen2-controller"),
+	if err = (&controllers.AzureDataLakeGen2FileSystemReconciler{
+		Client:            mgr.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
+		Recorder:          mgr.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
+		FileSystemManager: storageManagers.FileSystem,
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AdlsGen2")
+		setupLog.Error(err, "unable to create controller", "controller", "AzureDataLakeGen2FileSystem")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
