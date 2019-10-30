@@ -71,16 +71,11 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 	location := instance.Spec.Location
 	servername := instance.Spec.Server
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        servername,
-		Location:          location,
-	}
+	sdkClient := sql.GoSDKClient{}
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, azureSQLFailoverGroupFinalizerName) {
-			if err := r.deleteExternal(&instance, sdkClient); err != nil {
+			if err := r.deleteExternal(&instance, sdkClient, groupName, servername); err != nil {
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
 				}
@@ -115,7 +110,7 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
-		if err := r.reconcileExternal(&instance, sdkClient); err != nil {
+		if err := r.reconcileExternal(&instance, sdkClient, groupName, servername, location); err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -151,7 +146,7 @@ func (r *AzureSqlFailoverGroupReconciler) SetupWithManager(mgr ctrl.Manager) err
 		Complete(r)
 }
 
-func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient) error {
+func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient, groupName string, servername string, location string) error {
 	ctx := context.Background()
 	failoverGroupName := instance.ObjectMeta.Name
 	failoverPolicy := instance.Spec.FailoverPolicy
@@ -203,7 +198,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alp
 		DatabaseList:                 databaseList,
 	}
 
-	_, err = sdkClient.CreateOrUpdateFailoverGroup(failoverGroupName, sqlFailoverGroupProperties)
+	_, err = sdkClient.CreateOrUpdateFailoverGroup(ctx, groupName, servername, failoverGroupName, sqlFailoverGroupProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -214,7 +209,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alp
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = sdkClient.GetFailoverGroup(failoverGroupName)
+	_, err = sdkClient.GetFailoverGroup(ctx, groupName, servername, failoverGroupName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -226,10 +221,11 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alp
 	return nil
 }
 
-func (r *AzureSqlFailoverGroupReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient) error {
+func (r *AzureSqlFailoverGroupReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient, groupName string, servername string) error {
+	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 
-	response, err := sdkClient.DeleteFailoverGroup(name)
+	response, err := sdkClient.DeleteFailoverGroup(ctx, groupName, servername, name)
 	if err == nil {
 		if response.StatusCode == 200 {
 			r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", name+" deleted")

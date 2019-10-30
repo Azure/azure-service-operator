@@ -1,5 +1,5 @@
 apiVersion: azure.microsoft.com/v1alpha1
-kind: AzureSQLFailoverGroup
+kind: AzureSqlFailoverGroup
 metadata:
   name: azuresqlfailovergroup-sample
 spec:
