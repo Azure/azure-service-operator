@@ -158,16 +158,8 @@ resource "kubernetes_cluster_role_binding" "operator-admin" {
 }
 
 // Setup kubeconfig to facilitate running kubectl outside of terraform
-resource "null_resource" "k8s" {
-  depends_on = ["azurerm_kubernetes_cluster.operator"]
-  provisioner "local-exec" {
-    environment = {
-      ARM_SUBSCRIPTION_ID = data.azurerm_client_config.auth.subscription_id
-      ARM_TENANT_ID = data.azurerm_client_config.auth.tenant_id
-      ARM_CLIENT_ID = data.azurerm_client_config.auth.client_id
-      ARM_CLIENT_SECRET = var.service_principal_client_secret
-    }
-
-    command = "az aks get-credentials --overwrite-existing --resource-group ${azurerm_resource_group.operator.name} --name ${local.cluster_name}"
-  }
+resource "local_file" "kubeconfig" {
+  content  = azurerm_kubernetes_cluster.operator.kube_config_raw
+  filename = pathexpand("~/.kube/config")
+  directory_permission = "0644"
 }
