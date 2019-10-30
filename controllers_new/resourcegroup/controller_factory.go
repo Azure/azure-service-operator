@@ -17,6 +17,7 @@ package resourcegroup
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/controllers_new/shared"
 
 	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
@@ -57,7 +58,7 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters reconciler.ReconcileParameters) (*reconciler.GenericController, error) {
 	resourceManagerClient := factory.ClientCreator(factory.ResourceGroupManager, logger)
-	return reconciler.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, nil)
+	return reconciler.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, shared.AnnotationBaseName, nil)
 }
 
 type definitionManager struct{}

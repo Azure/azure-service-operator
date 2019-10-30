@@ -69,7 +69,7 @@ func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.L
 		}
 	}
 
-	return reconciler.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, secretsWriterFactory)
+	return reconciler.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, shared.AnnotationBaseName, secretsWriterFactory)
 }
 
 type definitionManager struct{}

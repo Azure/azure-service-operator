@@ -60,7 +60,7 @@ func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters 
 
 func (factory *ControllerFactory) create(kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, parameters reconciler.ReconcileParameters) (*reconciler.GenericController, error) {
 	resourceManagerClient := factory.ClientCreator(factory.ConsumerGroupManager, logger)
-	return reconciler.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, nil)
+	return reconciler.CreateGenericFactory(parameters, ResourceKind, kubeClient, logger, recorder, factory.Scheme, &resourceManagerClient, &definitionManager{}, FinalizerName, shared.AnnotationBaseName, nil)
 }
 
 type definitionManager struct{}

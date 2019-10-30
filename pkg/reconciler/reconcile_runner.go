@@ -28,14 +28,12 @@ import (
 
 	"github.com/go-logr/logr"
 
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
-
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
-const LastAppliedAnnotation = "azure.microsoft.com/last-applied-spec"
+const LastAppliedAnnotation = "/last-applied-spec"
 
 // Contains all the state involved in running a single reconcile event in the reconcile loo[
 type reconcileRunner struct {
@@ -153,10 +151,12 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, er
 	r.log.Info("Verifying state of resource on Azure")
 	verifyResponse, err := r.ResourceManagerClient.Verify(ctx, r.resourceSpec())
 	verifyResult := verifyResponse.result
+	readOnlyAnnotation := r.AnnotationBaseName + ReadOnlyResourceAnnotation
+	existingResourceBehaviourAnnotation := r.AnnotationBaseName + ExistingResourceBehaviourAnnotation
 
 	annotations := r.objectMeta.GetAnnotations()
-	existingBehaviour := ExistingResourceBehaviour(annotations[ExistingResourceBehaviourAnnotation])
-	readOnly := annotations[ReadOnlyResourceAnnotation] == "true"
+	existingBehaviour := ExistingResourceBehaviour(annotations[existingResourceBehaviourAnnotation])
+	readOnly := annotations[readOnlyAnnotation] == "true"
 
 	if err != nil {
 		// verification should not return an error - if this happens it's a terminal failure
@@ -171,7 +171,7 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, er
 			return Failed, fmt.Errorf(rejectOwnershipOfExistingResource)
 		} else if existingBehaviour.view() {
 			// we can view the resource, but not change it
-			r.instanceUpdater.setAnnotation(ReadOnlyResourceAnnotation, "true")
+			r.instanceUpdater.setAnnotation(readOnlyAnnotation, "true")
 		}
 	}
 
@@ -229,10 +229,10 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, er
 			return Creating, err
 		}
 
-		return Failed, errhelp.NewAzureError(fmt.Errorf("invalid DeleteResult for %s %s in Verify", r.ResourceKind, r.Name))
+		return Failed, fmt.Errorf("invalid DeleteResult for %s %s in Verify", r.ResourceKind, r.Name)
 	}
 
-	return Failed, errhelp.NewAzureError(fmt.Errorf("invalid VerifyResult for %s %s in Verify", r.ResourceKind, r.Name))
+	return Failed, fmt.Errorf("invalid VerifyResult for %s %s in Verify", r.ResourceKind, r.Name)
 }
 
 func (r *reconcileRunner) ensure(ctx context.Context) (ctrl.Result, error) {
@@ -246,9 +246,11 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (ProvisionState, er
 	resourceName := r.Name
 	instance := r.instance
 	status := r.status
+	lastAppliedAnnotation := r.AnnotationBaseName + LastAppliedAnnotation
+	readOnlyAnnotation := r.AnnotationBaseName + ReadOnlyResourceAnnotation
 
 	annotations := r.objectMeta.GetAnnotations()
-	if annotations[ReadOnlyResourceAnnotation] == "true" {
+	if annotations[readOnlyAnnotation] == "true" {
 		// this should never be the case - this is more of an assertion (as the state Verify or Create should never have been set in the first place)
 		return Failed, fmt.Errorf(rejectUpdateManagedResource)
 	}
@@ -264,14 +266,14 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (ProvisionState, er
 	ensureResult := ensureResponse.result
 	if ensureResult == "" || err != nil || ensureResult.failed() || ensureResult.invalidRequest() {
 		// clear last update annotation
-		r.instanceUpdater.setAnnotation(LastAppliedAnnotation, "")
+		r.instanceUpdater.setAnnotation(lastAppliedAnnotation, "")
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Couldn't create or update resource in azure")
 		return Failed, err
 	}
 
 	// if successful
 	// save the last updated spec as a metadata annotation
-	r.instanceUpdater.setAnnotation(LastAppliedAnnotation, r.getJsonSpec())
+	r.instanceUpdater.setAnnotation(lastAppliedAnnotation, r.getJsonSpec())
 
 	// set it to succeeded, post provisioning (if there is a PostProvisioning handler), or await verification
 	if ensureResult.awaitingVerification() {
@@ -280,7 +282,7 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (ProvisionState, er
 		r.instanceUpdater.setStatusPayload(ensureResponse.status)
 		return r.succeedOrPostProvision(), nil
 	} else {
-		return Failed, errhelp.NewAzureError(fmt.Errorf("invalid response from Create for resource '%s'", resourceName))
+		return Failed, fmt.Errorf("invalid response from Create for resource '%s'", resourceName)
 	}
 }
 

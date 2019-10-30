@@ -21,6 +21,6 @@ func (e ExistingResourceBehaviour) manage() bool {
 }
 
 const (
-	ExistingResourceBehaviourAnnotation = "azure.microsoft.com/existing-resource-behaviour"
-	ReadOnlyResourceAnnotation          = "azure.microsoft.com/read-only-resource"
+	ExistingResourceBehaviourAnnotation = "/existing-resource-behaviour"
+	ReadOnlyResourceAnnotation          = "/read-only-resource"
 )

@@ -39,6 +39,7 @@ type GenericController struct {
 	ResourceManagerClient ResourceManagerClient
 	DefinitionManager     DefinitionManager
 	FinalizerName         string
+	AnnotationBaseName    string
 	PostProvisionFactory  func(*GenericController) PostProvisionHandler
 }
 
@@ -55,7 +56,18 @@ type ReconcileParameters struct {
 	RequeueAfterFailure int
 }
 
-func CreateGenericFactory(parameters ReconcileParameters, resourceKind string, kubeClient client.Client, logger logr.Logger, recorder record.EventRecorder, scheme *runtime.Scheme, resMgrClient ResourceManagerClient, defMgr DefinitionManager, finalizerName string, ppFactory func(*GenericController) PostProvisionHandler) (*GenericController, error) {
+func CreateGenericFactory(
+	parameters ReconcileParameters,
+	resourceKind string,
+	kubeClient client.Client,
+	logger logr.Logger,
+	recorder record.EventRecorder,
+	scheme *runtime.Scheme,
+	resMgrClient ResourceManagerClient,
+	defMgr DefinitionManager,
+	finalizerName string,
+	annotationBaseName string,
+	ppFactory func(*GenericController) PostProvisionHandler) (*GenericController, error) {
 	gc := &GenericController{
 		Parameters:            parameters,
 		ResourceKind:          resourceKind,
@@ -66,6 +78,7 @@ func CreateGenericFactory(parameters ReconcileParameters, resourceKind string, k
 		ResourceManagerClient: resMgrClient,
 		DefinitionManager:     defMgr,
 		FinalizerName:         finalizerName,
+		AnnotationBaseName:    annotationBaseName,
 		PostProvisionFactory:  ppFactory,
 	}
 	if err := gc.validate(); err != nil {
