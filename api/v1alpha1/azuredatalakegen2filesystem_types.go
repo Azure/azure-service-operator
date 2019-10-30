@@ -82,3 +82,8 @@ func (adlsGen2FileSystem *AzureDataLakeGen2FileSystem) IsSubmitted() bool {
 func (adlsGen2FileSystem *AzureDataLakeGen2FileSystem) HasFinalizer(finalizerName string) bool {
 	return helpers.ContainsString(adlsGen2FileSystem.ObjectMeta.Finalizers, finalizerName)
 }
+
+// IsBeingDeleted checks to see if the object is being deleted by checking the DeletionTimestamp
+func (adlsGen2FileSystem *AzureDataLakeGen2FileSystem) IsBeingDeleted() bool {
+	return !adlsGen2FileSystem.ObjectMeta.DeletionTimestamp.IsZero()
+}

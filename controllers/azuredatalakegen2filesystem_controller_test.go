@@ -50,44 +50,70 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		// It("should fail to create a file system if the resource group doesn't exist", func() {
-		// 	fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
-		// 	resouceGroupName := "rg-" + helpers.RandomString(10)
+		It("should fail to create a file system if the resource group doesn't exist", func() {
+			fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
+			resouceGroupName := "rg-" + helpers.RandomString(10)
 
-		// 	var err error
+			var err error
 
-		// 	// Create the FileSystem object and expect the Reconcile to be created
-		// 	fileSystemInstance := &azurev1alpha1.AzureDataLakeGen2FileSystem{ //////
-		// 		ObjectMeta: metav1.ObjectMeta{
-		// 			Name:      fileSystemName,
-		// 			Namespace: "default",
-		// 		},
-		// 		Spec: azurev1alpha1.AzureDataLakeGen2FileSystemSpec{
-		// 			StorageAccountName: saName,
-		// 			ResourceGroupName:  resouceGroupName,
-		// 		},
-		// 	}
+			fileSystemInstance := &azurev1alpha1.AzureDataLakeGen2FileSystem{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      fileSystemName,
+					Namespace: "default",
+				},
+				Spec: azurev1alpha1.AzureDataLakeGen2FileSystemSpec{
+					StorageAccountName: saName,
+					ResourceGroupName:  resouceGroupName,
+				},
+			}
 
-		// 	err = tc.k8sClient.Create(context.Background(), fileSystemInstance)
-		// 	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-		// 	Expect(err).NotTo(HaveOccurred())
+			err = tc.k8sClient.Create(context.Background(), fileSystemInstance)
+			Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			Expect(err).NotTo(HaveOccurred())
 
-		// 	fileSystemNamespacedName := types.NamespacedName{Name: fileSystemName, Namespace: "default"}
-		// 	Eventually(func() bool {
-		// 		_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
-		// 		testthing := fileSystemInstance.IsSubmitted()
-		// 		return testthing
-		// 	}, tc.timeout,
-		// 	).Should(BeFalse())
-		// })
+			fileSystemNamespacedName := types.NamespacedName{Name: fileSystemName, Namespace: "default"}
+			Eventually(func() bool {
+				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
+				return fileSystemInstance.IsSubmitted()
+			}, tc.timeout,
+			).Should(BeFalse())
+		})
 
-		It("should create a file system if the resource group exists", func() {
+		It("should fail to create a file system if the storage account doesn't exist", func() {
+			fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
+			storageAccountName := "sa-" + helpers.RandomString(10)
+
+			var err error
+
+			fileSystemInstance := &azurev1alpha1.AzureDataLakeGen2FileSystem{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      fileSystemName,
+					Namespace: "default",
+				},
+				Spec: azurev1alpha1.AzureDataLakeGen2FileSystemSpec{
+					StorageAccountName: storageAccountName,
+					ResourceGroupName:  rgName,
+				},
+			}
+
+			err = tc.k8sClient.Create(context.Background(), fileSystemInstance)
+			Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			Expect(err).NotTo(HaveOccurred())
+
+			fileSystemNamespacedName := types.NamespacedName{Name: fileSystemName, Namespace: "default"}
+			Eventually(func() bool {
+				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
+				return fileSystemInstance.IsSubmitted()
+			}, tc.timeout,
+			).Should(BeFalse())
+		})
+
+		It("should create and delete a filesystem if the resource group and storage account exist", func() {
 			fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
 
 			var err error
 
-			// Create the FileSystem object and expect the Reconcile to be created
-			fileSystemInstance := &azurev1alpha1.AzureDataLakeGen2FileSystem{ //////
+			fileSystemInstance := &azurev1alpha1.AzureDataLakeGen2FileSystem{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      fileSystemName,
 					Namespace: "default",
@@ -106,29 +132,25 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
-				hasfinalizer := fileSystemInstance.HasFinalizer(fileSystemFinalizerName)
-				return hasfinalizer
-			}, tc.timeout,// 100,
+				return fileSystemInstance.HasFinalizer(fileSystemFinalizerName)
+			}, tc.timeout,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
-				testthing := fileSystemInstance.IsSubmitted()
-				return testthing
-			}, tc.timeout,// 100,
+				return fileSystemInstance.IsSubmitted()
+			}, tc.timeout,
+			).Should(BeTrue())
+
+			err = tc.k8sClient.Delete(context.Background(), fileSystemInstance)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
+				return fileSystemInstance.IsBeingDeleted()
+			}, tc.timeout,
 			).Should(BeTrue())
 
 		})
-
-		// err = tc.k8sClient.Delete(context.Background(), fileSystemInstance)
-		// Expect(err).NotTo(HaveOccurred())
-
-		// Eventually(func() bool {
-		// 	_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
-		// 	hello123 := fileSystemInstance.IsBeingDeleted()
-		// 	return hello123
-		// }, tc.timeout,
-		// ).Should(BeTrue())
-
 	})
 })
