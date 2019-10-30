@@ -20,9 +20,9 @@ import (
 	"context"
 	"fmt"
 
-	v1 "k8s.io/api/core/v1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	v1 "k8s.io/api/core/v1"
 )
 
 const AzureSQLServerFinalizerName = "azuresqlserver.finalizers.azure.com"
