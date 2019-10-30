@@ -108,12 +108,12 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	}
 
 	if !instance.IsSubmitted() {
-		r.Recorder.Event(&instance, "Normal", "Submitting", "starting resource reconciliation for AzureSQLUser")
+		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation for AzureSQLUser")
 		if err := r.reconcileExternal(instance); err != nil {
 			msg := fmt.Sprintf("Reconcile external failed with %s", err.Error())
 			log.Info(msg)
 			instance.Status.Message = msg
-			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+			return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
 		}
 		msg := fmt.Sprintf("Create AzureSqlUser Successful")
 		log.Info(msg)
@@ -123,7 +123,7 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 		return ctrl.Result{}, nil
 	}
 
-	r.Recorder.Event(&instance, "Normal", "Provisioned", fmt.Sprintf("AzureSQLUser %s provisioned", instance.ObjectMeta.Name))
+	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", fmt.Sprintf("AzureSQLUser %s provisioned", instance.ObjectMeta.Name))
 	return ctrl.Result{}, nil
 }
 
@@ -141,8 +141,10 @@ func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLU
 	if err != nil {
 		return err
 	}
+
 	secret = r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name, instance.ObjectMeta.Name)
 	user = string(secret.Data[SecretUsernameKey])
+
 	err = dropUser(ctx, db, user)
 	if err != nil {
 		msg := fmt.Sprintf("Delete AzureSqlUser failed with %s", err.Error())
