@@ -39,8 +39,8 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
-	"k8s.io/client-go/tools/record"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/client-go/tools/record"
 )
 
 const redisCacheFinalizerName = "rediscache.finalizers.azure.com"
