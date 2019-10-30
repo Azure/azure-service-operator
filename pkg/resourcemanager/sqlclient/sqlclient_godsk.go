@@ -2,13 +2,14 @@ package sqlclient
 
 import (
 	"context"
-	"net/http"
-
+	"errors"
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"log"
+	"net/http"
 )
 
 const typeOfService = "Microsoft.Sql/servers"
@@ -53,6 +54,13 @@ func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
 func (sdk GoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLServerProperties) (result sql.Server, err error) {
 	serversClient := getGoServersClient()
 	serverProp := SQLServerPropertiesToServer(properties)
+
+	// Check name availability
+	checkNameResult, err := sdk.CheckNameAvailability(ctx, resourceGroupName, serverName)
+	if checkNameResult.Available == false {
+		log.Fatalf("sql server name not available: %v\n", checkNameResult.Message)
+		return result, errors.New("SqlServer name not available. not complete")
+	}
 
 	// issue the creation
 	future, err := serversClient.CreateOrUpdate(
