@@ -8,7 +8,7 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-IMG ?= controller:latest
+IMG ?= "controller:latest"
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
@@ -34,13 +34,13 @@ api-test: generate fmt vet manifests
 
 # Run tests
 test: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
+	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs-existing.txt
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs-existing.txt
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
 
@@ -59,26 +59,20 @@ install: generate
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
 deploy: manifests
 	kubectl apply -f config/crd/bases
-	kustomize build config/default | kubectl apply -f -
-
-# Deploy operator infrastructure
-terraform:
-	terraform apply devops/terraform
-
-terraform-and-deploy: terraform build-and-push install-cert-manager deploy
+	kustomize build config/default | envsubst | kubectl apply -f -
 
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
 
 update:
-	IMG="docker.io/controllertest:$(timestamp)" make ARGS="${ARGS}" docker-build
+	IMG="docker.io/controllertest:$(timestamp)"
+	make ARGS="${ARGS}" docker-build
 	kind load docker-image docker.io/controllertest:$(timestamp) --loglevel "trace"
 	make install
 	make deploy
-	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
 delete:
 	kubectl delete -f config/crd/bases
-	kustomize build config/default | kubectl delete -f -
+	kustomize build config/default | envsubst | kubectl delete -f -
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen
@@ -100,7 +94,6 @@ generate: manifests
 docker-build:
 	docker build . -t ${IMG} ${ARGS}
 	@echo "updating kustomize image patch file for manager resource"
-	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
 
 # Push the docker image
 docker-push:
@@ -108,6 +101,12 @@ docker-push:
 
 # Build and Push the docker image
 build-and-push: docker-build docker-push
+
+terraform:
+	terraform apply devops/terraform
+
+terraform-and-deploy:
+	terraform build-and-push install-cert-manager deploy
 
 # find or download controller-gen
 # download controller-gen if necessary
@@ -164,7 +163,8 @@ endif
 
 	#create image and load it into cluster
 	make install
-	IMG="docker.io/controllertest:1" make docker-build
+	IMG="docker.io/controllertest:1"
+	make docker-build
 	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
 
 	kubectl get namespaces
@@ -173,7 +173,6 @@ endif
 	kubectl wait pod -n cert-manager --for condition=ready --timeout=60s --all
 	@echo "all the pods should be running"
 	make deploy
-	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
 install-kind:
 ifeq (,$(shell which kind))
