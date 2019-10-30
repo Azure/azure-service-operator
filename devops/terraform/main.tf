@@ -161,6 +161,13 @@ resource "kubernetes_cluster_role_binding" "operator-admin" {
 resource "null_resource" "k8s" {
   depends_on = ["azurerm_kubernetes_cluster.operator"]
   provisioner "local-exec" {
+    environment = {
+      ARM_SUBSCRIPTION_ID = env.ARM_SUBSCRIPTION_ID
+      ARM_TENANT_ID = env.ARM_TENANT_ID
+      ARM_CLIENT_ID = env.ARM_CLIENT_ID
+      ARM_CLIENT_SECRET = env.ARM_CLIENT_SECRET
+    }
+
     command = "az aks get-credentials --overwrite-existing --resource-group ${azurerm_resource_group.operator.name} --name ${local.cluster_name}"
   }
 }
