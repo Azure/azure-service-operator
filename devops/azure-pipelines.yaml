@@ -81,6 +81,7 @@ steps:
 
 - script: |
     make test
+    make test-api
     gocov convert coverage.txt > coverage.json
     gocov-xml < coverage.json > coverage.xml
     mkdir coverage
@@ -97,33 +98,11 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
-    set -e
-    GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
-    kind create cluster
-    export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
-    kubectl cluster-info
-    kubectl create namespace cert-manager
-    kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
-    kubectl create namespace azureoperator-system
-    kubectl --namespace azureoperator-system \
-      create secret generic azureoperatorsettings \
-      --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
-      --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
-      --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
-      --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
-    #create image and load it into cluster
-    IMG="docker.io/controllertest:1" make docker-build
-    kind load docker-image docker.io/controllertest:1 --loglevel "trace"
-    make install
-    kubectl get namespaces
-    kubectl -n cert-manager rollout status deployment.v1.apps/cert-manager
-    kubectl get pods --namespace cert-manager
-    echo "all the pods should be running"
-    make deploy
+    make terraform-and-deploy
+    kubectl wait pod -n azureoperator-system --for condition=ready --timeout=60s --all
     make test-existing
   continueOnError: 'false'
-  displayName: 'Set kind cluster and Run unit tests'
+  displayName: 'Create AKS cluster and Run integration tests'
   env:
     GO111MODULE: on
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
