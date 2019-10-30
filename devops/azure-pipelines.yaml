@@ -100,8 +100,25 @@ steps:
 
 - script: |
     set -e
-    make terraform-and-deploy
+
+    # Setup terraform configuration variables
+    cat >./terraform.auto.tfvars <<EOL
+    resource_group = "aso-integration-$(PATCH_VERSION)"
+    service_principal_app_id = "$(AZURE_CLIENT_ID)"
+    service_principal_client_secret = "$(AZURE_CLIENT_SECRET)"
+    EOL
+
+    # terraform-and-deploy
+    make terraform -auto-approve
+    make generate
+    make install-cert-manager
+    make build-and-push
+    make deploy
+
+    # Wait for the pod to come up
     kubectl wait pod -n azureoperator-system --for condition=ready --timeout=60s --all
+
+    # Run tests
     make test-existing
   continueOnError: 'false'
   displayName: 'Create AKS cluster and Run integration tests'
