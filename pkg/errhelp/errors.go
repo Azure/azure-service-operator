@@ -15,6 +15,7 @@ const (
 	ResourceNotFound               = "ResourceNotFound"
 	AsyncOpIncompleteError         = "AsyncOpIncomplete"
 	InvalidServerName              = "InvalidServerName"
+	RegionDoesNotAllowProvisioning = "RegionDoesNotAllowProvisioning"
 )
 
 func NewAzureError(err error) error {

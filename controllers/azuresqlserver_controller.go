@@ -19,7 +19,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"strings"
+	// "strings"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -148,11 +148,18 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
 				errhelp.InvalidServerName,
+				errhelp.RegionDoesNotAllowProvisioning,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
 					if azerr.Type == errhelp.InvalidServerName {
 						msg := "Invalid Server Name"
+						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
+						instance.Status.Message = msg
+						return ctrl.Result{Requeue: false}, nil
+					} 
+					if azerr.Type == errhelp.RegionDoesNotAllowProvisioning {
+						msg := "Region Does Not Allow Provisioning"
 						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
 						instance.Status.Message = msg
 						return ctrl.Result{Requeue: false}, nil
@@ -176,6 +183,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 			errhelp.AsyncOpIncompleteError,
+			errhelp.RegionDoesNotAllowProvisioning,
 		}
 		if azerr, ok := err.(*errhelp.AzureError); ok {
 			if helpers.ContainsString(catch, azerr.Type) {
@@ -237,7 +245,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	server, err := sdkClient.CreateOrUpdateSQLServer(azureSqlServerProperties)
+	server, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties)
 	if err == nil {
 		if *server.State == "Ready" {
 			// success
@@ -259,7 +267,8 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		} else {
 			// fail
 			r.Log.Info(fmt.Sprintf("cannot create sql server: %v", err))
-			return err
+			azerr := errhelp.NewAzureError(err)
+			return azerr
 		}
 	}
 	// if _, err := sdkClient.CreateOrUpdateSQLServer(azureSqlServerProperties); err != nil {
