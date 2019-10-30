@@ -10,18 +10,11 @@ resources:
 - bases/azure.microsoft.com_eventhubnamespaces.yaml
 - bases/azure.microsoft.com_consumergroups.yaml
 - bases/azure.microsoft.com_keyvaults.yaml
-<<<<<<< HEAD
-- bases/azure.microsoft.com_sqlservers.yaml
-- bases/azure.microsoft.com_sqldatabases.yaml
-- bases/azure.microsoft.com_sqlfirewallrules.yaml
-- bases/azure.microsoft.com_sqlactions.yaml
-- bases/azure.microsoft.com_azuredatalakegen2filesystems.yaml
-=======
 - bases/azure.microsoft.com_azuresqlservers.yaml
 - bases/azure.microsoft.com_azuresqldatabases.yaml
 - bases/azure.microsoft.com_azuresqlfirewallrules.yaml
 - bases/azure.microsoft.com_azuresqlactions.yaml
->>>>>>> azure-datalake
+- bases/azure.microsoft.com_azuredatalakegen2filesystems.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
 patches:
