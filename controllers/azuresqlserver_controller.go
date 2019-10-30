@@ -44,9 +44,10 @@ import (
 // AzureSqlServerReconciler reconciles an AzureSqlServer object
 type AzureSqlServerReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Log            logr.Logger
+	Recorder       record.EventRecorder
+	Scheme         *runtime.Scheme
+	ResourceClient sql.ResourceClient
 }
 
 // Constants
@@ -98,7 +99,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 			}
 
 			helpers.RemoveFinalizer(&instance, AzureSQLServerFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
+			if err := r.Status().Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
 		}
@@ -114,32 +115,8 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 		}
 	}
 
-	// Re-create secret if server is provisioned but secret doesn't exist
-	if instance.IsProvisioned() {
-		name := instance.ObjectMeta.Name
-
-		secret := &v1.Secret{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      name,
-				Namespace: instance.Namespace,
-			},
-			Type: "Opaque",
-		}
-
-		if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err != nil {
-			r.Log.Info("Error", "ReconcileSecret", "Server exists but secret does not, recreating now")
-
-			// Add admin credentials to "data" block in secret
-
-			// CreateOrUpdate secret
-		}
-
-	}
-
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
-		// TODO: Add error handling for cases where username or password are invalid:
-		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
 		if err := r.reconcileExternal(&instance); err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
@@ -203,13 +180,6 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        name,
-		Location:          location,
-	}
-
 	//get owner instance of ResourceGroup
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner ResourceGroup instance")
 	var ownerInstance azurev1alpha1.ResourceGroup
@@ -230,7 +200,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	// write information back to instance
-	if err := r.Update(ctx, instance); err != nil {
+	if err := r.Status().Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
@@ -243,7 +213,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := sdkClient.CreateOrUpdateSQLServer(azureSqlServerProperties); err != nil {
+	if _, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 			instance.Status.Message = msg
@@ -257,7 +227,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
-		r.Log.Info("Creating or updating secret with SQL Server credentials")
+		r.Log.Info("mutating secret bundle")
 		innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
 		if innerErr != nil {
 			return innerErr
@@ -278,18 +248,10 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 func (r *AzureSqlServerReconciler) verifyExternal(instance *azurev1alpha1.AzureSqlServer) error {
 	ctx := context.Background()
-	location := instance.Spec.Location
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        name,
-		Location:          location,
-	}
-
-	serv, err := sdkClient.GetServer()
+	serv, err := r.ResourceClient.GetServer(ctx, groupName, name)
 	if err != nil {
 		azerr := errhelp.NewAzureError(err).(*errhelp.AzureError)
 		if azerr.Type != errhelp.ResourceNotFound {
@@ -323,16 +285,8 @@ func (r *AzureSqlServerReconciler) deleteExternal(instance *azurev1alpha1.AzureS
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
-	location := instance.Spec.Location
 
-	sdkClient := sql.GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        name,
-		Location:          location,
-	}
-
-	_, err := sdkClient.DeleteSQLServer()
+	_, err := r.ResourceClient.DeleteSQLServer(ctx, groupName, name)
 	if err != nil {
 		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		instance.Status.Message = msg

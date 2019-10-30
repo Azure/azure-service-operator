@@ -57,7 +57,3 @@ func init() {
 func (s *AzureSqlServer) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
 }
-
-func (s *AzureSqlServer) IsProvisioned() bool {
-	return s.Status.Provisioned
-}

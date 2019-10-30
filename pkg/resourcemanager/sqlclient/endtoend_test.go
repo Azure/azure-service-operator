@@ -35,12 +35,10 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// create the Go SDK client with relevant info
-	sdk := GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        generateName("sqlsrvtest"),
-		Location:          "eastus",
-	}
+	sdk := GoSDKClient{}
+
+	location := "eastus2"
+	serverName := generateName("sqlsrvtest")
 
 	// create the server
 	sqlServerProperties := SQLServerProperties{
@@ -51,7 +49,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// wait for server to be created, then only proceed once activated
 	for {
 		time.Sleep(time.Second)
-		server, err := sdk.CreateOrUpdateSQLServer(sqlServerProperties)
+		server, err := sdk.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -81,7 +79,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// wait for db to be created, then only proceed once activated
 	for {
 		time.Sleep(time.Second)
-		future, err := sdk.CreateOrUpdateDB(sqlDBProperties)
+		future, err := sdk.CreateOrUpdateDB(ctx, groupName, location, serverName, sqlDBProperties)
 		if err == nil {
 			db, err := future.Result(getGoDbClient())
 			if err == nil {
@@ -107,7 +105,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// create a firewall rule
 	util.PrintAndLog("creating firewall rule...")
-	_, err = sdk.CreateOrUpdateSQLFirewallRule("test-rule1", "1.1.1.1", "2.2.2.2")
+	_, err = sdk.CreateOrUpdateSQLFirewallRule(ctx, groupName, serverName, "test-rule1", "1.1.1.1", "2.2.2.2")
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot create firewall rule: %v", err))
 		t.FailNow()
@@ -120,12 +118,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// create secondary SQL server
 	// create the Go SDK client with relevant info
 	secSrvName := generateName("sqlsrvsecondary")
-	sdk2 := GoSDKClient{
-		Ctx:               ctx,
-		ResourceGroupName: groupName,
-		ServerName:        secSrvName,
-		Location:          "westus",
-	}
+	secLocation := "westus"
 
 	// create the server
 	sqlServerProperties = SQLServerProperties{
@@ -136,7 +129,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// wait for server to be created, then only proceed once activated
 	for {
 		time.Sleep(time.Second)
-		server, err := sdk2.CreateOrUpdateSQLServer(sqlServerProperties)
+		server, err := sdk.CreateOrUpdateSQLServer(ctx, groupName, secLocation, secSrvName, sqlServerProperties)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -169,7 +162,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	failoverGroupName := generateName("failovergroup")
 	for {
 		time.Sleep(time.Second)
-		_, err := sdk.CreateOrUpdateFailoverGroup(failoverGroupName, sqlFailoverGroupProperties)
+		_, err := sdk.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
 		if err == nil {
 			util.PrintAndLog(fmt.Sprintf("failover group created successfully %s", failoverGroupName))
 			break
@@ -187,7 +180,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete firewall rule
 	util.PrintAndLog("deleting firewall rule...")
-	err = sdk.DeleteSQLFirewallRule("test-rule1")
+	err = sdk.DeleteSQLFirewallRule(ctx, groupName, serverName, "test-rule1")
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot delete firewall rule: %v", err))
 		t.FailNow()
@@ -196,7 +189,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete the failover group
 	util.PrintAndLog("deleting failover group...")
-	response, err := sdk.DeleteFailoverGroup(failoverGroupName)
+	response, err := sdk.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("failover group deleted")
@@ -208,7 +201,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete the DB
 	time.Sleep(time.Second)
-	response, err = sdk.DeleteDB("sqldatabase-sample")
+	response, err = sdk.DeleteDB(ctx, groupName, secSrvName, "sqldatabase-sample")
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("db deleted")
@@ -220,7 +213,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete the server
 	time.Sleep(time.Second)
-	response, err = sdk.DeleteSQLServer()
+	response, err = sdk.DeleteSQLServer(ctx, groupName, serverName)
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("sql server deleted")
@@ -237,7 +230,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete the secondary server
 	time.Sleep(time.Second)
-	response, err = sdk2.DeleteSQLServer()
+	response, err = sdk.DeleteSQLServer(ctx, groupName, secSrvName)
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("sql server deleted")
