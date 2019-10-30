@@ -107,12 +107,6 @@ terraform:
 
 terraform-and-deploy: terraform generate install-cert-manager build-and-push deploy
 
-terraform:
-	terraform apply devops/terraform
-
-terraform-and-deploy:
-	terraform build-and-push install-cert-manager deploy
-
 # find or download controller-gen
 # download controller-gen if necessary
 controller-gen:
