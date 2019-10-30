@@ -70,13 +70,13 @@ func getFileSystemClient(ctx context.Context, groupName string, accountName stri
 
 	accountKey, err := getAccountKey(ctx, groupName, accountName, adlsClient)
 	if err != nil {
-		log.Fatalf("failed to get the account key for the authorizer: %v\n", err)
+		log.Printf("failed to get the account key for the authorizer: %v\n", err)
 	}
 
 	a, err := iam.GetSharedKeyAuthorizer(accountName, accountKey)
 
 	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
+		log.Printf("failed to initialize authorizer: %v\n", err)
 	}
 	fsClient.Authorizer = a
 	fsClient.AddToUserAgent(config.UserAgent())

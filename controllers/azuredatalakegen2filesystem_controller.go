@@ -166,7 +166,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) deleteExternal(instance *azurev1
 	storageAccountName := instance.Spec.StorageAccountName
 	xMsDate := time.Now().String()
 
-	resp, err := r.FileSystemManager.DeleteFileSystem(ctx, groupName, fileSystemName, to.Int32Ptr(40), xMsDate, storageAccountName)
+	_, err := r.FileSystemManager.DeleteFileSystem(ctx, groupName, fileSystemName, to.Int32Ptr(40), xMsDate, storageAccountName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, "Warning", "DoesNotExist", "Resource to delete does not exist")
@@ -178,7 +178,6 @@ func (r *AzureDataLakeGen2FileSystemReconciler) deleteExternal(instance *azurev1
 	}
 
 	r.Recorder.Event(instance, "Normal", "Deleted", fileSystemName+" deleted")
-	r.Recorder.Event(instance, "Normal", "Deleted", resp.Status)
 
 	return nil
 }
