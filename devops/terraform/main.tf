@@ -162,10 +162,10 @@ resource "null_resource" "k8s" {
   depends_on = ["azurerm_kubernetes_cluster.operator"]
   provisioner "local-exec" {
     environment = {
-      ARM_SUBSCRIPTION_ID = env.ARM_SUBSCRIPTION_ID
-      ARM_TENANT_ID = env.ARM_TENANT_ID
-      ARM_CLIENT_ID = env.ARM_CLIENT_ID
-      ARM_CLIENT_SECRET = env.ARM_CLIENT_SECRET
+      ARM_SUBSCRIPTION_ID = data.azurerm_client_config.auth.subscription_id
+      ARM_TENANT_ID = data.azurerm_client_config.auth.tenant_id
+      ARM_CLIENT_ID = data.azurerm_client_config.auth.client_id
+      ARM_CLIENT_SECRET = var.service_principal_client_secret
     }
 
     command = "az aks get-credentials --overwrite-existing --resource-group ${azurerm_resource_group.operator.name} --name ${local.cluster_name}"
