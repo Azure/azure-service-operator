@@ -59,7 +59,7 @@ install: generate
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
 deploy: manifests
 	kubectl apply -f config/crd/bases
-	kustomize build config/default | envsubst | kubectl apply -f -
+	make kustomize | kubectl apply -f -
 
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
 
@@ -72,7 +72,10 @@ update:
 
 delete:
 	kubectl delete -f config/crd/bases
-	kustomize build config/default | envsubst | kubectl delete -f -
+	make kustomize | kubectl delete -f -
+
+kustomize:
+	kustomize build config/default | envsubst
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen

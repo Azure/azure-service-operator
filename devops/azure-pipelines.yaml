@@ -167,15 +167,8 @@ steps:
       latest
       $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
 
-
 - script: |
-    echo "updating kustomize image patch file for manager resource"
-    echo $(IMAGE_NAME)
-    IMG="$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
-    echo $(IMG)
-    sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
-    kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
-    set -x
+    make kustomize > $(Build.ArtifactStagingDirectory)/setup.yaml
     echo $IMG > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
   continueOnError: 'false'
   displayName: 'Prepare manifests for publish'
