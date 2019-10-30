@@ -143,8 +143,8 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	return r.applyTransition(ctx, "Verify", nextState, ensureErr)
 }
 
-const cannotUpdateManagedResource = "cannot update a read-only resource in Azure (i.e. a resource that was not created by the operator, and the existing-resource-behaviour was not set to 'Manage')"
 const rejectOwnershipOfExistingResource = "attempting to manage resource that already exists in Azure, and existing-resource-behaviour annotation is set to reject"
+const rejectUpdateManagedResource = "cannot update a read-only resource in Azure (i.e. a resource that was not created by the operator, and the existing-resource-behaviour was not set to 'Manage')"
 
 func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, error) {
 	status := r.status
@@ -162,19 +162,22 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, er
 		// verification should not return an error - if this happens it's a terminal failure
 		return Failed, err
 	}
+
+	// if the object is present on Azure in any form at all before invoking operator,
+	// reject if existingBehaviour=Reject
+	// make readonly if existingBehaviour=View
+	if status.IsPending() && !verifyResult.missing() {
+		if existingBehaviour.reject() {
+			return Failed, fmt.Errorf(rejectOwnershipOfExistingResource)
+		} else if existingBehaviour.view() {
+			// we can view the resource, but not change it
+			r.instanceUpdater.setAnnotation(ReadOnlyResourceAnnotation, "true")
+		}
+	}
+
 	// Success case - the resource is provisioned on Azure, post provisioning can take place if necessary
 	if verifyResult.ready() {
-		if status.IsPending() {
-			// the only time this will be true is when the resource already exists in Azure
-			if existingBehaviour.reject() {
-				return Failed, fmt.Errorf(rejectOwnershipOfExistingResource)
-			} else if existingBehaviour.view() {
-				// we can view the resource, but not change it
-				r.instanceUpdater.setAnnotation(ReadOnlyResourceAnnotation, "true")
-			} else /*if existingBehaviour.manage()*/ {
-				// we take ownership of the resource
-			}
-		} else if status.IsRecreating() {
+		if status.IsRecreating() {
 			// if the Azure resource is in ready state, but the K8s resource is recreating
 			// we assume that the resource is being deleted asynchronously in Azure, but there is no way to distinguish
 			// from the SDK that is deleting - it is either present or not. so we requeue the loop and wait for it to become `missing`
@@ -200,24 +203,17 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, er
 		return currentState, nil
 	}
 
+	// fail if rejecting ownership of existing resource, or attempting to update readonly one
+	if readOnly && (verifyResult.updateRequired() || verifyResult.recreateRequired()) {
+		return Failed, fmt.Errorf(rejectUpdateManagedResource)
+	}
+
 	// Update case - the resource exists in Azure, is invalid but updateable, so doesn't need to be recreated
 	if verifyResult.updateRequired() {
-		// fail if rejecting ownership of existing resource, or attempting to update readonly one
-		if status.IsPending() && existingBehaviour.reject() {
-			return Failed, fmt.Errorf(rejectOwnershipOfExistingResource)
-		} else if readOnly {
-			return Failed, fmt.Errorf(cannotUpdateManagedResource)
-		}
 		return Updating, nil
 	}
 	// Recreate case - the resource exists in Azure, is invalid and needs to be created
 	if verifyResult.recreateRequired() {
-		// fail if rejecting ownership of existing resource, or attempting to delete and recreate readonly one
-		if status.IsPending() && existingBehaviour.reject() {
-			return Failed, fmt.Errorf(rejectOwnershipOfExistingResource)
-		} else if readOnly {
-			return Failed, fmt.Errorf(cannotUpdateManagedResource)
-		}
 		deleteResult, err := r.ResourceManagerClient.Delete(ctx, r.resourceSpec())
 		if err != nil || deleteResult == DeleteError {
 			// TODO: add log here
@@ -254,7 +250,7 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (ProvisionState, er
 	annotations := r.objectMeta.GetAnnotations()
 	if annotations[ReadOnlyResourceAnnotation] == "true" {
 		// this should never be the case - this is more of an assertion (as the state Verify or Create should never have been set in the first place)
-		return Failed, fmt.Errorf(cannotUpdateManagedResource)
+		return Failed, fmt.Errorf(rejectUpdateManagedResource)
 	}
 
 	// ensure that the resource is created or updated in Azure (though it won't necessarily be ready, it still needs to be verified)
