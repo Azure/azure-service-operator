@@ -35,7 +35,7 @@ type AzureSqlFailoverGroupSpec struct {
 	DatabaseList                 []string                            `json:"databaselist"`
 }
 
-// AzureSQLFailoverGroupStatus defines the observed state of AzureSqlFailoverGroup
+// AzureSqlFailoverGroupStatus defines the observed state of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Provisioning bool   `json:"provisioning,omitempty"`

@@ -37,8 +37,8 @@ import (
 
 const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azure.com"
 
-// AzureSQLFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
-type AzureSQLFailoverGroupReconciler struct {
+// AzureSqlFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
+type AzureSqlFailoverGroupReconciler struct {
 	client.Client
 	Log      logr.Logger
 	Recorder record.EventRecorder
@@ -48,7 +48,7 @@ type AzureSQLFailoverGroupReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfailovergroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfailovergroups/status,verbs=get;update;patch
 
-func (r *AzureSQLFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("AzureSqlFailoverGroup", req.NamespacedName)
 	var instance azurev1alpha1.AzureSqlFailoverGroup
@@ -145,13 +145,13 @@ func (r *AzureSQLFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 	return ctrl.Result{}, nil
 }
 
-func (r *AzureSQLFailoverGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *AzureSqlFailoverGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1alpha1.AzureSqlFailoverGroup{}).
 		Complete(r)
 }
 
-func (r *AzureSQLFailoverGroupReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient) error {
+func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient) error {
 	ctx := context.Background()
 	failoverGroupName := instance.ObjectMeta.Name
 	failoverPolicy := instance.Spec.FailoverPolicy
@@ -226,7 +226,7 @@ func (r *AzureSQLFailoverGroupReconciler) reconcileExternal(instance *azurev1alp
 	return nil
 }
 
-func (r *AzureSQLFailoverGroupReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient) error {
+func (r *AzureSqlFailoverGroupReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient) error {
 	name := instance.ObjectMeta.Name
 
 	response, err := sdkClient.DeleteFailoverGroup(name)
@@ -244,7 +244,7 @@ func (r *AzureSQLFailoverGroupReconciler) deleteExternal(instance *azurev1alpha1
 	return nil
 }
 
-func (r *AzureSQLFailoverGroupReconciler) addFinalizer(instance *azurev1alpha1.AzureSqlFailoverGroup) error {
+func (r *AzureSqlFailoverGroupReconciler) addFinalizer(instance *azurev1alpha1.AzureSqlFailoverGroup) error {
 	helpers.AddFinalizer(instance, azureSQLFailoverGroupFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
