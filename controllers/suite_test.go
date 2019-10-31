@@ -151,7 +151,7 @@ var _ = BeforeSuite(func() {
 	var resourceClient resourcemanagersql.ResourceClient
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
-		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
+		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
@@ -184,10 +184,12 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&ResourceGroupReconciler{
-		Client:               k8sManager.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-		Recorder:             k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
-		ResourceGroupManager: resourceGroupManager,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: resourceGroupManager,
+			Log:         ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+			Recorder:    k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
