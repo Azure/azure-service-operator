@@ -117,6 +117,7 @@ provider "kubernetes" {
 
 // Create namespace to deploy the operator into
 resource "kubernetes_namespace" "operator-system" {
+  depends_on = [azurerm_kubernetes_cluster.operator]
   metadata {
     name = local.operator_namespace
   }
@@ -124,6 +125,7 @@ resource "kubernetes_namespace" "operator-system" {
 
 // Create Kubernetes secrets
 resource "kubernetes_secret" "operator" {
+  depends_on = [azurerm_kubernetes_cluster.operator]
   metadata {
     name = "azureoperatorsettings"
     namespace = local.operator_namespace
