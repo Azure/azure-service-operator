@@ -65,9 +65,17 @@ func (r *AzureSqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	defer func() {
+		if !helpers.IsBeingDeleted(&instance) {
+			if err := r.Status().Update(ctx, &instance); err != nil {
+				r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
+			}
+		}
+	}()
+
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, AzureSQLDatabaseFinalizerName) {
-			if err := r.deleteExternal(&instance); err != nil {
+			if err := r.deleteExternal(ctx, &instance); err != nil {
 				log.Info("Delete AzureSqlDatabase failed with ", "err", err.Error())
 				return ctrl.Result{}, err
 			}
@@ -94,7 +102,7 @@ func (r *AzureSqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation for AzureSqlDatabase")
-		if err := r.reconcileExternal(&instance); err != nil {
+		if err := r.reconcileExternal(ctx, &instance); err != nil {
 
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
@@ -102,12 +110,12 @@ func (r *AzureSqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
 			}
-			if azerr, ok := err.(*errhelp.AzureError); ok {
-				if helpers.ContainsString(catch, azerr.Type) {
-					log.Info("Got ignorable error", "type", azerr.Type)
-					return ctrl.Result{Requeue: true, RequeueAfter: time.Duration(requeueAfter) * time.Second}, nil
-				}
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if helpers.ContainsString(catch, azerr.Type) {
+				log.Info("Got ignorable error", "type", azerr.Type)
+				return ctrl.Result{Requeue: true, RequeueAfter: time.Duration(requeueAfter) * time.Second}, nil
 			}
+
 			return ctrl.Result{}, fmt.Errorf("error reconciling azure sql database in azure: %v", err)
 		}
 		return ctrl.Result{}, nil
@@ -124,8 +132,7 @@ func (r *AzureSqlDatabaseReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlDatabase) error {
-	ctx := context.Background()
+func (r *AzureSqlDatabaseReconciler) reconcileExternal(ctx context.Context, instance *azurev1alpha1.AzureSqlDatabase) error {
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
@@ -137,13 +144,13 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 		Edition:      dbEdition,
 	}
 
-	r.Log.Info("Calling createorupdate Azure SQL database")
-	// instance.Status.Provisioning = true
+	r.Log.Info("Calling createorupdate")
 
 	//get owner instance of AzureSqlServer
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner AzureSqlServer instance")
 	var ownerInstance azurev1alpha1.AzureSqlServer
 	azureSqlServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
+
 	err := r.Get(ctx, azureSqlServerNamespacedName, &ownerInstance)
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
@@ -158,7 +165,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 	}
 
 	// write information back to instance
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
+	if updateerr := r.Update(ctx, instance); updateerr != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
@@ -167,31 +174,23 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(instance *azurev1alpha1.A
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
 			instance.Status.Provisioning = true
-			if errup := r.Status().Update(ctx, instance); errup != nil {
-				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-			}
 		}
 
-		return errhelp.NewAzureError(err)
+		return err
 	}
 
 	_, err = r.ResourceClient.GetDB(ctx, groupName, server, dbName)
 	if err != nil {
-		return errhelp.NewAzureError(err)
+		return err
 	}
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
-	if err = r.Status().Update(ctx, instance); err != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-	}
-
 	return nil
 }
 
-func (r *AzureSqlDatabaseReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlDatabase) error {
-	ctx := context.Background()
+func (r *AzureSqlDatabaseReconciler) deleteExternal(ctx context.Context, instance *azurev1alpha1.AzureSqlDatabase) error {
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	dbName := instance.ObjectMeta.Name
