@@ -417,7 +417,7 @@ func (r *reconcileRunner) applyTransition(ctx context.Context, reason string, ne
 			// we don't requeue if there is an update error
 			return ctrl.Result{}, transitionErr
 		} else {
-			return result, updateErr
+			return result, nil
 		}
 	}
 	if updateErr != nil {
@@ -439,7 +439,7 @@ func (r *reconcileRunner) getRequeueAfter(transitionState ProvisionState) time.D
 		// must by default have a non zero requeue for these states
 		requeueSeconds := parameters.RequeueAfter
 		if requeueSeconds == 0 {
-			requeueSeconds = 10
+			requeueSeconds = 30
 		}
 		return requeueAfterDuration(requeueSeconds)
 	} else if transitionState == Failed {
