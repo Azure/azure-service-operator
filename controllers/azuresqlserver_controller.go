@@ -149,7 +149,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				errhelp.AsyncOpIncompleteError,
 				errhelp.InvalidServerName,
 				errhelp.RegionDoesNotAllowProvisioning,
-				errhelp.ResourceOperationFailure,
+				// errhelp.ResourceOperationFailure,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
@@ -158,19 +158,19 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
 						instance.Status.Message = msg
 						return ctrl.Result{Requeue: false}, nil
-					} 
+					}
 					if azerr.Type == errhelp.RegionDoesNotAllowProvisioning {
 						msg := "Region Does Not Allow Provisioning"
 						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
 						instance.Status.Message = msg
 						return ctrl.Result{Requeue: false}, nil
 					}
-					if azerr.Type == errhelp.ResourceOperationFailure {
-						msg := "It's not working"
-						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
-						instance.Status.Message = msg
-						return ctrl.Result{Requeue: false}, nil
-					}
+					// if azerr.Type == errhelp.ResourceOperationFailure {
+					// 	msg := "It's not working"
+					// 	r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
+					// 	instance.Status.Message = msg
+					// 	return ctrl.Result{Requeue: false}, nil
+					// }
 					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
 					log.Info(msg)
 					instance.Status.Message = msg
@@ -190,7 +190,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 			errhelp.AsyncOpIncompleteError,
-			errhelp.RegionDoesNotAllowProvisioning,
+			// errhelp.RegionDoesNotAllowProvisioning,
 		}
 		if azerr, ok := err.(*errhelp.AzureError); ok {
 			if helpers.ContainsString(catch, azerr.Type) {

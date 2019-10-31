@@ -53,6 +53,9 @@ func NewAzureError(err error) error {
 	} else if _, ok := err.(azure.AsyncOpIncompleteError); ok {
 		kind = "AsyncOpIncomplete"
 		reason = "AsyncOpIncomplete"
+	} else if err.Error() == "RegionDoesNotAllowProvisioning" {
+		kind = "RegionDoesNotAllowProvisioning"
+		reason = "RegionDoesNotAllowProvisioning"
 	}
 	ae.Reason = reason
 	ae.Type = kind
