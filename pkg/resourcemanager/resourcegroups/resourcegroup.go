@@ -24,6 +24,7 @@ import (
 	"sync"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
+	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
@@ -33,7 +34,9 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-type azureResourceGroupManager struct{}
+type AzureResourceGroupManager struct {
+	Log logr.Logger
+}
 
 func getGroupsClient() resources.GroupsClient {
 	groupsClient := resources.NewGroupsClient(config.SubscriptionID())
@@ -60,9 +63,9 @@ func getGroupsClientWithAuthFile() resources.GroupsClient {
 }
 
 // CreateGroup creates a new resource group named by env var
-func (_ *azureResourceGroupManager) CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
+func (_ *AzureResourceGroupManager) CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
 	groupsClient := getGroupsClient()
-	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, location))
+
 	return groupsClient.CreateOrUpdate(
 		ctx,
 		groupName,
@@ -85,25 +88,18 @@ func CreateGroupWithAuthFile(ctx context.Context, groupName string, location str
 }
 
 // DeleteGroup removes the resource group named by env var
-func (_ *azureResourceGroupManager) DeleteGroup(ctx context.Context, groupName string) (result autorest.Response, err error) {
+func (_ *AzureResourceGroupManager) DeleteGroup(ctx context.Context, groupName string) (result autorest.Response, err error) {
 	var client = getGroupsClient()
 
 	future, err := client.Delete(ctx, groupName)
 	if err != nil {
-		log.Fatalf("got error: %s", err)
-	}
-
-	err = future.WaitForCompletionRef(ctx, client.Client)
-	if err != nil {
-		log.Fatalf("got error: %s", err)
-	} else {
-		fmt.Printf("finished deleting group '%s'\n", groupName)
+		return autorest.Response{}, err
 	}
 
 	return future.Result(client)
 }
 
-func (_ *azureResourceGroupManager) DeleteGroupAsync(ctx context.Context, groupName string) (result resources.GroupsDeleteFuture, err error) {
+func (_ *AzureResourceGroupManager) DeleteGroupAsync(ctx context.Context, groupName string) (result resources.GroupsDeleteFuture, err error) {
 	return deleteGroupAsync(ctx, groupName)
 }
 
@@ -162,7 +158,7 @@ func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []
 }
 
 // CheckExistence checks whether a resource exists
-func (_ *azureResourceGroupManager) CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error) {
+func (_ *AzureResourceGroupManager) CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error) {
 	groupsClient := getGroupsClient()
 	result, err = groupsClient.CheckExistence(ctx, resourceGroupName)
 	if err != nil {
