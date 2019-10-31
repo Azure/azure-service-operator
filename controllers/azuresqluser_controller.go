@@ -85,6 +85,11 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 		}
 	}()
 
+	// if the admin credentials haven't been set, default admin credentials to servername
+	if instance.Spec.AdminSecret == "" {
+		instance.Spec.AdminSecret = instance.Spec.Server
+	}
+
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, AzureSQLUserFinalizerName) {
 			if err := r.deleteExternal(instance); err != nil {
@@ -115,9 +120,8 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 			instance.Status.Message = msg
 			return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
 		}
-		msg := fmt.Sprintf("Create AzureSqlUser Successful")
-		log.Info(msg)
-		instance.Status.Message = msg
+		instance.Status.Message = fmt.Sprintf("Create AzureSqlUser Successful")
+		log.Info(instance.Status.Message)
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
 		return ctrl.Result{}, nil
@@ -131,31 +135,39 @@ func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLU
 	ctx := context.Background()
 
 	// get admin credentials to connect to db
-	secret := r.GetOrPrepareSecret(&instance, instance.Spec.AdminSecret, instance.Spec.AdminSecret)
-	var user = string(secret.Data[SecretUsernameKey])
-	var password = string(secret.Data[SecretPasswordKey])
+	adminSecret := &v1.Secret{}
+	if r.SecretExists(&instance, instance.Spec.AdminSecret) {
+		adminSecret = r.GetOrPrepareSecret(&instance, instance.Spec.AdminSecret, instance.Spec.AdminSecret)
+	} else {
+		return fmt.Errorf("admin secret : %s, not found", instance.Spec.AdminSecret)
+	}
+
+	var user = string(adminSecret.Data[SecretUsernameKey])
+	var password = string(adminSecret.Data[SecretPasswordKey])
 	connString := r.getConnectionString(instance.Spec.Server, user, password, SqlServerPort, instance.Spec.DbName)
 
-	db, _ := sql.Open(DriverName, connString)
-	err := db.Ping()
+	db, err := sql.Open(DriverName, connString)
 	if err != nil {
 		return err
 	}
 
-	secret = r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name, instance.ObjectMeta.Name)
-	user = string(secret.Data[SecretUsernameKey])
+	err = db.Ping()
+	if err != nil {
+		return err
+	}
+
+	DBSecret := r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name, instance.ObjectMeta.Name)
+	user = string(DBSecret.Data[SecretUsernameKey])
 
 	err = dropUser(ctx, db, user)
 	if err != nil {
-		msg := fmt.Sprintf("Delete AzureSqlUser failed with %s", err.Error())
-		log.Info(msg)
-		instance.Status.Message = msg
+		instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser failed with %s", err.Error())
+		log.Info(instance.Status.Message)
 		return err
 	}
 
-	msg := fmt.Sprintf("Delete AzureSqlUser succeeded")
-	log.Info(msg)
-	instance.Status.Message = msg
+	instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser succeeded")
+	log.Info(instance.Status.Message)
 	return nil
 }
 
@@ -171,34 +183,44 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	ctx := context.Background()
 
 	// set DB as owner of user
-	r.Recorder.Event(&instance, "Normal", "UpdatingOwner", "Updating owner SqlDatabase instance")
+	r.Recorder.Event(&instance, v1.EventTypeNormal, "UpdatingOwner", "Updating owner SqlDatabase instance")
 	var ownerInstance azurev1alpha1.AzureSqlDatabase
 	sqlDatabaseNamespaceName := types.NamespacedName{Name: instance.Spec.DbName, Namespace: instance.Namespace}
 	err := r.Get(ctx, sqlDatabaseNamespaceName, &ownerInstance)
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(&instance, "Warning", "Failed", "Unable to get owner instance of SqlDatabase")
+		r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to get owner instance of SqlDatabase")
 	} else {
-		r.Recorder.Event(&instance, "Normal", "OwnerAssign", "Got owner instance of Sql Database and assigning controller reference now")
+		r.Recorder.Event(&instance, v1.EventTypeNormal, "OwnerAssign", "Got owner instance of Sql Database and assigning controller reference now")
 		innerErr := controllerutil.SetControllerReference(&ownerInstance, &instance, r.Scheme)
 		if innerErr != nil {
-			r.Recorder.Event(&instance, "Warning", "Failed", "Unable to set controller reference to SqlDatabase")
+			r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to set controller reference to SqlDatabase")
 		}
-		r.Recorder.Event(&instance, "Normal", "OwnerAssign", "Owner instance assigned successfully")
+		r.Recorder.Event(&instance, v1.EventTypeNormal, "OwnerAssign", "Owner instance assigned successfully")
 	}
 
 	// write information back to instance
 	if updateerr := r.Update(ctx, &instance); updateerr != nil {
-		r.Recorder.Event(&instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	// get admin credentials to connect to db
-	secret := r.GetOrPrepareSecret(&instance, instance.Spec.AdminSecret, instance.Spec.AdminSecret)
-	var user = string(secret.Data[SecretUsernameKey])
-	var password = string(secret.Data[SecretPasswordKey])
+	adminSecret := &v1.Secret{}
+	if r.SecretExists(&instance, instance.Spec.AdminSecret) {
+		adminSecret = r.GetOrPrepareSecret(&instance, instance.Spec.AdminSecret, instance.Spec.AdminSecret)
+	} else {
+		return fmt.Errorf("admin secret : %s, not found", instance.Spec.AdminSecret)
+	}
+
+	var user = string(adminSecret.Data[SecretUsernameKey])
+	var password = string(adminSecret.Data[SecretPasswordKey])
 	connString := r.getConnectionString(instance.Spec.Server, user, password, SqlServerPort, instance.Spec.DbName)
 
-	db, _ := sql.Open(DriverName, connString)
+	db, err := sql.Open(DriverName, connString)
+	if err != nil {
+		return err
+	}
+
 	err = db.Ping()
 	if err != nil {
 		return err
@@ -206,14 +228,14 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 
 	// create or get new user secret
 	user = fmt.Sprintf("%s-%s", instance.ObjectMeta.Name, uuid.New())
-	secret = r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name, user)
-	containsUser, err := ContainsUser(ctx, db, string(secret.Data[SecretUsernameKey]))
+	DBSecret := r.GetOrPrepareSecret(&instance, instance.ObjectMeta.Name, user)
+	containsUser, err := ContainsUser(ctx, db, string(DBSecret.Data[SecretUsernameKey]))
 	if err != nil {
 		log.Info("Couldn't find user", "err:", err.Error())
 	}
 
 	if !containsUser {
-		user, err = createUser(ctx, secret, db)
+		user, err = createUser(ctx, DBSecret, db)
 		if err != nil {
 			return err
 		}
@@ -228,9 +250,9 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	}
 
 	// publish user secret
-	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
+	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, DBSecret, func() error {
 		r.Log.Info("mutating secret bundle")
-		innerErr := controllerutil.SetControllerReference(&instance, secret, r.Scheme)
+		innerErr := controllerutil.SetControllerReference(&instance, DBSecret, r.Scheme)
 		if innerErr != nil {
 			log.Info("inner err", "err", err.Error())
 		}
@@ -266,9 +288,12 @@ func createUser(ctx context.Context, secret *v1.Secret, db *sql.DB) (string, err
 	newUser := string(secret.Data[SecretUsernameKey])
 	newPassword := string(secret.Data[SecretPasswordKey])
 	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
-
-	// Execute non-query with named parameters
 	_, err := db.ExecContext(ctx, tsql)
+
+	// TODO: Have db lib do string interpolation
+	//tsql := fmt.Sprintf(`CREATE USER @User WITH PASSWORD='@Password'`)
+	//_, err := db.ExecContext(ctx, tsql, sql.Named("User", newUser), sql.Named("Password", newPassword))
+
 	if err != nil {
 		log.Error("Error executing", "err", err.Error())
 		return newUser, err
@@ -285,8 +310,7 @@ func (r *AzureSQLUserReconciler) getConnectionString(server string, user string,
 
 // ContainsUser checks if db contains user
 func ContainsUser(ctx context.Context, db *sql.DB, username string) (bool, error) {
-	tsql := fmt.Sprintf("SELECT * FROM sysusers WHERE NAME='%s'", username)
-	res, err := db.ExecContext(ctx, tsql)
+	res, err := db.ExecContext(ctx, fmt.Sprintf("SELECT * FROM sysusers WHERE NAME='%s'", username))
 	if err != nil {
 		return false, err
 	}
@@ -318,6 +342,16 @@ func (r *AzureSQLUserReconciler) GetOrPrepareSecret(instance *azurev1alpha1.Azur
 	return secret
 }
 
+// Checks if secret exists
+func (r *AzureSQLUserReconciler) SecretExists(instance *azurev1alpha1.AzureSQLUser, secretname string) bool {
+	secret := &v1.Secret{}
+	if err := r.Get(context.Background(), types.NamespacedName{Name: secretname, Namespace: instance.Namespace}, secret); err == nil {
+		return true
+	}
+
+	return false
+}
+
 // SetupWithManager runs reconcile loop with manager
 func (r *AzureSQLUserReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
@@ -332,6 +366,6 @@ func (r *AzureSQLUserReconciler) addFinalizer(instance *azurev1alpha1.AzureSQLUs
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", AzureSQLUserFinalizerName))
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", AzureSQLUserFinalizerName))
 	return nil
 }
