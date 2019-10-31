@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"context"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
@@ -55,6 +56,8 @@ var _ = Describe("EventHub Controller", func() {
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create and Delete", func() {
 		It("should fail to create eventhub if eventhubnamespace doesn't exist", func() {
+
+			defer GinkgoRecover()
 
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 

@@ -39,6 +39,8 @@ var _ = Describe("KeyVault Controller", func() {
 
 		It("Should Create and Delete Key Vault instances", func() {
 
+			defer GinkgoRecover()
+
 			keyVaultLocation := tc.resourceGroupLocation
 
 			// Declare KeyVault object
