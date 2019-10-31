@@ -156,11 +156,12 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
 						instance.Status.Message = msg
 						return ctrl.Result{Requeue: false}, nil
+					} else {
+						msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
+						log.Info(msg)
+						instance.Status.Message = msg
+						return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 					}
-					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
-					log.Info(msg)
-					instance.Status.Message = msg
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
 			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling sql server in azure: %v", err)
@@ -240,6 +241,12 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	if _, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
+			instance.Status.Message = msg
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
+			return errhelp.NewAzureError(err)
+		}
+		if strings.Contains(err.Error(), errhelp.InvalidServerName) {
+			msg := fmt.Sprintf("Invalid Server Name: %v", err)
 			instance.Status.Message = msg
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 			return errhelp.NewAzureError(err)
