@@ -78,6 +78,17 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGrou
 	return future.Result(serversClient)
 }
 
+func mockCheckNameAvailability() (result AvailabilityResponse, err error) {
+	response := autorest.Response{
+		&http.Response{
+			StatusCode: 400,
+			Status: "400 RegionDoesNotAllowProvisioning",
+			Proto: "HTTP/1.0",
+		},
+	}
+	return ToAvailabilityResponse(response), err
+} 
+
 // CreateOrUpdateSQLFirewallRule creates or updates a firewall rule
 // based on code from: https://github.com/Azure-Samples/azure-sdk-for-go-samples/blob/master/sql/sql.go#L111
 // to allow allow Azure services to connect example: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure#manage-firewall-rules-using-azure-cli
