@@ -19,9 +19,13 @@ package resourcegroups
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
+	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
 
@@ -44,12 +48,19 @@ func findResourceGroup(res []resources.Group, predicate func(resources.Group) bo
 
 // CreateGroup creates a new resource group
 func (manager *MockResourceGroupManager) CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
+	index, _ := findResourceGroup(manager.resourceGroups, func(g resources.Group) bool {
+		return *g.Name == groupName
+	})
+
 	r := resources.Group{
 		Response: helpers.GetRestResponse(201),
 		Location: to.StringPtr(location),
 		Name:     to.StringPtr(groupName),
 	}
-	manager.resourceGroups = append(manager.resourceGroups, r)
+
+	if index == -1 {
+		manager.resourceGroups = append(manager.resourceGroups, r)
+	}
 
 	return r, nil
 }
@@ -57,6 +68,7 @@ func (manager *MockResourceGroupManager) CreateGroup(ctx context.Context, groupN
 // DeleteGroup removes the resource group
 func (manager *MockResourceGroupManager) DeleteGroup(ctx context.Context, groupName string) (autorest.Response, error) {
 	groups := manager.resourceGroups
+
 	index, _ := findResourceGroup(groups, func(g resources.Group) bool {
 		return *g.Name == groupName
 	})
@@ -87,4 +99,43 @@ func (manager *MockResourceGroupManager) CheckExistence(ctx context.Context, gro
 	}
 
 	return helpers.GetRestResponse(http.StatusNoContent), nil
+}
+
+func (g *MockResourceGroupManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	_, err = g.CreateGroup(ctx, instance.ObjectMeta.Name, instance.Spec.Location)
+	if err != nil {
+		return false, err
+	}
+
+	instance.Status.Provisioning = true
+	instance.Status.Provisioned = true
+
+	return true, nil
+}
+
+func (g *MockResourceGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	_, err = g.DeleteGroup(ctx, instance.ObjectMeta.Name)
+	if err != nil {
+		return false, err
+	}
+
+	return false, nil
+}
+
+func (g *MockResourceGroupManager) convert(obj runtime.Object) (*azurev1alpha1.ResourceGroup, error) {
+	local, ok := obj.(*azurev1alpha1.ResourceGroup)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }

@@ -100,7 +100,7 @@ type CosmosDB struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec                CosmosDBSpec                `json:"spec,omitempty"`
-	Status              ASOStatus              `json:"status,omitempty"`
+	Status              ASOStatus                   `json:"status,omitempty"`
 	Output              CosmosDBOutput              `json:"output,omitempty"`
 	AdditionalResources CosmosDBAdditionalResources `json:"additionalResources,omitempty"`
 }

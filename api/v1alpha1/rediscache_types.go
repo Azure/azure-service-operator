@@ -96,7 +96,7 @@ type RedisCache struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec                RedisCacheSpec                `json:"spec,omitempty"`
-	Status              ASOStatus              `json:"status,omitempty"`
+	Status              ASOStatus                     `json:"status,omitempty"`
 	Output              RedisCacheOutput              `json:"output,omitempty"`
 	AdditionalResources RedisCacheAdditionalResources `json:"additionalResources,omitempty"`
 }

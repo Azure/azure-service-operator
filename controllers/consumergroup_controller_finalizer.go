@@ -20,8 +20,8 @@ import (
 	"context"
 	"fmt"
 
-	v1 "k8s.io/api/core/v1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	v1 "k8s.io/api/core/v1"
 )
 
 const consumerGroupFinalizerName = "consumergroup.finalizers.com"
