@@ -93,9 +93,8 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, AzureSQLUserFinalizerName) {
 			if err := r.deleteExternal(instance); err != nil {
-				msg := fmt.Sprintf("Delete external failed with %s", err.Error())
-				log.Info(msg)
-				instance.Status.Message = msg
+				instance.Status.Message = fmt.Sprintf("Delete external failed with %s", err.Error())
+				log.Info(instance.Status.Message)
 			}
 			helpers.RemoveFinalizer(&instance, AzureSQLUserFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
