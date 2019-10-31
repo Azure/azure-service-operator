@@ -141,8 +141,9 @@ func (r *reconcileRunner) verify(ctx context.Context) (ctrl.Result, error) {
 	return r.applyTransition(ctx, "Verify", nextState, ensureErr)
 }
 
-const rejectOwnershipOfExistingResource = "attempting to manage resource that already exists in Azure, and existing-resource-behaviour annotation is set to reject"
-const rejectUpdateManagedResource = "cannot update a read-only resource in Azure (i.e. a resource that was not created by the operator, and the existing-resource-behaviour was not set to 'Manage')"
+const rejectCreateManagedResource = "permission to create Azure resource is not set. Annotation '*/access-permissions' is present, but the flag 'C' is not set"
+const rejectUpdateManagedResource = "permission to update Azure resource is not set. Annotation '*/access-permissions' is present, but the flag 'U' is not set"
+const rejectDeleteManagedResource = "permission to delete or recreate Azure resource is not set. Annotation '*/access-permissions' is present, but the flag 'D' is not set"
 
 func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, error) {
 	status := r.status
@@ -151,28 +152,11 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, er
 	r.log.Info("Verifying state of resource on Azure")
 	verifyResponse, err := r.ResourceManagerClient.Verify(ctx, r.resourceSpec())
 	verifyResult := verifyResponse.result
-	readOnlyAnnotation := r.AnnotationBaseName + ReadOnlyResourceAnnotation
-	existingResourceBehaviourAnnotation := r.AnnotationBaseName + ExistingResourceBehaviourAnnotation
-
-	annotations := r.objectMeta.GetAnnotations()
-	existingBehaviour := ExistingResourceBehaviour(annotations[existingResourceBehaviourAnnotation])
-	readOnly := annotations[readOnlyAnnotation] == "true"
+	permissions := r.getAccessPermissions()
 
 	if err != nil {
 		// verification should not return an error - if this happens it's a terminal failure
 		return Failed, err
-	}
-
-	// if the object is present on Azure in any form at all before invoking operator,
-	// reject if existingBehaviour=Reject
-	// make readonly if existingBehaviour=View
-	if status.IsPending() && !verifyResult.missing() {
-		if existingBehaviour.reject() {
-			return Failed, fmt.Errorf(rejectOwnershipOfExistingResource)
-		} else if existingBehaviour.view() {
-			// we can view the resource, but not change it
-			r.instanceUpdater.setAnnotation(readOnlyAnnotation, "true")
-		}
 	}
 
 	// Success case - the resource is provisioned on Azure, post provisioning can take place if necessary
@@ -190,6 +174,10 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, er
 	}
 	// Missing case - we can now create the resource
 	if verifyResult.missing() {
+		if !permissions.create() {
+			// fail if permission to create is not present
+			return Failed, fmt.Errorf(rejectCreateManagedResource)
+		}
 		return Creating, nil
 	}
 	// if resource is deleting, requeue the reconcile loop
@@ -203,17 +191,20 @@ func (r *reconcileRunner) verifyExecute(ctx context.Context) (ProvisionState, er
 		return currentState, nil
 	}
 
-	// fail if rejecting ownership of existing resource, or attempting to update readonly one
-	if readOnly && (verifyResult.updateRequired() || verifyResult.recreateRequired()) {
-		return Failed, fmt.Errorf(rejectUpdateManagedResource)
-	}
-
 	// Update case - the resource exists in Azure, is invalid but updateable, so doesn't need to be recreated
 	if verifyResult.updateRequired() {
+		if !permissions.update() {
+			// fail if permission to update is not present
+			return Failed, fmt.Errorf(rejectUpdateManagedResource)
+		}
 		return Updating, nil
 	}
 	// Recreate case - the resource exists in Azure, is invalid and needs to be created
 	if verifyResult.recreateRequired() {
+		if !permissions.delete() {
+			// fail if permission to delete is not present
+			return Failed, fmt.Errorf(rejectDeleteManagedResource)
+		}
 		deleteResult, err := r.ResourceManagerClient.Delete(ctx, r.resourceSpec())
 		if err != nil || deleteResult == DeleteError {
 			// TODO: add log here
@@ -247,20 +238,22 @@ func (r *reconcileRunner) ensureExecute(ctx context.Context) (ProvisionState, er
 	instance := r.instance
 	status := r.status
 	lastAppliedAnnotation := r.AnnotationBaseName + LastAppliedAnnotation
-	readOnlyAnnotation := r.AnnotationBaseName + ReadOnlyResourceAnnotation
-
-	annotations := r.objectMeta.GetAnnotations()
-	if annotations[readOnlyAnnotation] == "true" {
-		// this should never be the case - this is more of an assertion (as the state Verify or Create should never have been set in the first place)
-		return Failed, fmt.Errorf(rejectUpdateManagedResource)
-	}
+	permissions := r.getAccessPermissions()
 
 	// ensure that the resource is created or updated in Azure (though it won't necessarily be ready, it still needs to be verified)
 	var err error
 	var ensureResponse EnsureResponse
 	if status.IsCreating() {
+		if !permissions.create() {
+			// this should never be the case - this is more of an assertion (as the state Verify or Create should never have been set in the first place)
+			return Failed, fmt.Errorf(rejectCreateManagedResource)
+		}
 		ensureResponse, err = r.ResourceManagerClient.Create(ctx, r.resourceSpec())
 	} else {
+		if !permissions.update() {
+			// this should never be the case - this is more of an assertion (as the state Verify or Create should never have been set in the first place)
+			return Failed, fmt.Errorf(rejectCreateManagedResource)
+		}
 		ensureResponse, err = r.ResourceManagerClient.Update(ctx, r.resourceSpec())
 	}
 	ensureResult := ensureResponse.result
@@ -479,4 +472,9 @@ func (r *reconcileRunner) getJsonSpec() string {
 
 func (r *reconcileRunner) resourceSpec() ResourceSpec {
 	return ResourceSpec{Instance: r.instance, Dependencies: r.dependencies}
+}
+
+func (r *reconcileRunner) getAccessPermissions() AccessPermissions {
+	annotations := r.objectMeta.GetAnnotations()
+	return AccessPermissions(annotations[r.AnnotationBaseName+AccessPermissionAnnotation])
 }

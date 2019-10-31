@@ -42,7 +42,6 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 	ctx := context.Background()
 	removeFinalizer := false
 	requeue := false
-	readOnlyAnnotation := r.AnnotationBaseName + ReadOnlyResourceAnnotation
 
 	isTerminating := r.status.IsTerminating()
 
@@ -61,10 +60,9 @@ func (r *reconcileFinalizer) handle() (ctrl.Result, error) {
 		} else if verifyResult.deleting() {
 			requeue = true
 		} else if !isTerminating { // and one of verifyResult.ready() || verifyResult.recreateRequired() || verifyResult.updateRequired()
-			annotations := r.objectMeta.GetAnnotations()
-			if annotations[readOnlyAnnotation] == "true" {
-				// readonly means the resource was not created by the operator, and the operator has not taken over management of the resource
-				// and so should not be deleted by the operator
+			permissions := r.getAccessPermissions()
+			if !permissions.delete() {
+				// if delete permission is turned off, just finalize, but don't delete on Azure
 				r.log.Info("Resource is not managed by operator, bypassing delete of resource in Azure")
 				removeFinalizer = true
 			} else {
