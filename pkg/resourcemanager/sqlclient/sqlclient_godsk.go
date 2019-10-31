@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
-	// "log"
+	"log"
 	"net/http"
 )
 
@@ -52,31 +52,31 @@ func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
 func (sdk GoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLServerProperties) (result sql.Server, err error) {
-	return MockCreateOrUpdateSQLServer()
-	// serversClient := getGoServersClient()
-	// serverProp := SQLServerPropertiesToServer(properties)
+	// return MockCreateOrUpdateSQLServer()
+	serversClient := getGoServersClient()
+	serverProp := SQLServerPropertiesToServer(properties)
 
-	// // Check name availability
-	// checkNameResult, err := sdk.CheckNameAvailability(ctx, resourceGroupName, serverName)
-	// if checkNameResult.Available == false {
-	// 	log.Fatalf("sql server name not available: %v\n", checkNameResult.Message)
-	// 	return result, errors.New("SqlServer name not available. not complete")
-	// }
+	// Check name availability
+	checkNameResult, err := sdk.CheckNameAvailability(ctx, resourceGroupName, serverName)
+	if checkNameResult.Available == false {
+		log.Fatalf("sql server name not available: %v\n", checkNameResult.Message)
+		return result, errors.New("SqlServer name not available. not complete")
+	}
 
-	// // issue the creation
-	// future, err := serversClient.CreateOrUpdate(
-	// 	ctx,
-	// 	resourceGroupName,
-	// 	serverName,
-	// 	sql.Server{
-	// 		Location:         to.StringPtr(location),
-	// 		ServerProperties: &serverProp,
-	// 	})
-	// if err != nil {
-	// 	return result, err
-	// }
+	// issue the creation
+	future, err := serversClient.CreateOrUpdate(
+		ctx,
+		resourceGroupName,
+		serverName,
+		sql.Server{
+			Location:         to.StringPtr(location),
+			ServerProperties: &serverProp,
+		})
+	if err != nil {
+		return result, err
+	}
 
-	// return future.Result(serversClient)
+	return future.Result(serversClient)
 }
 
 func MockCreateOrUpdateSQLServer() (result sql.Server, err error) {
