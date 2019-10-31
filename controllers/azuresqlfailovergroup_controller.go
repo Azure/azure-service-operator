@@ -40,9 +40,10 @@ const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azu
 // AzureSqlFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
 type AzureSqlFailoverGroupReconciler struct {
 	client.Client
-	Log      logr.Logger
-	Recorder record.EventRecorder
-	Scheme   *runtime.Scheme
+	Log            logr.Logger
+	Recorder       record.EventRecorder
+	Scheme         *runtime.Scheme
+	ResourceClient sql.ResourceClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfailovergroups,verbs=get;list;watch;create;update;patch;delete
@@ -53,12 +54,6 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 	log := r.Log.WithValues("AzureSqlFailoverGroup", req.NamespacedName)
 	var instance azurev1alpha1.AzureSqlFailoverGroup
 
-	defer func() {
-		if err := r.Status().Update(ctx, &instance); err != nil {
-			r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
-	}()
-
 	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		log.Info("Unable to retrieve sql failover group resource", "err", err.Error())
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
@@ -67,15 +62,17 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	groupName := instance.Spec.ResourceGroup
-	location := instance.Spec.Location
-	servername := instance.Spec.Server
-
-	sdkClient := sql.GoSDKClient{}
+	defer func() {
+		if !helpers.IsBeingDeleted(&instance) {
+			if err := r.Status().Update(ctx, &instance); err != nil {
+				r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+			}
+		}
+	}()
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, azureSQLFailoverGroupFinalizerName) {
-			if err := r.deleteExternal(&instance, sdkClient, groupName, servername); err != nil {
+			if err := r.deleteExternal(ctx, &instance); err != nil {
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
 				}
@@ -110,7 +107,7 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
-		if err := r.reconcileExternal(&instance, sdkClient, groupName, servername, location); err != nil {
+		if err := r.reconcileExternal(ctx, &instance); err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -146,8 +143,7 @@ func (r *AzureSqlFailoverGroupReconciler) SetupWithManager(mgr ctrl.Manager) err
 		Complete(r)
 }
 
-func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient, groupName string, servername string, location string) error {
-	ctx := context.Background()
+func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context, instance *azurev1alpha1.AzureSqlFailoverGroup) error {
 	failoverGroupName := instance.ObjectMeta.Name
 	failoverPolicy := instance.Spec.FailoverPolicy
 	failoverGracePeriod := instance.Spec.FailoverGracePeriod
@@ -155,23 +151,24 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alp
 	secondaryResourceGroup := instance.Spec.SecondaryServerResourceGroup
 	databaseList := instance.Spec.DatabaseList
 	server := instance.Spec.Server
+	groupName := instance.Spec.ResourceGroup
+	servername := instance.Spec.Server
 
-	r.Log.Info("Calling createorupdate Azure SQL failover groups")
+	r.Log.Info("Calling createorupdate")
 
 	//get owner instance of AzureSqlServer
 	r.Recorder.Event(instance, v1.EventTypeNormal, "UpdatingOwner", "Updating owner AzureSqlServer instance")
 	var ownerInstance azurev1alpha1.AzureSqlServer
+
 	azureSQLServerNamespacedName := types.NamespacedName{Name: server, Namespace: instance.Namespace}
 	err := r.Get(ctx, azureSQLServerNamespacedName, &ownerInstance)
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
 		msg := "Unable to get owner instance of AzureSqlServer"
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
-		instance.Status.Message = msg
 	} else {
 		msg := "Got owner instance of Sql Server and assigning controller reference now"
 		r.Recorder.Event(instance, v1.EventTypeNormal, "OwnerAssign", msg)
-		instance.Status.Message = msg
 
 		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
 		if innerErr != nil {
@@ -198,7 +195,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alp
 		DatabaseList:                 databaseList,
 	}
 
-	_, err = sdkClient.CreateOrUpdateFailoverGroup(ctx, groupName, servername, failoverGroupName, sqlFailoverGroupProperties)
+	_, err = r.ResourceClient.CreateOrUpdateFailoverGroup(ctx, groupName, servername, failoverGroupName, sqlFailoverGroupProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -209,7 +206,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alp
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = sdkClient.GetFailoverGroup(ctx, groupName, servername, failoverGroupName)
+	_, err = r.ResourceClient.GetFailoverGroup(ctx, groupName, servername, failoverGroupName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -221,20 +218,20 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(instance *azurev1alp
 	return nil
 }
 
-func (r *AzureSqlFailoverGroupReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFailoverGroup, sdkClient sql.GoSDKClient, groupName string, servername string) error {
-	ctx := context.Background()
+func (r *AzureSqlFailoverGroupReconciler) deleteExternal(ctx context.Context, instance *azurev1alpha1.AzureSqlFailoverGroup) error {
 	name := instance.ObjectMeta.Name
+	servername := instance.Spec.Server
+	groupName := instance.Spec.ResourceGroup
 
-	response, err := sdkClient.DeleteFailoverGroup(ctx, groupName, servername, name)
-	if err == nil {
-		if response.StatusCode == 200 {
-			r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", name+" deleted")
-		}
-	} else {
+	response, err := r.ResourceClient.DeleteFailoverGroup(ctx, groupName, servername, name)
+	if err != nil {
 		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		instance.Status.Message = msg
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
 		return errhelp.NewAzureError(err)
+	}
+	if response.StatusCode == 200 {
+		r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", name+" deleted")
 	}
 
 	return nil
@@ -244,9 +241,6 @@ func (r *AzureSqlFailoverGroupReconciler) addFinalizer(instance *azurev1alpha1.A
 	helpers.AddFinalizer(instance, azureSQLFailoverGroupFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
-		msg := fmt.Sprintf("Failed to update finalizer: %v", err)
-		instance.Status.Message = msg
-
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", azureSQLFailoverGroupFinalizerName))

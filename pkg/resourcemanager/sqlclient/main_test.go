@@ -63,10 +63,10 @@ func TestMain(m *testing.M) {
 
 	code = m.Run()
 
-	/*err = teardown()
+	err = teardown()
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("could not tear down environment: %v\n; original exit code: %v\n", err, code))
-	}*/
+	}
 
 	os.Exit(code)
 }

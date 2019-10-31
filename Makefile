@@ -34,13 +34,13 @@ api-test: generate fmt vet manifests
 	
 # Run tests
 test: generate fmt vet manifests 
-	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/sqlclient/... 2>&1 | tee testlogs.txt
+	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/sqlclient/... -timeout 20m 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/sqlclient/... 2>&1 | tee testlogs-existing.txt
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/sqlclient/... -timeout 20m 2>&1 | tee testlogs-existing.txt
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
 
