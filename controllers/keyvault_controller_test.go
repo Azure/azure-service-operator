@@ -66,7 +66,7 @@ var _ = Describe("KeyVault Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
 				//log.Print(keyVaultInstance.Status)
-				return keyVaultInstance.Status.ID != nil
+				return keyVaultInstance.Status.Provisioned == true
 			}, tc.timeout,
 			).Should(BeTrue())
 
