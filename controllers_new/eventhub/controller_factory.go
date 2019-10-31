@@ -86,26 +86,17 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 		return nil, err
 	}
 
-	managedEventhubNamespace := ehnInstance.Annotations[shared.ManagedParentAnnotation]
-
-	// defaults to true
-	isManaged := shared.IsNotFalse(managedEventhubNamespace)
-
-	var owner *reconciler.Dependency = nil
-
-	if isManaged {
-		owner = &reconciler.Dependency{
-			InitialInstance: &v1alpha1.EventhubNamespace{},
-			NamespacedName: types.NamespacedName{
-				Namespace: ehnInstance.Namespace,
-				Name:      ehnInstance.Spec.Namespace,
-			},
-			StatusAccessor: eventhubnamespaceaccessors.GetStatus,
-		}
-	}
-
 	return &reconciler.DependencyDefinitions{
 		Dependencies: []*reconciler.Dependency{},
-		Owner:        owner,
+		Owner:        shared.GetOwnerIfManaged(ehnInstance.ObjectMeta, func()*reconciler.Dependency{
+			return &reconciler.Dependency{
+				InitialInstance: &v1alpha1.EventhubNamespace{},
+				NamespacedName: types.NamespacedName{
+					Namespace: ehnInstance.Namespace,
+					Name:      ehnInstance.Spec.Namespace,
+				},
+				StatusAccessor: eventhubnamespaceaccessors.GetStatus,
+			}
+		}),
 	}, nil
 }

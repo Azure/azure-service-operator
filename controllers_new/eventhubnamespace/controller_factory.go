@@ -77,28 +77,18 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 	if err != nil {
 		return nil, err
 	}
-
-	// get the metadata annotation to check if the eventhubnamespace belongs to a resourcegroup that is
-	// managed by Kubernetes, and if so, make this resourcegroup a dependency
-	managedResourceGroup := ehnInstance.Annotations[shared.ManagedParentAnnotation]
-
-	// defaults to true
-	isManaged := shared.IsNotFalse(managedResourceGroup)
-
-	var owner *reconciler.Dependency = nil
-	if isManaged {
-		owner = &reconciler.Dependency{
-			InitialInstance: &v1alpha1.ResourceGroup{},
-			NamespacedName: types.NamespacedName{
-				Namespace: ehnInstance.Namespace,
-				Name:      ehnInstance.Spec.ResourceGroup,
-			},
-			StatusAccessor: resourcegroupaccessors.GetStatus,
-		}
-	}
-
 	return &reconciler.DependencyDefinitions{
 		Dependencies: []*reconciler.Dependency{},
-		Owner:        owner,
+		Owner:        shared.GetOwnerIfManaged(ehnInstance.ObjectMeta, func()*reconciler.Dependency{
+			return &reconciler.Dependency{
+				InitialInstance: &v1alpha1.ResourceGroup{},
+				NamespacedName: types.NamespacedName{
+					Namespace: ehnInstance.Namespace,
+					Name:      ehnInstance.Spec.ResourceGroup,
+				},
+				StatusAccessor: resourcegroupaccessors.GetStatus,
+			}
+		}),
 	}, nil
 }
+
