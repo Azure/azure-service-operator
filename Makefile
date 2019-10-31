@@ -59,7 +59,7 @@ install: generate
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
 deploy: manifests
 	kubectl apply -f config/crd/bases
-	make kustomize | kubectl apply -f -
+	kustomize build config/default | envsubst | kubectl apply -f -
 
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
 
