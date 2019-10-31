@@ -117,6 +117,7 @@ steps:
     # Get the registry url from terraform and set our image
     REGISTRY="$(terraform output registry_url)"
     export IMG="$REGISTRY.azurecr.io/azure-service-operator"
+
     # Login to the ACR to prepare for the push below
     az login --service-principal -u "$ARM_CLIENT_ID" -p "$ARM_CLIENT_SECRET" -t "$ARM_TENANT_ID"
     az account set -s "$ARM_SUBSCRIPTION_ID"
@@ -209,7 +210,7 @@ steps:
       $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
 
 - script: |
-    make kustomize > $(Build.ArtifactStagingDirectory)/setup.yaml
+    make -s kustomize > $(Build.ArtifactStagingDirectory)/setup.yaml
     echo $IMG > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
   continueOnError: 'false'
   displayName: 'Publish deployment manifests'

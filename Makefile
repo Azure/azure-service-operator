@@ -59,8 +59,7 @@ install: generate
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
 deploy: manifests
 	kubectl apply -f config/crd/bases
-	make kustomize | cat
-	make kustomize | kubectl apply -f -
+	make -s kustomize | kubectl apply -f -
 
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
 
@@ -73,7 +72,7 @@ update:
 
 delete:
 	kubectl delete -f config/crd/bases
-	make kustomize | kubectl delete -f -
+	make -s kustomize | kubectl delete -f -
 
 kustomize:
 	@kustomize build config/default 2>/dev/null | envsubst
