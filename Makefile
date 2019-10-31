@@ -130,7 +130,7 @@ generate-template:
 	go-bindata -pkg template -prefix pkg/template/assets/ -o pkg/template/templates.go pkg/template/assets/
 
 create-kindcluster:
-ifeq (,$(shell kind get clusters))
+ifeq (,$(@shell kind get clusters))
 	@echo "no kind cluster"
 else
 	@echo "kind cluster is running, deleteing the current cluster"
