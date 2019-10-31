@@ -92,6 +92,7 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete eventhubs", func() {
 
+			defer GinkgoRecover()
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
@@ -180,6 +181,7 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete eventhubs with custom secret name", func() {
 
+			defer GinkgoRecover()
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 			secretName := "secret-" + eventhubName
 
@@ -275,6 +277,7 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete event hubs with capture", func() {
 
+			defer GinkgoRecover()
 			eventHubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
