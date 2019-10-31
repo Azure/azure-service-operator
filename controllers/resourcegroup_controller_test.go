@@ -60,7 +60,7 @@ var _ = Describe("ResourceGroup Controller", func() {
 			// verify sure rg has a finalizer
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.HasFinalizer(resourceGroupFinalizerName)
+				return resourceGroupInstance.HasFinalizer(finalizerName)
 			}, tc.timeout,
 			).Should(BeTrue())
 

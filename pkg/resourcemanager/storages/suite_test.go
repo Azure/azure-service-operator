@@ -20,6 +20,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
@@ -68,7 +69,7 @@ var _ = BeforeSuite(func() {
 
 	resourcemanagerconfig.ParseEnvironment()
 
-	ressourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
+	ressourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
 	tc = TestContext{
 		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
 		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
