@@ -12,6 +12,8 @@ import (
 
 	log "github.com/go-logr/logr"
 	"github.com/prometheus/client_golang/prometheus"
+
+	ctrlmetrics "sigs.k8s.io/controller-runtime/pkg/metrics"
 )
 
 var (
@@ -76,7 +78,8 @@ func initializeGlobalPrometheusMetricsEtc() {
 		prometheus.CounterOpts{
 			Namespace: *namespace,
 			Subsystem: *subsystem,
-			Name:      "Info",
+			Name:      "Status",
+			Help:      "Status messages",
 		},
 		[]string{
 			"component",
@@ -85,7 +88,7 @@ func initializeGlobalPrometheusMetricsEtc() {
 			"message",
 		},
 	)
-	prometheus.MustRegister(statusCounter)
+	ctrlmetrics.Registry.MustRegister(statusCounter)
 
 	executionTime = prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
@@ -96,46 +99,50 @@ func initializeGlobalPrometheusMetricsEtc() {
 				exeuctionTimeStart,
 				exeuctionTimeWidth,
 				executionTimeBuckets),
+			Help: "Time to execute",
 		},
 		[]string{
 			"component",
 		},
 	)
-	prometheus.MustRegister(executionTime)
+	ctrlmetrics.Registry.MustRegister(executionTime)
 
 	activeGuage = prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Namespace: *namespace,
 			Subsystem: *subsystem,
 			Name:      "ActiveGuage",
+			Help:      "How many active segments of code",
 		},
 		[]string{
 			"component",
 		},
 	)
-	prometheus.MustRegister(activeGuage)
+	ctrlmetrics.Registry.MustRegister(activeGuage)
 
 	successCounter = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Namespace: *namespace,
 			Subsystem: *subsystem,
 			Name:      "Success",
+			Help:      "Count of Successes",
 		},
 		[]string{
 			"component",
 		},
 	)
-	prometheus.MustRegister(successCounter)
+	ctrlmetrics.Registry.MustRegister(successCounter)
 
 	failureCounter = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Namespace: *namespace,
 			Subsystem: *subsystem,
 			Name:      "Failure",
+			Help:      "Count of Failures",
 		},
 		[]string{
 			"component",
 		},
 	)
-	prometheus.MustRegister(failureCounter)
+	ctrlmetrics.Registry.MustRegister(failureCounter)
 }
