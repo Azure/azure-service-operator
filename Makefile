@@ -75,7 +75,7 @@ delete:
 	make kustomize | kubectl delete -f -
 
 kustomize:
-	kustomize build config/default 2>/dev/null | envsubst
+	@kustomize build config/default 2>/dev/null | envsubst
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen
