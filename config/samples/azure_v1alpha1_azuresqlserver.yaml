@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: AzureSqlServer
 metadata:
-  name: fooclm
+  name: sqlserver-sample-777
 spec:
-  location: eastus
+  location: westus
   resourcegroup: resourcegroup-azure-operators
