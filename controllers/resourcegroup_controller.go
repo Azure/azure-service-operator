@@ -19,9 +19,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
-	"github.com/go-logr/logr"
-	v1 "k8s.io/api/core/v1"
-	"k8s.io/client-go/tools/record"
+	"github.com/go-logr/logr"	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
