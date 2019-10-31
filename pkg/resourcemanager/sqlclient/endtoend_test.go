@@ -38,7 +38,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// create the Go SDK client with relevant info
 	sdk := GoSDKClient{}
 
-	location := "eastus"
+	location := config.DefaultLocation()
 	serverName := generateName("sqlsrvtest")
 
 	// create the server
