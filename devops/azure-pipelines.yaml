@@ -116,7 +116,7 @@ steps:
 
     # Get the registry url from terraform and set our image
     REGISTRY="$(terraform output registry_url)"
-    IMG="$REGISTRY/azure-service-operator"
+    IMG="$REGISTRY.azurecr.io/azure-service-operator"
     # Login to the ACR to prepare for the push below
     az acr login --name "$REGISTRY"
 

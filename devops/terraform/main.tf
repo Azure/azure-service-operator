@@ -188,5 +188,5 @@ resource "local_file" "kubeconfig" {
 }
 
 output "registry_url" {
-  value = azurerm_container_registry.acr.login_server
+  value = azurerm_container_registry.acr.name
 }
