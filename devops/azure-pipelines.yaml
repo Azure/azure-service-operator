@@ -116,9 +116,9 @@ steps:
 
     # Get the registry url from terraform and set our image
     REGISTRY="$(terraform output registry_url)"
-    IMG="$(REGISTRY)/azure-service-operator"
+    IMG="$REGISTRY/azure-service-operator"
     # Login to the ACR to prepare for the push below
-    az acr login --name "$(REGISTRY)"
+    az acr login --name "$REGISTRY"
 
     make generate
     make install-cert-manager
