@@ -108,6 +108,11 @@ steps:
     service_principal_client_secret = "$(AZURE_CLIENT_SECRET)"
     EOL
 
+    echo $KUBECONFIG
+    kubectl config view
+    ls -la ~/
+    ls -la ~/.kube/
+
     # terraform-and-deploy
     make terraform ARGS="-auto-approve"
     make generate
@@ -138,6 +143,11 @@ steps:
 
 - script: |
     terraform destroy -auto-approve
+  env:
+    ARM_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(AZURE_TENANT_ID)
+    ARM_CLIENT_ID: $(AZURE_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
   condition: always()
   workingDirectory: '$(MODULE_PATH)'
   displayName: 'Terraform Cleanup'
