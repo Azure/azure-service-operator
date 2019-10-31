@@ -111,6 +111,7 @@ steps:
     echo $KUBECONFIG
     kubectl config view
     ls -la ~/
+    mkdir ~/.kube
     ls -la ~/.kube/
 
     # terraform-and-deploy
