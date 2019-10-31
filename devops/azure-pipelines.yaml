@@ -101,6 +101,9 @@ steps:
 - script: |
     set -e
 
+    # Create the kube config directory so that terraform can save into it
+    mkdir ~/.kube
+
     # Setup terraform configuration variables
     cat >./terraform.auto.tfvars <<EOL
     resource_group = "aso-integration-$(PATCH_VERSION)"
@@ -108,14 +111,15 @@ steps:
     service_principal_client_secret = "$(AZURE_CLIENT_SECRET)"
     EOL
 
-    echo $KUBECONFIG
-    kubectl config view
-    ls -la ~/
-    mkdir ~/.kube
-    ls -la ~/.kube/
-
     # terraform-and-deploy
     make terraform ARGS="-auto-approve"
+
+    # Get the registry url from terraform and set our image
+    REGISTRY="$(terraform output registry_url)"
+    IMG="$REGISTRY/azure-service-operator
+    # Login to the ACR to prepare for the push below
+    az acr login --name "$REGISTRY"
+
     make generate
     make install-cert-manager
     make build-and-push

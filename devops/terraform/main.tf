@@ -25,7 +25,15 @@ data "azurerm_client_config" "auth" {}
 locals {
   cluster_name = "aso-kubernetes"
   operator_namespace = "azureoperator-system"
+}
 
+// Generate a random string that we can use to uniquely identify resources
+resource "random_pet" "build" {
+  length  = 1
+  keepers = {
+    # Generate a new pet name each time we generate a new resource group
+    resource_group_id = azurerm_resource_group.operator.id
+  }
 }
 
 // Create Resource Group
@@ -94,8 +102,8 @@ resource "azurerm_role_assignment" "aad_role" {
 
 // Create a role that can manage azure resources in our subscription and give it to our manager identity
 resource "azurerm_role_assignment" "manager_role" {
-  scope                = data.azurerm_subscription.primary.id
   role_definition_name = "Owner"
+  scope                = data.azurerm_subscription.primary.id
   principal_id         = azurerm_user_assigned_identity.manager_identity.principal_id
 }
 
@@ -157,9 +165,28 @@ resource "kubernetes_cluster_role_binding" "operator-admin" {
   }
 }
 
+// Create an ACR to hold our images
+resource "azurerm_container_registry" "acr" {
+  name                = "asoregistry${random_pet.build.id}"
+  resource_group_name = azurerm_resource_group.operator.name
+  location            = azurerm_resource_group.operator.location
+  sku                 = "Basic"
+}
+
+// Give the AKS SP access to pull images from our ACR
+resource "azurerm_role_assignment" "image_role" {
+  role_definition_name = "AcrPull"
+  scope                = azurerm_container_registry.acr.id
+  principal_id         = data.azuread_service_principal.cluster.id
+}
+
 // Setup kubeconfig to facilitate running kubectl outside of terraform
 resource "local_file" "kubeconfig" {
   content  = azurerm_kubernetes_cluster.operator.kube_config_raw
   filename = pathexpand("~/.kube/config")
   directory_permission = "0600"
+}
+
+output "registry_url" {
+  value = azurerm_container_registry.acr.login_server
 }
