@@ -37,8 +37,8 @@ type AzureSqlServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSqlServerSpec   `json:"spec,omitempty"`
-	Status ASOStatus `json:"status,omitempty"`
+	Spec   AzureSqlServerSpec `json:"spec,omitempty"`
+	Status ASOStatus          `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -56,8 +56,4 @@ func init() {
 
 func (s *AzureSqlServer) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
-}
-
-func (s *AzureSqlServer) IsProvisioned() bool {
-	return s.Status.Provisioned
 }
