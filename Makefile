@@ -140,7 +140,7 @@ endif
 	kind create cluster
 
 set-kindcluster: install-kind
-ifeq (${shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
+ifeq (${@shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
 	@echo "kubeconfig-path points to kind path"
 else
 	@echo "please run below command in your shell and then re-run make set-kindcluster"
