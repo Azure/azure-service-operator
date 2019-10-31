@@ -52,7 +52,7 @@ var (
 
 func init() {
 
-	kscheme.AddToScheme(scheme)
+	_ = kscheme.AddToScheme(scheme)
 	_ = azurev1alpha1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
@@ -84,7 +84,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	resourceGroupManager := resourcemanagerresourcegroup.AzureResourceGroupManager
+	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
@@ -135,15 +135,18 @@ func main() {
 		os.Exit(1)
 	}
 	err = (&controllers.ResourceGroupReconciler{
-		Client:               mgr.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-		Recorder:             mgr.GetEventRecorderFor("ResourceGroup-controller"),
-		ResourceGroupManager: resourceGroupManager,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: resourceGroupManager,
+			Log:         ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+			Recorder:    mgr.GetEventRecorderFor("ResourceGroup-controller"),
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
 		os.Exit(1)
 	}
+
 	err = (&controllers.EventhubNamespaceReconciler{
 		Client:                   mgr.GetClient(),
 		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
