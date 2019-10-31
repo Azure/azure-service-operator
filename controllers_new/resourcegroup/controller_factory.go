@@ -42,7 +42,7 @@ type ControllerFactory struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups/status,verbs=get;update;patch
 
 const ResourceKind = "ResourceGroup"
-const FinalizerName = "resourcegroup.finalizers.azure.microsoft.com"
+const FinalizerName = "resourcegroup.finalizers.com"
 
 func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters reconciler.ReconcileParameters) error {
 	gc, err := factory.create(mgr.GetClient(),

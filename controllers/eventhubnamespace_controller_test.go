@@ -111,8 +111,7 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
-				return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName) ||
-					eventhubNamespaceInstance.HasFinalizer("eventhubnamespace.finalizers.azure.microsoft.com")
+				return eventhubNamespaceInstance.HasFinalizer(eventhubNamespaceFinalizerName)
 			}, tc.timeout,
 			).Should(BeTrue())
 

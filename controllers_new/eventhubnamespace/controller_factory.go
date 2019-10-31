@@ -17,10 +17,8 @@ package eventhubnamespace
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/controllers_new/shared"
-	"strings"
-
 	resourcegroupaccessors "github.com/Azure/azure-service-operator/controllers_new/resourcegroup"
+	"github.com/Azure/azure-service-operator/controllers_new/shared"
 	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -44,7 +42,7 @@ type ControllerFactory struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces/status,verbs=get;update;patch
 
 const ResourceKind = "EventhubNamespace"
-const FinalizerName = "eventhubnamespace.finalizers.azure.microsoft.com"
+const FinalizerName = "eventhubnamespace.finalizers.com"
 
 func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters reconciler.ReconcileParameters) error {
 	gc, err := factory.create(mgr.GetClient(),
@@ -85,7 +83,7 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 	managedResourceGroup := ehnInstance.Annotations[shared.ManagedParentAnnotation]
 
 	// defaults to true
-	isManaged := strings.ToLower(managedResourceGroup) != "false"
+	isManaged := shared.IsNotFalse(managedResourceGroup)
 
 	var owner *reconciler.Dependency = nil
 	if isManaged {
@@ -104,3 +102,4 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 		Owner:        owner,
 	}, nil
 }
+

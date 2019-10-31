@@ -84,8 +84,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
-				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName) ||
-					consumerGroupInstance.HasFinalizer("consumergroup.finalizers.azure.microsoft.com")
+				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName)
 			}, tc.timeout,
 			).Should(BeTrue())
 

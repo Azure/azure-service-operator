@@ -17,10 +17,8 @@ package consumergroup
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/controllers_new/shared"
-	"strings"
-
 	eventhubaccessors "github.com/Azure/azure-service-operator/controllers_new/eventhub"
+	"github.com/Azure/azure-service-operator/controllers_new/shared"
 	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -43,7 +41,7 @@ type ControllerFactory struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumergroups/status,verbs=get;update;patch
 
 const ResourceKind = "ConsumerGroup"
-const FinalizerName = "consumergroup.finalizers.azure.microsoft.com"
+const FinalizerName = "consumergroup.finalizers.com"
 
 func (factory *ControllerFactory) SetupWithManager(mgr ctrl.Manager, parameters reconciler.ReconcileParameters) error {
 	gc, err := factory.create(mgr.GetClient(),
@@ -81,7 +79,7 @@ func (dm *definitionManager) GetDependencies(ctx context.Context, thisInstance r
 
 	managedEventhub := ehnInstance.Annotations[shared.ManagedParentAnnotation]
 	// defaults to true
-	isManaged := strings.ToLower(managedEventhub) != "false"
+	isManaged := shared.IsNotFalse(managedEventhub)
 
 	var owner *reconciler.Dependency = nil
 	if isManaged {
