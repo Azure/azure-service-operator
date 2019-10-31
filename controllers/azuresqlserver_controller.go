@@ -156,12 +156,12 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
 						instance.Status.Message = msg
 						return ctrl.Result{Requeue: false}, nil
-					} else {
-						msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
-						log.Info(msg)
-						instance.Status.Message = msg
-						return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 					}
+				} else {
+					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
+					log.Info(msg)
+					instance.Status.Message = msg
+					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
 			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling sql server in azure: %v", err)
