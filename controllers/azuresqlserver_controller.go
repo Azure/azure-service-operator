@@ -115,32 +115,8 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 		}
 	}
 
-	// Re-create secret if server is provisioned but secret doesn't exist
-	if instance.IsProvisioned() {
-		name := instance.ObjectMeta.Name
-
-		secret := &v1.Secret{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      name,
-				Namespace: instance.Namespace,
-			},
-			Type: "Opaque",
-		}
-
-		if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err != nil {
-			r.Log.Info("Error", "ReconcileSecret", "Server exists but secret does not, recreating now")
-
-			// Add admin credentials to "data" block in secret
-
-			// CreateOrUpdate secret
-		}
-
-	}
-
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
-		// TODO: Add error handling for cases where username or password are invalid:
-		// https://docs.microsoft.com/en-us/rest/api/sql/servers/createorupdate#response
 		if err := r.reconcileExternal(&instance); err != nil {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
@@ -261,6 +237,12 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 			r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", msg)
 		} else {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
+			instance.Status.Message = msg
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
+			return errhelp.NewAzureError(err)
+		}
+		if strings.Contains(err.Error(), errhelp.InvalidServerName) {
+			msg := fmt.Sprintf("Invalid Server Name: %v", err)
 			instance.Status.Message = msg
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 			return errhelp.NewAzureError(err)

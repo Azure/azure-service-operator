@@ -8,7 +8,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
-	"log"
 	"net/http"
 )
 
@@ -59,8 +58,7 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGrou
 	// Check name availability
 	checkNameResult, err := sdk.CheckNameAvailability(ctx, resourceGroupName, serverName)
 	if checkNameResult.Available == false {
-		log.Fatalf("sql server name not available: %v\n", checkNameResult.Message)
-		return result, errors.New("SqlServer name not available. not complete")
+		return result, errors.New("InvalidServerName")
 	}
 
 	// issue the creation
