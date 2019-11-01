@@ -98,7 +98,7 @@ func MockCreateOrUpdateSQLServer() (result sql.Server, err error) {
 		Tags:     nil,
 		ID:       to.StringPtr(""),
 		Name:     to.StringPtr(""),
-		Type:     to.StringPtr(""),
+		Type:     to.StringPtr(""), 
 	}
 	return result, err
 }
