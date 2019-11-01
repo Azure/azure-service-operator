@@ -93,6 +93,8 @@
     2019-09-24T12:28:20.331-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194518"}, "reason": "Provisioned", "message": "sqlserver sqlserver-sample1 provisioned "}
     ```
 
+8. Once the operator is running locally, in order to view debugging (Prometheus-based) metrics for the Azure operator, open a web browser and navigate to the [Metrics Endpoint](http://127.0.0.1:8080/metrics).
+
 ## Developing using VSCode with Remote - Containers
 
 If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you can quickly have your environment set up and ready to go, with everything you need to get started.
