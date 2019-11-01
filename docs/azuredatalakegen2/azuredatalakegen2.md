@@ -35,7 +35,9 @@ Important Values:
 - Metadata.Name: the name of the data lake enabled storage account that will be created
 - Spec.Location: Azure region where you want to create the data lake enabled storage account
 - Spec.ResourceGroup: Name of the resource group under which you want to create the data lake enabled storage account
-- Spec.Kind: The kind of storage account that you want to create. This value must be `StorageV2` in order for it to be a data lake.
+- Spec.Kind: The kind of storage account that you want to create. This value must be `StorageV2` in order for it to be a data lake
+- Spec.AccessTier - The access tier for the storage account. Choose "Hot" access tier for frequently accessed data and "Cool" for infrequently accessed data
+- Spec.SupportsHttpsTrafficOnly - When "enabled", requires connection requests to the storage account to be only over HTTPS
 - Spec.DataLakeEnabled: If set to `true`, the storage account will have hierarchical namespace enabled and will, therefore, be a data lake enabled storage account
 
 To create an instance of the Data Lake Enabled Storage Account:
