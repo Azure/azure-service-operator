@@ -122,11 +122,17 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				errhelp.ResourceGroupNotFoundErrorCode,
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
+				errhelp.InvalidServerName,
 				errhelp.RegionDoesNotAllowProvisioning,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
-					if azerr.Type == errhelp.RegionDoesNotAllowProvisioning {
+					if azerr.Type == errhelp.InvalidServerName {
+						msg := "Invalid Server Name"
+						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
+						instance.Status.Message = msg
+						return ctrl.Result{Requeue: false}, nil
+					} else if azerr.Type == errhelp.RegionDoesNotAllowProvisioning {
 						msg := "Region Does Not Allow Provisioning"
 						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
 						instance.Status.Message = msg

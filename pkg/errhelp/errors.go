@@ -14,6 +14,7 @@ const (
 	NotFoundErrorCode              = "NotFound"
 	ResourceNotFound               = "ResourceNotFound"
 	AsyncOpIncompleteError         = "AsyncOpIncomplete"
+	InvalidServerName              = "InvalidServerName"
 	RegionDoesNotAllowProvisioning = "RegionDoesNotAllowProvisioning"
 )
 
@@ -54,7 +55,10 @@ func NewAzureError(err error) error {
 	} else if err.Error() == "RegionDoesNotAllowProvisioning" {
 		kind = "RegionDoesNotAllowProvisioning"
 		reason = "RegionDoesNotAllowProvisioning"
-	} 
+	} else if err.Error() == "InvalidServerName" {
+		kind = "InvalidServerName"
+		reason = "InvalidServerName"
+	}
 	ae.Reason = reason
 	ae.Type = kind
 

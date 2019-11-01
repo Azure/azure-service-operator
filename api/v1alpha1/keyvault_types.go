@@ -25,6 +25,14 @@ type KeyVaultSpec struct {
 	ResourceGroupName string `json:"resourceGroup"`
 }
 
+// KeyVaultStatus defines the observed state of KeyVault
+type KeyVaultStatus struct {
+	// ID is the fully qualified Azure resource ID of this object.
+	ID *string `json:"id,omitempty"`
+	// ProvisioningState is the state of the Key Vault.
+	ProvisioningState *string `json:"provisioningState,omitempty"`
+}
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
@@ -33,8 +41,8 @@ type KeyVault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   KeyVaultSpec `json:"spec,omitempty"`
-	Status ASOStatus    `json:"status,omitempty"`
+	Spec   KeyVaultSpec   `json:"spec,omitempty"`
+	Status KeyVaultStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
