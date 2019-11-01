@@ -216,31 +216,31 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	// create the sql server
 	instance.Status.Provisioning = true
 	server, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties)
-	if err == nil {
-		if *server.State == "Ready" {
-			// success
-			msg := "Resource request successfully submitted to Azure"
-			instance.Status.Message = msg
-			r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", msg)
-		} else {
-			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
-			instance.Status.Message = msg
-			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
-			return errhelp.NewAzureError(err)
-		}
-	} else {
+	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 			instance.Status.Message = msg
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 			return errhelp.NewAzureError(err)
-		} else {
-			// fail
-			r.Log.Info(fmt.Sprintf("cannot create sql server: %v", err))
-			azerr := errhelp.NewAzureError(err)
-			return azerr
-		}
-	}
+		} 
+		// fail
+		r.Log.Info(fmt.Sprintf("cannot create sql server: %v", err))
+		azerr := errhelp.NewAzureError(err)
+		return azerr
+	} 
+	
+	if *server.State != "Ready" {
+		msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
+		instance.Status.Message = msg
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
+		return errhelp.NewAzureError(err)
+	} 
+	
+	// success
+	msg := "Resource request successfully submitted to Azure"
+	instance.Status.Message = msg
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", msg)
+	
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
 		r.Log.Info("mutating secret bundle")
