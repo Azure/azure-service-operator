@@ -74,12 +74,6 @@ kubectl apply -f config/samples/azure_v1_azuredatalakegen2filesystem.yaml
 To view your created data lake resources run the following command:
 
 ```shell
-kubectl get <CRD>
-```
-
-For instance, you can get the Azure Data Lake Gen2 FileSystem provisioned using the command
-
-```shell
 kubectl get AzureDataLakeGen2FileSystem
 ```
 You should see the AzureDataLakeGen2FileSystem instances as below 
