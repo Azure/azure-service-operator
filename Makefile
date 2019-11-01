@@ -105,8 +105,8 @@ build-and-push: docker-build docker-push
 
 # Deploy operator infrastructure
 terraform:
-        terraform init devops/terraform
-        terraform apply devops/terraform
+	terraform init devops/terraform
+	terraform apply devops/terraform
 
 terraform-and-deploy: terraform generate install-cert-manager build-and-push deploy
 
