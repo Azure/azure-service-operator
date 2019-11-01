@@ -19,7 +19,7 @@ This is the sample YAML for the Data Lake Gen2 enabled storage account
     apiVersion: azure.microsoft.com/v1alpha1
     kind: Storage
     metadata:
-        name: adlsaccount1908
+        name: adlsaccountsample
     spec:
         location: westus
         resourceGroup: resourcegroup-azure-operators
