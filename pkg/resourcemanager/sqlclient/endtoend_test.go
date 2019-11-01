@@ -38,7 +38,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// create the Go SDK client with relevant info
 	sdk := GoSDKClient{}
 
-	location := config.DefaultLocation()
+	location := "eastus2"
 	serverName := generateName("sqlsrvtest")
 
 	// create the server
@@ -48,10 +48,9 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// wait for server to be created, then only proceed once activated
-	server, err := sdk.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
 	for {
 		time.Sleep(time.Second)
-		server, err = sdk.GetServer(ctx, groupName, serverName)
+		server, err := sdk.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -61,7 +60,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 				continue
 			}
 		} else {
-			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) || errhelp.IsResourceNotFound(err) {
+			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 				util.PrintAndLog("waiting for sql server to be ready...")
 				continue
 			} else {

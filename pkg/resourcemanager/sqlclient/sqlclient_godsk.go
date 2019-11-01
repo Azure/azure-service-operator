@@ -55,12 +55,6 @@ func (sdk GoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGrou
 	// serversClient := getGoServersClient()
 	// serverProp := SQLServerPropertiesToServer(properties)
 
-	// // Check name availability
-	// checkNameResult, err := sdk.CheckNameAvailability(ctx, resourceGroupName, serverName)
-	// if checkNameResult.Available == false {
-	// 	return result, errors.New("InvalidServerName")
-	// }
-
 	// // issue the creation
 	// future, err := serversClient.CreateOrUpdate(
 	// 	ctx,

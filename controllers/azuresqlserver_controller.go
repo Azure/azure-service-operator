@@ -19,7 +19,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -123,17 +122,10 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				errhelp.ResourceGroupNotFoundErrorCode,
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
-				errhelp.InvalidServerName,
 				errhelp.RegionDoesNotAllowProvisioning,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
-					if azerr.Type == errhelp.InvalidServerName {
-						msg := "Invalid Server Name"
-						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
-						instance.Status.Message = msg
-						return ctrl.Result{Requeue: false}, nil
-					}
 					if azerr.Type == errhelp.RegionDoesNotAllowProvisioning {
 						msg := "Region Does Not Allow Provisioning"
 						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
@@ -229,12 +221,6 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 			r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", msg)
 		} else {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
-			instance.Status.Message = msg
-			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
-			return errhelp.NewAzureError(err)
-		}
-		if strings.Contains(err.Error(), errhelp.InvalidServerName) {
-			msg := fmt.Sprintf("Invalid Server Name: %v", err)
 			instance.Status.Message = msg
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 			return errhelp.NewAzureError(err)
