@@ -33,8 +33,8 @@ type KeyVault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   KeyVaultSpec   `json:"spec,omitempty"`
-	Status ASOStatus `json:"status,omitempty"`
+	Spec   KeyVaultSpec `json:"spec,omitempty"`
+	Status ASOStatus    `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

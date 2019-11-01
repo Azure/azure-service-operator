@@ -38,3 +38,6 @@ resources:
 - group: azure
   version: v1alpha1
   kind: AzureSqlAction
+- group: azure
+  version: v1alpha1
+  kind: AzureSqlFailoverGroup
