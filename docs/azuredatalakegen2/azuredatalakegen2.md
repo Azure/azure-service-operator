@@ -60,7 +60,7 @@ This is the sample YAML for the Data Lake Gen2 FileSystem
 Important Values:
 - Kind: the Custom Resource Definition (CRD) name
 - Metadata.Name: the name of the data lake enabled storage account that will be created
-- Spec.Location: Name of the data lake enabled storage account in which you would like to create the filesystem
+- Spec.StorageAccountName: Name of the data lake enabled storage account in which you would like to create the filesystem
 - Spec.ResourceGroup: Name of the resource group under which the storage account lives
 
 To create an instance of the Azure Data Lake Gen2 FileSystem:
