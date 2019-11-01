@@ -51,9 +51,9 @@ func NewAzureError(err error) error {
 	} else if _, ok := err.(azure.AsyncOpIncompleteError); ok {
 		kind = "AsyncOpIncomplete"
 		reason = "AsyncOpIncomplete"
-	} else if err.Error() == "InvalidServerName" {
-		kind = "InvalidServerName"
-		reason = "InvalidServerName"
+	} else if err.Error() == InvalidServerName {
+		kind = InvalidServerName
+		reason = InvalidServerName
 	}
 	ae.Reason = reason
 	ae.Type = kind
