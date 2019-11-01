@@ -99,7 +99,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 			}
 
 			helpers.RemoveFinalizer(&instance, AzureSQLServerFinalizerName)
-			if err := r.Status().Update(context.Background(), &instance); err != nil {
+			if err := r.Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
 		}
