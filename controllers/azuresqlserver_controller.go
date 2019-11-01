@@ -125,7 +125,6 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				errhelp.AsyncOpIncompleteError,
 				errhelp.InvalidServerName,
 				errhelp.RegionDoesNotAllowProvisioning,
-				// errhelp.ResourceOperationFailure,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
@@ -141,12 +140,6 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 						instance.Status.Message = msg
 						return ctrl.Result{Requeue: false}, nil
 					}
-					// if azerr.Type == errhelp.ResourceOperationFailure {
-					// 	msg := "It's not working"
-					// 	r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
-					// 	instance.Status.Message = msg
-					// 	return ctrl.Result{Requeue: false}, nil
-					// }
 					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
 					log.Info(msg)
 					instance.Status.Message = msg
@@ -166,7 +159,6 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 			errhelp.AsyncOpIncompleteError,
-			// errhelp.RegionDoesNotAllowProvisioning,
 		}
 		if azerr, ok := err.(*errhelp.AzureError); ok {
 			if helpers.ContainsString(catch, azerr.Type) {
@@ -260,18 +252,6 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 			return azerr
 		}
 	}
-	// if _, err := sdkClient.CreateOrUpdateSQLServer(azureSqlServerProperties); err != nil {
-	// 	if !strings.Contains(err.Error(), "not complete") {
-	// 		msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
-	// 		instance.Status.Message = msg
-	// 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
-	// 		return errhelp.NewAzureError(err)
-	// 	}
-	// } else {
-	// 	msg := "Resource request successfully submitted to Azure"
-	// 	instance.Status.Message = msg
-	// 	r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", msg)
-	// }
 
 	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
 		r.Log.Info("mutating secret bundle")
