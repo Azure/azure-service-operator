@@ -36,14 +36,6 @@ type EventhubSpec struct {
 	SecretName string `json:"secretName,omitempty"`
 }
 
-// EventhubStatus defines the observed state of Eventhub
-type EventhubStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
 //EventhubAuthorizationRule defines the name and rights of the access policy
 type EventhubAuthorizationRule struct {
 	// Name - Name of AuthorizationRule for eventhub
@@ -112,8 +104,8 @@ type Eventhub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   EventhubSpec   `json:"spec,omitempty"`
-	Status EventhubStatus `json:"status,omitempty"`
+	Spec   EventhubSpec `json:"spec,omitempty"`
+	Status ASOStatus    `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

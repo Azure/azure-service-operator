@@ -19,10 +19,12 @@ require (
 	github.com/google/uuid v1.1.1
 	github.com/googleapis/gnostic v0.3.0 // indirect
 	github.com/gophercloud/gophercloud v0.4.0 // indirect
+	github.com/hashicorp/go-multierror v1.0.0
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
 	github.com/onsi/ginkgo v1.10.2
 	github.com/onsi/gomega v1.7.0
 	github.com/pkg/errors v0.8.1
+	github.com/prometheus/client_golang v0.9.3-0.20190127221311-3c4408c8b829
 	github.com/satori/go.uuid v1.2.0
 	github.com/sethvargo/go-password v0.1.2
 	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8 // indirect

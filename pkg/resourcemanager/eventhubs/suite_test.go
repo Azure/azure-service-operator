@@ -23,6 +23,7 @@ import (
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	"context"
 
@@ -64,7 +65,7 @@ var _ = BeforeSuite(func() {
 
 	resourceGroupName := "t-rg-dev-rm-eh-" + helpers.RandomString(10)
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
-	resourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
+	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
 
 	// resourcegroupsresourcemanager.DeleteAllGroupsWithPrefix(context.Background(), "t-rg-dev-")
 

@@ -30,24 +30,18 @@ type ResourceGroupSpec struct {
 	Location string `json:"location"`
 }
 
-// ResourceGroupStatus defines the observed state of ResourceGroup
-type ResourceGroupStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
 // +kubebuilder:object:root=true
-
+// +kubebuilder:subresource:status
 // ResourceGroup is the Schema for the resourcegroups API
 // +kubebuilder:resource:shortName=rg,path=resourcegroups
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Provisioning",type="string",JSONPath=".status.provisioning"
 type ResourceGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ResourceGroupSpec   `json:"spec,omitempty"`
-	Status ResourceGroupStatus `json:"status,omitempty"`
+	Spec   ResourceGroupSpec `json:"spec,omitempty"`
+	Status ASOStatus         `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
