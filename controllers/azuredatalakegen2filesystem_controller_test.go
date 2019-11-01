@@ -77,6 +77,10 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 				return fileSystemInstance.IsSubmitted()
 			}, tc.timeout,
 			).Should(BeFalse())
+
+			// Delete should still appear successful
+			err = tc.k8sClient.Delete(context.Background(), fileSystemInstance)
+			Expect(err).NotTo(HaveOccurred())
 		})
 
 		It("should fail to create a file system if the storage account doesn't exist", func() {
@@ -106,6 +110,10 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 				return fileSystemInstance.IsSubmitted()
 			}, tc.timeout,
 			).Should(BeFalse())
+
+			// Delete should still appear successful
+			err = tc.k8sClient.Delete(context.Background(), fileSystemInstance)
+			Expect(err).NotTo(HaveOccurred())
 		})
 
 		It("should create and delete a filesystem if the resource group and storage account exist", func() {

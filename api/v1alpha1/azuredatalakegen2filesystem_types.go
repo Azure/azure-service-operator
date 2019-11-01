@@ -74,16 +74,16 @@ func init() {
 }
 
 // IsSubmitted checks to see if resource has been successfully submitted for creation
-func (adlsGen2FileSystem *AzureDataLakeGen2FileSystem) IsSubmitted() bool {
-	return adlsGen2FileSystem.Status.Provisioning || adlsGen2FileSystem.Status.Provisioned
+func (fs *AzureDataLakeGen2FileSystem) IsSubmitted() bool {
+	return fs.Status.Provisioning || fs.Status.Provisioned
 }
 
 // HasFinalizer checks to see if the finalizer exists on the instance
-func (adlsGen2FileSystem *AzureDataLakeGen2FileSystem) HasFinalizer(finalizerName string) bool {
-	return helpers.ContainsString(adlsGen2FileSystem.ObjectMeta.Finalizers, finalizerName)
+func (fs *AzureDataLakeGen2FileSystem) HasFinalizer(finalizerName string) bool {
+	return helpers.ContainsString(fs.ObjectMeta.Finalizers, finalizerName)
 }
 
 // IsBeingDeleted checks to see if the object is being deleted by checking the DeletionTimestamp
-func (adlsGen2FileSystem *AzureDataLakeGen2FileSystem) IsBeingDeleted() bool {
-	return !adlsGen2FileSystem.ObjectMeta.DeletionTimestamp.IsZero()
+func (fs *AzureDataLakeGen2FileSystem) IsBeingDeleted() bool {
+	return !fs.ObjectMeta.DeletionTimestamp.IsZero()
 }
