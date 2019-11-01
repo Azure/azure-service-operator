@@ -31,6 +31,7 @@ type MockGoSDKClient struct {
 	Server                             sql.Server
 	Database                           sql.Database
 	FirewallRule                       sql.FirewallRule
+	FailoverGroup                      sql.FailoverGroup
 	DatabasesCreateOrUpdateFuture      sql.DatabasesCreateOrUpdateFuture
 	FailoverGroupsCreateOrUpdateFuture sql.FailoverGroupsCreateOrUpdateFuture
 }
@@ -130,4 +131,15 @@ func (sdk *MockGoSDKClient) CreateOrUpdateFailoverGroup(ctx context.Context, res
 func (sdk *MockGoSDKClient) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string) (result autorest.Response, err error) {
 
 	return helpers.GetRestResponse(http.StatusOK), nil
+}
+
+//DeleteFailoverGroup delete fail over group
+func (sdk *MockGoSDKClient) GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error) {
+	var sqlFailovergroup = sql.FailoverGroup{
+		Response: helpers.GetRestResponse(http.StatusCreated),
+	}
+
+	sdk.FailoverGroup = sqlFailovergroup
+
+	return sqlFailovergroup, nil
 }
