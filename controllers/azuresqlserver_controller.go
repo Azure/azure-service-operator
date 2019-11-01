@@ -117,27 +117,24 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
 		if err := r.reconcileExternal(&instance); err != nil {
-			catch := []string{
+			ignorableCatch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
+			}
+			nonIgnorableCatch := []string{
 				errhelp.InvalidServerName,
 				errhelp.RegionDoesNotAllowProvisioning,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
-				if helpers.ContainsString(catch, azerr.Type) {
-					if azerr.Type == errhelp.InvalidServerName {
-						msg := "Invalid Server Name"
-						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
-						instance.Status.Message = msg
-						return ctrl.Result{Requeue: false}, nil
-					} else if azerr.Type == errhelp.RegionDoesNotAllowProvisioning {
-						msg := "Region Does Not Allow Provisioning"
-						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
-						instance.Status.Message = msg
-						return ctrl.Result{Requeue: false}, nil
-					}
+				if helpers.ContainsString(nonIgnorableCatch, azerr.Type) {
+					msg := azerr.Type
+					r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", msg)
+					instance.Status.Message = msg
+					return ctrl.Result{Requeue: false}, nil
+				}
+				if helpers.ContainsString(ignorableCatch, azerr.Type) {
 					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
 					log.Info(msg)
 					instance.Status.Message = msg
