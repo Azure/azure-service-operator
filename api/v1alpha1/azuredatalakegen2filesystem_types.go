@@ -31,14 +31,6 @@ type AzureDataLakeGen2FileSystemSpec struct {
 	ResourceGroupName  string `json:"resourceGroup"`
 }
 
-// AzureDataLakeGen2FileSystemStatus defines the observed state of AzureDataLakeGen2FileSystem
-type AzureDataLakeGen2FileSystemStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // AzureDataLakeGen2FileSystem is the Schema for the azuredatalakegen2filesystems API
@@ -47,7 +39,7 @@ type AzureDataLakeGen2FileSystem struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   AzureDataLakeGen2FileSystemSpec   `json:"spec,omitempty"`
-	Status AzureDataLakeGen2FileSystemStatus `json:"status,omitempty"`
+	Status ASOStatus                         `json:"status,omitempty"`
 	Output AzureDataLakeGen2FileSystemOutput `json:"output,omitempty"`
 }
 
