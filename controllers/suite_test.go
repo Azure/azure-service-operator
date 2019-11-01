@@ -199,6 +199,14 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+	err = (&AzureDataLakeGen2FileSystemReconciler{
+		Client:            k8sManager.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
+		Recorder:          k8sManager.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
+		FileSystemManager: storageManagers.FileSystem,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())

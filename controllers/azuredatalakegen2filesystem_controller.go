@@ -128,7 +128,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) reconcileExternal(instance *azur
 	// write info back to instance
 	instance.Status.Provisioning = true
 
-	err = r.Update(ctx, instance)
+	err = r.Status().Update(ctx, instance)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "unable to update instance")
 	}
@@ -149,7 +149,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) reconcileExternal(instance *azur
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
-	err = r.Update(ctx, instance)
+	err = r.Status().Update(ctx, instance)
 	if err != nil {
 		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
 	}
