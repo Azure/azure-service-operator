@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: Storage
 metadata:
-  name: adlsaccount1908
+  name: adlsaccountsample
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
