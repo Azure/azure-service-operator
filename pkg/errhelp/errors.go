@@ -2,7 +2,6 @@ package errhelp
 
 import (
 	"encoding/json"
-
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -52,13 +51,10 @@ func NewAzureError(err error) error {
 	} else if _, ok := err.(azure.AsyncOpIncompleteError); ok {
 		kind = "AsyncOpIncomplete"
 		reason = "AsyncOpIncomplete"
-	} else if err.Error() == "RegionDoesNotAllowProvisioning" {
-		kind = "RegionDoesNotAllowProvisioning"
-		reason = "RegionDoesNotAllowProvisioning"
-	} else if err.Error() == "InvalidServerName" {
-		kind = "InvalidServerName"
-		reason = "InvalidServerName"
-	} 
+	} else if err.Error() == RegionDoesNotAllowProvisioning || err.Error() == InvalidServerName {
+		kind = err.Error()
+		reason = err.Error()
+	}
 	ae.Reason = reason
 	ae.Type = kind
 
