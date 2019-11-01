@@ -223,6 +223,16 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.AzureSqlFailoverGroupReconciler{
+		Client:         mgr.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+		Recorder:       mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+		Scheme:         mgr.GetScheme(),
+		ResourceClient: resourceClient,
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
