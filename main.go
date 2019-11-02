@@ -231,21 +231,22 @@ func main() {
 		ResourceClient: resourceClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
-	if err = (&controllers.BlobContainerReconciler{
-		Client:         mgr.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
-		Recorder:       mgr.GetEventRecorderFor("BlobContainer-controller"),
-		Scheme:         mgr.GetScheme(),
-		StorageManager: storageManagers.BlobContainer,
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
-		os.Exit(1)
-	}
-	// +kubebuilder:scaffold:builder
+		if err = (&controllers.BlobContainerReconciler{
+			Client:         mgr.GetClient(),
+			Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
+			Recorder:       mgr.GetEventRecorderFor("BlobContainer-controller"),
+			Scheme:         mgr.GetScheme(),
+			StorageManager: storageManagers.BlobContainer,
+		}).SetupWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
+			os.Exit(1)
+		}
+		// +kubebuilder:scaffold:builder
 
-	setupLog.Info("starting manager")
-	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
-		setupLog.Error(err, "problem running manager")
-		os.Exit(1)
+		setupLog.Info("starting manager")
+		if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
+			setupLog.Error(err, "problem running manager")
+			os.Exit(1)
+		}
 	}
 }
