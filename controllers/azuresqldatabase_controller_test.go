@@ -74,6 +74,15 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			err = tc.k8sClient.Create(context.Background(), sqlServerInstance)
 			Expect(err).NotTo(HaveOccurred())
 
+			sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+
+			// Check to make sure the SQL server is provisioned before moving ahead
+			Eventually(func() bool {
+				_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+				return sqlServerInstance.Status.Provisioned
+			}, tc.timeout,
+			).Should(BeTrue())
+
 			// Create the SqlDatabase object and expect the Reconcile to be created
 			sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
 				ObjectMeta: metav1.ObjectMeta{
