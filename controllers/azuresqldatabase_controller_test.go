@@ -55,34 +55,9 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 		It("should create and delete sql database in k8s", func() {
 
 			randomName := helpers.RandomString(10)
-			//sqlServerName := "t-sqlserver-dev-" + randomName
 			sqlDatabaseName := "t-sqldatabase-dev-" + randomName
 
 			var err error
-			/*
-				// Create the SqlServer object and expect the Reconcile to be created
-				sqlServerInstance := &azurev1alpha1.AzureSqlServer{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      sqlServerName,
-						Namespace: "default",
-					},
-					Spec: azurev1alpha1.AzureSqlServerSpec{
-						Location:      rgLocation,
-						ResourceGroup: rgName,
-					},
-				}
-
-				err = tc.k8sClient.Create(context.Background(), sqlServerInstance)
-				Expect(err).NotTo(HaveOccurred())
-
-				sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
-
-				// Check to make sure the SQL server is provisioned before moving ahead
-				Eventually(func() bool {
-					_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
-					return sqlServerInstance.Status.Provisioned
-				}, tc.timeout,
-				).Should(BeTrue())*/
 
 			// Create the SqlDatabase object and expect the Reconcile to be created
 			sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
