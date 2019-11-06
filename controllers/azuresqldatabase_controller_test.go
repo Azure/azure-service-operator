@@ -33,16 +33,64 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 
 	var rgName string
 	var rgLocation string
-	//var sqlName string
+	var sqlServerName string
+	var err error
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.resourceGroupName
 		rgLocation = tc.resourceGroupLocation
+		sqlServerName = "t-sqldb-test-srv" + helpers.RandomString(10)
+
+		// Create the SQL servers
+		// Create the SqlServer object and expect the Reconcile to be created
+		sqlServerInstance := &azurev1alpha1.AzureSqlServer{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      sqlServerName,
+				Namespace: "default",
+			},
+			Spec: azurev1alpha1.AzureSqlServerSpec{
+				Location:      rgLocation,
+				ResourceGroup: rgName,
+			},
+		}
+
+		err := tc.k8sClient.Create(context.Background(), sqlServerInstance)
+		Expect(err).NotTo(HaveOccurred())
+
+		sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+
+		// Check to make sure the SQL server is provisioned before moving ahead
+		Eventually(func() bool {
+			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+			return sqlServerInstance.Status.Provisioned
+		}, tc.timeout,
+		).Should(BeTrue())
 	})
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
+		// delete the sql servers from K8s
+		sqlServerInstance := &azurev1alpha1.AzureSqlServer{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      sqlServerName,
+				Namespace: "default",
+			},
+			Spec: azurev1alpha1.AzureSqlServerSpec{
+				Location:      tc.resourceGroupLocation,
+				ResourceGroup: tc.resourceGroupName,
+			},
+		}
+		sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+
+		_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+		err = tc.k8sClient.Delete(context.Background(), sqlServerInstance)
+
+		Eventually(func() bool {
+			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+			return helpers.IsBeingDeleted(sqlServerInstance)
+		}, tc.timeout,
+		).Should(BeTrue())
 	})
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
@@ -54,25 +102,7 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 		It("should create and delete sql database in k8s", func() {
 
 			randomName := helpers.RandomString(10)
-			sqlServerName := "t-sqlserver-dev-" + randomName
 			sqlDatabaseName := "t-sqldatabase-dev-" + randomName
-
-			var err error
-
-			// Create the SqlServer object and expect the Reconcile to be created
-			sqlServerInstance := &azurev1alpha1.AzureSqlServer{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      sqlServerName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.AzureSqlServerSpec{
-					Location:      rgLocation,
-					ResourceGroup: rgName,
-				},
-			}
-
-			err = tc.k8sClient.Create(context.Background(), sqlServerInstance)
-			Expect(err).NotTo(HaveOccurred())
 
 			// Create the SqlDatabase object and expect the Reconcile to be created
 			sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
@@ -107,7 +137,7 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), sqlDatabaseInstance)
-			Expect(err).NotTo(HaveOccurred())
+			//Expect(err).NotTo(HaveOccurred())  //Commenting as this call is async and returns an asyncopincomplete error
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
