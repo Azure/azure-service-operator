@@ -45,8 +45,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/kubernetes/scheme"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -70,8 +68,6 @@ type testContext struct {
 	namespaceLocation     string
 	storageAccountName    string
 	blobContainerName     string
-	sqlServerOne          string
-	sqlServerTwo          string
 	resourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
 	eventHubManagers      resourcemanagereventhub.EventHubManagers
 	storageManagers       resourcemanagerstorages.StorageManagers
@@ -108,9 +104,6 @@ var _ = BeforeSuite(func() {
 
 	storageAccountName := "tsadeveh" + helpers.RandomString(10)
 	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
-
-	sqlServerOne := "t-sql-dev-srvone" + helpers.RandomString(10)
-	sqlServerTwo := "t-sql-dev-srvtwo" + helpers.RandomString(10)
 
 	var timeout time.Duration
 
@@ -283,8 +276,6 @@ var _ = BeforeSuite(func() {
 		namespaceLocation:     namespaceLocation,
 		storageAccountName:    storageAccountName,
 		blobContainerName:     blobContainerName,
-		sqlServerOne:          sqlServerOne,
-		sqlServerTwo:          sqlServerTwo,
 		eventHubManagers:      eventHubManagers,
 		resourceGroupManager:  resourceGroupManager,
 		storageManagers:       storageManagers,
@@ -292,54 +283,6 @@ var _ = BeforeSuite(func() {
 		timeout:               timeout,
 	}
 
-	// Create the SQL servers
-	// Create the SqlServer object and expect the Reconcile to be created
-	sqlServerInstance := &azurev1alpha1.AzureSqlServer{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlServerOne,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlServerSpec{
-			Location:      resourcegroupLocation,
-			ResourceGroup: resourceGroupName,
-		},
-	}
-
-	err = tc.k8sClient.Create(context.Background(), sqlServerInstance)
-	Expect(err).NotTo(HaveOccurred())
-
-	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerOne, Namespace: "default"}
-
-	// Check to make sure the SQL server is provisioned before moving ahead
-	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
-		return sqlServerInstance.Status.Provisioned
-	}, tc.timeout,
-	).Should(BeTrue())
-
-	// Create the SqlServer object and expect the Reconcile to be created
-	sqlServerInstance = &azurev1alpha1.AzureSqlServer{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlServerTwo,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlServerSpec{
-			Location:      resourcegroupLocation,
-			ResourceGroup: resourceGroupName,
-		},
-	}
-
-	err = tc.k8sClient.Create(context.Background(), sqlServerInstance)
-	Expect(err).NotTo(HaveOccurred())
-
-	sqlServerNamespacedName = types.NamespacedName{Name: sqlServerTwo, Namespace: "default"}
-
-	// Check to make sure the SQL server is provisioned before moving ahead
-	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
-		return sqlServerInstance.Status.Provisioned
-	}, tc.timeout,
-	).Should(BeTrue())
 })
 
 var _ = AfterSuite(func() {
@@ -347,53 +290,10 @@ var _ = AfterSuite(func() {
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
-	// delete the sql servers from K8s
-	sqlServerInstance := &azurev1alpha1.AzureSqlServer{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      tc.sqlServerOne,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlServerSpec{
-			Location:      tc.resourceGroupLocation,
-			ResourceGroup: tc.resourceGroupName,
-		},
-	}
-	sqlServerNamespacedName := types.NamespacedName{Name: tc.sqlServerOne, Namespace: "default"}
-
-	_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
-	err := tc.k8sClient.Delete(context.Background(), sqlServerInstance)
-
-	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
-		return helpers.IsBeingDeleted(sqlServerInstance)
-	}, tc.timeout,
-	).Should(BeTrue())
-
-	sqlServerInstance = &azurev1alpha1.AzureSqlServer{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      tc.sqlServerTwo,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlServerSpec{
-			Location:      tc.resourceGroupLocation,
-			ResourceGroup: tc.resourceGroupName,
-		},
-	}
-	sqlServerNamespacedName = types.NamespacedName{Name: tc.sqlServerTwo, Namespace: "default"}
-
-	_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
-	err = tc.k8sClient.Delete(context.Background(), sqlServerInstance)
-
-	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
-		return helpers.IsBeingDeleted(sqlServerInstance)
-	}, tc.timeout,
-	).Should(BeTrue())
-
 	// delete the resource group and contained resources
 	_, _ = tc.resourceGroupManager.DeleteGroup(context.Background(), tc.resourceGroupName)
 
-	err = testEnv.Stop()
+	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
 	log.Println(fmt.Sprintf("Finished common controller test teardown"))
 })
