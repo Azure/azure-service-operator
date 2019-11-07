@@ -60,6 +60,9 @@ var _ = Describe("EventHubNamespace Controller", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
+					Annotations: map[string]string{
+						"azure.microsoft.com/k8s-managed-parent": "false",
+					},
 				},
 				Spec: azurev1alpha1.EventhubNamespaceSpec{
 					Location:      rgLocation,
@@ -90,6 +93,9 @@ var _ = Describe("EventHubNamespace Controller", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubNamespaceName,
 					Namespace: "default",
+					Annotations: map[string]string{
+						"azure.microsoft.com/k8s-managed-parent": "false",
+					},
 				},
 				Spec: azurev1alpha1.EventhubNamespaceSpec{
 					Location:      rgLocation,

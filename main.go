@@ -17,6 +17,11 @@ package main
 
 import (
 	"flag"
+	"github.com/Azure/azure-service-operator/controllers_new/consumergroup"
+	"github.com/Azure/azure-service-operator/controllers_new/eventhub"
+	"github.com/Azure/azure-service-operator/controllers_new/eventhubnamespace"
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
+	"strconv"
 
 	"k8s.io/apimachinery/pkg/runtime"
 
@@ -90,6 +95,20 @@ func main() {
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 	resourceClient := resourcemanagersql.GoSDKClient{}
 
+	requeueAfter := func(requeueVar string, defaultValue int) int {
+		requeueAfterSeconds, err := strconv.Atoi(os.Getenv(requeueVar))
+		if err != nil {
+			requeueAfterSeconds = defaultValue
+		}
+		return requeueAfterSeconds
+	}
+
+	controllerParams := reconciler.ReconcileParameters{
+		RequeueAfter:        requeueAfter("REQUEUE_AFTER", 30),
+		RequeueAfterSuccess: requeueAfter("REQUEUE_AFTER_SUCCESS", 0),
+		RequeueAfterFailure: requeueAfter("REQUEUE_AFTER_FAILURE", 0),
+	}
+
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("Storage"),
@@ -123,17 +142,6 @@ func main() {
 		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
 	}
 
-	err = (&controllers.EventhubReconciler{
-		Client:          mgr.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("Eventhub"),
-		Recorder:        mgr.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:          scheme,
-		EventHubManager: eventhubManagers.EventHub,
-	}).SetupWithManager(mgr)
-	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
-		os.Exit(1)
-	}
 	err = (&controllers.ResourceGroupReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -142,19 +150,39 @@ func main() {
 			Recorder:    mgr.GetEventRecorderFor("ResourceGroup-controller"),
 		},
 	}).SetupWithManager(mgr)
+
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ResourceGroup")
 		os.Exit(1)
 	}
 
-	err = (&controllers.EventhubNamespaceReconciler{
-		Client:                   mgr.GetClient(),
-		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder:                 mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+	err = (&eventhubnamespace.ControllerFactory{
+		ClientCreator:            eventhubnamespace.CreateResourceManagerClient,
 		EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
-	}).SetupWithManager(mgr)
+		Scheme:                   scheme,
+	}).SetupWithManager(mgr, controllerParams)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
+		os.Exit(1)
+	}
+
+	err = (&eventhub.ControllerFactory{
+		ClientCreator:   eventhub.CreateResourceManagerClient,
+		EventHubManager: eventhubManagers.EventHub,
+		Scheme:          scheme,
+	}).SetupWithManager(mgr, controllerParams)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
+		os.Exit(1)
+	}
+
+	err = (&consumergroup.ControllerFactory{
+		ClientCreator:        consumergroup.CreateResourceManagerClient,
+		ConsumerGroupManager: eventhubManagers.ConsumerGroup,
+		Scheme:               scheme,
+	}).SetupWithManager(mgr, controllerParams)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
 		os.Exit(1)
 	}
 
@@ -165,17 +193,6 @@ func main() {
 		KeyVaultManager: keyVaultManager,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "KeyVault")
-		os.Exit(1)
-	}
-
-	err = (&controllers.ConsumerGroupReconciler{
-		Client:               mgr.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
-		Recorder:             mgr.GetEventRecorderFor("ConsumerGroup-controller"),
-		ConsumerGroupManager: eventhubManagers.ConsumerGroup,
-	}).SetupWithManager(mgr)
-	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
 		os.Exit(1)
 	}
 
@@ -223,7 +240,6 @@ func main() {
 		os.Exit(1)
 	}
 
-
 	if err = (&controllers.AzureSQLUserReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
@@ -233,7 +249,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
 		os.Exit(1)
 	}
-
 
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
 		Client:         mgr.GetClient(),

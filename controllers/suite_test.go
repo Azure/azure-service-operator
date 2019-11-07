@@ -18,6 +18,10 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/controllers_new/consumergroup"
+	"github.com/Azure/azure-service-operator/controllers_new/eventhub"
+	"github.com/Azure/azure-service-operator/controllers_new/eventhubnamespace"
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	"log"
 	"os"
 	"path/filepath"
@@ -144,13 +148,22 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
+	usingMocks := os.Getenv("TEST_CONTROLLER_WITH_MOCKS") != "false"
+	requeueAfter := 10
+	if usingMocks {
+		requeueAfter = 1
+	}
+	controllerParams := reconciler.ReconcileParameters{
+		RequeueAfter: requeueAfter,
+	}
+
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	var resourceClient resourcemanagersql.ResourceClient
 
-	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
+	if !usingMocks {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
@@ -174,15 +187,6 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&EventhubReconciler{
-		Client:          k8sManager.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("EventHub"),
-		Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:          scheme.Scheme,
-		EventHubManager: eventHubManagers.EventHub,
-	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
-
 	err = (&ResourceGroupReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
@@ -193,20 +197,25 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&EventhubNamespaceReconciler{
-		Client:                   k8sManager.GetClient(),
-		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder:                 k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
+	err = (&eventhubnamespace.ControllerFactory{
+		ClientCreator:            eventhubnamespace.CreateResourceManagerClient,
 		EventHubNamespaceManager: eventHubManagers.EventHubNamespace,
-	}).SetupWithManager(k8sManager)
+		Scheme:                   scheme.Scheme,
+	}).SetupWithManager(k8sManager, controllerParams)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&ConsumerGroupReconciler{
-		Client:               k8sManager.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
-		Recorder:             k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
+	err = (&eventhub.ControllerFactory{
+		ClientCreator:   eventhub.CreateResourceManagerClient,
+		EventHubManager: eventHubManagers.EventHub,
+		Scheme:          scheme.Scheme,
+	}).SetupWithManager(k8sManager, controllerParams)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&consumergroup.ControllerFactory{
+		ClientCreator:        consumergroup.CreateResourceManagerClient,
 		ConsumerGroupManager: eventHubManagers.ConsumerGroup,
-	}).SetupWithManager(k8sManager)
+		Scheme:               scheme.Scheme,
+	}).SetupWithManager(k8sManager, controllerParams)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlServerReconciler{

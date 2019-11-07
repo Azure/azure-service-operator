@@ -62,8 +62,13 @@ var _ = Describe("ResourceGroups", func() {
 
 			Eventually(func() bool {
 				result, _ := resourceGroupManager.CheckExistence(context.Background(), resourcegroupName)
-
 				return result.Response.StatusCode == http.StatusNoContent
+			}, timeout,
+			).Should(BeTrue())
+
+			Eventually(func() bool {
+				result, _ := resourceGroupManager.GetGroup(context.Background(), resourcegroupName)
+				return result.Response.StatusCode == http.StatusOK && *result.Properties.ProvisioningState == "Succeeded"
 			}, timeout,
 			).Should(BeTrue())
 
@@ -77,7 +82,7 @@ var _ = Describe("ResourceGroups", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := GetGroup(context.Background(), resourcegroupName)
+				result, _ := resourceGroupManager.GetGroup(context.Background(), resourcegroupName)
 				return result.Response.StatusCode == http.StatusNotFound || *result.Properties.ProvisioningState == "Deleting"
 			}, timeout,
 			).Should(BeTrue())

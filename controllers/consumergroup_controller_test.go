@@ -64,6 +64,9 @@ var _ = Describe("ConsumerGroup Controller", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      consumerGroupName,
 					Namespace: "default",
+					Annotations: map[string]string{
+						"azure.microsoft.com/k8s-managed-parent": "false",
+					},
 				},
 				Spec: azurev1alpha1.ConsumerGroupSpec{
 					NamespaceName:          ehnName,

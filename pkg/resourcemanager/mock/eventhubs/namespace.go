@@ -89,7 +89,9 @@ func (manager *mockEventHubNamespaceManager) GetNamespace(ctx context.Context, r
 	})
 
 	if index == -1 {
-		return &eventhub.EHNamespace{}, errors.New("eventhub namespace not found")
+		return &eventhub.EHNamespace{
+			Response: helpers.GetRestResponse(http.StatusNotFound),
+		}, errors.New("eventhub namespace not found")
 	}
 
 	return &group.eHNamespace, nil

@@ -19,12 +19,12 @@ import (
 	"context"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/reconciler"
 	. "github.com/onsi/ginkgo"
-	v1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -98,6 +98,9 @@ var _ = Describe("EventHub Controller", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
+					Annotations: map[string]string{
+						"azure.microsoft.com/k8s-managed-parent": "false",
+					},
 				},
 				Spec: azurev1alpha1.EventhubSpec{
 					Location:      "westus",
@@ -128,41 +131,20 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubInstance.IsSubmitted()
+				return eventhubInstance.Status.State == string(reconciler.Succeeded)
 			}, tc.timeout,
 			).Should(BeTrue())
 
-			//create secret in k8s
-			csecret := &v1.Secret{
-				TypeMeta: metav1.TypeMeta{
-					Kind:       "Secret",
-					APIVersion: "apps/v1beta1",
-				},
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      eventhubName,
-					Namespace: "default",
-				},
-				Data: map[string][]byte{
-					"primaryconnectionstring":   []byte("primaryConnectionValue"),
-					"secondaryconnectionstring": []byte("secondaryConnectionValue"),
-					"primaryKey":                []byte("primaryKeyValue"),
-					"secondaryKey":              []byte("secondaryKeyValue"),
-					"sharedaccesskey":           []byte("sharedAccessKeyValue"),
-					"eventhubnamespace":         []byte(eventhubInstance.Namespace),
-					"eventhubName":              []byte(eventhubName),
-				},
-				Type: "Opaque",
-			}
-
-			err = tc.k8sClient.Create(context.Background(), csecret)
-			Expect(err).NotTo(HaveOccurred())
-
 			//get secret from k8s
 			secret := &v1.Secret{}
-			err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: eventhubName, Namespace: eventhubInstance.Namespace}, secret)
+			Eventually(func() bool {
+				//get secret from k8s
+				err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: eventhubName, Namespace: eventhubInstance.Namespace}, secret)
+				return err == nil
+			}, 60).Should(BeTrue())
 			Expect(err).NotTo(HaveOccurred())
-			Expect(secret.Data).To(Equal(csecret.Data))
-			Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
+			Expect(secret.Data["eventhubName"]).To(Equal([]byte(eventhubName)))
+			Expect(secret.Data["eventhubnamespace"]).To(Equal([]byte(ehnName)))
 
 			err = tc.k8sClient.Delete(context.Background(), eventhubInstance)
 			Expect(err).NotTo(HaveOccurred())
@@ -178,7 +160,7 @@ var _ = Describe("EventHub Controller", func() {
 		It("should create and delete eventhubs with custom secret name", func() {
 
 			eventhubName := "t-eh-" + helpers.RandomString(10)
-			secretName := "secret-" + eventhubName
+			secretName := "custom-secret-" + eventhubName
 
 			var err error
 
@@ -187,6 +169,9 @@ var _ = Describe("EventHub Controller", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventhubName,
 					Namespace: "default",
+					Annotations: map[string]string{
+						"azure.microsoft.com/k8s-managed-parent": "false",
+					},
 				},
 				Spec: azurev1alpha1.EventhubSpec{
 					Location:      rgLocation,
@@ -218,46 +203,20 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubInstance.IsSubmitted()
+				return eventhubInstance.Status.State == string(reconciler.Succeeded)
 			}, tc.timeout,
 			).Should(BeTrue())
 
-			//create secret in k8s
-			csecret := &v1.Secret{
-				TypeMeta: metav1.TypeMeta{
-					Kind:       "Secret",
-					APIVersion: "apps/v1beta1",
-				},
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      secretName,
-					Namespace: "default",
-				},
-				Data: map[string][]byte{
-					"primaryconnectionstring":   []byte("primaryConnectionValue"),
-					"secondaryconnectionstring": []byte("secondaryConnectionValue"),
-					"primaryKey":                []byte("primaryKeyValue"),
-					"secondaryKey":              []byte("secondaryKeyValue"),
-					"sharedaccesskey":           []byte("sharedAccessKeyValue"),
-					"eventhubnamespace":         []byte(eventhubInstance.Namespace),
-					"eventhubName":              []byte(eventhubName),
-				},
-				Type: "Opaque",
-			}
-
-			err = tc.k8sClient.Create(context.Background(), csecret)
-			Expect(err).NotTo(HaveOccurred())
-
 			//get secret from k8s
-			secret := v1.Secret{}
+			secret := &v1.Secret{}
 			Eventually(func() bool {
-				err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: secretName, Namespace: eventhubInstance.Namespace}, &secret)
-				if err != nil {
-					return false
-				}
-				Expect(secret.Data).To(Equal(csecret.Data))
-				Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
-				return true
+				//get secret from k8s
+				err = tc.k8sClient.Get(context.Background(), types.NamespacedName{Name: secretName, Namespace: eventhubInstance.Namespace}, secret)
+				return err == nil
 			}, 60).Should(BeTrue())
+			Expect(err).NotTo(HaveOccurred())
+			Expect(secret.Data["eventhubName"]).To(Equal([]byte(eventhubName)))
+			Expect(secret.Data["eventhubnamespace"]).To(Equal([]byte(ehnName)))
 
 			err = tc.k8sClient.Delete(context.Background(), eventhubInstance)
 			Expect(err).NotTo(HaveOccurred())
@@ -281,6 +240,9 @@ var _ = Describe("EventHub Controller", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      eventHubName,
 					Namespace: "default",
+					Annotations: map[string]string{
+						"azure.microsoft.com/k8s-managed-parent": "false",
+					},
 				},
 				Spec: azurev1alpha1.EventhubSpec{
 					Location:      rgLocation,
@@ -303,6 +265,10 @@ var _ = Describe("EventHub Controller", func() {
 							SizeLimitInBytes:  524288000,
 							IntervalInSeconds: 300,
 						},
+					},
+					AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
+						Name:   "RootManageSharedAccessKey",
+						Rights: []string{"Listen"},
 					},
 				},
 			}

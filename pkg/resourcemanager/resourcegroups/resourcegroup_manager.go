@@ -42,6 +42,9 @@ type ResourceGroupManager interface {
 	DeleteGroupAsync(ctx context.Context, groupName string) (result resources.GroupsDeleteFuture, err error)
 
 	// CheckExistence checks whether a resource exists
+	GetGroup(ctx context.Context, groupName string) (resources.Group, error)
+
+	// CheckExistence checks whether a resource exists
 	CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error)
 	Ensure(context.Context, runtime.Object) (bool, error)
 	Delete(context.Context, runtime.Object) (bool, error)
