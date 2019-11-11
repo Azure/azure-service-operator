@@ -33,12 +33,12 @@
 
     b. Set the ```azureoperatorsettings``` secret.
 
-    First, set the following environment variables `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `AZURE_USE_MSI`, `REQUEUE_AFTER`.
+    First, set the following environment variables `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `AZURE_USE_MI`, `REQUEUE_AFTER`.
 
     ```shell
         export AZURE_TENANT_ID=xxxxxxx
         export AZURE_SUBSCRIPTION_ID=aaaaaaa
-        export AZURE_USE_MSI=1
+        export AZURE_USE_MI=1
         export REQUEUE_AFTER=30
     ```
 
@@ -49,7 +49,7 @@
         create secret generic azureoperatorsettings \
         --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
         --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID" \
-        --from-literal=AZURE_USE_MSI="$AZURE_USE_MSI"
+        --from-literal=AZURE_USE_MI="$AZURE_USE_MI"
     ```
 
     c. Install [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)

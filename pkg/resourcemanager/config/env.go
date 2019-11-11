@@ -32,7 +32,7 @@ func ParseEnvironment() error {
 	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "westus2") // DefaultLocation()
 
 	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW")         // UseDeviceFlow()
-	useMSI = ParseBoolFromEnvironment("AZURE_USE_MSI")                       // UseMSI()
+	useMI = ParseBoolFromEnvironment("AZURE_USE_MI")                         // UseMI()
 	keepResources = ParseBoolFromEnvironment("AZURE_SAMPLES_KEEP_RESOURCES") // KeepResources()
 
 	var err error
@@ -70,7 +70,7 @@ func GetRequiredConfigs() []ConfigRequirementType {
 		// Device flow required Configs
 		return []ConfigRequirementType{RequireClientID, RequireTenantID, RequireSubscriptionID}
 	}
-	if useMSI {
+	if useMI {
 		// Managed Service Identity required Configs
 		return []ConfigRequirementType{RequireTenantID, RequireSubscriptionID}
 	}

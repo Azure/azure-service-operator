@@ -33,11 +33,11 @@ spec:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_SUBSCRIPTION_ID
-          - name: AZURE_USE_MSI
+          - name: AZURE_USE_MI
             valueFrom:
               secretKeyRef:
                 name: azureoperatorsettings
-                key: AZURE_USE_MSI
+                key: AZURE_USE_MI
                 optional: true
           #requeue after time in seconds"
           - name: REQUEUE_AFTER

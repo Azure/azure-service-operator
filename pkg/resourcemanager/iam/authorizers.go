@@ -28,8 +28,8 @@ const (
 	OAuthGrantTypeServicePrincipal OAuthGrantType = iota
 	// OAuthGrantTypeDeviceFlow for device flow
 	OAuthGrantTypeDeviceFlow
-	// OAuthGrantTypeMSI for aad-pod-identity
-	OAuthGrantTypeMSI
+	// OAuthGrantTypeMI for aad-pod-identity
+	OAuthGrantTypeMI
 )
 
 // GrantType returns what grant type has been configured.
@@ -37,8 +37,8 @@ func grantType() OAuthGrantType {
 	if config.UseDeviceFlow() {
 		return OAuthGrantTypeDeviceFlow
 	}
-	if config.UseMSI() {
-		return OAuthGrantTypeMSI
+	if config.UseMI() {
+		return OAuthGrantTypeMI
 	}
 	return OAuthGrantTypeServicePrincipal
 }
@@ -162,13 +162,13 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 
 		a = autorest.NewBearerAuthorizer(token)
 
-	case OAuthGrantTypeMSI:
-		msiEndpoint, err := adal.GetMSIVMEndpoint()
+	case OAuthGrantTypeMI:
+		MIEndpoint, err := adal.GetMIVMEndpoint()
 		if err != nil {
 			return nil, err
 		}
 
-		token, err := adal.NewServicePrincipalTokenFromMSI(msiEndpoint, vaultEndpoint)
+		token, err := adal.NewServicePrincipalTokenFromMI(MIEndpoint, vaultEndpoint)
 		if err != nil {
 			return nil, err
 		}
@@ -213,13 +213,13 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 		}
 		a = autorest.NewBearerAuthorizer(token)
 
-	case OAuthGrantTypeMSI:
-		msiEndpoint, err := adal.GetMSIVMEndpoint()
+	case OAuthGrantTypeMI:
+		MIEndpoint, err := adal.GetMIVMEndpoint()
 		if err != nil {
 			return nil, err
 		}
 
-		token, err := adal.NewServicePrincipalTokenFromMSI(msiEndpoint, resource)
+		token, err := adal.NewServicePrincipalTokenFromMI(MIEndpoint, resource)
 		if err != nil {
 			return nil, err
 		}

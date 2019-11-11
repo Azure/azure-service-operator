@@ -13,7 +13,7 @@ func AddFlags() error {
 	flag.StringVar(&baseGroupName, "baseGroupName", BaseGroupName(), "Specify prefix name of resource group for sample resources.")
 
 	flag.BoolVar(&useDeviceFlow, "useDeviceFlow", useDeviceFlow, "Use device-flow grant type rather than client credentials.")
-	flag.BoolVar(&useMSI, "useMSI", useMSI, "Use MSI authentication (aad-pod-identity).")
+	flag.BoolVar(&useMI, "useMI", useMI, "Use MI authentication (aad-pod-identity).")
 	flag.BoolVar(&keepResources, "keepResources", keepResources, "Keep resources created by samples.")
 
 	return nil
