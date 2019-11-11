@@ -78,10 +78,10 @@ func GetRequiredConfigs() []ConfigRequirementType {
 	return []ConfigRequirementType{RequireClientID, RequireClientSecret, RequireTenantID, RequireSubscriptionID}
 }
 
-func ParseBoolFromEnvironment(variable_name string) bool {
-	value, err := strconv.ParseBool(envy.Get(variable_name, "0"))
+func ParseBoolFromEnvironment(variable string) bool {
+	value, err := strconv.ParseBool(envy.Get(variable, "0"))
 	if err != nil {
-		log.Printf("WARNING: invalid input value specified for bool %v: \"%v\", disabling\n", variable_name, value)
+		log.Printf("WARNING: invalid input value specified for bool %v: \"%v\", disabling\n", variable, value)
 		value = false
 	}
 	return value
