@@ -70,7 +70,7 @@
    For instance, you would use the following command to create a SQL server:
 
    ```shell
-   kubectl apply -f config/samples/azure_v1_sqlserver.yaml
+   kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yaml
    azuresqlserver.azure.microsoft.com/sqlserver-sample created
    ```
 
@@ -123,7 +123,7 @@ If you're using VSCode with [Remote - Containers](https://marketplace.visualstud
 To see when the kind cluster is ready, use `docker ps -a` to list your running containers, look for `IMAGE` with the name `azure-service-operator_devcontainer_docker-in-docker...`. Using that image's `CONTAINER ID`, use `docker logs -f CONTAINER ID` to view the logs from the container setting up your cluster.
 
 6. Use `kubectl apply` with the sample YAML files to create custom resources for testing.
-For eg., use  `kubectl apply -f config/samples/azure_v1_sqlserver.yaml` from the terminal to create a SQL server using the operator. 
+For eg., use  `kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yaml` from the terminal to create a SQL server using the operator. 
 `kubectl describe SqlServer` would show the events that indicate if the resource is created or being created.
 
 ## Development info
