@@ -29,11 +29,8 @@ patches:
 #- patches/webhook_in_azuresqldatabases.yaml
 #- patches/webhook_in_azuresqlfirewallrules.yaml
 #- patches/webhook_in_azuresqlactions.yaml
-<<<<<<< HEAD
 #- patches/webhook_in_azuresqlfailovergroups.yaml
-=======
 #- patches/webhook_in_blobcontainers.yaml
->>>>>>> WIP - Add BlobContainer CRD
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
 
 # [CAINJECTION] patches here are for enabling the CA injection for each CRD
@@ -46,11 +43,8 @@ patches:
 #- patches/cainjection_in_azuresqldatabases.yaml
 #- patches/cainjection_in_azuresqlfirewallrules.yaml
 #- patches/cainjection_in_azuresqlactions.yaml
-<<<<<<< HEAD
 #- patches/cainjection_in_azuresqlfailovergroups.yaml
-=======
 #- patches/cainjection_in_blobcontainers.yaml
->>>>>>> WIP - Add BlobContainer CRD
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch
 
 # the following config is for teaching kustomize how to do kustomization for CRDs.
