@@ -37,6 +37,10 @@ import (
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 
+	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+
+	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -74,7 +78,7 @@ type testContext struct {
 var tc testContext
 
 func TestAPIs(t *testing.T) {
-	t.Parallel()
+	//t.Parallel()
 	RegisterFailHandler(Fail)
 
 	RunSpecsWithDefaultAndCustomReporters(t,
@@ -131,6 +135,9 @@ var _ = BeforeSuite(func() {
 
 	var k8sManager ctrl.Manager
 
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
@@ -141,18 +148,22 @@ var _ = BeforeSuite(func() {
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
+	var resourceClient resourcemanagersql.ResourceClient
+
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
-		resourceGroupManager = resourcegroupsresourcemanager.AzureResourceGroupManager
+		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
-		timeout = time.Second * 320
+		resourceClient = &resourcemanagersql.GoSDKClient{}
+		timeout = time.Second * 900
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		timeout = time.Second * 20
+		resourceClient = &resourcemanagersqlmock.MockGoSDKClient{}
+		timeout = time.Second * 60
 	}
 
 	err = (&KeyVaultReconciler{
@@ -173,10 +184,12 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&ResourceGroupReconciler{
-		Client:               k8sManager.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-		Recorder:             k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
-		ResourceGroupManager: resourceGroupManager,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: resourceGroupManager,
+			Log:         ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+			Recorder:    k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -193,6 +206,24 @@ var _ = BeforeSuite(func() {
 		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 		Recorder:             k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 		ConsumerGroupManager: eventHubManagers.ConsumerGroup,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlServerReconciler{
+		Client:         k8sManager.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
+		Scheme:         scheme.Scheme,
+		ResourceClient: resourceClient,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlDatabaseReconciler{
+		Client:         k8sManager.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
+		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlDatabase-controller"),
+		Scheme:         scheme.Scheme,
+		ResourceClient: resourceClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -251,6 +282,7 @@ var _ = BeforeSuite(func() {
 		keyVaultManager:       keyVaultManager,
 		timeout:               timeout,
 	}
+
 })
 
 var _ = AfterSuite(func() {

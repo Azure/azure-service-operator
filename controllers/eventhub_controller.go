@@ -19,6 +19,8 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -89,6 +91,11 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfter = 30
+	}
+
 	if !instance.IsSubmitted() {
 		err := r.reconcileExternal(&instance)
 		if err != nil {
@@ -100,7 +107,7 @@ func (r *EventhubReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
 					log.Info("Got ignorable error", "type", azerr.Type)
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+					return ctrl.Result{Requeue: true, RequeueAfter: time.Duration(requeueAfter) * time.Second}, nil
 				}
 			}
 
@@ -139,7 +146,7 @@ func (r *EventhubReconciler) reapply(instance *azurev1alpha1.Eventhub) error {
 	result, _ := r.EventHubManager.GetHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
 	if result.Response.StatusCode == http.StatusNotFound {
 		r.reconcileExternal(instance)
-		r.Recorder.Event(instance, "Normal", "Updated", "Resource does not exist in azure, reapplied it")
+		r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", "Resource does not exist in azure, reapplied it")
 	}
 
 	if result.Response.StatusCode == http.StatusOK {
@@ -151,14 +158,14 @@ func (r *EventhubReconciler) reapply(instance *azurev1alpha1.Eventhub) error {
 			if err != nil {
 				err = r.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
 				if err != nil {
-					r.Recorder.Event(instance, "Warning", "Failed", "Unable to reapply createAccessPolicyEventHub")
+					r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to reapply createAccessPolicyEventHub")
 					return err
 				}
 			}
 
 			err = r.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
 			if err != nil {
-				r.Recorder.Event(instance, "Warning", "Failed", "Unable to reapply listAccessKeysAndCreateSecrets")
+				r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to reapply listAccessKeysAndCreateSecrets")
 				return err
 			}
 		}
@@ -195,7 +202,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 	err = r.Get(ctx, eventhubNamespacedName, &ownerInstance)
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of eventhubnamespace")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to get owner instance of eventhubnamespace")
 	} else {
 		//set owner reference for eventhub if it exists
 		references := []metav1.OwnerReference{
@@ -212,32 +219,32 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	capturePtr := getCaptureDescriptionPtr(captureDescription)
 
 	_, err = r.EventHubManager.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
 			//log error and kill it
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 		return errhelp.NewAzureError(err)
 	}
 
 	err = r.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to createAccessPolicyEventHub")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to createAccessPolicyEventHub")
 		return err
 	}
 
 	err = r.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to listAccessKeysAndCreateSecrets")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to listAccessKeysAndCreateSecrets")
 		return err
 	}
 
@@ -247,7 +254,7 @@ func (r *EventhubReconciler) reconcileExternal(instance *azurev1alpha1.Eventhub)
 
 	err = r.Update(ctx, instance)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 	return nil
 }
@@ -292,7 +299,7 @@ func (r *EventhubReconciler) deleteEventhub(instance *azurev1alpha1.Eventhub) er
 	var err error
 	_, err = r.EventHubManager.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 	return nil
@@ -316,7 +323,7 @@ func (r *EventhubReconciler) createOrUpdateAccessPolicyEventHub(resourcegroup st
 	}
 	_, err = r.EventHubManager.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, parameters)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to createorupdateauthorizationrule")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to createorupdateauthorizationrule")
 		return err
 	}
 	return nil
@@ -331,7 +338,7 @@ func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string
 	result, err = r.EventHubManager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName)
 	if err != nil {
 		//log error and kill it
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to list keys")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to list keys")
 	} else {
 		//create secrets in the k8s with the listed keys
 		err = r.createEventhubSecrets(
@@ -347,7 +354,7 @@ func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string
 			instance,
 		)
 		if err != nil {
-			r.Recorder.Event(instance, "Warning", "Failed", fmt.Sprintf("unable to create secret for %s", eventhubName))
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", fmt.Sprintf("unable to create secret for %s", eventhubName))
 			return err
 		}
 	}

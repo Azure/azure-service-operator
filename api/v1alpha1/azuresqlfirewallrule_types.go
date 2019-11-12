@@ -32,15 +32,6 @@ type AzureSqlFirewallRuleSpec struct {
 	EndIPAddress   string `json:"endipaddress,omitempty"`
 }
 
-// AzureSqlFirewallRuleStatus defines the observed state of AzureSqlFirewallRule
-type AzureSqlFirewallRuleStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool   `json:"provisioning,omitempty"`
-	Provisioned  bool   `json:"provisioned,omitempty"`
-	Message      string `json:"message,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // AzureSqlFirewallRule is the Schema for the azuresqlfirewallrules API
@@ -48,8 +39,8 @@ type AzureSqlFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSqlFirewallRuleSpec   `json:"spec,omitempty"`
-	Status AzureSqlFirewallRuleStatus `json:"status,omitempty"`
+	Spec   AzureSqlFirewallRuleSpec `json:"spec,omitempty"`
+	Status ASOStatus                `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

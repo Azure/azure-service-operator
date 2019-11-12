@@ -21,6 +21,7 @@ import (
 	"fmt"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	v1 "k8s.io/api/core/v1"
 )
 
 const eventhubNamespaceFinalizerName = "eventhubnamespace.finalizers.com"
@@ -31,7 +32,7 @@ func (r *EventhubNamespaceReconciler) addFinalizer(instance *azurev1alpha1.Event
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", eventhubNamespaceFinalizerName))
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", eventhubNamespaceFinalizerName))
 	return nil
 }
 

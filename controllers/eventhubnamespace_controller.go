@@ -18,6 +18,8 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"os"
+	"strconv"
 	"time"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -26,6 +28,7 @@ import (
 	eventhubsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 
 	"github.com/go-logr/logr"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
@@ -74,6 +77,11 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 		return ctrl.Result{}, nil
 	}
 
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfter = 30
+	}
+
 	if !instance.IsSubmitted() {
 		err := r.reconcileExternal(&instance)
 		if err != nil {
@@ -83,7 +91,7 @@ func (r *EventhubNamespaceReconciler) Reconcile(req ctrl.Request) (ctrl.Result, 
 			}
 			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
 				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
-				return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+				return ctrl.Result{Requeue: true, RequeueAfter: time.Duration(requeueAfter) * time.Second}, nil
 			}
 
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
@@ -120,7 +128,7 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1alpha1.
 
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to get owner instance of resourcegroup")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to get owner instance of resourcegroup")
 	} else {
 		//set owner reference for eventhubnamespace if it exists
 		references := []metav1.OwnerReference{
@@ -137,18 +145,18 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1alpha1.
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	// create Event Hubs namespace
 	_, err = r.EventHubNamespaceManager.CreateNamespaceAndWait(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
 			//log error and kill it
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 		return errhelp.NewAzureError(err)
 	}
@@ -160,10 +168,10 @@ func (r *EventhubNamespaceReconciler) reconcileExternal(instance *azurev1alpha1.
 	err = r.Update(ctx, instance)
 	if err != nil {
 		//log error and kill it
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", namespaceName+" provisioned")
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", namespaceName+" provisioned")
 
 	return nil
 
@@ -179,7 +187,7 @@ func (r *EventhubNamespaceReconciler) deleteEventhubNamespace(instance *azurev1a
 	var err error
 	_, err = r.EventHubNamespaceManager.DeleteNamespace(ctx, resourcegroup, namespaceName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 	return nil
