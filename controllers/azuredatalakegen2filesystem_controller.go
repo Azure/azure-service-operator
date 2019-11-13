@@ -29,7 +29,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"strconv"
 	"time"
-
+	v1 "k8s.io/api/core/v1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
@@ -112,7 +112,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) addFinalizer(instance *azurev1al
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
-	r.Recorder.Event(instance, "Normal", "Updated", fmt.Sprintf("finalizer %s added", fileSystemFinalizerName))
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", fileSystemFinalizerName))
 	return nil
 }
 
@@ -130,17 +130,18 @@ func (r *AzureDataLakeGen2FileSystemReconciler) reconcileExternal(instance *azur
 
 	err = r.Status().Update(ctx, instance)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "unable to update instance")
 	}
 
 	_, err = r.FileSystemManager.CreateFileSystem(ctx, groupName, fileSystemName, to.Int32Ptr(20), xMsDate, storageAccountName)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't create resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
 		errUpdate := r.Update(ctx, instance)
 		if errUpdate != nil {
 			//log error and kill it
-			r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+			return err
 		}
 
 		return errhelp.NewAzureError(err)
@@ -151,10 +152,10 @@ func (r *AzureDataLakeGen2FileSystemReconciler) reconcileExternal(instance *azur
 
 	err = r.Status().Update(ctx, instance)
 	if err != nil {
-		r.Recorder.Event(instance, "Warning", "Failed", "Unable to update instance")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	r.Recorder.Event(instance, "Normal", "Updated", fileSystemName+" provisioned")
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fileSystemName+" provisioned")
 
 	return nil
 }
@@ -174,11 +175,11 @@ func (r *AzureDataLakeGen2FileSystemReconciler) deleteExternal(instance *azurev1
 			return nil
 		}
 
-		r.Recorder.Event(instance, "Warning", "Failed", "Couldn't delete resource in azure")
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't delete resource in azure")
 		return err
 	}
 
-	r.Recorder.Event(instance, "Normal", "Deleted", fileSystemName+" deleted")
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", fileSystemName+" deleted")
 
 	return nil
 }
