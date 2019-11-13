@@ -2,10 +2,10 @@ package errhelp
 
 import (
 	"encoding/json"
-	"reflect"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"k8s.io/apimachinery/pkg/api/errors"
+	"reflect"
 )
 
 const (
@@ -59,10 +59,6 @@ func NewAzureError(err error) error {
 	ae.Type = kind
 
 	return &ae
-}
-
-func NewAzureErrorAzureError(err error) *AzureError {
-	return NewAzureError(err).(*AzureError)
 }
 
 type AzureError struct {
