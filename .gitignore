@@ -47,3 +47,7 @@ testlogs-existing.txt
 
 # manager output from build
 manager
+
+# terraform artifacts
+.terraform*
+terraform.tfstate*
