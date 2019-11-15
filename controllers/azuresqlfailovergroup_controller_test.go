@@ -32,29 +32,33 @@ import (
 var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 
 	var rgName string
-	var rgLocation string
+	var rgLocation1 string
+	var rgLocation2 string
 	var sqlServerOneName string
 	var sqlServerTwoName string
 	var sqlDatabaseName string
+	var sqlServerInstance *azurev1alpha1.AzureSqlServer
+	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
 	var err error
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.resourceGroupName
-		rgLocation = tc.resourceGroupLocation
+		rgLocation1 = "westus"
+		rgLocation2 = "eastus"
 		sqlServerOneName = "t-sqlfog-srvone" + helpers.RandomString(10)
-		sqlServerTwoName = "t-sqlfog-srvone" + helpers.RandomString(10)
-		sqlDatabaseName = "t-sqlfog-db" + helpers.RandomString(10)
+		sqlServerTwoName = "t-sqlfog-srvtwo" + helpers.RandomString(10)
+		sqlDatabaseName = "t-sqldb" + helpers.RandomString(10)
 
 		// Create the SQL servers
 		// Create the first SqlServer object and expect the Reconcile to be created
-		sqlServerInstance := &azurev1alpha1.AzureSqlServer{
+		sqlServerInstance = &azurev1alpha1.AzureSqlServer{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlServerOneName,
 				Namespace: "default",
 			},
 			Spec: azurev1alpha1.AzureSqlServerSpec{
-				Location:      rgLocation,
+				Location:      rgLocation1,
 				ResourceGroup: rgName,
 			},
 		}
@@ -78,7 +82,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 				Namespace: "default",
 			},
 			Spec: azurev1alpha1.AzureSqlServerSpec{
-				Location:      rgLocation,
+				Location:      rgLocation2,
 				ResourceGroup: rgName,
 			},
 		}
@@ -95,14 +99,14 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		}, tc.timeout,
 		).Should(BeTrue())
 
-		// Create a SQL database on the first SQL server (primary SQL server)
-		sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
+		//Create the SQL database on the first SQL server
+		sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlDatabaseName,
 				Namespace: "default",
 			},
 			Spec: azurev1alpha1.AzureSqlDatabaseSpec{
-				Location:      rgLocation,
+				Location:      rgLocation1,
 				ResourceGroup: rgName,
 				Server:        sqlServerOneName,
 				Edition:       0,
@@ -110,7 +114,6 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		}
 
 		err = tc.k8sClient.Create(context.Background(), sqlDatabaseInstance)
-		//Expect(err).NotTo(HaveOccurred())
 
 		sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
 
@@ -124,15 +127,16 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
-		// delete the first sql server from K8s
-		sqlServerInstance := &azurev1alpha1.AzureSqlServer{
+		// delete the sql servers from K8s.
+		// Delete the SQL server one
+		sqlServerInstance = &azurev1alpha1.AzureSqlServer{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlServerOneName,
 				Namespace: "default",
 			},
 			Spec: azurev1alpha1.AzureSqlServerSpec{
-				Location:      tc.resourceGroupLocation,
-				ResourceGroup: tc.resourceGroupName,
+				Location:      rgLocation1,
+				ResourceGroup: rgName,
 			},
 		}
 		sqlServerNamespacedName := types.NamespacedName{Name: sqlServerOneName, Namespace: "default"}
@@ -146,15 +150,15 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		}, tc.timeout,
 		).Should(BeTrue())
 
-		// delete the second sql server from K8s
+		// Delete the SQL server two
 		sqlServerInstance = &azurev1alpha1.AzureSqlServer{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlServerTwoName,
 				Namespace: "default",
 			},
 			Spec: azurev1alpha1.AzureSqlServerSpec{
-				Location:      tc.resourceGroupLocation,
-				ResourceGroup: tc.resourceGroupName,
+				Location:      rgLocation2,
+				ResourceGroup: rgName,
 			},
 		}
 		sqlServerNamespacedName = types.NamespacedName{Name: sqlServerTwoName, Namespace: "default"}
@@ -168,19 +172,21 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		}, tc.timeout,
 		).Should(BeTrue())
 
-		// delete the SQL database from K8s
-		sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
+		// Delete the SQL database
+
+		sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlDatabaseName,
 				Namespace: "default",
 			},
 			Spec: azurev1alpha1.AzureSqlDatabaseSpec{
-				Location:      tc.resourceGroupLocation,
-				ResourceGroup: tc.resourceGroupName,
+				Location:      rgLocation1,
+				ResourceGroup: rgName,
 				Server:        sqlServerOneName,
 				Edition:       0,
 			},
 		}
+
 		sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
 
 		_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
@@ -191,6 +197,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 			return helpers.IsBeingDeleted(sqlDatabaseInstance)
 		}, tc.timeout,
 		).Should(BeTrue())
+
 	})
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
@@ -199,10 +206,10 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		It("should create and delete sql failover group in k8s", func() {
+		It("should create and delete sql failovergroup rule in k8s", func() {
 
 			randomName := helpers.RandomString(10)
-			sqlFailoverGroupName := "t-sql-fog-dev-" + randomName
+			sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
 
 			// Create the SqlFailoverGroup object and expect the Reconcile to be created
 			sqlFailoverGroupInstance := &azurev1alpha1.AzureSqlFailoverGroup{
@@ -211,7 +218,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.AzureSqlFailoverGroupSpec{
-					Location:                     rgLocation,
+					Location:                     rgLocation1,
 					ResourceGroup:                rgName,
 					Server:                       sqlServerOneName,
 					FailoverPolicy:               "automatic",
@@ -241,7 +248,6 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), sqlFailoverGroupInstance)
-			//Expect(err).NotTo(HaveOccurred())  //Commenting as this call is async and returns an asyncopincomplete error
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
