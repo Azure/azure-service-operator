@@ -35,6 +35,7 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 	var rgLocation string
 	var sqlServerName string
 	var err error
+	var sqlServerInstance *azurev1alpha1.AzureSqlServer
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -44,7 +45,7 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 
 		// Create the SQL servers
 		// Create the SqlServer object and expect the Reconcile to be created
-		sqlServerInstance := &azurev1alpha1.AzureSqlServer{
+		sqlServerInstance = &azurev1alpha1.AzureSqlServer{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlServerName,
 				Namespace: "default",
@@ -71,7 +72,7 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
 		// delete the sql servers from K8s
-		sqlServerInstance := &azurev1alpha1.AzureSqlServer{
+		sqlServerInstance = &azurev1alpha1.AzureSqlServer{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlServerName,
 				Namespace: "default",
