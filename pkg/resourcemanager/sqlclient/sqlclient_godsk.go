@@ -2,13 +2,12 @@ package sqlclient
 
 import (
 	"context"
-	"errors"
-	"net/http"
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"net/http"
 )
 
 const typeOfService = "Microsoft.Sql/servers"
@@ -51,50 +50,23 @@ func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
 func (sdk GoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLServerProperties) (result sql.Server, err error) {
-	return MockCreateOrUpdateSQLServer()
-	// serversClient := getGoServersClient()
-	// serverProp := SQLServerPropertiesToServer(properties)
+	serversClient := getGoServersClient()
+	serverProp := SQLServerPropertiesToServer(properties)
 
-	// // issue the creation
-	// future, err := serversClient.CreateOrUpdate(
-	// 	ctx,
-	// 	resourceGroupName,
-	// 	serverName,
-	// 	sql.Server{
-	// 		Location:         to.StringPtr(location),
-	// 		ServerProperties: &serverProp,
-	// 	})
-	// if err != nil {
-	// 	return result, err
-	// }
-
-	// return future.Result(serversClient)
-}
-
-func MockCreateOrUpdateSQLServer() (result sql.Server, err error) {
-	response := autorest.Response{
-		Response: &http.Response{
-			StatusCode: 400,
-			Status:     "400 RegionDoesNotAllowProvisioning",
-			Proto:      "HTTP/1.0",
-		},
+	// issue the creation
+	future, err := serversClient.CreateOrUpdate(
+		ctx,
+		resourceGroupName,
+		serverName,
+		sql.Server{
+			Location:         to.StringPtr(location),
+			ServerProperties: &serverProp,
+		})
+	if err != nil {
+		return result, err
 	}
-	err = errors.New("RegionDoesNotAllowProvisioning")
 
-	result = sql.Server{
-		Response: response,
-		Identity: nil,
-		Kind:     to.StringPtr(""),
-		ServerProperties: &sql.ServerProperties{
-			State: to.StringPtr("Unknown"),
-		},
-		Location: to.StringPtr(""),
-		Tags:     nil,
-		ID:       to.StringPtr(""),
-		Name:     to.StringPtr(""),
-		Type:     to.StringPtr(""),
-	}
-	return result, err
+	return future.Result(serversClient)
 }
 
 // CreateOrUpdateSQLFirewallRule creates or updates a firewall rule
