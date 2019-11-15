@@ -135,6 +135,9 @@ var _ = BeforeSuite(func() {
 
 	var k8sManager ctrl.Manager
 
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
@@ -153,7 +156,7 @@ var _ = BeforeSuite(func() {
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
 		resourceClient = &resourcemanagersql.GoSDKClient{}
-		timeout = time.Second * 320
+		timeout = time.Second * 900
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
@@ -279,6 +282,7 @@ var _ = BeforeSuite(func() {
 		keyVaultManager:       keyVaultManager,
 		timeout:               timeout,
 	}
+
 })
 
 var _ = AfterSuite(func() {

@@ -61,6 +61,10 @@ func NewAzureError(err error) error {
 	return &ae
 }
 
+func NewAzureErrorAzureError(err error) *AzureError {
+	return NewAzureError(err).(*AzureError)
+}
+
 type AzureError struct {
 	Type     string
 	Reason   string

@@ -11,7 +11,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
@@ -48,10 +47,17 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// wait for server to be created, then only proceed once activated
-	server, err := sdk.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
 	for {
 		time.Sleep(time.Second)
-		server, err = sdk.GetServer(ctx, groupName, serverName)
+
+		server, err := sdk.GetServer(ctx, groupName, serverName)
+		if err == nil {
+			if *server.State == "Ready" {
+				util.PrintAndLog("sql server ready")
+				break
+			}
+		}
+		server, err = sdk.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -66,6 +72,8 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 				continue
 			} else {
 				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
+				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", serverName))
+
 				t.FailNow()
 				break
 			}
@@ -131,7 +139,16 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// wait for server to be created, then only proceed once activated
 	for {
 		time.Sleep(time.Second)
-		server, err := sdk.CreateOrUpdateSQLServer(ctx, groupName, secLocation, secSrvName, sqlServerProperties)
+
+		server, err := sdk.GetServer(ctx, groupName, secSrvName)
+		if err == nil {
+			if *server.State == "Ready" {
+				util.PrintAndLog("sql server ready")
+				break
+			}
+		}
+
+		server, err = sdk.CreateOrUpdateSQLServer(ctx, groupName, secLocation, secSrvName, sqlServerProperties)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -154,7 +171,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// Initialize struct for failover group
 	sqlFailoverGroupProperties := SQLFailoverGroupProperties{
-		FailoverPolicy:               sql.Automatic,
+		FailoverPolicy:               Automatic,
 		FailoverGracePeriod:          30,
 		SecondaryServerName:          secSrvName,
 		SecondaryServerResourceGroup: groupName,
@@ -164,7 +181,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	failoverGroupName := generateName("failovergroup")
 	for {
 		time.Sleep(time.Second)
-		_, err := sdk.CreateOrUpdateFailoverGroup(ctx, groupName, secSrvName, failoverGroupName, sqlFailoverGroupProperties)
+		_, err := sdk.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
 		if err == nil {
 			util.PrintAndLog(fmt.Sprintf("failover group created successfully %s", failoverGroupName))
 			break
@@ -191,7 +208,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete the failover group
 	util.PrintAndLog("deleting failover group...")
-	response, err := sdk.DeleteFailoverGroup(ctx, groupName, secSrvName, failoverGroupName)
+	response, err := sdk.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("failover group deleted")
@@ -203,6 +220,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete the DB
 	time.Sleep(time.Second)
+	util.PrintAndLog("deleting db...")
 	response, err = sdk.DeleteDB(ctx, groupName, secSrvName, "sqldatabase-sample")
 	if err == nil {
 		if response.StatusCode == 200 {
@@ -214,6 +232,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// delete the server
+	util.PrintAndLog("deleting server...")
 	time.Sleep(time.Second)
 	response, err = sdk.DeleteSQLServer(ctx, groupName, serverName)
 	if err == nil {
@@ -231,6 +250,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// delete the secondary server
+	util.PrintAndLog("deleting second server...")
 	time.Sleep(time.Second)
 	response, err = sdk.DeleteSQLServer(ctx, groupName, secSrvName)
 	if err == nil {
@@ -245,6 +265,15 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
 			t.FailNow()
 		}
+	}
+
+	// delete the resource group
+	util.PrintAndLog("deleting resource group...")
+	time.Sleep(time.Second)
+	_, err = resources.DeleteGroup(ctx, config.GroupName())
+	if err != nil {
+		util.PrintAndLog(fmt.Sprintf("Cannot delete resourcegroup: %v", err))
+		t.FailNow()
 	}
 
 }
