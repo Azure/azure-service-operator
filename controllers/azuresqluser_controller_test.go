@@ -24,20 +24,20 @@ import (
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
-	"fmt"
 )
 
 var _ = Describe("AzureSQLUser Controller tests", func() {
 
+	var err error
 	var rgName string
 	var rgLocation string
 	var sqlServerName string
 	var sqlServerInstance *azurev1alpha1.AzureSqlServer
 	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
-	var err error
+	var sqlUser *azurev1alpha1.AzureSQLUser
 
 	// Setup the resources we need
 	BeforeEach(func() {
@@ -71,70 +71,69 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		).Should(BeTrue())
 
 		randomName := helpers.RandomString(10)
-			sqlDatabaseName := "t-sqldatabase-test-" + randomName
+		sqlDatabaseName := "t-sqldatabase-test-" + randomName
 
-			// Create the SqlDatabase object and expect the Reconcile to be created
-			sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      sqlDatabaseName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.AzureSqlDatabaseSpec{
-					Location:      rgLocation,
-					ResourceGroup: rgName,
-					Server:        sqlServerName,
-					Edition:       0,
-				},
-			}
+		// Create the SqlDatabase object and expect the Reconcile to be created
+		sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      sqlDatabaseName,
+				Namespace: "default",
+			},
+			Spec: azurev1alpha1.AzureSqlDatabaseSpec{
+				Location:      rgLocation,
+				ResourceGroup: rgName,
+				Server:        sqlServerName,
+				Edition:       0,
+			},
+		}
 
-			err = tc.k8sClient.Create(context.Background(), sqlDatabaseInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
+		err = tc.k8sClient.Create(context.Background(), sqlDatabaseInstance)
+		Expect(apierrors.IsInvalid(err)).To(Equal(false))
+		Expect(err).NotTo(HaveOccurred())
 
-			sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
+		sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
 
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-				return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
-			}, tc.timeout,
-			).Should(BeTrue())
+		Eventually(func() bool {
+			_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
+			return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
+		}, tc.timeout,
+		).Should(BeTrue())
 
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-				return sqlDatabaseInstance.IsSubmitted()
-			}, tc.timeout,
-			).Should(BeTrue())
+		Eventually(func() bool {
+			_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
+			return sqlDatabaseInstance.IsSubmitted()
+		}, tc.timeout,
+		).Should(BeTrue())
 	})
 
 	// Destroy the resources created for this test
-	AfterEach(func(){
+	AfterEach(func() {
 
 		// Delete the SQL Azure database
 		err = tc.k8sClient.Delete(context.Background(), sqlDatabaseInstance)
 
 		// Delete the SQL Azure instance
 		err = tc.k8sClient.Delete(context.Background(), sqlServerInstance)
-		
+
 	})
 
-	Context("Create and drop SQL User", func(){
-		It("should create and drop a user in an Azure SQL database", func(){
+	Context("Create and drop SQL User", func() {
+		It("should create and drop a user in an Azure SQL database", func() {
 
 			username := "sql-test-user" + helpers.RandomString(10)
 
-			sqluser := azurev1alpha1.AzureSQLUser{
+			sqlUser = &azurev1alpha1.AzureSQLUser{
 				ObjectMeta: metav1.ObjectMeta{
-					Name: username,
+					Name:      username,
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.AzureSQLUserSpec{
 					Server: sqlServerInstance.ObjectMeta.Name,
-					DbName: sqlDatabaseInstance.Name,					
+					DbName: sqlDatabaseInstance.Name,
 				},
-				
 			}
-			err = tc.k8sClient.Create(context.Background(), sqluser)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))			
+			err = tc.k8sClient.Create(context.Background(), sqlUser)
+			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 		})
 	})
 })
