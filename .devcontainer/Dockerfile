@@ -73,7 +73,7 @@ RUN apt-get update \
     && curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash - \
     #
     # Install Azure CLI
-    && curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    && curl -sL https://aka.ms/InstallAzureCLIDeb | bash -
 
 # Verify git, process tools installed
 RUN apt-get -y install git procps wget nano zsh inotify-tools jq
