@@ -69,7 +69,7 @@ var _ = Describe("ResourceGroups", func() {
 
 			_, err = resourceGroupManager.DeleteGroup(context.Background(), resourcegroupName)
 			if err != nil {
-				azerr := errhelp.NewAzureError(err).(*errhelp.AzureError)
+				azerr := errhelp.NewAzureErrorAzureError(err)
 				if azerr.Type == errhelp.AsyncOpIncompleteError {
 					err = nil
 				}
