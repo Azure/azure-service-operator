@@ -40,23 +40,63 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.resourceGroupName
 		rgLocation = tc.resourceGroupLocation
-		sqlServerName = "dumb"
+		sqlServerName = "t-sqldb-test-srv" + helpers.RandomString(10)
+
+		// Create the SQL servers
+		// Create the SqlServer object and expect the Reconcile to be created
+		sqlServerInstance := &azurev1alpha1.AzureSqlServer{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      sqlServerName,
+				Namespace: "default",
+			},
+			Spec: azurev1alpha1.AzureSqlServerSpec{
+				Location:      rgLocation,
+				ResourceGroup: rgName,
+			},
+		}
+
+		err := tc.k8sClient.Create(context.Background(), sqlServerInstance)
+		Expect(err).NotTo(HaveOccurred())
+
+		sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+
+		// Check to make sure the SQL server is provisioned before moving ahead
+		Eventually(func() bool {
+			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+			return sqlServerInstance.Status.Provisioned
+		}, tc.timeout,
+		).Should(BeTrue())
 	})
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
-	})
+		// delete the sql servers from K8s
+		sqlServerInstance := &azurev1alpha1.AzureSqlServer{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      sqlServerName,
+				Namespace: "default",
+			},
+			Spec: azurev1alpha1.AzureSqlServerSpec{
+				Location:      tc.resourceGroupLocation,
+				ResourceGroup: tc.resourceGroupName,
+			},
+		}
+		sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 
-	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
-	// your API definition.
-	// Avoid adding tests for vanilla CRUD operations because they would
-	// test Kubernetes API server, which isn't the goal here.
+		_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+		_ = tc.k8sClient.Delete(context.Background(), sqlServerInstance)
+
+		Eventually(func() bool {
+			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+			return helpers.IsBeingDeleted(sqlServerInstance)
+		}, tc.timeout,
+		).Should(BeTrue())
+	})
 
 	Context("Create and Delete", func() {
 		It("should create a sql action to rollover creds on a sql db in k8s", func() {
 
 			sqlActionName := "t-azuresqlaction-dev-" + helpers.RandomString(10)
-			sqlDatabaseName := "t-sqldatabase-dev-" + helpers.RandomString(10)
 
 			var err error
 
@@ -79,7 +119,7 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
-			sqlActionInstanceNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
+			sqlActionInstanceNamespacedName := types.NamespacedName{Name: sqlActionName, Namespace: "default"}
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlActionInstanceNamespacedName, sqlActionInstance)
@@ -93,9 +133,9 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			}, tc.timeout,
 			).Should(BeTrue())
 
-			// Check SQL Database credentials
+			// TODO Check SQL Database credentials
 
-			// Assert credentials are not the same as previous
+			// TODO Assert credentials are not the same as previous
 
 			err = tc.k8sClient.Delete(context.Background(), sqlActionInstance)
 			Expect(err).NotTo(HaveOccurred())
@@ -108,6 +148,40 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 
 		})
 
-		// Add another test to show it fails when the SQL DB is not valid
+		It("should fail to create a sql action because the sql server is not valid", func() {
+
+			sqlActionName := "t-azuresqlaction-dev-" + helpers.RandomString(10)
+			invalidSqlServerName := "404sqlserver" + helpers.RandomString(10)
+
+			var err error
+
+			// Create the Sql Action object and expect the Reconcile to be created
+			sqlActionInstance := &azurev1alpha1.AzureSqlAction{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      sqlActionName,
+					Namespace: "default",
+				},
+				Spec: azurev1alpha1.AzureSqlActionSpec{
+					ActionName:    rgLocation,
+					ServerName:    invalidSqlServerName,
+					ResourceGroup: rgName,
+				},
+			}
+
+			err = tc.k8sClient.Create(context.Background(), sqlActionInstance)
+			Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			Expect(err).NotTo(HaveOccurred())
+
+			sqlActionInstanceNamespacedName := types.NamespacedName{Name: sqlActionName, Namespace: "default"}
+
+			Eventually(func() bool {
+				_ = tc.k8sClient.Get(context.Background(), sqlActionInstanceNamespacedName, sqlActionInstance)
+				return helpers.HasFinalizer(sqlActionInstance, AzureSQLDatabaseFinalizerName)
+			}, tc.timeout,
+			).Should(BeFalse())
+
+			err = tc.k8sClient.Delete(context.Background(), sqlActionInstance)
+			Expect(err).NotTo(HaveOccurred())
+		})
 	})
 })
