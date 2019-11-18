@@ -6,6 +6,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2018-02-01/resources"
 	"github.com/Azure/azure-sdk-for-go/services/storage/datalake/2019-10-31/storagedatalake"
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
@@ -98,12 +99,12 @@ func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeNam
 
 	response, err := rgClient.CheckExistence(ctx, groupName)
 	if response.IsHTTPStatus(404) {
-		return errors.New("ResourceGroupNotFound")
+		return errhelp.NewAzureError(errors.New("ResourceGroupNotFound"))
 	}
 
 	_, err = storagesClient.ListKeys(ctx, groupName, datalakeName)
 	if err != nil {
-		return errors.New("ParentResourceNotFound")
+		return errhelp.NewAzureError(errors.New("ParentResourceNotFound"))
 	}
 
 	return err

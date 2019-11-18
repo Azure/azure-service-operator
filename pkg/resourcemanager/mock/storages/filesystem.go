@@ -19,6 +19,7 @@ package storages
 import (
 	"context"
 	"errors"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
 	"net/http"
@@ -68,7 +69,7 @@ func (manager *mockFileSystemManager) GetFileSystem(ctx context.Context, groupNa
 	})
 
 	if index == -1 {
-		return helpers.GetRestResponse(http.StatusNotFound), errors.New("filesystem not found")
+		return helpers.GetRestResponse(http.StatusNotFound), errhelp.NewAzureError(errors.New("filesystem not found"))
 	}
 	return helpers.GetRestResponse(http.StatusOK), nil
 }
@@ -84,7 +85,7 @@ func (manager *mockFileSystemManager) DeleteFileSystem(ctx context.Context, grou
 	})
 
 	if index == -1 {
-		return helpers.GetRestResponse(http.StatusNotFound), errors.New("filesystem not found")
+		return helpers.GetRestResponse(http.StatusNotFound), errhelp.NewAzureError(errors.New("filesystem not found"))
 	}
 
 	manager.fileSystemResource = append(groups[:index], groups[index+1:]...)
