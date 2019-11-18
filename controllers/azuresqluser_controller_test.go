@@ -109,6 +109,9 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 	// Destroy the resources created for this test
 	AfterEach(func() {
 
+		// Delete the SQL User
+		err = tc.k8sClient.Delete(context.Background(), sqlUser)
+
 		// Delete the SQL Azure database
 		err = tc.k8sClient.Delete(context.Background(), sqlDatabaseInstance)
 
@@ -131,9 +134,14 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 					Server: sqlServerInstance.ObjectMeta.Name,
 					DbName: sqlDatabaseInstance.Name,
 				},
+				Status: azurev1alpha1.AzureSQLUserStatus{
+					Provisioning: true,
+					Provisioned:  false,
+					Message:      "Test SQL User",
+				},
 			}
 			err = tc.k8sClient.Create(context.Background(), sqlUser)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			Expect(apierrors.IsInvalid(err)).To(Equal(true))
 		})
 	})
 })
