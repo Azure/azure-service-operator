@@ -29,12 +29,11 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("AzureSqlDatabase Controller", func() {
+var _ = Describe("Azure SQL Action Controller", func() {
 
 	var rgName string
 	var rgLocation string
 	var sqlServerName string
-	//var sqlName string
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
