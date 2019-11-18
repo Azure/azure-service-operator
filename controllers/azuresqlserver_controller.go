@@ -219,7 +219,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	server, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties)
+	_, err = r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
@@ -231,13 +231,6 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		r.Log.Info(fmt.Sprintf("cannot create sql server: %v", err))
 		azerr := errhelp.NewAzureError(err)
 		return azerr
-	}
-
-	if *server.State != "Ready" {
-		msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
-		instance.Status.Message = msg
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
-		return errhelp.NewAzureError(err)
 	}
 
 	// success
