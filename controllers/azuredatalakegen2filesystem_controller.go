@@ -18,19 +18,19 @@ package controllers
 import (
 	"context"
 	"fmt"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	"os"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"strconv"
 	"time"
-	v1 "k8s.io/api/core/v1"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
 const fileSystemFinalizerName = "filesystem.finalizers.azure.com"
@@ -94,7 +94,8 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 				errhelp.ResourceGroupNotFoundErrorCode,
 				errhelp.ResourceNotFound,
 			}
-			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) || helpers.ContainsString(catch, err.Error()) {
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if helpers.ContainsString(catch, azerr.Type) {
 				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
 				return ctrl.Result{Requeue: true, RequeueAfter: time.Second * time.Duration(requeueAfter)}, nil
 			}
