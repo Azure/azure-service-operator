@@ -40,7 +40,6 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.resourceGroupName
 		rgLocation = tc.resourceGroupLocation
-<<<<<<< HEAD
 		sqlServerName = "t-sqldb-test-srv" + helpers.RandomString(10)
 
 		// Create the SQL servers
@@ -67,14 +66,10 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			return sqlServerInstance.Status.Provisioned
 		}, tc.timeout,
 		).Should(BeTrue())
-=======
-		sqlServerName = "dumb"
->>>>>>> 49889ecc99166aa02235c3852f5f9d6f54417632
 	})
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
-<<<<<<< HEAD
 		// delete the sql servers from K8s
 		sqlServerInstance := &azurev1alpha1.AzureSqlServer{
 			ObjectMeta: metav1.ObjectMeta{
@@ -98,23 +93,10 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 		).Should(BeTrue())
 	})
 
-=======
-	})
-
-	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
-	// your API definition.
-	// Avoid adding tests for vanilla CRUD operations because they would
-	// test Kubernetes API server, which isn't the goal here.
-
->>>>>>> 49889ecc99166aa02235c3852f5f9d6f54417632
 	Context("Create and Delete", func() {
 		It("should create a sql action to rollover creds on a sql db in k8s", func() {
 
 			sqlActionName := "t-azuresqlaction-dev-" + helpers.RandomString(10)
-<<<<<<< HEAD
-=======
-			sqlDatabaseName := "t-sqldatabase-dev-" + helpers.RandomString(10)
->>>>>>> 49889ecc99166aa02235c3852f5f9d6f54417632
 
 			var err error
 
@@ -137,11 +119,7 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
-<<<<<<< HEAD
 			sqlActionInstanceNamespacedName := types.NamespacedName{Name: sqlActionName, Namespace: "default"}
-=======
-			sqlActionInstanceNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
->>>>>>> 49889ecc99166aa02235c3852f5f9d6f54417632
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlActionInstanceNamespacedName, sqlActionInstance)
@@ -155,15 +133,9 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			}, tc.timeout,
 			).Should(BeTrue())
 
-<<<<<<< HEAD
 			// TODO Check SQL Database credentials
 
 			// TODO Assert credentials are not the same as previous
-=======
-			// Check SQL Database credentials
-
-			// Assert credentials are not the same as previous
->>>>>>> 49889ecc99166aa02235c3852f5f9d6f54417632
 
 			err = tc.k8sClient.Delete(context.Background(), sqlActionInstance)
 			Expect(err).NotTo(HaveOccurred())
@@ -176,7 +148,6 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 
 		})
 
-<<<<<<< HEAD
 		It("should fail to create a sql action because the sql server is not valid", func() {
 
 			sqlActionName := "t-azuresqlaction-dev-" + helpers.RandomString(10)
@@ -212,8 +183,5 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			err = tc.k8sClient.Delete(context.Background(), sqlActionInstance)
 			Expect(err).NotTo(HaveOccurred())
 		})
-=======
-		// Add another test to show it fails when the SQL DB is not valid
->>>>>>> 49889ecc99166aa02235c3852f5f9d6f54417632
 	})
 })
