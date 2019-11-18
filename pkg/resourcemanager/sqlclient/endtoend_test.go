@@ -47,17 +47,17 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// wait for server to be created, then only proceed once activated
+	server, err := sdk.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
 	for {
 		time.Sleep(time.Second)
 
-		server, err := sdk.GetServer(ctx, groupName, serverName)
+		server, err = sdk.GetServer(ctx, groupName, serverName)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
 				break
 			}
 		}
-		server, err = sdk.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
