@@ -120,8 +120,8 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 
 	})
 
-	Context("Create and drop SQL User", func() {
-		It("should create and drop a user in an Azure SQL database", func() {
+	Context("Create SQL User", func() {
+		It("should create a user in an Azure SQL database", func() {
 
 			username := "sql-test-user" + helpers.RandomString(10)
 
@@ -131,8 +131,9 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.AzureSQLUserSpec{
-					Server: sqlServerInstance.ObjectMeta.Name,
-					DbName: sqlDatabaseInstance.Name,
+					Server:      sqlServerInstance.ObjectMeta.Name,
+					DbName:      sqlDatabaseInstance.Name,
+					AdminSecret: sqlDatabaseInstance.Spec.Server,
 				},
 				Status: azurev1alpha1.AzureSQLUserStatus{
 					Provisioning: true,
