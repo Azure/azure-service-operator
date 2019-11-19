@@ -162,13 +162,40 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 		return ctrl.Result{}, fmt.Errorf("error verifying sql server in azure: %v", err)
 	}
 
+	if instance.Status.State == "Ready" {
+		log.Info("ready state verify secret exists")
+		err := r.verifySecretAndReconcile(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when reapplying resource in azure: %v", err)
+		}
+		return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
+	}
+
 	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "azuresqlserver "+instance.ObjectMeta.Name+" provisioned ")
 	return ctrl.Result{}, nil
+}
+
+func (r *AzureSqlServerReconciler) verifySecretAndReconcile(instance *azurev1alpha1.AzureSqlServer) error {
+	//get secret for sql server
+	secretName := instance.ObjectMeta.Name
+	err := r.getAzureSqlServerSecrets(secretName, instance)
+	if err != nil {
+		r.Log.Info("secret does not exist, reconcile external")
+
+		reconcileerr := r.reconcileExternal(instance)
+		if reconcileerr != nil {
+			return fmt.Errorf("error reapplying sql server in azure: %v", reconcileerr)
+		}
+
+	}
+
+	return nil
 }
 
 func (r *AzureSqlServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1alpha1.AzureSqlServer{}).
+		Owns(&v1.Secret{}).
 		Complete(r)
 }
 
@@ -332,6 +359,17 @@ func (r *AzureSqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.Az
 	}
 
 	return secret, nil
+}
+
+func (r *AzureSqlServerReconciler) getAzureSqlServerSecrets(name string, instance *azurev1alpha1.AzureSqlServer) error {
+
+	var err error
+	secret := &v1.Secret{}
+	err = r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // helper function to generate random username for sql server
