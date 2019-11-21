@@ -13,6 +13,7 @@ RUN go mod download
 COPY . ./
 
 # Generate CRD manifests
+RUN go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
 RUN $(go env GOPATH)/bin/controller-gen object:headerFile=./hack/boilerplate.go.txt paths=./api/...
 
 # Build
