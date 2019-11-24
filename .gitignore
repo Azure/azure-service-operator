@@ -39,6 +39,7 @@ api/*/zz_generated.*
 *~
 .env
 __debug_bin
+.vscode
 .DS_Store
 cover-existing.html
 coverage-existing.txt
