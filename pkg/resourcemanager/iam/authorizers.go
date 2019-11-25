@@ -163,7 +163,7 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 		a = autorest.NewBearerAuthorizer(token)
 
 	case OAuthGrantTypeMI:
-		MIEndpoint, err := adal.GetMIVMEndpoint()
+		MIEndpoint, err := adal.GetMSIVMEndpoint()
 		if err != nil {
 			return nil, err
 		}
@@ -214,7 +214,7 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 		a = autorest.NewBearerAuthorizer(token)
 
 	case OAuthGrantTypeMI:
-		MIEndpoint, err := adal.GetMIVMEndpoint()
+		MIEndpoint, err := adal.GetMSIVMEndpoint()
 		if err != nil {
 			return nil, err
 		}
