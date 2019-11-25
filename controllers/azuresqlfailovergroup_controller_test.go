@@ -127,6 +127,33 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
+
+		// Delete the SQL database
+
+		sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      sqlDatabaseName,
+				Namespace: "default",
+			},
+			Spec: azurev1alpha1.AzureSqlDatabaseSpec{
+				Location:      rgLocation1,
+				ResourceGroup: rgName,
+				Server:        sqlServerOneName,
+				Edition:       0,
+			},
+		}
+
+		sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
+
+		_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
+		err = tc.k8sClient.Delete(context.Background(), sqlDatabaseInstance)
+
+		Eventually(func() bool {
+			_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
+			return helpers.IsBeingDeleted(sqlDatabaseInstance)
+		}, tc.timeout,
+		).Should(BeTrue())
+
 		// delete the sql servers from K8s.
 		// Delete the SQL server one
 		sqlServerInstance = &azurev1alpha1.AzureSqlServer{
@@ -169,32 +196,6 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return helpers.IsBeingDeleted(sqlServerInstance)
-		}, tc.timeout,
-		).Should(BeTrue())
-
-		// Delete the SQL database
-
-		sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      sqlDatabaseName,
-				Namespace: "default",
-			},
-			Spec: azurev1alpha1.AzureSqlDatabaseSpec{
-				Location:      rgLocation1,
-				ResourceGroup: rgName,
-				Server:        sqlServerOneName,
-				Edition:       0,
-			},
-		}
-
-		sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
-
-		_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		err = tc.k8sClient.Delete(context.Background(), sqlDatabaseInstance)
-
-		Eventually(func() bool {
-			_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-			return helpers.IsBeingDeleted(sqlDatabaseInstance)
 		}, tc.timeout,
 		).Should(BeTrue())
 
