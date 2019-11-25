@@ -42,10 +42,11 @@ import (
 // AzureSqlDatabaseReconciler reconciles a AzureSqlDatabase object
 type AzureSqlDatabaseReconciler struct {
 	client.Client
-	Log               logr.Logger
-	Recorder          record.EventRecorder
-	Scheme            *runtime.Scheme
-	AzureSqlDbManager sql.AzureSqlServerManager
+	Log                   logr.Logger
+	Recorder              record.EventRecorder
+	Scheme                *runtime.Scheme
+	AzureSqlDbManager     sql.AzureSqlServerManager
+	AzureSqlServerManager sql.AzureSqlServerManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqldatabases,verbs=get;list;watch;create;update;patch;delete
