@@ -17,7 +17,7 @@ func NewAzureSqlFailoverGroupManager(log logr.Logger) *AzureSqlFailoverGroupMana
 	return &AzureSqlFailoverGroupManager{Log: log}
 }
 
-type AzureSqlFailoverGroupManager interface {
+type SqlFailoverGroupManager interface {
 	CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error)
 	DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string) (result autorest.Response, err error)
 	GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error)

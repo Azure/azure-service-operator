@@ -18,6 +18,18 @@ type AzureSqlDbManager struct {
 	Log logr.Logger
 }
 
+type AzureSqlServerManager struct {
+	Log logr.Logger
+}
+
+type AzureSqlFailoverGroupManager struct {
+	Log logr.Logger
+}
+
+type AzureSqlFirewallRuleManager struct {
+	Log logr.Logger
+}
+
 // getGoServersClient retrieves a ServersClient
 func getGoServersClient() sql.ServersClient {
 	serversClient := sql.NewServersClient(config.SubscriptionID())

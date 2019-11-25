@@ -10,9 +10,14 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/go-autorest/autorest"
+	"github.com/go-logr/logr"
 )
 
-type AzureSqlServerManager interface {
+func NewAzureSqlServerManager(log logr.Logger) *AzureSqlServerManager {
+	return &AzureSqlServerManager{Log: log}
+}
+
+type SqlServerManager interface {
 	CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLServerProperties) (result sql.Server, err error)
 	DeleteSQLServer(ctx context.Context, resourceGroupName string, serverName string) (result autorest.Response, err error)
 	GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error)
