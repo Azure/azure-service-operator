@@ -29,6 +29,7 @@ import (
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -89,6 +90,7 @@ func main() {
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 	resourceClient := resourcemanagersql.GoSDKClient{}
+	secretClient := k8sSecrets.New(mgr.GetClient())
 
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
@@ -185,6 +187,7 @@ func main() {
 		Recorder:       mgr.GetEventRecorderFor("AzureSqlServer-controller"),
 		Scheme:         mgr.GetScheme(),
 		ResourceClient: resourceClient,
+		SecretClient:   secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
 		os.Exit(1)
@@ -223,7 +226,6 @@ func main() {
 		os.Exit(1)
 	}
 
-
 	if err = (&controllers.AzureSQLUserReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
@@ -233,7 +235,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
 		os.Exit(1)
 	}
-
 
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
 		Client:         mgr.GetClient(),

@@ -17,7 +17,6 @@ package controllers
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -25,6 +24,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/sethvargo/go-password/password"
@@ -48,6 +48,7 @@ type AzureSqlServerReconciler struct {
 	Recorder       record.EventRecorder
 	Scheme         *runtime.Scheme
 	ResourceClient sql.ResourceClient
+	SecretClient   secrets.SecretClient
 }
 
 // Constants
@@ -203,7 +204,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	// Check to see if secret already exists for admin username/password
-	secret, _ := r.GetOrPrepareSecret(instance)
+	secret, _ := r.GetOrPrepareSecret(ctx, instance)
 	azureSqlServerProperties := sql.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr(string(secret.Data["username"])),
 		AdministratorLoginPassword: to.StringPtr(string(secret.Data["password"])),
@@ -212,6 +213,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	// create the sql server
 	instance.Status.Provisioning = true
 	if _, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
+		r.Recorder.Event(instance, v1.EventTypeWarning, "UhOh!", err.Error())
 		if !strings.Contains(err.Error(), "not complete") {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 			instance.Status.Message = msg
@@ -224,16 +226,11 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", msg)
 	}
 
-	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
-		r.Log.Info("mutating secret bundle")
-		innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
-		if innerErr != nil {
-			return innerErr
-		}
-		return nil
-	})
-	if createOrUpdateSecretErr != nil {
-		return createOrUpdateSecretErr
+	// @todo: figure out owner ref for kube secret
+	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	err = r.SecretClient.Upsert(ctx, key, secret.Data)
+	if err != nil {
+		return err
 	}
 
 	// write information back to instance
@@ -287,7 +284,7 @@ func (r *AzureSqlServerReconciler) deleteExternal(ctx context.Context, instance 
 	return nil
 }
 
-func (r *AzureSqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.AzureSqlServer) (*v1.Secret, error) {
+func (r *AzureSqlServerReconciler) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureSqlServer) (*v1.Secret, error) {
 	name := instance.ObjectMeta.Name
 
 	secret := &v1.Secret{
@@ -296,49 +293,40 @@ func (r *AzureSqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.Az
 			Namespace: instance.Namespace,
 		},
 		// Needed to avoid nil map error
-		Data: map[string][]byte{
-			"username":                 []byte(""),
-			"fullyqualifiedusername":   []byte(""),
-			"password":                 []byte(""),
-			"azuresqlservername":       []byte(""),
-			"fullyqualifiedservername": []byte(""),
-		},
+		Data: map[string][]byte{},
 		Type: "Opaque",
 	}
 
-	randomUsername, usernameErr := generateRandomUsername(usernameLength)
-	if usernameErr != nil {
-		return secret, usernameErr
+	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
+	if stored, err := r.SecretClient.Get(ctx, key); err == nil {
+		r.Log.Info("secret already exists, pulling creds now")
+		secret.Data = stored
+		return secret, nil
 	}
 
-	randomPassword, passwordErr := generateRandomPassword(passwordLength)
-	if passwordErr != nil {
-		return secret, passwordErr
+	r.Log.Info("secret not found, generating values for new secret")
+
+	randomUsername, err := generateRandomUsername(usernameLength)
+	if err != nil {
+		return secret, err
 	}
 
-	usernameSuffix := "@" + name
-	servernameSuffix := ".database.windows.net"
-	fullyQualifiedAdminUsername := randomUsername + usernameSuffix // "<username>@<azuresqlservername>""
-	fullyQualifiedServername := name + servernameSuffix            // "<azuresqlservername>.database.windows.net"
+	randomPassword, err := generateRandomPassword(passwordLength)
+	if err != nil {
+		return secret, err
+	}
 
 	secret.Data["username"] = []byte(randomUsername)
-	secret.Data["fullyqualifiedusername"] = []byte(fullyQualifiedAdminUsername)
+	secret.Data["fullyqualifiedusername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
 	secret.Data["password"] = []byte(randomPassword)
 	secret.Data["azuresqlservername"] = []byte(name)
-	secret.Data["fullyqualifiedservername"] = []byte(fullyQualifiedServername)
-
-	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
-		r.Log.Info("secret already exists, pulling creds now")
-	}
+	secret.Data["fullyqualifiedservername"] = []byte(name + ".database.windows.net")
 
 	return secret, nil
 }
 
 // helper function to generate random username for sql server
 func generateRandomUsername(n int) (string, error) {
-	if n < minUsernameAllowedLength || n > maxUsernameAllowedLength {
-		return "", errors.New("Username length should be between 8 and 63 characters.")
-	}
 
 	// Generate a username that is n characters long, with n/2 digits and 0 symbols (not allowed),
 	// allowing only lower case letters (upper case not allowed), and disallowing repeat characters.
@@ -352,9 +340,6 @@ func generateRandomUsername(n int) (string, error) {
 
 // helper function to generate random password for sql server
 func generateRandomPassword(n int) (string, error) {
-	if n < minPasswordAllowedLength || n > maxPasswordAllowedLength {
-		return "", errors.New("Password length must be between 8 and 128 characters.")
-	}
 
 	// Math - Generate a password where: 1/3 of the # of chars are digits, 1/3 of the # of chars are symbols,
 	// and the remaining 1/3 is a mix of upper- and lower-case letters
