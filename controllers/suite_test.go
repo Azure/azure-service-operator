@@ -40,6 +40,7 @@ import (
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 
 	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -232,6 +233,27 @@ var _ = BeforeSuite(func() {
 		Log:      ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
 		Recorder: k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
 		Scheme:   scheme.Scheme,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlFailoverGroupReconciler{
+		Client:         k8sManager.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+    Scheme:         scheme.Scheme,
+		ResourceClient: resourceClient,
+    }).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlFirewallRuleReconciler{
+		Client: k8sManager.GetClient(),
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+			"AzureSQLFirewallRuleOperator",
+		),
+		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFirewall-controller"),
+		Scheme:         scheme.Scheme,
+		ResourceClient: resourceClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
