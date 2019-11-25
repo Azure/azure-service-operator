@@ -221,6 +221,7 @@ func main() {
 		Recorder:       mgr.GetEventRecorderFor("AzureSqlAction-controller"),
 		Scheme:         mgr.GetScheme(),
 		ResourceClient: resourceClient,
+		SecretClient:   secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
 		os.Exit(1)
