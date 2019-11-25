@@ -40,10 +40,10 @@ const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azu
 // AzureSqlFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
 type AzureSqlFailoverGroupReconciler struct {
 	client.Client
-	Log            logr.Logger
-	Recorder       record.EventRecorder
-	Scheme         *runtime.Scheme
-	ResourceClient sql.ResourceClient
+	Log                          logr.Logger
+	Recorder                     record.EventRecorder
+	Scheme                       *runtime.Scheme
+	AzureSqlFailoverGroupManager sql.AzureSqlFailoverGroupManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfailovergroups,verbs=get;list;watch;create;update;patch;delete
@@ -195,7 +195,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context,
 		DatabaseList:                 databaseList,
 	}
 
-	_, err = r.ResourceClient.CreateOrUpdateFailoverGroup(ctx, groupName, servername, failoverGroupName, sqlFailoverGroupProperties)
+	_, err = r.AzureSqlFailoverGroupManager.CreateOrUpdateFailoverGroup(ctx, groupName, servername, failoverGroupName, sqlFailoverGroupProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -206,7 +206,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context,
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = r.ResourceClient.GetFailoverGroup(ctx, groupName, servername, failoverGroupName)
+	_, err = r.AzureSqlFailoverGroupManager.GetFailoverGroup(ctx, groupName, servername, failoverGroupName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -223,7 +223,7 @@ func (r *AzureSqlFailoverGroupReconciler) deleteExternal(ctx context.Context, in
 	servername := instance.Spec.Server
 	groupName := instance.Spec.ResourceGroup
 
-	response, err := r.ResourceClient.DeleteFailoverGroup(ctx, groupName, servername, name)
+	response, err := r.AzureSqlFailoverGroupManager.DeleteFailoverGroup(ctx, groupName, servername, name)
 	if err != nil {
 		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		instance.Status.Message = msg
