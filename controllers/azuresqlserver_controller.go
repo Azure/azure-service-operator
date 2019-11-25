@@ -47,7 +47,6 @@ type AzureSqlServerReconciler struct {
 	Log                   logr.Logger
 	Recorder              record.EventRecorder
 	Scheme                *runtime.Scheme
-	ResourceClient        sql.ResourceClient
 	AzureSqlServerManager sql.AzureSqlServerManager
 }
 
