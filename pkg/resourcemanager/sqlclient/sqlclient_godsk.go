@@ -9,9 +9,14 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/go-logr/logr"
 )
 
 const typeOfService = "Microsoft.Sql/servers"
+
+type AzureSqlDbManager struct {
+	Log logr.Logger
+}
 
 // getGoServersClient retrieves a ServersClient
 func getGoServersClient() sql.ServersClient {
@@ -103,7 +108,7 @@ func (sdk GoSDKClient) CreateOrUpdateSQLFirewallRule(ctx context.Context, resour
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
-func (sdk GoSDKClient) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
+func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
 	dbClient := getGoDbClient()
 	dbProp := SQLDatabasePropertiesToDatabase(properties)
 
