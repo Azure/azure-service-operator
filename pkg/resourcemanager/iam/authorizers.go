@@ -168,7 +168,7 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 			return nil, err
 		}
 
-		token, err := adal.NewServicePrincipalTokenFromMI(MIEndpoint, vaultEndpoint)
+		token, err := adal.NewServicePrincipalTokenFromMSI(MIEndpoint, vaultEndpoint)
 		if err != nil {
 			return nil, err
 		}
@@ -219,7 +219,7 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 			return nil, err
 		}
 
-		token, err := adal.NewServicePrincipalTokenFromMI(MIEndpoint, resource)
+		token, err := adal.NewServicePrincipalTokenFromMSI(MIEndpoint, resource)
 		if err != nil {
 			return nil, err
 		}
