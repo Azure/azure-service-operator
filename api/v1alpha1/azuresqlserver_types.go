@@ -30,16 +30,6 @@ type AzureSqlServerSpec struct {
 	ResourceGroup string `json:"resourcegroup,omitempty"`
 }
 
-// AzureSqlServerStatus defines the observed state of AzureSqlServer
-type AzureSqlServerStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool   `json:"provisioning,omitempty"`
-	Provisioned  bool   `json:"provisioned,omitempty"`
-	State        string `json:"state,omitempty"`
-	Message      string `json:"message,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // AzureSqlServer is the Schema for the azuresqlservers API
@@ -47,8 +37,8 @@ type AzureSqlServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSqlServerSpec   `json:"spec,omitempty"`
-	Status AzureSqlServerStatus `json:"status,omitempty"`
+	Spec   AzureSqlServerSpec `json:"spec,omitempty"`
+	Status ASOStatus          `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -66,8 +56,4 @@ func init() {
 
 func (s *AzureSqlServer) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
-}
-
-func (s *AzureSqlServer) IsProvisioned() bool {
-	return s.Status.Provisioned
 }

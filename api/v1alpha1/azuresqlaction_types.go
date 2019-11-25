@@ -31,15 +31,6 @@ type AzureSqlActionSpec struct {
 	ServerName    string `json:"servername"`
 }
 
-// AzureSqlActionStatus defines the observed state of AzureSqlAction
-type AzureSqlActionStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool   `json:"provisioning,omitempty"`
-	Provisioned  bool   `json:"provisioned,omitempty"`
-	Message      string `json:"state,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
@@ -48,8 +39,8 @@ type AzureSqlAction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSqlActionSpec   `json:"spec,omitempty"`
-	Status AzureSqlActionStatus `json:"status,omitempty"`
+	Spec   AzureSqlActionSpec `json:"spec,omitempty"`
+	Status ASOStatus          `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

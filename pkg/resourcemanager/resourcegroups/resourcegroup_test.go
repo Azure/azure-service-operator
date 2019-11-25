@@ -21,10 +21,12 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
@@ -52,7 +54,7 @@ var _ = Describe("ResourceGroups", func() {
 
 			resourcegroupName := "t-rg-" + helpers.RandomString(10)
 			resourcegroupLocation := config.DefaultLocation()
-			resourceGroupManager := AzureResourceGroupManager
+			resourceGroupManager := NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
 			var err error
 
 			_, err = resourceGroupManager.CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)
@@ -66,6 +68,12 @@ var _ = Describe("ResourceGroups", func() {
 			).Should(BeTrue())
 
 			_, err = resourceGroupManager.DeleteGroup(context.Background(), resourcegroupName)
+			if err != nil {
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if azerr.Type == errhelp.AsyncOpIncompleteError {
+					err = nil
+				}
+			}
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {

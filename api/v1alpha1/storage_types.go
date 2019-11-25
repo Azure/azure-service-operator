@@ -78,18 +78,6 @@ type StorageKind string
 // +kubebuilder:validation:Enum=Cool;Hot
 type StorageAccessTier string
 
-// StorageStatus defines the observed state of Storage
-type StorageStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// DeploymentName    string `json:"deploymentName,omitempty"`
-	// ProvisioningState string `json:"provisioningState,omitempty"`
-	// Generation        int64  `json:"generation,omitempty"`
-	Provisioning bool `json:"provisioning,omitempty"`
-	Provisioned  bool `json:"provisioned,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
@@ -99,7 +87,7 @@ type Storage struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec                StorageSpec                `json:"spec,omitempty"`
-	Status              StorageStatus              `json:"status,omitempty"`
+	Status              ASOStatus                  `json:"status,omitempty"`
 	Output              StorageOutput              `json:"output,omitempty"`
 	AdditionalResources StorageAdditionalResources `json:"additionalResources,omitempty"`
 }
