@@ -24,6 +24,8 @@ import (
 	"testing"
 	"time"
 
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
+
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
@@ -149,6 +151,7 @@ var _ = BeforeSuite(func() {
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	var resourceClient resourcemanagersql.ResourceClient
+	secretClient := k8sSecrets.New(k8sManager.GetClient())
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
@@ -215,6 +218,7 @@ var _ = BeforeSuite(func() {
 		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
 		Scheme:         scheme.Scheme,
 		ResourceClient: resourceClient,
+		SecretClient:   secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
