@@ -226,6 +226,9 @@ install-cert-manager:
 	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
 
+install-aad-pod-identity:
+	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
+
 install-test-dependency:
 	go get -u github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
