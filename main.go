@@ -223,7 +223,6 @@ func main() {
 		os.Exit(1)
 	}
 
-
 	if err = (&controllers.AzureSQLUserReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
@@ -233,7 +232,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
 		os.Exit(1)
 	}
-
 
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
 		Client:         mgr.GetClient(),
