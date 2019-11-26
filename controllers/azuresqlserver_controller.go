@@ -226,18 +226,15 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// create or update the secret
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	err = r.SecretClient.Upsert(ctx, key, secret)
+	err = r.SecretClient.Upsert(
+		ctx,
+		key,
+		secret,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(r.Scheme),
+	)
 	if err != nil {
 		return err
-	}
-
-	// attempt to set owner, gracefully fail
-	kSecret := &v1.Secret{}
-	if err := r.Get(ctx, key, kSecret); err == nil {
-		if err := controllerutil.SetControllerReference(instance, kSecret, r.Scheme); err != nil {
-			return err
-		}
-		return r.Update(ctx, kSecret)
 	}
 
 	// write information back to instance

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -21,7 +22,7 @@ func New(kubeclient client.Client) *KubeSecretClient {
 	}
 }
 
-func (k *KubeSecretClient) Create(ctx context.Context, key types.NamespacedName, data map[string][]byte) error {
+func (k *KubeSecretClient) Create(ctx context.Context, key types.NamespacedName, data map[string][]byte, opts ...secrets.SecretOption) error {
 
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
@@ -42,7 +43,11 @@ func (k *KubeSecretClient) Create(ctx context.Context, key types.NamespacedName,
 	return k.KubeClient.Create(ctx, secret)
 }
 
-func (k *KubeSecretClient) Upsert(ctx context.Context, key types.NamespacedName, data map[string][]byte) error {
+func (k *KubeSecretClient) Upsert(ctx context.Context, key types.NamespacedName, data map[string][]byte, opts ...secrets.SecretOption) error {
+	options := &secrets.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
 
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
@@ -58,6 +63,13 @@ func (k *KubeSecretClient) Upsert(ctx context.Context, key types.NamespacedName,
 		for k, v := range data {
 			secret.Data[k] = v
 		}
+
+		if options.Owner != nil && options.Scheme != nil {
+			if err := controllerutil.SetControllerReference(options.Owner, secret, options.Scheme); err != nil {
+				return err
+			}
+		}
+
 		return nil
 	})
 

@@ -44,7 +44,6 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
@@ -374,18 +373,14 @@ func (r *EventhubReconciler) createEventhubSecrets(ctx context.Context, secretNa
 		Namespace: instance.Namespace,
 	}
 
-	err := r.SecretClient.Upsert(ctx, key, data)
+	err := r.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(r.Scheme),
+	)
 	if err != nil {
 		return err
-	}
-
-	// attempt to set owner, gracefully fail
-	kSecret := &v1.Secret{}
-	if err := r.Get(ctx, key, kSecret); err == nil {
-		if err := controllerutil.SetControllerReference(instance, kSecret, r.Scheme); err != nil {
-			return err
-		}
-		return r.Update(ctx, kSecret)
 	}
 
 	return nil

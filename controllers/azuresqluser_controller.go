@@ -249,9 +249,14 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	}
 
 	// publish user secret
-	// @todo: figure out owner ref
 	key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	err = r.SecretClient.Upsert(ctx, key, DBSecret)
+	err = r.SecretClient.Upsert(
+		ctx,
+		key,
+		DBSecret,
+		secrets.WithOwner(&instance),
+		secrets.WithScheme(r.Scheme),
+	)
 	if err != nil {
 		return err
 	}
