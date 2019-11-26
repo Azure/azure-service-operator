@@ -183,6 +183,7 @@ var _ = BeforeSuite(func() {
 		Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
 		Scheme:          scheme.Scheme,
 		EventHubManager: eventHubManagers.EventHub,
+		SecretClient:    secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

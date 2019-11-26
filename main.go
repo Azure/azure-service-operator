@@ -131,6 +131,7 @@ func main() {
 		Recorder:        mgr.GetEventRecorderFor("Eventhub-controller"),
 		Scheme:          scheme,
 		EventHubManager: eventhubManagers.EventHub,
+		SecretClient:    secretClient,
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
