@@ -23,6 +23,10 @@ func New(kubeclient client.Client) *KubeSecretClient {
 }
 
 func (k *KubeSecretClient) Create(ctx context.Context, key types.NamespacedName, data map[string][]byte, opts ...secrets.SecretOption) error {
+	options := &secrets.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
 
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
@@ -39,6 +43,12 @@ func (k *KubeSecretClient) Create(ctx context.Context, key types.NamespacedName,
 	}
 
 	secret.Data = data
+
+	if options.Owner != nil && options.Scheme != nil {
+		if err := controllerutil.SetControllerReference(options.Owner, secret, options.Scheme); err != nil {
+			return err
+		}
+	}
 
 	return k.KubeClient.Create(ctx, secret)
 }
