@@ -36,7 +36,6 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -206,8 +205,8 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	// Check to see if secret already exists for admin username/password
 	secret, _ := r.GetOrPrepareSecret(ctx, instance)
 	azureSqlServerProperties := sql.SQLServerProperties{
-		AdministratorLogin:         to.StringPtr(string(secret.Data["username"])),
-		AdministratorLoginPassword: to.StringPtr(string(secret.Data["password"])),
+		AdministratorLogin:         to.StringPtr(string(secret["username"])),
+		AdministratorLoginPassword: to.StringPtr(string(secret["password"])),
 	}
 
 	// create the sql server
@@ -227,7 +226,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// @todo: figure out owner ref for kube secret
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	err = r.SecretClient.Upsert(ctx, key, secret.Data)
+	err = r.SecretClient.Upsert(ctx, key, secret)
 	if err != nil {
 		return err
 	}
@@ -283,24 +282,15 @@ func (r *AzureSqlServerReconciler) deleteExternal(ctx context.Context, instance 
 	return nil
 }
 
-func (r *AzureSqlServerReconciler) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureSqlServer) (*v1.Secret, error) {
+func (r *AzureSqlServerReconciler) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureSqlServer) (map[string][]byte, error) {
 	name := instance.ObjectMeta.Name
 
-	secret := &v1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
-			Namespace: instance.Namespace,
-		},
-		// Needed to avoid nil map error
-		Data: map[string][]byte{},
-		Type: "Opaque",
-	}
+	secret := map[string][]byte{}
 
 	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
 	if stored, err := r.SecretClient.Get(ctx, key); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
-		secret.Data = stored
-		return secret, nil
+		return stored, nil
 	}
 
 	r.Log.Info("secret not found, generating values for new secret")
@@ -315,11 +305,11 @@ func (r *AzureSqlServerReconciler) GetOrPrepareSecret(ctx context.Context, insta
 		return secret, err
 	}
 
-	secret.Data["username"] = []byte(randomUsername)
-	secret.Data["fullyqualifiedusername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
-	secret.Data["password"] = []byte(randomPassword)
-	secret.Data["azuresqlservername"] = []byte(name)
-	secret.Data["fullyqualifiedservername"] = []byte(name + ".database.windows.net")
+	secret["username"] = []byte(randomUsername)
+	secret["fullyqualifiedusername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
+	secret["password"] = []byte(randomPassword)
+	secret["azuresqlservername"] = []byte(name)
+	secret["fullyqualifiedservername"] = []byte(name + ".database.windows.net")
 
 	return secret, nil
 }
