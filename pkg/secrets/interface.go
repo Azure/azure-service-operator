@@ -17,26 +17,32 @@ type SecretClient interface {
 	Get(ctx context.Context, key types.NamespacedName) (map[string][]byte, error)
 }
 
+// Options contains the inputs available for passing to some methods of the secret clients
 type Options struct {
 	Owner  metav1.Object
 	Scheme *runtime.Scheme
 	Expire time.Duration
 }
 
+// SecretOption wraps a function that sets a value in the options struct
 type SecretOption func(*Options)
 
+// WithExpiration can be used to pass an expiration duration
 func WithExpiration(expireAfter time.Duration) SecretOption {
 	return func(op *Options) {
 		op.Expire = expireAfter
 	}
 }
 
+// WithOwner allows setting an owning instance in the options struct
 func WithOwner(owner metav1.Object) SecretOption {
 	return func(op *Options) {
 		op.Owner = owner
 	}
 
 }
+
+// WithScheme allows setting a runtime.Scheme in the options
 func WithScheme(scheme *runtime.Scheme) SecretOption {
 	return func(op *Options) {
 		op.Scheme = scheme
