@@ -332,16 +332,6 @@ func (r *AzureSQLUserReconciler) GetOrPrepareSecret(ctx context.Context, instanc
 	return secret
 }
 
-// Checks if secret exists
-func (r *AzureSQLUserReconciler) SecretExists(instance *azurev1alpha1.AzureSQLUser, secretname string) bool {
-	secret := &v1.Secret{}
-	if err := r.Get(context.Background(), types.NamespacedName{Name: secretname, Namespace: instance.Namespace}, secret); err == nil {
-		return true
-	}
-
-	return false
-}
-
 // SetupWithManager runs reconcile loop with manager
 func (r *AzureSQLUserReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
