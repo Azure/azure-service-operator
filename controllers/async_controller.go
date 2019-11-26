@@ -65,7 +65,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	res, convertErr := meta.Accessor(local)
 	if convertErr != nil {
-		r.Telemetry.LogInfo("ignorable error", "accessor fail")
+		r.Telemetry.LogError("accessor fail", convertErr)
 		return ctrl.Result{}, convertErr
 	}
 
@@ -81,7 +81,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 			found, deleteErr := r.AzureClient.Delete(ctx, local)
 			final := multierror.Append(deleteErr, r.Status().Update(ctx, local))
 			if err := final.ErrorOrNil(); err != nil {
-				r.Telemetry.LogInfo("ignorable error", "error deleting object: "+err.Error())
+				r.Telemetry.LogError("error deleting object", err)
 				r.Recorder.Event(local, corev1.EventTypeWarning, "FailedDelete", fmt.Sprintf("Failed to delete resource: %s", err.Error()))
 				return ctrl.Result{}, err
 			}

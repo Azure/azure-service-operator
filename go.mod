@@ -16,6 +16,7 @@ require (
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/envy v1.7.0
 	github.com/google/gofuzz v1.0.0 // indirect
+	github.com/google/uuid v1.1.1
 	github.com/googleapis/gnostic v0.3.0 // indirect
 	github.com/gophercloud/gophercloud v0.4.0 // indirect
 	github.com/hashicorp/go-multierror v1.0.0
@@ -24,6 +25,7 @@ require (
 	github.com/onsi/gomega v1.7.0
 	github.com/pkg/errors v0.8.1
 	github.com/prometheus/client_golang v0.9.3-0.20190127221311-3c4408c8b829
+	github.com/prometheus/common v0.2.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/sethvargo/go-password v0.1.2
 	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8 // indirect
