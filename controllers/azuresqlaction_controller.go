@@ -190,7 +190,6 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 			r.Recorder.Event(instance, corev1.EventTypeNormal, "Provisioned", "resource request successfully submitted to Azure")
 		}
 
-		// @todo: figure out owner ref for kube secret
 		key := types.NamespacedName{Name: serverName, Namespace: namespace}
 		data, err := r.SecretClient.Get(ctx, key)
 		if err != nil {
@@ -198,7 +197,13 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 		}
 
 		data["password"] = []byte(*azureSqlServerProperties.AdministratorLoginPassword)
-		err = r.SecretClient.Upsert(ctx, key, data)
+		err = r.SecretClient.Upsert(
+			ctx,
+			key,
+			data,
+			secrets.WithOwner(&ownerInstance),
+			secrets.WithScheme(r.Scheme),
+		)
 		if err != nil {
 			return err
 		}
