@@ -228,10 +228,11 @@ func main() {
 	}
 
 	if err = (&controllers.AzureSQLUserReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
-		Recorder: mgr.GetEventRecorderFor("AzureSQLUser-controller"),
-		Scheme:   mgr.GetScheme(),
+		Client:       mgr.GetClient(),
+		Log:          ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
+		Recorder:     mgr.GetEventRecorderFor("AzureSQLUser-controller"),
+		Scheme:       mgr.GetScheme(),
+		SecretClient: secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
 		os.Exit(1)
