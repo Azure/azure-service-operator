@@ -21,4 +21,6 @@ type SqlFailoverGroupManager interface {
 	CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error)
 	DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string) (result autorest.Response, err error)
 	GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error)
+	GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error)
+	GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error)
 }

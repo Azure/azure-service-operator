@@ -1,15 +1,33 @@
+// Copyright (c) Microsoft and contributors.  All rights reserved.
+//
+// This source code is licensed under the MIT license found in the
+// LICENSE file in the root directory of this source tree.
+
 package sqlclient
 
 import (
 	"context"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 )
 
 type AzureSqlFirewallRuleManager struct {
 	Log logr.Logger
+}
+
+// GetServer returns a SQL server
+func (_ *AzureSqlFirewallRuleManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	serversClient := getGoServersClient()
+
+	return serversClient.Get(
+		ctx,
+		resourceGroupName,
+		serverName,
+	)
 }
 
 // GetSQLFirewallRule returns a firewall rule
@@ -25,7 +43,7 @@ func (_ *AzureSqlFirewallRuleManager) GetSQLFirewallRule(ctx context.Context, re
 }
 
 // DeleteSQLFirewallRule deletes a firewall rule
-func (_ *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (err error) {
+func (sdk *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
 	server, err := sdk.GetServer(ctx, resourceGroupName, serverName)
@@ -53,7 +71,7 @@ func (_ *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Context,
 // CreateOrUpdateSQLFirewallRule creates or updates a firewall rule
 // based on code from: https://github.com/Azure-Samples/azure-sdk-for-go-samples/blob/master/sql/sql.go#L111
 // to allow allow Azure services to connect example: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure#manage-firewall-rules-using-azure-cli
-func (_ *AzureSqlFirewallRuleManager) CreateOrUpdateSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, startIP string, endIP string) (result bool, err error) {
+func (sdk *AzureSqlFirewallRuleManager) CreateOrUpdateSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, startIP string, endIP string) (result bool, err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
 	server, err := sdk.GetServer(ctx, resourceGroupName, serverName)
@@ -80,4 +98,13 @@ func (_ *AzureSqlFirewallRuleManager) CreateOrUpdateSQLFirewallRule(ctx context.
 	}
 
 	return result, err
+}
+
+// getGoFirewallClient retrieves a FirewallRulesClient
+func getGoFirewallClient() sql.FirewallRulesClient {
+	firewallClient := sql.NewFirewallRulesClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	firewallClient.Authorizer = a
+	firewallClient.AddToUserAgent(config.UserAgent())
+	return firewallClient
 }

@@ -1,9 +1,47 @@
+// Copyright (c) Microsoft and contributors.  All rights reserved.
+//
+// This source code is licensed under the MIT license found in the
+// LICENSE file in the root directory of this source tree.
+
 package sqlclient
 
-import "github.com/go-logr/logr"
+import (
+	"context"
+	"net/http"
+
+	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/go-logr/logr"
+)
 
 type AzureSqlFailoverGroupManager struct {
 	Log logr.Logger
+}
+
+// GetServer returns a SQL server
+func (_ *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	serversClient := getGoServersClient()
+
+	return serversClient.Get(
+		ctx,
+		resourceGroupName,
+		serverName,
+	)
+}
+
+// GetDB retrieves a database
+func (_ *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
+	dbClient := getGoDbClient()
+
+	return dbClient.Get(
+		ctx,
+		resourceGroupName,
+		serverName,
+		databaseName,
+		"serviceTierAdvisors, transparentDataEncryption",
+	)
 }
 
 // GetFailoverGroup retrieves a failover group
@@ -19,7 +57,7 @@ func (_ *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, res
 }
 
 // DeleteFailoverGroup deletes a failover group
-func (_ *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string) (result autorest.Response, err error) {
+func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string) (result autorest.Response, err error) {
 
 	result = autorest.Response{
 		Response: &http.Response{
@@ -51,7 +89,7 @@ func (_ *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, 
 }
 
 // CreateOrUpdateFailoverGroup creates a failover group
-func (_ *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
 	failoverGroupsClient := getGoFailoverGroupsClient()
 
 	// Construct a PartnerInfo object from the server name
@@ -101,4 +139,13 @@ func (_ *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.C
 		serverName,
 		failovergroupname,
 		failoverGroup)
+}
+
+// getGoFailoverGroupsClient retrieves a FailoverGroupsClient
+func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
+	failoverGroupsClient := sql.NewFailoverGroupsClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	failoverGroupsClient.Authorizer = a
+	failoverGroupsClient.AddToUserAgent(config.UserAgent())
+	return failoverGroupsClient
 }
