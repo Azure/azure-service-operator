@@ -40,7 +40,6 @@ import (
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
-	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
