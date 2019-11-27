@@ -222,7 +222,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
 		os.Exit(1)
 	}
-  
+
 	if err = (&controllers.AzureSQLUserReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
