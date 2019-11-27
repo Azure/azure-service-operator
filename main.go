@@ -39,8 +39,6 @@ import (
 	// +kubebuilder:scaffold:imports
 )
 
-const NameAzureSQLFirewallRuleOperator = "AzureSQLFirewallRuleOperator"
-
 var (
 	masterURL, kubeconfig, resources, clusterName               string
 	cloudName, tenantID, subscriptionID, clientID, clientSecret string
@@ -84,7 +82,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
+	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
@@ -138,8 +136,11 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: resourceGroupManager,
-			Log:         ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-			Recorder:    mgr.GetEventRecorderFor("ResourceGroup-controller"),
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+				"ResourceGroup",
+			),
+			Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -202,8 +203,8 @@ func main() {
 	if err = (&controllers.AzureSqlFirewallRuleReconciler{
 		Client: mgr.GetClient(),
 		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName(NameAzureSQLFirewallRuleOperator),
-			NameAzureSQLFirewallRuleOperator,
+			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+			"AzureSQLFirewallRuleOperator",
 		),
 		Recorder:       mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
 		Scheme:         mgr.GetScheme(),
