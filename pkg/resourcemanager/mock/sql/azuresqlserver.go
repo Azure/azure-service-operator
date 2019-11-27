@@ -6,7 +6,12 @@
 package sqlclient
 
 import (
+	"context"
+
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	"github.com/Azure/go-autorest/autorest/to"
 )
 
 type MockSqlServerManager struct {
@@ -22,8 +27,8 @@ func findSqlServer(res []sql.Server, predicate func(sql.Server) bool) (int, sql.
 	return -1, sql.Server{}
 }
 
-func (manager *MockSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLServerProperties) (result sql.Server, err error) {
-		index, _ := findSqlServer(manager.sqlServers, func(s sql.Servers) bool {
+func (manager *MockSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties sqlclient.SQLServerProperties) (result sql.Server, err error) {
+	index, _ := findSqlServer(manager.sqlServers, func(s sql.Server) bool {
 		return *s.Name == serverName
 	})
 
@@ -31,12 +36,12 @@ func (manager *MockSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context
 		Response: helpers.GetRestResponse(201),
 		Location: to.StringPtr(location),
 		Name:     to.StringPtr(serverName),
-		// todo: add resourcegroup 
+		// todo: add resourcegroup
 	}
 
 	if index == -1 {
 		manager.sqlServers = append(manager.sqlServers, q)
 	}
 
-	return r, nil
+	return q, nil
 }

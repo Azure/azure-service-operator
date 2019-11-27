@@ -169,6 +169,7 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
+		//todo: add other mocks here
 		timeout = time.Second * 60
 	}
 
@@ -257,6 +258,15 @@ var _ = BeforeSuite(func() {
 		Recorder:            k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
 		Scheme:              scheme.Scheme,
 		AzureSqlUserManager: sqlUserManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlActionReconciler{
+		Client:                k8sManager.GetClient(),
+		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
+		Recorder:              k8sManager.GetEventRecorderFor("AzureSqlAction-controller"),
+		Scheme:                scheme.Scheme,
+		AzureSqlServerManager: sqlServerManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

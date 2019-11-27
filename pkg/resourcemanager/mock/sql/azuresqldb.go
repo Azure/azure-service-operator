@@ -9,6 +9,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 )
 
-type MockSqlDstruct {
+type MockSqlDb struct {
 	sqlDbs []sql.Database
 }
