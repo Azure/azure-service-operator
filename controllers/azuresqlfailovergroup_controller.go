@@ -43,7 +43,7 @@ type AzureSqlFailoverGroupReconciler struct {
 	Log                          logr.Logger
 	Recorder                     record.EventRecorder
 	Scheme                       *runtime.Scheme
-	AzureSqlFailoverGroupManager sql.AzureSqlFailoverGroupManager
+	AzureSqlFailoverGroupManager sql.SqlFailoverGroupManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfailovergroups,verbs=get;list;watch;create;update;patch;delete

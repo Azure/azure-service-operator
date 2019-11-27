@@ -43,7 +43,7 @@ type AzureSqlFirewallRuleReconciler struct {
 	Telemetry                   telemetry.PrometheusTelemetry
 	Recorder                    record.EventRecorder
 	Scheme                      *runtime.Scheme
-	AzureSqlFirewallRuleManager sql.AzureSqlServerManager
+	AzureSqlFirewallRuleManager sql.SqlFirewallRuleManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfirewallrules,verbs=get;list;watch;create;update;patch;delete

@@ -39,8 +39,6 @@ import (
 
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 
-	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
-
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -148,21 +146,29 @@ var _ = BeforeSuite(func() {
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
-	var resourceClient resourcemanagersql.ResourceClient
+	var sqlServerManager resourcemanagersql.SqlServerManager
+	var sqlDbManager resourcemanagersql.SqlDbManager
+	var sqlFirewallRuleManager resourcemanagersql.SqlFirewallRuleManager
+	var sqlFailoverGroupManager resourcemanagersql.SqlFailoverGroupManager
+	var sqlUserManager resourcemanagersql.SqlUserManager
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
-		resourceClient = &resourcemanagersql.GoSDKClient{}
+		sqlServerManager = resourcemanagersql.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
+		sqlDbManager = resourcemanagersql.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
+		sqlFirewallRuleManager = resourcemanagersql.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+		sqlFailoverGroupManager = resourcemanagersql.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+		sqlUserManager = resourcemanagersql.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
+
 		timeout = time.Second * 900
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		resourceClient = &resourcemanagersqlmock.MockGoSDKClient{}
 		timeout = time.Second * 60
 	}
 
@@ -210,20 +216,47 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlServerReconciler{
-		Client:         k8sManager.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
-		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
-		Scheme:         scheme.Scheme,
-		ResourceClient: resourceClient,
+		Client:                k8sManager.GetClient(),
+		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+		Recorder:              k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
+		Scheme:                scheme.Scheme,
+		AzureSqlServerManager: sqlServerManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlDatabaseReconciler{
-		Client:         k8sManager.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
-		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlDatabase-controller"),
-		Scheme:         scheme.Scheme,
-		ResourceClient: resourceClient,
+		Client:            k8sManager.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
+		Recorder:          k8sManager.GetEventRecorderFor("AzureSqlDatabase-controller"),
+		Scheme:            scheme.Scheme,
+		AzureSqlDbManager: sqlDbManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlFirewallRuleReconciler{
+		Client: k8sManager.GetClient(),
+		// todo: telem
+		Recorder:                    k8sManager.GetEventRecorderFor("AzureSqlFirewallRule-controller"),
+		Scheme:                      scheme.Scheme,
+		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlFailoverGroupReconciler{
+		Client:                       k8sManager.GetClient(),
+		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+		Scheme:                       scheme.Scheme,
+		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSQLUserReconciler{
+		Client:              k8sManager.GetClient(),
+		Log:                 ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
+		Recorder:            k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
+		Scheme:              scheme.Scheme,
+		AzureSqlUserManager: sqlUserManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
