@@ -44,6 +44,17 @@ test-existing: generate fmt vet manifests
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
 
+# Cleanup resource groups azure created by tests using pattern matching 't-rg-'
+test-cleanup-azure-resources: 
+	az account set -s ${AZURE_SUBSCRIPTION_ID}
+	
+	# Delete the resource groups that match the pattern
+	for rgname in `az group list --query "[*].[name]" -o table | grep '^t-rg-' `; do \
+	    echo "$$rgname will be deleted"; \
+	    az group delete --name $$rgname --no-wait --yes; \
+    done
+	
+
 # Build manager binary
 manager: generate fmt vet
 	go build -o bin/manager main.go
@@ -214,6 +225,9 @@ install-cert-manager:
 	kubectl create namespace cert-manager
 	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+
+install-aad-pod-identity:
+	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
 install-test-dependency:
 	go get -u github.com/jstemmer/go-junit-report \

@@ -18,8 +18,8 @@ package controllers
 import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
-	"github.com/go-logr/logr"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -28,7 +28,7 @@ import (
 // ResourceGroupReconciler reconciles a ResourceGroup object
 type ResourceGroupReconciler struct {
 	client.Client
-	Log                  logr.Logger
+	Telemetry            telemetry.PrometheusTelemetry
 	Recorder             record.EventRecorder
 	Reconciler           *AsyncReconciler
 	ResourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager

@@ -63,6 +63,8 @@ var _ = Describe("ConsumerGroup", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete consumer groups in azure", func() {
 
+			defer GinkgoRecover()
+
 			consumerGroupName := "t-cg-" + helpers.RandomString(10)
 
 			var err error

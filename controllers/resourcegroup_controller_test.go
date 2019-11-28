@@ -35,6 +35,8 @@ var _ = Describe("ResourceGroup Controller", func() {
 		It("should create and delete resource group instances", func() {
 			resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
 
+			defer GinkgoRecover()
+
 			var err error
 
 			// Create the ResourceGroup object and expect the Reconcile to be created
