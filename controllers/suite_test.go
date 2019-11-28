@@ -240,9 +240,9 @@ var _ = BeforeSuite(func() {
 		Client:         k8sManager.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
 		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-    Scheme:         scheme.Scheme,
+		Scheme:         scheme.Scheme,
 		ResourceClient: resourceClient,
-    }).SetupWithManager(k8sManager)
+	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlFirewallRuleReconciler{
