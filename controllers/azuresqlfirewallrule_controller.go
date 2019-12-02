@@ -23,6 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -86,7 +87,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, azureSQLFirewallRuleFinalizerName) {
-			if err = r.deleteExternal(&instance); err != nil {
+			if err = r.deleteExternal(ctx, &instance); err != nil {
 				instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule failed with %s", err.Error())
 				return ctrl.Result{}, err
 			}
@@ -108,10 +109,10 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation for AzureSqlFirewallRule")
-		if err := r.reconcileExternal(&instance); err != nil {
+		if err := r.reconcileExternal(ctx, &instance); err != nil {
 			instance.Status.Message = fmt.Sprintf("Reconcile external failed with %s", err.Error())
 			r.Telemetry.LogError("Reconcile external failed", err)
-			return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+			return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
 		}
 		return ctrl.Result{}, nil
 	}
@@ -128,8 +129,7 @@ func (r *AzureSqlFirewallRuleReconciler) SetupWithManager(mgr ctrl.Manager) erro
 		Complete(r)
 }
 
-func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlFirewallRule) error {
-	ctx := context.Background()
+func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(ctx context.Context, instance *azurev1alpha1.AzureSqlFirewallRule) error {
 	groupName := instance.Spec.ResourceGroup
 	serverName := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
@@ -138,7 +138,8 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 
 	r.Telemetry.LogTrace(
 		"Status",
-		"Calling CreateOrUpdate Azure SQL firewall rule")
+		"Calling CreateOrUpdate Azure SQL firewall rule",
+	)
 
 	//get owner instance of AzureSqlServer
 	r.Recorder.Event(instance, v1.EventTypeNormal, "UpdatingOwner", "Updating owner AzureSqlServer instance")
@@ -147,23 +148,19 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 	err := r.Get(ctx, azureSQLServerNamespacedName, &ownerInstance)
 	if err != nil {
 		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
-		msg := "Unable to get owner instance of AzureSqlServer"
-		instance.Status.Message = msg
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
+		instance.Status.Message = "Unable to get owner instance of AzureSqlServer"
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
 	} else {
-		msg := "Got owner instance of Sql Server and assigning controller reference now"
-		instance.Status.Message = msg
-		r.Recorder.Event(instance, v1.EventTypeNormal, "OwnerAssign", msg)
+		instance.Status.Message = "Got owner instance of Sql Server and assigning controller reference now"
+		r.Recorder.Event(instance, v1.EventTypeNormal, "OwnerAssign", instance.Status.Message)
 
 		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
 		if innerErr != nil {
-			msg := "Unable to set controller reference to AzureSqlServer"
-			instance.Status.Message = msg
-			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
+			instance.Status.Message = "Unable to set controller reference to AzureSqlServer"
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
 		}
-		successmsg := "Owner instance assigned successfully"
-		instance.Status.Message = successmsg
-		r.Recorder.Event(instance, v1.EventTypeNormal, "OwnerAssign", successmsg)
+		instance.Status.Message = "Owner instance assigned successfully"
+		r.Recorder.Event(instance, v1.EventTypeNormal, "OwnerAssign", instance.Status.Message)
 	}
 
 	// write information back to instance
@@ -176,47 +173,51 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(instance *azurev1alph
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Telemetry.LogInfo(
 				"IgnorableError",
-				"Async operation not complete or group not found")
+				"Async operation not complete or group not found",
+			)
 			instance.Status.Provisioning = true
 		}
 
-		return errhelp.NewAzureError(err)
+		return err
 	}
 
 	_, err = r.ResourceClient.GetSQLFirewallRule(ctx, groupName, serverName, ruleName)
 	if err != nil {
-		return errhelp.NewAzureError(err)
+		return err
 	}
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
+	if err = r.Status().Update(ctx, instance); err != nil {
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
+	}
+
 	return nil
 }
 
-func (r *AzureSqlFirewallRuleReconciler) deleteExternal(instance *azurev1alpha1.AzureSqlFirewallRule) error {
-	ctx := context.Background()
+func (r *AzureSqlFirewallRuleReconciler) deleteExternal(ctx context.Context, instance *azurev1alpha1.AzureSqlFirewallRule) error {
 	groupName := instance.Spec.ResourceGroup
 	serverName := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
 
 	r.Telemetry.LogTrace(
 		"Status",
-		fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s", groupName, serverName, ruleName))
+		fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s", groupName, serverName, ruleName),
+	)
+
 	err := r.ResourceClient.DeleteSQLFirewallRule(ctx, groupName, serverName, ruleName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
 			return nil
 		}
-		msg := "Couldn't delete resouce in azure"
-		instance.Status.Message = msg
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
+		instance.Status.Message = "Couldn't delete resouce in azure"
+		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
 		return err
 	}
-	msg := fmt.Sprintf("Deleted %s", ruleName)
-	instance.Status.Message = msg
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", msg)
+	instance.Status.Message = fmt.Sprintf("Deleted %s", ruleName)
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", instance.Status.Message)
 
 	return nil
 }

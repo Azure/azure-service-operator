@@ -40,6 +40,8 @@ import (
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
 
@@ -158,7 +160,7 @@ var _ = BeforeSuite(func() {
 	var resourceClient resourcemanagersql.ResourceClient
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
-		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
+		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
@@ -194,8 +196,11 @@ var _ = BeforeSuite(func() {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: resourceGroupManager,
-			Log:         ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-			Recorder:    k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+				"ResourceGroup",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
 		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
@@ -234,6 +239,28 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+
+	err = (&AzureSqlFailoverGroupReconciler{
+		Client:         k8sManager.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+    Scheme:         scheme.Scheme,
+		ResourceClient: resourceClient,
+    }).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlFirewallRuleReconciler{
+		Client: k8sManager.GetClient(),
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+			"AzureSQLFirewallRuleOperator",
+		),
+		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFirewall-controller"),
+		Scheme:         scheme.Scheme,
+		ResourceClient: resourceClient,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+  
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())

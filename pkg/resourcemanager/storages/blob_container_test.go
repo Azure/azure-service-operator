@@ -57,6 +57,7 @@ var _ = Describe("Blob Container", func() {
 		It("should create and delete blob container in azure", func() {
 
 			var err error
+			defer GinkgoRecover()
 
 			containerName := "t-dev-bc-" + helpers.RandomString(10)
 

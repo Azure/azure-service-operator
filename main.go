@@ -4,7 +4,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+		http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,8 +38,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	// +kubebuilder:scaffold:imports
 )
-
-const NameAzureSQLFirewallRuleOperator = "AzureSQLFirewallRuleOperator"
 
 var (
 	masterURL, kubeconfig, resources, clusterName               string
@@ -84,7 +82,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
+	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
@@ -118,7 +116,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = resourcemanagerconfig.LoadSettings()
+	err = resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
 		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
 	}
@@ -138,8 +136,11 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: resourceGroupManager,
-			Log:         ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-			Recorder:    mgr.GetEventRecorderFor("ResourceGroup-controller"),
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+				"ResourceGroup",
+			),
+			Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -202,8 +203,8 @@ func main() {
 	if err = (&controllers.AzureSqlFirewallRuleReconciler{
 		Client: mgr.GetClient(),
 		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName(NameAzureSQLFirewallRuleOperator),
-			NameAzureSQLFirewallRuleOperator,
+			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+			"AzureSQLFirewallRuleOperator",
 		),
 		Recorder:       mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
 		Scheme:         mgr.GetScheme(),
