@@ -60,6 +60,8 @@ var _ = Describe("Eventhub", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete hubs in azure", func() {
 
+			defer GinkgoRecover()
+
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 			messageRetentionInDays := int32(7)
 			partitionCount := int32(2)
