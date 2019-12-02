@@ -54,6 +54,7 @@ var _ = Describe("AzureSqlServer Controller", func() {
 		It("should create and delete sql server in k8s", func() {
 			sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
 
+			defer GinkgoRecover()
 			var err error
 
 			// Create the SqlServer object and expect the Reconcile to be created

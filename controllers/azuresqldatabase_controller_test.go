@@ -101,6 +101,7 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete sql database in k8s", func() {
 
+			defer GinkgoRecover()
 			randomName := helpers.RandomString(10)
 			sqlDatabaseName := "t-sqldatabase-dev-" + randomName
 
