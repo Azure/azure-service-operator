@@ -148,7 +148,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 						// This means that the Server exists elsewhere and we should
 						// terminate the reconcile loop
 						instance.Status.Message = "Server Already exists"
-						log.Info("In return of already exists loop")
+						instance.Status.Provisioning = false
 						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
 						return ctrl.Result{Requeue: false}, nil
 					}
