@@ -29,6 +29,8 @@ import (
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+	kvSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -65,6 +67,7 @@ func init() {
 func main() {
 	var metricsAddr string
 	var enableLeaderElection bool
+	var secretClient secrets.SecretClient
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
@@ -88,7 +91,11 @@ func main() {
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 	resourceClient := resourcemanagersql.GoSDKClient{}
-	secretClient := k8sSecrets.New(mgr.GetClient())
+	if os.Getenv("KEYVNAME_FOR_SECRETS") == "" {
+		secretClient = k8sSecrets.New(mgr.GetClient())
+	} else {
+		secretClient = kvSecrets.New(os.Getenv("KEYVNAME_FOR_SECRETS"))
+	}
 
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
