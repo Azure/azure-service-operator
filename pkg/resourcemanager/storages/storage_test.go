@@ -50,6 +50,8 @@ var _ = Describe("Storage Account", func() {
 	Context("Create and Delete Storage Accounts", func() {
 		It("should create and delete storage account in azure", func() {
 
+			defer GinkgoRecover()
+
 			storageAccountName := "tdevsa" + helpers.RandomString(10)
 			storageLocation := config.DefaultLocation()
 			storageManagers := tc.StorageManagers

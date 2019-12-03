@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"context"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
@@ -56,6 +57,8 @@ var _ = Describe("EventHub Controller", func() {
 	Context("Create and Delete", func() {
 		It("should fail to create eventhub if eventhubnamespace doesn't exist", func() {
 
+			defer GinkgoRecover()
+
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			// Create the EventHub object and expect the Reconcile to be created
@@ -89,6 +92,7 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete eventhubs", func() {
 
+			defer GinkgoRecover()
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
@@ -177,6 +181,7 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete eventhubs with custom secret name", func() {
 
+			defer GinkgoRecover()
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 			secretName := "secret-" + eventhubName
 
@@ -272,6 +277,7 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete event hubs with capture", func() {
 
+			defer GinkgoRecover()
 			eventHubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
