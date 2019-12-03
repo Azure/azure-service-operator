@@ -3,45 +3,90 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package sqlclient
+package sql
 
 import (
 	"context"
+	"errors"
+	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	sqlclient "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	"github.com/Azure/go-autorest/autorest/to"
+
+	"github.com/Azure/go-autorest/autorest"
 )
 
 type MockSqlServerManager struct {
-	sqlServers []sql.Server
+	resourceGroupName string
+	sqlServers        []MockSqlServerResource
 }
 
-func findSqlServer(res []sql.Server, predicate func(sql.Server) bool) (int, sql.Server) {
+type MockSqlServerResource struct {
+	resourceGroupName string
+	sqlServer         sql.Server
+}
+
+func findSqlServer(res []MockSqlServerResource, predicate func(MockSqlServerResource) bool) (int, MockSqlServerResource) {
 	for index, r := range res {
 		if predicate(r) {
 			return index, r
 		}
 	}
-	return -1, sql.Server{}
+	return -1, MockSqlServerResource{}
 }
 
+// CreateOrUpdateSqlServer creates a new sql server
 func (manager *MockSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties sqlclient.SQLServerProperties) (result sql.Server, err error) {
-	index, _ := findSqlServer(manager.sqlServers, func(s sql.Server) bool {
-		return *s.Name == serverName
+	index, _ := findSqlServer(manager.sqlServers, func(s MockSqlServerResource) bool {
+		return s.resourceGroupName == resourceGroupName && *s.sqlServer.Name == serverName
 	})
 
-	q := sql.Server{
+	sqlS := sql.Server{
 		Response: helpers.GetRestResponse(201),
 		Location: to.StringPtr(location),
 		Name:     to.StringPtr(serverName),
-		// todo: add resourcegroup
+	}
+
+	q := MockSqlServerResource{
+		resourceGroupName: resourceGroupName,
+		sqlServer:         sqlS,
 	}
 
 	if index == -1 {
 		manager.sqlServers = append(manager.sqlServers, q)
 	}
 
-	return q, nil
+	return q.sqlServer, nil
+}
+
+// DeleteSQLServer removes the sqlserver
+func (manager *MockSqlServerManager) DeleteSQLServer(ctx context.Context, resourceGroupName string, serverName string) (result autorest.Response, err error) {
+	sqlServers := manager.sqlServers
+
+	index, _ := findSqlServer(sqlServers, func(s MockSqlServerResource) bool {
+		return s.resourceGroupName == resourceGroupName && *s.sqlServer.Name == serverName
+	})
+
+	if index == -1 {
+		return helpers.GetRestResponse(http.StatusNotFound), errors.New("Sql Server Not Found")
+	}
+
+	manager.sqlServers = append(sqlServers[:index], sqlServers[index+1:]...)
+
+	return helpers.GetRestResponse(http.StatusOK), nil
+}
+
+// GetServer gets a sql server
+func (manager *MockSqlServerManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	index, _ := findSqlServer(manager.sqlServers, func(s MockSqlServerResource) bool {
+		return s.resourceGroupName == resourceGroupName && *s.sqlServer.Name == serverName
+	})
+
+	if index == -1 {
+		return sql.Server{}, errors.New("Sql Server Not Found")
+	}
+
+	return manager.sqlServers[index].sqlServer, nil
 }
