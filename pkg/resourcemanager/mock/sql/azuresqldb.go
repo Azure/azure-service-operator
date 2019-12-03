@@ -29,10 +29,6 @@ type MockSqlDbResource struct {
 	sqlDb             sql.Database
 }
 
-// DeleteDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result autorest.Response, err error)
-// GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error)
-// GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error)
-
 func findSqlDb(res []MockSqlDbResource, predicate func(MockSqlDbResource) bool) (int, MockSqlDbResource) {
 	for index, r := range res {
 		if predicate(r) {
