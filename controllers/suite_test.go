@@ -152,6 +152,7 @@ var _ = BeforeSuite(func() {
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	var resourceClient resourcemanagersql.ResourceClient
 	secretClient := k8sSecrets.New(k8sManager.GetClient())
+	var eventhubNamespaceClient resourcemanagereventhub.EventHubNamespaceManager
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
@@ -159,6 +160,8 @@ var _ = BeforeSuite(func() {
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
 		resourceClient = &resourcemanagersql.GoSDKClient{}
+		eventhubNamespaceClient = resourcemanagereventhubmock.NewMockEventHubNamespaceClient()
+
 		timeout = time.Second * 900
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
@@ -166,9 +169,9 @@ var _ = BeforeSuite(func() {
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
 		resourceClient = &resourcemanagersqlmock.MockGoSDKClient{}
+		eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 		timeout = time.Second * 60
 	}
-	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 
 	err = (&KeyVaultReconciler{
 		Client:          k8sManager.GetClient(),
