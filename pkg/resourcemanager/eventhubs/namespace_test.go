@@ -50,6 +50,8 @@ var _ = Describe("Namespace", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete namespace in azure", func() {
 
+			defer GinkgoRecover()
+
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 			namespaceLocation := tc.ResourceGroupLocation
 

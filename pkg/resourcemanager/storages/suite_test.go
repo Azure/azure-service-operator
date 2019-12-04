@@ -20,7 +20,6 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	ctrl "sigs.k8s.io/controller-runtime"
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
@@ -69,7 +68,7 @@ var _ = BeforeSuite(func() {
 
 	resourcemanagerconfig.ParseEnvironment()
 
-	ressourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
+	ressourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	tc = TestContext{
 		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
 		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
@@ -88,5 +87,5 @@ var _ = AfterSuite(func() {
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
-	_, _ = tc.ResourceGroupManager.DeleteGroupAsync(context.Background(), tc.ResourceGroupName)
+	_, _ = tc.ResourceGroupManager.DeleteGroup(context.Background(), tc.ResourceGroupName)
 })
