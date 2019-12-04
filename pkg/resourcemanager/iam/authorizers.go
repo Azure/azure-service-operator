@@ -7,6 +7,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
+	autorestPatch "github.com/Azure/azure-service-operator/pkg/resourcemanager/autorest"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/adal"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
@@ -16,6 +17,7 @@ var (
 	armAuthorizer      autorest.Authorizer
 	batchAuthorizer    autorest.Authorizer
 	graphAuthorizer    autorest.Authorizer
+	groupsAuthorizer   autorest.Authorizer
 	keyvaultAuthorizer autorest.Authorizer
 )
 
@@ -27,12 +29,17 @@ const (
 	OAuthGrantTypeServicePrincipal OAuthGrantType = iota
 	// OAuthGrantTypeDeviceFlow for device flow
 	OAuthGrantTypeDeviceFlow
+	// OAuthGrantTypeMI for aad-pod-identity
+	OAuthGrantTypeMI
 )
 
 // GrantType returns what grant type has been configured.
 func grantType() OAuthGrantType {
 	if config.UseDeviceFlow() {
 		return OAuthGrantTypeDeviceFlow
+	}
+	if config.UseMI() {
+		return OAuthGrantTypeMI
 	}
 	return OAuthGrantTypeServicePrincipal
 }
@@ -46,8 +53,7 @@ func GetResourceManagementAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	a, err = getAuthorizerForResource(
-		grantType(), config.Environment().ResourceManagerEndpoint)
+	a, err = getAuthorizerForResource(config.Environment().ResourceManagerEndpoint)
 
 	if err == nil {
 		// cache
@@ -68,8 +74,7 @@ func GetBatchAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	a, err = getAuthorizerForResource(
-		grantType(), config.Environment().BatchManagementEndpoint)
+	a, err = getAuthorizerForResource(config.Environment().BatchManagementEndpoint)
 
 	if err == nil {
 		// cache
@@ -91,7 +96,7 @@ func GetGraphAuthorizer() (autorest.Authorizer, error) {
 	var a autorest.Authorizer
 	var err error
 
-	a, err = getAuthorizerForResource(grantType(), config.Environment().GraphEndpoint)
+	a, err = getAuthorizerForResource(config.Environment().GraphEndpoint)
 
 	if err == nil {
 		// cache
@@ -101,6 +106,27 @@ func GetGraphAuthorizer() (autorest.Authorizer, error) {
 	}
 
 	return graphAuthorizer, err
+}
+
+// GetGroupsAuthorizer gets an OAuthTokenAuthorizer for resource group API.
+func GetGroupsAuthorizer() (autorest.Authorizer, error) {
+	if groupsAuthorizer != nil {
+		return groupsAuthorizer, nil
+	}
+
+	var a autorest.Authorizer
+	var err error
+
+	a, err = getAuthorizerForResource(config.Environment().TokenAudience)
+
+	if err == nil {
+		// cache
+		groupsAuthorizer = a
+	} else {
+		groupsAuthorizer = nil
+	}
+
+	return groupsAuthorizer, err
 }
 
 // GetKeyvaultAuthorizer gets an OAuthTokenAuthorizer for use with Key Vault
@@ -137,6 +163,19 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 
 		a = autorest.NewBearerAuthorizer(token)
 
+	case OAuthGrantTypeMI:
+		MIEndpoint, err := adal.GetMSIVMEndpoint()
+		if err != nil {
+			return nil, err
+		}
+
+		token, err := adal.NewServicePrincipalTokenFromMSI(MIEndpoint, vaultEndpoint)
+		if err != nil {
+			return nil, err
+		}
+
+		a = autorest.NewBearerAuthorizer(token)
+
 	case OAuthGrantTypeDeviceFlow:
 		deviceConfig := auth.NewDeviceFlowConfig(config.ClientID(), config.TenantID())
 		deviceConfig.Resource = vaultEndpoint
@@ -155,13 +194,12 @@ func GetKeyvaultAuthorizer() (autorest.Authorizer, error) {
 	return keyvaultAuthorizer, err
 }
 
-func getAuthorizerForResource(grantType OAuthGrantType, resource string) (autorest.Authorizer, error) {
+func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 
 	var a autorest.Authorizer
 	var err error
 
-	switch grantType {
-
+	switch grantType() {
 	case OAuthGrantTypeServicePrincipal:
 		oauthConfig, err := adal.NewOAuthConfig(
 			config.Environment().ActiveDirectoryEndpoint, config.TenantID())
@@ -174,6 +212,19 @@ func getAuthorizerForResource(grantType OAuthGrantType, resource string) (autore
 		if err != nil {
 			return nil, err
 		}
+		a = autorest.NewBearerAuthorizer(token)
+
+	case OAuthGrantTypeMI:
+		MIEndpoint, err := adal.GetMSIVMEndpoint()
+		if err != nil {
+			return nil, err
+		}
+
+		token, err := adal.NewServicePrincipalTokenFromMSI(MIEndpoint, resource)
+		if err != nil {
+			return nil, err
+		}
+
 		a = autorest.NewBearerAuthorizer(token)
 
 	case OAuthGrantTypeDeviceFlow:
@@ -202,4 +253,14 @@ func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience str
 		tokenAudience)
 
 	return tokenProvider, err
+}
+
+// GetSharedKeyAuthorizer gets the shared key authorizer needed for adlsgen2. Pulls in from a patch from an incoming PR to the azure autorest sdk.
+// Once that PR is merged in, we can change line 214 from autorestPatch. to autorest.
+func GetSharedKeyAuthorizer(accountName string, accountKey string) (authorizer autorest.Authorizer, err error) {
+	var a autorest.Authorizer
+
+	a = autorestPatch.NewSharedKeyAuthorizer(accountName, accountKey)
+
+	return a, err
 }

@@ -19,9 +19,11 @@ package storages
 type StorageManagers struct {
 	Storage       StorageManager
 	BlobContainer BlobContainerManager
+	FileSystem    FileSystemManager
 }
 
 var AzureStorageManagers = StorageManagers{
 	Storage:       &azureStorageManager{},
 	BlobContainer: &azureBlobContainerManager{},
+	FileSystem:    &azureFileSystemManager{},
 }

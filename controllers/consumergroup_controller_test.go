@@ -54,6 +54,8 @@ var _ = Describe("ConsumerGroup Controller", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete consumer groups", func() {
 
+			defer GinkgoRecover()
+
 			consumerGroupName := "t-cg-" + helpers.RandomString(10)
 			azureConsumerGroupName := consumerGroupName + "-azure"
 
