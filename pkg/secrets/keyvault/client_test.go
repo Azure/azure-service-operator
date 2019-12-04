@@ -18,7 +18,6 @@ package keyvault
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 
 	. "github.com/onsi/ginkgo"
@@ -60,17 +59,17 @@ var _ = Describe("Keyvault Secrets Client", func() {
 
 			Context("creating secret with KeyVault client", func() {
 				err = client.Create(ctx, key, data)
-				fmt.Println(err)
-				//Expect(err).To(BeNil())
+				Expect(err).To(BeNil())
 			})
 
-			Context("ensuring secret exists using k8s client", func() {
+			Context("ensuring secret exists using keyvault client", func() {
 
 				d, err := client.Get(ctx, key)
-				//Expect(err).To(BeNil())
-				fmt.Println(err)
+				Expect(err).To(BeNil())
 
 				for k, v := range d {
+					//fmt.Println(k)
+					//fmt.Println(string(v))
 					Expect(data[k]).To(Equal(v))
 				}
 			})

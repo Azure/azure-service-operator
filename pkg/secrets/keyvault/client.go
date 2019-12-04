@@ -4,11 +4,12 @@ import (
 	"context"
 	"fmt"
 
+	"encoding/json"
+
 	keyvaults "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest/date"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -38,32 +39,32 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 	}
 
 	vaultBaseURL := "https://" + k.KeyVaultName + ".vault.azure.net"
-	keyName := key.Namespace + "-" + key.Name
-	keyVersion := "1.0"
+	secretName := key.Namespace + "-" + key.Name
+	secretVersion := ""
 	enabled := true
-	expireDateUTC := date.NewUnixTimeFromDuration(options.Expires)
+	//expireDateUTC := date.NewUnixTimeFromDuration(options.Expires)
 
-	// Convert the data from byte array to string
-	stringmap := make(map[string]*string)
-	for k, v := range data {
-		str := string(v)
-		stringmap[k] = &str
+	// Convert the map into a string as that's what a KeyVault secret takes
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		fmt.Println("Marshaling error " + err.Error())
+		return err
 	}
+	stringSecret := string(jsonData)
 
-	// Initialize the keyvault parameters
-	parameters := keyvaults.KeyCreateParameters{
-		KeyAttributes: &keyvaults.KeyAttributes{
+	// Initialize secret parameters
+	secretParams := keyvaults.SecretSetParameters{
+		Value: &stringSecret,
+		SecretAttributes: &keyvaults.SecretAttributes{
 			Enabled: &enabled,
-			Expires: &expireDateUTC,
 		},
-		Tags: stringmap,
 	}
 
-	if _, err := k.KeyVaultClient.GetKey(ctx, vaultBaseURL, keyName, keyVersion); err == nil {
-		return fmt.Errorf("secret already exists")
+	if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+		return fmt.Errorf("secret already exists" + err.Error())
 	}
 
-	_, err := k.KeyVaultClient.CreateKey(ctx, vaultBaseURL, keyName, parameters)
+	_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
 
 	return err
 
@@ -82,22 +83,20 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 // Get gets a key from KeyVault
 func (k *KeyvaultSecretClient) Get(ctx context.Context, key types.NamespacedName) (map[string][]byte, error) {
 	vaultBaseURL := "https://" + k.KeyVaultName + ".vault.azure.net"
-	keyName := key.Namespace + "-" + key.Name
-	keyVersion := "1.0"
+	secretName := key.Namespace + "-" + key.Name
+	secretVersion := ""
 	data := map[string][]byte{}
 
-	result, err := k.KeyVaultClient.GetKey(ctx, vaultBaseURL, keyName, keyVersion)
+	result, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion)
 
 	if err != nil {
-		return data, fmt.Errorf("secret does not exist")
+		return data, fmt.Errorf("secret does not exist" + err.Error())
 	}
 
-	kvmap := result.Tags
+	stringSecret := *result.Value
 
-	// Convert the data from string to byte array
-	for k, v := range kvmap {
-		data[k] = []byte(*v)
-	}
+	// Convert the data from json string to map and return
+	json.Unmarshal([]byte(stringSecret), &data)
 
 	return data, err
 }
