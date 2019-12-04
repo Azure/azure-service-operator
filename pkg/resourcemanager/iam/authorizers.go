@@ -7,6 +7,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
+	autorestPatch "github.com/Azure/azure-service-operator/pkg/resourcemanager/autorest"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/adal"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
@@ -237,6 +238,29 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 	default:
 		return a, fmt.Errorf("invalid grant type specified")
 	}
+
+	return a, err
+}
+
+// GetResourceManagementTokenHybrid retrieves auth token for hybrid environment
+func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience string) (adal.OAuthTokenProvider, error) {
+	var tokenProvider adal.OAuthTokenProvider
+	oauthConfig, err := adal.NewOAuthConfig(activeDirectoryEndpoint, config.TenantID())
+	tokenProvider, err = adal.NewServicePrincipalToken(
+		*oauthConfig,
+		config.ClientID(),
+		config.ClientSecret(),
+		tokenAudience)
+
+	return tokenProvider, err
+}
+
+// GetSharedKeyAuthorizer gets the shared key authorizer needed for adlsgen2. Pulls in from a patch from an incoming PR to the azure autorest sdk.
+// Once that PR is merged in, we can change line 214 from autorestPatch. to autorest.
+func GetSharedKeyAuthorizer(accountName string, accountKey string) (authorizer autorest.Authorizer, err error) {
+	var a autorest.Authorizer
+
+	a = autorestPatch.NewSharedKeyAuthorizer(accountName, accountKey)
 
 	return a, err
 }

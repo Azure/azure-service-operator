@@ -43,7 +43,7 @@ func getStoragesClient() storage.AccountsClient {
 	storagesClient := storage.NewAccountsClient(config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
+		log.Printf("failed to initialize authorizer: %v\n", err)
 	}
 	storagesClient.Authorizer = a
 	storagesClient.AddToUserAgent(config.UserAgent())
@@ -58,7 +58,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	kind azurev1alpha1.StorageKind,
 	tags map[string]*string,
 	accessTier azurev1alpha1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool) (*storage.Account, error) {
+	enableHTTPSTrafficOnly *bool, dataLakeEnabled *bool) (*storage.Account, error) {
 	storagesClient := getStoragesClient()
 
 	//Check if name is available
@@ -68,9 +68,12 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	if err != nil {
 		return nil, err
 	}
-
+	if dataLakeEnabled == to.BoolPtr(true) && kind != "StorageV2" {
+		log.Printf("Cannot create storage account. Datalake enabled storage account must be of kind: StorageV2")
+		return nil, errors.New("unable to create datalake enabled storage account")
+	}
 	if *checkNameResult.NameAvailable == false {
-		log.Fatalf("storage account not available: %v\n", checkNameResult.Reason)
+		log.Printf("storage account not available: %v\n", checkNameResult.Reason)
 		return nil, errors.New("storage account name not available")
 	}
 
@@ -86,7 +89,8 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 		Identity: nil,
 		AccountPropertiesCreateParameters: &storage.AccountPropertiesCreateParameters{
 			AccessTier:             sAccessTier,
-			EnableHTTPSTrafficOnly: enableHTTPsTrafficOnly,
+			EnableHTTPSTrafficOnly: enableHTTPSTrafficOnly,
+			IsHnsEnabled:           dataLakeEnabled,
 		},
 	}
 
