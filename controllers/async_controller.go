@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	multierror "github.com/hashicorp/go-multierror"
 	corev1 "k8s.io/api/core/v1"
@@ -17,6 +18,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
 const (
@@ -27,6 +29,7 @@ const (
 type AsyncClient interface {
 	Ensure(context.Context, runtime.Object) (bool, error)
 	Delete(context.Context, runtime.Object) (bool, error)
+	Parents(runtime.Object) ([]helpers.KubeParent, error)
 }
 
 // AsyncReconciler is a generic reconciler for Azure resources.
@@ -36,6 +39,7 @@ type AsyncReconciler struct {
 	AzureClient AsyncClient
 	Telemetry   telemetry.PrometheusTelemetry
 	Recorder    record.EventRecorder
+	Scheme      *runtime.Scheme
 }
 
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, err error) {
@@ -70,7 +74,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	}
 
 	if res.GetDeletionTimestamp().IsZero() {
-
 		if !HasFinalizer(res, finalizerName) {
 			AddFinalizer(res, finalizerName)
 			r.Recorder.Event(local, corev1.EventTypeNormal, "Added", "Object finalizer is added")
@@ -94,6 +97,25 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 			return ctrl.Result{RequeueAfter: requeDuration}, nil
 		}
 		return ctrl.Result{}, nil
+	}
+
+	// loop through parents until one is successfully referenced
+	r.Telemetry.LogInfo("status", "handling parent reference for object")
+	parents, err := r.AzureClient.Parents(local)
+	for _, p := range parents {
+		//r.Telemetry.LogInfo("status", "handling parent "+p.Key.Name)
+
+		if err := r.Get(ctx, p.Key, p.Target); err == nil {
+			//r.Telemetry.LogInfo("status", "handling parent get for "+reflect.TypeOf(p.Target).String())
+
+			if pAccessor, err := meta.Accessor(p.Target); err == nil {
+				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
+					//r.Telemetry.LogInfo("status", "handling parent reference for object "+pAccessor.GetName())
+					r.Update(ctx, local)
+					break
+				}
+			}
+		}
 	}
 
 	r.Telemetry.LogInfo("status", "reconciling object")
