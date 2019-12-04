@@ -62,7 +62,7 @@ type AzureSQLUserReconciler struct {
 	Recorder            record.EventRecorder
 	Scheme              *runtime.Scheme
 	AzureSqlUserManager sqlclient.SqlUserManager
-	SecretClient secrets.SecretClient
+	SecretClient        secrets.SecretClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=AzureSQLUsers,verbs=get;list;watch;create;update;patch;delete
@@ -265,24 +265,6 @@ func (r *AzureSQLUserReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-// Creates user with secret credentials
-func createUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
-	newUser := string(secret[SecretUsernameKey])
-	newPassword := string(secret[SecretPasswordKey])
-	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
-	_, err := db.ExecContext(ctx, tsql)
-
-	// TODO: Have db lib do string interpolation
-	//tsql := fmt.Sprintf(`CREATE USER @User WITH PASSWORD='@Password'`)
-	//_, err := db.ExecContext(ctx, tsql, sql.Named("User", newUser), sql.Named("Password", newPassword))
-
-	if err != nil {
-		log.Error("Error executing", "err", err.Error())
-		return newUser, err
-	}
-	return newUser, nil
-}
-
 // add finalizer
 func (r *AzureSQLUserReconciler) addFinalizer(instance *azurev1alpha1.AzureSQLUser) error {
 	helpers.AddFinalizer(instance, AzureSQLUserFinalizerName)
@@ -292,15 +274,6 @@ func (r *AzureSQLUserReconciler) addFinalizer(instance *azurev1alpha1.AzureSQLUs
 	}
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", AzureSQLUserFinalizerName))
 	return nil
-}
-
-func UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
-	res, err := db.ExecContext(ctx, fmt.Sprintf("SELECT * FROM sysusers WHERE NAME='%s'", username))
-	if err != nil {
-		return false, err
-	}
-	rows, err := res.RowsAffected()
-	return rows > 0, err
 }
 
 // GetOrPrepareSecret gets or creates a secret

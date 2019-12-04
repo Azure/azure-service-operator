@@ -13,8 +13,6 @@ import (
 	dbsql "database/sql"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
-
-	v1 "k8s.io/api/core/v1"
 )
 
 type MockSqlUserManager struct {
@@ -36,8 +34,8 @@ func findSqlUser(res []MockSqlUserResource, predicate func(MockSqlUserResource) 
 	return -1, MockSqlUserResource{}
 }
 
-func (manager *MockSqlUserManager) CreateUser(ctx context.Context, secret *v1.Secret, db *dbsql.DB) (string, error) {
-	newUser := string(secret.Data[sqlclient.SecretUsernameKey])
+func (manager *MockSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *dbsql.DB) (string, error) {
+	newUser := string(secret[sqlclient.SecretUsernameKey])
 
 	q := MockSqlUserResource{
 		username: newUser,
@@ -66,7 +64,7 @@ func (manager *MockSqlUserManager) DropUser(ctx context.Context, db *sql.DB, use
 	return nil
 }
 
-func (manager *MockSqlUserManager) ContainsUser(ctx context.Context, db *sql.DB, username string) (bool, error) {
+func (manager *MockSqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
 
 	index, _ := findSqlUser(manager.sqlUsers, func(s MockSqlUserResource) bool {
 		return s.username == username

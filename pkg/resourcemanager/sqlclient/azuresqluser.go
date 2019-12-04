@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	"github.com/go-logr/logr"
-	v1 "k8s.io/api/core/v1"
+	"github.com/prometheus/common/log"
 )
 
 // SecretUsernameKey is the username key in secret
@@ -44,9 +44,9 @@ func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, r
 }
 
 // Creates user with secret credentials
-func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret *v1.Secret, db *sql.DB) (string, error) {
-	newUser := string(secret.Data[SecretUsernameKey])
-	newPassword := string(secret.Data[SecretPasswordKey])
+func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
+	newUser := string(secret[SecretUsernameKey])
+	newPassword := string(secret[SecretPasswordKey])
 	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
 	_, err := db.ExecContext(ctx, tsql)
 
@@ -55,14 +55,14 @@ func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret *v1.Secret,
 	//_, err := db.ExecContext(ctx, tsql, sql.Named("User", newUser), sql.Named("Password", newPassword))
 
 	if err != nil {
-		m.Log.Info("Error executing", "err", err.Error())
+		log.Error("Error executing", "err", err.Error())
 		return newUser, err
 	}
 	return newUser, nil
 }
 
-// ContainsUser checks if db contains user
-func (m *AzureSqlUserManager) ContainsUser(ctx context.Context, db *sql.DB, username string) (bool, error) {
+// UserExists checks if db contains user
+func (m *AzureSqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
 	res, err := db.ExecContext(ctx, fmt.Sprintf("SELECT * FROM sysusers WHERE NAME='%s'", username))
 	if err != nil {
 		return false, err
