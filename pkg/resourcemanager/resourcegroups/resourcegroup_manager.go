@@ -20,6 +20,7 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest"
 	"k8s.io/apimachinery/pkg/runtime"
 )
@@ -44,4 +45,5 @@ type ResourceGroupManager interface {
 	CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error)
 	Ensure(context.Context, runtime.Object) (bool, error)
 	Delete(context.Context, runtime.Object) (bool, error)
+	Parents(runtime.Object) ([]helpers.KubeParent, error)
 }
