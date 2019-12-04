@@ -28,13 +28,13 @@ type MockSqlServerResource struct {
 	sqlServer         sql.Server
 }
 
-func findSqlServer(res []MockSqlServerResource, predicate func(MockSqlServerResource) bool) (int, MockSqlServerResource) {
+func findSqlServer(res []MockSqlServerResource, predicate func(MockSqlServerResource) bool) (int, error) {
 	for index, r := range res {
 		if predicate(r) {
-			return index, r
+			return index, nil
 		}
 	}
-	return -1, MockSqlServerResource{}
+	return -1, errors.New("not found")
 }
 
 // CreateOrUpdateSqlServer creates a new sql server
@@ -44,7 +44,7 @@ func (manager *MockSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context
 	})
 
 	sqlS := sql.Server{
-		Response: helpers.GetRestResponse(201),
+		Response: helpers.GetRestResponse(http.StatusCreated),
 		Location: to.StringPtr(location),
 		Name:     to.StringPtr(serverName),
 	}
@@ -88,5 +88,10 @@ func (manager *MockSqlServerManager) GetServer(ctx context.Context, resourceGrou
 		return sql.Server{}, errors.New("Sql Server Not Found")
 	}
 
-	return manager.sqlServers[index].sqlServer, nil
+	state := "Ready"
+	serverProperties := sql.ServerProperties{State: &state}
+	server := manager.sqlServers[index].sqlServer
+	server.ServerProperties = &serverProperties
+
+	return server, nil
 }
