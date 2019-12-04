@@ -7,7 +7,6 @@ package resources
 
 import (
 	"context"
-	"log"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -21,11 +20,7 @@ const (
 )
 
 func getGroupsClient() resources.GroupsClient {
-	tokenAuthorizer, err := iam.GetGroupsAuthorizer()
-	if err != nil {
-		log.Fatalf("failed to get token: %v\n", err)
-	}
-
+	tokenAuthorizer, _ := iam.GetGroupsAuthorizer()
 	groupsClient := resources.NewGroupsClientWithBaseURI(
 		config.Environment().ResourceManagerEndpoint,
 		config.SubscriptionID())

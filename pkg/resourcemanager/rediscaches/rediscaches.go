@@ -26,8 +26,7 @@ package rediscaches
 
 import (
 	"context"
-	"errors"
-	"log"
+	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -38,10 +37,7 @@ import (
 
 func getRedisCacheClient() redis.Client {
 	redisClient := redis.NewClient(config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
-	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
-	}
+	a, _ := iam.GetResourceManagementAuthorizer()
 	redisClient.Authorizer = a
 	redisClient.AddToUserAgent(config.UserAgent())
 	return redisClient
@@ -69,8 +65,7 @@ func CreateRedisCache(ctx context.Context,
 	}
 
 	if checkNameResult.StatusCode != 200 {
-		log.Fatalf("redis cache name (%s) not available: %v\n", redisCacheName, checkNameResult.Status)
-		return nil, errors.New("redis cache name not available")
+		return nil, fmt.Error("redis cache name (%s) not available: %v\n", redisCacheName, checkNameResult.Status)
 	}
 
 	redisSku := redis.Sku{

@@ -56,6 +56,13 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	// your logic here
 	var instance azurev1alpha1.AzureSqlFirewallRule
 
+	if err = r.Get(ctx, req.NamespacedName, &instance); err != nil {
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
 	// log operator start
 	r.Telemetry.LogStart()
 
@@ -77,13 +84,6 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 			r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 		}
 	}()
-
-	if err = r.Get(ctx, req.NamespacedName, &instance); err != nil {
-		// we'll ignore not-found errors, since they can't be fixed by an immediate
-		// requeue (we'll need to wait for a new notification), and we can get them
-		// on deleted requests.
-		return ctrl.Result{}, client.IgnoreNotFound(err)
-	}
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, azureSQLFirewallRuleFinalizerName) {

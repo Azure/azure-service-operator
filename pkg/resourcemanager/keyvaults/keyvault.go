@@ -32,10 +32,7 @@ type azureKeyVaultManager struct{}
 
 func getVaultsClient() keyvault.VaultsClient {
 	vaultsClient := keyvault.NewVaultsClient(config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
-	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
-	}
+	a, _ := iam.GetResourceManagementAuthorizer()
 	vaultsClient.Authorizer = a
 	vaultsClient.AddToUserAgent(config.UserAgent())
 	return vaultsClient

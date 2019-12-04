@@ -41,6 +41,11 @@ type AsyncReconciler struct {
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, err error) {
 	ctx := context.Background()
 
+	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
+		r.Telemetry.LogInfo("ignorable error", "error during fetch from api server")
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
 	// log operator start
 	r.Telemetry.LogStart()
 
@@ -57,11 +62,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 			r.Telemetry.LogSuccess()
 		}
 	}()
-
-	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
-		r.Telemetry.LogInfo("ignorable error", "error during fetch from api server")
-		return ctrl.Result{}, client.IgnoreNotFound(err)
-	}
 
 	res, convertErr := meta.Accessor(local)
 	if convertErr != nil {

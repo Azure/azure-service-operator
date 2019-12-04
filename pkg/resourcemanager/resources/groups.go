@@ -24,10 +24,7 @@ import (
 
 func getGroupsClient() resources.GroupsClient {
 	groupsClient := resources.NewGroupsClient(config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
-	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
-	}
+	a, _ := iam.GetResourceManagementAuthorizer()
 	groupsClient.Authorizer = a
 	groupsClient.AddToUserAgent(config.UserAgent())
 	return groupsClient
@@ -37,10 +34,7 @@ func getGroupsClientWithAuthFile() resources.GroupsClient {
 	groupsClient := resources.NewGroupsClient(config.SubscriptionID())
 	// requires env var AZURE_AUTH_LOCATION set to output of
 	// `az ad sp create-for-rbac --sdk-auth`
-	a, err := auth.NewAuthorizerFromFile(azure.PublicCloud.ResourceManagerEndpoint)
-	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
-	}
+	a, _ := auth.NewAuthorizerFromFile(azure.PublicCloud.ResourceManagerEndpoint)
 	groupsClient.Authorizer = a
 	groupsClient.AddToUserAgent(config.UserAgent())
 	return groupsClient
@@ -95,17 +89,11 @@ func DeleteAllGroupsWithPrefix(ctx context.Context, prefix string) (futures []re
 		log.Println("keeping resource groups")
 		return
 	}
-	for list, err := ListGroups(ctx); list.NotDone(); err = list.Next() {
-		if err != nil {
-			log.Fatalf("got error: %s", err)
-		}
+	for list, _ := ListGroups(ctx); list.NotDone(); {
 		rgName := *list.Value().Name
 		if strings.HasPrefix(rgName, prefix) {
 			fmt.Printf("deleting group '%s'\n", rgName)
-			future, err := DeleteGroup(ctx, rgName)
-			if err != nil {
-				log.Fatalf("got error: %s", err)
-			}
+			future, _ := DeleteGroup(ctx, rgName)
 			futures = append(futures, future)
 			groups = append(groups, rgName)
 		}
@@ -119,9 +107,7 @@ func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []
 		wg.Add(1)
 		go func(ctx context.Context, future resources.GroupsDeleteFuture, rg string) {
 			err := future.WaitForCompletionRef(ctx, getGroupsClient().Client)
-			if err != nil {
-				log.Fatalf("got error: %s", err)
-			} else {
+			if err == nil {
 				fmt.Printf("finished deleting group '%s'\n", rg)
 			}
 			wg.Done()
