@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
 
@@ -34,6 +35,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 type azureEventHubNamespaceManager struct {
@@ -231,6 +233,21 @@ func (ns *azureEventHubNamespaceManager) Delete(ctx context.Context, obj runtime
 	}
 
 	return true, nil
+}
+
+func (ns *azureEventHubNamespaceManager) Parents(obj runtime.Object) ([]helpers.KubeParent, error) {
+
+	instance, err := ns.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	key := types.NamespacedName{Namespace: instance.Namespace, Name: instance.Spec.ResourceGroup}
+
+	return []helpers.KubeParent{
+		{Key: key, Target: &v1alpha1.ResourceGroup{}},
+	}, nil
+
 }
 
 func (ns *azureEventHubNamespaceManager) convert(obj runtime.Object) (*azurev1alpha1.EventhubNamespace, error) {
