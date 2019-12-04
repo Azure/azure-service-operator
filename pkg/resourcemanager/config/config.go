@@ -22,6 +22,7 @@ var (
 	authorizationServerURL string
 	cloudName              string = "AzurePublicCloud"
 	useDeviceFlow          bool
+	useMI                  bool
 
 	keepResources bool
 	groupName     string // deprecated, use baseGroupName instead
@@ -73,6 +74,12 @@ func AuthorizationServerURL() string {
 // auth uses the OAuth Device Flow grant type.
 func UseDeviceFlow() bool {
 	return useDeviceFlow
+}
+
+// UseMI() specifies if managed service identity auth should be used. Used for
+// aad-pod-identity
+func UseMI() bool {
+	return useMI
 }
 
 // deprecated: do not use global group names

@@ -52,6 +52,8 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 		It("should fail to create eventhubnamespace if resourcegroup doesn't exist", func() {
 
+			defer GinkgoRecover()
+			
 			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
@@ -80,6 +82,8 @@ var _ = Describe("EventHubNamespace Controller", func() {
 		})
 
 		It("should create and delete namespace in k8s", func() {
+
+			defer GinkgoRecover()
 
 			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 

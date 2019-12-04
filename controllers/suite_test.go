@@ -24,6 +24,8 @@ import (
 	"testing"
 	"time"
 
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
+
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
@@ -35,10 +37,10 @@ import (
 	resourcegroupsresourcemanagermock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/resourcegroups"
 	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/storages"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
-
 	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sql"
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -147,7 +149,8 @@ var _ = BeforeSuite(func() {
 		Scheme: scheme.Scheme,
 	})
 	Expect(err).ToNot(HaveOccurred())
-
+	
+	secretClient := k8sSecrets.New(k8sManager.GetClient())
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
@@ -159,7 +162,7 @@ var _ = BeforeSuite(func() {
 	var sqlUserManager resourcemanagersql.SqlUserManager
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
-		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
+		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
@@ -198,6 +201,7 @@ var _ = BeforeSuite(func() {
 		Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
 		Scheme:          scheme.Scheme,
 		EventHubManager: eventHubManagers.EventHub,
+		SecretClient:    secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -205,8 +209,11 @@ var _ = BeforeSuite(func() {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: resourceGroupManager,
-			Log:         ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-			Recorder:    k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+				"ResourceGroup",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
 		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
@@ -227,12 +234,21 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+	err = (&AzureDataLakeGen2FileSystemReconciler{
+		Client:            k8sManager.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
+		Recorder:          k8sManager.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
+		FileSystemManager: storageManagers.FileSystem,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+	
 	err = (&AzureSqlServerReconciler{
 		Client:                k8sManager.GetClient(),
 		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
 		Recorder:              k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
 		Scheme:                scheme.Scheme,
 		AzureSqlServerManager: sqlServerManager,
+		SecretClient:   secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -281,6 +297,28 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+
+	err = (&AzureSqlFailoverGroupReconciler{
+		Client:         k8sManager.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+    Scheme:         scheme.Scheme,
+		ResourceClient: resourceClient,
+    }).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlFirewallRuleReconciler{
+		Client: k8sManager.GetClient(),
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+			"AzureSQLFirewallRuleOperator",
+		),
+		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFirewall-controller"),
+		Scheme:         scheme.Scheme,
+		ResourceClient: resourceClient,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+  
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())
@@ -315,7 +353,8 @@ var _ = BeforeSuite(func() {
 	// Create the Storage Account and Container
 	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
 		Name: "Standard_LRS",
-	}, "Storage", map[string]*string{}, "", nil)
+	}, "Storage", map[string]*string{}, "", nil, nil)
+
 	Expect(err).ToNot(HaveOccurred())
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)

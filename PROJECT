@@ -41,3 +41,6 @@ resources:
 - group: azure
   version: v1alpha1
   kind: AzureSqlFailoverGroup
+- group: azure
+  version: v1alpha1
+  kind: AzureDataLakeGen2FileSystem
