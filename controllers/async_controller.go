@@ -41,32 +41,32 @@ type AsyncReconciler struct {
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, err error) {
 	ctx := context.Background()
 
-	// log operator start
-	r.Telemetry.LogStart()
+	// // log operator start
+	// r.Telemetry.LogStart()
 
-	// log failure / success
-	defer func() {
-		if err != nil {
-			r.Telemetry.LogError(
-				"Failure occured during reconcilliation",
-				err)
-			r.Telemetry.LogFailure()
-		} else if result.Requeue {
-			r.Telemetry.LogFailure()
-		} else {
-			r.Telemetry.LogSuccess()
-		}
-	}()
+	// // log failure / success
+	// defer func() {
+	// 	if err != nil {
+	// 		r.Telemetry.LogError(
+	// 			"Failure occured during reconcilliation",
+	// 			err)
+	// 		r.Telemetry.LogFailure()
+	// 	} else if result.Requeue {
+	// 		r.Telemetry.LogFailure()
+	// 	} else {
+	// 		r.Telemetry.LogSuccess()
+	// 	}
+	// }()
 
 	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
 		r.Telemetry.LogInfo("ignorable error", "error during fetch from api server")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	res, convertErr := meta.Accessor(local)
-	if convertErr != nil {
-		r.Telemetry.LogError("accessor fail", convertErr)
-		return ctrl.Result{}, convertErr
+	res, err := meta.Accessor(local)
+	if err != nil {
+		r.Telemetry.LogError("accessor fail", err)
+		return ctrl.Result{}, err
 	}
 
 	if res.GetDeletionTimestamp().IsZero() {
@@ -99,7 +99,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	r.Telemetry.LogInfo("status", "reconciling object")
 	done, ensureErr := r.AzureClient.Ensure(ctx, local)
 	if ensureErr != nil {
-
 		r.Telemetry.LogError("ensure err", ensureErr)
 	}
 
@@ -115,6 +114,8 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	if !done {
 		result.RequeueAfter = requeDuration
 	}
+
+	r.Telemetry.LogInfo("status", "exiting reconciliation")
 
 	return result, err
 }
