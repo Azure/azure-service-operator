@@ -222,7 +222,7 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	// create or get new user secret
 	user = fmt.Sprintf("%s-%s", instance.Name, uuid.New())
 	DBSecret := r.GetOrPrepareSecret(ctx, &instance, user)
-	userExists, err := UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
+	userExists, err := r.AzureSqlUserManager.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
 	if err != nil {
 		log.Info("Couldn't find user", "err:", err.Error())
 	}

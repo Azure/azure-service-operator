@@ -35,9 +35,9 @@ import (
 	resourcemanagereventhubmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/eventhubs"
 	resourcemanagerkeyvaultsmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/keyvaults"
 	resourcegroupsresourcemanagermock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/resourcegroups"
+	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sql"
 	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/storages"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sql"
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -149,7 +149,7 @@ var _ = BeforeSuite(func() {
 		Scheme: scheme.Scheme,
 	})
 	Expect(err).ToNot(HaveOccurred())
-	
+
 	secretClient := k8sSecrets.New(k8sManager.GetClient())
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
@@ -241,14 +241,14 @@ var _ = BeforeSuite(func() {
 		FileSystemManager: storageManagers.FileSystem,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
-	
+
 	err = (&AzureSqlServerReconciler{
 		Client:                k8sManager.GetClient(),
 		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
 		Recorder:              k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
 		Scheme:                scheme.Scheme,
 		AzureSqlServerManager: sqlServerManager,
-		SecretClient:   secretClient,
+		SecretClient:          secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -263,7 +263,10 @@ var _ = BeforeSuite(func() {
 
 	err = (&AzureSqlFirewallRuleReconciler{
 		Client: k8sManager.GetClient(),
-		// todo: telem
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+			"AzureSQLFirewallRuleOperator",
+		),
 		Recorder:                    k8sManager.GetEventRecorderFor("AzureSqlFirewallRule-controller"),
 		Scheme:                      scheme.Scheme,
 		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
@@ -297,14 +300,13 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-
 	err = (&AzureSqlFailoverGroupReconciler{
-		Client:         k8sManager.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-    Scheme:         scheme.Scheme,
-		ResourceClient: resourceClient,
-    }).SetupWithManager(k8sManager)
+		Client:                       k8sManager.GetClient(),
+		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+		Scheme:                       scheme.Scheme,
+		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
+	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlFirewallRuleReconciler{
@@ -313,12 +315,12 @@ var _ = BeforeSuite(func() {
 			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
 			"AzureSQLFirewallRuleOperator",
 		),
-		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFirewall-controller"),
-		Scheme:         scheme.Scheme,
-		ResourceClient: resourceClient,
+		Recorder:                    k8sManager.GetEventRecorderFor("AzureSqlFirewall-controller"),
+		Scheme:                      scheme.Scheme,
+		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
-  
+
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())

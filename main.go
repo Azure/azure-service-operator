@@ -192,7 +192,7 @@ func main() {
 		Recorder:              mgr.GetEventRecorderFor("AzureSqlServer-controller"),
 		Scheme:                mgr.GetScheme(),
 		AzureSqlServerManager: sqlServerManager,
-		SecretClient:   secretClient,
+		SecretClient:          secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
 		os.Exit(1)
@@ -226,7 +226,7 @@ func main() {
 		Recorder:              mgr.GetEventRecorderFor("AzureSqlAction-controller"),
 		Scheme:                mgr.GetScheme(),
 		AzureSqlServerManager: sqlServerManager,
-		SecretClient:   secretClient,
+		SecretClient:          secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
 		os.Exit(1)
@@ -237,7 +237,7 @@ func main() {
 		Recorder:            mgr.GetEventRecorderFor("AzureSQLUser-controller"),
 		Scheme:              mgr.GetScheme(),
 		AzureSqlUserManager: sqlUserManager,
-		SecretClient: secretClient,
+		SecretClient:        secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
 		os.Exit(1)

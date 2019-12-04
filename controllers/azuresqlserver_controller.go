@@ -47,7 +47,7 @@ type AzureSqlServerReconciler struct {
 	Recorder              record.EventRecorder
 	Scheme                *runtime.Scheme
 	AzureSqlServerManager sql.SqlServerManager
-	SecretClient   secrets.SecretClient
+	SecretClient          secrets.SecretClient
 }
 
 // Constants
