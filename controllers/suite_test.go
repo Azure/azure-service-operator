@@ -37,6 +37,7 @@ import (
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 
+	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sql"
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 
 	. "github.com/onsi/ginkgo"
@@ -58,19 +59,24 @@ import (
 var testEnv *envtest.Environment
 
 type testContext struct {
-	k8sClient             client.Client
-	resourceGroupName     string
-	resourceGroupLocation string
-	eventhubNamespaceName string
-	eventhubName          string
-	namespaceLocation     string
-	storageAccountName    string
-	blobContainerName     string
-	resourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
-	eventHubManagers      resourcemanagereventhub.EventHubManagers
-	storageManagers       resourcemanagerstorages.StorageManagers
-	keyVaultManager       resourcemanagerkeyvaults.KeyVaultManager
-	timeout               time.Duration
+	k8sClient               client.Client
+	resourceGroupName       string
+	resourceGroupLocation   string
+	eventhubNamespaceName   string
+	eventhubName            string
+	namespaceLocation       string
+	storageAccountName      string
+	blobContainerName       string
+	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
+	eventHubManagers        resourcemanagereventhub.EventHubManagers
+	storageManagers         resourcemanagerstorages.StorageManagers
+	keyVaultManager         resourcemanagerkeyvaults.KeyVaultManager
+	sqlServerManager        resourcemanagersql.SqlServerManager
+	sqlDbManager            resourcemanagersql.SqlDbManager
+	sqlFirewallRuleManager  resourcemanagersql.SqlFirewallRuleManager
+	sqlFailoverGroupManager resourcemanagersql.SqlFailoverGroupManager
+	sqlUserManager          resourcemanagersql.SqlUserManager
+	timeout                 time.Duration
 }
 
 var tc testContext
@@ -169,7 +175,12 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		//todo: add other mocks here
+		sqlServerManager = &resourcemanagersqlmock.MockSqlServerManager{}
+		sqlDbManager = &resourcemanagersqlmock.MockSqlDbManager{}
+		sqlFirewallRuleManager = &resourcemanagersqlmock.MockSqlFirewallRuleManager{}
+		sqlFailoverGroupManager = &resourcemanagersqlmock.MockSqlFailoverGroupManager{}
+		sqlUserManager = &resourcemanagersqlmock.MockSqlUserManager{}
+
 		timeout = time.Second * 60
 	}
 
@@ -311,19 +322,24 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	tc = testContext{
-		k8sClient:             k8sClient,
-		resourceGroupName:     resourceGroupName,
-		resourceGroupLocation: resourcegroupLocation,
-		eventhubNamespaceName: eventhubNamespaceName,
-		eventhubName:          eventhubName,
-		namespaceLocation:     namespaceLocation,
-		storageAccountName:    storageAccountName,
-		blobContainerName:     blobContainerName,
-		eventHubManagers:      eventHubManagers,
-		resourceGroupManager:  resourceGroupManager,
-		storageManagers:       storageManagers,
-		keyVaultManager:       keyVaultManager,
-		timeout:               timeout,
+		k8sClient:               k8sClient,
+		resourceGroupName:       resourceGroupName,
+		resourceGroupLocation:   resourcegroupLocation,
+		eventhubNamespaceName:   eventhubNamespaceName,
+		eventhubName:            eventhubName,
+		namespaceLocation:       namespaceLocation,
+		storageAccountName:      storageAccountName,
+		blobContainerName:       blobContainerName,
+		eventHubManagers:        eventHubManagers,
+		resourceGroupManager:    resourceGroupManager,
+		sqlServerManager:        sqlServerManager,
+		sqlDbManager:            sqlDbManager,
+		sqlFirewallRuleManager:  sqlFirewallRuleManager,
+		sqlFailoverGroupManager: sqlFailoverGroupManager,
+		sqlUserManager:          sqlUserManager,
+		storageManagers:         storageManagers,
+		keyVaultManager:         keyVaultManager,
+		timeout:                 timeout,
 	}
 
 })

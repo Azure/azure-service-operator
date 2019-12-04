@@ -94,7 +94,7 @@ func (manager *MockSqlFailoverGroupManager) GetServer(ctx context.Context, resou
 }
 
 //GetDb gets a sql db server
-func (manager *MockSqlFailoverGroupManager) GetDb(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.Database, err error) {
+func (manager *MockSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.Database, err error) {
 	sqlManager := MockSqlDbManager{}
 	return sqlManager.GetDB(ctx, resourceGroupName, serverName, databaseName)
 }
