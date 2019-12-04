@@ -145,6 +145,7 @@ func main() {
 				"ResourceGroup",
 			),
 			Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
+			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -161,6 +162,7 @@ func main() {
 				"EventhubNamespace",
 			),
 			Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
