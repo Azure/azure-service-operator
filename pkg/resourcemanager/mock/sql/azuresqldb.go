@@ -63,7 +63,7 @@ func (manager *MockSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceG
 
 }
 
-func (manager *MockSqlDbManager) GetDb(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.Database, err error) {
+func (manager *MockSqlDbManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.Database, err error) {
 	index, _ := findSqlDb(manager.sqlDbs, func(s MockSqlDbResource) bool {
 		return s.resourceGroupName == resourceGroupName && s.sqlServerName == serverName && *s.sqlDb.Name == databaseName
 	})
@@ -82,7 +82,7 @@ func (manager *MockSqlDbManager) GetServer(ctx context.Context, resourceGroupNam
 }
 
 // DeleteDb removes the sql db
-func (manager *MockSqlDbManager) DeleteDb(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result autorest.Response, err error) {
+func (manager *MockSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result autorest.Response, err error) {
 	sqlDbs := manager.sqlDbs
 
 	index, _ := findSqlDb(manager.sqlDbs, func(s MockSqlDbResource) bool {
