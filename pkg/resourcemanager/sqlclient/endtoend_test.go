@@ -145,13 +145,13 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 				continue
 			}
 		} else {
-			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) || errhelp.IsResourceNotFound(err) {
+			if errhelp.IsAsynchronousOperationNotComplete(err) ||
+				errhelp.IsGroupNotFound(err) ||
+				errhelp.IsResourceNotFound(err) {
 				util.PrintAndLog("waiting for sql server to be ready...")
 				continue
 			} else {
-				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
-				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", serverName))
-
+				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v err: %v", serverName, err))
 				t.FailNow()
 				break
 			}

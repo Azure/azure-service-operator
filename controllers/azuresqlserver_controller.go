@@ -129,14 +129,6 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 			azerr := errhelp.NewAzureErrorAzureError(err)
 			if helpers.ContainsString(catch, azerr.Type) {
 
-				// We should make sure we revisit this check once
-				// we move to the async controller. This is because
-				// once we do that we don't necessarily prevent the reconcile
-				// loop from being called if the resource is already provisioning
-				// or provisioned. In that case, we will hit the "invalidservername"
-				// error for a resource that we created in a previous reconcile loop
-				// instead of doing an update of that resource
-
 				if azerr.Type == errhelp.AlreadyExists {
 					// This error could happen in two cases - when the SQL server
 					// exists in some other resource group or when this is a repeat
@@ -155,7 +147,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				}
 
 				if azerr.Type == errhelp.InvalidServerName {
-					instance.Status.Message = "Invalid Server name"
+					instance.Status.Message = "Invalid Server Name"
 					r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
 					return ctrl.Result{Requeue: false}, nil
 				}
