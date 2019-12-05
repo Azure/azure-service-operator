@@ -26,17 +26,11 @@ const (
 	requeDuration time.Duration = time.Second * 20
 )
 
-type AsyncClient interface {
-	Ensure(context.Context, runtime.Object) (bool, error)
-	Delete(context.Context, runtime.Object) (bool, error)
-	Parents(runtime.Object) ([]helpers.KubeParent, error)
-}
-
 // AsyncReconciler is a generic reconciler for Azure resources.
 // It reconciles object which require long running operations.
 type AsyncReconciler struct {
 	client.Client
-	AzureClient AsyncClient
+	AzureClient helpers.AsyncClient
 	Telemetry   telemetry.PrometheusTelemetry
 	Recorder    record.EventRecorder
 	Scheme      *runtime.Scheme

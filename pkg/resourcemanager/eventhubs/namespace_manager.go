@@ -21,7 +21,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type EventHubNamespaceManager interface {
@@ -44,7 +43,7 @@ type EventHubNamespaceManager interface {
 	// namespaceName - the Namespace name
 	// location - azure region
 	CreateNamespaceAndWait(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error)
-	Ensure(context.Context, runtime.Object) (bool, error)
-	Delete(context.Context, runtime.Object) (bool, error)
-	Parents(runtime.Object) ([]helpers.KubeParent, error)
+
+	// also embed async client methods
+	helpers.AsyncClient
 }
