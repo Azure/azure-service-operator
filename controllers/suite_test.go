@@ -178,11 +178,11 @@ var _ = BeforeSuite(func() {
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		sqlServerManager = &resourcemanagersqlmock.MockSqlServerManager{}
-		sqlDbManager = &resourcemanagersqlmock.MockSqlDbManager{}
-		sqlFirewallRuleManager = &resourcemanagersqlmock.MockSqlFirewallRuleManager{}
-		sqlFailoverGroupManager = &resourcemanagersqlmock.MockSqlFailoverGroupManager{}
-		sqlUserManager = &resourcemanagersqlmock.MockSqlUserManager{}
+		sqlServerManager = resourcemanagersqlmock.NewMockSqlServerManager()
+		sqlDbManager = resourcemanagersqlmock.NewMockSqlDbManager()
+		sqlFirewallRuleManager = resourcemanagersqlmock.NewMockSqlFirewallRuleManager()
+		sqlFailoverGroupManager = resourcemanagersqlmock.NewMockSqlFailoverGroupManager()
+		sqlUserManager = resourcemanagersqlmock.NewMockAzureSqlUserManager()
 
 		timeout = time.Second * 60
 	}

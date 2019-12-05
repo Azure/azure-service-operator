@@ -27,6 +27,10 @@ type MockSqlFailoverResource struct {
 	sqlFailover       sql.FailoverGroup
 }
 
+func NewMockSqlFailoverGroupManager() *MockSqlFailoverGroupManager {
+	return &MockSqlFailoverGroupManager{}
+}
+
 func findSqlFailoverGroup(res []MockSqlFailoverResource, predicate func(MockSqlFailoverResource) bool) (int, MockSqlFailoverResource) {
 	for index, r := range res {
 		if predicate(r) {

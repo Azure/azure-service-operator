@@ -28,6 +28,10 @@ type MockSqlServerResource struct {
 	sqlServer         sql.Server
 }
 
+func NewMockSqlServerManager() *MockSqlServerManager {
+	return &MockSqlServerManager{}
+}
+
 func findSqlServer(res []MockSqlServerResource, predicate func(MockSqlServerResource) bool) (int, error) {
 	for index, r := range res {
 		if predicate(r) {
