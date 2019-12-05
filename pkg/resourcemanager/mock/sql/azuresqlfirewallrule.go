@@ -23,6 +23,10 @@ type MockSqlFirewallRuleResource struct {
 	sqlFirewallRule   sql.FirewallRule
 }
 
+func NewMockSqlFirewallRuleManager() *MockSqlFirewallRuleManager {
+	return &MockSqlFirewallRuleManager{}
+}
+
 func findSqlFirewallRule(res []MockSqlFirewallRuleResource, predicate func(MockSqlFirewallRuleResource) bool) (int, MockSqlFirewallRuleResource) {
 	for index, r := range res {
 		if predicate(r) {

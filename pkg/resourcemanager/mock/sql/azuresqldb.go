@@ -29,6 +29,10 @@ type MockSqlDbResource struct {
 	sqlDb             sql.Database
 }
 
+func NewMockSqlDbManager() *MockSqlDbManager {
+	return &MockSqlDbManager{}
+}
+
 func findSqlDb(res []MockSqlDbResource, predicate func(MockSqlDbResource) bool) (int, MockSqlDbResource) {
 	for index, r := range res {
 		if predicate(r) {

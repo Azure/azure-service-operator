@@ -25,6 +25,10 @@ type MockSqlUserResource struct {
 	sqlDB    *dbsql.DB
 }
 
+func NewMockAzureSqlUserManager() *MockSqlUserManager {
+	return &MockSqlUserManager{}
+}
+
 func findSqlUser(res []MockSqlUserResource, predicate func(MockSqlUserResource) bool) (int, MockSqlUserResource) {
 	for index, r := range res {
 		if predicate(r) {
