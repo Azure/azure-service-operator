@@ -21,14 +21,14 @@ type SecretClient interface {
 type Options struct {
 	Owner   metav1.Object
 	Scheme  *runtime.Scheme
-	Expires time.Duration
+	Expires *time.Time
 }
 
 // SecretOption wraps a function that sets a value in the options struct
 type SecretOption func(*Options)
 
 // WithExpiration can be used to pass an expiration duration
-func WithExpiration(expireAfter time.Duration) SecretOption {
+func WithExpiration(expireAfter *time.Time) SecretOption {
 	return func(op *Options) {
 		op.Expires = expireAfter
 	}

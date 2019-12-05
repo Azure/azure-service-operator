@@ -18,8 +18,17 @@ package keyvault
 
 import (
 	"context"
+	"log"
+	"net/http"
 	"strconv"
+	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	rghelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"k8s.io/apimachinery/pkg/types"
@@ -27,12 +36,73 @@ import (
 
 var _ = Describe("Keyvault Secrets Client", func() {
 
+	var ctx context.Context
+	var err error
+	var timeout int
+
+	// Define resource group & keyvault constants
+	var keyVaultName string
+	var resourcegroupName string
+	var resourcegroupLocation string
+	var userID string
+
+	resourceGroupManager := rghelper.NewAzureResourceGroupManager()
+
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
+
+		// Create a context to use in the tests
+		ctx = context.Background()
+
+		// Set timeout to 300 seconds
+		timeout = 300
+
+		// Initialize service principal ID to give access to the keyvault
+		userID = config.ClientID()
+
+		// Initialize resource names
+		keyVaultName = "t-kvtest-kv" + strconv.FormatInt(GinkgoRandomSeed(), 10)
+		resourcegroupName = "t-kvtest-rg" + helpers.RandomString(10)
+		resourcegroupLocation = config.DefaultLocation()
+
+		// Create a resource group
+		log.Println("Creating resource group with name " + resourcegroupName + " in location " + resourcegroupLocation)
+		_, err = resourceGroupManager.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
+		Expect(err).NotTo(HaveOccurred())
+
+		Eventually(func() bool {
+			result, _ := resourceGroupManager.CheckExistence(ctx, resourcegroupName)
+			return result.Response.StatusCode == http.StatusNoContent
+		}, timeout,
+		).Should(BeTrue())
+
+		// Create a keyvault
+		_, err = kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, resourcegroupName, keyVaultName, resourcegroupLocation, userID)
+		//Expect(err).NotTo(HaveOccurred())
+
 	})
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
+		// Delete the keyvault
+		kvhelper.AzureKeyVaultManager.DeleteVault(ctx, resourcegroupName, keyVaultName)
+		//Expect(err).NotTo(HaveOccurred())
+
+		// Delete the resource group
+		_, err = resourceGroupManager.DeleteGroup(context.Background(), resourcegroupName)
+		if err != nil {
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if azerr.Type == errhelp.AsyncOpIncompleteError {
+				err = nil
+			}
+		}
+		Expect(err).NotTo(HaveOccurred())
+
+		Eventually(func() bool {
+			result, _ := resourceGroupManager.CheckExistence(ctx, resourcegroupName)
+			return result.Response.StatusCode == http.StatusNoContent
+		}, timeout,
+		).Should(BeFalse())
 	})
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
@@ -41,46 +111,66 @@ var _ = Describe("Keyvault Secrets Client", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		It("should create and delete secret in k8s", func() {
-			keyvaultName := "jvkv1"
+		It("should create and delete secret in Keyvault", func() {
 			secretName := "kvsecret" + strconv.FormatInt(GinkgoRandomSeed(), 10)
+			expireDateUTC := time.Now().UTC()
 
 			var err error
-			ctx := context.Background()
 
 			data := map[string][]byte{
 				"test":  []byte("data"),
 				"sweet": []byte("potato"),
 			}
 
-			client := New(keyvaultName)
+			client := New(keyVaultName)
 
 			key := types.NamespacedName{Name: secretName, Namespace: "default"}
 
 			Context("creating secret with KeyVault client", func() {
-				err = client.Create(ctx, key, data)
+				err = client.Create(ctx, key, data, secrets.WithExpiration(&expireDateUTC))
 				Expect(err).To(BeNil())
 			})
 
 			Context("ensuring secret exists using keyvault client", func() {
-
 				d, err := client.Get(ctx, key)
 				Expect(err).To(BeNil())
 
 				for k, v := range d {
-					//fmt.Println(k)
-					//fmt.Println(string(v))
 					Expect(data[k]).To(Equal(v))
 				}
 			})
 
-			/*Context("delete secret and ensure it is gone", func() {
+			datanew := map[string][]byte{
+				"french": []byte("fries"),
+				"hot":    []byte("dogs"),
+			}
+
+			Context("upserting the secret to make sure it can be written", func() {
+				err = client.Upsert(ctx, key, datanew)
+				Expect(err).To(BeNil())
+			})
+
+			Context("ensuring secret exists using keyvault client", func() {
+				d, err := client.Get(ctx, key)
+				Expect(err).To(BeNil())
+
+				for k, v := range d {
+					Expect(datanew[k]).To(Equal(v))
+				}
+				Expect(datanew["french"]).To(Equal([]byte("fries")))
+			})
+
+			Context("delete secret and ensure it is gone", func() {
 				err = client.Delete(ctx, key)
 				Expect(err).To(BeNil())
 
-				err = K8sClient.Get(ctx, key, secret)
+				d, err := client.Get(ctx, key)
 				Expect(err).ToNot(BeNil())
-			})*/
+				for k, v := range d {
+					Expect(data[k]).To(Equal(v))
+				}
+			})
+
 		})
 	})
 })
