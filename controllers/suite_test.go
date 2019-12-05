@@ -162,7 +162,7 @@ var _ = BeforeSuite(func() {
 		resourceClient = &resourcemanagersql.GoSDKClient{}
 		eventhubNamespaceClient = resourcemanagereventhubmock.NewMockEventHubNamespaceClient()
 
-		timeout = time.Second * 900
+		timeout = time.Second * 1000
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
@@ -234,7 +234,7 @@ var _ = BeforeSuite(func() {
 		FileSystemManager: storageManagers.FileSystem,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
-	
+
 	err = (&AzureSqlServerReconciler{
 		Client:         k8sManager.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
