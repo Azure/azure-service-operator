@@ -162,8 +162,6 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 		return false, nil
 	}
 
-	// @todo update owner reference to point at resourcegroup
-
 	// create Event Hubs namespace
 	_, err = ns.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
