@@ -69,6 +69,28 @@ func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, groupName s
 	return v, nil
 }
 
+// CreateVaultWithAccessPolicies creates a new key vault
+func (manager *MockKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
+	v := keyvault.Vault{
+		Response:   helpers.GetRestResponse(http.StatusOK),
+		Properties: &keyvault.VaultProperties{},
+		ID:         to.StringPtr(pkghelpers.RandomString(10)),
+		Name:       to.StringPtr(vaultName),
+		Location:   to.StringPtr(location),
+	}
+
+	_, err := manager.GetVault(ctx, groupName, vaultName)
+	if err != nil {
+		manager.keyVaultResources = append(manager.keyVaultResources, keyVaultResource{
+			resourceGroupName: groupName,
+			vaultName:         vaultName,
+			KeyVault:          v,
+		})
+	}
+
+	return v, nil
+}
+
 // DeleteVault removes the resource group named by env var
 func (manager *MockKeyVaultManager) DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
 	vaults := manager.keyVaultResources

@@ -91,9 +91,16 @@ func main() {
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 	resourceClient := resourcemanagersql.GoSDKClient{}
+
+	err = resourcemanagerconfig.ParseEnvironment()
+	if err != nil {
+		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
+	}
+
 	if os.Getenv("KEYVNAME_FOR_SECRETS") == "" {
 		secretClient = k8sSecrets.New(mgr.GetClient())
 	} else {
+		setupLog.Info("Instantiating secrets client for keyvault " + os.Getenv("KEYVNAME_FOR_SECRETS"))
 		secretClient = kvSecrets.New(os.Getenv("KEYVNAME_FOR_SECRETS"))
 	}
 
@@ -123,11 +130,6 @@ func main() {
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
 		os.Exit(1)
-	}
-
-	err = resourcemanagerconfig.ParseEnvironment()
-	if err != nil {
-		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
 	}
 
 	err = (&controllers.EventhubReconciler{
