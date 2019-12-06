@@ -20,8 +20,8 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // var AzureResourceGroupManager ResourceGroupManager = &azureResourceGroupManager{}
@@ -42,6 +42,7 @@ type ResourceGroupManager interface {
 
 	// CheckExistence checks whether a resource exists
 	CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error)
-	Ensure(context.Context, runtime.Object) (bool, error)
-	Delete(context.Context, runtime.Object) (bool, error)
+
+	// also embed methods from AsyncClient
+	helpers.AsyncClient
 }

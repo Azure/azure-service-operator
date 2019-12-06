@@ -60,7 +60,41 @@ var _ = Describe("Storage Account", func() {
 
 			_, err = storageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
 				Name: "Standard_LRS",
-			}, "Storage", map[string]*string{}, "", to.BoolPtr(false))
+			}, "Storage", map[string]*string{}, "", to.BoolPtr(false), to.BoolPtr(false))
+
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				result, _ := storageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+				return result.Response.StatusCode == http.StatusOK
+			}, timeout,
+			).Should(BeTrue())
+
+			_, err = storageManagers.Storage.DeleteStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				result, _ := storageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+				return result.Response.StatusCode == http.StatusNotFound
+			}, timeout,
+			).Should(BeTrue())
+		})
+
+	})
+
+	Context("Create and Delete Data Lakes", func() {
+		It("should create and delete data lakes in azure", func() {
+
+			storageAccountName := "tdevsa" + helpers.RandomString(10)
+			storageLocation := config.DefaultLocation()
+			datalakeEnabled := true
+			storageManagers := tc.StorageManagers
+
+			var err error
+
+			_, err = storageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
+				Name: "Standard_LRS",
+			}, "StorageV2", map[string]*string{}, "", to.BoolPtr(true), to.BoolPtr(datalakeEnabled))
 
 			Expect(err).NotTo(HaveOccurred())
 

@@ -15,6 +15,7 @@ const (
 	ResourceNotFound               = "ResourceNotFound"
 	AsyncOpIncompleteError         = "AsyncOpIncomplete"
 	InvalidServerName              = "InvalidServerName"
+	RequestConflictError           = "Conflict"
 )
 
 func NewAzureError(err error) error {
@@ -30,6 +31,9 @@ func NewAzureError(err error) error {
 
 		ae.Code = det.StatusCode.(int)
 		if e, ok := det.Original.(*azure.RequestError); ok {
+			kind = e.ServiceError.Code
+			reason = e.ServiceError.Message
+		} else if e, ok := det.Original.(azure.RequestError); ok {
 			kind = e.ServiceError.Code
 			reason = e.ServiceError.Message
 		} else if e, ok := det.Original.(*azure.ServiceError); ok {

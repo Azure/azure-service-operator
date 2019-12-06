@@ -82,6 +82,10 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 	return true, nil
 }
 
+func (g *AzureResourceGroupManager) Parents(obj runtime.Object) ([]helpers.KubeParent, error) {
+	return nil, nil
+}
+
 func (g *AzureResourceGroupManager) convert(obj runtime.Object) (*azurev1alpha1.ResourceGroup, error) {
 	local, ok := obj.(*azurev1alpha1.ResourceGroup)
 	if !ok {
