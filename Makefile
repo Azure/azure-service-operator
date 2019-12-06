@@ -8,7 +8,7 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-IMG ?= controller:latest
+IMG ?= "controller:latest"
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
@@ -70,20 +70,23 @@ install: generate
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
 deploy: manifests
 	kubectl apply -f config/crd/bases
-	kustomize build config/default | kubectl apply -f -
+	make -s kustomize | kubectl apply -f -
 
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
 
 update:
-	IMG="docker.io/controllertest:$(timestamp)" make ARGS="${ARGS}" docker-build
+	IMG="docker.io/controllertest:$(timestamp)"
+	make ARGS="${ARGS}" docker-build
 	kind load docker-image docker.io/controllertest:$(timestamp) --loglevel "trace"
 	make install
 	make deploy
-	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
 delete:
 	kubectl delete -f config/crd/bases
-	kustomize build config/default | kubectl delete -f -
+	make -s kustomize | kubectl delete -f -
+
+kustomize:
+	@kustomize build config/default 2>/dev/null | envsubst
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen
@@ -104,8 +107,6 @@ generate: manifests
 # Build the docker image
 docker-build:
 	docker build . -t ${IMG} ${ARGS}
-	@echo "updating kustomize image patch file for manager resource"
-	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
 
 # Push the docker image
 docker-push:
@@ -117,7 +118,7 @@ build-and-push: docker-build docker-push
 # Deploy operator infrastructure
 terraform:
 	terraform init devops/terraform
-	terraform apply devops/terraform
+	terraform apply ${ARGS} devops/terraform
 
 terraform-and-deploy: terraform generate install-cert-manager build-and-push deploy
 
@@ -140,7 +141,7 @@ generate-template:
 	go-bindata -pkg template -prefix pkg/template/assets/ -o pkg/template/templates.go pkg/template/assets/
 
 create-kindcluster:
-ifeq (,$(shell kind get clusters))
+ifeq (,$(@shell kind get clusters))
 	@echo "no kind cluster"
 else
 	@echo "kind cluster is running, deleteing the current cluster"
@@ -150,7 +151,7 @@ endif
 	kind create cluster
 
 set-kindcluster: install-kind
-ifeq (${shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
+ifeq (${@shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
 	@echo "kubeconfig-path points to kind path"
 else
 	@echo "please run below command in your shell and then re-run make set-kindcluster"
@@ -176,16 +177,15 @@ endif
 
 	#create image and load it into cluster
 	make install
-	IMG="docker.io/controllertest:1" make docker-build
+	IMG="docker.io/controllertest:1"
+	make docker-build
 	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
 
 	kubectl get namespaces
 	kubectl get pods --namespace cert-manager
-	@echo "Waiting for cert-manager to be ready"
-	kubectl wait pod -n cert-manager --for condition=ready --timeout=60s --all
+
 	@echo "all the pods should be running"
 	make deploy
-	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
 install-kind:
 ifeq (,$(shell which kind))
@@ -225,6 +225,8 @@ install-cert-manager:
 	kubectl create namespace cert-manager
 	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+	@echo "Waiting for cert-manager to be ready"
+	kubectl wait pod -n cert-manager --for condition=ready --timeout=60s --all
 
 install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
