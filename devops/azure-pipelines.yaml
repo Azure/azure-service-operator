@@ -111,6 +111,8 @@ steps:
     service_principal_client_secret = "$(AZURE_CLIENT_SECRET)"
     EOL
 
+    terraform version
+
     # terraform-and-deploy
     make terraform ARGS="-auto-approve"
 

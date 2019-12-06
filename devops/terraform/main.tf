@@ -116,7 +116,7 @@ provider "kubernetes" {
 }
 
 // Create namespace to deploy the operator into
-resource "kubernetes_namespace" "operator-system" {
+resource "kubernetes_namespace" "operator_system" {
   depends_on = [azurerm_kubernetes_cluster.operator]
   metadata {
     name = local.operator_namespace
@@ -125,7 +125,7 @@ resource "kubernetes_namespace" "operator-system" {
 
 // Create Kubernetes secrets
 resource "kubernetes_secret" "operator" {
-  depends_on = [azurerm_kubernetes_cluster.operator]
+  depends_on = [kubernetes_namespace.operator_system]
   metadata {
     name = "azureoperatorsettings"
     namespace = local.operator_namespace
@@ -142,6 +142,7 @@ resource "kubernetes_secret" "operator" {
 // Give the default service account on the operator namespace "cluster-admin"
 // access to the namespace where the operator deploys the resources by default.
 resource "kubernetes_cluster_role_binding" "operator-admin" {
+  depends_on = [kubernetes_namespace.operator_system]
   metadata {
     name = "cluster-admin-aso"
   }
