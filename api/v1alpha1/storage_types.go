@@ -48,6 +48,8 @@ type StorageSpec struct {
 	AccessTier StorageAccessTier `json:"accessTier,omitempty"`
 
 	EnableHTTPSTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
+
+	DataLakeEnabled *bool `json:"dataLakeEnabled,omitempty"`
 }
 
 // Sku the SKU of the storage account.
@@ -87,7 +89,7 @@ type Storage struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec                StorageSpec                `json:"spec,omitempty"`
-	Status              ASOStatus              `json:"status,omitempty"`
+	Status              ASOStatus                  `json:"status,omitempty"`
 	Output              StorageOutput              `json:"output,omitempty"`
 	AdditionalResources StorageAdditionalResources `json:"additionalResources,omitempty"`
 }

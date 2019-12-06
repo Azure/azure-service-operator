@@ -39,7 +39,7 @@ var _ = Describe("Blob Container", func() {
 		// Add any setup steps that needs to be executed before each test
 		_, _ = tc.StorageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
 			Name: "Standard_LRS",
-		}, "Storage", map[string]*string{}, "", nil)
+		}, "Storage", map[string]*string{}, "", nil, nil)
 	})
 
 	AfterEach(func() {
@@ -56,6 +56,7 @@ var _ = Describe("Blob Container", func() {
 		It("should create and delete blob container in azure", func() {
 
 			var err error
+			defer GinkgoRecover()
 
 			containerName := "t-dev-bc-" + helpers.RandomString(10)
 

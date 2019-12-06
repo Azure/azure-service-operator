@@ -39,6 +39,8 @@ var _ = Describe("KeyVault Controller", func() {
 
 		It("Should Create and Delete Key Vault instances", func() {
 
+			defer GinkgoRecover()
+
 			keyVaultLocation := tc.resourceGroupLocation
 
 			// Declare KeyVault object
@@ -66,7 +68,7 @@ var _ = Describe("KeyVault Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
 				//log.Print(keyVaultInstance.Status)
-				return keyVaultInstance.Status.ID != nil
+				return keyVaultInstance.Status.Provisioned == true
 			}, tc.timeout,
 			).Should(BeTrue())
 

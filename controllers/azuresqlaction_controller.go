@@ -26,6 +26,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -37,7 +38,6 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 )
@@ -51,6 +51,7 @@ type AzureSqlActionReconciler struct {
 	Recorder       record.EventRecorder
 	Scheme         *runtime.Scheme
 	ResourceClient sql.ResourceClient
+	SecretClient   secrets.SecretClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlactions,verbs=get;list;watch;create;update;patch;delete
@@ -73,30 +74,39 @@ func (r *AzureSqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	defer func() {
+		if !helpers.IsBeingDeleted(&instance) {
+			if err := r.Status().Update(ctx, &instance); err != nil {
+				r.Recorder.Event(&instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
+			}
+		}
+	}()
+
 	if !instance.IsSubmitted() {
-		if err := r.reconcileExternal(&instance); err != nil {
+		if err := r.reconcileExternal(ctx, &instance); err != nil {
 			catchIgnorable := []string{
 				errhelp.AsyncOpIncompleteError,
-			}
-			if azerr, ok := err.(*errhelp.AzureError); ok {
-				if helpers.ContainsString(catchIgnorable, azerr.Type) {
-					log.Info("Requeuing as the async operation is not complete")
-					return ctrl.Result{
-						Requeue:      true,
-						RequeueAfter: time.Second * time.Duration(requeueAfter),
-					}, nil
-				}
 			}
 			catchNotIgnorable := []string{
 				errhelp.ResourceNotFound,
 				errhelp.ResourceGroupNotFoundErrorCode,
 			}
-			if azerr, ok := err.(*errhelp.AzureError); ok {
-				if helpers.ContainsString(catchNotIgnorable, azerr.Type) {
-					log.Info("Not requeueing as a specified resource was not found")
-					return ctrl.Result{}, nil
-				}
+			azerr := errhelp.NewAzureErrorAzureError(err)
+
+			// handle catchable errors
+			if helpers.ContainsString(catchIgnorable, azerr.Type) {
+				log.Info("Requeuing as the async operation is not complete")
+				return ctrl.Result{
+					RequeueAfter: time.Second * time.Duration(requeueAfter),
+				}, nil
 			}
+
+			// handle errors we can't ignore
+			if helpers.ContainsString(catchNotIgnorable, azerr.Type) {
+				log.Info("Not requeueing as a specified resource was not found")
+				return ctrl.Result{}, nil
+			}
+
 			// TODO: Add error handling for other types of errors we might encounter here
 			return ctrl.Result{}, fmt.Errorf("error reconciling azuresqlaction in azure: %v", err)
 		}
@@ -107,8 +117,7 @@ func (r *AzureSqlActionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 	return ctrl.Result{}, nil
 }
 
-func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.AzureSqlAction) error {
-	ctx := context.Background()
+func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instance *azurev1alpha1.AzureSqlAction) error {
 	serverName := instance.Spec.ServerName
 	groupName := instance.Spec.ResourceGroup
 	namespace := instance.Namespace
@@ -146,25 +155,19 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	// Get the Sql Server instance that corresponds to the Server name in the spec for this action
 	server, err := r.ResourceClient.GetServer(ctx, groupName, serverName)
 	if err != nil {
-		if strings.Contains(err.Error(), "ResourceGroupNotFound") {
+		if strings.Contains(err.Error(), errhelp.ResourceGroupNotFoundErrorCode) {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of AzureSqlServer: Resource group not found")
 			r.Log.Info("Error", "Unable to get instance of AzureSqlServer: Resource group not found", err)
 			instance.Status.Message = "Resource group not found"
-			// write information back to instance
-			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-			}
-			return err
-		} else {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of AzureSqlServer")
-			r.Log.Info("Error", "Sql Server instance not found", err)
-			instance.Status.Message = "Sql server instance not found"
-			// write information back to instance
-			if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-			}
+
 			return err
 		}
+
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of AzureSqlServer")
+		r.Log.Info("Error", "Sql Server instance not found", err)
+		instance.Status.Message = "Sql server instance not found"
+
+		return err
 	}
 
 	// rollcreds action
@@ -181,59 +184,43 @@ func (r *AzureSqlActionReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		if _, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to provision or update instance")
-				return errhelp.NewAzureError(err)
+				return err
 			}
 		} else {
 			r.Recorder.Event(instance, corev1.EventTypeNormal, "Provisioned", "resource request successfully submitted to Azure")
 		}
 
-		// Update the k8s secret
-		secret := &corev1.Secret{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      serverName,
-				Namespace: namespace,
-			},
-			Type: "Opaque",
+		key := types.NamespacedName{Name: serverName, Namespace: namespace}
+		data, err := r.SecretClient.Get(ctx, key)
+		if err != nil {
+			return err
 		}
 
-		_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
-			r.Log.Info("Creating or updating secret with SQL Server credentials")
-			secret.Data["password"] = []byte(*azureSqlServerProperties.AdministratorLoginPassword)
-			return nil
-		})
-		if createOrUpdateSecretErr != nil {
-			r.Log.Info("Error", "CreateOrUpdateSecretErr", createOrUpdateSecretErr)
-			return createOrUpdateSecretErr
+		data["password"] = []byte(*azureSqlServerProperties.AdministratorLoginPassword)
+		err = r.SecretClient.Upsert(
+			ctx,
+			key,
+			data,
+			secrets.WithOwner(&ownerInstance),
+			secrets.WithScheme(r.Scheme),
+		)
+		if err != nil {
+			return err
 		}
 
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
 		instance.Status.Message = "AzureSqlAction completed successfully."
-
-		// write information back to instance
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
-
-		// write information back to instance
-		if updateerr := r.Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
-	} else {
-		r.Log.Info("Error", "reconcileExternal", "Unknown action name")
-
-		instance.Status.Message = "Unknown action name error"
-
-		// write information back to instance
-		if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-		}
-		return errors.New("Unknown action name")
+		return nil
 	}
 
 	// Add implementations for other AzureSqlActions here (instance.Spec.ActionName)
 
-	return nil
+	r.Log.Info("Error", "reconcileExternal", "Unknown action name")
+	instance.Status.Message = "Unknown action name error"
+
+	return errors.New("Unknown AzureSqlAction name: " + instance.Spec.ActionName)
+
 }
 
 func (r *AzureSqlActionReconciler) SetupWithManager(mgr ctrl.Manager) error {

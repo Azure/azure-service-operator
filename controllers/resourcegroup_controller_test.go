@@ -3,10 +3,11 @@ package controllers
 import (
 	"context"
 	"fmt"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"net/http"
 	"strings"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -34,6 +35,8 @@ var _ = Describe("ResourceGroup Controller", func() {
 		It("should create and delete resource group instances", func() {
 			resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
 
+			defer GinkgoRecover()
+
 			var err error
 
 			// Create the ResourceGroup object and expect the Reconcile to be created
@@ -57,7 +60,7 @@ var _ = Describe("ResourceGroup Controller", func() {
 			// verify sure rg has a finalizer
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.HasFinalizer(resourceGroupFinalizerName)
+				return resourceGroupInstance.HasFinalizer(finalizerName)
 			}, tc.timeout,
 			).Should(BeTrue())
 
