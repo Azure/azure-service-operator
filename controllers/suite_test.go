@@ -216,6 +216,14 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+	err = (&AzureDataLakeGen2FileSystemReconciler{
+		Client:            k8sManager.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
+		Recorder:          k8sManager.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
+		FileSystemManager: storageManagers.FileSystem,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+	
 	err = (&AzureSqlServerReconciler{
 		Client:         k8sManager.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
@@ -291,7 +299,8 @@ var _ = BeforeSuite(func() {
 	// Create the Storage Account and Container
 	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
 		Name: "Standard_LRS",
-	}, "Storage", map[string]*string{}, "", nil)
+	}, "Storage", map[string]*string{}, "", nil, nil)
+
 	Expect(err).ToNot(HaveOccurred())
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
