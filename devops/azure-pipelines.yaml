@@ -152,7 +152,7 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
-    terraform destroy -auto-approve
+    terraform destroy -auto-approve devops/terraform
   env:
     ARM_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
     ARM_TENANT_ID: $(AZURE_TENANT_ID)
