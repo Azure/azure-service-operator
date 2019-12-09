@@ -124,9 +124,22 @@ steps:
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
     make deploy
+  continueOnError: 'false'
+  displayName: 'Set kind cluster'
+  env:
+    GO111MODULE: on
+    AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    REQUEUE_AFTER: $(REQUEUE_AFTER)
+    KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+  workingDirectory: '$(MODULE_PATH)'
+
+- script: |
     make test-existing
   continueOnError: 'false'
-  displayName: 'Set kind cluster and Run unit tests'
+  displayName: 'Run `make test-existing`'
   env:
     GO111MODULE: on
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
