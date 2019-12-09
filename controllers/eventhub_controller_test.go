@@ -204,9 +204,13 @@ var _ = Describe("EventHub Controller", func() {
 				},
 			}
 
+			log.Printf("[TESTFIXDEBUG] just before k8sClient.Create eventhubInstance")
+
 			err = tc.k8sClient.Create(context.Background(), eventhubInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
+
+			log.Printf("[TESTFIXDEBUG] just after k8sClient.Create eventhubInstance")
 
 			eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
 
@@ -215,7 +219,7 @@ var _ = Describe("EventHub Controller", func() {
 				return eventhubInstance.HasFinalizer(eventhubFinalizerName)
 			}, tc.timeout,
 			).Should(BeTrue())
-
+			
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsSubmitted()
@@ -244,8 +248,12 @@ var _ = Describe("EventHub Controller", func() {
 				Type: "Opaque",
 			}
 
+			log.Printf("[TESTFIXDEBUG] just before k8sClient.Create secret")
+
 			err = tc.k8sClient.Create(context.Background(), csecret)
 			Expect(err).NotTo(HaveOccurred())
+
+			log.Printf("[TESTFIXDEBUG] just after k8sClient.Create secret")
 
 			//get secret from k8s
 			secret := v1.Secret{}
