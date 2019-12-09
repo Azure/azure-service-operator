@@ -39,11 +39,9 @@ import (
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
-	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
-	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
-	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-
 	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
+	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -239,14 +237,13 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-
 	err = (&AzureSqlFailoverGroupReconciler{
 		Client:         k8sManager.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
 		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-    Scheme:         scheme.Scheme,
+		Scheme:         scheme.Scheme,
 		ResourceClient: resourceClient,
-    }).SetupWithManager(k8sManager)
+	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlFirewallRuleReconciler{
@@ -260,7 +257,7 @@ var _ = BeforeSuite(func() {
 		ResourceClient: resourceClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
-  
+
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())

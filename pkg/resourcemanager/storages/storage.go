@@ -70,7 +70,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	}
 
 	if *checkNameResult.NameAvailable == false {
-		log.Fatalf("storage account not available: %v\n", checkNameResult.Reason)
+		log.Println("storage account not available: " + checkNameResult.Reason)
 		return nil, errors.New("storage account name not available")
 	}
 
