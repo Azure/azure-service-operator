@@ -16,6 +16,7 @@ limitations under the License.
 package controllers
 
 import (
+	"log"
 	"context"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
