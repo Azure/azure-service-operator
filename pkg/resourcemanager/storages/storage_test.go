@@ -68,13 +68,13 @@ var _ = Describe("Storage Account", func() {
 			}, tc.timeout, tc.retryInterval,
 			).Should(Equal(s.Succeeded))
 
-			_, err = storageManagers.Storage.DeleteStorage(ctx, tc.ResourceGroupName, storageAccountName)
+			_, err = storageManagers.Storage.DeleteStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				_, err := storageManagers.Storage.GetStorage(ctx, tc.ResourceGroupName, storageAccountName)
-				return err != nil
-			}, tc.timeout, tc.retryInterval,
+				result, _ := storageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+				return result.Response.StatusCode == http.StatusNotFound
+			}, timeout,
 			).Should(BeTrue())
 		})
 

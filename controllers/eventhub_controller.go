@@ -20,10 +20,12 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"reflect"
 	"strconv"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
@@ -43,7 +45,6 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
@@ -54,6 +55,7 @@ type EventhubReconciler struct {
 	Recorder        record.EventRecorder
 	Scheme          *runtime.Scheme
 	EventHubManager eventhubsresourcemanager.EventHubManager
+	SecretClient    secrets.SecretClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete
@@ -143,15 +145,22 @@ func (r *EventhubReconciler) reapply(instance *azurev1alpha1.Eventhub) error {
 	resourcegroup := instance.Spec.ResourceGroup
 	secretName := instance.Spec.SecretName
 
-	result, _ := r.EventHubManager.GetHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+	result, err := r.EventHubManager.GetHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+	if err != nil {
+		return err
+	}
+	if reflect.ValueOf(result.Response).Kind() == reflect.Ptr && reflect.ValueOf(result.Response).IsNil() {
+		return fmt.Errorf("Nil result from GetHub")
+	}
 	if result.Response.StatusCode == http.StatusNotFound {
 		r.reconcileExternal(instance)
 		r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", "Resource does not exist in azure, reapplied it")
 	}
 
 	if result.Response.StatusCode == http.StatusOK {
-		//get secret for eventhub
-		err = r.getEventhubSecrets(secretName, instance)
+		// get secret for eventhub
+		key := types.NamespacedName{Name: secretName, Namespace: instance.Namespace}
+		_, err = r.SecretClient.Get(ctx, key)
 		if err != nil {
 			//check if access policy exists, create if it does not and apply secret
 			_, err := r.EventHubManager.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, instance.Spec.AuthorizationRule.Name)
@@ -341,17 +350,20 @@ func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to list keys")
 	} else {
 		//create secrets in the k8s with the listed keys
+		data := map[string][]byte{
+			"primaryconnectionstring":   []byte(*result.PrimaryConnectionString),
+			"secondaryconnectionstring": []byte(*result.SecondaryConnectionString),
+			"primaryKey":                []byte(*result.PrimaryKey),
+			"secondaryKey":              []byte(*result.SecondaryKey),
+			"sharedaccesskey":           []byte(authorizationRuleName),
+			"eventhubnamespace":         []byte(eventhubNamespace),
+			"eventhubName":              []byte(eventhubName),
+		}
 		err = r.createEventhubSecrets(
-			eventhubName,
-			instance.Namespace,
-			*result.PrimaryConnectionString,
-			*result.SecondaryConnectionString,
-			*result.PrimaryKey,
-			*result.SecondaryKey,
-			eventhubNamespace,
+			ctx,
 			secretName,
-			authorizationRuleName,
 			instance,
+			data,
 		)
 		if err != nil {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", fmt.Sprintf("unable to create secret for %s", eventhubName))
@@ -362,63 +374,21 @@ func (r *EventhubReconciler) listAccessKeysAndCreateSecrets(resourcegroup string
 
 }
 
-func (r *EventhubReconciler) createEventhubSecrets(
-	eventhubName string,
-	namespace string,
-	primaryConnection string,
-	secondaryConnection string,
-	primaryKey string,
-	secondaryKey string,
-	eventhubNamespace string,
-	secretName string,
-	sharedAccessKey string,
-	instance *azurev1alpha1.Eventhub) error {
-
-	csecret := &v1.Secret{
-		TypeMeta: metav1.TypeMeta{
-			Kind:       "Secret",
-			APIVersion: "apps/v1beta1",
-		},
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      secretName,
-			Namespace: namespace,
-		},
-		Data: map[string][]byte{
-			"primaryconnectionstring":   []byte(primaryConnection),
-			"secondaryconnectionstring": []byte(secondaryConnection),
-			"primaryKey":                []byte(primaryKey),
-			"secondaryKey":              []byte(secondaryKey),
-			"sharedaccesskey":           []byte(sharedAccessKey),
-			"eventhubnamespace":         []byte(eventhubNamespace),
-			"eventhubName":              []byte(eventhubName),
-		},
-		Type: "Opaque",
+func (r *EventhubReconciler) createEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub, data map[string][]byte) error {
+	key := types.NamespacedName{
+		Name:      secretName,
+		Namespace: instance.Namespace,
 	}
 
-	_, err := controllerutil.CreateOrUpdate(context.Background(), r.Client, csecret, func() error {
-		r.Log.Info("mutating secret bundle")
-		innerErr := controllerutil.SetControllerReference(instance, csecret, r.Scheme)
-		if innerErr != nil {
-			return innerErr
-		}
-
-		return nil
-	})
-
+	err := r.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(r.Scheme),
+	)
 	if err != nil {
 		return err
 	}
 
-	return nil
-}
-
-func (r *EventhubReconciler) getEventhubSecrets(name string, instance *azurev1alpha1.Eventhub) error {
-
-	var err error
-	secret := &v1.Secret{}
-	err = r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret)
-	if err != nil {
-		return err
-	}
 	return nil
 }
