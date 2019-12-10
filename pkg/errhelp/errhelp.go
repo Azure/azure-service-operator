@@ -29,6 +29,11 @@ func IsStatusCode204(err error) bool {
 	return strings.Contains(err.Error(), "StatusCode=204")
 }
 
+// IsStatusCode404 checks if the error reports a status code 404 resource not found
+func IsStatusCode404(err error) bool {
+	return strings.Contains(err.Error(), "StatusCode=404")
+}
+
 // IsResourceNotFound checks if error reports that a referenced resource is not found
 func IsResourceNotFound(err error) bool {
 	return strings.Contains(err.Error(), "ResourceNotFound")

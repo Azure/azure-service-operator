@@ -69,14 +69,14 @@ var _ = Describe("KeyVault Controller", func() {
 				_ = tc.k8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
 				//log.Print(keyVaultInstance.Status)
 				return keyVaultInstance.Status.Provisioned == true
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			// verify key vault exists in Azure
 			Eventually(func() bool {
 				result, _ := tc.keyVaultManager.GetVault(context.Background(), tc.resourceGroupName, keyVaultInstance.Name)
 				return result.Response.StatusCode == http.StatusOK
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			// delete key vault
@@ -90,14 +90,14 @@ var _ = Describe("KeyVault Controller", func() {
 					err = fmt.Errorf("")
 				}
 				return strings.Contains(err.Error(), "not found")
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			// confirm key vault is gone from Azure
 			Eventually(func() bool {
 				result, _ := tc.keyVaultManager.GetVault(context.Background(), tc.resourceGroupName, keyVaultInstance.Name)
 				return result.Response.StatusCode == http.StatusNotFound
-			}, tc.timeout, poll,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 		})
 	})
