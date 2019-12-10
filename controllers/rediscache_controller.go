@@ -31,14 +31,14 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	rc "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 )
@@ -48,9 +48,10 @@ const redisCacheFinalizerName = "rediscache.finalizers.azure.com"
 // RedisCacheReconciler reconciles a RedisCache object
 type RedisCacheReconciler struct {
 	client.Client
-	Log         logr.Logger
-	Recorder    record.EventRecorder
-	RequeueTime time.Duration
+	Log                    logr.Logger
+	Recorder               record.EventRecorder
+	RequeueTime            time.Duration
+	AzureRedisCacheManager rc.RedisCacheManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=rediscaches,verbs=get;list;watch;create;update;patch;delete
@@ -147,7 +148,7 @@ func (r *RedisCacheReconciler) reconcileExternal(instance *azurev1alpha1.RedisCa
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	_, err = rediscaches.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, nil)
+	_, err = r.AzureRedisCacheManager.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, nil)
 	if err != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -176,7 +177,7 @@ func (r *RedisCacheReconciler) deleteExternal(instance *azurev1alpha1.RedisCache
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
-	_, err := rediscaches.DeleteRedisCache(ctx, groupName, name)
+	_, err := r.AzureRedisCacheManager.DeleteRedisCache(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
@@ -196,69 +197,3 @@ func (r *RedisCacheReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		For(&azurev1alpha1.RedisCache{}).
 		Complete(r)
 }
-
-/* Below code was from prior to refactor.
-Left here for future reference for pulling out values post deployment.
-
-func (r *RedisCacheReconciler) updateStatus(req ctrl.Request, resourceGroupName, deploymentName, provisioningState string, outputs interface{}) (*servicev1alpha1.RedisCache, error) {
-	ctx := context.Background()
-	log := r.Log.WithValues("Redis Cache", req.NamespacedName)
-
-	resource := &servicev1alpha1.RedisCache{}
-	r.Get(ctx, req.NamespacedName, resource)
-	log.Info("Getting Redis Cache", "RedisCache.Namespace", resource.Namespace, "RedisCache.Name", resource.Name)
-
-	resourceCopy := resource.DeepCopy()
-	resourceCopy.Status.DeploymentName = deploymentName
-	resourceCopy.Status.ProvisioningState = provisioningState
-
-	err := r.Status().Update(ctx, resourceCopy)
-	if err != nil {
-		log.Error(err, "unable to update Redis Cache status")
-		return nil, err
-	}
-	log.V(1).Info("Updated Status", "Redis Cache.Namespace", resourceCopy.Namespace, "RedisCache.Name", resourceCopy.Name, "RedisCache.Status", resourceCopy.Status)
-
-	if helpers.IsDeploymentComplete(provisioningState) {
-		if outputs != nil {
-			resourceCopy.Output.RedisCacheName = helpers.GetOutput(outputs, "redisCacheName")
-			resourceCopy.Output.PrimaryKey = helpers.GetOutput(outputs, "primaryKey")
-			resourceCopy.Output.SecondaryKey = helpers.GetOutput(outputs, "secondaryKey")
-		}
-
-		err := r.syncAdditionalResourcesAndOutput(req, resourceCopy)
-		if err != nil {
-			log.Error(err, "error syncing resources")
-			return nil, err
-		}
-		log.V(1).Info("Updated additional resources", "Storage.Namespace", resourceCopy.Namespace, "RedisCache.Name", resourceCopy.Name, "RedisCache.AdditionalResources", resourceCopy.AdditionalResources, "RedisCache.Output", resourceCopy.Output)
-	}
-
-	return resourceCopy, nil
-}
-
-func (r *RedisCacheReconciler) syncAdditionalResourcesAndOutput(req ctrl.Request, s *servicev1alpha1.RedisCache) (err error) {
-	ctx := context.Background()
-	log := r.Log.WithValues("redisCache", req.NamespacedName)
-
-	secrets := []string{}
-	secretData := map[string]string{
-		"redisCacheName": "{{.Obj.Output.RedisCacheName}}",
-		"primaryKey":     "{{.Obj.Output.PrimaryKey}}",
-		"secondaryKey":   "{{.Obj.Output.SecondaryKey}}",
-	}
-	secret := helpers.CreateSecret(s, s.Name, s.Namespace, secretData)
-	secrets = append(secrets, secret)
-
-	resourceCopy := s.DeepCopy()
-	resourceCopy.AdditionalResources.Secrets = secrets
-
-	err = r.Update(ctx, resourceCopy)
-	if err != nil {
-		log.Error(err, "unable to update Redis Cache status")
-		return err
-	}
-
-	return nil
-}
-*/
