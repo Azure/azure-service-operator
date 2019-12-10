@@ -64,7 +64,7 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return sqlServerInstance.Status.Provisioned
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 	})
 
@@ -89,7 +89,7 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return helpers.IsBeingDeleted(sqlServerInstance)
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 	})
 
@@ -128,13 +128,13 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
 				return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
 				return sqlDatabaseInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), sqlDatabaseInstance)
@@ -143,7 +143,7 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
 				return helpers.IsBeingDeleted(sqlDatabaseInstance)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})
