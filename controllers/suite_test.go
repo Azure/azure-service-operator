@@ -21,6 +21,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -75,6 +76,7 @@ type testContext struct {
 	storageManagers       resourcemanagerstorages.StorageManagers
 	keyVaultManager       resourcemanagerkeyvaults.KeyVaultManager
 	timeout               time.Duration
+	retry                 time.Duration
 }
 
 var tc testContext
@@ -223,7 +225,7 @@ var _ = BeforeSuite(func() {
 		FileSystemManager: storageManagers.FileSystem,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
-	
+
 	err = (&AzureSqlServerReconciler{
 		Client:         k8sManager.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
@@ -243,14 +245,13 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-
 	err = (&AzureSqlFailoverGroupReconciler{
 		Client:         k8sManager.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
 		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-    Scheme:         scheme.Scheme,
+		Scheme:         scheme.Scheme,
 		ResourceClient: resourceClient,
-    }).SetupWithManager(k8sManager)
+	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlFirewallRuleReconciler{
@@ -264,7 +265,7 @@ var _ = BeforeSuite(func() {
 		ResourceClient: resourceClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
-  
+
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())
@@ -289,7 +290,7 @@ var _ = BeforeSuite(func() {
 	Eventually(func() bool {
 		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
 		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
-	}, 60,
+	}, 60, 10,
 	).Should(BeTrue())
 
 	// Create the Eventhub resource
@@ -320,6 +321,7 @@ var _ = BeforeSuite(func() {
 		storageManagers:       storageManagers,
 		keyVaultManager:       keyVaultManager,
 		timeout:               timeout,
+		retry:                 time.Second * 1,
 	}
 
 })
@@ -330,8 +332,19 @@ var _ = AfterSuite(func() {
 	By("tearing down the test environment")
 
 	// delete the resource group and contained resources
-	_, _ = tc.resourceGroupManager.DeleteGroup(context.Background(), tc.resourceGroupName)
-
+	Eventually(func() bool {
+		_, err := tc.resourceGroupManager.DeleteGroup(context.Background(), tc.resourceGroupName)
+		if err != nil {
+			log.Println(err)
+			log.Println()
+			if strings.Contains(err.Error(), "asynchronous operation has not completed") {
+				return true
+			}
+			return false
+		}
+		return true
+	}, 320, 10,
+	).Should(BeTrue())
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
 	log.Println(fmt.Sprintf("Finished common controller test teardown"))

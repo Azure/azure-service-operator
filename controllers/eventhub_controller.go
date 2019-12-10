@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"reflect"
 	"strconv"
 	"time"
 
@@ -144,7 +145,16 @@ func (r *EventhubReconciler) reapply(instance *azurev1alpha1.Eventhub) error {
 	resourcegroup := instance.Spec.ResourceGroup
 	secretName := instance.Spec.SecretName
 
-	result, _ := r.EventHubManager.GetHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+	result, err := r.EventHubManager.GetHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+	if err != nil {
+		r.Log.Info("----------------- err not  nilllllll  -----------------")
+
+		return err
+	}
+	if reflect.ValueOf(result.Response).Kind() == reflect.Ptr && reflect.ValueOf(result.Response).IsNil() {
+		r.Log.Info("----------------- nilllllll resulttttt -----------------")
+		return fmt.Errorf("Nil result from GetHub")
+	}
 	if result.Response.StatusCode == http.StatusNotFound {
 		r.reconcileExternal(instance)
 		r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", "Resource does not exist in azure, reapplied it")
