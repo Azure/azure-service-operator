@@ -21,9 +21,13 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
@@ -78,6 +82,7 @@ type testContext struct {
 	storageManagers       resourcemanagerstorages.StorageManagers
 	keyVaultManager       resourcemanagerkeyvaults.KeyVaultManager
 	timeout               time.Duration
+	retry                 time.Duration
 }
 
 var tc testContext
@@ -158,6 +163,7 @@ var _ = BeforeSuite(func() {
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	var resourceClient resourcemanagersql.ResourceClient
+	secretClient := k8sSecrets.New(k8sManager.GetClient())
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
@@ -189,6 +195,7 @@ var _ = BeforeSuite(func() {
 		Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
 		Scheme:          scheme.Scheme,
 		EventHubManager: eventHubManagers.EventHub,
+		SecretClient:    secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -221,12 +228,21 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+	err = (&AzureDataLakeGen2FileSystemReconciler{
+		Client:            k8sManager.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
+		Recorder:          k8sManager.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
+		FileSystemManager: storageManagers.FileSystem,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
 	err = (&AzureSqlServerReconciler{
 		Client:         k8sManager.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
 		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
 		Scheme:         scheme.Scheme,
 		ResourceClient: resourceClient,
+		SecretClient:   secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -240,6 +256,7 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	err = (&BlobContainerReconciler{
 		Client:         k8sManager.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
@@ -251,13 +268,15 @@ var _ = BeforeSuite(func() {
 
 =======
 
+=======
+>>>>>>> 9521dc1b1e74cad278623a15cb1f760452b65b0b
 	err = (&AzureSqlFailoverGroupReconciler{
 		Client:         k8sManager.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
 		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-    Scheme:         scheme.Scheme,
+		Scheme:         scheme.Scheme,
 		ResourceClient: resourceClient,
-    }).SetupWithManager(k8sManager)
+	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlFirewallRuleReconciler{
@@ -271,8 +290,12 @@ var _ = BeforeSuite(func() {
 		ResourceClient: resourceClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
+<<<<<<< HEAD
   
 >>>>>>> e26ceb3b72fa9af40bc4735749526b082b3d212e
+=======
+
+>>>>>>> 9521dc1b1e74cad278623a15cb1f760452b65b0b
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())
@@ -294,25 +317,6 @@ var _ = BeforeSuite(func() {
 	_, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 	Expect(err).ToNot(HaveOccurred())
 
-	Eventually(func() bool {
-		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
-		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
-	}, 60,
-	).Should(BeTrue())
-
-	// Create the Eventhub resource
-	_, err = eventHubManagers.EventHub.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(2), nil)
-	Expect(err).ToNot(HaveOccurred())
-
-	// Create the Storage Account and Container
-	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
-		Name: "Standard_LRS",
-	}, "Storage", map[string]*string{}, "", nil)
-	Expect(err).ToNot(HaveOccurred())
-
-	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
-	Expect(err).ToNot(HaveOccurred())
-
 	tc = testContext{
 		k8sClient:             k8sClient,
 		resourceGroupName:     resourceGroupName,
@@ -327,7 +331,28 @@ var _ = BeforeSuite(func() {
 		storageManagers:       storageManagers,
 		keyVaultManager:       keyVaultManager,
 		timeout:               timeout,
+		retry:                 time.Second * 1,
 	}
+
+	Eventually(func() bool {
+		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
+
+	// Create the Eventhub resource
+	_, err = eventHubManagers.EventHub.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(2), nil)
+	Expect(err).ToNot(HaveOccurred())
+
+	// Create the Storage Account and Container
+	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
+		Name: "Standard_LRS",
+	}, "Storage", map[string]*string{}, "", nil, nil)
+
+	Expect(err).ToNot(HaveOccurred())
+
+	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
+	Expect(err).ToNot(HaveOccurred())
 
 })
 
@@ -337,8 +362,19 @@ var _ = AfterSuite(func() {
 	By("tearing down the test environment")
 
 	// delete the resource group and contained resources
-	_, _ = tc.resourceGroupManager.DeleteGroup(context.Background(), tc.resourceGroupName)
-
+	Eventually(func() bool {
+		_, err := tc.resourceGroupManager.DeleteGroup(context.Background(), tc.resourceGroupName)
+		if err != nil {
+			log.Println(err)
+			log.Println()
+			if strings.Contains(err.Error(), "asynchronous operation has not completed") {
+				return true
+			}
+			return false
+		}
+		return true
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
 	log.Println(fmt.Sprintf("Finished common controller test teardown"))
