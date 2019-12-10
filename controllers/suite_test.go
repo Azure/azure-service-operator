@@ -26,8 +26,6 @@ import (
 	"time"
 
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"

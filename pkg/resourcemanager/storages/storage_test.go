@@ -72,9 +72,9 @@ var _ = Describe("Storage Account", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := storageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
-				return result.Response.StatusCode == http.StatusNotFound
-			}, timeout,
+				_, err := storageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+				return err != nil
+			}, tc.timeout, tc.retryInterval,
 			).Should(BeTrue())
 		})
 
