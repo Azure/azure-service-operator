@@ -31,16 +31,17 @@ import (
 var _ = Describe("Blob Container", func() {
 
 	var storageAccountName = "tsadevsc" + helpers.RandomString(10)
+	ctx := context.Background()
 
 	BeforeEach(func() {
 		storageLocation := config.DefaultLocation()
 		// Add any setup steps that needs to be executed before each test
-		_, _ = tc.StorageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
+		_, _ = tc.StorageManagers.Storage.CreateStorage(ctx, tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
 			Name: "Standard_LRS",
 		}, "Storage", map[string]*string{}, "", nil)
 
 		Eventually(func() s.ProvisioningState {
-			result, _ := tc.StorageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+			result, _ := tc.StorageManagers.Storage.GetStorage(ctx, tc.ResourceGroupName, storageAccountName)
 			return result.ProvisioningState
 		}, tc.timeout, tc.retryInterval,
 		).Should(Equal(s.Succeeded))
@@ -48,7 +49,8 @@ var _ = Describe("Blob Container", func() {
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
-		_, _ = tc.StorageManagers.Storage.DeleteStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+		_, err := tc.StorageManagers.Storage.DeleteStorage(ctx, tc.ResourceGroupName, storageAccountName)
+		Expect(err).NotTo(HaveOccurred())
 	})
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
@@ -68,20 +70,20 @@ var _ = Describe("Blob Container", func() {
 			// Possible values include: 'PublicAccessContainer', 'PublicAccessBlob', 'PublicAccessNone'
 			accessLevel := s.PublicAccessContainer
 
-			_, err = tc.StorageManagers.BlobContainer.CreateBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName, accessLevel)
+			_, err = tc.StorageManagers.BlobContainer.CreateBlobContainer(ctx, tc.ResourceGroupName, storageAccountName, containerName, accessLevel)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := tc.StorageManagers.BlobContainer.GetBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
+				result, _ := tc.StorageManagers.BlobContainer.GetBlobContainer(ctx, tc.ResourceGroupName, storageAccountName, containerName)
 				return result.Response.StatusCode == http.StatusOK
 			}, tc.timeout, tc.retryInterval,
 			).Should(BeTrue())
 
-			_, err = tc.StorageManagers.BlobContainer.DeleteBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
+			_, err = tc.StorageManagers.BlobContainer.DeleteBlobContainer(ctx, tc.ResourceGroupName, storageAccountName, containerName)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				result, _ := tc.StorageManagers.BlobContainer.GetBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
+				result, _ := tc.StorageManagers.BlobContainer.GetBlobContainer(ctx, tc.ResourceGroupName, storageAccountName, containerName)
 				return result.Response.StatusCode == http.StatusNotFound
 			}, tc.timeout, tc.retryInterval,
 			).Should(BeTrue())
