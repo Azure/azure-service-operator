@@ -37,7 +37,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// create the Go SDK client with relevant info
 	sdk := GoSDKClient{}
 
-	location := "eastus2"
+	location := config.DefaultLocation()
 	serverName := generateName("sqlsrvtest")
 
 	// create the server
@@ -47,17 +47,11 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// wait for server to be created, then only proceed once activated
+	server, err := sdk.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
 	for {
 		time.Sleep(time.Second)
 
-		server, err := sdk.GetServer(ctx, groupName, serverName)
-		if err == nil {
-			if *server.State == "Ready" {
-				util.PrintAndLog("sql server ready")
-				break
-			}
-		}
-		server, err = sdk.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
+		server, err = sdk.GetServer(ctx, groupName, serverName)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -67,11 +61,13 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 				continue
 			}
 		} else {
-			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) || errhelp.IsResourceNotFound(err) {
 				util.PrintAndLog("waiting for sql server to be ready...")
 				continue
 			} else {
 				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
+				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", serverName))
+
 				t.FailNow()
 				break
 			}
@@ -85,9 +81,9 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// wait for db to be created, then only proceed once activated
+	future, err := sdk.CreateOrUpdateDB(ctx, groupName, location, serverName, sqlDBProperties)
 	for {
 		time.Sleep(time.Second)
-		future, err := sdk.CreateOrUpdateDB(ctx, groupName, location, serverName, sqlDBProperties)
 		if err == nil {
 			db, err := future.Result(getGoDbClient())
 			if err == nil {
@@ -135,18 +131,11 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// wait for server to be created, then only proceed once activated
+	server, err = sdk.CreateOrUpdateSQLServer(ctx, groupName, secLocation, serverName, sqlServerProperties)
 	for {
 		time.Sleep(time.Second)
 
-		server, err := sdk.GetServer(ctx, groupName, secSrvName)
-		if err == nil {
-			if *server.State == "Ready" {
-				util.PrintAndLog("sql server ready")
-				break
-			}
-		}
-
-		server, err = sdk.CreateOrUpdateSQLServer(ctx, groupName, secLocation, secSrvName, sqlServerProperties)
+		server, err = sdk.GetServer(ctx, groupName, serverName)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -156,11 +145,13 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 				continue
 			}
 		} else {
-			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+			if errhelp.IsAsynchronousOperationNotComplete(err) ||
+				errhelp.IsGroupNotFound(err) ||
+				errhelp.IsResourceNotFound(err) {
 				util.PrintAndLog("waiting for sql server to be ready...")
 				continue
 			} else {
-				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
+				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v err: %v", serverName, err))
 				t.FailNow()
 				break
 			}
@@ -177,9 +168,9 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	failoverGroupName := generateName("failovergroup")
+	_, err = sdk.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
 	for {
 		time.Sleep(time.Second)
-		_, err := sdk.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
 		if err == nil {
 			util.PrintAndLog(fmt.Sprintf("failover group created successfully %s", failoverGroupName))
 			break

@@ -15,6 +15,7 @@ const (
 	ResourceNotFound               = "ResourceNotFound"
 	AsyncOpIncompleteError         = "AsyncOpIncomplete"
 	InvalidServerName              = "InvalidServerName"
+	AlreadyExists                  = "AlreadyExists"
 )
 
 func NewAzureError(err error) error {
@@ -51,6 +52,12 @@ func NewAzureError(err error) error {
 	} else if _, ok := err.(azure.AsyncOpIncompleteError); ok {
 		kind = "AsyncOpIncomplete"
 		reason = "AsyncOpIncomplete"
+	} else if err.Error() == InvalidServerName {
+		kind = InvalidServerName
+		reason = InvalidServerName
+	} else if err.Error() == AlreadyExists {
+		kind = AlreadyExists
+		reason = AlreadyExists
 	}
 	ae.Reason = reason
 	ae.Type = kind
