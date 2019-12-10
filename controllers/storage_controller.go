@@ -208,6 +208,7 @@ func (r *StorageReconciler) reconcileExternal(instance *azurev1alpha1.Storage) e
 	kind := instance.Spec.Kind
 	accessTier := instance.Spec.AccessTier
 	enableHTTPSTrafficOnly := instance.Spec.EnableHTTPSTrafficOnly
+	dataLakeEnabled := instance.Spec.DataLakeEnabled
 
 	var err error
 
@@ -238,7 +239,7 @@ func (r *StorageReconciler) reconcileExternal(instance *azurev1alpha1.Storage) e
 	// write information back to instance
 	instance.Status.Provisioning = true
 
-	_, err = r.StorageManager.CreateStorage(ctx, groupName, name, location, sku, kind, nil, accessTier, enableHTTPSTrafficOnly)
+	_, err = r.StorageManager.CreateStorage(ctx, groupName, name, location, sku, kind, nil, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled)
 	if err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			msg := fmt.Sprintf("CreateStorage not complete: %v", err)

@@ -59,7 +59,7 @@ var _ = Describe("Storage Account", func() {
 
 			_, err = storageManagers.Storage.CreateStorage(ctx, tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
 				Name: "Standard_LRS",
-			}, "Storage", map[string]*string{}, "", to.BoolPtr(false))
+			}, "Storage", map[string]*string{}, "", to.BoolPtr(false), to.BoolPtr(false))
 			//Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() s.ProvisioningState {
@@ -78,5 +78,37 @@ var _ = Describe("Storage Account", func() {
 			).Should(BeTrue())
 		})
 
+	})
+
+	Context("Create and Delete Data Lakes", func() {
+		It("should create and delete data lakes in azure", func() {
+
+			storageAccountName := "tdevsa" + helpers.RandomString(10)
+			storageLocation := config.DefaultLocation()
+			datalakeEnabled := true
+			storageManagers := tc.StorageManagers
+
+			var err error
+			ctx := context.Background()
+
+			_, err = storageManagers.Storage.CreateStorage(ctx, tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
+				Name: "Standard_LRS",
+			}, "StorageV2", map[string]*string{}, "", to.BoolPtr(true), to.BoolPtr(datalakeEnabled))
+
+			Eventually(func() s.ProvisioningState {
+				result, _ := storageManagers.Storage.GetStorage(ctx, tc.ResourceGroupName, storageAccountName)
+				return result.ProvisioningState
+			}, tc.timeout, tc.retryInterval,
+			).Should(Equal(s.Succeeded))
+
+			_, err = storageManagers.Storage.DeleteStorage(ctx, tc.ResourceGroupName, storageAccountName)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				_, err := storageManagers.Storage.GetStorage(ctx, tc.ResourceGroupName, storageAccountName)
+				return err != nil
+			}, tc.timeout, tc.retryInterval,
+			).Should(BeTrue())
+		})
 	})
 })

@@ -58,7 +58,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	kind azurev1alpha1.StorageKind,
 	tags map[string]*string,
 	accessTier azurev1alpha1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool) (result storage.Account, err error) {
+	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (result storage.Account, err error) {
 	storagesClient := getStoragesClient()
 
 	//Check if name is available
@@ -67,6 +67,10 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	checkNameResult, err := storagesClient.CheckNameAvailability(ctx, checkAccountParams)
 	if err != nil {
 		return result, err
+	}
+	if dataLakeEnabled == to.BoolPtr(true) && kind != "StorageV2" {
+		log.Printf("Cannot create storage account. Datalake enabled storage account must be of kind: StorageV2")
+		return result, errors.New("unable to create datalake enabled storage account")
 	}
 
 	if *checkNameResult.NameAvailable == false {

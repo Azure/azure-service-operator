@@ -38,7 +38,7 @@ var _ = Describe("Blob Container", func() {
 		// Add any setup steps that needs to be executed before each test
 		_, _ = tc.StorageManagers.Storage.CreateStorage(ctx, tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
 			Name: "Standard_LRS",
-		}, "Storage", map[string]*string{}, "", nil)
+		}, "Storage", map[string]*string{}, "", nil, nil)
 
 		Eventually(func() s.ProvisioningState {
 			result, _ := tc.StorageManagers.Storage.GetStorage(ctx, tc.ResourceGroupName, storageAccountName)
