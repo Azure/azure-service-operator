@@ -17,6 +17,7 @@ package controllers
 
 import (
 	"context"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
@@ -56,6 +57,8 @@ var _ = Describe("EventHub Controller", func() {
 	Context("Create and Delete", func() {
 		It("should fail to create eventhub if eventhubnamespace doesn't exist", func() {
 
+			defer GinkgoRecover()
+
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			// Create the EventHub object and expect the Reconcile to be created
@@ -83,12 +86,13 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeFalse())
 		})
 
 		It("should create and delete eventhubs", func() {
 
+			defer GinkgoRecover()
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
@@ -123,13 +127,13 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.HasFinalizer(eventhubFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			//create secret in k8s
@@ -170,13 +174,14 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsBeingDeleted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})
 
 		It("should create and delete eventhubs with custom secret name", func() {
 
+			defer GinkgoRecover()
 			eventhubName := "t-eh-" + helpers.RandomString(10)
 			secretName := "secret-" + eventhubName
 
@@ -213,13 +218,13 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.HasFinalizer(eventhubFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			//create secret in k8s
@@ -257,7 +262,7 @@ var _ = Describe("EventHub Controller", func() {
 				Expect(secret.Data).To(Equal(csecret.Data))
 				Expect(secret.ObjectMeta).To(Equal(csecret.ObjectMeta))
 				return true
-			}, 60).Should(BeTrue())
+			}, tc.timeout, tc.retry).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), eventhubInstance)
 			Expect(err).NotTo(HaveOccurred())
@@ -265,13 +270,14 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
 				return eventhubInstance.IsBeingDeleted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})
 
 		It("should create and delete event hubs with capture", func() {
 
+			defer GinkgoRecover()
 			eventHubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
@@ -316,13 +322,13 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
 				return eventHubInstance.HasFinalizer(eventhubFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
 				return eventHubInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
@@ -331,7 +337,7 @@ var _ = Describe("EventHub Controller", func() {
 					return false
 				}
 				return *hub.CaptureDescription.Enabled
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), eventHubInstance)
@@ -340,7 +346,7 @@ var _ = Describe("EventHub Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
 				return eventHubInstance.IsBeingDeleted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})
