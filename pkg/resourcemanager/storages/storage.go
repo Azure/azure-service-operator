@@ -58,7 +58,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	kind azurev1alpha1.StorageKind,
 	tags map[string]*string,
 	accessTier azurev1alpha1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool) (*storage.Account, error) {
+	enableHTTPsTrafficOnly *bool) (result storage.Account, err error) {
 	storagesClient := getStoragesClient()
 
 	//Check if name is available
@@ -66,12 +66,16 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	checkAccountParams := storage.AccountCheckNameAvailabilityParameters{Name: &storageAccountName, Type: &storageType}
 	checkNameResult, err := storagesClient.CheckNameAvailability(ctx, checkAccountParams)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 
 	if *checkNameResult.NameAvailable == false {
 		log.Println("storage account not available: " + checkNameResult.Reason)
-		return nil, errors.New("storage account name not available")
+		if checkNameResult.Reason == storage.AccountNameInvalid {
+			return result, errors.New("AccountNameInvalid")
+		} else if checkNameResult.Reason == storage.AlreadyExists {
+			return result, errors.New("AlreadyExists")
+		}
 	}
 
 	sSku := storage.Sku{Name: storage.SkuName(sku.Name)}
@@ -93,15 +97,11 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	//log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
 	future, err := storagesClient.Create(ctx, groupName, storageAccountName, params)
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 
-	err = future.WaitForCompletionRef(ctx, storagesClient.Client)
-	if err != nil {
-		return nil, err
-	}
-	result, err := future.Result(storagesClient)
-	return &result, err
+	return future.Result(storagesClient)
+
 }
 
 // Get gets the description of the specified storage account.

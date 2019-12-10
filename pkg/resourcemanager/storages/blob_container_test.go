@@ -19,7 +19,6 @@ package storages
 import (
 	"context"
 	"net/http"
-	"time"
 
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -31,8 +30,6 @@ import (
 
 var _ = Describe("Blob Container", func() {
 
-	const timeout = time.Second * 180
-
 	var storageAccountName = "tsadevsc" + helpers.RandomString(10)
 
 	BeforeEach(func() {
@@ -41,6 +38,12 @@ var _ = Describe("Blob Container", func() {
 		_, _ = tc.StorageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, storageAccountName, storageLocation, azurev1alpha1.StorageSku{
 			Name: "Standard_LRS",
 		}, "Storage", map[string]*string{}, "", nil)
+
+		Eventually(func() s.ProvisioningState {
+			result, _ := tc.StorageManagers.Storage.GetStorage(context.Background(), tc.ResourceGroupName, storageAccountName)
+			return result.ProvisioningState
+		}, tc.timeout, tc.retryInterval,
+		).Should(Equal(s.Succeeded))
 	})
 
 	AfterEach(func() {
@@ -71,7 +74,7 @@ var _ = Describe("Blob Container", func() {
 			Eventually(func() bool {
 				result, _ := tc.StorageManagers.BlobContainer.GetBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
 				return result.Response.StatusCode == http.StatusOK
-			}, timeout,
+			}, tc.timeout, tc.retryInterval,
 			).Should(BeTrue())
 
 			_, err = tc.StorageManagers.BlobContainer.DeleteBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
@@ -80,7 +83,7 @@ var _ = Describe("Blob Container", func() {
 			Eventually(func() bool {
 				result, _ := tc.StorageManagers.BlobContainer.GetBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
 				return result.Response.StatusCode == http.StatusNotFound
-			}, timeout,
+			}, tc.timeout, tc.retryInterval,
 			).Should(BeTrue())
 
 		})

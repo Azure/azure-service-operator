@@ -18,6 +18,8 @@ const (
 	InvalidServerName              = "InvalidServerName"
 	ContainerOperationFailure      = "ContainerOperationFailure"
 	ValidationError                = "ValidationError"
+	AlreadyExists                  = "AlreadyExists"
+	AccountNameInvalid             = "AccountNameInvalid"
 )
 
 func NewAzureError(err error) error {
@@ -57,6 +59,15 @@ func NewAzureError(err error) error {
 	} else if verr, ok := err.(validation.Error); ok {
 		kind = "ValidationError"
 		reason = verr.Message
+	} else if err.Error() == InvalidServerName {
+		kind = InvalidServerName
+		reason = InvalidServerName
+	} else if err.Error() == AlreadyExists {
+		kind = AlreadyExists
+		reason = AlreadyExists
+	} else if err.Error() == AccountNameInvalid {
+		kind = AccountNameInvalid
+		reason = AccountNameInvalid
 	}
 	ae.Reason = reason
 	ae.Type = kind

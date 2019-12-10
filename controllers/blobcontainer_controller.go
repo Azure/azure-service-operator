@@ -23,6 +23,7 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
+	"github.com/prometheus/common/log"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -69,7 +70,22 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	if instance.IsBeingDeleted() {
 		if helpers.HasFinalizer(&instance, blobContainerFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Error", "Delete blob container failed with ", err)
+				catch := []string{
+					errhelp.AsyncOpIncompleteError,
+					errhelp.ParentNotFoundErrorCode,
+				}
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if helpers.ContainsString(catch, azerr.Type) {
+					if azerr.Type == errhelp.ParentNotFoundErrorCode {
+						log.Info("Error about parent resource not found which we can ignore")
+						return ctrl.Result{}, nil
+					}
+					log.Info("Got ignorable error", "type", azerr.Type)
+					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+				}
+
+				instance.Status.Message = fmt.Sprintf("Delete blob container failed with %v", err)
+				log.Info(instance.Status.Message)
 				return ctrl.Result{}, err
 			}
 
@@ -110,8 +126,7 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 					// Requeue if ReconcileExternal errors on one of these codes
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
-				// DEBUGGING
-				r.Log.Info(fmt.Sprintf("catchIgnorable did not include error: %s", azerr.Type))
+
 			}
 			catchNotIgnorable := []string{
 				errhelp.ContainerOperationFailure, // Container name was invalid
@@ -228,6 +243,15 @@ func (r *BlobContainerReconciler) deleteExternal(instance *azurev1alpha1.BlobCon
 	r.Log.Info(fmt.Sprintf("Deleting blob container: " + containerName))
 	_, err := r.StorageManager.DeleteBlobContainer(ctx, groupName, accountName, containerName)
 	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if azerr.Type == errhelp.ParentNotFoundErrorCode {
+			log.Info("Got ignorable error", "type", azerr.Type)
+			msg := fmt.Sprintf("Deleted blob container: %s", containerName)
+			r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", msg)
+			instance.Status.Message = msg
+			return nil
+		}
+
 		msg := fmt.Sprintf("Unable to delete blob container from Azure: %v", err)
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", msg)
 		instance.Status.Message = msg
