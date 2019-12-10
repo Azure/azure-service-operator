@@ -1,8 +1,0 @@
-apiVersion: "aadpodidentity.k8s.io/v1"
-kind: AzureIdentity
-metadata:
-  name: mi-identity
-spec:
-  type: 0
-  ResourceID: /subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac/resourcegroups/janani-tftest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-manager-identity
-  ClientID: 288a7d63-ab78-442e-89ee-2a353fb990ab
