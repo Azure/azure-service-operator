@@ -35,6 +35,8 @@ var _ = Describe("ResourceGroup Controller", func() {
 		It("should create and delete resource group instances", func() {
 			resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
 
+			defer GinkgoRecover()
+
 			var err error
 
 			// Create the ResourceGroup object and expect the Reconcile to be created
@@ -59,21 +61,21 @@ var _ = Describe("ResourceGroup Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.HasFinalizer(finalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			// verify rg gets submitted
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			// verify rg exists in azure
 			Eventually(func() bool {
 				_, err := tc.resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
 				return err == nil
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			// delete rg
@@ -84,7 +86,7 @@ var _ = Describe("ResourceGroup Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
 				return resourceGroupInstance.IsBeingDeleted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			// verify rg is gone from kubernetes
@@ -94,14 +96,17 @@ var _ = Describe("ResourceGroup Controller", func() {
 					err = fmt.Errorf("")
 				}
 				return strings.Contains(err.Error(), "not found")
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			// verify rg is gone from Azure
 			Eventually(func() bool {
 				result, _ := tc.resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
+				if result.Response == nil {
+					return false
+				}
 				return result.Response.StatusCode == http.StatusNotFound
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 		})
 	})

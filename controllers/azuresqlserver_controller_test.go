@@ -54,6 +54,7 @@ var _ = Describe("AzureSqlServer Controller", func() {
 		It("should create and delete sql server in k8s", func() {
 			sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
 
+			defer GinkgoRecover()
 			var err error
 
 			// Create the SqlServer object and expect the Reconcile to be created
@@ -77,13 +78,13 @@ var _ = Describe("AzureSqlServer Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 				return helpers.HasFinalizer(sqlServerInstance, AzureSQLServerFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 				return sqlServerInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			//verify secret exists in k8s
@@ -96,7 +97,7 @@ var _ = Describe("AzureSqlServer Controller", func() {
 					}
 				}
 				return false
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), sqlServerInstance)
@@ -105,7 +106,7 @@ var _ = Describe("AzureSqlServer Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 				return helpers.IsBeingDeleted(sqlServerInstance)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})
