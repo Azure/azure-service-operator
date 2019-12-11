@@ -167,15 +167,19 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
 		os.Exit(1)
 	}
-	if err = (&controllers.RedisCacheReconciler{
-		Client: mgr.GetClient(),
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("RedisCache"),
-			"RedisCache",
-		),
-		Recorder:    mgr.GetEventRecorderFor("RedisCache-controller"),
-		AzureClient: redisCacheManager,
-	}).SetupWithManager(mgr); err != nil {
+	err = (&controllers.RedisCacheReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: redisCacheManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("RedisCache"),
+				"RedisCache",
+			),
+			Recorder: mgr.GetEventRecorderFor("RedisCache-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr)
+	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
 		os.Exit(1)
 	}
