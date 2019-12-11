@@ -38,7 +38,7 @@ import (
 
 type AzureRedisCacheManager struct{}
 
-func (_ *AzureRedisCacheManager) getRedisCacheClient() redis.Client {
+func getRedisCacheClient() redis.Client {
 	redisClient := redis.NewClient(config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
@@ -50,14 +50,14 @@ func (_ *AzureRedisCacheManager) getRedisCacheClient() redis.Client {
 }
 
 // CreateRedisCache creates a new RedisCache
-func (sdk *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
+func (_ *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
 	groupName string,
 	redisCacheName string,
 	location string,
 	sku azurev1alpha1.RedisCacheSku,
 	enableNonSSLPort bool,
 	tags map[string]*string) (*redis.ResourceType, error) {
-	redisClient := sdk.getRedisCacheClient()
+	redisClient := getRedisCacheClient()
 
 	//Check if name is available
 	redisType := "Microsoft.Cache/redis"
@@ -105,7 +105,7 @@ func (sdk *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
 }
 
 // DeleteRedisCache removes the resource group named by env var
-func (sdk *AzureRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
-	redisClient := sdk.getRedisCacheClient()
+func (_ *AzureRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
+	redisClient := getRedisCacheClient()
 	return redisClient.Delete(ctx, groupName, redisCacheName)
 }
