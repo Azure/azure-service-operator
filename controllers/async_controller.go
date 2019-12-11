@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	multierror "github.com/hashicorp/go-multierror"
 	corev1 "k8s.io/api/core/v1"
@@ -30,7 +30,7 @@ const (
 // It reconciles object which require long running operations.
 type AsyncReconciler struct {
 	client.Client
-	AzureClient helpers.AsyncClient
+	AzureClient resourcemanager.AsyncClient
 	Telemetry   telemetry.PrometheusTelemetry
 	Recorder    record.EventRecorder
 	Scheme      *runtime.Scheme

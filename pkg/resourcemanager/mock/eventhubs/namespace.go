@@ -26,6 +26,7 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	apphelpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -213,7 +214,7 @@ func (ns *mockEventHubNamespaceManager) Delete(ctx context.Context, obj runtime.
 	return false, nil
 }
 
-func (ns *mockEventHubNamespaceManager) Parents(obj runtime.Object) ([]apphelpers.KubeParent, error) {
+func (ns *mockEventHubNamespaceManager) Parents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
 	instance, err := ns.convert(obj)
 	if err != nil {
@@ -222,7 +223,7 @@ func (ns *mockEventHubNamespaceManager) Parents(obj runtime.Object) ([]apphelper
 
 	key := types.NamespacedName{Namespace: instance.Namespace, Name: instance.Spec.ResourceGroup}
 
-	return []apphelpers.KubeParent{
+	return []resourcemanager.KubeParent{
 		{Key: key, Target: &v1alpha1.ResourceGroup{}},
 	}, nil
 

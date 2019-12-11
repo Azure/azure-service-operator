@@ -23,6 +23,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -82,7 +83,7 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 	return true, nil
 }
 
-func (g *AzureResourceGroupManager) Parents(obj runtime.Object) ([]helpers.KubeParent, error) {
+func (g *AzureResourceGroupManager) Parents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	return nil, nil
 }
 

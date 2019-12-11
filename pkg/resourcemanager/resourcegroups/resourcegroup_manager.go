@@ -20,7 +20,7 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/go-autorest/autorest"
 )
 
@@ -44,5 +44,5 @@ type ResourceGroupManager interface {
 	CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error)
 
 	// also embed methods from AsyncClient
-	helpers.AsyncClient
+	resourcemanager.AsyncClient
 }
