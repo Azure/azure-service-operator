@@ -64,6 +64,13 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 	serversClient := getGoServersClient()
 	serverProp := SQLServerPropertiesToServer(properties)
 
+	checkNameResult, err := CheckNameAvailability(ctx, resourceGroupName, serverName)
+	if checkNameResult.Reason == sql.AlreadyExists {
+		return result, errors.New("AlreadyExists")
+	} else if checkNameResult.Reason == sql.Invalid {
+		return result, errors.New("InvalidServerName")
+	}
+
 	// issue the creation
 	future, err := serversClient.CreateOrUpdate(
 		ctx,
@@ -78,6 +85,23 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 	}
 
 	return future.Result(serversClient)
+}
+
+func (_ *AzureSqlServerManager) CheckNameAvailability(ctx context.Context, resourceGroupName string, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {
+	serversClient := getGoServersClient()
+
+	response, err := serversClient.CheckNameAvailability(
+		ctx,
+		sql.CheckNameAvailabilityRequest{
+			Name: to.StringPtr(serverName),
+			Type: to.StringPtr(typeOfService),
+		},
+	)
+	if err != nil {
+		return result, err
+	}
+
+	return ToAvailabilityResponse(response), err
 }
 
 // getGoServersClient retrieves a ServersClient

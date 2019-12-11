@@ -86,6 +86,7 @@ func main() {
 	secretClient := k8sSecrets.New(mgr.GetClient())
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
+	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 	sqlServerManager := resourcemanagersql.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
@@ -148,6 +149,7 @@ func main() {
 				"ResourceGroup",
 			),
 			Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
+			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -156,10 +158,16 @@ func main() {
 	}
 
 	err = (&controllers.EventhubNamespaceReconciler{
-		Client:                   mgr.GetClient(),
-		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder:                 mgr.GetEventRecorderFor("EventhubNamespace-controller"),
-		EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: eventhubNamespaceClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+				"EventhubNamespace",
+			),
+			Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
