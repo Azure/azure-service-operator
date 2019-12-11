@@ -154,7 +154,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
 		instance.Status.State = *evhns.ProvisioningState
-		instance.Status.Message = "Namespace already existed"
+		instance.Status.Message = "namespace already exists"
 
 		if *evhns.ProvisioningState == "Succeeded" {
 			return true, nil
