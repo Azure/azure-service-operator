@@ -75,13 +75,11 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	for {
 		time.Sleep(time.Second)
 
-		server, err := tc.SqlServerManager.GetServer(ctx, groupName, serverName)
+		server, err = tc.SqlServerManager.GetServer(ctx, groupName, serverName)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
 				break
-			}
-		}
 			} else {
 				util.PrintAndLog("waiting for sql server to be ready...")
 				continue
@@ -107,10 +105,10 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// wait for db to be created, then only proceed once activated
+	// wait for db to be created, then only proceed once activated
 	future, err := tc.sqlDbManager.CreateOrUpdateDB(ctx, groupName, location, serverName, sqlDBProperties)
 	for {
 		time.Sleep(time.Second)
-		future, err := tc.sqlDbManager.CreateOrUpdateDB(ctx, groupName, location, serverName, sqlDBProperties)
 		if err == nil {
 			db, err := future.Result(getGoDbClient())
 			if err == nil {

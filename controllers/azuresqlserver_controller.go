@@ -135,7 +135,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 					// call to the reconcile loop for an update of the resource. So
 					// we call a Get to check if this is the current resource and if
 					// yes, we let the call go through instead of ending the reconcile loop
-					_, err := r.ResourceClient.GetServer(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
+					_, err := r.AzureSqlServerManager.GetServer(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
 					if err != nil {
 						// This means that the Server exists elsewhere and we should
 						// terminate the reconcile loop

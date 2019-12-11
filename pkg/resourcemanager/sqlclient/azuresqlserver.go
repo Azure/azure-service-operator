@@ -7,6 +7,7 @@ package sqlclient
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
@@ -16,6 +17,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 )
+
+const typeOfService = "Microsoft.Sql/servers"
 
 type AzureSqlServerManager struct {
 	Log logr.Logger
@@ -87,7 +90,7 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 	return future.Result(serversClient)
 }
 
-func (_ *AzureSqlServerManager) CheckNameAvailability(ctx context.Context, resourceGroupName string, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {
+func CheckNameAvailability(ctx context.Context, resourceGroupName string, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {
 	serversClient := getGoServersClient()
 
 	response, err := serversClient.CheckNameAvailability(
@@ -101,7 +104,7 @@ func (_ *AzureSqlServerManager) CheckNameAvailability(ctx context.Context, resou
 		return result, err
 	}
 
-	return ToAvailabilityResponse(response), err
+	return response, err
 }
 
 // getGoServersClient retrieves a ServersClient
