@@ -44,5 +44,5 @@ type ResourceGroupManager interface {
 	CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error)
 
 	// also embed methods from AsyncClient
-	resourcemanager.AsyncClient
+	resourcemanager.ARMClient
 }

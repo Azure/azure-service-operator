@@ -45,5 +45,5 @@ type EventHubNamespaceManager interface {
 	CreateNamespaceAndWait(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error)
 
 	// also embed async client methods
-	resourcemanager.AsyncClient
+	resourcemanager.ARMClient
 }

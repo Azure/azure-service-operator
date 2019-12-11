@@ -12,7 +12,7 @@ type KubeParent struct {
 	Target runtime.Object
 }
 
-type AsyncClient interface {
+type ARMClient interface {
 	Ensure(context.Context, runtime.Object) (bool, error)
 	Delete(context.Context, runtime.Object) (bool, error)
 	GetParents(runtime.Object) ([]KubeParent, error)

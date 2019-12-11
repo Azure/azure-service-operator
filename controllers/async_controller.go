@@ -30,7 +30,7 @@ const (
 // It reconciles Kubernets objects which require long running operations in Azure.
 type AsyncReconciler struct {
 	client.Client
-	AzureClient resourcemanager.AsyncClient
+	AzureClient resourcemanager.ARMClient
 	Telemetry   telemetry.PrometheusTelemetry
 	Recorder    record.EventRecorder
 	Scheme      *runtime.Scheme
