@@ -72,6 +72,10 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// wait for server to be created, then only proceed once activated
 	server, err := tc.SqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
+	if err != nil {
+		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
+		t.FailNow()
+	}
 	for {
 		time.Sleep(time.Second)
 
@@ -157,6 +161,10 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// wait for server to be created, then only proceed once activated
 	server, err = tc.SqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, secLocation, serverName, sqlServerProperties)
+	if err != nil {
+		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
+		t.FailNow()
+	}
 	for {
 		time.Sleep(time.Second)
 
