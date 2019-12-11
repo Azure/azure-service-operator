@@ -29,6 +29,7 @@ import (
 	"k8s.io/client-go/rest"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
+	s "github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -321,19 +322,17 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	// Create the Storage Account and Container
-	Eventually(func() bool {
-		_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
-			Name: "Standard_LRS",
-		}, "Storage", map[string]*string{}, "", nil, nil)
-		if err != nil {
-			if strings.Contains(err.Error(), "asynchronous operation has not completed") {
-				return true
-			}
-			return false
-		}
-		return true
+	_, _ = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
+		Name: "Standard_LRS",
+	}, "Storage", map[string]*string{}, "", nil, nil)
+
+	// Storage account needs to be in "Suceeded" state
+	// for container create to succeed
+	Eventually(func() s.ProvisioningState {
+		result, _ := storageManagers.Storage.GetStorage(context.Background(), resourceGroupName, storageAccountName)
+		return result.ProvisioningState
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(Equal(s.Succeeded))
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
 	Expect(err).ToNot(HaveOccurred())
