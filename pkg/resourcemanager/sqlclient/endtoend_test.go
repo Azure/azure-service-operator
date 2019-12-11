@@ -10,6 +10,7 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
 
 	"testing"
@@ -70,9 +71,12 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
 	}
 
+	ignorableErrors := []string{errhelp.AsyncOpIncompleteError}
+
 	// wait for server to be created, then only proceed once activated
 	server, err := tc.SqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
-	if err != nil {
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	if err != nil && !helpers.ContainsString(ignorableErrors, azerr.Type) {
 		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
 		t.FailNow()
 	}
@@ -108,7 +112,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		Edition:      Basic,
 	}
 
-	// wait for db to be created, then only proceed once activated
 	// wait for db to be created, then only proceed once activated
 	future, err := tc.sqlDbManager.CreateOrUpdateDB(ctx, groupName, location, serverName, sqlDBProperties)
 	for {
@@ -161,7 +164,8 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// wait for server to be created, then only proceed once activated
 	server, err = tc.SqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, secLocation, serverName, sqlServerProperties)
-	if err != nil {
+	azerr = errhelp.NewAzureErrorAzureError(err)
+	if err != nil && !helpers.ContainsString(ignorableErrors, azerr.Type) {
 		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
 		t.FailNow()
 	}
