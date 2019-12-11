@@ -168,10 +168,13 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.RedisCacheReconciler{
-		Client:                 mgr.GetClient(),
-		Log:                    ctrl.Log.WithName("controllers").WithName("RedisCache"),
-		Recorder:               mgr.GetEventRecorderFor("RedisCache-controller"),
-		AzureRedisCacheManager: redisCacheManager,
+		Client: mgr.GetClient(),
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+			"ResourceGroup",
+		),
+		Recorder:    mgr.GetEventRecorderFor("RedisCache-controller"),
+		AzureClient: redisCacheManager,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
 		os.Exit(1)
