@@ -38,7 +38,8 @@ var _ = Describe("Keyvault Secrets Client", func() {
 
 	var ctx context.Context
 	var err error
-	var timeout int
+	var timeout time.Duration
+	var retry time.Duration
 
 	// Define resource group & keyvault constants
 	var keyVaultName string
@@ -55,7 +56,10 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		ctx = context.Background()
 
 		// Set timeout to 300 seconds
-		timeout = 300
+		timeout = 300 * time.Second
+
+		// Set retryinterval to 1 second
+		retry = 1 * time.Second
 
 		// Initialize service principal ID to give access to the keyvault
 		userID = config.ClientID()
@@ -73,7 +77,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		Eventually(func() bool {
 			result, _ := resourceGroupManager.CheckExistence(ctx, resourcegroupName)
 			return result.Response.StatusCode == http.StatusNoContent
-		}, timeout,
+		}, timeout, retry,
 		).Should(BeTrue())
 
 		// Create a keyvault
@@ -101,7 +105,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		Eventually(func() bool {
 			result, _ := resourceGroupManager.CheckExistence(ctx, resourcegroupName)
 			return result.Response.StatusCode == http.StatusNoContent
-		}, timeout,
+		}, timeout, retry,
 		).Should(BeFalse())
 	})
 

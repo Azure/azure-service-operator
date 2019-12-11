@@ -64,6 +64,7 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 		return err
 	}
 	stringSecret := string(jsonData)
+	contentType := "json"
 
 	// Initialize secret parameters
 	secretParams := keyvaults.SecretSetParameters{
@@ -72,10 +73,11 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 			Enabled: &enabled,
 			Expires: &expireDateUTC,
 		},
+		ContentType: &contentType,
 	}
 
 	if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
-		return fmt.Errorf("secret already exists" + err.Error())
+		return fmt.Errorf("secret already exists %v", err)
 	}
 
 	_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
@@ -117,7 +119,7 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 		// If secret exists we delete it and recreate it again
 		_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
 		if err != nil {
-			return fmt.Errorf("Deleting the secret failed" + err.Error())
+			return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
 		}
 	}
 

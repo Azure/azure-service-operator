@@ -129,6 +129,9 @@ func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 
 	log.Println(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
+	if err != nil {
+		return keyvault.Vault{}, err
+	}
 
 	return future.Result(vaultsClient)
 }
