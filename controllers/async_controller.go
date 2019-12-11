@@ -27,7 +27,7 @@ const (
 )
 
 // AsyncReconciler is a generic reconciler for Azure resources.
-// It reconciles object which require long running operations.
+// It reconciles Kubernets objects which require long running operations in Azure.
 type AsyncReconciler struct {
 	client.Client
 	AzureClient resourcemanager.AsyncClient
