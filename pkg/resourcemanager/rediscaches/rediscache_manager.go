@@ -10,6 +10,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 )
 
 func NewAzureRedisCacheManager() *AzureRedisCacheManager {
@@ -28,4 +29,7 @@ type RedisCacheManager interface {
 
 	// DeleteRedisCache removes the resource group named by env var
 	DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error)
+
+	// also embed async client methods
+	resourcemanager.ARMClient
 }
