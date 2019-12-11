@@ -170,8 +170,8 @@ func main() {
 	if err = (&controllers.RedisCacheReconciler{
 		Client: mgr.GetClient(),
 		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-			"ResourceGroup",
+			ctrl.Log.WithName("controllers").WithName("RedisCache"),
+			"RedisCache",
 		),
 		Recorder:    mgr.GetEventRecorderFor("RedisCache-controller"),
 		AzureClient: redisCacheManager,
