@@ -28,7 +28,7 @@ import (
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
 
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
+	s "github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -325,7 +325,11 @@ var _ = BeforeSuite(func() {
 		Name: "Standard_LRS",
 	}, "Storage", map[string]*string{}, "", nil, nil)
 
-	Expect(err).ToNot(HaveOccurred())
+    Eventually(func() bool {
+		result, _ := storageManagers.Storage.GetStorage(context.Background(), resourceGroupName, storageAccountName)
+		return result.ProvisioningState == s.Succeeded
+	}, tc.timeout, tc.retry,
+	).Should(Equal(true))
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
 	Expect(err).ToNot(HaveOccurred())
