@@ -85,6 +85,7 @@ func main() {
 
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
+	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 	resourceClient := resourcemanagersql.GoSDKClient{}
@@ -144,6 +145,7 @@ func main() {
 				"ResourceGroup",
 			),
 			Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
+			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -152,10 +154,16 @@ func main() {
 	}
 
 	err = (&controllers.EventhubNamespaceReconciler{
-		Client:                   mgr.GetClient(),
-		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder:                 mgr.GetEventRecorderFor("EventhubNamespace-controller"),
-		EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: eventhubNamespaceClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+				"EventhubNamespace",
+			),
+			Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
@@ -182,7 +190,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
 		os.Exit(1)
 	}
-
 	if err = (&controllers.AzureSqlServerReconciler{
 		Client:         mgr.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
@@ -228,7 +235,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
 		os.Exit(1)
 	}
-
 	if err = (&controllers.AzureSQLUserReconciler{
 		Client:       mgr.GetClient(),
 		Log:          ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
@@ -239,7 +245,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
 		os.Exit(1)
 	}
-
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
 		Client:         mgr.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
@@ -250,7 +255,15 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
 		os.Exit(1)
 	}
-
+	if err = (&controllers.AzureDataLakeGen2FileSystemReconciler{
+		Client:            mgr.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
+		Recorder:          mgr.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
+		FileSystemManager: storageManagers.FileSystem,
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureDataLakeGen2FileSystem")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

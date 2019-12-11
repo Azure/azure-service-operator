@@ -17,7 +17,9 @@ package eventhubs
 
 import (
 	"context"
+
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/go-autorest/autorest"
 )
 
@@ -41,4 +43,7 @@ type EventHubNamespaceManager interface {
 	// namespaceName - the Namespace name
 	// location - azure region
 	CreateNamespaceAndWait(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error)
+
+	// also embed async client methods
+	resourcemanager.ARMClient
 }
