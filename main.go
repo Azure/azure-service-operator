@@ -95,6 +95,7 @@ func main() {
 	err = resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
 		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
+		os.Exit(1)
 	}
 
 	if os.Getenv("KEYVNAME_FOR_SECRETS") == "" {
