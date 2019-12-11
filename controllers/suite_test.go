@@ -26,8 +26,6 @@ import (
 	"time"
 
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
@@ -43,11 +41,9 @@ import (
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
-	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
-	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
-	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-
 	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
+	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

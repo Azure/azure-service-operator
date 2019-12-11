@@ -94,6 +94,7 @@ func main() {
 		Client:         mgr.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("Storage"),
 		Recorder:       mgr.GetEventRecorderFor("Storage-controller"),
+		Scheme:         mgr.GetScheme(),
 		StorageManager: storageManagers.Storage,
 	}).SetupWithManager(mgr)
 	if err != nil {
