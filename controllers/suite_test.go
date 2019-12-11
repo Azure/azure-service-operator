@@ -28,7 +28,7 @@ import (
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
 
-	s "github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
+	"github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -321,15 +321,19 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	// Create the Storage Account and Container
-	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
-		Name: "Standard_LRS",
-	}, "Storage", map[string]*string{}, "", nil, nil)
-
-    Eventually(func() bool {
-		result, _ := storageManagers.Storage.GetStorage(context.Background(), resourceGroupName, storageAccountName)
-		return result.ProvisioningState == s.Succeeded
+	Eventually(func() bool {
+		_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
+			Name: "Standard_LRS",
+		}, "Storage", map[string]*string{}, "", nil, nil)
+		if err != nil {
+			if strings.Contains(err.Error(), "asynchronous operation has not completed") {
+				return true
+			}
+			return false
+		}
+		return true
 	}, tc.timeout, tc.retry,
-	).Should(Equal(true))
+	).Should(BeTrue())
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
 	Expect(err).ToNot(HaveOccurred())
