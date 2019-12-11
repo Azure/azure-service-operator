@@ -88,12 +88,12 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
 				}
-				if azerr, ok := err.(*errhelp.AzureError); ok {
-					if helpers.ContainsString(catch, azerr.Type) {
-						log.Info("Got ignorable error", "type", azerr.Type)
-						return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
-					}
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if helpers.ContainsString(catch, azerr.Type) {
+					log.Info("Got ignorable error", "type", azerr.Type)
+					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
+
 				instance.Status.Message = fmt.Sprintf("Delete AzureSqlServer failed with %v", err)
 				log.Info(instance.Status.Message)
 				return ctrl.Result{}, err
@@ -124,15 +124,33 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
 				errhelp.InvalidServerName,
+				errhelp.AlreadyExists,
 			}
 			azerr := errhelp.NewAzureErrorAzureError(err)
 			if helpers.ContainsString(catch, azerr.Type) {
+
+				if azerr.Type == errhelp.AlreadyExists {
+					// This error could happen in two cases - when the SQL server
+					// exists in some other resource group or when this is a repeat
+					// call to the reconcile loop for an update of the resource. So
+					// we call a Get to check if this is the current resource and if
+					// yes, we let the call go through instead of ending the reconcile loop
+					_, err := r.ResourceClient.GetServer(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
+					if err != nil {
+						// This means that the Server exists elsewhere and we should
+						// terminate the reconcile loop
+						instance.Status.Message = "Server Already exists"
+						instance.Status.Provisioning = false
+						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
+						return ctrl.Result{Requeue: false}, nil
+					}
+				}
+
 				if azerr.Type == errhelp.InvalidServerName {
 					instance.Status.Message = "Invalid Server Name"
 					r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
 					return ctrl.Result{Requeue: false}, nil
 				}
-
 				instance.Status.Message = fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
 				log.Info(instance.Status.Message)
 				return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
@@ -217,6 +235,12 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 			instance.Status.Message = msg
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 			return err
+		}
+		if strings.Contains(err.Error(), errhelp.InvalidServerName) {
+			msg := fmt.Sprintf("Invalid Server Name: %v", err)
+			instance.Status.Message = msg
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
+			return errhelp.NewAzureError(err)
 		}
 	} else {
 		msg := "Resource request successfully submitted to Azure"

@@ -2,6 +2,7 @@ package sqlclient
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
@@ -53,6 +54,14 @@ func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
 func (sdk GoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLServerProperties) (result sql.Server, err error) {
 	serversClient := getGoServersClient()
 	serverProp := SQLServerPropertiesToServer(properties)
+
+	// Check name availability
+	checkNameResult, err := sdk.CheckNameAvailability(ctx, resourceGroupName, serverName)
+	if checkNameResult.Reason == sql.AlreadyExists {
+		return result, errors.New("AlreadyExists")
+	} else if checkNameResult.Reason == sql.Invalid {
+		return result, errors.New("InvalidServerName")
+	}
 
 	// issue the creation
 	future, err := serversClient.CreateOrUpdate(
@@ -326,7 +335,7 @@ func (sdk GoSDKClient) DeleteFailoverGroup(ctx context.Context, resourceGroupNam
 }
 
 // CheckNameAvailability determines whether a SQL resource can be created with the specified name
-func (sdk GoSDKClient) CheckNameAvailability(ctx context.Context, resourceGroupName string, serverName string) (result AvailabilityResponse, err error) {
+func (sdk GoSDKClient) CheckNameAvailability(ctx context.Context, resourceGroupName string, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {
 	serversClient := getGoServersClient()
 
 	response, err := serversClient.CheckNameAvailability(
@@ -340,7 +349,7 @@ func (sdk GoSDKClient) CheckNameAvailability(ctx context.Context, resourceGroupN
 		return result, err
 	}
 
-	return ToAvailabilityResponse(response), err
+	return response, err
 }
 
 // GetServer returns a SQL server
