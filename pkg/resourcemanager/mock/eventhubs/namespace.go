@@ -214,7 +214,7 @@ func (ns *mockEventHubNamespaceManager) Delete(ctx context.Context, obj runtime.
 	return false, nil
 }
 
-func (ns *mockEventHubNamespaceManager) Parents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (ns *mockEventHubNamespaceManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
 	instance, err := ns.convert(obj)
 	if err != nil {

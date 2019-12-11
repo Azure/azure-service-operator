@@ -234,7 +234,7 @@ func (ns *azureEventHubNamespaceManager) Delete(ctx context.Context, obj runtime
 	return true, nil
 }
 
-func (ns *azureEventHubNamespaceManager) Parents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (ns *azureEventHubNamespaceManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
 	instance, err := ns.convert(obj)
 	if err != nil {

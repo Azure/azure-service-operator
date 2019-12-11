@@ -133,7 +133,7 @@ func (g *MockResourceGroupManager) Delete(ctx context.Context, obj runtime.Objec
 	return false, nil
 }
 
-func (g *MockResourceGroupManager) Parents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (g *MockResourceGroupManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	return nil, nil
 }
 

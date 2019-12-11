@@ -83,7 +83,7 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 	return true, nil
 }
 
-func (g *AzureResourceGroupManager) Parents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (g *AzureResourceGroupManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	return nil, nil
 }
 

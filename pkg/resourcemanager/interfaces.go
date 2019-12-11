@@ -15,5 +15,5 @@ type KubeParent struct {
 type AsyncClient interface {
 	Ensure(context.Context, runtime.Object) (bool, error)
 	Delete(context.Context, runtime.Object) (bool, error)
-	Parents(runtime.Object) ([]KubeParent, error)
+	GetParents(runtime.Object) ([]KubeParent, error)
 }

@@ -95,7 +95,8 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	// loop through parents until one is successfully referenced
 	r.Telemetry.LogInfo("status", "handling parent reference for object")
-	parents, err := r.AzureClient.Parents(local)
+
+	parents, err := r.AzureClient.GetParents(local)
 	for _, p := range parents {
 		//r.Telemetry.LogInfo("status", "handling parent "+p.Key.Name)
 
