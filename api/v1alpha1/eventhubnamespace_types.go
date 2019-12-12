@@ -34,7 +34,7 @@ type EventhubNamespaceSpec struct {
 }
 
 // +kubebuilder:object:root=true
-
+// +kubebuilder:subresource:status
 // EventhubNamespace is the Schema for the eventhubnamespaces API
 type EventhubNamespace struct {
 	metav1.TypeMeta   `json:",inline"`

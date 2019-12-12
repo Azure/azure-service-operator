@@ -23,6 +23,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -36,7 +37,6 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	resourcegroupName := instance.ObjectMeta.Name
 	instance.Status.Provisioning = true
 
-	g.Log.Info("creating resource group", "name", resourcegroupName, "location", resourcegroupLocation)
 	_, err = g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
 		instance.Status.Provisioned = false
@@ -61,7 +61,6 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 	}
 
 	resourcegroup := instance.ObjectMeta.Name
-	g.Log.Info("Deleting resource group", "name", resourcegroup)
 
 	_, err = g.DeleteGroup(ctx, resourcegroup)
 	if err != nil {
@@ -82,6 +81,10 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 	}
 
 	return true, nil
+}
+
+func (g *AzureResourceGroupManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+	return nil, nil
 }
 
 func (g *AzureResourceGroupManager) convert(obj runtime.Object) (*azurev1alpha1.ResourceGroup, error) {

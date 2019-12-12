@@ -1,4 +1,0 @@
-{
-    "go.formatTool": "goimports",
-    "go.inferGopath": false
-}

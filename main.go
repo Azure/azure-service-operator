@@ -4,7 +4,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+		http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,6 +29,7 @@ import (
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -38,8 +39,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	// +kubebuilder:scaffold:imports
 )
-
-const NameAzureSQLFirewallRuleOperator = "AzureSQLFirewallRuleOperator"
 
 var (
 	masterURL, kubeconfig, resources, clusterName               string
@@ -84,11 +83,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager(ctrl.Log.WithName("resourcemanager").WithName("ResourceGroup"))
+	secretClient := k8sSecrets.New(mgr.GetClient())
+	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
+	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
-	resourceClient := resourcemanagersql.GoSDKClient{}
+	sqlServerManager := resourcemanagersql.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
+	sqlDBManager := resourcemanagersql.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
+	sqlFirewallRuleManager := resourcemanagersql.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlFailoverGroupManager := resourcemanagersql.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+	sqlUserManager := resourcemanagersql.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
 
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
@@ -118,7 +123,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = resourcemanagerconfig.LoadSettings()
+	err = resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
 		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
 	}
@@ -129,6 +134,7 @@ func main() {
 		Recorder:        mgr.GetEventRecorderFor("Eventhub-controller"),
 		Scheme:          scheme,
 		EventHubManager: eventhubManagers.EventHub,
+		SecretClient:    secretClient,
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
@@ -138,8 +144,12 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: resourceGroupManager,
-			Log:         ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-			Recorder:    mgr.GetEventRecorderFor("ResourceGroup-controller"),
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+				"ResourceGroup",
+			),
+			Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
+			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -148,10 +158,16 @@ func main() {
 	}
 
 	err = (&controllers.EventhubNamespaceReconciler{
-		Client:                   mgr.GetClient(),
-		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder:                 mgr.GetEventRecorderFor("EventhubNamespace-controller"),
-		EventHubNamespaceManager: eventhubManagers.EventHubNamespace,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: eventhubNamespaceClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+				"EventhubNamespace",
+			),
+			Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
@@ -178,23 +194,23 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
 		os.Exit(1)
 	}
-
 	if err = (&controllers.AzureSqlServerReconciler{
-		Client:         mgr.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
-		Recorder:       mgr.GetEventRecorderFor("AzureSqlServer-controller"),
-		Scheme:         mgr.GetScheme(),
-		ResourceClient: resourceClient,
+		Client:                mgr.GetClient(),
+		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+		Recorder:              mgr.GetEventRecorderFor("AzureSqlServer-controller"),
+		Scheme:                mgr.GetScheme(),
+		AzureSqlServerManager: sqlServerManager,
+		SecretClient:          secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
 		os.Exit(1)
 	}
 	if err = (&controllers.AzureSqlDatabaseReconciler{
-		Client:         mgr.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
-		Recorder:       mgr.GetEventRecorderFor("AzureSqlDatabase-controller"),
-		Scheme:         mgr.GetScheme(),
-		ResourceClient: resourceClient,
+		Client:            mgr.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
+		Recorder:          mgr.GetEventRecorderFor("AzureSqlDatabase-controller"),
+		Scheme:            mgr.GetScheme(),
+		AzureSqlDbManager: sqlDBManager,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDatabase")
 		os.Exit(1)
@@ -202,48 +218,57 @@ func main() {
 	if err = (&controllers.AzureSqlFirewallRuleReconciler{
 		Client: mgr.GetClient(),
 		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName(NameAzureSQLFirewallRuleOperator),
-			NameAzureSQLFirewallRuleOperator,
+			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+			"AzureSQLFirewallRuleOperator",
 		),
-		Recorder:       mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
-		Scheme:         mgr.GetScheme(),
-		ResourceClient: resourceClient,
+		Recorder:                    mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
+		Scheme:                      mgr.GetScheme(),
+		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
 		os.Exit(1)
 	}
 	if err = (&controllers.AzureSqlActionReconciler{
-		Client:         mgr.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
-		Recorder:       mgr.GetEventRecorderFor("AzureSqlAction-controller"),
-		Scheme:         mgr.GetScheme(),
-		ResourceClient: resourceClient,
+		Client:                mgr.GetClient(),
+		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
+		Recorder:              mgr.GetEventRecorderFor("AzureSqlAction-controller"),
+		Scheme:                mgr.GetScheme(),
+		AzureSqlServerManager: sqlServerManager,
+		SecretClient:          secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
 		os.Exit(1)
 	}
-
 	if err = (&controllers.AzureSQLUserReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
-		Recorder: mgr.GetEventRecorderFor("AzureSQLUser-controller"),
-		Scheme:   mgr.GetScheme(),
+		Client:              mgr.GetClient(),
+		Log:                 ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
+		Recorder:            mgr.GetEventRecorderFor("AzureSQLUser-controller"),
+		Scheme:              mgr.GetScheme(),
+		AzureSqlUserManager: sqlUserManager,
+		SecretClient:        secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
 		os.Exit(1)
 	}
-
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
-		Client:         mgr.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:       mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-		Scheme:         mgr.GetScheme(),
-		ResourceClient: resourceClient,
+		Client:                       mgr.GetClient(),
+		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+		Recorder:                     mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+		Scheme:                       mgr.GetScheme(),
+		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
 		os.Exit(1)
 	}
-
+	if err = (&controllers.AzureDataLakeGen2FileSystemReconciler{
+		Client:            mgr.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
+		Recorder:          mgr.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
+		FileSystemManager: storageManagers.FileSystem,
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureDataLakeGen2FileSystem")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

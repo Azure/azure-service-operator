@@ -17,7 +17,6 @@ package controllers
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -25,6 +24,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/sethvargo/go-password/password"
@@ -36,7 +36,6 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -44,10 +43,11 @@ import (
 // AzureSqlServerReconciler reconciles an AzureSqlServer object
 type AzureSqlServerReconciler struct {
 	client.Client
-	Log            logr.Logger
-	Recorder       record.EventRecorder
-	Scheme         *runtime.Scheme
-	ResourceClient sql.ResourceClient
+	Log                   logr.Logger
+	Recorder              record.EventRecorder
+	Scheme                *runtime.Scheme
+	AzureSqlServerManager sql.SqlServerManager
+	SecretClient          secrets.SecretClient
 }
 
 // Constants
@@ -88,12 +88,12 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
 				}
-				if azerr, ok := err.(*errhelp.AzureError); ok {
-					if helpers.ContainsString(catch, azerr.Type) {
-						log.Info("Got ignorable error", "type", azerr.Type)
-						return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
-					}
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if helpers.ContainsString(catch, azerr.Type) {
+					log.Info("Got ignorable error", "type", azerr.Type)
+					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
+
 				instance.Status.Message = fmt.Sprintf("Delete AzureSqlServer failed with %v", err)
 				log.Info(instance.Status.Message)
 				return ctrl.Result{}, err
@@ -124,15 +124,33 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
 				errhelp.InvalidServerName,
+				errhelp.AlreadyExists,
 			}
 			azerr := errhelp.NewAzureErrorAzureError(err)
 			if helpers.ContainsString(catch, azerr.Type) {
+
+				if azerr.Type == errhelp.AlreadyExists {
+					// This error could happen in two cases - when the SQL server
+					// exists in some other resource group or when this is a repeat
+					// call to the reconcile loop for an update of the resource. So
+					// we call a Get to check if this is the current resource and if
+					// yes, we let the call go through instead of ending the reconcile loop
+					_, err := r.AzureSqlServerManager.GetServer(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
+					if err != nil {
+						// This means that the Server exists elsewhere and we should
+						// terminate the reconcile loop
+						instance.Status.Message = "Server Already exists"
+						instance.Status.Provisioning = false
+						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
+						return ctrl.Result{Requeue: false}, nil
+					}
+				}
+
 				if azerr.Type == errhelp.InvalidServerName {
 					instance.Status.Message = "Invalid Server Name"
 					r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
 					return ctrl.Result{Requeue: false}, nil
 				}
-
 				instance.Status.Message = fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
 				log.Info(instance.Status.Message)
 				return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
@@ -203,20 +221,26 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	// Check to see if secret already exists for admin username/password
-	secret, _ := r.GetOrPrepareSecret(instance)
+	secret, _ := r.GetOrPrepareSecret(ctx, instance)
 	azureSqlServerProperties := sql.SQLServerProperties{
-		AdministratorLogin:         to.StringPtr(string(secret.Data["username"])),
-		AdministratorLoginPassword: to.StringPtr(string(secret.Data["password"])),
+		AdministratorLogin:         to.StringPtr(string(secret["username"])),
+		AdministratorLoginPassword: to.StringPtr(string(secret["password"])),
 	}
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
+	if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 			instance.Status.Message = msg
 			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 			return err
+		}
+		if strings.Contains(err.Error(), errhelp.InvalidServerName) {
+			msg := fmt.Sprintf("Invalid Server Name: %v", err)
+			instance.Status.Message = msg
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
+			return errhelp.NewAzureError(err)
 		}
 	} else {
 		msg := "Resource request successfully submitted to Azure"
@@ -224,16 +248,17 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 		r.Recorder.Event(instance, v1.EventTypeNormal, "Provisioned", msg)
 	}
 
-	_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
-		r.Log.Info("mutating secret bundle")
-		innerErr := controllerutil.SetControllerReference(instance, secret, r.Scheme)
-		if innerErr != nil {
-			return innerErr
-		}
-		return nil
-	})
-	if createOrUpdateSecretErr != nil {
-		return createOrUpdateSecretErr
+	// create or update the secret
+	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	err = r.SecretClient.Upsert(
+		ctx,
+		key,
+		secret,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(r.Scheme),
+	)
+	if err != nil {
+		return err
 	}
 
 	// write information back to instance
@@ -248,7 +273,7 @@ func (r *AzureSqlServerReconciler) verifyExternal(ctx context.Context, instance 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	serv, err := r.ResourceClient.GetServer(ctx, groupName, name)
+	serv, err := r.AzureSqlServerManager.GetServer(ctx, groupName, name)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if azerr.Type != errhelp.ResourceNotFound {
@@ -275,7 +300,7 @@ func (r *AzureSqlServerReconciler) deleteExternal(ctx context.Context, instance 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	_, err := r.ResourceClient.DeleteSQLServer(ctx, groupName, name)
+	_, err := r.AzureSqlServerManager.DeleteSQLServer(ctx, groupName, name)
 	if err != nil {
 		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		instance.Status.Message = msg
@@ -287,58 +312,40 @@ func (r *AzureSqlServerReconciler) deleteExternal(ctx context.Context, instance 
 	return nil
 }
 
-func (r *AzureSqlServerReconciler) GetOrPrepareSecret(instance *azurev1alpha1.AzureSqlServer) (*v1.Secret, error) {
+func (r *AzureSqlServerReconciler) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureSqlServer) (map[string][]byte, error) {
 	name := instance.ObjectMeta.Name
 
-	secret := &v1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
-			Namespace: instance.Namespace,
-		},
-		// Needed to avoid nil map error
-		Data: map[string][]byte{
-			"username":                 []byte(""),
-			"fullyqualifiedusername":   []byte(""),
-			"password":                 []byte(""),
-			"azuresqlservername":       []byte(""),
-			"fullyqualifiedservername": []byte(""),
-		},
-		Type: "Opaque",
-	}
+	secret := map[string][]byte{}
 
-	randomUsername, usernameErr := generateRandomUsername(usernameLength)
-	if usernameErr != nil {
-		return secret, usernameErr
-	}
-
-	randomPassword, passwordErr := generateRandomPassword(passwordLength)
-	if passwordErr != nil {
-		return secret, passwordErr
-	}
-
-	usernameSuffix := "@" + name
-	servernameSuffix := ".database.windows.net"
-	fullyQualifiedAdminUsername := randomUsername + usernameSuffix // "<username>@<azuresqlservername>""
-	fullyQualifiedServername := name + servernameSuffix            // "<azuresqlservername>.database.windows.net"
-
-	secret.Data["username"] = []byte(randomUsername)
-	secret.Data["fullyqualifiedusername"] = []byte(fullyQualifiedAdminUsername)
-	secret.Data["password"] = []byte(randomPassword)
-	secret.Data["azuresqlservername"] = []byte(name)
-	secret.Data["fullyqualifiedservername"] = []byte(fullyQualifiedServername)
-
-	if err := r.Get(context.Background(), types.NamespacedName{Name: name, Namespace: instance.Namespace}, secret); err == nil {
+	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
+	if stored, err := r.SecretClient.Get(ctx, key); err == nil {
 		r.Log.Info("secret already exists, pulling creds now")
+		return stored, nil
 	}
+
+	r.Log.Info("secret not found, generating values for new secret")
+
+	randomUsername, err := generateRandomUsername(usernameLength)
+	if err != nil {
+		return secret, err
+	}
+
+	randomPassword, err := generateRandomPassword(passwordLength)
+	if err != nil {
+		return secret, err
+	}
+
+	secret["username"] = []byte(randomUsername)
+	secret["fullyqualifiedusername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
+	secret["password"] = []byte(randomPassword)
+	secret["azuresqlservername"] = []byte(name)
+	secret["fullyqualifiedservername"] = []byte(name + ".database.windows.net")
 
 	return secret, nil
 }
 
 // helper function to generate random username for sql server
 func generateRandomUsername(n int) (string, error) {
-	if n < minUsernameAllowedLength || n > maxUsernameAllowedLength {
-		return "", errors.New("Username length should be between 8 and 63 characters.")
-	}
 
 	// Generate a username that is n characters long, with n/2 digits and 0 symbols (not allowed),
 	// allowing only lower case letters (upper case not allowed), and disallowing repeat characters.
@@ -352,9 +359,6 @@ func generateRandomUsername(n int) (string, error) {
 
 // helper function to generate random password for sql server
 func generateRandomPassword(n int) (string, error) {
-	if n < minPasswordAllowedLength || n > maxPasswordAllowedLength {
-		return "", errors.New("Password length must be between 8 and 128 characters.")
-	}
 
 	// Math - Generate a password where: 1/3 of the # of chars are digits, 1/3 of the # of chars are symbols,
 	// and the remaining 1/3 is a mix of upper- and lower-case letters
