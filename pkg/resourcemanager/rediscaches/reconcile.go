@@ -1,13 +1,28 @@
+/*
+Copyright 2019 microsoft.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package rediscaches
 
 import (
 	"context"
 	"fmt"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
-
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -51,8 +66,7 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 	_, err = rc.DeleteRedisCache(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
-			fmt.Errorf("RedisCache delete error %v", err)
-			return nil
+			return true, fmt.Errorf("RedisCache delete error %v", err)
 		}
 	}
 	return true, nil
