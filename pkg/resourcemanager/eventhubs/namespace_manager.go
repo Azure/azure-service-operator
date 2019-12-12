@@ -44,6 +44,6 @@ type EventHubNamespaceManager interface {
 	// location - azure region
 	CreateNamespaceAndWait(ctx context.Context, resourceGroupName string, namespaceName string, location string) (*eventhub.EHNamespace, error)
 
-	// also embed async client methods
+	// also embed arm client methods
 	resourcemanager.ARMClient
 }

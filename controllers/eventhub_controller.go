@@ -56,6 +56,7 @@ type EventhubReconciler struct {
 	Scheme          *runtime.Scheme
 	EventHubManager eventhubsresourcemanager.EventHubManager
 	SecretClient    secrets.SecretClient
+	Reconciler      *AsyncReconciler
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubs,verbs=get;list;watch;create;update;patch;delete

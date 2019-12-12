@@ -131,6 +131,16 @@ func main() {
 		Scheme:          scheme,
 		EventHubManager: eventhubManagers.EventHub,
 		SecretClient:    secretClient,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: resourceGroupManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("Eventhub"),
+				"Eventhub",
+			),
+			Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")

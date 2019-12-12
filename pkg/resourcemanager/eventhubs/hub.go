@@ -20,12 +20,19 @@ import (
 	"context"
 	"fmt"
 
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"k8s.io/apimachinery/pkg/runtime"
+	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
+
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/types"
+
 )
 
 type azureEventHubManager struct{}
@@ -90,4 +97,191 @@ func (_ *azureEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Conte
 func (_ *azureEventHubManager) ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error) {
 	hubClient := getHubsClient()
 	return hubClient.ListKeys(ctx, resourceGroupName, namespaceName, eventHubName, authorizationRuleName)
+}
+
+
+func (e *azureEventHubManager) createOrUpdateAccessPolicyEventHub(resourcegroup string, eventhubNamespace string, eventhubName string, instance *azurev1alpha1.Eventhub) error {
+
+	var err error
+	ctx := context.Background()
+
+	authorizationRuleName := instance.Spec.AuthorizationRule.Name
+	accessRights := make([]model.AccessRights, len(instance.Spec.AuthorizationRule.Rights))
+	for i, v := range instance.Spec.AuthorizationRule.Rights {
+		accessRights[i] = model.AccessRights(v)
+	}
+	//accessRights := r.toAccessRights(instance.Spec.AuthorizationRule.Rights)
+	parameters := model.AuthorizationRule{
+		AuthorizationRuleProperties: &model.AuthorizationRuleProperties{
+			Rights: &accessRights,
+		},
+	}
+	_, err = e.CreateOrUpdateAuthorizationRule(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName, parameters)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+
+
+func (e *azureEventHubManager) createEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub, data map[string][]byte) error {
+	// key := types.NamespacedName{
+	// 	Name:      secretName,
+	// 	Namespace: instance.Namespace,
+	// }
+
+	// err := r.SecretClient.Upsert(ctx,
+	// 	key,
+	// 	data,
+	// 	secrets.WithOwner(instance),
+	// 	secrets.WithScheme(r.Scheme),
+	// )
+	// if err != nil {
+	// 	return err
+	// }
+
+	return nil
+}
+
+
+func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1alpha1.Eventhub) error {
+
+	var err error
+	var result model.AccessKeys
+	ctx := context.Background()
+
+	result, err = e.ListKeys(ctx, resourcegroup, eventhubNamespace, eventhubName, authorizationRuleName)
+	if err != nil {
+		//log error and kill it
+		return err
+	} else {
+		//create secrets in the k8s with the listed keys
+		data := map[string][]byte{
+			"primaryconnectionstring":   []byte(*result.PrimaryConnectionString),
+			"secondaryconnectionstring": []byte(*result.SecondaryConnectionString),
+			"primaryKey":                []byte(*result.PrimaryKey),
+			"secondaryKey":              []byte(*result.SecondaryKey),
+			"sharedaccesskey":           []byte(authorizationRuleName),
+			"eventhubnamespace":         []byte(eventhubNamespace),
+			"eventhubName":              []byte(eventhubName),
+		}
+		err = e.createEventhubSecrets(
+			ctx,
+			secretName,
+			instance,
+			data,
+		)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+
+}
+
+func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := e.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+
+	eventhubName := instance.ObjectMeta.Name
+	eventhubNamespace := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+	partitionCount := instance.Spec.Properties.PartitionCount
+	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
+	captureDescription := instance.Spec.Properties.CaptureDescription
+	secretName := instance.Spec.SecretName
+
+	if len(secretName) == 0 {
+		secretName = eventhubName
+		instance.Spec.SecretName = eventhubName
+	}
+
+	// write information back to instance
+	instance.Status.Provisioning = true
+
+	capturePtr := getCaptureDescriptionPtr(captureDescription)
+
+	_, err = e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	if err != nil {
+		instance.Status.Provisioning = false
+		return false, err
+	}
+
+	err = e.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
+	if err != nil {
+		return false, err
+	}
+
+	err = e.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
+	if err != nil {
+		return false, err
+	}
+
+	// write information back to instance
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
+
+	return true, nil
+}
+
+func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	return true, nil
+}
+
+func (e *azureEventHubManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+
+	instance, err := e.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	key := types.NamespacedName{Namespace: instance.Namespace, Name: instance.Spec.Namespace}
+
+	return []resourcemanager.KubeParent{
+		{Key: key, Target: &azurev1alpha1.EventhubNamespace{}},
+	}, nil
+
+}
+
+func (e *azureEventHubManager) convert(obj runtime.Object) (*azurev1alpha1.Eventhub, error) {
+	local, ok := obj.(*azurev1alpha1.Eventhub)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
+}
+
+
+const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
+
+func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescription) *model.CaptureDescription {
+	// add capture details
+	var capturePtr *model.CaptureDescription
+
+	storage := captureDescription.Destination.StorageAccount
+	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+
+	if captureDescription.Enabled {
+		capturePtr = &model.CaptureDescription{
+			Enabled:           to.BoolPtr(true),
+			Encoding:          model.Avro,
+			IntervalInSeconds: &captureDescription.IntervalInSeconds,
+			SizeLimitInBytes:  &captureDescription.SizeLimitInBytes,
+			Destination: &model.Destination{
+				Name: &captureDescription.Destination.Name,
+				DestinationProperties: &model.DestinationProperties{
+					StorageAccountResourceID: &storageAccountResourceID,
+					BlobContainer:            &captureDescription.Destination.BlobContainer,
+					ArchiveNameFormat:        &captureDescription.Destination.ArchiveNameFormat,
+				},
+			},
+			SkipEmptyArchives: to.BoolPtr(true),
+		}
+	}
+	return capturePtr
 }
