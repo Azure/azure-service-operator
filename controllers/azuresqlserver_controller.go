@@ -43,11 +43,11 @@ import (
 // AzureSqlServerReconciler reconciles an AzureSqlServer object
 type AzureSqlServerReconciler struct {
 	client.Client
-	Log            logr.Logger
-	Recorder       record.EventRecorder
-	Scheme         *runtime.Scheme
-	ResourceClient sql.ResourceClient
-	SecretClient   secrets.SecretClient
+	Log                   logr.Logger
+	Recorder              record.EventRecorder
+	Scheme                *runtime.Scheme
+	AzureSqlServerManager sql.SqlServerManager
+	SecretClient          secrets.SecretClient
 }
 
 // Constants
@@ -135,7 +135,7 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 					// call to the reconcile loop for an update of the resource. So
 					// we call a Get to check if this is the current resource and if
 					// yes, we let the call go through instead of ending the reconcile loop
-					_, err := r.ResourceClient.GetServer(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
+					_, err := r.AzureSqlServerManager.GetServer(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
 					if err != nil {
 						// This means that the Server exists elsewhere and we should
 						// terminate the reconcile loop
@@ -229,7 +229,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
+	if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 			instance.Status.Message = msg
@@ -273,7 +273,7 @@ func (r *AzureSqlServerReconciler) verifyExternal(ctx context.Context, instance 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	serv, err := r.ResourceClient.GetServer(ctx, groupName, name)
+	serv, err := r.AzureSqlServerManager.GetServer(ctx, groupName, name)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if azerr.Type != errhelp.ResourceNotFound {
@@ -300,7 +300,7 @@ func (r *AzureSqlServerReconciler) deleteExternal(ctx context.Context, instance 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	_, err := r.ResourceClient.DeleteSQLServer(ctx, groupName, name)
+	_, err := r.AzureSqlServerManager.DeleteSQLServer(ctx, groupName, name)
 	if err != nil {
 		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		instance.Status.Message = msg

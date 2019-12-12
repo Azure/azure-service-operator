@@ -8,16 +8,28 @@ package sqlclient
 import (
 	"context"
 	"fmt"
+
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
+
 	"testing"
 	"time"
 
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	"github.com/Azure/azure-service-operator/pkg/util"
 	"github.com/Azure/go-autorest/autorest/to"
+	ctrl "sigs.k8s.io/controller-runtime"
 )
+
+	sqlFirewallRuleManager  SqlFirewallRuleManager
+	sqlFailoverGroupManager SqlFailoverGroupManager
+	sqlUserManager          SqlUserManager
+}
+
+var tc TestContext
 
 var rgm resourcegroups.AzureResourceGroupManager
 var groupName string
@@ -27,6 +39,20 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	rgm = resourcegroups.AzureResourceGroupManager{}
 	groupName = helpers.GenerateGroupName("e2e")
 	location := config.DefaultLocation()
+	sqlServerManager := NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
+	sqlDbManager := NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
+	sqlFirewallRuleManager := NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlFailoverGroupManager := NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+	sqlUserManager := NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
+
+	tc = TestContext{
+		SqlServerManager:        sqlServerManager,
+		sqlDbManager:            sqlDbManager,
+		sqlFirewallRuleManager:  sqlFirewallRuleManager,
+		sqlFailoverGroupManager: sqlFailoverGroupManager,
+		sqlUserManager:          sqlUserManager,
+	}
+
 
 	ctx := context.Background()
 
@@ -37,9 +63,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		t.FailNow()
 	}
 
-	// create the Go SDK client with relevant info
-	sdk := GoSDKClient{}
-
 	serverName := generateName("sqlsrvtest")
 
 	// create the server
@@ -48,12 +71,19 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
 	}
 
+	ignorableErrors := []string{errhelp.AsyncOpIncompleteError}
+
 	// wait for server to be created, then only proceed once activated
-	server, err := sdk.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
+	server, err := tc.SqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	if err != nil && !helpers.ContainsString(ignorableErrors, azerr.Type) {
+		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
+		t.FailNow()
+	}
 	for {
 		time.Sleep(time.Second)
 
-		server, err = sdk.GetServer(ctx, groupName, serverName)
+		server, err = tc.SqlServerManager.GetServer(ctx, groupName, serverName)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -83,7 +113,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// wait for db to be created, then only proceed once activated
-	future, err := sdk.CreateOrUpdateDB(ctx, groupName, location, serverName, sqlDBProperties)
+	future, err := tc.sqlDbManager.CreateOrUpdateDB(ctx, groupName, location, serverName, sqlDBProperties)
 	for {
 		time.Sleep(time.Second)
 		if err == nil {
@@ -111,7 +141,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// create a firewall rule
 	util.PrintAndLog("creating firewall rule...")
-	_, err = sdk.CreateOrUpdateSQLFirewallRule(ctx, groupName, serverName, "test-rule1", "1.1.1.1", "2.2.2.2")
+	_, err = tc.sqlFirewallRuleManager.CreateOrUpdateSQLFirewallRule(ctx, groupName, serverName, "test-rule1", "1.1.1.1", "2.2.2.2")
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot create firewall rule: %v", err))
 		t.FailNow()
@@ -133,11 +163,16 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// wait for server to be created, then only proceed once activated
-	server, err = sdk.CreateOrUpdateSQLServer(ctx, groupName, secLocation, serverName, sqlServerProperties)
+	server, err = tc.SqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, secLocation, secSrvName, sqlServerProperties)
+	azerr = errhelp.NewAzureErrorAzureError(err)
+	if err != nil && !helpers.ContainsString(ignorableErrors, azerr.Type) {
+		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
+		t.FailNow()
+	}
 	for {
 		time.Sleep(time.Second)
 
-		server, err = sdk.GetServer(ctx, groupName, serverName)
+		server, err := tc.SqlServerManager.GetServer(ctx, groupName, secSrvName)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -153,7 +188,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 				util.PrintAndLog("waiting for sql server to be ready...")
 				continue
 			} else {
-				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v err: %v", serverName, err))
+				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v err: %v", secSrvName, err))
 				t.FailNow()
 				break
 			}
@@ -170,7 +205,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	failoverGroupName := generateName("failovergroup")
-	_, err = sdk.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
+	_, err = tc.sqlFailoverGroupManager.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
 	for {
 		time.Sleep(time.Second)
 		if err == nil {
@@ -190,7 +225,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete firewall rule
 	util.PrintAndLog("deleting firewall rule...")
-	err = sdk.DeleteSQLFirewallRule(ctx, groupName, serverName, "test-rule1")
+	err = tc.sqlFirewallRuleManager.DeleteSQLFirewallRule(ctx, groupName, serverName, "test-rule1")
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("cannot delete firewall rule: %v", err))
 		t.FailNow()
@@ -199,7 +234,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete the failover group
 	util.PrintAndLog("deleting failover group...")
-	response, err := sdk.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
+	response, err := tc.sqlFailoverGroupManager.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("failover group deleted")
@@ -212,7 +247,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// delete the DB
 	time.Sleep(time.Second)
 	util.PrintAndLog("deleting db...")
-	response, err = sdk.DeleteDB(ctx, groupName, secSrvName, "sqldatabase-sample")
+	response, err = tc.sqlDbManager.DeleteDB(ctx, groupName, secSrvName, "sqldatabase-sample")
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("db deleted")
@@ -225,7 +260,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// delete the server
 	util.PrintAndLog("deleting server...")
 	time.Sleep(time.Second)
-	response, err = sdk.DeleteSQLServer(ctx, groupName, serverName)
+	response, err = tc.SqlServerManager.DeleteSQLServer(ctx, groupName, serverName)
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("sql server deleted")
@@ -243,7 +278,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// delete the secondary server
 	util.PrintAndLog("deleting second server...")
 	time.Sleep(time.Second)
-	response, err = sdk.DeleteSQLServer(ctx, groupName, secSrvName)
+	response, err = tc.SqlServerManager.DeleteSQLServer(ctx, groupName, secSrvName)
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("sql server deleted")
