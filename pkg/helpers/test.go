@@ -7,8 +7,8 @@ import (
 )
 
 // test helpers
-func GenerateName(identifier string) string {
-	return "ci-azure-service-operator-" + config.BuildID() + identifier
+func GenerateGroupName(identifier string) string {
+	return "ci-aso-" + config.BuildID() + "-" + identifier
 }
 
 func ToByteArray(x interface{}) ([]byte, error) {

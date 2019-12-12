@@ -56,8 +56,8 @@ var _ = Describe("ConsumerGroup Controller", func() {
 
 			defer GinkgoRecover()
 
-			consumerGroupName := helpers.GenerateName("consumer-controller")
-			azureConsumerGroupName := helpers.GenerateName("consumer-azure")
+			consumerGroupName := "t-cg-" + helpers.RandomString(10)
+			azureConsumerGroupName := consumerGroupName + "-azure"
 
 			var err error
 

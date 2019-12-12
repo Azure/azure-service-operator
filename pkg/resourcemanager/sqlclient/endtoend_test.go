@@ -25,7 +25,7 @@ var groupName string
 // TestCreateOrUpdateSQLServer tests creating and delete a SQL server
 func TestCreateOrUpdateSQLServer(t *testing.T) {
 	rgm = resourcegroups.AzureResourceGroupManager{}
-	groupName = helpers.GenerateName("e2e")
+	groupName = helpers.GenerateGroupName("e2e")
 	location := config.DefaultLocation()
 
 	ctx := context.Background()
@@ -40,7 +40,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// create the Go SDK client with relevant info
 	sdk := GoSDKClient{}
 
-	serverName := helpers.GenerateName("sqlsrvtest")
+	serverName := generateName("sqlsrvtest")
 
 	// create the server
 	sqlServerProperties := SQLServerProperties{
@@ -123,7 +123,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// create secondary SQL server
 	// create the Go SDK client with relevant info
-	secSrvName := helpers.GenerateName("sqlsrvsecondary")
+	secSrvName := generateName("sqlsrvsecondary")
 	secLocation := "westus"
 
 	// create the server

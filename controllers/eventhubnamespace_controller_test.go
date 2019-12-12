@@ -54,8 +54,8 @@ var _ = Describe("EventHubNamespace Controller", func() {
 
 			defer GinkgoRecover()
 
-			resourceGroupName := helpers.GenerateName("eventhub-namespace")
-			eventhubNamespaceName := helpers.GenerateName("eventhub-namespace")
+			resourceGroupName := "t-rg-dev-eh-" + helpers.RandomString(10)
+			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
 
 			// Create the EventHubNamespace object and expect the Reconcile to be created
 			eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{

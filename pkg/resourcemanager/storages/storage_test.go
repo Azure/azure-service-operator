@@ -52,7 +52,7 @@ var _ = Describe("Storage Account", func() {
 
 			defer GinkgoRecover()
 
-			storageAccountName := helpers.GenerateName("storage-account-test")
+			storageAccountName := "tdevsa" + helpers.RandomString(10)
 			storageLocation := config.DefaultLocation()
 			storageManagers := tc.StorageManagers
 
@@ -85,7 +85,7 @@ var _ = Describe("Storage Account", func() {
 	Context("Create and Delete Data Lakes", func() {
 		It("should create and delete data lakes in azure", func() {
 
-			storageAccountName := helpers.GenerateName("storage-account-testb")
+			storageAccountName := "tdevsa" + helpers.RandomString(10)
 			storageLocation := config.DefaultLocation()
 			datalakeEnabled := true
 			storageManagers := tc.StorageManagers

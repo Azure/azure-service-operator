@@ -10,6 +10,7 @@ variables:
   MAJOR_VERSION: 0
   MINOR_VERSION: 0
   PATCH_VERSION: $(Build.BuildId)
+  BUILD_ID: $(Build.BuildId)
   GOROOT: '/usr/local/go1.12' # Go installation path
   GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
@@ -144,7 +145,7 @@ steps:
   displayName: 'Clean up Azure Resources'
   env:
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-    BUILD_ID: $(Build.BuildId)
+    BUILD_ID: $(BUILD_ID)
   workingDirectory: '$(MODULE_PATH)'
   condition: always()
 

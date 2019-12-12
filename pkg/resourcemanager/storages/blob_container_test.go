@@ -32,7 +32,7 @@ var _ = Describe("Blob Container", func() {
 
 	const timeout = time.Second * 180
 
-	var storageAccountName = helpers.GenerateName("blob-container")
+	var storageAccountName = "tsadevsc" + helpers.RandomString(10)
 
 	BeforeEach(func() {
 		storageLocation := config.DefaultLocation()
@@ -58,7 +58,7 @@ var _ = Describe("Blob Container", func() {
 			var err error
 			defer GinkgoRecover()
 
-			containerName := helpers.GenerateName("blob-containerb")
+			containerName := "t-dev-bc-" + helpers.RandomString(10)
 
 			_, err = tc.StorageManagers.BlobContainer.CreateBlobContainer(context.Background(), tc.ResourceGroupName, storageAccountName, containerName)
 			Expect(err).NotTo(HaveOccurred())

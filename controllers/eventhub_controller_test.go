@@ -58,7 +58,7 @@ var _ = Describe("EventHub Controller", func() {
 		It("should fail to create eventhub if eventhubnamespace doesn't exist", func() {
 			defer GinkgoRecover()
 
-			eventhubName := helpers.GenerateName("eventhub-controller")
+			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			// Create the EventHub object and expect the Reconcile to be created
 			eventhubInstance := &azurev1alpha1.Eventhub{
@@ -91,7 +91,7 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete eventhubs", func() {
 			defer GinkgoRecover()
-			eventhubName := helpers.GenerateName("eventhub-controller-b")
+			eventhubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
 
@@ -178,10 +178,10 @@ var _ = Describe("EventHub Controller", func() {
 		})
 
 		It("should create and delete eventhubs with custom secret name", func() {
-
 			defer GinkgoRecover()
-			eventhubName := helpers.GenerateName("eventhub-controller-c")
-			secretName := helpers.GenerateName("eventhub-controller-secret")
+
+			eventhubName := "t-eh-" + helpers.RandomString(10)
+			secretName := "secret-" + eventhubName
 
 			var err error
 
@@ -275,7 +275,7 @@ var _ = Describe("EventHub Controller", func() {
 
 		It("should create and delete event hubs with capture", func() {
 			defer GinkgoRecover()
-			eventHubName := helpers.GenerateName("eventhub-controller-d")
+			eventHubName := "t-eh-" + helpers.RandomString(10)
 
 			var err error
 

@@ -40,7 +40,7 @@ var _ = Describe("Eventhub", func() {
 		// Add any setup steps that needs to be executed before each test
 
 		rgName = tc.ResourceGroupName
-		eventhubNamespaceName = helpers.GenerateName("eventhub-hub-test")
+		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
 		namespaceLocation = tc.ResourceGroupLocation
 		eventHubManager = tc.EventHubManagers.EventHub
 		eventHubNamespaceManager = tc.EventHubManagers.EventHubNamespace
@@ -62,7 +62,7 @@ var _ = Describe("Eventhub", func() {
 
 			defer GinkgoRecover()
 
-			eventhubName := helpers.GenerateName("eventhub-hub-test-b")
+			eventhubName := "t-eh-" + helpers.RandomString(10)
 			messageRetentionInDays := int32(7)
 			partitionCount := int32(2)
 
