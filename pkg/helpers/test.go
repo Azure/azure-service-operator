@@ -3,7 +3,13 @@ package helpers
 import (
 	"bytes"
 	"encoding/gob"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 )
+
+// test helpers
+func GenerateName(identifier string) string {
+	return "ci-azure-service-operator-" + config.BuildID() + identifier
+}
 
 func ToByteArray(x interface{}) ([]byte, error) {
 	var buffer bytes.Buffer

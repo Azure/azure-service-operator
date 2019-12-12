@@ -25,11 +25,8 @@ func ParseEnvironment() error {
 	azureEnv, _ := azure.EnvironmentFromName("AzurePublicCloud") // shouldn't fail
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
 
-	// AZURE_GROUP_NAME and `config.GroupName()` are deprecated.
-	// Use AZURE_BASE_GROUP_NAME and `config.GenerateGroupName()` instead.
-	groupName = envy.Get("AZURE_GROUP_NAME", "azure-go-samples")    // GroupName()
-	baseGroupName = envy.Get("AZURE_BASE_GROUP_NAME", groupName)    // BaseGroupName()
-	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "westus2") // DefaultLocation()
+	buildID = envy.Get("BUILD_ID", "1")                                      // BuildID()
+	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "westus2")          // DefaultLocation()
 
 	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW")         // UseDeviceFlow()
 	useMI = ParseBoolFromEnvironment("AZURE_USE_MI")                         // UseMI()

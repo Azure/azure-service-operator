@@ -12,8 +12,9 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	"github.com/Azure/azure-service-operator/pkg/util"
 	"github.com/Azure/go-autorest/autorest/to"
 )
@@ -39,8 +40,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// create the Go SDK client with relevant info
 	sdk := GoSDKClient{}
 
-	location := config.DefaultLocation()
-	serverName := generateName("sqlsrvtest")
+	serverName := helpers.GenerateName("sqlsrvtest")
 
 	// create the server
 	sqlServerProperties := SQLServerProperties{
@@ -123,7 +123,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// create secondary SQL server
 	// create the Go SDK client with relevant info
-	secSrvName := generateName("sqlsrvsecondary")
+	secSrvName := helpers.GenerateName("sqlsrvsecondary")
 	secLocation := "westus"
 
 	// create the server
