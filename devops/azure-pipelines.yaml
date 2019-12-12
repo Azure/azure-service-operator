@@ -149,7 +149,7 @@ steps:
   condition: always()
 
 - task: PublishTestResults@2
-  displayName: 'Publish test result for test cluster'
+  displayName: 'Publish test result for `make test`'
   inputs:    
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
@@ -157,7 +157,7 @@ steps:
     failOnStandardError: 'true'
 
 - task: PublishTestResults@2
-  displayName: 'existing cluster'
+  displayName: 'Publish test result for `make test-existing`'
   inputs:    
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
