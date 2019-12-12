@@ -18,17 +18,19 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
+var rgm resourcegroups.AzureResourceGroupManager
+var groupName string
+
 // TestCreateOrUpdateSQLServer tests creating and delete a SQL server
 func TestCreateOrUpdateSQLServer(t *testing.T) {
-
-	var groupName = config.GenerateGroupName("SQLCreateDeleteTest")
-	config.SetGroupName(groupName)
+	rgm = resourcegroups.AzureResourceGroupManager{}
+	groupName = helpers.GenerateName("e2e")
+	location := config.DefaultLocation()
 
 	ctx := context.Background()
-	defer resources.Cleanup(ctx)
 
 	// create the resource group
-	_, err := resources.CreateGroup(ctx, config.GroupName())
+	_, err := rgm.CreateGroup(ctx, groupName, location)
 	if err != nil {
 		util.PrintAndLog(err.Error())
 		t.FailNow()
@@ -259,7 +261,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// delete the resource group
 	util.PrintAndLog("deleting resource group...")
 	time.Sleep(time.Second)
-	_, err = resources.DeleteGroup(ctx, config.GroupName())
+	_, err = rgm.DeleteGroup(ctx, groupName)
 	if err != nil {
 		util.PrintAndLog(fmt.Sprintf("Cannot delete resourcegroup: %v", err))
 		t.FailNow()
