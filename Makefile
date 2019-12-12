@@ -40,6 +40,10 @@ test: generate fmt vet manifests
 
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
+	# If BUILD_ID is not set pull the username from az cli and use that as an identifier
+	USER=$(az ad signed-in-user show | jq -r .mailNickname)
+	BUILD_ID="${BUILD_ID:-$USER}"
+	
 	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/sqlclient/... -timeout 40m 2>&1 | tee testlogs-existing.txt
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html

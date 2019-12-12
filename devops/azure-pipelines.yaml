@@ -141,7 +141,7 @@ steps:
 
 - task: Delay@1
   inputs:
-    delayForMinutes: $()
+    delayForMinutes: $(CLEANUP_DELAY)
 
 - script: |
     make test-cleanup-azure-resources
@@ -149,6 +149,7 @@ steps:
   env:
     BUILD_ID: $(Build.BuildId)
   workingDirectory: '$(MODULE_PATH)'
+  condition: always()
 
 - task: PublishTestResults@2
   displayName: 'Publish test result for test cluster'
