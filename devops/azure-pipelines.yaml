@@ -141,10 +141,11 @@ steps:
 
 - script: |
     sleep ${CLEANUP_DELAY:-0}
+    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
     make test-cleanup-azure-resources
   displayName: 'Clean up Azure Resources'
   env:
-    AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
     BUILD_ID: $(BUILD_ID)
   workingDirectory: '$(MODULE_PATH)'
   condition: always()
