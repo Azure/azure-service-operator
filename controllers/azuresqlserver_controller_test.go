@@ -52,7 +52,7 @@ var _ = Describe("AzureSqlServer Controller", func() {
 
 	Context("Create and Delete", func() {
 		It("should create and delete sql server in k8s", func() {
-			sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
+			sqlServerName := helpers.GenerateName("sqlservertest")
 
 			defer GinkgoRecover()
 			var err error

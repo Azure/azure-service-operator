@@ -40,7 +40,7 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.resourceGroupName
 		rgLocation = tc.resourceGroupLocation
-		sqlServerName = "t-sqldb-test-srv" + helpers.RandomString(10)
+		sqlServerName = helpers.GenerateName("sqlserver-db")
 
 		// Create the SQL servers
 		// Create the SqlServer object and expect the Reconcile to be created

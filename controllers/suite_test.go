@@ -99,15 +99,15 @@ var _ = BeforeSuite(func() {
 		Fail(err.Error())
 	}
 
-	resourceGroupName := "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourceGroupName := helpers.GenerateName("controllers")
 	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
 
-	eventhubNamespaceName := "t-ns-dev-eh-ns-" + helpers.RandomString(10)
-	eventhubName := "t-eh-dev-sample-" + helpers.RandomString(10)
+	eventhubNamespaceName := helpers.GenerateName("controllers-eventhub")
+	eventhubName := helpers.GenerateName("eventhub")
 	namespaceLocation := resourcemanagerconfig.DefaultLocation()
 
-	storageAccountName := "tsadeveh" + helpers.RandomString(10)
-	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
+	storageAccountName := helpers.GenerateName("storage")
+	blobContainerName := helpers.GenerateName("blob-container")
 
 	var timeout time.Duration
 

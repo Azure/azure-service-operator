@@ -52,7 +52,7 @@ var _ = Describe("Namespace", func() {
 
 			defer GinkgoRecover()
 
-			eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
+			eventhubNamespaceName := helpers.GenerateName("eventhub-namespace-test")
 			namespaceLocation := tc.ResourceGroupLocation
 
 			var err error

@@ -41,7 +41,7 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.resourceGroupName
 		rgLocation = tc.resourceGroupLocation
-		sqlServerName = "t-sqlfwrule-test-srv" + helpers.RandomString(10)
+		sqlServerName = helpers.GenerateName("firewall-sql")
 
 		// Create the SQL servers
 		// Create the SqlServer object and expect the Reconcile to be created

@@ -46,9 +46,9 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		rgName = tc.resourceGroupName
 		rgLocation1 = "westus"
 		rgLocation2 = "eastus"
-		sqlServerOneName = "t-sqlfog-srvone" + helpers.RandomString(10)
-		sqlServerTwoName = "t-sqlfog-srvtwo" + helpers.RandomString(10)
-		sqlDatabaseName = "t-sqldb" + helpers.RandomString(10)
+		sqlServerOneName = helpers.GenerateName("failover-sql-a")
+		sqlServerTwoName = helpers.GenerateName("failover-sql-b")
+		sqlDatabaseName = helpers.GenerateName("failover-db")
 
 		// Create the SQL servers
 		// Create the first SqlServer object and expect the Reconcile to be created
@@ -208,9 +208,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 
 	Context("Create and Delete", func() {
 		It("should create and delete sql failovergroup rule in k8s", func() {
-
-			randomName := helpers.RandomString(10)
-			sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
+			sqlFailoverGroupName := helpers.GenerateName("failover-b")
 
 			// Create the SqlFailoverGroup object and expect the Reconcile to be created
 			sqlFailoverGroupInstance := &azurev1alpha1.AzureSqlFailoverGroup{

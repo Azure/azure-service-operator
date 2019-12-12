@@ -56,10 +56,9 @@ var _ = Describe("EventHub Controller", func() {
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Create and Delete", func() {
 		It("should fail to create eventhub if eventhubnamespace doesn't exist", func() {
-
 			defer GinkgoRecover()
 
-			eventhubName := "t-eh-" + helpers.RandomString(10)
+			eventhubName := helpers.GenerateName("eventhub-controller")
 
 			// Create the EventHub object and expect the Reconcile to be created
 			eventhubInstance := &azurev1alpha1.Eventhub{
@@ -91,9 +90,8 @@ var _ = Describe("EventHub Controller", func() {
 		})
 
 		It("should create and delete eventhubs", func() {
-
 			defer GinkgoRecover()
-			eventhubName := "t-eh-" + helpers.RandomString(10)
+			eventhubName := helpers.GenerateName("eventhub-controller-b")
 
 			var err error
 
@@ -182,8 +180,8 @@ var _ = Describe("EventHub Controller", func() {
 		It("should create and delete eventhubs with custom secret name", func() {
 
 			defer GinkgoRecover()
-			eventhubName := "t-eh-" + helpers.RandomString(10)
-			secretName := "secret-" + eventhubName
+			eventhubName := helpers.GenerateName("eventhub-controller-c")
+			secretName := helpers.GenerateName("eventhub-controller-secret")
 
 			var err error
 
@@ -276,9 +274,8 @@ var _ = Describe("EventHub Controller", func() {
 		})
 
 		It("should create and delete event hubs with capture", func() {
-
 			defer GinkgoRecover()
-			eventHubName := "t-eh-" + helpers.RandomString(10)
+			eventHubName := helpers.GenerateName("eventhub-controller-d")
 
 			var err error
 

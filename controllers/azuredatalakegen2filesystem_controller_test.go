@@ -51,8 +51,8 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 
 	Context("Create and Delete", func() {
 		It("should fail to create a file system if the resource group doesn't exist", func() {
-			fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
-			resouceGroupName := "rg-" + helpers.RandomString(10)
+			fileSystemName := helpers.GenerateName("filesystem")
+			resouceGroupName := helpers.GenerateName("datalake")
 
 			var err error
 
@@ -84,8 +84,8 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 		})
 
 		It("should fail to create a file system if the storage account doesn't exist", func() {
-			fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
-			storageAccountName := "sa-" + helpers.RandomString(10)
+			fileSystemName := helpers.GenerateName("filesystem-a")
+			storageAccountName := helpers.GenerateName("storage")
 
 			var err error
 
@@ -117,7 +117,7 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 		})
 
 		It("should create and delete a filesystem if the resource group and storage account exist", func() {
-			fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
+			fileSystemName := helpers.GenerateName("filesystem-c")
 
 			var err error
 

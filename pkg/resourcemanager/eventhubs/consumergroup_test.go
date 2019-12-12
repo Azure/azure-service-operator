@@ -40,9 +40,9 @@ var _ = Describe("ConsumerGroup", func() {
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.ResourceGroupName
-		eventhubNamespaceName = "t-ns-dev-eh-" + helpers.RandomString(10)
+		eventhubNamespaceName = helpers.GenerateName("consumer-eventhub-namespace")
 		namespaceLocation = tc.ResourceGroupLocation
-		eventhubName = "t-eh-dev-ehs-" + helpers.RandomString(10)
+		eventhubName = helpers.GenerateName("consumer-eventhub")
 		messageRetentionInDays = int32(7)
 		partitionCount = int32(2)
 		consumerGroupManager = tc.EventHubManagers.ConsumerGroup
@@ -65,7 +65,7 @@ var _ = Describe("ConsumerGroup", func() {
 
 			defer GinkgoRecover()
 
-			consumerGroupName := "t-cg-" + helpers.RandomString(10)
+			consumerGroupName := helpers.GenerateName("eventhub-consumer-group")
 
 			var err error
 
