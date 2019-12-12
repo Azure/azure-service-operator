@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	multierror "github.com/hashicorp/go-multierror"
 	corev1 "k8s.io/api/core/v1"
@@ -27,10 +27,10 @@ const (
 )
 
 // AsyncReconciler is a generic reconciler for Azure resources.
-// It reconciles object which require long running operations.
+// It reconciles Kubernets objects which require long running operations in Azure.
 type AsyncReconciler struct {
 	client.Client
-	AzureClient helpers.AsyncClient
+	AzureClient resourcemanager.ARMClient
 	Telemetry   telemetry.PrometheusTelemetry
 	Recorder    record.EventRecorder
 	Scheme      *runtime.Scheme
@@ -95,7 +95,8 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	// loop through parents until one is successfully referenced
 	r.Telemetry.LogInfo("status", "handling parent reference for object")
-	parents, err := r.AzureClient.Parents(local)
+
+	parents, err := r.AzureClient.GetParents(local)
 	for _, p := range parents {
 		//r.Telemetry.LogInfo("status", "handling parent "+p.Key.Name)
 
@@ -105,8 +106,8 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 			if pAccessor, err := meta.Accessor(p.Target); err == nil {
 				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
 					//r.Telemetry.LogInfo("status", "handling parent reference for object "+pAccessor.GetName())
-					r.Update(ctx, local)
-					break
+					return ctrl.Result{}, r.Update(ctx, local)
+
 				}
 			}
 		}

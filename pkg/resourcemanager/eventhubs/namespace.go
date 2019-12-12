@@ -29,6 +29,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 
@@ -153,7 +154,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
 		instance.Status.State = *evhns.ProvisioningState
-		instance.Status.Message = "Namespace already existed"
+		instance.Status.Message = "namespace already exists"
 
 		if *evhns.ProvisioningState == "Succeeded" {
 			return true, nil
@@ -233,7 +234,7 @@ func (ns *azureEventHubNamespaceManager) Delete(ctx context.Context, obj runtime
 	return true, nil
 }
 
-func (ns *azureEventHubNamespaceManager) Parents(obj runtime.Object) ([]helpers.KubeParent, error) {
+func (ns *azureEventHubNamespaceManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
 	instance, err := ns.convert(obj)
 	if err != nil {
@@ -242,7 +243,7 @@ func (ns *azureEventHubNamespaceManager) Parents(obj runtime.Object) ([]helpers.
 
 	key := types.NamespacedName{Namespace: instance.Namespace, Name: instance.Spec.ResourceGroup}
 
-	return []helpers.KubeParent{
+	return []resourcemanager.KubeParent{
 		{Key: key, Target: &v1alpha1.ResourceGroup{}},
 	}, nil
 
