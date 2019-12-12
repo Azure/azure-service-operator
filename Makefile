@@ -52,7 +52,7 @@ test-existing: generate fmt vet manifests
 # You may need to run `az account set -s ${AZURE_SUBSCRIPTION_ID}` first
 test-cleanup-azure-resources:
 	# Delete the resource groups that match the pattern
-	for rgname in `az group list --query "[*].[name]" -o table | grep '^ci-azure-service-operator-${BUILD_ID}' `; do \
+	for rgname in `az group list --query "[*].[name]" -o table | grep '^ci-aso-${BUILD_ID}' `; do \
 	    echo "$$rgname will be deleted"; \
 	    az group delete --name $$rgname --no-wait --yes; \
     done
