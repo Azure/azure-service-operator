@@ -126,7 +126,7 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
-    make test-existing
+    KUBECONFIG=$(kind get kubeconfig-path --name="kind") make test-existing
   continueOnError: 'false'
   displayName: 'Run `make test-existing`'
   env:
