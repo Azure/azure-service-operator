@@ -143,6 +143,7 @@ steps:
     make test-cleanup-azure-resources
   displayName: 'Clean up Azure Resources'
   env:
+    AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
     BUILD_ID: $(Build.BuildId)
   workingDirectory: '$(MODULE_PATH)'
   condition: always()
