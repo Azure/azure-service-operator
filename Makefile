@@ -47,9 +47,13 @@ test-existing: generate fmt vet manifests
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
 test-cleanup-azure-resources: 
 	az account set -s ${AZURE_SUBSCRIPTION_ID}
-	
+
+	# If BUILD_ID is not set pull the username from az cli and use that as an identifier
+	USER=$(az ad signed-in-user show | jq -r .mailNickname)
+	BUILD_ID="${BUILD_ID:-$USER}"
+
 	# Delete the resource groups that match the pattern
-	for rgname in `az group list --query "[*].[name]" -o table | grep '^t-rg-' `; do \
+	for rgname in `az group list --query "[*].[name]" -o table | grep '^ci-azure-service-operator-${BUILD_ID}' `; do \
 	    echo "$$rgname will be deleted"; \
 	    az group delete --name $$rgname --no-wait --yes; \
     done

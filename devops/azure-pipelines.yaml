@@ -22,6 +22,7 @@ variables:
   # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
   # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
   # REQUEUE_AFTER:          - set this value in Azure Devops variables
+  # CLEANUP_DELAY:          - set this value in Azure Devops variables
  
 steps:
 
@@ -64,11 +65,14 @@ steps:
     #kustomize version
     kustomize  version
     go mod download
+    go get golang.org/x/tools/cmd/
     go get -u github.com/jstemmer/go-junit-report
     go get github.com/axw/gocov/gocov
     go get github.com/AlekSi/gocov-xml
     go get -u gopkg.in/matm/v1/gocov-html
     go get golang.org/x/tools/cmd/cover
+    go get github.com/onsi/ginkgo/ginkgo
+    mkdir coverage
   displayName: 'Install kubebuilder, kustomize and set environment'
   env:
     GO111MODULE: on
@@ -76,19 +80,9 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
-    go mod download
-    go get -u github.com/jstemmer/go-junit-report
-    go get github.com/axw/gocov/gocov
-    go get github.com/AlekSi/gocov-xml
-    go get -u gopkg.in/matm/v1/gocov-html
-    go get golang.org/x/tools/cmd/cover
-    go get github.com/onsi/ginkgo/ginkgo
     make test
-    gocov convert coverage.txt > coverage.json
-    gocov-xml < coverage.json > coverage.xml
-    mkdir coverage
   continueOnError: 'false'
-  displayName: 'Run unit tests'
+  displayName: 'Run `make test`'
   env:
     GO111MODULE: on
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
@@ -124,9 +118,8 @@ steps:
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
     make deploy
-    make test-existing
   continueOnError: 'false'
-  displayName: 'Set kind cluster and Run unit tests'
+  displayName: 'Setup kind cluster'
   env:
     GO111MODULE: on
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
@@ -137,8 +130,28 @@ steps:
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
   workingDirectory: '$(MODULE_PATH)'
 
+- script: |
+    make test-existing
+  continueOnError: 'false'
+  displayName: 'Run `make test-existing`'
+  env:
+    GO111MODULE: on
+    REQUEUE_AFTER: $(REQUEUE_AFTER)
+  workingDirectory: '$(MODULE_PATH)'
+
+- task: Delay@1
+  inputs:
+    delayForMinutes: $()
+
+- script: |
+    make test-cleanup-azure-resources
+  displayName: 'Clean up Azure Resources'
+  env:
+    BUILD_ID: $(Build.BuildId)
+  workingDirectory: '$(MODULE_PATH)'
+
 - task: PublishTestResults@2
-  displayName: 'test cluster'
+  displayName: 'Publish test result for test cluster'
   inputs:    
     testRunner: JUnit
     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
@@ -156,7 +169,7 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura 
-    summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/**/report.xml
     reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
     failIfCoverageEmpty: 'true'
     failOnStandardError: 'true'
@@ -185,7 +198,6 @@ steps:
     tags: |
       latest
       $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
-
 
 - script: |
     echo "updating kustomize image patch file for manager resource"
