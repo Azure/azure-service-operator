@@ -27,7 +27,7 @@ package controllers
 import (
 	"time"
 
-	rc "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
+	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -41,11 +41,11 @@ const redisCacheFinalizerName = "rediscache.finalizers.azure.com"
 // RedisCacheReconciler reconciles a RedisCache object
 type RedisCacheReconciler struct {
 	client.Client
-	Telemetry              telemetry.PrometheusTelemetry
-	Recorder               record.EventRecorder
-	RequeueTime            time.Duration
-	Reconciler             *AsyncReconciler
-	AzureRedisCacheManager rc.RedisCacheManager
+	Telemetry         telemetry.PrometheusTelemetry
+	Recorder          record.EventRecorder
+	RequeueTime       time.Duration
+	Reconciler        *AsyncReconciler
+	RedisCacheManager resourcemanagerrediscaches.RedisCacheManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=rediscaches,verbs=get;list;watch;create;update;patch;delete
