@@ -18,7 +18,7 @@ var _ = Describe("File System", func() {
 
 	const timeout = time.Second * 180
 
-	adlsName := "tdevadls" + helpers.RandomString(10)
+	adlsName := helpers.GenerateName("data-lake")
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -42,7 +42,7 @@ var _ = Describe("File System", func() {
 		It("should create and delete filesystems in azure data lake", func() {
 
 			fileSystemManager := tc.StorageManagers.FileSystem
-			fileSystemName := "tfilesystem" + helpers.RandomString(5)
+			fileSystemName := helpers.GenerateName("filesystem")
 			requestTimeout := to.Int32Ptr(20)
 			xMsDate := time.Now().String()
 

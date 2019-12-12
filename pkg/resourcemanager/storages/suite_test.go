@@ -70,7 +70,7 @@ var _ = BeforeSuite(func() {
 
 	ressourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	tc = TestContext{
-		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
+		ResourceGroupName:     helpers.GenerateName("storage-suite"),
 		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
 		ResourceGroupManager:  ressourceGroupManager,
 		StorageManagers:       AzureStorageManagers,
