@@ -48,10 +48,9 @@ test-existing: generate fmt vet manifests
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
 
-# Cleanup resource groups azure created by tests using pattern matching 't-rg-'
-test-cleanup-azure-resources: 
-	az account set -s ${AZURE_SUBSCRIPTION_ID}
-
+# Cleanup resource groups azure created by tests using pattern matching 'ci-azure-service-operator-${BUILD_ID}'
+# You may need to run `az account set -s ${AZURE_SUBSCRIPTION_ID}` first
+test-cleanup-azure-resources:
 	# Delete the resource groups that match the pattern
 	for rgname in `az group list --query "[*].[name]" -o table | grep '^ci-azure-service-operator-${BUILD_ID}' `; do \
 	    echo "$$rgname will be deleted"; \
