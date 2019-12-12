@@ -30,7 +30,7 @@ import (
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	kvSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -99,11 +99,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	if os.Getenv("KEYVNAME_FOR_SECRETS") == "" {
+	if keyvaultName, fUseKeyVault := os.LookupEnv("AZURE_OPERATOR_KEYVAULT"); fUseKeyVault == false {
 		secretClient = k8sSecrets.New(mgr.GetClient())
 	} else {
-		setupLog.Info("Instantiating secrets client for keyvault " + os.Getenv("KEYVNAME_FOR_SECRETS"))
-		secretClient = kvSecrets.New(os.Getenv("KEYVNAME_FOR_SECRETS"))
+		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
+		secretClient = keyvaultSecrets.New(keyvaultName)
 	}
 
 	err = (&controllers.StorageReconciler{

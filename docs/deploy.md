@@ -72,10 +72,10 @@
     az keyvault set-policy --name "OperatorSecretKeyVault" --spn <AZURE_CLIENT_ID> --secret-permissions get list delete set
     ```
 
-    Set the additional environment variable 'KEYVNAME_FOR_SECRETS' to indicate you want to use Key Vault for secrets.
+    Set the additional environment variable 'AZURE_OPERATOR_KEYVAULT' to indicate you want to use Key Vault for secrets.
 
     ```shell
-    export KEYVNAME_FOR_SECRETS=OperatorSecretKeyVault
+    export AZURE_OPERATOR_KEYVAULT=OperatorSecretKeyVault
     ```
 
     e. From the same terminal, run the below command. **Note** The variables used here will depend on the environment variables you have set based on the authentication and secret storage choices made above. You will need to modify the below command accordingly.
@@ -88,7 +88,7 @@
         --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
         --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID" \
         --from-literal=AZURE_USE_MI="$AZURE_USE_MI" \
-        --from-literal=KEYVNAME_FOR_SECRETS="$KEYVNAME_FOR_SECRETS" \
+        --from-literal=AZURE_OPERATOR_KEYVAULT="$AZURE_OPERATOR_KEYVAULT" \
     ```
 
     f. Install [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
