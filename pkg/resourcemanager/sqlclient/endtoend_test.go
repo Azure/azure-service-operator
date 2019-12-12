@@ -11,12 +11,10 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
 
 	"testing"
 	"time"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	"github.com/Azure/azure-service-operator/pkg/util"
@@ -24,6 +22,9 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
+type TestContext struct {
+	SqlServerManager        SqlServerManager
+	sqlDbManager            SqlDbManager
 	sqlFirewallRuleManager  SqlFirewallRuleManager
 	sqlFailoverGroupManager SqlFailoverGroupManager
 	sqlUserManager          SqlUserManager
@@ -52,7 +53,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		sqlFailoverGroupManager: sqlFailoverGroupManager,
 		sqlUserManager:          sqlUserManager,
 	}
-
 
 	ctx := context.Background()
 
