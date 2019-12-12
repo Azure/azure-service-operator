@@ -139,11 +139,8 @@ steps:
     REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(MODULE_PATH)'
 
-- task: Delay@1
-  inputs:
-    delayForMinutes: $(CLEANUP_DELAY)
-
 - script: |
+    sleep $(CLEANUP_DELAY)
     make test-cleanup-azure-resources
   displayName: 'Clean up Azure Resources'
   env:
