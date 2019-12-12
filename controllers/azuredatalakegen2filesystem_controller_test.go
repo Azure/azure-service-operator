@@ -75,7 +75,7 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
 				return fileSystemInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeFalse())
 
 			// Delete should still appear successful
@@ -108,7 +108,7 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
 				return fileSystemInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeFalse())
 
 			// Delete should still appear successful
@@ -141,13 +141,13 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
 				return fileSystemInstance.HasFinalizer(fileSystemFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
 				return fileSystemInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), fileSystemInstance)
@@ -156,7 +156,7 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
 				return fileSystemInstance.IsBeingDeleted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})
