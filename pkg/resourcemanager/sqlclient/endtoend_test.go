@@ -163,7 +163,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// wait for server to be created, then only proceed once activated
-	server, err = tc.SqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, secLocation, serverName, sqlServerProperties)
+	server, err = tc.SqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, secLocation, secSrvName, sqlServerProperties)
 	azerr = errhelp.NewAzureErrorAzureError(err)
 	if err != nil && !helpers.ContainsString(ignorableErrors, azerr.Type) {
 		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
@@ -188,7 +188,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 				util.PrintAndLog("waiting for sql server to be ready...")
 				continue
 			} else {
-				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v err: %v", serverName, err))
+				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v err: %v", secSrvName, err))
 				t.FailNow()
 				break
 			}
