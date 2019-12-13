@@ -47,11 +47,11 @@ const AzureSqlActionFinalizerName = "azuresqlaction.finalizers.azure.com"
 // AzureSqlActionReconciler reconciles a AzureSqlAction object
 type AzureSqlActionReconciler struct {
 	client.Client
-	Log            logr.Logger
-	Recorder       record.EventRecorder
-	Scheme         *runtime.Scheme
-	ResourceClient sql.ResourceClient
-	SecretClient   secrets.SecretClient
+	Log                   logr.Logger
+	Recorder              record.EventRecorder
+	Scheme                *runtime.Scheme
+	AzureSqlServerManager sql.SqlServerManager
+	SecretClient          secrets.SecretClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlactions,verbs=get;list;watch;create;update;patch;delete
@@ -153,7 +153,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 	}
 
 	// Get the Sql Server instance that corresponds to the Server name in the spec for this action
-	server, err := r.ResourceClient.GetServer(ctx, groupName, serverName)
+	server, err := r.AzureSqlServerManager.GetServer(ctx, groupName, serverName)
 	if err != nil {
 		if strings.Contains(err.Error(), errhelp.ResourceGroupNotFoundErrorCode) {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of AzureSqlServer: Resource group not found")
@@ -181,7 +181,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 		newPassword, _ := generateRandomPassword(passwordLength)
 		azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
-		if _, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties); err != nil {
+		if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 				return err
