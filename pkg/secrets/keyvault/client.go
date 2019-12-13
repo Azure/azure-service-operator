@@ -23,7 +23,7 @@ type KeyvaultSecretClient struct {
 
 func getVaultsURL(ctx context.Context, vaultName string) string {
 	vaultURL := "https://" + vaultName + ".vault.azure.net" //default
-	vault, err := kvhelper.AzureKeyVaultManager.GetVault(ctx, config.GroupName(), vaultName)
+	vault, err := kvhelper.AzureKeyVaultManager.GetVault(ctx, "azure-samples-go", vaultName)
 	if err == nil {
 		vaultURL = *vault.Properties.VaultURI
 	}
