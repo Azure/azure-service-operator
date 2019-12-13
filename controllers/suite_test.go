@@ -80,7 +80,7 @@ type testContext struct {
 	sqlFailoverGroupManager resourcemanagersql.SqlFailoverGroupManager
 	sqlUserManager          resourcemanagersql.SqlUserManager
 	timeout                 time.Duration
-	retry                 time.Duration
+	retry                   time.Duration
 }
 
 var tc testContext
@@ -393,8 +393,6 @@ var _ = BeforeSuite(func() {
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
 	Expect(err).ToNot(HaveOccurred())
-
-
 
 })
 
