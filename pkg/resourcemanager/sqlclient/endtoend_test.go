@@ -296,9 +296,8 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// delete the resource group
 	util.PrintAndLog("deleting resource group...")
 	for {
-		time.Sleep(time.Second)
-
 		response, err = rgm.DeleteGroup(ctx, groupName)
+		time.Sleep(time.Second)
 		if err == nil {
 			if response.StatusCode == 200 {
 				util.PrintAndLog("resource group deleted")
