@@ -297,9 +297,9 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	util.PrintAndLog("deleting resource group...")
 	time.Sleep(time.Second)
 	_, err = rgm.DeleteGroup(ctx, groupName)
-	if err != nil {
+	azerr = errhelp.NewAzureErrorAzureError(err)
+	if err != nil && !helpers.ContainsString(ignorableErrors, azerr.Type) {
 		util.PrintAndLog(fmt.Sprintf("Cannot delete resourcegroup: %v", err))
 		t.FailNow()
 	}
-
 }
