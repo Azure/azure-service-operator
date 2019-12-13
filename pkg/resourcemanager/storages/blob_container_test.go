@@ -70,7 +70,6 @@ var _ = Describe("Blob Container", func() {
 			// Possible values include: 'PublicAccessContainer', 'PublicAccessBlob', 'PublicAccessNone'
 			accessLevel := s.PublicAccessContainer
 
-
 			_, err = tc.StorageManagers.BlobContainer.CreateBlobContainer(ctx, tc.ResourceGroupName, storageAccountName, containerName, accessLevel)
 			Expect(err).NotTo(HaveOccurred())
 
