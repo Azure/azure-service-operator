@@ -90,6 +90,7 @@ func main() {
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
 	resourceClient := resourcemanagersql.GoSDKClient{}
 	secretClient := k8sSecrets.New(mgr.GetClient())
+	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
 
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
@@ -125,15 +126,9 @@ func main() {
 	}
 
 	err = (&controllers.EventhubReconciler{
-		Client:          mgr.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("Eventhub"),
-		Recorder:        mgr.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:          scheme,
-		EventHubManager: eventhubManagers.EventHub,
-		SecretClient:    secretClient,
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: resourceGroupManager,
+			AzureClient: eventhubClient,
 			Telemetry: telemetry.InitializePrometheusDefault(
 				ctrl.Log.WithName("controllers").WithName("Eventhub"),
 				"Eventhub",

@@ -126,7 +126,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubInstance.HasFinalizer(eventhubFinalizerName)
+				return eventhubInstance.HasFinalizer(finalizerName)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
@@ -217,7 +217,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubInstance)
-				return eventhubInstance.HasFinalizer(eventhubFinalizerName)
+				return eventhubInstance.HasFinalizer(finalizerName)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
@@ -321,7 +321,7 @@ var _ = Describe("EventHub Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), eventHubNamespacedName, eventHubInstance)
-				return eventHubInstance.HasFinalizer(eventhubFinalizerName)
+				return eventHubInstance.HasFinalizer(finalizerName)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 

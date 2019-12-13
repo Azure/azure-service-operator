@@ -20,22 +20,24 @@ import (
 	"context"
 	"fmt"
 
+	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"k8s.io/apimachinery/pkg/runtime"
-	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
-
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/types"
-
 )
 
-type azureEventHubManager struct{}
+type azureEventHubManager struct {
+	SecretClient secrets.SecretClient
+	Scheme       *runtime.Scheme
+}
 
 func getHubsClient() eventhub.EventHubsClient {
 	hubClient := eventhub.NewEventHubsClient(config.SubscriptionID())
@@ -43,6 +45,13 @@ func getHubsClient() eventhub.EventHubsClient {
 	hubClient.Authorizer = auth
 	hubClient.AddToUserAgent(config.UserAgent())
 	return hubClient
+}
+
+func NewEventhubClient(secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureEventHubManager {
+	return &azureEventHubManager{
+		SecretClient: secretClient,
+		Scheme:       scheme,
+	}
 }
 
 func (_ *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
@@ -99,7 +108,6 @@ func (_ *azureEventHubManager) ListKeys(ctx context.Context, resourceGroupName s
 	return hubClient.ListKeys(ctx, resourceGroupName, namespaceName, eventHubName, authorizationRuleName)
 }
 
-
 func (e *azureEventHubManager) createOrUpdateAccessPolicyEventHub(resourcegroup string, eventhubNamespace string, eventhubName string, instance *azurev1alpha1.Eventhub) error {
 
 	var err error
@@ -123,27 +131,24 @@ func (e *azureEventHubManager) createOrUpdateAccessPolicyEventHub(resourcegroup 
 	return nil
 }
 
-
-
 func (e *azureEventHubManager) createEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub, data map[string][]byte) error {
-	// key := types.NamespacedName{
-	// 	Name:      secretName,
-	// 	Namespace: instance.Namespace,
-	// }
+	key := types.NamespacedName{
+		Name:      secretName,
+		Namespace: instance.Namespace,
+	}
 
-	// err := r.SecretClient.Upsert(ctx,
-	// 	key,
-	// 	data,
-	// 	secrets.WithOwner(instance),
-	// 	secrets.WithScheme(r.Scheme),
-	// )
-	// if err != nil {
-	// 	return err
-	// }
+	err := e.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(e.Scheme),
+	)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
-
 
 func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1alpha1.Eventhub) error {
 
@@ -186,7 +191,6 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 	if err != nil {
 		return false, err
 	}
-
 
 	eventhubName := instance.ObjectMeta.Name
 	eventhubNamespace := instance.Spec.Namespace
@@ -255,7 +259,6 @@ func (e *azureEventHubManager) convert(obj runtime.Object) (*azurev1alpha1.Event
 	}
 	return local, nil
 }
-
 
 const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
 
