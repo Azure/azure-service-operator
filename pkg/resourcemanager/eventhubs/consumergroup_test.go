@@ -47,10 +47,6 @@ var _ = Describe("ConsumerGroup", func() {
 		partitionCount = int32(2)
 		consumerGroupManager = tc.EventHubManagers.ConsumerGroup
 
-		if len(eventhubNamespaceName) > 50 {
-			eventhubNamespaceName = eventhubNamespaceName[:50]
-		}
-
 		_, _ = tc.EventHubManagers.EventHubNamespace.CreateNamespaceAndWait(context.Background(), rgName, eventhubNamespaceName, namespaceLocation)
 		_, _ = tc.EventHubManagers.EventHub.CreateHub(context.Background(), rgName, eventhubNamespaceName, eventhubName, messageRetentionInDays, partitionCount, nil)
 	})
@@ -69,7 +65,7 @@ var _ = Describe("ConsumerGroup", func() {
 
 			defer GinkgoRecover()
 
-			consumerGroupName := helpers.GenerateGroupName("eventhub-consumer-group")
+			consumerGroupName := "t-cg-" + helpers.RandomString(10)
 
 			var err error
 
