@@ -21,7 +21,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	storage "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
@@ -72,6 +72,9 @@ func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName 
 			Tags:     tags,
 			Location: to.StringPtr(location),
 			Name:     to.StringPtr(storageAccountName),
+			AccountProperties: &storage.AccountProperties{
+				ProvisioningState: storage.Succeeded,
+			},
 		},
 	}
 
