@@ -145,7 +145,7 @@ steps:
   env:
     BUILD_ID: $(BUILD_ID)
   inputs:
-    azureSubscription: CSE Dev Crews Americas West
+    azureSubscription: 'Az Internal Consumption'
     scriptType: bash
     scriptLocation: inlineScript
     inlineScript: |
