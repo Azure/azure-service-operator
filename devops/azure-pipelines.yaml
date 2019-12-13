@@ -142,6 +142,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Clean up Azure Resources'
   condition: always()
+  workingDirectory: '$(MODULE_PATH)'
   env:
     BUILD_ID: $(BUILD_ID)
   inputs:
