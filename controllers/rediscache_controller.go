@@ -28,7 +28,7 @@ import (
 	"time"
 
 	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
-	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
+	"github.com/Azure/azure-service-operator/pkg/telemetry"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
