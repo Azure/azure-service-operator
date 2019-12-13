@@ -142,13 +142,13 @@ steps:
 - task: AzureCLI@2
   displayName: 'Clean up Azure Resources'
   condition: always()
-  workingDirectory: '$(MODULE_PATH)'
   env:
     BUILD_ID: $(BUILD_ID)
   inputs:
     azureSubscription: 'Az Internal Consumption'
     scriptType: bash
     scriptLocation: inlineScript
+    workingDirectory: '$(MODULE_PATH)'
     inlineScript: |
       sleep ${CLEANUP_DELAY:-0}
       BUILD_ID=$(BUILD_ID) make test-cleanup-azure-resources
