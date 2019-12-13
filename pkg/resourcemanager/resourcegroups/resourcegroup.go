@@ -136,16 +136,16 @@ func DeleteAllGroupsWithPrefix(ctx context.Context, prefix string) (futures []re
 }
 
 // WaitForDeleteCompletion concurrently waits for delete group operations to finish
-func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []resources.GroupsDeleteFuture, groups []string) {
-	for i, f := range futures {
+func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []resources.GroupsDeleteFuture) {
+	for _, f := range futures {
 		wg.Add(1)
-		go func(ctx context.Context, future resources.GroupsDeleteFuture, rg string) {
+		go func(ctx context.Context, future resources.GroupsDeleteFuture) {
 			err := future.WaitForCompletionRef(ctx, getGroupsClient().Client)
 			if err != nil {
 				return
 			}
 			wg.Done()
-		}(ctx, f, groups[i])
+		}(ctx, f)
 	}
 }
 
