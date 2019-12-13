@@ -13,8 +13,8 @@ IMG ?= controller:latest
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
 # If BUILD_ID is not set pull the username from az cli and use that as an identifier
-USER=$(az ad signed-in-user show | jq -r .mailNickname)
-BUILD_ID="${BUILD_ID:-$USER}"
+USER=$(shell az ad signed-in-user show | jq -r .mailNickname)
+BUILD_ID?=${USER}
 
 all: manager
 
