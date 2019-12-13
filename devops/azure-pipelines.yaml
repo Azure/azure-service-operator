@@ -139,17 +139,18 @@ steps:
     REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(MODULE_PATH)'
 
-- script: |
-    sleep ${CLEANUP_DELAY:-0}
-    az extension add --name azure-devops
-    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
-    make test-cleanup-azure-resources
+- task: AzureCLI@2
   displayName: 'Clean up Azure Resources'
-  env:
-    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
-    BUILD_ID: $(BUILD_ID)
-  workingDirectory: '$(MODULE_PATH)'
   condition: always()
+  env:
+    BUILD_ID: $(BUILD_ID)
+  inputs:
+    azureSubscription: CSE Dev Crews Americas West
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      sleep ${CLEANUP_DELAY:-0}
+      BUILD_ID=$(BUILD_ID) make test-cleanup-azure-resources
 
 - task: PublishTestResults@2
   displayName: 'Publish test result for `make test`'
