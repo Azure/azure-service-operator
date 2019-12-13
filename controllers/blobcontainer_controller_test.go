@@ -81,8 +81,8 @@ var _ = Describe("BlobContainer Controller", func() {
 			blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), blobContainerNamespacedName, blobContainerInstance)
-				return blobContainerInstance.IsSubmitted()
-			}, tc.timeout,
+				return blobContainerInstance.Status.Provisioned
+			}, tc.timeout, tc.retry,
 			).Should(BeFalse())
 		})
 
@@ -112,8 +112,8 @@ var _ = Describe("BlobContainer Controller", func() {
 			blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), blobContainerNamespacedName, blobContainerInstance)
-				return blobContainerInstance.IsSubmitted()
-			}, tc.timeout,
+				return blobContainerInstance.Status.Provisioned
+			}, tc.timeout, tc.retry,
 			).Should(BeFalse())
 		})
 
@@ -144,13 +144,13 @@ var _ = Describe("BlobContainer Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), blobContainerNamespacedName, blobContainerInstance)
 				return blobContainerInstance.HasFinalizer(blobContainerFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), blobContainerNamespacedName, blobContainerInstance)
-				return blobContainerInstance.IsSubmitted()
-			}, tc.timeout,
+				return blobContainerInstance.Status.Provisioned
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), blobContainerInstance)
@@ -159,7 +159,7 @@ var _ = Describe("BlobContainer Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), blobContainerNamespacedName, blobContainerInstance)
 				return blobContainerInstance.IsBeingDeleted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 		})
 	})
