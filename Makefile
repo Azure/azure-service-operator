@@ -31,18 +31,29 @@ api-test: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/...  2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
-	
+
 # Run tests
 test: generate fmt vet manifests 
-	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs.txt
+	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/sqlclient/... -timeout 40m 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... 2>&1 | tee testlogs-existing.txt
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/sqlclient/... -timeout 40m 2>&1 | tee testlogs-existing.txt
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
+
+# Cleanup resource groups azure created by tests using pattern matching 't-rg-'
+test-cleanup-azure-resources: 
+	az account set -s ${AZURE_SUBSCRIPTION_ID}
+	
+	# Delete the resource groups that match the pattern
+	for rgname in `az group list --query "[*].[name]" -o table | grep '^t-rg-' `; do \
+	    echo "$$rgname will be deleted"; \
+	    az group delete --name $$rgname --no-wait --yes; \
+    done
+	
 
 # Build manager binary
 manager: generate fmt vet
@@ -91,7 +102,7 @@ generate: manifests
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
 
 # Build the docker image
-docker-build: 
+docker-build:
 	docker build . -t ${IMG} ${ARGS}
 	@echo "updating kustomize image patch file for manager resource"
 	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
@@ -102,6 +113,13 @@ docker-push:
 
 # Build and Push the docker image
 build-and-push: docker-build docker-push
+
+# Deploy operator infrastructure
+terraform:
+	terraform init devops/terraform
+	terraform apply devops/terraform
+
+terraform-and-deploy: terraform generate install-cert-manager build-and-push deploy
 
 # find or download controller-gen
 # download controller-gen if necessary
@@ -126,7 +144,7 @@ ifeq (,$(shell kind get clusters))
 	@echo "no kind cluster"
 else
 	@echo "kind cluster is running, deleteing the current cluster"
-	kind delete cluster 
+	kind delete cluster
 endif
 	@echo "creating kind cluster"
 	kind create cluster
@@ -140,19 +158,19 @@ else
 	@exit 111
 endif
 	make create-kindcluster
-	
+
 	@echo "getting value of KUBECONFIG"
 	@echo ${KUBECONFIG}
 	@echo "getting value of kind kubeconfig-path"
-	
+
 	kubectl cluster-info
-	kubectl create namespace azureoperator-system 
+	kubectl create namespace azureoperator-system
 	kubectl --namespace azureoperator-system \
-    create secret generic azureoperatorsettings \
-    --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
-    --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
-    --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
-    --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+		create secret generic azureoperatorsettings \
+		--from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
+		--from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
+		--from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
+		--from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
 
 	make install-cert-manager
 
@@ -160,7 +178,7 @@ endif
 	make install
 	IMG="docker.io/controllertest:1" make docker-build
 	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
-	
+
 	kubectl get namespaces
 	kubectl get pods --namespace cert-manager
 	@echo "Waiting for cert-manager to be ready"
@@ -207,6 +225,9 @@ install-cert-manager:
 	kubectl create namespace cert-manager
 	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+
+install-aad-pod-identity:
+	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
 install-test-dependency:
 	go get -u github.com/jstemmer/go-junit-report \

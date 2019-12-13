@@ -16,8 +16,9 @@ limitations under the License.
 package storages
 
 import (
-	"net/http"
+	"strings"
 	"testing"
+	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
@@ -47,6 +48,8 @@ type TestContext struct {
 	ResourceGroupLocation string
 	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
 	StorageManagers       StorageManagers
+	timeout               time.Duration
+	retryInterval         time.Duration
 }
 
 var tc TestContext
@@ -66,26 +69,41 @@ var _ = BeforeSuite(func() {
 
 	By("bootstrapping test environment")
 
-	resourcemanagerconfig.ParseEnvironment()
+	err := resourcemanagerconfig.ParseEnvironment()
+	Expect(err).ToNot(HaveOccurred())
 
-	ressourceGroupManager := resourcegroupsresourcemanager.AzureResourceGroupManager
-	tc = TestContext{
-		ResourceGroupName:     "t-rg-dev-rm-st-" + helpers.RandomString(10),
-		ResourceGroupLocation: resourcemanagerconfig.DefaultLocation(),
-		ResourceGroupManager:  ressourceGroupManager,
-		StorageManagers:       AzureStorageManagers,
-	}
+	resourceGroupName := "t-rg-dev-rm-st-" + helpers.RandomString(10)
+	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
+	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 
 	// create resourcegroup for this suite
-	result, _ := ressourceGroupManager.CheckExistence(context.Background(), tc.ResourceGroupName)
-	if result.Response.StatusCode != http.StatusNoContent {
-		_, _ = tc.ResourceGroupManager.CreateGroup(context.Background(), tc.ResourceGroupName, tc.ResourceGroupLocation)
+	_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourceGroupLocation)
+	Expect(err).ToNot(HaveOccurred())
+
+	tc = TestContext{
+		ResourceGroupName:     resourceGroupName,
+		ResourceGroupLocation: resourceGroupLocation,
+		ResourceGroupManager:  resourceGroupManager,
+		StorageManagers:       AzureStorageManagers,
+		timeout:               time.Second * 300,
+		retryInterval:         time.Second * 1,
 	}
+
 })
 
 var _ = AfterSuite(func() {
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
-	_, _ = tc.ResourceGroupManager.DeleteGroupAsync(context.Background(), tc.ResourceGroupName)
+	Eventually(func() bool {
+		_, err := tc.ResourceGroupManager.DeleteGroup(context.Background(), tc.ResourceGroupName)
+		if err != nil {
+			if strings.Contains(err.Error(), "asynchronous operation has not completed") {
+				return true
+			}
+			return false
+		}
+		return true
+	}, tc.timeout, tc.retryInterval,
+	).Should(BeTrue())
 })

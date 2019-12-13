@@ -1,0 +1,15 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlFailoverGroup
+metadata:
+  name: azuresqlfailovergroup-sample
+spec:
+  location: eastus
+  resourcegroup: resourcegroup-azure-operators
+  server: sqlserver-samplepri
+  failoverpolicy: automatic
+  failovergraceperiod: 30
+  secondaryserver: sqlserver-samplesec
+  secondaryserverresourcegroup: resourcegroup-azure-operators
+  databaselist:
+    - "azuresqldatabase-sample"
+    - "azuresqldatabase-sample2"
