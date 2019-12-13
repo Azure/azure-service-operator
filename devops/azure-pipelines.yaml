@@ -10,7 +10,6 @@ variables:
   MAJOR_VERSION: 0
   MINOR_VERSION: 0
   PATCH_VERSION: $(Build.BuildId)
-  BUILD_ID: $(Build.BuildId)
   GOROOT: '/usr/local/go1.12' # Go installation path
   GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
@@ -32,8 +31,6 @@ steps:
 
 - script: |
     set -x
-    echo $(BuildID)
-    echo $BUILD_ID
     ls -l /usr/local/go*
     mkdir -p '$(GOBIN)'
     mkdir -p '$(GOPATH)/pkg'
@@ -93,7 +90,7 @@ steps:
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-    BUILD_ID: $(BUILD_ID)
+    BUILD_ID: $(BuildID)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(MODULE_PATH)'
 
@@ -139,7 +136,7 @@ steps:
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-    BUILD_ID: $(BUILD_ID)
+    BUILD_ID: $(BuildID)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(MODULE_PATH)'
 
@@ -147,7 +144,7 @@ steps:
   displayName: 'Clean up Azure Resources'
   condition: always()
   env:
-    BUILD_ID: $(BUILD_ID)
+    $(BuildID)
   inputs:
     azureSubscription: 'Az Internal Consumption'
     scriptType: bash
