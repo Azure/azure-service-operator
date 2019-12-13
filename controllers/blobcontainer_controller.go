@@ -126,7 +126,6 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 					// Requeue if ReconcileExternal errors on one of these codes
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
-
 			}
 			catchNotIgnorable := []string{
 				errhelp.ContainerOperationFailure, // Container name was invalid
@@ -243,6 +242,7 @@ func (r *BlobContainerReconciler) deleteExternal(instance *azurev1alpha1.BlobCon
 	r.Log.Info(fmt.Sprintf("Deleting blob container: " + containerName))
 	_, err := r.StorageManager.DeleteBlobContainer(ctx, groupName, accountName, containerName)
 	if err != nil {
+
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if azerr.Type == errhelp.ParentNotFoundErrorCode {
 			log.Info("Got ignorable error", "type", azerr.Type)
