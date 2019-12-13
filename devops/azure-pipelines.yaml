@@ -32,6 +32,8 @@ steps:
 
 - script: |
     set -x
+    echo $(BuildID)
+    echo $BUILD_ID
     ls -l /usr/local/go*
     mkdir -p '$(GOBIN)'
     mkdir -p '$(GOPATH)/pkg'
