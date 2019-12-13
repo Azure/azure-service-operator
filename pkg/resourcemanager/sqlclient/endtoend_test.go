@@ -295,27 +295,23 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	// delete the resource group
 	util.PrintAndLog("deleting resource group...")
+	_, err = rgm.DeleteGroup(ctx, groupName)
+	if !errhelp.IsAsynchronousOperationNotComplete(err) {
+		util.PrintAndLog(fmt.Sprintf("cannot delete resource group: %v", err))
+		t.FailNow()
+	}
 	for {
-
-		response, err = rgm.DeleteGroup(ctx, groupName)
+		_, err := resourcegroups.GetGroup(ctx, groupName)
 		if err == nil {
-			if response.StatusCode == 200 {
+			time.Sleep(time.Second)
+			util.PrintAndLog("waiting for resource group to be deleted")
+		} else {
+			if errhelp.IsGroupNotFound(err) {
 				util.PrintAndLog("resource group deleted")
 				break
 			} else {
-				util.PrintAndLog(fmt.Sprintf("cannot delete resource group, code: %v", response.StatusCode))
-				t.FailNow()
-			}
-		} else {
-			if errhelp.IsGroupNotFound(err) {
-				break
-			}
-			if !errhelp.IsAsynchronousOperationNotComplete(err) {
 				util.PrintAndLog(fmt.Sprintf("cannot delete resource group: %v", err))
 				t.FailNow()
-			} else {
-				util.PrintAndLog("waiting for resource group to be deleted")
-				time.Sleep(time.Second * 20)
 			}
 		}
 	}
