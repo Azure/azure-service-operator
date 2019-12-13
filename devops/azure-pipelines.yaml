@@ -144,7 +144,7 @@ steps:
   displayName: 'Clean up Azure Resources'
   condition: always()
   env:
-    $(BuildID)
+    BUILD_ID: $(BuildID)
   inputs:
     azureSubscription: 'Az Internal Consumption'
     scriptType: bash
