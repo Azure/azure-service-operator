@@ -91,6 +91,7 @@ steps:
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    BUILD_ID: $(BUILD_ID)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(MODULE_PATH)'
 
@@ -136,6 +137,7 @@ steps:
     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    BUILD_ID: $(BUILD_ID)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
   workingDirectory: '$(MODULE_PATH)'
 
@@ -151,7 +153,7 @@ steps:
     workingDirectory: '$(MODULE_PATH)'
     inlineScript: |
       sleep ${CLEANUP_DELAY:-0}
-      BUILD_ID=$(BUILD_ID) make test-cleanup-azure-resources
+      make test-cleanup-azure-resources
 
 - task: PublishTestResults@2
   displayName: 'Publish test result for `make test`'
