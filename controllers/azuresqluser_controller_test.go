@@ -18,9 +18,9 @@ package controllers
 
 import (
 	"context"
-	"log"
 	"database/sql"
 	"fmt"
+	"log"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
@@ -103,26 +103,6 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		).Should(BeTrue())
 	})
 
-	// Destroy the resources created for this test
-	AfterEach(func() {
-
-		// Delete the SQL User
-		_ = tc.k8sClient.Delete(ctx, sqlUser)
-
-		// Delete the SQL Azure database
-		_ = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
-
-		// Delete the SQL Azure instance
-		_ = tc.k8sClient.Delete(ctx, sqlServerInstance)
-
-		result, err := tc.sqlServerManager.DeleteSQLServer(ctx, tc.resourceGroupName, sqlDatabaseInstance.Name)
-		log.Printf("successfully deleted Azure SQL instance %v", result.Response)
-		
-		if err != nil {
-			log.Println("failed to delete Azure SQL test instance")
-		}
-	})
-
 	Context("Create SQL User", func() {
 
 		It("should create a user in an Azure SQL database", func() {
@@ -137,28 +117,30 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.AzureSQLUserSpec{
-					Server:      sqlServerInstance.ObjectMeta.Name,
-					DbName:      sqlDatabaseInstance.Name,
-					AdminSecret: sqlDatabaseInstance.Spec.Server,
+					Server: sqlServerInstance.ObjectMeta.Name,
+					DbName: sqlDatabaseInstance.Name,
 				},
 			}
 
 			// Create the sqlUser
 			log.Print("Writing sqlUser to k8s")
 			err = tc.k8sClient.Create(ctx, sqlUser)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			if err != nil {
+				log.Printf("Failed to create sqlUser %v", err.Error())
+			}
+
+			// Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 
-			// Assure the user status has been set to 'Provisioned'
+			// Assure the user creation request is submitted
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlUser)
-				return sqlUser.Status.Provisioned == true
+				return sqlUser.IsSubmitted()
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
-			// Assure the SQLUser exists in Azure
 			fullServerAddress := fmt.Sprintf("%s.database.windows.net", sqlServerInstance.Name)
 			connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", fullServerAddress, sqlUser.Name, sqlUser.Spec.AdminSecret, SqlServerPort, sqlUser.Spec.DbName)
 
@@ -166,12 +148,23 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 
 				db, err := sql.Open(DriverName, connString)
 
-				if err != nil { 
+				if err != nil {
 					return false
 				}
 
+				// Assure the SQLUser exists in Azure
 				result, _ := tc.sqlUserManager.UserExists(ctx, db, sqlUser.Name)
 				return result
+			}, tc.timeout, tc.retry,
+			).Should(BeTrue())
+
+			// Delete the user and expect an error that is is not raised
+			err = tc.k8sClient.Delete(ctx, sqlUser)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func() bool {
+				_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlUser)
+				return helpers.IsBeingDeleted(sqlUser)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 		})
