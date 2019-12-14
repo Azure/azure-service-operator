@@ -304,7 +304,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	for {
 		time.Sleep(time.Second * 10)
-		group, err := resourcegroups.GetGroup(ctx, groupName)
+		_, err := resourcegroups.GetGroup(ctx, groupName)
 		if err == nil {
 			util.PrintAndLog("waiting for resource group to be deleted")
 		} else {
