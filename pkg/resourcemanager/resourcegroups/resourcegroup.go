@@ -91,8 +91,6 @@ func (_ *AzureResourceGroupManager) DeleteGroup(ctx context.Context, groupName s
 		return autorest.Response{}, err
 	}
 
-	future.WaitForCompletionRef(ctx, client.Client)
-
 	return future.Result(client)
 }
 
