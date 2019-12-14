@@ -107,7 +107,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
 					//r.Telemetry.LogInfo("status", "handling parent reference for object "+pAccessor.GetName())
 					r.Telemetry.LogInfo("status", "updating after setting reference")
-					//return ctrl.Result{}, r.Update(ctx, local)
+					break
 
 				}
 			}
@@ -120,7 +120,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		r.Telemetry.LogError("ensure err", ensureErr)
 	}
 
-	final := multierror.Append(ensureErr, r.Status().Update(ctx, local))
+	final := multierror.Append(ensureErr, r.Update(ctx, local))
 	err = final.ErrorOrNil()
 	if err != nil {
 		r.Recorder.Event(local, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
