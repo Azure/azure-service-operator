@@ -104,6 +104,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 			if pAccessor, err := meta.Accessor(p.Target); err == nil {
 				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
 					r.Telemetry.LogInfo("status", "setting parent reference to object: "+pAccessor.GetName())
+					break
 				}
 			}
 		}
