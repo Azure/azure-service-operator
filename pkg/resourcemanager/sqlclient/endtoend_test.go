@@ -300,10 +300,12 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		util.PrintAndLog(fmt.Sprintf("cannot delete resource group: %v", err))
 		t.FailNow()
 	}
+	util.PrintAndLog("waiting for resource group delete future to come back")
+
 	for {
+		time.Sleep(time.Second * 10)
 		_, err := resourcegroups.GetGroup(ctx, groupName)
 		if err == nil {
-			time.Sleep(time.Second)
 			util.PrintAndLog("waiting for resource group to be deleted")
 		} else {
 			if errhelp.IsGroupNotFound(err) {
