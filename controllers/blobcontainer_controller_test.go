@@ -42,7 +42,7 @@ var _ = Describe("BlobContainer Controller", func() {
 		rgLocation = tc.resourceGroupLocation
 		rgName = tc.resourceGroupName
 		saName = tc.storageAccountName
-		containerAccessLevel = tc.containerAccessLevel
+		containerAccessLevel = s.PublicAccessContainer
 	})
 
 	AfterEach(func() {

@@ -29,6 +29,7 @@ import (
 	"k8s.io/client-go/rest"
 
 	s "github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -38,11 +39,10 @@ import (
 	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sql"
 	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/storages"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-  resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
- 
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -112,7 +112,7 @@ var _ = BeforeSuite(func() {
 
 	storageAccountName := "tsadeveh" + helpers.RandomString(10)
 	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
-	containerAccessLevel := storage.PublicAccessContainer
+	containerAccessLevel := s.PublicAccessContainer
 
 	var timeout time.Duration
 
@@ -412,8 +412,6 @@ var _ = BeforeSuite(func() {
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
 	Expect(err).ToNot(HaveOccurred())
-
-
 
 })
 
