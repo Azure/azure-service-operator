@@ -1,0 +1,3 @@
+domain: infra.azure.com
+repo: github.com/Azure/k8s-infra
+version: "2"
