@@ -19,7 +19,7 @@ package eventhubs
 import (
 	"context"
 	"fmt"
-	"log"
+	"net/http"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -193,10 +193,6 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 		return false, err
 	}
 
-	log.Println()
-	log.Println("after convert")
-	log.Println()
-
 	eventhubName := instance.ObjectMeta.Name
 	eventhubNamespace := instance.Spec.Namespace
 	resourcegroup := instance.Spec.ResourceGroup
@@ -214,19 +210,12 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 	instance.Status.Provisioning = true
 
 	capturePtr := getCaptureDescriptionPtr(captureDescription)
-	log.Println()
-	log.Println("after get capture pointer")
-	log.Println()
-	mod, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+
+	_, err = e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		instance.Status.Provisioning = false
 		return false, err
 	}
-
-	log.Println()
-	log.Println(mod.Status)
-	log.Println("after create hub")
-	log.Println()
 
 	err = e.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
 	if err != nil {
@@ -238,10 +227,6 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 		return false, err
 	}
 
-	log.Println()
-	log.Println("after list keys creat secret")
-	log.Println()
-
 	// write information back to instance
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
@@ -250,6 +235,25 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 }
 
 func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := e.convert(obj)
+	if err != nil {
+		return true, err
+	}
+
+	eventhubName := instance.ObjectMeta.Name
+	namespaceName := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+
+	resp, err := e.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
+	if err != nil {
+		return false, err
+	}
+
+	if resp.StatusCode == http.StatusNoContent {
+		return false, nil
+	}
+
 	return true, nil
 }
 
