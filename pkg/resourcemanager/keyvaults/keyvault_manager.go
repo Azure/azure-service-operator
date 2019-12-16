@@ -28,6 +28,9 @@ var AzureKeyVaultManager KeyVaultManager = &azureKeyVaultManager{}
 type KeyVaultManager interface {
 	CreateVault(ctx context.Context, groupName string, vaultName string, location string) (keyvault.Vault, error)
 
+	// CreateVault and grant access to the specific user ID
+	CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, userID string) (keyvault.Vault, error)
+
 	// DeleteVault removes the resource group named by env var
 	DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error)
 

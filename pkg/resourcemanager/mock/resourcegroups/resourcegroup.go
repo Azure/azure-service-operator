@@ -24,6 +24,7 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"k8s.io/apimachinery/pkg/runtime"
 
@@ -130,6 +131,10 @@ func (g *MockResourceGroupManager) Delete(ctx context.Context, obj runtime.Objec
 	}
 
 	return false, nil
+}
+
+func (g *MockResourceGroupManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+	return nil, nil
 }
 
 func (g *MockResourceGroupManager) convert(obj runtime.Object) (*azurev1alpha1.ResourceGroup, error) {
