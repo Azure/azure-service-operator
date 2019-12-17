@@ -213,7 +213,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	capturePtr := getCaptureDescriptionPtr(captureDescription)
 
-	_, err = e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	resp, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
@@ -229,6 +229,9 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 			return false, err
 		}
 	}
+	instance.Status.State = string(resp.Status)
+	instance.Status.Message = "Success"
+
 	err = e.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
 	if err != nil {
 		return false, err
@@ -259,6 +262,15 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object) (
 
 	resp, err := e.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
 	if err != nil {
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Message = err.Error()
+			return false, nil
+		}
 		return false, err
 	}
 
