@@ -26,6 +26,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -50,7 +51,7 @@ type AzureSqlActionReconciler struct {
 	Log                   logr.Logger
 	Recorder              record.EventRecorder
 	Scheme                *runtime.Scheme
-	AzureSqlServerManager sql.SqlServerManager
+	AzureSqlServerManager azuresqlserver.SqlServerManager
 	SecretClient          secrets.SecretClient
 }
 
