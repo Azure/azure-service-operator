@@ -3,7 +3,7 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package sql
+package azuresql
 
 import (
 	"context"
@@ -14,8 +14,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
-	sqlclient "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 )
 
 type MockSqlDbManager struct {
@@ -43,7 +43,7 @@ func findSqlDb(res []MockSqlDbResource, predicate func(MockSqlDbResource) bool) 
 }
 
 //CreateorUpdateDB creates a sql Db
-func (manager *MockSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties sqlclient.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
+func (manager *MockSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresql.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
 	index, _ := findSqlDb(manager.sqlDbs, func(s MockSqlDbResource) bool {
 		return s.resourceGroupName == resourceGroupName && s.sqlServerName == serverName && *s.sqlDb.Name == properties.DatabaseName
 	})

@@ -36,7 +36,7 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	sqlclient "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	_ "github.com/denisenkom/go-mssqldb"
 )
 
@@ -61,7 +61,7 @@ type AzureSQLUserReconciler struct {
 	Log                 logr.Logger
 	Recorder            record.EventRecorder
 	Scheme              *runtime.Scheme
-	AzureSqlUserManager sqlclient.SqlUserManager
+	AzureSqlUserManager azuresql.SqlUserManager
 	SecretClient        secrets.SecretClient
 }
 

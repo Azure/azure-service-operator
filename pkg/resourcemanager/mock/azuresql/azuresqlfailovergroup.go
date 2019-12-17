@@ -3,7 +3,7 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package sql
+package azuresql
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
-	sqlclient "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
@@ -40,7 +40,7 @@ func findSqlFailoverGroup(res []MockSqlFailoverResource, predicate func(MockSqlF
 	return -1, MockSqlFailoverResource{}
 }
 
-func (manager *MockSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties sqlclient.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+func (manager *MockSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties azuresql.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
 	index, _ := findSqlFailoverGroup(manager.sqlFailoverGroups, func(s MockSqlFailoverResource) bool {
 		return s.resourceGroupName == resourceGroupName && s.sqlServerName == serverName && *s.sqlFailover.Name == failovergroupname
 	})

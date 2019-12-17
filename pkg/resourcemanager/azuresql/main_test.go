@@ -1,4 +1,4 @@
-package sqlclient
+package azuresql
 
 import (
 	"context"
