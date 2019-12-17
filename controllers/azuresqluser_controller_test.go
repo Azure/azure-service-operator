@@ -20,7 +20,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"log"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
@@ -51,7 +50,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		sqlServerName = "t-sqlusr-test" + helpers.RandomString(10)
 		ctx = context.Background()
 
-		// Create an instance of Azure SQL to test the user provisioning and deletion in
+		// Create an instance of Azure SQL
 		sqlServerInstance = &azurev1alpha1.AzureSqlServer{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlServerName,
@@ -77,7 +76,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		randomName := helpers.RandomString(10)
 		sqlDatabaseName := "t-sqldatabase-test-" + randomName
 
-		// Create the SqlDatabase object and expect the Reconcile to be created
+		// Create the SqlDatabase
 		sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlDatabaseName,
@@ -90,12 +89,19 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 				Edition:       0,
 			},
 		}
+
 		err = tc.k8sClient.Create(ctx, sqlDatabaseInstance)
 		Expect(apierrors.IsInvalid(err)).To(Equal(false))
 		Expect(err).To(BeNil())
 
-		sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
+		// Wait for the SQL Database to be privisioned
+		Eventually(func() bool {
+			_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlDatabaseInstance)
+			return sqlServerInstance.Status.Provisioned
+		}, tc.timeout, tc.retry,
+		).Should(BeTrue())
 
+		sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
 			return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
@@ -110,6 +116,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			defer GinkgoRecover()
 
 			username := "sql-test-user" + helpers.RandomString(10)
+			roles := []string{"db_owner"}
 
 			sqlUser = &azurev1alpha1.AzureSQLUser{
 				ObjectMeta: metav1.ObjectMeta{
@@ -117,19 +124,17 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.AzureSQLUserSpec{
-					Server: sqlServerInstance.ObjectMeta.Name,
-					DbName: sqlDatabaseInstance.Name,
+					Server:      sqlServerInstance.ObjectMeta.Name,
+					DbName:      sqlDatabaseInstance.ObjectMeta.Name,
+					AdminSecret: "adminSecret",
+					Roles:       roles,
 				},
+				Status: azurev1alpha1.AzureSQLUserStatus{},
 			}
 
 			// Create the sqlUser
-			log.Print("Writing sqlUser to k8s")
 			err = tc.k8sClient.Create(ctx, sqlUser)
-			if err != nil {
-				log.Printf("Failed to create sqlUser %v", err.Error())
-			}
-
-			// Expect(apierrors.IsInvalid(err)).To(Equal(false))
+			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
