@@ -132,7 +132,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).To(BeNil())
 
-			sqlUserNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+			sqlUserNamespacedName := types.NamespacedName{Name: username, Namespace: "default"}
 
 			// Assure the user creation request is submitted
 			Eventually(func() bool {
