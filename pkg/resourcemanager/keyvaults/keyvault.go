@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"log"
 
+	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
@@ -36,6 +37,22 @@ func getVaultsClient() keyvault.VaultsClient {
 	vaultsClient.Authorizer = a
 	vaultsClient.AddToUserAgent(config.UserAgent())
 	return vaultsClient
+}
+
+func getObjectID(ctx context.Context, tenantID string, clientID string) *string {
+	appclient := auth.NewApplicationsClient(tenantID)
+	a, err := iam.GetGraphAuthorizer()
+	if err != nil {
+		return nil
+	}
+	appclient.Authorizer = a
+	appclient.AddToUserAgent(config.UserAgent())
+
+	result, err := appclient.GetServicePrincipalsIDByAppID(ctx, clientID)
+	if err != nil {
+		return nil
+	}
+	return result.Value
 }
 
 // CreateVault creates a new key vault
@@ -60,6 +77,58 @@ func (_ *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string
 
 	log.Println(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v", vaultName, groupName, location))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
+
+	return future.Result(vaultsClient)
+}
+
+// CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
+func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
+	vaultsClient := getVaultsClient()
+	id, err := uuid.FromString(config.TenantID())
+	if err != nil {
+		return keyvault.Vault{}, err
+	}
+
+	apList := []keyvault.AccessPolicyEntry{}
+	ap := keyvault.AccessPolicyEntry{
+		TenantID: &id,
+		Permissions: &keyvault.Permissions{
+			Keys: &[]keyvault.KeyPermissions{
+				keyvault.KeyPermissionsCreate,
+			},
+			Secrets: &[]keyvault.SecretPermissions{
+				keyvault.SecretPermissionsSet,
+				keyvault.SecretPermissionsGet,
+				keyvault.SecretPermissionsDelete,
+				keyvault.SecretPermissionsList,
+			},
+		},
+	}
+	if clientID != "" {
+		if objID := getObjectID(ctx, config.TenantID(), clientID); objID != nil {
+			ap.ObjectID = objID
+			apList = append(apList, ap)
+		}
+
+	}
+
+	params := keyvault.VaultCreateOrUpdateParameters{
+		Properties: &keyvault.VaultProperties{
+			TenantID:       &id,
+			AccessPolicies: &apList,
+			Sku: &keyvault.Sku{
+				Family: to.StringPtr("A"),
+				Name:   keyvault.Standard,
+			},
+		},
+		Location: to.StringPtr(location),
+	}
+
+	log.Println(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
+	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
+	if err != nil {
+		return keyvault.Vault{}, err
+	}
 
 	return future.Result(vaultsClient)
 }

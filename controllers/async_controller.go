@@ -94,8 +94,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	}
 
 	// loop through parents until one is successfully referenced
-	r.Telemetry.LogInfo("status", "handling parent reference for object")
-
 	parents, err := r.AzureClient.GetParents(local)
 	for _, p := range parents {
 		//r.Telemetry.LogInfo("status", "handling parent "+p.Key.Name)
@@ -105,9 +103,12 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 			if pAccessor, err := meta.Accessor(p.Target); err == nil {
 				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
-					//r.Telemetry.LogInfo("status", "handling parent reference for object "+pAccessor.GetName())
-					return ctrl.Result{}, r.Update(ctx, local)
-
+					r.Telemetry.LogInfo("status", "setting parent reference to object: "+pAccessor.GetName())
+					err := r.Update(ctx, local)
+					if err != nil {
+						r.Telemetry.LogInfo("warning", "failed to update instance: "+err.Error())
+					}
+					break
 				}
 			}
 		}
