@@ -155,7 +155,7 @@ var _ = BeforeSuite(func() {
 	var resourceClient resourcemanagersql.ResourceClient
 	secretClient := k8sSecrets.New(k8sManager.GetClient())
 	var eventhubNamespaceClient resourcemanagereventhub.EventHubNamespaceManager
-
+	var eventhubClient resourcemanagereventhub.EventHubManager
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
@@ -163,8 +163,9 @@ var _ = BeforeSuite(func() {
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
 		resourceClient = &resourcemanagersql.GoSDKClient{}
 		eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
+		eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
 
-		timeout = time.Second * 1000
+		timeout = time.Second * 900
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
@@ -172,6 +173,7 @@ var _ = BeforeSuite(func() {
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
 		resourceClient = &resourcemanagersqlmock.MockGoSDKClient{}
 		eventhubNamespaceClient = resourcemanagereventhubmock.NewMockEventHubNamespaceClient()
+		eventhubClient = resourcemanagereventhubmock.NewMockEventHubClient(secretClient, scheme.Scheme)
 
 		timeout = time.Second * 60
 	}
@@ -185,12 +187,16 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&EventhubReconciler{
-		Client:          k8sManager.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("EventHub"),
-		Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:          scheme.Scheme,
-		EventHubManager: eventHubManagers.EventHub,
-		SecretClient:    secretClient,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: eventhubClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("EventHub"),
+				"EventHub",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -330,7 +336,6 @@ var _ = BeforeSuite(func() {
 	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
 		Name: "Standard_LRS",
 	}, "Storage", map[string]*string{}, "", nil, nil)
-
 	Expect(err).ToNot(HaveOccurred())
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
