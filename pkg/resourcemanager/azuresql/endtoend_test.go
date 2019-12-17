@@ -12,6 +12,11 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
+	azuresqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	azuresqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
+	azuresqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 
 	"testing"
 	"time"
@@ -23,11 +28,11 @@ import (
 )
 
 type TestContext struct {
-	SqlServerManager        SqlServerManager
-	sqlDbManager            SqlDbManager
-	sqlFirewallRuleManager  SqlFirewallRuleManager
-	sqlFailoverGroupManager SqlFailoverGroupManager
-	sqlUserManager          SqlUserManager
+	SqlServerManager        azuresqlserver.SqlServerManager
+	sqlDbManager            azuresqldb.SqlDbManager
+	sqlFirewallRuleManager  azuresqlfirewaullrule.SqlFirewallRuleManager
+	sqlFailoverGroupManager azuresqlfailovergroup.SqlFailoverGroupManager
+	sqlUserManager          azuresqluser.SqlUserManager
 }
 
 var tc TestContext
