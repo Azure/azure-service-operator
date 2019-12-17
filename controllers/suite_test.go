@@ -282,6 +282,7 @@ var _ = BeforeSuite(func() {
 		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
+
 	err = (&AzureSqlFailoverGroupReconciler{
 		Client:                       k8sManager.GetClient(),
 		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),

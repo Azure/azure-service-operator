@@ -94,17 +94,12 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		Expect(apierrors.IsInvalid(err)).To(Equal(false))
 		Expect(err).To(BeNil())
 
-		// Wait for the SQL Database to be privisioned
-		Eventually(func() bool {
-			_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlDatabaseInstance)
-			return sqlServerInstance.Status.Provisioned
-		}, tc.timeout, tc.retry,
-		).Should(BeTrue())
-
 		sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
+
+		// Wait for the SQL Database to be provisioned
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-			return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
+			return sqlDatabaseInstance.Status.Provisioned
 		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 	})
@@ -135,13 +130,13 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			// Create the sqlUser
 			err = tc.k8sClient.Create(ctx, sqlUser)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
+			Expect(err).To(BeNil())
 
-			sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+			sqlUserNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 
 			// Assure the user creation request is submitted
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlUser)
+				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
 				return sqlUser.Status.Provisioned
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
@@ -165,10 +160,10 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 
 			// Delete the user and expect an error that is is not raised
 			err = tc.k8sClient.Delete(ctx, sqlUser)
-			Expect(err).NotTo(HaveOccurred())
+			Expect(err).To(BeNil())
 
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlUser)
+				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
 				return helpers.IsBeingDeleted(sqlUser)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
