@@ -23,11 +23,11 @@ import (
 	"os"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"

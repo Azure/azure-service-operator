@@ -17,7 +17,7 @@ package v1alpha1
 
 import (
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 

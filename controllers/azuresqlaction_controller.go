@@ -25,7 +25,7 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"

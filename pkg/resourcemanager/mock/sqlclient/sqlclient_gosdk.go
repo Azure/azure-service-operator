@@ -21,8 +21,8 @@ import (
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	helpers "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
-	sqlclient "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	"github.com/Azure/go-autorest/autorest"
 )
 
@@ -37,7 +37,7 @@ type MockGoSDKClient struct {
 }
 
 // CreateOrUpdateSQLServer creates a new sql server
-func (sdk *MockGoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties sqlclient.SQLServerProperties) (result sql.Server, err error) {
+func (sdk *MockGoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresql.SQLServerProperties) (result sql.Server, err error) {
 	var sqlServer = sql.Server{
 		Response: helpers.GetRestResponse(http.StatusCreated),
 	}
@@ -110,7 +110,7 @@ func (sdk *MockGoSDKClient) GetDB(ctx context.Context, resourceGroupName string,
 }
 
 //CreateOrUpdateDB create or update DB
-func (sdk *MockGoSDKClient) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties sqlclient.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
+func (sdk *MockGoSDKClient) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresql.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
 
 	var sqlDatabasesCreateOrUpdateFuture = sql.DatabasesCreateOrUpdateFuture{}
 
@@ -118,7 +118,7 @@ func (sdk *MockGoSDKClient) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 }
 
 //CreateOrUpdateFailoverGroup create or update failover group
-func (sdk *MockGoSDKClient) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties sqlclient.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+func (sdk *MockGoSDKClient) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties azuresql.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
 
 	var sqlFailoverGroupsCreateOrUpdateFuture = sql.FailoverGroupsCreateOrUpdateFuture{}
 	sdk.FailoverGroupsCreateOrUpdateFuture = sqlFailoverGroupsCreateOrUpdateFuture

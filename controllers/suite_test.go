@@ -30,6 +30,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
+	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -39,7 +40,6 @@ import (
 	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sql"
 	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/storages"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 

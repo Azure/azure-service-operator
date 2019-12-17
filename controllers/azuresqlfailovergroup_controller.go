@@ -32,7 +32,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 )
 
 const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azure.com"

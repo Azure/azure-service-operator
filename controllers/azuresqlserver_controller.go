@@ -23,7 +23,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
