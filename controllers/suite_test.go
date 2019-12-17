@@ -86,7 +86,6 @@ type testContext struct {
 var tc testContext
 
 func TestAPIs(t *testing.T) {
-	//t.Parallel()
 	RegisterFailHandler(Fail)
 
 	RunSpecsWithDefaultAndCustomReporters(t,
@@ -298,6 +297,7 @@ var _ = BeforeSuite(func() {
 		Recorder:            k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
 		Scheme:              scheme.Scheme,
 		AzureSqlUserManager: sqlUserManager,
+		SecretClient:        secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

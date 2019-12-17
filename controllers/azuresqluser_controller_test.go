@@ -126,7 +126,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 				Spec: azurev1alpha1.AzureSQLUserSpec{
 					Server:      sqlServerInstance.ObjectMeta.Name,
 					DbName:      sqlDatabaseInstance.ObjectMeta.Name,
-					AdminSecret: "adminSecret",
+					AdminSecret: "",
 					Roles:       roles,
 				},
 				Status: azurev1alpha1.AzureSQLUserStatus{},
@@ -142,7 +142,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			// Assure the user creation request is submitted
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlUser)
-				return sqlUser.IsSubmitted()
+				return sqlUser.Status.Provisioned
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
