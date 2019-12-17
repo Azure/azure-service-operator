@@ -11,8 +11,8 @@ import (
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
