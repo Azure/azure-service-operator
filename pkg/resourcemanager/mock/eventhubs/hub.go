@@ -71,6 +71,13 @@ type mockEventHubManager struct {
 	Scheme            *runtime.Scheme
 }
 
+func NewMockEventHubClient(secretClient secrets.SecretClient, scheme *runtime.Scheme) *mockEventHubManager {
+	return &mockEventHubManager{
+		SecretClient: secretClient,
+		Scheme:       scheme,
+	}
+}
+
 func (manager *mockEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
 	hubs := manager.eventHubResources
 
