@@ -218,6 +218,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -265,6 +266,7 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object) (
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
