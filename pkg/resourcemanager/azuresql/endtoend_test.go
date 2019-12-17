@@ -11,12 +11,12 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
 	azuresqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
-	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
-	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	azuresqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	azuresqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
 
 	"testing"
 	"time"

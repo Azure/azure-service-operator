@@ -12,7 +12,7 @@ import (
 	"database/sql"
 	dbsql "database/sql"
 
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 )
 
 type MockSqlUserManager struct {
@@ -39,7 +39,7 @@ func findSqlUser(res []MockSqlUserResource, predicate func(MockSqlUserResource) 
 }
 
 func (manager *MockSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *dbsql.DB) (string, error) {
-	newUser := string(secret[azuresql.SecretUsernameKey])
+	newUser := string(secret[azuresqluser.SecretUsernameKey])
 
 	q := MockSqlUserResource{
 		username: newUser,

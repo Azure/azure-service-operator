@@ -9,6 +9,8 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	//	azuresqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/go-logr/logr"
 )
