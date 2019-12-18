@@ -72,8 +72,8 @@ type testContext struct {
 	blobContainerName       string
 	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
 	eventHubManagers        resourcemanagereventhub.EventHubManagers
-	eventhubClient        resourcemanagereventhub.EventHubManager
-  storageManagers         resourcemanagerstorages.StorageManagers
+	eventhubClient          resourcemanagereventhub.EventHubManager
+	storageManagers         resourcemanagerstorages.StorageManagers
 	keyVaultManager         resourcemanagerkeyvaults.KeyVaultManager
 	sqlServerManager        resourcemanagersql.SqlServerManager
 	sqlDbManager            resourcemanagersql.SqlDbManager
@@ -370,7 +370,7 @@ var _ = BeforeSuite(func() {
 		storageAccountName:      storageAccountName,
 		blobContainerName:       blobContainerName,
 		eventHubManagers:        eventHubManagers,
- 		eventhubClient:        eventhubClient,
+		eventhubClient:          eventhubClient,
 		resourceGroupManager:    resourceGroupManager,
 		sqlServerManager:        sqlServerManager,
 		sqlDbManager:            sqlDbManager,
