@@ -91,7 +91,6 @@ func main() {
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
-	secretClient := k8sSecrets.New(mgr.GetClient())
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
 	sqlServerManager := resourcemanagersql.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
 	sqlDBManager := resourcemanagersql.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
