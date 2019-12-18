@@ -16,11 +16,16 @@ limitations under the License.
 package controllers
 
 import (
+	"context"
+	"fmt"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	"github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	"github.com/go-logr/logr"
 
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -43,6 +48,24 @@ type AppInsightsReconciler struct {
 // Reconcile attempts to set the desired state representation for the Application Insights operator
 func (r *AppInsightsReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.AppInsights{})
+}
+
+func (r *AppInsightsReconciler) addFinalizer(instance *azurev1alpha1.AppInsights) error {
+	helpers.AddFinalizer(instance, fileSystemFinalizerName)
+	err := r.Update(context.Background(), instance)
+	if err != nil {
+		return fmt.Errorf("failed to update finalizer: %v", err)
+	}
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", fileSystemFinalizerName))
+	return nil
+}
+
+func (r *AppInsightsReconciler) reconcileExternal(instance *azurev1alpha1.AppInsights) error {
+	return nil
+}
+
+func (r *AppInsightsReconciler) deleteExternal(instance *azurev1alpha1.AppInsights) error {
+	return nil
 }
 
 // SetupWithManager starts the operator in k8s

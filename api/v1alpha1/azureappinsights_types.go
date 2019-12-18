@@ -36,8 +36,15 @@ type AppInsights struct {
 	Status ASOStatus       `json:"status,omitempty"`
 }
 
+// AppInsightsList is a collection of AppInsights
+type AppInsightsList struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Items             []AppInsights `json:"items"`
+}
+
 func init() {
-	SchemeBuilder.Register(&Eventhub{}, &EventhubList{})
+	SchemeBuilder.Register(&AppInsights{}, &AppInsightsList{})
 }
 
 // IsBeingDeleted determines if the AppInsights operator is being deleted
