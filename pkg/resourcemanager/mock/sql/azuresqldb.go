@@ -8,14 +8,18 @@ package sql
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
-	sqlclient "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 )
 
 type MockSqlDbManager struct {
@@ -100,4 +104,62 @@ func (manager *MockSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName
 	manager.sqlDbs = append(sqlDbs[:index], sqlDbs[index+1:]...)
 
 	return helpers.GetRestResponse(http.StatusOK), nil
+}
+
+func (db *MockSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+	instance, err := db.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	location := instance.Spec.Location
+	groupName := instance.Spec.ResourceGroup
+	server := instance.Spec.Server
+	dbName := instance.ObjectMeta.Name
+	dbEdition := instance.Spec.Edition
+
+	azureSqlDatabaseProperties := sqlclient.SQLDatabaseProperties{
+		DatabaseName: dbName,
+		Edition:      dbEdition,
+	}
+
+	_, err = db.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
+	if err != nil {
+		return false, err
+	}
+
+	instance.Status.Provisioning = true
+	instance.Status.Provisioned = true
+
+	return true, nil
+}
+
+func (db *MockSqlDbManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	instance, err := db.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	groupName := instance.Spec.ResourceGroup
+	server := instance.Spec.Server
+	dbName := instance.ObjectMeta.Name
+
+	_, err = db.DeleteDB(ctx, groupName, server, dbName)
+	if err != nil {
+		return false, err
+	}
+
+	return false, nil
+}
+
+func (g *MockSqlDbManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+	return nil, nil
+}
+
+func (*MockSqlDbManager) convert(obj runtime.Object) (*azurev1alpha1.AzureSqlDatabase, error) {
+	local, ok := obj.(*azurev1alpha1.AzureSqlDatabase)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }

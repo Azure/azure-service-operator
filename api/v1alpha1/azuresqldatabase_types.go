@@ -17,20 +17,22 @@ package v1alpha1
 
 import (
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
+type DBEdition byte
+
 // AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
 type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string        `json:"location"`
-	ResourceGroup string        `json:"resourcegroup,omitempty"`
-	Server        string        `json:"server"`
-	Edition       sql.DBEdition `json:"edition"`
+	Location      string    `json:"location"`
+	ResourceGroup string    `json:"resourcegroup,omitempty"`
+	Server        string    `json:"server"`
+	Edition       DBEdition `json:"edition"`
 }
 
 // +kubebuilder:object:root=true
