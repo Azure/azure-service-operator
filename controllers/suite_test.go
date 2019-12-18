@@ -30,7 +30,11 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
-	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
+	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -74,11 +78,11 @@ type testContext struct {
 	eventHubManagers        resourcemanagereventhub.EventHubManagers
 	storageManagers         resourcemanagerstorages.StorageManagers
 	keyVaultManager         resourcemanagerkeyvaults.KeyVaultManager
-	sqlServerManager        resourcemanagersql.SqlServerManager
-	sqlDbManager            resourcemanagersql.SqlDbManager
-	sqlFirewallRuleManager  resourcemanagersql.SqlFirewallRuleManager
-	sqlFailoverGroupManager resourcemanagersql.SqlFailoverGroupManager
-	sqlUserManager          resourcemanagersql.SqlUserManager
+	sqlServerManager        resourcemanagersqlserver.SqlServerManager
+	sqlDbManager            resourcemanagersqldb.SqlDbManager
+	sqlFirewallRuleManager  resourcemanagersqlfirewallrule.SqlFirewallRuleManager
+	sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
+	sqlUserManager          resourcemanagersqluser.SqlUserManager
 	timeout                 time.Duration
 	retry                   time.Duration
 }
@@ -158,11 +162,11 @@ var _ = BeforeSuite(func() {
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	var eventhubNamespaceClient resourcemanagereventhub.EventHubNamespaceManager
-	var sqlServerManager resourcemanagersql.SqlServerManager
-	var sqlDbManager resourcemanagersql.SqlDbManager
-	var sqlFirewallRuleManager resourcemanagersql.SqlFirewallRuleManager
-	var sqlFailoverGroupManager resourcemanagersql.SqlFailoverGroupManager
-	var sqlUserManager resourcemanagersql.SqlUserManager
+	var sqlServerManager resourcemanagersqlserver.SqlServerManager
+	var sqlDbManager resourcemanagersqldb.SqlDbManager
+	var sqlFirewallRuleManager resourcemanagersqlfirewallrule.SqlFirewallRuleManager
+	var sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
+	var sqlUserManager resourcemanagersqluser.SqlUserManager
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
@@ -170,11 +174,11 @@ var _ = BeforeSuite(func() {
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
 		eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
-		sqlServerManager = resourcemanagersql.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
-		sqlDbManager = resourcemanagersql.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
-		sqlFirewallRuleManager = resourcemanagersql.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
-		sqlFailoverGroupManager = resourcemanagersql.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
-		sqlUserManager = resourcemanagersql.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
+		sqlServerManager = resourcemanagersqlserver.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
+		sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
+		sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+		sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+		sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
 		timeout = time.Second * 900
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}

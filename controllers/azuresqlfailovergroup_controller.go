@@ -32,6 +32,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	azuresqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 )
 
@@ -187,7 +188,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context,
 	}
 
 	// Create Failover Group properties struct
-	sqlFailoverGroupProperties := azuresqlfailovergroup.SQLFailoverGroupProperties{
+	sqlFailoverGroupProperties := azuresql.SQLFailoverGroupProperties{
 		FailoverPolicy:               failoverPolicy,
 		FailoverGracePeriod:          failoverGracePeriod,
 		SecondaryServerName:          secondaryServer,
