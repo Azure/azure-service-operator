@@ -24,8 +24,8 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	azuresqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
 	//"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
@@ -140,7 +140,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(ctx context.Context, inst
 	dbName := instance.ObjectMeta.Name
 	dbEdition := instance.Spec.Edition
 
-	azureSqlDatabaseProperties := azuresql.SQLDatabaseProperties{
+	azureSqlDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
 		Edition:      dbEdition,
 	}

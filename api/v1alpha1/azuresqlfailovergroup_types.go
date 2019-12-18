@@ -16,7 +16,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
