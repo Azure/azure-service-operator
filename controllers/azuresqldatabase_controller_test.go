@@ -127,7 +127,7 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-				return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
+				return helpers.HasFinalizer(sqlDatabaseInstance, finalizerName)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 

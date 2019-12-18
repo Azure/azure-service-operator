@@ -25,6 +25,9 @@ type DBEdition byte
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
+type DBEdition byte
+
 // AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
 type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster

@@ -241,16 +241,25 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
 		os.Exit(1)
 	}
-	if err = (&controllers.AzureSqlDatabaseReconciler{
-		Client:            mgr.GetClient(),
-		Log:               ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
-		Recorder:          mgr.GetEventRecorderFor("AzureSqlDatabase-controller"),
-		Scheme:            mgr.GetScheme(),
-		AzureSqlDbManager: sqlDBManager,
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDatabase")
+
+	/* Azure Sql Database */
+	err = (&controllers.AzureSqlDbReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlDBManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
+				"AzureSqlDb",
+			),
+			Recorder: mgr.GetEventRecorderFor("AzureSqlDb-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDb")
 		os.Exit(1)
 	}
+
 	if err = (&controllers.AzureSqlFirewallRuleReconciler{
 		Client: mgr.GetClient(),
 		Telemetry: telemetry.InitializePrometheusDefault(
