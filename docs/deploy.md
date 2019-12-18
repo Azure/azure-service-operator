@@ -66,10 +66,15 @@
     ```
 
     Add appropriate Key Vault access policies to allow the service principal access to this Key Vault
-    (TODO: Need to add instruction if using Managed Identity)
 
     ```shell
     az keyvault set-policy --name "OperatorSecretKeyVault" --spn <AZURE_CLIENT_ID> --secret-permissions get list delete set
+    ```
+
+    If you use Managed Identity instead of Service Principal, use the Client ID of the Managed Identity instead in the above command.
+
+    ```shell
+    az keyvault set-policy --name "OperatorSecretKeyVault" --spn <MANAGEDIDENTITY_CLIENT_ID> --secret-permissions get list delete set
     ```
 
     Set the additional environment variable 'AZURE_OPERATOR_KEYVAULT' to indicate you want to use Key Vault for secrets.
