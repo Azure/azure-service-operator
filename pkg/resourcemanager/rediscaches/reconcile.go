@@ -20,10 +20,12 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
@@ -73,7 +75,17 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 }
 
 func (rc *AzureRedisCacheManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
-	return nil, nil
+
+	instance, err := rc.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	key := types.NamespacedName{Namespace: instance.Namespace, Name: instance.Spec.ResourceGroupName}
+
+	return []resourcemanager.KubeParent{
+		{Key: key, Target: &v1alpha1.ResourceGroup{}},
+	}, nil
 }
 
 func (rc *AzureRedisCacheManager) convert(obj runtime.Object) (*azurev1alpha1.RedisCache, error) {
