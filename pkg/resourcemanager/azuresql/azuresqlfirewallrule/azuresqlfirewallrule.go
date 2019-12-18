@@ -3,13 +3,15 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package azuresql
+package azuresqlfirewallrule
 
 import (
 	"context"
 
 	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
@@ -21,7 +23,7 @@ type AzureSqlFirewallRuleManager struct {
 
 // GetServer returns a SQL server
 func (_ *AzureSqlFirewallRuleManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient := getGoServersClient()
+	serversClient := azuresqlshared.GetGoServersClient()
 
 	return serversClient.Get(
 		ctx,
@@ -107,13 +109,4 @@ func getGoFirewallClient() sql.FirewallRulesClient {
 	firewallClient.Authorizer = a
 	firewallClient.AddToUserAgent(config.UserAgent())
 	return firewallClient
-}
-
-// getGoServersClient retrieves a ServersClient
-func getGoServersClient() sql.ServersClient {
-	serversClient := sql.NewServersClient(config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
-	serversClient.Authorizer = a
-	serversClient.AddToUserAgent(config.UserAgent())
-	return serversClient
 }

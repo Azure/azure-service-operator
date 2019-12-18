@@ -2,7 +2,7 @@
 //
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
-package azuresql
+package azuresqlshared
 
 import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
@@ -11,7 +11,7 @@ import (
 )
 
 // getGoDbClient retrieves a DatabasesClient
-func getGoDbClient() sql.DatabasesClient {
+func GetGoDbClient() sql.DatabasesClient {
 	dbClient := sql.NewDatabasesClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	dbClient.Authorizer = a
@@ -20,19 +20,10 @@ func getGoDbClient() sql.DatabasesClient {
 }
 
 // getGoServersClient retrieves a ServersClient
-func getGoServersClient() sql.ServersClient {
+func GetGoServersClient() sql.ServersClient {
 	serversClient := sql.NewServersClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	serversClient.Authorizer = a
 	serversClient.AddToUserAgent(config.UserAgent())
 	return serversClient
-}
-
-// getGoFailoverGroupsClient retrieves a FailoverGroupsClient
-func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
-	failoverGroupsClient := sql.NewFailoverGroupsClient(config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
-	failoverGroupsClient.Authorizer = a
-	failoverGroupsClient.AddToUserAgent(config.UserAgent())
-	return failoverGroupsClient
 }

@@ -3,7 +3,7 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package azuresql
+package azuresqlserver
 
 import (
 	"context"
@@ -11,9 +11,7 @@ import (
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
-	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
@@ -39,7 +37,7 @@ func (sdk *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceG
 		return result, nil
 	}
 
-	serversClient := getGoServersClient()
+	serversClient := azuresqlshared.GetGoServersClient()
 	future, err := serversClient.Delete(
 		ctx,
 		resourceGroupName,
@@ -54,7 +52,7 @@ func (sdk *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceG
 
 // GetServer returns a SQL server
 func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient := getGoServersClient()
+	serversClient := azuresqlshared.GetGoServersClient()
 
 	return serversClient.Get(
 		ctx,
@@ -64,9 +62,9 @@ func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresql.SQLServerProperties) (result sql.Server, err error) {
-	serversClient := getGoServersClient()
-	serverProp := azuresql.SQLServerPropertiesToServer(properties)
+func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties) (result sql.Server, err error) {
+	serversClient := azuresqlshared.GetGoServersClient()
+	serverProp := azuresqlshared.SQLServerPropertiesToServer(properties)
 
 	checkNameResult, err := CheckNameAvailability(ctx, resourceGroupName, serverName)
 	if checkNameResult.Reason == sql.AlreadyExists {
@@ -92,7 +90,7 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 }
 
 func CheckNameAvailability(ctx context.Context, resourceGroupName string, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {
-	serversClient := getGoServersClient()
+	serversClient := azuresqlshared.GetGoServersClient()
 
 	response, err := serversClient.CheckNameAvailability(
 		ctx,
@@ -106,13 +104,4 @@ func CheckNameAvailability(ctx context.Context, resourceGroupName string, server
 	}
 
 	return response, err
-}
-
-// getGoServersClient retrieves a ServersClient
-func getGoServersClient() sql.ServersClient {
-	serversClient := sql.NewServersClient(config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
-	serversClient.Authorizer = a
-	serversClient.AddToUserAgent(config.UserAgent())
-	return serversClient
 }
