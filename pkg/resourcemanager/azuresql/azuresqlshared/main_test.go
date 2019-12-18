@@ -1,4 +1,4 @@
-package azuresql
+package azuresqlshared
 
 import (
 	"context"

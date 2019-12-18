@@ -17,7 +17,7 @@ package v1alpha1
 
 import (
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -27,10 +27,10 @@ import (
 type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string        `json:"location"`
-	ResourceGroup string        `json:"resourcegroup,omitempty"`
-	Server        string        `json:"server"`
-	Edition       sql.DBEdition `json:"edition"`
+	Location      string                   `json:"location"`
+	ResourceGroup string                   `json:"resourcegroup,omitempty"`
+	Server        string                   `json:"server"`
+	Edition       azuresqlshared.DBEdition `json:"edition"`
 }
 
 // +kubebuilder:object:root=true

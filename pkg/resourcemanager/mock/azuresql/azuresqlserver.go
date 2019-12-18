@@ -11,7 +11,7 @@ import (
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
-	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest/to"
 
@@ -42,7 +42,7 @@ func findSqlServer(res []MockSqlServerResource, predicate func(MockSqlServerReso
 }
 
 // CreateOrUpdateSqlServer creates a new sql server
-func (manager *MockSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresql.SQLServerProperties) (result sql.Server, err error) {
+func (manager *MockSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties) (result sql.Server, err error) {
 	index, _ := findSqlServer(manager.sqlServers, func(s MockSqlServerResource) bool {
 		return s.resourceGroupName == resourceGroupName && *s.sqlServer.Name == serverName
 	})

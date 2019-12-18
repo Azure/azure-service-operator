@@ -11,7 +11,7 @@ import (
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
-	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -40,7 +40,7 @@ func findSqlFailoverGroup(res []MockSqlFailoverResource, predicate func(MockSqlF
 	return -1, MockSqlFailoverResource{}
 }
 
-func (manager *MockSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties azuresql.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+func (manager *MockSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties azuresqlshared.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
 	index, _ := findSqlFailoverGroup(manager.sqlFailoverGroups, func(s MockSqlFailoverResource) bool {
 		return s.resourceGroupName == resourceGroupName && s.sqlServerName == serverName && *s.sqlFailover.Name == failovergroupname
 	})
