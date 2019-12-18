@@ -32,7 +32,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+	azuresqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 )
 
 const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azure.com"
@@ -43,7 +43,7 @@ type AzureSqlFailoverGroupReconciler struct {
 	Log                          logr.Logger
 	Recorder                     record.EventRecorder
 	Scheme                       *runtime.Scheme
-	AzureSqlFailoverGroupManager sql.SqlFailoverGroupManager
+	AzureSqlFailoverGroupManager azuresqlfailovergroup.SqlFailoverGroupManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfailovergroups,verbs=get;list;watch;create;update;patch;delete
@@ -187,7 +187,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context,
 	}
 
 	// Create Failover Group properties struct
-	sqlFailoverGroupProperties := sql.SQLFailoverGroupProperties{
+	sqlFailoverGroupProperties := azuresqlfailovergroup.SQLFailoverGroupProperties{
 		FailoverPolicy:               failoverPolicy,
 		FailoverGracePeriod:          failoverGracePeriod,
 		SecondaryServerName:          secondaryServer,

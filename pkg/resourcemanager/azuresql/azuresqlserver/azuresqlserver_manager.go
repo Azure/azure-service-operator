@@ -9,6 +9,8 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/go-logr/logr"
 )
@@ -18,7 +20,7 @@ func NewAzureSqlServerManager(log logr.Logger) *AzureSqlServerManager {
 }
 
 type SqlServerManager interface {
-	CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLServerProperties) (result sql.Server, err error)
+	CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresql.SQLServerProperties) (result sql.Server, err error)
 	DeleteSQLServer(ctx context.Context, resourceGroupName string, serverName string) (result autorest.Response, err error)
 	GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error)
 }

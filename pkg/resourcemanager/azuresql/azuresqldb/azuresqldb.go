@@ -10,6 +10,8 @@ import (
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
@@ -77,9 +79,9 @@ func (sdk *AzureSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName st
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
-func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
+func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresql.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
 	dbClient := getGoDbClient()
-	dbProp := SQLDatabasePropertiesToDatabase(properties)
+	dbProp := azuresql.SQLDatabasePropertiesToDatabase(properties)
 
 	return dbClient.CreateOrUpdate(
 		ctx,
@@ -99,4 +101,13 @@ func getGoDbClient() sql.DatabasesClient {
 	dbClient.Authorizer = a
 	dbClient.AddToUserAgent(config.UserAgent())
 	return dbClient
+}
+
+// getGoServersClient retrieves a ServersClient
+func getGoServersClient() sql.ServersClient {
+	serversClient := sql.NewServersClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	serversClient.Authorizer = a
+	serversClient.AddToUserAgent(config.UserAgent())
+	return serversClient
 }

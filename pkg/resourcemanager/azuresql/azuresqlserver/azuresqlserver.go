@@ -11,6 +11,7 @@ import (
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
@@ -63,9 +64,9 @@ func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties SQLServerProperties) (result sql.Server, err error) {
+func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresql.SQLServerProperties) (result sql.Server, err error) {
 	serversClient := getGoServersClient()
-	serverProp := SQLServerPropertiesToServer(properties)
+	serverProp := azuresql.SQLServerPropertiesToServer(properties)
 
 	checkNameResult, err := CheckNameAvailability(ctx, resourceGroupName, serverName)
 	if checkNameResult.Reason == sql.AlreadyExists {

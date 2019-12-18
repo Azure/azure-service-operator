@@ -9,6 +9,8 @@ import (
 	"context"
 	"net/http"
 
+	azuresql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql"
+
 	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
@@ -89,7 +91,7 @@ func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context
 }
 
 // CreateOrUpdateFailoverGroup creates a failover group
-func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties azuresql.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
 	failoverGroupsClient := getGoFailoverGroupsClient()
 
 	// Construct a PartnerInfo object from the server name
@@ -148,4 +150,22 @@ func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
 	failoverGroupsClient.Authorizer = a
 	failoverGroupsClient.AddToUserAgent(config.UserAgent())
 	return failoverGroupsClient
+}
+
+// getGoServersClient retrieves a ServersClient
+func getGoServersClient() sql.ServersClient {
+	serversClient := sql.NewServersClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	serversClient.Authorizer = a
+	serversClient.AddToUserAgent(config.UserAgent())
+	return serversClient
+}
+
+// getGoDbClient retrieves a DatabasesClient
+func getGoDbClient() sql.DatabasesClient {
+	dbClient := sql.NewDatabasesClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	dbClient.Authorizer = a
+	dbClient.AddToUserAgent(config.UserAgent())
+	return dbClient
 }
