@@ -49,7 +49,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (bo
 
 	instance.Status.Provisioning = true
 
-	_, err := db.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
+	_, err = db.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
 	if err != nil {
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
@@ -107,10 +107,12 @@ func (db *AzureSqlDbManager) GetParents(obj runtime.Object) ([]resourcemanager.K
 		return nil, err
 	}
 
+	rgKey := types.NamespacedName{Name: instance.Spec.ResourceGroup, Namespace: instance.Namespace}
 	key := types.NamespacedName{Name: instance.Spec.Server, Namespace: instance.Namespace}
 
 	return []resourcemanager.KubeParent{
 		{Key: key, Target: &azurev1alpha1.AzureSqlServer{}},
+		{Key: rgKey, Target: &azurev1alpha1.ResourceGroup{}},
 	}, nil
 }
 
