@@ -108,3 +108,12 @@ func getGoFirewallClient() sql.FirewallRulesClient {
 	firewallClient.AddToUserAgent(config.UserAgent())
 	return firewallClient
 }
+
+// getGoServersClient retrieves a ServersClient
+func getGoServersClient() sql.ServersClient {
+	serversClient := sql.NewServersClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	serversClient.Authorizer = a
+	serversClient.AddToUserAgent(config.UserAgent())
+	return serversClient
+}
