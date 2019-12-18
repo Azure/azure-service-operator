@@ -262,7 +262,7 @@ var _ = Describe("EventHub Controller", func() {
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				hub, _ := tc.eventHubManagers.EventHub.GetHub(context.Background(), rgName, ehnName, eventHubName)
+				hub, _ := tc.eventhubClient.GetHub(context.Background(), rgName, ehnName, eventHubName)
 				if hub.Properties == nil || hub.CaptureDescription == nil || hub.CaptureDescription.Enabled == nil {
 					return false
 				}
