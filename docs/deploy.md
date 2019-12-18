@@ -87,6 +87,8 @@
         create secret generic azureoperatorsettings \
         --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
         --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID" \
+        --from-literal=AZURE_CLIENT_ID="$AZURE_CLIENT_ID" \
+        --from-literal=AZURE_CLIENT_SECRET="$AZURE_CLIENT_SECRET" \
         --from-literal=AZURE_USE_MI="$AZURE_USE_MI" \
         --from-literal=AZURE_OPERATOR_KEYVAULT="$AZURE_OPERATOR_KEYVAULT" \
     ```
@@ -170,7 +172,7 @@
       name: aso-identity-binding
     spec:
       AzureIdentity: <a-idname>
-      Selector: cluster_identity_binding
+      Selector: aso_manager_binding
     ```
 
 4. Deploy the operator to the Kubernetes cluster
@@ -190,11 +192,3 @@
     ```shell
     kubectl logs <podname> -c manager -n azureoperator-system
     ```
-
-7. In order to view the Prometheus metrics, you can redirect port 8080 to the local machine using the following command:
-
-    ```shell
-    kubectl port-forward deployment/controller-manager 8080
-    ```
-
-    Then, open a web browser and navigate to the [Metrics Endpoint](http://127.0.0.1:8080/metrics).
