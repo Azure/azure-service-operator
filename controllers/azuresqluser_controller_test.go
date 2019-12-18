@@ -137,11 +137,11 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			// Assure the user creation request is submitted
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-				return sqlUser.Status.Provisioned
+				return sqlUser.Status.Provisioning
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
-			fullServerAddress := fmt.Sprintf("%s.database.windows.net", sqlServerInstance.Name)
+			fullServerAddress := fmt.Sprintf("%s.database.windows.net", sqlUser.Spec.DbName)
 			connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", fullServerAddress, sqlUser.Name, sqlUser.Spec.AdminSecret, SqlServerPort, sqlUser.Spec.DbName)
 
 			Eventually(func() bool {

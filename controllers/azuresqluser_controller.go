@@ -55,7 +55,7 @@ const SecretPasswordKey = "password"
 // AzureSQLUserFinalizerName is the name of the finalizer
 const AzureSQLUserFinalizerName = "azuresqluser.finalizers.azure.com"
 
-// AzureAzureSQLUserReconciler reconciles a AzureSQLUser object
+// AzureSQLUserReconciler reconciles a AzureSQLUser object
 type AzureSQLUserReconciler struct {
 	client.Client
 	Log                 logr.Logger
