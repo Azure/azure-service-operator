@@ -243,7 +243,7 @@ func main() {
 	}
 
 	/* Azure Sql Database */
-	err = (&controllers.AzureSqlDbReconciler{
+	err = (&controllers.AzureSqlDatabaseReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: sqlDBManager,
