@@ -17,10 +17,7 @@ package controllers
 
 import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
-	"github.com/Azure/azure-service-operator/pkg/telemetry"
 
-	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -28,10 +25,7 @@ import (
 // AzureSqlDbReconciler reconciles a AzureSqlDatabase object
 type AzureSqlDbReconciler struct {
 	client.Client
-	Telemetry         telemetry.PrometheusTelemetry
-	Recorder          record.EventRecorder
-	Reconciler        *AsyncReconciler
-	AzureSqlDbManager sqlclient.SqlDbManager
+	Reconciler *AsyncReconciler
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqldatabases,verbs=get;list;watch;create;update;patch;delete
