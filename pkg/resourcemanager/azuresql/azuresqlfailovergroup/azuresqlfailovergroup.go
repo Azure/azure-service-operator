@@ -124,7 +124,7 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 	// Construct FailoverGroupProperties struct
 	failoverGroupProperties := sql.FailoverGroupProperties{
 		ReadWriteEndpoint: &sql.FailoverGroupReadWriteEndpoint{
-			FailoverPolicy:                         translateFailoverPolicy(properties.FailoverPolicy),
+			FailoverPolicy:                         azuresql.TranslateFailoverPolicy(properties.FailoverPolicy),
 			FailoverWithDataLossGracePeriodMinutes: &properties.FailoverGracePeriod,
 		},
 		PartnerServers: &partnerServerInfoArray,

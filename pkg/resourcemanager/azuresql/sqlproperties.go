@@ -168,7 +168,7 @@ func translateDBEdition(in DBEdition) (result sql.DatabaseEdition) {
 }
 
 // translateFailoverPolicy translates the enum
-func translateFailoverPolicy(in ReadWriteEndpointFailoverPolicy) (result sql.ReadWriteEndpointFailoverPolicy) {
+func TranslateFailoverPolicy(in ReadWriteEndpointFailoverPolicy) (result sql.ReadWriteEndpointFailoverPolicy) {
 	switch in {
 	case Automatic:
 		result = sql.Automatic
