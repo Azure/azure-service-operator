@@ -55,11 +55,9 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (bo
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
-		err = errhelp.NewAzureError(err)
-		if azerr, ok := err.(*errhelp.AzureError); ok {
-			if helpers.ContainsString(catch, azerr.Type) {
-				return false, nil
-			}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return false, nil
 		}
 
 		return true, fmt.Errorf("AzureSqlDb CreateOrUpdate error %v", err)
