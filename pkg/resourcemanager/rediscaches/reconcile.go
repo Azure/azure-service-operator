@@ -46,6 +46,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	_, err = rc.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, nil)
 	if err != nil {
 		instance.Status.Provisioning = false
+		instance.Status.Message = err.Error()
 		return false, fmt.Errorf("Redis Cache create error %v", err)
 	}
 
