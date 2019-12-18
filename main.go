@@ -29,6 +29,8 @@ import (
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -65,6 +67,7 @@ func init() {
 func main() {
 	var metricsAddr string
 	var enableLeaderElection bool
+	var secretClient secrets.SecretClient
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
@@ -83,7 +86,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	secretClient := k8sSecrets.New(mgr.GetClient())
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
@@ -94,6 +96,19 @@ func main() {
 	sqlFirewallRuleManager := resourcemanagersql.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
 	sqlFailoverGroupManager := resourcemanagersql.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
 	sqlUserManager := resourcemanagersql.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
+
+	err = resourcemanagerconfig.ParseEnvironment()
+	if err != nil {
+		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
+		os.Exit(1)
+	}
+
+	if keyvaultName, fUseKeyVault := os.LookupEnv("AZURE_OPERATOR_KEYVAULT"); fUseKeyVault == false {
+		secretClient = k8sSecrets.New(mgr.GetClient())
+	} else {
+		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
+		secretClient = keyvaultSecrets.New(keyvaultName)
+	}
 
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
@@ -121,11 +136,6 @@ func main() {
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
 		os.Exit(1)
-	}
-
-	err = resourcemanagerconfig.ParseEnvironment()
-	if err != nil {
-		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
 	}
 
 	err = (&controllers.EventhubReconciler{
