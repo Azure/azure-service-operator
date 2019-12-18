@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
       # Change the value of image field below to your controller image URL
-      - image: controller:latest
+      - image: jananivasu/keyvaultmi:4
         name: manager
         env:
           - name: AZURE_CLIENT_ID
@@ -38,6 +38,12 @@ spec:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_USE_MI
+                optional: true
+          - name: AZURE_OPERATOR_KEYVAULT
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: AZURE_OPERATOR_KEYVAULT
                 optional: true
           #requeue after time in seconds"
           - name: REQUEUE_AFTER
