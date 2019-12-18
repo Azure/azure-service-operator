@@ -49,7 +49,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (bo
 
 	instance.Status.Provisioning = true
 
-	_, err = db.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
+	_, err := db.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
 	if err != nil {
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
@@ -63,13 +63,15 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (bo
 		return true, fmt.Errorf("AzureSqlDb CreateOrUpdate error %v", err)
 	}
 
-	_, err = db.GetDB(ctx, groupName, server, dbName)
+	resp, err := db.GetDB(ctx, groupName, server, dbName)
 	if err != nil {
 		return true, fmt.Errorf("AzureSqlDb GetDB error %v", err)
 	}
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
+	instance.Status.State = string(*resp.Status)
+	instance.Status.Message = "Success"
 
 	return true, nil
 }
