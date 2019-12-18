@@ -23,7 +23,7 @@ import (
 )
 
 // AzureSqlDbReconciler reconciles a AzureSqlDatabase object
-type AzureSqlDbReconciler struct {
+type AzureSqlDatabaseReconciler struct {
 	client.Client
 	Reconciler *AsyncReconciler
 }
@@ -32,12 +32,12 @@ type AzureSqlDbReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqldatabases/status,verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
-func (r *AzureSqlDbReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (r *AzureSqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureSqlDatabase{})
 }
 
 // SetupWithManager function sets up the functions with the controller
-func (r *AzureSqlDbReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *AzureSqlDatabaseReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1alpha1.AzureSqlDatabase{}).
 		Complete(r)
