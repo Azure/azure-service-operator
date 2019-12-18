@@ -73,6 +73,7 @@ type testContext struct {
 	blobContainerName     string
 	resourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
 	eventHubManagers      resourcemanagereventhub.EventHubManagers
+	eventhubClient        resourcemanagereventhub.EventHubManager
 	storageManagers       resourcemanagerstorages.StorageManagers
 	keyVaultManager       resourcemanagerkeyvaults.KeyVaultManager
 	timeout               time.Duration
@@ -315,6 +316,7 @@ var _ = BeforeSuite(func() {
 		storageAccountName:    storageAccountName,
 		blobContainerName:     blobContainerName,
 		eventHubManagers:      eventHubManagers,
+		eventhubClient:        eventhubClient,
 		resourceGroupManager:  resourceGroupManager,
 		storageManagers:       storageManagers,
 		keyVaultManager:       keyVaultManager,
