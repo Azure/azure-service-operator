@@ -27,6 +27,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	pkghelpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
@@ -73,8 +74,9 @@ type mockEventHubManager struct {
 
 func NewMockEventHubClient(secretClient secrets.SecretClient, scheme *runtime.Scheme) *mockEventHubManager {
 	return &mockEventHubManager{
-		SecretClient: secretClient,
-		Scheme:       scheme,
+		SecretClient:      secretClient,
+		Scheme:            scheme,
+		eventHubResources: []eventHubResource{},
 	}
 }
 
@@ -97,6 +99,7 @@ func (manager *mockEventHubManager) DeleteHub(ctx context.Context, resourceGroup
 }
 
 func (manager *mockEventHubManager) CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, messageRetentionInDays int32, partitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
+
 	var eventHub = eventhub.Model{
 		Response: helpers.GetRestResponse(201),
 		Properties: &eventhub.Properties{
@@ -114,6 +117,7 @@ func (manager *mockEventHubManager) CreateHub(ctx context.Context, resourceGroup
 		eventHub:          eventHub,
 		eventHubAccesses:  []eventHubAccess{},
 	})
+
 	return eventHub, nil
 }
 
@@ -203,6 +207,7 @@ func (e *mockEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (b
 	partitionCount := instance.Spec.Properties.PartitionCount
 	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
 	secretName := instance.Spec.SecretName
+	captureDescription := instance.Spec.Properties.CaptureDescription
 
 	if len(secretName) == 0 {
 		secretName = eventhubName
@@ -212,7 +217,7 @@ func (e *mockEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (b
 	// write information back to instance
 	instance.Status.Provisioning = true
 
-	capturePtr := &eventhub.CaptureDescription{}
+	capturePtr := getCaptureDescriptionPtr(captureDescription)
 
 	_, err = e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
@@ -252,4 +257,33 @@ func (e *mockEventHubManager) convert(obj runtime.Object) (*azurev1alpha1.Eventh
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
+}
+
+const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
+
+func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescription) *eventhub.CaptureDescription {
+	// add capture details
+	var capturePtr *eventhub.CaptureDescription
+
+	storage := captureDescription.Destination.StorageAccount
+	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+
+	if captureDescription.Enabled {
+		capturePtr = &eventhub.CaptureDescription{
+			Enabled:           to.BoolPtr(true),
+			Encoding:          eventhub.Avro,
+			IntervalInSeconds: &captureDescription.IntervalInSeconds,
+			SizeLimitInBytes:  &captureDescription.SizeLimitInBytes,
+			Destination: &eventhub.Destination{
+				Name: &captureDescription.Destination.Name,
+				DestinationProperties: &eventhub.DestinationProperties{
+					StorageAccountResourceID: &storageAccountResourceID,
+					BlobContainer:            &captureDescription.Destination.BlobContainer,
+					ArchiveNameFormat:        &captureDescription.Destination.ArchiveNameFormat,
+				},
+			},
+			SkipEmptyArchives: to.BoolPtr(true),
+		}
+	}
+	return capturePtr
 }
