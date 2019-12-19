@@ -18,15 +18,29 @@ package eventhubs
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
+	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 )
 
-type azureConsumerGroupManager struct{}
+type azureConsumerGroupManager struct {
+	Log logr.Logger
+}
+
+func NewConsumerGroupClient(log logr.Logger) *azureConsumerGroupManager {
+	return &azureConsumerGroupManager{
+		Log: log,
+	}
+}
 
 func getConsumerGroupsClient() eventhub.ConsumerGroupsClient {
 	consumerGroupClient := eventhub.NewConsumerGroupsClient(config.SubscriptionID())
@@ -80,4 +94,56 @@ func (_ *azureConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, res
 func (_ *azureConsumerGroupManager) GetConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
 	consumerGroupClient := getConsumerGroupsClient()
 	return consumerGroupClient.Get(ctx, resourceGroupName, namespaceName, eventHubName, consumerGroupName)
+}
+
+func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := cg.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	// write information back to instance
+	instance.Status.Provisioning = true
+
+	// write information back to instance
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
+
+	return true, nil
+}
+
+func (cg *azureConsumerGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := cg.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	instance.Status.Message = "deleted"
+
+	return true, nil
+}
+
+func (cg *azureConsumerGroupManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+
+	instance, err := cg.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	key := types.NamespacedName{Namespace: instance.Namespace, Name: instance.Spec.ResourceGroupName}
+
+	return []resourcemanager.KubeParent{
+		{Key: key, Target: &v1alpha1.ResourceGroup{}},
+	}, nil
+
+}
+
+func (cg *azureConsumerGroupManager) convert(obj runtime.Object) (*v1alpha1.ConsumerGroup, error) {
+	local, ok := obj.(*v1alpha1.ConsumerGroup)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }

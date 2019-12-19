@@ -41,6 +41,7 @@ type ConsumerGroupReconciler struct {
 	Log                  logr.Logger
 	Recorder             record.EventRecorder
 	ConsumerGroupManager eventhubsresourcemanager.ConsumerGroupManager
+	Reconciler           *AsyncReconciler
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumergroups,verbs=get;list;watch;create;update;patch;delete
