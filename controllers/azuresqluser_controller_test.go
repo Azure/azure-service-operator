@@ -137,8 +137,20 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 	// Clean up lingering resources
 	AfterEach(func() {
 
+		// Delete the user and expect an error that is is not raised
+		err = tc.k8sClient.Delete(ctx, sqlUser)
+		Expect(err).To(BeNil())
+
 		// Delete the firewall rules created for this test
 		err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
+		Expect(err).To(BeNil())
+
+		// Delete the database created for this test
+		err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
+		Expect(err).To(BeNil())
+
+		// Delete the server instance created for this test
+		err = tc.k8sClient.Delete(ctx, sqlServerInstance)
 		Expect(err).To(BeNil())
 	})
 
@@ -191,7 +203,14 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 
 			Eventually(func() bool {
 
-				db, err := tc.sqlUserManager.ConnectToSqlDb(ctx, DriverName, sqlUser.Spec.Server, sqlUser.Spec.DbName, SqlServerPort, sqlUserName, sqlUserPassword)
+				db, err := tc.sqlUserManager.ConnectToSqlDb(
+					ctx,
+					DriverName,
+					sqlUser.Spec.Server,
+					sqlUser.Spec.DbName,
+					SqlServerPort,
+					sqlUserName,
+					sqlUserPassword)
 				if err != nil {
 					return false
 				}
@@ -199,16 +218,6 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 				// Assure the SQLUser exists in Azure
 				result, err := tc.sqlUserManager.UserExists(ctx, db, sqlUserName)
 				return result
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-
-			// Delete the user and expect an error that is is not raised
-			err = tc.k8sClient.Delete(ctx, sqlUser)
-			Expect(err).To(BeNil())
-
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-				return helpers.IsBeingDeleted(sqlUser)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 		})
