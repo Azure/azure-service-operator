@@ -25,6 +25,25 @@ type AzureSqlUserManager struct {
 	Log logr.Logger
 }
 
+// ConnectToSqlDb connects to the SQL db using the given credentials
+func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, database string, port int, user string, password string) (*sql.DB, error) {
+
+	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
+	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", fullServerAddress, user, password, port, database)
+
+	db, err := sql.Open(drivername, connString)
+	if err != nil {
+		return db, err
+	}
+
+	err = db.Ping()
+	if err != nil {
+		return db, err
+	}
+
+	return db, err
+}
+
 // Grants roles to a user for a given database
 func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
 	var errorStrings []string
