@@ -1,0 +1,7 @@
+apiVersion: proto.infra.azure.com/v1alpha1
+kind: VirtualNetwork
+metadata:
+  name: virtualnetwork-sample
+spec:
+  # Add fields here
+  foo: bar

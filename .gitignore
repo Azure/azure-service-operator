@@ -21,3 +21,5 @@ bin
 .vscode
 
 .DS_Store
+
+.k8s-infra.cluster

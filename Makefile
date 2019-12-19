@@ -1,8 +1,13 @@
+SHELL := /bin/bash
+.DEFAULT_GOAL:=help
 
+timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
 # Image URL to use all building/pushing image targets
-IMG ?= controller:latest
+IMG ?= k8s-infra-contoller:$(timestamp)
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
+
+KIND_CLUSTER_NAME ?= k8s-infra
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
@@ -11,70 +16,95 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-all: manager
+# Directories.
+ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+TOOLS_DIR := hack/tools
+TOOLS_BIN_DIR := $(TOOLS_DIR)/bin
 
-# Run tests
-test: generate fmt vet manifests
+# Binaries.
+GOLANGCI_LINT := $(TOOLS_BIN_DIR)/golangci-lint
+CONTROLLER_GEN := $(TOOLS_BIN_DIR)/controller-gen
+KUBECTL=$(TOOLS_BIN_DIR)/kubectl
+KUBE_APISERVER=$(TOOLS_BIN_DIR)/kube-apiserver
+ETCD=$(TOOLS_BIN_DIR)/etcd
+
+help:  ## Display this help
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
+## --------------------------------------
+## Testing
+## --------------------------------------
+
+test: export TEST_ASSET_KUBECTL = $(ROOT_DIR)/$(KUBECTL)
+test: export TEST_ASSET_KUBE_APISERVER = $(ROOT_DIR)/$(KUBE_APISERVER)
+test: export TEST_ASSET_ETCD = $(ROOT_DIR)/$(ETCD)
+
+test: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) generate lint manifests ## Run tests
+	go test -v ./...
+
+test-cover: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) generate lint manifests ## Run tests w/ code coverage (./cover.out)
 	go test ./... -coverprofile cover.out
 
-# Build manager binary
-manager: generate fmt vet
+$(KUBECTL) $(KUBE_APISERVER) $(ETCD): ## Install test asset kubectl, kube-apiserver, etcd
+	. ./scripts/fetch_ext_bins.sh && fetch_tools
+
+$(CONTROLLER_GEN): $(TOOLS_DIR)/go.mod ## Build controller-gen from tools folder.
+	cd $(TOOLS_DIR); go build -tags=tools -o bin/controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen
+
+$(GOLANGCI_LINT): $(TOOLS_DIR)/go.mod ## Build golangci-lint from tools folder.
+	cd $(TOOLS_DIR); go build -tags=tools -o bin/golangci-lint github.com/golangci/golangci-lint/cmd/golangci-lint
+
+## --------------------------------------
+## Linting
+## --------------------------------------
+
+.PHONY: lint
+lint: $(GOLANGCI_LINT) ## Lint codebase
+	$(GOLANGCI_LINT) run -v
+
+lint-full: $(GOLANGCI_LINT) ## Run slower linters to detect possible issues
+	$(GOLANGCI_LINT) run -v --fast=false
+
+manager: generate fmt ## Build manager binary
 	go build -o bin/manager main.go
 
-# Run against the configured Kubernetes cluster in ~/.kube/config
-run: generate fmt vet manifests
+run: export KUBECONFIG = $(shell kind get kubeconfig-path --name="k8s-infra")
+run: .k8s-infra.cluster generate fmt manifests install ## Run a development cluster using kind
 	go run ./main.go
 
-# Install CRDs into a cluster
-install: manifests
+.k8s-infra.cluster:
+	kind create cluster --name=$(KIND_CLUSTER_NAME) --image=kindest/node:v1.16.2
+	touch .$(KIND_CLUSTER_NAME).cluster
+
+.PHONY: kind-reset
+kind-reset: ## Destroys the "k8s-infra" kind cluster.
+	kind delete cluster --name=$(KIND_CLUSTER_NAME) || true
+	rm .$(KIND_CLUSTER_NAME).cluster
+
+install: manifests ## Install CRDs into a cluster
 	kustomize build config/crd | kubectl apply -f -
 
-# Uninstall CRDs from a cluster
-uninstall: manifests
+uninstall: manifests ## Uninstall CRDs from a cluster
 	kustomize build config/crd | kubectl delete -f -
 
-# Deploy controller in the configured Kubernetes cluster in ~/.kube/config
-deploy: manifests
+deploy: manifests ## Deploy controller in the configured Kubernetes cluster in ~/.kube/config
 	cd config/manager && kustomize edit set image controller=${IMG}
 	kustomize build config/default | kubectl apply -f -
 
-# Generate manifests e.g. CRD, RBAC etc.
-manifests: controller-gen
+manifests: $(CONTROLLER_GEN) ## Generate manifests e.g. CRD, RBAC etc.
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 
-# Run go fmt against code
-fmt:
+fmt: ## Run go fmt against code
 	go fmt ./...
 
-# Run go vet against code
-vet:
+vet: ## Run go vet against code
 	go vet ./...
 
-# Generate code
-generate: controller-gen
+generate: $(CONTROLLER_GEN) ## Generate code
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths="./..."
 
-# Build the docker image
-docker-build: test
+docker-build: test ## Build the docker image
 	docker build . -t ${IMG}
 
-# Push the docker image
-docker-push:
+docker-push: ## Push the docker image
 	docker push ${IMG}
-
-# find or download controller-gen
-# download controller-gen if necessary
-controller-gen:
-ifeq (, $(shell which controller-gen))
-	@{ \
-	set -e ;\
-	CONTROLLER_GEN_TMP_DIR=$$(mktemp -d) ;\
-	cd $$CONTROLLER_GEN_TMP_DIR ;\
-	go mod init tmp ;\
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.4 ;\
-	rm -rf $$CONTROLLER_GEN_TMP_DIR ;\
-	}
-CONTROLLER_GEN=$(GOBIN)/controller-gen
-else
-CONTROLLER_GEN=$(shell which controller-gen)
-endif
