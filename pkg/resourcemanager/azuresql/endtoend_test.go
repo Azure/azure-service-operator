@@ -15,6 +15,7 @@ import (
 	azuresqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	azuresqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resources"
 
@@ -30,7 +31,7 @@ import (
 type TestContext struct {
 	SqlServerManager        azuresqlserver.SqlServerManager
 	sqlDbManager            azuresqldb.SqlDbManager
-	sqlFirewallRuleManager  azuresqlfirewaullrule.SqlFirewallRuleManager
+	sqlFirewallRuleManager  azuresqlfirewallrule.SqlFirewallRuleManager
 	sqlFailoverGroupManager azuresqlfailovergroup.SqlFailoverGroupManager
 	sqlUserManager          azuresqluser.SqlUserManager
 }
@@ -40,11 +41,11 @@ var tc TestContext
 // TestCreateOrUpdateSQLServer tests creating and delete a SQL server
 func TestCreateOrUpdateSQLServer(t *testing.T) {
 
-	sqlServerManager := NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
-	sqlDbManager := NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
-	sqlFirewallRuleManager := NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
-	sqlFailoverGroupManager := NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
-	sqlUserManager := NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
+	sqlServerManager := azuresqlserver.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
+	sqlDbManager := azuresqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
+	sqlFirewallRuleManager := azuresqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlFailoverGroupManager := azuresqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+	sqlUserManager := azuresqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
 
 	tc = TestContext{
 		SqlServerManager:        sqlServerManager,
@@ -71,7 +72,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	serverName := generateName("sqlsrvtest")
 
 	// create the server
-	sqlServerProperties := SQLServerProperties{
+	sqlServerProperties := azuresqlshared.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("Moss"),
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
 	}
@@ -112,9 +113,9 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// create a DB
-	sqlDBProperties := SQLDatabaseProperties{
+	sqlDBProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: "sqldatabase-sample",
-		Edition:      Basic,
+		Edition:      azuresqlshared.Basic,
 	}
 
 	// wait for db to be created, then only proceed once activated
@@ -122,7 +123,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	for {
 		time.Sleep(time.Second)
 		if err == nil {
-			db, err := future.Result(getGoDbClient())
+			db, err := future.Result(azuresqlshared.GetGoDbClient())
 			if err == nil {
 				if *db.Status == "Online" {
 					util.PrintAndLog("db ready")
@@ -162,7 +163,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	secLocation := "westus"
 
 	// create the server
-	sqlServerProperties = SQLServerProperties{
+	sqlServerProperties = azuresqlshared.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("Moss"),
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
 	}
@@ -201,8 +202,8 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// Initialize struct for failover group
-	sqlFailoverGroupProperties := SQLFailoverGroupProperties{
-		FailoverPolicy:               Automatic,
+	sqlFailoverGroupProperties := azuresqlshared.SQLFailoverGroupProperties{
+		FailoverPolicy:               azuresqlshared.Automatic,
 		FailoverGracePeriod:          30,
 		SecondaryServerName:          secSrvName,
 		SecondaryServerResourceGroup: groupName,
