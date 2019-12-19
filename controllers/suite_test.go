@@ -25,6 +25,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -63,6 +64,7 @@ var testEnv *envtest.Environment
 
 type testContext struct {
 	k8sClient               client.Client
+	secretClient            secrets.SecretClient
 	resourceGroupName       string
 	resourceGroupLocation   string
 	eventhubNamespaceName   string
@@ -355,6 +357,7 @@ var _ = BeforeSuite(func() {
 
 	tc = testContext{
 		k8sClient:               k8sClient,
+		secretClient:            secretClient,
 		resourceGroupName:       resourceGroupName,
 		resourceGroupLocation:   resourcegroupLocation,
 		eventhubNamespaceName:   eventhubNamespaceName,

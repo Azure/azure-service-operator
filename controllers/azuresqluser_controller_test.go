@@ -22,6 +22,7 @@ import (
 	"fmt"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/prometheus/common/log"
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
@@ -102,6 +103,36 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			return sqlDatabaseInstance.Status.Provisioned
 		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
+
+		// Open up the SQL firewall on the server as that's required
+		// for the user creation through operator
+		sqlFirewallRuleName := "t-fwrule-dev-" + randomName
+
+		// Create the SqlFirewallRule object and expect the Reconcile to be created
+		sqlFirewallRuleInstance := &azurev1alpha1.AzureSqlFirewallRule{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      sqlFirewallRuleName,
+				Namespace: "default",
+			},
+			Spec: azurev1alpha1.AzureSqlFirewallRuleSpec{
+				ResourceGroup:  rgName,
+				Server:         sqlServerName,
+				StartIPAddress: "1.1.1.1",
+				EndIPAddress:   "255.255.255.255",
+			},
+		}
+
+		err = tc.k8sClient.Create(context.Background(), sqlFirewallRuleInstance)
+		Expect(apierrors.IsInvalid(err)).To(Equal(false))
+		Expect(err).NotTo(HaveOccurred())
+
+		sqlFirewallRuleNamespacedName := types.NamespacedName{Name: sqlFirewallRuleName, Namespace: "default"}
+
+		Eventually(func() bool {
+			_ = tc.k8sClient.Get(context.Background(), sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
+			return sqlFirewallRuleInstance.Status.Provisioned
+		}, tc.timeout, tc.retry,
+		).Should(BeTrue())
 	})
 
 	Context("Create SQL User", func() {
@@ -137,23 +168,31 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			// Assure the user creation request is submitted
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-				return sqlUser.Status.Provisioning
+				return sqlUser.Status.Provisioned
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
-			fullServerAddress := fmt.Sprintf("%s.database.windows.net", sqlUser.Spec.DbName)
-			connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", fullServerAddress, sqlUser.Name, sqlUser.Spec.AdminSecret, SqlServerPort, sqlUser.Spec.DbName)
+			// get admin creds for server
+			key := types.NamespacedName{Name: username, Namespace: sqlUser.Namespace}
+			adminSecret, err := tc.secretClient.Get(ctx, key)
+			if err != nil {
+				log.Info("sql user secret not found")
+			}
+
+			sqlUserName := string(adminSecret["username"])
+			sqlUserPassword := string(adminSecret["password"])
+
+			fullServerAddress := fmt.Sprintf("%s.database.windows.net", sqlUser.Spec.Server)
+			connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", fullServerAddress, sqlUserName, sqlUserPassword, SqlServerPort, sqlUser.Spec.DbName)
 
 			Eventually(func() bool {
-
 				db, err := sql.Open(DriverName, connString)
-
 				if err != nil {
 					return false
 				}
 
 				// Assure the SQLUser exists in Azure
-				result, _ := tc.sqlUserManager.UserExists(ctx, db, sqlUser.Name)
+				result, err := tc.sqlUserManager.UserExists(ctx, db, sqlUserName)
 				return result
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
