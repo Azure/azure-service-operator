@@ -279,6 +279,27 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureDataLakeGen2FileSystem")
 		os.Exit(1)
 	}
+	if err = (&controllers.AppInsightsReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("AppInsights"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
+		os.Exit(1)
+	}
+	if err = (&controllers.AppInsightsReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("AppInsights"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
+		os.Exit(1)
+	}
+	if err = (&controllers.AppInsightsReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("AppInsights"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

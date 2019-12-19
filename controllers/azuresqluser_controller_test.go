@@ -40,7 +40,10 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
 	var sqlFirewallRuleInstance *azurev1alpha1.AzureSqlFirewallRule
 	var sqlUser *azurev1alpha1.AzureSQLUser
+	var ctx context.Context
+
 	// Setup the resources we need
+	BeforeEach(func() {
 
 		rgName = tc.resourceGroupName
 		rgLocation = tc.resourceGroupLocation
