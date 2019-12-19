@@ -72,7 +72,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return sqlServerInstance.Status.Provisioned
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
 		// Create the second SqlServer object and expect the Reconcile to be created
@@ -96,7 +96,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return sqlServerInstance.Status.Provisioned
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
 		//Create the SQL database on the first SQL server
@@ -121,7 +121,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
 			return sqlDatabaseInstance.Status.Provisioned
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 	})
 
@@ -151,7 +151,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
 			return helpers.IsBeingDeleted(sqlDatabaseInstance)
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
 		// delete the sql servers from K8s.
@@ -174,7 +174,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return helpers.IsBeingDeleted(sqlServerInstance)
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
 		// Delete the SQL server two
@@ -196,7 +196,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return helpers.IsBeingDeleted(sqlServerInstance)
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
 	})
@@ -239,13 +239,13 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 				return helpers.HasFinalizer(sqlFailoverGroupInstance, azureSQLFailoverGroupFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 				return sqlFailoverGroupInstance.Status.Provisioned
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), sqlFailoverGroupInstance)
@@ -253,7 +253,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 				return helpers.IsBeingDeleted(sqlFailoverGroupInstance)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})

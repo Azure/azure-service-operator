@@ -19,7 +19,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -37,6 +36,7 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	_ "github.com/denisenkom/go-mssqldb"
 )
 
@@ -58,10 +58,11 @@ const AzureSQLUserFinalizerName = "azuresqluser.finalizers.azure.com"
 // AzureAzureSQLUserReconciler reconciles a AzureSQLUser object
 type AzureSQLUserReconciler struct {
 	client.Client
-	Log          logr.Logger
-	Recorder     record.EventRecorder
-	Scheme       *runtime.Scheme
-	SecretClient secrets.SecretClient
+	Log                 logr.Logger
+	Recorder            record.EventRecorder
+	Scheme              *runtime.Scheme
+	AzureSqlUserManager sqlclient.SqlUserManager
+	SecretClient        secrets.SecretClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=AzureSQLUsers,verbs=get;list;watch;create;update;patch;delete
@@ -159,7 +160,7 @@ func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLU
 	DBSecret := r.GetOrPrepareSecret(ctx, &instance, instance.Name)
 	user = string(DBSecret[SecretUsernameKey])
 
-	err = dropUser(ctx, db, user)
+	err = r.AzureSqlUserManager.DropUser(ctx, db, user)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser failed with %s", err.Error())
 		log.Info(instance.Status.Message)
@@ -169,13 +170,6 @@ func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLU
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser succeeded")
 	log.Info(instance.Status.Message)
 	return nil
-}
-
-// Drops user from db
-func dropUser(ctx context.Context, db *sql.DB, user string) error {
-	tsql := fmt.Sprintf("DROP USER \"%s\"", user)
-	_, err := db.ExecContext(ctx, tsql)
-	return err
 }
 
 // Reconcile user sql request
@@ -228,13 +222,13 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	// create or get new user secret
 	user = fmt.Sprintf("%s-%s", instance.Name, uuid.New())
 	DBSecret := r.GetOrPrepareSecret(ctx, &instance, user)
-	userExists, err := UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
+	userExists, err := r.AzureSqlUserManager.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
 	if err != nil {
 		log.Info("Couldn't find user", "err:", err.Error())
 	}
 
 	if !userExists {
-		user, err = createUser(ctx, DBSecret, db)
+		user, err = r.AzureSqlUserManager.CreateUser(ctx, DBSecret, db)
 		if err != nil {
 			return err
 		}
@@ -245,7 +239,7 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	if len(roles) == 0 {
 		log.Info("No roles specified for user")
 	} else {
-		grantUserRoles(ctx, user, roles, db)
+		r.AzureSqlUserManager.GrantUserRoles(ctx, user, roles, db)
 	}
 
 	// publish user secret
@@ -264,57 +258,22 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	return nil
 }
 
-// Grants roles to a user for a given database
-func grantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
-	var errorStrings []string
-	for _, role := range roles {
-		tsql := fmt.Sprintf("sp_addrolemember \"%s\", \"%s\"", role, user)
-		_, err := db.ExecContext(ctx, tsql)
-		if err != nil {
-			log.Info("Error executing add role", "err", err.Error())
-			errorStrings = append(errorStrings, err.Error())
-		}
-	}
+// SetupWithManager runs reconcile loop with manager
+func (r *AzureSQLUserReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&azurev1alpha1.AzureSQLUser{}).
+		Complete(r)
+}
 
-	if len(errorStrings) != 0 {
-		return fmt.Errorf(strings.Join(errorStrings, "\n"))
+// add finalizer
+func (r *AzureSQLUserReconciler) addFinalizer(instance *azurev1alpha1.AzureSQLUser) error {
+	helpers.AddFinalizer(instance, AzureSQLUserFinalizerName)
+	err := r.Update(context.Background(), instance)
+	if err != nil {
+		return fmt.Errorf("failed to update finalizer: %v", err)
 	}
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", AzureSQLUserFinalizerName))
 	return nil
-}
-
-// Creates user with secret credentials
-func createUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
-	newUser := string(secret[SecretUsernameKey])
-	newPassword := string(secret[SecretPasswordKey])
-	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
-	_, err := db.ExecContext(ctx, tsql)
-
-	// TODO: Have db lib do string interpolation
-	//tsql := fmt.Sprintf(`CREATE USER @User WITH PASSWORD='@Password'`)
-	//_, err := db.ExecContext(ctx, tsql, sql.Named("User", newUser), sql.Named("Password", newPassword))
-
-	if err != nil {
-		log.Error("Error executing", "err", err.Error())
-		return newUser, err
-	}
-	return newUser, nil
-}
-
-// Builds connection string to connect to database
-func (r *AzureSQLUserReconciler) getConnectionString(server string, user string, password string, port int, database string) string {
-	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
-	return fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
-		fullServerAddress, user, password, port, database)
-}
-
-// ContainsUser checks if db contains user
-func UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
-	res, err := db.ExecContext(ctx, fmt.Sprintf("SELECT * FROM sysusers WHERE NAME='%s'", username))
-	if err != nil {
-		return false, err
-	}
-	rows, err := res.RowsAffected()
-	return rows > 0, err
 }
 
 // GetOrPrepareSecret gets or creates a secret
@@ -337,20 +296,9 @@ func (r *AzureSQLUserReconciler) GetOrPrepareSecret(ctx context.Context, instanc
 	return secret
 }
 
-// SetupWithManager runs reconcile loop with manager
-func (r *AzureSQLUserReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.AzureSQLUser{}).
-		Complete(r)
-}
-
-// add finalizer
-func (r *AzureSQLUserReconciler) addFinalizer(instance *azurev1alpha1.AzureSQLUser) error {
-	helpers.AddFinalizer(instance, AzureSQLUserFinalizerName)
-	err := r.Update(context.Background(), instance)
-	if err != nil {
-		return fmt.Errorf("failed to update finalizer: %v", err)
-	}
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", AzureSQLUserFinalizerName))
-	return nil
+// Builds connection string to connect to database
+func (r *AzureSQLUserReconciler) getConnectionString(server string, user string, password string, port int, database string) string {
+	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
+	return fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
+		fullServerAddress, user, password, port, database)
 }

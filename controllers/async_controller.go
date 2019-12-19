@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	multierror "github.com/hashicorp/go-multierror"
 	corev1 "k8s.io/api/core/v1"
@@ -17,6 +18,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
 const (
@@ -24,53 +26,48 @@ const (
 	requeDuration time.Duration = time.Second * 20
 )
 
-type AsyncClient interface {
-	Ensure(context.Context, runtime.Object) (bool, error)
-	Delete(context.Context, runtime.Object) (bool, error)
-}
-
 // AsyncReconciler is a generic reconciler for Azure resources.
-// It reconciles object which require long running operations.
+// It reconciles Kubernets objects which require long running operations in Azure.
 type AsyncReconciler struct {
 	client.Client
-	AzureClient AsyncClient
+	AzureClient resourcemanager.ARMClient
 	Telemetry   telemetry.PrometheusTelemetry
 	Recorder    record.EventRecorder
+	Scheme      *runtime.Scheme
 }
 
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, err error) {
 	ctx := context.Background()
 
-	// log operator start
-	r.Telemetry.LogStart()
+	// // log operator start
+	// r.Telemetry.LogStart()
 
-	// log failure / success
-	defer func() {
-		if err != nil {
-			r.Telemetry.LogError(
-				"Failure occured during reconcilliation",
-				err)
-			r.Telemetry.LogFailure()
-		} else if result.Requeue {
-			r.Telemetry.LogFailure()
-		} else {
-			r.Telemetry.LogSuccess()
-		}
-	}()
+	// // log failure / success
+	// defer func() {
+	// 	if err != nil {
+	// 		r.Telemetry.LogError(
+	// 			"Failure occured during reconcilliation",
+	// 			err)
+	// 		r.Telemetry.LogFailure()
+	// 	} else if result.Requeue {
+	// 		r.Telemetry.LogFailure()
+	// 	} else {
+	// 		r.Telemetry.LogSuccess()
+	// 	}
+	// }()
 
 	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
 		r.Telemetry.LogInfo("ignorable error", "error during fetch from api server")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	res, convertErr := meta.Accessor(local)
-	if convertErr != nil {
-		r.Telemetry.LogError("accessor fail", convertErr)
-		return ctrl.Result{}, convertErr
+	res, err := meta.Accessor(local)
+	if err != nil {
+		r.Telemetry.LogError("accessor fail", err)
+		return ctrl.Result{}, err
 	}
 
 	if res.GetDeletionTimestamp().IsZero() {
-
 		if !HasFinalizer(res, finalizerName) {
 			AddFinalizer(res, finalizerName)
 			r.Recorder.Event(local, corev1.EventTypeNormal, "Added", "Object finalizer is added")
@@ -96,10 +93,30 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		return ctrl.Result{}, nil
 	}
 
+	// loop through parents until one is successfully referenced
+	parents, err := r.AzureClient.GetParents(local)
+	for _, p := range parents {
+		//r.Telemetry.LogInfo("status", "handling parent "+p.Key.Name)
+
+		if err := r.Get(ctx, p.Key, p.Target); err == nil {
+			//r.Telemetry.LogInfo("status", "handling parent get for "+reflect.TypeOf(p.Target).String())
+
+			if pAccessor, err := meta.Accessor(p.Target); err == nil {
+				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
+					r.Telemetry.LogInfo("status", "setting parent reference to object: "+pAccessor.GetName())
+					err := r.Update(ctx, local)
+					if err != nil {
+						r.Telemetry.LogInfo("warning", "failed to update instance: "+err.Error())
+					}
+					break
+				}
+			}
+		}
+	}
+
 	r.Telemetry.LogInfo("status", "reconciling object")
 	done, ensureErr := r.AzureClient.Ensure(ctx, local)
 	if ensureErr != nil {
-
 		r.Telemetry.LogError("ensure err", ensureErr)
 	}
 
@@ -115,6 +132,8 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	if !done {
 		result.RequeueAfter = requeDuration
 	}
+
+	r.Telemetry.LogInfo("status", "exiting reconciliation")
 
 	return result, err
 }
