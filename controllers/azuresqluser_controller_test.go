@@ -18,8 +18,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
-	"fmt"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/prometheus/common/log"
@@ -40,11 +38,9 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 	var sqlServerName string
 	var sqlServerInstance *azurev1alpha1.AzureSqlServer
 	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
+	var sqlFirewallRuleInstance *azurev1alpha1.AzureSqlFirewallRule
 	var sqlUser *azurev1alpha1.AzureSQLUser
-	var ctx context.Context
-
 	// Setup the resources we need
-	BeforeEach(func() {
 
 		rgName = tc.resourceGroupName
 		rgLocation = tc.resourceGroupLocation
@@ -109,7 +105,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		sqlFirewallRuleName := "t-fwrule-dev-" + randomName
 
 		// Create the SqlFirewallRule object and expect the Reconcile to be created
-		sqlFirewallRuleInstance := &azurev1alpha1.AzureSqlFirewallRule{
+		sqlFirewallRuleInstance = &azurev1alpha1.AzureSqlFirewallRule{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlFirewallRuleName,
 				Namespace: "default",
@@ -133,6 +129,26 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			return sqlFirewallRuleInstance.Status.Provisioned
 		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
+	})
+
+	// Clean up lingering resources
+	AfterEach(func() {
+
+		// Delete the user and expect an error that is is not raised
+		err = tc.k8sClient.Delete(ctx, sqlUser)
+		Expect(err).To(BeNil())
+
+		// Delete the firewall rules created for this test
+		err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
+		Expect(err).To(BeNil())
+
+		// Delete the database created for this test
+		err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
+		Expect(err).To(BeNil())
+
+		// Delete the server instance created for this test
+		err = tc.k8sClient.Delete(ctx, sqlServerInstance)
+		Expect(err).To(BeNil())
 	})
 
 	Context("Create SQL User", func() {
@@ -182,11 +198,16 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			sqlUserName := string(adminSecret["username"])
 			sqlUserPassword := string(adminSecret["password"])
 
-			fullServerAddress := fmt.Sprintf("%s.database.windows.net", sqlUser.Spec.Server)
-			connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", fullServerAddress, sqlUserName, sqlUserPassword, SqlServerPort, sqlUser.Spec.DbName)
-
 			Eventually(func() bool {
-				db, err := sql.Open(DriverName, connString)
+
+				db, err := tc.sqlUserManager.ConnectToSqlDb(
+					ctx,
+					DriverName,
+					sqlUser.Spec.Server,
+					sqlUser.Spec.DbName,
+					SqlServerPort,
+					sqlUserName,
+					sqlUserPassword)
 				if err != nil {
 					return false
 				}
@@ -194,16 +215,6 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 				// Assure the SQLUser exists in Azure
 				result, err := tc.sqlUserManager.UserExists(ctx, db, sqlUserName)
 				return result
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-
-			// Delete the user and expect an error that is is not raised
-			err = tc.k8sClient.Delete(ctx, sqlUser)
-			Expect(err).To(BeNil())
-
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-				return helpers.IsBeingDeleted(sqlUser)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 		})
