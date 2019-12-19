@@ -38,6 +38,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 	var sqlServerName string
 	var sqlServerInstance *azurev1alpha1.AzureSqlServer
 	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
+	var sqlFirewallRuleInstance *azurev1alpha1.AzureSqlFirewallRule
 	var sqlUser *azurev1alpha1.AzureSQLUser
 	var ctx context.Context
 
@@ -107,7 +108,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		sqlFirewallRuleName := "t-fwrule-dev-" + randomName
 
 		// Create the SqlFirewallRule object and expect the Reconcile to be created
-		sqlFirewallRuleInstance := &azurev1alpha1.AzureSqlFirewallRule{
+		sqlFirewallRuleInstance = &azurev1alpha1.AzureSqlFirewallRule{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      sqlFirewallRuleName,
 				Namespace: "default",
@@ -131,6 +132,14 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			return sqlFirewallRuleInstance.Status.Provisioned
 		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
+	})
+
+	// Clean up lingering resources
+	AfterEach(func() {
+
+		// Delete the firewall rules created for this test
+		err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
+		Expect(err).To(BeNil())
 	})
 
 	Context("Create SQL User", func() {
