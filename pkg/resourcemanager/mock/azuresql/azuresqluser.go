@@ -38,6 +38,11 @@ func findSqlUser(res []MockSqlUserResource, predicate func(MockSqlUserResource) 
 	return -1, MockSqlUserResource{}
 }
 
+func (manager *MockSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, dbname string, port int, username string, password string) (*sql.DB, error) {
+	db := &sql.DB{}
+	return db, nil
+}
+
 func (manager *MockSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *dbsql.DB) (string, error) {
 	newUser := string(secret[azuresqluser.SecretUsernameKey])
 

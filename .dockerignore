@@ -9,7 +9,6 @@ bin
 config
 default.etcd
 devops
-hack
 cover-existing.html
 coverage-existing.txt
 report-existing.xml

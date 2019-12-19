@@ -17,7 +17,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"time"
 
@@ -55,7 +54,7 @@ const SecretPasswordKey = "password"
 // AzureSQLUserFinalizerName is the name of the finalizer
 const AzureSQLUserFinalizerName = "azuresqluser.finalizers.azure.com"
 
-// AzureAzureSQLUserReconciler reconciles a AzureSQLUser object
+// AzureSQLUserReconciler reconciles a AzureSQLUser object
 type AzureSQLUserReconciler struct {
 	client.Client
 	Log                 logr.Logger
@@ -145,14 +144,8 @@ func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLU
 
 	var user = string(adminSecret[SecretUsernameKey])
 	var password = string(adminSecret[SecretPasswordKey])
-	connString := r.getConnectionString(instance.Spec.Server, user, password, SqlServerPort, instance.Spec.DbName)
 
-	db, err := sql.Open(DriverName, connString)
-	if err != nil {
-		return err
-	}
-
-	err = db.Ping()
+	db, err := r.AzureSqlUserManager.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
 	if err != nil {
 		return err
 	}
@@ -207,14 +200,8 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 
 	var user = string(adminSecret[SecretUsernameKey])
 	var password = string(adminSecret[SecretPasswordKey])
-	connString := r.getConnectionString(instance.Spec.Server, user, password, SqlServerPort, instance.Spec.DbName)
 
-	db, err := sql.Open(DriverName, connString)
-	if err != nil {
-		return err
-	}
-
-	err = db.Ping()
+	db, err := r.AzureSqlUserManager.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
 	if err != nil {
 		return err
 	}
@@ -294,11 +281,4 @@ func (r *AzureSQLUserReconciler) GetOrPrepareSecret(ctx context.Context, instanc
 	}
 
 	return secret
-}
-
-// Builds connection string to connect to database
-func (r *AzureSQLUserReconciler) getConnectionString(server string, user string, password string, port int, database string) string {
-	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
-	return fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
-		fullServerAddress, user, password, port, database)
 }
