@@ -197,3 +197,32 @@
     ```shell
     kubectl logs <podname> -c manager -n azureoperator-system
     ```
+
+7. If you would like to view the Prometheus metrics from the operator, you can redirect port 8080 to the local machine using the following command:
+
+   Get the deployment using the following command
+
+   ```shell
+   kubectl get deployment -n azureoperator-system
+   ```
+
+   You'll see output like the below.
+
+   ```shell
+   NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+   azureoperator-controller-manager   1/1     1            1           2d1h
+   ```
+
+   Use the deployment name in the command as below
+
+    ```shell
+    kubectl port-forward deployment/<deployment name> -n <namespace> 8080
+    ```
+
+    So we would use the following command here
+
+    ```shell
+    kubectl port-forward deployment/azureoperator-controller-manager -n azureoperator-system 8080
+    ```
+
+    You can now browse to `http://localhost:8080/metrics` from the browser to view the metrics.
