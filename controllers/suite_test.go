@@ -25,6 +25,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -63,6 +64,7 @@ var testEnv *envtest.Environment
 
 type testContext struct {
 	k8sClient               client.Client
+	secretClient            secrets.SecretClient
 	resourceGroupName       string
 	resourceGroupLocation   string
 	eventhubNamespaceName   string
@@ -86,7 +88,6 @@ type testContext struct {
 var tc testContext
 
 func TestAPIs(t *testing.T) {
-	//t.Parallel()
 	RegisterFailHandler(Fail)
 
 	RunSpecsWithDefaultAndCustomReporters(t,
@@ -283,6 +284,7 @@ var _ = BeforeSuite(func() {
 		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
+
 	err = (&AzureSqlFailoverGroupReconciler{
 		Client:                       k8sManager.GetClient(),
 		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
@@ -298,6 +300,7 @@ var _ = BeforeSuite(func() {
 		Recorder:            k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
 		Scheme:              scheme.Scheme,
 		AzureSqlUserManager: sqlUserManager,
+		SecretClient:        secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -354,6 +357,7 @@ var _ = BeforeSuite(func() {
 
 	tc = testContext{
 		k8sClient:               k8sClient,
+		secretClient:            secretClient,
 		resourceGroupName:       resourceGroupName,
 		resourceGroupLocation:   resourcegroupLocation,
 		eventhubNamespaceName:   eventhubNamespaceName,
