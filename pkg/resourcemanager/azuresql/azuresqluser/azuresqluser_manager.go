@@ -8,13 +8,7 @@ package azuresqluser
 import (
 	"context"
 	"database/sql"
-
-	"github.com/go-logr/logr"
 )
-
-func NewAzureSqlUserManager(log logr.Logger) *AzureSqlUserManager {
-	return &AzureSqlUserManager{Log: log}
-}
 
 type SqlUserManager interface {
 	ConnectToSqlDb(ctx context.Context, drivername string, server string, dbname string, port int, username string, password string) (*sql.DB, error)

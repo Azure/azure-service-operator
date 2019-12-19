@@ -22,6 +22,10 @@ type AzureSqlFailoverGroupManager struct {
 	Log logr.Logger
 }
 
+func NewAzureSqlFailoverGroupManager(log logr.Logger) *AzureSqlFailoverGroupManager {
+	return &AzureSqlFailoverGroupManager{Log: log}
+}
+
 // GetServer returns a SQL server
 func (_ *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
 	serversClient := azuresqlshared.GetGoServersClient()

@@ -21,6 +21,10 @@ type AzureSqlFirewallRuleManager struct {
 	Log logr.Logger
 }
 
+func NewAzureSqlFirewallRuleManager(log logr.Logger) *AzureSqlFirewallRuleManager {
+	return &AzureSqlFirewallRuleManager{Log: log}
+}
+
 // GetServer returns a SQL server
 func (_ *AzureSqlFirewallRuleManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
 	serversClient := azuresqlshared.GetGoServersClient()

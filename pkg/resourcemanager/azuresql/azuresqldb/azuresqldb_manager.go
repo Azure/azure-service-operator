@@ -12,12 +12,7 @@ import (
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
 	"github.com/Azure/go-autorest/autorest"
-	"github.com/go-logr/logr"
 )
-
-func NewAzureSqlDbManager(log logr.Logger) *AzureSqlDbManager {
-	return &AzureSqlDbManager{Log: log}
-}
 
 type SqlDbManager interface {
 	CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error)

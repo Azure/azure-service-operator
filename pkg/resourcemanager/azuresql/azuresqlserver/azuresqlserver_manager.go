@@ -12,12 +12,7 @@ import (
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
 	"github.com/Azure/go-autorest/autorest"
-	"github.com/go-logr/logr"
 )
-
-func NewAzureSqlServerManager(log logr.Logger) *AzureSqlServerManager {
-	return &AzureSqlServerManager{Log: log}
-}
 
 type SqlServerManager interface {
 	CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties) (result sql.Server, err error)

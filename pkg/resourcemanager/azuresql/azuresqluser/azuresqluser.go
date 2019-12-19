@@ -25,6 +25,10 @@ type AzureSqlUserManager struct {
 	Log logr.Logger
 }
 
+func NewAzureSqlUserManager(log logr.Logger) *AzureSqlUserManager {
+	return &AzureSqlUserManager{Log: log}
+}
+
 // ConnectToSqlDb connects to the SQL db using the given credentials
 func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, database string, port int, user string, password string) (*sql.DB, error) {
 

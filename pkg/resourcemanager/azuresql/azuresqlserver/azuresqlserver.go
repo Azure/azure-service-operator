@@ -23,6 +23,10 @@ type AzureSqlServerManager struct {
 	Log logr.Logger
 }
 
+func NewAzureSqlServerManager(log logr.Logger) *AzureSqlServerManager {
+	return &AzureSqlServerManager{Log: log}
+}
+
 // DeleteSQLServer deletes a SQL server
 func (sdk *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceGroupName string, serverName string) (result autorest.Response, err error) {
 	result = autorest.Response{
