@@ -304,10 +304,3 @@ func (r *AzureSQLUserReconciler) GetOrPrepareSecret(ctx context.Context, instanc
 
 	return secret
 }
-
-// getConnectionString builds a connection string to connect to database
-func (r *AzureSQLUserReconciler) getConnectionString(server string, user string, password string, port int, database string) string {
-	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
-	return fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
-		fullServerAddress, user, password, port, database)
-}

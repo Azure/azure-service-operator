@@ -18,8 +18,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
-	"fmt"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/prometheus/common/log"
@@ -182,11 +180,9 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			sqlUserName := string(adminSecret["username"])
 			sqlUserPassword := string(adminSecret["password"])
 
-			fullServerAddress := fmt.Sprintf("%s.database.windows.net", sqlUser.Spec.Server)
-			connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", fullServerAddress, sqlUserName, sqlUserPassword, SqlServerPort, sqlUser.Spec.DbName)
-
 			Eventually(func() bool {
-				db, err := sql.Open(DriverName, connString)
+
+				db, err := tc.sqlUserManager.ConnectToSqlDb(ctx, DriverName, sqlUser.Spec.Server, sqlUser.Spec.DbName, SqlServerPort, sqlUserName, sqlUserPassword)
 				if err != nil {
 					return false
 				}
