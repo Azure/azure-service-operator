@@ -100,10 +100,6 @@ func (_ *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
 		return nil, err
 	}
 
-	err = future.WaitForCompletionRef(ctx, redisClient.Client)
-	if err != nil {
-		return nil, err
-	}
 	result, err := future.Result(redisClient)
 	return &result, err
 }
