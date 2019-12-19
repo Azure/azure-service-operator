@@ -119,7 +119,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	if ensureErr != nil {
 		r.Telemetry.LogError("ensure err", ensureErr)
 	}
-	r.Telemetry.LogInfo("status", "after ensure")
 
 	final := multierror.Append(ensureErr, r.Update(ctx, local), r.Status().Update(ctx, local))
 	err = final.ErrorOrNil()
