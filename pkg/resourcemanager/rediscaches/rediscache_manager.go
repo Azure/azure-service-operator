@@ -13,10 +13,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 )
 
-func NewAzureRedisCacheManager() *AzureRedisCacheManager {
-	return &AzureRedisCacheManager{}
-}
-
 type RedisCacheManager interface {
 	// CreateRedisCache creates a new RedisCache
 	CreateRedisCache(ctx context.Context,

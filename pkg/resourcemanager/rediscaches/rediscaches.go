@@ -38,6 +38,10 @@ import (
 
 type AzureRedisCacheManager struct{}
 
+func NewAzureRedisCacheManager() *AzureRedisCacheManager {
+	return &AzureRedisCacheManager{}
+}
+
 func getRedisCacheClient() redis.Client {
 	redisClient := redis.NewClient(config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
