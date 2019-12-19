@@ -23,6 +23,8 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -45,9 +47,18 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 	_, err = rc.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, nil)
 	if err != nil {
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Message = err.Error()
+			return false, nil
+		}
+
 		instance.Status.Provisioning = false
 		instance.Status.Message = err.Error()
-		return false, fmt.Errorf("Redis Cache create error %v", err)
+		return true, fmt.Errorf("Redis Cache create error %v", err)
 	}
 
 	instance.Status.Provisioning = false
