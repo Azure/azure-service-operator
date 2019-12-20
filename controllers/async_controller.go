@@ -135,7 +135,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		r.Recorder.Event(local, corev1.EventTypeNormal, "Reconciled", "Successfully reconciled")
 	}
 
-	result = ctrl.Result{Requeue: !done}
+	result = ctrl.Result{}
 	if !done {
 		r.Telemetry.LogInfo("status", "reconciling object not finished")
 		result.RequeueAfter = requeDuration
