@@ -215,24 +215,31 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	resp, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
+		// let the user know what happened
 		instance.Status.Message = err.Error()
+
+		// errors we expect might happen that we are ok with waiting for
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
+
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
+			// most of these error technically mean the resource is actually not provisioning
+			if azerr.Type != errhelp.AsyncOpIncompleteError {
+				instance.Status.Provisioning = false
+			}
+			// reconciliation is not done but error is acceptable
 			return false, nil
 		} else {
+			// reconciliation not done and we don't know what happened
 			instance.Status.Provisioning = false
 			return false, err
 		}
 	}
-
-	instance.Status.State = string(resp.Status)
-	instance.Status.Message = "Success"
 
 	err = e.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
 	if err != nil {
@@ -245,9 +252,12 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 	}
 
 	// write information back to instance
+	instance.Status.State = string(resp.Status)
+	instance.Status.Message = "Success"
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
+	// reconciliation done and everything looks ok
 	return true, nil
 }
 
@@ -291,10 +301,21 @@ func (e *azureEventHubManager) GetParents(obj runtime.Object) ([]resourcemanager
 		return nil, err
 	}
 
-	key := types.NamespacedName{Namespace: instance.Namespace, Name: instance.Spec.Namespace}
-
 	return []resourcemanager.KubeParent{
-		{Key: key, Target: &azurev1alpha1.EventhubNamespace{}},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.Namespace,
+			},
+			Target: &azurev1alpha1.EventhubNamespace{},
+		},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.ResourceGroup,
+			},
+			Target: &azurev1alpha1.ResourceGroup{},
+		},
 	}, nil
 
 }
