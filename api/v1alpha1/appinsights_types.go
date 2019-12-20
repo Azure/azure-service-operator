@@ -24,8 +24,9 @@ import (
 
 // AppInsightsSpec defines the desired state of AppInsights
 type AppInsightsSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	Location      string `json:"location"`
+	Namespace     string `json:"namespace,omitempty"`
+	ResourceGroup string `json:"resourceGroup,omitempty"`
 }
 
 // AppInsightsStatus defines the observed state of AppInsights
@@ -41,8 +42,8 @@ type AppInsights struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AppInsightsSpec   `json:"spec,omitempty"`
-	Status AppInsightsStatus `json:"status,omitempty"`
+	Spec   AppInsightsSpec `json:"spec,omitempty"`
+	Status ASOStatus       `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
