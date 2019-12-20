@@ -2,16 +2,17 @@ package storages
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
+	"time"
+
+	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"time"
 )
 
 var _ = Describe("File System", func() {
@@ -20,22 +21,27 @@ var _ = Describe("File System", func() {
 
 	adlsName := "tdevadls" + helpers.RandomString(10)
 
+	ctx := context.Background()
+
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		// Create a data lake enbaled storage account
 		adlsLocation := config.DefaultLocation()
-		_, err := tc.StorageManagers.Storage.CreateStorage(context.Background(), tc.ResourceGroupName, adlsName, adlsLocation, azurev1alpha1.StorageSku{
+		_, _ = tc.StorageManagers.Storage.CreateStorage(ctx, tc.ResourceGroupName, adlsName, adlsLocation, azurev1alpha1.StorageSku{
 			Name: "Standard_LRS",
 		}, "StorageV2", map[string]*string{}, "", nil, to.BoolPtr(true))
 
-		if err != nil {
-			fmt.Println("data lake wasn't created")
-		}
+		Eventually(func() s.ProvisioningState {
+			result, _ := tc.StorageManagers.Storage.GetStorage(ctx, tc.ResourceGroupName, adlsName)
+			return result.ProvisioningState
+		}, tc.timeout, tc.retryInterval,
+		).Should(Equal(s.Succeeded))
 	})
 
 	AfterEach(func() {
 		// Add any teardown steps that needs to be executed after each test
-		_, _ = tc.StorageManagers.Storage.DeleteStorage(context.Background(), tc.ResourceGroupName, adlsName)
+		_, err := tc.StorageManagers.Storage.DeleteStorage(context.Background(), tc.ResourceGroupName, adlsName)
+		Expect(err).NotTo(HaveOccurred())
 	})
 
 	Context("Create and Delete File System Instances", func() {
