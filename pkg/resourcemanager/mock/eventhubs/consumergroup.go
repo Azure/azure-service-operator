@@ -19,12 +19,17 @@ package eventhubs
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 type consumerGroupResource struct {
@@ -109,4 +114,102 @@ func (manager *mockConsumerGroupManager) GetConsumerGroup(ctx context.Context, r
 
 	group.ConsumerGroup.Response = helpers.GetRestResponse(http.StatusOK)
 	return group.ConsumerGroup, nil
+}
+
+func (cg *mockConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := cg.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	// write information back to instance
+	instance.Status.Provisioning = true
+
+	kubeObjectName := instance.Name
+	namespaceName := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+	eventhubName := instance.Spec.Eventhub
+	azureConsumerGroupName := instance.Spec.ConsumerGroupName
+
+	// if no need for shared consumer group name, use the kube name
+	if len(azureConsumerGroupName) == 0 {
+		azureConsumerGroupName = kubeObjectName
+	}
+
+	resp, err := cg.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
+	if err != nil {
+		instance.Status.Message = err.Error()
+		instance.Status.Provisioning = false
+		return false, err
+	}
+	instance.Status.State = resp.Status
+	instance.Status.Message = "success"
+	// write information back to instance
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
+
+	return true, nil
+}
+
+func (cg *mockConsumerGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := cg.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	kubeObjectName := instance.Name
+	namespaceName := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+	eventhubName := instance.Spec.Eventhub
+	azureConsumerGroupName := instance.Spec.ConsumerGroupName
+
+	// if no need for shared consumer group name, use the kube name
+	if len(azureConsumerGroupName) == 0 {
+		azureConsumerGroupName = kubeObjectName
+	}
+
+	_, err = cg.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
+	if err != nil {
+		return false, err
+	}
+
+	instance.Status.Message = "deleted"
+
+	return true, nil
+}
+
+func (cg *mockConsumerGroupManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+
+	instance, err := cg.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	return []resourcemanager.KubeParent{
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.Namespace,
+			},
+			Target: &v1alpha1.EventhubNamespace{},
+		},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.ResourceGroup,
+			},
+			Target: &v1alpha1.ResourceGroup{},
+		},
+	}, nil
+
+}
+
+func (cg *mockConsumerGroupManager) convert(obj runtime.Object) (*v1alpha1.ConsumerGroup, error) {
+	local, ok := obj.(*v1alpha1.ConsumerGroup)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }

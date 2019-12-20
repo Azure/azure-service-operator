@@ -106,6 +106,25 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 	// write information back to instance
 	instance.Status.Provisioning = true
 
+	kubeObjectName := instance.Name
+	namespaceName := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+	eventhubName := instance.Spec.Eventhub
+	azureConsumerGroupName := instance.Spec.ConsumerGroupName
+
+	// if no need for shared consumer group name, use the kube name
+	if len(azureConsumerGroupName) == 0 {
+		azureConsumerGroupName = kubeObjectName
+	}
+
+	resp, err := cg.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
+	if err != nil {
+		instance.Status.Message = err.Error()
+		instance.Status.Provisioning = false
+		return false, err
+	}
+	instance.Status.State = resp.Status
+	instance.Status.Message = "success"
 	// write information back to instance
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
@@ -116,6 +135,22 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 func (cg *azureConsumerGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
 
 	instance, err := cg.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	kubeObjectName := instance.Name
+	namespaceName := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+	eventhubName := instance.Spec.Eventhub
+	azureConsumerGroupName := instance.Spec.ConsumerGroupName
+
+	// if no need for shared consumer group name, use the kube name
+	if len(azureConsumerGroupName) == 0 {
+		azureConsumerGroupName = kubeObjectName
+	}
+
+	_, err = cg.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
 		return false, err
 	}
@@ -132,10 +167,28 @@ func (cg *azureConsumerGroupManager) GetParents(obj runtime.Object) ([]resourcem
 		return nil, err
 	}
 
-	key := types.NamespacedName{Namespace: instance.Namespace, Name: instance.Spec.ResourceGroupName}
-
 	return []resourcemanager.KubeParent{
-		{Key: key, Target: &v1alpha1.ResourceGroup{}},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.Eventhub,
+			},
+			Target: &v1alpha1.Eventhub{},
+		},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.Namespace,
+			},
+			Target: &v1alpha1.EventhubNamespace{},
+		},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.ResourceGroup,
+			},
+			Target: &v1alpha1.ResourceGroup{},
+		},
 	}, nil
 
 }

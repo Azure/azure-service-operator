@@ -68,10 +68,10 @@ var _ = Describe("ConsumerGroup Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.ConsumerGroupSpec{
-					NamespaceName:          ehnName,
-					ResourceGroupName:      rgName,
-					EventhubName:           ehName,
-					AzureConsumerGroupName: azureConsumerGroupName,
+					Namespace:         ehnName,
+					ResourceGroup:     rgName,
+					Eventhub:          ehName,
+					ConsumerGroupName: azureConsumerGroupName,
 				},
 			}
 
@@ -83,7 +83,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
-				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName)
+				return consumerGroupInstance.HasFinalizer(finalizerName)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
