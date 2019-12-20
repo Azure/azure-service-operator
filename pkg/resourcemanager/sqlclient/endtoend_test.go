@@ -154,7 +154,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// create secondary SQL server
 	// create the Go SDK client with relevant info
 	secSrvName := generateName("sqlsrvsecondary")
-	secLocation := "eastus2"
+	secLocation := "westus"
 
 	// create the server
 	sqlServerProperties = SQLServerProperties{
