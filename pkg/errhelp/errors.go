@@ -17,6 +17,7 @@ const (
 	InvalidServerName              = "InvalidServerName"
 	RequestConflictError           = "Conflict"
 	AlreadyExists                  = "AlreadyExists"
+	BadRequest                     = "BadRequest"
 )
 
 func NewAzureError(err error) error {
