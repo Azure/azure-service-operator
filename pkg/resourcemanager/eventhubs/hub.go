@@ -215,6 +215,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	resp, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
@@ -223,13 +224,13 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
-			instance.Status.Message = err.Error()
 			return false, nil
 		} else {
 			instance.Status.Provisioning = false
 			return false, err
 		}
 	}
+
 	instance.Status.State = string(resp.Status)
 	instance.Status.Message = "Success"
 
