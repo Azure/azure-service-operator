@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -217,28 +218,35 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 	if err != nil {
 		// let the user know what happened
 		instance.Status.Message = err.Error()
-
+		instance.Status.Provisioning = false
 		// errors we expect might happen that we are ok with waiting for
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
+			errhelp.BadRequest,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
-			if azerr.Type != errhelp.AsyncOpIncompleteError {
-				instance.Status.Provisioning = false
+
+			switch azerr.Type {
+			case errhelp.AsyncOpIncompleteError:
+				instance.Status.Provisioning = true
+			case errhelp.BadRequest:
+				// can't put the error for this one in Message as the tracking id changes every time caussing extra reconciles
+				if strings.Contains(azerr.Reason, "Storage Account") && strings.Contains(azerr.Reason, "was not found") {
+					instance.Status.Message = "Storage Account was not found"
+				}
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil
-		} else {
-			// reconciliation not done and we don't know what happened
-			instance.Status.Provisioning = false
-			return false, err
 		}
+		// reconciliation not done and we don't know what happened
+		return false, err
+
 	}
 
 	err = e.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
