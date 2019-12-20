@@ -22,4 +22,4 @@ bin
 
 .DS_Store
 
-.k8s-infra.cluster
+.k8sinfra.cluster

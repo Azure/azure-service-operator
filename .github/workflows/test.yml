@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v1
       - name: Make test
         run: make test
+      - name: Build docker image
+        run: make docker-build
 #      - name: Convert coverage to lcov
 #        uses: jandelgado/gcov2lcov-action@v1.0.0
 #        with:
