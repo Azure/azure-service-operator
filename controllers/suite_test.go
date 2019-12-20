@@ -25,11 +25,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
+	s "github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -63,6 +64,7 @@ var testEnv *envtest.Environment
 
 type testContext struct {
 	k8sClient               client.Client
+	secretClient            secrets.SecretClient
 	resourceGroupName       string
 	resourceGroupLocation   string
 	eventhubNamespaceName   string
@@ -87,7 +89,6 @@ type testContext struct {
 var tc testContext
 
 func TestAPIs(t *testing.T) {
-	//t.Parallel()
 	RegisterFailHandler(Fail)
 
 	RunSpecsWithDefaultAndCustomReporters(t,
@@ -113,6 +114,7 @@ var _ = BeforeSuite(func() {
 
 	storageAccountName := "tsadeveh" + helpers.RandomString(10)
 	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
+	containerAccessLevel := s.PublicAccessContainer
 
 	var timeout time.Duration
 
@@ -143,6 +145,9 @@ var _ = BeforeSuite(func() {
 	Expect(err).NotTo(HaveOccurred())
 
 	var k8sManager ctrl.Manager
+
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
 
 	err = azurev1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
@@ -291,6 +296,7 @@ var _ = BeforeSuite(func() {
 		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
+
 	err = (&AzureSqlFailoverGroupReconciler{
 		Client:                       k8sManager.GetClient(),
 		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
@@ -306,6 +312,7 @@ var _ = BeforeSuite(func() {
 		Recorder:            k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
 		Scheme:              scheme.Scheme,
 		AzureSqlUserManager: sqlUserManager,
+		SecretClient:        secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -315,6 +322,15 @@ var _ = BeforeSuite(func() {
 		Recorder:              k8sManager.GetEventRecorderFor("AzureSqlAction-controller"),
 		Scheme:                scheme.Scheme,
 		AzureSqlServerManager: sqlServerManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&BlobContainerReconciler{
+		Client:         k8sManager.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
+		Recorder:       k8sManager.GetEventRecorderFor("BlobContainer-controller"),
+		Scheme:         scheme.Scheme,
+		StorageManager: storageManagers.BlobContainer,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -362,6 +378,7 @@ var _ = BeforeSuite(func() {
 
 	tc = testContext{
 		k8sClient:               k8sClient,
+		secretClient:            secretClient,
 		resourceGroupName:       resourceGroupName,
 		resourceGroupLocation:   resourcegroupLocation,
 		eventhubNamespaceName:   eventhubNamespaceName,
@@ -394,12 +411,19 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	// Create the Storage Account and Container
-	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
+	_, _ = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
 		Name: "Standard_LRS",
 	}, "Storage", map[string]*string{}, "", nil, nil)
-	Expect(err).ToNot(HaveOccurred())
 
-	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
+	// Storage account needs to be in "Suceeded" state
+	// for container create to succeed
+	Eventually(func() s.ProvisioningState {
+		result, _ := storageManagers.Storage.GetStorage(context.Background(), resourceGroupName, storageAccountName)
+		return result.ProvisioningState
+	}, tc.timeout, tc.retry,
+	).Should(Equal(s.Succeeded))
+
+	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
 	Expect(err).ToNot(HaveOccurred())
 
 })
