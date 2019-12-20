@@ -120,7 +120,14 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		r.Telemetry.LogError("ensure err", ensureErr)
 	}
 
-	final := multierror.Append(ensureErr, r.Update(ctx, local), r.Status().Update(ctx, local))
+	// update the status of the resource in kubernetes
+	// Implementations of Ensure() tend to set their outcomes in local.Status
+	err = r.Status().Update(ctx, local)
+	if err != nil {
+		r.Telemetry.LogInfo("status", "failed updating status")
+	}
+
+	final := multierror.Append(ensureErr, r.Update(ctx, local))
 	err = final.ErrorOrNil()
 	if err != nil {
 		r.Recorder.Event(local, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
