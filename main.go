@@ -114,6 +114,7 @@ func main() {
 		Client:         mgr.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("Storage"),
 		Recorder:       mgr.GetEventRecorderFor("Storage-controller"),
+		Scheme:         mgr.GetScheme(),
 		StorageManager: storageManagers.Storage,
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -270,6 +271,18 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
 		os.Exit(1)
 	}
+
+	if err = (&controllers.BlobContainerReconciler{
+		Client:         mgr.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
+		Recorder:       mgr.GetEventRecorderFor("BlobContainer-controller"),
+		Scheme:         mgr.GetScheme(),
+		StorageManager: storageManagers.BlobContainer,
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
+		os.Exit(1)
+	}
+
 	if err = (&controllers.AzureDataLakeGen2FileSystemReconciler{
 		Client:            mgr.GetClient(),
 		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
