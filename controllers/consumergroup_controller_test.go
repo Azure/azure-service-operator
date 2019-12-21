@@ -94,7 +94,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, azureConsumerGroupName)
+				cg, _ := tc.consumerGroupClient.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, azureConsumerGroupName)
 				return cg.Name != nil && *cg.Name == azureConsumerGroupName && cg.Response.StatusCode == http.StatusOK
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
@@ -109,7 +109,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, azureConsumerGroupName)
+				cg, _ := tc.consumerGroupClient.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, azureConsumerGroupName)
 				return cg.Response.StatusCode != http.StatusOK
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
