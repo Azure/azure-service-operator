@@ -123,6 +123,19 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 	if err != nil {
 		instance.Status.Message = err.Error()
 		instance.Status.Provisioning = false
+
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+		}
+
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			// reconciliation is not done but error is acceptable
+			return false, nil
+		}
+
 		return false, err
 	}
 
