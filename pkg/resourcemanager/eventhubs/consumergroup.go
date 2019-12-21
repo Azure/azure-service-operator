@@ -21,6 +21,8 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
@@ -117,14 +119,15 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 		azureConsumerGroupName = kubeObjectName
 	}
 
-	resp, err := cg.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
+	_, err = cg.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		instance.Status.Provisioning = false
 		return false, err
 	}
-	instance.Status.State = resp.Status
-	instance.Status.Message = "success"
+
+	instance.Status.State = "Active"
+	instance.Status.Message = "Success"
 	// write information back to instance
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
@@ -148,6 +151,22 @@ func (cg *azureConsumerGroupManager) Delete(ctx context.Context, obj runtime.Obj
 	// if no need for shared consumer group name, use the kube name
 	if len(azureConsumerGroupName) == 0 {
 		azureConsumerGroupName = kubeObjectName
+	}
+
+	// deletions to non existing groups lead to 'conflicting operation' errors so we GET it here
+	_, err = cg.GetConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
+	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+		}
+		if helpers.ContainsString(catch, azerr.Type) {
+			// these things mean the entity is already gone
+			return false, nil
+		}
+		return true, err
 	}
 
 	_, err = cg.DeleteConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
