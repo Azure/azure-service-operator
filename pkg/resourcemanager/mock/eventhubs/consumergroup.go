@@ -44,6 +44,10 @@ type mockConsumerGroupManager struct {
 	consumerGroupResources []consumerGroupResource
 }
 
+func NewMockConsumerGroupClient() *mockConsumerGroupManager {
+	return &mockConsumerGroupManager{}
+}
+
 func findConsumerGroup(res []consumerGroupResource, predicate func(consumerGroupResource) bool) (int, consumerGroupResource) {
 	for index, r := range res {
 		if predicate(r) {
