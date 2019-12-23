@@ -18,7 +18,9 @@ package eventhubs
 
 import (
 	"context"
+
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/go-autorest/autorest"
 )
 
@@ -60,4 +62,7 @@ type EventHubManager interface {
 	// eventHubName - the Event Hub name
 	// authorizationRuleName - the authorization rule name.
 	ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error)
+
+	// also embed arm client methods
+	resourcemanager.ARMClient
 }
