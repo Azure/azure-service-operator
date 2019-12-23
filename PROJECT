@@ -41,6 +41,7 @@ resources:
 - group: azure
   version: v1alpha1
   kind: AzureSqlFailoverGroup
+  kind: BlobContainer
 - group: azure
   version: v1alpha1
   kind: AzureDataLakeGen2FileSystem

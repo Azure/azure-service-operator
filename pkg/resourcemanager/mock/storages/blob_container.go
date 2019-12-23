@@ -30,6 +30,7 @@ type blobContainerResource struct {
 	resourceGroupName  string
 	storageAccountName string
 	blobContainerName  string
+	accessLevel        storage.PublicAccess
 	blobContainer      storage.BlobContainer
 }
 
@@ -51,7 +52,7 @@ func findBlobContainer(res []blobContainerResource, predicate func(blobContainer
 // resourceGroupName - name of the resource group within the azure subscription.
 // accountName - the name of the storage account
 // containerName - the name of the container
-func (manager *mockBlobContainerManager) CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (*storage.BlobContainer, error) {
+func (manager *mockBlobContainerManager) CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string, accessLevel storage.PublicAccess) (*storage.BlobContainer, error) {
 	bc := blobContainerResource{
 		resourceGroupName:  resourceGroupName,
 		storageAccountName: accountName,

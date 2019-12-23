@@ -21,7 +21,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	storage "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
@@ -63,7 +63,7 @@ func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName 
 	kind azurev1alpha1.StorageKind,
 	tags map[string]*string,
 	accessTier azurev1alpha1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (*storage.Account, error) {
+	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (result storage.Account, err error) {
 	s := storageResource{
 		resourceGroupName:  groupName,
 		storageAccountName: storageAccountName,
@@ -72,11 +72,14 @@ func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName 
 			Tags:     tags,
 			Location: to.StringPtr(location),
 			Name:     to.StringPtr(storageAccountName),
+			AccountProperties: &storage.AccountProperties{
+				ProvisioningState: storage.Succeeded,
+			},
 		},
 	}
 
 	manager.storageResource = append(manager.storageResource, s)
-	return &s.StorageAccount, nil
+	return s.StorageAccount, nil
 }
 
 // Get gets the description of the specified storage account.
