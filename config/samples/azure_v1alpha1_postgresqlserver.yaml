@@ -1,0 +1,12 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: PostgreSQLServer
+metadata:
+  name: postgresqlserver-aso-test
+spec:
+  location: westus2
+  resourcegroup: aso-testing-psql
+  sku:
+    name: B_Gen4_2
+    tier: Basic
+    family: C
+    capacity: 2
