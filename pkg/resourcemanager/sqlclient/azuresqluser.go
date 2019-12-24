@@ -31,13 +31,17 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
 	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", fullServerAddress, user, password, port, database)
 
+	m.Log.Info("username is %v", user)
+	m.Log.Info("password is %v", password)
 	db, err := sql.Open(drivername, connString)
 	if err != nil {
+		m.Log.Info("error from sql.Open is: %v", err.Error())
 		return db, err
 	}
 
 	err = db.Ping()
 	if err != nil {
+		m.Log.Info("error from db.Ping is: %v", err.Error())
 		return db, err
 	}
 
