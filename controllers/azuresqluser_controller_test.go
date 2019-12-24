@@ -36,6 +36,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 	var rgName string
 	var rgLocation string
 	var sqlServerName string
+	var sqlDatabaseName string
 	var sqlServerInstance *azurev1alpha1.AzureSqlServer
 	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
 	var sqlFirewallRuleInstance *azurev1alpha1.AzureSqlFirewallRule
@@ -121,7 +122,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			},
 		}
 
-		err = tc.k8sClient.Create(context.Background(), sqlFirewallRuleInstance)
+		err = tc.k8sClient.Create(ctx, sqlFirewallRuleInstance)
 		Expect(apierrors.IsInvalid(err)).To(Equal(false))
 		Expect(err).NotTo(HaveOccurred())
 
@@ -156,7 +157,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 
 	Context("Create SQL User", func() {
 
-		It("should create a user in an Azure SQL database", func() {
+		It("should create and delete a user in an Azure SQL database", func() {
 
 			defer GinkgoRecover()
 
@@ -169,8 +170,8 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.AzureSQLUserSpec{
-					Server:      sqlServerInstance.ObjectMeta.Name,
-					DbName:      sqlDatabaseInstance.ObjectMeta.Name,
+					Server:      sqlServerName,
+					DbName:      sqlDatabaseName,
 					AdminSecret: "",
 					Roles:       roles,
 				},
@@ -178,20 +179,28 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 
 			// Create the sqlUser
 			err = tc.k8sClient.Create(ctx, sqlUser)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).To(BeNil())
 
 			sqlUserNamespacedName := types.NamespacedName{Name: username, Namespace: "default"}
 
+			Eventually(func() bool {
+				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+				return helpers.HasFinalizer(sqlUser, AzureSQLUserFinalizerName)
+			}, tc.timeout, tc.retry,
+			).Should(BeTrue())
+
 			// Assure the user creation request is submitted
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+				log.Info(sqlUser.Status.Provisioning)
+				log.Info(sqlUser.Status.Provisioned)
+				log.Info(sqlUser.Status.Message)
 				return sqlUser.Status.Provisioned
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			// get admin creds for server
-			key := types.NamespacedName{Name: username, Namespace: sqlUser.Namespace}
+			key := types.NamespacedName{Name: username, Namespace: "default"}
 			adminSecret, err := tc.secretClient.Get(ctx, key)
 			if err != nil {
 				log.Info("sql user secret not found")
@@ -219,6 +228,20 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 				return result
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
+
+			err = tc.k8sClient.Delete(ctx, sqlUser)
+
+			Eventually(func() bool {
+				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+				return helpers.IsBeingDeleted(sqlUser)
+			}, tc.timeout, tc.retry,
+			).Should(BeTrue())
+
+			Eventually(func() bool {
+				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+				return helpers.HasFinalizer(sqlUser, AzureSQLUserFinalizerName)
+			}, tc.timeout, tc.retry,
+			).Should(BeFalse())
 		})
 	})
 })
