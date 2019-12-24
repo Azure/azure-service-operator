@@ -174,7 +174,6 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 					AdminSecret: "",
 					Roles:       roles,
 				},
-				Status: azurev1alpha1.AzureSQLUserStatus{},
 			}
 
 			// Create the sqlUser
