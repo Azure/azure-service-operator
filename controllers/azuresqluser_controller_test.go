@@ -208,7 +208,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			sqlAdminUserName := string(adminSecret["username"])
 			sqlAdminUserPassword := string(adminSecret["password"])
 
-			log.Info("sql server admin credentials are %v and %v", sqlAdminUserName, sqlAdminUserPassword)
+			log.Info("sql server admin credentials are ", sqlAdminUserName, sqlAdminUserPassword)
 
 			sqlUser = &azurev1alpha1.AzureSQLUser{
 				ObjectMeta: metav1.ObjectMeta{
