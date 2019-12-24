@@ -31,17 +31,17 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
 	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", fullServerAddress, user, password, port, database)
 
-	m.Log.Info("username is %v", user)
-	m.Log.Info("password is %v", password)
+	m.Log.Info("ConnectToSqlDb:", "user:", user)
+	m.Log.Info("ConnectToSqlDb:", "password:", password)
 	db, err := sql.Open(drivername, connString)
 	if err != nil {
-		m.Log.Info("error from sql.Open is: %v", err.Error())
+		m.Log.Info("ConnectToSqlDb", "error from sql.Open is:", err.Error())
 		return db, err
 	}
 
 	err = db.Ping()
 	if err != nil {
-		m.Log.Info("error from db.Ping is: %v", err.Error())
+		m.Log.Info("ConnectToSqlDb", "error from db.Ping is:", err.Error())
 		return db, err
 	}
 
@@ -55,7 +55,7 @@ func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, r
 		tsql := fmt.Sprintf("sp_addrolemember \"%s\", \"%s\"", role, user)
 		_, err := db.ExecContext(ctx, tsql)
 		if err != nil {
-			m.Log.Info("Error executing add role", "err", err.Error())
+			m.Log.Info("GrantUserRoles:", "Error executing add role:", err.Error())
 			errorStrings = append(errorStrings, err.Error())
 		}
 	}
