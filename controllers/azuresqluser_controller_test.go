@@ -68,7 +68,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		err = tc.k8sClient.Create(ctx, sqlServerInstance)
 		Expect(err).To(BeNil())
 
-		sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+		sqlServerNamespacedName = types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 
 		// Wait for the SQL Instance to be provisioned
 		Eventually(func() bool {
@@ -98,7 +98,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		Expect(apierrors.IsInvalid(err)).To(Equal(false))
 		Expect(err).To(BeNil())
 
-		sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
+		sqlDatabaseNamespacedName = types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
 
 		// Wait for the SQL Database to be provisioned
 		Eventually(func() bool {
@@ -129,7 +129,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		Expect(apierrors.IsInvalid(err)).To(Equal(false))
 		Expect(err).NotTo(HaveOccurred())
 
-		sqlFirewallRuleNamespacedName := types.NamespacedName{Name: sqlFirewallRuleName, Namespace: "default"}
+		sqlFirewallRuleNamespacedName = types.NamespacedName{Name: sqlFirewallRuleName, Namespace: "default"}
 
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
@@ -145,49 +145,14 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
 		Expect(err).To(BeNil())
 
-		Eventually(func() bool {
-			_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-			return helpers.IsBeingDeleted(sqlFirewallRuleInstance)
-		}, tc.timeout, tc.retry,
-		).Should(BeTrue())
-
-		Eventually(func() bool {
-			_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-			return helpers.HasFinalizer(sqlUser, azureSQLFirewallRuleFinalizerName)
-		}, tc.timeout, tc.retry,
-		).Should(BeFalse())
-
 		// Delete the database created for this test
 		err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
 		Expect(err).To(BeNil())
-
-		Eventually(func() bool {
-			_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-			return helpers.IsBeingDeleted(sqlDatabaseInstance)
-		}, tc.timeout, tc.retry,
-		).Should(BeTrue())
-
-		Eventually(func() bool {
-			_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-			return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
-		}, tc.timeout, tc.retry,
-		).Should(BeFalse())
 
 		// Delete the server instance created for this test
 		err = tc.k8sClient.Delete(ctx, sqlServerInstance)
 		Expect(err).To(BeNil())
 
-		Eventually(func() bool {
-			_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-			return helpers.IsBeingDeleted(sqlServerInstance)
-		}, tc.timeout, tc.retry,
-		).Should(BeTrue())
-
-		Eventually(func() bool {
-			_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-			return helpers.HasFinalizer(sqlServerInstance, AzureSQLServerFinalizerName)
-		}, tc.timeout, tc.retry,
-		).Should(BeFalse())
 	})
 
 	Context("Create SQL User", func() {
@@ -208,7 +173,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			sqlAdminUserName := string(adminSecret["username"])
 			sqlAdminUserPassword := string(adminSecret["password"])
 
-			log.Info("sql server admin credentials are ", sqlAdminUserName, sqlAdminUserPassword)
+			log.Info("sql server admin credentials are ", "username:", sqlAdminUserName, "password:", sqlAdminUserPassword)
 
 			sqlUser = &azurev1alpha1.AzureSQLUser{
 				ObjectMeta: metav1.ObjectMeta{
@@ -283,11 +248,6 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-				return helpers.HasFinalizer(sqlUser, AzureSQLUserFinalizerName)
-			}, tc.timeout, tc.retry,
-			).Should(BeFalse())
 		})
 	})
 })
