@@ -14,12 +14,14 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-.idea
-
-bin
-
+# vscode nonsense
 .vscode
-
+# goland nonsense
+.idea
+# bins not allowed
+bin
+# osx nonsense
 .DS_Store
-
+# built from the makefile
 .k8sinfra.cluster
+.env

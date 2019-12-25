@@ -26,9 +26,9 @@ type (
 	}
 )
 
-func (am *ApplierMock) Apply(ctx context.Context, res zips.Resource) error {
+func (am *ApplierMock) Apply(ctx context.Context, res zips.Resource) (zips.Resource, error) {
 	args := am.Called(ctx, res)
-	return args.Error(0)
+	return args.Get(0).(zips.Resource), args.Error(1)
 }
 
 func (am *ApplierMock) Delete(ctx context.Context, resID string) error {
@@ -72,13 +72,23 @@ var _ = Describe("GenericReconciler", func() {
 			AddFinalizer(instance, "infra.azure.com/finalizer")
 			Expect(k8sClient.Create(ctx, instance)).To(Succeed())
 
-			// setup the applier call with the projected resource
-			applier.On("Apply", mock.Anything, zips.Resource{
+			resBefore := zips.Resource{
 				Name:       "foo",
 				Type:       "Microsoft.Resources/resourceGroup",
 				Location:   "westus2",
 				APIVersion: "2018-05-01",
-			}).Return(nil)
+			}
+
+			resAfter := zips.Resource{
+				Name:       "foo",
+				Type:       "Microsoft.Resources/resourceGroup",
+				Location:   "westus2",
+				APIVersion: "2018-05-01",
+				ID:         "/subscriptions/bar/providers/Microsoft.Resources/resourceGroup/foo",
+			}
+
+			// setup the applier call with the projected resource
+			applier.On("Apply", mock.Anything, resBefore).Return(resAfter, nil)
 
 			result, err := reconciler.Reconcile(ctrl.Request{
 				NamespacedName: client.ObjectKey{

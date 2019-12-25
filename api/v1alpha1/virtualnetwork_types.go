@@ -64,7 +64,7 @@ func (vnet *VirtualNetwork) ToResource() (zips.Resource, error) {
 	return zips.Resource{}, nil
 }
 
-func (vnet *VirtualNetwork)  FromResource(zips.Resource) (runtime.Object, error) {
+func (vnet *VirtualNetwork) FromResource(zips.Resource) (runtime.Object, error) {
 	// TODO: fill in with appropriate logic
 	return vnet, nil
 }

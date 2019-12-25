@@ -85,7 +85,9 @@ func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	//
 	// This should call to the Applier where the current state of the applied resource should be compared to the cached
 	// state of the Azure resource. If the two states differ, the Applier should then apply that state to Azure.
-	if err := gr.Applier.Apply(ctx, zRes); err != nil {
+	_, err = gr.Applier.Apply(ctx, zRes)
+	if err != nil {
+		// failed applying the result
 		return ctrl.Result{}, err
 	}
 
@@ -164,4 +166,3 @@ func (gr *GenericReconciler) searchGVKs() []schema.GroupVersionKind {
 		protov1alpha1.GroupVersion.WithKind("VirtualNetwork"),
 	}
 }
-
