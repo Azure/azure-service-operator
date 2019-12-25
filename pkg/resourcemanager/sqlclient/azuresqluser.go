@@ -33,6 +33,7 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 
 	m.Log.Info("ConnectToSqlDb:", "user:", user)
 	m.Log.Info("ConnectToSqlDb:", "password:", password)
+	m.Log.Info("ConnectToSqlDb:", "conn string:", connString)
 	db, err := sql.Open(drivername, connString)
 	if err != nil {
 		m.Log.Info("ConnectToSqlDb", "error from sql.Open is:", err.Error())
@@ -41,7 +42,7 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 
 	err = db.Ping()
 	if err != nil {
-		m.Log.Info("ConnectToSqlDb", "error from db.Ping is:", err.Error())
+		m.Log.Info("ConnectToSqlDb", "error from db.Ping is:", err.Error(), "full error", err)
 		return db, err
 	}
 
