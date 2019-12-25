@@ -78,7 +78,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 		).Should(BeTrue())
 
 		randomName := helpers.RandomString(10)
-		sqlDatabaseName := "t-sqldatabase-test-" + randomName
+		sqlDatabaseName = "t-sqldatabase-test-" + randomName
 
 		// Create the SqlDatabase
 		sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{

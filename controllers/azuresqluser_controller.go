@@ -203,6 +203,7 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	var user = string(adminSecret[SecretUsernameKey])
 	var password = string(adminSecret[SecretPasswordKey])
 
+	log.Info("ReconcileExternal:", "dbname is", instance.Spec.DbName)
 	db, err := r.AzureSqlUserManager.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
 	if err != nil {
 		return err
