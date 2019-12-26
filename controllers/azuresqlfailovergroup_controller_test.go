@@ -209,6 +209,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete sql failovergroup rule in k8s", func() {
 
+			defer GinkgoRecover()
 			randomName := helpers.RandomString(10)
 			sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
 
