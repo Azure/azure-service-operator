@@ -171,8 +171,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			if err != nil {
 				log.Info("sql server admin secret not found")
 			}
-			sqlAdminUserName := string(adminSecret["username"])
-			sqlAdminUserPassword := string(adminSecret["password"])
+			log.Info("sql server secret present", "username", string(adminSecret["username"]))
 
 			sqlUser = &azurev1alpha1.AzureSQLUser{
 				ObjectMeta: metav1.ObjectMeta{
