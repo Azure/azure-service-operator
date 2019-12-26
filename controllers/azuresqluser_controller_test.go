@@ -174,8 +174,6 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			sqlAdminUserName := string(adminSecret["username"])
 			sqlAdminUserPassword := string(adminSecret["password"])
 
-			log.Info("sql server admin credentials are ", "username:", sqlAdminUserName, "password:", sqlAdminUserPassword)
-
 			sqlUser = &azurev1alpha1.AzureSQLUser{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      username,
@@ -204,9 +202,6 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 			// Assure the user creation request is submitted
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-				log.Info(sqlUser.Status.Provisioning)
-				log.Info(sqlUser.Status.Provisioned)
-				log.Info(sqlUser.Status.Message)
 				return sqlUser.Status.Provisioned
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
@@ -226,8 +221,8 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 				db, err := tc.sqlUserManager.ConnectToSqlDb(
 					ctx,
 					DriverName,
-					sqlUser.Spec.Server,
-					sqlUser.Spec.DbName,
+					sqlServerName,
+					sqlDatabaseName,
 					SqlServerPort,
 					sqlUserName,
 					sqlUserPassword)
