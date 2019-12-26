@@ -37,6 +37,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 	var rgLocation string
 	var sqlServerName string
 	var sqlDatabaseName string
+	var sqlFirewallRuleName string
 	var sqlServerInstance *azurev1alpha1.AzureSqlServer
 	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
 	var sqlFirewallRuleInstance *azurev1alpha1.AzureSqlFirewallRule
@@ -109,7 +110,7 @@ var _ = Describe("AzureSQLUser Controller tests", func() {
 
 		// Open up the SQL firewall on the server as that's required
 		// for the user creation through operator
-		sqlFirewallRuleName := "t-fwrule-dev-" + randomName
+		sqlFirewallRuleName = "t-fwrule-dev-" + randomName
 
 		// Create the SqlFirewallRule object and expect the Reconcile to be created
 		sqlFirewallRuleInstance = &azurev1alpha1.AzureSqlFirewallRule{

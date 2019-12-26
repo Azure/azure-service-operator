@@ -29,7 +29,7 @@ type AzureSqlUserManager struct {
 func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, database string, port int, user string, password string) (*sql.DB, error) {
 
 	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
-	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;", fullServerAddress, user, password, port, database)
+	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;Initial Catalog=%s;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30", fullServerAddress, user, password, port, database)
 
 	m.Log.Info("ConnectToSqlDb:", "user:", user)
 	m.Log.Info("ConnectToSqlDb:", "password:", password)
