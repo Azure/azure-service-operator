@@ -19,6 +19,8 @@ import (
 	"github.com/google/uuid"
 )
 
+var _ Applier = &AzureTemplateClient{}
+
 type (
 	AzureTemplateClient struct {
 		DeploymentsClient resources.DeploymentsClient
@@ -131,7 +133,7 @@ func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateCl
 	}, nil
 }
 
-func (atc *AzureTemplateClient) Deploy(ctx context.Context, res Resource) (Resource, error) {
+func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resource, error) {
 	deploymentUUID, err := uuid.NewUUID()
 	if err != nil {
 		return Resource{}, err
@@ -214,7 +216,10 @@ func (atc *AzureTemplateClient) Deploy(ctx context.Context, res Resource) (Resou
 }
 
 func (atc *AzureTemplateClient) Delete(ctx context.Context, id string) error {
-	future, err := atc.ResourceClient.DeleteByID(ctx, id)
+	// TODO(ace): don't blindly index into the ID.
+	// I think we already check this against empty string, which would guarantee no panics,
+	// but this is ugly and it's unclear why the client doesn't expect what the SDK returns.
+	future, err := atc.ResourceClient.DeleteByID(ctx, id[1:])
 	if err != nil {
 		return err
 	}

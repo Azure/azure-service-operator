@@ -1,5 +1,11 @@
 name: ci
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request: 
+    branches:
+      - master
 jobs:
   test:
     strategy:
@@ -13,7 +19,7 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Setup KinD
         uses: engineerd/setup-kind@v0.2.0
       - name: Make test

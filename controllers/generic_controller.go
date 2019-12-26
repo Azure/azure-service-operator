@@ -7,30 +7,18 @@ package controllers
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"reflect"
 
-	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	protov1alpha1 "github.com/Azure/k8s-infra/api/v1alpha1"
 	"github.com/Azure/k8s-infra/pkg/zips"
-)
-
-// GenericReconciler reconciles any generic Azure object
-type (
-	GenericReconciler struct {
-		client.Client
-		Log     logr.Logger
-		Scheme  *runtime.Scheme
-		Applier zips.Applier
-	}
 )
 
 const (
@@ -39,42 +27,102 @@ const (
 
 // +kubebuilder:rbac:groups=proto.infra.azure.com,resources=virtualnetwork;resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=proto.infra.azure.com,resources=virtualnetwork/status;resourcegroups/status,verbs=get;update;patch
-func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	ctx := context.TODO()
-	_ = gr.Log.WithValues("genericReconciler", req.NamespacedName)
 
-	// start from unstructured returning both the unstructured object and the strongly typed unmarshalled object
-	unstruct, runObj, err := gr.getUnstructured(ctx, req)
+// controlled defines an array of registration options, where each object
+// in the array will generate a controller. Each controller may directly reconcile
+// a single For object, but may indirectly watch and reconcile many Owned objects.
+// The For type is necessary to generically produce a reconcile function aware of
+// concrete types, as a closure.
+var Controlled = []RegisterOptions{
+	{
+		For:  &protov1alpha1.ResourceGroup{},
+		Owns: nil,
+	},
+	{
+		For:  &protov1alpha1.VirtualNetwork{},
+		Owns: nil,
+	},
+}
+
+// TODO(ace): probably don't export all of these fields, and clean up function signatures.
+type RegisterOptions struct {
+	For  runtime.Object
+	Owns []runtime.Object
+}
+
+func RegisterAll(mgr ctrl.Manager, applier zips.Applier, opts []RegisterOptions) error {
+	for _, kind := range opts {
+		if err := register(mgr, applier, kind); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// register takes a manager and a struct describing how to instantiate controllers for various types usng a generic reconciler function.
+// Only one type (using For) may be directly watched by each controller, but zero, one or many Owned types are acceptable.
+// This setup allows reconcileFn to have access to the concrete type defined as part of a closure, while allowing for independent
+// controllers per GVK (== better parallelism, vs 1 controller managing many, many List/Watches)
+func register(mgr ctrl.Manager, applier zips.Applier, opts RegisterOptions) error {
+	controller := ctrl.NewControllerManagedBy(mgr).For(opts.For)
+	for _, ownedType := range opts.Owns {
+		controller.Owns(ownedType)
+	}
+	gvk := opts.For.GetObjectKind().GroupVersionKind()
+	reconciler := getReconciler(gvk, mgr.GetScheme(), mgr.GetClient(), applier)
+	return controller.Complete(reconciler)
+}
+
+// getReconciler is a simple helper to directly produce a reconcile Function. Useful to test against.
+func getReconciler(gvk schema.GroupVersionKind, scheme *runtime.Scheme, kubeclient client.Client, applier zips.Applier) reconcile.Func {
+	return func(req ctrl.Request) (ctrl.Result, error) {
+		return reconcileFn(req, gvk, scheme, kubeclient, applier)
+	}
+}
+
+// reconcileFn is the "real" reconciler function, created as a closure above at manager startup to have access to the gvk.
+func reconcileFn(req ctrl.Request, gvk schema.GroupVersionKind, scheme *runtime.Scheme, kubeclient client.Client, applier zips.Applier) (ctrl.Result, error) {
+	ctx := context.Background()
+
+	// Use the provided GVK to construct a new runtime object of the desired concrete type.
+	runObj, err := scheme.New(gvk)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
 
-	// cast into a type we can use to apply or delete
-	var blank interface{} = runObj
-	resourcer, ok := blank.(zips.Resourcer)
+	// Fetch the object by key + type.
+	if err := kubeclient.Get(ctx, req.NamespacedName, runObj); err != nil {
+		return ctrl.Result{}, err
+	}
+
+	// The Go type for the Kubernetes object must understand how to
+	// convert itself to/from the corresponding Azure types.
+	resourcer, ok := runObj.(zips.Resourcer)
 	if !ok {
 		return ctrl.Result{}, fmt.Errorf("object: %+v is not a zips.Resourcer", runObj)
 	}
 
-	// get the resource representation of the K8s object
-	zRes, err := resourcer.ToResource()
+	// Get the Azure resource representation of the Kubernetes object
+	azureObj, err := resourcer.ToResource()
 	if err != nil {
 		return ctrl.Result{}, err
 	}
 
-	// delete me...
-	//
-	// This would call the applier to delete the object. This should probably be in a finalizer, but it is just used
-	// here for illustrative purposes.
-	if unstruct.GetDeletionTimestamp().IsZero() {
-		if !HasFinalizer(unstruct, finalizerName) {
-			AddFinalizer(unstruct, finalizerName)
-			return ctrl.Result{}, gr.Update(ctx, unstruct)
+	// TODO(ace): consider a union of runtime.Object and metav1.Object
+	// ref: https://github.com/kubernetes-sigs/controller-runtime/issues/594
+	metaObj, err := meta.Accessor(runObj)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
+	if metaObj.GetDeletionTimestamp().IsZero() {
+		if !HasFinalizer(metaObj, finalizerName) {
+			AddFinalizer(metaObj, finalizerName)
+			return ctrl.Result{}, kubeclient.Update(ctx, runObj)
 		}
 	} else {
-		if HasFinalizer(unstruct, finalizerName) {
-			// delete me
-			if err := gr.Applier.Delete(ctx, zRes.ID); err != nil {
+		if HasFinalizer(metaObj, finalizerName) {
+			if err := applier.Delete(ctx, azureObj.ID); err != nil {
 				return ctrl.Result{}, err
 			}
 		}
@@ -85,20 +133,12 @@ func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	//
 	// This should call to the Applier where the current state of the applied resource should be compared to the cached
 	// state of the Azure resource. If the two states differ, the Applier should then apply that state to Azure.
-	_, err = gr.Applier.Apply(ctx, zRes)
-	if err != nil {
+	if _, err = applier.Apply(ctx, azureObj); err != nil {
 		// failed applying the result
 		return ctrl.Result{}, err
 	}
 
 	return ctrl.Result{}, nil
-}
-
-func (gr *GenericReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(new(protov1alpha1.VirtualNetwork)).
-		For(new(protov1alpha1.ResourceGroup)).
-		Complete(gr)
 }
 
 // AddFinalizer accepts a metav1 object and adds the provided finalizer if not present.
@@ -124,45 +164,4 @@ func ContainsString(slice []string, s string) bool {
 		}
 	}
 	return false
-}
-
-// getUnstructured is a _terrible_ method and I don't like it at all. I would like to know the specific GVK here, so
-// I could do a GET efficiently. I don't know a better way to do this right now and would love to hear suggestions.
-//
-// One possibility would be to wrap all infrastructure objects with a outer wrapper which contains a reference, perhaps
-// a raw extension, to a registered GVK. That way, we could unmarshal the wrapper, then do a generic unmarshal of the
-// internal object.
-//
-// This is just here to start a conversation about how to better model this.
-func (gr *GenericReconciler) getUnstructured(ctx context.Context, req ctrl.Request) (*unstructured.Unstructured, runtime.Object, error) {
-	var lastErr error
-	for _, gkv := range gr.searchGVKs() {
-		var obj unstructured.Unstructured
-		obj.SetGroupVersionKind(gkv)
-		if err := gr.Get(ctx, req.NamespacedName, &obj); err != nil {
-			lastErr = err
-			continue
-		}
-
-		val := reflect.New(gr.Scheme.AllKnownTypes()[gkv])
-		iface := val.Interface()
-		bits, err := obj.MarshalJSON()
-		if err != nil {
-			return &obj, nil, err
-		}
-
-		if err := json.Unmarshal(bits, iface); err != nil {
-			return &obj, nil, err
-		}
-
-		return &obj, iface.(runtime.Object), nil
-	}
-	return nil, nil, lastErr
-}
-
-func (gr *GenericReconciler) searchGVKs() []schema.GroupVersionKind {
-	return []schema.GroupVersionKind{
-		protov1alpha1.GroupVersion.WithKind("ResourceGroup"),
-		protov1alpha1.GroupVersion.WithKind("VirtualNetwork"),
-	}
 }

@@ -32,7 +32,7 @@ func TestAzureTemplateClient_Deploy(t *testing.T) {
 	g.Expect(err).To(gomega.BeNil())
 
 	random := RandomName("foo", 10)
-	res, err := client.Deploy(context.TODO(), zips.Resource{
+	res, err := client.Apply(context.TODO(), zips.Resource{
 		Name:       random,
 		Location:   "westus2",
 		Type:       "Microsoft.Resources/resourceGroups",

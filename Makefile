@@ -43,8 +43,8 @@ test: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) fmt generate lint manifests ## Run te
 	go test -v ./...
 
 test-int: .env $(KUBECTL) $(KUBE_APISERVER) $(ETCD) fmt generate lint manifests ## Run integration tests
-	. .env
-	go test -v ./... -tags integration
+	# MUST be executed as single command, or env vars will not propagate to test execution
+	. .env && go test -v ./... -tags integration
 
 .env: ## create a service principal and save the identity to .env for use in integration tests (requries jq and az)
 	./scripts/create_testing_creds.sh

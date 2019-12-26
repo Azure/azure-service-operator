@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	"github.com/Azure/k8s-infra/api/azmetav1"
 	protov1 "github.com/Azure/k8s-infra/api/v1alpha1"
@@ -45,14 +44,6 @@ var _ = Describe("GenericReconciler", func() {
 
 			ctx := context.Background()
 			applier := new(ApplierMock)
-			scheme, err := protov1.SchemeBuilder.Build()
-			Expect(err).To(BeNil())
-			reconciler := &GenericReconciler{
-				Client:  k8sClient,
-				Log:     log.Log,
-				Applier: applier,
-				Scheme:  scheme,
-			}
 
 			instance := &protov1.ResourceGroup{
 				TypeMeta: metav1.TypeMeta{
@@ -60,8 +51,9 @@ var _ = Describe("GenericReconciler", func() {
 					APIVersion: protov1.GroupVersion.String(),
 				},
 				ObjectMeta: metav1.ObjectMeta{
-					Name:      "foo",
-					Namespace: "default",
+					Name:       "foo",
+					Namespace:  "default",
+					Finalizers: []string{"infra.azure.com/finalizer"},
 				},
 				Spec: protov1.ResourceGroupSpec{
 					TrackedResourceSpec: azmetav1.TrackedResourceSpec{
@@ -69,7 +61,9 @@ var _ = Describe("GenericReconciler", func() {
 					},
 				},
 			}
-			AddFinalizer(instance, "infra.azure.com/finalizer")
+
+			reconciler := getReconciler(instance.GetObjectKind().GroupVersionKind(), mgr.GetScheme(), k8sClient, applier)
+
 			Expect(k8sClient.Create(ctx, instance)).To(Succeed())
 
 			resBefore := zips.Resource{
