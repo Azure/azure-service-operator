@@ -48,9 +48,9 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 		labels[k] = &v
 	}
 
-	p.Log.Info("name is here", "locaiton", instance.Name)
-	p.Log.Info("rg is here", "locaiton", instance.Spec.ResourceGroup)
-	p.Log.Info("location is here", "locaiton", instance.Spec.Location)
+	p.Log.Info("Ensure:", "Name=", instance.Name)
+	p.Log.Info("Ensure:", "ResourceGroup=", instance.Spec.ResourceGroup)
+	p.Log.Info("Ensure", "Location=", instance.Spec.Location)
 
 	future, err := client.Create(
 		ctx,
