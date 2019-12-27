@@ -108,7 +108,6 @@ func main() {
 	}
 
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
-	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
