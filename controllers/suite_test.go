@@ -397,7 +397,7 @@ var _ = BeforeSuite(func() {
 		storageManagers:         storageManagers,
 		keyVaultManager:         keyVaultManager,
 		timeout:                 timeout,
-		retry:                   time.Second * 1,
+		retry:                   time.Second * 3,
 	}
 
 	Eventually(func() bool {

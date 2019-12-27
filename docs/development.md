@@ -95,6 +95,14 @@
 
 8. Once the operator is running locally, in order to view debugging (Prometheus-based) metrics for the Azure operator, open a web browser and navigate to the [Metrics Endpoint](http://127.0.0.1:8080/metrics).
 
+If you are using the Kubernetes cluster that comes with "Docker Desktop" and would like to view the Prometheus metrics, you can redirect port 8080 to the local machine using the following command:
+
+```shell
+kubectl port-forward deployment/controller-manager 8080
+```
+
+Then, open a web browser and navigate to the [Metrics Endpoint](http://127.0.0.1:8080/metrics).
+
 ## Developing using VSCode with Remote - Containers
 
 If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you can quickly have your environment set up and ready to go, with everything you need to get started.
