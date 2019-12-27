@@ -70,7 +70,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		if time.Since(then) > tc.timeout {
 			util.PrintAndLog("test timed out")
 			t.FailNow()
-			break
 		}
 
 		time.Sleep(time.Second)
@@ -93,7 +92,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", serverName))
 
 				t.FailNow()
-				break
 			}
 		}
 	}
@@ -111,7 +109,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		if time.Since(then) > tc.timeout {
 			util.PrintAndLog("test timed out")
 			t.FailNow()
-			break
 		}
 		time.Sleep(time.Second)
 		if err == nil {
@@ -132,7 +129,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			} else {
 				util.PrintAndLog(fmt.Sprintf("cannot create db: %v", err))
 				t.FailNow()
-				break
 			}
 		}
 	}
@@ -173,7 +169,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		if time.Since(then) > tc.timeout {
 			util.PrintAndLog("test timed out")
 			t.FailNow()
-			break
 		}
 		time.Sleep(time.Second)
 
@@ -195,7 +190,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			} else {
 				util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v err: %v", secSrvName, err))
 				t.FailNow()
-				break
 			}
 		}
 	}
@@ -216,7 +210,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		if time.Since(then) > tc.timeout {
 			util.PrintAndLog("test timed out")
 			t.FailNow()
-			break
 		}
 		time.Sleep(time.Second)
 		if err == nil {
@@ -236,7 +229,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			} else {
 				util.PrintAndLog(fmt.Sprintf("cannot create failover group: %v", err))
 				t.FailNow()
-				break
 			}
 		}
 	}
