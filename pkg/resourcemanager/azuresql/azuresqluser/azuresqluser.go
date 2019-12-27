@@ -11,10 +11,23 @@ import (
 	"fmt"
 	"strings"
 
-	_ "github.com/denisenkom/go-mssqldb"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/go-logr/logr"
-	"github.com/prometheus/common/log"
+	"github.com/google/uuid"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/sethvargo/go-password/password"
+	"k8s.io/apimachinery/pkg/types"
 )
+
+// SqlServerPort is the default server port for sql server
+const SqlServerPort = 1433
+
+// DriverName is driver name for db connection
+const DriverName = "sqlserver"
 
 // SecretUsernameKey is the username key in secret
 const SecretUsernameKey = "username"
@@ -23,7 +36,17 @@ const SecretUsernameKey = "username"
 const SecretPasswordKey = "password"
 
 type AzureSqlUserManager struct {
-	Log logr.Logger
+	Log          logr.Logger
+	SecretClient secrets.SecretClient
+	Scheme       *runtime.Scheme
+}
+
+func NewAzureSqlUserManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlUserManager {
+	return &AzureSqlUserManager{
+		Log:          log,
+		SecretClient: secretClient,
+		Scheme:       scheme,
+	}
 }
 
 func NewAzureSqlUserManager(log logr.Logger) *AzureSqlUserManager {
@@ -81,7 +104,6 @@ func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string]
 	//_, err := db.ExecContext(ctx, tsql, sql.Named("User", newUser), sql.Named("Password", newPassword))
 
 	if err != nil {
-		log.Error("Error executing", "err", err.Error())
 		return newUser, err
 	}
 	return newUser, nil
@@ -102,4 +124,184 @@ func (m *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user str
 	tsql := fmt.Sprintf("DROP USER \"%s\"", user)
 	_, err := db.ExecContext(ctx, tsql)
 	return err
+}
+
+func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := s.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	// if the admin credentials haven't been set, default admin credentials to servername
+	if len(instance.Spec.AdminSecret) == 0 {
+		instance.Spec.AdminSecret = instance.Spec.Server
+	}
+
+	instance.Status.Provisioning = true
+
+	// get admin creds for server
+	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
+	adminSecret, err := s.SecretClient.Get(ctx, key)
+	if err != nil {
+		instance.Status.Provisioning = false
+		return false, fmt.Errorf("admin secret : %s, not found", instance.Spec.AdminSecret)
+	}
+
+	var user = string(adminSecret[SecretUsernameKey])
+	var password = string(adminSecret[SecretPasswordKey])
+
+	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
+	if err != nil {
+		return false, err
+	}
+
+	// create or get new user secret
+	user = fmt.Sprintf("%s-%s", instance.Name, uuid.New())
+	s.Log.Info("SQL DB USER NAME", "name", user)
+	DBSecret := s.GetOrPrepareSecret(ctx, instance, user)
+
+	user = string(DBSecret[SecretUsernameKey])
+	s.Log.Info("SQL DB USER NAME", "name", user)
+
+	userExists, err := s.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
+	if err != nil {
+		s.Log.Info("Couldn't find user", "err:", err.Error())
+	}
+
+	if !userExists {
+		user, err = s.CreateUser(ctx, DBSecret, db)
+		if err != nil {
+			return false, err
+		}
+	}
+
+	// apply roles to user
+	roles := instance.Spec.Roles
+	if len(roles) == 0 {
+		s.Log.Info("No roles specified for user")
+	} else {
+		s.GrantUserRoles(ctx, user, roles, db)
+	}
+
+	// publish user secret
+	key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	err = s.SecretClient.Upsert(
+		ctx,
+		key,
+		DBSecret,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(s.Scheme),
+	)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	instance, err := s.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	// get admin credentials to connect to db
+	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
+	adminSecret, err := s.SecretClient.Get(ctx, key)
+	if err != nil {
+		return false, fmt.Errorf("admin secret : %s, not found", instance.Spec.AdminSecret)
+	}
+
+	var user = string(adminSecret[SecretUsernameKey])
+	var password = string(adminSecret[SecretPasswordKey])
+
+	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
+	if err != nil {
+		return false, err
+	}
+
+	DBSecret := s.GetOrPrepareSecret(ctx, instance, instance.Name)
+	user = string(DBSecret[SecretUsernameKey])
+
+	exists, err := s.UserExists(ctx, db, user)
+	if err != nil {
+		return true, err
+	}
+	if !exists {
+		return false, nil
+	}
+
+	err = s.DropUser(ctx, db, user)
+	if err != nil {
+		instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser failed with %s", err.Error())
+		return false, err
+	}
+
+	instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser succeeded")
+
+	return true, nil
+}
+
+func (s *AzureSqlUserManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+	instance, err := s.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	return []resourcemanager.KubeParent{
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.DbName,
+			},
+			Target: &v1alpha1.AzureSqlDatabase{},
+		},
+	}, nil
+}
+
+func (s *AzureSqlUserManager) convert(obj runtime.Object) (*v1alpha1.AzureSQLUser, error) {
+	local, ok := obj.(*v1alpha1.AzureSQLUser)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
+}
+
+// GetOrPrepareSecret gets or creates a secret
+func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser, username string) map[string][]byte {
+	pw, _ := generateRandomPassword(16)
+	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+
+	secret, err := s.SecretClient.Get(ctx, key)
+	if err != nil {
+		// @todo: find out whether this is an error do to non existing key or failed conn
+		return map[string][]byte{
+			"username":           []byte(username),
+			"password":           []byte(pw),
+			"sqlservernamespace": []byte(instance.Namespace),
+			"sqlservername":      []byte(instance.Spec.Server),
+		}
+
+	}
+
+	return secret
+}
+
+// helper function to generate random password for sql server
+func generateRandomPassword(n int) (string, error) {
+
+	// Math - Generate a password where: 1/3 of the # of chars are digits, 1/3 of the # of chars are symbols,
+	// and the remaining 1/3 is a mix of upper- and lower-case letters
+	digits := n / 3
+	symbols := n / 3
+
+	// Generate a password that is n characters long, with # of digits and symbols described above,
+	// allowing upper and lower case letters, and disallowing repeat characters.
+	res, err := password.Generate(n, digits, symbols, false, false)
+	if err != nil {
+		return "", err
+	}
+
+	return res, nil
 }

@@ -8,6 +8,10 @@ package azuresqlshared
 import (
 	"fmt"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+
 	"testing"
 	"time"
 
@@ -43,9 +47,11 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	sqlDbManager := azuresqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 	sqlFirewallRuleManager := azuresqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
 	sqlFailoverGroupManager := azuresqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
-	sqlUserManager := azuresqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
 
-	tc = TestContext{
+	sqlUserLog := ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser")
+	sqlUserManager := azuresqluser.NewAzureSqlUserManager(sqlUserLog, nil, nil)
+
+	tc := TestContext{
 		sqlServerManager:        sqlServerManager,
 		sqlDbManager:            sqlDbManager,
 		sqlFirewallRuleManager:  sqlFirewallRuleManager,
@@ -105,7 +111,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// create a DB
 	sqlDBProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: "sqldatabase-sample",
-		Edition:      azuresqlshared.Basic,
+		Edition:      v1alpha1.SQLEditionBasic,
 	}
 
 	// wait for db to be created, then only proceed once activated
@@ -201,8 +207,8 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// Initialize struct for failover group
-	sqlFailoverGroupProperties := azuresqlshared.SQLFailoverGroupProperties{
-		FailoverPolicy:               azuresqlshared.Automatic,
+	sqlFailoverGroupProperties := SQLFailoverGroupProperties{
+		FailoverPolicy:               v1alpha1.FailoverPolicyAutomatic,
 		FailoverGracePeriod:          30,
 		SecondaryServerName:          secSrvName,
 		SecondaryServerResourceGroup: groupName,
