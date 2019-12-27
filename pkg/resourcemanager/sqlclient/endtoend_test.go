@@ -6,7 +6,6 @@
 package sqlclient
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -16,7 +15,6 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	"github.com/Azure/azure-service-operator/pkg/util"
 	"github.com/Azure/go-autorest/autorest/to"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -31,14 +29,9 @@ type TestContext struct {
 	timeout                 time.Duration //timeout in mins
 }
 
-var tc TestContext
-var rgm resourcegroups.AzureResourceGroupManager
-var groupName string
-
 // TestCreateOrUpdateSQLServer tests creating and delete a SQL server
 func TestCreateOrUpdateSQLServer(t *testing.T) {
 
-	rgm = resourcegroups.AzureResourceGroupManager{}
 	location := config.DefaultLocation()
 	sqlServerManager := NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
 	sqlDbManager := NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
@@ -54,20 +47,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		sqlUserManager:          sqlUserManager,
 		timeout:                 20 * time.Minute, // timeout in mins
 	}
-
-	var groupName = config.GenerateGroupName("SQLCreateDeleteTest")
-	config.SetGroupName(groupName)
-
-	ctx := context.Background()
-
-	// create the resource group
-	_, err := rgm.CreateGroup(ctx, groupName, location)
-	if err != nil {
-		util.PrintAndLog(err.Error())
-		t.FailNow()
-	}
-
-	util.PrintAndLog("Created resource group " + groupName)
 
 	ignorableErrors := []string{errhelp.AsyncOpIncompleteError}
 
@@ -231,7 +210,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	failoverGroupName := generateName("failovergroup")
-	_, err = tc.sqlFailoverGroupManager.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
+	fogfuture, err := tc.sqlFailoverGroupManager.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
 	then = time.Now()
 	for {
 		if time.Since(then) > tc.timeout {
@@ -240,17 +219,22 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			break
 		}
 		time.Sleep(time.Second)
-
-		_, err := tc.sqlFailoverGroupManager.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 		if err == nil {
-			util.PrintAndLog(fmt.Sprintf("failover group created successfully %s", failoverGroupName))
-			break
+			_, err := fogfuture.Result(getGoFailoverGroupsClient())
+			if err == nil {
+				util.PrintAndLog("Failover group ready")
+				break
+
+			} else {
+				util.PrintAndLog("waiting for failover group to be ready...")
+				continue
+			}
 		} else {
-			if errhelp.IsAsynchronousOperationNotComplete(err) {
+			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 				util.PrintAndLog("waiting for failover group to be ready...")
 				continue
 			} else {
-				util.PrintAndLog(fmt.Sprintf("cannot create failovergroup: %v", err))
+				util.PrintAndLog(fmt.Sprintf("cannot create failover group: %v", err))
 				t.FailNow()
 				break
 			}
@@ -328,32 +312,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
 			util.PrintAndLog(fmt.Sprintf("cannot delete sql server: %v", err))
 			t.FailNow()
-		}
-	}
-
-	// delete the resource group
-	util.PrintAndLog("deleting resource group...")
-	time.Sleep(time.Second)
-	_, err = rgm.DeleteGroup(ctx, groupName)
-	if !errhelp.IsAsynchronousOperationNotComplete(err) {
-		util.PrintAndLog(fmt.Sprintf("cannot delete resource group: %v", err))
-		t.FailNow()
-	}
-	util.PrintAndLog("waiting for resource group delete future to come back")
-
-	for {
-		time.Sleep(time.Second * 10)
-		_, err := resourcegroups.GetGroup(ctx, groupName)
-		if err == nil {
-			util.PrintAndLog("waiting for resource group to be deleted")
-		} else {
-			if errhelp.IsGroupNotFound(err) {
-				util.PrintAndLog("resource group deleted")
-				break
-			} else {
-				util.PrintAndLog(fmt.Sprintf("cannot delete resource group: %v", err))
-				t.FailNow()
-			}
 		}
 	}
 
