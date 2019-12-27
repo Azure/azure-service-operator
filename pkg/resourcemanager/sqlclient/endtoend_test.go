@@ -55,8 +55,6 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		timeout:                 20 * time.Minute, // timeout in mins
 	}
 
-	var rgm resourcegroups.AzureResourceGroupManager
-
 	var groupName = config.GenerateGroupName("SQLCreateDeleteTest")
 	config.SetGroupName(groupName)
 
@@ -242,11 +240,13 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			break
 		}
 		time.Sleep(time.Second)
+
+		_, err := tc.sqlFailoverGroupManager.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 		if err == nil {
 			util.PrintAndLog(fmt.Sprintf("failover group created successfully %s", failoverGroupName))
 			break
 		} else {
-			if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
+			if errhelp.IsAsynchronousOperationNotComplete(err) {
 				util.PrintAndLog("waiting for failover group to be ready...")
 				continue
 			} else {
@@ -274,8 +274,10 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			util.PrintAndLog("failover group deleted")
 		}
 	} else {
-		util.PrintAndLog(fmt.Sprintf("cannot delete failover group: %v", err))
-		t.FailNow()
+		if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
+			util.PrintAndLog(fmt.Sprintf("cannot delete failover group: %v", err))
+			t.FailNow()
+		}
 	}
 
 	// delete the DB
@@ -287,8 +289,10 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 			util.PrintAndLog("db deleted")
 		}
 	} else {
-		util.PrintAndLog(fmt.Sprintf("cannot delete db: %v", err))
-		t.FailNow()
+		if !errhelp.IsAsynchronousOperationNotComplete(err) && !errhelp.IsGroupNotFound(err) {
+			util.PrintAndLog(fmt.Sprintf("cannot delete db: %v", err))
+			t.FailNow()
+		}
 	}
 
 	// delete the server
