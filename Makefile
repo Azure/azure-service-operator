@@ -34,7 +34,7 @@ help:  ## Display this help
 ## --------------------------------------
 ## Testing
 ## --------------------------------------
-
+.PHONY: test test-int test-covers
 test test-int test-cover: export TEST_ASSET_KUBECTL = $(ROOT_DIR)/$(KUBECTL)
 test test-int test-cover: export TEST_ASSET_KUBE_APISERVER = $(ROOT_DIR)/$(KUBE_APISERVER)
 test test-int test-cover: export TEST_ASSET_ETCD = $(ROOT_DIR)/$(ETCD)
