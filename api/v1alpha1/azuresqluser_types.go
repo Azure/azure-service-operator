@@ -23,19 +23,11 @@ import (
 type AzureSQLUserSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Server      string   `json:"server"`
-	DbName      string   `json:"dbname"`
-	AdminSecret string   `json:"adminsecret,omitempty"`
-	Roles       []string `json:"roles"`
-}
-
-// AzureSQLUserStatus defines the observed state of SqlUser
-type AzureSQLUserStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool   `json:"provisioning,omitempty"`
-	Provisioned  bool   `json:"provisioned,omitempty"`
-	Message      string `json:"message,omitempty"`
+	Server        string   `json:"server"`
+	DbName        string   `json:"dbname"`
+	ResourceGroup string   `json:"resourceGroup,omitempty"`
+	AdminSecret   string   `json:"adminsecret,omitempty"`
+	Roles         []string `json:"roles"`
 }
 
 // +kubebuilder:object:root=true
@@ -46,8 +38,8 @@ type AzureSQLUser struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSQLUserSpec   `json:"spec,omitempty"`
-	Status AzureSQLUserStatus `json:"status,omitempty"`
+	Spec   AzureSQLUserSpec `json:"spec,omitempty"`
+	Status ASOStatus        `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

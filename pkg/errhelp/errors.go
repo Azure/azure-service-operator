@@ -2,6 +2,7 @@ package errhelp
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
@@ -94,4 +95,16 @@ type AzureError struct {
 
 func (e AzureError) Error() string {
 	return e.Original.Error()
+}
+
+type AdminSecretNotFound struct {
+	Name string
+}
+
+func (e AdminSecretNotFound) Error() string {
+	return fmt.Sprintf("admin secret '%s' not found", e.Name)
+}
+
+func NewAdminSecretNotFoundError(name string) *AdminSecretNotFound {
+	return &AdminSecretNotFound{name}
 }

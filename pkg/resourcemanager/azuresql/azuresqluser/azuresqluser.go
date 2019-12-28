@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/go-logr/logr"
 	"github.com/google/uuid"
@@ -138,50 +139,70 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 		instance.Spec.AdminSecret = instance.Spec.Server
 	}
 
-	instance.Status.Provisioning = true
+	// need this to detect missing databases
+	dbClient := NewAzureSqlDbManager(s.Log)
 
 	// get admin creds for server
 	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
 	adminSecret, err := s.SecretClient.Get(ctx, key)
 	if err != nil {
 		instance.Status.Provisioning = false
-		return false, fmt.Errorf("admin secret : %s, not found", instance.Spec.AdminSecret)
+		instance.Status.Message = fmt.Sprintf("admin secret : %s, not found", instance.Spec.AdminSecret)
+		return false, nil
 	}
 
-	var user = string(adminSecret[SecretUsernameKey])
-	var password = string(adminSecret[SecretPasswordKey])
+	adminUser := string(adminSecret[SecretUsernameKey])
+	adminPassword := string(adminSecret[SecretPasswordKey])
 
-	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
+	_, err = dbClient.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
+		instance.Status.Message = err.Error()
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if azerr.Type == errhelp.ResourceNotFound {
+			return false, nil
+		}
+		s.Log.Info("error type", "type", azerr.Type)
+		return false, err
+	}
+
+	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, adminUser, adminPassword)
+	if err != nil {
+		instance.Status.Message = err.Error()
+		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
+			return false, nil
+		}
 		return false, err
 	}
 
 	// create or get new user secret
-	user = fmt.Sprintf("%s-%s", instance.Name, uuid.New())
-	s.Log.Info("SQL DB USER NAME", "name", user)
-	DBSecret := s.GetOrPrepareSecret(ctx, instance, user)
-
-	user = string(DBSecret[SecretUsernameKey])
-	s.Log.Info("SQL DB USER NAME", "name", user)
+	DBSecret := s.GetOrPrepareSecret(ctx, instance)
+	// reset user from secret in case it was loaded
+	user := string(DBSecret[SecretUsernameKey])
+	if user == "" {
+		user = fmt.Sprintf("%s-%s", instance.Name, uuid.New())
+		DBSecret[SecretUsernameKey] = []byte(user)
+	}
 
 	userExists, err := s.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
 	if err != nil {
-		s.Log.Info("Couldn't find user", "err:", err.Error())
+		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
+		return false, nil
 	}
 
 	if !userExists {
 		user, err = s.CreateUser(ctx, DBSecret, db)
 		if err != nil {
+			instance.Status.Message = "failed creating user, err: " + err.Error()
 			return false, err
 		}
 	}
 
 	// apply roles to user
-	roles := instance.Spec.Roles
-	if len(roles) == 0 {
-		s.Log.Info("No roles specified for user")
+	if len(instance.Spec.Roles) == 0 {
+		instance.Status.Message = "No roles specified for user"
+		return false, fmt.Errorf("No roles specified for database user")
 	} else {
-		s.GrantUserRoles(ctx, user, roles, db)
+		s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
 	}
 
 	// publish user secret
@@ -194,8 +215,13 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 		secrets.WithScheme(s.Scheme),
 	)
 	if err != nil {
+		instance.Status.Message = "failed to update secret, err: " + err.Error()
 		return false, err
 	}
+
+	instance.Status.Provisioned = true
+	instance.Status.State = "Succeeded"
+	instance.Status.Message = "User created"
 
 	return true, nil
 }
@@ -210,7 +236,8 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object) (b
 	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
 	adminSecret, err := s.SecretClient.Get(ctx, key)
 	if err != nil {
-		return false, fmt.Errorf("admin secret : %s, not found", instance.Spec.AdminSecret)
+		// assuming if the admin secret is gone the sql server is too
+		return false, nil
 	}
 
 	var user = string(adminSecret[SecretUsernameKey])
@@ -221,8 +248,11 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object) (b
 		return false, err
 	}
 
-	DBSecret := s.GetOrPrepareSecret(ctx, instance, instance.Name)
+	DBSecret := s.GetOrPrepareSecret(ctx, instance)
 	user = string(DBSecret[SecretUsernameKey])
+	if user == "" {
+		user = instance.Name
+	}
 
 	exists, err := s.UserExists(ctx, db, user)
 	if err != nil {
@@ -269,15 +299,15 @@ func (s *AzureSqlUserManager) convert(obj runtime.Object) (*v1alpha1.AzureSQLUse
 }
 
 // GetOrPrepareSecret gets or creates a secret
-func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser, username string) map[string][]byte {
+func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser) map[string][]byte {
 	pw, _ := generateRandomPassword(16)
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 
 	secret, err := s.SecretClient.Get(ctx, key)
 	if err != nil {
-		// @todo: find out whether this is an error do to non existing key or failed conn
+		// @todo: find out whether this is an error due to non existing key or failed conn
 		return map[string][]byte{
-			"username":           []byte(username),
+			"username":           []byte(""),
 			"password":           []byte(pw),
 			"sqlservernamespace": []byte(instance.Namespace),
 			"sqlservername":      []byte(instance.Spec.Server),

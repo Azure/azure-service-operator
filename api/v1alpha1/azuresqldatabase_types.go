@@ -20,9 +20,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
-type DBEdition byte
-
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
