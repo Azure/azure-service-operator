@@ -61,8 +61,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := controllers.RegisterAll(mgr, applier, controllers.Controlled); err != nil {
-		setupLog.Error(err, "failed to register controllers for all known types")
+	if errs := controllers.RegisterAll(mgr, applier, controllers.KnownTypes); errs != nil {
+		for _, err := range errs {
+			setupLog.Error(err, "failed to register gvk: %v")
+		}
 		os.Exit(1)
 	}
 

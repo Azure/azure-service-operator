@@ -28,47 +28,48 @@ const (
 // +kubebuilder:rbac:groups=proto.infra.azure.com,resources=virtualnetwork;resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=proto.infra.azure.com,resources=virtualnetwork/status;resourcegroups/status,verbs=get;update;patch
 
-// controlled defines an array of registration options, where each object
-// in the array will generate a controller. Each controller may directly reconcile
-// a single For object, but may indirectly watch and reconcile many Owned objects.
-// The For type is necessary to generically produce a reconcile function aware of
-// concrete types, as a closure.
-var Controlled = []RegisterOptions{
-	{
-		For:  &protov1alpha1.ResourceGroup{},
-		Owns: nil,
-	},
-	{
-		For:  &protov1alpha1.VirtualNetwork{},
-		Owns: nil,
-	},
+// KnownTypes defines an array of runtime.Objects to be reconciled, where each
+// object in the array will generate a controller. If the concrete type
+// implements the owner interface, the generated controller will inject the
+// owned types supplied by the Owns() method of the CRD type. Each controller
+// may directly reconcile a single object, but may indirectly watch
+// and reconcile many Owned objects. The singular type is necessary to generically
+// produce a reconcile function aware of concrete types, as a closure.
+var KnownTypes = []runtime.Object{
+	&protov1alpha1.ResourceGroup{},
+	&protov1alpha1.VirtualNetwork{},
 }
 
-// TODO(ace): probably don't export all of these fields, and clean up function signatures.
-type RegisterOptions struct {
-	For  runtime.Object
-	Owns []runtime.Object
+type owner interface {
+	Owns() []runtime.Object
 }
 
-func RegisterAll(mgr ctrl.Manager, applier zips.Applier, opts []RegisterOptions) error {
-	for _, kind := range opts {
-		if err := register(mgr, applier, kind); err != nil {
-			return err
+func RegisterAll(mgr ctrl.Manager, applier zips.Applier, objs []runtime.Object) []error {
+	var errs []error
+	for _, obj := range objs {
+		if err := register(mgr, applier, obj); err != nil {
+			errs = append(errs, err)
 		}
 	}
-	return nil
+	return errs
 }
 
-// register takes a manager and a struct describing how to instantiate controllers for various types usng a generic reconciler function.
-// Only one type (using For) may be directly watched by each controller, but zero, one or many Owned types are acceptable.
-// This setup allows reconcileFn to have access to the concrete type defined as part of a closure, while allowing for independent
-// controllers per GVK (== better parallelism, vs 1 controller managing many, many List/Watches)
-func register(mgr ctrl.Manager, applier zips.Applier, opts RegisterOptions) error {
-	controller := ctrl.NewControllerManagedBy(mgr).For(opts.For)
-	for _, ownedType := range opts.Owns {
-		controller.Owns(ownedType)
+// register takes a manager and a struct describing how to instantiate
+// controllers for various types usng a generic reconciler function. Only one
+// type (using For) may be directly watched by each controller, but zero, one or
+// many Owned types are acceptable. This setup allows reconcileFn to have access
+// to the concrete type defined as part of a closure, while allowing for
+// independent controllers per GVK (== better parallelism, vs 1 controller
+// managing many, many List/Watches)
+func register(mgr ctrl.Manager, applier zips.Applier, obj runtime.Object) error {
+	controller := ctrl.NewControllerManagedBy(mgr).For(obj)
+	ownerType, ok := obj.(owner)
+	if ok {
+		for _, ownedType := range ownerType.Owns() {
+			controller.Owns(ownedType)
+		}
 	}
-	gvk := opts.For.GetObjectKind().GroupVersionKind()
+	gvk := obj.GetObjectKind().GroupVersionKind()
 	reconciler := getReconciler(gvk, mgr.GetScheme(), mgr.GetClient(), applier)
 	return controller.Complete(reconciler)
 }
