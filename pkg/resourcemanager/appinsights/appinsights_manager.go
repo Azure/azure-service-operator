@@ -21,11 +21,16 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/appinsights/mgmt/2015-05-01/insights"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/go-logr/logr"
+
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // NewAppInsightsManager creates a new AppInsightsManager
-func NewAppInsightsManager(log logr.Logger) *Manager {
-	return &Manager{Log: log}
+func NewAppInsightsManager(log logr.Logger, scheme *runtime.Scheme) AppInsightsManager {
+	return AppInsightsManager{
+		Log:    log,
+		Scheme: scheme,
+	}
 }
 
 // ApplicationInsightsManager manages Azure Application Insights service components

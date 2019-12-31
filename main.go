@@ -23,6 +23,7 @@ import (
 	"os"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -105,6 +106,7 @@ func main() {
 
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
+	appInsightsManager := resourcemanagerappinsights.NewAppInsightsManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"), scheme)
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
@@ -302,26 +304,16 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.AppInsightsReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("AppInsights"),
+
+		Client:             mgr.GetClient(),
+		AppInsightsManager: appInsightsManager,
+		Recorder:           mgr.GetEventRecorderFor("AppInsights-controller"),
+		Scheme:             scheme,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
 		os.Exit(1)
 	}
-	if err = (&controllers.AppInsightsReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("AppInsights"),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
-		os.Exit(1)
-	}
-	if err = (&controllers.AppInsightsReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("AppInsights"),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
-		os.Exit(1)
-	}
+
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

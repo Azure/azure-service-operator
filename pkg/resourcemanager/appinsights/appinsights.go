@@ -23,58 +23,62 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // Manager manages Azure Application Insights services
-type Manager struct {
-	Log logr.Logger
+type AppInsightsManager struct {
+	Log    logr.Logger
+	Scheme *runtime.Scheme
 }
 
 // CreateOrUpdate creates or updates an Application Insights service
-func (m *Manager) CreateOrUpdate(
+func (m *AppInsightsManager) CreateOrUpdate(
 	ctx context.Context,
+	kind string,
 	resourceGroupName string,
 	location string,
 	resourceName string,
-	properties insights.ApplicationInsightsComponent) (result insights.ApplicationInsightsComponent, err error) {
+	tags map[string]*string,
+	properties insights.ApplicationInsightsComponentProperties) (insights.ApplicationInsightsComponent, error) {
 
 	componentsClient := getComponentsClient()
 
 	props := insights.ApplicationInsightsComponent{
-		ApplicationInsightsComponentProperties: properties.ApplicationInsightsComponentProperties,
-		Kind:                                   properties.Kind,
-		Location:                               properties.Location,
-		Type:                                   properties.Type,
-		Tags:                                   properties.Tags,
+		ApplicationInsightsComponentProperties: &properties,
+		Kind:                                   to.StringPtr(kind),
+		Location:                               to.StringPtr(location),
+		Tags:                                   tags,
 	}
 
 	// submit the ARM request
-	component, err := componentsClient.CreateOrUpdate(
+	result, err := componentsClient.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
 		resourceName,
 		props,
 	)
-
-	return component, err
+	return result, err
 }
 
 // Delete removes an Application Insights service from a subscription
-func (m *Manager) Delete(
+func (m *AppInsightsManager) Delete(
 	ctx context.Context,
 	resourceGroupName string,
-	resourceName string) (result autorest.Response, err error) {
+	resourceName string) (autorest.Response, error) {
 
 	componentsClient := getComponentsClient()
 	return componentsClient.Delete(ctx, resourceGroupName, resourceName)
 }
 
 // Get fetches an Application Insights service reference
-func (m *Manager) Get(
+func (m *AppInsightsManager) Get(
 	ctx context.Context,
 	resourceGroupName string,
-	resourceName string) (result insights.ApplicationInsightsComponent, err error) {
+	resourceName string) (insights.ApplicationInsightsComponent, error) {
 
 	componentsClient := getComponentsClient()
 	return componentsClient.Get(ctx, resourceGroupName, resourceName)

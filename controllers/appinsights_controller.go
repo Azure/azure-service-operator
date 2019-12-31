@@ -16,8 +16,6 @@ limitations under the License.
 package controllers
 
 import (
-	"context"
-
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
@@ -36,7 +34,7 @@ type AppInsightsReconciler struct {
 	Telemetry          telemetry.PrometheusTelemetry
 	Recorder           record.EventRecorder
 	Scheme             *runtime.Scheme
-	AppInsightsManager appinsights.Manager
+	AppInsightsManager appinsights.AppInsightsManager
 	Reconciler         *AsyncReconciler
 }
 
@@ -45,9 +43,6 @@ type AppInsightsReconciler struct {
 
 // Reconcile attempts to set the desired state snapshot representation of the service in k8s
 func (r *AppInsightsReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("appinsights", req.NamespacedName)
-
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.AppInsights{})
 }
 
