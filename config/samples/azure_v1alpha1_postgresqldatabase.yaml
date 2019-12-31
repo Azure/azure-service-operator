@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: PostgreSQLDatabase
+metadata:
+  name: postgresqldatabase-sample
+spec:
+  resourcegroup: resourcegroup-aso-operators
+  server: postgresqlserver-aso-test

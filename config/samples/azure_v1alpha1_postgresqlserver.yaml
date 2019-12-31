@@ -4,9 +4,12 @@ metadata:
   name: postgresqlserver-aso-test
 spec:
   location: westus2
-  resourcegroup: aso-testing-psql
+  resourcegroup: resourcegroup-aso-operators
+  serverversion: "10"
+  ssleeenforcement: Enabled
   sku:
-    name: B_Gen4_2
+    name: B_Gen5_2
     tier: Basic
-    family: C
+    family: Gen5
+    size: "51200"
     capacity: 2

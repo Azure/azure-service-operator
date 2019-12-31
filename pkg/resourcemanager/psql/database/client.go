@@ -1,4 +1,4 @@
-package server
+package database
 
 import (
 	"context"
@@ -12,28 +12,27 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-type PSQLServerClient struct {
+type PSQLDatabaseClient struct {
 	Log logr.Logger
 }
 
-func NewPSQLServerClient(log logr.Logger) *PSQLServerClient {
-	return &PSQLServerClient{
+func NewPSQLDatabaseClient(log logr.Logger) *PSQLDatabaseClient {
+	return &PSQLDatabaseClient{
 		Log: log,
 	}
 }
 
-func getPSQLServersClient() psql.ServersClient {
-	serversClient := psql.NewServersClient(config.SubscriptionID())
+func getPSQLDatabasesClient() psql.DatabasesClient {
+	databasesClient := psql.NewDatabasesClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
-	serversClient.Authorizer = a
-	serversClient.AddToUserAgent(config.UserAgent())
-	return serversClient
+	databasesClient.Authorizer = a
+	databasesClient.AddToUserAgent(config.UserAgent())
+	return databasesClient
 }
 
 func getPSQLCheckNameAvailabilityClient() psql.CheckNameAvailabilityClient {
@@ -44,14 +43,14 @@ func getPSQLCheckNameAvailabilityClient() psql.CheckNameAvailabilityClient {
 	return nameavailabilityClient
 }
 
-func (p *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, servername string) (bool, error) {
+func (p *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, databasename string) (bool, error) {
 
 	client := getPSQLCheckNameAvailabilityClient()
 
-	resourceType := "server"
+	resourceType := "database"
 
 	nameAvailabilityRequest := psql.NameAvailabilityRequest{
-		Name: &servername,
+		Name: &databasename,
 		Type: &resourceType,
 	}
 	_, err := client.Execute(ctx, nameAvailabilityRequest)
@@ -61,7 +60,7 @@ func (p *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, serv
 	return false, err
 
 }
-func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
 	p.Log.Info("Inside the Ensure method")
 
 	instance, err := p.convert(obj)
@@ -69,49 +68,31 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 		return true, err
 	}
 
-	client := getPSQLServersClient()
+	client := getPSQLDatabasesClient()
 
 	p.Log.Info("Ensure:", "Name=", instance.Name)
 	p.Log.Info("Ensure:", "ResourceGroup=", instance.Spec.ResourceGroup)
-	p.Log.Info("Ensure", "Location=", instance.Spec.Location)
+	p.Log.Info("Ensure:", "Servername=", instance.Spec.Server)
 
-	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		labels[k] = &v
-	}
 	instance.Status.Provisioning = true
-	// Check if this server already exists and its state if it does. This is required
+	// Check if this database already exists and its state if it does. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
 
-	server, err := p.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
+	db, err := p.GetDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
 	if err == nil {
-		if server.UserVisibleState == "Ready" {
-			p.Log.Info("Server in Ready state")
-			instance.Status.Provisioned = true
-			instance.Status.Provisioning = false
-			instance.Status.State = "Ready"
-			return true, nil
-		}
+		p.Log.Info("Database present", "State=", db.Status)
+		instance.Status.Provisioned = true
+		instance.Status.Provisioning = false
+		instance.Status.State = db.Status
+		return true, nil
 	}
-	p.Log.Info("Server not present, creating")
+	p.Log.Info("Ensure: Database not present, creating")
 
-	skuInfo := psql.Sku{
-		Name:     to.StringPtr(instance.Spec.Sku.Name),
-		Tier:     psql.SkuTier(instance.Spec.Sku.Tier),
-		Capacity: to.Int32Ptr(instance.Spec.Sku.Capacity),
-		Size:     to.StringPtr(instance.Spec.Sku.Size),
-		Family:   to.StringPtr(instance.Spec.Sku.Family),
-	}
-	future, err := p.CreateServerIfValid(
+	future, err := p.CreateDatabaseIfValid(
 		ctx,
 		instance.Name,
+		instance.Spec.Server,
 		instance.Spec.ResourceGroup,
-		instance.Spec.Location,
-		labels,
-		psql.ServerVersion(instance.Spec.ServerVersion),
-		psql.SslEnforcementEnum(instance.Spec.SSLEnforcement),
-		skuInfo,
 	)
 
 	if err != nil {
@@ -143,7 +124,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 
 	instance.Status.State = future.Status()
 
-	server, err = future.Result(client)
+	db, err = future.Result(client)
 	if err != nil {
 		// let the user know what happened
 		instance.Status.Message = err.Error()
@@ -171,7 +152,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 		return false, err
 	}
 
-	instance.Status.State = server.Status
+	instance.Status.State = db.Status
 
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
@@ -184,16 +165,16 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 	return true, nil
 }
 
-func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
 	p.Log.Info("Inside the Delete method")
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	status, err := p.DeleteServer(ctx, instance.Spec.ResourceGroup, instance.Name)
+	status, err := p.DeleteDatabase(ctx, instance.Name, instance.Spec.Server, instance.Spec.ResourceGroup)
 	if err != nil {
-		p.Log.Info("Delete:", "Server Delete returned=", err.Error())
+		p.Log.Info("Delete:", "db Delete returned=", err.Error())
 		if !errhelp.IsAsynchronousOperationNotComplete(err) {
 			p.Log.Info("Error from delete call")
 			return true, err
@@ -211,7 +192,7 @@ func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object) (bool
 	return true, nil
 }
 
-func (p *PSQLServerClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (p *PSQLDatabaseClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
 	instance, err := p.convert(obj)
 	if err != nil {
@@ -226,67 +207,66 @@ func (p *PSQLServerClient) GetParents(obj runtime.Object) ([]resourcemanager.Kub
 			},
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.Server,
+			},
+			Target: &azurev1alpha1.PostgreSQLServer{},
+		},
 	}, nil
 
 }
 
-func (p *PSQLServerClient) convert(obj runtime.Object) (*v1alpha1.PostgreSQLServer, error) {
-	local, ok := obj.(*v1alpha1.PostgreSQLServer)
+func (p *PSQLDatabaseClient) convert(obj runtime.Object) (*v1alpha1.PostgreSQLDatabase, error) {
+	local, ok := obj.(*v1alpha1.PostgreSQLDatabase)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
 }
 
-func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion psql.ServerVersion, sslenforcement psql.SslEnforcementEnum, skuInfo psql.Sku) (future psql.ServersCreateFuture, err error) {
+func (p *PSQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, databasename string, servername string, resourcegroup string) (future psql.DatabasesCreateOrUpdateFuture, err error) {
 
-	client := getPSQLServersClient()
+	client := getPSQLDatabasesClient()
 
 	// Check if name is valid if this is the first create call
-	valid, err := p.CheckServerNameAvailability(ctx, servername)
+	valid, err := p.CheckDatabaseNameAvailability(ctx, databasename)
 	if valid == false {
-		p.Log.Info("Servername invalid - cannot create server")
+		p.Log.Info("Database name invalid - cannot create db")
 		return future, err
 	}
 
-	future, err = client.Create(
+	dbParameters := psql.Database{}
+
+	future, err = client.CreateOrUpdate(
 		ctx,
 		resourcegroup,
 		servername,
-		psql.ServerForCreate{
-			Location: &location,
-			Tags:     tags,
-			Properties: &psql.ServerPropertiesForDefaultCreate{
-				AdministratorLogin:         to.StringPtr("adm1nus3r"),
-				AdministratorLoginPassword: to.StringPtr("m@#terU$3r"),
-				Version:                    serverversion,
-				SslEnforcement:             sslenforcement,
-				//StorageProfile: &psql.StorageProfile{},
-				CreateMode: psql.CreateModeServerPropertiesForCreate,
-			},
-			Sku: &skuInfo,
-		},
+		databasename,
+		dbParameters,
 	)
 
 	return future, err
 }
 
-func (p *PSQLServerClient) DeleteServer(ctx context.Context, resourcegroup string, servername string) (status string, err error) {
+func (p *PSQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename string, servername string, resourcegroup string) (status string, err error) {
 
-	client := getPSQLServersClient()
+	client := getPSQLDatabasesClient()
 
-	_, err = client.Get(ctx, resourcegroup, servername)
-	if err == nil { // Server present, so go ahead and delete
-		future, err := client.Delete(ctx, resourcegroup, servername)
+	_, err = client.Get(ctx, resourcegroup, servername, databasename)
+	if err == nil { // db present, so go ahead and delete
+		future, err := client.Delete(ctx, resourcegroup, servername, databasename)
 		return future.Status(), err
 	}
-	// Server not present so return success anyway
-	return "Server not present", nil
+	// db not present so return success anyway
+	return "db not present", nil
 
 }
 
-func (p *PSQLServerClient) GetServer(ctx context.Context, resourcegroup string, servername string) (server psql.Server, err error) {
+func (p *PSQLDatabaseClient) GetDatabase(ctx context.Context, resourcegroup string, servername string, databasename string) (db psql.Database, err error) {
 
-	client := getPSQLServersClient()
-	return client.Get(ctx, resourcegroup, servername)
+	client := getPSQLDatabasesClient()
+
+	return client.Get(ctx, resourcegroup, servername, databasename)
 }

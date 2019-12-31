@@ -24,9 +24,11 @@ import (
 
 // PostgreSQLServerSpec defines the desired state of PostgreSQLServer
 type PostgreSQLServerSpec struct {
-	Location      string  `json:"location"`
-	ResourceGroup string  `json:"resourcegroup,omitempty"`
-	Sku           PSQLSku `json:"sku,omitempty"`
+	Location       string             `json:"location"`
+	ResourceGroup  string             `json:"resourcegroup,omitempty"`
+	Sku            PSQLSku            `json:"sku,omitempty"`
+	ServerVersion  ServerVersion      `json:"serverversion,omitempty"`
+	SSLEnforcement SslEnforcementEnum `json:"sslenforcement,omitempty"`
 }
 
 type PSQLSku struct {
@@ -42,6 +44,24 @@ type PSQLSku struct {
 	Family string `json:"family,omitempty"`
 }
 
+// ServerVersion enumerates the values for server version.
+type ServerVersion string
+
+const (
+	// NineFullStopFive ...
+	NineFullStopFive ServerVersion = "9.5"
+	// NineFullStopSix ...
+	NineFullStopSix ServerVersion = "9.6"
+	// OneOne ...
+	OneOne ServerVersion = "11"
+	// OneZero ...
+	OneZero ServerVersion = "10"
+	// OneZeroFullStopTwo ...
+	OneZeroFullStopTwo ServerVersion = "10.2"
+	// OneZeroFullStopZero ...
+	OneZeroFullStopZero ServerVersion = "10.0"
+)
+
 type SkuTier string
 
 const (
@@ -51,6 +71,15 @@ const (
 	PSQLGeneralPurpose SkuTier = "GeneralPurpose"
 	// MemoryOptimized ...
 	PSQLMemoryOptimized SkuTier = "MemoryOptimized"
+)
+
+type SslEnforcementEnum string
+
+const (
+	// SslEnforcementEnumDisabled ...
+	SslEnforcementEnumDisabled SslEnforcementEnum = "Disabled"
+	// SslEnforcementEnumEnabled ...
+	SslEnforcementEnumEnabled SslEnforcementEnum = "Enabled"
 )
 
 // +kubebuilder:object:root=true

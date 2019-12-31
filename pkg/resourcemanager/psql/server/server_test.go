@@ -20,12 +20,12 @@ import (
 	"fmt"
 	"time"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 var _ = Describe("PSQL server", func() {
@@ -58,29 +58,34 @@ var _ = Describe("PSQL server", func() {
 
 			psqlServer = "t-dev-psql-srv-" + helpers.RandomString(10)
 
-			pSQLSku := azurev1alpha1.PSQLSku{
-				Name:     "B_Gen5_2",
-				Tier:     "Basic",
-				Capacity: 2,
-				Size:     "51200",
-				Family:   "Gen5",
+			pSQLSku := psql.Sku{
+				Name:     to.StringPtr("B_Gen5_2"),
+				Tier:     psql.SkuTier("Basic"),
+				Capacity: to.Int32Ptr(2),
+				Size:     to.StringPtr("51200"),
+				Family:   to.StringPtr("Gen5"),
+			}
+			tags := map[string]*string{
+				"tag1": to.StringPtr("value1"),
+				"tag2": to.StringPtr("value2"),
 			}
 
-			pSQLServerInstance := &azurev1alpha1.PostgreSQLServer{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      psqlServer,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.PostgreSQLServerSpec{
-					Location:      location,
-					ResourceGroup: rgName,
-					Sku:           pSQLSku,
-				},
-			}
-
+			// Create PSQL server instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				result, err := PSQLManager.Ensure(ctx, pSQLServerInstance)
+				_, err := PSQLManager.GetServer(ctx, rgName, psqlServer)
+				if err == nil {
+					return true
+				}
+				_, err = PSQLManager.CreateServerIfValid(
+					ctx,
+					psqlServer,
+					rgName,
+					location,
+					tags,
+					psql.OneZero,
+					psql.SslEnforcementEnumEnabled,
+					pSQLSku)
 				if err != nil {
 					fmt.Println(err.Error())
 					if !errhelp.IsAsynchronousOperationNotComplete(err) {
@@ -88,12 +93,30 @@ var _ = Describe("PSQL server", func() {
 						return false
 					}
 				}
-				return result
+				return true
 			}, tc.timeout, tc.retryInterval,
 			).Should(BeTrue())
 
-			time.Sleep(10 * time.Minute)
+			time.Sleep(5 * time.Minute)
 
+			// Delete PSQL server instance
+			Eventually(func() bool {
+				time.Sleep(3 * time.Second)
+				_, err := PSQLManager.GetServer(ctx, rgName, psqlServer)
+				if err != nil {
+					return true
+				}
+				_, err = PSQLManager.DeleteServer(ctx, psqlServer, rgName)
+				if err != nil {
+					fmt.Println(err.Error())
+					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+						fmt.Println("error occured")
+						return false
+					}
+				}
+				return err == nil
+			}, tc.timeout, tc.retryInterval,
+			).Should(BeTrue())
 		})
 
 	})

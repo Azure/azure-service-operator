@@ -24,13 +24,14 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
-	"context"
-
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	"context"
+
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	server "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	// +kubebuilder:scaffold:imports
@@ -40,12 +41,13 @@ import (
 // http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
 
 type TestContext struct {
-	ResourceGroupName       string
-	ResourceGroupLocation   string
-	postgreSQLServerManager PostgreSQLServerManager
-	ResourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
-	timeout                 time.Duration
-	retryInterval           time.Duration
+	ResourceGroupName             string
+	ResourceGroupLocation         string
+	postgreSQLServerManager       server.PostgreSQLServerManager
+	postgreSQLFirewallRuleManager PostgreSQLFirewallRuleManager
+	ResourceGroupManager          resourcegroupsresourcemanager.ResourceGroupManager
+	timeout                       time.Duration
+	retryInterval                 time.Duration
 }
 
 var tc TestContext
@@ -54,7 +56,7 @@ var ctx context.Context
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "PSQL server Suite")
+	RunSpecs(t, "PSQL Firewall Rule Suite")
 }
 
 var _ = BeforeSuite(func() {
@@ -79,7 +81,10 @@ var _ = BeforeSuite(func() {
 	tc = TestContext{
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
-		postgreSQLServerManager: &PSQLServerClient{
+		postgreSQLServerManager: &server.PSQLServerClient{
+			Log: zaplogger,
+		},
+		postgreSQLFirewallRuleManager: &PSQLFirewallRuleClient{
 			Log: zaplogger,
 		},
 		ResourceGroupManager: resourceGroupManager,

@@ -47,3 +47,9 @@ resources:
 - group: azure
   version: v1alpha1
   kind: PostgreSQLServer
+- group: azure
+  version: v1alpha1
+  kind: PostgreSQLDatabase
+- group: azure
+  version: v1alpha1
+  kind: PostgreSQLFirewallRule
