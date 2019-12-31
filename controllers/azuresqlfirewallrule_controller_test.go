@@ -102,6 +102,7 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete sql firewall rule in k8s", func() {
 
+			defer GinkgoRecover()
 			randomName := helpers.RandomString(10)
 			sqlFirewallRuleName := "t-fwrule-dev-" + randomName
 

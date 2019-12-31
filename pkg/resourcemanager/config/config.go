@@ -24,11 +24,12 @@ var (
 	useDeviceFlow          bool
 	useMI                  bool
 
-	keepResources bool
-	groupName     string // deprecated, use baseGroupName instead
-	baseGroupName string
-	userAgent     string
-	environment   *azure.Environment
+	keepResources    bool
+	operatorKeyvault string
+	groupName        string // deprecated, use baseGroupName instead
+	baseGroupName    string
+	userAgent        string
+	environment      *azure.Environment
 )
 
 // ClientID is the OAuth client ID.
@@ -68,6 +69,11 @@ func DefaultLocation() string {
 // Q: Can this be gotten from the `azure.Environment` in `Environment()`?
 func AuthorizationServerURL() string {
 	return authorizationServerURL
+}
+
+// OperatorKeyvault() specifies the keyvault the operator should use to store secrets
+func OperatorKeyvault() string {
+	return operatorKeyvault
 }
 
 // UseDeviceFlow() specifies if interactive auth should be used. Interactive

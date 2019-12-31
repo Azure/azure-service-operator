@@ -19,6 +19,7 @@ const (
 	ContainerOperationFailure      = "ContainerOperationFailure"
 	ValidationError                = "ValidationError"
 	AlreadyExists                  = "AlreadyExists"
+	BadRequest                     = "BadRequest"
 	AccountNameInvalid             = "AccountNameInvalid"
 	RequestConflictError           = "Conflict"
 )
