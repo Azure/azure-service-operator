@@ -35,8 +35,6 @@ import (
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
-
-	// resourcemanagerappinsightsmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/appinsights"
 	resourcemanagereventhubmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/eventhubs"
 	resourcemanagerkeyvaultsmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/keyvaults"
 	resourcegroupsresourcemanagermock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/resourcegroups"
@@ -85,7 +83,7 @@ type testContext struct {
 	sqlFirewallRuleManager  resourcemanagersql.SqlFirewallRuleManager
 	sqlFailoverGroupManager resourcemanagersql.SqlFailoverGroupManager
 	sqlUserManager          resourcemanagersql.SqlUserManager
-	appInsightsManager      resourcemanagerappinsights.AppInsightsManager
+	appInsightsManager      resourcemanagerappinsights.Manager
 	timeout                 time.Duration
 	retry                   time.Duration
 }
@@ -163,7 +161,7 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	secretClient := k8sSecrets.New(k8sManager.GetClient())
-	var appInsightsManager resourcemanagerappinsights.AppInsightsManager
+	var appInsightsManager resourcemanagerappinsights.ApplicationInsightsManager
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
@@ -177,7 +175,7 @@ var _ = BeforeSuite(func() {
 	var sqlUserManager resourcemanagersql.SqlUserManager
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
-		appInsightsManager = resourcemanagerappinsights.NewAppInsightsManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"), scheme.Scheme)
+		appInsightsManager = resourcemanagerappinsights.NewManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"))
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
@@ -191,7 +189,6 @@ var _ = BeforeSuite(func() {
 		sqlUserManager = resourcemanagersql.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
 		timeout = time.Second * 900
 	} else {
-		// appInsightsManager = resourcemanagerappinsightsmock.NewMockAppInsightsManager{}
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
@@ -207,20 +204,25 @@ var _ = BeforeSuite(func() {
 		timeout = time.Second * 60
 	}
 
-	err = (&AppInsightsReconciler{
-		Client:             k8sManager.GetClient(),
-		Log:                ctrl.Log.WithName("controllers").WithName("AppInsights"),
-		Recorder:           k8sManager.GetEventRecorderFor("AppInsights-controller"),
-		Scheme:             scheme.Scheme,
-		AppInsightsManager: appInsightsManager,
-	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
-
 	err = (&KeyVaultReconciler{
 		Client:          k8sManager.GetClient(),
 		Log:             ctrl.Log.WithName("controllers").WithName("KeyVault"),
 		Recorder:        k8sManager.GetEventRecorderFor("KeyVault-controller"),
 		KeyVaultManager: keyVaultManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AppInsightsReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: appInsightsManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AppInsights"),
+				"AppInsights",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AppInsights-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -412,7 +414,6 @@ var _ = BeforeSuite(func() {
 		sqlUserManager:          sqlUserManager,
 		storageManagers:         storageManagers,
 		keyVaultManager:         keyVaultManager,
-		appInsightsManager:      appInsightsManager,
 		timeout:                 timeout,
 		retry:                   time.Second * 3,
 	}

@@ -24,7 +24,9 @@ import (
 
 // AppInsightsSpec defines the desired state of AppInsights
 type AppInsightsSpec struct {
+	Kind          string `json:"kind"`
 	Location      string `json:"location"`
+	Name          string `json:"name"`
 	Namespace     string `json:"namespace,omitempty"`
 	ResourceGroup string `json:"resourceGroup,omitempty"`
 }

@@ -106,7 +106,7 @@ func main() {
 
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
-	appInsightsManager := resourcemanagerappinsights.NewAppInsightsManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"), scheme)
+	appInsightsManager := resourcemanagerappinsights.NewManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"))
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
@@ -304,11 +304,16 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.AppInsightsReconciler{
-
-		Client:             mgr.GetClient(),
-		AppInsightsManager: appInsightsManager,
-		Recorder:           mgr.GetEventRecorderFor("AppInsights-controller"),
-		Scheme:             scheme,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: appInsightsManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AppInsights"),
+				"AppInsights",
+			),
+			Recorder: mgr.GetEventRecorderFor("AppInsights-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
 		os.Exit(1)

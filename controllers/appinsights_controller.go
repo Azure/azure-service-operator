@@ -16,26 +16,13 @@ limitations under the License.
 package controllers
 
 import (
-	"github.com/go-logr/logr"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/client-go/tools/record"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
-	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
+	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 // AppInsightsReconciler reconciles a AppInsights object
 type AppInsightsReconciler struct {
-	client.Client
-	Log                logr.Logger
-	Telemetry          telemetry.PrometheusTelemetry
-	Recorder           record.EventRecorder
-	Scheme             *runtime.Scheme
-	AppInsightsManager appinsights.AppInsightsManager
-	Reconciler         *AsyncReconciler
+	Reconciler *AsyncReconciler
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=appinsights,verbs=get;list;watch;create;update;patch;delete

@@ -19,23 +19,24 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/appinsights/mgmt/2015-05-01/insights"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/go-autorest/autorest"
-	"github.com/go-logr/logr"
-
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
-// NewAppInsightsManager creates a new AppInsightsManager
-func NewAppInsightsManager(log logr.Logger, scheme *runtime.Scheme) AppInsightsManager {
-	return AppInsightsManager{
-		Log:    log,
-		Scheme: scheme,
-	}
-}
-
 // ApplicationInsightsManager manages Azure Application Insights service components
 type ApplicationInsightsManager interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, location string) (result insights.ApplicationInsightsComponent, err error)
-	Delete(ctx context.Context, resourceGroupName string, resourceName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, resourceName string) (result insights.ApplicationInsightsComponent, err error)
+	convert(obj runtime.Object) (*v1alpha1.AppInsights, error)
+
+	CreateAppInsights(ctx context.Context,
+		kind string,
+		resourceGroupName string,
+		location string,
+		resourceName string) (insights.ApplicationInsightsComponent, error)
+	DeleteAppInsights(ctx context.Context, resourceGroupName string, resourceName string) (autorest.Response, error)
+	GetAppInsights(ctx context.Context, resourceGroupName string, resourceName string) (insights.ApplicationInsightsComponent, error)
+
+	// ARM Client
+	resourcemanager.ARMClient
 }
