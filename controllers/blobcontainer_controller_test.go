@@ -56,6 +56,9 @@ var _ = Describe("BlobContainer Controller", func() {
 
 	Context("Create and Delete", func() {
 		It("should fail to create a blob container if the resource group doesn't exist", func() {
+
+			defer GinkgoRecover()
+
 			blobContainerName := "bc-" + helpers.RandomString(10)
 			resourceGroupName := "rg-" + helpers.RandomString(10)
 
@@ -87,6 +90,8 @@ var _ = Describe("BlobContainer Controller", func() {
 		})
 
 		It("should fail to create a blob container if the storage account doesn't exist", func() {
+
+			defer GinkgoRecover()
 			blobContainerName := "bc-" + helpers.RandomString(10)
 			storageAccountName := "sa-" + helpers.RandomString(10)
 
@@ -118,6 +123,8 @@ var _ = Describe("BlobContainer Controller", func() {
 		})
 
 		It("should create and delete a blob container if the resource group and storage account exist", func() {
+
+			defer GinkgoRecover()
 			blobContainerName := "bc-" + helpers.RandomString(10)
 
 			var err error
