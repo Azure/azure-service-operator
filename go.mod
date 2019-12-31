@@ -3,6 +3,7 @@ module github.com/Azure/azure-service-operator
 go 1.12
 
 require (
+	cloud.google.com/go v0.37.4 // indirect
 	github.com/AlekSi/gocov-xml v0.0.0-20190121064608-3a14fb1c4737 // indirect
 	github.com/Azure-Samples/azure-sdk-for-go-samples v0.0.0-20190805235326-79e3f3af791c
 	github.com/Azure/azure-sdk-for-go v34.1.0+incompatible
@@ -13,7 +14,7 @@ require (
 	github.com/Azure/go-autorest/autorest/to v0.2.0
 	github.com/Azure/go-autorest/autorest/validation v0.1.0
 	github.com/axw/gocov v1.0.0 // indirect
-	github.com/denisenkom/go-mssqldb v0.0.0-20190724012636-11b2859924c1
+	github.com/denisenkom/go-mssqldb v0.0.0-20191128021309-1d7a30a10f73
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/envy v1.7.0
 	github.com/google/uuid v1.1.1

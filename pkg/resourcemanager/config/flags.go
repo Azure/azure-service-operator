@@ -11,7 +11,7 @@ func AddFlags() error {
 	flag.StringVar(&locationDefault, "location", locationDefault, "Default location for tests.")
 	flag.StringVar(&cloudName, "cloud", cloudName, "Name of Azure cloud.")
 	flag.StringVar(&baseGroupName, "baseGroupName", BaseGroupName(), "Specify prefix name of resource group for sample resources.")
-
+	flag.StringVar(&operatorKeyvault, "operatorKeyvault", operatorKeyvault, "Keyvault operator uses to store secrets.")
 	flag.BoolVar(&useDeviceFlow, "useDeviceFlow", useDeviceFlow, "Use device-flow grant type rather than client credentials.")
 	flag.BoolVar(&useMI, "useMI", useMI, "Use MI authentication (aad-pod-identity).")
 	flag.BoolVar(&keepResources, "keepResources", keepResources, "Keep resources created by samples.")

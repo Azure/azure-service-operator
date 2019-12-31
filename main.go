@@ -64,6 +64,7 @@ func init() {
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlusers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
 
@@ -109,7 +110,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	if keyvaultName, fUseKeyVault := os.LookupEnv("AZURE_OPERATOR_KEYVAULT"); fUseKeyVault == false {
+	keyvaultName := resourcemanagerconfig.OperatorKeyvault()
+
+	if keyvaultName == "" {
+		setupLog.Info("Keyvault name is empty")
 		secretClient = k8sSecrets.New(mgr.GetClient())
 	} else {
 		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
@@ -148,12 +152,16 @@ func main() {
 	}
 
 	err = (&controllers.EventhubReconciler{
-		Client:          mgr.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("Eventhub"),
-		Recorder:        mgr.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:          scheme,
-		EventHubManager: eventhubManagers.EventHub,
-		SecretClient:    secretClient,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: eventhubClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("Eventhub"),
+				"Eventhub",
+			),
+			Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")

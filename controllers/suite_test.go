@@ -74,6 +74,7 @@ type testContext struct {
 	blobContainerName       string
 	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
 	eventHubManagers        resourcemanagereventhub.EventHubManagers
+	eventhubClient          resourcemanagereventhub.EventHubManager
 	storageManagers         resourcemanagerstorages.StorageManagers
 	keyVaultManager         resourcemanagerkeyvaults.KeyVaultManager
 	sqlServerManager        resourcemanagersql.SqlServerManager
@@ -172,6 +173,7 @@ var _ = BeforeSuite(func() {
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	var eventhubNamespaceClient resourcemanagereventhub.EventHubNamespaceManager
+	var eventhubClient resourcemanagereventhub.EventHubManager
 	var sqlServerManager resourcemanagersql.SqlServerManager
 	var sqlDbManager resourcemanagersql.SqlDbManager
 	var sqlFirewallRuleManager resourcemanagersql.SqlFirewallRuleManager
@@ -184,6 +186,7 @@ var _ = BeforeSuite(func() {
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
 		eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
+		eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
 		sqlServerManager = resourcemanagersql.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
 		sqlDbManager = resourcemanagersql.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 		sqlFirewallRuleManager = resourcemanagersql.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
@@ -196,6 +199,7 @@ var _ = BeforeSuite(func() {
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
 		eventhubNamespaceClient = resourcemanagereventhubmock.NewMockEventHubNamespaceClient()
+		eventhubClient = resourcemanagereventhubmock.NewMockEventHubClient(secretClient, scheme.Scheme)
 		sqlServerManager = resourcemanagersqlmock.NewMockSqlServerManager()
 		sqlDbManager = resourcemanagersqlmock.NewMockSqlDbManager()
 		sqlFirewallRuleManager = resourcemanagersqlmock.NewMockSqlFirewallRuleManager()
@@ -214,12 +218,16 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&EventhubReconciler{
-		Client:          k8sManager.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("EventHub"),
-		Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:          scheme.Scheme,
-		EventHubManager: eventHubManagers.EventHub,
-		SecretClient:    secretClient,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: eventhubClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("EventHub"),
+				"EventHub",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -388,6 +396,7 @@ var _ = BeforeSuite(func() {
 		storageAccountName:      storageAccountName,
 		blobContainerName:       blobContainerName,
 		eventHubManagers:        eventHubManagers,
+		eventhubClient:          eventhubClient,
 		resourceGroupManager:    resourceGroupManager,
 		sqlServerManager:        sqlServerManager,
 		sqlDbManager:            sqlDbManager,
@@ -397,7 +406,7 @@ var _ = BeforeSuite(func() {
 		storageManagers:         storageManagers,
 		keyVaultManager:         keyVaultManager,
 		timeout:                 timeout,
-		retry:                   time.Second * 1,
+		retry:                   time.Second * 3,
 	}
 
 	Eventually(func() bool {
