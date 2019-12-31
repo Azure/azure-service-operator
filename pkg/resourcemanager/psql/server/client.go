@@ -176,6 +176,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+		instance.Status.Message = "Provisioned successfully"
 	} else {
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = true
