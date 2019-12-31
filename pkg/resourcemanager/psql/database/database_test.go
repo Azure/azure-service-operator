@@ -74,7 +74,10 @@ var _ = Describe("PSQL database", func() {
 				tags,
 				psql.OneZero,
 				psql.SslEnforcementEnumEnabled,
-				pSQLSku)
+				pSQLSku,
+				"adm1nus3r",
+				"m@#terU$3r",
+			)
 			if err != nil {
 				fmt.Println(err.Error())
 				if !errhelp.IsAsynchronousOperationNotComplete(err) {

@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -19,12 +20,16 @@ import (
 )
 
 type PSQLServerClient struct {
-	Log logr.Logger
+	Log          logr.Logger
+	SecretClient secrets.SecretClient
+	Scheme       *runtime.Scheme
 }
 
-func NewPSQLServerClient(log logr.Logger) *PSQLServerClient {
+func NewPSQLServerClient(log logr.Logger, secretclient secrets.SecretClient, scheme *runtime.Scheme) *PSQLServerClient {
 	return &PSQLServerClient{
-		Log: log,
+		Log:          log,
+		SecretClient: secretclient,
+		Scheme:       scheme,
 	}
 }
 
@@ -96,6 +101,25 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 	}
 	p.Log.Info("Server not present, creating")
 
+	// Check to see if secret exists and if yes retrieve the admin login and password
+	secret, err := p.GetOrPrepareSecret(ctx, instance)
+	if err != nil {
+		p.Log.Info("Ensure", "GetOrPrepareSecrets failed with err", err.Error())
+		return false, err
+	}
+	adminlogin := string(secret["username"])
+	adminpassword := string(secret["password"])
+
+	p.Log.Info("Ensure", "username=", adminlogin)
+	p.Log.Info("Ensure", "password=", adminpassword)
+
+	// Update secret
+	err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
+	if err != nil {
+		p.Log.Info("Ensure", "AddServerCredsToSecrets failed with err", err.Error())
+		return false, err
+	}
+
 	skuInfo := psql.Sku{
 		Name:     to.StringPtr(instance.Spec.Sku.Name),
 		Tier:     psql.SkuTier(instance.Spec.Sku.Tier),
@@ -112,6 +136,8 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 		psql.ServerVersion(instance.Spec.ServerVersion),
 		psql.SslEnforcementEnum(instance.Spec.SSLEnforcement),
 		skuInfo,
+		adminlogin,
+		adminpassword,
 	)
 
 	if err != nil {
@@ -239,7 +265,7 @@ func (p *PSQLServerClient) convert(obj runtime.Object) (*v1alpha1.PostgreSQLServ
 	return local, nil
 }
 
-func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion psql.ServerVersion, sslenforcement psql.SslEnforcementEnum, skuInfo psql.Sku) (future psql.ServersCreateFuture, err error) {
+func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion psql.ServerVersion, sslenforcement psql.SslEnforcementEnum, skuInfo psql.Sku, adminlogin string, adminpassword string) (future psql.ServersCreateFuture, err error) {
 
 	client := getPSQLServersClient()
 
@@ -258,8 +284,8 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context, servername s
 			Location: &location,
 			Tags:     tags,
 			Properties: &psql.ServerPropertiesForDefaultCreate{
-				AdministratorLogin:         to.StringPtr("adm1nus3r"),
-				AdministratorLoginPassword: to.StringPtr("m@#terU$3r"),
+				AdministratorLogin:         &adminlogin,
+				AdministratorLoginPassword: &adminpassword,
 				Version:                    serverversion,
 				SslEnforcement:             sslenforcement,
 				//StorageProfile: &psql.StorageProfile{},
@@ -290,4 +316,58 @@ func (p *PSQLServerClient) GetServer(ctx context.Context, resourcegroup string, 
 
 	client := getPSQLServersClient()
 	return client.Get(ctx, resourcegroup, servername)
+}
+
+func (p *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.PostgreSQLServer) error {
+	key := types.NamespacedName{
+		Name:      secretName,
+		Namespace: instance.Namespace,
+	}
+
+	err := p.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(p.Scheme),
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (p *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.PostgreSQLServer) (map[string][]byte, error) {
+	name := instance.Name
+
+	usernameLength := 8
+	passwordLength := 16
+
+	secret := map[string][]byte{}
+
+	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
+	if stored, err := p.SecretClient.Get(ctx, key); err == nil {
+		p.Log.Info("secret already exists, pulling creds now")
+		return stored, nil
+	}
+
+	p.Log.Info("secret not found, generating values for new secret")
+
+	randomUsername, err := helpers.GenerateRandomUsername(usernameLength, 0)
+	if err != nil {
+		return secret, err
+	}
+
+	randomPassword, err := helpers.GenerateRandomPassword(passwordLength)
+	if err != nil {
+		return secret, err
+	}
+
+	secret["username"] = []byte(randomUsername)
+	secret["fullyqualifiedusername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
+	secret["password"] = []byte(randomPassword)
+	secret["postgresqlservername"] = []byte(name)
+	secret["fullyqualifiedservername"] = []byte(name + ".postgres.database.azure.com")
+
+	return secret, nil
 }
