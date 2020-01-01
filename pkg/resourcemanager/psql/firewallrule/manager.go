@@ -4,13 +4,11 @@ import (
 	"context"
 
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type PostgreSQLFirewallRuleManager interface {
-	convert(obj runtime.Object) (*v1alpha1.PostgreSQLFirewallRule, error)
+	//convert(obj runtime.Object) (*v1alpha1.PostgreSQLFirewallRule, error)
 
 	CreateFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string, startip string, endip string) (psql.FirewallRulesCreateOrUpdateFuture, error)
 	DeleteFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string) (string, error)
