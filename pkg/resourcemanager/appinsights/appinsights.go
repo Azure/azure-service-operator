@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/appinsights/mgmt/insights"
+	"github.com/Azure/azure-sdk-for-go/services/appinsights/mgmt/2015-05-01/insights"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -72,7 +72,7 @@ func (m *Manager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, 
 		{
 			Key: types.NamespacedName{
 				Namespace: i.Namespace,
-				Name:      i.Spec.Name,
+				Name:      i.Name,
 			},
 			Target: &v1alpha1.AppInsights{},
 		},
@@ -114,19 +114,19 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 	// Set k8s status to provisioning at the beginning of this reconciliation
 	instance.Status.Provisioning = true
 
-	insights, err := m.GetAppInsights(ctx, instance.Spec.ResourceGroup, instance.Spec.Name)
+	insights, err := m.GetAppInsights(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		instance.Status.State = insights.Status
 	}
 
-	c, err := m.CreateAppInsights(ctx, instance.Spec.Kind, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Spec.Name)
+	c, err := m.CreateAppInsights(ctx, instance.Spec.Kind, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		instance.Status.Provisioning = false
 
-		// errors we expect might happen that we are ok with waiting for
+		// errors we expect might happen that we are ok to wait for
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
@@ -135,9 +135,9 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		m.Log.Info("Ensure", "azerr.Type", azerr.Type)
+
 		if helpers.ContainsString(catch, azerr.Type) {
-			// most of these error technically mean the resource is actually not provisioning
+			// most of these errors mean the resource is actually not provisioning
 			switch azerr.Type {
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
@@ -161,7 +161,7 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object) (bool, error) 
 		return false, err
 	}
 
-	response, err := m.DeleteAppInsights(ctx, i.Spec.ResourceGroup, i.Spec.Name)
+	response, err := m.DeleteAppInsights(ctx, i.Spec.ResourceGroup, i.Name)
 	if err != nil {
 		return false, err
 	}
@@ -196,14 +196,14 @@ func (m *Manager) GetAppInsights(
 }
 
 func getComponentsClient() insights.ComponentsClient {
-	componentsClient := insights.NewComponentsClient(config.SubscriptionID())
+	insightsClient := insights.NewComponentsClient(config.SubscriptionID())
 
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		log.Fatalf("failed to initialize authorizer %v\n", err)
 	}
-	componentsClient.Authorizer = a
-	componentsClient.AddToUserAgent(config.UserAgent())
+	insightsClient.Authorizer = a
+	insightsClient.AddToUserAgent(config.UserAgent())
 
-	return componentsClient
+	return insightsClient
 }

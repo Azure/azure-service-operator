@@ -50,7 +50,11 @@ var _ = Describe("AppInsights", func() {
 					Name:      "foo",
 					Namespace: "default",
 				},
-				Spec: AppInsightsSpec{}}
+				Spec: AppInsightsSpec{
+					Location:      "westus",
+					Kind:          "web",
+					ResourceGroup: "app-insights-dev-rg",
+				}}
 
 			By("creating an AppInsights operator")
 			Expect(k8sClient.Create(context.TODO(), created)).To(Succeed())

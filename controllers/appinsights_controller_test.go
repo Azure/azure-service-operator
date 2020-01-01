@@ -42,6 +42,7 @@ var _ = Describe("AppInsights Controller tests", func() {
 		rgName = tc.resourceGroupName
 		rgLocation = tc.resourceGroupLocation
 		appInsightsName = "t-appinsights-test" + helpers.RandomString(10)
+
 		ctx = context.Background()
 	})
 

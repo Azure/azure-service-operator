@@ -26,7 +26,6 @@ import (
 type AppInsightsSpec struct {
 	Kind          string `json:"kind"`
 	Location      string `json:"location"`
-	Name          string `json:"name"`
 	Namespace     string `json:"namespace,omitempty"`
 	ResourceGroup string `json:"resourceGroup,omitempty"`
 }
