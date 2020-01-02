@@ -4,9 +4,9 @@ metadata:
   name: postgresqlserver-aso-test
 spec:
   location: westus2
-  resourcegroup: resourcegroup-aso-operators
-  serverversion: "10"
-  ssleeenforcement: Enabled
+  resourceGroup: resourcegroup-aso-operators
+  serverVersion: "10"
+  sslEnforcement: Enabled
   sku:
     name: B_Gen5_2
     tier: Basic

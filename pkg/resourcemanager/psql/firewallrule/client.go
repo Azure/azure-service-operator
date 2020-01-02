@@ -37,18 +37,12 @@ func getPSQLFirewallRulesClient() psql.FirewallRulesClient {
 }
 
 func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
-	p.Log.Info("Inside the Ensure method")
-
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
 	client := getPSQLFirewallRulesClient()
-
-	p.Log.Info("Ensure:", "Name=", instance.Name)
-	p.Log.Info("Ensure:", "ResourceGroup=", instance.Spec.ResourceGroup)
-	p.Log.Info("Ensure", "Server=", instance.Spec.Server)
 
 	instance.Status.Provisioning = true
 	// Check if this server already exists and its state if it does. This is required
@@ -144,7 +138,6 @@ func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object)
 }
 
 func (p *PSQLFirewallRuleClient) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
-	p.Log.Info("Inside the Delete method")
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err

@@ -218,8 +218,6 @@ var _ = BeforeSuite(func() {
 		sqlFirewallRuleManager = resourcemanagersqlmock.NewMockSqlFirewallRuleManager()
 		sqlFailoverGroupManager = resourcemanagersqlmock.NewMockSqlFailoverGroupManager()
 		sqlUserManager = resourcemanagersqlmock.NewMockAzureSqlUserManager()
-
-		// TODO: Replace with mock manager
 		psqlServerManager = resourcemanagerpsqlmock.NewMockPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, k8sManager.GetScheme())
 		psqlDatabaseManager = resourcemanagerpsqlmock.NewMockPostgreSqlDbManager(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
 		psqlFirewallRuleManager = resourcemanagerpsqlmock.NewMockPostgreSqlFirewallRuleManager(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))

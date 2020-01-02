@@ -25,10 +25,10 @@ import (
 // PostgreSQLServerSpec defines the desired state of PostgreSQLServer
 type PostgreSQLServerSpec struct {
 	Location       string             `json:"location"`
-	ResourceGroup  string             `json:"resourcegroup,omitempty"`
+	ResourceGroup  string             `json:"resourceGroup,omitempty"`
 	Sku            PSQLSku            `json:"sku,omitempty"`
-	ServerVersion  ServerVersion      `json:"serverversion,omitempty"`
-	SSLEnforcement SslEnforcementEnum `json:"sslenforcement,omitempty"`
+	ServerVersion  ServerVersion      `json:"serverVersion,omitempty"`
+	SSLEnforcement SslEnforcementEnum `json:"sslEnforcement,omitempty"`
 }
 
 type PSQLSku struct {

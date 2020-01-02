@@ -26,7 +26,7 @@ import (
 type PostgreSQLDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ResourceGroup string `json:"resourcegroup"`
+	ResourceGroup string `json:"resourceGroup"`
 	Server        string `json:"server"`
 }
 

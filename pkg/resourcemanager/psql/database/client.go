@@ -61,18 +61,12 @@ func (p *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, 
 
 }
 func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
-	p.Log.Info("Inside the Ensure method")
-
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
 	client := getPSQLDatabasesClient()
-
-	p.Log.Info("Ensure:", "Name=", instance.Name)
-	p.Log.Info("Ensure:", "ResourceGroup=", instance.Spec.ResourceGroup)
-	p.Log.Info("Ensure:", "Servername=", instance.Spec.Server)
 
 	instance.Status.Provisioning = true
 	// Check if this database already exists and its state if it does. This is required
@@ -108,7 +102,6 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object) (bo
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		p.Log.Info("Ensure", "azerr.Type", azerr.Type)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -167,7 +160,6 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object) (bo
 }
 
 func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
-	p.Log.Info("Inside the Delete method")
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err

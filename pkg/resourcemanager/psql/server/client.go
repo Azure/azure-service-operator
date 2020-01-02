@@ -67,18 +67,12 @@ func (p *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, serv
 
 }
 func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
-	p.Log.Info("Inside the Ensure method")
-
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
 	client := getPSQLServersClient()
-
-	p.Log.Info("Ensure:", "Name=", instance.Name)
-	p.Log.Info("Ensure:", "ResourceGroup=", instance.Spec.ResourceGroup)
-	p.Log.Info("Ensure", "Location=", instance.Spec.Location)
 
 	// convert kube labels to expected tag format
 	labels := map[string]*string{}
@@ -109,9 +103,6 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 	}
 	adminlogin := string(secret["username"])
 	adminpassword := string(secret["password"])
-
-	p.Log.Info("Ensure", "username=", adminlogin)
-	p.Log.Info("Ensure", "password=", adminpassword)
 
 	// Update secret
 	err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
@@ -153,7 +144,6 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		p.Log.Info("Ensure", "azerr.Type", azerr.Type)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -183,7 +173,6 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		p.Log.Info("Ensure", "azerr.Type", azerr.Type)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -212,7 +201,6 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 }
 
 func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
-	p.Log.Info("Inside the Delete method")
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err

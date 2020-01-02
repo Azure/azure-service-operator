@@ -26,10 +26,10 @@ import (
 type PostgreSQLFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ResourceGroup  string `json:"resourcegroup"`
+	ResourceGroup  string `json:"resourceGroup"`
 	Server         string `json:"server"`
-	StartIPAddress string `json:"startipaddress"`
-	EndIPAddress   string `json:"endipaddress"`
+	StartIPAddress string `json:"startIpAddress"`
+	EndIPAddress   string `json:"endIpAddress"`
 }
 
 // +kubebuilder:object:root=true
