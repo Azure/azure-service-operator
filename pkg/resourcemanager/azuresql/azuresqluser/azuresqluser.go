@@ -3,7 +3,7 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package sqlclient
+package azuresqluser
 
 import (
 	"context"
@@ -24,6 +24,10 @@ const SecretPasswordKey = "password"
 
 type AzureSqlUserManager struct {
 	Log logr.Logger
+}
+
+func NewAzureSqlUserManager(log logr.Logger) *AzureSqlUserManager {
+	return &AzureSqlUserManager{Log: log}
 }
 
 // ConnectToSqlDb connects to the SQL db using the given credentials

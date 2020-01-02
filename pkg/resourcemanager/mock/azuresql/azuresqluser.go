@@ -3,7 +3,7 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package sql
+package azuresql
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 	"database/sql"
 	dbsql "database/sql"
 
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 )
 
 type MockSqlUserManager struct {
@@ -44,7 +44,7 @@ func (manager *MockSqlUserManager) ConnectToSqlDb(ctx context.Context, drivernam
 }
 
 func (manager *MockSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *dbsql.DB) (string, error) {
-	newUser := string(secret[sqlclient.SecretUsernameKey])
+	newUser := string(secret[azuresqluser.SecretUsernameKey])
 
 	q := MockSqlUserResource{
 		username: newUser,
