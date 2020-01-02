@@ -7,10 +7,11 @@ package azuresqlshared
 
 import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
-// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
-type DBEdition byte
+type DBEdition = v1alpha1.DBEdition
+type ReadWriteEndpointFailoverPolicy = v1alpha1.ReadWriteEndpointFailoverPolicy
 
 const (
 	// Basic ...
@@ -42,9 +43,6 @@ const (
 	// Web ...
 	Web DBEdition = 13
 )
-
-// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ReadWriteEndpointFailoverPolicy
-type ReadWriteEndpointFailoverPolicy string
 
 const (
 	// Automatic ...

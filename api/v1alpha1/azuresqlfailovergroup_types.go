@@ -16,23 +16,25 @@ limitations under the License.
 package v1alpha1
 
 import (
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ReadWriteEndpointFailoverPolicy
+type ReadWriteEndpointFailoverPolicy string
+
 // AzureSqlFailoverGroupSpec defines the desired state of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
-	Location                     string                              `json:"location"`
-	ResourceGroup                string                              `json:"resourcegroup,omitempty"`
-	Server                       string                              `json:"server"`
-	FailoverPolicy               sql.ReadWriteEndpointFailoverPolicy `json:"failoverpolicy"`
-	FailoverGracePeriod          int32                               `json:"failovergraceperiod"`
-	SecondaryServerName          string                              `json:"secondaryserver"`
-	SecondaryServerResourceGroup string                              `json:"secondaryserverresourcegroup"`
-	DatabaseList                 []string                            `json:"databaselist"`
+	Location                     string                          `json:"location"`
+	ResourceGroup                string                          `json:"resourcegroup,omitempty"`
+	Server                       string                          `json:"server"`
+	FailoverPolicy               ReadWriteEndpointFailoverPolicy `json:"failoverpolicy"`
+	FailoverGracePeriod          int32                           `json:"failovergraceperiod"`
+	SecondaryServerName          string                          `json:"secondaryserver"`
+	SecondaryServerResourceGroup string                          `json:"secondaryserverresourcegroup"`
+	DatabaseList                 []string                        `json:"databaselist"`
 }
 
 // AzureSqlFailoverGroupStatus defines the observed state of AzureSqlFailoverGroup

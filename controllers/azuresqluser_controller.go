@@ -99,7 +99,8 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 				log.Info(instance.Status.Message)
 			}
 			helpers.RemoveFinalizer(&instance, AzureSQLUserFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
+			if err := r.Update(ctx, &instance); err != nil {
+				log.Info("Failed to update instance after removing finalizer")
 				return ctrl.Result{}, err
 			}
 		}
@@ -139,7 +140,7 @@ func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLU
 	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
 	adminSecret, err := r.SecretClient.Get(ctx, key)
 	if err != nil {
-		return fmt.Errorf("admin secret : %s, not found", instance.Spec.AdminSecret)
+		return fmt.Errorf("deleteExternal: admin secret : %s, not found", instance.Spec.AdminSecret)
 	}
 
 	var user = string(adminSecret[SecretUsernameKey])
@@ -147,6 +148,7 @@ func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLU
 
 	db, err := r.AzureSqlUserManager.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
 	if err != nil {
+		log.Info("deleteExternal: ConnecttoSqlDB failed with", "error", err.Error())
 		return err
 	}
 
