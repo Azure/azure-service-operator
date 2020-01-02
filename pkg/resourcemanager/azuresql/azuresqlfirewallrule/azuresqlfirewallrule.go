@@ -10,9 +10,7 @@ import (
 
 	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 )
@@ -38,7 +36,7 @@ func (_ *AzureSqlFirewallRuleManager) GetServer(ctx context.Context, resourceGro
 
 // GetSQLFirewallRule returns a firewall rule
 func (_ *AzureSqlFirewallRuleManager) GetSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (result sql.FirewallRule, err error) {
-	firewallClient := getGoFirewallClient()
+	firewallClient := azuresqlshared.GetGoFirewallClient()
 
 	return firewallClient.Get(
 		ctx,
@@ -63,7 +61,7 @@ func (sdk *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Contex
 		return nil
 	}
 
-	firewallClient := getGoFirewallClient()
+	firewallClient := azuresqlshared.GetGoFirewallClient()
 	_, err = firewallClient.Delete(
 		ctx,
 		resourceGroupName,
@@ -85,7 +83,7 @@ func (sdk *AzureSqlFirewallRuleManager) CreateOrUpdateSQLFirewallRule(ctx contex
 		return false, err
 	}
 
-	firewallClient := getGoFirewallClient()
+	firewallClient := azuresqlshared.GetGoFirewallClient()
 	_, err = firewallClient.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
@@ -104,13 +102,4 @@ func (sdk *AzureSqlFirewallRuleManager) CreateOrUpdateSQLFirewallRule(ctx contex
 	}
 
 	return result, err
-}
-
-// getGoFirewallClient retrieves a FirewallRulesClient
-func getGoFirewallClient() sql.FirewallRulesClient {
-	firewallClient := sql.NewFirewallRulesClient(config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
-	firewallClient.Authorizer = a
-	firewallClient.AddToUserAgent(config.UserAgent())
-	return firewallClient
 }

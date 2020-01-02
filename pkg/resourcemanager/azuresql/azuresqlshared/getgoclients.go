@@ -10,7 +10,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
 
-// getGoDbClient retrieves a DatabasesClient
+// GetGoDbClient retrieves a DatabasesClient
 func GetGoDbClient() sql.DatabasesClient {
 	dbClient := sql.NewDatabasesClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
@@ -19,7 +19,7 @@ func GetGoDbClient() sql.DatabasesClient {
 	return dbClient
 }
 
-// getGoServersClient retrieves a ServersClient
+// GetGoServersClient retrieves a ServersClient
 func GetGoServersClient() sql.ServersClient {
 	serversClient := sql.NewServersClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
@@ -28,11 +28,20 @@ func GetGoServersClient() sql.ServersClient {
 	return serversClient
 }
 
-// getGoFailoverGroupsClient retrieves a FailoverGroupsClient
+// GetGoFailoverGroupsClient retrieves a FailoverGroupsClient
 func GetGoFailoverGroupsClient() sql.FailoverGroupsClient {
 	failoverGroupsClient := sql.NewFailoverGroupsClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	failoverGroupsClient.Authorizer = a
 	failoverGroupsClient.AddToUserAgent(config.UserAgent())
 	return failoverGroupsClient
+}
+
+// GetGoFirewallClient retrieves a FirewallRulesClient
+func GetGoFirewallClient() sql.FirewallRulesClient {
+	firewallClient := sql.NewFirewallRulesClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	firewallClient.Authorizer = a
+	firewallClient.AddToUserAgent(config.UserAgent())
+	return firewallClient
 }
