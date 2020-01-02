@@ -219,7 +219,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		}
 		time.Sleep(time.Second)
 		if err == nil {
-			_, err := fogfuture.Result(getGoFailoverGroupsClient())
+			_, err := fogfuture.Result(tc.sqlFailoverGroupManager.GetGoFailoverGroupsClient())
 			if err == nil {
 				util.PrintAndLog("Failover group ready")
 				break

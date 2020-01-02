@@ -148,7 +148,7 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 }
 
 // getGoFailoverGroupsClient retrieves a FailoverGroupsClient
-func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
+func GetGoFailoverGroupsClient() sql.FailoverGroupsClient {
 	failoverGroupsClient := sql.NewFailoverGroupsClient(config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	failoverGroupsClient.Authorizer = a
