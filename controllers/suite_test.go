@@ -168,41 +168,25 @@ var _ = BeforeSuite(func() {
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
 	var eventhubNamespaceClient resourcemanagereventhub.EventHubNamespaceManager
-<<<<<<< HEAD
 	var sqlServerManager resourcemanagersqlserver.SqlServerManager
 	var sqlDbManager resourcemanagersqldb.SqlDbManager
 	var sqlFirewallRuleManager resourcemanagersqlfirewallrule.SqlFirewallRuleManager
 	var sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
 	var sqlUserManager resourcemanagersqluser.SqlUserManager
-=======
 	var eventhubClient resourcemanagereventhub.EventHubManager
-	var sqlServerManager resourcemanagersql.SqlServerManager
-	var sqlDbManager resourcemanagersql.SqlDbManager
-	var sqlFirewallRuleManager resourcemanagersql.SqlFirewallRuleManager
-	var sqlFailoverGroupManager resourcemanagersql.SqlFailoverGroupManager
-	var sqlUserManager resourcemanagersql.SqlUserManager
->>>>>>> f71bd8fbfa2023d28f950025ee953dca05d00057
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
+		eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
 		eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
-<<<<<<< HEAD
 		sqlServerManager = resourcemanagersqlserver.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
 		sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 		sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
 		sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
 		sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
-=======
-		eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
-		sqlServerManager = resourcemanagersql.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
-		sqlDbManager = resourcemanagersql.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
-		sqlFirewallRuleManager = resourcemanagersql.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
-		sqlFailoverGroupManager = resourcemanagersql.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
-		sqlUserManager = resourcemanagersql.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
->>>>>>> f71bd8fbfa2023d28f950025ee953dca05d00057
 		timeout = time.Second * 900
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
