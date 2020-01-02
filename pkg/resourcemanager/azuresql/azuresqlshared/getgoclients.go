@@ -27,3 +27,12 @@ func GetGoServersClient() sql.ServersClient {
 	serversClient.AddToUserAgent(config.UserAgent())
 	return serversClient
 }
+
+// getGoFailoverGroupsClient retrieves a FailoverGroupsClient
+func GetGoFailoverGroupsClient() sql.FailoverGroupsClient {
+	failoverGroupsClient := sql.NewFailoverGroupsClient(config.SubscriptionID())
+	a, _ := iam.GetResourceManagementAuthorizer()
+	failoverGroupsClient.Authorizer = a
+	failoverGroupsClient.AddToUserAgent(config.UserAgent())
+	return failoverGroupsClient
+}
