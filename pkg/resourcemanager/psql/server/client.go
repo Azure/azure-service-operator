@@ -91,7 +91,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 			instance.Status.Provisioning = false
 			instance.Status.State = "Ready"
 			return true, nil
-		} else if server.UserVisibleState == "InProgress" {
+		} else {
 			p.Log.Info("Server creation is InProgress")
 			instance.Status.State = "InProgress"
 			return false, nil
