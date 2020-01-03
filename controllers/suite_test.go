@@ -190,11 +190,6 @@ var _ = BeforeSuite(func() {
 	var sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
 	var sqlUserManager resourcemanagersqluser.SqlUserManager
 	var eventhubClient resourcemanagereventhub.EventHubManager
-	var sqlServerManager resourcemanagersql.SqlServerManager
-	var sqlDbManager resourcemanagersql.SqlDbManager
-	var sqlFirewallRuleManager resourcemanagersql.SqlFirewallRuleManager
-	var sqlFailoverGroupManager resourcemanagersql.SqlFailoverGroupManager
-	var sqlUserManager resourcemanagersql.SqlUserManager
 	var psqlServerManager resourcemanagerpsqlserver.PostgreSQLServerManager
 	var psqlDatabaseManager resourcemanagerpsqldatabase.PostgreSQLDatabaseManager
 	var psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
