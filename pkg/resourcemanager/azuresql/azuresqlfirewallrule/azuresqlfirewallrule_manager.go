@@ -3,18 +3,13 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package sqlclient
+package azuresqlfirewallrule
 
 import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
-	"github.com/go-logr/logr"
 )
-
-func NewAzureSqlFirewallRuleManager(log logr.Logger) *AzureSqlFirewallRuleManager {
-	return &AzureSqlFirewallRuleManager{Log: log}
-}
 
 type SqlFirewallRuleManager interface {
 	CreateOrUpdateSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, startIP string, endIP string) (result bool, err error)
