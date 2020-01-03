@@ -94,15 +94,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
-	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
-	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
-	storageManagers := resourcemanagerstorage.AzureStorageManagers
-	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
-	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
-	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
-	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))
-
 	err = resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
 		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
@@ -119,7 +110,6 @@ func main() {
 		secretClient = keyvaultSecrets.New(keyvaultName)
 	}
 
-	psqlserverclient := psqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, mgr.GetScheme())
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
@@ -131,6 +121,9 @@ func main() {
 	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
 	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
 	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
+	psqlserverclient := psqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, mgr.GetScheme())
+	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
+	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))
 
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
