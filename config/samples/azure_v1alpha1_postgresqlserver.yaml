@@ -1,10 +1,10 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: PostgreSQLServer
 metadata:
-  name: postgresqlserver-aso-test
+  name: postgresqlserver-sample
 spec:
   location: westus2
-  resourceGroup: resourcegroup-aso-operators
+  resourceGroup: resourcegroup-azure-operators
   serverVersion: "10"
   sslEnforcement: Enabled
   sku:

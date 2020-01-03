@@ -3,5 +3,5 @@ kind: PostgreSQLDatabase
 metadata:
   name: postgresqldatabase-sample
 spec:
-  resourceGroup: resourcegroup-aso-operators
-  server: postgresqlserver-aso-test
+  resourceGroup: resourcegroup-azure-operators
+  server: postgresqlserver-sample
