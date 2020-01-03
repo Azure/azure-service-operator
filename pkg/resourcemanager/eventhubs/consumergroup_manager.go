@@ -18,7 +18,9 @@ package eventhubs
 
 import (
 	"context"
+
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/go-autorest/autorest"
 )
 
@@ -47,4 +49,7 @@ type ConsumerGroupManager interface {
 	// eventHubName - the Event Hub name
 	// consumerGroupName - the consumer group name
 	DeleteConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (result autorest.Response, err error)
+
+	// also embed async client methods
+	resourcemanager.ARMClient
 }
