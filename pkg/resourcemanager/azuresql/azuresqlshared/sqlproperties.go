@@ -3,14 +3,15 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package sqlclient
+package azuresqlshared
 
 import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
-// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
-type DBEdition byte
+type DBEdition = v1alpha1.DBEdition
+type ReadWriteEndpointFailoverPolicy = v1alpha1.ReadWriteEndpointFailoverPolicy
 
 const (
 	// Basic ...
@@ -42,9 +43,6 @@ const (
 	// Web ...
 	Web DBEdition = 13
 )
-
-// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ReadWriteEndpointFailoverPolicy
-type ReadWriteEndpointFailoverPolicy string
 
 const (
 	// Automatic ...
@@ -168,7 +166,7 @@ func translateDBEdition(in DBEdition) (result sql.DatabaseEdition) {
 }
 
 // translateFailoverPolicy translates the enum
-func translateFailoverPolicy(in ReadWriteEndpointFailoverPolicy) (result sql.ReadWriteEndpointFailoverPolicy) {
+func TranslateFailoverPolicy(in ReadWriteEndpointFailoverPolicy) (result sql.ReadWriteEndpointFailoverPolicy) {
 	switch in {
 	case Automatic:
 		result = sql.Automatic

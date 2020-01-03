@@ -23,11 +23,15 @@ import (
 	"os"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
+	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
@@ -61,6 +65,7 @@ func init() {
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlusers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
 
@@ -86,34 +91,39 @@ func main() {
 		os.Exit(1)
 	}
 
-	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
-	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
-	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
-	storageManagers := resourcemanagerstorage.AzureStorageManagers
-	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
-	sqlServerManager := resourcemanagersql.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
-	sqlDBManager := resourcemanagersql.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
-	sqlFirewallRuleManager := resourcemanagersql.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
-	sqlFailoverGroupManager := resourcemanagersql.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
-	sqlUserManager := resourcemanagersql.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
-
 	err = resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
 		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
 		os.Exit(1)
 	}
 
-	if keyvaultName, fUseKeyVault := os.LookupEnv("AZURE_OPERATOR_KEYVAULT"); fUseKeyVault == false {
+	keyvaultName := resourcemanagerconfig.OperatorKeyvault()
+
+	if keyvaultName == "" {
+		setupLog.Info("Keyvault name is empty")
 		secretClient = k8sSecrets.New(mgr.GetClient())
 	} else {
 		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
 		secretClient = keyvaultSecrets.New(keyvaultName)
 	}
 
+	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
+	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
+	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
+	storageManagers := resourcemanagerstorage.AzureStorageManagers
+	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
+	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
+	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
+	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
+	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
+
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("Storage"),
 		Recorder:       mgr.GetEventRecorderFor("Storage-controller"),
+		Scheme:         mgr.GetScheme(),
 		StorageManager: storageManagers.Storage,
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -139,12 +149,16 @@ func main() {
 	}
 
 	err = (&controllers.EventhubReconciler{
-		Client:          mgr.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("Eventhub"),
-		Recorder:        mgr.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:          scheme,
-		EventHubManager: eventhubManagers.EventHub,
-		SecretClient:    secretClient,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: eventhubClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("Eventhub"),
+				"Eventhub",
+			),
+			Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
@@ -270,6 +284,18 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
 		os.Exit(1)
 	}
+
+	if err = (&controllers.BlobContainerReconciler{
+		Client:         mgr.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
+		Recorder:       mgr.GetEventRecorderFor("BlobContainer-controller"),
+		Scheme:         mgr.GetScheme(),
+		StorageManager: storageManagers.BlobContainer,
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
+		os.Exit(1)
+	}
+
 	if err = (&controllers.AzureDataLakeGen2FileSystemReconciler{
 		Client:            mgr.GetClient(),
 		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),

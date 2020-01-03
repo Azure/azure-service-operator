@@ -23,7 +23,8 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
@@ -46,7 +47,7 @@ type AzureSqlServerReconciler struct {
 	Log                   logr.Logger
 	Recorder              record.EventRecorder
 	Scheme                *runtime.Scheme
-	AzureSqlServerManager sql.SqlServerManager
+	AzureSqlServerManager azuresqlserver.SqlServerManager
 	SecretClient          secrets.SecretClient
 }
 
@@ -222,7 +223,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 
 	// Check to see if secret already exists for admin username/password
 	secret, _ := r.GetOrPrepareSecret(ctx, instance)
-	azureSqlServerProperties := sql.SQLServerProperties{
+	azureSqlServerProperties := azuresqlshared.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr(string(secret["username"])),
 		AdministratorLoginPassword: to.StringPtr(string(secret["password"])),
 	}
