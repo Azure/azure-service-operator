@@ -99,6 +99,7 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object) (bo
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
+			errhelp.ResourceNotFound,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -196,16 +197,16 @@ func (p *PSQLDatabaseClient) GetParents(obj runtime.Object) ([]resourcemanager.K
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.ResourceGroup,
+				Name:      instance.Spec.Server,
 			},
-			Target: &azurev1alpha1.ResourceGroup{},
+			Target: &azurev1alpha1.PostgreSQLServer{},
 		},
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.Server,
+				Name:      instance.Spec.ResourceGroup,
 			},
-			Target: &azurev1alpha1.PostgreSQLServer{},
+			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
 

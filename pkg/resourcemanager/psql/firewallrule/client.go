@@ -174,16 +174,16 @@ func (p *PSQLFirewallRuleClient) GetParents(obj runtime.Object) ([]resourcemanag
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.ResourceGroup,
+				Name:      instance.Spec.Server,
 			},
-			Target: &azurev1alpha1.ResourceGroup{},
+			Target: &azurev1alpha1.PostgreSQLServer{},
 		},
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.Server,
+				Name:      instance.Spec.ResourceGroup,
 			},
-			Target: &azurev1alpha1.PostgreSQLServer{},
+			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
 
