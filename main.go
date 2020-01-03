@@ -120,6 +120,7 @@ func main() {
 		secretClient,
 		scheme,
 	)
+	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager()
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager()
