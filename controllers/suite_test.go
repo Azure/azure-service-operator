@@ -47,7 +47,6 @@ import (
 	resourcegroupsresourcemanagermock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/resourcegroups"
 	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/storages"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
@@ -70,27 +69,22 @@ import (
 var testEnv *envtest.Environment
 
 type testContext struct {
-	k8sClient               client.Client
-	secretClient            secrets.SecretClient
-	resourceGroupName       string
-	resourceGroupLocation   string
-	eventhubNamespaceName   string
-	eventhubName            string
-	namespaceLocation       string
-	storageAccountName      string
-	blobContainerName       string
-	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
-	eventHubManagers        resourcemanagereventhub.EventHubManagers
-	eventhubClient          resourcemanagereventhub.EventHubManager
-	storageManagers         resourcemanagerstorages.StorageManagers
-	keyVaultManager         resourcemanagerkeyvaults.KeyVaultManager
-	sqlServerManager        resourcemanagersql.SqlServerManager
-	sqlDbManager            resourcemanagersql.SqlDbManager
-	sqlFirewallRuleManager  resourcemanagersql.SqlFirewallRuleManager
-	sqlFailoverGroupManager resourcemanagersql.SqlFailoverGroupManager
-	sqlUserManager          resourcemanagersql.SqlUserManager
-	appInsightsManager      resourcemanagerappinsights.Manager
-	consumerGroupClient     resourcemanagereventhub.ConsumerGroupManager
+	k8sClient             client.Client
+	secretClient          secrets.SecretClient
+	resourceGroupName     string
+	resourceGroupLocation string
+	eventhubNamespaceName string
+	eventhubName          string
+	namespaceLocation     string
+	storageAccountName    string
+	blobContainerName     string
+	resourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
+	eventHubManagers      resourcemanagereventhub.EventHubManagers
+	eventhubClient        resourcemanagereventhub.EventHubManager
+	storageManagers       resourcemanagerstorages.StorageManagers
+	keyVaultManager       resourcemanagerkeyvaults.KeyVaultManager
+	appInsightsManager    resourcemanagerappinsights.Manager
+	consumerGroupClient   resourcemanagereventhub.ConsumerGroupManager
 
 	timeout time.Duration
 	retry   time.Duration
@@ -415,28 +409,23 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	tc = testContext{
-		k8sClient:               k8sClient,
-		secretClient:            secretClient,
-		resourceGroupName:       resourceGroupName,
-		resourceGroupLocation:   resourcegroupLocation,
-		eventhubNamespaceName:   eventhubNamespaceName,
-		eventhubName:            eventhubName,
-		namespaceLocation:       namespaceLocation,
-		storageAccountName:      storageAccountName,
-		blobContainerName:       blobContainerName,
-		eventHubManagers:        eventHubManagers,
-		eventhubClient:          eventhubClient,
-		resourceGroupManager:    resourceGroupManager,
-		sqlServerManager:        sqlServerManager,
-		sqlDbManager:            sqlDbManager,
-		sqlFirewallRuleManager:  sqlFirewallRuleManager,
-		sqlFailoverGroupManager: sqlFailoverGroupManager,
-		sqlUserManager:          sqlUserManager,
-		storageManagers:         storageManagers,
-		keyVaultManager:         keyVaultManager,
-		timeout:                 timeout,
-		retry:                   time.Second * 3,
-		consumerGroupClient:     consumerGroupClient,
+		k8sClient:             k8sClient,
+		secretClient:          secretClient,
+		resourceGroupName:     resourceGroupName,
+		resourceGroupLocation: resourcegroupLocation,
+		eventhubNamespaceName: eventhubNamespaceName,
+		eventhubName:          eventhubName,
+		namespaceLocation:     namespaceLocation,
+		storageAccountName:    storageAccountName,
+		blobContainerName:     blobContainerName,
+		eventHubManagers:      eventHubManagers,
+		eventhubClient:        eventhubClient,
+		resourceGroupManager:  resourceGroupManager,
+		storageManagers:       storageManagers,
+		keyVaultManager:       keyVaultManager,
+		timeout:               timeout,
+		retry:                 time.Second * 3,
+		consumerGroupClient:   consumerGroupClient,
 	}
 
 	Eventually(func() bool {
