@@ -19,16 +19,12 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/appinsights/mgmt/2015-05-01/insights"
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/go-autorest/autorest"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // ApplicationInsightsManager manages Azure Application Insights service components
 type ApplicationInsightsManager interface {
-	convert(obj runtime.Object) (*v1alpha1.AppInsights, error)
-
 	CreateAppInsights(ctx context.Context,
 		kind string,
 		resourceGroupName string,
