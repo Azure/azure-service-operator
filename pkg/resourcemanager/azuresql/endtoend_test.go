@@ -3,17 +3,22 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package sqlclient
+package azuresqlshared
 
 import (
 	"fmt"
 
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
-
 	"testing"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	azuresqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	azuresqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
+	azuresqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/util"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -21,26 +26,27 @@ import (
 )
 
 type TestContext struct {
-	SqlServerManager        SqlServerManager
-	sqlDbManager            SqlDbManager
-	sqlFirewallRuleManager  SqlFirewallRuleManager
-	sqlFailoverGroupManager SqlFailoverGroupManager
-	sqlUserManager          SqlUserManager
-	timeout                 time.Duration //timeout in mins
+	sqlServerManager        azuresqlserver.SqlServerManager
+	sqlDbManager            azuresqldb.SqlDbManager
+	sqlFirewallRuleManager  azuresqlfirewallrule.SqlFirewallRuleManager
+	sqlFailoverGroupManager azuresqlfailovergroup.SqlFailoverGroupManager
+	sqlUserManager          azuresqluser.SqlUserManager
+
+	timeout time.Duration //timeout in mins
 }
 
 // TestCreateOrUpdateSQLServer tests creating and delete a SQL server
 func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 	location := config.DefaultLocation()
-	sqlServerManager := NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
-	sqlDbManager := NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
-	sqlFirewallRuleManager := NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
-	sqlFailoverGroupManager := NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
-	sqlUserManager := NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
+	sqlServerManager := azuresqlserver.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
+	sqlDbManager := azuresqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
+	sqlFirewallRuleManager := azuresqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlFailoverGroupManager := azuresqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+	sqlUserManager := azuresqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
 
 	tc = TestContext{
-		SqlServerManager:        sqlServerManager,
+		sqlServerManager:        sqlServerManager,
 		sqlDbManager:            sqlDbManager,
 		sqlFirewallRuleManager:  sqlFirewallRuleManager,
 		sqlFailoverGroupManager: sqlFailoverGroupManager,
@@ -53,13 +59,13 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	serverName := generateName("sqlsrvtest")
 
 	// create the server
-	sqlServerProperties := SQLServerProperties{
+	sqlServerProperties := azuresqlshared.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("Moss"),
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
 	}
 
 	// wait for server to be created, then only proceed once activated
-	server, err := tc.SqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
+	server, err := tc.sqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, location, serverName, sqlServerProperties)
 	azerr := errhelp.NewAzureErrorAzureError(err)
 	if err != nil && !helpers.ContainsString(ignorableErrors, azerr.Type) {
 		util.PrintAndLog(fmt.Sprintf("cannot create sql server: %v", err))
@@ -74,7 +80,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 
 		time.Sleep(time.Second)
 
-		server, err = tc.SqlServerManager.GetServer(ctx, groupName, serverName)
+		server, err = tc.sqlServerManager.GetServer(ctx, groupName, serverName)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -97,9 +103,9 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// create a DB
-	sqlDBProperties := SQLDatabaseProperties{
+	sqlDBProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: "sqldatabase-sample",
-		Edition:      Basic,
+		Edition:      azuresqlshared.Basic,
 	}
 
 	// wait for db to be created, then only proceed once activated
@@ -112,7 +118,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		}
 		time.Sleep(time.Second)
 		if err == nil {
-			db, err := future.Result(getGoDbClient())
+			db, err := future.Result(azuresqlshared.GetGoDbClient())
 			if err == nil {
 				if *db.Status == "Online" {
 					util.PrintAndLog("db ready")
@@ -151,13 +157,13 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	secLocation := "westus2"
 
 	// create the server
-	sqlServerProperties = SQLServerProperties{
+	sqlServerProperties = azuresqlshared.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr("Moss"),
 		AdministratorLoginPassword: to.StringPtr("TheITCrowd_{01}!"),
 	}
 
 	// wait for server to be created, then only proceed once activated
-	server, err = tc.SqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, secLocation, secSrvName, sqlServerProperties)
+	server, err = tc.sqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, secLocation, secSrvName, sqlServerProperties)
 	azerr = errhelp.NewAzureErrorAzureError(err)
 
 	if err != nil && !helpers.ContainsString(ignorableErrors, azerr.Type) {
@@ -172,7 +178,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		}
 		time.Sleep(time.Second)
 
-		server, err := tc.SqlServerManager.GetServer(ctx, groupName, secSrvName)
+		server, err := tc.sqlServerManager.GetServer(ctx, groupName, secSrvName)
 		if err == nil {
 			if *server.State == "Ready" {
 				util.PrintAndLog("sql server ready")
@@ -195,8 +201,8 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// Initialize struct for failover group
-	sqlFailoverGroupProperties := SQLFailoverGroupProperties{
-		FailoverPolicy:               Automatic,
+	sqlFailoverGroupProperties := azuresqlshared.SQLFailoverGroupProperties{
+		FailoverPolicy:               azuresqlshared.Automatic,
 		FailoverGracePeriod:          30,
 		SecondaryServerName:          secSrvName,
 		SecondaryServerResourceGroup: groupName,
@@ -213,7 +219,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 		}
 		time.Sleep(time.Second)
 		if err == nil {
-			_, err := fogfuture.Result(getGoFailoverGroupsClient())
+			_, err := fogfuture.Result(azuresqlshared.GetGoFailoverGroupsClient())
 			if err == nil {
 				util.PrintAndLog("Failover group ready")
 				break
@@ -274,7 +280,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// delete the server
 	util.PrintAndLog("deleting server...")
 	time.Sleep(time.Second)
-	response, err = tc.SqlServerManager.DeleteSQLServer(ctx, groupName, serverName)
+	response, err = tc.sqlServerManager.DeleteSQLServer(ctx, groupName, serverName)
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("sql server deleted")
@@ -292,7 +298,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	// delete the secondary server
 	util.PrintAndLog("deleting second server...")
 	time.Sleep(time.Second)
-	response, err = tc.SqlServerManager.DeleteSQLServer(ctx, groupName, secSrvName)
+	response, err = tc.sqlServerManager.DeleteSQLServer(ctx, groupName, secSrvName)
 	if err == nil {
 		if response.StatusCode == 200 {
 			util.PrintAndLog("sql server deleted")

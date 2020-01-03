@@ -3,7 +3,7 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package sqlclient
+package azuresqlshared
 
 import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
@@ -166,7 +166,7 @@ func translateDBEdition(in DBEdition) (result sql.DatabaseEdition) {
 }
 
 // translateFailoverPolicy translates the enum
-func translateFailoverPolicy(in ReadWriteEndpointFailoverPolicy) (result sql.ReadWriteEndpointFailoverPolicy) {
+func TranslateFailoverPolicy(in ReadWriteEndpointFailoverPolicy) (result sql.ReadWriteEndpointFailoverPolicy) {
 	switch in {
 	case Automatic:
 		result = sql.Automatic

@@ -25,7 +25,8 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -50,7 +51,7 @@ type AzureSqlActionReconciler struct {
 	Log                   logr.Logger
 	Recorder              record.EventRecorder
 	Scheme                *runtime.Scheme
-	AzureSqlServerManager sql.SqlServerManager
+	AzureSqlServerManager azuresqlserver.SqlServerManager
 	SecretClient          secrets.SecretClient
 }
 
@@ -172,7 +173,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 
 	// rollcreds action
 	if strings.ToLower(instance.Spec.ActionName) == "rollcreds" {
-		azureSqlServerProperties := sql.SQLServerProperties{
+		azureSqlServerProperties := azuresqlshared.SQLServerProperties{
 			AdministratorLogin:         server.ServerProperties.AdministratorLogin,
 			AdministratorLoginPassword: server.ServerProperties.AdministratorLoginPassword,
 		}

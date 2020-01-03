@@ -3,15 +3,15 @@
 // This source code is licensed under the MIT license found in the
 // LICENSE file in the root directory of this source tree.
 
-package sqlclient
+package azuresqlfailovergroup
 
 import (
 	"context"
 	"net/http"
 
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+
 	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/go-logr/logr"
 )
@@ -20,9 +20,13 @@ type AzureSqlFailoverGroupManager struct {
 	Log logr.Logger
 }
 
+func NewAzureSqlFailoverGroupManager(log logr.Logger) *AzureSqlFailoverGroupManager {
+	return &AzureSqlFailoverGroupManager{Log: log}
+}
+
 // GetServer returns a SQL server
 func (_ *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient := getGoServersClient()
+	serversClient := azuresqlshared.GetGoServersClient()
 
 	return serversClient.Get(
 		ctx,
@@ -33,7 +37,7 @@ func (_ *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGr
 
 // GetDB retrieves a database
 func (_ *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
-	dbClient := getGoDbClient()
+	dbClient := azuresqlshared.GetGoDbClient()
 
 	return dbClient.Get(
 		ctx,
@@ -46,7 +50,7 @@ func (_ *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupN
 
 // GetFailoverGroup retrieves a failover group
 func (_ *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error) {
-	failoverGroupsClient := getGoFailoverGroupsClient()
+	failoverGroupsClient := azuresqlshared.GetGoFailoverGroupsClient()
 
 	return failoverGroupsClient.Get(
 		ctx,
@@ -74,7 +78,7 @@ func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context
 	if err != nil {
 		return result, nil
 	}
-	failoverGroupsClient := getGoFailoverGroupsClient()
+	failoverGroupsClient := azuresqlshared.GetGoFailoverGroupsClient()
 	future, err := failoverGroupsClient.Delete(
 		ctx,
 		resourceGroupName,
@@ -89,8 +93,8 @@ func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context
 }
 
 // CreateOrUpdateFailoverGroup creates a failover group
-func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
-	failoverGroupsClient := getGoFailoverGroupsClient()
+func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties azuresqlshared.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+	failoverGroupsClient := azuresqlshared.GetGoFailoverGroupsClient()
 
 	// Construct a PartnerInfo object from the server name
 	// Get resource ID from the servername to use
@@ -122,7 +126,7 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 	// Construct FailoverGroupProperties struct
 	failoverGroupProperties := sql.FailoverGroupProperties{
 		ReadWriteEndpoint: &sql.FailoverGroupReadWriteEndpoint{
-			FailoverPolicy:                         translateFailoverPolicy(properties.FailoverPolicy),
+			FailoverPolicy:                         azuresqlshared.TranslateFailoverPolicy(properties.FailoverPolicy),
 			FailoverWithDataLossGracePeriodMinutes: &properties.FailoverGracePeriod,
 		},
 		PartnerServers: &partnerServerInfoArray,
@@ -139,13 +143,4 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 		serverName,
 		failovergroupname,
 		failoverGroup)
-}
-
-// getGoFailoverGroupsClient retrieves a FailoverGroupsClient
-func getGoFailoverGroupsClient() sql.FailoverGroupsClient {
-	failoverGroupsClient := sql.NewFailoverGroupsClient(config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
-	failoverGroupsClient.Authorizer = a
-	failoverGroupsClient.AddToUserAgent(config.UserAgent())
-	return failoverGroupsClient
 }
