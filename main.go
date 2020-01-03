@@ -120,6 +120,12 @@ func main() {
 	}
 
 	psqlserverclient := psqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, mgr.GetScheme())
+	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
+	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
+	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
+	storageManagers := resourcemanagerstorage.AzureStorageManagers
+	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
+	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
 	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
 	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
@@ -216,10 +222,16 @@ func main() {
 	}
 
 	err = (&controllers.ConsumerGroupReconciler{
-		Client:               mgr.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
-		Recorder:             mgr.GetEventRecorderFor("ConsumerGroup-controller"),
-		ConsumerGroupManager: eventhubManagers.ConsumerGroup,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: consumerGroupClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+				"ConsumerGroup",
+			),
+			Recorder: mgr.GetEventRecorderFor("ConsumerGroup-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")

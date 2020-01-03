@@ -27,13 +27,14 @@ import (
 type ConsumerGroupSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ResourceGroupName      string `json:"resourceGroup,omitempty"`
-	NamespaceName          string `json:"namespace,omitempty"`
-	EventhubName           string `json:"eventHub,omitempty"`
-	AzureConsumerGroupName string `json:"consumerGroupName,omitempty"`
+	ResourceGroup     string `json:"resourceGroup,omitempty"`
+	Namespace         string `json:"namespace,omitempty"`
+	Eventhub          string `json:"eventHub,omitempty"`
+	ConsumerGroupName string `json:"consumerGroupName,omitempty"` // optional, falls back to ObjectMeta.Name
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // ConsumerGroup is the Schema for the consumergroups API
 type ConsumerGroup struct {
