@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -48,10 +49,6 @@ func NewAzureSqlUserManager(log logr.Logger, secretClient secrets.SecretClient, 
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
-}
-
-func NewAzureSqlUserManager(log logr.Logger) *AzureSqlUserManager {
-	return &AzureSqlUserManager{Log: log}
 }
 
 // ConnectToSqlDb connects to the SQL db using the given credentials
@@ -140,7 +137,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 	}
 
 	// need this to detect missing databases
-	dbClient := NewAzureSqlDbManager(s.Log)
+	dbClient := azuresqldb.NewAzureSqlDbManager(s.Log)
 
 	// get admin creds for server
 	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}

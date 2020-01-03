@@ -9,8 +9,6 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 
 	"testing"
 	"time"
@@ -207,7 +205,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	}
 
 	// Initialize struct for failover group
-	sqlFailoverGroupProperties := SQLFailoverGroupProperties{
+	sqlFailoverGroupProperties := azuresqlshared.SQLFailoverGroupProperties{
 		FailoverPolicy:               v1alpha1.FailoverPolicyAutomatic,
 		FailoverGracePeriod:          30,
 		SecondaryServerName:          secSrvName,
