@@ -15,7 +15,7 @@ import (
 )
 
 type SqlServerManager interface {
-	CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties) (result sql.Server, err error)
+	CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties, fUpdateWithoutCheckingName bool) (result sql.Server, err error)
 	DeleteSQLServer(ctx context.Context, resourceGroupName string, serverName string) (result autorest.Response, err error)
 	GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error)
 }

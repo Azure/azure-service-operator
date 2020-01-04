@@ -228,7 +228,7 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	if len(roles) == 0 {
 		log.Info("No roles specified for user")
 	} else {
-		r.AzureSqlUserManager.GrantUserRoles(ctx, user, roles, db)
+		r.AzureSqlUserManager.GrantUserRoles(ctx, string(DBSecret[SecretUsernameKey]), roles, db)
 	}
 
 	// publish user secret

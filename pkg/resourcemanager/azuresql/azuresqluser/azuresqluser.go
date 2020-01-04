@@ -36,7 +36,6 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
 	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30", fullServerAddress, user, password, port, database)
 
-	m.Log.Info("ConnectToSqlDb:", "conn string:", connString)
 	db, err := sql.Open(drivername, connString)
 	if err != nil {
 		m.Log.Info("ConnectToSqlDb", "error from sql.Open is:", err.Error())
