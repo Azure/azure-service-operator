@@ -217,7 +217,7 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	// write information back to instance
-	if err := r.Status().Update(ctx, instance); err != nil {
+	if err := r.Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
