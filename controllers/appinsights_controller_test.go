@@ -46,13 +46,6 @@ var _ = Describe("AppInsights Controller tests", func() {
 		ctx = context.Background()
 	})
 
-	// Clean up lingering resources
-	AfterEach(func() {
-
-		// Delete the service
-		Expect(tc.k8sClient.Delete(ctx, appInsightsInstance)).To(Succeed())
-	})
-
 	Context("Create AppInsights service", func() {
 
 		It("should create n Application Insights service", func() {
@@ -66,6 +59,7 @@ var _ = Describe("AppInsights Controller tests", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.AppInsightsSpec{
+					Kind:          "web",
 					Namespace:     "default",
 					Location:      rgLocation,
 					ResourceGroup: rgName,
@@ -80,6 +74,16 @@ var _ = Describe("AppInsights Controller tests", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(ctx, appInsightsNamespacedName, appInsightsInstance)
 				return appInsightsInstance.Status.Provisioned
+			}, tc.timeout, tc.retry,
+			).Should(BeTrue())
+
+			// Delete the service
+			Expect(tc.k8sClient.Delete(ctx, appInsightsInstance)).To(Succeed())
+
+			// Wait for the AppInsights instance to be deleted
+			Eventually(func() bool {
+				err := tc.k8sClient.Get(ctx, appInsightsNamespacedName, appInsightsInstance)
+				return err != nil
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 		})

@@ -89,17 +89,16 @@ func (m *Manager) CreateAppInsights(
 
 	componentsClient := getComponentsClient()
 
-	props := insights.ApplicationInsightsComponent{
-		Kind:     to.StringPtr(kind),
-		Location: to.StringPtr(location),
-	}
-
 	// submit the ARM request
 	result, err := componentsClient.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
 		resourceName,
-		props,
+		insights.ApplicationInsightsComponent{
+			Kind:                                   to.StringPtr(kind),
+			Location:                               to.StringPtr(location),
+			ApplicationInsightsComponentProperties: &insights.ApplicationInsightsComponentProperties{},
+		},
 	)
 	return result, err
 }
@@ -149,7 +148,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 		return false, err
 	}
 
-	instance.Status.State = autorest.String(c.ProvisioningState)
+	instance.Status.State = c.Status
 
 	return true, nil
 }
