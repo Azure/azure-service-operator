@@ -24,7 +24,8 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
 	//"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
@@ -45,7 +46,7 @@ type AzureSqlDatabaseReconciler struct {
 	Log               logr.Logger
 	Recorder          record.EventRecorder
 	Scheme            *runtime.Scheme
-	AzureSqlDbManager sql.SqlDbManager
+	AzureSqlDbManager azuresqldb.SqlDbManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqldatabases,verbs=get;list;watch;create;update;patch;delete
@@ -139,7 +140,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(ctx context.Context, inst
 	dbName := instance.ObjectMeta.Name
 	dbEdition := instance.Spec.Edition
 
-	azureSqlDatabaseProperties := sql.SQLDatabaseProperties{
+	azureSqlDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
 		Edition:      dbEdition,
 	}

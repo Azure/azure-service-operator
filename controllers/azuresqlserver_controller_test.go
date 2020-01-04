@@ -52,9 +52,9 @@ var _ = Describe("AzureSqlServer Controller", func() {
 
 	Context("Create and Delete", func() {
 		It("should create and delete sql server in k8s", func() {
-			sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
 
 			defer GinkgoRecover()
+			sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
 			var err error
 
 			// Create the SqlServer object and expect the Reconcile to be created
@@ -83,7 +83,7 @@ var _ = Describe("AzureSqlServer Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
-				return sqlServerInstance.IsSubmitted()
+				return sqlServerInstance.Status.Provisioned
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 

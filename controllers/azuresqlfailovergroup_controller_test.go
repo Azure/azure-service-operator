@@ -44,8 +44,8 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.resourceGroupName
-		rgLocation1 = "westus"
-		rgLocation2 = "eastus"
+		rgLocation1 = "westus2"
+		rgLocation2 = "southcentralus"
 		sqlServerOneName = "t-sqlfog-srvone" + helpers.RandomString(10)
 		sqlServerTwoName = "t-sqlfog-srvtwo" + helpers.RandomString(10)
 		sqlDatabaseName = "t-sqldb" + helpers.RandomString(10)
@@ -209,6 +209,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete sql failovergroup rule in k8s", func() {
 
+			defer GinkgoRecover()
 			randomName := helpers.RandomString(10)
 			sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
 

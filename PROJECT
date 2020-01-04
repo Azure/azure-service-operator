@@ -40,8 +40,16 @@ resources:
   kind: AzureSqlAction
 - group: azure
   version: v1alpha1
-  kind: AzureSqlFailoverGroup
   kind: BlobContainer
 - group: azure
   version: v1alpha1
   kind: AzureDataLakeGen2FileSystem
+- group: azure
+  version: v1alpha1
+  kind: PostgreSQLServer
+- group: azure
+  version: v1alpha1
+  kind: PostgreSQLDatabase
+- group: azure
+  version: v1alpha1
+  kind: PostgreSQLFirewallRule

@@ -19,13 +19,20 @@ package eventhubs
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	pkghelpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type eventHubAccess struct {
@@ -61,6 +68,16 @@ func findAccess(res []eventHubAccess, name string) (int, eventHubAccess) {
 
 type mockEventHubManager struct {
 	eventHubResources []eventHubResource
+	SecretClient      secrets.SecretClient
+	Scheme            *runtime.Scheme
+}
+
+func NewMockEventHubClient(secretClient secrets.SecretClient, scheme *runtime.Scheme) *mockEventHubManager {
+	return &mockEventHubManager{
+		SecretClient:      secretClient,
+		Scheme:            scheme,
+		eventHubResources: []eventHubResource{},
+	}
 }
 
 func (manager *mockEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
@@ -82,6 +99,7 @@ func (manager *mockEventHubManager) DeleteHub(ctx context.Context, resourceGroup
 }
 
 func (manager *mockEventHubManager) CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, messageRetentionInDays int32, partitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
+
 	var eventHub = eventhub.Model{
 		Response: helpers.GetRestResponse(201),
 		Properties: &eventhub.Properties{
@@ -99,6 +117,7 @@ func (manager *mockEventHubManager) CreateHub(ctx context.Context, resourceGroup
 		eventHub:          eventHub,
 		eventHubAccesses:  []eventHubAccess{},
 	})
+
 	return eventHub, nil
 }
 
@@ -173,4 +192,98 @@ func (manager *mockEventHubManager) ListKeys(ctx context.Context, resourceGroupN
 	}
 
 	return access.keys, nil
+}
+
+func (e *mockEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := e.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	eventhubName := instance.ObjectMeta.Name
+	eventhubNamespace := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+	partitionCount := instance.Spec.Properties.PartitionCount
+	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
+	secretName := instance.Spec.SecretName
+	captureDescription := instance.Spec.Properties.CaptureDescription
+
+	if len(secretName) == 0 {
+		secretName = eventhubName
+		instance.Spec.SecretName = eventhubName
+	}
+
+	// write information back to instance
+	instance.Status.Provisioning = true
+
+	capturePtr := getCaptureDescriptionPtr(captureDescription)
+
+	_, err = e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	if err != nil {
+		instance.Status.Provisioning = false
+		return false, err
+	}
+
+	// write information back to instance
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
+
+	return true, nil
+}
+
+func (e *mockEventHubManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	instance, err := e.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	eventhubName := instance.ObjectMeta.Name
+	eventhubNamespace := instance.Spec.Namespace
+	resourcegroup := instance.Spec.ResourceGroup
+	_, err = e.DeleteHub(ctx, resourcegroup, eventhubNamespace, eventhubName)
+
+	return true, err
+}
+
+func (e *mockEventHubManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+	return []resourcemanager.KubeParent{}, nil
+
+}
+
+func (e *mockEventHubManager) convert(obj runtime.Object) (*azurev1alpha1.Eventhub, error) {
+	local, ok := obj.(*azurev1alpha1.Eventhub)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
+}
+
+const storageAccountResourceFmt = "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s"
+
+func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescription) *eventhub.CaptureDescription {
+	// add capture details
+	var capturePtr *eventhub.CaptureDescription
+
+	storage := captureDescription.Destination.StorageAccount
+	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
+
+	if captureDescription.Enabled {
+		capturePtr = &eventhub.CaptureDescription{
+			Enabled:           to.BoolPtr(true),
+			Encoding:          eventhub.Avro,
+			IntervalInSeconds: &captureDescription.IntervalInSeconds,
+			SizeLimitInBytes:  &captureDescription.SizeLimitInBytes,
+			Destination: &eventhub.Destination{
+				Name: &captureDescription.Destination.Name,
+				DestinationProperties: &eventhub.DestinationProperties{
+					StorageAccountResourceID: &storageAccountResourceID,
+					BlobContainer:            &captureDescription.Destination.BlobContainer,
+					ArchiveNameFormat:        &captureDescription.Destination.ArchiveNameFormat,
+				},
+			},
+			SkipEmptyArchives: to.BoolPtr(true),
+		}
+	}
+	return capturePtr
 }
