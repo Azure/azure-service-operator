@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/Azure/go-autorest/autorest"
+	"github.com/sethvargo/go-password/password"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -41,4 +42,35 @@ func IgnoreAzureResourceNotFound(err error) error {
 		return nil
 	}
 	return err
+}
+
+// GenerateRandomUsername - helper function to generate random username for sql server
+func GenerateRandomUsername(n int, numOfDigits int) (string, error) {
+
+	// Generate a username that is n characters long, with n/2 digits and 0 symbols (not allowed),
+	// allowing only lower case letters (upper case not allowed), and disallowing repeat characters.
+	res, err := password.Generate(n, numOfDigits, 0, true, false)
+	if err != nil {
+		return "", err
+	}
+
+	return res, nil
+}
+
+// GenerateRandomPassword - helper function to generate random password for sql server
+func GenerateRandomPassword(n int) (string, error) {
+
+	// Math - Generate a password where: 1/3 of the # of chars are digits, 1/3 of the # of chars are symbols,
+	// and the remaining 1/3 is a mix of upper- and lower-case letters
+	digits := n / 3
+	symbols := n / 3
+
+	// Generate a password that is n characters long, with # of digits and symbols described above,
+	// allowing upper and lower case letters, and disallowing repeat characters.
+	res, err := password.Generate(n, digits, symbols, false, false)
+	if err != nil {
+		return "", err
+	}
+
+	return res, nil
 }
