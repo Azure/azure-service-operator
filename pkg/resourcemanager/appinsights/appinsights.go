@@ -95,9 +95,12 @@ func (m *Manager) CreateAppInsights(
 		resourceGroupName,
 		resourceName,
 		insights.ApplicationInsightsComponent{
-			Kind:                                   to.StringPtr(kind),
-			Location:                               to.StringPtr(location),
-			ApplicationInsightsComponentProperties: &insights.ApplicationInsightsComponentProperties{},
+			Kind:     to.StringPtr(kind),
+			Location: to.StringPtr(location),
+			ApplicationInsightsComponentProperties: &insights.ApplicationInsightsComponentProperties{
+				FlowType:        insights.Bluefield,
+				ApplicationType: insights.Other,
+			},
 		},
 	)
 	return result, err
