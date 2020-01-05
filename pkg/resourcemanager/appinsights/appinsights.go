@@ -98,8 +98,9 @@ func (m *Manager) CreateAppInsights(
 			Kind:     to.StringPtr(kind),
 			Location: to.StringPtr(location),
 			ApplicationInsightsComponentProperties: &insights.ApplicationInsightsComponentProperties{
-				FlowType:        insights.Bluefield,
-				ApplicationType: insights.Other,
+				FlowType:        insights.FlowType(insights.Bluefield),
+				ApplicationType: insights.ApplicationType(insights.Other),
+				RequestSource:   insights.RequestSource(insights.Rest),
 			},
 		},
 	)
