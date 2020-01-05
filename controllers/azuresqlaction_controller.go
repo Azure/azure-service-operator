@@ -126,10 +126,6 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
 	instance.Status.Message = "AzureSqlAction in progress"
-	// write information back to instance
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-	}
 
 	//get owner instance of AzureSqlServer
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner AzureSqlServer instance")
@@ -182,7 +178,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 		newPassword, _ := generateRandomPassword(passwordLength)
 		azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
-		if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties); err != nil {
+		if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties, true); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 				return err
