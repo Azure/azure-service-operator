@@ -42,7 +42,7 @@ func findSqlServer(res []MockSqlServerResource, predicate func(MockSqlServerReso
 }
 
 // CreateOrUpdateSqlServer creates a new sql server
-func (manager *MockSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties, fUpdateWithoutCheckingName bool) (result sql.Server, err error) {
+func (manager *MockSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (result sql.Server, err error) {
 	index, _ := findSqlServer(manager.sqlServers, func(s MockSqlServerResource) bool {
 		return s.resourceGroupName == resourceGroupName && *s.sqlServer.Name == serverName
 	})

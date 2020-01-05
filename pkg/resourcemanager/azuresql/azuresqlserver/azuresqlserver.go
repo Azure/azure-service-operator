@@ -66,11 +66,11 @@ func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties, fUpdateWithoutCheckingName bool) (result sql.Server, err error) {
+func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (result sql.Server, err error) {
 	serversClient := azuresqlshared.GetGoServersClient()
 	serverProp := azuresqlshared.SQLServerPropertiesToServer(properties)
 
-	if fUpdateWithoutCheckingName == false {
+	if forceUpdate == false {
 		checkNameResult, _ := CheckNameAvailability(ctx, resourceGroupName, serverName)
 		if checkNameResult.Reason == sql.AlreadyExists {
 			return result, errors.New("AlreadyExists")
