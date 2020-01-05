@@ -115,6 +115,8 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
 				errhelp.InvalidServerName,
+				errhelp.ResourceNotFound,
+				errhelp.FailoverGroupBusy,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
