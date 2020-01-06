@@ -40,7 +40,7 @@ func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
 	client := documentdb.NewDatabaseAccountsClient(config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		client = keyvault.VaultsClient{}
+		client = documentdb.DatabaseAccountsClient{}
 	} else {
 		client.Authorizer = a
 		client.AddToUserAgent(config.UserAgent())
@@ -118,6 +118,9 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 
 // DeleteCosmosDB removes the resource group named by env var
 func DeleteCosmosDB(ctx context.Context, groupName string, cosmosDBName string) (result documentdb.DatabaseAccountsDeleteFuture, err error) {
-	cosmosDBClient := getCosmosDBClient()
+	cosmosDBClient, err := getCosmosDBClient()
+	if err != nil {
+		return documentdb.DatabaseAccountsDeleteFuture{}, err
+	}
 	return cosmosDBClient.Delete(ctx, groupName, cosmosDBName)
 }
