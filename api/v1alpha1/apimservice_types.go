@@ -30,12 +30,6 @@ type ApimServiceSpec struct {
 	ResourceGroup string `json:"resourceGroup"`
 }
 
-// ApimServiceStatus defines the observed state of ApimService
-type ApimServiceStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-}
-
 // +kubebuilder:object:root=true
 
 // ApimService is the Schema for the apimservices API
@@ -43,8 +37,8 @@ type ApimService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ApimServiceSpec   `json:"spec,omitempty"`
-	Status ApimServiceStatus `json:"status,omitempty"`
+	Spec   ApimServiceSpec `json:"spec,omitempty"`
+	Status ASOStatus       `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

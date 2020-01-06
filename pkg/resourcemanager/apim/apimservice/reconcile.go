@@ -86,7 +86,7 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 // GetParents lists the parents for an API Mgmt Svc
 func (g *AzureAPIMgmtServiceManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
-	instance, err := p.convert(obj)
+	instance, err := g.convert(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +103,7 @@ func (g *AzureAPIMgmtServiceManager) GetParents(obj runtime.Object) ([]resourcem
 
 }
 
-func (g *AzureAPIMgmtServiceManager) convert(obj runtime.Object) (*azurev1alpha1.ResourceGroup, error) {
+func (g *AzureAPIMgmtServiceManager) convert(obj runtime.Object) (*azurev1alpha1.ApimService, error) {
 	local, ok := obj.(*azurev1alpha1.ApimService)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
