@@ -22,27 +22,38 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
 
-func getGroupsClient() resources.GroupsClient {
-	groupsClient := resources.NewGroupsClient(config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
-	groupsClient.Authorizer = a
-	groupsClient.AddToUserAgent(config.UserAgent())
-	return groupsClient
+func getGroupsClient() (client resources.GroupsClient, err error) {
+	client = resources.NewGroupsClient(config.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		client = resources.GroupsClient{}
+	} else {
+		client.Authorizer = a
+		client.AddToUserAgent(config.UserAgent())
+	}
+	return client, err
 }
 
-func getGroupsClientWithAuthFile() resources.GroupsClient {
-	groupsClient := resources.NewGroupsClient(config.SubscriptionID())
+func getGroupsClientWithAuthFile() (client resources.GroupsClient, err error) {
+	client = resources.NewGroupsClient(config.SubscriptionID())
 	// requires env var AZURE_AUTH_LOCATION set to output of
 	// `az ad sp create-for-rbac --sdk-auth`
-	a, _ := auth.NewAuthorizerFromFile(azure.PublicCloud.ResourceManagerEndpoint)
-	groupsClient.Authorizer = a
-	groupsClient.AddToUserAgent(config.UserAgent())
-	return groupsClient
+	a, err := auth.NewAuthorizerFromFile(azure.PublicCloud.ResourceManagerEndpoint)
+	if err != nil {
+		client = resources.GroupsClient{}
+	} else {
+		client.Authorizer = a
+		client.AddToUserAgent(config.UserAgent())
+	}
+	return client, err
 }
 
 // CreateGroup creates a new resource group named by env var
-func CreateGroup(ctx context.Context, groupName string) (resources.Group, error) {
-	groupsClient := getGroupsClient()
+func CreateGroup(ctx context.Context, groupName string) (group resources.Group, err error) {
+	groupsClient, err := getGroupsClient()
+	if err != nil {
+		return resources.Group{}, err
+	}
 	log.Println(fmt.Sprintf("creating resource group '%s' on location: %v", groupName, config.Location()))
 	return groupsClient.CreateOrUpdate(
 		ctx,

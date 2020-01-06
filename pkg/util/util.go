@@ -25,8 +25,11 @@ func Contains(array []string, element string) bool {
 // ReadJSON reads a json file, and unmashals it.
 // Very useful for template deployments.
 func ReadJSON(path string) (*map[string]interface{}, error) {
-	data, _ := ioutil.ReadFile(path)
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
 	contents := make(map[string]interface{})
-	json.Unmarshal(data, &contents)
-	return &contents, nil
+	err = json.Unmarshal(data, &contents)
+	return &contents, err
 }

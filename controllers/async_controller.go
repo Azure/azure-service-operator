@@ -36,10 +36,10 @@ type AsyncReconciler struct {
 	Scheme      *runtime.Scheme
 }
 
-func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, err error) {
+func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, errRet error) {
 	ctx := context.Background()
 
-  if err := r.Get(ctx, req.NamespacedName, local); err != nil {
+	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
 		r.Telemetry.LogInfo("ignorable error", "error during fetch from api server")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
@@ -49,12 +49,11 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	// log failure / success
 	defer func() {
-		if err != nil {
-			r.Telemetry.LogError(
-				"Failure occured during reconcilliation",
-				err)
+		if errRet != nil {
+			r.Telemetry.LogError("Failure occured during reconcilliation", errRet)
 			r.Telemetry.LogFailure()
 		} else if result.Requeue {
+			r.Telemetry.LogInfo("status", "reconciling object not finished")
 			r.Telemetry.LogFailure()
 		} else {
 			r.Telemetry.LogSuccess()
@@ -63,7 +62,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	res, err := meta.Accessor(local)
 	if err != nil {
-		r.Telemetry.LogError("accessor fail", err)
 		return ctrl.Result{}, err
 	}
 
@@ -78,16 +76,15 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 			found, deleteErr := r.AzureClient.Delete(ctx, local)
 			final := multierror.Append(deleteErr)
 			if err := final.ErrorOrNil(); err != nil {
-				r.Telemetry.LogError("error deleting object", err)
 				r.Recorder.Event(local, corev1.EventTypeWarning, "FailedDelete", fmt.Sprintf("Failed to delete resource: %s", err.Error()))
 				return ctrl.Result{}, err
 			}
 			if !found {
+				r.Telemetry.LogInfo("deleted", "successfully deleted")
 				r.Recorder.Event(local, corev1.EventTypeNormal, "Deleted", "Successfully deleted")
 				RemoveFinalizer(res, finalizerName)
 				return ctrl.Result{}, r.Update(ctx, local)
 			}
-			r.Telemetry.LogInfo("requeuing", "deletion unfinished")
 			return ctrl.Result{RequeueAfter: requeDuration}, nil
 		}
 		return ctrl.Result{}, nil
@@ -106,7 +103,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 					r.Telemetry.LogInfo("status", "setting parent reference to object: "+pAccessor.GetName())
 					err := r.Update(ctx, local)
 					if err != nil {
-						r.Telemetry.LogInfo("warning", "failed to update instance: "+err.Error())
+						r.Telemetry.LogWarning("update", "failed to update parent instance: "+err.Error())
 					}
 					break
 				}
@@ -115,20 +112,20 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	}
 
 	r.Telemetry.LogInfo("status", "reconciling object")
-	done, ensureErr := r.AzureClient.Ensure(ctx, local)
-	if ensureErr != nil {
-		r.Telemetry.LogError("ensure err", ensureErr)
+	done, err := r.AzureClient.Ensure(ctx, local)
+	if err != nil {
+		r.Telemetry.LogError("ensure", err)
 	}
 
 	// update the status of the resource in kubernetes
 	// Implementations of Ensure() tend to set their outcomes in local.Status
-	err = r.Status().Update(ctx, local)
+	err := r.Status().Update(ctx, local)
 	if err != nil {
-		r.Telemetry.LogInfo("status", "failed updating status")
+		r.Telemetry.LogWarning("update", "failed updating status")
 	}
 
 	final := multierror.Append(ensureErr, r.Update(ctx, local))
-	err = final.ErrorOrNil()
+	err := final.ErrorOrNil()
 	if err != nil {
 		r.Recorder.Event(local, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
 	} else if done {
@@ -137,11 +134,8 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	result = ctrl.Result{}
 	if !done {
-		r.Telemetry.LogInfo("status", "reconciling object not finished")
 		result.RequeueAfter = requeDuration
 	}
-
-	r.Telemetry.LogInfo("status", "exiting reconciliation")
 
 	return result, err
 }
