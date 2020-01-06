@@ -69,13 +69,6 @@ func (m *Manager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, 
 			},
 			Target: &v1alpha1.ResourceGroup{},
 		},
-		{
-			Key: types.NamespacedName{
-				Namespace: i.Namespace,
-				Name:      i.Name,
-			},
-			Target: &v1alpha1.AppInsights{},
-		},
 	}, nil
 }
 
@@ -117,42 +110,47 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 	// Set k8s status to provisioning at the beginning of this reconciliation
 	instance.Status.Provisioning = true
 
-	insights, err := m.GetAppInsights(ctx, instance.Spec.ResourceGroup, instance.Name)
+	comp, err := m.GetAppInsights(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		instance.Status.State = insights.Status
+		instance.Status.State = *comp.ProvisioningState
+
+		if *comp.ProvisioningState == "Succeeded" {
+			instance.Status.Message = *comp.ProvisioningState
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			return true, nil
+		}
+
+		return false, nil
 	}
 
-	c, err := m.CreateAppInsights(ctx, instance.Spec.Kind, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name)
+	appcomp, err := m.CreateAppInsights(ctx, instance.Spec.Kind, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name)
 	if err != nil {
-		instance.Status.Message = err.Error()
-		instance.Status.Provisioning = false
-
-		// errors we expect might happen that we are ok to wait for
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.ParentNotFoundErrorCode,
-			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
-
 		if helpers.ContainsString(catch, azerr.Type) {
-			// most of these errors mean the resource is actually not provisioning
-			switch azerr.Type {
-			case errhelp.AsyncOpIncompleteError:
-				instance.Status.Provisioning = true
-			}
-			// reconciliation is not done but error is acceptable
+			instance.Status.Message = err.Error()
 			return false, nil
 		}
-		// reconciliation not done and we don't know what happened
+
+		instance.Status.Provisioning = false
+
 		return false, err
 	}
 
-	instance.Status.State = c.Status
+	instance.Status.State = *appcomp.ProvisioningState
+
+	if instance.Status.Provisioning {
+		instance.Status.Provisioned = true
+		instance.Status.Message = "Provisioned successfully"
+	} else {
+		instance.Status.Provisioned = false
+		instance.Status.Provisioning = true
+	}
 
 	return true, nil
 }
@@ -166,11 +164,22 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object) (bool, error) 
 
 	response, err := m.DeleteAppInsights(ctx, i.Spec.ResourceGroup, i.Name)
 	if err != nil {
-		return false, err
+		m.Log.Info("Delete", "AppInsights Delete call returned", err.Error())
+		if !errhelp.IsAsynchronousOperationNotComplete(err) {
+			m.Log.Info("Error from delete call")
+			return true, err
+		}
 	}
 	i.Status.State = response.Status
+	m.Log.Info("Delete", "Status", response)
 
-	return true, err
+	if err == nil {
+		if response.Status != "InProgress" {
+			return false, nil
+		}
+	}
+
+	return true, nil
 }
 
 // DeleteAppInsights removes an Application Insights service from a subscription
@@ -181,11 +190,11 @@ func (m *Manager) DeleteAppInsights(
 
 	componentsClient := getComponentsClient()
 
-	response, err := componentsClient.Get(ctx, resourceGroupName, resourceName)
+	result, err := componentsClient.Get(ctx, resourceGroupName, resourceName)
 	if err == nil {
 		return componentsClient.Delete(ctx, resourceGroupName, resourceName)
 	}
-	return response.Response, nil
+	return result.Response, nil
 }
 
 // GetAppInsights fetches an Application Insights service reference

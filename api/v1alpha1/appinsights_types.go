@@ -30,12 +30,6 @@ type AppInsightsSpec struct {
 	ResourceGroup string `json:"resourceGroup,omitempty"`
 }
 
-// AppInsightsStatus defines the observed state of AppInsights
-type AppInsightsStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-}
-
 // +kubebuilder:object:root=true
 
 // AppInsights is the Schema for the appinsights API

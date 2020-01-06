@@ -1,7 +1,8 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: AppInsights
 metadata:
-  name: appinsights-sample
+  name: appinsights-sample1908xyz12
 spec:
-  # Add fields here
-  foo: bar
+  kind: other
+  location: westus
+  resourceGroup: resourcegroup-azure-operators
