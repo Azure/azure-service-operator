@@ -73,7 +73,7 @@ func CreateRedisCache(ctx context.Context,
 	}
 
 	if checkNameResult.StatusCode != 200 {
-		return nil, fmt.Error("redis cache name (%s) not available: %v", redisCacheName, checkNameResult.Status)
+		return nil, fmt.Errorf("redis cache name (%s) not available: %v", redisCacheName, checkNameResult.Status)
 	}
 
 	redisSku := redis.Sku{
@@ -107,6 +107,9 @@ func CreateRedisCache(ctx context.Context,
 
 // DeleteRedisCache removes the resource group named by env var
 func DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
-	redisClient := getRedisCacheClient()
+	redisClient, err := getRedisCacheClient()
+	if err != nil {
+		return nil, err
+	}
 	return redisClient.Delete(ctx, groupName, redisCacheName)
 }
