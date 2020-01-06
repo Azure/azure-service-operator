@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package sqlclient
+package azuresqldb
 
 import (
 	"context"
@@ -24,6 +24,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -42,7 +43,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (bo
 	dbName := instance.ObjectMeta.Name
 	dbEdition := instance.Spec.Edition
 
-	azureSqlDatabaseProperties := SQLDatabaseProperties{
+	azureSqlDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
 		Edition:      dbEdition,
 	}

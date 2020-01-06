@@ -197,7 +197,6 @@ var _ = BeforeSuite(func() {
 	var psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
 	var consumerGroupClient resourcemanagereventhub.ConsumerGroupManager
 
-
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
