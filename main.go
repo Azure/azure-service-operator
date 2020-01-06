@@ -365,14 +365,16 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.ApimServiceReconciler{
-		Client:      mgr.GetClient(),
-		AzureClient: apimServiceManager,
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("ApimService"),
-			"ApimService",
-		),
-		Recorder: mgr.GetEventRecorderFor("ApimService-controller"),
-		Scheme:   scheme,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: apimServiceManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("ApimService"),
+				"ApimService",
+			),
+			Recorder: mgr.GetEventRecorderFor("ApimService-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ApimService")
 		os.Exit(1)
