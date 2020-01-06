@@ -109,7 +109,7 @@ func CreateRedisCache(ctx context.Context,
 func DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
 	redisClient, err := getRedisCacheClient()
 	if err != nil {
-		return nil, err
+		return redis.DeleteFuture{}, err
 	}
 	return redisClient.Delete(ctx, groupName, redisCacheName)
 }
