@@ -28,6 +28,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Azure/azure-sdk-for-go/profiles/latest/keyvault/mgmt/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -35,12 +36,16 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-func getCosmosDBClient() documentdb.DatabaseAccountsClient {
-	cosmosDBClient := documentdb.NewDatabaseAccountsClient(config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
-	cosmosDBClient.Authorizer = a
-	cosmosDBClient.AddToUserAgent(config.UserAgent())
-	return cosmosDBClient
+func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
+	client := documentdb.NewDatabaseAccountsClient(config.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		client = keyvault.VaultsClient{}
+	} else {
+		client.Authorizer = a
+		client.AddToUserAgent(config.UserAgent())
+	}
+	return client, err
 }
 
 // CreateCosmosDB creates a new CosmosDB
@@ -50,7 +55,11 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 	kind azurev1alpha1.CosmosDBKind,
 	dbType azurev1alpha1.CosmosDBDatabaseAccountOfferType,
 	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
-	cosmosDBClient := getCosmosDBClient()
+
+	cosmosDBClient, err := getCosmosDBClient()
+	if err != nil {
+		return nil, err
+	}
 
 	dbKind := documentdb.DatabaseAccountKind(kind)
 	sDBType := string(dbType)
