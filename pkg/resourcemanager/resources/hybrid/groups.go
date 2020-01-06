@@ -19,20 +19,27 @@ const (
 	errorPrefix = "Cannot create resource group, reason: %v"
 )
 
-func getGroupsClient() resources.GroupsClient {
-	tokenAuthorizer, _ := iam.GetGroupsAuthorizer()
+func getGroupsClient() (resources.GroupsClient, error) {
+	tokenAuthorizer, err := iam.GetGroupsAuthorizer()
+	if err != nil {
+		return resources.GroupsClient{}, err
+	}
 	groupsClient := resources.NewGroupsClientWithBaseURI(
 		config.Environment().ResourceManagerEndpoint,
 		config.SubscriptionID())
 	groupsClient.Authorizer = tokenAuthorizer
-	groupsClient.AddToUserAgent(config.UserAgent())
+	err = groupsClient.AddToUserAgent(config.UserAgent())
 
-	return groupsClient
+	return groupsClient, err
 }
 
 // CreateGroup creates a new resource group named by env var
 func CreateGroup(ctx context.Context) (resources.Group, error) {
-	return getGroupsClient().CreateOrUpdate(ctx,
+	client, err := getGroupsClient()
+	if err != nil {
+		return resources.Group{}, err
+	}
+	return client.CreateOrUpdate(ctx,
 		config.GroupName(),
 		resources.Group{
 			Location: to.StringPtr(config.Location()),
@@ -41,6 +48,10 @@ func CreateGroup(ctx context.Context) (resources.Group, error) {
 }
 
 // DeleteGroup removes the resource group named by env var
-func DeleteGroup(ctx context.Context) (result resources.GroupsDeleteFuture, err error) {
-	return getGroupsClient().Delete(ctx, config.GroupName())
+func DeleteGroup(ctx context.Context) (resources.GroupsDeleteFuture, error) {
+	client, err := getGroupsClient()
+	if err != nil {
+		return resources.GroupsDeleteFuture{}, err
+	}
+	return client.Delete(ctx, config.GroupName())
 }
