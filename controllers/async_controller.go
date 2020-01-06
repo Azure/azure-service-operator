@@ -125,7 +125,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	}
 
 	final := multierror.Append(ensureErr, r.Update(ctx, local))
-	err := final.ErrorOrNil()
+	err = final.ErrorOrNil()
 	if err != nil {
 		r.Recorder.Event(local, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
 	} else if done {
