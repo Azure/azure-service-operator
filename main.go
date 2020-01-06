@@ -23,6 +23,7 @@ import (
 	"os"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	apimservice "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
@@ -110,6 +111,7 @@ func main() {
 		secretClient = keyvaultSecrets.New(keyvaultName)
 	}
 
+	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager()
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
@@ -363,8 +365,14 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.ApimServiceReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("ApimService"),
+		Client:      mgr.GetClient(),
+		AzureClient: apimServiceManager,
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName("ApimService"),
+			"ApimService",
+		),
+		Recorder: mgr.GetEventRecorderFor("ApimService-controller"),
+		Scheme:   scheme,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ApimService")
 		os.Exit(1)
