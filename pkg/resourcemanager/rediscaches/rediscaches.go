@@ -35,12 +35,16 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-func getRedisCacheClient() redis.Client {
-	redisClient := redis.NewClient(config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
-	redisClient.Authorizer = a
-	redisClient.AddToUserAgent(config.UserAgent())
-	return redisClient
+func getRedisCacheClient() (redis.Client, error) {
+	client := redis.NewClient(config.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		client = redis.Client{}
+	} else {
+		client.Authorizer = a
+		client.AddToUserAgent(config.UserAgent())
+	}
+	return client, err
 }
 
 // CreateRedisCache creates a new RedisCache
@@ -51,7 +55,11 @@ func CreateRedisCache(ctx context.Context,
 	sku azurev1alpha1.RedisCacheSku,
 	enableNonSSLPort bool,
 	tags map[string]*string) (*redis.ResourceType, error) {
-	redisClient := getRedisCacheClient()
+
+	redisClient, err := getRedisCacheClient()
+	if err != nil {
+		return nil, err
+	}
 
 	//Check if name is available
 	redisType := "Microsoft.Cache/redis"
@@ -65,7 +73,7 @@ func CreateRedisCache(ctx context.Context,
 	}
 
 	if checkNameResult.StatusCode != 200 {
-		return nil, fmt.Error("redis cache name (%s) not available: %v\n", redisCacheName, checkNameResult.Status)
+		return nil, fmt.Error("redis cache name (%s) not available: %v", redisCacheName, checkNameResult.Status)
 	}
 
 	redisSku := redis.Sku{
