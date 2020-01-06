@@ -104,11 +104,14 @@ func GetGroup(ctx context.Context) (resources.Group, error) {
 }
 
 // DeleteAllGroupsWithPrefix deletes all rescource groups that start with a certain prefix
-func DeleteAllGroupsWithPrefix(ctx context.Context, prefix string) (futures []resources.GroupsDeleteFuture, groups []string) {
+func DeleteAllGroupsWithPrefix(ctx context.Context, prefix string) (futures []resources.GroupsDeleteFuture, groups []string, errRet error) {
 	if config.KeepResources() {
-		return
+		return nil, nil, nil
 	}
-	for list, _ := ListGroups(ctx); list.NotDone(); {
+	for list, err := ListGroups(ctx); list.NotDone(); err = list.Next() {
+		if err != nil {
+			return nil, nil, err
+		}
 		rgName := *list.Value().Name
 		if strings.HasPrefix(rgName, prefix) {
 			fmt.Printf("deleting group '%s'\n", rgName)
@@ -117,20 +120,27 @@ func DeleteAllGroupsWithPrefix(ctx context.Context, prefix string) (futures []re
 			groups = append(groups, rgName)
 		}
 	}
-	return
+	return futures, groups, nil
 }
 
 // WaitForDeleteCompletion concurrently waits for delete group operations to finish
-func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []resources.GroupsDeleteFuture, groups []string) {
+func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []resources.GroupsDeleteFuture, groups []string) (errRet error) {
 	groupsClient, err := getGroupsClient()
 	if err != nil {
-		return
+		return err
 	}
 	for i, f := range futures {
 		wg.Add(1)
 		go func(ctx context.Context, future resources.GroupsDeleteFuture, rg string) {
 			err = future.WaitForCompletionRef(ctx, groupsClient.Client)
+			if err != nil {
+				errRet = err
+			}
 			wg.Done()
 		}(ctx, f, groups[i])
+		if errRet != nil {
+			break
+		}
 	}
+	return errRet
 }
