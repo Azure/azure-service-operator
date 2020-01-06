@@ -44,8 +44,8 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
 		rgName = tc.resourceGroupName
-		rgLocation1 = "westus"
-		rgLocation2 = "eastus"
+		rgLocation1 = "westus2"
+		rgLocation2 = "southcentralus"
 		sqlServerOneName = "t-sqlfog-srvone" + helpers.RandomString(10)
 		sqlServerTwoName = "t-sqlfog-srvtwo" + helpers.RandomString(10)
 		sqlDatabaseName = "t-sqldb" + helpers.RandomString(10)
@@ -72,7 +72,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return sqlServerInstance.Status.Provisioned
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
 		// Create the second SqlServer object and expect the Reconcile to be created
@@ -96,7 +96,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return sqlServerInstance.Status.Provisioned
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
 		//Create the SQL database on the first SQL server
@@ -121,7 +121,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
 			return sqlDatabaseInstance.Status.Provisioned
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 	})
 
@@ -151,7 +151,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
 			return helpers.IsBeingDeleted(sqlDatabaseInstance)
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
 		// delete the sql servers from K8s.
@@ -174,7 +174,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return helpers.IsBeingDeleted(sqlServerInstance)
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
 		// Delete the SQL server two
@@ -196,7 +196,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return helpers.IsBeingDeleted(sqlServerInstance)
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
 	})
@@ -209,6 +209,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete sql failovergroup rule in k8s", func() {
 
+			defer GinkgoRecover()
 			randomName := helpers.RandomString(10)
 			sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
 
@@ -239,13 +240,13 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 				return helpers.HasFinalizer(sqlFailoverGroupInstance, azureSQLFailoverGroupFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 				return sqlFailoverGroupInstance.Status.Provisioned
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), sqlFailoverGroupInstance)
@@ -253,7 +254,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 				return helpers.IsBeingDeleted(sqlFailoverGroupInstance)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})

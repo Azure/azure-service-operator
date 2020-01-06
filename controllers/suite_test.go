@@ -21,27 +21,36 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/client-go/rest"
 
+	s "github.com/Azure/azure-sdk-for-go/profiles/latest/storage/mgmt/storage"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
+	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/azuresql"
 	resourcemanagereventhubmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/eventhubs"
 	resourcemanagerkeyvaultsmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/keyvaults"
+	resourcemanagerpsqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/psql"
 	resourcegroupsresourcemanagermock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/resourcegroups"
 	resourcemanagerstoragesmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/storages"
+	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
+	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
+	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-
-	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/sqlclient"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -62,25 +71,36 @@ import (
 var testEnv *envtest.Environment
 
 type testContext struct {
-	k8sClient             client.Client
-	resourceGroupName     string
-	resourceGroupLocation string
-	eventhubNamespaceName string
-	eventhubName          string
-	namespaceLocation     string
-	storageAccountName    string
-	blobContainerName     string
-	resourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
-	eventHubManagers      resourcemanagereventhub.EventHubManagers
-	storageManagers       resourcemanagerstorages.StorageManagers
-	keyVaultManager       resourcemanagerkeyvaults.KeyVaultManager
-	timeout               time.Duration
+	k8sClient               client.Client
+	secretClient            secrets.SecretClient
+	resourceGroupName       string
+	resourceGroupLocation   string
+	eventhubNamespaceName   string
+	eventhubName            string
+	namespaceLocation       string
+	storageAccountName      string
+	blobContainerName       string
+	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
+	eventHubManagers        resourcemanagereventhub.EventHubManagers
+	eventhubClient          resourcemanagereventhub.EventHubManager
+	storageManagers         resourcemanagerstorages.StorageManagers
+	keyVaultManager         resourcemanagerkeyvaults.KeyVaultManager
+	psqlServerManager       resourcemanagerpsqlserver.PostgreSQLServerManager
+	psqlDatabaseManager     resourcemanagerpsqldatabase.PostgreSQLDatabaseManager
+	psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
+	sqlServerManager        resourcemanagersqlserver.SqlServerManager
+	sqlDbManager            resourcemanagersqldb.SqlDbManager
+	sqlFirewallRuleManager  resourcemanagersqlfirewallrule.SqlFirewallRuleManager
+	sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
+	sqlUserManager          resourcemanagersqluser.SqlUserManager
+	consumerGroupClient     resourcemanagereventhub.ConsumerGroupManager
+	timeout                 time.Duration
+	retry                   time.Duration
 }
 
 var tc testContext
 
 func TestAPIs(t *testing.T) {
-	//t.Parallel()
 	RegisterFailHandler(Fail)
 
 	RunSpecsWithDefaultAndCustomReporters(t,
@@ -106,6 +126,7 @@ var _ = BeforeSuite(func() {
 
 	storageAccountName := "tsadeveh" + helpers.RandomString(10)
 	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
+	containerAccessLevel := s.PublicAccessContainer
 
 	var timeout time.Duration
 
@@ -140,32 +161,76 @@ var _ = BeforeSuite(func() {
 	err = azurev1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
 	})
 	Expect(err).ToNot(HaveOccurred())
 
+	secretClient := k8sSecrets.New(k8sManager.GetClient())
+
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var keyVaultManager resourcemanagerkeyvaults.KeyVaultManager
-	var resourceClient resourcemanagersql.ResourceClient
-	secretClient := k8sSecrets.New(k8sManager.GetClient())
+	var eventhubNamespaceClient resourcemanagereventhub.EventHubNamespaceManager
+	var sqlServerManager resourcemanagersqlserver.SqlServerManager
+	var sqlDbManager resourcemanagersqldb.SqlDbManager
+	var sqlFirewallRuleManager resourcemanagersqlfirewallrule.SqlFirewallRuleManager
+	var sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
+	var sqlUserManager resourcemanagersqluser.SqlUserManager
+	var eventhubClient resourcemanagereventhub.EventHubManager
+	var psqlServerManager resourcemanagerpsqlserver.PostgreSQLServerManager
+	var psqlDatabaseManager resourcemanagerpsqldatabase.PostgreSQLDatabaseManager
+	var psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
+	var consumerGroupClient resourcemanagereventhub.ConsumerGroupManager
+
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
 		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
-		resourceClient = &resourcemanagersql.GoSDKClient{}
+		eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
+		psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, k8sManager.GetScheme())
+		psqlDatabaseManager = resourcemanagerpsqldatabase.NewPSQLDatabaseClient(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
+		psqlFirewallRuleManager = resourcemanagerpsqlfirewallrule.NewPSQLFirewallRuleClient(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))
+		eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
+		sqlServerManager = resourcemanagersqlserver.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
+		sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
+		sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+		sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+		sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
+		consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 		timeout = time.Second * 900
 	} else {
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
 		keyVaultManager = &resourcemanagerkeyvaultsmock.MockKeyVaultManager{}
-		resourceClient = &resourcemanagersqlmock.MockGoSDKClient{}
+		eventhubNamespaceClient = resourcemanagereventhubmock.NewMockEventHubNamespaceClient()
+		eventhubClient = resourcemanagereventhubmock.NewMockEventHubClient(secretClient, scheme.Scheme)
+		sqlServerManager = resourcemanagersqlmock.NewMockSqlServerManager()
+		sqlDbManager = resourcemanagersqlmock.NewMockSqlDbManager()
+		sqlFirewallRuleManager = resourcemanagersqlmock.NewMockSqlFirewallRuleManager()
+		sqlFailoverGroupManager = resourcemanagersqlmock.NewMockSqlFailoverGroupManager()
+		sqlUserManager = resourcemanagersqlmock.NewMockAzureSqlUserManager()
+		psqlServerManager = resourcemanagerpsqlmock.NewMockPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, k8sManager.GetScheme())
+		psqlDatabaseManager = resourcemanagerpsqlmock.NewMockPostgreSqlDbManager(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
+		psqlFirewallRuleManager = resourcemanagerpsqlmock.NewMockPostgreSqlFirewallRuleManager(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))
+		consumerGroupClient = resourcemanagereventhubmock.NewMockConsumerGroupClient()
 		timeout = time.Second * 60
 	}
 
@@ -178,12 +243,16 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&EventhubReconciler{
-		Client:          k8sManager.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("EventHub"),
-		Recorder:        k8sManager.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:          scheme.Scheme,
-		EventHubManager: eventHubManagers.EventHub,
-		SecretClient:    secretClient,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: eventhubClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("EventHub"),
+				"EventHub",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -196,23 +265,36 @@ var _ = BeforeSuite(func() {
 				"ResourceGroup",
 			),
 			Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&EventhubNamespaceReconciler{
-		Client:                   k8sManager.GetClient(),
-		Log:                      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
-		Recorder:                 k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
-		EventHubNamespaceManager: eventHubManagers.EventHubNamespace,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: eventhubNamespaceClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+				"EventhubNamespace",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&ConsumerGroupReconciler{
-		Client:               k8sManager.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
-		Recorder:             k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
-		ConsumerGroupManager: eventHubManagers.ConsumerGroup,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: consumerGroupClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+				"ConsumerGroup",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -223,34 +305,24 @@ var _ = BeforeSuite(func() {
 		FileSystemManager: storageManagers.FileSystem,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
-	
+
 	err = (&AzureSqlServerReconciler{
-		Client:         k8sManager.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
-		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
-		Scheme:         scheme.Scheme,
-		ResourceClient: resourceClient,
-		SecretClient:   secretClient,
+		Client:                k8sManager.GetClient(),
+		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+		Recorder:              k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
+		Scheme:                scheme.Scheme,
+		AzureSqlServerManager: sqlServerManager,
+		SecretClient:          secretClient,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlDatabaseReconciler{
-		Client:         k8sManager.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
-		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlDatabase-controller"),
-		Scheme:         scheme.Scheme,
-		ResourceClient: resourceClient,
+		Client:            k8sManager.GetClient(),
+		Log:               ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
+		Recorder:          k8sManager.GetEventRecorderFor("AzureSqlDatabase-controller"),
+		Scheme:            scheme.Scheme,
+		AzureSqlDbManager: sqlDbManager,
 	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
-
-
-	err = (&AzureSqlFailoverGroupReconciler{
-		Client:         k8sManager.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-    Scheme:         scheme.Scheme,
-		ResourceClient: resourceClient,
-    }).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlFirewallRuleReconciler{
@@ -259,12 +331,112 @@ var _ = BeforeSuite(func() {
 			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
 			"AzureSQLFirewallRuleOperator",
 		),
-		Recorder:       k8sManager.GetEventRecorderFor("AzureSqlFirewall-controller"),
-		Scheme:         scheme.Scheme,
-		ResourceClient: resourceClient,
+		Recorder:                    k8sManager.GetEventRecorderFor("AzureSqlFirewallRule-controller"),
+		Scheme:                      scheme.Scheme,
+		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
-  
+
+	err = (&AzureSqlFailoverGroupReconciler{
+		Client:                       k8sManager.GetClient(),
+		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+		Scheme:                       scheme.Scheme,
+		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSQLUserReconciler{
+		Client:              k8sManager.GetClient(),
+		Log:                 ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
+		Recorder:            k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
+		Scheme:              scheme.Scheme,
+		AzureSqlUserManager: sqlUserManager,
+		SecretClient:        secretClient,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlActionReconciler{
+		Client:                k8sManager.GetClient(),
+		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
+		Recorder:              k8sManager.GetEventRecorderFor("AzureSqlAction-controller"),
+		Scheme:                scheme.Scheme,
+		AzureSqlServerManager: sqlServerManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&BlobContainerReconciler{
+		Client:         k8sManager.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
+		Recorder:       k8sManager.GetEventRecorderFor("BlobContainer-controller"),
+		Scheme:         scheme.Scheme,
+		StorageManager: storageManagers.BlobContainer,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlFailoverGroupReconciler{
+		Client:                       k8sManager.GetClient(),
+		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+		Scheme:                       scheme.Scheme,
+		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&AzureSqlFirewallRuleReconciler{
+		Client: k8sManager.GetClient(),
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+			"AzureSQLFirewallRuleOperator",
+		),
+		Recorder:                    k8sManager.GetEventRecorderFor("AzureSqlFirewall-controller"),
+		Scheme:                      scheme.Scheme,
+		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&PostgreSQLServerReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: psqlServerManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
+				"PostgreSQLServer",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLServer-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&PostgreSQLDatabaseReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: psqlDatabaseManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabaser"),
+				"PostgreSQLDatabase",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLDatabase-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&PostgreSQLFirewallRuleReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: psqlFirewallRuleManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRule"),
+				"PostgreSQLFirewallRule",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		Expect(err).ToNot(HaveOccurred())
@@ -286,10 +458,35 @@ var _ = BeforeSuite(func() {
 	_, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 	Expect(err).ToNot(HaveOccurred())
 
+	tc = testContext{
+		k8sClient:               k8sClient,
+		secretClient:            secretClient,
+		resourceGroupName:       resourceGroupName,
+		resourceGroupLocation:   resourcegroupLocation,
+		eventhubNamespaceName:   eventhubNamespaceName,
+		eventhubName:            eventhubName,
+		namespaceLocation:       namespaceLocation,
+		storageAccountName:      storageAccountName,
+		blobContainerName:       blobContainerName,
+		eventHubManagers:        eventHubManagers,
+		eventhubClient:          eventhubClient,
+		resourceGroupManager:    resourceGroupManager,
+		sqlServerManager:        sqlServerManager,
+		sqlDbManager:            sqlDbManager,
+		sqlFirewallRuleManager:  sqlFirewallRuleManager,
+		sqlFailoverGroupManager: sqlFailoverGroupManager,
+		sqlUserManager:          sqlUserManager,
+		storageManagers:         storageManagers,
+		keyVaultManager:         keyVaultManager,
+		timeout:                 timeout,
+		retry:                   time.Second * 3,
+		consumerGroupClient:     consumerGroupClient,
+	}
+
 	Eventually(func() bool {
 		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
 		return namespace.ProvisioningState != nil && *namespace.ProvisioningState == "Succeeded"
-	}, 60,
+	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
 	// Create the Eventhub resource
@@ -297,30 +494,20 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	// Create the Storage Account and Container
-	_, err = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
+	_, _ = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
 		Name: "Standard_LRS",
 	}, "Storage", map[string]*string{}, "", nil, nil)
 
-	Expect(err).ToNot(HaveOccurred())
+	// Storage account needs to be in "Suceeded" state
+	// for container create to succeed
+	Eventually(func() s.ProvisioningState {
+		result, _ := storageManagers.Storage.GetStorage(context.Background(), resourceGroupName, storageAccountName)
+		return result.ProvisioningState
+	}, tc.timeout, tc.retry,
+	).Should(Equal(s.Succeeded))
 
-	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName)
+	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
 	Expect(err).ToNot(HaveOccurred())
-
-	tc = testContext{
-		k8sClient:             k8sClient,
-		resourceGroupName:     resourceGroupName,
-		resourceGroupLocation: resourcegroupLocation,
-		eventhubNamespaceName: eventhubNamespaceName,
-		eventhubName:          eventhubName,
-		namespaceLocation:     namespaceLocation,
-		storageAccountName:    storageAccountName,
-		blobContainerName:     blobContainerName,
-		eventHubManagers:      eventHubManagers,
-		resourceGroupManager:  resourceGroupManager,
-		storageManagers:       storageManagers,
-		keyVaultManager:       keyVaultManager,
-		timeout:               timeout,
-	}
 
 })
 
@@ -330,8 +517,19 @@ var _ = AfterSuite(func() {
 	By("tearing down the test environment")
 
 	// delete the resource group and contained resources
-	_, _ = tc.resourceGroupManager.DeleteGroup(context.Background(), tc.resourceGroupName)
-
+	Eventually(func() bool {
+		_, err := tc.resourceGroupManager.DeleteGroup(context.Background(), tc.resourceGroupName)
+		if err != nil {
+			log.Println(err)
+			log.Println()
+			if strings.Contains(err.Error(), "asynchronous operation has not completed") {
+				return true
+			}
+			return false
+		}
+		return true
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
 	log.Println(fmt.Sprintf("Finished common controller test teardown"))

@@ -24,7 +24,8 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
 	//"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
@@ -42,10 +43,10 @@ import (
 // AzureSqlDatabaseReconciler reconciles a AzureSqlDatabase object
 type AzureSqlDatabaseReconciler struct {
 	client.Client
-	Log            logr.Logger
-	Recorder       record.EventRecorder
-	Scheme         *runtime.Scheme
-	ResourceClient sql.ResourceClient
+	Log               logr.Logger
+	Recorder          record.EventRecorder
+	Scheme            *runtime.Scheme
+	AzureSqlDbManager azuresqldb.SqlDbManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqldatabases,verbs=get;list;watch;create;update;patch;delete
@@ -139,7 +140,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(ctx context.Context, inst
 	dbName := instance.ObjectMeta.Name
 	dbEdition := instance.Spec.Edition
 
-	azureSqlDatabaseProperties := sql.SQLDatabaseProperties{
+	azureSqlDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
 		Edition:      dbEdition,
 	}
@@ -169,7 +170,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(ctx context.Context, inst
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	_, err = r.ResourceClient.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
+	_, err = r.AzureSqlDbManager.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -179,7 +180,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(ctx context.Context, inst
 		return err
 	}
 
-	_, err = r.ResourceClient.GetDB(ctx, groupName, server, dbName)
+	_, err = r.AzureSqlDbManager.GetDB(ctx, groupName, server, dbName)
 	if err != nil {
 		return err
 	}
@@ -196,7 +197,7 @@ func (r *AzureSqlDatabaseReconciler) deleteExternal(ctx context.Context, instanc
 	dbName := instance.ObjectMeta.Name
 
 	r.Log.Info(fmt.Sprintf("deleting external resource: group/%s/server/%s/database/%s"+groupName, server, dbName))
-	_, err := r.ResourceClient.DeleteDB(ctx, groupName, server, dbName)
+	_, err := r.AzureSqlDbManager.DeleteDB(ctx, groupName, server, dbName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")

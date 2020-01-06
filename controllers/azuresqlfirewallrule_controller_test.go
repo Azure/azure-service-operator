@@ -65,7 +65,7 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return sqlServerInstance.Status.Provisioned
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 	})
 
@@ -90,7 +90,7 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 			return helpers.IsBeingDeleted(sqlServerInstance)
-		}, tc.timeout,
+		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 	})
 
@@ -102,6 +102,7 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete sql firewall rule in k8s", func() {
 
+			defer GinkgoRecover()
 			randomName := helpers.RandomString(10)
 			sqlFirewallRuleName := "t-fwrule-dev-" + randomName
 
@@ -128,13 +129,13 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
 				return helpers.HasFinalizer(sqlFirewallRuleInstance, azureSQLFirewallRuleFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
 				return sqlFirewallRuleInstance.Status.Provisioned
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), sqlFirewallRuleInstance)
@@ -143,7 +144,7 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
 				return helpers.IsBeingDeleted(sqlFirewallRuleInstance)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})

@@ -51,6 +51,8 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 
 	Context("Create and Delete", func() {
 		It("should fail to create a file system if the resource group doesn't exist", func() {
+
+			defer GinkgoRecover()
 			fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
 			resouceGroupName := "rg-" + helpers.RandomString(10)
 
@@ -74,8 +76,8 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 			fileSystemNamespacedName := types.NamespacedName{Name: fileSystemName, Namespace: "default"}
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
-				return fileSystemInstance.IsSubmitted()
-			}, tc.timeout,
+				return fileSystemInstance.Status.Provisioned
+			}, tc.timeout, tc.retry,
 			).Should(BeFalse())
 
 			// Delete should still appear successful
@@ -84,6 +86,8 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 		})
 
 		It("should fail to create a file system if the storage account doesn't exist", func() {
+
+			defer GinkgoRecover()
 			fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
 			storageAccountName := "sa-" + helpers.RandomString(10)
 
@@ -107,8 +111,8 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 			fileSystemNamespacedName := types.NamespacedName{Name: fileSystemName, Namespace: "default"}
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
-				return fileSystemInstance.IsSubmitted()
-			}, tc.timeout,
+				return fileSystemInstance.Status.Provisioned
+			}, tc.timeout, tc.retry,
 			).Should(BeFalse())
 
 			// Delete should still appear successful
@@ -117,6 +121,8 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 		})
 
 		It("should create and delete a filesystem if the resource group and storage account exist", func() {
+
+			defer GinkgoRecover()
 			fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
 
 			var err error
@@ -141,13 +147,13 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
 				return fileSystemInstance.HasFinalizer(fileSystemFinalizerName)
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
 				return fileSystemInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			err = tc.k8sClient.Delete(context.Background(), fileSystemInstance)
@@ -156,7 +162,7 @@ var _ = Describe("ADLS Filesystem Controller", func() {
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
 				return fileSystemInstance.IsBeingDeleted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})
