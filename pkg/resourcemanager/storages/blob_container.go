@@ -19,11 +19,12 @@ package storages
 import (
 	"context"
 	"fmt"
+	"log"
+
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
-	"log"
 )
 
 type azureBlobContainerManager struct{}
@@ -41,8 +42,13 @@ func getContainerClient() s.BlobContainersClient {
 // resourceGroupName - name of the resource group within the azure subscription.
 // accountName - the name of the storage account
 // containerName - the name of the container
-func (_ *azureBlobContainerManager) CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (*s.BlobContainer, error) {
+// accessLevel - 'PublicAccessContainer', 'PublicAccessBlob', or 'PublicAccessNone'
+func (_ *azureBlobContainerManager) CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string, accessLevel s.PublicAccess) (*s.BlobContainer, error) {
 	containerClient := getContainerClient()
+
+	blobContainerProperties := s.ContainerProperties{
+		PublicAccess: accessLevel,
+	}
 
 	log.Println(fmt.Sprintf("Creating blob container '%s' in storage account: %s", containerName, accountName))
 
@@ -51,7 +57,7 @@ func (_ *azureBlobContainerManager) CreateBlobContainer(ctx context.Context, res
 		resourceGroupName,
 		accountName,
 		containerName,
-		s.BlobContainer{})
+		s.BlobContainer{ContainerProperties: &blobContainerProperties})
 
 	if err != nil {
 		return nil, err

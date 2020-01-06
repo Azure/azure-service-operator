@@ -22,7 +22,8 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqlfirewall "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -40,10 +41,10 @@ const azureSQLFirewallRuleFinalizerName = "azuresqlfirewallrule.finalizers.azure
 // AzureSqlFirewallRuleReconciler reconciles a AzureSqlFirewallRule object
 type AzureSqlFirewallRuleReconciler struct {
 	client.Client
-	Telemetry      telemetry.PrometheusTelemetry
-	Recorder       record.EventRecorder
-	Scheme         *runtime.Scheme
-	ResourceClient sql.ResourceClient
+	Telemetry                   telemetry.PrometheusTelemetry
+	Recorder                    record.EventRecorder
+	Scheme                      *runtime.Scheme
+	AzureSqlFirewallRuleManager azuresqlfirewall.SqlFirewallRuleManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfirewallrules,verbs=get;list;watch;create;update;patch;delete
@@ -167,7 +168,7 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(ctx context.Context, 
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
-	_, err = r.ResourceClient.CreateOrUpdateSQLFirewallRule(ctx, groupName, serverName, ruleName, startIP, endIP)
+	_, err = r.AzureSqlFirewallRuleManager.CreateOrUpdateSQLFirewallRule(ctx, groupName, serverName, ruleName, startIP, endIP)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Telemetry.LogInfo(
@@ -180,13 +181,17 @@ func (r *AzureSqlFirewallRuleReconciler) reconcileExternal(ctx context.Context, 
 		return err
 	}
 
-	_, err = r.ResourceClient.GetSQLFirewallRule(ctx, groupName, serverName, ruleName)
+	_, err = r.AzureSqlFirewallRuleManager.GetSQLFirewallRule(ctx, groupName, serverName, ruleName)
 	if err != nil {
 		return err
 	}
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
+
+	if err = r.Status().Update(ctx, instance); err != nil {
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
+	}
 
 	return nil
 }
@@ -201,7 +206,7 @@ func (r *AzureSqlFirewallRuleReconciler) deleteExternal(ctx context.Context, ins
 		fmt.Sprintf("deleting external resource: group/%s/server/%s/firewallrule/%s", groupName, serverName, ruleName),
 	)
 
-	err := r.ResourceClient.DeleteSQLFirewallRule(ctx, groupName, serverName, ruleName)
+	err := r.AzureSqlFirewallRuleManager.DeleteSQLFirewallRule(ctx, groupName, serverName, ruleName)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")

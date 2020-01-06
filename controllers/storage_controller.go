@@ -29,6 +29,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -39,8 +40,12 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
 const storageFinalizerName = "storage.finalizers.azure.com"
@@ -50,6 +55,7 @@ type StorageReconciler struct {
 	client.Client
 	Log            logr.Logger
 	Recorder       record.EventRecorder
+	Scheme         *runtime.Scheme
 	RequeueTime    time.Duration
 	StorageManager storages.StorageManager
 }
@@ -85,7 +91,17 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, storageFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Error", "Delete Storage failed with ", err)
+				catch := []string{
+					errhelp.AsyncOpIncompleteError,
+				}
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if helpers.ContainsString(catch, azerr.Type) {
+					log.Info("Got ignorable error", "type", azerr.Type)
+					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+				}
+
+				instance.Status.Message = fmt.Sprintf("Delete Storage Account failed with %v", err)
+				log.Info(instance.Status.Message)
 				return ctrl.Result{}, err
 			}
 
@@ -111,16 +127,65 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.AccountNameInvalid,
+				errhelp.AlreadyExists,
+				errhelp.AsyncOpIncompleteError,
 			}
-			if helpers.ContainsString(catch, err.(*errhelp.AzureError).Type) {
-				log.Info("Got ignorable error", "type", err.(*errhelp.AzureError).Type)
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if helpers.ContainsString(catch, azerr.Type) {
+				if azerr.Type == errhelp.AlreadyExists {
+					// This error could happen in two cases - when the storage account
+					// exists in some other resource group or when this is a repeat
+					// call to the reconcile loop for an update of this exact resource. So
+					// we call a Get to check if this is the current resource and if
+					// yes, we let the call go through instead of ending the reconcile loop
+					_, err := r.StorageManager.GetStorage(ctx, instance.Spec.ResourceGroupName, instance.ObjectMeta.Name)
+					if err != nil {
+						// This means that the Server exists elsewhere and we should
+						// terminate the reconcile loop
+						instance.Status.Message = "Storage Account Already exists"
+						instance.Status.Provisioning = false
+						r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
+						return ctrl.Result{Requeue: false}, nil
+					}
+				}
+
+				if azerr.Type == errhelp.AccountNameInvalid {
+					instance.Status.Message = "Invalid Storage Account Name"
+					r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", instance.Status.Message)
+					return ctrl.Result{Requeue: false}, nil
+				}
+				log.Info("Got ignorable error", "type", azerr.Type)
 				return ctrl.Result{Requeue: true, RequeueAfter: time.Second * time.Duration(requeueAfter)}, nil
 			}
 			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
 		}
-		return ctrl.Result{}, nil
+		log.Info("waiting for provision to take effect")
+		return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
 	}
 
+	if err := r.verifyExternal(ctx, &instance); err != nil {
+		if err.Error() == "NotReady" {
+			instance.Status.Message = fmt.Sprintf("Got ignorable error type: %s", err.Error())
+			log.Info(instance.Status.Message)
+			return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
+		}
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+			errhelp.AsyncOpIncompleteError,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Message = fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
+			log.Info(instance.Status.Message)
+			return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
+		}
+
+		return ctrl.Result{}, fmt.Errorf("error verifying storage account in azure: %v", err)
+	}
+	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "storage account "+instance.ObjectMeta.Name+" provisioned ")
 	return ctrl.Result{}, nil
 }
 
@@ -143,40 +208,60 @@ func (r *StorageReconciler) reconcileExternal(instance *azurev1alpha1.Storage) e
 	kind := instance.Spec.Kind
 	accessTier := instance.Spec.AccessTier
 	enableHTTPSTrafficOnly := instance.Spec.EnableHTTPSTrafficOnly
+	dataLakeEnabled := instance.Spec.DataLakeEnabled
 
 	var err error
+
+	//get owner instance of ResourceGroup
+	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner ResourceGroup instance")
+	var ownerInstance azurev1alpha1.ResourceGroup
+
+	// Get resource group
+	resourceGroupNamespacedName := types.NamespacedName{Name: groupName, Namespace: instance.Namespace}
+	err = r.Get(ctx, resourceGroupNamespacedName, &ownerInstance)
+	if err != nil {
+		//log error and kill it, as the parent might not exist in the cluster. It could have been created elsewhere or through the portal directly
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get owner instance of ReourceGroup")
+	} else {
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Got owner instance of Resource Group and assigning controller reference now")
+		innerErr := controllerutil.SetControllerReference(&ownerInstance, instance, r.Scheme)
+		if innerErr != nil {
+			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to set controller reference to ResourceGroup")
+		}
+		r.Recorder.Event(instance, corev1.EventTypeNormal, "OwnerAssign", "Owner instance assigned successfully")
+	}
+
+	// write information back to instance
+	if err := r.Update(ctx, instance); err != nil {
+		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
+	}
 
 	// write information back to instance
 	instance.Status.Provisioning = true
 
-	err = r.Update(ctx, instance)
+	_, err = r.StorageManager.CreateStorage(ctx, groupName, name, location, sku, kind, nil, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled)
 	if err != nil {
-		//log error and kill it
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
-	}
-
-	_, err = r.StorageManager.CreateStorage(ctx, groupName, name, location, sku, kind, nil, accessTier, enableHTTPSTrafficOnly)
-	if err != nil {
-		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
-		instance.Status.Provisioning = false
-		errUpdate := r.Update(ctx, instance)
-		if errUpdate != nil {
-			//log error and kill it
-			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+		if !strings.Contains(err.Error(), "not complete") {
+			msg := fmt.Sprintf("CreateStorage not complete: %v", err)
+			instance.Status.Message = msg
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
+			return err
 		}
-		return errhelp.NewAzureError(err)
+		if strings.Contains(err.Error(), errhelp.AccountNameInvalid) {
+			msg := fmt.Sprintf("Invalid Account Name: %v", err)
+			instance.Status.Message = msg
+			r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to provision or update instance")
+			return errhelp.NewAzureError(err)
+		}
+	} else {
+		msg := "Resource request successfully submitted to Azure"
+		instance.Status.Message = msg
 	}
 
-	instance.Status.Provisioning = false
-	instance.Status.Provisioned = true
-
-	err = r.Update(ctx, instance)
+	err = r.Status().Update(ctx, instance)
 	if err != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
-
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", name+" provisioned")
-
 	return nil
 }
 
@@ -206,72 +291,31 @@ func (r *StorageReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-/* Below code was from prior to refactor.
-   Left here for future reference for pulling out values post deployment.
+func (r *StorageReconciler) verifyExternal(ctx context.Context, instance *azurev1alpha1.Storage) error {
+	name := instance.ObjectMeta.Name
+	groupName := instance.Spec.ResourceGroupName
 
-func (r *StorageReconciler) updateStatus(req ctrl.Request, resourceGroupName, deploymentName, provisioningState string, outputs interface{}) (*servicev1alpha1.Storage, error) {
-	ctx := context.Background()
-	log := r.Log.WithValues("storage", req.NamespacedName)
-
-	resource := &servicev1alpha1.Storage{}
-	r.Get(ctx, req.NamespacedName, resource)
-	log.Info("Getting Storage Account", "Storage.Namespace", resource.Namespace, "Storage.Name", resource.Name)
-
-	resourceCopy := resource.DeepCopy()
-	resourceCopy.Status.DeploymentName = deploymentName
-	resourceCopy.Status.ProvisioningState = provisioningState
-
-	err := r.Status().Update(ctx, resourceCopy)
+	stor, err := r.StorageManager.GetStorage(ctx, groupName, name)
 	if err != nil {
-		log.Error(err, "unable to update Storage status")
-		return nil, err
-	}
-	log.V(1).Info("Updated Status", "Storage.Namespace", resourceCopy.Namespace, "Storage.Name", resourceCopy.Name, "Storage.Status", resourceCopy.Status)
-
-	if helpers.IsDeploymentComplete(provisioningState) {
-		if outputs != nil {
-			resourceCopy.Output.StorageAccountName = helpers.GetOutput(outputs, "storageAccountName")
-			resourceCopy.Output.Key1 = helpers.GetOutput(outputs, "key1")
-			resourceCopy.Output.Key2 = helpers.GetOutput(outputs, "key2")
-			resourceCopy.Output.ConnectionString1 = helpers.GetOutput(outputs, "connectionString1")
-			resourceCopy.Output.ConnectionString2 = helpers.GetOutput(outputs, "connectionString2")
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if azerr.Type != errhelp.ResourceNotFound {
+			return azerr
 		}
 
-		err := r.syncAdditionalResourcesAndOutput(req, resourceCopy)
-		if err != nil {
-			log.Error(err, "error syncing resources")
-			return nil, err
-		}
-		log.V(1).Info("Updated additional resources", "Storage.Namespace", resourceCopy.Namespace, "Storage.Name", resourceCopy.Name, "Storage.AdditionalResources", resourceCopy.AdditionalResources, "Storage.Output", resourceCopy.Output)
+		instance.Status.State = "NotReady"
+	} else {
+		instance.Status.State = string(stor.ProvisioningState)
 	}
 
-	return resourceCopy, nil
+	r.Recorder.Event(instance, v1.EventTypeNormal, "Checking", fmt.Sprintf("instance in %s state", instance.Status.State))
+
+	if instance.Status.State == "Succeeded" {
+		instance.Status.Message = "StorageAccount successfully provisioned"
+		instance.Status.Provisioned = true
+		instance.Status.Provisioning = false
+		return nil
+	}
+
+	return fmt.Errorf("NotReady")
+
 }
-
-func (r *StorageReconciler) syncAdditionalResourcesAndOutput(req ctrl.Request, s *servicev1alpha1.Storage) (err error) {
-	ctx := context.Background()
-	log := r.Log.WithValues("storage", req.NamespacedName)
-
-	secrets := []string{}
-	secretData := map[string]string{
-		"storageAccountName": "{{.Obj.Output.StorageAccountName}}",
-		"key1":               "{{.Obj.Output.Key1}}",
-		"key2":               "{{.Obj.Output.Key2}}",
-		"connectionString1":  "{{.Obj.Output.ConnectionString1}}",
-		"connectionString2":  "{{.Obj.Output.ConnectionString2}}",
-	}
-	secret := helpers.CreateSecret(s, s.Name, s.Namespace, secretData)
-	secrets = append(secrets, secret)
-
-	resourceCopy := s.DeepCopy()
-	resourceCopy.AdditionalResources.Secrets = secrets
-
-	err = r.Update(ctx, resourceCopy)
-	if err != nil {
-		log.Error(err, "unable to update Storage status")
-		return err
-	}
-
-	return nil
-}
-*/

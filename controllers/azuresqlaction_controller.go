@@ -25,7 +25,9 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -37,7 +39,6 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 )
@@ -47,10 +48,11 @@ const AzureSqlActionFinalizerName = "azuresqlaction.finalizers.azure.com"
 // AzureSqlActionReconciler reconciles a AzureSqlAction object
 type AzureSqlActionReconciler struct {
 	client.Client
-	Log            logr.Logger
-	Recorder       record.EventRecorder
-	Scheme         *runtime.Scheme
-	ResourceClient sql.ResourceClient
+	Log                   logr.Logger
+	Recorder              record.EventRecorder
+	Scheme                *runtime.Scheme
+	AzureSqlServerManager azuresqlserver.SqlServerManager
+	SecretClient          secrets.SecretClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlactions,verbs=get;list;watch;create;update;patch;delete
@@ -124,10 +126,6 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
 	instance.Status.Message = "AzureSqlAction in progress"
-	// write information back to instance
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-	}
 
 	//get owner instance of AzureSqlServer
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner AzureSqlServer instance")
@@ -152,7 +150,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 	}
 
 	// Get the Sql Server instance that corresponds to the Server name in the spec for this action
-	server, err := r.ResourceClient.GetServer(ctx, groupName, serverName)
+	server, err := r.AzureSqlServerManager.GetServer(ctx, groupName, serverName)
 	if err != nil {
 		if strings.Contains(err.Error(), errhelp.ResourceGroupNotFoundErrorCode) {
 			r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to get instance of AzureSqlServer: Resource group not found")
@@ -171,7 +169,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 
 	// rollcreds action
 	if strings.ToLower(instance.Spec.ActionName) == "rollcreds" {
-		azureSqlServerProperties := sql.SQLServerProperties{
+		azureSqlServerProperties := azuresqlshared.SQLServerProperties{
 			AdministratorLogin:         server.ServerProperties.AdministratorLogin,
 			AdministratorLoginPassword: server.ServerProperties.AdministratorLoginPassword,
 		}
@@ -180,7 +178,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 		newPassword, _ := generateRandomPassword(passwordLength)
 		azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
-		if _, err := r.ResourceClient.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties); err != nil {
+		if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties, true); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 				return err
@@ -189,23 +187,22 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 			r.Recorder.Event(instance, corev1.EventTypeNormal, "Provisioned", "resource request successfully submitted to Azure")
 		}
 
-		// Update the k8s secret
-		secret := &corev1.Secret{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      serverName,
-				Namespace: namespace,
-			},
-			Type: "Opaque",
+		key := types.NamespacedName{Name: serverName, Namespace: namespace}
+		data, err := r.SecretClient.Get(ctx, key)
+		if err != nil {
+			return err
 		}
 
-		_, createOrUpdateSecretErr := controllerutil.CreateOrUpdate(context.Background(), r.Client, secret, func() error {
-			r.Log.Info("Creating or updating secret with SQL Server credentials")
-			secret.Data["password"] = []byte(*azureSqlServerProperties.AdministratorLoginPassword)
-			return nil
-		})
-		if createOrUpdateSecretErr != nil {
-			r.Log.Info("Error", "CreateOrUpdateSecretErr", createOrUpdateSecretErr)
-			return createOrUpdateSecretErr
+		data["password"] = []byte(*azureSqlServerProperties.AdministratorLoginPassword)
+		err = r.SecretClient.Upsert(
+			ctx,
+			key,
+			data,
+			secrets.WithOwner(&ownerInstance),
+			secrets.WithScheme(r.Scheme),
+		)
+		if err != nil {
+			return err
 		}
 
 		instance.Status.Provisioning = false

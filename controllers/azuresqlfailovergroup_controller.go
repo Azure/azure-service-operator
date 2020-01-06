@@ -32,7 +32,8 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 )
 
 const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azure.com"
@@ -40,10 +41,10 @@ const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azu
 // AzureSqlFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
 type AzureSqlFailoverGroupReconciler struct {
 	client.Client
-	Log            logr.Logger
-	Recorder       record.EventRecorder
-	Scheme         *runtime.Scheme
-	ResourceClient sql.ResourceClient
+	Log                          logr.Logger
+	Recorder                     record.EventRecorder
+	Scheme                       *runtime.Scheme
+	AzureSqlFailoverGroupManager azuresqlfailovergroup.SqlFailoverGroupManager
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfailovergroups,verbs=get;list;watch;create;update;patch;delete
@@ -114,6 +115,8 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 				errhelp.NotFoundErrorCode,
 				errhelp.AsyncOpIncompleteError,
 				errhelp.InvalidServerName,
+				errhelp.ResourceNotFound,
+				errhelp.FailoverGroupBusy,
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catch, azerr.Type) {
@@ -187,7 +190,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context,
 	}
 
 	// Create Failover Group properties struct
-	sqlFailoverGroupProperties := sql.SQLFailoverGroupProperties{
+	sqlFailoverGroupProperties := azuresqlshared.SQLFailoverGroupProperties{
 		FailoverPolicy:               failoverPolicy,
 		FailoverGracePeriod:          failoverGracePeriod,
 		SecondaryServerName:          secondaryServer,
@@ -195,7 +198,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context,
 		DatabaseList:                 databaseList,
 	}
 
-	_, err = r.ResourceClient.CreateOrUpdateFailoverGroup(ctx, groupName, servername, failoverGroupName, sqlFailoverGroupProperties)
+	_, err = r.AzureSqlFailoverGroupManager.CreateOrUpdateFailoverGroup(ctx, groupName, servername, failoverGroupName, sqlFailoverGroupProperties)
 	if err != nil {
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
@@ -206,7 +209,7 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context,
 		return errhelp.NewAzureError(err)
 	}
 
-	_, err = r.ResourceClient.GetFailoverGroup(ctx, groupName, servername, failoverGroupName)
+	_, err = r.AzureSqlFailoverGroupManager.GetFailoverGroup(ctx, groupName, servername, failoverGroupName)
 	if err != nil {
 		return errhelp.NewAzureError(err)
 	}
@@ -223,7 +226,7 @@ func (r *AzureSqlFailoverGroupReconciler) deleteExternal(ctx context.Context, in
 	servername := instance.Spec.Server
 	groupName := instance.Spec.ResourceGroup
 
-	response, err := r.ResourceClient.DeleteFailoverGroup(ctx, groupName, servername, name)
+	response, err := r.AzureSqlFailoverGroupManager.DeleteFailoverGroup(ctx, groupName, servername, name)
 	if err != nil {
 		msg := fmt.Sprintf("Couldn't delete resource in Azure: %v", err)
 		instance.Status.Message = msg

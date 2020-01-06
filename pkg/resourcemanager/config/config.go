@@ -22,12 +22,14 @@ var (
 	authorizationServerURL string
 	cloudName              string = "AzurePublicCloud"
 	useDeviceFlow          bool
+	useMI                  bool
 
-	keepResources bool
-	groupName     string // deprecated, use baseGroupName instead
-	baseGroupName string
-	userAgent     string
-	environment   *azure.Environment
+	keepResources    bool
+	operatorKeyvault string
+	groupName        string // deprecated, use baseGroupName instead
+	baseGroupName    string
+	userAgent        string
+	environment      *azure.Environment
 )
 
 // ClientID is the OAuth client ID.
@@ -69,10 +71,21 @@ func AuthorizationServerURL() string {
 	return authorizationServerURL
 }
 
+// OperatorKeyvault() specifies the keyvault the operator should use to store secrets
+func OperatorKeyvault() string {
+	return operatorKeyvault
+}
+
 // UseDeviceFlow() specifies if interactive auth should be used. Interactive
 // auth uses the OAuth Device Flow grant type.
 func UseDeviceFlow() bool {
 	return useDeviceFlow
+}
+
+// UseMI() specifies if managed service identity auth should be used. Used for
+// aad-pod-identity
+func UseMI() bool {
+	return useMI
 }
 
 // deprecated: do not use global group names

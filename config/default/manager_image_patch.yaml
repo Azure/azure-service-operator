@@ -16,11 +16,13 @@ spec:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_CLIENT_ID
+                optional: true
           - name: AZURE_CLIENT_SECRET
             valueFrom:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_CLIENT_SECRET
+                optional: true
           - name: AZURE_TENANT_ID
             valueFrom:
               secretKeyRef:
@@ -31,6 +33,18 @@ spec:
               secretKeyRef:
                 name: azureoperatorsettings
                 key: AZURE_SUBSCRIPTION_ID
+          - name: AZURE_USE_MI
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: AZURE_USE_MI
+                optional: true
+          - name: AZURE_OPERATOR_KEYVAULT
+            valueFrom:
+              secretKeyRef:
+                name: azureoperatorsettings
+                key: AZURE_OPERATOR_KEYVAULT
+                optional: true
           #requeue after time in seconds"
           - name: REQUEUE_AFTER
             value: "30"

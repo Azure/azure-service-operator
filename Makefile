@@ -34,15 +34,26 @@ api-test: generate fmt vet manifests
 
 # Run tests
 test: generate fmt vet manifests 
-	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/sqlclient/... -timeout 20m 2>&1 | tee testlogs.txt
+	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 go test -v -coverprofile=coverage.txt -covermode count ./api/... ./controllers/... -timeout 10m 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt  > report.xml
 	go tool cover -html=coverage.txt -o cover.html
 
 # Run tests with existing cluster
 test-existing: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/sqlclient/... -timeout 20m 2>&1 | tee testlogs-existing.txt
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./controllers/... ./pkg/resourcemanager/sqlclient/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/psql/server/... ./pkg/resourcemanager/psql/database/... ./pkg/resourcemanager/psql/firewallrule/... -timeout 40m 2>&1 | tee testlogs-existing.txt
 	go-junit-report < testlogs-existing.txt  > report-existing.xml
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
+
+# Cleanup resource groups azure created by tests using pattern matching 't-rg-'
+test-cleanup-azure-resources: 
+	az account set -s ${AZURE_SUBSCRIPTION_ID}
+	
+	# Delete the resource groups that match the pattern
+	for rgname in `az group list --query "[*].[name]" -o table | grep '^t-rg-' `; do \
+	    echo "$$rgname will be deleted"; \
+	    az group delete --name $$rgname --no-wait --yes; \
+    done
+	
 
 # Build manager binary
 manager: generate fmt vet
@@ -214,6 +225,9 @@ install-cert-manager:
 	kubectl create namespace cert-manager
 	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+
+install-aad-pod-identity:
+	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
 install-test-dependency:
 	go get -u github.com/jstemmer/go-junit-report \

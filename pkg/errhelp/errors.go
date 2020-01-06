@@ -5,6 +5,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
+	"github.com/Azure/go-autorest/autorest/validation"
 	"k8s.io/apimachinery/pkg/api/errors"
 )
 
@@ -15,6 +16,13 @@ const (
 	ResourceNotFound               = "ResourceNotFound"
 	AsyncOpIncompleteError         = "AsyncOpIncomplete"
 	InvalidServerName              = "InvalidServerName"
+	ContainerOperationFailure      = "ContainerOperationFailure"
+	ValidationError                = "ValidationError"
+	AlreadyExists                  = "AlreadyExists"
+	BadRequest                     = "BadRequest"
+	AccountNameInvalid             = "AccountNameInvalid"
+	RequestConflictError           = "Conflict"
+	FailoverGroupBusy              = "FailoverGroupBusy"
 )
 
 func NewAzureError(err error) error {
@@ -30,6 +38,9 @@ func NewAzureError(err error) error {
 
 		ae.Code = det.StatusCode.(int)
 		if e, ok := det.Original.(*azure.RequestError); ok {
+			kind = e.ServiceError.Code
+			reason = e.ServiceError.Message
+		} else if e, ok := det.Original.(azure.RequestError); ok {
 			kind = e.ServiceError.Code
 			reason = e.ServiceError.Message
 		} else if e, ok := det.Original.(*azure.ServiceError); ok {
@@ -51,6 +62,18 @@ func NewAzureError(err error) error {
 	} else if _, ok := err.(azure.AsyncOpIncompleteError); ok {
 		kind = "AsyncOpIncomplete"
 		reason = "AsyncOpIncomplete"
+	} else if verr, ok := err.(validation.Error); ok {
+		kind = "ValidationError"
+		reason = verr.Message
+	} else if err.Error() == InvalidServerName {
+		kind = InvalidServerName
+		reason = InvalidServerName
+	} else if err.Error() == AlreadyExists {
+		kind = AlreadyExists
+		reason = AlreadyExists
+	} else if err.Error() == AccountNameInvalid {
+		kind = AccountNameInvalid
+		reason = AccountNameInvalid
 	}
 	ae.Reason = reason
 	ae.Type = kind

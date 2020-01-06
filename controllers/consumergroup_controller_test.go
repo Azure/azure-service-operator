@@ -35,6 +35,7 @@ var _ = Describe("ConsumerGroup Controller", func() {
 	var rgName string
 	var ehnName string
 	var ehName string
+	var ctx = context.Background()
 
 	BeforeEach(func() {
 		// Add any setup steps that needs to be executed before each test
@@ -54,6 +55,8 @@ var _ = Describe("ConsumerGroup Controller", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete consumer groups", func() {
 
+			defer GinkgoRecover()
+
 			consumerGroupName := "t-cg-" + helpers.RandomString(10)
 			azureConsumerGroupName := consumerGroupName + "-azure"
 
@@ -66,50 +69,50 @@ var _ = Describe("ConsumerGroup Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.ConsumerGroupSpec{
-					NamespaceName:          ehnName,
-					ResourceGroupName:      rgName,
-					EventhubName:           ehName,
-					AzureConsumerGroupName: azureConsumerGroupName,
+					Namespace:         ehnName,
+					ResourceGroup:     rgName,
+					Eventhub:          ehName,
+					ConsumerGroupName: azureConsumerGroupName,
 				},
 			}
 
-			err = tc.k8sClient.Create(context.Background(), consumerGroupInstance)
+			err = tc.k8sClient.Create(ctx, consumerGroupInstance)
 			Expect(apierrors.IsInvalid(err)).To(Equal(false))
 			Expect(err).NotTo(HaveOccurred())
 
 			consumerGroupNamespacedName := types.NamespacedName{Name: consumerGroupName, Namespace: "default"}
 
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
-				return consumerGroupInstance.HasFinalizer(consumerGroupFinalizerName)
-			}, tc.timeout,
+				_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
+				return HasFinalizer(consumerGroupInstance, finalizerName)
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsSubmitted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, azureConsumerGroupName)
+				cg, _ := tc.consumerGroupClient.GetConsumerGroup(ctx, rgName, ehnName, ehName, azureConsumerGroupName)
 				return cg.Name != nil && *cg.Name == azureConsumerGroupName && cg.Response.StatusCode == http.StatusOK
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
-			err = tc.k8sClient.Delete(context.Background(), consumerGroupInstance)
+			err = tc.k8sClient.Delete(ctx, consumerGroupInstance)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), consumerGroupNamespacedName, consumerGroupInstance)
+				_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
 				return consumerGroupInstance.IsBeingDeleted()
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 			Eventually(func() bool {
-				cg, _ := tc.eventHubManagers.ConsumerGroup.GetConsumerGroup(context.Background(), rgName, ehnName, ehName, azureConsumerGroupName)
+				cg, _ := tc.consumerGroupClient.GetConsumerGroup(ctx, rgName, ehnName, ehName, azureConsumerGroupName)
 				return cg.Response.StatusCode != http.StatusOK
-			}, tc.timeout,
+			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
 		})
