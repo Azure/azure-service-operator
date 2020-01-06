@@ -53,7 +53,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 			r.Telemetry.LogError("Failure occured during reconcilliation", errRet)
 			r.Telemetry.LogFailure()
 		} else if result.Requeue {
-			r.Telemetry.LogInfo("status", "reconciling object not finished")
+			r.Telemetry.LogInfo("requeue", "reconciling object not finished")
 			r.Telemetry.LogFailure()
 		} else {
 			r.Telemetry.LogSuccess()

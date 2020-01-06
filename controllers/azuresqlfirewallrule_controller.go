@@ -70,11 +70,10 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 
 		// log failure / success
 		if err != nil {
-			r.Telemetry.LogError(
-				"Failure occured during reconcilliation",
-				err)
+			r.Telemetry.LogError("Failure occured during reconcilliation", errRet)
 			r.Telemetry.LogFailure()
 		} else if result.Requeue {
+			r.Telemetry.LogInfo("requeue", "reconciling object not finished")
 			r.Telemetry.LogFailure()
 		} else {
 			r.Telemetry.LogSuccess()
