@@ -3,5 +3,6 @@ kind: ApimService
 metadata:
   name: apimservice-sample
 spec:
-  # Add fields here
-  foo: bar
+  location: westus
+  resourceGroup: resourcegroup-azure-operators
+  
