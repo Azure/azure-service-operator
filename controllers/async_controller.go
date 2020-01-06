@@ -112,14 +112,14 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	}
 
 	r.Telemetry.LogInfo("status", "reconciling object")
-	done, err := r.AzureClient.Ensure(ctx, local)
-	if err != nil {
-		r.Telemetry.LogError("ensure", err)
+	done, ensureErr := r.AzureClient.Ensure(ctx, local)
+	if ensureErr != nil {
+		r.Telemetry.LogError("ensure", ensureErr)
 	}
 
 	// update the status of the resource in kubernetes
 	// Implementations of Ensure() tend to set their outcomes in local.Status
-	err := r.Status().Update(ctx, local)
+	err = r.Status().Update(ctx, local)
 	if err != nil {
 		r.Telemetry.LogWarning("update", "failed updating status")
 	}
