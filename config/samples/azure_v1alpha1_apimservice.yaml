@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: ApimService
+metadata:
+  name: apimservice-sample
+spec:
+  # Add fields here
+  foo: bar
