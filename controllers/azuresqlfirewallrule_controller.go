@@ -50,13 +50,13 @@ type AzureSqlFirewallRuleReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfirewallrules,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfirewallrules/status,verbs=get;update;patch
 
-func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctrl.Result, err error) {
+func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctrl.Result, errRet error) {
 	ctx := context.Background()
 
 	// your logic here
 	var instance azurev1alpha1.AzureSqlFirewallRule
 
-	if err = r.Get(ctx, req.NamespacedName, &instance); err != nil {
+	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
 		// we'll ignore not-found errors, since they can't be fixed by an immediate
 		// requeue (we'll need to wait for a new notification), and we can get them
 		// on deleted requests.
@@ -69,7 +69,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	defer func() {
 
 		// log failure / success
-		if err != nil {
+		if errRet != nil {
 			r.Telemetry.LogError("Failure occured during reconcilliation", errRet)
 			r.Telemetry.LogFailure()
 		} else if result.Requeue {
@@ -86,13 +86,15 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 
 	if helpers.IsBeingDeleted(&instance) {
 		if helpers.HasFinalizer(&instance, azureSQLFirewallRuleFinalizerName) {
-			if err = r.deleteExternal(ctx, &instance); err != nil {
+			err = r.deleteExternal(ctx, &instance)
+			if err != nil {
 				instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule failed with %s", err.Error())
 				return ctrl.Result{}, err
 			}
 
 			helpers.RemoveFinalizer(&instance, azureSQLFirewallRuleFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
+			err = r.Update(context.Background(), &instance)
+			if err != nil {
 				return ctrl.Result{}, err
 			}
 		}
@@ -100,7 +102,8 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	}
 
 	if !helpers.HasFinalizer(&instance, azureSQLFirewallRuleFinalizerName) {
-		if err := r.addFinalizer(&instance); err != nil {
+		err = r.addFinalizer(&instance)
+		if err != nil {
 			instance.Status.Message = fmt.Sprintf("Adding AzureSqlFirewallRule finalizer failed with %s", err.Error())
 			return ctrl.Result{}, err
 		}
@@ -108,7 +111,8 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation for AzureSqlFirewallRule")
-		if err := r.reconcileExternal(ctx, &instance); err != nil {
+		err = r.reconcileExternal(ctx, &instance)
+		if err != nil {
 			instance.Status.Message = fmt.Sprintf("Reconcile external failed with %s", err.Error())
 			r.Telemetry.LogError("Reconcile external failed", err)
 			return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
