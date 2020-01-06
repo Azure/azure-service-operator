@@ -56,35 +56,10 @@
 
     Note: Use only one of the above.
 
-    d. From the same terminal, run the below command. **Note** The variables used here will depend on the environment variables you have set based on the authentication and secret storage choices made above. You will need to modify the below command accordingly.
+    d. **Secrets storage** If you want to use Azure Key Vault to store the secrets like connection strings and SQL server username that result from the resource provisioning, you should also additionally do the steps below.
+    If you do not perform these steps, the secrets will be stored as kube secrets by default.ß
 
-    For instance, the below command assumes you have chosen to use Managed Identity for authentication and Key Vault for storing secrets.
-
-    ```shell
-    kubectl --namespace azureoperator-system \
-        create secret generic azureoperatorsettings \
-        --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
-        --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID" \
-        --from-literal=AZURE_CLIENT_ID="$AZURE_CLIENT_ID" \
-        --from-literal=AZURE_CLIENT_SECRET="$AZURE_CLIENT_SECRET" \
-        --from-literal=AZURE_USE_MI="$AZURE_USE_MI" \
-        --from-literal=AZURE_OPERATOR_KEYVAULT="$AZURE_OPERATOR_KEYVAULT" \
-    ```
-
-    e. Install [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
-
-    ```shell
-    make install-cert-manager
-    ```
-
-2. **Secrets storage** You have the option to use either of the below for storing secrets like connection strings and SQL server username that result from the resource provisioning
-
-    a. *Kubernetes secrets*
-        This is the default. Secrets will be stored as Kubernetes secrets by default.
-
-    b. *Azure Keyvault*
-        If you want to use Azure Key Vault to store the secrets, you should also additionally do the steps below.
-        Create a Key Vault to use to store secrets
+    Create a Key Vault to use to store secrets
 
     ```shell
     az keyvault create --name "OperatorSecretKeyVault" --resource-group "resourceGroup-operators" --location "West US"
@@ -108,16 +83,32 @@
     export AZURE_OPERATOR_KEYVAULT=OperatorSecretKeyVault
     ```
 
-3. **Authentication** You can choose to use either Service Principals or Managed Identity for authentication.
-    a. *Service Principal authentication*
-        If you choose to use Service Principal authentication, you do not need to do anything more
+    e. From the same terminal, run the below command. **Note** The variables used here will depend on the environment variables you have set based on the authentication and secret storage choices made above. You will need to modify the below command accordingly.
 
-    b. *Managed Identity authentication*
-I       If you choose to use Managed Identity, perform these steps.
-
-    (i). Create an identity that will be able to manage resources in the specified resource group.
+    For instance, the below command assumes you have chosen to use Managed Identity for authentication and Key Vault for storing secrets.
 
     ```shell
+    kubectl --namespace azureoperator-system \
+        create secret generic azureoperatorsettings \
+        --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
+        --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID" \
+        --from-literal=AZURE_CLIENT_ID="$AZURE_CLIENT_ID" \
+        --from-literal=AZURE_CLIENT_SECRET="$AZURE_CLIENT_SECRET" \
+        --from-literal=AZURE_USE_MI="$AZURE_USE_MI" \
+        --from-literal=AZURE_OPERATOR_KEYVAULT="$AZURE_OPERATOR_KEYVAULT" \
+    ```
+
+    f. Install [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
+
+    ```shell
+    make install-cert-manager
+    ```
+
+2. Create an identity that will be able to manage resources
+
+    ```shell
+    # Create an identity to give to our operator-manager that will be used to authorize creation of resources in our
+    # subscription. This could be restricted to a resource group by changing the scope on the "Contributor" role below
     az identity create -g <resourcegroup> -n aso-manager-identity -o json
     ```
 
@@ -138,49 +129,55 @@ I       If you choose to use Managed Identity, perform these steps.
     }
     ```
 
-    (ii). Give the Service Principal associated with the AKS cluster control over managing the identity we just created.
+    ```shell
+    # Give the AKS SP control over managing the identity we just created
+    az role assignment create --role "Managed Identity Operator" --assignee <AKS Service Principal ID> --scope <Managed Identity ID Path>
+    ```
+
+    In the above case, this will look like below:
 
     ```shell
-    az role assignment create --role "Managed Identity Operator" --assignee <AKS Service Principal ID> --scope <Managed Identity ID Path>
-
     az role assignment create --role "Managed Identity Operator" --assignee <AKS Service Principal ID> --scope "/subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac/resourcegroups/resourcegroup-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-manager-identity"
     ```
 
-    (iii). Give the Managed Identity we just created authorization to provision resources in our subscription
+    ```shell
+    # Give our aso-manager-identity authorization to provision resources in our subscription
+    az role assignment create --role "Contributor" --assignee <Managed Identity Principal ID> --scope <Subscription ID Path>
+    ```
+
+    In the above case, this will look like below:
 
     ```shell
-    az role assignment create --role "Contributor" --assignee <Managed Identity clientId> --scope <Subscription ID Path>
-
     az role assignment create --role "Contributor" --assignee "288a7d63-ab78-442e-89ee-2a353fb990ab"  --scope "/subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac"
     ```
 
-    (iv). Install [aad-pod-identity](https://github.com/Azure/aad-pod-identity#1-create-the-deployment)
+    h. Install [aad-pod-identity](https://github.com/Azure/aad-pod-identity#1-create-the-deployment)
 
     ```shell
     make install-aad-pod-identity
     ```
 
-    (v). Create and apply the AzureIdentity and Binding manifests
+3. Create and apply the AzureIdentity and Binding manifests
 
     ```yaml
     apiVersion: "aadpodidentity.k8s.io/v1"
     kind: AzureIdentity
     metadata:
-    name: <a-idname>
+      name: <a-idname>
     spec:
-    type: 0
-    ResourceID: /subscriptions/<subid>/resourcegroups/<resourcegroup>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<name>
-    ClientID: <Managed Identity clientId>
+      type: 0
+      ResourceID: /subscriptions/<subid>/resourcegroups/<resourcegroup>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<name>
+      ClientID: <clientId>
     ```
 
     ```yaml
     apiVersion: "aadpodidentity.k8s.io/v1"
     kind: AzureIdentityBinding
     metadata:
-    name: aso-identity-binding
+      name: aso-identity-binding
     spec:
-    AzureIdentity: <a-idname>
-    Selector: aso_manager_binding
+      AzureIdentity: <a-idname>
+      Selector: aso_manager_binding
     ```
 
 4. Deploy the operator to the Kubernetes cluster
