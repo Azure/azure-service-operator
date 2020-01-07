@@ -17,7 +17,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"time"
 
@@ -36,7 +35,7 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	_ "github.com/denisenkom/go-mssqldb"
 )
 
@@ -55,13 +54,13 @@ const SecretPasswordKey = "password"
 // AzureSQLUserFinalizerName is the name of the finalizer
 const AzureSQLUserFinalizerName = "azuresqluser.finalizers.azure.com"
 
-// AzureAzureSQLUserReconciler reconciles a AzureSQLUser object
+// AzureSQLUserReconciler reconciles a AzureSQLUser object
 type AzureSQLUserReconciler struct {
 	client.Client
 	Log                 logr.Logger
 	Recorder            record.EventRecorder
 	Scheme              *runtime.Scheme
-	AzureSqlUserManager sqlclient.SqlUserManager
+	AzureSqlUserManager azuresqluser.SqlUserManager
 	SecretClient        secrets.SecretClient
 }
 
@@ -100,7 +99,8 @@ func (r *AzureSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 				log.Info(instance.Status.Message)
 			}
 			helpers.RemoveFinalizer(&instance, AzureSQLUserFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
+			if err := r.Update(ctx, &instance); err != nil {
+				log.Info("Failed to update instance after removing finalizer")
 				return ctrl.Result{}, err
 			}
 		}
@@ -140,20 +140,15 @@ func (r *AzureSQLUserReconciler) deleteExternal(instance azurev1alpha1.AzureSQLU
 	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
 	adminSecret, err := r.SecretClient.Get(ctx, key)
 	if err != nil {
-		return fmt.Errorf("admin secret : %s, not found", instance.Spec.AdminSecret)
+		return fmt.Errorf("deleteExternal: admin secret : %s, not found", instance.Spec.AdminSecret)
 	}
 
 	var user = string(adminSecret[SecretUsernameKey])
 	var password = string(adminSecret[SecretPasswordKey])
-	connString := r.getConnectionString(instance.Spec.Server, user, password, SqlServerPort, instance.Spec.DbName)
 
-	db, err := sql.Open(DriverName, connString)
+	db, err := r.AzureSqlUserManager.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
 	if err != nil {
-		return err
-	}
-
-	err = db.Ping()
-	if err != nil {
+		log.Info("deleteExternal: ConnecttoSqlDB failed with", "error", err.Error())
 		return err
 	}
 
@@ -207,14 +202,8 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 
 	var user = string(adminSecret[SecretUsernameKey])
 	var password = string(adminSecret[SecretPasswordKey])
-	connString := r.getConnectionString(instance.Spec.Server, user, password, SqlServerPort, instance.Spec.DbName)
 
-	db, err := sql.Open(DriverName, connString)
-	if err != nil {
-		return err
-	}
-
-	err = db.Ping()
+	db, err := r.AzureSqlUserManager.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
 	if err != nil {
 		return err
 	}
@@ -239,7 +228,7 @@ func (r *AzureSQLUserReconciler) reconcileExternal(instance azurev1alpha1.AzureS
 	if len(roles) == 0 {
 		log.Info("No roles specified for user")
 	} else {
-		r.AzureSqlUserManager.GrantUserRoles(ctx, user, roles, db)
+		r.AzureSqlUserManager.GrantUserRoles(ctx, string(DBSecret[SecretUsernameKey]), roles, db)
 	}
 
 	// publish user secret
@@ -294,11 +283,4 @@ func (r *AzureSQLUserReconciler) GetOrPrepareSecret(ctx context.Context, instanc
 	}
 
 	return secret
-}
-
-// Builds connection string to connect to database
-func (r *AzureSQLUserReconciler) getConnectionString(server string, user string, password string, port int, database string) string {
-	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
-	return fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
-		fullServerAddress, user, password, port, database)
 }

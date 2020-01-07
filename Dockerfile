@@ -13,9 +13,7 @@ RUN go mod download
 COPY . ./
 
 # Generate CRD manifests with controller-gen
-ADD hack ./hack/
-RUN go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
-RUN $(go env GOPATH)/bin/controller-gen object:headerFile=./hack/boilerplate.go.txt paths=./api/...
+RUN make generate
 
 # Build
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o manager main.go

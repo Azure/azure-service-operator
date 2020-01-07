@@ -88,7 +88,7 @@ steps:
     gocov-xml < coverage.json > coverage.xml
     mkdir coverage
   continueOnError: 'false'
-  displayName: 'Run unit tests'
+  displayName: 'Run unit/mocked tests'
   env:
     GO111MODULE: on
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin

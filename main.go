@@ -23,11 +23,18 @@ import (
 	"os"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
+	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
+	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
+	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	resourcemanagersql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
@@ -61,6 +68,7 @@ func init() {
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlusers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
 
@@ -86,34 +94,42 @@ func main() {
 		os.Exit(1)
 	}
 
-	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
-	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
-	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
-	storageManagers := resourcemanagerstorage.AzureStorageManagers
-	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
-	sqlServerManager := resourcemanagersql.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
-	sqlDBManager := resourcemanagersql.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
-	sqlFirewallRuleManager := resourcemanagersql.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
-	sqlFailoverGroupManager := resourcemanagersql.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
-	sqlUserManager := resourcemanagersql.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
-
 	err = resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
 		setupLog.Error(err, "unable to parse settings required to provision resources in Azure")
 		os.Exit(1)
 	}
 
-	if keyvaultName, fUseKeyVault := os.LookupEnv("AZURE_OPERATOR_KEYVAULT"); fUseKeyVault == false {
+	keyvaultName := resourcemanagerconfig.OperatorKeyvault()
+
+	if keyvaultName == "" {
+		setupLog.Info("Keyvault name is empty")
 		secretClient = k8sSecrets.New(mgr.GetClient())
 	} else {
 		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
 		secretClient = keyvaultSecrets.New(keyvaultName)
 	}
 
+	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
+	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
+	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
+	storageManagers := resourcemanagerstorage.AzureStorageManagers
+	keyVaultManager := resourcemanagerkeyvault.AzureKeyVaultManager
+	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
+	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
+	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
+	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
+	psqlserverclient := psqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, mgr.GetScheme())
+	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
+	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))
+
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
 		Log:            ctrl.Log.WithName("controllers").WithName("Storage"),
 		Recorder:       mgr.GetEventRecorderFor("Storage-controller"),
+		Scheme:         mgr.GetScheme(),
 		StorageManager: storageManagers.Storage,
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -139,12 +155,16 @@ func main() {
 	}
 
 	err = (&controllers.EventhubReconciler{
-		Client:          mgr.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("Eventhub"),
-		Recorder:        mgr.GetEventRecorderFor("Eventhub-controller"),
-		Scheme:          scheme,
-		EventHubManager: eventhubManagers.EventHub,
-		SecretClient:    secretClient,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: eventhubClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("Eventhub"),
+				"Eventhub",
+			),
+			Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
@@ -195,10 +215,16 @@ func main() {
 	}
 
 	err = (&controllers.ConsumerGroupReconciler{
-		Client:               mgr.GetClient(),
-		Log:                  ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
-		Recorder:             mgr.GetEventRecorderFor("ConsumerGroup-controller"),
-		ConsumerGroupManager: eventhubManagers.ConsumerGroup,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: consumerGroupClient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+				"ConsumerGroup",
+			),
+			Recorder: mgr.GetEventRecorderFor("ConsumerGroup-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ConsumerGroup")
@@ -270,6 +296,18 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
 		os.Exit(1)
 	}
+
+	if err = (&controllers.BlobContainerReconciler{
+		Client:         mgr.GetClient(),
+		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
+		Recorder:       mgr.GetEventRecorderFor("BlobContainer-controller"),
+		Scheme:         mgr.GetScheme(),
+		StorageManager: storageManagers.BlobContainer,
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
+		os.Exit(1)
+	}
+
 	if err = (&controllers.AzureDataLakeGen2FileSystemReconciler{
 		Client:            mgr.GetClient(),
 		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
@@ -277,6 +315,51 @@ func main() {
 		FileSystemManager: storageManagers.FileSystem,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureDataLakeGen2FileSystem")
+		os.Exit(1)
+	}
+	if err = (&controllers.PostgreSQLServerReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: psqlserverclient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
+				"PostgreSQLServer",
+			),
+			Recorder: mgr.GetEventRecorderFor("PostgreSQLServer-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLServer")
+		os.Exit(1)
+	}
+	if err = (&controllers.PostgreSQLDatabaseReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: psqldatabaseclient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabase"),
+				"PostgreSQLDatabase",
+			),
+			Recorder: mgr.GetEventRecorderFor("PostgreSQLDatabase-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLDatabase")
+		os.Exit(1)
+	}
+	if err = (&controllers.PostgreSQLFirewallRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: psqlfirewallruleclient,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRulee"),
+				"PostgreSQLFirewallRule",
+			),
+			Recorder: mgr.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLFirewallRule")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

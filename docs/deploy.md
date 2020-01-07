@@ -66,10 +66,15 @@
     ```
 
     Add appropriate Key Vault access policies to allow the service principal access to this Key Vault
-    (TODO: Need to add instruction if using Managed Identity)
 
     ```shell
     az keyvault set-policy --name "OperatorSecretKeyVault" --spn <AZURE_CLIENT_ID> --secret-permissions get list delete set
+    ```
+
+    If you use Managed Identity instead of Service Principal, use the Client ID of the Managed Identity instead in the above command.
+
+    ```shell
+    az keyvault set-policy --name "OperatorSecretKeyVault" --spn <MANAGEDIDENTITY_CLIENT_ID> --secret-permissions get list delete set
     ```
 
     Set the additional environment variable 'AZURE_OPERATOR_KEYVAULT' to indicate you want to use Key Vault for secrets.
@@ -87,6 +92,8 @@
         create secret generic azureoperatorsettings \
         --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
         --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID" \
+        --from-literal=AZURE_CLIENT_ID="$AZURE_CLIENT_ID" \
+        --from-literal=AZURE_CLIENT_SECRET="$AZURE_CLIENT_SECRET" \
         --from-literal=AZURE_USE_MI="$AZURE_USE_MI" \
         --from-literal=AZURE_OPERATOR_KEYVAULT="$AZURE_OPERATOR_KEYVAULT" \
     ```
@@ -170,7 +177,7 @@
       name: aso-identity-binding
     spec:
       AzureIdentity: <a-idname>
-      Selector: cluster_identity_binding
+      Selector: aso_manager_binding
     ```
 
 4. Deploy the operator to the Kubernetes cluster
@@ -191,10 +198,31 @@
     kubectl logs <podname> -c manager -n azureoperator-system
     ```
 
-7. In order to view the Prometheus metrics, you can redirect port 8080 to the local machine using the following command:
+7. If you would like to view the Prometheus metrics from the operator, you can redirect port 8080 to the local machine using the following command:
+
+   Get the deployment using the following command
+
+   ```shell
+   kubectl get deployment -n azureoperator-system
+   ```
+
+   You'll see output like the below.
+
+   ```shell
+   NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+   azureoperator-controller-manager   1/1     1            1           2d1h
+   ```
+
+   Use the deployment name in the command as below
 
     ```shell
-    kubectl port-forward deployment/controller-manager 8080
+    kubectl port-forward deployment/<deployment name> -n <namespace> 8080
     ```
 
-    Then, open a web browser and navigate to the [Metrics Endpoint](http://127.0.0.1:8080/metrics).
+    So we would use the following command here
+
+    ```shell
+    kubectl port-forward deployment/azureoperator-controller-manager -n azureoperator-system 8080
+    ```
+
+    You can now browse to `http://localhost:8080/metrics` from the browser to view the metrics.

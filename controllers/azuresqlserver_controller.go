@@ -23,7 +23,8 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
@@ -46,7 +47,7 @@ type AzureSqlServerReconciler struct {
 	Log                   logr.Logger
 	Recorder              record.EventRecorder
 	Scheme                *runtime.Scheme
-	AzureSqlServerManager sql.SqlServerManager
+	AzureSqlServerManager azuresqlserver.SqlServerManager
 	SecretClient          secrets.SecretClient
 }
 
@@ -216,20 +217,20 @@ func (r *AzureSqlServerReconciler) reconcileExternal(instance *azurev1alpha1.Azu
 	}
 
 	// write information back to instance
-	if err := r.Status().Update(ctx, instance); err != nil {
+	if err := r.Update(ctx, instance); err != nil {
 		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
 
 	// Check to see if secret already exists for admin username/password
 	secret, _ := r.GetOrPrepareSecret(ctx, instance)
-	azureSqlServerProperties := sql.SQLServerProperties{
+	azureSqlServerProperties := azuresqlshared.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr(string(secret["username"])),
 		AdministratorLoginPassword: to.StringPtr(string(secret["password"])),
 	}
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties); err != nil {
+	if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties, false); err != nil {
 		if !strings.Contains(err.Error(), "not complete") {
 			msg := fmt.Sprintf("CreateOrUpdateSQLServer not complete: %v", err)
 			instance.Status.Message = msg

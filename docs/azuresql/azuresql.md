@@ -2,12 +2,14 @@
 
 ## Resources Supported
 
-The Azure SQL operator can be used to provision the following resources.
+The Azure SQL operator suite consists of the following operators.
 
 1. Azure SQL server - Deploys an Azure SQL server given the location and Resource group
 2. Azure SQL database - Deploys an SQL database given the SQL server
 3. Azure SQL firewall rule - Deploys a firewall rule to allow access to the SQL server from specific IPs
 4. Azure SQL Action - Allows you to roll the password for the specified SQL server
+5. Azure SQL failover group - Deploys a failover group on a specified Azure SQL server given the secondary server and the databases to failover
+6. Azure SQL User - Creates an user on the specified Azure SQL database and stores the username/password as secrets
 
 ## Deploying SQL Resources
 
@@ -43,6 +45,14 @@ kubectl apply -f config/samples/azure_v1_sqlserver.yaml
 ```
 
 Along with creating the SQL server, this operator also generates the admin username and password for the SQL server and stores it in a kube secret with the same name as the SQL server.
+
+This secret contains the following fields.
+
+- `fullyqualifiedservername` : Fully qualified name of the SQL server such as sqlservername.database.windows.net
+- `sqlservername` : SQL server name
+- `username` : Server admin
+- `password` : Password for the server admin
+- `fullyqualifiedusername` : Fully qualified user name that is required by some apps such as <username>@<sqlserver>
 
 You can retrieve this secret using the following command for the sample YAML
 
@@ -145,6 +155,64 @@ spec:
 The `name` is a name for the action that we want to trigger. The type of action is determined by the value of `actionname` in the spec which is `rollcreds` if you want to roll the password (Note: This action name should be exactly `rollcreds` for the password to be rolled). The `resourcegroup` and `servername` identify the SQL server on which the action should be triggered on.
 
 Once you apply this, the kube secret with the same name as the SQL server is updated with the rolled password.
+
+### SQL failover group
+
+The SQL failover group operator is used to create a failover group on a specified primary Azure SQL server, given the secondary Azure SQL server (should be in a different location from the primary server) and the databases on the primary server that should failover.
+
+Below is a sample YAML for creating a failover group
+
+```yaml
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlFailoverGroup
+metadata:
+  name: azuresqlfailovergroup-sample
+spec:
+  location: eastus
+  resourcegroup: resourcegroup-azure-operators
+  server: sqlserver-samplepri
+  failoverpolicy: automatic
+  failovergraceperiod: 30
+  secondaryserver: sqlserver-samplesec
+  secondaryserverresourcegroup: resourcegroup-azure-operators
+  databaselist:
+    - "azuresqldatabase-sample"
+    - "azuresqldatabase-sample2"
+```
+
+The `name` is a name for the failover group that we want to create. `server` is the primary SQL server on which the failover group is created, `location` and `resourcegroup` are the location and the resource group of the primary SQL server. `failoverpolicy` can be "automatic" or "manual". `failovergraceperiod` is the time in minutes. `secondaryserver` is the secondary SQL server to failover to and `secondaryserverresourcegroup` is the resource group that the server is in. `databaselist` is the list of databased on the primary SQL server that should replicate to the secondary SQL server, when there is a failover action.
+
+Once you apply this, a secret with the same name as the SQL failovergroup is also stored. This secret contains the fields for primary/secondary failovergroup listener endpoints (`readwritelistenerendpoint` and `readonlylistenerendpoint`) and the primary/secondary SQL server names (`azuresqlprimaryservername` and `azuresqlsecondaryservername`)
+
+### SQL database user
+
+The SQL user operator is used to create a user on the specified Azure SQL database. This user is more restrictive than the admin user created on the SQL server and is so recommended to use. The operator creates the user on the database by auto generating a strong password, and also stores the username and password as a secret (name can be specified in the YAML), so applications can use them.
+
+Below is a sample YAML for creating a database user
+
+```yaml
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSQLUser
+metadata:
+  name: sqluser-sample
+spec:
+  server: sqlserver-sample-777
+  dbname: azuresqldatabase-sample
+  adminsecret: sqlserver-sample-777
+  # possible roles:
+  # db_owner, db_securityadmin, db_accessadmin, db_backupoperator, db_ddladmin, db_datawriter, db_datareader, db_denydatawriter, db_denydatareader
+  roles:
+    - "db_owner"
+```
+
+The `name` is used to generate the username on the database. The exact name is not used but rather a UUID is appended to this to make it unique. `server` and `dbname` qualify the database on which you want to create the user on. `adminsecret` is the name of the secret where the username and password will be stored. `roles` specify the security roles that this user should have on the specified database.
+
+Once you apply this, a secret with the name specified in `adminsecret` is stored with the following fields.
+
+- `username` : Username of user created on the database
+- `password` : Password for the user
+- `sqlservernamespace` : Kube namespace where the SQL server is provisioned
+- `sqlservername` : SQL server name
 
 ## View and Troubleshoot SQL Resources
 

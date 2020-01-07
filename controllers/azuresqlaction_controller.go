@@ -25,7 +25,8 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	sql "github.com/Azure/azure-service-operator/pkg/resourcemanager/sqlclient"
+	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -50,7 +51,7 @@ type AzureSqlActionReconciler struct {
 	Log                   logr.Logger
 	Recorder              record.EventRecorder
 	Scheme                *runtime.Scheme
-	AzureSqlServerManager sql.SqlServerManager
+	AzureSqlServerManager azuresqlserver.SqlServerManager
 	SecretClient          secrets.SecretClient
 }
 
@@ -125,10 +126,6 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
 	instance.Status.Message = "AzureSqlAction in progress"
-	// write information back to instance
-	if updateerr := r.Status().Update(ctx, instance); updateerr != nil {
-		r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to update instance")
-	}
 
 	//get owner instance of AzureSqlServer
 	r.Recorder.Event(instance, corev1.EventTypeNormal, "UpdatingOwner", "Updating owner AzureSqlServer instance")
@@ -172,7 +169,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 
 	// rollcreds action
 	if strings.ToLower(instance.Spec.ActionName) == "rollcreds" {
-		azureSqlServerProperties := sql.SQLServerProperties{
+		azureSqlServerProperties := azuresqlshared.SQLServerProperties{
 			AdministratorLogin:         server.ServerProperties.AdministratorLogin,
 			AdministratorLoginPassword: server.ServerProperties.AdministratorLoginPassword,
 		}
@@ -181,7 +178,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 		newPassword, _ := generateRandomPassword(passwordLength)
 		azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
-		if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties); err != nil {
+		if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties, true); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 				return err

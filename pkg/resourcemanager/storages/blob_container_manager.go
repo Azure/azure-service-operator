@@ -18,12 +18,14 @@ package storages
 
 import (
 	"context"
+
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/go-autorest/autorest"
 )
 
 type BlobContainerManager interface {
-	CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (*storage.BlobContainer, error)
+	CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string, accessLevel s.PublicAccess) (*storage.BlobContainer, error)
 
 	// Get gets the description of the specified blob container.
 	// Parameters:
