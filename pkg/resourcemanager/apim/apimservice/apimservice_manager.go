@@ -40,4 +40,6 @@ type APIMgmtServiceManager interface {
 	DeleteAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (apim.ServiceResource, error)
 
 	IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resourceName string) (result bool, err error)
+
+	SetVNetForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, vnetType string, vnetResourceGroupName string, vnetResourceName string, subnetName string) error
 }

@@ -5,4 +5,7 @@ metadata:
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
-  
+  vnetType: None
+  vnetResourceGroup: resourcegroup-azure-operators
+  vnetName: vnet-azure-operators
+  vnetSubnetName: subnet1-vnet-azure-operators

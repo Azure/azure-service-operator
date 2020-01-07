@@ -19,6 +19,7 @@ package apimservice
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -38,29 +39,55 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	resourceName := instance.ObjectMeta.Name
 
 	activated, err := g.IsAPIMgmtSvcActivated(ctx, resourceGroupName, resourceName)
-	if activated && err == nil {
+	if !activated && err != nil {
 
-		// happy path, its now working
-		instance.Status.Provisioned = true
+		// STEP 1:
+		// 	need to provision
+		instance.Status.Provisioned = false
 		instance.Status.Provisioning = false
-		return true, nil
+		_, err := g.CreateAPIMgmtSvc(ctx, location, resourceGroupName, resourceName)
+		if err != nil {
+			return false, fmt.Errorf("API Mgmt Svc create error %v", err)
+		}
+		instance.Status.Provisioning = true
+		return false, nil
 	} else if !activated && err == nil {
 
-		// still provisioning
+		// STEP 2:
+		// 	in the proccess of still provisioning
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = true
 		return false, nil
 	} else {
 
-		// need to provision
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
-		_, err := g.CreateAPIMgmtSvc(ctx, location, resourceGroupName, resourceName)
-		if err != nil {
-			instance.Status.Provisioned = false
-			return false, fmt.Errorf("API Mgmt Svc create error %v", err)
+		// STEP 3:
+		// 	provisioned, now need to update with a vnet?
+		vnetType := instance.Spec.VnetType
+		if vnetType != "" && !strings.EqualFold(vnetType, "none") {
+			vnetResourceGroup := instance.Spec.VnetType
+			vnetName := instance.Spec.VnetType
+			subnetName := instance.Spec.VnetSubnetName
+			err = g.SetVNetForAPIMgmtSvc(
+				ctx,
+				resourceGroupName,
+				resourceName,
+				vnetType,
+				vnetResourceGroup,
+				vnetName,
+				subnetName,
+			)
+			if err != nil {
+				instance.Status.Provisioned = false
+				instance.Status.Provisioning = true
+				return false, fmt.Errorf("API Mgmt Svc could not update VNet %s, %s - %v", vnetResourceGroup, vnetName, err)
+			}
 		}
-		return false, nil
+
+		// STEP 4:
+		// 	everything is now completed!
+		instance.Status.Provisioned = true
+		instance.Status.Provisioning = false
+		return true, nil
 	}
 }
 
@@ -100,7 +127,6 @@ func (g *AzureAPIMgmtServiceManager) GetParents(obj runtime.Object) ([]resourcem
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
-
 }
 
 func (g *AzureAPIMgmtServiceManager) convert(obj runtime.Object) (*azurev1alpha1.ApimService, error) {

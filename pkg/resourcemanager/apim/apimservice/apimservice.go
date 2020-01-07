@@ -17,6 +17,8 @@ package apimservice
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	apim "github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	apimshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimshared"
@@ -73,4 +75,51 @@ func (_ *AzureAPIMgmtServiceManager) DeleteAPIMgmtSvc(ctx context.Context, resou
 // IsAPIMgmtSvcActivated checks to see if the API Mgmt Svc has been activated
 func (_ *AzureAPIMgmtServiceManager) IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resourceName string) (result bool, err error) {
 	return apimshared.IsAPIMgmtSvcActivated(ctx, resourceGroupName, resourceName)
+}
+
+// SetVNetForAPIMgmtSvc sets the VNet for an API Mgmt Svc by name
+func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, vnetType string, vnetResourceGroupName string, vnetResourceName string, subnetName string) error {
+
+	// check to make sure that the API Mgmt Svc has been activated
+	activated, err := g.IsAPIMgmtSvcActivated(ctx, resourceGroupName, resourceName)
+	if err != nil || !activated {
+		return fmt.Errorf("API Mgmt Service hasn't been activated yet: %s, %s", resourceGroupName, resourceName)
+	}
+
+	var vnetTypeConverted apim.VirtualNetworkType
+	if strings.EqualFold(vnetType, "external") {
+		vnetTypeConverted = apim.VirtualNetworkTypeExternal
+	} else if strings.EqualFold(vnetType, "internal") {
+		vnetTypeConverted = apim.VirtualNetworkTypeInternal
+	} else {
+		return nil
+	}
+
+	vnet, err := apimshared.GetVNetConfigurationByName(ctx, vnetResourceGroupName, vnetResourceName, subnetName)
+	if err != nil {
+		return err
+	} else if *vnet.Subnetname == "" {
+		return fmt.Errorf("no vnet found: %s, %s", vnetResourceGroupName, vnetResourceName)
+	}
+
+	client, err := apimshared.GetAPIMgmtSvcClient()
+	if err != nil {
+		return err
+	}
+
+	parameters := apim.ServiceUpdateParameters{
+		ServiceUpdateProperties: &apim.ServiceUpdateProperties{
+			VirtualNetworkType:          vnetTypeConverted,
+			VirtualNetworkConfiguration: &vnet,
+		},
+	}
+
+	_, err = client.Update(
+		ctx,
+		resourceGroupName,
+		resourceName,
+		parameters,
+	)
+
+	return err
 }

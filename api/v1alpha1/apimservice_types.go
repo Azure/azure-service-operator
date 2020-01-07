@@ -26,8 +26,12 @@ import (
 type ApimServiceSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string `json:"location"`
-	ResourceGroup string `json:"resourceGroup"`
+	Location          string `json:"location"`
+	ResourceGroup     string `json:"resourceGroup"`
+	VnetType          string `json:"vnetType,omitempty"`
+	VnetResourceGroup string `json:"vnetResourceGroup,omitempty"`
+	VnetName          string `json:"vnetName,omitempty"`
+	VnetSubnetName    string `json:"vnetSubnetName,omitempty"`
 }
 
 // +kubebuilder:object:root=true
