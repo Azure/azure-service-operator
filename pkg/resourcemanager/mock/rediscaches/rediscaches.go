@@ -39,7 +39,13 @@ func findRedisCache(res []MockRedisCacheResource, predicate func(MockRedisCacheR
 	return -1, MockRedisCacheResource{}
 }
 
-func (manager *MockRedisCacheManager) CreateRedisCache(ctx context.Context, groupName string, redisCacheName string, location string, sku azurev1alpha1.RedisCacheSku, enableNonSSLPort bool, tags map[string]*string) (*redis.ResourceType, error) {
+func (manager *MockRedisCacheManager) CreateRedisCache(ctx context.Context,
+	groupName string,
+	redisCacheName string,
+	location string,
+	sku azurev1alpha1.RedisCacheSku,
+	enableNonSSLPort bool,
+	tags map[string]*string) (*redis.ResourceType, error) {
 	index, _ := findRedisCache(manager.redisCaches, func(s MockRedisCacheResource) bool {
 		return s.resourceGroupName == groupName && *s.redis.Name == redisCacheName
 	})

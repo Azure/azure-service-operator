@@ -42,6 +42,7 @@ import (
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
+
 	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
@@ -506,6 +507,7 @@ func setup() error {
 		eventHubManagers:        eventHubManagers,
 		eventhubClient:          eventhubClient,
 		resourceGroupManager:    resourceGroupManager,
+		redisCacheManager:       redisCacheManager,
 		sqlServerManager:        sqlServerManager,
 		sqlDbManager:            sqlDbManager,
 		sqlFirewallRuleManager:  sqlFirewallRuleManager,
