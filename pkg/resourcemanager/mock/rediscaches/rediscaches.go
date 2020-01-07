@@ -54,19 +54,20 @@ func (manager *MockRedisCacheManager) CreateRedisCache(ctx context.Context, grou
 	r := MockRedisCacheResource{
 		resourceGroupName: groupName,
 		redisCacheName:    redisCacheName,
+		redis:             rc,
 	}
 
 	if index == -1 {
 		manager.redisCaches = append(manager.redisCaches, r)
 	}
 
-	return &rc, nil
+	return &r.redis, nil
 }
 
 func (manager *MockRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
 	redisCaches := manager.redisCaches
 
-	index, _ := findRedisCache(manager.redisCaches, func(s MockRedisCacheResource) bool {
+	index, _ := findRedisCache(redisCaches, func(s MockRedisCacheResource) bool {
 		return s.resourceGroupName == groupName &&
 			s.redisCacheName == redisCacheName
 	})
