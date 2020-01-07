@@ -23,7 +23,6 @@ type MockRedisCacheManager struct {
 
 type MockRedisCacheResource struct {
 	resourceGroupName string
-	redisCacheName    string
 	redis             redis.ResourceType
 }
 
@@ -42,7 +41,7 @@ func findRedisCache(res []MockRedisCacheResource, predicate func(MockRedisCacheR
 
 func (manager *MockRedisCacheManager) CreateRedisCache(ctx context.Context, groupName string, redisCacheName string, location string, sku azurev1alpha1.RedisCacheSku, enableNonSSLPort bool, tags map[string]*string) (*redis.ResourceType, error) {
 	index, _ := findRedisCache(manager.redisCaches, func(s MockRedisCacheResource) bool {
-		return s.resourceGroupName == groupName && s.redisCacheName == redisCacheName
+		return s.resourceGroupName == groupName && *s.redis.Name == redisCacheName
 	})
 
 	rc := redis.ResourceType{
@@ -53,7 +52,6 @@ func (manager *MockRedisCacheManager) CreateRedisCache(ctx context.Context, grou
 
 	r := MockRedisCacheResource{
 		resourceGroupName: groupName,
-		redisCacheName:    redisCacheName,
 		redis:             rc,
 	}
 
@@ -69,7 +67,7 @@ func (manager *MockRedisCacheManager) DeleteRedisCache(ctx context.Context, grou
 
 	index, _ := findRedisCache(redisCaches, func(s MockRedisCacheResource) bool {
 		return s.resourceGroupName == groupName &&
-			s.redisCacheName == redisCacheName
+			*s.redis.Name == redisCacheName
 	})
 
 	if index == -1 {
