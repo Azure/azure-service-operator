@@ -24,10 +24,10 @@ import (
 
 // AppInsightsSpec defines the desired state of AppInsights
 type AppInsightsSpec struct {
-	Kind          string `json:"kind"`
-	Location      string `json:"location"`
-	Namespace     string `json:"namespace,omitempty"`
-	ResourceGroup string `json:"resourceGroup,omitempty"`
+	Kind            string `json:"kind"`
+	Location        string `json:"location"`
+	ApplicationType string `json:"applicationtype"` // Possible values include 'web' or 'other'
+	ResourceGroup   string `json:"resourceGroup,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -42,6 +42,7 @@ type AppInsights struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // AppInsightsList contains a list of AppInsights
 type AppInsightsList struct {

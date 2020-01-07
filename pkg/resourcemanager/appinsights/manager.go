@@ -25,9 +25,11 @@ import (
 
 // ApplicationInsightsManager manages Azure Application Insights service components
 type ApplicationInsightsManager interface {
-	CreateAppInsights(ctx context.Context,
-		kind string,
+	CreateAppInsights(
+		ctx context.Context,
 		resourceGroupName string,
+		kind string,
+		applicationType string,
 		location string,
 		resourceName string) (insights.ApplicationInsightsComponent, error)
 	DeleteAppInsights(ctx context.Context, resourceGroupName string, resourceName string) (autorest.Response, error)

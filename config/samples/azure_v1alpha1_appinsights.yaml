@@ -1,8 +1,8 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: AppInsights
 metadata:
-  name: appinsights-sample1908xyz12
+  name: appinsights-sample
 spec:
-  kind: other
+  kind: other # Possible values include 'web' or 'other'
   location: westus
   resourceGroup: resourcegroup-azure-operators

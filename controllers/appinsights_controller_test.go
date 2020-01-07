@@ -48,7 +48,7 @@ var _ = Describe("AppInsights Controller tests", func() {
 
 	Context("Create AppInsights service", func() {
 
-		It("should create n Application Insights service", func() {
+		It("should create and delete Application Insights service", func() {
 
 			defer GinkgoRecover()
 
@@ -59,10 +59,10 @@ var _ = Describe("AppInsights Controller tests", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.AppInsightsSpec{
-					Kind:          "web",
-					Namespace:     "default",
-					Location:      rgLocation,
-					ResourceGroup: rgName,
+					Kind:            "web",
+					Location:        rgLocation,
+					ResourceGroup:   rgName,
+					ApplicationType: "other",
 				},
 			}
 

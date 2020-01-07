@@ -54,8 +54,9 @@ func (m *MockAppInsightsManager) GetParents(obj runtime.Object) ([]resourcemanag
 // CreateAppInsights creates or updates a mock Application Insights service
 func (m *MockAppInsightsManager) CreateAppInsights(
 	ctx context.Context,
-	kind string,
 	resourceGroupName string,
+	kind string,
+	applicationType string,
 	location string,
 	resourceName string) (insights.ApplicationInsightsComponent, error) {
 
@@ -135,7 +136,7 @@ func (m *MockAppInsightsManager) Ensure(ctx context.Context, obj runtime.Object)
 		return true, err
 	}
 
-	_, _ = m.CreateAppInsights(ctx, "web", i.Spec.ResourceGroup, i.Spec.Location, i.Name)
+	_, _ = m.CreateAppInsights(ctx, i.Spec.ResourceGroup, "web", "other", i.Spec.Location, i.Name)
 
 	i.Status.Provisioned = true
 

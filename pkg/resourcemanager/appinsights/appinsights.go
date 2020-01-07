@@ -75,8 +75,9 @@ func (m *Manager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, 
 // CreateAppInsights creates or updates an Application Insights service
 func (m *Manager) CreateAppInsights(
 	ctx context.Context,
-	kind string,
 	resourceGroupName string,
+	kind string,
+	applicationType string,
 	location string,
 	resourceName string) (insights.ApplicationInsightsComponent, error) {
 
@@ -92,7 +93,7 @@ func (m *Manager) CreateAppInsights(
 			Location: to.StringPtr(location),
 			ApplicationInsightsComponentProperties: &insights.ApplicationInsightsComponentProperties{
 				FlowType:        insights.FlowType(insights.Bluefield),
-				ApplicationType: insights.ApplicationType(insights.Other),
+				ApplicationType: insights.ApplicationType(applicationType),
 				RequestSource:   insights.RequestSource(insights.Rest),
 			},
 		},
@@ -124,7 +125,13 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 		return false, nil
 	}
 
-	appcomp, err := m.CreateAppInsights(ctx, instance.Spec.Kind, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name)
+	appcomp, err := m.CreateAppInsights(
+		ctx,
+		instance.Spec.ResourceGroup,
+		instance.Spec.Kind,
+		instance.Spec.ApplicationType,
+		instance.Spec.Location,
+		instance.Name)
 	if err != nil {
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
