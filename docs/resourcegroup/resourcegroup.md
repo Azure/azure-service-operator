@@ -23,11 +23,7 @@ This would create a Resource group by the name `resourcegroup-sample-1907` in th
 
 ## View and Troubleshoot resource provisioning
 
-To view your created resource group, use the following command
-
-```shell
-kubectl get ResourceGroup
-```
+To view your created resource group, refer to the steps [here](viewresources.md)
 
 ## Delete a Resource Group
 

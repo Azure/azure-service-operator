@@ -31,9 +31,65 @@
     kubectl create namespace azureoperator-system
     ```
 
-    b. Set the ```azureoperatorsettings``` secret.
+    b. Install [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
 
-    First, set the following environment variables `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`.
+    ```shell
+    make install-cert-manager
+    ```
+
+2. **Secrets storage** You have the option to use either of the below for storing secrets like connection strings and SQL server username that result from the resource provisioning
+
+    a. *Kubernetes secrets*
+        This is the default. Secrets will be stored as Kubernetes secrets by default.
+
+    b. *Azure Key Vault*
+        If you want to use Azure Key Vault to store the secrets, you should also additionally do the steps below.
+
+        Create an Azure Key Vault to use to store secrets
+
+        ```shell
+        az keyvault create --name "OperatorSecretKeyVault" --resource-group "resourceGroup-operators" --location "West US"
+        ```
+
+        Add appropriate Key Vault access policies to allow the service principal access to this Key Vault
+
+        ```shell
+        az keyvault set-policy --name "OperatorSecretKeyVault" --spn <AZURE_CLIENT_ID> --secret-permissions get list delete set
+        ```
+
+        If you use Managed Identity instead of Service Principal, use the Client ID of the Managed Identity instead in the above command.
+
+        ```shell
+        az keyvault set-policy --name "OperatorSecretKeyVault" --spn <MANAGEDIDENTITY_CLIENT_ID> --secret-permissions get list delete set
+        ```
+
+        Set the environment variable 'AZURE_OPERATOR_KEYVAULT' to indicate you want to use Azure Key Vault for secrets.
+
+        ```shell
+        export AZURE_OPERATOR_KEYVAULT=OperatorSecretKeyVault
+        ```
+
+3. **Authentication** You can choose to use either Service Principals or Managed Identity for authentication.
+    a. *Service Principal authentication*
+        If you choose to use Service Principal authentication, set these environment variables.
+
+        ```shell
+        export AZURE_CLIENT_ID=xxxxxxx
+        export AZURE_CLIENT_SECRET=aaaaaaa
+    ```
+
+    b. *Managed Identity authentication*
+I       If you choose to use Managed Identity, set the below environment variable and then perform the steps listed [here](managedidentity.md).
+
+        ```shell
+        export AZURE_USE_MI=1
+        ```
+
+        Note: Use only one of the above.
+
+4. Set the ```azureoperatorsettings``` secret.
+
+    Set the following environment variables `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`.
 
     ```shell
         export AZURE_TENANT_ID=xxxxxxx
@@ -41,23 +97,7 @@
         export REQUEUE_AFTER=30
     ```
 
-    c. **Authentication** If you would like to use a Service Principals (not recommended) for authentication, set these variables.
-
-    ```shell
-        export AZURE_CLIENT_ID=xxxxxxx
-        export AZURE_CLIENT_SECRET=aaaaaaa
-    ```
-
-    If you would like to use Managed Identity (recommended) instead of service principals, set these variables instead.
-
-    ```shell
-        export AZURE_USE_MI=1
-    ```
-
-    Note: Use only one of the above.
-
-    d. From the same terminal, run the below command. **Note** The variables used here will depend on the environment variables you have set based on the authentication and secret storage choices made above. You will need to modify the below command accordingly.
-    For instance, the below command assumes you have chosen to use Managed Identity for authentication and Key Vault for storing secrets.
+    From the same terminal, run the below command.
 
     ```shell
     kubectl --namespace azureoperator-system \
@@ -70,136 +110,25 @@
         --from-literal=AZURE_OPERATOR_KEYVAULT="$AZURE_OPERATOR_KEYVAULT" \
     ```
 
-    e. Install [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
-
-    ```shell
-    make install-cert-manager
-    ```
-
-2. **Secrets storage** You have the option to use either of the below for storing secrets like connection strings and SQL server username that result from the resource provisioning
-
-    a. *Kubernetes secrets*
-        This is the default. Secrets will be stored as Kubernetes secrets by default.
-
-    b. *Azure Keyvault*
-        If you want to use Azure Key Vault to store the secrets, you should also additionally do the steps below.
-        Create a Key Vault to use to store secrets
-
-    ```shell
-    az keyvault create --name "OperatorSecretKeyVault" --resource-group "resourceGroup-operators" --location "West US"
-    ```
-
-    Add appropriate Key Vault access policies to allow the service principal access to this Key Vault
-
-    ```shell
-    az keyvault set-policy --name "OperatorSecretKeyVault" --spn <AZURE_CLIENT_ID> --secret-permissions get list delete set
-    ```
-
-    If you use Managed Identity instead of Service Principal, use the Client ID of the Managed Identity instead in the above command.
-
-    ```shell
-    az keyvault set-policy --name "OperatorSecretKeyVault" --spn <MANAGEDIDENTITY_CLIENT_ID> --secret-permissions get list delete set
-    ```
-
-    Set the additional environment variable 'AZURE_OPERATOR_KEYVAULT' to indicate you want to use Key Vault for secrets.
-
-    ```shell
-    export AZURE_OPERATOR_KEYVAULT=OperatorSecretKeyVault
-    ```
-
-3. **Authentication** You can choose to use either Service Principals or Managed Identity for authentication.
-    a. *Service Principal authentication*
-        If you choose to use Service Principal authentication, you do not need to do anything more
-
-    b. *Managed Identity authentication*
-I       If you choose to use Managed Identity, perform these steps.
-        (i). Create an identity that will be able to manage resources in the specified resource group.
-
-        ```shell
-        az identity create -g <resourcegroup> -n aso-manager-identity -o json
-        ```
-
-        This command will have an output like the below
-
-        ```shell
-        {
-        "clientId": "288a7d63-ab78-442e-89ee-2a353fb990ab",
-        "clientSecretUrl": "https://control-westus.identity.azure.net/subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac/resourcegroups/resourcegroup-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-manager-identity/credentials?tid=72f988bf-86f1-41af-91ab-2d7cd011db47&oid=ddcc0726-c3cd-49b2-9a4b-68a4a33bdc1d&aid=288a7d63-ab78-442e-89ee-2a353fb990ab",
-        "id": "/subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac/resourcegroups/resourcegroup-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-manager-identity",
-        "location": "westus",
-        "name": "aso-manager-identity",
-        "principalId": "ddcc0726-c3cd-49b2-9a4b-68a4a33bdc1d",
-        "resourceGroup": "resourcegroup-operators",
-        "tags": {},
-        "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-        "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-        }
-        ```
-
-        (ii). Give the Service Principal associated with the AKS cluster control over managing the identity we just created.
-
-        ```shell
-        az role assignment create --role "Managed Identity Operator" --assignee <AKS Service Principal ID> --scope <Managed Identity ID Path>
-        
-        az role assignment create --role "Managed Identity Operator" --assignee <AKS Service Principal ID> --scope "/subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac/resourcegroups/resourcegroup-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-manager-identity"
-        ```
-
-        (iii). Give the Managed Identity we just created authorization to provision resources in our subscription
-        
-        ```shell
-        az role assignment create --role "Contributor" --assignee <Managed Identity clientID> --scope <Subscription ID Path>
-        
-        az role assignment create --role "Contributor" --assignee "288a7d63-ab78-442e-89ee-2a353fb990ab"  --scope "/subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac"
-        ```
-        
-        (iv). Install [aad-pod-identity](https://github.com/Azure/aad-pod-identity#1-create-the-deployment)
-
-        ```shell
-        make install-aad-pod-identity
-        ```
-        
-        (v). Create and apply the AzureIdentity and Binding manifests
-
-        ```yaml
-        apiVersion: "aadpodidentity.k8s.io/v1"
-        kind: AzureIdentity
-        metadata:
-            name: <a-idname>
-        spec:
-            type: 0
-            ResourceID: /subscriptions/<subid>/resourcegroups/<resourcegroup>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<name>
-            ClientID: <Managed Identity clientId>
-        ```
-
-        ```yaml
-        apiVersion: "aadpodidentity.k8s.io/v1"
-        kind: AzureIdentityBinding
-        metadata:
-            name: aso-identity-binding
-        spec:
-            AzureIdentity: <a-idname>
-            Selector: aso_manager_binding
-        ```
-
-4. Deploy the operator to the Kubernetes cluster
+5. Deploy the operator to the Kubernetes cluster
 
     ```shell
     make deploy
     ```
 
-5. Check that the operator is deployed to the cluster using the following commands.
+6. Check that the operator is deployed to the cluster using the following commands.
 
     ```shell
     kubectl get pods -n azureoperator-system
     ```
 
-6. You can view the logs from the operator using the following command. The `podname` is the name of the pod in the output from `kubectl get pods -n azureoperator-system`, `manager` is the name of the container inside the pod.
+7. You can view the logs from the operator using the following command. The `podname` is the name of the pod in the output from `kubectl get pods -n azureoperator-system`, `manager` is the name of the container inside the pod.
 
     ```shell
     kubectl logs <podname> -c manager -n azureoperator-system
     ```
 
-7. If you would like to view the Prometheus metrics from the operator, you can redirect port 8080 to the local machine using the following command:
+8. If you would like to view the Prometheus metrics from the operator, you can redirect port 8080 to the local machine using the following command:
 
    Get the deployment using the following command
 
