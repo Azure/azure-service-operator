@@ -44,6 +44,8 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 	instance.Status.Provisioning = true
 
+	redisClient := getRedisCacheClient()
+
 	_, err = rc.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, nil)
 	if err != nil {
 		catch := []string{
@@ -54,13 +56,18 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			if azerr.Type == errhelp.AlreadyExists {
-				// do something
-				// do get
+				// check if redis cache exists in another resource group
+				// or if there is a repeat call to the reconcile loop for an update of the resource
+				_, err := redisClient.Get(ctx, groupName, name)
+				if err != nil {
+					return false, err
+				}
 				instance.Status.Message = "Server Already exists"
+				instance.Status.Provisioning = false
 			}
 			if azerr.Type == errhelp.InvalidServerName {
-				// do something
 				instance.Status.Message = "Invalid Server Name"
+				return false, nil
 			}
 			instance.Status.Message = err.Error()
 			return false, nil
