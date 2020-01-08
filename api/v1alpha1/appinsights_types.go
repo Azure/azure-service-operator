@@ -26,11 +26,12 @@ import (
 type AppInsightsSpec struct {
 	Kind            string `json:"kind"`
 	Location        string `json:"location"`
-	ApplicationType string `json:"applicationtype"` // Possible values include 'web' or 'other'
+	ApplicationType string `json:"applicationType"` // Possible values include 'web' or 'other'
 	ResourceGroup   string `json:"resourceGroup,omitempty"`
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // AppInsights is the Schema for the appinsights API
 type AppInsights struct {

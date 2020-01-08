@@ -3,6 +3,7 @@ kind: AppInsights
 metadata:
   name: appinsights-sample
 spec:
-  kind: other # Possible values include 'web' or 'other'
+  kind: other
   location: westus
   resourceGroup: resourcegroup-azure-operators
+  applicationType: other # Possible values include 'web' or 'other'
