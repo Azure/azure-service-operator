@@ -3,7 +3,7 @@ kind: AppInsights
 metadata:
   name: appinsights-sample
 spec:
-  kind: other
+  kind: other # Values should typically be one of the following: web, ios, other, store, java, phone.
   location: westus
   resourceGroup: resourcegroup-azure-operators
   applicationType: other # Possible values include 'web' or 'other'
