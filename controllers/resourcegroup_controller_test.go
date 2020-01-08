@@ -84,8 +84,8 @@ var _ = Describe("ResourceGroup Controller", func() {
 
 			// verify rg is being deleted
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.IsBeingDeleted()
+				err = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
+				return err != nil
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
