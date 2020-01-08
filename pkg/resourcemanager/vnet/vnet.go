@@ -71,7 +71,7 @@ func (_ *AzureAPIMgmtServiceManager) CreateVNet(ctx context.Context, location st
 					AddressPrefixes: &[]string{addressSpace},
 				},
 			},
-		}
+		},
 	)
 	if err != nil {
 		return vnetwork.VirtualNetwork{}, err
