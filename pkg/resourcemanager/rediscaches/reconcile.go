@@ -56,9 +56,11 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			if azerr.Type == errhelp.AlreadyExists {
 				// do something
 				// do get
+				instance.Status.Message = "Server Already exists"
 			}
 			if azerr.Type == errhelp.InvalidServerName {
 				// do something
+				instance.Status.Message = "Invalid Server Name"
 			}
 			instance.Status.Message = err.Error()
 			return false, nil

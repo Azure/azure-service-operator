@@ -6,7 +6,7 @@ metadata:
     tag1: value1
     tag2: value2
 spec:
-  resourceGroup: resourcegroup-azure-operators
+  resourceGroup: resourcegroup-azure-operators-rush
   location: westus
   enableSoftDelete: false
   networkPolicies: 
