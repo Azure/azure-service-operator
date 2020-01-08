@@ -367,7 +367,7 @@ func main() {
 	if err = (&controllers.VirtualNetworkReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: apimServiceManager,
+			AzureClient: vnetManager,
 			Telemetry: telemetry.InitializePrometheusDefault(
 				ctrl.Log.WithName("controllers").WithName("VNet"),
 				"VNet",

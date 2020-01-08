@@ -22,21 +22,22 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// VirtualNetworkSpec defines the desired state of VirtualNetwork
-type VirtualNetworkSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Location      string `json:"location"`
-	ResourceGroup string `json:"resourceGroup"`
-	AddressSpace  string `json:"addressSpace"`
-}
-
 // VNetSubnets defines subnets for this vnet
 type VNetSubnets struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	SubnetName          string `json:"subnetName,omitempty"`
-	SubnetAddressPrefix string `json:"subnetAddressPrefix,omitempty"`
+	SubnetName          string `json:"subnetName"`
+	SubnetAddressPrefix string `json:"subnetAddressPrefix"`
+}
+
+// VirtualNetworkSpec defines the desired state of VirtualNetwork
+type VirtualNetworkSpec struct {
+	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+	// Important: Run "make" to regenerate code after modifying this file
+	Location      string        `json:"location"`
+	ResourceGroup string        `json:"resourceGroup"`
+	AddressSpace  string        `json:"addressSpace"`
+	Subnets       []VNetSubnets `json:"subnets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -46,9 +47,8 @@ type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec    VirtualNetworkSpec `json:"spec,omitempty"`
-	Status  ASOStatus          `json:"status,omitempty"`
-	Subnets []VNetSubnets      `json:"subnets,omitempty"`
+	Spec   VirtualNetworkSpec `json:"spec,omitempty"`
+	Status ASOStatus          `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

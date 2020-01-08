@@ -31,12 +31,12 @@ type VirtualNetworkReconciler struct {
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *VirtualNetworkReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.ApimService{})
+	return r.Reconciler.Reconcile(req, &azurev1alpha1.VirtualNetwork{})
 }
 
 // SetupWithManager function sets up the functions with the controller
 func (r *VirtualNetworkReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.ApimService{}).
+		For(&azurev1alpha1.VirtualNetwork{}).
 		Complete(r)
 }

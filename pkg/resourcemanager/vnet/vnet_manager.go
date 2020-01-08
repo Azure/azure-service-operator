@@ -19,6 +19,7 @@ import (
 	"context"
 
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/go-autorest/autorest"
 )
 
@@ -33,13 +34,8 @@ type VNetManager interface {
 		location string,
 		resourceGroupName string,
 		resourceName string,
-		addressSpace string) (vnetwork.VirtualNetwork, error)
-
-	CreateSubnet(ctx context.Context,
-		resourceGroupName string,
-		resourceName string,
-		subnetName string,
-		subnetAddressPrefix string) (vnetwork.Subnet, error)
+		addressSpace string,
+		subnets []azurev1alpha1.VNetSubnets) (vnetwork.VirtualNetwork, error)
 
 	DeleteVNet(ctx context.Context,
 		resourceGroupName string,

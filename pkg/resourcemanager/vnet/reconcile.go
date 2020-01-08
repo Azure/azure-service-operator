@@ -34,6 +34,28 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 		return false, err
 	}
 
+	location := instance.Spec.Location
+	resourceGroup := instance.Spec.ResourceGroup
+	resourceName := instance.Name
+	addressSpace := instance.Spec.AddressSpace
+	subnets := instance.Spec.Subnets
+
+	instance.Status.Provisioning = true
+	instance.Status.Provisioned = false
+	_, err = g.CreateVNet(
+		ctx,
+		location,
+		resourceGroup,
+		resourceName,
+		addressSpace,
+		subnets,
+	)
+	if err != nil {
+		return false, fmt.Errorf("Error creating VNet: %s, %s - %v", resourceGroup, resourceName, err)
+	}
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
+
 	return true, nil
 }
 
@@ -43,6 +65,18 @@ func (g *AzureVNetManager) Delete(ctx context.Context, obj runtime.Object) (bool
 	instance, err := g.convert(obj)
 	if err != nil {
 		return false, err
+	}
+
+	resourceGroup := instance.Spec.ResourceGroup
+	resourceName := instance.Name
+
+	_, err = g.DeleteVNet(
+		ctx,
+		resourceGroup,
+		resourceName,
+	)
+	if err != nil {
+		return true, fmt.Errorf("Error deleting VNet: %s, %s - %v", resourceGroup, resourceName, err)
 	}
 
 	return true, nil
