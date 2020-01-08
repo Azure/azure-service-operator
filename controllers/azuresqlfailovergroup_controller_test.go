@@ -198,8 +198,8 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		Expect(err).NotTo(HaveOccurred())
 
 		Eventually(func() bool {
-			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
-			return helpers.IsBeingDeleted(sqlServerInstance)
+			err = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
+			return err != nil
 		}, tc.timeout, tc.retry,
 		).Should(BeTrue())
 
