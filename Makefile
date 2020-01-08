@@ -38,14 +38,6 @@ test: generate fmt vet manifests
 	go test -v -coverprofile=coverage.txt -covermode count \
 	./api/... \
 	./controllers/... \
-	./pkg/resourcemanager/azuresql/... \
-	./pkg/resourcemanager/eventhubs/... \
-	./pkg/resourcemanager/resourcegroups/... \
-	./pkg/resourcemanager/storages/... \
-	./pkg/resourcemanager/psql/server/... \
-	./pkg/resourcemanager/psql/database/... \
-	./pkg/resourcemanager/psql/firewallrule/... \
-	./pkg/resourcemanager/appinsights/...
 	-timeout 10m 2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt > report.xml
 	go tool cover -html=coverage.txt -o cover.html
