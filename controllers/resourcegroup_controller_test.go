@@ -1,113 +1,89 @@
+// +build all resourcegroup
+
 package controllers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
-	"strings"
+	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 
-	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("ResourceGroup Controller", func() {
+func TestResourceGroupControllerHappyPath(t *testing.T) {
+	t.Parallel()
+	RegisterTestingT(t)
+	PanicRecover()
+	ctx := context.Background()
 
-	BeforeEach(func() {
-		// Add any setup steps that needs to be executed before each test
-	})
+	resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
 
-	AfterEach(func() {
-		// Add any teardown steps that needs to be executed after each test
-	})
+	var err error
 
-	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
-	// your API definition.
-	// Avoid adding tests for vanilla CRUD operations because they would
-	// test Kubernetes API server, which isn't the goal here.
+	// Create the ResourceGroup object and expect the Reconcile to be created
+	resourceGroupInstance := &azurev1alpha1.ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      resourceGroupName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.ResourceGroupSpec{
+			Location: tc.resourceGroupLocation,
+		},
+	}
 
-	Context("Create and Delete", func() {
-		It("should create and delete resource group instances", func() {
-			resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
+	// create rg
+	err = tc.k8sClient.Create(ctx, resourceGroupInstance)
+	Expect(apierrors.IsInvalid(err)).To(Equal(false))
+	Expect(err).NotTo(HaveOccurred())
 
-			defer GinkgoRecover()
+	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 
-			var err error
+	// verify sure rg has a finalizer
+	Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
+		return resourceGroupInstance.HasFinalizer(finalizerName)
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
 
-			// Create the ResourceGroup object and expect the Reconcile to be created
-			resourceGroupInstance := &azurev1alpha1.ResourceGroup{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      resourceGroupName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.ResourceGroupSpec{
-					Location: tc.resourceGroupLocation,
-				},
-			}
+	// verify rg gets submitted
+	Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
+		return resourceGroupInstance.Status.Provisioned
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
 
-			// create rg
-			err = tc.k8sClient.Create(context.Background(), resourceGroupInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
+	// verify rg exists in azure
+	Eventually(func() bool {
+		_, err := tc.resourceGroupManager.CheckExistence(ctx, resourceGroupName)
+		return err == nil
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
 
-			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
+	// delete rg
+	err = tc.k8sClient.Delete(ctx, resourceGroupInstance)
+	Expect(err).NotTo(HaveOccurred())
 
-			// verify sure rg has a finalizer
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.HasFinalizer(finalizerName)
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+	// verify rg is being deleted
+	Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
 
-			// verify rg gets submitted
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.IsSubmitted()
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+	// verify rg is gone from Azure
+	Eventually(func() bool {
+		result, _ := tc.resourceGroupManager.CheckExistence(ctx, resourceGroupName)
+		if result.Response == nil {
+			return false
+		}
+		return result.Response.StatusCode == http.StatusNotFound
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
 
-			// verify rg exists in azure
-			Eventually(func() bool {
-				_, err := tc.resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
-				return err == nil
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-
-			// delete rg
-			err = tc.k8sClient.Delete(context.Background(), resourceGroupInstance)
-			Expect(err).NotTo(HaveOccurred())
-
-			// verify rg is being deleted
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.IsBeingDeleted()
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-
-			// verify rg is gone from kubernetes
-			Eventually(func() bool {
-				err := tc.k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				if err == nil {
-					err = fmt.Errorf("")
-				}
-				return strings.Contains(err.Error(), "not found")
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-
-			// verify rg is gone from Azure
-			Eventually(func() bool {
-				result, _ := tc.resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
-				if result.Response == nil {
-					return false
-				}
-				return result.Response.StatusCode == http.StatusNotFound
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-		})
-	})
-})
+}
