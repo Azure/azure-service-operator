@@ -141,8 +141,8 @@ var _ = Describe("AzureSqlDatabase Controller", func() {
 			//Expect(err).NotTo(HaveOccurred())  //Commenting as this call is async and returns an asyncopincomplete error
 
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-				return helpers.IsBeingDeleted(sqlDatabaseInstance)
+				err = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
+				return err != nil
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
