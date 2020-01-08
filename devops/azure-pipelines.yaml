@@ -124,9 +124,9 @@ steps:
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
     make deploy
-    make test-existing
+    make test-existing-controllers || make test-existing-managers
   continueOnError: 'false'
-  displayName: 'Set kind cluster and Run unit tests'
+  displayName: 'Set kind cluster and Run int tests'
   env:
     GO111MODULE: on
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
