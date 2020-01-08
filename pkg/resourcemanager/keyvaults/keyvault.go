@@ -84,6 +84,24 @@ func (_ *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string
 		return keyvault.Vault{}, err
 	}
 
+	// Check if keyvault name is valid
+	vaultNameCheck := keyvault.VaultCheckNameAvailabilityParameters{
+		Name: to.StringPtr(vaultName),
+		Type: to.StringPtr("Microsoft.KeyVault/vaults"),
+	}
+	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
+	if err != nil {
+		log.Println("CheckNameAvailability returned error")
+		return keyvault.Vault{}, err
+	}
+	if result.Reason == keyvault.AccountNameInvalid {
+		log.Println("Name is invalid")
+		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
+	} else if result.Reason == keyvault.AlreadyExists {
+		log.Println("Keyvault with same name already exists elsewhere")
+		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
+	}
+
 	params := keyvault.VaultCreateOrUpdateParameters{
 		Properties: &keyvault.VaultProperties{
 			TenantID:       &id,
@@ -109,6 +127,24 @@ func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
 		return keyvault.Vault{}, err
+	}
+
+	// Check if keyvault name is valid
+	vaultNameCheck := keyvault.VaultCheckNameAvailabilityParameters{
+		Name: to.StringPtr(vaultName),
+		Type: to.StringPtr("Microsoft.KeyVault/vaults"),
+	}
+	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
+	if err != nil {
+		log.Println("CheckNameAvailability returned error")
+		return keyvault.Vault{}, err
+	}
+	if result.Reason == keyvault.AccountNameInvalid {
+		log.Println("Name is invalid")
+		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
+	} else if result.Reason == keyvault.AlreadyExists {
+		log.Println("Keyvault with same name already exists elsewhere")
+		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
 	}
 
 	apList := []keyvault.AccessPolicyEntry{}
