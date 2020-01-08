@@ -123,8 +123,8 @@ var _ = Describe("EventHubNamespace Controller", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
-				return eventhubNamespaceInstance.IsBeingDeleted()
+				err = tc.k8sClient.Get(context.Background(), eventhubNamespacedName, eventhubNamespaceInstance)
+				return err != nil
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
