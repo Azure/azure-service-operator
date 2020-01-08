@@ -26,14 +26,16 @@ import (
 type VirtualNetworkSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Location      string `json:"location"`
 	ResourceGroup string `json:"resourceGroup"`
+	AddressSpace  string `json:"addressSpace"`
 }
 
 // VNetSubnets defines subnets for this vnet
 type VNetSubnets struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Name                string `json:"name,omitempty"`
+	SubnetName          string `json:"subnetName,omitempty"`
 	SubnetAddressPrefix string `json:"subnetAddressPrefix,omitempty"`
 }
 

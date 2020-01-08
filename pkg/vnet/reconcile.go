@@ -19,7 +19,6 @@ package vnet
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -34,61 +33,8 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 	if err != nil {
 		return false, err
 	}
-	resourceGroupName := instance.Spec.ResourceGroup
-	resourceName := instance.ObjectMeta.Name
-	subnets := instance.Spec
 
-	activated, err := g.IsAPIMgmtSvcActivated(ctx, resourceGroupName, resourceName)
-	if !activated && err != nil {
-
-		// STEP 1:
-		// 	need to provision
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = false
-		_, err := g.CreateAPIMgmtSvc(ctx, location, resourceGroupName, resourceName)
-		if err != nil {
-			return false, fmt.Errorf("API Mgmt Svc create error %v", err)
-		}
-		instance.Status.Provisioning = true
-		return false, nil
-	} else if !activated && err == nil {
-
-		// STEP 2:
-		// 	in the proccess of still provisioning
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
-		return false, nil
-	} else {
-
-		// STEP 3:
-		// 	provisioned, now need to update with a vnet?
-		vnetType := instance.Spec.VnetType
-		if vnetType != "" && !strings.EqualFold(vnetType, "none") {
-			vnetResourceGroup := instance.Spec.VnetType
-			vnetName := instance.Spec.VnetType
-			subnetName := instance.Spec.VnetSubnetName
-			err = g.SetVNetForAPIMgmtSvc(
-				ctx,
-				resourceGroupName,
-				resourceName,
-				vnetType,
-				vnetResourceGroup,
-				vnetName,
-				subnetName,
-			)
-			if err != nil {
-				instance.Status.Provisioned = false
-				instance.Status.Provisioning = true
-				return false, fmt.Errorf("API Mgmt Svc could not update VNet %s, %s - %v", vnetResourceGroup, vnetName, err)
-			}
-		}
-
-		// STEP 4:
-		// 	everything is now completed!
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		return true, nil
-	}
+	return true, nil
 }
 
 // Delete makes sure that an API Mgmt Svc has been deleted
@@ -97,14 +43,6 @@ func (g *AzureVNetManager) Delete(ctx context.Context, obj runtime.Object) (bool
 	instance, err := g.convert(obj)
 	if err != nil {
 		return false, err
-	}
-
-	resourceGroupName := instance.Spec.ResourceGroup
-	resourceName := instance.ObjectMeta.Name
-
-	_, err = g.DeleteAPIMgmtSvc(ctx, resourceGroupName, resourceName)
-	if err != nil {
-		return true, fmt.Errorf("API Mgmt Svc delete error %v", err)
 	}
 
 	return true, nil

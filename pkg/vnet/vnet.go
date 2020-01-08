@@ -21,6 +21,7 @@ import (
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/go-autorest/autorest"
 )
 
 // AzureVNetManager is the struct that the manager functions hang off
@@ -53,28 +54,72 @@ func getSubnetsClient() (vnetwork.SubnetsClient, error) {
 }
 
 // CreateVNet creates VNets
-func (_ *AzureAPIMgmtServiceManager) CreateVNet(ctx context.Context, resourceGroupName string, resourceName string) (future, error) {
+func (_ *AzureAPIMgmtServiceManager) CreateVNet(ctx context.Context, location string, resourceGroupName string, resourceName string, addressSpace string) (vnetwork.VirtualNetwork, error) {
 	client, err := apimshared.getVNetClient()
 	if err != nil {
-		return apim.ServiceResource{}, err
+		return vnetwork.VirtualNetwork{}, err
 	}
 
+	future, err := client.CreateOrUpdate(
+		ctx,
+		resourceGroupName,
+		resourceName,
+		vnet.VirtualNetwork{
+			Location: &location,
+			VirtualNetworkPropertiesFormat: &vnet.VirtualNetworkPropertiesFormat{
+				AddressSpace: &network.AddressSpace{
+					AddressPrefixes: &[]string{addressSpace},
+				},
+			},
+		}
+	)
+	if err != nil {
+		return vnetwork.VirtualNetwork{}, err
+	}
+
+	return future.Result(client)
 }
 
 // CreateSubnet creates subnets
 func (_ *AzureAPIMgmtServiceManager) CreateSubnet(ctx context.Context, resourceGroupName string, resourceName string, subnetName string, subnetAddressPrefix string) (future, error) {
 	client, err := apimshared.getSubnetsClient()
 	if err != nil {
-		return apim.ServiceResource{}, err
+		return vnetwork.Subnet{}, err
 	}
 
+	future, err := client.CreateOrUpdate(
+		ctx,
+		resourceGroupName,
+		resourceName,
+		subnetName,
+		vnetwork.Subnet{
+			SubnetPropertiesFormat: &vnetwork.SubnetPropertiesFormat{
+				AddressPrefix: &subnetAddressPrefix,
+			},
+		},
+	)
+	if err != nil {
+		return vnetwork.Subnet{}, err
+	}
+
+	return future.Result(client)
 }
 
 // DeleteVNet deletes a VNet
-func (_ *AzureAPIMgmtServiceManager) DeleteVNet(ctx context.Context, resourceGroupName string, resourceName string) (future, error) {
+func (_ *AzureAPIMgmtServiceManager) DeleteVNet(ctx context.Context, resourceGroupName string, resourceName string) (autorest.Response, error) {
 	client, err := apimshared.getVNetClient()
 	if err != nil {
-		return apim.ServiceResource{}, err
+		return nil, err
 	}
 
+	future, err := client.Delete(
+		ctx,
+		resourceGroupName,
+		resourceName,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return future.Result(client)
 }

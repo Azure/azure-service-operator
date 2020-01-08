@@ -17,6 +17,9 @@ package vnet
 
 import (
 	"context"
+
+	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
+	"github.com/Azure/go-autorest/autorest"
 )
 
 // NewAzureVNetManager creates a new instance of AzureVNetManager
@@ -27,14 +30,18 @@ func NewAzureVNetManager() *AzureVNetManager {
 // VNetManager manages VNet service components
 type VNetManager interface {
 	CreateVNet(ctx context.Context,
+		location string,
 		resourceGroupName string,
-		resourceName string) (future, error)
+		resourceName string,
+		addressSpace string) (vnetwork.VirtualNetwork, error)
 
 	CreateSubnet(ctx context.Context,
 		resourceGroupName string,
 		resourceName string,
 		subnetName string,
-		subnetAddressPrefix string) (future, error)
+		subnetAddressPrefix string) (vnetwork.Subnet, error)
 
-	DeleteVNet(ctx context.Context, resourceGroupName string, resourceName string) (future, error)
+	DeleteVNet(ctx context.Context,
+		resourceGroupName string,
+		resourceName string) (autorest.Response, error)
 }
