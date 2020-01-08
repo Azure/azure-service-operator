@@ -26,12 +26,15 @@ import (
 type VirtualNetworkSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	ResourceGroup string `json:"resourceGroup"`
 }
 
-// VirtualNetworkStatus defines the observed state of VirtualNetwork
-type VirtualNetworkStatus struct {
+// VNetSubnets defines subnets for this vnet
+type VNetSubnets struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Name                string `json:"name,omitempty"`
+	SubnetAddressPrefix string `json:"subnetAddressPrefix,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -41,8 +44,9 @@ type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   VirtualNetworkSpec   `json:"spec,omitempty"`
-	Status VirtualNetworkStatus `json:"status,omitempty"`
+	Spec    VirtualNetworkSpec `json:"spec,omitempty"`
+	Status  ASOStatus          `json:"status,omitempty"`
+	Subnets []VNetSubnets      `json:"subnets,omitempty"`
 }
 
 // +kubebuilder:object:root=true

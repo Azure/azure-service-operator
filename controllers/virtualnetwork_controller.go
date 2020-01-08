@@ -13,38 +13,30 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controllers
+package vnet
 
 import (
-	"context"
-
-	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
 // VirtualNetworkReconciler reconciles a VirtualNetwork object
 type VirtualNetworkReconciler struct {
-	client.Client
-	Log logr.Logger
+	Reconciler *AsyncReconciler
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=virtualnetworks,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=virtualnetworks/status,verbs=get;update;patch
 
+// Reconcile function does the main reconciliation loop of the operator
 func (r *VirtualNetworkReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("virtualnetwork", req.NamespacedName)
-
-	// your logic here
-
-	return ctrl.Result{}, nil
+	return r.Reconciler.Reconcile(req, &azurev1alpha1.ApimService{})
 }
 
+// SetupWithManager function sets up the functions with the controller
 func (r *VirtualNetworkReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.VirtualNetwork{}).
+		For(&azurev1alpha1.ApimService{}).
 		Complete(r)
 }
