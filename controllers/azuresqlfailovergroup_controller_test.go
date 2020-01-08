@@ -114,6 +114,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 		}
 
 		err = tc.k8sClient.Create(context.Background(), sqlDatabaseInstance)
+		Expect(err).NotTo(HaveOccurred())
 
 		sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
 
@@ -147,6 +148,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 
 		_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
 		err = tc.k8sClient.Delete(context.Background(), sqlDatabaseInstance)
+		Expect(err).NotTo(HaveOccurred())
 
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
@@ -170,6 +172,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 
 		_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 		err = tc.k8sClient.Delete(context.Background(), sqlServerInstance)
+		Expect(err).NotTo(HaveOccurred())
 
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
@@ -192,6 +195,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 
 		_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
 		err = tc.k8sClient.Delete(context.Background(), sqlServerInstance)
+		Expect(err).NotTo(HaveOccurred())
 
 		Eventually(func() bool {
 			_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance)
