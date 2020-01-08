@@ -197,12 +197,11 @@ var _ = BeforeSuite(func() {
 	var psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
 	var consumerGroupClient resourcemanagereventhub.ConsumerGroupManager
 
-
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
-		keyVaultManager = resourcemanagerkeyvaults.AzureKeyVaultManager
+		keyVaultManager = resourcemanagerkeyvaults.NewAzureKeyVaultManager(ctrl.Log.WithName("keyvaultmanager").WithName("KeyVault"), k8sManager.GetScheme())
 		eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
 		psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, k8sManager.GetScheme())
 		psqlDatabaseManager = resourcemanagerpsqldatabase.NewPSQLDatabaseClient(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
@@ -235,10 +234,16 @@ var _ = BeforeSuite(func() {
 	}
 
 	err = (&KeyVaultReconciler{
-		Client:          k8sManager.GetClient(),
-		Log:             ctrl.Log.WithName("controllers").WithName("KeyVault"),
-		Recorder:        k8sManager.GetEventRecorderFor("KeyVault-controller"),
-		KeyVaultManager: keyVaultManager,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: keyVaultManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("KeyVault"),
+				"KeyVault",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("KeyVault-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

@@ -50,8 +50,8 @@ var _ = Describe("KeyVault Controller", func() {
 					Namespace: "default",
 				},
 				Spec: azurev1alpha1.KeyVaultSpec{
-					Location:          keyVaultLocation,
-					ResourceGroupName: tc.resourceGroupName,
+					Location:      keyVaultLocation,
+					ResourceGroup: tc.resourceGroupName,
 				},
 			}
 
@@ -67,7 +67,6 @@ var _ = Describe("KeyVault Controller", func() {
 			// Wait until key vault is provisioned
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
-				//log.Print(keyVaultInstance.Status)
 				return keyVaultInstance.Status.Provisioned == true
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
