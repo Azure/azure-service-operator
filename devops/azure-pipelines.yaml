@@ -137,21 +137,21 @@ steps:
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
   workingDirectory: '$(MODULE_PATH)'
 
-- task: PublishTestResults@2
-  displayName: 'test cluster'
-  inputs:    
-    testRunner: JUnit
-    testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
-    failTaskOnFailedTests: 'true'
-    failOnStandardError: 'true'
+# - task: PublishTestResults@2
+#   displayName: 'test cluster'
+#   inputs:    
+#     testRunner: JUnit
+#     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
+#     failTaskOnFailedTests: 'true'
+#     failOnStandardError: 'true'
 
-- task: PublishTestResults@2
-  displayName: 'existing cluster'
-  inputs:    
-    testRunner: JUnit
-    testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
-    failTaskOnFailedTests: 'true'
-    failOnStandardError: 'true'
+# - task: PublishTestResults@2
+#   displayName: 'existing cluster'
+#   inputs:    
+#     testRunner: JUnit
+#     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
+#     failTaskOnFailedTests: 'true'
+#     failOnStandardError: 'true'
 
 - task: PublishCodeCoverageResults@1
   inputs:
