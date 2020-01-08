@@ -87,13 +87,14 @@ func IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resour
 	return result, err
 }
 
-// GetVNetConfigurationByName gets a VNet by name
-func GetVNetConfigurationByName(ctx context.Context, resourceGroupName string, resourceName string, subnetName string) (apim.VirtualNetworkConfiguration, error) {
+// GetSubnetConfigurationByName gets a VNet by name
+func GetSubnetConfigurationByName(ctx context.Context, resourceGroupName string, resourceName string, subnetName string) (apim.VirtualNetworkConfiguration, error) {
 	client, err := GetVNetClient()
 	if err != nil {
 		return apim.VirtualNetworkConfiguration{}, err
 	}
 
+	// get the vnet
 	vnetNetwork, err := client.Get(
 		ctx,
 		resourceGroupName,
@@ -104,18 +105,20 @@ func GetVNetConfigurationByName(ctx context.Context, resourceGroupName string, r
 		return apim.VirtualNetworkConfiguration{}, err
 	}
 
-	// find the correct subnet
+	// look for the correct subnet
 	correctSubnet := vnet.Subnet{}
 	for i := 0; i < len(*vnetNetwork.VirtualNetworkPropertiesFormat.Subnets); i++ {
 		subnetCheck := (*vnetNetwork.VirtualNetworkPropertiesFormat.Subnets)[i]
 		if strings.EqualFold(*subnetCheck.Name, subnetName) {
 			correctSubnet = subnetCheck
+			break
 		}
 	}
 	if correctSubnet.Name == nil {
-		return apim.VirtualNetworkConfiguration{}, fmt.Errorf("Subnet not found: %s", subnetName)
+		return apim.VirtualNetworkConfiguration{}, fmt.Errorf("Subnet was not found: %s", subnetName)
 	}
 
+	// the subnet was found, return it
 	result := apim.VirtualNetworkConfiguration{
 		Vnetid:           vnetNetwork.ID,
 		Subnetname:       &subnetName,

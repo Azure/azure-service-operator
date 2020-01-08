@@ -33,10 +33,6 @@ type APIMgmtServiceManager interface {
 		resourceGroupName string,
 		resourceName string) (apim.ServiceResource, error)
 
-	GetAPIMgmtSvc(ctx context.Context,
-		resourceGroupName string,
-		resourceName string) (apim.ServiceResource, error)
-
 	DeleteAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (apim.ServiceResource, error)
 
 	IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resourceName string) (result bool, err error)

@@ -52,11 +52,6 @@ func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, locat
 	return future.Result(client)
 }
 
-// GetAPIMgmtSvc gets an instance of an API Mgmt Svc
-func (_ *AzureAPIMgmtServiceManager) GetAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (apim.ServiceResource, error) {
-	return apimshared.GetAPIMgmtSvc(ctx, resourceGroupName, resourceName)
-}
-
 // DeleteAPIMgmtSvc an instance of an API Mgmt Svc
 func (_ *AzureAPIMgmtServiceManager) DeleteAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (apim.ServiceResource, error) {
 	client, err := apimshared.GetAPIMgmtSvcClient()
@@ -86,6 +81,7 @@ func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, r
 		return fmt.Errorf("API Mgmt Service hasn't been activated yet: %s, %s", resourceGroupName, resourceName)
 	}
 
+	// translate vnet type
 	var vnetTypeConverted apim.VirtualNetworkType
 	if strings.EqualFold(vnetType, "external") {
 		vnetTypeConverted = apim.VirtualNetworkTypeExternal
@@ -95,11 +91,10 @@ func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, r
 		return nil
 	}
 
-	vnet, err := apimshared.GetVNetConfigurationByName(ctx, vnetResourceGroupName, vnetResourceName, subnetName)
+	// get the subnet configuration
+	subnetConfig, err := apimshared.GetSubnetConfigurationByName(ctx, vnetResourceGroupName, vnetResourceName, subnetName)
 	if err != nil {
 		return err
-	} else if *vnet.Subnetname == "" {
-		return fmt.Errorf("no vnet found: %s, %s", vnetResourceGroupName, vnetResourceName)
 	}
 
 	client, err := apimshared.GetAPIMgmtSvcClient()
@@ -107,18 +102,16 @@ func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, r
 		return err
 	}
 
-	parameters := apim.ServiceUpdateParameters{
-		ServiceUpdateProperties: &apim.ServiceUpdateProperties{
-			VirtualNetworkType:          vnetTypeConverted,
-			VirtualNetworkConfiguration: &vnet,
-		},
-	}
-
 	_, err = client.Update(
 		ctx,
 		resourceGroupName,
 		resourceName,
-		parameters,
+		apim.ServiceUpdateParameters{
+			ServiceUpdateProperties: &apim.ServiceUpdateProperties{
+				VirtualNetworkType:          vnetTypeConverted,
+				VirtualNetworkConfiguration: &subnetConfig,
+			},
+		},
 	)
 
 	return err
