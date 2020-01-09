@@ -77,7 +77,7 @@ func getObjectID(ctx context.Context, tenantID string, clientID string) *string 
 }
 
 // CreateVault creates a new key vault
-func (_ *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string, tags map[string]*string) (keyvault.Vault, error) {
+func (k *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string, tags map[string]*string) (keyvault.Vault, error) {
 	vaultsClient := getVaultsClient()
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
@@ -91,14 +91,16 @@ func (_ *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string
 	}
 	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
 	if err != nil {
-		log.Println("CheckNameAvailability returned error")
+		k.Log.Info("CheckNameAvailability returned error")
 		return keyvault.Vault{}, err
 	}
-	if result.Reason == keyvault.AccountNameInvalid {
-		log.Println("Name is invalid")
+	k.Log.Info("debug", "reason", result.Reason)
+	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
+		// Check for "Invalid" is to overcome a bug in KeyVault API which returns "Invalid" instead of defined "AccountNameInvalid"
+		k.Log.Info("Name is invalid")
 		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
 	} else if result.Reason == keyvault.AlreadyExists {
-		log.Println("Keyvault with same name already exists elsewhere")
+		k.Log.Info("Keyvault with same name already exists elsewhere")
 		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
 	}
 
@@ -115,14 +117,14 @@ func (_ *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string
 		Tags:     tags,
 	}
 
-	log.Println(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v", vaultName, groupName, location))
+	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v", vaultName, groupName, location))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 
 	return future.Result(vaultsClient)
 }
 
 // CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
-func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
+func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
 	vaultsClient := getVaultsClient()
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
@@ -136,14 +138,14 @@ func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 	}
 	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
 	if err != nil {
-		log.Println("CheckNameAvailability returned error")
+		k.Log.Info("CheckNameAvailability returned error")
 		return keyvault.Vault{}, err
 	}
-	if result.Reason == keyvault.AccountNameInvalid {
-		log.Println("Name is invalid")
+	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
+		k.Log.Info("Name is invalid")
 		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
 	} else if result.Reason == keyvault.AlreadyExists {
-		log.Println("Keyvault with same name already exists elsewhere")
+		k.Log.Info("Keyvault with same name already exists elsewhere")
 		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
 	}
 
@@ -182,7 +184,7 @@ func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 		Location: to.StringPtr(location),
 	}
 
-	log.Println(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
+	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -192,13 +194,13 @@ func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 }
 
 // DeleteVault removes the resource group named by env var
-func (_ *azureKeyVaultManager) DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
+func (k *azureKeyVaultManager) DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
 	vaultsClient := getVaultsClient()
 	return vaultsClient.Delete(ctx, groupName, vaultName)
 }
 
 // CheckExistence checks for the presence of a keyvault instance on Azure
-func (_ *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
+func (k *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
 	vaultsClient := getVaultsClient()
 	return vaultsClient.Get(ctx, groupName, vaultName)
 
@@ -248,6 +250,11 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 			errhelp.AsyncOpIncompleteError,
 		}
 
+		catchUnrecoverableErrors := []string{
+			errhelp.AccountNameInvalid,
+			errhelp.AlreadyExists,
+		}
+
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
@@ -258,8 +265,16 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 			// reconciliation is not done but error is acceptable
 			return false, nil
 		}
+		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
+			// Unrecoverable error, so stop reconcilation
+			instance.Status.Provisioning = false
+			instance.Status.Message = "Reconcilation hit unrecoverable error"
+			k.Log.Info("Reconcilation hit unrecoverable error", "error=", err.Error())
+			return true, nil
+		}
 		// reconciliation not done and we don't know what happened
 		return false, err
+
 	}
 
 	instance.Status.State = keyvault.Status
