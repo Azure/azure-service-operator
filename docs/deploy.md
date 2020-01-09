@@ -45,56 +45,57 @@
     b. *Azure Key Vault*
         If you want to use Azure Key Vault to store the secrets, you should also additionally do the steps below.
 
-        Create an Azure Key Vault to use to store secrets
+    Create an Azure Key Vault to use to store secrets
 
-        ```shell
-        az keyvault create --name "OperatorSecretKeyVault" --resource-group "resourceGroup-operators" --location "West US"
-        ```
+    ```shell
+    az keyvault create --name "OperatorSecretKeyVault" --resource-group "resourceGroup-operators" --location "West US"
+    ```
 
-        Add appropriate Key Vault access policies to allow the service principal access to this Key Vault
+    Add appropriate Key Vault access policies to allow the service principal access to this Key Vault
 
-        ```shell
-        az keyvault set-policy --name "OperatorSecretKeyVault" --spn <AZURE_CLIENT_ID> --secret-permissions get list delete set
-        ```
+    ```shell
+    az keyvault set-policy --name "OperatorSecretKeyVault" --spn <AZURE_CLIENT_ID> --secret-permissions get list delete set
+    ```
 
-        If you use Managed Identity instead of Service Principal, use the Client ID of the Managed Identity instead in the above command.
+    If you use Managed Identity instead of Service Principal, use the Client ID of the Managed Identity instead in the above command.
 
-        ```shell
-        az keyvault set-policy --name "OperatorSecretKeyVault" --spn <MANAGEDIDENTITY_CLIENT_ID> --secret-permissions get list delete set
-        ```
+    ```shell
+    az keyvault set-policy --name "OperatorSecretKeyVault" --spn <MANAGEDIDENTITY_CLIENT_ID> --secret-permissions get list delete set
+    ```
 
-        Set the environment variable 'AZURE_OPERATOR_KEYVAULT' to indicate you want to use Azure Key Vault for secrets.
+    Set the environment variable 'AZURE_OPERATOR_KEYVAULT' to indicate you want to use Azure Key Vault for secrets.
 
-        ```shell
-        export AZURE_OPERATOR_KEYVAULT=OperatorSecretKeyVault
-        ```
+    ```shell
+    export AZURE_OPERATOR_KEYVAULT=OperatorSecretKeyVault
+    ```
 
 3. **Authentication** You can choose to use either Service Principals or Managed Identity for authentication.
+
     a. *Service Principal authentication*
         If you choose to use Service Principal authentication, set these environment variables.
-
-        ```shell
-        export AZURE_CLIENT_ID=xxxxxxx
-        export AZURE_CLIENT_SECRET=aaaaaaa
+ 
+    ```shell
+    export AZURE_CLIENT_ID=xxxxxxx
+    export AZURE_CLIENT_SECRET=aaaaaaa
     ```
 
     b. *Managed Identity authentication*
 I       If you choose to use Managed Identity, set the below environment variable and then perform the steps listed [here](managedidentity.md).
 
-        ```shell
-        export AZURE_USE_MI=1
-        ```
+    ```shell
+    export AZURE_USE_MI=1
+    ```
 
-        Note: Use only one of the above.
+    Note: Use only one of the above.
 
 4. Set the ```azureoperatorsettings``` secret.
 
     Set the following environment variables `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `REQUEUE_AFTER`.
 
     ```shell
-        export AZURE_TENANT_ID=xxxxxxx
-        export AZURE_SUBSCRIPTION_ID=aaaaaaa
-        export REQUEUE_AFTER=30
+    export AZURE_TENANT_ID=xxxxxxx
+    export AZURE_SUBSCRIPTION_ID=aaaaaaa
+    export REQUEUE_AFTER=30
     ```
 
     From the same terminal, run the below command.

@@ -115,4 +115,6 @@ kubectl delete PostgreSqlServer postgresqlserver-sample
 
 The following message should appear:
 
-`postgresqlserver.azure.microsoft.com postgresqlserver-sample deleted.`
+```shell
+postgresqlserver.azure.microsoft.com postgresqlserver-sample deleted.
+```
