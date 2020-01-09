@@ -24,14 +24,10 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
-	rgLocation := tc.resourceGroupLocation
-
-	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
-	// your API definition.
-	// Avoid adding tests for vanilla CRUD operations because they would
-	// test Kubernetes API server, which isn't the goal here.
-
 	sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
+	rgLocation := tc.resourceGroupLocation
+	rgLocation2 := "southcentralus"
+	sqlServerTwoName := "t-sqlfog-srvtwo" + helpers.RandomString(10)
 
 	// Create the SqlServer object and expect the Reconcile to be created
 	sqlServerInstance := &azurev1alpha1.AzureSqlServer{
@@ -49,6 +45,24 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	Expect(apierrors.IsInvalid(err)).To(Equal(false))
 	Expect(err).NotTo(HaveOccurred())
 
+	// Send request for 2nd server (failovergroup test) before waiting on first server
+
+	sqlServerInstance2 := &azurev1alpha1.AzureSqlServer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      sqlServerTwoName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.AzureSqlServerSpec{
+			Location:      rgLocation2,
+			ResourceGroup: rgName,
+		},
+	}
+
+	err = tc.k8sClient.Create(ctx, sqlServerInstance2)
+	Expect(err).NotTo(HaveOccurred())
+
+	// Wait for first sql server to resolve
+
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 
 	Eventually(func() bool {
@@ -63,7 +77,24 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	}, tc.timeout, tc.retry,
 	).Should(ContainSubstring("successfully provisioned"))
 
-	//verify secret exists in k8s
+	// Wait for 2nd sql server to resolve ---------------------------------------
+
+	sqlServerNamespacedName2 := types.NamespacedName{Name: sqlServerTwoName, Namespace: "default"}
+
+	Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
+		return helpers.HasFinalizer(sqlServerInstance2, AzureSQLServerFinalizerName)
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
+
+	Eventually(func() string {
+		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance2)
+		return sqlServerInstance.Status.Message
+	}, tc.timeout, tc.retry,
+	).Should(ContainSubstring("successfully provisioned"))
+
+	//verify secret exists in k8s for server 1 ---------------------------------
+
 	secret := &v1.Secret{}
 	Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: sqlServerName, Namespace: sqlServerInstance.Namespace}, secret)
@@ -112,15 +143,6 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	}, tc.timeout, tc.retry,
 	).Should(ContainSubstring("successfully provisioned"))
 
-	err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
-	Expect(err).NotTo(HaveOccurred()) //Commenting as this call is async and returns an asyncopincomplete error
-
-	Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
-
 	// Create FirewallRule ---------------------------------------
 
 	sqlFirewallRuleName := "t-fwrule-dev-" + helpers.RandomString(10)
@@ -162,6 +184,66 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
+
+	// Create Failovergroup instance and ensure ----------------------------------
+
+	randomName := helpers.RandomString(10)
+	sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
+
+	// Create the SqlFailoverGroup object and expect the Reconcile to be created
+	sqlFailoverGroupInstance := &azurev1alpha1.AzureSqlFailoverGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      sqlFailoverGroupName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.AzureSqlFailoverGroupSpec{
+			Location:                     rgLocation,
+			ResourceGroup:                rgName,
+			Server:                       sqlServerName,
+			FailoverPolicy:               "automatic",
+			FailoverGracePeriod:          30,
+			SecondaryServerName:          sqlServerTwoName,
+			SecondaryServerResourceGroup: rgName,
+			DatabaseList:                 []string{sqlDatabaseName},
+		},
+	}
+
+	err = tc.k8sClient.Create(ctx, sqlFailoverGroupInstance)
+	Expect(apierrors.IsInvalid(err)).To(Equal(false))
+	Expect(err).NotTo(HaveOccurred())
+
+	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}
+
+	Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
+		return helpers.HasFinalizer(sqlFailoverGroupInstance, azureSQLFailoverGroupFinalizerName)
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
+
+	Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
+		return sqlFailoverGroupInstance.Status.Provisioned
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
+
+	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)
+
+	Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
+
+	// Delete SQL DB instance -----------------------------------------
+
+	err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
+	Expect(err).NotTo(HaveOccurred()) //Commenting as this call is async and returns an asyncopincomplete error
+
+	Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
 		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
