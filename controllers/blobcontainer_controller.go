@@ -70,18 +70,22 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	if instance.IsBeingDeleted() {
 		if helpers.HasFinalizer(&instance, blobContainerFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
+				azerr := errhelp.NewAzureErrorAzureError(err)
+
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
-					errhelp.ParentNotFoundErrorCode,
 				}
-				azerr := errhelp.NewAzureErrorAzureError(err)
 				if helpers.ContainsString(catch, azerr.Type) {
-					if azerr.Type == errhelp.ParentNotFoundErrorCode {
-						log.Info("Error about parent resource not found which we can ignore")
-						return ctrl.Result{}, nil
-					}
 					log.Info("Got ignorable error", "type", azerr.Type)
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+					return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
+				}
+				catch = []string{
+					errhelp.ParentNotFoundErrorCode,
+					errhelp.ResourceGroupNotFoundErrorCode,
+				}
+				if helpers.ContainsString(catch, azerr.Type) {
+					log.Info("Error about parent resource not found which we can ignore")
+					return ctrl.Result{}, nil
 				}
 
 				instance.Status.Message = fmt.Sprintf("Delete blob container failed with %v", err)
@@ -250,7 +254,7 @@ func (r *BlobContainerReconciler) deleteExternal(instance *azurev1alpha1.BlobCon
 	if err != nil {
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		if azerr.Type == errhelp.ParentNotFoundErrorCode {
+		if azerr.Type == errhelp.ParentNotFoundErrorCode || azerr.Type == errhelp.ResourceGroupNotFoundErrorCode {
 			log.Info("Got ignorable error", "type", azerr.Type)
 			msg := fmt.Sprintf("Deleted blob container: %s", containerName)
 			r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", msg)

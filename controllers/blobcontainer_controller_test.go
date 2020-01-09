@@ -61,7 +61,6 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
 	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
-		// @todo check the content of MEssage instead, this check returns a value that defaults to false
 		return blobContainerInstance.Status.Message
 	}, tc.timeout, tc.retry,
 	).Should(ContainSubstring("ResourceGroupNotFound"))

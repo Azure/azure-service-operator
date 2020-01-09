@@ -75,29 +75,29 @@ steps:
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
   workingDirectory: '$(MODULE_PATH)'
 
-- script: |
-    go mod download
-    go get -u github.com/jstemmer/go-junit-report
-    go get github.com/axw/gocov/gocov
-    go get github.com/AlekSi/gocov-xml
-    go get -u gopkg.in/matm/v1/gocov-html
-    go get golang.org/x/tools/cmd/cover
-    go get github.com/onsi/ginkgo/ginkgo
-    make test
-    gocov convert coverage.txt > coverage.json
-    gocov-xml < coverage.json > coverage.xml
-    mkdir coverage
-  continueOnError: 'false'
-  displayName: 'Run unit/mocked tests'
-  env:
-    GO111MODULE: on
-    KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-    AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-    REQUEUE_AFTER: $(REQUEUE_AFTER)
-  workingDirectory: '$(MODULE_PATH)'
+# - script: |
+#     go mod download
+#     go get -u github.com/jstemmer/go-junit-report
+#     go get github.com/axw/gocov/gocov
+#     go get github.com/AlekSi/gocov-xml
+#     go get -u gopkg.in/matm/v1/gocov-html
+#     go get golang.org/x/tools/cmd/cover
+#     go get github.com/onsi/ginkgo/ginkgo
+#     make test
+#     gocov convert coverage.txt > coverage.json
+#     gocov-xml < coverage.json > coverage.xml
+#     mkdir coverage
+#   continueOnError: 'false'
+#   displayName: 'Run unit/mocked tests'
+#   env:
+#     GO111MODULE: on
+#     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+#     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+#     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+#     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+#     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+#     REQUEUE_AFTER: $(REQUEUE_AFTER)
+#   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
     set -e
