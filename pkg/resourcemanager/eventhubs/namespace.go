@@ -151,12 +151,14 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 	// @todo handle updates
 	evhns, err := ns.GetNamespace(ctx, resourcegroup, namespaceName)
 	if err == nil {
-		instance.Status.Provisioning = false
-		instance.Status.Provisioned = true
+
 		instance.Status.State = *evhns.ProvisioningState
-		instance.Status.Message = "namespace already exists"
+		instance.Status.Message = "namespace exists but may not be ready"
 
 		if *evhns.ProvisioningState == "Succeeded" {
+			instance.Status.Message = *evhns.ProvisioningState
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
 			return true, nil
 		}
 
@@ -164,7 +166,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 	}
 
 	// create Event Hubs namespace
-	_, err = ns.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation)
+	newNs, err := ns.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
@@ -182,8 +184,8 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 
 	}
 	// write information back to instance
-	instance.Status.Provisioning = false
-	instance.Status.Provisioned = true
+
+	instance.Status.State = *newNs.ProvisioningState
 
 	return true, nil
 }

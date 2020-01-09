@@ -22,6 +22,7 @@ const (
 	BadRequest                     = "BadRequest"
 	AccountNameInvalid             = "AccountNameInvalid"
 	RequestConflictError           = "Conflict"
+	FailoverGroupBusy              = "FailoverGroupBusy"
 )
 
 func NewAzureError(err error) error {
