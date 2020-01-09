@@ -97,6 +97,14 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		return ctrl.Result{}, nil
 	}
 
+	defer func() {
+		if !helpers.IsBeingDeleted(&instance) {
+			if err := r.Status().Update(ctx, &instance); err != nil {
+				r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+			}
+		}
+	}()
+
 	if !instance.HasFinalizer(blobContainerFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
@@ -120,10 +128,10 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catchIgnorable, azerr.Type) {
-					r.Log.Info(fmt.Sprintf("Got ignorable error type: %s", azerr.Type))
-					log.Info(fmt.Sprintf("Got ignorable error type: %s", azerr.Type))
+					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
+					r.Log.Info(msg)
 					// Requeue if ReconcileExternal errors on one of these codes
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+					return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
 				}
 			}
 			catchNotIgnorable := []string{
@@ -188,7 +196,6 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 
 	r.Log.Info("Info", "Starting provisioning", fmt.Sprintf("Creating blob container: %s", containerName))
 	instance.Status.Provisioning = true
-	instance.Status.Message = "Creating blob container in Azure"
 
 	// Write status information back to instance
 	if statusupdateerr := r.Status().Update(ctx, instance); statusupdateerr != nil {
