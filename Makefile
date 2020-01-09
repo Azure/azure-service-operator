@@ -45,7 +45,7 @@ test-existing-controllers: generate fmt vet manifests
 
 # Run tests with existing cluster
 test-existing-managers: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./pkg/resourcemanager/sqlclient/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/psql/server/... ./pkg/resourcemanager/psql/database/... ./pkg/resourcemanager/psql/firewallrule/... -timeout 30m
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -v -coverprofile=coverage-existing.txt -covermode count ./api/... ./pkg/resourcemanager/eventhubs/...  ./pkg/resourcemanager/resourcegroups/...  ./pkg/resourcemanager/storages/... ./pkg/resourcemanager/psql/server/... ./pkg/resourcemanager/psql/database/... ./pkg/resourcemanager/psql/firewallrule/... -timeout 30m
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
 test-cleanup-azure-resources: 
