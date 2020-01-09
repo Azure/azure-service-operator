@@ -223,7 +223,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	keyvault, err := k.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
-		instance.Status.Message = "Succeeded"
+		instance.Status.Message = "Successfully Provisioned"
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		return true, nil
