@@ -1,0 +1,15 @@
+azureTenantID: ""
+azureSubscriptionID: ""
+
+# Authentication - Service Principal
+azureClientID: ""
+azureClientSecret: ""
+
+# Authentication - Managed Identity
+azureUseMI: ""
+
+# Optional, if using KeyVault to store secrets
+azureOperatorKeyvault: ""
+
+image:
+  repository: cnadolny/aso-claudia
