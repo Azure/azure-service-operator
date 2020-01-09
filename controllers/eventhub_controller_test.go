@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
@@ -37,7 +38,7 @@ func TestEventHubControlleNoNamespace(t *testing.T) {
 		Spec: azurev1alpha1.EventhubSpec{
 			Location:      "westus",
 			Namespace:     "t-ns-dev-eh-" + helpers.RandomString(10),
-			ResourceGroup: "t-rg-dev-eh-" + helpers.RandomString(10),
+			ResourceGroup: tc.resourceGroupName,
 			Properties: azurev1alpha1.EventhubProperties{
 				MessageRetentionInDays: 7,
 				PartitionCount:         2,
@@ -50,12 +51,11 @@ func TestEventHubControlleNoNamespace(t *testing.T) {
 
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
 
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		// @todo check Message instead
-		return eventhubInstance.IsSubmitted()
+		return eventhubInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeFalse())
+	).Should(ContainSubstring(errhelp.ParentNotFoundErrorCode))
 
 	err = tc.k8sClient.Delete(ctx, eventhubInstance)
 	Expect(err).NotTo(HaveOccurred())
@@ -112,11 +112,11 @@ func TestEventHubControlleCeateAndDelete(t *testing.T) {
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.IsSubmitted()
+		return eventhubInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("successfully provisioned"))
 
 	err = tc.k8sClient.Delete(ctx, eventhubInstance)
 	Expect(err).NotTo(HaveOccurred())
@@ -176,11 +176,11 @@ func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.Status.Provisioned
+		return eventhubInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("successfully provisioned"))
 
 	err = tc.k8sClient.Delete(ctx, eventhubInstance)
 	Expect(err).NotTo(HaveOccurred())
@@ -235,6 +235,14 @@ func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 					IntervalInSeconds: 300,
 				},
 			},
+			AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
+				Name: "RootManageSharedAccessKey",
+				Rights: []string{
+					"Listen",
+					"Manage",
+					"Send",
+				},
+			},
 		},
 	}
 
@@ -250,11 +258,11 @@ func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventHubInstance)
-		return eventHubInstance.Status.Provisioned
+		return eventHubInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("successfully provisioned"))
 
 	Eventually(func() bool {
 		hub, _ := tc.eventhubClient.GetHub(ctx, rgName, ehnName, eventHubName)

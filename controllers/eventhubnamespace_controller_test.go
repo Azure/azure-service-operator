@@ -101,11 +101,11 @@ func TestEventHubNamespaceControllerHappy(t *testing.T) {
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubNamespaceInstance)
-		return eventhubNamespaceInstance.Status.Provisioned
+		return eventhubNamespaceInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("successfully provisioned"))
 
 	err = tc.k8sClient.Delete(ctx, eventhubNamespaceInstance)
 	Expect(err).NotTo(HaveOccurred())
