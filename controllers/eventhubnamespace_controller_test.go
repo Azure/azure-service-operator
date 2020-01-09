@@ -4,7 +4,6 @@ package controllers
 
 import (
 	"context"
-	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -51,11 +50,11 @@ func TestEventHubNamespaceControllerNoResourceGroup(t *testing.T) {
 
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
 
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubNamespaceInstance)
-		return strings.Contains(eventhubNamespaceInstance.Status.Message, "ResourceGroupNotFound")
+		return eventhubNamespaceInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("ResourceGroupNotFound"))
 
 	err = tc.k8sClient.Delete(ctx, eventhubNamespaceInstance)
 	Expect(err).NotTo(HaveOccurred())

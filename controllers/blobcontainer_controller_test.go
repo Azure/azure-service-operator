@@ -59,12 +59,21 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	Expect(err).NotTo(HaveOccurred())
 
 	blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
 		// @todo check the content of MEssage instead, this check returns a value that defaults to false
-		return blobContainerInstance.Status.Provisioned
+		return blobContainerInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeFalse())
+	).Should(ContainSubstring("ResourceGroupNotFound"))
+
+	err = tc.k8sClient.Delete(ctx, blobContainerInstance)
+	Expect(err).NotTo(HaveOccurred())
+
+	Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
 
 }
 
@@ -108,9 +117,19 @@ func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
 	blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
 	Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		//@todo check Message instead
 		return blobContainerInstance.Status.Provisioned
 	}, tc.timeout, tc.retry,
 	).Should(BeFalse())
+
+	err = tc.k8sClient.Delete(ctx, blobContainerInstance)
+	Expect(err).NotTo(HaveOccurred())
+
+	Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
 
 }
 
@@ -175,8 +194,8 @@ func TestTestBlobContainerControllerHappyPath(t *testing.T) {
 	Expect(err).NotTo(HaveOccurred())
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
-		return blobContainerInstance.IsBeingDeleted()
+		err = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 

@@ -101,8 +101,8 @@ func TestAzureSqlFirewallRuleControllerHappyPath(t *testing.T) {
 	//Expect(err).NotTo(HaveOccurred())  //Commenting as this call is async and returns an asyncopincomplete error
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-		return helpers.IsBeingDeleted(sqlFirewallRuleInstance)
+		err = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
@@ -111,8 +111,8 @@ func TestAzureSqlFirewallRuleControllerHappyPath(t *testing.T) {
 	err = tc.k8sClient.Delete(ctx, sqlServerInstance)
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return helpers.IsBeingDeleted(sqlServerInstance)
+		err = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 }

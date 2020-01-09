@@ -52,9 +52,19 @@ func TestEventHubControlleNoNamespace(t *testing.T) {
 
 	Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
+		// @todo check Message instead
 		return eventhubInstance.IsSubmitted()
 	}, tc.timeout, tc.retry,
 	).Should(BeFalse())
+
+	err = tc.k8sClient.Delete(ctx, eventhubInstance)
+	Expect(err).NotTo(HaveOccurred())
+
+	Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry,
+	).Should(BeTrue())
 
 }
 
@@ -112,8 +122,8 @@ func TestEventHubControlleCeateAndDelete(t *testing.T) {
 	Expect(err).NotTo(HaveOccurred())
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.IsBeingDeleted()
+		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
@@ -168,7 +178,7 @@ func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 
 	Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.IsSubmitted()
+		return eventhubInstance.Status.Provisioned
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
@@ -176,8 +186,8 @@ func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 	Expect(err).NotTo(HaveOccurred())
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.IsBeingDeleted()
+		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
@@ -242,7 +252,7 @@ func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 
 	Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventHubInstance)
-		return eventHubInstance.IsSubmitted()
+		return eventHubInstance.Status.Provisioned
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
@@ -259,8 +269,8 @@ func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 	Expect(err).NotTo(HaveOccurred())
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventHubInstance)
-		return eventHubInstance.IsBeingDeleted()
+		err = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventHubInstance)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 

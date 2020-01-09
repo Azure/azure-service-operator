@@ -4,7 +4,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"testing"
 
@@ -26,17 +25,7 @@ func TestConsumerGroup(t *testing.T) {
 	var ehnName string = tc.eventhubNamespaceName
 	var ehName string = tc.eventhubName
 	var ctx = context.Background()
-
-	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
-	// your API definition.
-	// Avoid adding tests for vanilla CRUD operations because they would
-	// test Kubernetes API server, which isn't the goal here.
-
-	defer func() {
-		if err := recover(); err != nil {
-			fmt.Println(err)
-		}
-	}()
+	PanicRecover()
 
 	consumerGroupName := "t-cg-" + helpers.RandomString(10)
 	azureConsumerGroupName := consumerGroupName + "-azure"
@@ -71,7 +60,7 @@ func TestConsumerGroup(t *testing.T) {
 
 	Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
-		return consumerGroupInstance.IsSubmitted()
+		return consumerGroupInstance.Status.Provisioned
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
@@ -85,8 +74,8 @@ func TestConsumerGroup(t *testing.T) {
 	Expect(err).NotTo(HaveOccurred())
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
-		return consumerGroupInstance.IsBeingDeleted()
+		err = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 

@@ -40,7 +40,7 @@ test: generate fmt vet manifests
 
 # Run tests with existing cluster
 test-existing-controllers: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -tags all -parallel 3 -v -coverprofile=coverage-existing.txt -covermode count ./controllers/... -timeout 30m
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -tags all -parallel 5 -v -coverprofile=coverage-existing.txt -covermode count ./controllers/... -timeout 30m
 	go tool cover -html=coverage-existing.txt -o cover-existing.html
 
 # Run tests with existing cluster

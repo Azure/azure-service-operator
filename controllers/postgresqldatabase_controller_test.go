@@ -109,7 +109,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, postgreSQLDatabaseNamespacedName, postgreSQLDatabaseInstance)
-		return err != nil
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
@@ -119,7 +119,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, postgreSQLServerNamespacedName, postgreSQLServerInstance)
-		return err != nil
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 

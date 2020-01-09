@@ -108,6 +108,7 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "Starting resource reconciliation")
 		if err := r.reconcileExternal(&instance); err != nil {
+			instance.Status.Message = err.Error()
 			// Catch most common errors
 			// Blob service error codes:
 			// https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-error-codes
@@ -120,9 +121,7 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catchIgnorable, azerr.Type) {
 					r.Log.Info(fmt.Sprintf("Got ignorable error type: %s", azerr.Type))
-					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
-					log.Info(msg)
-					instance.Status.Message = msg
+					log.Info(fmt.Sprintf("Got ignorable error type: %s", azerr.Type))
 					// Requeue if ReconcileExternal errors on one of these codes
 					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
 				}
@@ -219,7 +218,7 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 		return errhelp.NewAzureError(err)
 	}
 
-	msg := fmt.Sprintf("Created blob container: %s", containerName)
+	msg := fmt.Sprintf("Blob container: %s successfully provisioned", containerName)
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Created", msg)
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true

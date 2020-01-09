@@ -70,19 +70,11 @@ func TestAzureSqlFailoverGroupControllerHappyPath(t *testing.T) {
 
 	sqlServerNamespacedName1 := types.NamespacedName{Name: sqlServerOneName, Namespace: "default"}
 	// Check to make sure the SQL server is provisioned before moving ahead
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName1, sqlServerInstance1)
-		return sqlServerInstance1.Status.Provisioned
+		return sqlServerInstance1.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
-
-	sqlServerNamespacedName2 := types.NamespacedName{Name: sqlServerTwoName, Namespace: "default"}
-	// Check to make sure the SQL server is provisioned before moving ahead
-	Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
-		return sqlServerInstance2.Status.Provisioned
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("successfully provisioned"))
 
 	//Create the SQL database on the first SQL server
 	sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
@@ -100,14 +92,22 @@ func TestAzureSqlFailoverGroupControllerHappyPath(t *testing.T) {
 
 	err = tc.k8sClient.Create(ctx, sqlDatabaseInstance)
 
+	sqlServerNamespacedName2 := types.NamespacedName{Name: sqlServerTwoName, Namespace: "default"}
+	// Check to make sure the SQL server is provisioned before moving ahead
+	Eventually(func() string {
+		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
+		return sqlServerInstance2.Status.Message
+	}, tc.timeout, tc.retry,
+	).Should(ContainSubstring("successfully provisioned"))
+
 	sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
 
 	// Check to make sure the SQL database is provisioned before moving ahead
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return sqlDatabaseInstance.Status.Provisioned
+		return sqlDatabaseInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("successfully provisioned"))
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
 	// your API definition.
@@ -135,60 +135,59 @@ func TestAzureSqlFailoverGroupControllerHappyPath(t *testing.T) {
 		},
 	}
 
-	err = tc.k8sClient.Create(context.Background(), sqlFailoverGroupInstance)
+	err = tc.k8sClient.Create(ctx, sqlFailoverGroupInstance)
 	Expect(apierrors.IsInvalid(err)).To(Equal(false))
 	Expect(err).NotTo(HaveOccurred())
 
 	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
+		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 		return helpers.HasFinalizer(sqlFailoverGroupInstance, azureSQLFailoverGroupFinalizerName)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
-
+		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 		return sqlFailoverGroupInstance.Status.Provisioned
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
-	err = tc.k8sClient.Delete(context.Background(), sqlFailoverGroupInstance)
+	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
-		return helpers.IsBeingDeleted(sqlFailoverGroupInstance)
+		err = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
 	//AfterEach
 	// Add any teardown steps that needs to be executed after each test
 
-	err = tc.k8sClient.Delete(context.Background(), sqlDatabaseInstance)
+	err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return helpers.IsBeingDeleted(sqlDatabaseInstance)
+		err = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
 	// delete the sql servers from K8s.
-	//_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName, sqlServerInstance1)
-	err = tc.k8sClient.Delete(context.Background(), sqlServerInstance1)
+	//_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance1)
+	err = tc.k8sClient.Delete(ctx, sqlServerInstance1)
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName1, sqlServerInstance1)
-		return helpers.IsBeingDeleted(sqlServerInstance1)
+		err = tc.k8sClient.Get(ctx, sqlServerNamespacedName1, sqlServerInstance1)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
 	// Delete the SQL server two
-	err = tc.k8sClient.Delete(context.Background(), sqlServerInstance2)
+	err = tc.k8sClient.Delete(ctx, sqlServerInstance2)
 
 	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), sqlServerNamespacedName2, sqlServerInstance2)
-		return helpers.IsBeingDeleted(sqlServerInstance2)
+		err = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
+		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
