@@ -124,7 +124,7 @@ steps:
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
     make deploy
-    make test-existing-controllers || make test-existing-managers
+    make test-existing-controllers || export FAIL_TEST="true" && make test-existing-managers && [[ "$FAIL_TEST" == "true" ]] && { echo >&2 "Controller test failure detected"; return 1; }
   continueOnError: 'false'
   displayName: 'Set kind cluster and Run int tests'
   env:
