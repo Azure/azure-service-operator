@@ -20,7 +20,7 @@ Install [Helm](https://helm.sh/docs/intro/install/) on your machine.
 
 Add the helm repo:
 ```console
-helm repo add azureserviceoperator https://azureserviceoperator.azurecr.io/helm/v1/repo
+helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/charts
 ```
 
 ## Getting Started

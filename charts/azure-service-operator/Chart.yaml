@@ -1,7 +1,7 @@
 apiVersion: v1
 name: azure-service-operator
-version: 1.0.0
-appVersion: The version of the app that this contains (optional). This needn't be SemVer.
+version: 0.1.0
+appVersion: 0.1.0
 description: Deploy components and dependencies of azure-service-operator
 home: https://github.com/Azure/azure-service-operator
 sources:
