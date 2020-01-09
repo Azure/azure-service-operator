@@ -21,6 +21,7 @@ import (
 	"fmt"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -51,6 +52,11 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 		subnets,
 	)
 	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if azerr.Type == errhelp.AsyncOpIncompleteError {
+			return false, nil
+		}
+		instance.Status.Provisioning = false
 		return false, fmt.Errorf("Error creating VNet: %s, %s - %v", resourceGroup, resourceName, err)
 	}
 	instance.Status.Provisioning = false
@@ -70,16 +76,13 @@ func (g *AzureVNetManager) Delete(ctx context.Context, obj runtime.Object) (bool
 	resourceGroup := instance.Spec.ResourceGroup
 	resourceName := instance.Name
 
-	_, err = g.DeleteVNet(
+	g.DeleteVNet(
 		ctx,
 		resourceGroup,
 		resourceName,
 	)
-	if err != nil {
-		return true, fmt.Errorf("Error deleting VNet: %s, %s - %v", resourceGroup, resourceName, err)
-	}
 
-	return true, nil
+	return false, nil
 }
 
 // GetParents lists the parents for an API Mgmt Svc

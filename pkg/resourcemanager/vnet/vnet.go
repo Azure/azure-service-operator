@@ -62,13 +62,13 @@ func (_ *AzureVNetManager) CreateVNet(ctx context.Context, location string, reso
 	}
 
 	var subnetsToAdd []vnetwork.Subnet
-	for _, s := range subnets {
+	for i := 0; i < len(subnets); i++ {
 		subnetsToAdd = append(
 			subnetsToAdd,
 			vnetwork.Subnet{
-				Name: &s.SubnetName,
+				Name: &subnets[i].SubnetName,
 				SubnetPropertiesFormat: &vnetwork.SubnetPropertiesFormat{
-					AddressPrefix: &s.SubnetAddressPrefix,
+					AddressPrefix: &subnets[i].SubnetAddressPrefix,
 				},
 			},
 		)
