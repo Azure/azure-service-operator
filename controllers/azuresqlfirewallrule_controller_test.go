@@ -128,7 +128,7 @@ var _ = Describe("AzureSqlFirewallRule Controller tests", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-				return helpers.HasFinalizer(sqlFirewallRuleInstance, azureSQLFirewallRuleFinalizerName)
+				return helpers.HasFinalizer(sqlFirewallRuleInstance, finalizerName)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
