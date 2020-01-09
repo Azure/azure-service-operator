@@ -33,7 +33,7 @@ azureSubscriptionID: 00000000-0000-0000-0000-000000000000
 
 ### Authentication
 
-Choose one of the following authentication methods.
+Choose one of the following authentication methods:
 
 #### Service Principal
 
@@ -44,6 +44,11 @@ azureClientSecret: 00000000-0000-0000-0000-000000000000
 ```
 
 #### Managed Identity
+
+Set the following Helm Chart Value:
+```
+azureUseMI: "1"
+```
 
 Install the aad-pod-identity project:
 ```
@@ -97,12 +102,6 @@ kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master
     az role assignment create --role "Contributor" --assignee "288a7d63-ab78-442e-89ee-2a353fb990ab"  --scope "/subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac"
     ```
 
-    h. Install [aad-pod-identity](https://github.com/Azure/aad-pod-identity#1-create-the-deployment)
-
-    ```shell
-    make install-aad-pod-identity
-    ```
-
 2. Create and apply the AzureIdentity and Binding manifests
 
     ```yaml
@@ -128,7 +127,7 @@ kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master
 
 ### Keyvault
 
-If you wish to use KeyVault to store secrets, rather than using Kubernetes secrets (default), create a KeyVault and set the Helm Chart Value accordingly.
+By default, secrets will be stored as Kubernetes secrets. If you wish to store them in KeyVault instead:
 
 Create a Key Vault to use to store secrets
 
@@ -172,5 +171,5 @@ The following table lists the configurable parameters of the azure-service-opera
 | `azureClientID`  | Azure Service Principal Client ID | `` |
 | `azureClientSecret`  | Azure Service Principal Client Secret | `` |
 | `azureUseMI`  | Set to 1 if using Managed Identity for authentication | `` |
-| `azureOperatorKeyvault`  | Set this value with the name of your Azure Key Vault resource if you prefer to store secrets in Key Vault rathen than as Kubernetes secrets (default) | `` |
-| `image.repository`  | Image repository | `` |
+| `azureOperatorKeyvault`  | Set this value with the name of your Azure Key Vault resource if you prefer to store secrets in Key Vault rather than as Kubernetes secrets (default) | `` |
+| `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azure-service-operator:0.0.9150` |

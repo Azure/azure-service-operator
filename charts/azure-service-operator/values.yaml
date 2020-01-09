@@ -12,4 +12,4 @@ azureUseMI: ""
 azureOperatorKeyvault: ""
 
 image:
-  repository: cnadolny/aso-claudia
+  repository: mcr.microsoft.com/k8s/azure-service-operator:0.0.9150
