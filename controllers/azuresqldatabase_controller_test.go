@@ -50,11 +50,11 @@ func TestAzureSqlDatabaseControllerHappyPath(t *testing.T) {
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 
 	// Check to make sure the SQL server is provisioned before moving ahead
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return sqlServerInstance.Status.Provisioned
+		return sqlServerInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("successfully provisioned"))
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
 	// your API definition.
@@ -90,11 +90,11 @@ func TestAzureSqlDatabaseControllerHappyPath(t *testing.T) {
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return sqlDatabaseInstance.Status.Provisioned
+		return sqlDatabaseInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("successfully provisioned"))
 
 	err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
 	//Expect(err).NotTo(HaveOccurred())  //Commenting as this call is async and returns an asyncopincomplete error

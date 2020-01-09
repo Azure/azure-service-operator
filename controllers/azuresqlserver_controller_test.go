@@ -61,11 +61,11 @@ func TestAzureSqlServerControllerHappyPath(t *testing.T) {
 	}, tc.timeout, tc.retry,
 	).Should(BeTrue())
 
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return sqlServerInstance.Status.Provisioned
+		return sqlServerInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("successfully provisioned"))
 
 	//verify secret exists in k8s
 	secret := &v1.Secret{}

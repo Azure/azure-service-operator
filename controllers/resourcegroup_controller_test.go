@@ -52,11 +52,11 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 	).Should(BeTrue())
 
 	// verify rg gets submitted
-	Eventually(func() bool {
+	Eventually(func() string {
 		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
-		return resourceGroupInstance.Status.Provisioned
+		return resourceGroupInstance.Status.Message
 	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	).Should(ContainSubstring("successfully provisioned"))
 
 	// verify rg exists in azure
 	Eventually(func() bool {
