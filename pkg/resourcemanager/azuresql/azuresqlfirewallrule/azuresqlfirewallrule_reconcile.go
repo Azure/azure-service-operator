@@ -48,18 +48,20 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
-		return true, fmt.Errorf("AzureSqlFirewallRule CreateOrUpdate error %v", err)
+		instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule CreateOrUpdate error: %s", err.Error())
+		return true, err
 	}
 
 	resp, err := fw.GetSQLFirewallRule(ctx, groupName, server, ruleName)
 	if err != nil {
-		return true, fmt.Errorf("AzureSqlFirewallRule GetSQLFirewallRule error %v", err)
+		instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule GetSQLFirewallRule error: %s", err.Error())
+		return true, err
 	}
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 	instance.Status.State = string(resp.Status)
-	instance.Status.Message = "Success"
+	instance.Status.Message = "AzureSqlFirewallRule Created"
 
 	return true, nil
 }
@@ -81,8 +83,11 @@ func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.O
 			// firewall does not exist
 			return false, nil
 		}
-		return true, fmt.Errorf("Azure SqlFirewallRule Delete error %v", err)
+		instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Delete failed with %s", err.Error())
+		return true, err
 	}
+
+	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule succeeded")
 
 	return true, nil
 }
