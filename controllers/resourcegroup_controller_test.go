@@ -9,6 +9,7 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/stretchr/testify/assert"
 
 	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -21,6 +22,7 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
 
@@ -39,17 +41,22 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 
 	// create rg
 	err = tc.k8sClient.Create(ctx, resourceGroupInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(false, apierrors.IsInvalid(err), "create db resource")
+	assert.Equal(nil, err, "create db in k8s")
 
 	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 
-	// verify sure rg has a finalizer
-	Eventually(func() bool {
+	// make sure rg has a finalizer
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
 		return resourceGroupInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for finlizer on rg")
+
+	// Eventually(func() bool {
+	// 	_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
+	// 	return resourceGroupInstance.HasFinalizer(finalizerName)
+	// }, tc.timeout, tc.retry,
+	// ).Should(BeTrue())
 
 	// verify rg gets submitted
 	Eventually(func() string {

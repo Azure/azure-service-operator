@@ -4,9 +4,11 @@ package controllers
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
@@ -21,6 +23,7 @@ func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
 
@@ -37,30 +40,26 @@ func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 	}
 
 	err := tc.k8sClient.Create(ctx, sqlServerInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create sql server in k8s")
 
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
 		return helpers.HasFinalizer(sqlServerInstance, AzureSQLServerFinalizerName)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for finalizer")
 
-	Eventually(func() string {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return sqlServerInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring(errhelp.ResourceGroupNotFoundErrorCode))
+		return strings.Contains(sqlServerInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for rg error")
 
 	err = tc.k8sClient.Delete(ctx, sqlServerInstance)
-	Expect(err).NotTo(HaveOccurred()) //sql server deletion is async
+	assert.Equal(nil, err, "delete sql server in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for server to be gone")
 
 }

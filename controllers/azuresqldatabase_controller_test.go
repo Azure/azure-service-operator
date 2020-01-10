@@ -4,13 +4,14 @@ package controllers
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	. "github.com/onsi/gomega"
+	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -18,9 +19,9 @@ import (
 
 func TestAzureSqlDatabaseControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	// Add any setup steps that needs to be executed before each test
 	rgLocation := tc.resourceGroupLocation
@@ -43,33 +44,30 @@ func TestAzureSqlDatabaseControllerNoResourceGroup(t *testing.T) {
 	}
 
 	err := tc.k8sClient.Create(ctx, sqlDatabaseInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create db in k8s")
 
 	sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
 
-	Eventually(func() string {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return sqlDatabaseInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring(errhelp.ResourceGroupNotFoundErrorCode))
+		return strings.Contains(sqlDatabaseInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for rg not found error")
 
 	err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
-	//Expect(err).NotTo(HaveOccurred())  //Commenting as this call is async and returns an asyncopincomplete error
+	assert.Equal(nil, err, "delete db in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for resource not found error")
 
 }
 
 func TestAzureSqlDatabaseControllerNoServer(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
@@ -92,24 +90,22 @@ func TestAzureSqlDatabaseControllerNoServer(t *testing.T) {
 	}
 
 	err := tc.k8sClient.Create(ctx, sqlDatabaseInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(false, apierrors.IsInvalid(err), "create db resource")
+	assert.Equal(nil, err, "create db in k8s")
 
 	sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
 
-	Eventually(func() string {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return sqlDatabaseInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring(errhelp.ParentNotFoundErrorCode))
+		return strings.Contains(sqlDatabaseInstance.Status.Message, errhelp.ParentNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for rg not found error")
 
 	err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
-	//Expect(err).NotTo(HaveOccurred())  //Commenting as this call is async and returns an asyncopincomplete error
+	assert.Equal(nil, err, "delete db in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for resource not found error")
 
 }
