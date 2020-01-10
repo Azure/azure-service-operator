@@ -197,7 +197,6 @@ var _ = BeforeSuite(func() {
 	var psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
 	var consumerGroupClient resourcemanagereventhub.ConsumerGroupManager
 
-
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
@@ -375,11 +374,13 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&AzureSqlFailoverGroupReconciler{
-		Client:                       k8sManager.GetClient(),
-		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-		Scheme:                       scheme.Scheme,
-		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: sqlFailoverGroupManager,
+			Log:         ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+			Recorder:    k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+			Scheme:      scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 

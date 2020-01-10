@@ -286,13 +286,18 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
 		os.Exit(1)
 	}
-	if err = (&controllers.AzureSqlFailoverGroupReconciler{
-		Client:                       mgr.GetClient(),
-		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:                     mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-		Scheme:                       mgr.GetScheme(),
-		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
-	}).SetupWithManager(mgr); err != nil {
+
+	/* Azure SqlFailoverGroup */
+	err = (&controllers.AzureSqlFailoverGroupReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlFailoverGroupManager,
+			Log:         ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+			Recorder:    mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+			Scheme:      mgr.GetScheme(),
+		},
+	}).SetupWithManager(mgr)
+	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
 		os.Exit(1)
 	}
