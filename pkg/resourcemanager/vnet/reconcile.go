@@ -22,6 +22,7 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -51,10 +52,37 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 		addressSpace,
 		subnets,
 	)
+
 	if err != nil {
+		g.Log.Info(err.Error())
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		if azerr.Type == errhelp.AsyncOpIncompleteError {
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.AsyncOpIncompleteError,
+		}
+
+		catchUnrecoverableErrors := []string{
+			errhelp.NetcfgInvalidIPAddressPrefix,
+			errhelp.NetcfgInvalidSubnet,
+			errhelp.NetcfgInvalidVirtualNetworkSite,
+			errhelp.InvalidResourceLocation, //To catch trying to use a vnet name that exists in this RG
+		}
+		if helpers.ContainsString(catch, azerr.Type) {
+			switch azerr.Type {
+			case errhelp.AsyncOpIncompleteError:
+				instance.Status.Provisioning = true
+			}
+			// reconciliation is not done but error is acceptable
 			return false, nil
+		}
+		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
+			// Unrecoverable error, so stop reconcilation
+			instance.Status.Provisioning = false
+			instance.Status.Message = "Reconcilation hit unrecoverable error"
+			g.Log.Info("Reconcilation hit unrecoverable error", "error=", err.Error())
+			return true, nil
 		}
 		instance.Status.Provisioning = false
 		return false, fmt.Errorf("Error creating VNet: %s, %s - %v", resourceGroup, resourceName, err)

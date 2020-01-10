@@ -23,10 +23,13 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
+	"github.com/go-logr/logr"
 )
 
 // AzureVNetManager is the struct that the manager functions hang off
-type AzureVNetManager struct{}
+type AzureVNetManager struct {
+	Log logr.Logger
+}
 
 // getVNetClient returns a new instance of an VirtualNetwork client
 func getVNetClient() (vnetwork.VirtualNetworksClient, error) {
