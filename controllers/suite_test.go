@@ -495,12 +495,16 @@ func setup() error {
 		_, _ = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
 	}
 
-	eventHubNSManager := eventHubManagers.EventHubNamespace
-	// Create the Eventhub namespace resource
-	_, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
-	if err != nil {
-		return err
-	}
+	log.Println()
+	log.Println("Testing against RG:", resourceGroupName)
+	log.Println()
+
+	// eventHubNSManager := eventHubManagers.EventHubNamespace
+	// // Create the Eventhub namespace resource
+	// _, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+	// if err != nil {
+	// 	return err
+	// }
 
 	tc = testContext{
 		k8sClient:               k8sClient,

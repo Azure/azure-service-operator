@@ -109,6 +109,7 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
 		if err := r.reconcileExternal(ctx, &instance); err != nil {
+			instance.Status.Message = err.Error()
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -214,7 +215,6 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context,
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
 			instance.Status.Provisioning = true
-			instance.Status.Message = "Provisioning: Async operation not complete or waiting for resource group"
 		}
 
 		return errhelp.NewAzureError(err)
