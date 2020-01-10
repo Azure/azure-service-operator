@@ -36,8 +36,6 @@ import (
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 )
 
-const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azure.com"
-
 // AzureSqlFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
 type AzureSqlFailoverGroupReconciler struct {
 	client.Client

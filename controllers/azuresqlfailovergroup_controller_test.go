@@ -243,7 +243,7 @@ var _ = Describe("AzureSqlFailoverGroup Controller tests", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
-				return helpers.HasFinalizer(sqlFailoverGroupInstance, azureSQLFailoverGroupFinalizerName)
+				return helpers.HasFinalizer(sqlFailoverGroupInstance, finalizerName)
 			}, tc.timeout, tc.retry,
 			).Should(BeTrue())
 
