@@ -4,6 +4,7 @@ package controllers
 
 import (
 	"context"
+	"log"
 	"strings"
 	"testing"
 
@@ -207,12 +208,13 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 		return helpers.HasFinalizer(sqlFailoverGroupInstance, azureSQLFailoverGroupFinalizerName)
-	}, tc.timeout, tc.retry, "wait for firewallrule to have finalizer")
+	}, tc.timeout, tc.retry, "wait for fog to have finalizer")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
+		log.Println(sqlFailoverGroupInstance.Status.Message)
 		return strings.Contains(sqlFailoverGroupInstance.Status.Message, "successfully provisioned")
-	}, tc.timeout, tc.retry, "wait for firewallrule to have finalizer")
+	}, tc.timeout, tc.retry, "wait for fog to have success")
 
 	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)
 
