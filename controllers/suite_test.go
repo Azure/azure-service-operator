@@ -22,7 +22,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"sync"
 	"testing"
 	"time"
 
@@ -95,8 +94,6 @@ type testContext struct {
 }
 
 var tc testContext
-var wg sync.WaitGroup
-var stop chan struct{}
 
 func setup() error {
 	log.Println(fmt.Sprintf("Starting common controller test setup"))
@@ -480,15 +477,11 @@ func setup() error {
 		return err
 	}
 
-	stop = make(chan struct{})
-	wg = sync.WaitGroup{}
 	go func() {
-		wg.Add(1)
-		err = k8sManager.Start(stop)
+		err = k8sManager.Start(ctrl.SetupSignalHandler())
 		if err != nil {
 			log.Fatal(err)
 		}
-		wg.Done()
 	}()
 
 	//k8sClient = k8sManager.GetClient()
@@ -607,9 +600,6 @@ func teardown() error {
 		}
 		time.Sleep(tc.retry)
 	}
-
-	close(stop)
-	wg.Wait()
 
 	err := testEnv.Stop()
 	if err != nil {
