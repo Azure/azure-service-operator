@@ -633,10 +633,10 @@ func PanicRecover() {
 	if err := recover(); err != nil {
 		fmt.Println("caught panic in test:")
 		fmt.Println(err)
-		fmt.Println("attempt to tear down...")
-		err = teardown()
-		if err != nil {
-			log.Println(fmt.Sprintf("could not tear down environment: %v\n", err))
-		}
+		// fmt.Println("attempt to tear down...")
+		// err = teardown()
+		// if err != nil {
+		// 	log.Println(fmt.Sprintf("could not tear down environment: %v\n", err))
+		// }
 	}
 }
