@@ -27,7 +27,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
-	rgLocation := tc.resourceGroupLocation
+	rgLocation := "westus2"
 	rgLocation2 := "southcentralus"
 	sqlServerTwoName := "t-sqlfog-srvtwo" + helpers.RandomString(10)
 
