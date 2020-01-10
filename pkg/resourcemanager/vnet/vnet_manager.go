@@ -21,11 +21,14 @@ import (
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/go-autorest/autorest"
+	"github.com/go-logr/logr"
 )
 
 // NewAzureVNetManager creates a new instance of AzureVNetManager
-func NewAzureVNetManager() *AzureVNetManager {
-	return &AzureVNetManager{}
+func NewAzureVNetManager(log logr.Logger) *AzureVNetManager {
+	return &AzureVNetManager{
+		Log: log,
+	}
 }
 
 // VNetManager manages VNet service components
