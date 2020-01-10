@@ -17,7 +17,7 @@ import (
 func TestPSQLServerController(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	var rgName string

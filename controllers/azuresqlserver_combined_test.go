@@ -19,7 +19,7 @@ import (
 func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	// Add any setup steps that needs to be executed before each test

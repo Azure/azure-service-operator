@@ -97,6 +97,7 @@ var tc testContext
 
 func setup() error {
 	log.Println(fmt.Sprintf("Starting common controller test setup"))
+	defer PanicRecover()
 
 	err := resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
@@ -629,14 +630,13 @@ func TestMain(m *testing.M) {
 }
 
 func PanicRecover() {
-	defer func() {
-		if err := recover(); err != nil {
-			fmt.Println(err)
-			fmt.Println("attempt to tear down...")
-			err = teardown()
-			if err != nil {
-				log.Println(fmt.Sprintf("could not tear down environment: %v\n", err))
-			}
+	if err := recover(); err != nil {
+		fmt.Println("caught panic in test:")
+		fmt.Println(err)
+		fmt.Println("attempt to tear down...")
+		err = teardown()
+		if err != nil {
+			log.Println(fmt.Sprintf("could not tear down environment: %v\n", err))
 		}
-	}()
+	}
 }

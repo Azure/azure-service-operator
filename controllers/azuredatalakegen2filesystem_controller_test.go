@@ -18,7 +18,7 @@ import (
 func TestADLSFilesystemControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 
 	ctx := context.Background()
 	var saName string = tc.storageAccountName
@@ -64,7 +64,7 @@ func TestADLSFilesystemControllerNoResourceGroup(t *testing.T) {
 func TestADLSFilesystemControllerNoStorageAccount(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 
 	var rgName string = tc.resourceGroupName
 	fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
@@ -104,7 +104,7 @@ func TestADLSFilesystemControllerNoStorageAccount(t *testing.T) {
 func TestADLSFilesystemControllerHappyPath(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 
 	var rgName string = tc.resourceGroupName
 	var saName string = tc.storageAccountName

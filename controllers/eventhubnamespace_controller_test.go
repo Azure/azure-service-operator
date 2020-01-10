@@ -18,7 +18,7 @@ import (
 func TestEventHubNamespaceControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	var rgLocation string
@@ -70,7 +70,7 @@ func TestEventHubNamespaceControllerNoResourceGroup(t *testing.T) {
 func TestEventHubNamespaceControllerHappy(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	var rgName string = tc.resourceGroupName

@@ -19,7 +19,7 @@ import (
 func TestResourceGroupControllerHappyPath(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)

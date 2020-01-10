@@ -19,7 +19,7 @@ import (
 func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	var rgLocation string
@@ -79,7 +79,7 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	var rgLocation string
@@ -135,7 +135,7 @@ func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
 func TestTestBlobContainerControllerHappyPath(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	var rgLocation string

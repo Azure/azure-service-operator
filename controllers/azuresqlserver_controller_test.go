@@ -19,7 +19,7 @@ import (
 func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)

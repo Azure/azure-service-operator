@@ -19,7 +19,7 @@ import (
 func TestKeyvaultController(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)

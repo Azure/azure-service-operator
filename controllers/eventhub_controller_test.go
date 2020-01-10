@@ -19,7 +19,7 @@ import (
 func TestEventHubControlleNoNamespace(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
@@ -71,7 +71,7 @@ func TestEventHubControlleNoNamespace(t *testing.T) {
 func TestEventHubControlleCeateAndDelete(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	// Add any setup steps that needs to be executed before each test
@@ -132,7 +132,7 @@ func TestEventHubControlleCeateAndDelete(t *testing.T) {
 func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	// Add any setup steps that needs to be executed before each test
@@ -196,7 +196,7 @@ func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 	t.Parallel()
 	RegisterTestingT(t)
-	PanicRecover()
+	defer PanicRecover()
 	ctx := context.Background()
 
 	// Add any setup steps that needs to be executed before each test
