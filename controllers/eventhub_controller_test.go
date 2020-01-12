@@ -4,23 +4,24 @@ package controllers
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestEventHubControlleNoNamespace(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
 	// your API definition.
@@ -47,32 +48,30 @@ func TestEventHubControlleNoNamespace(t *testing.T) {
 	}
 
 	err := tc.k8sClient.Create(ctx, eventhubInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create eventhub in k8s")
 
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
 
-	Eventually(func() string {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring(errhelp.ParentNotFoundErrorCode))
+		return strings.Contains(eventhubInstance.Status.Message, errhelp.ParentNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
 	err = tc.k8sClient.Delete(ctx, eventhubInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete eventhub in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
 
 }
 
 func TestEventHubControlleCeateAndDelete(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
@@ -101,39 +100,35 @@ func TestEventHubControlleCeateAndDelete(t *testing.T) {
 	}
 
 	err := tc.k8sClient.Create(ctx, eventhubInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create eventhub in k8s")
 
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
 		return eventhubInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for eventhub to have finalizer")
 
-	Eventually(func() string {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring("successfully provisioned"))
+		return strings.Contains(eventhubInstance.Status.Message, "successfully provisioned")
+	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
 	err = tc.k8sClient.Delete(ctx, eventhubInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete eventhub in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
 
 }
 
 func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
@@ -165,39 +160,35 @@ func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 	}
 
 	err := tc.k8sClient.Create(ctx, eventhubInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create eventhub in k8s")
 
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
 		return eventhubInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
-	Eventually(func() string {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring("successfully provisioned"))
+		return strings.Contains(eventhubInstance.Status.Message, "successfully provisioned")
+	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
 	err = tc.k8sClient.Delete(ctx, eventhubInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete eventhub in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
 
 }
 
 func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
@@ -208,7 +199,7 @@ func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 	eventHubName := "t-eh-" + helpers.RandomString(10)
 
 	// Create the EventHub object and expect the Reconcile to be created
-	eventHubInstance := &azurev1alpha1.Eventhub{
+	eventhubInstance := &azurev1alpha1.Eventhub{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      eventHubName,
 			Namespace: "default",
@@ -246,40 +237,35 @@ func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 		},
 	}
 
-	err := tc.k8sClient.Create(ctx, eventHubInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	err := tc.k8sClient.Create(ctx, eventhubInstance)
+	assert.Equal(nil, err, "create eventhub in k8s")
 
 	eventHubNamespacedName := types.NamespacedName{Name: eventHubName, Namespace: "default"}
 
-	Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventHubInstance)
-		return eventHubInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventhubInstance)
+		return eventhubInstance.HasFinalizer(finalizerName)
+	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
-	Eventually(func() string {
-		_ = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventHubInstance)
-		return eventHubInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring("successfully provisioned"))
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventhubInstance)
+		return strings.Contains(eventhubInstance.Status.Message, "successfully provisioned")
+	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		hub, _ := tc.eventhubClient.GetHub(ctx, rgName, ehnName, eventHubName)
 		if hub.Properties == nil || hub.CaptureDescription == nil || hub.CaptureDescription.Enabled == nil {
 			return false
 		}
 		return *hub.CaptureDescription.Enabled
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
-	err = tc.k8sClient.Delete(ctx, eventHubInstance)
-	Expect(err).NotTo(HaveOccurred())
+	err = tc.k8sClient.Delete(ctx, eventhubInstance)
+	assert.Equal(nil, err, "delete eventhub in k8s")
 
-	Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventHubInstance)
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventhubInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
 
 }

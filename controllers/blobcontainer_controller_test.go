@@ -4,13 +4,15 @@ package controllers
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/stretchr/testify/assert"
 
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -18,9 +20,9 @@ import (
 
 func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	var rgLocation string
 	var saName string
@@ -55,32 +57,30 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	}
 
 	err = tc.k8sClient.Create(ctx, blobContainerInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create blobcontainer in k8s")
 
 	blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
-	Eventually(func() string {
+
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
-		return blobContainerInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring("ResourceGroupNotFound"))
+		return strings.Contains(blobContainerInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for blob to have rg not found error")
 
 	err = tc.k8sClient.Delete(ctx, blobContainerInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete blobcontainer in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for blob to be not found")
 
 }
 
 func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	var rgLocation string
 	var rgName string
@@ -110,33 +110,30 @@ func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
 	}
 
 	err = tc.k8sClient.Create(ctx, blobContainerInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create blob container in k8s")
 
 	blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
-	Eventually(func() bool {
+
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
-		//@todo check Message instead
-		return blobContainerInstance.Status.Provisioned
-	}, tc.timeout, tc.retry,
-	).Should(BeFalse())
+		return strings.Contains(blobContainerInstance.Status.Message, errhelp.ParentNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for blob to have parent not found error")
 
 	err = tc.k8sClient.Delete(ctx, blobContainerInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete blob container in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for blob to be not found")
 
 }
 
 func TestTestBlobContainerControllerHappyPath(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	var rgLocation string
 	var rgName string
@@ -172,30 +169,26 @@ func TestTestBlobContainerControllerHappyPath(t *testing.T) {
 	}
 
 	err = tc.k8sClient.Create(ctx, blobContainerInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create blobcontainer in k8s")
 
 	blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
 		return blobContainerInstance.HasFinalizer(blobContainerFinalizerName)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for blob to have finalizer")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
 		return blobContainerInstance.Status.Provisioned
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for blob to be provisioned")
 
 	err = tc.k8sClient.Delete(ctx, blobContainerInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete blob container in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for blob to be not found")
 
 }

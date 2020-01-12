@@ -4,13 +4,14 @@ package controllers
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -18,9 +19,9 @@ import (
 
 func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	var rgName string
 	var rgLocation1 string
@@ -58,22 +59,20 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 	}
 
 	err = tc.k8sClient.Create(ctx, sqlFailoverGroupInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create failovergroup in k8s")
 
 	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}
 
-	Eventually(func() string {
-		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
-		return sqlFailoverGroupInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring(errhelp.ResourceGroupNotFoundErrorCode))
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
+		return strings.Contains(sqlFailoverGroupInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for rg not found error")
 
 	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)
+	assert.Equal(nil, err, "delete failovergroup in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for failovergroup to be gone from k8s")
 }

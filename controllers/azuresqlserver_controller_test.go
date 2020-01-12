@@ -12,7 +12,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -20,7 +19,6 @@ import (
 
 func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)

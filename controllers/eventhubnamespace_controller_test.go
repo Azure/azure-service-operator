@@ -1,15 +1,17 @@
-// +build all eventhub eventhubnamespace
+// +build all eventhubnamespace
 
 package controllers
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/stretchr/testify/assert"
 
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -17,9 +19,9 @@ import (
 
 func TestEventHubNamespaceControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	var rgLocation string
 	rgLocation = tc.resourceGroupLocation
@@ -46,32 +48,30 @@ func TestEventHubNamespaceControllerNoResourceGroup(t *testing.T) {
 	}
 
 	err := tc.k8sClient.Create(ctx, eventhubNamespaceInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create eventhubns in k8s")
 
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
 
-	Eventually(func() string {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubNamespaceInstance)
-		return eventhubNamespaceInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring("ResourceGroupNotFound"))
+		return strings.Contains(eventhubNamespaceInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for eventhubns to provision")
 
 	err = tc.k8sClient.Delete(ctx, eventhubNamespaceInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete eventhubns in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubNamespaceInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for eventHubnamespaceInstance to be gone from k8s")
 
 }
 
 func TestEventHubNamespaceControllerHappy(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	var rgName string = tc.resourceGroupName
 	var rgLocation string = tc.resourceGroupLocation
@@ -90,30 +90,25 @@ func TestEventHubNamespaceControllerHappy(t *testing.T) {
 	}
 
 	err := tc.k8sClient.Create(ctx, eventhubNamespaceInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create eventhubns in k8s")
 
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubNamespaceInstance)
 		return eventhubNamespaceInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for eventhubns to provision")
 
-	Eventually(func() string {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubNamespaceInstance)
-		return eventhubNamespaceInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring("successfully provisioned"))
+		return strings.Contains(eventhubNamespaceInstance.Status.Message, "successfully provisioned")
+	}, tc.timeout, tc.retry, "wait for eventhubns to provision")
 
 	err = tc.k8sClient.Delete(ctx, eventhubNamespaceInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete eventhubns in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubNamespaceInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
-
+	}, tc.timeout, tc.retry, "wait for eventHubnamespaceInstance to be gone from k8s")
 }

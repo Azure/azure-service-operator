@@ -5,13 +5,13 @@ package controllers
 import (
 	"context"
 	"net/http"
+	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/stretchr/testify/assert"
 
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -19,7 +19,6 @@ import (
 
 func TestResourceGroupControllerHappyPath(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
@@ -42,7 +41,7 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 	// create rg
 	err = tc.k8sClient.Create(ctx, resourceGroupInstance)
 	assert.Equal(false, apierrors.IsInvalid(err), "create db resource")
-	assert.Equal(nil, err, "create db in k8s")
+	assert.Equal(nil, err, "create rg in k8s")
 
 	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 
@@ -52,45 +51,35 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 		return resourceGroupInstance.HasFinalizer(finalizerName)
 	}, tc.timeout, tc.retry, "wait for finlizer on rg")
 
-	// Eventually(func() bool {
-	// 	_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
-	// 	return resourceGroupInstance.HasFinalizer(finalizerName)
-	// }, tc.timeout, tc.retry,
-	// ).Should(BeTrue())
-
-	// verify rg gets submitted
-	Eventually(func() string {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
-		return resourceGroupInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring("successfully provisioned"))
+		return strings.Contains(resourceGroupInstance.Status.Message, "successfully provisioned")
+	}, tc.timeout, tc.retry, "wait for finlizer on rg")
 
 	// verify rg exists in azure
-	Eventually(func() bool {
+
+	assert.Eventually(func() bool {
 		_, err := tc.resourceGroupManager.CheckExistence(ctx, resourceGroupName)
 		return err == nil
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to be gone from k8s")
 
 	// delete rg
 	err = tc.k8sClient.Delete(ctx, resourceGroupInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete rg in k8s")
 
 	// verify rg is being deleted
-	Eventually(func() bool {
+
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to be gone from k8s")
 
-	// verify rg is gone from Azure
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		result, _ := tc.resourceGroupManager.CheckExistence(ctx, resourceGroupName)
 		if result.Response == nil {
 			return false
 		}
 		return result.Response.StatusCode == http.StatusNotFound
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to be gone from k8s")
 
 }

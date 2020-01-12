@@ -9,17 +9,17 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/stretchr/testify/assert"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestConsumerGroup(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
+	assert := assert.New(t)
 
 	var rgName string = tc.resourceGroupName
 	var ehnName string = tc.eventhubNamespaceName
@@ -47,42 +47,36 @@ func TestConsumerGroup(t *testing.T) {
 	}
 
 	err = tc.k8sClient.Create(ctx, consumerGroupInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create consumergroup in k8s")
 
 	consumerGroupNamespacedName := types.NamespacedName{Name: consumerGroupName, Namespace: "default"}
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
-		return HasFinalizer(consumerGroupInstance, finalizerName)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+		return helpers.HasFinalizer(consumerGroupInstance, finalizerName)
+	}, tc.timeout, tc.retry, "wait for finalizer")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
 		return consumerGroupInstance.Status.Provisioned
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for provision")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		cg, _ := tc.consumerGroupClient.GetConsumerGroup(ctx, rgName, ehnName, ehName, azureConsumerGroupName)
 		return cg.Name != nil && *cg.Name == azureConsumerGroupName && cg.Response.StatusCode == http.StatusOK
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for consumergroup to exist in Azure")
 
 	err = tc.k8sClient.Delete(ctx, consumerGroupInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete consumergroup in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for consumergroup to be gone from k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		cg, _ := tc.consumerGroupClient.GetConsumerGroup(ctx, rgName, ehnName, ehName, azureConsumerGroupName)
 		return cg.Response.StatusCode != http.StatusOK
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for consumergroup to be gone from azure")
 
 }

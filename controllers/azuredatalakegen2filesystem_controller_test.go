@@ -8,8 +8,8 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/stretchr/testify/assert"
 
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -17,10 +17,10 @@ import (
 
 func TestADLSFilesystemControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
-
+	assert := assert.New(t)
 	ctx := context.Background()
+
 	var saName string = tc.storageAccountName
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
@@ -45,26 +45,32 @@ func TestADLSFilesystemControllerNoResourceGroup(t *testing.T) {
 	}
 
 	err = tc.k8sClient.Create(ctx, fileSystemInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create filesystem instance in k8s")
 
 	// @todo update this to check something other than status.Provisioned
 	fileSystemNamespacedName := types.NamespacedName{Name: fileSystemName, Namespace: "default"}
-	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
-		return fileSystemInstance.Status.Provisioned
-	}, tc.timeout, tc.retry,
-	).Should(BeFalse())
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, fileSystemNamespacedName, fileSystemInstance)
+		return fileSystemInstance.Status.Provisioned == false
+	}, tc.timeout, tc.retry, "wait for filesystem to have false for provisioned bool")
 
 	// Delete should still appear successful
 	err = tc.k8sClient.Delete(ctx, fileSystemInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "delete filesystem instance in k8s")
+
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, fileSystemNamespacedName, fileSystemInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for filesystem to be gone")
+
 }
 
 func TestADLSFilesystemControllerNoStorageAccount(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
+	assert := assert.New(t)
+	ctx := context.Background()
 
 	var rgName string = tc.resourceGroupName
 	fileSystemName := "adls-filesystem-" + helpers.RandomString(10)
@@ -83,22 +89,24 @@ func TestADLSFilesystemControllerNoStorageAccount(t *testing.T) {
 		},
 	}
 
-	err = tc.k8sClient.Create(context.Background(), fileSystemInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	err = tc.k8sClient.Create(ctx, fileSystemInstance)
+	assert.Equal(nil, err, "create filesystem instance in k8s")
 
 	fileSystemNamespacedName := types.NamespacedName{Name: fileSystemName, Namespace: "default"}
-	Eventually(func() bool {
-		_ = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
-		// @todo this should check the content of Status.Message instead as the default value of Provisioned is actually False
-		// so this is unreliable
-		return fileSystemInstance.Status.Provisioned
-	}, tc.timeout, tc.retry,
-	).Should(BeFalse())
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, fileSystemNamespacedName, fileSystemInstance)
+		return fileSystemInstance.Status.Provisioned == false
+	}, tc.timeout, tc.retry, "wait for filesystem to have false for provisioned bool")
 
 	// Delete should still appear successful
 	err = tc.k8sClient.Delete(context.Background(), fileSystemInstance)
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create filesystem instance in k8s")
+
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, fileSystemNamespacedName, fileSystemInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for filesystem to be gone")
 }
 
 // func TestADLSFilesystemControllerHappyPath(t *testing.T) {

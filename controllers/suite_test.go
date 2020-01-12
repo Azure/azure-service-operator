@@ -25,6 +25,7 @@ import (
 	"testing"
 	"time"
 
+	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
@@ -112,7 +113,7 @@ func setup() error {
 
 	storageAccountName := "tsadeveh" + helpers.RandomString(10)
 	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
-	//containerAccessLevel := s.PublicAccessContainer
+	containerAccessLevel := s.PublicAccessContainer
 
 	var timeout time.Duration
 
@@ -489,22 +490,20 @@ func setup() error {
 		return err
 	}
 
+	log.Println("Creating RG:", resourceGroupName)
 	// Create the ResourceGroup resource
 	result, _ := resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
 	if result.Response.StatusCode != 204 {
 		_, _ = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
 	}
 
-	log.Println()
-	log.Println("Testing against RG:", resourceGroupName)
-	log.Println()
-
-	// eventHubNSManager := eventHubManagers.EventHubNamespace
-	// // Create the Eventhub namespace resource
-	// _, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
-	// if err != nil {
-	// 	return err
-	// }
+	log.Println("Creating EHNS:", eventhubNamespaceName)
+	eventHubNSManager := eventHubManagers.EventHubNamespace
+	// Create the Eventhub namespace resource
+	_, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
+	if err != nil {
+		return err
+	}
 
 	tc = testContext{
 		k8sClient:               k8sClient,
@@ -531,52 +530,54 @@ func setup() error {
 		consumerGroupClient:     consumerGroupClient,
 	}
 
-	// var pstate *string
-	// finish := time.Now().Add(tc.timeout)
-	// for {
-	// 	if finish.Before(time.Now()) {
-	// 		return fmt.Errorf("time out waiting for eventhub namespace")
-	// 	}
+	var pstate *string
+	finish := time.Now().Add(tc.timeout)
+	for {
+		if finish.Before(time.Now()) {
+			return fmt.Errorf("time out waiting for eventhub namespace")
+		}
 
-	// 	namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
-	// 	pstate = namespace.ProvisioningState
-	// 	if pstate != nil && *pstate == "Succeeded" {
-	// 		break
-	// 	}
-	// 	time.Sleep(tc.retry)
-	// }
+		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
+		pstate = namespace.ProvisioningState
+		if pstate != nil && *pstate == "Succeeded" {
+			break
+		}
+		time.Sleep(tc.retry)
+	}
 
-	// // Create the Eventhub resource
-	// _, err = eventHubManagers.EventHub.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(2), nil)
-	// if err != nil {
-	// 	return err
-	// }
+	log.Println("Creating EH:", eventhubName)
+	// Create the Eventhub resource
+	_, err = eventHubManagers.EventHub.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(2), nil)
+	if err != nil {
+		return err
+	}
 
-	// // Create the Storage Account and Container
-	// _, _ = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
-	// 	Name: "Standard_LRS",
-	// }, "Storage", map[string]*string{}, "", nil, nil)
+	log.Println("Creating SA:", storageAccountName)
+	// Create the Storage Account and Container
+	_, _ = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
+		Name: "Standard_LRS",
+	}, "Storage", map[string]*string{}, "", nil, nil)
 
-	// // Storage account needs to be in "Suceeded" state
-	// // for container create to succeed
-	// finish = time.Now().Add(tc.timeout)
-	// for {
+	// Storage account needs to be in "Suceeded" state
+	// for container create to succeed
+	finish = time.Now().Add(tc.timeout)
+	for {
 
-	// 	if finish.Before(time.Now()) {
-	// 		return fmt.Errorf("time out waiting for storage account")
-	// 	}
+		if finish.Before(time.Now()) {
+			return fmt.Errorf("time out waiting for storage account")
+		}
 
-	// 	result, _ := storageManagers.Storage.GetStorage(context.Background(), resourceGroupName, storageAccountName)
-	// 	if result.ProvisioningState == s.Succeeded {
-	// 		break
-	// 	}
-	// 	time.Sleep(tc.retry)
-	// }
+		result, _ := storageManagers.Storage.GetStorage(context.Background(), resourceGroupName, storageAccountName)
+		if result.ProvisioningState == s.Succeeded {
+			break
+		}
+		time.Sleep(tc.retry)
+	}
 
-	// _, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
-	// if err != nil {
-	// 	return err
-	// }
+	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
+	if err != nil {
+		return err
+	}
 
 	log.Println(fmt.Sprintf("finished common controller test setup"))
 

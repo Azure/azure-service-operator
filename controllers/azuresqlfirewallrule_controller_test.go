@@ -4,13 +4,14 @@ package controllers
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -18,9 +19,9 @@ import (
 
 func TestAzureSqlFirewallRuleControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	RegisterTestingT(t)
 	defer PanicRecover()
 	ctx := context.Background()
+	assert := assert.New(t)
 
 	// Add any setup steps that needs to be executed before each test
 	//rgName := tc.resourceGroupName
@@ -44,30 +45,26 @@ func TestAzureSqlFirewallRuleControllerNoResourceGroup(t *testing.T) {
 	}
 
 	err := tc.k8sClient.Create(ctx, sqlFirewallRuleInstance)
-	Expect(apierrors.IsInvalid(err)).To(Equal(false))
-	Expect(err).NotTo(HaveOccurred())
+	assert.Equal(nil, err, "create sqlfirewallrule in k8s")
 
 	sqlFirewallRuleNamespacedName := types.NamespacedName{Name: sqlFirewallRuleName, Namespace: "default"}
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
 		return helpers.HasFinalizer(sqlFirewallRuleInstance, azureSQLFirewallRuleFinalizerName)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for firewallrule to have finalizer")
 
-	Eventually(func() string {
+	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-		return sqlFirewallRuleInstance.Status.Message
-	}, tc.timeout, tc.retry,
-	).Should(ContainSubstring(errhelp.ResourceGroupNotFoundErrorCode))
+		return strings.Contains(sqlFirewallRuleInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for firewallrule to have rg not found error")
 
 	err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
-	Expect(err).NotTo(HaveOccurred()) //Commenting as this call is async and returns an asyncopincomplete error
+	assert.Equal(nil, err, "delete sqlfirewallrule in k8s")
 
-	Eventually(func() bool {
+	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry,
-	).Should(BeTrue())
+	}, tc.timeout, tc.retry, "wait for firewallrule to be gone from k8s")
 
 }
