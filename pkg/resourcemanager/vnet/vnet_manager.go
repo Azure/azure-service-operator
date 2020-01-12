@@ -20,14 +20,19 @@ import (
 
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/go-logr/logr"
+	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 // NewAzureVNetManager creates a new instance of AzureVNetManager
 func NewAzureVNetManager(log logr.Logger) *AzureVNetManager {
 	return &AzureVNetManager{
-		Log: log,
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName("VNet"),
+			"VNet",
+		),
 	}
 }
 

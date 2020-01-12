@@ -22,13 +22,13 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/Azure/go-autorest/autorest"
-	"github.com/go-logr/logr"
 )
 
 // AzureVNetManager is the struct that the manager functions hang off
 type AzureVNetManager struct {
-	Log logr.Logger
+	Telemetry telemetry.PrometheusTelemetry
 }
 
 // getVNetClient returns a new instance of an VirtualNetwork client
