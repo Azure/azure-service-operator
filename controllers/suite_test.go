@@ -336,6 +336,15 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
+	err = (&AzureSqlFailoverGroupReconciler{
+		Client:                       k8sManager.GetClient(),
+		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+		Scheme:                       scheme.Scheme,
+		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
 	err = (&AzureSQLUserReconciler{
 		Client:              k8sManager.GetClient(),
 		Log:                 ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
@@ -361,27 +370,6 @@ var _ = BeforeSuite(func() {
 		Recorder:       k8sManager.GetEventRecorderFor("BlobContainer-controller"),
 		Scheme:         scheme.Scheme,
 		StorageManager: storageManagers.BlobContainer,
-	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
-
-	err = (&AzureSqlFailoverGroupReconciler{
-		Client:                       k8sManager.GetClient(),
-		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-		Scheme:                       scheme.Scheme,
-		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
-	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
-
-	err = (&AzureSqlFirewallRuleReconciler{
-		Client: k8sManager.GetClient(),
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
-			"AzureSQLFirewallRuleOperator",
-		),
-		Recorder:                    k8sManager.GetEventRecorderFor("AzureSqlFirewall-controller"),
-		Scheme:                      scheme.Scheme,
-		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
