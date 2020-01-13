@@ -35,6 +35,7 @@ type ApimServiceSpec struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // ApimService is the Schema for the apimservices API
 type ApimService struct {

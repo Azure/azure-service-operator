@@ -19,6 +19,7 @@ import (
 	"context"
 
 	apim "github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 )
 
 // NewAzureAPIMgmtServiceManager creates a new instance of AzureAPIMgmtServiceManager
@@ -38,4 +39,7 @@ type APIMgmtServiceManager interface {
 	IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resourceName string) (result bool, err error)
 
 	SetVNetForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, vnetType string, vnetResourceGroupName string, vnetResourceName string, subnetName string) error
+
+	// also embed async client methods
+	resourcemanager.ARMClient
 }
