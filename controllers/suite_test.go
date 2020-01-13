@@ -336,15 +336,6 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&AzureSqlFailoverGroupReconciler{
-		Client:                       k8sManager.GetClient(),
-		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-		Scheme:                       scheme.Scheme,
-		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
-	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
-
 	err = (&AzureSQLUserReconciler{
 		Client:              k8sManager.GetClient(),
 		Log:                 ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
