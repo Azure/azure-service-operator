@@ -403,32 +403,7 @@ func setup() error {
 	if err != nil {
 		return err
 	}
-
-	err = (&AzureSqlFailoverGroupReconciler{
-		Client:                       k8sManager.GetClient(),
-		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-		Scheme:                       scheme.Scheme,
-		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
-	}).SetupWithManager(k8sManager)
-	if err != nil {
-		return err
-	}
-
-	err = (&AzureSqlFirewallRuleReconciler{
-		Client: k8sManager.GetClient(),
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
-			"AzureSQLFirewallRuleOperator",
-		),
-		Recorder:                    k8sManager.GetEventRecorderFor("AzureSqlFirewall-controller"),
-		Scheme:                      scheme.Scheme,
-		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
-	}).SetupWithManager(k8sManager)
-	if err != nil {
-		return err
-	}
-
+  
 	err = (&PostgreSQLServerReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
