@@ -1,120 +1,82 @@
-/*
-Copyright 2019 microsoft.
+// +build all consumergroup
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package controllers
 
 import (
 	"context"
 	"net/http"
+	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/stretchr/testify/assert"
 
-	. "github.com/onsi/ginkgo"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("ConsumerGroup Controller", func() {
+func TestConsumerGroup(t *testing.T) {
+	t.Parallel()
+	assert := assert.New(t)
 
-	var rgName string
-	var ehnName string
-	var ehName string
+	var rgName string = tc.resourceGroupName
+	var ehnName string = tc.eventhubNamespaceName
+	var ehName string = tc.eventhubName
 	var ctx = context.Background()
+	defer PanicRecover()
 
-	BeforeEach(func() {
-		// Add any setup steps that needs to be executed before each test
-		rgName = tc.resourceGroupName
-		ehnName = tc.eventhubNamespaceName
-		ehName = tc.eventhubName
-	})
+	consumerGroupName := "t-cg-" + helpers.RandomString(10)
+	azureConsumerGroupName := consumerGroupName + "-azure"
 
-	AfterEach(func() {
-		// Add any teardown steps that needs to be executed after each test
-	})
+	var err error
 
-	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
-	// your API definition.
-	// Avoid adding tests for vanilla CRUD operations because they would
-	// test Kubernetes API server, which isn't the goal here.
-	Context("Create and Delete", func() {
-		It("should create and delete consumer groups", func() {
+	// Create the consumer group object and expect the Reconcile to be created
+	consumerGroupInstance := &azurev1alpha1.ConsumerGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      consumerGroupName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.ConsumerGroupSpec{
+			Namespace:         ehnName,
+			ResourceGroup:     rgName,
+			Eventhub:          ehName,
+			ConsumerGroupName: azureConsumerGroupName,
+		},
+	}
 
-			defer GinkgoRecover()
+	err = tc.k8sClient.Create(ctx, consumerGroupInstance)
+	assert.Equal(nil, err, "create consumergroup in k8s")
 
-			consumerGroupName := "t-cg-" + helpers.RandomString(10)
-			azureConsumerGroupName := consumerGroupName + "-azure"
+	consumerGroupNamespacedName := types.NamespacedName{Name: consumerGroupName, Namespace: "default"}
 
-			var err error
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
+		return helpers.HasFinalizer(consumerGroupInstance, finalizerName)
+	}, tc.timeout, tc.retry, "wait for finalizer")
 
-			// Create the consumer group object and expect the Reconcile to be created
-			consumerGroupInstance := &azurev1alpha1.ConsumerGroup{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      consumerGroupName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.ConsumerGroupSpec{
-					Namespace:         ehnName,
-					ResourceGroup:     rgName,
-					Eventhub:          ehName,
-					ConsumerGroupName: azureConsumerGroupName,
-				},
-			}
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
+		return consumerGroupInstance.Status.Provisioned
+	}, tc.timeout, tc.retry, "wait for provision")
 
-			err = tc.k8sClient.Create(ctx, consumerGroupInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
+	assert.Eventually(func() bool {
+		cg, _ := tc.consumerGroupClient.GetConsumerGroup(ctx, rgName, ehnName, ehName, azureConsumerGroupName)
+		return cg.Name != nil && *cg.Name == azureConsumerGroupName && cg.Response.StatusCode == http.StatusOK
+	}, tc.timeout, tc.retry, "wait for consumergroup to exist in Azure")
 
-			consumerGroupNamespacedName := types.NamespacedName{Name: consumerGroupName, Namespace: "default"}
+	err = tc.k8sClient.Delete(ctx, consumerGroupInstance)
+	assert.Equal(nil, err, "delete consumergroup in k8s")
 
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
-				return HasFinalizer(consumerGroupInstance, finalizerName)
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for consumergroup to be gone from k8s")
 
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
-				return consumerGroupInstance.IsSubmitted()
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+	assert.Eventually(func() bool {
+		cg, _ := tc.consumerGroupClient.GetConsumerGroup(ctx, rgName, ehnName, ehName, azureConsumerGroupName)
+		return cg.Response.StatusCode != http.StatusOK
+	}, tc.timeout, tc.retry, "wait for consumergroup to be gone from azure")
 
-			Eventually(func() bool {
-				cg, _ := tc.consumerGroupClient.GetConsumerGroup(ctx, rgName, ehnName, ehName, azureConsumerGroupName)
-				return cg.Name != nil && *cg.Name == azureConsumerGroupName && cg.Response.StatusCode == http.StatusOK
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-
-			err = tc.k8sClient.Delete(ctx, consumerGroupInstance)
-			Expect(err).NotTo(HaveOccurred())
-
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
-				return consumerGroupInstance.IsBeingDeleted()
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-
-			Eventually(func() bool {
-				cg, _ := tc.consumerGroupClient.GetConsumerGroup(ctx, rgName, ehnName, ehName, azureConsumerGroupName)
-				return cg.Response.StatusCode != http.StatusOK
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-
-		})
-	})
-})
+}
