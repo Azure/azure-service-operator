@@ -62,6 +62,16 @@ func logCompleted(client *PrometheusClient) {
 	executionTime.WithLabelValues(client.Component).Observe(durationInSecs)
 }
 
+// LogSuccessWithInfo logs the successful completion of a component along with an Info message
+func (client *PrometheusClient) LogSuccessWithInfo(typeInfo string, message string) {
+
+	// log info
+	client.LogInfo(typeInfo, message)
+
+	// log completion
+	client.LogSuccess()
+}
+
 // LogSuccess logs the successful completion of a component
 func (client *PrometheusClient) LogSuccess() {
 
@@ -73,13 +83,23 @@ func (client *PrometheusClient) LogSuccess() {
 	successCounter.WithLabelValues(client.Component).Inc()
 }
 
-// LogFailure logs the successful completion of a component
+// LogFailureWithError logs the unsuccessful completion of a component along with an error
+func (client *PrometheusClient) LogFailureWithError(message string, err error) {
+
+	// log error
+	client.LogError(message, err)
+
+	// log completion
+	client.LogFailure()
+}
+
+// LogFailure logs the unsuccessful completion of a component
 func (client *PrometheusClient) LogFailure() {
 
 	// log the completion
 	logCompleted(client)
 
-	// log success
+	// log failure
 	client.Logger.Info("Component completed unsuccessfully", "Component", client.Component)
 	failureCounter.WithLabelValues(client.Component).Inc()
 }

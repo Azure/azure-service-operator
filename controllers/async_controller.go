@@ -36,32 +36,21 @@ type AsyncReconciler struct {
 	Scheme      *runtime.Scheme
 }
 
+// Reconcile reconciles the update issued to the operator
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, errRet error) {
 	ctx := context.Background()
 
 	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
-		r.Telemetry.LogInfo("ignorable error", "error during fetch from api server")
+		r.Telemetry.LogWarning("ignorable error", "error during fetch from api server")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	// log operator start
 	r.Telemetry.LogStart()
 
-	// log failure / success
-	defer func() {
-		if errRet != nil {
-			r.Telemetry.LogError("Failure occured during reconcilliation", errRet)
-			r.Telemetry.LogFailure()
-		} else if result.Requeue {
-			r.Telemetry.LogInfo("requeue", "reconciling object not finished")
-			r.Telemetry.LogFailure()
-		} else {
-			r.Telemetry.LogSuccess()
-		}
-	}()
-
 	res, err := meta.Accessor(local)
 	if err != nil {
+		r.Telemetry.LogFailureWithError("failure occured during reconcilliation", err)
 		return ctrl.Result{}, err
 	}
 
@@ -69,6 +58,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		if !HasFinalizer(res, finalizerName) {
 			AddFinalizer(res, finalizerName)
 			r.Recorder.Event(local, corev1.EventTypeNormal, "Added", "Object finalizer is added")
+			r.Telemetry.LogSuccess()
 			return ctrl.Result{}, r.Update(ctx, local)
 		}
 	} else {
@@ -77,16 +67,19 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 			final := multierror.Append(deleteErr)
 			if err := final.ErrorOrNil(); err != nil {
 				r.Recorder.Event(local, corev1.EventTypeWarning, "FailedDelete", fmt.Sprintf("Failed to delete resource: %s", err.Error()))
+				r.Telemetry.LogFailureWithError("failed to delete resource", err)
 				return ctrl.Result{}, err
 			}
 			if !found {
-				r.Telemetry.LogInfo("deleted", "successfully deleted")
-				r.Recorder.Event(local, corev1.EventTypeNormal, "Deleted", "Successfully deleted")
 				RemoveFinalizer(res, finalizerName)
+				r.Recorder.Event(local, corev1.EventTypeNormal, "Deleted", "Successfully deleted")
+				r.Telemetry.LogSuccessWithInfo("deleted", "successfully deleted")
 				return ctrl.Result{}, r.Update(ctx, local)
 			}
+			r.Telemetry.LogFailure()
 			return ctrl.Result{RequeueAfter: requeDuration}, nil
 		}
+		r.Telemetry.LogSuccess()
 		return ctrl.Result{}, nil
 	}
 
@@ -111,14 +104,10 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		}
 	}
 
-	r.Telemetry.LogInfo("status", "reconciling object")
 	done, ensureErr := r.AzureClient.Ensure(ctx, local)
-	if ensureErr != nil {
-		r.Telemetry.LogError("ensure", ensureErr)
-	}
 
 	// update the status of the resource in kubernetes
-	// Implementations of Ensure() tend to set their outcomes in local.Status
+	// implementations of Ensure() tend to set their outcomes in local.Status
 	err = r.Status().Update(ctx, local)
 	if err != nil {
 		r.Telemetry.LogWarning("update", "failed updating status")
@@ -126,14 +115,31 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	final := multierror.Append(ensureErr, r.Update(ctx, local))
 	err = final.ErrorOrNil()
-	if err != nil {
-		r.Recorder.Event(local, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
-	} else if done {
-		r.Recorder.Event(local, corev1.EventTypeNormal, "Reconciled", "Successfully reconciled")
-	}
-
 	result = ctrl.Result{}
-	if !done {
+	if done {
+		if err != nil {
+
+			// done, but an error occurred - make sure to log the error and mark as a failure,
+			// 	however return nil as an error to end further reconcilliation
+			r.Recorder.Event(local, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
+			r.Telemetry.LogFailureWithError("failed to reconcile resource", err)
+			err = nil
+		} else {
+
+			// done, no error - success!
+			r.Recorder.Event(local, corev1.EventTypeNormal, "Reconciled", "Successfully reconciled")
+			r.Telemetry.LogSuccess()
+		}
+	} else {
+		if err != nil {
+
+			// not done but an error occurred - log the error and mark as a failure
+			r.Telemetry.LogFailureWithError("failed to reconcile resource, requeueing", err)
+		} else {
+
+			// not done, but no error - mark as a failure
+			r.Telemetry.LogFailure()
+		}
 		result.RequeueAfter = requeDuration
 	}
 

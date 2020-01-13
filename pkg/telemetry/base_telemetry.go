@@ -12,6 +12,8 @@ type BaseTelemetry interface {
 	LogWarning(typeWarning string, message string)
 	LogError(message string, err error)
 	LogStart()
+	LogSuccessWithInfo(typeInfo string, message string)
 	LogSuccess()
+	LogFailureWithError(message string, err error)
 	LogFailure()
 }
