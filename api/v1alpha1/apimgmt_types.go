@@ -19,13 +19,21 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 // ApimgmtSpec defines the desired state of Apimgmt
 type ApimgmtSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	Location             string   `json:"location"`
+	ResourceGroup        string   `json:"resourceGroup"`
+	Description          string   `json:"description,omitempty"`
+	DisplayName          string   `json:"displayName,omitempty"`
+	Format               string   `json:"format,omitempty"`
+	APIType              string   `json:"type,omitempty"`
+	APIRevision          string   `json:"apiRevision,omitempty"`
+	APIVersion           string   `json:"apiVersion,omitempty"`
+	IsCurrent            bool     `json:"isCurrent,omitempty"`
+	Path                 string   `json:"path,omitempty"`
+	Protocols            []string `json:"protocols,omitempty"`
+	ServiceURL           string   `json:"serviceUrl,omitempty"`
+	SubscriptionRequired bool     `json:"subscriptionRequired,omitempty"`
 }
 
 // ApimgmtStatus defines the observed state of Apimgmt
