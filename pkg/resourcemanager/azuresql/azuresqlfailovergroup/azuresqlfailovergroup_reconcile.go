@@ -36,17 +36,12 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 	groupName := instance.Spec.ResourceGroup
 	serverName := instance.Spec.Server
 	failoverGroupName := instance.ObjectMeta.Name
-	failoverPolicy := instance.Spec.FailoverPolicy
-	failoverGracePeriod := instance.Spec.FailoverGracePeriod
-	secondaryServer := instance.Spec.SecondaryServerName
-	secondaryResourceGroup := instance.Spec.SecondaryServerResourceGroup
-	databaseList := instance.Spec.DatabaseList
 	sqlFailoverGroupProperties := azuresqlshared.SQLFailoverGroupProperties{
-		FailoverPolicy:               failoverPolicy,
-		FailoverGracePeriod:          failoverGracePeriod,
-		SecondaryServerName:          secondaryServer,
-		SecondaryServerResourceGroup: secondaryResourceGroup,
-		DatabaseList:                 databaseList,
+		FailoverPolicy:               instance.Spec.FailoverPolicy,
+		FailoverGracePeriod:          instance.Spec.FailoverGracePeriod,
+		SecondaryServerName:          instance.Spec.SecondaryServerName,
+		SecondaryServerResourceGroup: instance.Spec.SecondaryServerResourceGroup,
+		DatabaseList:                 instance.Spec.DatabaseList,
 	}
 
 	_, err = fg.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
