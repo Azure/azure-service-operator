@@ -20,11 +20,18 @@ import (
 
 	apim "github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
+	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 // NewAzureAPIMgmtServiceManager creates a new instance of AzureAPIMgmtServiceManager
 func NewAzureAPIMgmtServiceManager() *AzureAPIMgmtServiceManager {
-	return &AzureAPIMgmtServiceManager{}
+	return &AzureAPIMgmtServiceManager{
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName("ApimService"),
+			"ApimService",
+		)
+	}
 }
 
 // APIMgmtServiceManager manages Azure Application Insights service components
@@ -36,9 +43,11 @@ type APIMgmtServiceManager interface {
 
 	DeleteAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (apim.ServiceResource, error)
 
-	IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resourceName string) (result bool, err error)
+	MgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error)
 
 	SetVNetForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, vnetType string, vnetResourceGroupName string, vnetResourceName string, subnetName string) error
+
+	CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bool, err error)
 
 	// also embed async client methods
 	resourcemanager.ARMClient

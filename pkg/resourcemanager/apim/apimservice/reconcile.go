@@ -38,56 +38,70 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	resourceGroupName := instance.Spec.ResourceGroup
 	resourceName := instance.ObjectMeta.Name
 
-	activated, err := g.IsAPIMgmtSvcActivated(ctx, resourceGroupName, resourceName)
-	if !activated && err != nil {
+	exists, activated, _ := g.MgmtSvcStatus(ctx, resourceGroupName, resourceName)
+	if !exists {
 
 		// STEP 1:
 		// 	need to provision
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = false
-		_, err := g.CreateAPIMgmtSvc(ctx, location, resourceGroupName, resourceName)
+		// check name
+		available, err := g.CheckAPIMgmtSvcName(ctx, resourceName)
 		if err != nil {
-			return false, fmt.Errorf("API Mgmt Svc create error %v", err)
+			return false, err
 		}
-		instance.Status.Provisioning = true
-		return false, nil
-	} else if !activated && err == nil {
+		if available {
 
-		// STEP 2:
-		// 	in the proccess of still provisioning
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
-		return false, nil
-	} else {
-
-		// STEP 3:
-		// 	provisioned, now need to update with a vnet?
-		vnetType := instance.Spec.VnetType
-		if vnetType != "" && !strings.EqualFold(vnetType, "none") {
-			vnetResourceGroup := instance.Spec.VnetType
-			vnetName := instance.Spec.VnetType
-			subnetName := instance.Spec.VnetSubnetName
-			err = g.SetVNetForAPIMgmtSvc(
-				ctx,
-				resourceGroupName,
-				resourceName,
-				vnetType,
-				vnetResourceGroup,
-				vnetName,
-				subnetName,
-			)
+			// create service
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = false
+			_, err := g.CreateAPIMgmtSvc(ctx, location, resourceGroupName, resourceName)
 			if err != nil {
-				instance.Status.Provisioned = false
-				instance.Status.Provisioning = true
-				return false, fmt.Errorf("API Mgmt Svc could not update VNet %s, %s - %v", vnetResourceGroup, vnetName, err)
+				return false, fmt.Errorf("API Mgmt Svc create error %v", err)
 			}
+			instance.Status.Provisioning = true
+			return false, nil
+		} else {
+			g.Telemetry.LogError("could not create API Mgmt Service due to bad resource name", fmt.Errof())
+			return true, nil
 		}
+	} else {
+		if !activated {
 
-		// STEP 4:
-		// 	everything is now completed!
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		return true, nil
+			// STEP 2:
+			// 	still in the proccess of provisioning
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = true
+			return false, nil
+		} else {
+
+			// STEP 3:
+			// 	provisioned, now need to update with a vnet?
+			vnetType := instance.Spec.VnetType
+			if vnetType != "" && !strings.EqualFold(vnetType, "none") {
+				vnetResourceGroup := instance.Spec.VnetType
+				vnetName := instance.Spec.VnetType
+				subnetName := instance.Spec.VnetSubnetName
+				err = g.SetVNetForAPIMgmtSvc(
+					ctx,
+					resourceGroupName,
+					resourceName,
+					vnetType,
+					vnetResourceGroup,
+					vnetName,
+					subnetName,
+				)
+				if err != nil {
+					instance.Status.Provisioned = false
+					instance.Status.Provisioning = true
+					return false, fmt.Errorf("API Mgmt Svc could not update VNet %s, %s - %v", vnetResourceGroup, vnetName, err)
+				}
+			}
+
+			// STEP 4:
+			// 	everything is now completed!
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			return true, nil
+		}
 	}
 }
 
@@ -107,7 +121,7 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 		return true, fmt.Errorf("API Mgmt Svc delete error %v", err)
 	}
 
-	return true, nil
+	return false, nil
 }
 
 // GetParents lists the parents for an API Mgmt Svc

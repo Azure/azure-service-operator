@@ -66,15 +66,17 @@ func GetAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName s
 	)
 }
 
-// IsAPIMgmtSvcActivated check to see if the API Mgmt Svc has been activated, returns "true" if it has been activated
-func IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resourceName string) (result bool, err error) {
+// MgmtSvcStatus check to see if the API Mgmt Svc has been activated, returns "true" if it has been activated
+func MgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error) {
 	resource, err := GetAPIMgmtSvc(
 		ctx,
 		resourceGroupName,
 		resourceName,
 	)
 	if err != nil {
-		return false, err
+		return false, false, err
+	} else if resource.Name == nil {
+		return false, false, nil
 	}
 
 	result = false
@@ -84,7 +86,7 @@ func IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resour
 		err = nil
 	}
 
-	return result, err
+	return true, result, err
 }
 
 // GetSubnetConfigurationByName gets a VNet by name
@@ -126,4 +128,20 @@ func GetSubnetConfigurationByName(ctx context.Context, resourceGroupName string,
 	}
 
 	return result, nil
+}
+
+// CheckAPIMgmtSvcName checks to see if the APIM service name is available
+func CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bool, err error) {
+	client, err := GetAPIMgmtSvcClient()
+	if err != nil {
+		return false, err
+	}
+
+	result, err := client.CheckNameAvailability(
+		ctx,
+		apim.ServiceCheckNameAvailabilityParameters{
+			Name: &resourceName,
+		},
+	)
+	return *result.NameAvailable, err
 }

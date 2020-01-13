@@ -22,10 +22,13 @@ import (
 
 	apim "github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	apimshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimshared"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-type AzureAPIMgmtServiceManager struct{}
+type AzureAPIMgmtServiceManager struct {
+	Telemetry telemetry.PrometheusTelemetry
+}
 
 // CreateAPIMgmtSvc creates a new API Mgmt Svc
 func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, location string, resourceGroupName string, resourceName string) (apim.ServiceResource, error) {
@@ -52,7 +55,7 @@ func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, locat
 	return future.Result(client)
 }
 
-// DeleteAPIMgmtSvc an instance of an API Mgmt Svc
+// DeleteAPIMgmtSvc deletes an instance of an API Mgmt Svc
 func (_ *AzureAPIMgmtServiceManager) DeleteAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (apim.ServiceResource, error) {
 	client, err := apimshared.GetAPIMgmtSvcClient()
 	if err != nil {
@@ -67,9 +70,9 @@ func (_ *AzureAPIMgmtServiceManager) DeleteAPIMgmtSvc(ctx context.Context, resou
 	return result.Result(client)
 }
 
-// IsAPIMgmtSvcActivated checks to see if the API Mgmt Svc has been activated
-func (_ *AzureAPIMgmtServiceManager) IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resourceName string) (result bool, err error) {
-	return apimshared.IsAPIMgmtSvcActivated(ctx, resourceGroupName, resourceName)
+// MgmtSvcStatus checks to see if the API Mgmt Svc has been activated
+func (_ *AzureAPIMgmtServiceManager) MgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error) {
+	return apimshared.MgmtSvcStatus(ctx, resourceGroupName, resourceName)
 }
 
 // SetVNetForAPIMgmtSvc sets the VNet for an API Mgmt Svc by name
@@ -115,4 +118,9 @@ func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, r
 	)
 
 	return err
+}
+
+// CheckAPIMgmtSvcName checks to see if the APIM service name is available
+func (g *AzureAPIMgmtServiceManager) CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bool, err error) {
+	return apimshared.CheckAPIMgmtSvcName(ctx, resourceName)
 }
