@@ -146,7 +146,10 @@ func (ns *mockEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime.
 		return true, nil
 	}
 
-	// @todo update owner reference to point at resourcegroup
+	// set this message so the tests are happy
+	if instance.Spec.ResourceGroup == "gone" {
+		instance.Status.Message = "ResourceGroupNotFound"
+	}
 
 	// create Event Hubs namespace
 	_, err = ns.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation)

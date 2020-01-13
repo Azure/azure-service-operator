@@ -217,6 +217,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 	resp, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		// let the user know what happened
+
 		instance.Status.Message = err.Error()
 		instance.Status.Provisioning = false
 		// errors we expect might happen that we are ok with waiting for
@@ -251,17 +252,21 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	err = e.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
 	if err != nil {
+		instance.Status.Message = err.Error()
+
 		return false, err
 	}
 
 	err = e.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
 	if err != nil {
+		instance.Status.Message = err.Error()
+
 		return false, err
 	}
 
 	// write information back to instance
 	instance.Status.State = string(resp.Status)
-	instance.Status.Message = "Success"
+	instance.Status.Message = "Resource successfully provisioned"
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
