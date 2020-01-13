@@ -4,7 +4,6 @@ package controllers
 
 import (
 	"context"
-	"log"
 	"strings"
 	"testing"
 
@@ -212,11 +211,11 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
-		log.Println(sqlFailoverGroupInstance.Status.Message)
 		return strings.Contains(sqlFailoverGroupInstance.Status.Message, "successfully provisioned")
 	}, tc.timeout, tc.retry, "wait for failovergroup to provision")
 
 	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)
+	assert.Equal(nil, err, "delete sqlFailoverGroupInstance in k8s")
 
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
@@ -242,5 +241,13 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		err = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
 		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry, "wait for server to be gone from k8s")
+
+	err = tc.k8sClient.Delete(ctx, sqlServerInstance2)
+	assert.Equal(nil, err, "delete sql server2 in k8s")
+
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for server2 to be gone from k8s")
 
 }
