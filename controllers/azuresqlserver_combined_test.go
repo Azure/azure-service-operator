@@ -167,7 +167,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
 		return strings.Contains(sqlFirewallRuleInstance.Status.Message, "successfully provisioned")
-	}, tc.timeout, tc.retry, "wait for firewallrule to have finalizer")
+	}, tc.timeout, tc.retry, "wait for firewallrule to provision")
 
 	err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
 	assert.Equal(nil, err, "delete sql firewallrule in k8s")
@@ -201,7 +201,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	}
 
 	err = tc.k8sClient.Create(ctx, sqlFailoverGroupInstance)
-	assert.Equal(nil, err, "create fog in k8s")
+	assert.Equal(nil, err, "create failovergroup in k8s")
 
 	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}
 
@@ -214,14 +214,14 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 		log.Println(sqlFailoverGroupInstance.Status.Message)
 		return strings.Contains(sqlFailoverGroupInstance.Status.Message, "successfully provisioned")
-	}, tc.timeout, tc.retry, "wait for fog to have success")
+	}, tc.timeout, tc.retry, "wait for failovergroup to provision")
 
 	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)
 
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for fog to be gone")
+	}, tc.timeout, tc.retry, "wait for fog to be gone from k8s")
 
 	// Delete SQL DB instance -----------------------------------------
 
@@ -231,7 +231,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for fog to be gone")
+	}, tc.timeout, tc.retry, "wait for db to be gone from k8s")
 
 	// Delete SQL Server Instance -----------------------------------
 
@@ -241,6 +241,6 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for server to be gone")
+	}, tc.timeout, tc.retry, "wait for server to be gone from k8s")
 
 }
