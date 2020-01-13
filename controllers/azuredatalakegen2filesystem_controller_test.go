@@ -101,7 +101,7 @@ func TestADLSFilesystemControllerNoStorageAccount(t *testing.T) {
 
 	// Delete should still appear successful
 	err = tc.k8sClient.Delete(context.Background(), fileSystemInstance)
-	assert.Equal(nil, err, "create filesystem instance in k8s")
+	assert.Equal(nil, err, "delete filesystem instance in k8s")
 
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, fileSystemNamespacedName, fileSystemInstance)

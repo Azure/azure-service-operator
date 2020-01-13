@@ -591,7 +591,7 @@ func teardown() error {
 	for {
 
 		if finish.Before(time.Now()) {
-			return fmt.Errorf("time out waiting for storage account")
+			return fmt.Errorf("time out waiting for rg to be gone")
 		}
 
 		_, err := tc.resourceGroupManager.DeleteGroup(context.Background(), tc.resourceGroupName)

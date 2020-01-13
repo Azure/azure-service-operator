@@ -60,7 +60,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	}
 
 	err = tc.k8sClient.Create(ctx, sqlServerInstance2)
-	assert.Equal(nil, err, "create db in k8s 2")
+	assert.Equal(nil, err, "create server in k8s")
 
 	// Wait for first sql server to resolve
 
@@ -74,7 +74,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
 		return strings.Contains(sqlServerInstance.Status.Message, "successfully provisioned")
-	}, tc.timeout, tc.retry, "wait for server to have finalizer")
+	}, tc.timeout, tc.retry, "wait for server to provision")
 
 	// Wait for 2nd sql server to resolve ---------------------------------------
 
@@ -88,7 +88,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
 		return strings.Contains(sqlServerInstance2.Status.Message, "successfully provisioned")
-	}, tc.timeout, tc.retry, "wait for server to have finalizer")
+	}, tc.timeout, tc.retry, "wait for server to provision")
 
 	//verify secret exists in k8s for server 1 ---------------------------------
 
@@ -134,7 +134,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
 		return strings.Contains(sqlDatabaseInstance.Status.Message, "successfully provisioned")
-	}, tc.timeout, tc.retry, "wait for db to have finalizer")
+	}, tc.timeout, tc.retry, "wait for db to provision")
 
 	// Create FirewallRule ---------------------------------------
 

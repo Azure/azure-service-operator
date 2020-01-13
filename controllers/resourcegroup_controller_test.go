@@ -54,14 +54,14 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
 		return strings.Contains(resourceGroupInstance.Status.Message, "successfully provisioned")
-	}, tc.timeout, tc.retry, "wait for finlizer on rg")
+	}, tc.timeout, tc.retry, "wait for rg to provision")
 
 	// verify rg exists in azure
 
 	assert.Eventually(func() bool {
 		_, err := tc.resourceGroupManager.CheckExistence(ctx, resourceGroupName)
 		return err == nil
-	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to be gone from k8s")
+	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to exist in azure")
 
 	// delete rg
 	err = tc.k8sClient.Delete(ctx, resourceGroupInstance)
@@ -80,6 +80,6 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 			return false
 		}
 		return result.Response.StatusCode == http.StatusNotFound
-	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to be gone from k8s")
+	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to be gone from azure")
 
 }
