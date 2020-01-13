@@ -28,7 +28,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-// Ensure makes sure that an API Mgmt Svc instance exists
+// Ensure makes sure that an VNet instance exists
 func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
 
 	instance, err := g.convert(obj)
@@ -92,7 +92,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 	return true, nil
 }
 
-// Delete makes sure that an API Mgmt Svc has been deleted
+// Delete makes sure that the VNet has been deleted
 func (g *AzureVNetManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
 
 	instance, err := g.convert(obj)
@@ -112,7 +112,7 @@ func (g *AzureVNetManager) Delete(ctx context.Context, obj runtime.Object) (bool
 	return false, nil
 }
 
-// GetParents lists the parents for an API Mgmt Svc
+// GetParents lists the parents for a VNet
 func (g *AzureVNetManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
 	instance, err := g.convert(obj)

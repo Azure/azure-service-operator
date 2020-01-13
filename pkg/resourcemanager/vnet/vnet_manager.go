@@ -20,6 +20,7 @@ import (
 
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/go-logr/logr"
@@ -48,4 +49,7 @@ type VNetManager interface {
 	DeleteVNet(ctx context.Context,
 		resourceGroupName string,
 		resourceName string) (autorest.Response, error)
+
+	// also embed async client methods
+	resourcemanager.ARMClient
 }

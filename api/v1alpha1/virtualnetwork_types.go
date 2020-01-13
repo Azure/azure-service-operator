@@ -42,6 +42,7 @@ type VirtualNetworkSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+
 // VirtualNetwork is the Schema for the virtualnetworks API
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
