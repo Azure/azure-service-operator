@@ -30,7 +30,7 @@ func NewAzureAPIMgmtServiceManager() *AzureAPIMgmtServiceManager {
 		Telemetry: telemetry.InitializePrometheusDefault(
 			ctrl.Log.WithName("controllers").WithName("ApimService"),
 			"ApimService",
-		)
+		),
 	}
 }
 
@@ -39,13 +39,21 @@ type APIMgmtServiceManager interface {
 	CreateAPIMgmtSvc(ctx context.Context,
 		location string,
 		resourceGroupName string,
-		resourceName string) (apim.ServiceResource, error)
+		resourceName string,
+		publisherName string,
+		publisherEmail string) (apim.ServiceResource, error)
 
 	DeleteAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (apim.ServiceResource, error)
 
-	MgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error)
+	APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error)
 
-	SetVNetForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, vnetType string, vnetResourceGroupName string, vnetResourceName string, subnetName string) error
+	SetVNetForAPIMgmtSvc(ctx context.Context,
+		resourceGroupName string,
+		resourceName string,
+		vnetType string,
+		vnetResourceGroupName string,
+		vnetResourceName string,
+		subnetName string) error
 
 	CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bool, err error)
 

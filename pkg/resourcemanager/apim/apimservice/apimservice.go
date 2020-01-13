@@ -31,13 +31,16 @@ type AzureAPIMgmtServiceManager struct {
 }
 
 // CreateAPIMgmtSvc creates a new API Mgmt Svc
-func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, location string, resourceGroupName string, resourceName string) (apim.ServiceResource, error) {
+func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, location string, resourceGroupName string, resourceName string, publisherName string, publisherEmail string) (apim.ServiceResource, error) {
 	client, err := apimshared.GetAPIMgmtSvcClient()
 	if err != nil {
 		return apim.ServiceResource{}, err
 	}
 
-	svcProp := apim.ServiceProperties{}
+	svcProp := apim.ServiceProperties{
+		PublisherEmail: &publisherEmail,
+		PublisherName:  &publisherName,
+	}
 	sku := apim.ServiceSkuProperties{
 		Name: apim.SkuTypeBasic,
 	}
@@ -51,6 +54,9 @@ func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, locat
 			Sku:               &sku,
 		},
 	)
+	if err != nil {
+		return apim.ServiceResource{}, err
+	}
 
 	return future.Result(client)
 }
@@ -70,18 +76,18 @@ func (_ *AzureAPIMgmtServiceManager) DeleteAPIMgmtSvc(ctx context.Context, resou
 	return result.Result(client)
 }
 
-// MgmtSvcStatus checks to see if the API Mgmt Svc has been activated
-func (_ *AzureAPIMgmtServiceManager) MgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error) {
-	return apimshared.MgmtSvcStatus(ctx, resourceGroupName, resourceName)
+// APIMgmtSvcStatus checks to see if the API Mgmt Svc has been activated
+func (_ *AzureAPIMgmtServiceManager) APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error) {
+	return apimshared.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 }
 
 // SetVNetForAPIMgmtSvc sets the VNet for an API Mgmt Svc by name
 func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, vnetType string, vnetResourceGroupName string, vnetResourceName string, subnetName string) error {
 
 	// check to make sure that the API Mgmt Svc has been activated
-	activated, err := g.IsAPIMgmtSvcActivated(ctx, resourceGroupName, resourceName)
-	if err != nil || !activated {
-		return fmt.Errorf("API Mgmt Service hasn't been activated yet: %s, %s", resourceGroupName, resourceName)
+	exists, activated, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
+	if !exists || !activated || err != nil {
+		return fmt.Errorf("API Mgmt Service hasn't been created or activated yet: %s, %s", resourceGroupName, resourceName)
 	}
 
 	// translate vnet type

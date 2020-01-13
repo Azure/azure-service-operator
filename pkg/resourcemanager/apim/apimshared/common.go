@@ -66,8 +66,8 @@ func GetAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName s
 	)
 }
 
-// MgmtSvcStatus check to see if the API Mgmt Svc has been activated, returns "true" if it has been activated
-func MgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error) {
+// APIMgmtSvcStatus check to see if the API Mgmt Svc has been activated, returns "true" if it has been activated
+func APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error) {
 	resource, err := GetAPIMgmtSvc(
 		ctx,
 		resourceGroupName,
