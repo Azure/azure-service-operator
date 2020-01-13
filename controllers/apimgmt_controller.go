@@ -16,35 +16,26 @@ limitations under the License.
 package controllers
 
 import (
-	"context"
-
-	"github.com/go-logr/logr"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	ctrl "sigs.k8s.io/controller-runtime"
 )
 
-// ApimgmtReconciler reconciles a Apimgmt object
-type ApimgmtReconciler struct {
-	client.Client
-	Log logr.Logger
+// APIMReconciler reconciles a APIM object
+type APIMReconciler struct {
+	Reconciler *AsyncReconciler
 }
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=apimgmts,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=apimgmts/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=APIMgmts,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=APIMgmts/status,verbs=get;update;patch
 
-func (r *ApimgmtReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("apimgmt", req.NamespacedName)
-
-	// your logic here
-
-	return ctrl.Result{}, nil
+// Reconcile attempts to set the desired state snapshot representation of the service in k8s
+func (r *APIMReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+	return r.Reconciler.Reconcile(req, &azurev1alpha1.APIMgmt{})
 }
 
-func (r *ApimgmtReconciler) SetupWithManager(mgr ctrl.Manager) error {
+// SetupWithManager initializes the control loop for this operator
+func (r *APIMReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.Apimgmt{}).
+		For(&azurev1alpha1.APIMgmt{}).
 		Complete(r)
 }

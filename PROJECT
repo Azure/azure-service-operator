@@ -55,4 +55,4 @@ resources:
   kind: PostgreSQLFirewallRule
 - group: azure
   version: v1alpha1
-  kind: Apimgmt
+  kind: APIMgmt

@@ -19,8 +19,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// ApimgmtSpec defines the desired state of Apimgmt
-type ApimgmtSpec struct {
+// APIMgmtSpec defines the desired state of APIMgmt
+type APIMgmtSpec struct {
 	Location             string   `json:"location"`
 	ResourceGroup        string   `json:"resourceGroup"`
 	Description          string   `json:"description,omitempty"`
@@ -36,33 +36,27 @@ type ApimgmtSpec struct {
 	SubscriptionRequired bool     `json:"subscriptionRequired,omitempty"`
 }
 
-// ApimgmtStatus defines the observed state of Apimgmt
-type ApimgmtStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// Apimgmt is the Schema for the apimgmts API
-type Apimgmt struct {
+// APIMgmt is the Schema for API Management
+type APIMgmt struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ApimgmtSpec `json:"spec,omitempty"`
+	Spec   APIMgmtSpec `json:"spec,omitempty"`
 	Status ASOStatus   `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ApimgmtList contains a list of Apimgmt
-type ApimgmtList struct {
+// APIMgmtList contains a list of APIMgmt
+type APIMgmtList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Apimgmt `json:"items"`
+	Items           []APIMgmt `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Apimgmt{}, &ApimgmtList{})
+	SchemeBuilder.Register(&APIMgmt{}, &APIMgmtList{})
 }

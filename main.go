@@ -23,6 +23,7 @@ import (
 	"os"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	resourceapimanagement "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
@@ -110,6 +111,7 @@ func main() {
 		secretClient = keyvaultSecrets.New(keyvaultName)
 	}
 
+	apimManager := resourceapimanagement.NewManager(ctrl.Log.WithName("controllers").WithName("APIManagement"))
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
@@ -362,11 +364,19 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLFirewallRule")
 		os.Exit(1)
 	}
-	if err = (&controllers.ApimgmtReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("Apimgmt"),
+	if err = (&controllers.APIMReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: apimManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("APIManagement"),
+				"APIManagement",
+			),
+			Recorder: mgr.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Apimgmt")
+		setupLog.Error(err, "unable to create controller", "controller", "APIMgmt")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
