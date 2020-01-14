@@ -20,42 +20,7 @@ You can use the YAML files in the `config/samples` folder to create the resource
 
 ## View and Troubleshoot resource provisioning
 
-To view your created Eventhub resources, such as Eventhub, run the following command:
-
-```shell
-kubectl get <CRD>
-```
-
-where CRD is the Custom Resource Definition name or `Kind` for the resource.
-
-For instance, you can get the Azure SQL servers provisioned using the command
-
-```shell
-kubectl get Eventhub
-```
-
-You should see the Eventhub instances as below
-
-```shell
-NAME                  AGE
-eventhub-sample      1h
-```
-
-If you want to see more details about a particular resource instance such as the `Status` or `Events`, you can use the below command
-
-```shell
-kubectl describe <Kind> <instance name>
-```
-
-For instance, the below command is used to get more details about the `eventhub-sample` instance
-
-```shell
-kubectl describe Eventhub eventhub-sample
-```
-
-The `Status` section gives you the current state of the resource that it is provisioned.
-
-The `Events` have a chronological record of what occurred through the process of provisioning the resource.
+To view your created Eventhub resources, refer to the steps [here](viewresources.md)
 
 ## Help
 
