@@ -63,9 +63,6 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	// log operator start
-	r.Telemetry.LogStart()
-
 	defer func() {
 
 		// log failure / success
@@ -75,8 +72,6 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 		} else if result.Requeue {
 			r.Telemetry.LogInfo("requeue", "reconciling object not finished")
 			r.Telemetry.LogFailure()
-		} else {
-			r.Telemetry.LogSuccess()
 		}
 
 		if errUpdate := r.Status().Update(ctx, &instance); errUpdate != nil {

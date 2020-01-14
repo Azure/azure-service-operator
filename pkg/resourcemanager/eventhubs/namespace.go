@@ -146,9 +146,6 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 	namespaceName := instance.Name
 	resourcegroup := instance.Spec.ResourceGroup
 
-	// write information back to instance
-	instance.Status.Provisioning = true
-
 	// @todo handle updates
 	evhns, err := ns.GetNamespace(ctx, resourcegroup, namespaceName)
 	if err == nil {
@@ -158,8 +155,6 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 
 		if *evhns.ProvisioningState == "Succeeded" {
 			instance.Status.Message = "Resource successfully provisioned"
-			instance.Status.Provisioned = true
-			instance.Status.Provisioning = false
 			return true, nil
 		}
 
@@ -236,6 +231,14 @@ func (ns *azureEventHubNamespaceManager) Delete(ctx context.Context, obj runtime
 	}
 
 	return true, nil
+}
+
+func (g *azureEventHubNamespaceManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (ns *azureEventHubNamespaceManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {

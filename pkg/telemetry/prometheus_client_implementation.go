@@ -8,7 +8,9 @@ package telemetry
 import (
 	"time"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/prometheus/client_golang/prometheus"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // LogTrace logs a trace message, it does not send telemetry to Prometheus
@@ -39,13 +41,18 @@ func (client *PrometheusClient) LogError(message string, err error) {
 }
 
 // LogStart logs the start of a component
-func (client *PrometheusClient) LogStart() {
+func (client *PrometheusClient) LogStart(s *v1alpha1.ASOStatus) {
 
 	// mark now as the start time
-	client.StartTime = time.Now()
+	//client.StartTime = time.Now()
+
+	if !s.Provisioning {
+		s.Provisioning = true
+		s.RequestedAt = metav1.NewTime(time.Now())
+	}
 
 	// log that operator is running
-	client.Logger.Info("Component has started", "Component", client.Component)
+	//client.Logger.Info("Component has started", "Component", client.Component)
 	activeGuage.WithLabelValues(client.Component).Inc()
 }
 
@@ -62,21 +69,19 @@ func logCompleted(client *PrometheusClient) {
 	executionTime.WithLabelValues(client.Component).Observe(durationInSecs)
 }
 
-// LogSuccessWithInfo logs the successful completion of a component along with an Info message
-func (client *PrometheusClient) LogSuccessWithInfo(typeInfo string, message string) {
-
-	// log info
-	client.LogInfo(typeInfo, message)
-
-	// log completion
-	client.LogSuccess()
-}
-
 // LogSuccess logs the successful completion of a component
-func (client *PrometheusClient) LogSuccess() {
+func (client *PrometheusClient) LogSuccess(s *v1alpha1.ASOStatus) {
 
 	// log the completion
-	logCompleted(client)
+	//logCompleted(client)
+
+	if s.Provisioning {
+		s.Provisioning = false
+		s.Provisioned = true
+		s.CompletedAt = metav1.NewTime(time.Now())
+		durationInSecs := s.CompletedAt.Sub(time.Now()).Seconds()
+		executionTime.WithLabelValues(client.Component).Observe(durationInSecs)
+	}
 
 	// log success
 	client.Logger.Info("Component completed successfully", "Component", client.Component)

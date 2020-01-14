@@ -12,12 +12,16 @@ limitations under the License.
 
 package v1alpha1
 
+import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 // AzureServiceOperatorsStatus (ASOStatus) defines the observed state of resource actions
 type ASOStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool   `json:"provisioning,omitempty"`
-	Provisioned  bool   `json:"provisioned,omitempty"`
-	State        string `json:"state,omitempty"`
-	Message      string `json:"message,omitempty"`
+	Provisioning bool        `json:"provisioning,omitempty"`
+	Provisioned  bool        `json:"provisioned,omitempty"`
+	State        string      `json:"state,omitempty"`
+	Message      string      `json:"message,omitempty"`
+	RequestedAt  metav1.Time `json:"requested,omitempty"`
+	CompletedAt  metav1.Time `json:"completed,omitempty"`
 }

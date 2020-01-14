@@ -35,7 +35,6 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	}
 	resourcegroupLocation := instance.Spec.Location
 	resourcegroupName := instance.ObjectMeta.Name
-	instance.Status.Provisioning = true
 
 	_, err = g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
@@ -44,14 +43,8 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 		return false, fmt.Errorf("ResourceGroup create error %v", err)
 
 	}
-	if instance.Status.Provisioning {
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		instance.Status.Message = "Resource successfully provisioned"
-	} else {
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
-	}
+
+	instance.Status.Message = "Resource successfully provisioned"
 
 	return true, nil
 }
@@ -83,6 +76,14 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 	}
 
 	return true, nil
+}
+
+func (g *AzureResourceGroupManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (g *AzureResourceGroupManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
