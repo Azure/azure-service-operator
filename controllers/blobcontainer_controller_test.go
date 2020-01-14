@@ -1,173 +1,194 @@
-/*
-Copyright 2019 microsoft.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// +build all blobcontainer
 
 package controllers
 
 import (
 	"context"
+	"strings"
+	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/stretchr/testify/assert"
 
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("BlobContainer Controller", func() {
+func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
 
 	var rgLocation string
-	var rgName string
 	var saName string
 	var containerAccessLevel s.PublicAccess
 
-	BeforeEach(func() {
-		// Add any setup steps that needs to be executed before each test
-		rgLocation = tc.resourceGroupLocation
-		rgName = tc.resourceGroupName
-		saName = tc.storageAccountName
-		containerAccessLevel = s.PublicAccessContainer
-	})
-
-	AfterEach(func() {
-		// Add any teardown steps that needs to be executed after each test
-	})
+	// Add any setup steps that needs to be executed before each test
+	rgLocation = tc.resourceGroupLocation
+	saName = tc.storageAccountName
+	containerAccessLevel = s.PublicAccessContainer
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
 	// your API definition.
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 
-	Context("Create and Delete", func() {
-		It("should fail to create a blob container if the resource group doesn't exist", func() {
+	blobContainerName := "bc-" + helpers.RandomString(10)
+	resourceGroupName := "rg-" + helpers.RandomString(10)
 
-			defer GinkgoRecover()
+	var err error
 
-			blobContainerName := "bc-" + helpers.RandomString(10)
-			resourceGroupName := "rg-" + helpers.RandomString(10)
+	blobContainerInstance := &azurev1alpha1.BlobContainer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      blobContainerName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.BlobContainerSpec{
+			Location:      rgLocation,
+			ResourceGroup: resourceGroupName,
+			AccountName:   saName,
+			AccessLevel:   containerAccessLevel,
+		},
+	}
 
-			var err error
+	err = tc.k8sClient.Create(ctx, blobContainerInstance)
+	assert.Equal(nil, err, "create blobcontainer in k8s")
 
-			blobContainerInstance := &azurev1alpha1.BlobContainer{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      blobContainerName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.BlobContainerSpec{
-					Location:      rgLocation,
-					ResourceGroup: resourceGroupName,
-					AccountName:   saName,
-					AccessLevel:   containerAccessLevel,
-				},
-			}
+	blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
 
-			err = tc.k8sClient.Create(context.Background(), blobContainerInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		return strings.Contains(blobContainerInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for blob to have rg not found error")
 
-			blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), blobContainerNamespacedName, blobContainerInstance)
-				return blobContainerInstance.Status.Provisioned
-			}, tc.timeout, tc.retry,
-			).Should(BeFalse())
-		})
+	err = tc.k8sClient.Delete(ctx, blobContainerInstance)
+	assert.Equal(nil, err, "delete blobcontainer in k8s")
 
-		It("should fail to create a blob container if the storage account doesn't exist", func() {
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for blob to be not found")
 
-			defer GinkgoRecover()
-			blobContainerName := "bc-" + helpers.RandomString(10)
-			storageAccountName := "sa-" + helpers.RandomString(10)
+}
 
-			var err error
+func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
 
-			blobContainerInstance := &azurev1alpha1.BlobContainer{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      blobContainerName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.BlobContainerSpec{
-					Location:      rgLocation,
-					ResourceGroup: rgName,
-					AccountName:   storageAccountName,
-					AccessLevel:   containerAccessLevel,
-				},
-			}
+	var rgLocation string
+	var rgName string
+	var containerAccessLevel s.PublicAccess
 
-			err = tc.k8sClient.Create(context.Background(), blobContainerInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
+	// Add any setup steps that needs to be executed before each test
+	rgLocation = tc.resourceGroupLocation
+	rgName = tc.resourceGroupName
+	containerAccessLevel = s.PublicAccessContainer
 
-			blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), blobContainerNamespacedName, blobContainerInstance)
-				return blobContainerInstance.Status.Provisioned
-			}, tc.timeout, tc.retry,
-			).Should(BeFalse())
-		})
+	blobContainerName := "bc-" + helpers.RandomString(10)
+	storageAccountName := "sa-" + helpers.RandomString(10)
 
-		It("should create and delete a blob container if the resource group and storage account exist", func() {
+	var err error
 
-			defer GinkgoRecover()
-			blobContainerName := "bc-" + helpers.RandomString(10)
+	blobContainerInstance := &azurev1alpha1.BlobContainer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      blobContainerName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.BlobContainerSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+			AccountName:   storageAccountName,
+			AccessLevel:   containerAccessLevel,
+		},
+	}
 
-			var err error
+	err = tc.k8sClient.Create(ctx, blobContainerInstance)
+	assert.Equal(nil, err, "create blob container in k8s")
 
-			blobContainerInstance := &azurev1alpha1.BlobContainer{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      blobContainerName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.BlobContainerSpec{
-					Location:      rgLocation,
-					ResourceGroup: rgName,
-					AccountName:   saName,
-					AccessLevel:   containerAccessLevel,
-				},
-			}
+	blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
 
-			err = tc.k8sClient.Create(context.Background(), blobContainerInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		return strings.Contains(blobContainerInstance.Status.Message, errhelp.ParentNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for blob to have parent not found error")
 
-			blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
+	err = tc.k8sClient.Delete(ctx, blobContainerInstance)
+	assert.Equal(nil, err, "delete blob container in k8s")
 
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), blobContainerNamespacedName, blobContainerInstance)
-				return blobContainerInstance.HasFinalizer(blobContainerFinalizerName)
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for blob to be not found")
 
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), blobContainerNamespacedName, blobContainerInstance)
-				return blobContainerInstance.Status.Provisioned
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+}
 
-			err = tc.k8sClient.Delete(context.Background(), blobContainerInstance)
-			Expect(err).NotTo(HaveOccurred())
+func TestTestBlobContainerControllerHappyPath(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
 
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), blobContainerNamespacedName, blobContainerInstance)
-				return blobContainerInstance.IsBeingDeleted()
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-		})
-	})
-})
+	var rgLocation string
+	var rgName string
+	var saName string
+	var containerAccessLevel s.PublicAccess
+
+	// Add any setup steps that needs to be executed before each test
+	rgLocation = tc.resourceGroupLocation
+	rgName = tc.resourceGroupName
+	saName = tc.storageAccountName
+	containerAccessLevel = s.PublicAccessContainer
+
+	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
+	// your API definition.
+	// Avoid adding tests for vanilla CRUD operations because they would
+	// test Kubernetes API server, which isn't the goal here.
+
+	blobContainerName := "bc-" + helpers.RandomString(10)
+
+	var err error
+
+	blobContainerInstance := &azurev1alpha1.BlobContainer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      blobContainerName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.BlobContainerSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+			AccountName:   saName,
+			AccessLevel:   containerAccessLevel,
+		},
+	}
+
+	err = tc.k8sClient.Create(ctx, blobContainerInstance)
+	assert.Equal(nil, err, "create blobcontainer in k8s")
+
+	blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		return blobContainerInstance.HasFinalizer(blobContainerFinalizerName)
+	}, tc.timeout, tc.retry, "wait for blob to have finalizer")
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		return blobContainerInstance.Status.Provisioned
+	}, tc.timeout, tc.retry, "wait for blob to be provisioned")
+
+	err = tc.k8sClient.Delete(ctx, blobContainerInstance)
+	assert.Equal(nil, err, "delete blob container in k8s")
+
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for blob to be not found")
+
+}
