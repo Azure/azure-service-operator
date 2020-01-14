@@ -43,22 +43,22 @@ test: generate fmt vet manifests
 	go tool cover -html=coverage.txt -o cover.html
 
 # Run tests with existing cluster
-test-existing: generate fmt vet manifests
+test-existing-controllers: generate fmt vet manifests
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -tags all -parallel 3 -v ./controllers/... -timeout 30m
+
+# Run tests with existing cluster
+test-existing-managers: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 \
 	go test -v -coverprofile=coverage-existing.txt -covermode count \
 	./api/... \
-	./controllers/... \
-	./pkg/resourcemanager/azuresql/... \
-	./pkg/resourcemanager/eventhubs/... \
-	./pkg/resourcemanager/resourcegroups/... \
+	./pkg/resourcemanager/eventhubs/...  \
+	./pkg/resourcemanager/resourcegroups/...  \
 	./pkg/resourcemanager/storages/... \
 	./pkg/resourcemanager/psql/server/... \
 	./pkg/resourcemanager/psql/database/... \
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/...
-	-timeout 40m 2>&1 | tee testlogs-existing.txt
-	go-junit-report < testlogs-existing.txt > report-existing.xml
-	go tool cover -html=coverage-existing.txt -o cover-existing.html
+	-timeout 30m
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
 test-cleanup-azure-resources: 
