@@ -91,7 +91,7 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 		}
 		return true, fmt.Errorf("RedisCache delete error %v", err)
 	}
-	return true, nil
+	return false, nil
 }
 
 func (rc *AzureRedisCacheManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
