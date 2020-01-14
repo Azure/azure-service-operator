@@ -30,15 +30,14 @@ import (
 )
 
 func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
-
 	instance, err := rc.convert(obj)
 	if err != nil {
 		return false, err
 	}
 
-	location := instance.Spec.Location
-	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
+	name := instance.ObjectMeta.Name
+	location := instance.Spec.Location
 	sku := instance.Spec.Properties.Sku
 	enableNonSSLPort := instance.Spec.Properties.EnableNonSslPort
 
@@ -48,6 +47,9 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 	_, err = rc.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, nil)
 	if err != nil {
+		instance.Status.Message = err.Error()
+		instance.Status.Provisioning = false
+		
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AlreadyExists,
@@ -56,36 +58,24 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			if azerr.Type == errhelp.AlreadyExists {
-				// check if redis cache exists in another resource group
-				// or if there is a repeat call to the reconcile loop for an update of the resource
 				_, err := redisClient.Get(ctx, groupName, name)
 				if err != nil {
 					return false, err
 				}
-				instance.Status.Message = "Server Already exists"
-				instance.Status.Provisioning = false
 			}
-			if azerr.Type == errhelp.InvalidServerName {
-				instance.Status.Message = "Invalid Server Name"
-				return false, nil
-			}
-			instance.Status.Message = err.Error()
 			return false, nil
 		}
-
-		instance.Status.Provisioning = false
-		instance.Status.Message = err.Error()
-		return true, fmt.Errorf("Redis Cache create error %v", err)
+		return true, nil
 	}
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
+	instance.Status.Message = "Redis Cache successfully provisioned"
 
 	return true, nil
 }
 
 func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
-
 	instance, err := rc.convert(obj)
 	if err != nil {
 		return false, err
@@ -104,16 +94,19 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 }
 
 func (rc *AzureRedisCacheManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
-
 	instance, err := rc.convert(obj)
 	if err != nil {
 		return nil, err
 	}
 
-	key := types.NamespacedName{Namespace: instance.Namespace, Name: instance.Spec.ResourceGroupName}
-
 	return []resourcemanager.KubeParent{
-		{Key: key, Target: &v1alpha1.ResourceGroup{}},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.ResourceGroupName,
+			},
+			Target: &v1alpha1.ResourceGroup{}
+		},
 	}, nil
 }
 
