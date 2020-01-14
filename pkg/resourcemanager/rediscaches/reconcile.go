@@ -49,7 +49,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	if err != nil {
 		instance.Status.Message = err.Error()
 		instance.Status.Provisioning = false
-		
+
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AlreadyExists,
@@ -105,7 +105,7 @@ func (rc *AzureRedisCacheManager) GetParents(obj runtime.Object) ([]resourcemana
 				Namespace: instance.Namespace,
 				Name:      instance.Spec.ResourceGroupName,
 			},
-			Target: &v1alpha1.ResourceGroup{}
+			Target: &v1alpha1.ResourceGroup{},
 		},
 	}, nil
 }
