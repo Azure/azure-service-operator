@@ -87,8 +87,9 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 	_, err = rc.DeleteRedisCache(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
-			return true, fmt.Errorf("RedisCache delete error %v", err)
+			return false, nil
 		}
+		return true, fmt.Errorf("RedisCache delete error %v", err)
 	}
 	return true, nil
 }
