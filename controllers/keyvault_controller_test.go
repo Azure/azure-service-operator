@@ -35,7 +35,7 @@ func TestKeyvaultController(t *testing.T) {
 		},
 		Spec: azurev1alpha1.KeyVaultSpec{
 			Location:          keyVaultLocation,
-			ResourceGroupName: tc.resourceGroupName,
+			ResourceGroup: tc.resourceGroupName,
 		},
 	}
 
