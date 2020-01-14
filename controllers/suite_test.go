@@ -275,7 +275,9 @@ func setup() error {
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
+	if err != nil {
+		return err
+	}
 
 	err = (&EventhubNamespaceReconciler{
 		Reconciler: &AsyncReconciler{
