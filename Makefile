@@ -35,7 +35,7 @@ api-test: generate fmt vet manifests
 # Run tests
 test: generate fmt vet manifests 
 	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 \
-	go test -v -coverprofile=coverage.txt -covermode count \
+	go test -tags all -parallel 3 -v -coverprofile=coverage.txt -covermode count \
 	./api/... \
 	./controllers/... \
 	-timeout 10m 2>&1 | tee testlogs.txt
