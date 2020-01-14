@@ -44,6 +44,15 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
+
+	// check first to see if the VNet exists, if it does, dont create it and
+	// 	consider the reconcilliation successful
+	if exists, _ := g.VNetExists(ctx, resourceGroup, resourceName); exists {
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = true
+		return true, nil
+	}
+
 	_, err = g.CreateVNet(
 		ctx,
 		location,
@@ -52,7 +61,6 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 		addressSpace,
 		subnets,
 	)
-
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		catch := []string{
@@ -61,7 +69,6 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
-
 		catchUnrecoverableErrors := []string{
 			errhelp.NetcfgInvalidIPAddressPrefix,
 			errhelp.NetcfgInvalidSubnet,
@@ -73,10 +80,12 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
 			}
+
 			// reconciliation is not done but error is acceptable
 			return false, nil
 		}
 		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
+
 			// Unrecoverable error, so stop reconcilation
 			instance.Status.Provisioning = false
 			instance.Status.Message = "Reconcilation hit unrecoverable error"

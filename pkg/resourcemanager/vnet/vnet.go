@@ -116,3 +116,24 @@ func (_ *AzureVNetManager) DeleteVNet(ctx context.Context, resourceGroupName str
 
 	return future.Result(client)
 }
+
+// VNetExists checks to see if a VNet exists
+func (_ *AzureVNetManager) VNetExists(ctx context.Context, resourceGroupName string, resourceName string) (bool, error) {
+	client, err := getVNetClient()
+	if err != nil {
+		return false, err
+	}
+
+	result, err := client.Get(
+		ctx,
+		resourceGroupName,
+		resourceName,
+		"")
+	if err != nil {
+		return false, err
+	} else if result.Name == nil {
+		return false, nil
+	}
+
+	return true, nil
+}

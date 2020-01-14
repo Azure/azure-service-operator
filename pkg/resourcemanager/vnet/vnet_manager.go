@@ -50,6 +50,10 @@ type VNetManager interface {
 		resourceGroupName string,
 		resourceName string) (autorest.Response, error)
 
+	VNetExists(ctx context.Context,
+		resourceGroupName string,
+		resourceName string) (bool, error)
+
 	// also embed async client methods
 	resourcemanager.ARMClient
 }
