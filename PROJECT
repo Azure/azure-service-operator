@@ -56,3 +56,6 @@ resources:
 - group: azure
   version: v1alpha1
   kind: APIMgmt
+  group: azure
+  version: v1alpha1
+  kind: AppInsights

@@ -31,6 +31,7 @@ import (
 	"k8s.io/client-go/rest"
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
@@ -39,6 +40,7 @@ import (
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	resourcemanagerappinsightsmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/appinsights"
 	resourcemanagersqlmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/azuresql"
 	resourcemanagereventhubmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/eventhubs"
 	resourcemanagerkeyvaultsmock "github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/keyvaults"
@@ -151,34 +153,6 @@ func setup() error {
 
 	var k8sManager ctrl.Manager
 
-	err = azurev1alpha1.AddToScheme(scheme.Scheme)
-	if err != nil {
-		return err
-	}
-
-	err = azurev1alpha1.AddToScheme(scheme.Scheme)
-	if err != nil {
-		return err
-	}
-
-	err = azurev1alpha1.AddToScheme(scheme.Scheme)
-	if err != nil {
-		return err
-	}
-
-	err = azurev1alpha1.AddToScheme(scheme.Scheme)
-	if err != nil {
-		return err
-	}
-
-	err = azurev1alpha1.AddToScheme(scheme.Scheme)
-	if err != nil {
-		return err
-	}
-
-	err = azurev1alpha1.AddToScheme(scheme.Scheme)
-	Expect(err).NotTo(HaveOccurred())
-
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
@@ -189,6 +163,7 @@ func setup() error {
 
 	secretClient := k8sSecrets.New(k8sManager.GetClient())
 
+	var appInsightsManager resourcemanagerappinsights.ApplicationInsightsManager
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
@@ -206,6 +181,7 @@ func setup() error {
 	var consumerGroupClient resourcemanagereventhub.ConsumerGroupManager
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
+		appInsightsManager = resourcemanagerappinsights.NewManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"))
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
@@ -223,6 +199,7 @@ func setup() error {
 		consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 		timeout = time.Second * 900
 	} else {
+		appInsightsManager = resourcemanagerappinsightsmock.NewMockAppInsightsManager(scheme.Scheme)
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
 		eventHubManagers = resourcemanagereventhubmock.MockEventHubManagers
 		storageManagers = resourcemanagerstoragesmock.MockStorageManagers
@@ -246,6 +223,22 @@ func setup() error {
 		Log:             ctrl.Log.WithName("controllers").WithName("KeyVault"),
 		Recorder:        k8sManager.GetEventRecorderFor("KeyVault-controller"),
 		KeyVaultManager: keyVaultManager,
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AppInsightsReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: appInsightsManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AppInsights"),
+				"AppInsights",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AppInsights-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
 		return err
@@ -407,31 +400,6 @@ func setup() error {
 		return err
 	}
 
-	err = (&AzureSqlFailoverGroupReconciler{
-		Client:                       k8sManager.GetClient(),
-		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-		Scheme:                       scheme.Scheme,
-		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
-	}).SetupWithManager(k8sManager)
-	if err != nil {
-		return err
-	}
-
-	err = (&AzureSqlFirewallRuleReconciler{
-		Client: k8sManager.GetClient(),
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
-			"AzureSQLFirewallRuleOperator",
-		),
-		Recorder:                    k8sManager.GetEventRecorderFor("AzureSqlFirewall-controller"),
-		Scheme:                      scheme.Scheme,
-		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
-	}).SetupWithManager(k8sManager)
-	if err != nil {
-		return err
-	}
-
 	err = (&PostgreSQLServerReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
@@ -487,7 +455,6 @@ func setup() error {
 		}
 	}()
 
-	//k8sClient = k8sManager.GetClient()
 	k8sClient, err := client.New(cfg, client.Options{Scheme: scheme.Scheme})
 	if err != nil {
 		return err
@@ -502,6 +469,7 @@ func setup() error {
 
 	log.Println("Creating EHNS:", eventhubNamespaceName)
 	eventHubNSManager := eventHubManagers.EventHubNamespace
+
 	// Create the Eventhub namespace resource
 	_, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
 	if err != nil {
