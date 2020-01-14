@@ -20,8 +20,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	"golang.org/x/net/context"
-	metav1 "k8s.io/APIMachinery/pkg/apis/meta/v1"
-	"k8s.io/APIMachinery/pkg/types"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 // These tests are written in BDD-style using Ginkgo framework. Refer to

@@ -18,16 +18,26 @@ package apimgmt
 
 import (
 	"context"
+	"log"
 
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 
+	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
+
+var apimClient apimanagement.APIClient
 
 // Manager represents an API Management type
 type Manager struct {
 	Log logr.Logger
+}
+
+func init() {
+	apimClient = getAPIMClient()
 }
 
 // NewManager returns an API Manager type
@@ -65,4 +75,17 @@ func (m *Manager) Delete(context.Context, runtime.Object) (bool, error) {
 // GetParents fetches the hierarchical parent resource references
 func (m *Manager) GetParents(runtime.Object) ([]resourcemanager.KubeParent, error) {
 	return []resourcemanager.KubeParent{}, nil
+}
+
+func getAPIMClient() apimanagement.APIClient {
+	apimClient := apimanagement.NewAPIClient(config.SubscriptionID())
+
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		log.Fatalf("failed to initialize authorizer %v\n", err)
+	}
+	apimClient.Authorizer = a
+	apimClient.AddToUserAgent(config.UserAgent())
+
+	return apimClient
 }

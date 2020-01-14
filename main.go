@@ -382,7 +382,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLFirewallRule")
 		os.Exit(1)
 	}
-<<<<<<< HEAD
 	if err = (&controllers.APIMReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -399,8 +398,6 @@ func main() {
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
-=======
->>>>>>> d3e40e69b3adb5988230cd351f36871b1bd4851d
 
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
