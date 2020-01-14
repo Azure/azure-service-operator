@@ -1,10 +1,10 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: RedisCache
 metadata:
-  name: redsache
+  name: rediscache-sample1908xyzkj
 spec:
   location: westus
-  resourceGroup: resourcegroup-azure-operators-rush
+  resourceGroup: resourcegroup-azure-operators
   properties:
     sku:
       name: Basic
