@@ -240,7 +240,9 @@ func setup() error {
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
-	Expect(err).ToNot(HaveOccurred())
+	if err != nil {
+		return err
+	}
 
 	err = (&EventhubReconciler{
 		Reconciler: &AsyncReconciler{
@@ -397,7 +399,7 @@ func setup() error {
 	if err != nil {
 		return err
 	}
-  
+
 	err = (&PostgreSQLServerReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),

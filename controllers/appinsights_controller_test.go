@@ -18,74 +18,58 @@ package controllers
 
 import (
 	"context"
+	"strings"
+	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("AppInsights Controller tests", func() {
+func TestAppInsightsController(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
 
-	var rgName string
-	var rgLocation string
-	var appInsightsName string
-	var appInsightsInstance *azurev1alpha1.AppInsights
-	var ctx context.Context
+	rgName := tc.resourceGroupName
+	rgLocation := tc.resourceGroupLocation
+	appInsightsName := "t-appinsights-test" + helpers.RandomString(10)
 
-	// Setup the resources we need
-	BeforeEach(func() {
+	// Create an instance of Azure AppInsights
+	appInsightsInstance := &azurev1alpha1.AppInsights{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      appInsightsName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.AppInsightsSpec{
+			Kind:            "web",
+			Location:        rgLocation,
+			ResourceGroup:   rgName,
+			ApplicationType: "other",
+		},
+	}
 
-		rgName = tc.resourceGroupName
-		rgLocation = tc.resourceGroupLocation
-		appInsightsName = "t-appinsights-test" + helpers.RandomString(10)
+	err := tc.k8sClient.Create(ctx, appInsightsInstance)
+	assert.Equal(nil, err, "create appinsights record in k8s")
 
-		ctx = context.Background()
-	})
+	appInsightsNamespacedName := types.NamespacedName{Name: appInsightsName, Namespace: "default"}
 
-	Context("Create AppInsights service", func() {
+	// Wait for the AppInsights instance to be provisioned
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, appInsightsNamespacedName, appInsightsInstance)
+		return strings.Contains(appInsightsInstance.Status.Message, "Provisioned")
+	}, tc.timeout, tc.retry, "awaiting appinsights instance creation")
 
-		It("should create and delete Application Insights service", func() {
+	// Delete the service
+	err = tc.k8sClient.Delete(ctx, appInsightsInstance)
+	assert.Equal(nil, err, "deleting appinsights in k8s")
 
-			defer GinkgoRecover()
-
-			// Create an instance of Azure AppInsights
-			appInsightsInstance = &azurev1alpha1.AppInsights{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      appInsightsName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.AppInsightsSpec{
-					Kind:            "web",
-					Location:        rgLocation,
-					ResourceGroup:   rgName,
-					ApplicationType: "other",
-				},
-			}
-
-			Expect(tc.k8sClient.Create(ctx, appInsightsInstance)).To(Succeed())
-
-			appInsightsNamespacedName := types.NamespacedName{Name: appInsightsName, Namespace: "default"}
-
-			// Wait for the AppInsights instance to be provisioned
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, appInsightsNamespacedName, appInsightsInstance)
-				return appInsightsInstance.Status.Provisioned
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-
-			// Delete the service
-			Expect(tc.k8sClient.Delete(ctx, appInsightsInstance)).To(Succeed())
-
-			// Wait for the AppInsights instance to be deleted
-			Eventually(func() bool {
-				err := tc.k8sClient.Get(ctx, appInsightsNamespacedName, appInsightsInstance)
-				return err != nil
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-		})
-	})
-})
+	// Wait for the AppInsights instance to be deleted
+	assert.Eventually(func() bool {
+		err := tc.k8sClient.Get(ctx, appInsightsNamespacedName, appInsightsInstance)
+		return err != nil
+	}, tc.timeout, tc.retry, "awaiting appInsightsInstance deletion")
+}
