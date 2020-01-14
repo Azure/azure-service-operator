@@ -46,6 +46,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 
 	_, err = fg.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		catch := []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
@@ -54,11 +55,11 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
-			instance.Status.Message = fmt.Sprintf("Got ignorable error of type %v", azerr.Type)
+			instance.Status.Provisioning = true
 			return false, nil
 		}
 		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup CreateOrUpdate error: %s", err.Error())
-		return true, err
+		return true, errhelp.NewAzureError(err)
 	}
 
 	_, err = fg.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
