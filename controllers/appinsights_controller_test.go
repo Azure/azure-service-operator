@@ -60,7 +60,7 @@ func TestAppInsightsController(t *testing.T) {
 	// Wait for the AppInsights instance to be provisioned
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, appInsightsNamespacedName, appInsightsInstance)
-		return strings.Contains(appInsightsInstance.Status.Message, "Provisioned")
+		return strings.Contains(appInsightsInstance.Status.Message, "Succeeded")
 	}, tc.timeout, tc.retry, "awaiting appinsights instance creation")
 
 	// Delete the service

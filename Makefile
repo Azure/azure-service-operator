@@ -58,7 +58,6 @@ test-existing-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/database/... \
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/...
-	-timeout 30m
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
 test-cleanup-azure-resources: 
