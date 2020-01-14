@@ -17,12 +17,13 @@ package main
 
 import (
 	"flag"
-
-	"k8s.io/apimachinery/pkg/runtime"
-
 	"os"
 
 	"github.com/Azure/azure-service-operator/controllers"
+
+	"k8s.io/apimachinery/pkg/runtime"
+
+	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
@@ -111,6 +112,7 @@ func main() {
 	}
 
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
+	appInsightsManager := resourcemanagerappinsights.NewManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"))
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
@@ -325,6 +327,22 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureDataLakeGen2FileSystem")
 		os.Exit(1)
 	}
+
+	if err = (&controllers.AppInsightsReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: appInsightsManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AppInsights"),
+				"AppInsights",
+			),
+			Recorder: mgr.GetEventRecorderFor("AppInsights-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
+		os.Exit(1)
+	}
 	if err = (&controllers.PostgreSQLServerReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -340,6 +358,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLServer")
 		os.Exit(1)
 	}
+
 	if err = (&controllers.PostgreSQLDatabaseReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -370,7 +389,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLFirewallRule")
 		os.Exit(1)
 	}
-	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
