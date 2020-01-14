@@ -206,7 +206,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
-		return helpers.HasFinalizer(sqlFailoverGroupInstance, azureSQLFailoverGroupFinalizerName)
+		return helpers.HasFinalizer(sqlFailoverGroupInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for fog to have finalizer")
 
 	assert.Eventually(func() bool {
