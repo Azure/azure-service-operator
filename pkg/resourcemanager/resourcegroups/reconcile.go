@@ -47,7 +47,7 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
-		instance.Status.Message = "Resource successfully provisioned"
+		instance.Status.Message = resourcemanager.SuccessMsg
 	} else {
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = true
