@@ -61,7 +61,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 	instance.Status.State = string(resp.Status)
-	instance.Status.Message = "AzureSqlFirewallRule successfully provisioned"
+	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
 }
