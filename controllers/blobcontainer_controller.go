@@ -229,11 +229,10 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 		return errhelp.NewAzureError(err)
 	}
 
-	msg := fmt.Sprintf("Blob container: %s successfully provisioned", containerName)
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Created", msg)
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-	instance.Status.Message = msg
+	instance.Status.Message = successMsg
 
 	// Write status information back to instance
 	if statusupdateerr := r.Status().Update(ctx, instance); statusupdateerr != nil {

@@ -15,10 +15,11 @@ package controllers
 import (
 	"context"
 	"fmt"
-	v1 "k8s.io/api/core/v1"
 	"os"
 	"strconv"
 	"time"
+
+	v1 "k8s.io/api/core/v1"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -100,10 +101,9 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, fmt.Errorf("error reconciling keyvault in azure: %v", err)
 	}
 
-	msg := fmt.Sprintf("%s successfully provisioned", instance.ObjectMeta.Name)
 	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", msg)
 	log.Info(msg)
-	instance.Status.Message = msg
+	instance.Status.Message = successMsg
 	return ctrl.Result{}, nil
 }
 
