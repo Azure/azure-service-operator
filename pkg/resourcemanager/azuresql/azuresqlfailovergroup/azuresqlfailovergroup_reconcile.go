@@ -70,7 +70,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-	instance.Status.Message = "AzureSqlFailoverGroup Successfully Provisioned"
+	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
 }
@@ -94,7 +94,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 	if resp.StatusCode == 200 {
 		instance.Status.Message = fmt.Sprintf("Delete AzureSqlFailoverGroup succeeded")
 	}
-	return true, nil
+	return false, nil
 }
 
 // GetParents returns the parents of sqlfailovergroup
