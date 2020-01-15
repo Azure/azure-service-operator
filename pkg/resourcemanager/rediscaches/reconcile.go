@@ -70,7 +70,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-	instance.Status.Message = "Redis Cache successfully provisioned"
+	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
 }
