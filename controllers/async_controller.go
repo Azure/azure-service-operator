@@ -24,6 +24,7 @@ import (
 const (
 	finalizerName string        = "azure.microsoft.com/finalizer"
 	requeDuration time.Duration = time.Second * 20
+	successMsg    string        = "successfully provisioned"
 )
 
 // AsyncReconciler is a generic reconciler for Azure resources.
