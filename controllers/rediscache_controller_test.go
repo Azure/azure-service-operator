@@ -21,7 +21,6 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 
 	var rgLocation string
 	var rgName string
-	var enableNonSslPort bool
 	var redisCacheName string
 	var redisCacheNamespacedName types.NamespacedName
 	var err error
