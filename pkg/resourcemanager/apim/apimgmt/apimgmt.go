@@ -36,9 +36,9 @@ type Manager struct {
 	Log logr.Logger
 }
 
-func init() {
-	apimClient = getAPIMClient()
-}
+// func init() {
+// 	apimClient = getAPIMClient()
+// }
 
 // NewManager returns an API Manager type
 func NewManager(log logr.Logger) *Manager {
