@@ -13,7 +13,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func TestRedisCacheController(t *testing.T) {
+func TestRedisCacheControllerHappyPath(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover()
 	ctx := context.Background()
@@ -26,6 +26,8 @@ func TestRedisCacheController(t *testing.T) {
 	var redisCacheNamespacedName types.NamespacedName
 	var err error
 
+	rgName = tc.resourceGroupName
+	rgLocation = tc.resourceGroupLocation
 	redisCacheName = "t-rediscache-" + helpers.RandomString(10)
 
 	// Create the RedisCache object and expect the Reconcile to be created
