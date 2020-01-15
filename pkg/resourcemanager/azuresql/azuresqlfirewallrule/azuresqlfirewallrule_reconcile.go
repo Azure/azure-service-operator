@@ -87,7 +87,7 @@ func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.O
 		return false, err
 	}
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule succeeded")
-	return true, nil
+	return false, nil
 }
 
 // GetParents returns the parents of sqlfirewallrule
