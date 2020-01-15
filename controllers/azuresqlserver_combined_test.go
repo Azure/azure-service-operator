@@ -72,7 +72,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return strings.Contains(sqlServerInstance.Status.Message, "successfully provisioned")
+		return strings.Contains(sqlServerInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for server to provision")
 
 	// Wait for 2nd sql server to resolve ---------------------------------------
@@ -86,7 +86,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
-		return strings.Contains(sqlServerInstance2.Status.Message, "successfully provisioned")
+		return strings.Contains(sqlServerInstance2.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for server to provision")
 
 	//verify secret exists in k8s for server 1 ---------------------------------
@@ -132,7 +132,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return strings.Contains(sqlDatabaseInstance.Status.Message, "successfully provisioned")
+		return strings.Contains(sqlDatabaseInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for db to provision")
 
 	// Create FirewallRule ---------------------------------------
@@ -165,7 +165,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-		return strings.Contains(sqlFirewallRuleInstance.Status.Message, "successfully provisioned")
+		return strings.Contains(sqlFirewallRuleInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for firewallrule to provision")
 
 	err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
@@ -211,7 +211,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
-		return strings.Contains(sqlFailoverGroupInstance.Status.Message, "successfully provisioned")
+		return strings.Contains(sqlFailoverGroupInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for failovergroup to provision")
 
 	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)

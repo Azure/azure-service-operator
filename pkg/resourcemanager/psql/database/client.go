@@ -151,7 +151,7 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object) (bo
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
-		instance.Status.Message = "Provisioned successfully"
+		instance.Status.Message = resourcemanager.SuccessMsg
 	} else {
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = true
