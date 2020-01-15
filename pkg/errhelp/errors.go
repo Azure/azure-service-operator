@@ -27,6 +27,8 @@ const (
 	NetcfgInvalidSubnet             = "NetcfgInvalidSubnet"
 	NetcfgInvalidVirtualNetworkSite = "NetcfgInvalidVirtualNetworkSite"
 	InvalidResourceLocation         = "InvalidResourceLocation"
+	InvalidCIDRNotation             = "InvalidCIDRNotation"
+	InvalidRequestFormat            = "InvalidRequestFormat"
 )
 
 func NewAzureError(err error) error {

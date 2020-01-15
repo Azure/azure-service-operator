@@ -73,7 +73,8 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 			errhelp.NetcfgInvalidIPAddressPrefix,
 			errhelp.NetcfgInvalidSubnet,
 			errhelp.NetcfgInvalidVirtualNetworkSite,
-			errhelp.InvalidResourceLocation, //To catch trying to use a vnet name that exists in this RG
+			errhelp.InvalidCIDRNotation,
+			errhelp.InvalidRequestFormat,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
 			switch azerr.Type {
