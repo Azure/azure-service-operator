@@ -101,7 +101,6 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, fmt.Errorf("error reconciling keyvault in azure: %v", err)
 	}
 
-	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", msg)
 	instance.Status.Message = successMsg
 	return ctrl.Result{}, nil
 }
