@@ -223,7 +223,7 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 		}
 		// END WIP: Validation error handling investigation
 
-		instance.Status.Message = fmt.Sprintf("Unable to create blob container in Azure: %v", err)
+		instance.Status.Message = fmt.Sprintf("Unable to create blob container in Azure %v", err)
 
 		return errhelp.NewAzureError(err)
 	}
