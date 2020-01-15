@@ -52,6 +52,19 @@ func GetVNetClient() (vnet.VirtualNetworksClient, error) {
 	return client, err
 }
 
+// GetAPIMgmtLoggerClient returns a new instance of an VirtualNetwork client
+func GetAPIMgmtLoggerClient() (apim.LoggerClient, error) {
+	client := apim.NewLoggerClient(config.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		client = apim.LoggerClient{}
+	} else {
+		client.Authorizer = a
+		client.AddToUserAgent(config.UserAgent())
+	}
+	return client, err
+}
+
 // GetAPIMgmtSvc returns an instance of an APIM service
 func GetAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (apim.ServiceResource, error) {
 	client, err := GetAPIMgmtSvcClient()

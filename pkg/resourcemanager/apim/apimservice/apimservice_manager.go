@@ -55,6 +55,8 @@ type APIMgmtServiceManager interface {
 		vnetResourceName string,
 		subnetName string) error
 
+	SetAppInsightsForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, appInsightsName string) (bool, error)
+
 	CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bool, err error)
 
 	// also embed async client methods
