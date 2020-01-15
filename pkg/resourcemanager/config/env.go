@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/Azure/go-autorest/autorest/azure"
@@ -22,7 +23,9 @@ const (
 // variables to set global configuration.
 func ParseEnvironment() error {
 	envy.Load()
-	azureEnv, _ := azure.EnvironmentFromName("AzurePublicCloud") // shouldn't fail
+	azenv := os.Getenv("AZURE_CLOUD_ENV")
+
+	azureEnv, _ := azure.EnvironmentFromName(azenv) // shouldn't fail
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
 
 	// AZURE_GROUP_NAME and `config.GroupName()` are deprecated.
