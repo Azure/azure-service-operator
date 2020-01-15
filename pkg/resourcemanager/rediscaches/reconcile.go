@@ -65,7 +65,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			}
 			return false, nil
 		}
-		return true, nil
+		return false, nil
 	}
 
 	instance.Status.Provisioning = false
@@ -89,9 +89,9 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 		if errhelp.IsStatusCode204(err) {
 			return false, nil
 		}
-		return true, fmt.Errorf("RedisCache delete error %v", err)
+		return false, fmt.Errorf("RedisCache delete error %v", err)
 	}
-	return false, nil
+	return true, nil
 }
 
 func (rc *AzureRedisCacheManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
