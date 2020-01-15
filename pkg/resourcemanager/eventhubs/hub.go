@@ -266,7 +266,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	// write information back to instance
 	instance.Status.State = string(resp.Status)
-	instance.Status.Message = "Resource " + successMsg
+	instance.Status.Message = "Resource successfully provisioned"
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
