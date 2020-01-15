@@ -48,7 +48,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	}
 
 	// STEP 1:
-	// 	need to provision
+	// 	does it already exist? if not, then provision
 	exists, activated, _ := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 	if !exists {
 
@@ -78,7 +78,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			return false, nil
 		}
 
-		// name wasn't available, throw error
+		// name wasnt available, log error and stop reconciling
 		g.Telemetry.LogError("could not create API Mgmt Service due to bad resource name", fmt.Errorf("bad API Mgmt Service name"))
 		return true, nil
 	}
