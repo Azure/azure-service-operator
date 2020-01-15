@@ -189,7 +189,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(ctx context.Context, inst
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-	instance.Status.Message = "Resource successfully provisioned"
+	instance.Status.Message = successMsg
 
 	return nil
 }
