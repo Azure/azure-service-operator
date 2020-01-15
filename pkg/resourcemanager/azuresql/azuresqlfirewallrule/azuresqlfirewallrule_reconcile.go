@@ -50,7 +50,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
-		return true, err
+		return false, err
 	}
 	resp, err := fw.GetSQLFirewallRule(ctx, groupName, server, ruleName)
 	if err != nil {
@@ -84,10 +84,10 @@ func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.O
 			return false, nil
 		}
 		instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Delete failed with %s", err.Error())
-		return true, err
+		return false, err
 	}
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule succeeded")
-	return false, nil
+	return true, nil
 }
 
 // GetParents returns the parents of sqlfirewallrule
