@@ -45,7 +45,7 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 					Family:   "Gen5",
 					Capacity: 2,
 				},
-				EnableNonSslPort: enableNonSslPort,
+				EnableNonSslPort: true,
 			},
 		},
 	}
