@@ -102,7 +102,6 @@ func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", msg)
-	log.Info(msg)
 	instance.Status.Message = successMsg
 	return ctrl.Result{}, nil
 }
