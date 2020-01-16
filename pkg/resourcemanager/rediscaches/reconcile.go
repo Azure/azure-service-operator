@@ -51,15 +51,17 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		instance.Status.Provisioning = false
 
 		catch := []string{
+			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AlreadyExists,
-			errhelp.InvalidServerName,
+			errhelp.NotFoundErrorCode,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			if azerr.Type == errhelp.AlreadyExists {
 				_, err := redisClient.Get(ctx, groupName, name)
 				if err != nil {
+					instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
 					return false, err
 				}
 			}
@@ -87,11 +89,12 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 	_, err = rc.DeleteRedisCache(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
-			return false, nil
+			return true, nil
 		}
-		return false, fmt.Errorf("RedisCache delete error %v", err)
+		instance.Status.Message = fmt.Sprintf("AzureRedisCacheManager Delete failed with %s", err.Error())
+		return false, err
 	}
-	return true, nil
+	return false, nil
 }
 
 func (rc *AzureRedisCacheManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
