@@ -58,16 +58,15 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
-			if azerr.Type == errhelp.AlreadyExists {
-				_, err := redisClient.Get(ctx, groupName, name)
-				if err != nil {
-					instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
-					return false, err
-				}
-			}
 			return false, nil
 		}
 		return false, nil
+	}
+
+	_, err = redisClient.Get(ctx, groupName, name)
+	if err != nil {
+		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
+		return false, err
 	}
 
 	instance.Status.Provisioning = false
