@@ -40,12 +40,14 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	_, err = g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
 		instance.Status.Provisioned = false
+		instance.Status.Message = err.Error()
 		return false, fmt.Errorf("ResourceGroup create error %v", err)
 
 	}
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+		instance.Status.Message = resourcemanager.SuccessMsg
 	} else {
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = true
