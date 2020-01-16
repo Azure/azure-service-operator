@@ -10,19 +10,25 @@ import (
 )
 
 const (
-	ParentNotFoundErrorCode        = "ParentResourceNotFound"
-	ResourceGroupNotFoundErrorCode = "ResourceGroupNotFound"
-	NotFoundErrorCode              = "NotFound"
-	ResourceNotFound               = "ResourceNotFound"
-	AsyncOpIncompleteError         = "AsyncOpIncomplete"
-	InvalidServerName              = "InvalidServerName"
-	ContainerOperationFailure      = "ContainerOperationFailure"
-	ValidationError                = "ValidationError"
-	AlreadyExists                  = "AlreadyExists"
-	BadRequest                     = "BadRequest"
-	AccountNameInvalid             = "AccountNameInvalid"
-	RequestConflictError           = "Conflict"
-	FailoverGroupBusy              = "FailoverGroupBusy"
+	ParentNotFoundErrorCode         = "ParentResourceNotFound"
+	ResourceGroupNotFoundErrorCode  = "ResourceGroupNotFound"
+	NotFoundErrorCode               = "NotFound"
+	ResourceNotFound                = "ResourceNotFound"
+	AsyncOpIncompleteError          = "AsyncOpIncomplete"
+	InvalidServerName               = "InvalidServerName"
+	ContainerOperationFailure       = "ContainerOperationFailure"
+	ValidationError                 = "ValidationError"
+	AlreadyExists                   = "AlreadyExists"
+	BadRequest                      = "BadRequest"
+	AccountNameInvalid              = "AccountNameInvalid"
+	RequestConflictError            = "Conflict"
+	FailoverGroupBusy               = "FailoverGroupBusy"
+	NetcfgInvalidIPAddressPrefix    = "NetcfgInvalidIPAddressPrefix"
+	NetcfgInvalidSubnet             = "NetcfgInvalidSubnet"
+	NetcfgInvalidVirtualNetworkSite = "NetcfgInvalidVirtualNetworkSite"
+	InvalidResourceLocation         = "InvalidResourceLocation"
+	InvalidCIDRNotation             = "InvalidCIDRNotation"
+	InvalidRequestFormat            = "InvalidRequestFormat"
 )
 
 func NewAzureError(err error) error {
