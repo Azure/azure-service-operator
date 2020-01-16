@@ -119,7 +119,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	}
 
 	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "azuresqlfirewallrule "+instance.ObjectMeta.Name+" provisioned ")
-	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallrule %s successfully provisioned", instance.ObjectMeta.Name)
+	instance.Status.Message = successMsg
 
 	return ctrl.Result{}, nil
 }

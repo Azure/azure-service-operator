@@ -310,7 +310,7 @@ func (r *StorageReconciler) verifyExternal(ctx context.Context, instance *azurev
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Checking", fmt.Sprintf("instance in %s state", instance.Status.State))
 
 	if instance.Status.State == "Succeeded" {
-		instance.Status.Message = "StorageAccount successfully provisioned"
+		instance.Status.Message = successMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		return nil
