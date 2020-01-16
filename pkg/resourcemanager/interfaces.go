@@ -7,6 +7,10 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
+const (
+	SuccessMsg string = "successfully provisioned"
+)
+
 type KubeParent struct {
 	Key    types.NamespacedName
 	Target runtime.Object
