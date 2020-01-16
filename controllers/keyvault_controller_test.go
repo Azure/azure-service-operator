@@ -144,7 +144,7 @@ func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := "k"
+	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
 	const poll = time.Second * 10
 
 	keyVaultLocation := tc.resourceGroupLocation
