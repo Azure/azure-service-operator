@@ -134,8 +134,6 @@ To see when the kind cluster is ready, use `docker ps -a` to list your running c
 For eg., use  `kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yaml` from the terminal to create a SQL server using the operator. 
 `kubectl describe SqlServer` would show the events that indicate if the resource is created or being created.
 
-
-
 ## Step-by-Step for developing a new operator using the generic controller
 
 This project utilizes a generic async controller that separates out the Kubernetes controller logic from the corresponding Azure service interactions. So there are a few extra steps as listed below you will need to do while using Kubebuilder to generate a new operator.
@@ -264,20 +262,25 @@ go build -o bin/manager main.go
        - It would also have a `convert` function to convert the runtime object into the appropriate type
        - It would also have the other functions defined in the `AzureNewTypeManager` interface
 
-       Some key points to note:
-       (i) The Ensure and Delete functions return as the first return value, a bool which indicates if the resource was found in Azure. So Ensure() if successful would return `true` and Delete() if successful would return `false`
-       (ii) The GetParents() function returns the parents of the resource. The order here matters - The closest parent should be first. For instance, for an Azure SQL database, the first parent should be Azure SQL server followed by the Resource Group.
+    Some key points to note:
+    (i) The Ensure and Delete functions return as the first return value, a bool which indicates if the resource was found in Azure. So Ensure() if successful would return `true` and Delete() if successful would return `false`
+    (ii) On successful provisioning in `Ensure()`, set instance.Status.Message to `successfully provisioned` to be consistent across all controllers. (There is a constant called `SuccessMsg` in the `resourcemanager` package that you can use for this to be consistent)
+    (ii) The GetParents() function returns the parents of the resource. The order here matters - The closest parent should be first. For instance, for an Azure SQL database, the first parent should be Azure SQL server followed by the Resource Group.
 
     An example is shown below:
 
     ```code
-       type AzureNewTypeClient struct {
-            Log          logr.Logger
+        type AzureNewTypeClient struct {
+        Telemetry telemetry.PrometheusTelemetry
         }
+
         func NewAzureNewTypeClient(log logr.Logger) *AzureNewTypeClient {
-            return &AzureNewTypeClient{
-                Log:          log,
-            }
+        return &AzureNewTypeClient{
+        Telemetry: telemetry.InitializePrometheusDefault(
+        log,
+        "NewType",
+        ),
+        }
         }
         ...
         ...
