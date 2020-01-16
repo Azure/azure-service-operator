@@ -55,17 +55,15 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
-			instance.Status.Provisioning = true
 			return false, nil
 		}
-		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup CreateOrUpdate error: %s", err.Error())
-		return true, errhelp.NewAzureError(err)
+		return false, errhelp.NewAzureError(err)
 	}
 
 	_, err = fg.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error: %s", err.Error())
-		return true, errhelp.NewAzureError(err)
+		return false, err
 	}
 
 	instance.Status.Provisioning = false
@@ -88,12 +86,13 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 
 	resp, err := fg.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err != nil {
+		if resp.StatusCode == 200 || resp.StatusCode == 204 {
+			return true, nil
+		}
 		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Delete failed with: %s", err.Error())
-		return false, errhelp.NewAzureError(err)
+		return false, err
 	}
-	if resp.StatusCode == 200 {
-		instance.Status.Message = fmt.Sprintf("Delete AzureSqlFailoverGroup succeeded")
-	}
+
 	return false, nil
 }
 
