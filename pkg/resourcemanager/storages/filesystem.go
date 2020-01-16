@@ -102,7 +102,7 @@ func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeNam
 		return errhelp.NewAzureError(errors.New("ResourceGroupNotFound"))
 	}
 
-	_, err = storagesClient.ListKeys(ctx, groupName, datalakeName)
+	_, err = storagesClient.ListKeys(ctx, groupName, datalakeName, storage.Kerb)
 	if err != nil {
 		return errhelp.NewAzureError(errors.New("ParentResourceNotFound"))
 	}
@@ -111,7 +111,7 @@ func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeNam
 }
 
 func getAccountKey(ctx context.Context, groupName string, accountName string, adlsClient storage.AccountsClient) (accountKey string, err error) {
-	keys, err := adlsClient.ListKeys(ctx, groupName, accountName)
+	keys, err := adlsClient.ListKeys(ctx, groupName, accountName, storage.Kerb)
 	if err != nil {
 		return "", err
 	}

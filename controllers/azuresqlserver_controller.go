@@ -289,7 +289,7 @@ func (r *AzureSqlServerReconciler) verifyExternal(ctx context.Context, instance 
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Checking", fmt.Sprintf("instance in %s state", instance.Status.State))
 
 	if instance.Status.State == "Ready" {
-		instance.Status.Message = "AzureSqlServer successfully provisioned"
+		instance.Status.Message = successMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 	}

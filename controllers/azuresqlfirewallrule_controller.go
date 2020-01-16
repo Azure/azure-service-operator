@@ -110,7 +110,8 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation for AzureSqlFirewallRule")
 		if err := r.reconcileExternal(ctx, &instance); err != nil {
-			instance.Status.Message = fmt.Sprintf("Reconcile external failed with %s", err.Error())
+			instance.Status.Message = err.Error()
+			instance.Status.Provisioning = false
 			r.Telemetry.LogError("Reconcile external failed", err)
 			return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
 		}
@@ -118,7 +119,7 @@ func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctr
 	}
 
 	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "azuresqlfirewallrule "+instance.ObjectMeta.Name+" provisioned ")
-	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallrule %s successfully provisioned", instance.ObjectMeta.Name)
+	instance.Status.Message = successMsg
 
 	return ctrl.Result{}, nil
 }
