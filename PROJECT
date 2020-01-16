@@ -58,4 +58,10 @@ resources:
   kind: APIMgmt
   group: azure
   version: v1alpha1
+  kind: ApimService
+- group: azure
+  version: v1alpha1
+  kind: VirtualNetwork
+- group: azure
+  version: v1alpha1
   kind: AppInsights

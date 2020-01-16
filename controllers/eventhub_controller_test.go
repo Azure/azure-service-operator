@@ -111,7 +111,7 @@ func TestEventHubControlleCeateAndDelete(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return strings.Contains(eventhubInstance.Status.Message, "successfully provisioned")
+		return strings.Contains(eventhubInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
 	err = tc.k8sClient.Delete(ctx, eventhubInstance)
@@ -171,7 +171,7 @@ func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return strings.Contains(eventhubInstance.Status.Message, "successfully provisioned")
+		return strings.Contains(eventhubInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
 	err = tc.k8sClient.Delete(ctx, eventhubInstance)
@@ -249,7 +249,7 @@ func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventhubInstance)
-		return strings.Contains(eventhubInstance.Status.Message, "successfully provisioned")
+		return strings.Contains(eventhubInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
 	assert.Eventually(func() bool {

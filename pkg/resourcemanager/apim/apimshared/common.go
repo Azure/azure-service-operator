@@ -52,6 +52,19 @@ func GetVNetClient() (vnet.VirtualNetworksClient, error) {
 	return client, err
 }
 
+// GetAPIMgmtLoggerClient returns a new instance of an VirtualNetwork client
+func GetAPIMgmtLoggerClient() (apim.LoggerClient, error) {
+	client := apim.NewLoggerClient(config.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		client = apim.LoggerClient{}
+	} else {
+		client.Authorizer = a
+		client.AddToUserAgent(config.UserAgent())
+	}
+	return client, err
+}
+
 // GetAPIMgmtSvc returns an instance of an APIM service
 func GetAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string) (apim.ServiceResource, error) {
 	client, err := GetAPIMgmtSvcClient()
@@ -66,15 +79,17 @@ func GetAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName s
 	)
 }
 
-// IsAPIMgmtSvcActivated check to see if the API Mgmt Svc has been activated, returns "true" if it has been activated
-func IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resourceName string) (result bool, err error) {
+// APIMgmtSvcStatus check to see if the API Mgmt Svc has been activated, returns "true" if it has been activated
+func APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error) {
 	resource, err := GetAPIMgmtSvc(
 		ctx,
 		resourceGroupName,
 		resourceName,
 	)
 	if err != nil {
-		return false, err
+		return false, false, err
+	} else if resource.Name == nil {
+		return false, false, nil
 	}
 
 	result = false
@@ -84,16 +99,17 @@ func IsAPIMgmtSvcActivated(ctx context.Context, resourceGroupName string, resour
 		err = nil
 	}
 
-	return result, err
+	return true, result, err
 }
 
-// GetVNetConfigurationByName gets a VNet by name
-func GetVNetConfigurationByName(ctx context.Context, resourceGroupName string, resourceName string, subnetName string) (apim.VirtualNetworkConfiguration, error) {
+// GetSubnetConfigurationByName gets a VNet by name
+func GetSubnetConfigurationByName(ctx context.Context, resourceGroupName string, resourceName string, subnetName string) (apim.VirtualNetworkConfiguration, error) {
 	client, err := GetVNetClient()
 	if err != nil {
 		return apim.VirtualNetworkConfiguration{}, err
 	}
 
+	// get the vnet
 	vnetNetwork, err := client.Get(
 		ctx,
 		resourceGroupName,
@@ -104,18 +120,20 @@ func GetVNetConfigurationByName(ctx context.Context, resourceGroupName string, r
 		return apim.VirtualNetworkConfiguration{}, err
 	}
 
-	// find the correct subnet
+	// look for the correct subnet
 	correctSubnet := vnet.Subnet{}
 	for i := 0; i < len(*vnetNetwork.VirtualNetworkPropertiesFormat.Subnets); i++ {
 		subnetCheck := (*vnetNetwork.VirtualNetworkPropertiesFormat.Subnets)[i]
 		if strings.EqualFold(*subnetCheck.Name, subnetName) {
 			correctSubnet = subnetCheck
+			break
 		}
 	}
 	if correctSubnet.Name == nil {
-		return apim.VirtualNetworkConfiguration{}, fmt.Errorf("Subnet not found: %s", subnetName)
+		return apim.VirtualNetworkConfiguration{}, fmt.Errorf("Subnet was not found: %s", subnetName)
 	}
 
+	// the subnet was found, return it
 	result := apim.VirtualNetworkConfiguration{
 		Vnetid:           vnetNetwork.ID,
 		Subnetname:       &subnetName,
@@ -123,4 +141,20 @@ func GetVNetConfigurationByName(ctx context.Context, resourceGroupName string, r
 	}
 
 	return result, nil
+}
+
+// CheckAPIMgmtSvcName checks to see if the APIM service name is available
+func CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bool, err error) {
+	client, err := GetAPIMgmtSvcClient()
+	if err != nil {
+		return false, err
+	}
+
+	result, err := client.CheckNameAvailability(
+		ctx,
+		apim.ServiceCheckNameAvailabilityParameters{
+			Name: &resourceName,
+		},
+	)
+	return *result.NameAvailable, err
 }

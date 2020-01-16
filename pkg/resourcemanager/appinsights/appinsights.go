@@ -153,7 +153,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
-		instance.Status.Message = "Provisioned successfully"
+		instance.Status.Message = resourcemanager.SuccessMsg
 	} else {
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = true

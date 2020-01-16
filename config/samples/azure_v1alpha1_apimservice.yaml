@@ -1,0 +1,13 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: ApimService
+metadata:
+  name: apimservice-sample
+spec:
+  location: westus
+  resourceGroup: resourcegroup-azure-operators
+  publisherName: name of person
+  publisherEmail: email_address@microsoft.com
+  vnetType: None
+  vnetResourceGroup: resourcegroup-azure-operators
+  vnetName: virtualnetwork-sample
+  vnetSubnetName: subnet1-virtualnetwork-sample

@@ -1,0 +1,13 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: VirtualNetwork
+metadata:
+  name: virtualnetwork-sample
+spec:
+  location: westus
+  resourceGroup: resourcegroup-azure-operators
+  addressSpace: "10.0.0.0/8"
+  subnets:
+    - subnetName: test1
+      subnetAddressPrefix: "10.1.0.0/16"
+    - subnetName: test2
+      subnetAddressPrefix: "10.2.0.0/16"
