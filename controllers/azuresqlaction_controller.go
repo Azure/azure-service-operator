@@ -207,7 +207,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
-		instance.Status.Message = "AzureSqlAction completed successfully."
+		instance.Status.Message = successMsg
 		return nil
 	}
 

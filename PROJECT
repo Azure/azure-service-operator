@@ -53,3 +53,6 @@ resources:
 - group: azure
   version: v1alpha1
   kind: PostgreSQLFirewallRule
+- group: azure
+  version: v1alpha1
+  kind: AppInsights
