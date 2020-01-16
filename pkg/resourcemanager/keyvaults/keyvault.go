@@ -18,7 +18,6 @@ package keyvaults
 import (
 	"context"
 	"fmt"
-	"log"
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
@@ -53,7 +52,7 @@ func getVaultsClient() keyvault.VaultsClient {
 	vaultsClient := keyvault.NewVaultsClient(config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
+		return vaultsClient
 	}
 	vaultsClient.Authorizer = a
 	vaultsClient.AddToUserAgent(config.UserAgent())
@@ -91,16 +90,12 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string
 	}
 	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
 	if err != nil {
-		k.Log.Info("CheckNameAvailability returned error")
 		return keyvault.Vault{}, err
 	}
-	k.Log.Info("debug", "reason", result.Reason)
 	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
 		// Check for "Invalid" is to overcome a bug in KeyVault API which returns "Invalid" instead of defined "AccountNameInvalid"
-		k.Log.Info("Name is invalid")
 		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
 	} else if result.Reason == keyvault.AlreadyExists {
-		k.Log.Info("Keyvault with same name already exists elsewhere")
 		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
 	}
 
@@ -138,14 +133,11 @@ func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 	}
 	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
 	if err != nil {
-		k.Log.Info("CheckNameAvailability returned error")
 		return keyvault.Vault{}, err
 	}
 	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
-		k.Log.Info("Name is invalid")
 		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
 	} else if result.Reason == keyvault.AlreadyExists {
-		k.Log.Info("Keyvault with same name already exists elsewhere")
 		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
 	}
 
@@ -223,12 +215,11 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	keyvault, err := k.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
-		instance.Status.Message = "Successfully Provisioned"
+		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		return true, nil
 	}
-	k.Log.Info("KeyVault not present, creating")
 
 	keyvault, err = k.CreateVault(
 		ctx,
@@ -267,9 +258,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 		}
 		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
 			// Unrecoverable error, so stop reconcilation
-			instance.Status.Provisioning = false
-			instance.Status.Message = "Reconcilation hit unrecoverable error"
-			k.Log.Info("Reconcilation hit unrecoverable error", "error=", err.Error())
+			instance.Status.Message = "Reconcilation hit unrecoverable error " + err.Error()
 			return true, nil
 		}
 		// reconciliation not done and we don't know what happened
@@ -282,7 +271,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
-		instance.Status.Message = "Suceeded"
+		instance.Status.Message = resourcemanager.SuccessMsg
 	} else {
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = true
@@ -299,19 +288,14 @@ func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object) (
 
 	_, err = k.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
-		k.Log.Info("KeyVault present, deleting")
 		_, err := k.DeleteVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 		if err != nil {
-			k.Log.Info("Delete:", "KeyVault Delete returned=", err.Error())
 			if !errhelp.IsAsynchronousOperationNotComplete(err) {
-				k.Log.Info("Error from delete call")
 				return true, err
 			}
 		}
 		return true, nil
 	}
-
-	instance.Status.State = "Deleted"
 
 	return false, nil
 }

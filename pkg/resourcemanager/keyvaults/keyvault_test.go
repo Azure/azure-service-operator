@@ -18,7 +18,6 @@ package keyvaults
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
@@ -64,7 +63,6 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 
 			// Create Key Vault instance
 			Eventually(func() bool {
-				time.Sleep(3 * time.Second)
 				_, err := keyVaultManager.GetVault(ctx, rgName, keyvaultName)
 				if err == nil {
 					return true
@@ -87,11 +85,8 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 			}, tc.timeout, tc.retryInterval,
 			).Should(BeTrue())
 
-			time.Sleep(5 * time.Minute)
-
 			// Delete KeyVault instance
 			Eventually(func() bool {
-				time.Sleep(3 * time.Second)
 				_, err := keyVaultManager.GetVault(ctx, rgName, keyvaultName)
 				if err != nil {
 					return true
