@@ -47,6 +47,10 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 		errhelp.AsyncOpIncompleteError,
 	}
 
+	fatalErr := []string{
+		errhelp.ResourceNotFound,
+	}
+
 	// STEP 1:
 	// 	does it already exist? if not, then provision
 	exists, activated, _ := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
@@ -111,6 +115,11 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			azerr := errhelp.NewAzureErrorAzureError(err)
 			if helpers.ContainsString(catch, azerr.Type) {
 				return false, nil
+			} else if helpers.ContainsString(fatalErr, azerr.Type) {
+				g.Telemetry.LogError("could not find VNet", err)
+				instance.Status.Provisioned = true
+				instance.Status.Provisioning = false
+				return true, nil
 			}
 			instance.Status.Provisioned = false
 			instance.Status.Provisioning = true
@@ -119,6 +128,34 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	}
 
 	// STEP 4:
+	// 	add App Insights (if needed)
+	appInsightsResourceGroup := instance.Spec.AppInsightsResourceGroup
+	appInsightsName := instance.Spec.AppInsightsName
+	if appInsightsResourceGroup != "" && appInsightsName != "" {
+		err = g.SetAppInsightsForAPIMgmtSvc(
+			ctx,
+			resourceGroupName,
+			resourceName,
+			appInsightsResourceGroup,
+			appInsightsName,
+		)
+		if err != nil {
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if helpers.ContainsString(catch, azerr.Type) {
+				return false, nil
+			} else if helpers.ContainsString(fatalErr, azerr.Type) {
+				g.Telemetry.LogError("could not find App Insights", err)
+				instance.Status.Provisioned = true
+				instance.Status.Provisioning = false
+				return true, nil
+			}
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = true
+			return false, fmt.Errorf("API Mgmt Svc could not set App Insights %s, %s - %v", appInsightsResourceGroup, appInsightsName, err)
+		}
+	}
+
+	// STEP 5:
 	// 	everything is now completed!
 	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false

@@ -127,8 +127,46 @@ func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, r
 }
 
 // SetAppInsightsForAPIMgmtSvc sets the app insight instance to use with the service
-func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, appInsightsName string) (bool, error) {
+func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, appInsightsResourceGroup string, appInsightsName string) error {
+	insight, err := apimshared.GetAppInstanceIDByName(ctx, appInsightsResourceGroup, appInsightsName)
+	if err != nil {
+		return err
+	} else if insight.ID == nil {
+		return fmt.Errorf("could not find App Insight %s, %s", appInsightsResourceGroup, appInsightsName)
+	}
 
+	apimSvc, err := apimshared.GetAPIMgmtSvc(
+		ctx,
+		resourceGroupName,
+		resourceName,
+	)
+	if err != nil {
+		return err
+	} else if apimSvc.Name == nil {
+		return fmt.Errorf("could not find API Mgmt Service %s, %s", resourceGroupName, resourceName)
+	}
+
+	client, err := apimshared.GetAPIMgmtLoggerClient()
+	if err != nil {
+		return err
+	}
+
+	_, err = client.CreateOrUpdate(
+		ctx,
+		resourceGroupName,
+		resourceName,
+		appInsightsName,
+		apim.LoggerContract{
+			LoggerContractProperties: &apim.LoggerContractProperties{
+				LoggerType:  "ApplicationInsights",
+				Description: &appInsightsName,
+				ResourceID:  insight.ID,
+			},
+		},
+		*apimSvc.Etag,
+	)
+
+	return err
 }
 
 // CheckAPIMgmtSvcName checks to see if the APIM service name is available
