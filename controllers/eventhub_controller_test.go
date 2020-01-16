@@ -122,7 +122,6 @@ func TestEventHubControlleCeateAndDelete(t *testing.T) {
 		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
 
-	
 }
 
 func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {

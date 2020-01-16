@@ -52,8 +52,10 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (bo
 
 	_, err = db.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -66,13 +68,21 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (bo
 
 	resp, err := db.GetDB(ctx, groupName, server, dbName)
 	if err != nil {
-		return true, fmt.Errorf("AzureSqlDb GetDB error %v", err)
+		instance.Status.Message = err.Error()
+		catch := []string{
+			errhelp.NotFoundErrorCode,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return false, nil
+		}
+		return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
 	}
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 	instance.Status.State = string(*resp.Status)
-	instance.Status.Message = "Success"
+	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
 }
@@ -98,7 +108,7 @@ func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object) (bo
 		return true, fmt.Errorf("AzureSqlDb delete error %v", err)
 	}
 
-	return true, nil
+	return false, nil
 }
 
 // GetParents returns the parents of AzureSqlDatabase
