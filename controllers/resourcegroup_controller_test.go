@@ -53,7 +53,7 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
-		return strings.Contains(resourceGroupInstance.Status.Message, "successfully provisioned")
+		return strings.Contains(resourceGroupInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for rg to provision")
 
 	// verify rg exists in azure

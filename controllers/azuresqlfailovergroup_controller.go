@@ -144,9 +144,7 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 	}
 
 	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "AzureSqlFailoverGroup "+instance.ObjectMeta.Name+" provisioned ")
-	msg := fmt.Sprintf("AzureSqlFailoverGroup %s successfully provisioned", instance.ObjectMeta.Name)
-	log.Info(msg)
-	instance.Status.Message = msg
+	instance.Status.Message = successMsg
 	instance.Status.State = "done"
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
