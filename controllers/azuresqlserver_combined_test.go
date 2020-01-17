@@ -148,8 +148,8 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		Spec: azurev1alpha1.AzureSqlFirewallRuleSpec{
 			ResourceGroup:  rgName,
 			Server:         sqlServerName,
-			StartIPAddress: "0.0.0.0",
-			EndIPAddress:   "0.0.0.0",
+			StartIPAddress: "1.1.1.1",
+			EndIPAddress:   "255.255.255.255",
 		},
 	}
 
@@ -167,6 +167,47 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
 		return strings.Contains(sqlFirewallRuleInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for firewallrule to provision")
+
+	// create a sql user and verify it provisions
+	username := "sql-test-user" + helpers.RandomString(10)
+	roles := []string{"db_owner"}
+	sqlUserNamespacedName := types.NamespacedName{Name: username, Namespace: "default"}
+
+	sqlUser := &azurev1alpha1.AzureSQLUser{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      username,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.AzureSQLUserSpec{
+			Server:        sqlServerName,
+			DbName:        sqlDatabaseName,
+			ResourceGroup: rgName,
+			Roles:         roles,
+		},
+	}
+	// Create the sqlUser
+	err = tc.k8sClient.Create(ctx, sqlUser)
+	assert.Equal(nil, err, "create sql user rule in k8s")
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+		return helpers.HasFinalizer(sqlUser, finalizerName)
+	}, tc.timeout, tc.retry, "wait for sqluser to have finalizer")
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+		return sqlUser.Status.Provisioned
+	}, tc.timeout, tc.retry, "wait for firewallrule to provision")
+
+	err = tc.k8sClient.Delete(ctx, sqlUser)
+	assert.Equal(nil, err, "delete sql user in k8s")
+
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for sqluser to be gone")
+
+	// clean up firewall rule ---------------------------------------------------------------
 
 	err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
 	assert.Equal(nil, err, "delete sql firewallrule in k8s")
