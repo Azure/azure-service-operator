@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
@@ -21,6 +22,7 @@ import (
 	"github.com/google/uuid"
 	"k8s.io/apimachinery/pkg/runtime"
 
+	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/sethvargo/go-password/password"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -154,8 +156,14 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 	_, err = dbClient.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = err.Error()
+
+		catch := []string{
+			errhelp.ResourceNotFound,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
+		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		if azerr.Type == errhelp.ResourceNotFound {
+		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
 		s.Log.Info("error type", "type", azerr.Type)
@@ -235,6 +243,25 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object) (b
 	if err != nil {
 		// assuming if the admin secret is gone the sql server is too
 		return false, nil
+	}
+
+	// short circuit connection if database doesn't exist
+	dbClient := azuresqldb.NewAzureSqlDbManager(s.Log)
+	_, err = dbClient.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	if err != nil {
+		instance.Status.Message = err.Error()
+
+		catch := []string{
+			errhelp.ResourceNotFound,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return false, nil
+		}
+		s.Log.Info("error type", "type", azerr.Type)
+		return false, err
 	}
 
 	var user = string(adminSecret[SecretUsernameKey])
