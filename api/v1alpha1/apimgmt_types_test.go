@@ -49,8 +49,10 @@ var _ = Describe("AzureAPIManagement", func() {
 				Spec: APIMgmtSpec{
 					Location:      "westus",
 					ResourceGroup: "foo-resourcegroup",
+					Properties: APIProperties{
+						APIVersion: "alphav1",
+					},
 				}}
-
 			By("creating an APIManagement type")
 			Expect(k8sClient.Create(context.TODO(), created)).To(Succeed())
 

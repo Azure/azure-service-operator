@@ -21,19 +21,9 @@ import (
 
 // APIMgmtSpec defines the desired state of APIMgmt
 type APIMgmtSpec struct {
-	Location             string   `json:"location"`
-	ResourceGroup        string   `json:"resourceGroup"`
-	Description          string   `json:"description,omitempty"`
-	DisplayName          string   `json:"displayName,omitempty"`
-	Format               string   `json:"format,omitempty"`
-	APIType              string   `json:"type,omitempty"`
-	APIRevision          string   `json:"apiRevision,omitempty"`
-	APIVersion           string   `json:"apiVersion,omitempty"`
-	IsCurrent            bool     `json:"isCurrent,omitempty"`
-	Path                 string   `json:"path,omitempty"`
-	Protocols            []string `json:"protocols,omitempty"`
-	ServiceURL           string   `json:"serviceUrl,omitempty"`
-	SubscriptionRequired bool     `json:"subscriptionRequired,omitempty"`
+	Location      string        `json:"location"`
+	ResourceGroup string        `json:"resourceGroup"`
+	Properties    APIProperties `json:"properties"`
 }
 
 // +kubebuilder:object:root=true
@@ -48,8 +38,42 @@ type APIMgmt struct {
 	Status ASOStatus   `json:"status,omitempty"`
 }
 
-// +kubebuilder:object:root=true
+type APIProperties struct {
+	/* Format - Format of the Content in which the API is getting imported. Possible values include:
+	'WadlXML', 'WadlLinkJSON', 'SwaggerJSON', 'SwaggerLinkJSON', 'Wsdl', 'WsdlLink', 'Openapi', 'Openapijson', 'OpenapiLink' */
+	Format string `json:"format,omitempty"`
+	// SourceAPIID - API identifier of the source API.
+	SourceAPIID string `json:"sourceApiId,omitempty"`
+	// DisplayName - API name. Must be 1 to 300 characters long.
+	DisplayName string `json:"displayName,omitempty"`
+	// ServiceURL - Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
+	ServiceURL string `json:"serviceUrl,omitempty"`
+	/* Path - Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance.
+	It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. */
+	Path string `json:"path,omitempty"`
+	// Protocols - Describes on which protocols the operations in this API can be invoked.
+	Protocols []string `json:"protocols,omitempty"`
+	// Description - Description of the API. May include HTML formatting tags.
+	Description string `json:"description,omitempty"`
+	// APIRevision - Describes the Revision of the Api. If no value is provided, default revision 1 is created
+	APIRevision string `json:"apiRevision,omitempty"`
+	// APIVersion - Indicates the Version identifier of the API if the API is versioned
+	APIVersion string `json:"apiVersion,omitempty"`
+	// IsCurrent - Indicates if API revision is current api revision.
+	IsCurrent bool `json:"isCurrent,omitempty"`
+	// IsOnline - READ-ONLY; Indicates if API revision is accessible via the gateway.
+	IsOnline bool `json:"isOnline,omitempty"`
+	// APIRevisionDescription - Description of the Api Revision.
+	APIRevisionDescription string `json:"apiRevisionDescription,omitempty"`
+	// APIVersionDescription - Description of the Api Version.
+	APIVersionDescription string `json:"apiVersionDescription,omitempty"`
+	// APIVersionSetID - A resource identifier for the related ApiVersionSet.
+	APIVersionSetID string `json:"apiVersionSetId,omitempty"`
+	// SubscriptionRequired - Specifies whether an API or Product subscription is required for accessing the API.
+	SubscriptionRequired bool `json:"subscriptionRequired,omitempty"`
+}
 
+// +kubebuilder:object:root=true
 // APIMgmtList contains a list of APIMgmt
 type APIMgmtList struct {
 	metav1.TypeMeta `json:",inline"`

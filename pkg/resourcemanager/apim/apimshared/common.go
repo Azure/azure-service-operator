@@ -158,3 +158,18 @@ func CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bo
 	)
 	return *result.NameAvailable, err
 }
+
+// GetAPIMClient returns a pointer to an API Management client
+func GetAPIMClient() apim.APIClient {
+	apimClient := apim.NewAPIClient(config.SubscriptionID())
+
+	a, err := iam.GetResourceManagementAuthorizer()
+	apimClient.Authorizer = a
+	apimClient.AddToUserAgent(config.UserAgent())
+
+	if err != nil {
+		panic(err)
+	}
+
+	return apimClient
+}

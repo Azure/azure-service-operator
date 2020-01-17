@@ -18,47 +18,83 @@ package apimgmt
 
 import (
 	"context"
-	"log"
+	"fmt"
 
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimshared"
+	"github.com/Azure/go-autorest/autorest/to"
 )
-
-var apimClient apimanagement.APIClient
 
 // Manager represents an API Management type
 type Manager struct {
-	Log logr.Logger
+	Log       logr.Logger
+	APIClient apimanagement.APIClient
 }
-
-// func init() {
-// 	apimClient = getAPIMClient()
-// }
 
 // NewManager returns an API Manager type
 func NewManager(log logr.Logger) *Manager {
 	return &Manager{
-		Log: log,
+		Log:       log,
+		APIClient: apimshared.GetAPIMClient(),
 	}
 }
 
 // CreateAPI creates an API within an API management service
-func (m *Manager) CreateAPI(ctx context.Context, resourcegroup string, apiname string, properties string) (string, error) {
-	return "", nil
+func (m *Manager) CreateAPI(
+	ctx context.Context,
+	resourceGroupName string,
+	apiServiceName string,
+	apiId string,
+	properties v1alpha1.APIProperties,
+	eTag string) (*apimanagement.APIContract, error) {
+
+	props := &apimanagement.APICreateOrUpdateProperties{
+		APIType:                apimanagement.HTTP,
+		APIVersion:             to.StringPtr(properties.APIVersion),
+		APIRevision:            to.StringPtr(properties.APIRevision),
+		APIRevisionDescription: to.StringPtr(properties.APIRevisionDescription),
+		APIVersionDescription:  to.StringPtr(properties.APIVersionDescription),
+		APIVersionSetID:        to.StringPtr(properties.APIVersionSetID),
+		DisplayName:            to.StringPtr(properties.DisplayName),
+		Description:            to.StringPtr(properties.Description),
+		IsCurrent:              to.BoolPtr(properties.IsCurrent),
+		IsOnline:               to.BoolPtr(properties.IsOnline),
+		Path:                   to.StringPtr(properties.Path),
+		Format:                 apimanagement.ContentFormat(properties.Format),
+	}
+
+	params := apimanagement.APICreateOrUpdateParameter{
+		APICreateOrUpdateProperties: props,
+	}
+
+	future, err := m.APIClient.CreateOrUpdate(ctx, resourceGroupName, apiServiceName, apiId, params, eTag)
+
+	if err != nil {
+		return nil, err
+	}
+
+	err = future.WaitForCompletionRef(ctx, m.APIClient.Client)
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := future.Result(m.APIClient)
+	return &result, err
 }
 
 // DeleteAPI deletes an API within an API management service
-func (m *Manager) DeleteAPI(ctx context.Context, resourcegroup string, apiname string) (string, error) {
+func (m *Manager) DeleteAPI(ctx context.Context, resourcegroup string, apiName string) (string, error) {
 	return "", nil
 }
 
 // GetAPI fetches an API within an API management service
-func (m *Manager) GetAPI(ctx context.Context, resourcegroup string, servername string, database string) (string, error) {
+func (m *Manager) GetAPI(ctx context.Context, resourcegroup string, apiName string) (string, error) {
 	return "", nil
 }
 
@@ -73,19 +109,27 @@ func (m *Manager) Delete(context.Context, runtime.Object) (bool, error) {
 }
 
 // GetParents fetches the hierarchical parent resource references
-func (m *Manager) GetParents(runtime.Object) ([]resourcemanager.KubeParent, error) {
-	return []resourcemanager.KubeParent{}, nil
+func (m *Manager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+	i, err := m.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	return []resourcemanager.KubeParent{
+		{
+			Key: types.NamespacedName{
+				Namespace: i.Namespace,
+				Name:      i.Spec.ResourceGroup,
+			},
+			Target: &v1alpha1.ApimService{},
+		},
+	}, nil
 }
 
-func getAPIMClient() apimanagement.APIClient {
-	apimClient := apimanagement.NewAPIClient(config.SubscriptionID())
-
-	a, err := iam.GetResourceManagementAuthorizer()
-	if err != nil {
-		log.Fatalf("failed to initialize authorizer %v\n", err)
+func (m *Manager) convert(obj runtime.Object) (*v1alpha1.APIMgmt, error) {
+	i, ok := obj.(*v1alpha1.APIMgmt)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
-	apimClient.Authorizer = a
-	apimClient.AddToUserAgent(config.UserAgent())
-
-	return apimClient
+	return i, nil
 }

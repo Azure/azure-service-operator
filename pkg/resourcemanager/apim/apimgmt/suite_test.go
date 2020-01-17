@@ -14,7 +14,7 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 */
 
-package appinsights
+package apimgmt
 
 import (
 	"fmt"
@@ -35,13 +35,10 @@ import (
 	// +kubebuilder:scaffold:imports
 )
 
-// These tests use Ginkgo (BDD-style Go testing framework). Refer to
-// http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
-
 type TestContext struct {
 	ResourceGroupName     string
 	ResourceGroupLocation string
-	AppInsightsManager    ApplicationInsightsManager
+	APIManager            APIManager
 	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
 	timeout               time.Duration
 	retryInterval         time.Duration
@@ -53,7 +50,7 @@ var ctx context.Context
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Application Insights Suite")
+	RunSpecs(t, "API Management Suite")
 }
 
 var _ = BeforeSuite(func() {
@@ -67,7 +64,7 @@ var _ = BeforeSuite(func() {
 	err := resourcemanagerconfig.ParseEnvironment()
 	Expect(err).ToNot(HaveOccurred())
 
-	resourceGroupName := "t-rg-appinsights-" + helpers.RandomString(10)
+	resourceGroupName := "t-rg-apimgmt-" + helpers.RandomString(10)
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
 	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 
@@ -78,7 +75,7 @@ var _ = BeforeSuite(func() {
 	tc = TestContext{
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
-		AppInsightsManager: &Manager{
+		APIManager: &Manager{
 			Log: zaplogger,
 		},
 		ResourceGroupManager: resourceGroupManager,

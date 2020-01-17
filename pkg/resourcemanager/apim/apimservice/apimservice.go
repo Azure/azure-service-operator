@@ -127,9 +127,9 @@ func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, r
 }
 
 // SetAppInsightsForAPIMgmtSvc sets the app insight instance to use with the service
-func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, appInsightsName string) (bool, error) {
+// func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, appInsightsName string) (bool, error) {
 
-}
+// }
 
 // CheckAPIMgmtSvcName checks to see if the APIM service name is available
 func (g *AzureAPIMgmtServiceManager) CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bool, err error) {
