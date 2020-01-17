@@ -402,7 +402,7 @@ func main() {
 				ctrl.Log.WithName("controllers").WithName("APIManagement"),
 				"APIManagement",
 			),
-			Recorder: mgr.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
+			Recorder: mgr.GetEventRecorderFor("APIManagement-controller"),
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
