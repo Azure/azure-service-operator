@@ -68,7 +68,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
 		return helpers.HasFinalizer(sqlServerInstance, AzureSQLServerFinalizerName)
-	}, tc.timeout, tc.retry, "wait for server to have finalizer")
+	}, tc.timeoutFast, tc.retry, "wait for server to have finalizer")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
@@ -82,7 +82,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
 		return helpers.HasFinalizer(sqlServerInstance2, AzureSQLServerFinalizerName)
-	}, tc.timeout, tc.retry, "wait for server to have finalizer")
+	}, tc.timeoutFast, tc.retry, "wait for server to have finalizer")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
@@ -100,7 +100,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			}
 		}
 		return false
-	}, tc.timeout, tc.retry, "wait for server to have secret")
+	}, tc.timeoutFast, tc.retry, "wait for server to have secret")
 
 	// Create a database in the new server ---------------------------
 
@@ -128,7 +128,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
 		return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
-	}, tc.timeout, tc.retry, "wait for db to have finalizer")
+	}, tc.timeoutFast, tc.retry, "wait for db to have finalizer")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
@@ -137,13 +137,16 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	// Create FirewallRule ---------------------------------------
 
-	sqlFirewallRuleName := "t-fwrule-dev-" + helpers.RandomString(10)
+	sqlFirewallRuleNamespacedNameLocal := types.NamespacedName{
+		Name:      "t-fwrule-dev-" + helpers.RandomString(10),
+		Namespace: "default",
+	}
 
 	// Create the SqlFirewallRule object and expect the Reconcile to be created
-	sqlFirewallRuleInstance := &azurev1alpha1.AzureSqlFirewallRule{
+	sqlFirewallRuleInstanceLocal := &azurev1alpha1.AzureSqlFirewallRule{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlFirewallRuleName,
-			Namespace: "default",
+			Name:      sqlFirewallRuleNamespacedNameLocal.Name,
+			Namespace: sqlFirewallRuleNamespacedNameLocal.Namespace,
 		},
 		Spec: azurev1alpha1.AzureSqlFirewallRuleSpec{
 			ResourceGroup:  rgName,
@@ -152,21 +155,49 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			EndIPAddress:   "255.255.255.255",
 		},
 	}
+	sqlFirewallRuleNamespacedNameRemote := types.NamespacedName{
+		Name:      "t-fwrule-dev-" + helpers.RandomString(10),
+		Namespace: "default",
+	}
 
-	err = tc.k8sClient.Create(ctx, sqlFirewallRuleInstance)
+	// Create the SqlFirewallRule object and expect the Reconcile to be created
+	sqlFirewallRuleInstanceRemote := &azurev1alpha1.AzureSqlFirewallRule{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      sqlFirewallRuleNamespacedNameRemote.Name,
+			Namespace: sqlFirewallRuleNamespacedNameRemote.Namespace,
+		},
+		Spec: azurev1alpha1.AzureSqlFirewallRuleSpec{
+			ResourceGroup:  rgName,
+			Server:         sqlServerName,
+			StartIPAddress: "0.0.0.0",
+			EndIPAddress:   "0.0.0.0",
+		},
+	}
+
+	err = tc.k8sClient.Create(ctx, sqlFirewallRuleInstanceLocal)
+	assert.Equal(nil, err, "create sql firewall rule in k8s")
+	err = tc.k8sClient.Create(ctx, sqlFirewallRuleInstanceRemote)
 	assert.Equal(nil, err, "create sql firewall rule in k8s")
 
-	sqlFirewallRuleNamespacedName := types.NamespacedName{Name: sqlFirewallRuleName, Namespace: "default"}
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedNameLocal, sqlFirewallRuleInstanceLocal)
+		return helpers.HasFinalizer(sqlFirewallRuleInstanceLocal, azureSQLFirewallRuleFinalizerName)
+	}, tc.timeoutFast, tc.retry, "wait for firewallrule to have finalizer")
 
 	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-		return helpers.HasFinalizer(sqlFirewallRuleInstance, azureSQLFirewallRuleFinalizerName)
-	}, tc.timeout, tc.retry, "wait for firewallrule to have finalizer")
+		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedNameLocal, sqlFirewallRuleInstanceLocal)
+		return strings.Contains(sqlFirewallRuleInstanceLocal.Status.Message, successMsg)
+	}, tc.timeoutFast, tc.retry, "wait for firewallrule to provision")
 
 	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-		return strings.Contains(sqlFirewallRuleInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for firewallrule to provision")
+		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedNameRemote, sqlFirewallRuleInstanceRemote)
+		return helpers.HasFinalizer(sqlFirewallRuleInstanceRemote, azureSQLFirewallRuleFinalizerName)
+	}, tc.timeoutFast, tc.retry, "wait for firewallrule to have finalizer")
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedNameRemote, sqlFirewallRuleInstanceRemote)
+		return strings.Contains(sqlFirewallRuleInstanceRemote.Status.Message, successMsg)
+	}, tc.timeoutFast, tc.retry, "wait for firewallrule to provision")
 
 	// create a sql user and verify it provisions
 	username := "sql-test-user" + helpers.RandomString(10)
@@ -192,12 +223,12 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
 		return helpers.HasFinalizer(sqlUser, finalizerName)
-	}, tc.timeout, tc.retry, "wait for sqluser to have finalizer")
+	}, tc.timeoutFast, tc.retry, "wait for sqluser to have finalizer")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
 		return sqlUser.Status.Provisioned
-	}, tc.timeout, tc.retry, "wait for firewallrule to provision")
+	}, tc.timeoutFast, tc.retry, "wait for firewallrule to provision")
 
 	err = tc.k8sClient.Delete(ctx, sqlUser)
 	assert.Equal(nil, err, "delete sql user in k8s")
@@ -205,17 +236,25 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for sqluser to be gone")
+	}, tc.timeoutFast, tc.retry, "wait for sqluser to be gone")
 
 	// clean up firewall rule ---------------------------------------------------------------
 
-	err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
+	err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstanceLocal)
+	assert.Equal(nil, err, "delete sql firewallrule in k8s")
+
+	err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstanceRemote)
 	assert.Equal(nil, err, "delete sql firewallrule in k8s")
 
 	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
+		err = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedNameLocal, sqlFirewallRuleInstanceLocal)
 		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for firewallrule to be gone")
+	}, tc.timeoutFast, tc.retry, "wait for firewallrule to be gone")
+
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedNameRemote, sqlFirewallRuleInstanceRemote)
+		return apierrors.IsNotFound(err)
+	}, tc.timeoutFast, tc.retry, "wait for firewallrule to be gone")
 
 	// Create Failovergroup instance and ensure ----------------------------------
 
@@ -248,7 +287,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 		return helpers.HasFinalizer(sqlFailoverGroupInstance, azureSQLFailoverGroupFinalizerName)
-	}, tc.timeout, tc.retry, "wait for fog to have finalizer")
+	}, tc.timeoutFast, tc.retry, "wait for fog to have finalizer")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)

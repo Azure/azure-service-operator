@@ -92,6 +92,7 @@ type testContext struct {
 	sqlUserManager          resourcemanagersqluser.SqlUserManager
 	consumerGroupClient     resourcemanagereventhub.ConsumerGroupManager
 	timeout                 time.Duration
+	timeoutFast             time.Duration
 	retry                   time.Duration
 }
 
@@ -202,7 +203,7 @@ func setup() error {
 			scheme.Scheme,
 		)
 
-		timeout = time.Second * 900
+		timeout = time.Second * 720
 	} else {
 		appInsightsManager = resourcemanagerappinsightsmock.NewMockAppInsightsManager(scheme.Scheme)
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
@@ -506,6 +507,7 @@ func setup() error {
 		storageManagers:         storageManagers,
 		keyVaultManager:         keyVaultManager,
 		timeout:                 timeout,
+		timeoutFast:             time.Minute * 3,
 		retry:                   time.Second * 3,
 		consumerGroupClient:     consumerGroupClient,
 	}
