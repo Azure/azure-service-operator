@@ -70,6 +70,14 @@ test-cleanup-azure-resources:
 	    az group delete --name $$rgname --no-wait --yes; \
     done
 
+single-test-cleanup: 
+	az account set -s ${AZURE_SUBSCRIPTION_ID}
+	@echo "delete test resource group if it still exists"
+	for rgname in `az group list --query "[*].[name]" -o table | grep $(shell cat controllers/resourceGroup) `; do \
+	    echo "$$rgname will be deleted"; \
+	    az group delete --name $$rgname --no-wait --yes; \
+    done
+
 # Build manager binary
 manager: generate fmt vet
 	go build -o bin/manager main.go

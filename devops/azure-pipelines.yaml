@@ -125,6 +125,8 @@ steps:
     echo "all the pods should be running"
     make deploy
     make test-existing-controllers
+    echo "ensure cleanup"
+    make single-test-cleanup
   continueOnError: 'false'
   displayName: 'Set kind cluster and Run int tests'
   env:

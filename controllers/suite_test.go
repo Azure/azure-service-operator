@@ -18,6 +18,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -465,6 +466,13 @@ func setup() error {
 	result, _ := resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
 	if result.Response.StatusCode != 204 {
 		_, _ = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+	}
+
+	wd, _ := os.Getwd()
+	log.Println("Saving RG name for later:", wd+"/resourceGroup")
+	err = ioutil.WriteFile("resourceGroup", []byte(resourceGroupName), 0644)
+	if err != nil {
+		log.Println(err)
 	}
 
 	log.Println("Creating EHNS:", eventhubNamespaceName)
