@@ -157,7 +157,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 		instance.Status.Message = "namespace exists but may not be ready"
 
 		if *evhns.ProvisioningState == "Succeeded" {
-			instance.Status.Message = "Resource successfully provisioned"
+			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			return true, nil
