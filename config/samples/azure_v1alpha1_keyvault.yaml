@@ -20,7 +20,7 @@ spec:
   accessPolicies:
     - tenantID: <tenantID>
       objectID: <objectID>
-      appID: <appID>
+      applicationID: <appID>
       permissions:
         keys:
           - update

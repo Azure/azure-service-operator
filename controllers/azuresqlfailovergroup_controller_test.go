@@ -29,7 +29,6 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 	var sqlServerTwoName string
 	var sqlDatabaseName string
 	var err error
-
 	// Add any setup steps that needs to be executed before each test
 	rgName = tc.resourceGroupName
 	rgLocation1 = "westus2"
