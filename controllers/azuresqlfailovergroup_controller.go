@@ -109,6 +109,7 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "starting resource reconciliation")
 		if err := r.reconcileExternal(ctx, &instance); err != nil {
+			instance.Status.Message = err.Error()
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -129,6 +130,7 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 			}
 			return ctrl.Result{}, fmt.Errorf("error reconciling sql failover group in azure: %v", err)
 		}
+
 		return ctrl.Result{}, nil
 	}
 
@@ -142,9 +144,7 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 	}
 
 	r.Recorder.Event(&instance, v1.EventTypeNormal, "Provisioned", "AzureSqlFailoverGroup "+instance.ObjectMeta.Name+" provisioned ")
-	msg := fmt.Sprintf("AzureSqlFailoverGroup %s successfully provisioned", instance.ObjectMeta.Name)
-	log.Info(msg)
-	instance.Status.Message = msg
+	instance.Status.Message = successMsg
 	instance.Status.State = "done"
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
@@ -168,8 +168,6 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context,
 	server := instance.Spec.Server
 	groupName := instance.Spec.ResourceGroup
 	servername := instance.Spec.Server
-
-	r.Log.Info("Calling createorupdate")
 
 	//get owner instance of AzureSqlServer
 	r.Recorder.Event(instance, v1.EventTypeNormal, "UpdatingOwner", "Updating owner AzureSqlServer instance")
@@ -215,7 +213,6 @@ func (r *AzureSqlFailoverGroupReconciler) reconcileExternal(ctx context.Context,
 		if errhelp.IsAsynchronousOperationNotComplete(err) || errhelp.IsGroupNotFound(err) {
 			r.Log.Info("Async operation not complete or group not found")
 			instance.Status.Provisioning = true
-			instance.Status.Message = "Provisioning: Async operation not complete or waiting for resource group"
 		}
 
 		return errhelp.NewAzureError(err)

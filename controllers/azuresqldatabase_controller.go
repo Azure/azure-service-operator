@@ -104,7 +104,7 @@ func (r *AzureSqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, corev1.EventTypeNormal, "Submitting", "starting resource reconciliation for AzureSqlDatabase")
 		if err := r.reconcileExternal(ctx, &instance); err != nil {
-
+			instance.Status.Message = err.Error()
 			catch := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -180,6 +180,8 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(ctx context.Context, inst
 		return err
 	}
 
+	instance.Status.Provisioning = true
+
 	_, err = r.AzureSqlDbManager.GetDB(ctx, groupName, server, dbName)
 	if err != nil {
 		return err
@@ -187,6 +189,7 @@ func (r *AzureSqlDatabaseReconciler) reconcileExternal(ctx context.Context, inst
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
+	instance.Status.Message = successMsg
 
 	return nil
 }

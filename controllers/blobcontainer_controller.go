@@ -70,18 +70,22 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	if instance.IsBeingDeleted() {
 		if helpers.HasFinalizer(&instance, blobContainerFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
+				azerr := errhelp.NewAzureErrorAzureError(err)
+
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
-					errhelp.ParentNotFoundErrorCode,
 				}
-				azerr := errhelp.NewAzureErrorAzureError(err)
 				if helpers.ContainsString(catch, azerr.Type) {
-					if azerr.Type == errhelp.ParentNotFoundErrorCode {
-						log.Info("Error about parent resource not found which we can ignore")
-						return ctrl.Result{}, nil
-					}
 					log.Info("Got ignorable error", "type", azerr.Type)
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+					return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
+				}
+				catch = []string{
+					errhelp.ParentNotFoundErrorCode,
+					errhelp.ResourceGroupNotFoundErrorCode,
+				}
+				if helpers.ContainsString(catch, azerr.Type) {
+					log.Info("Error about parent resource not found which we can ignore")
+					return ctrl.Result{}, nil
 				}
 
 				instance.Status.Message = fmt.Sprintf("Delete blob container failed with %v", err)
@@ -97,6 +101,14 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		return ctrl.Result{}, nil
 	}
 
+	defer func() {
+		if !helpers.IsBeingDeleted(&instance) {
+			if err := r.Status().Update(ctx, &instance); err != nil {
+				r.Recorder.Event(&instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
+			}
+		}
+	}()
+
 	if !instance.HasFinalizer(blobContainerFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
@@ -108,6 +120,7 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	if !instance.IsSubmitted() {
 		r.Recorder.Event(&instance, v1.EventTypeNormal, "Submitting", "Starting resource reconciliation")
 		if err := r.reconcileExternal(&instance); err != nil {
+			instance.Status.Message = err.Error()
 			// Catch most common errors
 			// Blob service error codes:
 			// https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-error-codes
@@ -119,12 +132,10 @@ func (r *BlobContainerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 			}
 			if azerr, ok := err.(*errhelp.AzureError); ok {
 				if helpers.ContainsString(catchIgnorable, azerr.Type) {
-					r.Log.Info(fmt.Sprintf("Got ignorable error type: %s", azerr.Type))
 					msg := fmt.Sprintf("Got ignorable error type: %s", azerr.Type)
-					log.Info(msg)
-					instance.Status.Message = msg
+					r.Log.Info(msg)
 					// Requeue if ReconcileExternal errors on one of these codes
-					return ctrl.Result{Requeue: true, RequeueAfter: 30 * time.Second}, nil
+					return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
 				}
 			}
 			catchNotIgnorable := []string{
@@ -189,7 +200,6 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 
 	r.Log.Info("Info", "Starting provisioning", fmt.Sprintf("Creating blob container: %s", containerName))
 	instance.Status.Provisioning = true
-	instance.Status.Message = "Creating blob container in Azure"
 
 	// Write status information back to instance
 	if statusupdateerr := r.Status().Update(ctx, instance); statusupdateerr != nil {
@@ -213,17 +223,14 @@ func (r *BlobContainerReconciler) reconcileExternal(instance *azurev1alpha1.Blob
 		}
 		// END WIP: Validation error handling investigation
 
-		msg := fmt.Sprintf("Unable to create blob container in Azure: %v", err)
-		instance.Status.Message = msg
+		instance.Status.Message = fmt.Sprintf("Unable to create blob container in Azure %v", err)
 
 		return errhelp.NewAzureError(err)
 	}
 
-	msg := fmt.Sprintf("Created blob container: %s", containerName)
-	r.Recorder.Event(instance, v1.EventTypeNormal, "Created", msg)
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-	instance.Status.Message = msg
+	instance.Status.Message = successMsg
 
 	// Write status information back to instance
 	if statusupdateerr := r.Status().Update(ctx, instance); statusupdateerr != nil {
@@ -244,7 +251,7 @@ func (r *BlobContainerReconciler) deleteExternal(instance *azurev1alpha1.BlobCon
 	if err != nil {
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		if azerr.Type == errhelp.ParentNotFoundErrorCode {
+		if azerr.Type == errhelp.ParentNotFoundErrorCode || azerr.Type == errhelp.ResourceGroupNotFoundErrorCode {
 			log.Info("Got ignorable error", "type", azerr.Type)
 			msg := fmt.Sprintf("Deleted blob container: %s", containerName)
 			r.Recorder.Event(instance, v1.EventTypeNormal, "Deleted", msg)
