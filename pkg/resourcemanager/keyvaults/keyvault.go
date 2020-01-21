@@ -48,15 +48,15 @@ func NewAzureKeyVaultManager(log logr.Logger, scheme *runtime.Scheme) *azureKeyV
 	}
 }
 
-func getVaultsClient() keyvault.VaultsClient {
+func getVaultsClient() (keyvault.VaultsClient, error) {
 	vaultsClient := keyvault.NewVaultsClient(config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		return vaultsClient
+		return vaultsClient, err
 	}
 	vaultsClient.Authorizer = a
 	vaultsClient.AddToUserAgent(config.UserAgent())
-	return vaultsClient
+	return vaultsClient, nil
 }
 
 func getObjectID(ctx context.Context, tenantID string, clientID string) *string {
@@ -77,7 +77,10 @@ func getObjectID(ctx context.Context, tenantID string, clientID string) *string 
 
 // CreateVault creates a new key vault
 func (k *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string, tags map[string]*string) (keyvault.Vault, error) {
-	vaultsClient := getVaultsClient()
+	vaultsClient, err := getVaultsClient()
+	if err != nil {
+		return keyvault.Vault{}, err
+	}
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -120,7 +123,10 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string
 
 // CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
 func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
-	vaultsClient := getVaultsClient()
+	vaultsClient, err := getVaultsClient()
+	if err != nil {
+		return keyvault.Vault{}, err
+	}
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -187,13 +193,19 @@ func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 
 // DeleteVault removes the resource group named by env var
 func (k *azureKeyVaultManager) DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
-	vaultsClient := getVaultsClient()
+	vaultsClient, err := getVaultsClient()
+	if err != nil {
+		return autorest.Response{}, err
+	}
 	return vaultsClient.Delete(ctx, groupName, vaultName)
 }
 
 // CheckExistence checks for the presence of a keyvault instance on Azure
 func (k *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
-	vaultsClient := getVaultsClient()
+	vaultsClient, err := getVaultsClient()
+	if err != nil {
+		return keyvault.Vault{}, err
+	}
 	return vaultsClient.Get(ctx, groupName, vaultName)
 
 }
@@ -268,14 +280,9 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	instance.Status.State = keyvault.Status
 
-	if instance.Status.Provisioning {
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		instance.Status.Message = resourcemanager.SuccessMsg
-	} else {
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
-	}
+	instance.Status.Provisioned = true
+	instance.Status.Provisioning = false
+	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
 }

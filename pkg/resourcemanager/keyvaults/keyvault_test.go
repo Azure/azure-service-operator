@@ -63,11 +63,7 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 
 			// Create Key Vault instance
 			Eventually(func() bool {
-				_, err := keyVaultManager.GetVault(ctx, rgName, keyvaultName)
-				if err == nil {
-					return true
-				}
-				_, err = keyVaultManager.CreateVault(
+				_, err := keyVaultManager.CreateVault(
 					ctx,
 					rgName,
 					keyvaultName,
@@ -85,13 +81,18 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 			}, tc.timeout, tc.retryInterval,
 			).Should(BeTrue())
 
-			// Delete KeyVault instance
 			Eventually(func() bool {
 				_, err := keyVaultManager.GetVault(ctx, rgName, keyvaultName)
-				if err != nil {
+				if err == nil {
 					return true
 				}
-				_, err = keyVaultManager.DeleteVault(ctx, rgName, keyvaultName)
+				return false
+			}, tc.timeout, tc.retryInterval,
+			).Should(BeTrue())
+
+			// Delete KeyVault instance
+			Eventually(func() bool {
+				_, err := keyVaultManager.DeleteVault(ctx, rgName, keyvaultName)
 				if err != nil {
 					fmt.Println(err.Error())
 					if !errhelp.IsAsynchronousOperationNotComplete(err) {
@@ -102,6 +103,15 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 				return err == nil
 			}, tc.timeout, tc.retryInterval,
 			).Should(BeTrue())
+
+			Eventually(func() bool {
+				_, err := keyVaultManager.GetVault(ctx, rgName, keyvaultName)
+				if err == nil {
+					return true
+				}
+				return false
+			}, tc.timeout, tc.retryInterval,
+			).Should(BeFalse())
 		})
 
 	})

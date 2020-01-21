@@ -98,20 +98,21 @@ var _ = AfterSuite(func() {
 		log.Println("Delete RG failed")
 		return
 	}
-
-	for {
-		time.Sleep(time.Second * 10)
+	polling := time.Second * 10
+	Eventually(func() bool {
 		_, err := resourcegroupsresourcemanager.GetGroup(ctx, tc.ResourceGroupName)
 		if err == nil {
 			log.Println("waiting for resource group to be deleted")
-		} else {
-			if errhelp.IsGroupNotFound(err) {
-				log.Println("resource group deleted")
-				break
-			} else {
-				log.Println(fmt.Sprintf("cannot delete resource group: %v", err))
-				return
-			}
+			return false
 		}
-	}
+
+		if errhelp.IsGroupNotFound(err) {
+			log.Println("resource group deleted")
+			return true
+		} else {
+			log.Println(fmt.Sprintf("cannot delete resource group: %v", err))
+			return false
+		}
+	}, tc.timeout, polling,
+	).Should(BeTrue())
 })

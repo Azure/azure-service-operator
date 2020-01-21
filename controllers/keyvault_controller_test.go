@@ -10,6 +10,7 @@ import (
 	"time"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -90,7 +91,6 @@ func TestKeyvaultControllerInvalidName(t *testing.T) {
 	assert := assert.New(t)
 
 	keyVaultName := "k"
-	const poll = time.Second * 10
 
 	keyVaultLocation := tc.resourceGroupLocation
 
@@ -122,7 +122,7 @@ func TestKeyvaultControllerInvalidName(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return strings.Contains(keyVaultInstance.Status.Message, "AccountNameInvalid")
+		return strings.Contains(keyVaultInstance.Status.Message, errhelp.AccountNameInvalid)
 	}, tc.timeout, tc.retry, "wait for invalid account name error")
 
 	// delete key vault
@@ -145,7 +145,6 @@ func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 	assert := assert.New(t)
 
 	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
-	const poll = time.Second * 10
 
 	keyVaultLocation := tc.resourceGroupLocation
 
@@ -177,7 +176,7 @@ func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return strings.Contains(keyVaultInstance.Status.Message, "ResourceGroupNotFound")
+		return strings.Contains(keyVaultInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
 	}, tc.timeout, tc.retry, "wait for ResourceGroupNotFound error")
 
 	// delete key vault
