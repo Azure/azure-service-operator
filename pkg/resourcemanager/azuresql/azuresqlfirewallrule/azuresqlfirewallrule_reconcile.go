@@ -47,6 +47,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.InvalidServerName,
 			errhelp.AlreadyExists,
+			errhelp.ResourceNotFound,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
@@ -54,15 +55,9 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		}
 		return false, err
 	}
-	resp, err := fw.GetSQLFirewallRule(ctx, groupName, server, ruleName)
-	if err != nil {
-		instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule GetSQLFirewallRule error: %s", err.Error())
-		return false, err
-	}
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-	instance.Status.State = string(resp.Status)
 	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
