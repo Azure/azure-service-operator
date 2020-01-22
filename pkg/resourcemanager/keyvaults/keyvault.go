@@ -17,28 +17,46 @@ package keyvaults
 
 import (
 	"context"
+	"fmt"
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/go-logr/logr"
 	uuid "github.com/satori/go.uuid"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 )
 
-type azureKeyVaultManager struct{}
+type azureKeyVaultManager struct {
+	Log    logr.Logger
+	Scheme *runtime.Scheme
+}
+
+func NewAzureKeyVaultManager(log logr.Logger, scheme *runtime.Scheme) *azureKeyVaultManager {
+	return &azureKeyVaultManager{
+		Log:    log,
+		Scheme: scheme,
+	}
+}
 
 func getVaultsClient() (keyvault.VaultsClient, error) {
-	client := keyvault.NewVaultsClient(config.SubscriptionID())
+	vaultsClient := keyvault.NewVaultsClient(config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		client = keyvault.VaultsClient{}
-	} else {
-		client.Authorizer = a
-		client.AddToUserAgent(config.UserAgent())
+		return vaultsClient, err
 	}
-	return client, err
+	vaultsClient.Authorizer = a
+	vaultsClient.AddToUserAgent(config.UserAgent())
+	return vaultsClient, nil
 }
 
 func getObjectID(ctx context.Context, tenantID string, clientID string) (*string, error) {
@@ -59,7 +77,7 @@ func getObjectID(ctx context.Context, tenantID string, clientID string) (*string
 }
 
 // CreateVault creates a new key vault
-func (_ *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string) (keyvault.Vault, error) {
+func (k *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string, tags map[string]*string) (keyvault.Vault, error) {
 	vaultsClient, err := getVaultsClient()
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -67,6 +85,22 @@ func (_ *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
 		return keyvault.Vault{}, err
+	}
+
+	// Check if keyvault name is valid
+	vaultNameCheck := keyvault.VaultCheckNameAvailabilityParameters{
+		Name: to.StringPtr(vaultName),
+		Type: to.StringPtr("Microsoft.KeyVault/vaults"),
+	}
+	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
+	if err != nil {
+		return keyvault.Vault{}, err
+	}
+	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
+		// Check for "Invalid" is to overcome a bug in KeyVault API which returns "Invalid" instead of defined "AccountNameInvalid"
+		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
+	} else if result.Reason == keyvault.AlreadyExists {
+		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
 	}
 
 	params := keyvault.VaultCreateOrUpdateParameters{
@@ -79,15 +113,17 @@ func (_ *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string
 			},
 		},
 		Location: to.StringPtr(location),
+		Tags:     tags,
 	}
 
+	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v", vaultName, groupName, location))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 
 	return future.Result(vaultsClient)
 }
 
 // CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
-func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
+func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
 	vaultsClient, err := getVaultsClient()
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -95,6 +131,21 @@ func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
 		return keyvault.Vault{}, err
+	}
+
+	// Check if keyvault name is valid
+	vaultNameCheck := keyvault.VaultCheckNameAvailabilityParameters{
+		Name: to.StringPtr(vaultName),
+		Type: to.StringPtr("Microsoft.KeyVault/vaults"),
+	}
+	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
+	if err != nil {
+		return keyvault.Vault{}, err
+	}
+	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
+		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
+	} else if result.Reason == keyvault.AlreadyExists {
+		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
 	}
 
 	apList := []keyvault.AccessPolicyEntry{}
@@ -135,6 +186,7 @@ func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 		Location: to.StringPtr(location),
 	}
 
+	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -144,7 +196,7 @@ func (_ *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 }
 
 // DeleteVault removes the resource group named by env var
-func (_ *azureKeyVaultManager) DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
+func (k *azureKeyVaultManager) DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error) {
 	vaultsClient, err := getVaultsClient()
 	if err != nil {
 		return autorest.Response{}, err
@@ -153,11 +205,135 @@ func (_ *azureKeyVaultManager) DeleteVault(ctx context.Context, groupName string
 }
 
 // CheckExistence checks for the presence of a keyvault instance on Azure
-func (_ *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
+func (k *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, vaultName string) (result keyvault.Vault, err error) {
 	vaultsClient, err := getVaultsClient()
 	if err != nil {
 		return keyvault.Vault{}, err
 	}
 	return vaultsClient.Get(ctx, groupName, vaultName)
 
+}
+
+func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+	instance, err := k.convert(obj)
+	if err != nil {
+		return true, err
+	}
+
+	// convert kube labels to expected tag format
+	labels := map[string]*string{}
+	for k, v := range instance.GetLabels() {
+		labels[k] = &v
+	}
+	instance.Status.Provisioning = true
+
+	// Check if this KeyVault already exists and its state if it does.
+
+	keyvault, err := k.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
+	if err == nil {
+		instance.Status.Message = resourcemanager.SuccessMsg
+		instance.Status.Provisioned = true
+		instance.Status.Provisioning = false
+		return true, nil
+	}
+
+	keyvault, err = k.CreateVault(
+		ctx,
+		instance.Spec.ResourceGroup,
+		instance.Name,
+		instance.Spec.Location,
+		labels,
+	)
+
+	if err != nil {
+		// let the user know what happened
+		instance.Status.Message = err.Error()
+		instance.Status.Provisioning = false
+		// errors we expect might happen that we are ok with waiting for
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.AsyncOpIncompleteError,
+		}
+
+		catchUnrecoverableErrors := []string{
+			errhelp.AccountNameInvalid,
+			errhelp.AlreadyExists,
+		}
+
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			// most of these error technically mean the resource is actually not provisioning
+			switch azerr.Type {
+			case errhelp.AsyncOpIncompleteError:
+				instance.Status.Provisioning = true
+			}
+			// reconciliation is not done but error is acceptable
+			return false, nil
+		}
+		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
+			// Unrecoverable error, so stop reconcilation
+			instance.Status.Message = "Reconcilation hit unrecoverable error " + err.Error()
+			return true, nil
+		}
+		// reconciliation not done and we don't know what happened
+		return false, err
+
+	}
+
+	instance.Status.State = keyvault.Status
+
+	instance.Status.Provisioned = true
+	instance.Status.Provisioning = false
+	instance.Status.Message = resourcemanager.SuccessMsg
+
+	return true, nil
+}
+
+func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	instance, err := k.convert(obj)
+	if err != nil {
+		return true, err
+	}
+
+	_, err = k.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
+	if err == nil {
+		_, err := k.DeleteVault(ctx, instance.Spec.ResourceGroup, instance.Name)
+		if err != nil {
+			if !errhelp.IsAsynchronousOperationNotComplete(err) {
+				return true, err
+			}
+		}
+		return true, nil
+	}
+
+	return false, nil
+}
+
+func (k *azureKeyVaultManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+
+	instance, err := k.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	return []resourcemanager.KubeParent{
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.ResourceGroup,
+			},
+			Target: &azurev1alpha1.ResourceGroup{},
+		},
+	}, nil
+
+}
+
+func (k *azureKeyVaultManager) convert(obj runtime.Object) (*v1alpha1.KeyVault, error) {
+	local, ok := obj.(*v1alpha1.KeyVault)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }
