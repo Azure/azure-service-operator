@@ -21,8 +21,8 @@ import (
 
 // KeyVaultSpec defines the desired state of KeyVault
 type KeyVaultSpec struct {
-	Location          string `json:"location"`
-	ResourceGroupName string `json:"resourceGroup"`
+	Location      string `json:"location"`
+	ResourceGroup string `json:"resourceGroup"`
 }
 
 // +kubebuilder:object:root=true
