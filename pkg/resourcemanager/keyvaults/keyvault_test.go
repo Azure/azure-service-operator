@@ -19,13 +19,11 @@ package keyvaults
 import (
 	"fmt"
 
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 var _ = Describe("KeyVault Resource Manager test", func() {
@@ -65,27 +63,7 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 
 			// Create Key Vault instance
 			Eventually(func() bool {
-<<<<<<< HEAD
 				_, err := keyVaultManager.CreateVault(
-=======
-				time.Sleep(3 * time.Second)
-				_, err := keyVaultManager.GetVault(ctx, rgName, keyvaultName)
-				if err == nil {
-					return true
-				}
-
-				kv := v1alpha1.KeyVault{
-					ObjectMeta: metav1.ObjectMeta{
-						Name: keyvaultName,
-					},
-					Spec: v1alpha1.KeyVaultSpec{
-						ResourceGroup: rgName,
-						Location:      location,
-					},
-				}
-
-				_, err = keyVaultManager.CreateVault(
->>>>>>> initial keyvault network + access policies changes
 					ctx,
 					&kv,
 					tags,
