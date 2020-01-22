@@ -191,7 +191,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 
-	vaultsClient := getVaultsClient()
+	vaultsClient, err := getVaultsClient()
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
 		return keyvault.Vault{}, err
