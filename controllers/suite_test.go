@@ -199,6 +199,7 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("KeyVault"),
 				"KeyVault",
 			),
+			Log:      ctrl.Log.WithName("controllers").WithName("KeyVault"),
 			Recorder: k8sManager.GetEventRecorderFor("KeyVault-controller"),
 			Scheme:   scheme.Scheme,
 		},

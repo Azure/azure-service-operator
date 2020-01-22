@@ -219,6 +219,7 @@ func main() {
 				ctrl.Log.WithName("controllers").WithName("KeyVault"),
 				"KeyVault",
 			),
+			Log:      ctrl.Log.WithName("controllers").WithName("KeyVault"),
 			Recorder: mgr.GetEventRecorderFor("KeyVault-controller"),
 			Scheme:   scheme,
 		},
