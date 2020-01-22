@@ -136,7 +136,7 @@ For eg., use  `kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yam
 
 ## Step-by-Step for developing a new operator using the generic controller
 
-This project utilizes a generic async controller that separates out the Kubernetes controller logic from the corresponding Azure service interactions. So there are a few extra steps as listed below you will need to do while using Kubebuilder to generate a new operator.
+This project utilizes a generic async controller that separates out the Kubernetes controller logic from the corresponding Azure service interactions. There are a few extra steps as listed below you will need to follow while using kubebuilder to generate a new operator.
 
 1. Clone the repository to your computer. Run `go mod download` to download dependencies. It doesn't show any progress bar and takes a while to download all of dependencies.
 2. Ensure you have `Kubebuilder` installed on your computer.
@@ -148,9 +148,9 @@ kubebuilder create api --group azure --version v1alpha1 --kind <AzureNewType>
 kubebuilder create api --group azure --version v1alpha1 --kind AzureSQLServer
 ```
 
-4. When you run this command, you will be prompted with two questions - if you want to create a resource and a controller. Answer `yes` to both of these.
+4. When you run this command, you will be prompted with two questions - if you want to create a resource, and a corresponding controller. Answer yes to both of these.
 
-This will create the Custom Resource Definition types file, the controller file and other scaffolding needed.
+This will create the Custom Resource Definition types file, the controller file, and other needed scaffolding.
 
 ```shell
 ➜  azure-service-operator git:(testbranch) ✗ kubebuilder create api --group azure --version v1alpha1 --kind AzureNewType
@@ -185,7 +185,7 @@ go build -o bin/manager main.go
 
     b. Define the fields for the `AzureNewTypeSpec` struct. This will all the parameters that you will need to create a resource of type `AzureNewType`.
 
-    For instance, if I need to create a resource of type `ResourceGroup`, I need a Subscription ID, Name and a Location.
+    For instance, if I need to create a resource of type ResourceGroup, I need a Subscription ID, Name, and a Location.
 
     The `Subscription ID` is something we configure through config for the entire operator, so leave that out.
     The `Name` for every resource is going to be the Kubernetes Name we pass in the YAML, so leave that out too from the Spec.
@@ -245,7 +245,7 @@ go build -o bin/manager main.go
         azurenewtype_manager.go
         azurenewtype_client.go
 
-    d. The `azurenewtype_manager.go` file would implement the ARMClient as follows,and in addition have any other functions you need for Create, Delete and Get of the resource.
+    d. The azurenewtype_manager.go file would implement the ARMClient as follows,and in addition have any other functions you need for Create, Delete, and Get of the resource.
 
     ```code
     type AzureNewTypeManager interface {
@@ -265,7 +265,7 @@ go build -o bin/manager main.go
     Some key points to note:
     (i) The Ensure and Delete functions return as the first return value, a bool which indicates if the resource was found in Azure. So Ensure() if successful would return `true` and Delete() if successful would return `false`
     (ii) On successful provisioning in `Ensure()`, set instance.Status.Message to `successfully provisioned` to be consistent across all controllers. (There is a constant called `SuccessMsg` in the `resourcemanager` package that you can use for this to be consistent)
-    (ii) The GetParents() function returns the parents of the resource. The order here matters - The closest parent should be first. For instance, for an Azure SQL database, the first parent should be Azure SQL server followed by the Resource Group.
+    (ii) The GetParents() function returns the Azure Resource Manager (ARM) hierarchy of the resource. The order here matters - the immediate hierarchical resource should be returned first. For instance, for an Azure SQL database, the first parent should be Azure SQL server followed by the Resource Group.
 
     An example is shown below:
 
@@ -275,12 +275,12 @@ go build -o bin/manager main.go
         }
 
         func NewAzureNewTypeClient(log logr.Logger) *AzureNewTypeClient {
-        return &AzureNewTypeClient{
-        Telemetry: telemetry.InitializePrometheusDefault(
-        log,
-        "NewType",
-        ),
-        }
+            return &AzureNewTypeClient{
+                Telemetry: telemetry.InitializePrometheusDefault(
+                    log,
+                    "NewType",
+                ),
+            }
         }
         ...
         ...
@@ -337,14 +337,14 @@ go build -o bin/manager main.go
 
         ```
 
-9. **Tests**: Add the following tests for your new operator
+9. **Tests**: Add the following tests for your new operator:
     (i) Unit test for the new type: You will add this as a file named `azurenewtype_types_test.go` under `api/v1alpha`. Refer to the existing tests in the repository to author this for your new type.
     (ii) Functional tests for the resource manager: These will be test files under `pkg/resourcemanager/newresource`. You can refer to the tests under `pkg/resourcemanage/psql/server` as reference for writing these. These tests help validate the resource creation and deletion in Azure.
     Make sure to add this folder with the tests to the `make test-existing` target in the `Makefile`
     *Tip*: You can run `go test` in this folder to test the functions before testing with the controller end-to-end.
     (iii) Controller tests: This will be a file named `azurenewresourcetype_controller_test.go` under the `controllers` folder. Refer to the other controller tests in the repo for how to write this test. This test validates the new controller to make sure the resource is created and deleted in Kubernetes effectively.
 
-10. *Mocks for the controller test*: In order to run the Controller tests (9.(iii) above) without having to hit Azure, you will generate a mock of the `AzureNewResourceTypeManager` in `pkg/resourcemanager/mocks`. You can refer to the mocks under `pkg/resourcemanager/mock/psql` for how to write this mock.
+10. *Mocks for the controller test*: In order to run the Controller tests (9.(iii) above) without having to communicate with Azure, you will generate a mock of the `AzureNewResourceTypeManager` in `pkg/resourcemanager/mocks`. You can refer to the mocks under `pkg/resourcemanager/mock/psql` for how to write this mock.
 
 11. *Instantiating the reconciler*: The last step to tie everything together is to ensure that your new controller's reconciler is instantiated in both the `main.go` and the `suite_test.go` (under `controllers` folder) files.
 
@@ -386,7 +386,7 @@ go build -o bin/manager main.go
     Expect(err).ToNot(HaveOccurred())
     ```
 
-12. Install the new CRD and generate the manifests needed using the following commands. This is required if you start seeing errors about a DeepCopyObject() method missing.
+12. Install the new CRD and generate the manifests needed using the following commands. This is required in order to generate canonical resource definitions (manifests as errors about a DeepCopyObject() method missing).
 
     ```shell
     make manifests
