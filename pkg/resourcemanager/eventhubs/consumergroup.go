@@ -21,6 +21,7 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -222,6 +223,14 @@ func (cg *azureConsumerGroupManager) GetParents(obj runtime.Object) ([]resourcem
 		},
 	}, nil
 
+}
+
+func (g *azureConsumerGroupManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (cg *azureConsumerGroupManager) convert(obj runtime.Object) (*v1alpha1.ConsumerGroup, error) {

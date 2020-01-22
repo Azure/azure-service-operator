@@ -333,6 +333,14 @@ func (e *azureEventHubManager) GetParents(obj runtime.Object) ([]resourcemanager
 
 }
 
+func (g *azureEventHubManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
+}
+
 func (e *azureEventHubManager) convert(obj runtime.Object) (*azurev1alpha1.Eventhub, error) {
 	local, ok := obj.(*azurev1alpha1.Eventhub)
 	if !ok {

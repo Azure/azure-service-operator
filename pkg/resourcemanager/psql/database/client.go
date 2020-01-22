@@ -212,6 +212,14 @@ func (p *PSQLDatabaseClient) GetParents(obj runtime.Object) ([]resourcemanager.K
 
 }
 
+func (g *PSQLDatabaseClient) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
+}
+
 func (p *PSQLDatabaseClient) convert(obj runtime.Object) (*v1alpha1.PostgreSQLDatabase, error) {
 	local, ok := obj.(*v1alpha1.PostgreSQLDatabase)
 	if !ok {

@@ -5,13 +5,15 @@
 
 package telemetry
 
+import "github.com/Azure/azure-service-operator/api/v1alpha1"
+
 // BaseTelemetry contains the helper functions for basic telemetry
 type BaseTelemetry interface {
 	LogTrace(typeTrace string, message string)
 	LogInfo(typeInfo string, message string)
 	LogWarning(typeWarning string, message string)
 	LogError(message string, err error)
-	LogStart()
-	LogSuccess()
+	LogStart(s *v1alpha1.ASOStatus)
+	LogSuccess(s *v1alpha1.ASOStatus)
 	LogFailure()
 }

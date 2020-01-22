@@ -89,6 +89,14 @@ func (g *AzureResourceGroupManager) GetParents(obj runtime.Object) ([]resourcema
 	return nil, nil
 }
 
+func (g *AzureResourceGroupManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
+}
+
 func (g *AzureResourceGroupManager) convert(obj runtime.Object) (*azurev1alpha1.ResourceGroup, error) {
 	local, ok := obj.(*azurev1alpha1.ResourceGroup)
 	if !ok {

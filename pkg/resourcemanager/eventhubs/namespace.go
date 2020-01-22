@@ -253,6 +253,14 @@ func (ns *azureEventHubNamespaceManager) GetParents(obj runtime.Object) ([]resou
 
 }
 
+func (g *azureEventHubNamespaceManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
+}
+
 func (ns *azureEventHubNamespaceManager) convert(obj runtime.Object) (*azurev1alpha1.EventhubNamespace, error) {
 	local, ok := obj.(*azurev1alpha1.EventhubNamespace)
 	if !ok {

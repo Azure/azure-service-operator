@@ -36,10 +36,10 @@ const defaultSubsystem = "Operators"
 const exeuctionTimeStart = 0
 
 // exeuctionTimeWidth is the width of a bucket in the histogram, here it is 10s
-const exeuctionTimeWidth = 10
+const exeuctionTimeWidth = 60
 
 // executionTimeBuckets is the number of buckets, here it 10 minutes worth of 10s buckets
-const executionTimeBuckets = 6 * 10
+const executionTimeBuckets = 20
 
 // PrometheusClient stores information for the Prometheus implementation of telemetry
 type PrometheusClient struct {
