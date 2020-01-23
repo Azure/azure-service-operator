@@ -24,9 +24,9 @@ type AzureSQLUserSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Server        string   `json:"server"`
-	DbName        string   `json:"dbname"`
+	DbName        string   `json:"dbName"`
 	ResourceGroup string   `json:"resourceGroup,omitempty"`
-	AdminSecret   string   `json:"adminsecret,omitempty"`
+	AdminSecret   string   `json:"adminSecret,omitempty"`
 	Roles         []string `json:"roles"`
 }
 
