@@ -42,9 +42,13 @@ rules:
   resources:
   - rediscaches/status
   verbs:
+  - create
+  - delete
   - get
+  - list
   - patch
   - update
+  - watch
 - apiGroups:
   - azure.microsoft.com
   resources:
@@ -58,17 +62,9 @@ rules:
   - update
   - watch
 - apiGroups:
-  - azure.microsoft.com
-  resources:
-  - storages/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
   - ""
   resources:
-  - secrets
+  - storages/status
   verbs:
   - create
   - delete
@@ -76,4 +72,27 @@ rules:
   - list
   - patch
   - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - secrets
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - apimanagementapis/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
   - watch

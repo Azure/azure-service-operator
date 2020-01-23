@@ -153,6 +153,12 @@ func setup() error {
 
 	var k8sManager ctrl.Manager
 
+	err = azurev1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
+	err = azurev1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
@@ -447,6 +453,20 @@ func setup() error {
 	if err != nil {
 		return err
 	}
+
+	err = (&ApiManagementServiceReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("APIManagementService"),
+		Recorder: k8sManager.GetEventRecorderFor("APIManagementService-controller"),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&ApiManagementAPIReconciler{
+		Client:   k8sManager.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("APIManagementAPI"),
+		Recorder: k8sManager.GetEventRecorderFor("APIManagementAPI-controller"),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
 
 	go func() {
 		err = k8sManager.Start(ctrl.SetupSignalHandler())

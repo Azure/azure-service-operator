@@ -1,0 +1,98 @@
+/*
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+package controllers
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"strconv"
+	"time"
+
+	azurev1 "github.com/Azure/azure-service-operator/api/v1"
+	"github.com/go-logr/logr"
+
+	//metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/tools/record"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+)
+
+// ApiManagementAPIReconciler reconciles a ApiManagementAPI object
+type ApiManagementAPIReconciler struct {
+	client.Client
+	Log      logr.Logger
+	Recorder record.EventRecorder
+}
+
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=apimanagementapis,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=apimanagementapis/status,verbs=get;update;patch
+
+func (r *ApiManagementAPIReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+	ctx := context.Background()
+	log := r.Log.WithValues("apimanagementapi", req.NamespacedName)
+
+	var instance azurev1.ApiManagementAPI
+
+	if err := r.Get(ctx, req.NamespacedName, &instance); err != nil {
+		log.Error(err, "unable to fetch ApiManagementAPI")
+		return ctrl.Result{}, ignoreNotFound(err)
+	}
+
+	if instance.IsBeingDeleted() {
+		err := r.handleFinalizer(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	if !instance.HasFinalizer(apiManagerAPIFinalizerName) {
+		err := r.addFinalizer(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when removing finalizer: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	if !instance.IsSubmitted() {
+		err := r.createAPIManagementAPI(&instance)
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("error when creating resource in azure: %v", err)
+		}
+		return ctrl.Result{}, nil
+	}
+
+	requeueAfter, err := strconv.Atoi(os.Getenv("REQUEUE_AFTER"))
+	if err != nil {
+		requeueAfter = 30
+	}
+
+	return ctrl.Result{
+		RequeueAfter: time.Second * time.Duration(requeueAfter),
+	}, nil
+
+}
+
+func (r *ApiManagementAPIReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&azurev1.ApiManagementAPI{}).
+		Complete(r)
+}
+
+func (r *ApiManagementAPIReconciler) createAPIManagementAPI(instance *azurev1.ApiManagementAPI) error {
+	return nil
+}

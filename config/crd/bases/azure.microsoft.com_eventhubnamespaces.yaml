@@ -1,0 +1,93 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: eventhubnamespaces.azure.microsoft.com
+spec:
+  group: azure.microsoft.com
+  names:
+    kind: EventhubNamespace
+    plural: eventhubnamespaces
+  scope: ""
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: EventhubNamespace is the Schema for the eventhubnamespaces API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: EventhubNamespaceSpec defines the desired state of EventhubNamespace
+          properties:
+            location:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make" to regenerate code after modifying this file'
+              type: string
+            properties:
+              description: EventhubNamespaceProperties defines the namespace properties
+              properties:
+                isAutoInflateEnabled:
+                  type: boolean
+                kafkaEnabled:
+                  type: boolean
+                maximumThroughputUnits:
+                  format: int32
+                  type: integer
+              type: object
+            resourceGroup:
+              type: string
+            sku:
+              description: EventhubNamespaceSku defines the sku
+              properties:
+                capacity:
+                  format: int32
+                  type: integer
+                name:
+                  type: string
+                tier:
+                  type: string
+              type: object
+          required:
+          - location
+          type: object
+        status:
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
+            state of resource actions
+          properties:
+            message:
+              type: string
+            provisioned:
+              type: boolean
+            provisioning:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              type: boolean
+            state:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
