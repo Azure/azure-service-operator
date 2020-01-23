@@ -42,7 +42,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-	"k8s.io/apimachinery/pkg/runtime"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"

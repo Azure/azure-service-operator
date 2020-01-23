@@ -173,6 +173,20 @@ func CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bo
 	return *result.NameAvailable, err
 }
 
+// GetAppInstanceIDByName retrieves an app insight by name
+func GetAppInstanceIDByName(ctx context.Context, resourceGroup string, resourceName string) (insights.ApplicationInsightsComponent, error) {
+	client, err := GetInsightsClient()
+	if err != nil {
+		return insights.ApplicationInsightsComponent{}, err
+	}
+
+	return client.Get(
+		ctx,
+		resourceGroup,
+		resourceName,
+	)
+}
+
 // GetAPIMClient returns a pointer to an API Management client
 func GetAPIMClient() apim.APIClient {
 	apimClient := apim.NewAPIClient(config.SubscriptionID())
