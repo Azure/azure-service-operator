@@ -19,13 +19,17 @@ package keyvaults
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	pkghelpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type keyVaultResource struct {
@@ -48,7 +52,7 @@ func findKeyVault(res []keyVaultResource, predicate func(keyVaultResource) bool)
 }
 
 // CreateVault creates a new key vault
-func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string) (keyvault.Vault, error) {
+func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string, tags map[string]*string) (keyvault.Vault, error) {
 	v := keyvault.Vault{
 		Response:   helpers.GetRestResponse(http.StatusOK),
 		Properties: &keyvault.VaultProperties{},
@@ -125,4 +129,47 @@ func (manager *MockKeyVaultManager) GetVault(ctx context.Context, groupName stri
 	}
 
 	return v.KeyVault, nil
+}
+
+func (manager *MockKeyVaultManager) convert(obj runtime.Object) (*v1alpha1.KeyVault, error) {
+	local, ok := obj.(*v1alpha1.KeyVault)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
+}
+
+func (manager *MockKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := manager.convert(obj)
+	if err != nil {
+		return true, err
+	}
+
+	tags := map[string]*string{}
+	_, _ = manager.CreateVault(
+		ctx,
+		instance.Spec.ResourceGroup,
+		instance.Name,
+		instance.Spec.Location,
+		tags,
+	)
+
+	instance.Status.Provisioned = true
+
+	return true, nil
+}
+func (manager *MockKeyVaultManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+
+	instance, err := manager.convert(obj)
+	if err != nil {
+		return true, err
+	}
+
+	_, _ = manager.DeleteVault(ctx, instance.Spec.ResourceGroup, instance.Name)
+
+	return false, nil
+}
+func (manager *MockKeyVaultManager) GetParents(runtime.Object) ([]resourcemanager.KubeParent, error) {
+	return []resourcemanager.KubeParent{}, nil
 }

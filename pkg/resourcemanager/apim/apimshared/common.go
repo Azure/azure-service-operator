@@ -21,6 +21,7 @@ import (
 	"strings"
 
 	apim "github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
+	insights "github.com/Azure/azure-sdk-for-go/services/appinsights/mgmt/2015-05-01/insights"
 	vnet "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
@@ -58,6 +59,19 @@ func GetAPIMgmtLoggerClient() (apim.LoggerClient, error) {
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		client = apim.LoggerClient{}
+	} else {
+		client.Authorizer = a
+		client.AddToUserAgent(config.UserAgent())
+	}
+	return client, err
+}
+
+// GetInsightsClient retrieves a client
+func GetInsightsClient() (insights.ComponentsClient, error) {
+	client := insights.NewComponentsClient(config.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		client = insights.ComponentsClient{}
 	} else {
 		client.Authorizer = a
 		client.AddToUserAgent(config.UserAgent())

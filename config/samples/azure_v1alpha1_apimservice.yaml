@@ -5,9 +5,11 @@ metadata:
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
-  publisherName: name of person
-  publisherEmail: email_address@microsoft.com
-  vnetType: None
+  publisherName: personal name
+  publisherEmail: user_name@microsoft.com
+  vnetType: none
   vnetResourceGroup: resourcegroup-azure-operators
   vnetName: virtualnetwork-sample
   vnetSubnetName: subnet1-virtualnetwork-sample
+  appInsightsResourceGroup: resourcegroup-azure-operators
+  appInsightsName: appinsights-sample

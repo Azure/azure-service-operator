@@ -2,6 +2,9 @@ apiVersion: azure.microsoft.com/v1alpha1
 kind: KeyVault
 metadata:
   name: keyvaultsample123
+  labels: # Provide tags to add to the KeyVault as labels
+    tag1: value1
+    tag2: value2
 spec:
   resourceGroup: resourcegroup-azure-operators
   location: westus
