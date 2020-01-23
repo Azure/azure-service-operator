@@ -39,7 +39,7 @@ type AsyncReconciler struct {
 	Log         logr.Logger
 }
 
-func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, errRet error) {
+func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("instance", req.String())
 
@@ -133,7 +133,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		r.Recorder.Event(local, corev1.EventTypeNormal, "Reconciled", "Reconciliation ended with no errors")
 	}
 
-	result = ctrl.Result{}
+	result := ctrl.Result{}
 	if !done {
 		log.Info("reconciling object not finished, re-queueing")
 		result.RequeueAfter = requeDuration
