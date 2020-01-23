@@ -225,7 +225,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 
 	instance.Status.Provisioned = true
 	instance.Status.State = "Succeeded"
-	instance.Status.Message = "User created"
+	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
 }
