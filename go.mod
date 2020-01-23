@@ -29,7 +29,7 @@ require (
 	github.com/prometheus/common v0.2.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/sethvargo/go-password v0.1.2
-	github.com/stretchr/testify v1.4.0
+	github.com/stretchr/testify v1.4.1-0.20200116033420-8c465a0c8e80
 	go.uber.org/zap v1.9.1
 	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8 // indirect
 	golang.org/x/net v0.0.0-20190620200207-3b0461eec859
