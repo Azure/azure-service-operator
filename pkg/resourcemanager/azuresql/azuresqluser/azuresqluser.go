@@ -310,6 +310,20 @@ func (s *AzureSqlUserManager) GetParents(obj runtime.Object) ([]resourcemanager.
 			},
 			Target: &v1alpha1.AzureSqlDatabase{},
 		},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.Server,
+			},
+			Target: &v1alpha1.AzureSqlServer{},
+		},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.ResourceGroup,
+			},
+			Target: &v1alpha1.ResourceGroup{},
+		},
 	}, nil
 }
 
