@@ -166,7 +166,6 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
-		s.Log.Info("error type", "type", azerr.Type)
 		return false, err
 	}
 
