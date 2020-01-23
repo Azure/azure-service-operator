@@ -272,9 +272,9 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object) (b
 	}
 
 	DBSecret := s.GetOrPrepareSecret(ctx, instance)
-	user = string(DBSecret[SecretUsernameKey])
-	if user == "" {
-		user = instance.Name
+	if string(DBSecret[SecretUsernameKey]) == "" {
+		// maybe this could be an error...
+		return false, nil // fmt.Errorf("no username in SQLUser secret")
 	}
 
 	exists, err := s.UserExists(ctx, db, user)
