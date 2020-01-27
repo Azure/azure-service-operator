@@ -26,8 +26,8 @@ import (
 
 // APIManager is an interface for API Management
 type APIManager interface {
-	CreateAPI(ctx context.Context, resourcegroup string, apiServiceName string, apiId string, properties azurev1alpha1.APIProperties, eTag string) (*apimanagement.APIContract, error)
-	DeleteAPI(ctx context.Context, resourcegroup string, apiName string) (string, error)
-	GetAPI(ctx context.Context, resourcegroup string, apiName string) (string, error)
+	CreateAPI(ctx context.Context, resourcegroup string, apiname string, apiServiceName string, properties azurev1alpha1.APIProperties, eTag string) (*apimanagement.APIContract, error)
+	DeleteAPI(ctx context.Context, resourcegroup string, apiname string) (string, error)
+	GetAPI(ctx context.Context, resourcegroup string, apiService, string, apiId string) (apimanagement.APIContract, error)
 	resourcemanager.ARMClient
 }

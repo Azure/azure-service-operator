@@ -28,19 +28,20 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimshared"
+	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
 // Manager represents an API Management type
 type Manager struct {
-	Log       logr.Logger
+	Telemetry telemetry.PrometheusTelemetry
 	APIClient apimanagement.APIClient
 }
 
 // NewManager returns an API Manager type
 func NewManager(log logr.Logger) *Manager {
 	return &Manager{
-		Log:       log,
+		Telemetry: &telemetry.PrometheusClient{},
 		APIClient: apimshared.GetAPIMClient(),
 	}
 }
@@ -49,8 +50,8 @@ func NewManager(log logr.Logger) *Manager {
 func (m *Manager) CreateAPI(
 	ctx context.Context,
 	resourceGroupName string,
+	apiName string,
 	apiServiceName string,
-	apiId string,
 	properties v1alpha1.APIProperties,
 	eTag string) (*apimanagement.APIContract, error) {
 
@@ -73,7 +74,17 @@ func (m *Manager) CreateAPI(
 		APICreateOrUpdateProperties: props,
 	}
 
-	future, err := m.APIClient.CreateOrUpdate(ctx, resourceGroupName, apiServiceName, apiId, params, eTag)
+	// Fetch the parent API Management service the API will reside under
+	svc, err := apimshared.GetAPIMgmtSvc(ctx, resourceGroupName, apiServiceName)
+	fmt.Printf("got service reference %v", svc)
+	if err != nil {
+		// If there is no parent APIM service, we cannot proceed
+		m.Telemetry.LogError("failure fetching API management service", err)
+		return nil, err
+	}
+
+	// Submit the ARM request
+	future, err := m.APIClient.CreateOrUpdate(ctx, resourceGroupName, apiName, *svc.ID, params, eTag)
 
 	if err != nil {
 		return nil, err
@@ -94,13 +105,35 @@ func (m *Manager) DeleteAPI(ctx context.Context, resourcegroup string, apiName s
 }
 
 // GetAPI fetches an API within an API management service
-func (m *Manager) GetAPI(ctx context.Context, resourcegroup string, apiName string) (string, error) {
-	return "", nil
+func (m *Manager) GetAPI(ctx context.Context, resourcegroup string, apiService, string, apiId string) (apimanagement.APIContract, error) {
+	contract, err := m.APIClient.Get(ctx, resourcegroup, apiService, apiId)
+	return contract, err
 }
 
 // Ensure executes a desired state check against the resource
-func (m *Manager) Ensure(context.Context, runtime.Object) (bool, error) {
-	return true, nil
+func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+	instance, err := m.convert(obj)
+	if err != nil {
+		return false, err
+	}
+
+	// Set k8s status to provisioning at the beginning of this reconciliation
+	instance.Status.Provisioning = true
+
+	// api, err := m.GetAPI(ctx, instance.Spec.ResourceGroup, instance.serv)
+	// if err == nil {
+	// 	instance.Status.State = *api
+
+	// 	if *api.ProvisioningState == "Succeeded" {
+	// 		instance.Status.Message = *api.ProvisioningState
+	// 		instance.Status.Provisioned = true
+	// 		instance.Status.Provisioning = false
+	// 		return true, nil
+	// 	}
+
+	// 	return false, nil
+	// }
+	return false, nil
 }
 
 // Delete removes a resource

@@ -3,5 +3,18 @@ kind: APIMgmt
 metadata:
   name: apimgmt-sample
 spec:
-  # Add fields here
-  foo: bar
+  location: westus2
+  resourceGroup: resourcegroup-azure-operators
+  properties:
+    apirevision: v1
+    apirevisiondescription: "revision description"
+    iscurrent: true
+    isonline: true
+    displayname: aso-apimgmt
+    description: "API description 1"
+    apiversiondescription: "API version description 1"
+    path: "/api/test"
+    protocols:
+    - http
+    subscriptionrequired: false
+    serviceurl: "https://aso-api/api"

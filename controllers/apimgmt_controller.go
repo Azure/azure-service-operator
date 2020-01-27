@@ -17,12 +17,18 @@ package controllers
 
 import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 // APIMReconciler reconciles a APIM object
 type APIMReconciler struct {
+	Recorder   record.EventRecorder
 	Reconciler *AsyncReconciler
+	Log        logr.Logger
+	Scheme     *runtime.Scheme
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=APIMgmts,verbs=get;list;watch;create;update;patch;delete

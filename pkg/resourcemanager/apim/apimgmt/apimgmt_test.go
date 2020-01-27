@@ -27,7 +27,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("App Insights", func() {
+var _ = Describe("API Management", func() {
 
 	var rgName string
 	var psqlServer string
@@ -39,32 +39,38 @@ var _ = Describe("App Insights", func() {
 	})
 
 	Context("Create and Delete", func() {
-		It("should create and delete App insights instance in azure", func() {
+		It("should create and delete API Management instance in azure", func() {
 
 			defer GinkgoRecover()
 
 			apiMgmtInstance := "t-apimgmt-" + helpers.RandomString(10)
 
-			// Create app insights instance
+			// Create API instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
 				_, err := APIManager.GetAPI(ctx, rgName, apiMgmtInstance)
 				if err == nil {
 					return true
 				}
-				_, err = APIManager.CreateAPI(ctx, rgName, "my-api-svc", "my-api", v1alpha1.APIProperties{
-					APIRevision:            "v1",
-					APIRevisionDescription: "revision description",
-					IsCurrent:              true,
-					IsOnline:               true,
-					DisplayName:            "my-api",
-					Description:            "API description",
-					APIVersionDescription:  "version description",
-					Path:                   "/api/test",
-					Protocols:              []string{"http", "udp"},
-					SubscriptionRequired:   false,
-					ServiceURL:             "https://my-api/api",
-				}, "")
+				_, err = APIManager.CreateAPI(
+					ctx,
+					rgName,
+					"my-api-svc",
+					"my-api",
+					v1alpha1.APIProperties{
+						APIRevision:            "v1",
+						APIRevisionDescription: "revision description",
+						IsCurrent:              true,
+						IsOnline:               true,
+						DisplayName:            "my-api",
+						Description:            "API description",
+						APIVersionDescription:  "version description",
+						Path:                   "/api/test",
+						Protocols:              []string{"http", "udp"},
+						SubscriptionRequired:   false,
+						ServiceURL:             "https://my-api/api",
+					},
+					"eTag999")
 				if err != nil {
 					fmt.Println(err.Error())
 					if !errhelp.IsAsynchronousOperationNotComplete(err) {
@@ -78,7 +84,7 @@ var _ = Describe("App Insights", func() {
 
 			time.Sleep(5 * time.Minute)
 
-			// Delete app insights instance
+			// Delete API instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
 				_, err := APIManager.GetAPI(ctx, rgName, apiMgmtInstance)

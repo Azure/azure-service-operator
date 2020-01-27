@@ -68,7 +68,7 @@ func TestAPIMgmtController(t *testing.T) {
 
 	APIMgmtNamespacedName := types.NamespacedName{Name: apiMgmtName, Namespace: "default"}
 
-	// Wait for the APIMgmt instance to be provisioned
+	// Wait for the APIMgmt instance to be written to k8s
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, APIMgmtNamespacedName, apiMgmtInstance)
 		return strings.Contains(apiMgmtInstance.Status.Message, "Succeeded")
