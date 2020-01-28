@@ -55,13 +55,14 @@ func findKeyVault(res []keyVaultResource, predicate func(keyVaultResource) bool)
 func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, tags map[string]*string) (keyvault.Vault, error) {
 	vaultName := instance.Name
 	groupName := instance.Spec.ResourceGroup
+	location := instance.Spec.Location
 
 	v := keyvault.Vault{
 		Response:   helpers.GetRestResponse(http.StatusOK),
 		Properties: &keyvault.VaultProperties{},
 		ID:         to.StringPtr(pkghelpers.RandomString(10)),
-		Name:       to.StringPtr(instance.Name),
-		Location:   to.StringPtr(instance.Spec.Location),
+		Name:       to.StringPtr(vaultName),
+		Location:   to.StringPtr(location),
 	}
 
 	_, err := manager.GetVault(ctx, groupName, vaultName)
