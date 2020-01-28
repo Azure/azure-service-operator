@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -30,8 +30,9 @@ import (
 var _ = Describe("API Management", func() {
 
 	var rgName string
-	var psqlServer string
 	var APIManager APIManager
+	var contract apimanagement.APIContract
+	var err error
 
 	BeforeEach(func() {
 		rgName = tc.ResourceGroupName
@@ -43,34 +44,34 @@ var _ = Describe("API Management", func() {
 
 			defer GinkgoRecover()
 
-			apiMgmtInstance := "t-apimgmt-" + helpers.RandomString(10)
+			// apiMgmtName := "t-apimgmt-" + helpers.RandomString(10)
 
 			// Create API instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				_, err := APIManager.GetAPI(ctx, rgName, apiMgmtInstance)
+				contract, err = APIManager.GetAPI(ctx, rgName, "TESTAPIMGMTSERVICE", "test-rev=1")
 				if err == nil {
 					return true
 				}
 				_, err = APIManager.CreateAPI(
 					ctx,
 					rgName,
-					"my-api-svc",
-					"my-api",
+					"t-api",
+					"TESTAPIMGMTSERVICE",
 					v1alpha1.APIProperties{
-						APIRevision:            "v1",
+						Format:                 "Openapi",
+						APIRevision:            "test-rev=1",
 						APIRevisionDescription: "revision description",
 						IsCurrent:              true,
 						IsOnline:               true,
-						DisplayName:            "my-api",
+						DisplayName:            "aso-apimgmt-test",
 						Description:            "API description",
 						APIVersionDescription:  "version description",
 						Path:                   "/api/test",
 						Protocols:              []string{"http", "udp"},
 						SubscriptionRequired:   false,
-						ServiceURL:             "https://my-api/api",
 					},
-					"eTag999")
+					"eTagASOTest")
 				if err != nil {
 					fmt.Println(err.Error())
 					if !errhelp.IsAsynchronousOperationNotComplete(err) {
@@ -87,11 +88,11 @@ var _ = Describe("API Management", func() {
 			// Delete API instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				_, err := APIManager.GetAPI(ctx, rgName, apiMgmtInstance)
+				_, err := APIManager.GetAPI(ctx, rgName, "TESTAPIMGMTSERVICE", "test-rev=1")
 				if err != nil {
 					return true
 				}
-				_, err = APIManager.DeleteAPI(ctx, psqlServer, apiMgmtInstance)
+				_, err = APIManager.DeleteAPI(ctx, tc.ResourceGroupName, "TESTAPIMGMTSERVICE", *contract.ID, *contract.APIRevision, true)
 				if err != nil {
 					fmt.Println(err.Error())
 					if !errhelp.IsAsynchronousOperationNotComplete(err) {

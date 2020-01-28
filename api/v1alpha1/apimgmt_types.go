@@ -23,6 +23,7 @@ import (
 type APIMgmtSpec struct {
 	Location      string        `json:"location"`
 	ResourceGroup string        `json:"resourceGroup"`
+	APIService    string        `json:"apiService"`
 	Properties    APIProperties `json:"properties"`
 }
 

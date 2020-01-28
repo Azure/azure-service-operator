@@ -22,12 +22,13 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/go-autorest/autorest"
 )
 
 // APIManager is an interface for API Management
 type APIManager interface {
-	CreateAPI(ctx context.Context, resourcegroup string, apiname string, apiServiceName string, properties azurev1alpha1.APIProperties, eTag string) (*apimanagement.APIContract, error)
-	DeleteAPI(ctx context.Context, resourcegroup string, apiname string) (string, error)
-	GetAPI(ctx context.Context, resourcegroup string, apiService, string, apiId string) (apimanagement.APIContract, error)
+	CreateAPI(ctx context.Context, resourceGroupName string, apiName string, apiServiceName string, properties azurev1alpha1.APIProperties, eTag string) (*apimanagement.APIContract, error)
+	DeleteAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiId string, eTag string, deleteRevisions bool) (autorest.Response, error)
+	GetAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiId string) (apimanagement.APIContract, error)
 	resourcemanager.ARMClient
 }

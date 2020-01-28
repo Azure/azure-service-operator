@@ -29,7 +29,6 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	// +kubebuilder:scaffold:imports
@@ -64,7 +63,9 @@ var _ = BeforeSuite(func() {
 	err := resourcemanagerconfig.ParseEnvironment()
 	Expect(err).ToNot(HaveOccurred())
 
-	resourceGroupName := "t-rg-apimgmt-" + helpers.RandomString(10)
+	// Use a preconfigured instance for testing.  Alter this for your testing scenarios as needed
+	resourceGroupName := "AzureOperatorsTest"
+
 	resourceGroupLocation := resourcemanagerconfig.DefaultLocation()
 	resourceGroupManager := resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 
@@ -75,7 +76,7 @@ var _ = BeforeSuite(func() {
 	tc = TestContext{
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
-		APIManager:            &Manager{},
+		APIManager:            NewManager(zaplogger),
 		ResourceGroupManager:  resourceGroupManager,
 		timeout:               20 * time.Minute,
 		retryInterval:         3 * time.Second,

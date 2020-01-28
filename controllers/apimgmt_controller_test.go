@@ -48,6 +48,7 @@ func TestAPIMgmtController(t *testing.T) {
 			Location:      rgLocation,
 			ResourceGroup: rgName,
 			Properties: azurev1alpha1.APIProperties{
+				Format:                 "Openapi",
 				APIRevision:            "v1",
 				APIRevisionDescription: "revision description",
 				IsCurrent:              true,

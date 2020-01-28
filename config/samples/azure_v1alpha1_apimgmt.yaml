@@ -3,10 +3,11 @@ kind: APIMgmt
 metadata:
   name: apimgmt-sample
 spec:
-  location: westus2
+  location: westus
   resourceGroup: resourcegroup-azure-operators
+  apiService: TESTAPIMGMTSERVICE
   properties:
-    apirevision: v1
+    apirevision: test-rev=1
     apirevisiondescription: "revision description"
     iscurrent: true
     isonline: true

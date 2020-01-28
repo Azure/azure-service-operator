@@ -26,9 +26,12 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	// "github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimshared"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
@@ -52,7 +55,7 @@ func (m *Manager) CreateAPI(
 	resourceGroupName string,
 	apiName string,
 	apiServiceName string,
-	properties v1alpha1.APIProperties,
+	properties azurev1alpha1.APIProperties,
 	eTag string) (*apimanagement.APIContract, error) {
 
 	props := &apimanagement.APICreateOrUpdateProperties{
@@ -100,13 +103,17 @@ func (m *Manager) CreateAPI(
 }
 
 // DeleteAPI deletes an API within an API management service
-func (m *Manager) DeleteAPI(ctx context.Context, resourcegroup string, apiName string) (string, error) {
-	return "", nil
+func (m *Manager) DeleteAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiId string, eTag string, deleteRevisions bool) (autorest.Response, error) {
+	result, err := m.APIClient.Get(ctx, resourceGroupName, apiServiceName, apiId)
+	if err == nil {
+		return m.APIClient.Delete(ctx, resourceGroupName, apiServiceName, apiId, eTag, &deleteRevisions)
+	}
+	return result.Response, nil
 }
 
 // GetAPI fetches an API within an API management service
-func (m *Manager) GetAPI(ctx context.Context, resourcegroup string, apiService, string, apiId string) (apimanagement.APIContract, error) {
-	contract, err := m.APIClient.Get(ctx, resourcegroup, apiService, apiId)
+func (m *Manager) GetAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiId string) (apimanagement.APIContract, error) {
+	contract, err := m.APIClient.Get(ctx, resourceGroupName, apiServiceName, apiId)
 	return contract, err
 }
 
@@ -120,24 +127,45 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 	// Set k8s status to provisioning at the beginning of this reconciliation
 	instance.Status.Provisioning = true
 
-	// api, err := m.GetAPI(ctx, instance.Spec.ResourceGroup, instance.serv)
-	// if err == nil {
-	// 	instance.Status.State = *api
+	// Fetch the API
+	api, err := m.GetAPI(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService, instance.Spec.Properties.APIRevision)
+	if err == nil {
+		instance.Status.State = api.Status
 
-	// 	if *api.ProvisioningState == "Succeeded" {
-	// 		instance.Status.Message = *api.ProvisioningState
-	// 		instance.Status.Provisioned = true
-	// 		instance.Status.Provisioning = false
-	// 		return true, nil
-	// 	}
+		if api.Status == "Succeeded" {
+			instance.Status.Message = api.Status
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			return true, nil
+		}
 
-	// 	return false, nil
-	// }
+		return false, nil
+	}
 	return false, nil
 }
 
 // Delete removes a resource
-func (m *Manager) Delete(context.Context, runtime.Object) (bool, error) {
+func (m *Manager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	// i, err := m.convert(obj)
+	// if err != nil {
+	// 	return false, err
+	// }
+	// response, err := m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.Properties.APIRevision, i.Spec.Properties.APIRevision, true)
+
+	// if err != nil {
+	// 	m.Telemetry.LogInfo("Error deleting API", err.Error())
+	// 	if !errhelp.IsAsynchronousOperationNotComplete(err) {
+	// 		return true, err
+	// 	}
+	// }
+	// i.Status.State = response.Status
+
+	// if err == nil {
+	// 	if response.Status != "InProgress" {
+	// 		return false, nil
+	// 	}
+	// }
+
 	return true, nil
 }
 
