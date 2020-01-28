@@ -8,11 +8,15 @@ package azuresql
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"database/sql"
 	dbsql "database/sql"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type MockSqlUserManager struct {
@@ -99,4 +103,24 @@ func (manager *MockSqlUserManager) GrantUserRoles(ctx context.Context, user stri
 	manager.sqlUsers[index].roles = roles
 
 	return nil
+}
+
+func (s *MockSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+	return true, nil
+}
+
+func (s *MockSqlUserManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	return true, nil
+}
+
+func (s *MockSqlUserManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+	return []resourcemanager.KubeParent{}, nil
+}
+
+func (s *MockSqlUserManager) convert(obj runtime.Object) (*v1alpha1.AzureSQLUser, error) {
+	local, ok := obj.(*v1alpha1.AzureSQLUser)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }
