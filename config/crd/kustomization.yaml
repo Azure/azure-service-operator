@@ -11,6 +11,7 @@ resources:
 - bases/azure.microsoft.com_consumergroups.yaml
 - bases/azure.microsoft.com_keyvaults.yaml
 - bases/azure.microsoft.com_azuresqlservers.yaml
+- bases/azure.microsoft.com_azuresqlusers.yaml
 - bases/azure.microsoft.com_azuresqldatabases.yaml
 - bases/azure.microsoft.com_azuresqlfirewallrules.yaml
 - bases/azure.microsoft.com_azuresqlactions.yaml
@@ -34,6 +35,7 @@ patches:
 #- patches/webhook_in_consumergroups.yaml
 #- patches/webhook_in_keyvaults.yaml
 #- patches/webhook_in_azuresqlservers.yaml
+#- patches/webhook_in_azuresqlusers.yaml
 #- patches/webhook_in_azuresqldatabases.yaml
 #- patches/webhook_in_azuresqlfirewallrules.yaml
 #- patches/webhook_in_azuresqlactions.yaml
@@ -55,6 +57,7 @@ patches:
 #- patches/cainjection_in_consumergroups.yaml
 #- patches/cainjection_in_keyvaults.yaml
 #- patches/cainjection_in_azuresqlservers.yaml
+#- patches/cainjection_in_azuresqlusers.yaml
 #- patches/cainjection_in_azuresqldatabases.yaml
 #- patches/cainjection_in_azuresqlfirewallrules.yaml
 #- patches/cainjection_in_azuresqlactions.yaml
