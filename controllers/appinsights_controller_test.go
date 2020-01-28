@@ -1,3 +1,5 @@
+// +build all appinsights
+
 /*
 Copyright 2019 Microsoft.
 
