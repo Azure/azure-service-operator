@@ -10,47 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
-type DBEdition = v1alpha1.DBEdition
-type ReadWriteEndpointFailoverPolicy = v1alpha1.ReadWriteEndpointFailoverPolicy
-
-const (
-	// Basic ...
-	Basic DBEdition = 0
-	// Business ...
-	Business DBEdition = 1
-	// BusinessCritical ...
-	BusinessCritical DBEdition = 2
-	// DataWarehouse ...
-	DataWarehouse DBEdition = 3
-	// Free ...
-	Free DBEdition = 4
-	// GeneralPurpose ...
-	GeneralPurpose DBEdition = 5
-	// Hyperscale ...
-	Hyperscale DBEdition = 6
-	// Premium ...
-	Premium DBEdition = 7
-	// PremiumRS ...
-	PremiumRS DBEdition = 8
-	// Standard ...
-	Standard DBEdition = 9
-	// Stretch ...
-	Stretch DBEdition = 10
-	// System ...
-	System DBEdition = 11
-	// System2 ...
-	System2 DBEdition = 12
-	// Web ...
-	Web DBEdition = 13
-)
-
-const (
-	// Automatic ...
-	Automatic ReadWriteEndpointFailoverPolicy = "Automatic"
-	// Manual ...
-	Manual ReadWriteEndpointFailoverPolicy = "Manual"
-)
-
 // SQLServerProperties contains values needed for adding / updating SQL servers,
 // wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#Server
 // also wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ServerProperties
@@ -83,7 +42,7 @@ type SQLDatabaseProperties struct {
 	// Get-AzSqlServerServiceObjective -Location <location>
 	// ````
 	// . Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium', 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse', 'System', 'System2', 'GeneralPurpose', 'BusinessCritical', 'Hyperscale'
-	Edition DBEdition
+	Edition v1alpha1.DBEdition
 }
 
 // SQLFailoverGroupProperties contains values needed for adding / updating SQL failover groups,
@@ -91,7 +50,7 @@ type SQLDatabaseProperties struct {
 type SQLFailoverGroupProperties struct {
 
 	// FailoverPolicy can be Automatic or Manual
-	FailoverPolicy ReadWriteEndpointFailoverPolicy
+	FailoverPolicy v1alpha1.ReadWriteEndpointFailoverPolicy
 
 	// Read/Write Grace Period in minutes
 	FailoverGracePeriod int32
@@ -128,7 +87,7 @@ func SQLDatabasePropertiesToDatabase(properties SQLDatabaseProperties) (result s
 }
 
 // translateDBEdition translates enums
-func translateDBEdition(in DBEdition) (result sql.DatabaseEdition) {
+func translateDBEdition(in v1alpha1.DBEdition) (result sql.DatabaseEdition) {
 	switch in {
 	case 0:
 		result = sql.Basic
@@ -166,11 +125,11 @@ func translateDBEdition(in DBEdition) (result sql.DatabaseEdition) {
 }
 
 // translateFailoverPolicy translates the enum
-func TranslateFailoverPolicy(in ReadWriteEndpointFailoverPolicy) (result sql.ReadWriteEndpointFailoverPolicy) {
+func TranslateFailoverPolicy(in v1alpha1.ReadWriteEndpointFailoverPolicy) (result sql.ReadWriteEndpointFailoverPolicy) {
 	switch in {
-	case Automatic:
+	case v1alpha1.FailoverPolicyAutomatic:
 		result = sql.Automatic
-	case Manual:
+	case v1alpha1.FailoverPolicyManual:
 		result = sql.Manual
 	default:
 		result = sql.Automatic
