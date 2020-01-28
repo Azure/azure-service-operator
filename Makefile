@@ -103,8 +103,9 @@ delete:
 # Generate manifests for helm and package them up
 helm-chart-manifests:
 	make manifests
-	kustomize build config/default -o ./charts/azure-service-operator/templates
-	sed -i -e 's@controller:latest@{{ .Values.image.repository }}@g' ./charts/azure-service-operator/templates/apps_v1_deployment_azureoperator-controller-manager.yaml
+	kustomize build ./config/default -o ./charts/azure-service-operator/templates
+	rm charts/azure-service-operator/templates/~g_v1_namespace_azureoperator-system.yaml
+	sed -i'' -e 's@controller:latest@{{ .Values.image.repository }}@' ./charts/azure-service-operator/templates/apps_v1_deployment_azureoperator-controller-manager.yaml
 	helm package ./charts/azure-service-operator -d ./charts
 	helm repo index ./charts
 
