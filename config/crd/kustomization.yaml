@@ -16,7 +16,6 @@ resources:
 - bases/azure.microsoft.com_azuresqlfirewallrules.yaml
 - bases/azure.microsoft.com_azuresqlactions.yaml
 - bases/azure.microsoft.com_azuresqlfailovergroups.yaml
-- bases/azure.microsoft.com_azuresqlusers.yaml
 - bases/azure.microsoft.com_blobcontainers.yaml
 - bases/azure.microsoft.com_azuredatalakegen2filesystems.yaml
 - bases/azure.microsoft.com_appinsights.yaml
