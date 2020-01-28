@@ -21,9 +21,6 @@ import (
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ReadWriteEndpointFailoverPolicy
-type ReadWriteEndpointFailoverPolicy string
-
 // AzureSqlFailoverGroupSpec defines the desired state of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
@@ -65,6 +62,16 @@ type AzureSqlFailoverGroupList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []AzureSqlFailoverGroup `json:"items"`
 }
+
+// ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ReadWriteEndpointFailoverPolicy
+type ReadWriteEndpointFailoverPolicy string
+
+const (
+	// Automatic ...
+	FailoverPolicyAutomatic ReadWriteEndpointFailoverPolicy = "Automatic"
+	// Manual ...
+	FailoverPolicyManual ReadWriteEndpointFailoverPolicy = "Manual"
+)
 
 func init() {
 	SchemeBuilder.Register(&AzureSqlFailoverGroup{}, &AzureSqlFailoverGroupList{})
