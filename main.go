@@ -312,6 +312,7 @@ func main() {
 		Recorder:                     mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
 		Scheme:                       mgr.GetScheme(),
 		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
+		SecretClient:                 secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
 		os.Exit(1)
