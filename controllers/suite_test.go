@@ -92,6 +92,7 @@ type testContext struct {
 	sqlUserManager          resourcemanagersqluser.SqlUserManager
 	consumerGroupClient     resourcemanagereventhub.ConsumerGroupManager
 	timeout                 time.Duration
+	timeoutFast             time.Duration
 	retry                   time.Duration
 }
 
@@ -195,9 +196,14 @@ func setup() error {
 		sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 		sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
 		sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
-		sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
 		consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
-		timeout = time.Second * 900
+		sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(
+			ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"),
+			secretClient,
+			scheme.Scheme,
+		)
+
+		timeout = time.Second * 720
 	} else {
 		appInsightsManager = resourcemanagerappinsightsmock.NewMockAppInsightsManager(scheme.Scheme)
 		resourceGroupManager = &resourcegroupsresourcemanagermock.MockResourceGroupManager{}
@@ -373,12 +379,16 @@ func setup() error {
 	}
 
 	err = (&AzureSQLUserReconciler{
-		Client:              k8sManager.GetClient(),
-		Log:                 ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
-		Recorder:            k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
-		Scheme:              scheme.Scheme,
-		AzureSqlUserManager: sqlUserManager,
-		SecretClient:        secretClient,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: sqlUserManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
+				"AzureSqlUser",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
 		return err
@@ -503,6 +513,7 @@ func setup() error {
 		storageManagers:         storageManagers,
 		keyVaultManager:         keyVaultManager,
 		timeout:                 timeout,
+		timeoutFast:             time.Minute * 3,
 		retry:                   time.Second * 3,
 		consumerGroupClient:     consumerGroupClient,
 	}
