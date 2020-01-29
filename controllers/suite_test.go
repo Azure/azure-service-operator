@@ -373,6 +373,7 @@ func setup() error {
 		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
 		Scheme:                       scheme.Scheme,
 		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
+		SecretClient:                 secretClient,
 	}).SetupWithManager(k8sManager)
 	if err != nil {
 		return err
