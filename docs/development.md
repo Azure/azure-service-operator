@@ -136,7 +136,7 @@ For eg., use  `kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yam
 
 ## Step-by-Step for developing a new operator using the generic controller
 
-This project utilizes a generic async controller that separates out the Kubernetes controller logic from the corresponding Azure service interactions. There are a few extra steps as listed below you will need to follow while using kubebuilder to generate a new operator.
+This project utilizes a generic async controller that separates out the Kubernetes controller logic from the corresponding Azure service interactions. There are a few extra steps (listed below) you will need to follow while using kubebuilder to generate a new operator.
 
 1. Clone the repository to your computer. Run `go mod download` to download dependencies. It doesn't show any progress bar and takes a while to download all of dependencies.
 2. Ensure you have `Kubebuilder` installed on your computer.
