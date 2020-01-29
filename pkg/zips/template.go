@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2019-05-01/resources"
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -23,9 +24,10 @@ var _ Applier = &AzureTemplateClient{}
 
 type (
 	AzureTemplateClient struct {
-		DeploymentsClient resources.DeploymentsClient
-		ResourceClient    resources.Client
-		SubscriptionID    string
+		DeploymentsClient   resources.DeploymentsClient
+		ResourceClient      resources.Client
+		ResourceGroupClient resources.GroupsClient
+		SubscriptionID      string
 	}
 
 	Template struct {
@@ -124,12 +126,15 @@ func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateCl
 
 	deploymentClient := resources.NewDeploymentsClient(subID)
 	resourceClient := resources.NewClient(subID)
+	resourceGroupsClient := resources.NewGroupsClient(subID)
 	deploymentClient.Authorizer = authorizer
 	resourceClient.Authorizer = authorizer
+	resourceGroupsClient.Authorizer = authorizer
 	return &AzureTemplateClient{
-		DeploymentsClient: deploymentClient,
-		ResourceClient:    resourceClient,
-		SubscriptionID:    subID,
+		DeploymentsClient:   deploymentClient,
+		ResourceClient:      resourceClient,
+		ResourceGroupClient: resourceGroupsClient,
+		SubscriptionID:      subID,
 	}, nil
 }
 
@@ -210,33 +215,77 @@ func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resour
 		Name:           res.Name,
 		Location:       res.Location,
 		Type:           res.Type,
+		Tags:           res.Tags,
+		ManagedBy:      res.ManagedBy,
 		APIVersion:     res.APIVersion,
 		Properties:     tOutValue.Properties,
 	}, nil
 }
 
-func (atc *AzureTemplateClient) Delete(ctx context.Context, id string) error {
-	// TODO(ace): don't blindly index into the ID.
-	// I think we already check this against empty string, which would guarantee no panics,
-	// but this is ugly and it's unclear why the client doesn't expect what the SDK returns.
+func (atc *AzureTemplateClient) Delete(ctx context.Context, res Resource) error {
+	var arRes *autorest.Response
+	if res.Type == "Microsoft.Resources/resourceGroups" {
+		r, err := atc.deleteResourceGroup(ctx, res)
+		if err != nil {
+			if de, ok := err.(autorest.DetailedError); ok {
+				if de.StatusCode == 404 {
+					return nil
+				}
+			}
+			return fmt.Errorf("failed deleting %s with %w and error type %T", res.Type, err, err)
+		}
+		arRes = r
+	} else {
+		// all other resources
+		r, err := atc.deleteResource(ctx, res)
+		if err != nil {
+			if de, ok := err.(autorest.DetailedError); ok {
+				if de.StatusCode == 404 {
+					return nil
+				}
+			}
+			return fmt.Errorf("failed deleting %s with %w and error type %T", res.Type, err, err)
+		}
+		arRes = r
+	}
+
+	if arRes.StatusCode > 299 {
+		return fmt.Errorf("delete failed with status code %d and message %q", arRes.StatusCode, arRes.Status)
+	}
+	return nil
+}
+
+func (atc *AzureTemplateClient) deleteResource(ctx context.Context, res Resource) (*autorest.Response, error) {
+	id := res.ID
+	if id == "" {
+		return nil, errors.New("id cannot be empty")
+	}
+
 	future, err := atc.ResourceClient.DeleteByID(ctx, id[1:])
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if err := future.WaitForCompletionRef(ctx, atc.ResourceClient.Client); err != nil {
-		return err
+		return nil, err
 	}
 
-	res, err := future.Result(atc.ResourceClient)
+	resp, err := future.Result(atc.ResourceClient)
+	return &resp, err
+}
+
+func (atc *AzureTemplateClient) deleteResourceGroup(ctx context.Context, rg Resource) (*autorest.Response, error) {
+	future, err := atc.ResourceGroupClient.Delete(ctx, rg.Name)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	if res.StatusCode > 299 {
-		return fmt.Errorf("delete failed with status code %d and message %q", res.StatusCode, res.Status)
+	if err := future.WaitForCompletionRef(ctx, atc.ResourceClient.Client); err != nil {
+		return nil, err
 	}
-	return nil
+
+	resp, err := future.Result(atc.ResourceGroupClient)
+	return &resp, err
 }
 
 func NewSubscriptionDeploymentTemplate(resources ...Resource) *Template {

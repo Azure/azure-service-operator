@@ -14,8 +14,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/Azure/k8s-infra/api/azmetav1"
-	protov1 "github.com/Azure/k8s-infra/api/v1alpha1"
+	v1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
 	"github.com/Azure/k8s-infra/pkg/zips"
 )
 
@@ -30,8 +29,8 @@ func (am *ApplierMock) Apply(ctx context.Context, res zips.Resource) (zips.Resou
 	return args.Get(0).(zips.Resource), args.Error(1)
 }
 
-func (am *ApplierMock) Delete(ctx context.Context, resID string) error {
-	args := am.Called(ctx, resID)
+func (am *ApplierMock) Delete(ctx context.Context, res zips.Resource) error {
+	args := am.Called(ctx, res)
 	return args.Error(0)
 }
 
@@ -45,45 +44,43 @@ var _ = Describe("GenericReconciler", func() {
 			ctx := context.Background()
 			applier := new(ApplierMock)
 
-			instance := &protov1.ResourceGroup{
+			instance := &v1.ResourceGroup{
 				TypeMeta: metav1.TypeMeta{
 					Kind:       "ResourceGroup",
-					APIVersion: protov1.GroupVersion.String(),
+					APIVersion: v1.GroupVersion.String(),
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:       "foo",
 					Namespace:  "default",
 					Finalizers: []string{"infra.azure.com/finalizer"},
 				},
-				Spec: protov1.ResourceGroupSpec{
-					TrackedResourceSpec: azmetav1.TrackedResourceSpec{
-						Location: "westus2",
-					},
+				Spec: v1.ResourceGroupSpec{
+					Location:   "westus2",
+					APIVersion: "2019-10-01",
 				},
 			}
 
-			reconciler := getReconciler(instance.GetObjectKind().GroupVersionKind(), mgr.GetScheme(), k8sClient, applier)
-
 			Expect(k8sClient.Create(ctx, instance)).To(Succeed())
-
 			resBefore := zips.Resource{
-				Name:       "foo",
-				Type:       "Microsoft.Resources/resourceGroup",
-				Location:   "westus2",
-				APIVersion: "2018-05-01",
+				Name:              "foo",
+				Type:              "Microsoft.Resources/resourceGroups",
+				Location:          "westus2",
+				APIVersion:        "2019-10-01",
+				ProvisioningState: "Applying",
 			}
 
 			resAfter := zips.Resource{
 				Name:       "foo",
-				Type:       "Microsoft.Resources/resourceGroup",
+				Type:       "Microsoft.Resources/resourceGroups",
 				Location:   "westus2",
-				APIVersion: "2018-05-01",
+				APIVersion: "2019-10-01",
 				ID:         "/subscriptions/bar/providers/Microsoft.Resources/resourceGroup/foo",
 			}
 
 			// setup the applier call with the projected resource
 			applier.On("Apply", mock.Anything, resBefore).Return(resAfter, nil)
 
+			reconciler := getReconciler(instance, mgr, k8sClient, applier)
 			result, err := reconciler.Reconcile(ctrl.Request{
 				NamespacedName: client.ObjectKey{
 					Namespace: instance.Namespace,

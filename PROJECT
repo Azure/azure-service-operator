@@ -1,10 +1,14 @@
 domain: infra.azure.com
+multigroup: true
 repo: github.com/Azure/k8s-infra
 resources:
-- group: proto
+- group: microsoft.resources
   kind: ResourceGroup
-  version: v1alpha1
-- group: proto
-  kind: VirtualNetwork
-  version: v1alpha1
+  version: v20191001
+- group: microsoft.resources
+  kind: ResourceGroup
+  version: v20150101
+- group: microsoft.resources
+  kind: ResourceGroup
+  version: v0
 version: "2"

@@ -1,13 +1,15 @@
-# permissions to do edit virtualnetworks.
+
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: virtualnetwork-editor-role
+  creationTimestamp: null
+  name: manager-role
 rules:
 - apiGroups:
-  - proto.infra.azure.com
+  - microsoft.resources.infra.azure.com
   resources:
-  - virtualnetworks
+  - resourcegroups
   verbs:
   - create
   - delete
@@ -17,9 +19,9 @@ rules:
   - update
   - watch
 - apiGroups:
-  - proto.infra.azure.com
+  - microsoft.resources.infra.azure.com
   resources:
-  - virtualnetworks/status
+  - resourcegroups/status
   verbs:
   - get
   - patch

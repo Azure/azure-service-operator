@@ -3,10 +3,10 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-// Package v1alpha1 contains API Schema definitions for the proto v1alpha1 API group
+// Package v0 contains API Schema definitions for the microsoftresources v0 API group
 // +kubebuilder:object:generate=true
-// +groupName=proto.infra.azure.com
-package v1alpha1
+// +groupName=microsoft.resources.infra.azure.com
+package v1
 
 import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -15,7 +15,7 @@ import (
 
 var (
 	// GroupVersion is group version used to register these objects
-	GroupVersion = schema.GroupVersion{Group: "proto.infra.azure.com", Version: "v1alpha1"}
+	GroupVersion = schema.GroupVersion{Group: "microsoft.resources.infra.azure.com", Version: "v1"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
 	SchemeBuilder = &scheme.Builder{GroupVersion: GroupVersion}

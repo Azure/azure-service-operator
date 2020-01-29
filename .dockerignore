@@ -1,0 +1,7 @@
+./hack
+./bin
+.devcontainer
+.github
+./config
+./pki
+./scripts

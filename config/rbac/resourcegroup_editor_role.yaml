@@ -1,11 +1,11 @@
-# permissions to do edit resourcegroups.
+# permissions for end users to edit resourcegroups.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: resourcegroup-editor-role
 rules:
 - apiGroups:
-  - proto.infra.azure.com
+  - microsoft.resources.infra.azure.com
   resources:
   - resourcegroups
   verbs:
@@ -17,10 +17,8 @@ rules:
   - update
   - watch
 - apiGroups:
-  - proto.infra.azure.com
+  - microsoft.resources.infra.azure.com
   resources:
   - resourcegroups/status
   verbs:
   - get
-  - patch
-  - update

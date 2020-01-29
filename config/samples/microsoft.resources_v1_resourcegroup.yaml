@@ -1,7 +1,8 @@
-apiVersion: proto.infra.azure.com/v1alpha1
+apiVersion: microsoft.resources.infra.azure.com/v1
 kind: ResourceGroup
 metadata:
   name: resourcegroup-sample
 spec:
   # Add fields here
-  foo: bar
+  name: foo
+  location: westus2

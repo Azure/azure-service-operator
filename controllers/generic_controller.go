@@ -7,17 +7,21 @@ package controllers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"strings"
 
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/conversion"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	protov1alpha1 "github.com/Azure/k8s-infra/api/v1alpha1"
+	microsoftresourcesv1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
 	"github.com/Azure/k8s-infra/pkg/zips"
 )
 
@@ -25,8 +29,8 @@ const (
 	finalizerName string = "infra.azure.com/finalizer"
 )
 
-// +kubebuilder:rbac:groups=proto.infra.azure.com,resources=virtualnetwork;resourcegroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=proto.infra.azure.com,resources=virtualnetwork/status;resourcegroups/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups/status,verbs=get;update;patch
 
 // KnownTypes defines an array of runtime.Objects to be reconciled, where each
 // object in the array will generate a controller. If the concrete type
@@ -36,9 +40,12 @@ const (
 // and reconcile many Owned objects. The singular type is necessary to generically
 // produce a reconcile function aware of concrete types, as a closure.
 var KnownTypes = []runtime.Object{
-	&protov1alpha1.ResourceGroup{},
-	&protov1alpha1.VirtualNetwork{},
+	new(microsoftresourcesv1.ResourceGroup),
 }
+
+var (
+	ctrlog = ctrl.Log.WithName("resources-controller")
+)
 
 type owner interface {
 	Owns() []runtime.Object
@@ -47,6 +54,9 @@ type owner interface {
 func RegisterAll(mgr ctrl.Manager, applier zips.Applier, objs []runtime.Object) []error {
 	var errs []error
 	for _, obj := range objs {
+		mgr := mgr
+		applier := applier
+		obj := obj
 		if err := register(mgr, applier, obj); err != nil {
 			errs = append(errs, err)
 		}
@@ -55,7 +65,7 @@ func RegisterAll(mgr ctrl.Manager, applier zips.Applier, objs []runtime.Object) 
 }
 
 // register takes a manager and a struct describing how to instantiate
-// controllers for various types usng a generic reconciler function. Only one
+// controllers for various types using a generic reconciler function. Only one
 // type (using For) may be directly watched by each controller, but zero, one or
 // many Owned types are acceptable. This setup allows reconcileFn to have access
 // to the concrete type defined as part of a closure, while allowing for
@@ -69,74 +79,132 @@ func register(mgr ctrl.Manager, applier zips.Applier, obj runtime.Object) error 
 			controller.Owns(ownedType)
 		}
 	}
-	gvk := obj.GetObjectKind().GroupVersionKind()
-	reconciler := getReconciler(gvk, mgr.GetScheme(), mgr.GetClient(), applier)
+
+	v, err := conversion.EnforcePtr(obj)
+	if err != nil {
+		return err
+	}
+	t := v.Type()
+	controller.Named(strings.ReplaceAll(t.String(), ".", "_"))
+	reconciler := getReconciler(obj, mgr, mgr.GetClient(), applier)
 	return controller.Complete(reconciler)
 }
 
 // getReconciler is a simple helper to directly produce a reconcile Function. Useful to test against.
-func getReconciler(gvk schema.GroupVersionKind, scheme *runtime.Scheme, kubeclient client.Client, applier zips.Applier) reconcile.Func {
+func getReconciler(obj runtime.Object, mgr ctrl.Manager, kubeclient client.Client, applier zips.Applier) reconcile.Func {
 	return func(req ctrl.Request) (ctrl.Result, error) {
-		return reconcileFn(req, gvk, scheme, kubeclient, applier)
+		// Use the provided GVK to construct a new runtime object of the desired concrete type.
+		gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+
+		obj, err = mgr.GetScheme().New(gvk)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+
+		return reconcileFn(req, obj, kubeclient, applier)
 	}
 }
 
 // reconcileFn is the "real" reconciler function, created as a closure above at manager startup to have access to the gvk.
-func reconcileFn(req ctrl.Request, gvk schema.GroupVersionKind, scheme *runtime.Scheme, kubeclient client.Client, applier zips.Applier) (ctrl.Result, error) {
+func reconcileFn(req ctrl.Request, obj runtime.Object, kubeclient client.Client, applier zips.Applier) (ctrl.Result, error) {
 	ctx := context.Background()
 
-	// Use the provided GVK to construct a new runtime object of the desired concrete type.
-	runObj, err := scheme.New(gvk)
-	if err != nil {
-		return ctrl.Result{}, err
-	}
+	if err := kubeclient.Get(ctx, req.NamespacedName, obj); err != nil {
+		if apierrors.IsNotFound(err) {
+			ctrlog.Info("object not found, requeue")
+			// Object not found, return.  Created objects are automatically garbage collected.
+			// For additional cleanup logic use finalizers.
+			return ctrl.Result{}, nil
+		}
 
-	// Fetch the object by key + type.
-	if err := kubeclient.Get(ctx, req.NamespacedName, runObj); err != nil {
+		ctrlog.Error(err, "error reading object")
+		// Error reading the object - requeue the request.
 		return ctrl.Result{}, err
 	}
 
 	// The Go type for the Kubernetes object must understand how to
 	// convert itself to/from the corresponding Azure types.
-	resourcer, ok := runObj.(zips.Resourcer)
+	resourcer, ok := obj.(zips.Resourcer)
 	if !ok {
-		return ctrl.Result{}, fmt.Errorf("object: %+v is not a zips.Resourcer", runObj)
+		return ctrl.Result{}, fmt.Errorf("object: %+v is not a zips.Resourcer", obj)
 	}
 
 	// Get the Azure resource representation of the Kubernetes object
-	azureObj, err := resourcer.ToResource()
+	azObj := resourcer.ToResource()
+	bits, err := json.Marshal(azObj)
 	if err != nil {
+		ctrlog.Error(err, "Failed marshalling")
 		return ctrl.Result{}, err
 	}
+
+	ctrlog.Info("###### Processing: " + string(bits))
 
 	// TODO(ace): consider a union of runtime.Object and metav1.Object
 	// ref: https://github.com/kubernetes-sigs/controller-runtime/issues/594
-	metaObj, err := meta.Accessor(runObj)
+	metaObj, err := meta.Accessor(obj)
 	if err != nil {
+		ctrlog.Error(err, "Failed at meta.Accessor")
 		return ctrl.Result{}, err
 	}
 
-	if metaObj.GetDeletionTimestamp().IsZero() {
-		if !HasFinalizer(metaObj, finalizerName) {
-			AddFinalizer(metaObj, finalizerName)
-			return ctrl.Result{}, kubeclient.Update(ctx, runObj)
-		}
-	} else {
+	// reconcile delete
+	if !metaObj.GetDeletionTimestamp().IsZero() {
 		if HasFinalizer(metaObj, finalizerName) {
-			if err := applier.Delete(ctx, azureObj.ID); err != nil {
+			azObj.ProvisioningState = "Deleting"
+			obj = resourcer.FromResource(azObj)
+			if err := kubeclient.Status().Update(ctx, obj); err != nil {
+				return ctrl.Result{}, fmt.Errorf("failed updating provisioning status to Deleting with %w", err)
+			}
+
+			if err := applier.Delete(ctx, azObj); err != nil {
+				err = fmt.Errorf("failed trying to delete %q with %w", req.NamespacedName, err)
+				ctrlog.Error(err, "Delete error")
 				return ctrl.Result{}, err
 			}
+
+			obj = resourcer.FromResource(azObj)
+			RemoveFinalizer(metaObj, finalizerName)
+			if err := kubeclient.Update(ctx, obj); err != nil {
+				return ctrl.Result{}, fmt.Errorf("failed trying to remove finalizer with %w", err)
+			}
+
 		}
 		return ctrl.Result{}, nil
+	}
+
+	// add finalizer if not present
+	if !HasFinalizer(metaObj, finalizerName) {
+		AddFinalizer(metaObj, finalizerName)
+		if err := kubeclient.Update(ctx, obj); err != nil {
+			ctrlog.Error(err, fmt.Sprintf("Failed trying to update the resource with a finalizer: %+v ### %+v", metaObj, obj))
+			return ctrl.Result{}, err
+		}
+	}
+
+	azObj.ProvisioningState = "Applying"
+	obj = resourcer.FromResource(azObj)
+	if err := kubeclient.Status().Update(ctx, obj); err != nil {
+		return ctrl.Result{}, fmt.Errorf("failed updating provisioning status to Applying with %w", err)
 	}
 
 	// apply normally;
 	//
 	// This should call to the Applier where the current state of the applied resource should be compared to the cached
 	// state of the Azure resource. If the two states differ, the Applier should then apply that state to Azure.
-	if _, err = applier.Apply(ctx, azureObj); err != nil {
+	res, err := applier.Apply(ctx, azObj)
+	if err != nil {
 		// failed applying the result
+		ctrlog.Error(err, "Failed applying the result")
 		return ctrl.Result{}, err
+	}
+
+	obj = resourcer.FromResource(res)
+
+	if err := kubeclient.Status().Update(ctx, obj); err != nil {
+		return ctrl.Result{}, fmt.Errorf("failed updating final status on resource with %w", err)
 	}
 
 	return ctrl.Result{}, nil
@@ -151,6 +219,18 @@ func AddFinalizer(o metav1.Object, finalizer string) {
 		}
 	}
 	o.SetFinalizers(append(f, finalizer))
+}
+
+// RemoveFinalizer accepts a metav1 object and removes the finalizer
+func RemoveFinalizer(o metav1.Object, finalizer string) {
+	f := o.GetFinalizers()
+	var finalizers []string
+	for _, e := range f {
+		if e != finalizer {
+			finalizers = append(finalizers, f...)
+		}
+	}
+	o.SetFinalizers(finalizers)
 }
 
 // HasFinalizer accepts a metav1 object and returns true if the the object has the provided finalizer.

@@ -1,0 +1,7 @@
+apiVersion: microsoft.resources.infra.azure.com/v20150101
+kind: ResourceGroup
+metadata:
+  name: foo-2015
+spec:
+  name: foo3
+  location: westus2

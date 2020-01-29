@@ -41,11 +41,15 @@ func TestAzureTemplateClient_Deploy(t *testing.T) {
 	defer func() {
 		// TODO: have a better plan for cleaning up after tests
 		if res.ID != "" {
-			_ = client.Delete(context.TODO(), res.ID)
+			_ = client.Delete(context.TODO(), res)
 		}
 
 		if res.DeploymentID != "" {
-			_ = client.Delete(context.TODO(), res.DeploymentID)
+			dep := zips.Resource{
+				ID: res.DeploymentID,
+				Type: "Microsoft.Resources/deployments",
+			}
+			_ = client.Delete(context.TODO(), dep)
 		}
 	}()
 	g.Expect(err).To(gomega.BeNil())

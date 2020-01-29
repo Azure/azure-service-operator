@@ -25,3 +25,5 @@ bin
 # built from the makefile
 .k8sinfra.cluster
 .env
+
+pki/certs

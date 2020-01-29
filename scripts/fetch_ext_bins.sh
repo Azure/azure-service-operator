@@ -26,7 +26,6 @@ if [[ -n "${TRACE}" ]]; then
   set -x
 fi
 
-k8s_version=1.14.1
 goarch=amd64
 goos="unknown"
 
@@ -60,8 +59,6 @@ function header_text {
 
 REPO_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
 tools_bin=${REPO_ROOT}/hack/tools/bin
-tmp_root=/tmp
-kb_root_dir=${tmp_root}/kubebuilder
 
 # Skip fetching and untaring the tools by setting the SKIP_FETCH_TOOLS variable
 # in your environment to any value:
@@ -79,15 +76,8 @@ function fetch_tools {
   fi
 
   header_text "fetching tools"
-  kb_tools_archive_name="kubebuilder-tools-${k8s_version}-${goos}-${goarch}.tar.gz"
-  kb_tools_download_url="https://storage.googleapis.com/kubebuilder-tools/${kb_tools_archive_name}"
-
-  kb_tools_archive_path="${tmp_root}/${kb_tools_archive_name}"
-  if [[ ! -f ${kb_tools_archive_path} ]]; then
-    curl -fsL ${kb_tools_download_url} -o "${kb_tools_archive_path}"
-  fi
-  tar -zvxf "${kb_tools_archive_path}" -C "${tmp_root}/"
 
   mkdir -p "${tools_bin}"
-  mv "${kb_root_dir}"/bin/* "${tools_bin}"
+  curl -fsL https://go.kubebuilder.io/dl/latest/${goos}/${goarch} | tar -xz -C /tmp/
+  mv /tmp/kubebuilder_master_${goos}_${goarch}/bin/* "${tools_bin}"
 }
