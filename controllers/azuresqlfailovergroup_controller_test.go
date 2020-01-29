@@ -66,7 +66,7 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 		return strings.Contains(sqlFailoverGroupInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
-	}, tc.timeout, tc.retry, "wait for rg not found error")
+	}, tc.timeout, tc.retry, "wait for rg not found error to clear")
 
 	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)
 	assert.Equal(nil, err, "delete failovergroup in k8s")
