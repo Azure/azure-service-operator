@@ -150,7 +150,10 @@ kubebuilder create api --group azure --version v1alpha1 --kind AzureSQLServer
 
 4. When you run this command, you will be prompted with two questions - if you want to create a resource, and a corresponding controller. Answer yes to both of these.
 
-This will create the Custom Resource Definition types file, the controller file, and other needed scaffolding.
+This will create 
+  - CRD types file in /api/v1alpha1
+  - a controller file in controllers/{resource_type}_controller.go
+  - and other needed scaffolding.
 
 ```shell
 ➜  azure-service-operator git:(testbranch) ✗ kubebuilder create api --group azure --version v1alpha1 --kind AzureNewType
