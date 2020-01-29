@@ -140,8 +140,7 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 	}
 
 	instance.Status.State = "Active"
-	instance.Status.Message = "Success"
-	// write information back to instance
+	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 

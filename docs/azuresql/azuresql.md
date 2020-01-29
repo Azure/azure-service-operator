@@ -158,7 +158,7 @@ Once you apply this, the kube secret with the same name as the SQL server is upd
 
 ### SQL failover group
 
-The SQL failover group operator is used to create a failover group on a specified primary Azure SQL server, given the secondary Azure SQL server (should be in a different location from the primary server) and the databases on the primary server that should failover.
+The SQL failover group operator is used to create a failover group across two Azure SQL servers (one primary, one secondary). The servers should already be provisioned and deployed different regions. The specified databases will be replicated from the primary server and created on the secondary.
 
 Below is a sample YAML for creating a failover group
 
@@ -182,7 +182,7 @@ spec:
 
 The `name` is a name for the failover group that we want to create. `server` is the primary SQL server on which the failover group is created, `location` and `resourcegroup` are the location and the resource group of the primary SQL server. `failoverpolicy` can be "automatic" or "manual". `failovergraceperiod` is the time in minutes. `secondaryserver` is the secondary SQL server to failover to and `secondaryserverresourcegroup` is the resource group that the server is in. `databaselist` is the list of databased on the primary SQL server that should replicate to the secondary SQL server, when there is a failover action.
 
-Once you apply this, a secret with the same name as the SQL failovergroup is also stored. This secret contains the fields for primary/secondary failovergroup listener endpoints (`readwritelistenerendpoint` and `readonlylistenerendpoint`) and the primary/secondary SQL server names (`azuresqlprimaryservername` and `azuresqlsecondaryservername`)
+Once you apply this, a secret with the same name as the SQL failovergroup is also stored. This secret contains the fields for primary/secondary failovergroup listener endpoints (`readWriteListenerEndpoint` and `readOnlyListenerEndpoint`) and the primary/secondary SQL server names (`azureSqlPrimaryServerName` and `azureSqlSecondaryServerName`)
 
 ### SQL database user
 
@@ -216,74 +216,7 @@ Once you apply this, a secret with the name specified in `adminsecret` is stored
 
 ## View and Troubleshoot SQL Resources
 
-To view your created SQL resources, such as sqlserver, run the following command:
-
-```shell
-kubectl get <CRD>
-```
-
-where CRD is the Custom Resource Definition name or `Kind` for the resource.
-
-For instance, you can get the Azure SQL servers provisioned using the command
-
-```shell
-kubectl get AzureSqlServer
-```
-
-You should see the AzureSqlServer instances as below
-
-```shell
-NAME                  AGE
-sqlserver-sample      1h
-```
-
-If you want to see more details about a particular resource instance such as the `Status` or `Events`, you can use the below command
-
-```shell
-kubectl describe <Kind> <instance name>
-```
-
-For instance, the below command is used to get more details about the `sqlserver-sample` instance
-
-```shell
-kubectl describe AzureSqlServer sqlserver-sample
-```
-
-```shell
-Name:         sqlserver-sample234
-Namespace:    default
-Labels:       <none>
-Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"azure.microsoft.com/v1alpha1","kind":"AzureSqlServer","metadata":{"annotations":{},"name":"sqlserver-sample234","namespace":"default"}...
-API Version:  azure.microsoft.com/v1alpha1
-Kind:         SqlServer
-Metadata:
-  Creation Timestamp:  2019-09-26T21:30:56Z
-  Finalizers:
-    azuresqlserver.finalizers.azure.com
-  Generation:        1
-  Resource Version:  20001
-  Self Link:         /apis/azure.microsoft.com/v1/namespaces/default/azuresqlservers/sqlserver-sample234
-  UID:               ed1c5d1d-e0a4-11e9-9ee8-52a5c765e9d7
-Spec:
-  Location:                 westus
-  Resourcegroup:            resourceGroup1
-Status:
-  Provisioned:  true
-  State:        Ready
-Events:
-  Type    Reason       Age                   From                  Message
-  ----    ------       ----                  ----                  -------
-  Normal  Updated      2m21s                 SqlServer-controller  finalizer azuresqlserver.finalizers.azure.com added
-  Normal  Submitting   2m21s                 SqlServer-controller  starting resource reconciliation
-  Normal  Checking     108s (x3 over 2m18s)  SqlServer-controller  instance in NotReady state
-  Normal  Checking     76s (x2 over 78s)     SqlServer-controller  instance in Ready state
-  Normal  Provisioned  75s (x2 over 76s)     SqlServer-controller  azuresqlserver sqlserver-sample234 provisioned
-```
-
-The `Status` section gives you the current state of the resource that it's Ready and is provisioned.
-
-The `Events` have a chronological record of what occurred through the process of provisioning the resource.
+You can view your created Azure SQL resources using the steps [here](viewresources.md)
 
 ## Delete a SQL Resource
 

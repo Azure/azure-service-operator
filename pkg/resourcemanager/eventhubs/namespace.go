@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -156,7 +157,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 		instance.Status.Message = "namespace exists but may not be ready"
 
 		if *evhns.ProvisioningState == "Succeeded" {
-			instance.Status.Message = *evhns.ProvisioningState
+			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			return true, nil
@@ -168,23 +169,23 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 	// create Event Hubs namespace
 	newNs, err := ns.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
-			instance.Status.Message = err.Error()
+		if helpers.ContainsString(catch, azerr.Type) || strings.Contains(err.Error(), "validation failed") {
 			return false, nil
 		}
 
 		instance.Status.Provisioning = false
 
-		return true, fmt.Errorf("EventhubNamespace create error %v", err)
+		return false, fmt.Errorf("EventhubNamespace create error %v", err)
 
 	}
-	// write information back to instance
 
+	// write information back to instance
 	instance.Status.State = *newNs.ProvisioningState
 
 	return true, nil
@@ -216,6 +217,7 @@ func (ns *azureEventHubNamespaceManager) Delete(ctx context.Context, obj runtime
 		// check if namespace was already gone
 		catch = []string{
 			errhelp.NotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil

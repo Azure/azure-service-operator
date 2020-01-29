@@ -1,104 +1,193 @@
-/*
-Copyright 2019 microsoft.
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// +build all keyvault
 
 package controllers
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"net/http"
 	"strings"
+	"testing"
 	"time"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("KeyVault Controller", func() {
+func TestKeyvaultControllerHappyPath(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
 
 	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
 	const poll = time.Second * 10
 
-	Context("Key Vault Controller", func() {
+	keyVaultLocation := tc.resourceGroupLocation
 
-		It("Should Create and Delete Key Vault instances", func() {
+	// Declare KeyVault object
+	keyVaultInstance := &azurev1alpha1.KeyVault{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      keyVaultName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.KeyVaultSpec{
+			Location:      keyVaultLocation,
+			ResourceGroup: tc.resourceGroupName,
+		},
+	}
 
-			defer GinkgoRecover()
+	// Create the Keyvault object and expect the Reconcile to be created
+	err := tc.k8sClient.Create(ctx, keyVaultInstance)
+	assert.Equal(nil, err, "create keyvault in k8s")
 
-			keyVaultLocation := tc.resourceGroupLocation
+	// Prep query for get
+	keyVaultNamespacedName := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
 
-			// Declare KeyVault object
-			keyVaultInstance := &azurev1alpha1.KeyVault{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      keyVaultName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.KeyVaultSpec{
-					Location:          keyVaultLocation,
-					ResourceGroupName: tc.resourceGroupName,
-				},
-			}
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
+		return helpers.HasFinalizer(keyVaultInstance, finalizerName)
+	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
 
-			// Create the Keyvault object and expect the Reconcile to be created
-			log.Print("Create")
-			err := tc.k8sClient.Create(context.Background(), keyVaultInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
+	// Wait until key vault is provisioned
 
-			// Prep query for get
-			keyVaultNamespacedName := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
+		return strings.Contains(keyVaultInstance.Status.Message, successMsg)
+	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in k8s")
 
-			// Wait until key vault is provisioned
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
-				//log.Print(keyVaultInstance.Status)
-				return keyVaultInstance.Status.Provisioned == true
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+	// verify key vault exists in Azure
+	assert.Eventually(func() bool {
+		result, _ := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)
+		return result.Response.StatusCode == http.StatusOK
+	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in azure")
 
-			// verify key vault exists in Azure
-			Eventually(func() bool {
-				result, _ := tc.keyVaultManager.GetVault(context.Background(), tc.resourceGroupName, keyVaultInstance.Name)
-				return result.Response.StatusCode == http.StatusOK
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+	// delete key vault
+	err = tc.k8sClient.Delete(ctx, keyVaultInstance)
+	assert.Equal(nil, err, "delete keyvault in k8s")
 
-			// delete key vault
-			err = tc.k8sClient.Delete(context.Background(), keyVaultInstance)
-			Expect(err).NotTo(HaveOccurred())
+	// verify key vault is gone from kubernetes
 
-			// verify key vault is gone from kubernetes
-			Eventually(func() bool {
-				err := tc.k8sClient.Get(context.Background(), keyVaultNamespacedName, keyVaultInstance)
-				if err == nil {
-					err = fmt.Errorf("")
-				}
-				return strings.Contains(err.Error(), "not found")
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+	assert.Eventually(func() bool {
+		err := tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from k8s")
 
-			// confirm key vault is gone from Azure
-			Eventually(func() bool {
-				result, _ := tc.keyVaultManager.GetVault(context.Background(), tc.resourceGroupName, keyVaultInstance.Name)
-				return result.Response.StatusCode == http.StatusNotFound
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-		})
-	})
-})
+	assert.Eventually(func() bool {
+		result, _ := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)
+		return result.Response.StatusCode == http.StatusNotFound
+	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from azure")
+
+}
+
+func TestKeyvaultControllerInvalidName(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
+
+	keyVaultName := "k"
+
+	keyVaultLocation := tc.resourceGroupLocation
+
+	// Declare KeyVault object
+	keyVaultInstance := &azurev1alpha1.KeyVault{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      keyVaultName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.KeyVaultSpec{
+			Location:      keyVaultLocation,
+			ResourceGroup: tc.resourceGroupName,
+		},
+	}
+
+	// Create the Keyvault object and expect the Reconcile to be created
+	err := tc.k8sClient.Create(ctx, keyVaultInstance)
+	assert.Equal(nil, err, "create keyvault in k8s")
+
+	// Prep query for get
+	keyVaultNamespacedName := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
+		return helpers.HasFinalizer(keyVaultInstance, finalizerName)
+	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
+
+	// Verify you get the invalid name error
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
+		return strings.Contains(keyVaultInstance.Status.Message, errhelp.AccountNameInvalid)
+	}, tc.timeout, tc.retry, "wait for invalid account name error")
+
+	// delete key vault
+	err = tc.k8sClient.Delete(ctx, keyVaultInstance)
+	assert.Equal(nil, err, "delete keyvault in k8s")
+
+	// verify key vault is gone from kubernetes
+
+	assert.Eventually(func() bool {
+		err := tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from k8s")
+
+}
+
+func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
+
+	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
+
+	keyVaultLocation := tc.resourceGroupLocation
+
+	// Declare KeyVault object
+	keyVaultInstance := &azurev1alpha1.KeyVault{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      keyVaultName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.KeyVaultSpec{
+			Location:      keyVaultLocation,
+			ResourceGroup: "fakerg",
+		},
+	}
+
+	// Create the Keyvault object and expect the Reconcile to be created
+	err := tc.k8sClient.Create(ctx, keyVaultInstance)
+	assert.Equal(nil, err, "create keyvault in k8s")
+
+	// Prep query for get
+	keyVaultNamespacedName := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
+		return helpers.HasFinalizer(keyVaultInstance, finalizerName)
+	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
+
+	// Verify you get the resource group not found error
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
+		return strings.Contains(keyVaultInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for ResourceGroupNotFound error")
+
+	// delete key vault
+	err = tc.k8sClient.Delete(ctx, keyVaultInstance)
+	assert.Equal(nil, err, "delete keyvault in k8s")
+
+	// verify key vault is gone from kubernetes
+
+	assert.Eventually(func() bool {
+		err := tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from k8s")
+
+}

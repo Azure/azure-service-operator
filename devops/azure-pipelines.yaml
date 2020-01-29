@@ -10,7 +10,7 @@ variables:
   MAJOR_VERSION: 0
   MINOR_VERSION: 0
   PATCH_VERSION: $(Build.BuildId)
-  GOROOT: '/usr/local/go1.12' # Go installation path
+  GOROOT: '/usr/local/go1.13' # Go installation path
   GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
@@ -75,29 +75,29 @@ steps:
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
   workingDirectory: '$(MODULE_PATH)'
 
-- script: |
-    go mod download
-    go get -u github.com/jstemmer/go-junit-report
-    go get github.com/axw/gocov/gocov
-    go get github.com/AlekSi/gocov-xml
-    go get -u gopkg.in/matm/v1/gocov-html
-    go get golang.org/x/tools/cmd/cover
-    go get github.com/onsi/ginkgo/ginkgo
-    make test
-    gocov convert coverage.txt > coverage.json
-    gocov-xml < coverage.json > coverage.xml
-    mkdir coverage
-  continueOnError: 'false'
-  displayName: 'Run unit/mocked tests'
-  env:
-    GO111MODULE: on
-    KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-    AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-    REQUEUE_AFTER: $(REQUEUE_AFTER)
-  workingDirectory: '$(MODULE_PATH)'
+# - script: |
+#     go mod download
+#     go get -u github.com/jstemmer/go-junit-report
+#     go get github.com/axw/gocov/gocov
+#     go get github.com/AlekSi/gocov-xml
+#     go get -u gopkg.in/matm/v1/gocov-html
+#     go get golang.org/x/tools/cmd/cover
+#     go get github.com/onsi/ginkgo/ginkgo
+#     make test
+#     gocov convert coverage.txt > coverage.json
+#     gocov-xml < coverage.json > coverage.xml
+#     mkdir coverage
+#   continueOnError: 'false'
+#   displayName: 'Run unit/mocked tests'
+#   env:
+#     GO111MODULE: on
+#     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+#     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+#     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+#     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+#     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+#     REQUEUE_AFTER: $(REQUEUE_AFTER)
+#   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
     set -e
@@ -124,9 +124,9 @@ steps:
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
     make deploy
-    make test-existing
+    make test-existing-controllers
   continueOnError: 'false'
-  displayName: 'Set kind cluster and Run unit tests'
+  displayName: 'Set kind cluster and Run int tests'
   env:
     GO111MODULE: on
     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
@@ -137,29 +137,29 @@ steps:
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
   workingDirectory: '$(MODULE_PATH)'
 
-- task: PublishTestResults@2
-  displayName: 'test cluster'
-  inputs:    
-    testRunner: JUnit
-    testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
-    failTaskOnFailedTests: 'true'
-    failOnStandardError: 'true'
+# - task: PublishTestResults@2
+#   displayName: 'test cluster'
+#   inputs:    
+#     testRunner: JUnit
+#     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
+#     failTaskOnFailedTests: 'true'
+#     failOnStandardError: 'true'
 
-- task: PublishTestResults@2
-  displayName: 'existing cluster'
-  inputs:    
-    testRunner: JUnit
-    testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
-    failTaskOnFailedTests: 'true'
-    failOnStandardError: 'true'
+# - task: PublishTestResults@2
+#   displayName: 'existing cluster'
+#   inputs:    
+#     testRunner: JUnit
+#     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
+#     failTaskOnFailedTests: 'true'
+#     failOnStandardError: 'true'
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: Cobertura 
-    summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
-    reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
-    failIfCoverageEmpty: 'true'
-    failOnStandardError: 'true'
+# - task: PublishCodeCoverageResults@1
+#   inputs:
+#     codeCoverageTool: Cobertura 
+#     summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
+#     reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
+#     failIfCoverageEmpty: 'true'
+#     failOnStandardError: 'true'
 
 - script: docker build -t $(IMAGE_NAME) .  # add options to this command to meet your needs
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
