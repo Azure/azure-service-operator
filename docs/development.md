@@ -191,7 +191,7 @@ go build -o bin/manager main.go
     For instance, if I need to create a resource of type ResourceGroup, I need a Subscription ID, Name, and a Location.
 
     The `Subscription ID` is something we configure through config for the entire operator, so leave that out.
-    The `Name` for every resource is going to be the Kubernetes Name we pass in the YAML, so leave that out too from the Spec.
+    The `Name` for every resource is going to be the Kubernetes `Metadata.Name` we pass in the manifest, so leave that out too.
     So in this case you would only  add `Location` of type `string` to the Spec.
 
     You can refer to the other types in this repo as examples to do this.
