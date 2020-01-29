@@ -39,6 +39,15 @@ type APIMgmt struct {
 	Status ASOStatus   `json:"status,omitempty"`
 }
 
+type APIVersionSet struct {
+	// ID - Identifier for existing API Version Set. Omit this value to create a new Version Set.
+	ID string `json:"id,omitempty"`
+	// Name - The display Name of the API Version Set.
+	Name string `json:"name,omitempty"`
+	// Description - Description of API Version Set.
+	Description string `json:"description,omitempty"`
+}
+
 type APIProperties struct {
 	/* Format - Format of the Content in which the API is getting imported. Possible values include:
 	'WadlXML', 'WadlLinkJSON', 'SwaggerJSON', 'SwaggerLinkJSON', 'Wsdl', 'WsdlLink', 'Openapi', 'Openapijson', 'OpenapiLink' */
@@ -68,6 +77,8 @@ type APIProperties struct {
 	APIRevisionDescription string `json:"apiRevisionDescription,omitempty"`
 	// APIVersionDescription - Description of the Api Version.
 	APIVersionDescription string `json:"apiVersionDescription,omitempty"`
+	// APIVersionSet - APIVersionSetContractDetails an API Version Set contains the common configuration for a set of API versions.
+	APIVersionSet APIVersionSet `json:"apiVersionSet,omitempty"`
 	// APIVersionSetID - A resource identifier for the related ApiVersionSet.
 	APIVersionSetID string `json:"apiVersionSetId,omitempty"`
 	// SubscriptionRequired - Specifies whether an API or Product subscription is required for accessing the API.

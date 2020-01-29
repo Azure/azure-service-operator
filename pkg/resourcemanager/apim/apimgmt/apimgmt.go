@@ -23,11 +23,15 @@ import (
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+
 	// "github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimshared"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -44,7 +48,10 @@ type Manager struct {
 // NewManager returns an API Manager type
 func NewManager(log logr.Logger) *Manager {
 	return &Manager{
-		Telemetry: &telemetry.PrometheusClient{},
+		Telemetry: telemetry.InitializePrometheusDefault(
+			ctrl.Log.WithName("controllers").WithName("APIMgmt"),
+			"APIMgmt",
+		),
 		APIClient: apimshared.GetAPIMClient(),
 	}
 }
@@ -53,8 +60,8 @@ func NewManager(log logr.Logger) *Manager {
 func (m *Manager) CreateAPI(
 	ctx context.Context,
 	resourceGroupName string,
-	apiName string,
 	apiServiceName string,
+	apiId string,
 	properties azurev1alpha1.APIProperties,
 	eTag string) (*apimanagement.APIContract, error) {
 
@@ -64,13 +71,16 @@ func (m *Manager) CreateAPI(
 		APIRevision:            to.StringPtr(properties.APIRevision),
 		APIRevisionDescription: to.StringPtr(properties.APIRevisionDescription),
 		APIVersionDescription:  to.StringPtr(properties.APIVersionDescription),
-		APIVersionSetID:        to.StringPtr(properties.APIVersionSetID),
-		DisplayName:            to.StringPtr(properties.DisplayName),
-		Description:            to.StringPtr(properties.Description),
-		IsCurrent:              to.BoolPtr(properties.IsCurrent),
-		IsOnline:               to.BoolPtr(properties.IsOnline),
-		Path:                   to.StringPtr(properties.Path),
-		Format:                 apimanagement.ContentFormat(properties.Format),
+		APIVersionSet: &apimanagement.APIVersionSetContractDetails{
+			Name: to.StringPtr(properties.APIVersionSet.Name),
+		},
+		DisplayName: to.StringPtr(properties.DisplayName),
+		Description: to.StringPtr(properties.Description),
+		IsCurrent:   to.BoolPtr(properties.IsCurrent),
+		IsOnline:    to.BoolPtr(properties.IsOnline),
+		Path:        to.StringPtr(properties.Path),
+		Protocols:   &[]apimanagement.Protocol{"http"},
+		Format:      apimanagement.ContentFormat(properties.Format),
 	}
 
 	params := apimanagement.APICreateOrUpdateParameter{
@@ -79,7 +89,6 @@ func (m *Manager) CreateAPI(
 
 	// Fetch the parent API Management service the API will reside under
 	svc, err := apimshared.GetAPIMgmtSvc(ctx, resourceGroupName, apiServiceName)
-	fmt.Printf("got service reference %v", svc)
 	if err != nil {
 		// If there is no parent APIM service, we cannot proceed
 		m.Telemetry.LogError("failure fetching API management service", err)
@@ -87,7 +96,7 @@ func (m *Manager) CreateAPI(
 	}
 
 	// Submit the ARM request
-	future, err := m.APIClient.CreateOrUpdate(ctx, resourceGroupName, apiName, *svc.ID, params, eTag)
+	future, err := m.APIClient.CreateOrUpdate(ctx, resourceGroupName, *svc.Name, apiId, params, eTag)
 
 	if err != nil {
 		return nil, err
@@ -127,7 +136,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 	// Set k8s status to provisioning at the beginning of this reconciliation
 	instance.Status.Provisioning = true
 
-	// Fetch the API
+	// Attempt to fetch the API
 	api, err := m.GetAPI(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService, instance.Spec.Properties.APIRevision)
 	if err == nil {
 		instance.Status.State = api.Status
@@ -141,30 +150,101 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 
 		return false, nil
 	}
-	return false, nil
+
+	// Attempt to fetch the parent API Management service the API will reside under
+	svc, err := apimshared.GetAPIMgmtSvc(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService)
+	if err != nil {
+		// If there is no parent APIM service, we cannot proceed
+		m.Telemetry.LogError("failure fetching API management service", err)
+		return false, err
+	}
+
+	// Submit the ARM request
+	future, err := m.APIClient.CreateOrUpdate(
+		ctx,
+		instance.Spec.ResourceGroup,
+		*svc.Name,
+		instance.Spec.Properties.APIRevision,
+		apimanagement.APICreateOrUpdateParameter{
+			APICreateOrUpdateProperties: &apimanagement.APICreateOrUpdateProperties{
+				APIType:                apimanagement.HTTP,
+				APIVersion:             to.StringPtr(instance.Spec.Properties.APIVersion),
+				APIRevision:            to.StringPtr(instance.Spec.Properties.APIRevision),
+				APIRevisionDescription: to.StringPtr(instance.Spec.Properties.APIRevisionDescription),
+				APIVersionDescription:  to.StringPtr(instance.Spec.Properties.APIVersionDescription),
+				APIVersionSetID:        to.StringPtr(instance.Spec.Properties.APIVersionSetID),
+				DisplayName:            to.StringPtr(instance.Spec.Properties.DisplayName),
+				Description:            to.StringPtr(instance.Spec.Properties.Description),
+				IsCurrent:              to.BoolPtr(instance.Spec.Properties.IsCurrent),
+				IsOnline:               to.BoolPtr(instance.Spec.Properties.IsOnline),
+				Path:                   to.StringPtr(instance.Spec.Properties.Path),
+				Format:                 apimanagement.ContentFormat(instance.Spec.Properties.Format),
+			},
+		},
+		instance.Spec.Properties.APIRevision)
+
+	if err != nil {
+		return false, err
+	}
+
+	err = future.WaitForCompletionRef(ctx, m.APIClient.Client)
+	if err != nil {
+		return false, err
+	}
+
+	result, err := future.Result(m.APIClient)
+
+	if err != nil {
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.AsyncOpIncompleteError,
+		}
+
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Message = err.Error()
+			return false, nil
+		}
+
+		instance.Status.Provisioning = false
+
+		return false, err
+	}
+
+	instance.Status.State = result.Status
+
+	if instance.Status.Provisioning {
+		instance.Status.Provisioned = true
+		instance.Status.Message = resourcemanager.SuccessMsg
+	} else {
+		instance.Status.Provisioned = false
+		instance.Status.Provisioning = true
+	}
+
+	return true, nil
 }
 
 // Delete removes a resource
 func (m *Manager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
-	// i, err := m.convert(obj)
-	// if err != nil {
-	// 	return false, err
-	// }
-	// response, err := m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.Properties.APIRevision, i.Spec.Properties.APIRevision, true)
+	i, err := m.convert(obj)
+	if err != nil {
+		return false, err
+	}
+	response, err := m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.Properties.APIRevision, i.Spec.Properties.APIRevision, true)
 
-	// if err != nil {
-	// 	m.Telemetry.LogInfo("Error deleting API", err.Error())
-	// 	if !errhelp.IsAsynchronousOperationNotComplete(err) {
-	// 		return true, err
-	// 	}
-	// }
-	// i.Status.State = response.Status
+	if err != nil {
+		m.Telemetry.LogInfo("Error deleting API", err.Error())
+		if !errhelp.IsAsynchronousOperationNotComplete(err) {
+			return true, err
+		}
+	}
+	i.Status.State = response.Status
 
-	// if err == nil {
-	// 	if response.Status != "InProgress" {
-	// 		return false, nil
-	// 	}
-	// }
+	if err == nil {
+		if response.Status != "InProgress" {
+			return false, nil
+		}
+	}
 
 	return true, nil
 }

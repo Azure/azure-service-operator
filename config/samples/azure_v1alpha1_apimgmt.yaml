@@ -5,9 +5,9 @@ metadata:
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
-  apiService: TESTAPIMGMTSERVICE
+  apiService: skulavik
   properties:
-    apirevision: test-rev=1
+    apirevision: "test-rev=1"
     apirevisiondescription: "revision description"
     iscurrent: true
     isonline: true

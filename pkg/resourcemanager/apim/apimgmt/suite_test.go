@@ -17,13 +17,11 @@ copies or substantial portions of the Software.
 package apimgmt
 
 import (
-	"fmt"
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"log"
 	"testing"
 	"time"
 
 	"context"
+
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
@@ -84,26 +82,6 @@ var _ = BeforeSuite(func() {
 })
 
 var _ = AfterSuite(func() {
-	By("tearing down the test environment")
-	_, err := tc.ResourceGroupManager.DeleteGroup(ctx, tc.ResourceGroupName)
-	if !errhelp.IsAsynchronousOperationNotComplete(err) {
-		log.Println("Delete RG failed")
-		return
-	}
-
-	for {
-		time.Sleep(time.Second * 10)
-		_, err := resourcegroupsresourcemanager.GetGroup(ctx, tc.ResourceGroupName)
-		if err == nil {
-			log.Println("waiting for resource group to be deleted")
-		} else {
-			if errhelp.IsGroupNotFound(err) {
-				log.Println("resource group deleted")
-				break
-			} else {
-				log.Println(fmt.Sprintf("cannot delete resource group: %v", err))
-				return
-			}
-		}
-	}
+	By("delete the test API")
+	_, _ = tc.APIManager.DeleteAPI(ctx, tc.ResourceGroupName, APIServiceName, APIId, APIETag, true)
 })

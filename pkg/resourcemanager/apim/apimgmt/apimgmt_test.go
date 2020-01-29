@@ -27,6 +27,12 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+const (
+	APIServiceName string = "AzureOperatorsTestAPI"
+	APIId          string = "ApiId"
+	APIETag        string = "eTagASOTest"
+)
+
 var _ = Describe("API Management", func() {
 
 	var rgName string
@@ -49,17 +55,20 @@ var _ = Describe("API Management", func() {
 			// Create API instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				contract, err = APIManager.GetAPI(ctx, rgName, "TESTAPIMGMTSERVICE", "test-rev=1")
+				contract, err = APIManager.GetAPI(ctx, rgName, APIServiceName, "test-rev=1")
 				if err == nil {
 					return true
 				}
 				_, err = APIManager.CreateAPI(
 					ctx,
 					rgName,
-					"t-api",
-					"TESTAPIMGMTSERVICE",
+					APIServiceName,
+					APIId,
 					v1alpha1.APIProperties{
-						Format:                 "Openapi",
+						Format: "Openapi",
+						APIVersionSet: v1alpha1.APIVersionSet{
+							Name: "apiversionsetdetails1",
+						},
 						APIRevision:            "test-rev=1",
 						APIRevisionDescription: "revision description",
 						IsCurrent:              true,
@@ -71,7 +80,7 @@ var _ = Describe("API Management", func() {
 						Protocols:              []string{"http", "udp"},
 						SubscriptionRequired:   false,
 					},
-					"eTagASOTest")
+					APIETag)
 				if err != nil {
 					fmt.Println(err.Error())
 					if !errhelp.IsAsynchronousOperationNotComplete(err) {
@@ -88,11 +97,11 @@ var _ = Describe("API Management", func() {
 			// Delete API instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				_, err := APIManager.GetAPI(ctx, rgName, "TESTAPIMGMTSERVICE", "test-rev=1")
+				_, err := APIManager.GetAPI(ctx, rgName, APIServiceName, "test-rev=1")
 				if err != nil {
 					return true
 				}
-				_, err = APIManager.DeleteAPI(ctx, tc.ResourceGroupName, "TESTAPIMGMTSERVICE", *contract.ID, *contract.APIRevision, true)
+				_, err = APIManager.DeleteAPI(ctx, tc.ResourceGroupName, APIServiceName, *contract.ID, *contract.APIRevision, true)
 				if err != nil {
 					fmt.Println(err.Error())
 					if !errhelp.IsAsynchronousOperationNotComplete(err) {
