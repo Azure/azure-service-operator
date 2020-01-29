@@ -42,15 +42,16 @@ func NewAzureRedisCacheManager() *AzureRedisCacheManager {
 	return &AzureRedisCacheManager{}
 }
 
-func getRedisCacheClient() redis.Client {
+func getRedisCacheClient() (redis.Client, error) {
 	redisClient := redis.NewClient(config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
+		log.Println("failed to initialize authorizer: " + err.Error())
+		return redisClient, err
 	}
 	redisClient.Authorizer = a
 	redisClient.AddToUserAgent(config.UserAgent())
-	return redisClient
+	return redisClient, nil
 }
 
 // CreateRedisCache creates a new RedisCache
@@ -61,7 +62,11 @@ func (_ *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
 	sku azurev1alpha1.RedisCacheSku,
 	enableNonSSLPort bool,
 	tags map[string]*string) (*redis.ResourceType, error) {
-	redisClient := getRedisCacheClient()
+	redisClient, err := getRedisCacheClient()
+
+	if err != nil {
+		return nil, err
+	}
 
 	//Check if name is available
 	redisType := "Microsoft.Cache/redis"
@@ -75,7 +80,7 @@ func (_ *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
 	}
 
 	if checkNameResult.StatusCode != 200 {
-		log.Fatalf("redis cache name (%s) not available: %v\n", redisCacheName, checkNameResult.Status)
+		log.Println("redis cache name (%s) not available: " + redisCacheName + checkNameResult.Status)
 		return nil, errors.New("redis cache name not available")
 	}
 
@@ -106,6 +111,9 @@ func (_ *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
 
 // DeleteRedisCache removes the resource group named by env var
 func (_ *AzureRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
-	redisClient := getRedisCacheClient()
+	redisClient, err := getRedisCacheClient()
+	if err != nil {
+		return result, err
+	}
 	return redisClient.Delete(ctx, groupName, redisCacheName)
 }

@@ -43,7 +43,18 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 	instance.Status.Provisioning = true
 
-	redisClient := getRedisCacheClient()
+	redisClient, err := getRedisCacheClient()
+	if err != nil {
+		return false, err
+	}
+	_, err = redisClient.Get(ctx, groupName, name)
+	if err == nil {
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = true
+		instance.Status.Message = resourcemanager.SuccessMsg
+		return true, nil
+	}
+	instance.Status.Message = fmt.Sprintf("RedisCache Get error %s", err.Error())
 
 	_, err = rc.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, nil)
 	if err != nil {
@@ -55,17 +66,12 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AlreadyExists,
 			errhelp.NotFoundErrorCode,
+			errhelp.AsyncOpIncompleteError,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
-		return false, nil
-	}
-
-	_, err = redisClient.Get(ctx, groupName, name)
-	if err != nil {
-		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
 		return false, err
 	}
 
