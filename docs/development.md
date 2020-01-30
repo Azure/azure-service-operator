@@ -16,14 +16,14 @@
     `make install`
     You will see output as below.
 
-    ```shell
-        kubectl apply -f config/crd/bases
-        customresourcedefinition.apiextensions.k8s.io/eventhubnamespaces.azure.microsoft.com created
-        customresourcedefinition.apiextensions.k8s.io/eventhubs.azure.microsoft.com created
-        customresourcedefinition.apiextensions.k8s.io/resourcegroups.azure.microsoft.com created
-        customresourcedefinition.apiextensions.k8s.io/azuresqldatabases.azure.microsoft.com created
-        customresourcedefinition.apiextensions.k8s.io/azuresqlfirewallrules.azure.microsoft.com created
-        customresourcedefinition.apiextensions.k8s.io/azuresqlservers.azure.microsoft.com configured
+    ```
+    kubectl apply -f config/crd/bases
+    customresourcedefinition.apiextensions.k8s.io/eventhubnamespaces.azure.microsoft.com created
+    customresourcedefinition.apiextensions.k8s.io/eventhubs.azure.microsoft.com created
+    customresourcedefinition.apiextensions.k8s.io/resourcegroups.azure.microsoft.com created
+    customresourcedefinition.apiextensions.k8s.io/azuresqldatabases.azure.microsoft.com created
+    customresourcedefinition.apiextensions.k8s.io/azuresqlfirewallrules.azure.microsoft.com created
+    customresourcedefinition.apiextensions.k8s.io/azuresqlservers.azure.microsoft.com configured
     ```
 
 5. Run the operator locally using
@@ -32,7 +32,7 @@
 
    You will see something like this on the terminal window indicating that the controller is running.
 
-   ```shell
+   ```
     go fmt ./...
     go vet ./...
     go run ./main.go
@@ -76,7 +76,7 @@
 
 7. You should see logs on the other terminal from the operator when this custom     resource is being created.
 
-    ``` shell
+    ```
     2019-09-24T12:27:12.450-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194427"}, "reason": "Updated", "message": "finalizer azuresqlserver.finalizers.azure.com added"}
     2019-09-24T12:27:12.450-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194427"}, "reason": "Submitting", "message": "starting resource reconciliation"}
     2019-09-24T12:27:17.129-0600	INFO	controllers.AzureSqlServer	mutating secret bundle
@@ -97,7 +97,7 @@
 
 If you are using the Kubernetes cluster that comes with "Docker Desktop" and would like to view the Prometheus metrics, you can redirect port 8080 to the local machine using the following command:
 
-```shell
+```
 kubectl port-forward deployment/controller-manager 8080
 ```
 
@@ -142,20 +142,21 @@ This project utilizes a generic async controller that separates out the Kubernet
 2. Ensure you have `Kubebuilder` installed on your computer.
 3. From the root folder of the cloned repository, run the following command
 
-```shell
+```
 kubebuilder create api --group azure --version v1alpha1 --kind <AzureNewType>
 
 kubebuilder create api --group azure --version v1alpha1 --kind AzureSQLServer
 ```
 
-4. When you run this command, you will be prompted with two questions - if you want to create a resource, and a corresponding controller. Answer yes to both of these.
+4. When you run this command, you will be prompted with two questions. Answer yes to both of these.
 
-This will create 
-  - CRD types file in /api/v1alpha1
-  - a controller file in controllers/{resource_type}_controller.go
-  - and other needed scaffolding.
+This will create
 
-```shell
+- a CRD types file in /api/v1alpha1
+- a controller file in controllers/{resource_type}_controller.go
+- and other needed scaffolding.
+
+```
 ➜  azure-service-operator git:(testbranch) ✗ kubebuilder create api --group azure --version v1alpha1 --kind AzureNewType
 Create Resource [y/n]
 y
@@ -178,27 +179,43 @@ go vet ./...
 go build -o bin/manager main.go
 ```
 
-5. *Updating the types file*: Open the `AzureNewType_types.go` file that was generated under `api/v1alpha1`.
-    a. Remove the `AzureNewTypeStatus` struct that was generated from this file. We will not be using this and instead using the common `ASOStatus` for consistency across all operators.
-    Replace the `Status` field in the struct `AzureNewType` in this file to be of type `ASOStatus` instead of `AzureNewTypeStatus`
+5. *Updating the types file*
 
-    ```code
-    Status ASOStatus `json:"status,omitempty"`
+    Open the `AzureNewType_types.go` file that was generated under `api/v1alpha1`.
+    a. Replace the generated `Status` struct with the shared `ASOStatus` from `/api/{version}/aso_types.go` as below
+
+    ```go
+    type AzureNewType struct {
+        metav1.TypeMeta   `json:",inline"`
+        metav1.ObjectMeta `json:"metadata,omitempty"`
+        
+        Spec   AzureNewTypeSpec `json:"spec,omitempty"`
+        Status ASOStatus       `json:"status,omitempty"`
+        }
     ```
 
-    b. Define the fields for the `AzureNewTypeSpec` struct. This will all the parameters that you will need to create a resource of type `AzureNewType`.
+    b. Define the fields for the `AzureNewTypeSpec` struct. This will be all the parameters that you will need to create a resource of type `AzureNewType`.
 
     For instance, if I need to create a resource of type ResourceGroup, I need a Subscription ID, Name, and a Location.
 
-    The `Subscription ID` is something we configure through config for the entire operator, so leave that out.
-    The `Name` for every resource is going to be the Kubernetes `Metadata.Name` we pass in the manifest, so leave that out too.
-    So in this case you would only  add `Location` of type `string` to the Spec.
+    The `Subscription ID` is something we configure through config for the entire operator, so it can be omitted.
+    The `Name` for every resource is going to be the Kubernetes `Metadata.Name` we pass in the manifest, so omit that from the Spec as well.
+    In this case you would only  add `Location` of type `string` to the Spec.
+
+    Here is an example of how this might look. Note that we use camel case for the names of the fields in the json specification.
+
+    ```go
+    type AzureNewTypeSpec struct {
+        Location        string `json:"location"`
+        ResourceGroup   string `json:"resourceGroup,omitempty"`
+        }
+    ```
 
     You can refer to the other types in this repo as examples to do this.
 
     c. Add the Kubebuilder directive to indicate that you want to treat `Status` as a subresource of the CRD. This allows for more efficient updates and the generic controller assumes that this is enabled for all the types.
 
-    ```code
+    ```go
     // +kubebuilder:object:root=true
     // +kubebuilder:subresource:status   <--- This is the line we need to add
 
@@ -212,19 +229,21 @@ go build -o bin/manager main.go
     }
     ```
 
-6. *Updating the generated controller file*: Open the `azurenewtype_controller.go` file generated under the `controllers` directory.
+6. *Updating the generated controller file*
+
+    Open the `azurenewtype_controller.go` file generated under the `controllers` directory.
     a. Update the `AzureNewTypeReconciler` struct by removing the fields in there and replacing it with the below.
 
-    ```code
+    ```go
     // AzureNewTypeReconciler reconciles a AzureNewType object
     type AzureNewTypeReconciler struct {
         Reconciler *AsyncReconciler
     }
     ```
 
-    b. Update the `Reconcile` function code in this file to the following.
+    b. Update the `Reconcile` function code in this file to the following:
 
-    ```code
+    ```go
     // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurenewtypes,verbs=get;list;watch;create;update;patch;delete
     // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurenewtypes/status,verbs=get;update;patch
 
@@ -233,12 +252,16 @@ go build -o bin/manager main.go
     }
     ```
 
-7. *Updating the sample YAML file*: Open the `azure_v1alpha1_azurenewtype.yaml` file under `config/samples`.
+7. *Updating the sample YAML file*
+
+    Open the `azure_v1alpha1_azurenewtype.yaml` file under `config/samples`.
     Update the spec portion of this file with the fields that you added to the Spec in step 5b above with corresponding values.
 
     Refer to the other sample YAML files in the repo for how to do this correctly.
 
-8. *Implementing the actual resource creation/deletion logic*: This is the service specific piece that differs from one Azure service to another, and the crux of the service provisioning/deletion logic used by the controller.
+8. *Implementing the actual resource creation/deletion logic*
+
+    This is the service specific piece that differs from one Azure service to another, and the crux of the service provisioning/deletion logic used by the controller.
 
     a. The guidance is to add a folder under `pkg/resourcemanager` for the new resource, like for instance, `pkg/resourcemanager/newresource`
 
@@ -250,7 +273,7 @@ go build -o bin/manager main.go
 
     d. The azurenewtype_manager.go file would implement the ARMClient as follows,and in addition have any other functions you need for Create, Delete, and Get of the resource.
 
-    ```code
+    ```go
     type AzureNewTypeManager interface {
         // Functions for Create, Delete and Get for the resource as needed
 
@@ -272,7 +295,7 @@ go build -o bin/manager main.go
 
     An example is shown below:
 
-    ```code
+    ```go
         type AzureNewTypeClient struct {
         Telemetry telemetry.PrometheusTelemetry
         }
@@ -340,18 +363,24 @@ go build -o bin/manager main.go
 
         ```
 
-9. **Tests**: Add the following tests for your new operator:
+9. *Tests*
+
+    Add the following tests for your new operator:
     (i) Unit test for the new type: You will add this as a file named `azurenewtype_types_test.go` under `api/v1alpha`. Refer to the existing tests in the repository to author this for your new type.
     (ii) Functional tests for the resource manager: These will be test files under `pkg/resourcemanager/newresource`. You can refer to the tests under `pkg/resourcemanage/psql/server` as reference for writing these. These tests help validate the resource creation and deletion in Azure.
     Make sure to add this folder with the tests to the `make test-existing` target in the `Makefile`
     *Tip*: You can run `go test` in this folder to test the functions before testing with the controller end-to-end.
     (iii) Controller tests: This will be a file named `azurenewresourcetype_controller_test.go` under the `controllers` folder. Refer to the other controller tests in the repo for how to write this test. This test validates the new controller to make sure the resource is created and deleted in Kubernetes effectively.
 
-10. *Mocks for the controller test*: In order to run the Controller tests (9.(iii) above) without having to communicate with Azure, you will generate a mock of the `AzureNewResourceTypeManager` in `pkg/resourcemanager/mocks`. You can refer to the mocks under `pkg/resourcemanager/mock/psql` for how to write this mock.
+10. *Mocks for the controller test*
 
-11. *Instantiating the reconciler*: The last step to tie everything together is to ensure that your new controller's reconciler is instantiated in both the `main.go` and the `suite_test.go` (under `controllers` folder) files.
+    In order to run the Controller tests (9.(iii) above) without having to communicate with Azure, you will generate a mock of the `AzureNewResourceTypeManager` in `pkg/resourcemanager/mocks`. You can refer to the mocks under `pkg/resourcemanager/mock/psql` for how to write this mock.
 
-    ```code
+11. *Instantiating the reconciler*
+
+    The last step to tie everything together is to ensure that your new controller's reconciler is instantiated in both the `main.go` and the `suite_test.go` (under `controllers` folder) files.
+
+    ```go
     main.go
 
     if err = (&controllers.AzureNewResourceTypeReconciler{
@@ -371,7 +400,7 @@ go build -o bin/manager main.go
         }
     ```
 
-    ```code
+    ```go
     suite_test.go
 
     err = (&AzureNewResourceTypeReconciler{
@@ -391,7 +420,7 @@ go build -o bin/manager main.go
 
 12. Install the new CRD and generate the manifests needed using the following commands. This is required in order to generate canonical resource definitions (manifests as errors about a DeepCopyObject() method missing).
 
-    ```shell
+    ```
     make manifests
     make install
     ```
