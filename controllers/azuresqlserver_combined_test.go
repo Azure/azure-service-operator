@@ -4,6 +4,7 @@ package controllers
 
 import (
 	"context"
+	"log"
 	"strings"
 	"testing"
 
@@ -30,41 +31,20 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	rgLocation2 := "southcentralus"
 	sqlServerTwoName := "t-sqlfog-srvtwo" + helpers.RandomString(10)
 
-	// Create the SqlServer object and expect the Reconcile to be created
-	sqlServerInstance := &azurev1alpha1.AzureSqlServer{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlServerName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlServerSpec{
-			Location:      rgLocation,
-			ResourceGroup: rgName,
-		},
-	}
+	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+	sqlServerNamespacedName2 := types.NamespacedName{Name: sqlServerTwoName, Namespace: "default"}
 
+	// Create the SqlServer object and expect the Reconcile to be created
+	sqlServerInstance := azurev1alpha1.NewAzureSQLServer(sqlServerNamespacedName, rgName, rgLocation)
 	err := tc.k8sClient.Create(ctx, sqlServerInstance)
 	assert.Equal(nil, err, "create server in k8s")
 
 	// Send request for 2nd server (failovergroup test) before waiting on first server
-
-	sqlServerInstance2 := &azurev1alpha1.AzureSqlServer{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlServerTwoName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlServerSpec{
-			Location:      rgLocation2,
-			ResourceGroup: rgName,
-		},
-	}
-
+	sqlServerInstance2 := azurev1alpha1.NewAzureSQLServer(sqlServerNamespacedName2, rgName, rgLocation2)
 	err = tc.k8sClient.Create(ctx, sqlServerInstance2)
-	assert.Equal(nil, err, "create server in k8s")
+	assert.Equal(nil, err, "create server2 in k8s")
 
 	// Wait for first sql server to resolve
-
-	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
-
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
 		return helpers.HasFinalizer(sqlServerInstance, AzureSQLServerFinalizerName)
@@ -75,9 +55,18 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		return strings.Contains(sqlServerInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for server to provision")
 
-	// Wait for 2nd sql server to resolve ---------------------------------------
+	// run sub tests that require 1 sql server ----------------------------------
 
-	sqlServerNamespacedName2 := types.NamespacedName{Name: sqlServerTwoName, Namespace: "default"}
+	t.Run("group", func(t *testing.T) {
+		t.Run("sub test for actions", func(t *testing.T) {
+			RunSQLActionHappy(t)
+		})
+	})
+	log.Println()
+	log.Println("after tRUN    dsfljksd;flsd")
+	log.Println()
+
+	// Wait for 2nd sql server to resolve ---------------------------------------
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
