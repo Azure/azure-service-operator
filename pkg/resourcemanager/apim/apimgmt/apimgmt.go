@@ -29,7 +29,6 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
-	// "github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -71,16 +70,13 @@ func (m *Manager) CreateAPI(
 		APIRevision:            to.StringPtr(properties.APIRevision),
 		APIRevisionDescription: to.StringPtr(properties.APIRevisionDescription),
 		APIVersionDescription:  to.StringPtr(properties.APIVersionDescription),
-		APIVersionSet: &apimanagement.APIVersionSetContractDetails{
-			Name: to.StringPtr(properties.APIVersionSet.Name),
-		},
-		DisplayName: to.StringPtr(properties.DisplayName),
-		Description: to.StringPtr(properties.Description),
-		IsCurrent:   to.BoolPtr(properties.IsCurrent),
-		IsOnline:    to.BoolPtr(properties.IsOnline),
-		Path:        to.StringPtr(properties.Path),
-		Protocols:   &[]apimanagement.Protocol{"http"},
-		Format:      apimanagement.ContentFormat(properties.Format),
+		DisplayName:            to.StringPtr(properties.DisplayName),
+		Description:            to.StringPtr(properties.Description),
+		IsCurrent:              to.BoolPtr(properties.IsCurrent),
+		IsOnline:               to.BoolPtr(properties.IsOnline),
+		Path:                   to.StringPtr(properties.Path),
+		Protocols:              &[]apimanagement.Protocol{"http"},
+		Format:                 apimanagement.ContentFormat(properties.Format),
 	}
 
 	params := apimanagement.APICreateOrUpdateParameter{
@@ -117,7 +113,7 @@ func (m *Manager) DeleteAPI(ctx context.Context, resourceGroupName string, apiSe
 	if err == nil {
 		return m.APIClient.Delete(ctx, resourceGroupName, apiServiceName, apiId, eTag, &deleteRevisions)
 	}
-	return result.Response, nil
+	return result.Response, err
 }
 
 // GetAPI fetches an API within an API management service
@@ -137,7 +133,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 	instance.Status.Provisioning = true
 
 	// Attempt to fetch the API
-	api, err := m.GetAPI(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService, instance.Spec.Properties.APIRevision)
+	api, err := m.GetAPI(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService, instance.Spec.APIId)
 	if err == nil {
 		instance.Status.State = api.Status
 
@@ -160,39 +156,28 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 	}
 
 	// Submit the ARM request
-	future, err := m.APIClient.CreateOrUpdate(
+	contract, err := m.CreateAPI(
 		ctx,
 		instance.Spec.ResourceGroup,
 		*svc.Name,
-		instance.Spec.Properties.APIRevision,
-		apimanagement.APICreateOrUpdateParameter{
-			APICreateOrUpdateProperties: &apimanagement.APICreateOrUpdateProperties{
-				APIType:                apimanagement.HTTP,
-				APIVersion:             to.StringPtr(instance.Spec.Properties.APIVersion),
-				APIRevision:            to.StringPtr(instance.Spec.Properties.APIRevision),
-				APIRevisionDescription: to.StringPtr(instance.Spec.Properties.APIRevisionDescription),
-				APIVersionDescription:  to.StringPtr(instance.Spec.Properties.APIVersionDescription),
-				APIVersionSetID:        to.StringPtr(instance.Spec.Properties.APIVersionSetID),
-				DisplayName:            to.StringPtr(instance.Spec.Properties.DisplayName),
-				Description:            to.StringPtr(instance.Spec.Properties.Description),
-				IsCurrent:              to.BoolPtr(instance.Spec.Properties.IsCurrent),
-				IsOnline:               to.BoolPtr(instance.Spec.Properties.IsOnline),
-				Path:                   to.StringPtr(instance.Spec.Properties.Path),
-				Format:                 apimanagement.ContentFormat(instance.Spec.Properties.Format),
-			},
+		instance.Spec.APIId,
+		azurev1alpha1.APIProperties{
+			APIVersion:             instance.Spec.Properties.APIVersion,
+			APIRevision:            instance.Spec.Properties.APIRevision,
+			APIRevisionDescription: instance.Spec.Properties.APIRevisionDescription,
+			APIVersionDescription:  instance.Spec.Properties.APIVersionDescription,
+			DisplayName:            instance.Spec.Properties.DisplayName,
+			Description:            instance.Spec.Properties.Description,
+			IsCurrent:              instance.Spec.Properties.IsCurrent,
+			IsOnline:               instance.Spec.Properties.IsOnline,
+			Path:                   instance.Spec.Properties.Path,
+			Format:                 instance.Spec.Properties.Format,
 		},
 		instance.Spec.Properties.APIRevision)
 
 	if err != nil {
 		return false, err
 	}
-
-	err = future.WaitForCompletionRef(ctx, m.APIClient.Client)
-	if err != nil {
-		return false, err
-	}
-
-	result, err := future.Result(m.APIClient)
 
 	if err != nil {
 		catch := []string{
@@ -211,7 +196,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 		return false, err
 	}
 
-	instance.Status.State = result.Status
+	instance.Status.State = contract.Status
 
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
@@ -230,7 +215,8 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object) (bool, error) 
 	if err != nil {
 		return false, err
 	}
-	response, err := m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.Properties.APIRevision, i.Spec.Properties.APIRevision, true)
+
+	response, err := m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.APIId, i.Spec.Properties.APIRevision, true)
 
 	if err != nil {
 		m.Telemetry.LogInfo("Error deleting API", err.Error())

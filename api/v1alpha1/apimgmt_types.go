@@ -24,13 +24,12 @@ type APIMgmtSpec struct {
 	Location      string        `json:"location"`
 	ResourceGroup string        `json:"resourceGroup"`
 	APIService    string        `json:"apiService"`
+	APIId         string        `json:"apiId"`
 	Properties    APIProperties `json:"properties"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-
-// APIMgmt is the Schema for API Management
 type APIMgmt struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -78,7 +77,7 @@ type APIProperties struct {
 	// APIVersionDescription - Description of the Api Version.
 	APIVersionDescription string `json:"apiVersionDescription,omitempty"`
 	// APIVersionSet - APIVersionSetContractDetails an API Version Set contains the common configuration for a set of API versions.
-	APIVersionSet APIVersionSet `json:"apiVersionSet,omitempty"`
+	APIVersionSet APIVersionSet `json:"apiVersionSets,omitempty"`
 	// APIVersionSetID - A resource identifier for the related ApiVersionSet.
 	APIVersionSetID string `json:"apiVersionSetId,omitempty"`
 	// SubscriptionRequired - Specifies whether an API or Product subscription is required for accessing the API.

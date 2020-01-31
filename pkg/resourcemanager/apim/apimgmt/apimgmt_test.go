@@ -28,8 +28,8 @@ import (
 )
 
 const (
-	APIServiceName string = "AzureOperatorsTestAPI"
-	APIId          string = "ApiId"
+	APIServiceName string = "AzureOperatorsTestAPIM"
+	APIId          string = "apiId1"
 	APIETag        string = "eTagASOTest"
 )
 
@@ -50,12 +50,10 @@ var _ = Describe("API Management", func() {
 
 			defer GinkgoRecover()
 
-			// apiMgmtName := "t-apimgmt-" + helpers.RandomString(10)
-
 			// Create API instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				contract, err = APIManager.GetAPI(ctx, rgName, APIServiceName, "test-rev=1")
+				contract, err = APIManager.GetAPI(ctx, rgName, APIServiceName, "test-revision")
 				if err == nil {
 					return true
 				}
@@ -69,7 +67,8 @@ var _ = Describe("API Management", func() {
 						APIVersionSet: v1alpha1.APIVersionSet{
 							Name: "apiversionsetdetails1",
 						},
-						APIRevision:            "test-rev=1",
+						APIVersionSetID:        "",
+						APIRevision:            "test-revision",
 						APIRevisionDescription: "revision description",
 						IsCurrent:              true,
 						IsOnline:               true,
@@ -97,7 +96,7 @@ var _ = Describe("API Management", func() {
 			// Delete API instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				_, err := APIManager.GetAPI(ctx, rgName, APIServiceName, "test-rev=1")
+				_, err := APIManager.GetAPI(ctx, rgName, APIServiceName, "test-revision")
 				if err != nil {
 					return true
 				}

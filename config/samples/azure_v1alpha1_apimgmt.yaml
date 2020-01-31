@@ -4,18 +4,16 @@ metadata:
   name: apimgmt-sample
 spec:
   location: westus
-  resourceGroup: resourcegroup-azure-operators
-  apiService: skulavik
+  resourceGroup: AzureOperatorsTest
+  apiService: AzureOperatorsTestAPIM
+  apiId: apiId1
   properties:
-    apirevision: "test-rev=1"
-    apirevisiondescription: "revision description"
-    iscurrent: true
-    isonline: true
-    displayname: aso-apimgmt
+    isCurrent: true
+    isOnline: true
+    displayName: aso-apimgmt
     description: "API description 1"
-    apiversiondescription: "API version description 1"
+    apiVersionDescription: "API version description 1"
     path: "/api/test"
     protocols:
     - http
-    subscriptionrequired: false
-    serviceurl: "https://aso-api/api"
+    subscriptionRequired: false
