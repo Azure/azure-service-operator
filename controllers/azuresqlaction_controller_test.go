@@ -122,7 +122,7 @@ var _ = Describe("Azure SQL Action Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlActionInstanceNamespacedName, sqlActionInstance)
-				return helpers.HasFinalizer(sqlActionInstance, AzureSQLDatabaseFinalizerName)
+				return helpers.HasFinalizer(sqlActionInstance, AzureSqlActionFinalizerName)
 			}, tc.timeout,
 			// changing so tests pass for PR
 			//).Should(BeTrue())
@@ -181,7 +181,7 @@ var _ = Describe("Azure SQL Action Controller", func() {
 
 			Eventually(func() bool {
 				_ = tc.k8sClient.Get(context.Background(), sqlActionInstanceNamespacedName, sqlActionInstance)
-				return helpers.HasFinalizer(sqlActionInstance, AzureSQLDatabaseFinalizerName)
+				return helpers.HasFinalizer(sqlActionInstance, AzureSqlActionFinalizerName)
 			}, tc.timeout,
 			).Should(BeFalse())
 
