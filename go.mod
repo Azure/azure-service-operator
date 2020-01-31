@@ -13,6 +13,7 @@ require (
 	github.com/google/uuid v1.1.1
 	github.com/onsi/ginkgo v1.8.0
 	github.com/onsi/gomega v1.5.0
+	github.com/pkg/errors v0.8.1
 	github.com/stretchr/testify v1.3.0
 	golang.org/x/crypto v0.0.0-20191219195013-becbf705a915 // indirect
 	golang.org/x/net v0.0.0-20190812203447-cdfb69ac37fc

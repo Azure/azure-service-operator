@@ -5,4 +5,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: devigned/k8s-infra-contoller-dev
-  newTag: 20200129-151051
+  newTag: 20200130-174026

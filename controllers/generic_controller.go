@@ -7,26 +7,22 @@ package controllers
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"strings"
 
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/api/meta"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/conversion"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
+	"github.com/Azure/k8s-infra/apis"
 	microsoftresourcesv1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
+	"github.com/Azure/k8s-infra/pkg/util/patch"
 	"github.com/Azure/k8s-infra/pkg/zips"
-)
-
-const (
-	finalizerName string = "infra.azure.com/finalizer"
 )
 
 // +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
@@ -84,6 +80,7 @@ func register(mgr ctrl.Manager, applier zips.Applier, obj runtime.Object) error 
 	if err != nil {
 		return err
 	}
+
 	t := v.Type()
 	controller.Named(strings.ReplaceAll(t.String(), ".", "_"))
 	reconciler := getReconciler(obj, mgr, mgr.GetClient(), applier)
@@ -109,7 +106,7 @@ func getReconciler(obj runtime.Object, mgr ctrl.Manager, kubeclient client.Clien
 }
 
 // reconcileFn is the "real" reconciler function, created as a closure above at manager startup to have access to the gvk.
-func reconcileFn(req ctrl.Request, obj runtime.Object, kubeclient client.Client, applier zips.Applier) (ctrl.Result, error) {
+func reconcileFn(req ctrl.Request, obj runtime.Object, kubeclient client.Client, applier zips.Applier) (_ ctrl.Result, reterr error) {
 	ctx := context.Background()
 
 	if err := kubeclient.Get(ctx, req.NamespacedName, obj); err != nil {
@@ -132,117 +129,87 @@ func reconcileFn(req ctrl.Request, obj runtime.Object, kubeclient client.Client,
 		return ctrl.Result{}, fmt.Errorf("object: %+v is not a zips.Resourcer", obj)
 	}
 
-	// Get the Azure resource representation of the Kubernetes object
-	azObj := resourcer.ToResource()
-	bits, err := json.Marshal(azObj)
-	if err != nil {
-		ctrlog.Error(err, "Failed marshalling")
-		return ctrl.Result{}, err
-	}
-
-	ctrlog.Info("###### Processing: " + string(bits))
-
-	// TODO(ace): consider a union of runtime.Object and metav1.Object
-	// ref: https://github.com/kubernetes-sigs/controller-runtime/issues/594
-	metaObj, err := meta.Accessor(obj)
-	if err != nil {
-		ctrlog.Error(err, "Failed at meta.Accessor")
-		return ctrl.Result{}, err
-	}
-
 	// reconcile delete
-	if !metaObj.GetDeletionTimestamp().IsZero() {
-		if HasFinalizer(metaObj, finalizerName) {
-			azObj.ProvisioningState = "Deleting"
-			obj = resourcer.FromResource(azObj)
-			if err := kubeclient.Status().Update(ctx, obj); err != nil {
-				return ctrl.Result{}, fmt.Errorf("failed updating provisioning status to Deleting with %w", err)
-			}
-
-			if err := applier.Delete(ctx, azObj); err != nil {
-				err = fmt.Errorf("failed trying to delete %q with %w", req.NamespacedName, err)
-				ctrlog.Error(err, "Delete error")
-				return ctrl.Result{}, err
-			}
-
-			obj = resourcer.FromResource(azObj)
-			RemoveFinalizer(metaObj, finalizerName)
-			if err := kubeclient.Update(ctx, obj); err != nil {
-				return ctrl.Result{}, fmt.Errorf("failed trying to remove finalizer with %w", err)
-			}
-
-		}
-		return ctrl.Result{}, nil
+	if !resourcer.GetDeletionTimestamp().IsZero() {
+		return ctrl.Result{}, reconcileDelete(ctx, kubeclient, applier, resourcer)
 	}
 
-	// add finalizer if not present
-	if !HasFinalizer(metaObj, finalizerName) {
-		AddFinalizer(metaObj, finalizerName)
-		if err := kubeclient.Update(ctx, obj); err != nil {
-			ctrlog.Error(err, fmt.Sprintf("Failed trying to update the resource with a finalizer: %+v ### %+v", metaObj, obj))
-			return ctrl.Result{}, err
-		}
-	}
+	return ctrl.Result{}, reconcileApply(ctx, kubeclient, applier, resourcer)
+}
 
-	azObj.ProvisioningState = "Applying"
-	obj = resourcer.FromResource(azObj)
-	if err := kubeclient.Status().Update(ctx, obj); err != nil {
-		return ctrl.Result{}, fmt.Errorf("failed updating provisioning status to Applying with %w", err)
+func reconcileApply(ctx context.Context, c client.Client, applier zips.Applier, resourcer zips.Resourcer) error {
+	if err := patcher(ctx, c, resourcer, func(res zips.Resourcer) error {
+		azobj := res.ToResource()
+		azobj.ProvisioningState = "Applying"
+		res.FromResource(azobj)
+		return nil
+	}); err != nil {
+		return err
 	}
 
 	// apply normally;
 	//
 	// This should call to the Applier where the current state of the applied resource should be compared to the cached
 	// state of the Azure resource. If the two states differ, the Applier should then apply that state to Azure.
-	res, err := applier.Apply(ctx, azObj)
+
+	return patcher(ctx, c, resourcer, func(res zips.Resourcer) error {
+		controllerutil.AddFinalizer(resourcer, apis.AzureInfraFinalizer)
+		resource := res.ToResource()
+		appliedResource, err := applier.Apply(ctx, resource)
+		if err != nil {
+			return fmt.Errorf("failed to apply state to Azure with %w", err)
+		}
+
+		// TODO (dj): this should be set from the provisioning state of the resource in Azure. For now, I think we can assume this is "Succeeded" if no error
+		appliedResource.ProvisioningState = "Succeeded"
+		res.FromResource(appliedResource)
+		return nil
+	})
+}
+
+func reconcileDelete(ctx context.Context, c client.Client, applier zips.Applier, resourcer zips.Resourcer) error {
+	if err := patcher(ctx, c, resourcer, func(res zips.Resourcer) error {
+		azobj := res.ToResource()
+		azobj.ProvisioningState = "Deleting"
+		res.FromResource(azobj)
+		return nil
+	}); err != nil {
+		return err
+	}
+
+	err := patcher(ctx, c, resourcer, func(res zips.Resourcer) error {
+		if err := applier.Delete(ctx, res.ToResource()); err != nil {
+			return fmt.Errorf("failed trying to delete with %w", err)
+		}
+
+		controllerutil.RemoveFinalizer(res, apis.AzureInfraFinalizer)
+		return nil
+	})
+
+	// patcher will try to fetch the object after patching, so ignore not found errors
+	if apierrors.IsNotFound(err) {
+		return nil
+	}
+	return err
+}
+
+func patcher(ctx context.Context, c client.Client, resourcer zips.Resourcer, mutator func(zips.Resourcer) error) error {
+	patchHelper, err := patch.NewHelper(resourcer, c)
 	if err != nil {
-		// failed applying the result
-		ctrlog.Error(err, "Failed applying the result")
-		return ctrl.Result{}, err
+		return err
 	}
 
-	obj = resourcer.FromResource(res)
-
-	if err := kubeclient.Status().Update(ctx, obj); err != nil {
-		return ctrl.Result{}, fmt.Errorf("failed updating final status on resource with %w", err)
+	if err := mutator(resourcer); err != nil {
+		return err
 	}
 
-	return ctrl.Result{}, nil
-}
-
-// AddFinalizer accepts a metav1 object and adds the provided finalizer if not present.
-func AddFinalizer(o metav1.Object, finalizer string) {
-	f := o.GetFinalizers()
-	for _, e := range f {
-		if e == finalizer {
-			return
-		}
+	if err := patchHelper.Patch(ctx, resourcer); err != nil {
+		return err
 	}
-	o.SetFinalizers(append(f, finalizer))
-}
 
-// RemoveFinalizer accepts a metav1 object and removes the finalizer
-func RemoveFinalizer(o metav1.Object, finalizer string) {
-	f := o.GetFinalizers()
-	var finalizers []string
-	for _, e := range f {
-		if e != finalizer {
-			finalizers = append(finalizers, f...)
-		}
-	}
-	o.SetFinalizers(finalizers)
-}
-
-// HasFinalizer accepts a metav1 object and returns true if the the object has the provided finalizer.
-func HasFinalizer(o metav1.Object, finalizer string) bool {
-	return ContainsString(o.GetFinalizers(), finalizer)
-}
-
-func ContainsString(slice []string, s string) bool {
-	for _, item := range slice {
-		if item == s {
-			return true
-		}
-	}
-	return false
+	// fill resourcer with patched updates since patch will copy resourcer
+	return c.Get(ctx, client.ObjectKey{
+		Namespace: resourcer.GetNamespace(),
+		Name:      resourcer.GetName(),
+	}, resourcer)
 }

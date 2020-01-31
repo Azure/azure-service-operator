@@ -9,7 +9,6 @@ import (
 	"fmt"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/k8s-infra/pkg/zips"
 )
@@ -72,22 +71,22 @@ func (*ResourceGroup) Hub() {
 
 func (rg *ResourceGroup) ToResource() zips.Resource {
 	return zips.Resource{
-		ID:         rg.Status.ID,
-		Type:       "Microsoft.Resources/resourceGroups",
-		Name:       rg.Name,
-		APIVersion: rg.Spec.APIVersion,
-		Location:   rg.Spec.Location,
-		Tags:       rg.Spec.Tags,
-		ManagedBy:  rg.Spec.ManagedBy,
+		ID:                rg.Status.ID,
+		Type:              "Microsoft.Resources/resourceGroups",
+		Name:              rg.Name,
+		APIVersion:        rg.Spec.APIVersion,
+		Location:          rg.Spec.Location,
+		Tags:              rg.Spec.Tags,
+		ManagedBy:         rg.Spec.ManagedBy,
+		ProvisioningState: rg.Status.ProvisioningState,
 	}
 }
 
-func (rg *ResourceGroup) FromResource(res zips.Resource) runtime.Object {
+func (rg *ResourceGroup) FromResource(res zips.Resource) {
 	rg.Status.ID = res.ID
 	rg.Status.ProvisioningState = res.ProvisioningState
 	rg.Spec.Tags = res.Tags
 	rg.Spec.ManagedBy = res.ManagedBy
-	return rg
 }
 
 func init() {

@@ -46,7 +46,7 @@ func TestAzureTemplateClient_Deploy(t *testing.T) {
 
 		if res.DeploymentID != "" {
 			dep := zips.Resource{
-				ID: res.DeploymentID,
+				ID:   res.DeploymentID,
 				Type: "Microsoft.Resources/deployments",
 			}
 			_ = client.Delete(context.TODO(), dep)

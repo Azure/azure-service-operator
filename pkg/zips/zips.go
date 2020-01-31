@@ -10,13 +10,16 @@ package zips
 import (
 	"context"
 
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type (
 	Resourcer interface {
+		runtime.Object
+		metav1.Object
 		ToResource() Resource
-		FromResource(Resource) runtime.Object
+		FromResource(Resource)
 	}
 
 	Applier interface {
