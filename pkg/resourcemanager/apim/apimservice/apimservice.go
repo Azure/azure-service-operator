@@ -128,6 +128,8 @@ func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, r
 
 // SetAppInsightsForAPIMgmtSvc sets the app insight instance to use with the service
 func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, appInsightsResourceGroup string, appInsightsName string) error {
+
+	// check to make sure app insight exists
 	insight, err := apimshared.GetAppInstanceIDByName(ctx, appInsightsResourceGroup, appInsightsName)
 	if err != nil {
 		return err
@@ -135,6 +137,13 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 		return fmt.Errorf("could not find App Insight %s, %s", appInsightsResourceGroup, appInsightsName)
 	}
 
+	// check to make sure that the API Mgmt Svc has been activated
+	exists, activated, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
+	if !exists || !activated || err != nil {
+		return fmt.Errorf("API Mgmt Service hasn't been created or activated yet: %s, %s", resourceGroupName, resourceName)
+	}
+
+	// get the etag for apim service
 	apimSvc, err := apimshared.GetAPIMgmtSvc(
 		ctx,
 		resourceGroupName,
@@ -142,7 +151,7 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 	)
 	if err != nil {
 		return err
-	} else if apimSvc.Name == nil {
+	} else if apimSvc.Etag == nil {
 		return fmt.Errorf("could not find API Mgmt Service %s, %s", resourceGroupName, resourceName)
 	}
 
@@ -151,6 +160,8 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 		return err
 	}
 
+	var credentials map[string]*string
+	credentials["instrumentationKey"] = &insight.InstrumentationKey
 	_, err = client.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
@@ -161,9 +172,10 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 				LoggerType:  "ApplicationInsights",
 				Description: &appInsightsName,
 				ResourceID:  insight.ID,
+				Credentials: credentials,
 			},
 		},
-		*apimSvc.Etag,
+		apimSvc.Etag,
 	)
 
 	return err

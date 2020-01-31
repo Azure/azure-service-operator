@@ -160,7 +160,6 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false
 	return true, nil
-
 }
 
 // Delete makes sure that an API Mgmt Svc has been deleted
