@@ -170,7 +170,12 @@ func CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bo
 			Name: &resourceName,
 		},
 	)
-	return *result.NameAvailable, err
+	nameAvailable := false
+	if result.NameAvailable != nil {
+		nameAvailable = *result.NameAvailable
+	}
+
+	return nameAvailable, err
 }
 
 // GetAppInstanceIDByName retrieves an app insight by name

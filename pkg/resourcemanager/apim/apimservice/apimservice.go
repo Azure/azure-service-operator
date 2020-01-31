@@ -133,7 +133,7 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 	insight, err := apimshared.GetAppInstanceIDByName(ctx, appInsightsResourceGroup, appInsightsName)
 	if err != nil {
 		return err
-	} else if insight.ID == nil {
+	} else if insight.ID == nil || insight.InstrumentationKey == nil {
 		return fmt.Errorf("could not find App Insight %s, %s", appInsightsResourceGroup, appInsightsName)
 	}
 
@@ -161,7 +161,7 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 	}
 
 	var credentials map[string]*string
-	credentials["instrumentationKey"] = &insight.InstrumentationKey
+	credentials["instrumentationKey"] = insight.InstrumentationKey
 	_, err = client.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
@@ -175,7 +175,7 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 				Credentials: credentials,
 			},
 		},
-		apimSvc.Etag,
+		*apimSvc.Etag,
 	)
 
 	return err
