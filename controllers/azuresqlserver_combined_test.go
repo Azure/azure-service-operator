@@ -127,8 +127,8 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
-	}, tc.timeoutFast, tc.retry, "wait for db to have finalizer")
+		return helpers.HasFinalizer(sqlDatabaseInstance, finalizerName)
+	}, tc.timeout, tc.retry, "wait for db to have finalizer")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
