@@ -1,0 +1,19 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: APIMgmt
+metadata:
+  name: aso-apimgmt-sample
+spec:
+  location: westus
+  resourceGroup: AzureOperatorsTest
+  apiService: AzureOperatorsTestAPIM
+  apiId: apiId0
+  properties:
+    isCurrent: true
+    isOnline: true
+    displayName: aso-apimgmt-sample
+    description: "API description 1"
+    apiVersionDescription: "API version description 1"
+    path: "/api/test"
+    protocols:
+    - http
+    subscriptionRequired: false
