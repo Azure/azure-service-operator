@@ -54,7 +54,7 @@ type (
 			  "properties": {
 			    "provisioningState": "Succeeded"
 			  },
-			  "subscriptionId": "8ec81d93-7715-4cec-8dcf-e07583d8a24a",
+			  "subscriptionId": "guid",
 			  "scope": "",
 			  "resourceId": "Microsoft.Resources/resourceGroups/foo",
 			  "referenceApiVersion": "2018-05-01",
@@ -175,7 +175,7 @@ func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resour
 
 	future, err := atc.DeploymentsClient.CreateOrUpdateAtSubscriptionScope(ctx, deploymentName, deployment)
 	if err != nil {
-		return Resource{}, err
+		return Resource{}, fmt.Errorf("deployment failed: %w", err)
 	}
 
 	if err := future.WaitForCompletionRef(ctx, atc.DeploymentsClient.Client); err != nil {
@@ -185,6 +185,16 @@ func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resour
 	de, err := future.Result(atc.DeploymentsClient)
 	if err != nil {
 		return Resource{}, err
+	}
+
+	// clean up after the deployment
+	var deploymentID string
+	if !res.ObjectMeta.PreserveDeployment {
+		if err := atc.deleteDeployment(ctx, res, deploymentName); err != nil {
+			return Resource{}, fmt.Errorf("deployment cleanup failed: %w", err)
+		}
+	} else {
+		deploymentID = *de.ID
 	}
 
 	if de.Properties == nil || de.Properties.Outputs == nil {
@@ -209,7 +219,7 @@ func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resour
 	tOutValue := templateOutput.Value
 
 	return Resource{
-		DeploymentID:   *de.ID,
+		DeploymentID:   deploymentID,
 		SubscriptionID: tOutValue.SubscriptionID,
 		ID:             tOutValue.ID,
 		Name:           res.Name,
@@ -223,36 +233,44 @@ func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resour
 }
 
 func (atc *AzureTemplateClient) Delete(ctx context.Context, res Resource) error {
-	var arRes *autorest.Response
-	if res.Type == "Microsoft.Resources/resourceGroups" {
-		r, err := atc.deleteResourceGroup(ctx, res)
-		if err != nil {
-			if de, ok := err.(autorest.DetailedError); ok {
-				if de.StatusCode == 404 {
-					return nil
-				}
+	arRes, err := atc.delete(ctx, res)
+	if err != nil {
+		if de, ok := err.(autorest.DetailedError); ok {
+			if de.StatusCode == 404 {
+				return nil
 			}
-			return fmt.Errorf("failed deleting %s with %w and error type %T", res.Type, err, err)
 		}
-		arRes = r
-	} else {
-		// all other resources
-		r, err := atc.deleteResource(ctx, res)
-		if err != nil {
-			if de, ok := err.(autorest.DetailedError); ok {
-				if de.StatusCode == 404 {
-					return nil
-				}
-			}
-			return fmt.Errorf("failed deleting %s with %w and error type %T", res.Type, err, err)
-		}
-		arRes = r
+		return fmt.Errorf("failed deleting %s with %w and error type %T", res.Type, err, err)
+	}
+
+	// just in case... but IRL this should not get hit. AutoRest returns an error with 404.
+	if arRes.StatusCode == 404 {
+		return nil
 	}
 
 	if arRes.StatusCode > 299 {
 		return fmt.Errorf("delete failed with status code %d and message %q", arRes.StatusCode, arRes.Status)
 	}
 	return nil
+}
+
+func (atc *AzureTemplateClient) deleteDeployment(ctx context.Context, res Resource, deploymentName string) error {
+	if res.ResourceGroup == "" {
+		_, err := atc.DeploymentsClient.DeleteAtSubscriptionScope(ctx, deploymentName)
+		return err
+	} else {
+		_, err := atc.DeploymentsClient.Delete(ctx, res.ResourceGroup, deploymentName)
+		return err
+	}
+}
+
+func (atc *AzureTemplateClient) delete(ctx context.Context, res Resource) (*autorest.Response, error) {
+	if res.Type == "Microsoft.Resources/resourceGroups" {
+		return atc.deleteResourceGroup(ctx, res)
+	}
+
+	// all other resources
+	return atc.deleteResource(ctx, res)
 }
 
 func (atc *AzureTemplateClient) deleteResource(ctx context.Context, res Resource) (*autorest.Response, error) {

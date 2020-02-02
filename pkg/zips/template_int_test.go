@@ -32,7 +32,8 @@ func TestAzureTemplateClient_Deploy(t *testing.T) {
 	g.Expect(err).To(gomega.BeNil())
 
 	random := RandomName("foo", 10)
-	res, err := client.Apply(context.TODO(), zips.Resource{
+	ctx := context.TODO()
+	res, err := client.Apply(ctx, zips.Resource{
 		Name:       random,
 		Location:   "westus2",
 		Type:       "Microsoft.Resources/resourceGroups",
@@ -41,20 +42,13 @@ func TestAzureTemplateClient_Deploy(t *testing.T) {
 	defer func() {
 		// TODO: have a better plan for cleaning up after tests
 		if res.ID != "" {
-			_ = client.Delete(context.TODO(), res)
-		}
-
-		if res.DeploymentID != "" {
-			dep := zips.Resource{
-				ID:   res.DeploymentID,
-				Type: "Microsoft.Resources/deployments",
-			}
-			_ = client.Delete(context.TODO(), dep)
+			_ = client.Delete(ctx, res)
 		}
 	}()
 	g.Expect(err).To(gomega.BeNil())
 	g.Expect(res.ID).ToNot(gomega.BeEmpty())
 	g.Expect(res.Properties).ToNot(gomega.BeNil())
+	g.Expect(res.DeploymentID).To(gomega.BeEmpty(), "should only be populated if the deploymentID is not being cleaned up")
 }
 
 // RandomName generates a random Event Hub name tagged with the suite id

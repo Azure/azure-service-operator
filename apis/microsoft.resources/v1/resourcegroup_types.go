@@ -70,7 +70,7 @@ func (*ResourceGroup) Hub() {
 }
 
 func (rg *ResourceGroup) ToResource() zips.Resource {
-	return zips.Resource{
+	res := zips.Resource{
 		ID:                rg.Status.ID,
 		Type:              "Microsoft.Resources/resourceGroups",
 		Name:              rg.Name,
@@ -80,6 +80,8 @@ func (rg *ResourceGroup) ToResource() zips.Resource {
 		ManagedBy:         rg.Spec.ManagedBy,
 		ProvisioningState: rg.Status.ProvisioningState,
 	}
+
+	return *res.SetAnnotations(rg.Annotations)
 }
 
 func (rg *ResourceGroup) FromResource(res zips.Resource) {
