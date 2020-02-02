@@ -13,6 +13,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
 	v1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
 	"github.com/Azure/k8s-infra/pkg/zips"
@@ -84,8 +85,17 @@ var _ = Describe("GenericReconciler", func() {
 
 			// setup the applier call with the projected resource
 			applier.On("Apply", mock.Anything, resBefore).Return(resAfter, nil)
-			reconciler := getReconciler(instance, mgr, k8sClient, applier)
-			result, err := reconciler.Reconcile(ctrl.Request{
+			gvk, err := apiutil.GVKForObject(instance, mgr.GetScheme())
+			Expect(err).ToNot(HaveOccurred())
+			gr := &GenericReconciler{
+				GVK:     gvk,
+				Client:  k8sClient,
+				Applier: applier,
+				Scheme:  mgr.GetScheme(),
+				Log:     ctrl.Log.WithName("test-controller"),
+				Name:    "test-controller",
+			}
+			result, err := gr.Reconcile(ctrl.Request{
 				NamespacedName: nn,
 			})
 			Expect(err).To(BeNil())
@@ -151,8 +161,17 @@ func createResourceGroup(ctx context.Context, obj *v1.ResourceGroup, applier *Ap
 
 	// setup the applier call with the projected resource
 	applier.On("Apply", mock.Anything, resBefore).Return(resAfter, nil)
-	reconciler := getReconciler(obj, mgr, k8sClient, applier)
-	result, err := reconciler.Reconcile(ctrl.Request{
+	gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
+	Expect(err).ToNot(HaveOccurred())
+	gr := &GenericReconciler{
+		GVK:     gvk,
+		Client:  k8sClient,
+		Applier: applier,
+		Scheme:  mgr.GetScheme(),
+		Log:     ctrl.Log.WithName("test-controller"),
+		Name:    "test-controller",
+	}
+	result, err := gr.Reconcile(ctrl.Request{
 		NamespacedName: nn,
 	})
 	Expect(err).To(BeNil())
@@ -176,8 +195,17 @@ func deleteResourceGroup(ctx context.Context, obj *v1.ResourceGroup, applier *Ap
 	}
 
 	applier.On("Delete", mock.Anything, resBefore).Return(nil)
-	reconciler := getReconciler(obj, mgr, k8sClient, applier)
-	result, err := reconciler.Reconcile(ctrl.Request{
+	gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
+	Expect(err).ToNot(HaveOccurred())
+	gr := &GenericReconciler{
+		GVK:     gvk,
+		Client:  k8sClient,
+		Applier: applier,
+		Scheme:  mgr.GetScheme(),
+		Log:     ctrl.Log.WithName("test-controller"),
+		Name:    "test-controller",
+	}
+	result, err := gr.Reconcile(ctrl.Request{
 		NamespacedName: nn,
 	})
 	Expect(err).To(BeNil())

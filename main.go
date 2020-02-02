@@ -13,6 +13,7 @@ import (
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	microsoftresourcesv1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
@@ -65,7 +66,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if errs := controllers.RegisterAll(mgr, applier, controllers.KnownTypes); errs != nil {
+	if errs := controllers.RegisterAll(mgr, applier, controllers.KnownTypes, ctrl.Log.WithName("controllers"), concurrency(1)); errs != nil {
 		for _, err := range errs {
 			setupLog.Error(err, "failed to register gvk: %v")
 		}
@@ -94,4 +95,8 @@ func main() {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
+}
+
+func concurrency(c int) controller.Options {
+	return controller.Options{MaxConcurrentReconciles: c}
 }

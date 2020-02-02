@@ -10,14 +10,17 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/go-logr/logr"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/conversion"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/k8s-infra/apis"
 	microsoftresourcesv1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
@@ -28,32 +31,46 @@ import (
 // +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups/status,verbs=get;update;patch
 
-// KnownTypes defines an array of runtime.Objects to be reconciled, where each
-// object in the array will generate a controller. If the concrete type
-// implements the owner interface, the generated controller will inject the
-// owned types supplied by the Owns() method of the CRD type. Each controller
-// may directly reconcile a single object, but may indirectly watch
-// and reconcile many Owned objects. The singular type is necessary to generically
-// produce a reconcile function aware of concrete types, as a closure.
-var KnownTypes = []runtime.Object{
-	new(microsoftresourcesv1.ResourceGroup),
-}
-
 var (
-	ctrlog = ctrl.Log.WithName("resources-controller")
+
+	// KnownTypes defines an array of runtime.Objects to be reconciled, where each
+	// object in the array will generate a controller. If the concrete type
+	// implements the owner interface, the generated controller will inject the
+	// owned types supplied by the Owns() method of the CRD type. Each controller
+	// may directly reconcile a single object, but may indirectly watch
+	// and reconcile many Owned objects. The singular type is necessary to generically
+	// produce a reconcile function aware of concrete types, as a closure.
+	KnownTypes = []runtime.Object{
+		new(microsoftresourcesv1.ResourceGroup),
+	}
 )
 
-type owner interface {
-	Owns() []runtime.Object
-}
+type (
+	owner interface {
+		Owns() []runtime.Object
+	}
 
-func RegisterAll(mgr ctrl.Manager, applier zips.Applier, objs []runtime.Object) []error {
+	// GenericReconciler reconciles a Resourcer object
+	GenericReconciler struct {
+		Client     client.Client
+		Log        logr.Logger
+		Owns       []runtime.Object
+		Applier    zips.Applier
+		Scheme     *runtime.Scheme
+		Recorder   record.EventRecorder
+		Name       string
+		GVK        schema.GroupVersionKind
+		Controller controller.Controller
+	}
+)
+
+func RegisterAll(mgr ctrl.Manager, applier zips.Applier, objs []runtime.Object, log logr.Logger, options controller.Options) []error {
 	var errs []error
 	for _, obj := range objs {
 		mgr := mgr
 		applier := applier
 		obj := obj
-		if err := register(mgr, applier, obj); err != nil {
+		if err := register(mgr, applier, obj, log, options); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -67,57 +84,71 @@ func RegisterAll(mgr ctrl.Manager, applier zips.Applier, objs []runtime.Object) 
 // to the concrete type defined as part of a closure, while allowing for
 // independent controllers per GVK (== better parallelism, vs 1 controller
 // managing many, many List/Watches)
-func register(mgr ctrl.Manager, applier zips.Applier, obj runtime.Object) error {
-	controller := ctrl.NewControllerManagedBy(mgr).For(obj)
-	ownerType, ok := obj.(owner)
-	if ok {
-		for _, ownedType := range ownerType.Owns() {
-			controller.Owns(ownedType)
-		}
-	}
-
+func register(mgr ctrl.Manager, applier zips.Applier, obj runtime.Object, log logr.Logger, options controller.Options) error {
 	v, err := conversion.EnforcePtr(obj)
 	if err != nil {
 		return err
 	}
 
 	t := v.Type()
-	controller.Named(strings.ReplaceAll(t.String(), ".", "_"))
-	reconciler := getReconciler(obj, mgr, mgr.GetClient(), applier)
-	return controller.Complete(reconciler)
-}
+	name := strings.ReplaceAll(t.String(), ".", "-")
+	controllerName := fmt.Sprintf("%s-contoller", name)
 
-// getReconciler is a simple helper to directly produce a reconcile Function. Useful to test against.
-func getReconciler(obj runtime.Object, mgr ctrl.Manager, kubeclient client.Client, applier zips.Applier) reconcile.Func {
-	return func(req ctrl.Request) (ctrl.Result, error) {
-		// Use the provided GVK to construct a new runtime object of the desired concrete type.
-		gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
-		if err != nil {
-			return ctrl.Result{}, err
-		}
-
-		obj, err = mgr.GetScheme().New(gvk)
-		if err != nil {
-			return ctrl.Result{}, err
-		}
-
-		return reconcileFn(req, obj, kubeclient, applier)
+	// Use the provided GVK to construct a new runtime object of the desired concrete type.
+	gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
+	if err != nil {
+		return err
 	}
+
+	reconciler := &GenericReconciler{
+		Client:   mgr.GetClient(),
+		Applier:  applier,
+		Scheme:   mgr.GetScheme(),
+		Name:     name,
+		Log:      log.WithName(controllerName),
+		Recorder: mgr.GetEventRecorderFor(controllerName),
+		GVK:      gvk,
+	}
+
+	ctrlBuilder := ctrl.NewControllerManagedBy(mgr).
+		For(obj).
+		WithOptions(options)
+
+	ownerType, ok := obj.(owner)
+	if ok {
+		reconciler.Owns = ownerType.Owns()
+		for _, own := range ownerType.Owns() {
+			ctrlBuilder.Owns(own)
+		}
+	}
+
+	c, err := ctrlBuilder.Build(reconciler)
+	if err != nil {
+		return fmt.Errorf("unable to build controller / reconciler with: %w", err)
+	}
+
+	reconciler.Controller = c
+	return nil
 }
 
-// reconcileFn is the "real" reconciler function, created as a closure above at manager startup to have access to the gvk.
-func reconcileFn(req ctrl.Request, obj runtime.Object, kubeclient client.Client, applier zips.Applier) (_ ctrl.Result, reterr error) {
+func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
+	logger := gr.Log.WithValues("name", req.Name, "namespace", req.Namespace)
 
-	if err := kubeclient.Get(ctx, req.NamespacedName, obj); err != nil {
+	obj, err := gr.Scheme.New(gr.GVK)
+	if err != nil {
+		return ctrl.Result{}, fmt.Errorf("unable to create object from gvk %+v with: %w", gr.GVK, err)
+	}
+
+	if err := gr.Client.Get(ctx, req.NamespacedName, obj); err != nil {
 		if apierrors.IsNotFound(err) {
-			ctrlog.Info("object not found, requeue")
+			logger.Info("object not found, requeue")
 			// Object not found, return.  Created objects are automatically garbage collected.
 			// For additional cleanup logic use finalizers.
 			return ctrl.Result{}, nil
 		}
 
-		ctrlog.Error(err, "error reading object")
+		logger.Error(err, "error reading object")
 		// Error reading the object - requeue the request.
 		return ctrl.Result{}, err
 	}
@@ -131,14 +162,14 @@ func reconcileFn(req ctrl.Request, obj runtime.Object, kubeclient client.Client,
 
 	// reconcile delete
 	if !resourcer.GetDeletionTimestamp().IsZero() {
-		return ctrl.Result{}, reconcileDelete(ctx, kubeclient, applier, resourcer)
+		return ctrl.Result{}, gr.reconcileDelete(ctx, resourcer)
 	}
 
-	return ctrl.Result{}, reconcileApply(ctx, kubeclient, applier, resourcer)
+	return ctrl.Result{}, gr.reconcileApply(ctx, resourcer)
 }
 
-func reconcileApply(ctx context.Context, c client.Client, applier zips.Applier, resourcer zips.Resourcer) error {
-	if err := patcher(ctx, c, resourcer, func(res zips.Resourcer) error {
+func (gr *GenericReconciler) reconcileApply(ctx context.Context, resourcer zips.Resourcer) error {
+	if err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
 		azobj := res.ToResource()
 		azobj.ProvisioningState = "Applying"
 		res.FromResource(azobj)
@@ -152,10 +183,10 @@ func reconcileApply(ctx context.Context, c client.Client, applier zips.Applier, 
 	// This should call to the Applier where the current state of the applied resource should be compared to the cached
 	// state of the Azure resource. If the two states differ, the Applier should then apply that state to Azure.
 
-	return patcher(ctx, c, resourcer, func(res zips.Resourcer) error {
+	return patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
 		controllerutil.AddFinalizer(resourcer, apis.AzureInfraFinalizer)
 		resource := res.ToResource()
-		appliedResource, err := applier.Apply(ctx, resource)
+		appliedResource, err := gr.Applier.Apply(ctx, resource)
 		if err != nil {
 			return fmt.Errorf("failed to apply state to Azure with %w", err)
 		}
@@ -167,8 +198,8 @@ func reconcileApply(ctx context.Context, c client.Client, applier zips.Applier, 
 	})
 }
 
-func reconcileDelete(ctx context.Context, c client.Client, applier zips.Applier, resourcer zips.Resourcer) error {
-	if err := patcher(ctx, c, resourcer, func(res zips.Resourcer) error {
+func (gr *GenericReconciler) reconcileDelete(ctx context.Context, resourcer zips.Resourcer) error {
+	if err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
 		azobj := res.ToResource()
 		azobj.ProvisioningState = "Deleting"
 		res.FromResource(azobj)
@@ -177,8 +208,8 @@ func reconcileDelete(ctx context.Context, c client.Client, applier zips.Applier,
 		return err
 	}
 
-	err := patcher(ctx, c, resourcer, func(res zips.Resourcer) error {
-		if err := applier.Delete(ctx, res.ToResource()); err != nil {
+	err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
+		if err := gr.Applier.Delete(ctx, res.ToResource()); err != nil {
 			return fmt.Errorf("failed trying to delete with %w", err)
 		}
 
