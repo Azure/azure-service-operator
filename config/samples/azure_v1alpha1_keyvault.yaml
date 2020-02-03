@@ -12,11 +12,11 @@ spec:
     bypass: AzureServices # AzureServices or None
     defaultAction: Allow # Allow or Deny
     ipRules: 
-      - ip1
-      - ip2
+      - 172.16.0.0/24
+      - 172.16.1.0/24
     virtualNetworkRules:
-      - vnet1
-      - vnet2
+      - /subscriptions/<subid>/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1
+      - /subscriptions/<subid>/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet2
   accessPolicies:
     - tenantID: <tenantID>
       objectID: <objectID>
