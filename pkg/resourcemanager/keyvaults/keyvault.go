@@ -185,16 +185,15 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry) (keyvault.AccessPolic
 	return newEntry, nil
 }
 
-// CreateVault creates a new key vault
-func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, tags map[string]*string) (keyvault.Vault, error) {
-	vaultName := instance.Name
-	location := instance.Spec.Location
-	groupName := instance.Spec.ResourceGroup
-
+// InstantiateVault will instantiate VaultsClient
+func InstantiateVault(ctx context.Context, vaultName string) (keyvault.VaultsClient, uuid.UUID, error) {
 	vaultsClient, err := getVaultsClient()
+	if err != nil {
+		return keyvault.VaultsClient{}, uuid.UUID{}, err
+	}
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
-		return keyvault.Vault{}, err
+		return keyvault.VaultsClient{}, uuid.UUID{}, err
 	}
 
 	// Check if keyvault name is valid
@@ -204,13 +203,26 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	}
 	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
 	if err != nil {
-		return keyvault.Vault{}, err
+		return keyvault.VaultsClient{}, uuid.UUID{}, err
 	}
 	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
-		// Check for "Invalid" is to overcome a bug in KeyVault API which returns "Invalid" instead of defined "AccountNameInvalid"
-		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
+		return keyvault.VaultsClient{}, uuid.UUID{}, fmt.Errorf("AccountNameInvalid")
 	} else if result.Reason == keyvault.AlreadyExists {
-		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
+		return keyvault.VaultsClient{}, uuid.UUID{}, fmt.Errorf("AlreadyExists")
+	}
+
+	return vaultsClient, id, nil
+}
+
+// CreateVault creates a new key vault
+func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, tags map[string]*string) (keyvault.Vault, error) {
+	vaultName := instance.Name
+	location := instance.Spec.Location
+	groupName := instance.Spec.ResourceGroup
+
+	vaultsClient, id, err := InstantiateVault(ctx, vaultName)
+	if err != nil {
+		return keyvault.Vault{}, err
 	}
 
 	var accessPolicies []keyvault.AccessPolicyEntry
@@ -255,28 +267,9 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 
 // CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
 func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
-	vaultsClient, err := getVaultsClient()
+	vaultsClient, id, err := InstantiateVault(ctx, vaultName)
 	if err != nil {
 		return keyvault.Vault{}, err
-	}
-	id, err := uuid.FromString(config.TenantID())
-	if err != nil {
-		return keyvault.Vault{}, err
-	}
-
-	// Check if keyvault name is valid
-	vaultNameCheck := keyvault.VaultCheckNameAvailabilityParameters{
-		Name: to.StringPtr(vaultName),
-		Type: to.StringPtr("Microsoft.KeyVault/vaults"),
-	}
-	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
-	if err != nil {
-		return keyvault.Vault{}, err
-	}
-	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
-		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
-	} else if result.Reason == keyvault.AlreadyExists {
-		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
 	}
 
 	apList := []keyvault.AccessPolicyEntry{}
