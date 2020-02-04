@@ -19,11 +19,13 @@ package keyvaults
 import (
 	"fmt"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 var _ = Describe("KeyVault Resource Manager test", func() {
@@ -61,13 +63,21 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 				"tag2": to.StringPtr("value2"),
 			}
 
+			kv := v1alpha1.KeyVault{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: keyvaultName,
+				},
+				Spec: v1alpha1.KeyVaultSpec{
+					ResourceGroup: rgName,
+					Location:      location,
+				},
+			}
+
 			// Create Key Vault instance
 			Eventually(func() bool {
 				_, err := keyVaultManager.CreateVault(
 					ctx,
-					rgName,
-					keyvaultName,
-					location,
+					&kv,
 					tags,
 				)
 				if err != nil {
