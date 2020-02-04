@@ -158,7 +158,7 @@ Once you apply this, the kube secret with the same name as the SQL server is upd
 
 ### SQL failover group
 
-The SQL failover group operator is used to create a failover group on a specified primary Azure SQL server, given the secondary Azure SQL server (should be in a different location from the primary server) and the databases on the primary server that should failover.
+The SQL failover group operator is used to create a failover group across two Azure SQL servers (one primary, one secondary). The servers should already be provisioned and deployed different regions. The specified databases will be replicated from the primary server and created on the secondary.
 
 Below is a sample YAML for creating a failover group
 
@@ -182,7 +182,7 @@ spec:
 
 The `name` is a name for the failover group that we want to create. `server` is the primary SQL server on which the failover group is created, `location` and `resourcegroup` are the location and the resource group of the primary SQL server. `failoverpolicy` can be "automatic" or "manual". `failovergraceperiod` is the time in minutes. `secondaryserver` is the secondary SQL server to failover to and `secondaryserverresourcegroup` is the resource group that the server is in. `databaselist` is the list of databased on the primary SQL server that should replicate to the secondary SQL server, when there is a failover action.
 
-Once you apply this, a secret with the same name as the SQL failovergroup is also stored. This secret contains the fields for primary/secondary failovergroup listener endpoints (`readwritelistenerendpoint` and `readonlylistenerendpoint`) and the primary/secondary SQL server names (`azuresqlprimaryservername` and `azuresqlsecondaryservername`)
+Once you apply this, a secret with the same name as the SQL failovergroup is also stored. This secret contains the fields for primary/secondary failovergroup listener endpoints (`readWriteListenerEndpoint` and `readOnlyListenerEndpoint`) and the primary/secondary SQL server names (`azureSqlPrimaryServerName` and `azureSqlSecondaryServerName`)
 
 ### SQL database user
 
