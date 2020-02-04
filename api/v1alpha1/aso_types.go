@@ -21,3 +21,9 @@ type ASOStatus struct {
 	State        string `json:"state,omitempty"`
 	Message      string `json:"message,omitempty"`
 }
+
+// KeyVaultToUseForSecrets defines the name of the KeyVault that will be used to store the secrets from provisioning
+type KeyVaultToUseForSecrets struct {
+	// Important: Run "make" to regenerate code after modifying this file
+	Name string `json:"name,omitempty"`
+}

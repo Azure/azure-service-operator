@@ -33,7 +33,8 @@ type EventhubSpec struct {
 	ResourceGroup     string                    `json:"resourceGroup,omitempty"`
 	AuthorizationRule EventhubAuthorizationRule `json:"authorizationRule,omitempty"`
 	// SecretName - Used to specify the name of the secret. Defaults to Event Hub name if omitted.
-	SecretName string `json:"secretName,omitempty"`
+	SecretName             string                  `json:"secretName,omitempty"`
+	KeyVaultToStoreSecrets KeyVaultToUseForSecrets `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 //EventhubAuthorizationRule defines the name and rights of the access policy
