@@ -85,7 +85,8 @@ helm install aso azureserviceoperator/azure-service-operator/ \
     --set azureClientID=$AZURE_CLIENT_ID \
     --set azureClientSecret=$AZURE_CLIENT_SECRET \
     --set azureUseMI=$AZURE_USE_MI \
-    --set azureOperatorKeyvault=$AZURE_OPERATOR_KEYVAULT
+    --set azureOperatorKeyvault=$AZURE_OPERATOR_KEYVAULT \
+    --set createNamespace=False
 ```
 
 ## Configuration
