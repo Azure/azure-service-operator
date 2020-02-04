@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	v1 "k8s.io/api/core/v1"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
@@ -15,30 +16,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-
-func TestAzureSqlTestFuncs(t *testing.T) {
-	t.Parallel()
-	defer PanicRecover()
-	ctx := context.Background()
-	assert := assert.New(t)
-
-	// Add any setup steps that needs to be executed before each test
-	rgName := tc.resourceGroupName
-	sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
-	rgLocation := "westus2"
-
-	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
-
-	// Create the SqlServer object and expect the Reconcile to be created
-	sqlServerInstance := azurev1alpha1.NewAzureSQLServer(sqlServerNamespacedName, rgName, rgLocation)
-	err := tc.k8sClient.Create(ctx, sqlServerInstance)
-	assert.Equal(nil, err, "create server in k8s")
-
-	EnsureInstance(ctx, t, tc, sqlServerInstance)
-
-}
-
-func RunSQLActionHappy(t *testing.T) {
+func RunSQLActionHappy(t *testing.T, server string) {
 	//t.Parallel()
 	defer PanicRecover()
 	ctx := context.Background()
@@ -46,8 +24,15 @@ func RunSQLActionHappy(t *testing.T) {
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
-	rgLocation := tc.resourceGroupLocation
-	sqlServerName := "t-sqldb-test-srv" + helpers.RandomString(10)
+
+	secret := &v1.Secret{}
+	assert.Eventually(func() bool {
+		err := tc.k8sClient.Get(ctx, types.NamespacedName{Name: server, Namespace: "default"}, secret)
+		if err != nil {
+			return false
+		}
+		return true
+	}, tc.timeoutFast, tc.retry, "wait for server to return secret")
 
 	sqlActionName := "t-azuresqlaction-dev-" + helpers.RandomString(10)
 
@@ -58,8 +43,8 @@ func RunSQLActionHappy(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzureSqlActionSpec{
-			ActionName:    rgLocation,
-			ServerName:    sqlServerName,
+			ActionName:    "rollcreds",
+			ServerName:    server,
 			ResourceGroup: rgName,
 		},
 	}
@@ -73,11 +58,21 @@ func RunSQLActionHappy(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlActionInstanceNamespacedName, sqlActionInstance)
-		return sqlActionInstance.IsSubmitted()
+		return sqlActionInstance.Status.Provisioned
 	}, tc.timeout, tc.retry, "wait for sql action to be submitted")
 
 	// TODO Check SQL Database credentials
 
 	// TODO Assert credentials are not the same as previous
+	secretAfter := &v1.Secret{}
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: server, Namespace: "default"}, secretAfter)
+		if err != nil {
+			return false
+		}
+		return true
+	}, tc.timeoutFast, tc.retry, "wait for server to return secret")
 
+	assert.Equal(secret.Data["username"], secretAfter.Data["username"], "username should still be the same")
+	assert.NotEqual(string(secret.Data["password"]), string(secretAfter.Data["password"]), "password should have changed")
 }

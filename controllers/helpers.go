@@ -6,21 +6,67 @@ package controllers
 
 import (
 	"context"
-	"reflect"
+	"encoding/json"
+	"fmt"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
+	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
+	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
+	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
+	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
+	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
+	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 )
+
+type TestContext struct {
+	k8sClient               client.Client
+	secretClient            secrets.SecretClient
+	resourceGroupName       string
+	resourceGroupLocation   string
+	eventhubNamespaceName   string
+	eventhubName            string
+	namespaceLocation       string
+	storageAccountName      string
+	blobContainerName       string
+	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
+	eventHubManagers        resourcemanagereventhub.EventHubManagers
+	eventhubClient          resourcemanagereventhub.EventHubManager
+	storageManagers         resourcemanagerstorages.StorageManagers
+	keyVaultManager         resourcemanagerkeyvaults.KeyVaultManager
+	psqlServerManager       resourcemanagerpsqlserver.PostgreSQLServerManager
+	psqlDatabaseManager     resourcemanagerpsqldatabase.PostgreSQLDatabaseManager
+	psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
+	sqlServerManager        resourcemanagersqlserver.SqlServerManager
+	sqlDbManager            resourcemanagersqldb.SqlDbManager
+	sqlFirewallRuleManager  resourcemanagersqlfirewallrule.SqlFirewallRuleManager
+	sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
+	sqlUserManager          resourcemanagersqluser.SqlUserManager
+	consumerGroupClient     resourcemanagereventhub.ConsumerGroupManager
+	timeout                 time.Duration
+	timeoutFast             time.Duration
+	retry                   time.Duration
+}
 
 // Fetch retrieves an object by namespaced name from the API server and puts the contents in the runtime.Object parameter.
 // TODO(ace): refactor onto base reconciler struct
@@ -155,10 +201,12 @@ func removeString(slice []string, s string) []string {
 }
 
 // EnsureInstance creates the instance and waits for it to exist or timeout
-func EnsureInstance(ctx context.Context, t *testing.T, tc testContext, instance runtime.Object) {
+func EnsureInstance(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
 	assert := assert.New(t)
+	tOf := fmt.Sprintf("%T", instance)
+
 	err := tc.k8sClient.Create(ctx, instance)
-	assert.Equal(nil, err, "create server2 in k8s")
+	assert.Equal(nil, err, fmt.Sprintf("create %s in k8s", tOf))
 
 	res, err := meta.Accessor(instance)
 	assert.Equal(nil, err, "not a metav1 object")
@@ -168,14 +216,45 @@ func EnsureInstance(ctx context.Context, t *testing.T, tc testContext, instance 
 	// Wait for first sql server to resolve
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, instance)
-		return helpers.HasFinalizer(res, AzureSQLServerFinalizerName)
-	}, tc.timeoutFast, tc.retry, "wait for server to have finalizer")
+		return helpers.HasFinalizer(res, finalizerName)
+	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to have finalizer", tOf))
 
 	assert.Eventually(func() bool {
-		var status v1alpha1.ASOStatus
 		_ = tc.k8sClient.Get(ctx, names, instance)
-		runtime.Field(reflect.ValueOf(instance), "Status", status)
-		return strings.Contains(status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for server to provision")
+		statused := ConvertToStatus(instance)
+		return strings.Contains(statused.Status.Message, successMsg)
+	}, tc.timeout, tc.retry, fmt.Sprintf("wait for %s to provision", tOf))
 
+}
+
+// EnsureDelete deletes the instance and waits for it to be gone or timeout
+func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
+	assert := assert.New(t)
+	tOf := fmt.Sprintf("%T", instance)
+
+	err := tc.k8sClient.Delete(ctx, instance)
+	assert.Equal(nil, err, fmt.Sprintf("create %s in k8s", tOf))
+
+	res, err := meta.Accessor(instance)
+	assert.Equal(nil, err, "not a metav1 object")
+
+	names := types.NamespacedName{Name: res.GetName(), Namespace: res.GetNamespace()}
+
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, names, instance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to be gone from k8s", tOf))
+
+}
+
+// ConvertToStatus takes a runtime.Object and attempts to convert it to an object with an ASOStatus field
+func ConvertToStatus(instance runtime.Object) *v1alpha1.StatusedObject {
+	target := &v1alpha1.StatusedObject{}
+	serial, err := json.Marshal(instance)
+	if err != nil {
+		return target
+	}
+
+	err = json.Unmarshal(serial, target)
+	return target
 }
