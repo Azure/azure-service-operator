@@ -357,7 +357,7 @@ func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *
 			"azureSqlServerNamespace":  []byte(instance.Namespace),
 			"azureSqlServerName":       []byte(instance.Spec.Server),
 			"fullyQualifiedServerName": []byte(instance.Spec.Server + ".database.windows.net"),
-			"databaseName":             []byte(instance.Spec.DbName),
+			"azureSqlDatabaseName":     []byte(instance.Spec.DbName),
 		}
 	}
 	return secret
