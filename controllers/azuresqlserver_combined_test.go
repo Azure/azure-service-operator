@@ -1,4 +1,4 @@
-// +build all azuresqlserver
+// +build all azuresqlserver azuresqlservercombined
 
 package controllers
 
@@ -127,8 +127,8 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
-	}, tc.timeoutFast, tc.retry, "wait for db to have finalizer")
+		return helpers.HasFinalizer(sqlDatabaseInstance, finalizerName)
+	}, tc.timeout, tc.retry, "wait for db to have finalizer")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
@@ -293,6 +293,12 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 		return strings.Contains(sqlFailoverGroupInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for failovergroup to provision")
+
+	assert.Eventually(func() bool {
+		var secrets, _ = tc.secretClient.Get(ctx, sqlFailoverGroupNamespacedName)
+
+		return strings.Contains(string(secrets["azureSqlPrimaryServerName"]), sqlServerName)
+	}, tc.timeout, tc.retry, "wait for secret store to show failovergroup server names  ")
 
 	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)
 	assert.Equal(nil, err, "delete sqlFailoverGroupInstance in k8s")

@@ -167,12 +167,12 @@ func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup stri
 	} else {
 		//create secrets in the k8s with the listed keys
 		data := map[string][]byte{
-			"primaryconnectionstring":   []byte(*result.PrimaryConnectionString),
-			"secondaryconnectionstring": []byte(*result.SecondaryConnectionString),
+			"primaryConnectionString":   []byte(*result.PrimaryConnectionString),
+			"secondaryConnectionString": []byte(*result.SecondaryConnectionString),
 			"primaryKey":                []byte(*result.PrimaryKey),
 			"secondaryKey":              []byte(*result.SecondaryKey),
-			"sharedaccesskey":           []byte(authorizationRuleName),
-			"eventhubnamespace":         []byte(eventhubNamespace),
+			"sharedaccessKey":           []byte(authorizationRuleName),
+			"eventhubNamespace":         []byte(eventhubNamespace),
 			"eventhubName":              []byte(eventhubName),
 		}
 		err = e.createEventhubSecrets(

@@ -343,11 +343,16 @@ func setup() error {
 	}
 
 	err = (&AzureSqlDatabaseReconciler{
-		Client:            k8sManager.GetClient(),
-		Log:               ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
-		Recorder:          k8sManager.GetEventRecorderFor("AzureSqlDatabase-controller"),
-		Scheme:            scheme.Scheme,
-		AzureSqlDbManager: sqlDbManager,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: sqlDbManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
+				"AzureSqlDb",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlDb-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
 		return err
@@ -373,6 +378,7 @@ func setup() error {
 		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
 		Scheme:                       scheme.Scheme,
 		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
+		SecretClient:                 secretClient,
 	}).SetupWithManager(k8sManager)
 	if err != nil {
 		return err
