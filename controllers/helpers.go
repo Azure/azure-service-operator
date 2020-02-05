@@ -203,10 +203,10 @@ func removeString(slice []string, s string) []string {
 // EnsureInstance creates the instance and waits for it to exist or timeout
 func EnsureInstance(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
 	assert := assert.New(t)
-	tOf := fmt.Sprintf("%T", instance)
+	typeOf := fmt.Sprintf("%T", instance)
 
 	err := tc.k8sClient.Create(ctx, instance)
-	assert.Equal(nil, err, fmt.Sprintf("create %s in k8s", tOf))
+	assert.Equal(nil, err, fmt.Sprintf("create %s in k8s", typeOf))
 
 	res, err := meta.Accessor(instance)
 	assert.Equal(nil, err, "not a metav1 object")
@@ -217,23 +217,23 @@ func EnsureInstance(ctx context.Context, t *testing.T, tc TestContext, instance 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, instance)
 		return helpers.HasFinalizer(res, finalizerName)
-	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to have finalizer", tOf))
+	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to have finalizer", typeOf))
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, instance)
 		statused := ConvertToStatus(instance)
-		return strings.Contains(statused.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, fmt.Sprintf("wait for %s to provision", tOf))
+		return strings.Contains(statused.Status.Message, successMsg) && statused.Status.Provisioned == true
+	}, tc.timeout, tc.retry, fmt.Sprintf("wait for %s to provision", typeOf))
 
 }
 
 // EnsureDelete deletes the instance and waits for it to be gone or timeout
 func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
 	assert := assert.New(t)
-	tOf := fmt.Sprintf("%T", instance)
+	typeOf := fmt.Sprintf("%T", instance)
 
 	err := tc.k8sClient.Delete(ctx, instance)
-	assert.Equal(nil, err, fmt.Sprintf("create %s in k8s", tOf))
+	assert.Equal(nil, err, fmt.Sprintf("create %s in k8s", typeOf))
 
 	res, err := meta.Accessor(instance)
 	assert.Equal(nil, err, "not a metav1 object")
@@ -243,7 +243,7 @@ func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance ru
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, names, instance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to be gone from k8s", tOf))
+	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to be gone from k8s", typeOf))
 
 }
 
