@@ -17,7 +17,6 @@ import (
 )
 
 func RunSQLActionHappy(t *testing.T, server string) {
-	//t.Parallel()
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
