@@ -54,7 +54,6 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 			errhelp.AsyncOpIncompleteError,
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
-			errhelp.InvalidServerName,
 			errhelp.AlreadyExists,
 			errhelp.ResourceNotFound,
 		}
