@@ -24,6 +24,7 @@ func RunSQLActionHappy(t *testing.T, server string) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 
+	//Get SQL credentials to compare after rollover
 	secret := &v1.Secret{}
 	assert.Eventually(func() bool {
 		err := tc.k8sClient.Get(ctx, types.NamespacedName{Name: server, Namespace: "default"}, secret)
@@ -48,8 +49,6 @@ func RunSQLActionHappy(t *testing.T, server string) {
 		},
 	}
 
-	//Get SQL Database credentials to compare after rollover
-
 	err := tc.k8sClient.Create(ctx, sqlActionInstance)
 	assert.Equal(nil, err, "create sqlaction in k8s")
 
@@ -62,7 +61,7 @@ func RunSQLActionHappy(t *testing.T, server string) {
 
 	// TODO Check SQL Database credentials
 
-	// TODO Assert credentials are not the same as previous
+	// makre sure credentials are not the same as previous
 	secretAfter := &v1.Secret{}
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: server, Namespace: "default"}, secretAfter)
