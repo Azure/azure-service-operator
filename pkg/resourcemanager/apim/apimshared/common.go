@@ -109,7 +109,9 @@ func APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceNam
 	result = false
 	err = fmt.Errorf("Could not evaluate provisioning state of API Mgmt Service: %s, %s", resourceGroupName, resourceName)
 	if resource.ServiceProperties != nil && resource.ServiceProperties.ProvisioningState != nil {
-		result = !strings.EqualFold(*resource.ServiceProperties.ProvisioningState, "activating")
+		if strings.EqualFold(*resource.ServiceProperties.ProvisioningState, "succeeded") || strings.EqualFold(*resource.ServiceProperties.ProvisioningState, "updating") {
+			result = true
+		}
 		err = nil
 	}
 

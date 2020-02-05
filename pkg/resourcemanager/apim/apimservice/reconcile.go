@@ -64,6 +64,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 
 		// if available, create the service
 		if available {
+			g.Telemetry.LogTrace("APIM reconcile", "Step 1: creating APIM service")
 			instance.Status.Provisioned = false
 			instance.Status.Provisioning = false
 			location := instance.Spec.Location
@@ -90,6 +91,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	// STEP 2:
 	// 	still in the proccess of provisioning
 	if !activated {
+		g.Telemetry.LogTrace("APIM reconcile", "Step 2: waiting on activation of APIM service")
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = true
 		return false, nil
@@ -99,8 +101,9 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	// 	provisioned, now need to update with a vnet?
 	vnetType := instance.Spec.VnetType
 	if vnetType != "" && !strings.EqualFold(vnetType, "none") {
-		vnetResourceGroup := instance.Spec.VnetType
-		vnetName := instance.Spec.VnetType
+		g.Telemetry.LogTrace("APIM reconcile", "Step 3: assignning VNet for APIM service")
+		vnetResourceGroup := instance.Spec.VnetResourceGroup
+		vnetName := instance.Spec.VnetName
 		subnetName := instance.Spec.VnetSubnetName
 		err = g.SetVNetForAPIMgmtSvc(
 			ctx,
@@ -113,7 +116,8 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 		)
 		if err != nil {
 			azerr := errhelp.NewAzureErrorAzureError(err)
-			if helpers.ContainsString(catch, azerr.Type) {
+			if !helpers.ContainsString(catch, azerr.Type) {
+				g.Telemetry.LogError("VNet error, requeueing", err)
 				return false, nil
 			} else if helpers.ContainsString(fatalErr, azerr.Type) {
 				g.Telemetry.LogError("could not find VNet", err)
@@ -132,6 +136,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	appInsightsResourceGroup := instance.Spec.AppInsightsResourceGroup
 	appInsightsName := instance.Spec.AppInsightsName
 	if appInsightsResourceGroup != "" && appInsightsName != "" {
+		g.Telemetry.LogTrace("APIM reconcile", "Step 4: assigning App Insights for APIM service")
 		err = g.SetAppInsightsForAPIMgmtSvc(
 			ctx,
 			resourceGroupName,
@@ -142,6 +147,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 		if err != nil {
 			azerr := errhelp.NewAzureErrorAzureError(err)
 			if helpers.ContainsString(catch, azerr.Type) {
+				g.Telemetry.LogError("App Insights error, requeueing", err)
 				return false, nil
 			} else if helpers.ContainsString(fatalErr, azerr.Type) {
 				g.Telemetry.LogError("could not find App Insights", err)
@@ -157,6 +163,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 
 	// STEP 5:
 	// 	everything is now completed!
+	g.Telemetry.LogTrace("APIM reconcile", "Step 5: completed")
 	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false
 	return true, nil

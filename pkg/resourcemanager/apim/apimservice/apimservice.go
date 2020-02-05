@@ -42,7 +42,7 @@ func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, locat
 		PublisherName:  &publisherName,
 	}
 	sku := apim.ServiceSkuProperties{
-		Name: apim.SkuTypeBasic,
+		Name: apim.SkuTypeStandard,
 	}
 	future, err := client.CreateOrUpdate(
 		ctx,
