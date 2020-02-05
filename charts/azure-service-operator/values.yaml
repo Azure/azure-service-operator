@@ -1,0 +1,18 @@
+azureTenantID: ""
+azureSubscriptionID: ""
+
+# Authentication - Service Principal
+azureClientID: ""
+azureClientSecret: ""
+
+# Authentication - Managed Identity
+azureUseMI: ""
+
+# Optional, if using KeyVault to store secrets
+azureOperatorKeyvault: ""
+
+# Set to False if you do not need the namespace autocreated
+createNamespace: True
+
+image:
+  repository: mcr.microsoft.com/k8s/azure-service-operator:0.0.9150
