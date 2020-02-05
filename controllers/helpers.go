@@ -233,7 +233,7 @@ func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance ru
 	typeOf := fmt.Sprintf("%T", instance)
 
 	err := tc.k8sClient.Delete(ctx, instance)
-	assert.Equal(nil, err, fmt.Sprintf("create %s in k8s", typeOf))
+	assert.Equal(nil, err, fmt.Sprintf("delete %s in k8s", typeOf))
 
 	res, err := meta.Accessor(instance)
 	assert.Equal(nil, err, "not a metav1 object")
