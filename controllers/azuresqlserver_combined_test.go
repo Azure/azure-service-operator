@@ -181,7 +181,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedNameLocal, sqlFirewallRuleInstanceLocal)
-		return helpers.HasFinalizer(sqlFirewallRuleInstanceLocal, azureSQLFirewallRuleFinalizerName)
+		return helpers.HasFinalizer(sqlFirewallRuleInstanceLocal, finalizerName)
 	}, tc.timeoutFast, tc.retry, "wait for firewallrule to have finalizer")
 
 	assert.Eventually(func() bool {
@@ -191,7 +191,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedNameRemote, sqlFirewallRuleInstanceRemote)
-		return helpers.HasFinalizer(sqlFirewallRuleInstanceRemote, azureSQLFirewallRuleFinalizerName)
+		return helpers.HasFinalizer(sqlFirewallRuleInstanceRemote, finalizerName)
 	}, tc.timeoutFast, tc.retry, "wait for firewallrule to have finalizer")
 
 	assert.Eventually(func() bool {
