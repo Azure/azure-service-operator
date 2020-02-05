@@ -46,6 +46,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	secret := &v1.Secret{}
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: sqlServerName, Namespace: sqlServerInstance.Namespace}, secret)
+
 		if err == nil {
 			if (secret.ObjectMeta.Name == sqlServerName) && (secret.ObjectMeta.Namespace == sqlServerInstance.Namespace) {
 				return true
@@ -148,7 +149,6 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			// create a sql user and verify it provisions
 			username := "sql-test-user" + helpers.RandomString(10)
 			roles := []string{"db_owner"}
-			sqlUserNamespacedName := types.NamespacedName{Name: username, Namespace: "default"}
 
 			sqlUser = &azurev1alpha1.AzureSQLUser{
 				ObjectMeta: metav1.ObjectMeta{
@@ -162,21 +162,8 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 					Roles:         roles,
 				},
 			}
-			// Create the sqlUser
-			err = tc.k8sClient.Create(ctx, sqlUser)
-			assert.Equal(nil, err, "create sql user rule in k8s")
 
-			assert.Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-				return helpers.HasFinalizer(sqlUser, finalizerName)
-			}, tc.timeoutFast, tc.retry, "wait for sqluser to have finalizer")
-
-			assert.Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-				return sqlUser.Status.Provisioned
-			}, tc.timeoutFast, tc.retry, "wait for firewallrule to provision")
-
-			//EnsureInstance(ctx, t, tc, sqlFirewallRuleInstanceRemote)
+			EnsureInstance(ctx, t, tc, sqlUser)
 		})
 	})
 
