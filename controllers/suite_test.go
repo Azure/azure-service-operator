@@ -374,13 +374,14 @@ func setup() error {
 
 	err = (&AzureSqlFailoverGroupReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:                       k8sManager.GetClient(),
-			AzureClient:                  sqlUserManager,
-			Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-			Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-			Scheme:                       scheme.Scheme,
-			AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
-			SecretClient:                 secretClient,
+			Client:      k8sManager.GetClient(),
+			AzureClient: sqlUserManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+				"AzureSqlFailoverGroup",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
