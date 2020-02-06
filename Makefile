@@ -57,7 +57,8 @@ test-existing-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/server/... \
 	./pkg/resourcemanager/psql/database/... \
 	./pkg/resourcemanager/psql/firewallrule/... \
-	./pkg/resourcemanager/appinsights/...
+	./pkg/resourcemanager/appinsights/... \
+	./pkg/resourcemanager/vnet/...
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
 test-cleanup-azure-resources: 
@@ -98,6 +99,14 @@ update:
 delete:
 	kubectl delete -f config/crd/bases
 	kustomize build config/default | kubectl delete -f -
+
+# Generate manifests for helm and package them up
+helm-chart-manifests: manifests
+	kustomize build ./config/default -o ./charts/azure-service-operator/templates
+	rm charts/azure-service-operator/templates/~g_v1_namespace_azureoperator-system.yaml
+	sed -i '' -e 's@controller:latest@{{ .Values.image.repository }}@' ./charts/azure-service-operator/templates/apps_v1_deployment_azureoperator-controller-manager.yaml
+	helm package ./charts/azure-service-operator -d ./charts
+	helm repo index ./charts
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen

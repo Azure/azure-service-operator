@@ -2,6 +2,7 @@ package errhelp
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
@@ -10,19 +11,25 @@ import (
 )
 
 const (
-	ParentNotFoundErrorCode        = "ParentResourceNotFound"
-	ResourceGroupNotFoundErrorCode = "ResourceGroupNotFound"
-	NotFoundErrorCode              = "NotFound"
-	ResourceNotFound               = "ResourceNotFound"
-	AsyncOpIncompleteError         = "AsyncOpIncomplete"
-	InvalidServerName              = "InvalidServerName"
-	ContainerOperationFailure      = "ContainerOperationFailure"
-	ValidationError                = "ValidationError"
-	AlreadyExists                  = "AlreadyExists"
-	BadRequest                     = "BadRequest"
-	AccountNameInvalid             = "AccountNameInvalid"
-	RequestConflictError           = "Conflict"
-	FailoverGroupBusy              = "FailoverGroupBusy"
+	ParentNotFoundErrorCode         = "ParentResourceNotFound"
+	ResourceGroupNotFoundErrorCode  = "ResourceGroupNotFound"
+	NotFoundErrorCode               = "NotFound"
+	ResourceNotFound                = "ResourceNotFound"
+	AsyncOpIncompleteError          = "AsyncOpIncomplete"
+	InvalidServerName               = "InvalidServerName"
+	ContainerOperationFailure       = "ContainerOperationFailure"
+	ValidationError                 = "ValidationError"
+	AlreadyExists                   = "AlreadyExists"
+	BadRequest                      = "BadRequest"
+	AccountNameInvalid              = "AccountNameInvalid"
+	RequestConflictError            = "Conflict"
+	FailoverGroupBusy               = "FailoverGroupBusy"
+	NetcfgInvalidIPAddressPrefix    = "NetcfgInvalidIPAddressPrefix"
+	NetcfgInvalidSubnet             = "NetcfgInvalidSubnet"
+	NetcfgInvalidVirtualNetworkSite = "NetcfgInvalidVirtualNetworkSite"
+	InvalidResourceLocation         = "InvalidResourceLocation"
+	InvalidCIDRNotation             = "InvalidCIDRNotation"
+	InvalidRequestFormat            = "InvalidRequestFormat"
 )
 
 func NewAzureError(err error) error {
@@ -94,4 +101,16 @@ type AzureError struct {
 
 func (e AzureError) Error() string {
 	return e.Original.Error()
+}
+
+type AdminSecretNotFound struct {
+	Name string
+}
+
+func (e AdminSecretNotFound) Error() string {
+	return fmt.Sprintf("admin secret '%s' not found", e.Name)
+}
+
+func NewAdminSecretNotFoundError(name string) *AdminSecretNotFound {
+	return &AdminSecretNotFound{name}
 }
