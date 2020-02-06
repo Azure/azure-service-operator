@@ -208,7 +208,7 @@ func TestCreateOrUpdateSQLServer(t *testing.T) {
 	sqlFailoverGroupProperties := azuresqlshared.SQLFailoverGroupProperties{
 		FailoverPolicy:               v1alpha1.FailoverPolicyAutomatic,
 		FailoverGracePeriod:          30,
-		SecondaryServerName:          secSrvName,
+		SecondaryServer:              secSrvName,
 		SecondaryServerResourceGroup: groupName,
 		DatabaseList:                 []string{"sqldatabase-sample"},
 	}

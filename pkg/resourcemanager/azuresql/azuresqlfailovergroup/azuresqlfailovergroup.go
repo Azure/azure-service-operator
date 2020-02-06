@@ -99,7 +99,7 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 	// Construct a PartnerInfo object from the server name
 	// Get resource ID from the servername to use
 
-	server, err := sdk.GetServer(ctx, properties.SecondaryServerResourceGroup, properties.SecondaryServerName)
+	server, err := sdk.GetServer(ctx, properties.SecondaryServerResourceGroup, properties.SecondaryServer)
 	if err != nil {
 		return result, nil
 	}

@@ -317,12 +317,14 @@ func main() {
 	}
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
 		Reconciler: &controllers.AsyncReconciler{
-			Client:       mgr.GetClient(),
-			AzureClient:  sqlFailoverGroupManager,
-			Log:          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-			Recorder:     mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-			Scheme:       mgr.GetScheme(),
-			SecretClient: secretClient,
+			Client:      mgr.GetClient(),
+			AzureClient: sqlFailoverGroupManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+				"AzureSqlFailoverGroup",
+			),
+			Recorder: mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+			Scheme:   mgr.GetScheme(),
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")

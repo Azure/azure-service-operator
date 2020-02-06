@@ -39,10 +39,19 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 	sqlFailoverGroupProperties := azuresqlshared.SQLFailoverGroupProperties{
 		FailoverPolicy:               instance.Spec.FailoverPolicy,
 		FailoverGracePeriod:          instance.Spec.FailoverGracePeriod,
-		SecondaryServerName:          instance.Spec.SecondaryServerName,
+		SecondaryServer:              instance.Spec.SecondaryServer,
 		SecondaryServerResourceGroup: instance.Spec.SecondaryServerResourceGroup,
 		DatabaseList:                 instance.Spec.DatabaseList,
 	}
+
+	_, err = fg.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
+	if err == nil {
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = true
+		instance.Status.Message = "exists but may not be ready"
+		return true, nil
+	}
+	instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
 
 	_, err = fg.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
 	if err != nil {
@@ -52,17 +61,13 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
+			errhelp.ResourceNotFound,
+			errhelp.AlreadyExists,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
-		return false, errhelp.NewAzureError(err)
-	}
-
-	_, err = fg.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
-	if err != nil {
-		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error: %s", err.Error())
 		return false, err
 	}
 
@@ -93,6 +98,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 		return false, err
 	}
 
+	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFailoverGroup succeeded")
 	return false, nil
 }
 
@@ -108,9 +114,23 @@ func (fg *AzureSqlFailoverGroupManager) GetParents(obj runtime.Object) ([]resour
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
+				Name:      instance.Spec.SecondaryServer,
+			},
+			Target: &azurev1alpha1.AzureSqlServer{},
+		},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
 			Target: &azurev1alpha1.AzureSqlServer{},
+		},
+		{
+			Key: types.NamespacedName{
+				Namespace: instance.Namespace,
+				Name:      instance.Spec.SecondaryServerResourceGroup,
+			},
+			Target: &azurev1alpha1.ResourceGroup{},
 		},
 		{
 			Key: types.NamespacedName{
