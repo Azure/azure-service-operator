@@ -337,10 +337,10 @@ func (r *AzureSqlServerReconciler) GetOrPrepareSecret(ctx context.Context, insta
 	}
 
 	secret["username"] = []byte(randomUsername)
-	secret["fullyqualifiedusername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
+	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
 	secret["password"] = []byte(randomPassword)
-	secret["azuresqlservername"] = []byte(name)
-	secret["fullyqualifiedservername"] = []byte(name + ".database.windows.net")
+	secret["azureSqlServerName"] = []byte(name)
+	secret["fullyQualifiedServerName"] = []byte(name + ".database.windows.net")
 
 	return secret, nil
 }

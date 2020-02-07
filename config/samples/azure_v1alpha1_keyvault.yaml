@@ -8,3 +8,27 @@ metadata:
 spec:
   resourceGroup: resourcegroup-azure-operators
   location: westus
+  networkPolicies: 
+    bypass: AzureServices # AzureServices or None
+    defaultAction: Allow # Allow or Deny
+    ipRules: 
+      - 172.16.0.0/24
+      - 172.16.1.0/24
+    virtualNetworkRules:
+      - /subscriptions/<subid>/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1
+      - /subscriptions/<subid>/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet2
+  accessPolicies:
+    - tenantID: <tenantID>
+      objectID: <objectID>
+      applicationID: <appID>
+      permissions:
+        keys:
+          - update
+          - backup
+          - create
+        secrets:
+          - backup
+        certificates:
+          - backup
+        storage:
+          - backup
