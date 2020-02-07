@@ -20,8 +20,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
-// APIMReconciler reconciles a APIM object
-type APIMReconciler struct {
+// APIMAPIReconciler reconciles a APIM object
+type APIMAPIReconciler struct {
 	Reconciler *AsyncReconciler
 }
 
@@ -29,12 +29,12 @@ type APIMReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=APIMgmts/status,verbs=get;update;patch
 
 // Reconcile attempts to set the desired state snapshot representation of the service in k8s
-func (r *APIMReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+func (r *APIMAPIReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.APIMgmt{})
 }
 
 // SetupWithManager initializes the control loop for this operator
-func (r *APIMReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *APIMAPIReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1alpha1.APIMgmt{}).
 		Complete(r)

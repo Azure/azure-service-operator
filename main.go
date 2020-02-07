@@ -426,7 +426,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "VNet")
 		os.Exit(1)
 	}
-	if err = (&controllers.APIMReconciler{
+	if err = (&controllers.APIMAPIReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: apimManager,
