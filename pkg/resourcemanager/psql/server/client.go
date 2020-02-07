@@ -67,6 +67,15 @@ func (p *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, serv
 
 }
 func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		p.SecretClient = options.SecretClient
+	}
+
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
@@ -205,6 +214,16 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 }
 
 func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		p.SecretClient = options.SecretClient
+	}
+
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err

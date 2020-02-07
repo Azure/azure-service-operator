@@ -128,6 +128,15 @@ func (m *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user str
 
 func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		s.SecretClient = options.SecretClient
+	}
+
 	instance, err := s.convert(obj)
 	if err != nil {
 		return false, err
@@ -231,6 +240,16 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 }
 
 func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		s.SecretClient = options.SecretClient
+	}
+
 	instance, err := s.convert(obj)
 	if err != nil {
 		return false, err

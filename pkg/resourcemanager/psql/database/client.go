@@ -61,6 +61,7 @@ func (p *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, 
 
 }
 func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
@@ -161,6 +162,7 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 }
 
 func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
