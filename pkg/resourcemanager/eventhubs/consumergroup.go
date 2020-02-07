@@ -98,7 +98,7 @@ func (_ *azureConsumerGroupManager) GetConsumerGroup(ctx context.Context, resour
 	return consumerGroupClient.Get(ctx, resourceGroupName, namespaceName, eventHubName, consumerGroupName)
 }
 
-func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
+func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := cg.convert(obj)
 	if err != nil {
@@ -147,7 +147,7 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 	return true, nil
 }
 
-func (cg *azureConsumerGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (cg *azureConsumerGroupManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := cg.convert(obj)
 	if err != nil {

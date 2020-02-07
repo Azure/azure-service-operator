@@ -70,6 +70,12 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		return ctrl.Result{}, err
 	}
 
+	// Instantiate the KeyVault Secret Client if KeyVault specified in Spec
+	r.Telemetry.LogInfo("status", "retrieving keyvault for secrets if specified")
+	var keyvaultSecretClient secrets.SecretClient
+	KeyVaultName := GetKeyVaultName(local)
+	keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
+
 	if res.GetDeletionTimestamp().IsZero() {
 		if !HasFinalizer(res, finalizerName) {
 			AddFinalizer(res, finalizerName)
@@ -78,7 +84,13 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		}
 	} else {
 		if HasFinalizer(res, finalizerName) {
-			found, deleteErr := r.AzureClient.Delete(ctx, local)
+			var found bool
+			var deleteErr error
+			if len(KeyVaultName) == 0 {
+				found, deleteErr = r.AzureClient.Delete(ctx, local)
+			} else {
+				found, deleteErr = r.AzureClient.Delete(ctx, local, resourcemanager.WithSecretClient(keyvaultSecretClient))
+			}
 			final := multierror.Append(deleteErr)
 			if err := final.ErrorOrNil(); err != nil {
 				r.Telemetry.LogError("error deleting object", err)
@@ -117,18 +129,13 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		}
 	}
 
-	// Instantiate the KeyVault Secret Client if KeyVault specified in Spec
-	r.Telemetry.LogInfo("status", "retrieving keyvault for secrets if specified")
-	KeyVaultName := GetKeyVaultName(local)
-
 	r.Telemetry.LogInfo("status", "reconciling object")
 	var done bool
 	var ensureErr error
-	var keyvaultSecretClient secrets.SecretClient
+
 	if len(KeyVaultName) == 0 { //KeyVault was not specified in the spec
 		done, ensureErr = r.AzureClient.Ensure(ctx, local)
 	} else { //KeyVault was specified in Spec, so use that for secrets
-		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
 		done, ensureErr = r.AzureClient.Ensure(ctx, local, resourcemanager.WithSecretClient(keyvaultSecretClient))
 	}
 	if ensureErr != nil {

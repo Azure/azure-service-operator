@@ -259,7 +259,6 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 		Tags:     tags,
 	}
 
-	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v", vaultName, groupName, location))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 
 	return future.Result(vaultsClient)
@@ -307,7 +306,6 @@ func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 		Location: to.StringPtr(location),
 	}
 
-	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -335,7 +333,7 @@ func (k *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, v
 
 }
 
-func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
+func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := k.convert(obj)
 	if err != nil {
 		return true, err
@@ -410,7 +408,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 	return true, nil
 }
 
-func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := k.convert(obj)
 	if err != nil {
 		return true, err

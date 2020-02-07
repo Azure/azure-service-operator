@@ -30,7 +30,7 @@ import (
 )
 
 // Ensure creates an AzureSqlDb
-func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
+func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := db.convert(obj)
 	if err != nil {
@@ -88,7 +88,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 }
 
 // Delete drops a AzureSqlDb
-func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := db.convert(obj)
 	if err != nil {
 		return false, err

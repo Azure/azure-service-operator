@@ -143,7 +143,7 @@ func (manager *MockKeyVaultManager) convert(obj runtime.Object) (*v1alpha1.KeyVa
 	return local, nil
 }
 
-func (manager *MockKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
+func (manager *MockKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := manager.convert(obj)
 	if err != nil {
@@ -161,7 +161,7 @@ func (manager *MockKeyVaultManager) Ensure(ctx context.Context, obj runtime.Obje
 
 	return true, nil
 }
-func (manager *MockKeyVaultManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (manager *MockKeyVaultManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := manager.convert(obj)
 	if err != nil {

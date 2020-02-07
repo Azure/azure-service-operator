@@ -17,11 +17,11 @@ type Options struct {
 	SecretClient secrets.SecretClient
 }
 
-// EnsureOption wraps a function that sets a value in the options struct
-type EnsureOption func(*Options)
+// ConfigOption wraps a function that sets a value in the options struct
+type ConfigOption func(*Options)
 
 // WithSecretClient can be used to pass aa KeyVault SecretClient
-func WithSecretClient(secretClient secrets.SecretClient) EnsureOption {
+func WithSecretClient(secretClient secrets.SecretClient) ConfigOption {
 	return func(op *Options) {
 		op.SecretClient = secretClient
 	}
@@ -33,7 +33,7 @@ type KubeParent struct {
 }
 
 type ARMClient interface {
-	Ensure(context.Context, runtime.Object, ...EnsureOption) (bool, error)
-	Delete(context.Context, runtime.Object) (bool, error)
+	Ensure(context.Context, runtime.Object, ...ConfigOption) (bool, error)
+	Delete(context.Context, runtime.Object, ...ConfigOption) (bool, error)
 	GetParents(runtime.Object) ([]KubeParent, error)
 }
