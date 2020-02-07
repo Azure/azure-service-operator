@@ -352,14 +352,14 @@ func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *
 	if err != nil {
 		// @todo: find out whether this is an error due to non existing key or failed conn
 		return map[string][]byte{
-			"username":           []byte(""),
-			"password":           []byte(pw),
-			"sqlservernamespace": []byte(instance.Namespace),
-			"sqlservername":      []byte(instance.Spec.Server),
+			"username":                 []byte(""),
+			"password":                 []byte(pw),
+			"azureSqlServerNamespace":  []byte(instance.Namespace),
+			"azureSqlServerName":       []byte(instance.Spec.Server),
+			"fullyQualifiedServerName": []byte(instance.Spec.Server + ".database.windows.net"),
+			"azureSqlDatabaseName":     []byte(instance.Spec.DbName),
 		}
-
 	}
-
 	return secret
 }
 
