@@ -72,7 +72,7 @@ func TestAPIMgmtController(t *testing.T) {
 	// Wait for the APIMgmt instance to be written to k8s
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, APIMgmtNamespacedName, apiMgmtInstance)
-		return strings.Contains(apiMgmtInstance.Status.Message, "Succeeded")
+		return strings.Contains(apiMgmtInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "awaiting APIMgmt instance creation")
 
 	// Delete the service

@@ -4,7 +4,7 @@ metadata:
   name: aso-apimgmt-sample
 spec:
   location: westus
-  resourceGroup: AzureOperatorsTest
+  resourceGroup: resourcegroup-azure-operators
   apiService: AzureOperatorsTestAPIM
   apiId: apiId0
   properties:

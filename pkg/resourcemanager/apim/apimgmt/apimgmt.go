@@ -60,9 +60,9 @@ func (m *Manager) CreateAPI(
 	ctx context.Context,
 	resourceGroupName string,
 	apiServiceName string,
-	apiId string,
+	apiID string,
 	properties azurev1alpha1.APIProperties,
-	eTag string) (*apimanagement.APIContract, error) {
+	eTag string) (apimanagement.APIContract, error) {
 
 	props := &apimanagement.APICreateOrUpdateProperties{
 		APIType:                apimanagement.HTTP,
@@ -88,37 +88,27 @@ func (m *Manager) CreateAPI(
 	if err != nil {
 		// If there is no parent APIM service, we cannot proceed
 		m.Telemetry.LogError("failure fetching API management service", err)
-		return nil, err
+		return apimanagement.APIContract{}, err
 	}
 
 	// Submit the ARM request
-	future, err := m.APIClient.CreateOrUpdate(ctx, resourceGroupName, *svc.Name, apiId, params, eTag)
+	future, err := m.APIClient.CreateOrUpdate(ctx, resourceGroupName, *svc.Name, apiID, params, eTag)
 
-	if err != nil {
-		return nil, err
-	}
-
-	err = future.WaitForCompletionRef(ctx, m.APIClient.Client)
-	if err != nil {
-		return nil, err
-	}
-
-	result, err := future.Result(m.APIClient)
-	return &result, err
+	return future.Result(m.APIClient)
 }
 
 // DeleteAPI deletes an API within an API management service
-func (m *Manager) DeleteAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiId string, eTag string, deleteRevisions bool) (autorest.Response, error) {
-	result, err := m.APIClient.Get(ctx, resourceGroupName, apiServiceName, apiId)
+func (m *Manager) DeleteAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiID string, eTag string, deleteRevisions bool) (autorest.Response, error) {
+	result, err := m.APIClient.Get(ctx, resourceGroupName, apiServiceName, apiID)
 	if err == nil {
-		return m.APIClient.Delete(ctx, resourceGroupName, apiServiceName, apiId, eTag, &deleteRevisions)
+		return m.APIClient.Delete(ctx, resourceGroupName, apiServiceName, apiID, eTag, &deleteRevisions)
 	}
 	return result.Response, err
 }
 
 // GetAPI fetches an API within an API management service
-func (m *Manager) GetAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiId string) (apimanagement.APIContract, error) {
-	contract, err := m.APIClient.Get(ctx, resourceGroupName, apiServiceName, apiId)
+func (m *Manager) GetAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiID string) (apimanagement.APIContract, error) {
+	contract, err := m.APIClient.Get(ctx, resourceGroupName, apiServiceName, apiID)
 	return contract, err
 }
 
@@ -174,10 +164,6 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 			Format:                 instance.Spec.Properties.Format,
 		},
 		instance.Spec.Properties.APIRevision)
-
-	if err != nil {
-		return false, err
-	}
 
 	if err != nil {
 		catch := []string{
