@@ -66,7 +66,7 @@ func (p *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, serv
 	return false, err
 
 }
-func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err

@@ -6,7 +6,9 @@ package controllers
 
 import (
 	"context"
+	"encoding/json"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -15,6 +17,20 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
+
+// GetKeyVaultName extracts the KeyVault name from the generic runtime object
+func GetKeyVaultName(instance runtime.Object) string {
+	keyVaultName := ""
+	target := &v1alpha1.GenericResource{}
+	serial, err := json.Marshal(instance)
+	if err != nil {
+		return keyVaultName
+	}
+
+	err = json.Unmarshal(serial, target)
+	keyVaultName = target.Spec.KeyVaultToStoreSecrets
+	return keyVaultName
+}
 
 // Fetch retrieves an object by namespaced name from the API server and puts the contents in the runtime.Object parameter.
 // TODO(ace): refactor onto base reconciler struct

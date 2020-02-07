@@ -109,7 +109,7 @@ func (manager *MockPostgreSqlDbManager) convert(obj runtime.Object) (*v1alpha1.P
 	return local, nil
 }
 
-func (manager *MockPostgreSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (manager *MockPostgreSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
 	instance, err := manager.convert(obj)
 	if err != nil {
 		return true, err

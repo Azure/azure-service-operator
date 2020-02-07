@@ -105,7 +105,7 @@ func (manager *MockSqlUserManager) GrantUserRoles(ctx context.Context, user stri
 	return nil
 }
 
-func (s *MockSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (s *MockSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
 	return true, nil
 }
 

@@ -102,7 +102,7 @@ func (manager *MockResourceGroupManager) CheckExistence(ctx context.Context, gro
 	return helpers.GetRestResponse(http.StatusNoContent), nil
 }
 
-func (g *MockResourceGroupManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (g *MockResourceGroupManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
 	instance, err := g.convert(obj)
 	if err != nil {
 		return false, err

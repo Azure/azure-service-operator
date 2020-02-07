@@ -36,7 +36,7 @@ func getPSQLFirewallRulesClient() psql.FirewallRulesClient {
 	return firewallRulesClient
 }
 
-func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err

@@ -126,7 +126,7 @@ func (m *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user str
 	return err
 }
 
-func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
 
 	instance, err := s.convert(obj)
 	if err != nil {

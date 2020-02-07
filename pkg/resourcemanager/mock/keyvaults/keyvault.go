@@ -139,7 +139,7 @@ func (manager *MockKeyVaultManager) convert(obj runtime.Object) (*v1alpha1.KeyVa
 	return local, nil
 }
 
-func (manager *MockKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (manager *MockKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
 
 	instance, err := manager.convert(obj)
 	if err != nil {

@@ -22,8 +22,12 @@ type ASOStatus struct {
 	Message      string `json:"message,omitempty"`
 }
 
-// KeyVaultToUseForSecrets defines the name of the KeyVault that will be used to store the secrets from provisioning
-type KeyVaultToUseForSecrets struct {
-	// Important: Run "make" to regenerate code after modifying this file
-	Name string `json:"name,omitempty"`
+// GenericSpec is a struct to help get the KeyVaultName from the Spec
+type GenericSpec struct {
+	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
+}
+
+// GenericResource is a struct to help get a generic resource to extract keyvault name
+type GenericResource struct {
+	Spec GenericSpec `json:"spec,omitempty"`
 }

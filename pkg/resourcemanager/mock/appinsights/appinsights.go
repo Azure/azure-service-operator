@@ -129,7 +129,7 @@ func (m *MockAppInsightsManager) GetAppInsights(ctx context.Context, resourceGro
 }
 
 // Ensure checks the desired state of the operator
-func (m *MockAppInsightsManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (m *MockAppInsightsManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
 
 	i, err := m.convert(obj)
 	if err != nil {

@@ -10,6 +10,8 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+	keyvaultsecretlib "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	multierror "github.com/hashicorp/go-multierror"
 	corev1 "k8s.io/api/core/v1"
@@ -115,8 +117,20 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		}
 	}
 
+	// Instantiate the KeyVault Secret Client if KeyVault specified in Spec
+	r.Telemetry.LogInfo("status", "retrieving keyvault for secrets if specified")
+	KeyVaultName := GetKeyVaultName(local)
+
 	r.Telemetry.LogInfo("status", "reconciling object")
-	done, ensureErr := r.AzureClient.Ensure(ctx, local)
+	var done bool
+	var ensureErr error
+	var keyvaultSecretClient secrets.SecretClient
+	if len(KeyVaultName) == 0 { //KeyVault was not specified in the spec
+		done, ensureErr = r.AzureClient.Ensure(ctx, local)
+	} else { //KeyVault was specified in Spec, so use that for secrets
+		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
+		done, ensureErr = r.AzureClient.Ensure(ctx, local, resourcemanager.WithSecretClient(keyvaultSecretClient))
+	}
 	if ensureErr != nil {
 		r.Telemetry.LogError("ensure err", ensureErr)
 	}

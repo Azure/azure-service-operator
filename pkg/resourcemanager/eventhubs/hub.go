@@ -30,7 +30,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
@@ -56,15 +55,6 @@ func NewEventhubClient(secretClient secrets.SecretClient, scheme *runtime.Scheme
 	return &azureEventHubManager{
 		SecretClient: secretClient,
 		Scheme:       scheme,
-	}
-}
-
-func (e *azureEventHubManager) UpdateSecretsClient(ctx context.Context, keyVaultName string) {
-	if len(keyVaultName) != 0 {
-		keyVaultSecretClient := keyvaultSecrets.New(keyVaultName)
-		if keyVaultSecretClient != nil {
-			e.SecretClient = keyVaultSecretClient
-		}
 	}
 }
 
@@ -199,7 +189,11 @@ func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup stri
 
 }
 
-func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.EnsureOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
 
 	instance, err := e.convert(obj)
 	if err != nil {
@@ -213,14 +207,15 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 	messageRetentionInDays := instance.Spec.Properties.MessageRetentionInDays
 	captureDescription := instance.Spec.Properties.CaptureDescription
 	secretName := instance.Spec.SecretName
-	keyVaultToUseForSecrets := instance.Spec.KeyVaultToStoreSecrets
+
+	if options.SecretClient != nil {
+		e.SecretClient = options.SecretClient
+	}
 
 	if len(secretName) == 0 {
 		secretName = eventhubName
 		instance.Spec.SecretName = eventhubName
 	}
-
-	e.UpdateSecretsClient(ctx, keyVaultToUseForSecrets)
 
 	// write information back to instance
 	instance.Status.Provisioning = true
