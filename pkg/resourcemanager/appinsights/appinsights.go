@@ -20,6 +20,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+
 	"github.com/Azure/azure-sdk-for-go/services/appinsights/mgmt/2015-05-01/insights"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -36,13 +38,17 @@ import (
 
 // Manager manages Azure Application Insights services
 type Manager struct {
-	Log logr.Logger
+	Log          logr.Logger
+	SecretClient secrets.SecretClient
+	Scheme       *runtime.Scheme
 }
 
 // NewManager creates a new AppInsights Manager
-func NewManager(log logr.Logger) *Manager {
+func NewManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *Manager {
 	return &Manager{
-		Log: log,
+		Log:          log,
+		SecretClient: secretClient,
+		Scheme:       scheme,
 	}
 }
 
@@ -150,6 +156,21 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 	}
 
 	instance.Status.State = *appcomp.ProvisioningState
+
+	instKey := *appcomp.ApplicationInsightsComponentProperties.InstrumentationKey
+
+	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	err = m.SecretClient.Upsert(
+		ctx,
+		key,
+		map[string][]byte{"instrumentationKey": []byte(instKey)},
+		secrets.WithOwner(instance),
+		secrets.WithScheme(m.Scheme),
+	)
+	if err != nil {
+		instance.Status.Message = "failed to update secret, err: " + err.Error()
+		return false, err
+	}
 
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
