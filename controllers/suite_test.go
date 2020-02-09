@@ -21,7 +21,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	// +kubebuilder:scaffold:imports
 
-	v1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
+	microsoftnetworkv1 "github.com/Azure/k8s-infra/apis/microsoft.network/v1"
+	microsoftresourcesv1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
 )
 
 // These tests use Ginkgo (BDD-style Go testing framework). Refer to
@@ -56,7 +57,8 @@ var _ = BeforeSuite(func(done Done) {
 	Expect(err).ToNot(HaveOccurred())
 	Expect(cfg).ToNot(BeNil())
 
-	Expect(v1.AddToScheme(scheme.Scheme)).NotTo(HaveOccurred())
+	Expect(microsoftresourcesv1.AddToScheme(scheme.Scheme)).NotTo(HaveOccurred())
+	Expect(microsoftnetworkv1.AddToScheme(scheme.Scheme)).NotTo(HaveOccurred())
 	mgr, err = ctrl.NewManager(cfg, ctrl.Options{Scheme: scheme.Scheme})
 	Expect(err).NotTo(HaveOccurred())
 

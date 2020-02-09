@@ -1,0 +1,19 @@
+apiVersion: microsoft.network.infra.azure.com/v20190901
+kind: VirtualNetwork
+metadata:
+  name: vnet-2019
+spec:
+  location: westus2
+  group:
+    name: foo-2019
+    namespace: default
+    kind: ResourceGroup
+    apiVersion: microsoft.resources.infra.azure.com/v20191001
+  properties:
+    addressSpace:
+      addressPrefixes:
+        - 10.0.0.0/16
+    subnets:
+      - name: subnet1
+        properties:
+          addressPrefix: 10.0.0.0/28

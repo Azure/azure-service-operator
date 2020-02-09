@@ -11,6 +11,24 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
+      path: /mutate-microsoft-network-infra-azure-com-v1-virtualnetwork
+  failurePolicy: Fail
+  name: mvirtualnetwork.kb.io
+  rules:
+  - apiGroups:
+    - microsoft.network.infra.azure.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworks
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
       path: /mutate-microsoft-resources-infra-azure-com-v1-resourcegroup
   failurePolicy: Fail
   name: mresourcegroup.kb.io
@@ -32,6 +50,24 @@ metadata:
   creationTimestamp: null
   name: validating-webhook-configuration
 webhooks:
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-infra-azure-com-v1-virtualnetwork
+  failurePolicy: Fail
+  name: vvirtualnetwork.kb.io
+  rules:
+  - apiGroups:
+    - microsoft.network.infra.azure.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - virtualnetworks
 - clientConfig:
     caBundle: Cg==
     service:

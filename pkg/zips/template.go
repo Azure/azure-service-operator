@@ -66,19 +66,19 @@ type (
 		    }
 	*/
 	TemplateResourceObjectOutput struct {
-		APIVersion            string      `json:"apiVersion,omitempty"`
-		Location              string      `json:"location,omitempty"`
-		Properties            interface{} `json:"properties,omitempty"`
-		SubscriptionID        string      `json:"subscriptionId,omitempty"`
-		Scope                 string      `json:"scope,omitempty"`
-		ID                    string      `json:"id,omitempty"`
-		ResourceID            string      `json:"resourceId,omitempty"`
-		ReferenceAPIVersion   string      `json:"referenceApiVersion,omitempty"`
-		Condition             *bool       `json:"condition,omitempty"`
-		IsCondition           *bool       `json:"isConditionTrue,omitempty"`
-		IsTemplateResource    *bool       `json:"isTemplateResource,omitempty"`
-		IsAction              *bool       `json:"isAction,omitempty"`
-		ProvisioningOperation string      `json:"provisioningOperation,omitempty"`
+		APIVersion            string          `json:"apiVersion,omitempty"`
+		Location              string          `json:"location,omitempty"`
+		Properties            json.RawMessage `json:"properties,omitempty"`
+		SubscriptionID        string          `json:"subscriptionId,omitempty"`
+		Scope                 string          `json:"scope,omitempty"`
+		ID                    string          `json:"id,omitempty"`
+		ResourceID            string          `json:"resourceId,omitempty"`
+		ReferenceAPIVersion   string          `json:"referenceApiVersion,omitempty"`
+		Condition             *bool           `json:"condition,omitempty"`
+		IsCondition           *bool           `json:"isConditionTrue,omitempty"`
+		IsTemplateResource    *bool           `json:"isTemplateResource,omitempty"`
+		IsAction              *bool           `json:"isAction,omitempty"`
+		ProvisioningOperation string          `json:"provisioningOperation,omitempty"`
 	}
 
 	TemplateOutput struct {
@@ -128,8 +128,11 @@ func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateCl
 	resourceClient := resources.NewClient(subID)
 	resourceGroupsClient := resources.NewGroupsClient(subID)
 	deploymentClient.Authorizer = authorizer
+	deploymentClient.PollingDelay = 5 * time.Second
 	resourceClient.Authorizer = authorizer
+	resourceClient.PollingDelay = 5 * time.Second
 	resourceGroupsClient.Authorizer = authorizer
+	resourceGroupsClient.PollingDelay = 5 * time.Second
 	return &AzureTemplateClient{
 		DeploymentsClient:   deploymentClient,
 		ResourceClient:      resourceClient,
@@ -138,6 +141,7 @@ func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateCl
 	}, nil
 }
 
+// Apply deploys a resource to Azure via a deployment template
 func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resource, error) {
 	deploymentUUID, err := uuid.NewUUID()
 	if err != nil {
@@ -145,46 +149,9 @@ func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resour
 	}
 
 	deploymentName := fmt.Sprintf("%s_%d_%s", "k8s", time.Now().Unix(), deploymentUUID.String())
-
-	var template *Template
-	if res.ResourceGroup == "" {
-		template = NewResourceGroupDeploymentTemplate(res)
-	} else {
-		template = NewSubscriptionDeploymentTemplate(res)
-	}
-
-	objectRef := fmt.Sprintf("reference('%s/%s', '%s', 'Full')", res.Type, res.Name, res.APIVersion)
-	idRef := fmt.Sprintf("json(concat('{ \"id\": \"', resourceId('%s', '%s'), '\"}'))", res.Type, res.Name)
-	template.Outputs = map[string]Output{
-		"resource": {
-			Type:  "object",
-			Value: fmt.Sprintf("[union(%s, %s)]", objectRef, idRef),
-		},
-	}
-
-	deployment := resources.Deployment{
-		Location: to.StringPtr(res.Location),
-		Properties: &resources.DeploymentProperties{
-			Template: template,
-			Mode:     resources.Incremental,
-			DebugSetting: &resources.DebugSetting{
-				DetailLevel: to.StringPtr("requestContent,responseContent"),
-			},
-		},
-	}
-
-	future, err := atc.DeploymentsClient.CreateOrUpdateAtSubscriptionScope(ctx, deploymentName, deployment)
+	de, err := atc.apply(ctx, deploymentName, res)
 	if err != nil {
-		return Resource{}, fmt.Errorf("deployment failed: %w", err)
-	}
-
-	if err := future.WaitForCompletionRef(ctx, atc.DeploymentsClient.Client); err != nil {
-		return Resource{}, err
-	}
-
-	de, err := future.Result(atc.DeploymentsClient)
-	if err != nil {
-		return Resource{}, err
+		return Resource{}, fmt.Errorf("apply failed with: %w", err)
 	}
 
 	// clean up after the deployment
@@ -230,6 +197,90 @@ func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resour
 		APIVersion:     res.APIVersion,
 		Properties:     tOutValue.Properties,
 	}, nil
+}
+
+func (atc *AzureTemplateClient) apply(ctx context.Context, deploymentName string, res Resource) (*resources.DeploymentExtended, error) {
+	template := getTemplate(res)
+	objectRef := fmt.Sprintf("reference('%s/%s', '%s', 'Full')", res.Type, res.Name, res.APIVersion)
+	idRef := fmt.Sprintf("json(concat('{ \"id\": \"', resourceId('%s', '%s'), '\"}'))", res.Type, res.Name)
+	template.Outputs = map[string]Output{
+		"resource": {
+			Type:  "object",
+			Value: fmt.Sprintf("[union(%s, %s)]", objectRef, idRef),
+		},
+	}
+
+	deployment := getDeployment(res, template)
+	deployFunc := atc.deployToSubscription
+	if res.ResourceGroup != "" {
+		deployFunc = func(ctx context.Context, deploymentName string, deployment resources.Deployment) (*resources.DeploymentExtended, error) {
+			return atc.deployToGroup(ctx, res.ResourceGroup, deploymentName, deployment)
+		}
+	}
+
+	return deployFunc(ctx, deploymentName, deployment)
+}
+
+func getDeployment(res Resource, template *Template) resources.Deployment {
+	deployment := resources.Deployment{
+		Properties: &resources.DeploymentProperties{
+			Template: template,
+			Mode:     resources.Incremental,
+			DebugSetting: &resources.DebugSetting{
+				DetailLevel: to.StringPtr("requestContent,responseContent"),
+			},
+		},
+	}
+
+	if res.ResourceGroup == "" {
+		// subscription level deployments need location
+		deployment.Location = to.StringPtr(res.Location)
+	}
+
+	return deployment
+}
+
+func getTemplate(res Resource) *Template {
+	if res.ResourceGroup != "" {
+		return NewResourceGroupDeploymentTemplate(res)
+	}
+	return NewSubscriptionDeploymentTemplate(res)
+}
+
+func (atc *AzureTemplateClient) deployToSubscription(ctx context.Context, deploymentName string, deployment resources.Deployment) (*resources.DeploymentExtended, error) {
+	future, err := atc.DeploymentsClient.CreateOrUpdateAtSubscriptionScope(ctx, deploymentName, deployment)
+	if err != nil {
+		return nil, fmt.Errorf("put subscription deployment failed: %w", err)
+	}
+
+	if err := future.WaitForCompletionRef(ctx, atc.DeploymentsClient.Client); err != nil {
+		return nil, fmt.Errorf("wait for ref failed: %w", err)
+	}
+
+	de, err := future.Result(atc.DeploymentsClient)
+	if err != nil {
+		return nil, err
+	}
+
+	return &de, nil
+}
+
+func (atc *AzureTemplateClient) deployToGroup(ctx context.Context, groupName, deploymentName string, deployment resources.Deployment) (*resources.DeploymentExtended, error) {
+	future, err := atc.DeploymentsClient.CreateOrUpdate(ctx, groupName, deploymentName, deployment)
+	if err != nil {
+		return nil, fmt.Errorf("put subscription deployment failed: %w", err)
+	}
+
+	if err := future.WaitForCompletionRef(ctx, atc.DeploymentsClient.Client); err != nil {
+		return nil, fmt.Errorf("wait for ref failed: %w", err)
+	}
+
+	de, err := future.Result(atc.DeploymentsClient)
+	if err != nil {
+		return nil, err
+	}
+
+	return &de, nil
 }
 
 func (atc *AzureTemplateClient) Delete(ctx context.Context, res Resource) error {

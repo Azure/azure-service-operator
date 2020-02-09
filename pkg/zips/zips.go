@@ -9,6 +9,9 @@ package zips
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
 	"strings"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -19,8 +22,8 @@ type (
 	Resourcer interface {
 		runtime.Object
 		metav1.Object
-		ToResource() Resource
-		FromResource(Resource)
+		ToResource() (Resource, error)
+		FromResource(Resource) error
 	}
 
 	Applier interface {
@@ -45,7 +48,7 @@ type (
 		Tags              map[string]string `json:"tags,omitempty"`
 		ManagedBy         string            `json:"managedBy,omitempty"`
 		APIVersion        string            `json:"apiVersion,omitempty"`
-		Properties        interface{}       `json:"properties,omitempty"`
+		Properties        json.RawMessage   `json:"properties,omitempty"`
 	}
 
 	AnnotationKey string
@@ -62,4 +65,15 @@ func (res *Resource) SetAnnotations(annotations map[string]string) *Resource {
 		res.ObjectMeta.PreserveDeployment = strings.ToLower(val) == "true"
 	}
 	return res
+}
+
+// GetSignature will return
+func (res *Resource) GetSignature() (string, error) {
+	bits, err := json.Marshal(res)
+	if err != nil {
+		return "", err
+	}
+
+	hash := sha256.Sum256(bits)
+	return hex.EncodeToString(hash[:]), nil
 }

@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/go-logr/logr"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -23,13 +24,16 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	"github.com/Azure/k8s-infra/apis"
+	microsoftnetworkv1 "github.com/Azure/k8s-infra/apis/microsoft.network/v1"
 	microsoftresourcesv1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
 	"github.com/Azure/k8s-infra/pkg/util/patch"
 	"github.com/Azure/k8s-infra/pkg/zips"
 )
 
-// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups/status,verbs=get;update;patch
+const (
+	// ResourceSigAnnotationKey is an annotation key which holds the value of the hash of the spec
+	ResourceSigAnnotationKey = "resource-sig.infra.azure.com"
+)
 
 var (
 
@@ -42,6 +46,7 @@ var (
 	// produce a reconcile function aware of concrete types, as a closure.
 	KnownTypes = []runtime.Object{
 		new(microsoftresourcesv1.ResourceGroup),
+		new(microsoftnetworkv1.VirtualNetwork),
 	}
 )
 
@@ -49,6 +54,11 @@ type (
 	owner interface {
 		Owns() []runtime.Object
 	}
+
+	// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
+	// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups/status,verbs=get;update;patch
+	// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=virtualnetworks,verbs=get;list;watch;create;update;patch;delete
+	// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=virtualnetworks/status,verbs=get;update;patch
 
 	// GenericReconciler reconciles a Resourcer object
 	GenericReconciler struct {
@@ -153,6 +163,44 @@ func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, err
 	}
 
+	if grouped, ok := obj.(apis.Grouped); ok {
+		// has a resource group, so check if the resource group is already provisioned
+		groupRef := grouped.GetResourceGroupObjectRef()
+		if groupRef == nil {
+			return ctrl.Result{}, fmt.Errorf("grouped resources must have a resource group")
+		}
+
+		key := client.ObjectKey{
+			Name:      groupRef.Name,
+			Namespace: groupRef.Namespace,
+		}
+
+		rg, err := gr.Scheme.New(groupRef.GroupVersionKind())
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("unknown resource group gvk with: %w", err)
+		}
+
+		if err := gr.Client.Get(ctx, key, rg); err != nil {
+			logger.Info("resource group does not exist yet; will retry in a bit")
+			return ctrl.Result{
+				RequeueAfter: 30 * time.Second,
+			}, nil
+		}
+
+		if reser, ok := rg.(zips.Resourcer); ok {
+			res, err := reser.ToResource()
+			if err != nil {
+				return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
+			}
+			if res.ProvisioningState != "Succeeded" {
+				logger.Info(fmt.Sprintf("resource group status is %s; will retry in a bit", res.ProvisioningState))
+				return ctrl.Result{
+					RequeueAfter: 30 * time.Second,
+				}, nil
+			}
+		}
+	}
+
 	// The Go type for the Kubernetes object must understand how to
 	// convert itself to/from the corresponding Azure types.
 	resourcer, ok := obj.(zips.Resourcer)
@@ -162,17 +210,43 @@ func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	// reconcile delete
 	if !resourcer.GetDeletionTimestamp().IsZero() {
-		return ctrl.Result{}, gr.reconcileDelete(ctx, resourcer)
+		err := gr.reconcileDelete(ctx, resourcer)
+		if err != nil {
+			logger.Error(err, "error deleting the resource")
+		}
+		return ctrl.Result{}, err
 	}
 
-	return ctrl.Result{}, gr.reconcileApply(ctx, resourcer)
+	// check if the hash on the resource has changed
+	hasChanged, err := hasResourceHashAnnotationChanged(resourcer)
+	if err != nil {
+		return ctrl.Result{}, fmt.Errorf("failed comparing resource hash with: %w", err)
+	}
+
+	// if the resource hash (spec) has not changed, don't apply again
+	if !hasChanged {
+		logger.Info("resource hash has not changed, we are done here")
+		return ctrl.Result{}, nil
+	}
+
+	err = gr.reconcileApply(ctx, resourcer)
+	if err != nil {
+		logger.Error(err, "error applying the resource")
+	}
+	return ctrl.Result{}, err
 }
 
 func (gr *GenericReconciler) reconcileApply(ctx context.Context, resourcer zips.Resourcer) error {
 	if err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
-		azobj := res.ToResource()
+		azobj, err := res.ToResource()
+		if err != nil {
+			return fmt.Errorf("unable to transform to resource with: %w", err)
+		}
+
 		azobj.ProvisioningState = "Applying"
-		res.FromResource(azobj)
+		if err := res.FromResource(azobj); err != nil {
+			return fmt.Errorf("error res.FromResource with: %w", err)
+		}
 		return nil
 	}); err != nil {
 		return err
@@ -182,34 +256,55 @@ func (gr *GenericReconciler) reconcileApply(ctx context.Context, resourcer zips.
 	//
 	// This should call to the Applier where the current state of the applied resource should be compared to the cached
 	// state of the Azure resource. If the two states differ, the Applier should then apply that state to Azure.
-
 	return patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
 		controllerutil.AddFinalizer(resourcer, apis.AzureInfraFinalizer)
-		resource := res.ToResource()
-		appliedResource, err := gr.Applier.Apply(ctx, resource)
+		azobj, err := res.ToResource()
+		if err != nil {
+			return fmt.Errorf("unable to transform to resource with: %w", err)
+		}
+
+		appliedResource, err := gr.Applier.Apply(ctx, azobj)
 		if err != nil {
 			return fmt.Errorf("failed to apply state to Azure with %w", err)
 		}
 
 		// TODO (dj): this should be set from the provisioning state of the resource in Azure. For now, I think we can assume this is "Succeeded" if no error
 		appliedResource.ProvisioningState = "Succeeded"
-		res.FromResource(appliedResource)
+		if err := res.FromResource(appliedResource); err != nil {
+			return fmt.Errorf("error res.FromResource with: %w", err)
+		}
+
+		if err := addResourceHashAnnotation(res); err != nil {
+			return fmt.Errorf("failed to addResourceHashAnnotation with: %w", err)
+		}
+
 		return nil
 	})
 }
 
 func (gr *GenericReconciler) reconcileDelete(ctx context.Context, resourcer zips.Resourcer) error {
 	if err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
-		azobj := res.ToResource()
+		azobj, err := res.ToResource()
+		if err != nil {
+			return fmt.Errorf("unable to transform to resource with: %w", err)
+		}
+
 		azobj.ProvisioningState = "Deleting"
-		res.FromResource(azobj)
+		if err := res.FromResource(azobj); err != nil {
+			return fmt.Errorf("error res.FromResource with: %w", err)
+		}
 		return nil
 	}); err != nil {
 		return err
 	}
 
 	err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
-		if err := gr.Applier.Delete(ctx, res.ToResource()); err != nil {
+		azobj, err := res.ToResource()
+		if err != nil {
+			return fmt.Errorf("unable to transform to resource with: %w", err)
+		}
+
+		if err := gr.Applier.Delete(ctx, azobj); err != nil {
 			return fmt.Errorf("failed trying to delete with %w", err)
 		}
 
@@ -222,6 +317,48 @@ func (gr *GenericReconciler) reconcileDelete(ctx context.Context, resourcer zips
 		return nil
 	}
 	return err
+}
+
+func hasResourceHashAnnotationChanged(resourcer zips.Resourcer) (bool, error) {
+	oldSig, exists := resourcer.GetAnnotations()[ResourceSigAnnotationKey]
+	if !exists {
+		// signature does not exist, so yes, it has changed
+		return true, nil
+	}
+
+	res, err := resourcer.ToResource()
+	if err != nil {
+		return false, err
+	}
+
+	newSig, err := res.GetSignature()
+	if err != nil {
+		return false, err
+	}
+
+	// check if the last signature matches the new signature
+	return oldSig != newSig, nil
+}
+
+func addResourceHashAnnotation(resourcer zips.Resourcer) error {
+	res, err := resourcer.ToResource()
+	if err != nil {
+		return err
+	}
+
+	sig, err := res.GetSignature()
+	if err != nil {
+		return err
+	}
+
+	annotations := resourcer.GetAnnotations()
+	if annotations == nil {
+		annotations = map[string]string{}
+	}
+
+	annotations[ResourceSigAnnotationKey] = sig
+	resourcer.SetAnnotations(annotations)
+	return nil
 }
 
 func patcher(ctx context.Context, c client.Client, resourcer zips.Resourcer, mutator func(zips.Resourcer) error) error {

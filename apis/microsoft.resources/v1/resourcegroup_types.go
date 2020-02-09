@@ -13,22 +13,8 @@ import (
 	"github.com/Azure/k8s-infra/pkg/zips"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
-type AzRGSpec struct {
-	Name      string            `json:"name,omitempty"`
-	Location  string            `json:"location,omitempty"`
-	ManagedBy string            `json:"managedBy,omitempty"`
-	Tags      map[string]string `json:"tags,omitempty"`
-}
-
 // ResourceGroupSpec defines the desired state of ResourceGroup
 type ResourceGroupSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of ResourceGroup. Edit ResourceGroup_types.go to remove/update
 	APIVersion string            `json:"apiVersion,omitempty"`
 	Location   string            `json:"location,omitempty"`
 	ManagedBy  string            `json:"managedBy,omitempty"`
@@ -37,8 +23,6 @@ type ResourceGroupSpec struct {
 
 // ResourceGroupStatus defines the observed state of ResourceGroup
 type ResourceGroupStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
 	ID                string `json:"id,omitempty"`
 	ProvisioningState string `json:"provisioningState,omitempty"`
 }
@@ -69,7 +53,7 @@ func (*ResourceGroup) Hub() {
 	fmt.Println("Hub was called!")
 }
 
-func (rg *ResourceGroup) ToResource() zips.Resource {
+func (rg *ResourceGroup) ToResource() (zips.Resource, error) {
 	res := zips.Resource{
 		ID:                rg.Status.ID,
 		Type:              "Microsoft.Resources/resourceGroups",
@@ -81,14 +65,15 @@ func (rg *ResourceGroup) ToResource() zips.Resource {
 		ProvisioningState: rg.Status.ProvisioningState,
 	}
 
-	return *res.SetAnnotations(rg.Annotations)
+	return *res.SetAnnotations(rg.Annotations), nil
 }
 
-func (rg *ResourceGroup) FromResource(res zips.Resource) {
+func (rg *ResourceGroup) FromResource(res zips.Resource) error {
 	rg.Status.ID = res.ID
 	rg.Status.ProvisioningState = res.ProvisioningState
 	rg.Spec.Tags = res.Tags
 	rg.Spec.ManagedBy = res.ManagedBy
+	return nil
 }
 
 func init() {

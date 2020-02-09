@@ -20,9 +20,16 @@ type ResourceGroupSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	Location  string            `json:"location,omitempty"`
-	ManagedBy string            `json:"managedBy,omitempty"`
-	Tags      map[string]string `json:"tags,omitempty"`
+	// Location is the Azure location for the group (eg westus2, southcentralus, etc...)
+	Location string `json:"location,omitempty"`
+
+	// ManagedBy is the management group responsible for managing this group
+	// +optional
+	ManagedBy string `json:"managedBy,omitempty"`
+
+	// Tags are user defined key value pairs
+	// +optional
+	Tags map[string]string `json:"tags,omitempty"`
 }
 
 // ResourceGroupStatus defines the observed state of ResourceGroup

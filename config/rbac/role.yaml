@@ -7,6 +7,26 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - virtualnetworks
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - virtualnetworks/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - microsoft.resources.infra.azure.com
   resources:
   - resourcegroups

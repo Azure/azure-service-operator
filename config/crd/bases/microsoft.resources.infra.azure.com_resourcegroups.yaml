@@ -39,8 +39,6 @@ spec:
             description: ResourceGroupSpec defines the desired state of ResourceGroup
             properties:
               apiVersion:
-                description: Foo is an example field of ResourceGroup. Edit ResourceGroup_types.go
-                  to remove/update
                 type: string
               location:
                 type: string
@@ -55,9 +53,6 @@ spec:
             description: ResourceGroupStatus defines the observed state of ResourceGroup
             properties:
               id:
-                description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
-                  of cluster Important: Run "make" to regenerate code after modifying
-                  this file'
                 type: string
               provisioningState:
                 type: string
@@ -88,6 +83,8 @@ spec:
             description: ResourceGroupSpec defines the desired state of ResourceGroup
             properties:
               location:
+                description: Location is the Azure location for the group (eg westus2,
+                  southcentralus, etc...)
                 type: string
               tags:
                 additionalProperties:
@@ -127,12 +124,17 @@ spec:
             description: ResourceGroupSpec defines the desired state of ResourceGroup
             properties:
               location:
+                description: Location is the Azure location for the group (eg westus2,
+                  southcentralus, etc...)
                 type: string
               managedBy:
+                description: ManagedBy is the management group responsible for managing
+                  this group
                 type: string
               tags:
                 additionalProperties:
                   type: string
+                description: Tags are user defined key value pairs
                 type: object
             type: object
           status:

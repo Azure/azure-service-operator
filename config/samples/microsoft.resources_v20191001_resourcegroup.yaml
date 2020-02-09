@@ -3,5 +3,4 @@ kind: ResourceGroup
 metadata:
   name: foo-2019
 spec:
-  # Add fields here
   location: westus2

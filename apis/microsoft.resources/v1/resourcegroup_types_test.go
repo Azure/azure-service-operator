@@ -38,7 +38,9 @@ func TestResourceGroup_ToResource(t *testing.T) {
 			t.Parallel()
 			g := gomega.NewGomegaWithT(t)
 			rg := c.Setup(g)
-			c.Expect(g, rg.ToResource())
+			res, err := rg.ToResource()
+			g.Expect(err).ToNot(gomega.HaveOccurred())
+			c.Expect(g, res)
 		})
 	}
 }

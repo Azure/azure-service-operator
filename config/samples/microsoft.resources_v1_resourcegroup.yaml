@@ -1,8 +1,0 @@
-apiVersion: microsoft.resources.infra.azure.com/v1
-kind: ResourceGroup
-metadata:
-  name: resourcegroup-sample
-spec:
-  # Add fields here
-  name: foo
-  location: westus2

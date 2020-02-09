@@ -6,16 +6,20 @@ Licensed under the MIT license.
 package controllers
 
 import (
+	"time"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/stretchr/testify/mock"
 	"golang.org/x/net/context"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
-	v1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
+	microsoftnetworkv1 "github.com/Azure/k8s-infra/apis/microsoft.network/v1"
+	microsoftresourcesv1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
 	"github.com/Azure/k8s-infra/pkg/zips"
 )
 
@@ -50,16 +54,16 @@ var _ = Describe("GenericReconciler", func() {
 				Name:      "foo",
 			}
 
-			instance := &v1.ResourceGroup{
+			instance := &microsoftresourcesv1.ResourceGroup{
 				TypeMeta: metav1.TypeMeta{
 					Kind:       "ResourceGroup",
-					APIVersion: v1.GroupVersion.String(),
+					APIVersion: microsoftresourcesv1.GroupVersion.String(),
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      nn.Name,
 					Namespace: nn.Namespace,
 				},
-				Spec: v1.ResourceGroupSpec{
+				Spec: microsoftresourcesv1.ResourceGroupSpec{
 					Location:   "westus2",
 					APIVersion: "2019-10-01",
 				},
@@ -103,6 +107,7 @@ var _ = Describe("GenericReconciler", func() {
 			Expect(k8sClient.Get(ctx, nn, instance)).ToNot(HaveOccurred())
 			Expect(instance.Status.ProvisioningState).To(Equal("Succeeded"))
 			Expect(instance.ObjectMeta.Finalizers).To(ContainElement("infra.azure.com/finalizer"))
+			Expect(instance.ObjectMeta.Annotations).To(HaveKey(ResourceSigAnnotationKey))
 		})
 
 		It("should delete a resource", func() {
@@ -113,48 +118,172 @@ var _ = Describe("GenericReconciler", func() {
 				Name:      "foo1",
 			}
 
-			instance := &v1.ResourceGroup{
+			instance := &microsoftresourcesv1.ResourceGroup{
 				TypeMeta: metav1.TypeMeta{
 					Kind:       "ResourceGroup",
-					APIVersion: v1.GroupVersion.String(),
+					APIVersion: microsoftresourcesv1.GroupVersion.String(),
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      nn.Name,
 					Namespace: nn.Namespace,
 				},
-				Spec: v1.ResourceGroupSpec{
+				Spec: microsoftresourcesv1.ResourceGroupSpec{
 					Location:   "westus2",
 					APIVersion: "2019-10-01",
 				},
 			}
 
-			createResourceGroup(ctx, instance, applier)
+			createAndReconcileResourceGroup(ctx, instance, applier)
 			Expect(k8sClient.Get(ctx, nn, instance)).ToNot(HaveOccurred())
 			deleteResourceGroup(ctx, instance, applier)
 			Expect(k8sClient.Get(ctx, nn, instance)).To(HaveOccurred())
 		})
+
+		It("should requeue if resource group is not succeeded", func() {
+			ctx := context.Background()
+			applier := new(ApplierMock)
+			nn := client.ObjectKey{
+				Namespace: "default",
+				Name:      "foo1",
+			}
+
+			instance := &microsoftresourcesv1.ResourceGroup{
+				TypeMeta: metav1.TypeMeta{
+					Kind:       "ResourceGroup",
+					APIVersion: microsoftresourcesv1.GroupVersion.String(),
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      nn.Name,
+					Namespace: nn.Namespace,
+				},
+				Spec: microsoftresourcesv1.ResourceGroupSpec{
+					Location:   "westus2",
+					APIVersion: "2019-10-01",
+				},
+			}
+
+			createAndReconcileResourceGroup(ctx, instance, applier)
+			Expect(k8sClient.Get(ctx, nn, instance)).ToNot(HaveOccurred())
+			deleteResourceGroup(ctx, instance, applier)
+			Expect(k8sClient.Get(ctx, nn, instance)).To(HaveOccurred())
+		})
+
+		It("should deploy a virtual network", func() {
+			ctx := context.Background()
+			applier := new(ApplierMock)
+
+			nn := client.ObjectKey{
+				Namespace: "default",
+				Name:      "vnet2",
+			}
+
+			vnetSpecProps := microsoftnetworkv1.VirtualNetworkSpecProperties{
+				AddressSpace: microsoftnetworkv1.AddressSpaceSpec{
+					AddressPrefixes: []string{
+						"10.0.0.0/16",
+					},
+				},
+				Subnets: []microsoftnetworkv1.SubnetSpec{
+					{
+						Name: "subnet1",
+						Properties: microsoftnetworkv1.SubnetProperties{
+							AddressPrefixes: []string{
+								"10.0.0.0/28",
+								"10.1.0.0/28",
+							},
+						},
+					},
+				},
+			}
+
+			group := createResourceGroupByName(ctx, "test-group1")
+			obj := &microsoftnetworkv1.VirtualNetwork{
+				TypeMeta: metav1.TypeMeta{
+					Kind:       "ResourceGroup",
+					APIVersion: microsoftresourcesv1.GroupVersion.String(),
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      nn.Name,
+					Namespace: nn.Namespace,
+				},
+				Spec: microsoftnetworkv1.VirtualNetworkSpec{
+					Location:   "westus2",
+					APIVersion: "2019-09-01",
+					ResourceGroup: &corev1.ObjectReference{
+						Namespace:  group.Namespace,
+						Name:       group.Name,
+						Kind:       "ResourceGroup",
+						APIVersion: "microsoft.resources.infra.azure.com/v1",
+					},
+					Properties: vnetSpecProps,
+				},
+			}
+
+			Expect(k8sClient.Create(ctx, obj)).To(Succeed())
+			gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
+			Expect(err).ToNot(HaveOccurred())
+			gr := &GenericReconciler{
+				GVK:     gvk,
+				Client:  k8sClient,
+				Applier: applier,
+				Scheme:  mgr.GetScheme(),
+				Log:     ctrl.Log.WithName("test-controller"),
+				Name:    "test-controller",
+			}
+			result, err := gr.Reconcile(ctrl.Request{
+				NamespacedName: nn,
+			})
+			Expect(err).To(BeNil())
+			Expect(result.RequeueAfter).To(Equal(30 * time.Second))
+		})
 	})
 })
 
-func createResourceGroup(ctx context.Context, obj *v1.ResourceGroup, applier *ApplierMock) {
+func createResourceGroupByName(ctx context.Context, name string) *microsoftresourcesv1.ResourceGroup {
+	return createResourceGroupByNameAndStatus(ctx, name, microsoftresourcesv1.ResourceGroupStatus{})
+}
+
+func createResourceGroupByNameAndStatus(ctx context.Context, name string, status microsoftresourcesv1.ResourceGroupStatus) *microsoftresourcesv1.ResourceGroup {
+	group := &microsoftresourcesv1.ResourceGroup{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "ResourceGroup",
+			APIVersion: microsoftresourcesv1.GroupVersion.String(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: "default",
+		},
+		Spec: microsoftresourcesv1.ResourceGroupSpec{
+			Location:   "westus2",
+			APIVersion: "2019-10-01",
+		},
+		Status: status,
+	}
+	Expect(k8sClient.Create(ctx, group)).To(Succeed())
+	return group
+}
+
+func createAndReconcileResourceGroup(ctx context.Context, obj *microsoftresourcesv1.ResourceGroup, applier *ApplierMock) {
 	nn := client.ObjectKey{
 		Name:      obj.ObjectMeta.Name,
 		Namespace: obj.ObjectMeta.Namespace,
 	}
 
 	Expect(k8sClient.Create(ctx, obj)).To(Succeed())
+	res, err := obj.ToResource()
+	Expect(err).ToNot(HaveOccurred())
 	resBefore := zips.Resource{
 		Name:              nn.Name,
-		Type:              obj.ToResource().Type,
+		Type:              res.Type,
 		Location:          obj.Spec.Location,
-		APIVersion:        obj.ToResource().APIVersion,
+		APIVersion:        res.APIVersion,
 		ProvisioningState: "Applying",
 	}
 
 	resAfter := zips.Resource{
-		Type:              obj.ToResource().Type,
+		Type:              res.Type,
 		Location:          obj.Spec.Location,
-		APIVersion:        obj.ToResource().APIVersion,
+		APIVersion:        res.APIVersion,
 		ID:                "/subscriptions/bar/providers/Microsoft.Resources/resourceGroup/foo",
 		ProvisioningState: "Succeeded",
 	}
@@ -178,18 +307,20 @@ func createResourceGroup(ctx context.Context, obj *v1.ResourceGroup, applier *Ap
 	Expect(result.RequeueAfter).To(BeZero())
 }
 
-func deleteResourceGroup(ctx context.Context, obj *v1.ResourceGroup, applier *ApplierMock) {
+func deleteResourceGroup(ctx context.Context, obj *microsoftresourcesv1.ResourceGroup, applier *ApplierMock) {
 	Expect(k8sClient.Delete(ctx, obj)).ToNot(HaveOccurred())
 	nn := client.ObjectKey{
 		Name:      obj.ObjectMeta.Name,
 		Namespace: obj.ObjectMeta.Namespace,
 	}
 
+	res, err := obj.ToResource()
+	Expect(err).ToNot(HaveOccurred())
 	resBefore := zips.Resource{
 		Name:              nn.Name,
-		Type:              obj.ToResource().Type,
+		Type:              res.Type,
 		Location:          obj.Spec.Location,
-		APIVersion:        obj.ToResource().APIVersion,
+		APIVersion:        res.APIVersion,
 		ProvisioningState: "Deleting",
 		ID:                "/subscriptions/bar/providers/Microsoft.Resources/resourceGroup/foo",
 	}

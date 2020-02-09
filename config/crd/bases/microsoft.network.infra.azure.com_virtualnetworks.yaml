@@ -1,0 +1,325 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.4
+  creationTimestamp: null
+  name: virtualnetworks.microsoft.network.infra.azure.com
+spec:
+  group: microsoft.network.infra.azure.com
+  names:
+    kind: VirtualNetwork
+    listKind: VirtualNetworkList
+    plural: virtualnetworks
+    singular: virtualnetwork
+  preserveUnknownFields: false
+  scope: Namespaced
+  version: v1
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: VirtualNetwork is the Schema for the virtualnetworks API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: VirtualNetworkSpec defines the desired state of VirtualNetwork
+            properties:
+              apiVersion:
+                type: string
+              group:
+                description: ResourceGroup is the Azure Resource Group the VirtualNetwork
+                  resides within
+                properties:
+                  apiVersion:
+                    description: API version of the referent.
+                    type: string
+                  fieldPath:
+                    description: 'If referring to a piece of an object instead of
+                      an entire object, this string should contain a valid JSON/Go
+                      field access statement, such as desiredState.manifest.containers[2].
+                      For example, if the object reference is to a container within
+                      a pod, this would take on a value like: "spec.containers{name}"
+                      (where "name" refers to the name of the container that triggered
+                      the event) or if no container name is specified "spec.containers[2]"
+                      (container with index 2 in this pod). This syntax is chosen
+                      only to have some well-defined way of referencing a part of
+                      an object. TODO: this design is not final and this field is
+                      subject to change in the future.'
+                    type: string
+                  kind:
+                    description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                    type: string
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                    type: string
+                  namespace:
+                    description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                    type: string
+                  resourceVersion:
+                    description: 'Specific resourceVersion to which this reference
+                      is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                    type: string
+                  uid:
+                    description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                    type: string
+                type: object
+              location:
+                type: string
+              properties:
+                description: Properties of the Virtual Network
+                properties:
+                  addressSpace:
+                    description: AddressSpace contains an array of IP address ranges
+                      that can be used by subnets
+                    properties:
+                      addressPrefixes:
+                        description: AddressPrefixes are a list of address blocks
+                          reserved for this virtual network in CIDR notation
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  bgpCommunities:
+                    description: BGPCommunities are BGP communities sent over ExpressRoute
+                      with each route corresponding to a prefix in this VNET
+                    properties:
+                      regionalCommunity:
+                        description: RegionalCommunity is a BGP community associated
+                          with the region of the virtual network
+                        type: string
+                      virtualNetworkCommunity:
+                        description: VirtualNetworkCommunity is the BGP community
+                          associated with the virtual network
+                        type: string
+                    type: object
+                  dhcpOptions:
+                    description: DHCPOptions contains an array of DNS servers available
+                      to VMs deployed in the virtual network
+                    properties:
+                      dnsServers:
+                        description: DNSServers a list of DNS servers IP addresses
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  enableVMProtection:
+                    description: EnableVMProtection indicates if VM protection is
+                      enabled for all the subnets in the virtual network
+                    type: boolean
+                  subnets:
+                    description: Subnets is a list of subnets in the VNET
+                    items:
+                      description: 'SubnetSpec is a subnet in a Virtual Network TODO:
+                        (dj) I think this should probably be a slice of corev1.ObjectReference'
+                      properties:
+                        id:
+                          description: ID of the subnet resource
+                          type: string
+                        name:
+                          description: Name of the subnet
+                          type: string
+                        properties:
+                          description: Properties of the subnet
+                          properties:
+                            addressPrefix:
+                              description: AddressPrefix for the subnet, eg. 10.0.0.0/24
+                              type: string
+                            addressPrefixes:
+                              description: AddressPrefixes are a list of address prefixes
+                                for a subnet
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - group
+            type: object
+          status:
+            description: VirtualNetworkStatus defines the observed state of VirtualNetwork
+            properties:
+              id:
+                type: string
+              provisioningState:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+  - name: v20190901
+    schema:
+      openAPIV3Schema:
+        description: VirtualNetwork is the Schema for the virtualnetworks API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: VirtualNetworkSpec defines the desired state of VirtualNetwork
+            properties:
+              group:
+                description: ResourceGroup is the Azure Resource Group the VirtualNetwork
+                  resides within
+                properties:
+                  apiVersion:
+                    description: API version of the referent.
+                    type: string
+                  fieldPath:
+                    description: 'If referring to a piece of an object instead of
+                      an entire object, this string should contain a valid JSON/Go
+                      field access statement, such as desiredState.manifest.containers[2].
+                      For example, if the object reference is to a container within
+                      a pod, this would take on a value like: "spec.containers{name}"
+                      (where "name" refers to the name of the container that triggered
+                      the event) or if no container name is specified "spec.containers[2]"
+                      (container with index 2 in this pod). This syntax is chosen
+                      only to have some well-defined way of referencing a part of
+                      an object. TODO: this design is not final and this field is
+                      subject to change in the future.'
+                    type: string
+                  kind:
+                    description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                    type: string
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                    type: string
+                  namespace:
+                    description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                    type: string
+                  resourceVersion:
+                    description: 'Specific resourceVersion to which this reference
+                      is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                    type: string
+                  uid:
+                    description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                    type: string
+                type: object
+              location:
+                description: Location of the VNET in Azure
+                type: string
+              properties:
+                description: Properties of the Virtual Network
+                properties:
+                  addressSpace:
+                    description: AddressSpace contains an array of IP address ranges
+                      that can be used by subnets
+                    properties:
+                      addressPrefixes:
+                        description: AddressPrefixes are a list of address blocks
+                          reserved for this virtual network in CIDR notation
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  bgpCommunities:
+                    description: BGPCommunities are BGP communities sent over ExpressRoute
+                      with each route corresponding to a prefix in this VNET
+                    properties:
+                      regionalCommunity:
+                        description: RegionalCommunity is a BGP community associated
+                          with the region of the virtual network
+                        type: string
+                      virtualNetworkCommunity:
+                        description: VirtualNetworkCommunity is the BGP community
+                          associated with the virtual network
+                        type: string
+                    type: object
+                  dhcpOptions:
+                    description: DHCPOptions contains an array of DNS servers available
+                      to VMs deployed in the virtual network
+                    properties:
+                      dnsServers:
+                        description: DNSServers a list of DNS servers IP addresses
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  enableVMProtection:
+                    description: EnableVMProtection indicates if VM protection is
+                      enabled for all the subnets in the virtual network
+                    type: boolean
+                  subnets:
+                    description: Subnets is a list of subnets in the VNET
+                    items:
+                      description: 'SubnetSpec is a subnet in a Virtual Network TODO:
+                        (dj) I think this should probably be a slice of corev1.ObjectReference'
+                      properties:
+                        id:
+                          description: ID of the subnet resource
+                          type: string
+                        name:
+                          description: Name of the subnet
+                          type: string
+                        properties:
+                          description: Properties of the subnet
+                          properties:
+                            addressPrefix:
+                              description: AddressPrefix for the subnet, eg. 10.0.0.0/24
+                              type: string
+                            addressPrefixes:
+                              description: AddressPrefixes are a list of address prefixes
+                                for a subnet
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: Tags are user defined key value pairs
+                type: object
+            required:
+            - group
+            - location
+            type: object
+          status:
+            description: VirtualNetworkStatus defines the observed state of VirtualNetwork
+            properties:
+              id:
+                type: string
+              provisioningState:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

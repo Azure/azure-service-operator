@@ -10,5 +10,11 @@ resources:
   version: v20150101
 - group: microsoft.resources
   kind: ResourceGroup
-  version: v0
+  version: v1
+- group: microsoft.network
+  kind: VirtualNetwork
+  version: v20190901
+- group: microsoft.network
+  kind: VirtualNetwork
+  version: v1
 version: "2"
