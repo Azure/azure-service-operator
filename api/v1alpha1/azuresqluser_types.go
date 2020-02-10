@@ -27,6 +27,7 @@ type AzureSQLUserSpec struct {
 	DbName                 string   `json:"dbName"`
 	ResourceGroup          string   `json:"resourceGroup,omitempty"`
 	AdminSecret            string   `json:"adminSecret,omitempty"`
+	AdminSecretKeyVault    string   `json:"adminSecretKeyVault,omitempty"`
 	Roles                  []string `json:"roles"`
 	KeyVaultToStoreSecrets string   `json:"keyVaultToStoreSecrets,omitempty"`
 }

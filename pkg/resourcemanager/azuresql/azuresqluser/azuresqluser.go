@@ -18,6 +18,8 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -142,9 +144,17 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
+	var adminSecretClient secrets.SecretClient
 	// if the admin credentials haven't been set, default admin credentials to servername
 	if len(instance.Spec.AdminSecret) == 0 {
 		instance.Spec.AdminSecret = instance.Spec.Server
+	}
+
+	// if the admin secret keyvault is not specified, assume it is a kube secret
+	if len(instance.Spec.AdminSecretKeyVault) == 0 {
+		adminSecretClient = k8sSecrets.New(mgr.GetClient())
+	} else {
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
 	}
 
 	// need this to detect missing databases
@@ -152,7 +162,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	// get admin creds for server
 	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
-	adminSecret, err := s.SecretClient.Get(ctx, key)
+	adminSecret, err := adminSecretClient.Get(ctx, key)
 	if err != nil {
 		instance.Status.Provisioning = false
 		instance.Status.Message = fmt.Sprintf("admin secret : %s, not found", instance.Spec.AdminSecret)
@@ -301,6 +311,9 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		return true, err
 	}
 	if !exists {
+		// Best case deletion of secrets
+		key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+		s.SecretClient.Delete(ctx, key)
 		return false, nil
 	}
 
