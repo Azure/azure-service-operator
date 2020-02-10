@@ -40,6 +40,22 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	resourceGroupName := instance.Spec.ResourceGroup
 	resourceName := instance.ObjectMeta.Name
 
+	// validate that if you are using a VNet that API Mgmt Svc is premium tier
+	tier := instance.Spec.Tier
+	if tier == "" {
+		tier = "basic"
+	}
+	vnetType := instance.Spec.VnetType
+	if vnetType != "" && !strings.EqualFold(vnetType, "none") && !strings.EqualFold(tier, "premium") {
+		g.Telemetry.LogError("Cannot associate VNet to API Mgmt Service that is not 'premium' tier",
+			fmt.Errorf("Cannot associate VNet to API Mgmt Service that is not premium tier %s, %s",
+				resourceGroupName,
+				resourceName))
+		instance.Status.Provisioned = false
+		instance.Status.Provisioning = false
+		return true, nil
+	}
+
 	catch := []string{
 		errhelp.ResourceGroupNotFoundErrorCode,
 		errhelp.ParentNotFoundErrorCode,
@@ -49,6 +65,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 
 	fatalErr := []string{
 		errhelp.ResourceNotFound,
+		errhelp.InvalidParameters,
 	}
 
 	// STEP 1:
@@ -70,7 +87,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			location := instance.Spec.Location
 			publisherName := instance.Spec.PublisherName
 			publisherEmail := instance.Spec.PublisherEmail
-			_, err := g.CreateAPIMgmtSvc(ctx, location, resourceGroupName, resourceName, publisherName, publisherEmail)
+			_, err := g.CreateAPIMgmtSvc(ctx, tier, location, resourceGroupName, resourceName, publisherName, publisherEmail)
 			if err != nil {
 				azerr := errhelp.NewAzureErrorAzureError(err)
 				if helpers.ContainsString(catch, azerr.Type) {
@@ -98,10 +115,39 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	}
 
 	// STEP 3:
+	// 	add App Insights (if needed)
+	appInsightsResourceGroup := instance.Spec.AppInsightsResourceGroup
+	appInsightsName := instance.Spec.AppInsightsName
+	if appInsightsResourceGroup != "" && appInsightsName != "" {
+		g.Telemetry.LogTrace("APIM reconcile", "Step 3: assigning App Insights for APIM service")
+		err = g.SetAppInsightsForAPIMgmtSvc(
+			ctx,
+			resourceGroupName,
+			resourceName,
+			appInsightsResourceGroup,
+			appInsightsName,
+		)
+		if err != nil {
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if helpers.ContainsString(catch, azerr.Type) {
+				g.Telemetry.LogError("App Insights error, requeueing", err)
+				return false, nil
+			} else if helpers.ContainsString(fatalErr, azerr.Type) {
+				g.Telemetry.LogError("Fatal error assigning App Insights", err)
+				instance.Status.Provisioned = true
+				instance.Status.Provisioning = false
+				return true, nil
+			}
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = true
+			return false, fmt.Errorf("API Mgmt Svc could not set App Insights %s, %s - %v", appInsightsResourceGroup, appInsightsName, err)
+		}
+	}
+
+	// STEP 4:
 	// 	provisioned, now need to update with a vnet?
-	vnetType := instance.Spec.VnetType
 	if vnetType != "" && !strings.EqualFold(vnetType, "none") {
-		g.Telemetry.LogTrace("APIM reconcile", "Step 3: assignning VNet for APIM service")
+		g.Telemetry.LogTrace("APIM reconcile", "Step 4: assignning VNet for APIM service")
 		vnetResourceGroup := instance.Spec.VnetResourceGroup
 		vnetName := instance.Spec.VnetName
 		subnetName := instance.Spec.VnetSubnetName
@@ -120,7 +166,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 				g.Telemetry.LogError("VNet error, requeueing", err)
 				return false, nil
 			} else if helpers.ContainsString(fatalErr, azerr.Type) {
-				g.Telemetry.LogError("could not find VNet", err)
+				g.Telemetry.LogError("Fatal error occured with assigning a VNet", err)
 				instance.Status.Provisioned = true
 				instance.Status.Provisioning = false
 				return true, nil
@@ -128,36 +174,6 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			instance.Status.Provisioned = false
 			instance.Status.Provisioning = true
 			return false, fmt.Errorf("API Mgmt Svc could not update VNet %s, %s - %v", vnetResourceGroup, vnetName, err)
-		}
-	}
-
-	// STEP 4:
-	// 	add App Insights (if needed)
-	appInsightsResourceGroup := instance.Spec.AppInsightsResourceGroup
-	appInsightsName := instance.Spec.AppInsightsName
-	if appInsightsResourceGroup != "" && appInsightsName != "" {
-		g.Telemetry.LogTrace("APIM reconcile", "Step 4: assigning App Insights for APIM service")
-		err = g.SetAppInsightsForAPIMgmtSvc(
-			ctx,
-			resourceGroupName,
-			resourceName,
-			appInsightsResourceGroup,
-			appInsightsName,
-		)
-		if err != nil {
-			azerr := errhelp.NewAzureErrorAzureError(err)
-			if helpers.ContainsString(catch, azerr.Type) {
-				g.Telemetry.LogError("App Insights error, requeueing", err)
-				return false, nil
-			} else if helpers.ContainsString(fatalErr, azerr.Type) {
-				g.Telemetry.LogError("could not find App Insights", err)
-				instance.Status.Provisioned = true
-				instance.Status.Provisioning = false
-				return true, nil
-			}
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = true
-			return false, fmt.Errorf("API Mgmt Svc could not set App Insights %s, %s - %v", appInsightsResourceGroup, appInsightsName, err)
 		}
 	}
 

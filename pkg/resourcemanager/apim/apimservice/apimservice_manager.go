@@ -37,6 +37,7 @@ func NewAzureAPIMgmtServiceManager() *AzureAPIMgmtServiceManager {
 // APIMgmtServiceManager manages Azure Application Insights service components
 type APIMgmtServiceManager interface {
 	CreateAPIMgmtSvc(ctx context.Context,
+		tier string,
 		location string,
 		resourceGroupName string,
 		resourceName string,

@@ -26,6 +26,7 @@ import (
 type ApimServiceSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Tier                     string `json:"tier,omitempty"`
 	Location                 string `json:"location"`
 	ResourceGroup            string `json:"resourceGroup"`
 	PublisherName            string `json:"publisherName"`

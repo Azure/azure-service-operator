@@ -31,7 +31,7 @@ type AzureAPIMgmtServiceManager struct {
 }
 
 // CreateAPIMgmtSvc creates a new API Mgmt Svc
-func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, location string, resourceGroupName string, resourceName string, publisherName string, publisherEmail string) (apim.ServiceResource, error) {
+func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, tier string, location string, resourceGroupName string, resourceName string, publisherName string, publisherEmail string) (apim.ServiceResource, error) {
 	client, err := apimshared.GetAPIMgmtSvcClient()
 	if err != nil {
 		return apim.ServiceResource{}, err
@@ -41,9 +41,18 @@ func (_ *AzureAPIMgmtServiceManager) CreateAPIMgmtSvc(ctx context.Context, locat
 		PublisherEmail: &publisherEmail,
 		PublisherName:  &publisherName,
 	}
-	sku := apim.ServiceSkuProperties{
-		Name: apim.SkuTypeStandard,
+
+	// translate tier / sku type
+	skuTypeTier := apim.SkuTypeBasic
+	if strings.EqualFold(tier, "standard") {
+		skuTypeTier = apim.SkuTypeStandard
+	} else if strings.EqualFold(tier, "premium") {
+		skuTypeTier = apim.SkuTypePremium
 	}
+	sku := apim.ServiceSkuProperties{
+		Name: skuTypeTier,
+	}
+
 	future, err := client.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
@@ -160,7 +169,7 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 		return err
 	}
 
-	var credentials map[string]*string
+	credentials := make(map[string]*string)
 	credentials["instrumentationKey"] = insight.InstrumentationKey
 	_, err = client.CreateOrUpdate(
 		ctx,
