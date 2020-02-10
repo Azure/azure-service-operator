@@ -12,6 +12,8 @@ limitations under the License.
 
 package v1alpha1
 
+import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 // AzureServiceOperatorsStatus (ASOStatus) defines the observed state of resource actions
 type ASOStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
@@ -22,6 +24,7 @@ type ASOStatus struct {
 	Message      string `json:"message,omitempty"`
 }
 
+
 // GenericSpec is a struct to help get the KeyVaultName from the Spec
 type GenericSpec struct {
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
@@ -30,4 +33,12 @@ type GenericSpec struct {
 // GenericResource is a struct to help get a generic resource to extract keyvault name
 type GenericResource struct {
 	Spec GenericSpec `json:"spec,omitempty"`
+}
+
+// StatusedObject used to unmarshall runtime.Object when we need Status
+type StatusedObject struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Status ASOStatus `json:"status,omitempty"`
 }

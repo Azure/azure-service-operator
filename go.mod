@@ -21,8 +21,9 @@ require (
 	github.com/googleapis/gnostic v0.3.0 // indirect
 	github.com/gophercloud/gophercloud v0.4.0 // indirect
 	github.com/hashicorp/go-multierror v1.0.0
+	github.com/jstemmer/go-junit-report v0.9.1 // indirect
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
-	github.com/onsi/ginkgo v1.10.2
+	github.com/onsi/ginkgo v1.11.0
 	github.com/onsi/gomega v1.7.0
 	github.com/pkg/errors v0.8.1
 	github.com/prometheus/client_golang v0.9.3-0.20190127221311-3c4408c8b829
@@ -31,10 +32,9 @@ require (
 	github.com/sethvargo/go-password v0.1.2
 	github.com/stretchr/testify v1.4.1-0.20200116033420-8c465a0c8e80
 	go.uber.org/zap v1.9.1
-	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8 // indirect
 	golang.org/x/net v0.0.0-20190620200207-3b0461eec859
 	golang.org/x/sys v0.0.0-20190621203818-d432491b9138 // indirect
-	golang.org/x/tools v0.0.0-20190909214602-067311248421 // indirect
+	golang.org/x/tools v0.0.0-20200130203232-449c356b79e5 // indirect
 	google.golang.org/grpc v1.19.1
 	k8s.io/api v0.0.0-20190409021203-6e4e0e4f393b
 	k8s.io/apimachinery v0.0.0-20190404173353-6a84e37a896d
