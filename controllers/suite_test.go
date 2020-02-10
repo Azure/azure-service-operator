@@ -152,7 +152,11 @@ func setup() error {
 	var consumerGroupClient resourcemanagereventhub.ConsumerGroupManager
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
-		appInsightsManager = resourcemanagerappinsights.NewManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"))
+		appInsightsManager = resourcemanagerappinsights.NewManager(
+			ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
+			secretClient,
+			scheme.Scheme,
+		)
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
