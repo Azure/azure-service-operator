@@ -43,8 +43,6 @@ import (
 	"k8s.io/client-go/tools/record"
 )
 
-const AzureSqlActionFinalizerName = "azuresqlaction.finalizers.azure.com"
-
 // AzureSqlActionReconciler reconciles a AzureSqlAction object
 type AzureSqlActionReconciler struct {
 	client.Client
