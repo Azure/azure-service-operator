@@ -24,7 +24,6 @@ type ASOStatus struct {
 	Message      string `json:"message,omitempty"`
 }
 
-
 // GenericSpec is a struct to help get the KeyVaultName from the Spec
 type GenericSpec struct {
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`

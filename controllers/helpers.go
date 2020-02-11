@@ -41,7 +41,6 @@ import (
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 )
 
-
 // GetKeyVaultName extracts the KeyVault name from the generic runtime object
 func GetKeyVaultName(instance runtime.Object) string {
 	keyVaultName := ""
@@ -55,7 +54,7 @@ func GetKeyVaultName(instance runtime.Object) string {
 	keyVaultName = target.Spec.KeyVaultToStoreSecrets
 	return keyVaultName
 }
-  
+
 type TestContext struct {
 	k8sClient               client.Client
 	secretClient            secrets.SecretClient
