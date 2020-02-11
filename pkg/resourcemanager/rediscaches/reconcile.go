@@ -49,16 +49,14 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	}
 	resp, err := redisClient.Get(ctx, groupName, name)
 	if err == nil {
-		instance.Status.Message = "RedisCache exists but may not be ready"
-		instance.Status.State = resp.Status
-
 		if resp.ProvisioningState == "Succeeded" {
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			return true, nil
 		}
-
+		instance.Status.Message = "RedisCache exists but may not be ready"
+		instance.Status.State = string(resp.ProvisioningState)
 		return false, nil
 	}
 	instance.Status.Message = fmt.Sprintf("RedisCache Get error %s", err.Error())
