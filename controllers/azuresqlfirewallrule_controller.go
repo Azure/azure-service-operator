@@ -36,7 +36,7 @@ import (
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 )
 
-const azureSQLFirewallRuleFinalizerName = "azuresqlfirewallrule.finalizers.azure.com"
+const azureSQLFirewallRuleFinalizerName = finalizerName
 
 // AzureSqlFirewallRuleReconciler reconciles a AzureSqlFirewallRule object
 type AzureSqlFirewallRuleReconciler struct {
