@@ -37,7 +37,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
-const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azure.com"
+const azureSQLFailoverGroupFinalizerName = finalizerName
 
 // AzureSqlFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
 type AzureSqlFailoverGroupReconciler struct {
