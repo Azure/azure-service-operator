@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -64,7 +65,7 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 	// make sure redis provisions
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, redisCacheNamespacedName, redisCacheInstance)
-		return redisCacheInstance.Status.Provisioned
+		return strings.Contains(redisCacheInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for redisCacheInstance to be provisioned")
 
 	// delete redis
