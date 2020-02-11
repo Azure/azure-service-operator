@@ -220,11 +220,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 
-	var enableSoftDelete bool
-	enableSoftDelete = false
-	if instance.Spec.EnableSoftDelete == true {
-		enableSoftDelete = true
-	}
+	enableSoftDelete := instance.Spec.EnableSoftDelete
 
 	vaultsClient, id, err := InstantiateVault(ctx, vaultName)
 	if err != nil {
