@@ -101,11 +101,11 @@ func (manager *MockSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Con
 	return nil
 }
 
-func (fw *MockSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (fw *MockSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	return true, nil
 }
 
-func (fw *MockSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (fw *MockSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	return true, nil
 }
 
