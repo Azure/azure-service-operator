@@ -83,12 +83,10 @@ func main() {
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
-	flag.StringVar(&AzureCloudEnv, "azure-cloud-env", "AzurePublicCloud", "Choose which Azure cloud to operator against.")
 
 	flag.Parse()
 
 	ctrl.SetLogger(zap.Logger(true))
-	os.Setenv("AZURE_CLOUD_ENV", AzureCloudEnv)
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:             scheme,
