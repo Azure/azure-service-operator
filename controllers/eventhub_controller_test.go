@@ -8,8 +8,11 @@ import (
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -18,7 +21,6 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-/*
 func TestEventHubControllerNoNamespace(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover()
@@ -185,7 +187,6 @@ func TestEventHubControllerCreateAndDeleteCustomSecret(t *testing.T) {
 	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
 
 }
-*/
 func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover()
@@ -197,53 +198,16 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	rgLocation := tc.resourceGroupLocation
 	ehnName := tc.eventhubNamespaceName
 	eventhubName := "t-eh-" + helpers.RandomString(10)
-	secretName := "secret-" + eventhubName
 	keyVaultNameForSecrets := "t-eh-kv-secrets-" + helpers.RandomString(5)
+	userID := config.ClientID()
 
-	allPermissions := []string{"Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"}
-	onlyListPermission := []string{"List"}
-	// Create the keyVault and add access policies
-	keyVaultInstance := &azurev1alpha1.KeyVault{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      keyVaultNameForSecrets,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.KeyVaultSpec{
-			Location:      rgLocation,
-			ResourceGroup: rgName,
-			AccessPolicies: &[]azurev1alpha1.AccessPolicyEntry{
-				{
-					TenantID: config.TenantID(),
-					ObjectID: config.ClientID(),
-					Permissions: &azurev1alpha1.Permissions{
-						Keys:         &onlyListPermission,
-						Secrets:      &allPermissions,
-						Certificates: &onlyListPermission,
-						Storage:      &onlyListPermission,
-					},
-				},
-			},
-		},
-	}
-
-	// Create the Keyvault object and expect the Reconcile to be created
-	err := tc.k8sClient.Create(ctx, keyVaultInstance)
-	assert.Equal(nil, err, "create keyvault in k8s")
-
-	// Prep query for get
-	keyVaultNamespacedName := types.NamespacedName{Name: keyVaultNameForSecrets, Namespace: "default"}
+	// Create KeyVault with access policies
+	_, err := kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, rgName, keyVaultNameForSecrets, rgLocation, userID)
 
 	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return helpers.HasFinalizer(keyVaultInstance, finalizerName)
-	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
-
-	// Wait until key vault is provisioned
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return strings.Contains(keyVaultInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in k8s")
+		vault, _ := kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
+		return *vault.Name == keyVaultNameForSecrets
+	}, tc.timeout, tc.retry, "wait for keyvault to be available")
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{
@@ -263,7 +227,7 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 				Name:   "RootManageSharedAccessKey",
 				Rights: []string{"Listen"},
 			},
-			SecretName:             secretName,
+			SecretName:             "",
 			KeyVaultToStoreSecrets: keyVaultNameForSecrets,
 		},
 	}
@@ -285,8 +249,8 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 
 	// Check that the secret is added to KeyVault
 	keyvaultSecretClient := kvsecrets.New(keyVaultNameForSecrets)
-	_, err = keyvaultSecretClient.Get(ctx, keyVaultNamespacedName)
-	assert.Equal(nil, err, "checking ßif secret is present in keyvault")
+	_, err = keyvaultSecretClient.Get(ctx, eventhubNamespacedName)
+	assert.Equal(nil, err, "checking if secret is present in keyvault")
 
 	err = tc.k8sClient.Delete(ctx, eventhubInstance)
 	assert.Equal(nil, err, "delete eventhub in k8s")
@@ -298,7 +262,6 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 
 }
 
-/*
 func TestEventHubControllerCreateAndDeleteCapture(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover()
@@ -383,4 +346,4 @@ func TestEventHubControllerCreateAndDeleteCapture(t *testing.T) {
 		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
 
-}*/
+}
