@@ -220,6 +220,8 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 
+	enableSoftDelete := instance.Spec.EnableSoftDelete
+
 	vaultsClient, id, err := InstantiateVault(ctx, vaultName)
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -253,7 +255,8 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 				Family: to.StringPtr("A"),
 				Name:   keyvault.Standard,
 			},
-			NetworkAcls: &networkAcls,
+			NetworkAcls:      &networkAcls,
+			EnableSoftDelete: &enableSoftDelete,
 		},
 		Location: to.StringPtr(location),
 		Tags:     tags,
