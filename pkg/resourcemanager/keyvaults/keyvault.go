@@ -185,8 +185,8 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry) (keyvault.AccessPolic
 	return newEntry, nil
 }
 
-// InstantiateVault will instantiate VaultsClient
-func InstantiateVault(ctx context.Context, vaultName string) (keyvault.VaultsClient, uuid.UUID, error) {
+// InstantiateVault will instantiate VaultsClient and do error checking
+func InstantiateVault(ctx context.Context, vaultName string, containsUpdate bool) (keyvault.VaultsClient, uuid.UUID, error) {
 	vaultsClient, err := getVaultsClient()
 	if err != nil {
 		return keyvault.VaultsClient{}, uuid.UUID{}, err
@@ -197,18 +197,20 @@ func InstantiateVault(ctx context.Context, vaultName string) (keyvault.VaultsCli
 	}
 
 	// Check if keyvault name is valid
-	vaultNameCheck := keyvault.VaultCheckNameAvailabilityParameters{
-		Name: to.StringPtr(vaultName),
-		Type: to.StringPtr("Microsoft.KeyVault/vaults"),
-	}
-	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
-	if err != nil {
-		return keyvault.VaultsClient{}, uuid.UUID{}, err
-	}
-	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
-		return keyvault.VaultsClient{}, uuid.UUID{}, fmt.Errorf("AccountNameInvalid")
-	} else if result.Reason == keyvault.AlreadyExists {
-		return keyvault.VaultsClient{}, uuid.UUID{}, fmt.Errorf("AlreadyExists")
+	if !containsUpdate {
+		vaultNameCheck := keyvault.VaultCheckNameAvailabilityParameters{
+			Name: to.StringPtr(vaultName),
+			Type: to.StringPtr("Microsoft.KeyVault/vaults"),
+		}
+		result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
+		if err != nil {
+			return keyvault.VaultsClient{}, uuid.UUID{}, err
+		}
+		if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
+			return keyvault.VaultsClient{}, uuid.UUID{}, fmt.Errorf("AccountNameInvalid")
+		} else if result.Reason == keyvault.AlreadyExists {
+			return keyvault.VaultsClient{}, uuid.UUID{}, fmt.Errorf("AlreadyExists")
+		}
 	}
 
 	return vaultsClient, id, nil
@@ -220,7 +222,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 
-	vaultsClient, id, err := InstantiateVault(ctx, vaultName)
+	vaultsClient, id, err := InstantiateVault(ctx, vaultName, instance.Status.ContainsUpdate)
 	if err != nil {
 		return keyvault.Vault{}, err
 	}
@@ -267,7 +269,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 
 // CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
 func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
-	vaultsClient, id, err := InstantiateVault(ctx, vaultName)
+	vaultsClient, id, err := InstantiateVault(ctx, vaultName, false)
 	if err != nil {
 		return keyvault.Vault{}, err
 	}
@@ -307,7 +309,7 @@ func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 		Location: to.StringPtr(location),
 	}
 
-	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
+	k.Log.Info(fmt.Sprintf("creating or updating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -341,6 +343,15 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 		return true, err
 	}
 
+	hash, err := helpers.GetStructHash(obj)
+	if err != nil {
+		return true, err
+	}
+
+	if instance.Status.SpecHash == 0 {
+		instance.Status.SpecHash = hash
+	}
+
 	// convert kube labels to expected tag format
 	labels := map[string]*string{}
 	for k, v := range instance.GetLabels() {
@@ -352,10 +363,15 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	keyvault, err := k.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
-		instance.Status.Message = resourcemanager.SuccessMsg
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		return true, nil
+		if instance.Status.SpecHash == hash {
+			instance.Status.Message = resourcemanager.SuccessMsg
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			return true, nil
+		}
+
+		instance.Status.SpecHash = hash
+		instance.Status.ContainsUpdate = true
 	}
 
 	keyvault, err = k.CreateVault(
@@ -401,6 +417,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	}
 
+	instance.Status.ContainsUpdate = false
 	instance.Status.State = keyvault.Status
 
 	instance.Status.Provisioned = true

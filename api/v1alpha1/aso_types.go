@@ -16,8 +16,10 @@ package v1alpha1
 type ASOStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool   `json:"provisioning,omitempty"`
-	Provisioned  bool   `json:"provisioned,omitempty"`
-	State        string `json:"state,omitempty"`
-	Message      string `json:"message,omitempty"`
+	Provisioning   bool   `json:"provisioning,omitempty"`
+	Provisioned    bool   `json:"provisioned,omitempty"`
+	State          string `json:"state,omitempty"`
+	Message        string `json:"message,omitempty"`
+	SpecHash       uint64 `json:"specHash,omitempty"`
+	ContainsUpdate bool   `json:"containsUpdate,omitempty"`
 }

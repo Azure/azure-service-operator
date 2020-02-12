@@ -8,8 +8,11 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/mitchellh/hashstructure"
+
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/sethvargo/go-password/password"
+	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -73,4 +76,15 @@ func GenerateRandomPassword(n int) (string, error) {
 	}
 
 	return res, nil
+}
+
+// GetStructHash - helper function that generates a unique hash for an object spec
+func GetStructHash(obj runtime.Object) (uint64, error) {
+	unstructured, err := runtime.DefaultUnstructuredConverter.ToUnstructured(obj)
+	if err != nil {
+		return 0, err
+	}
+
+	hash, err := hashstructure.Hash(unstructured["spec"].(map[string]interface{}), nil)
+	return hash, nil
 }
