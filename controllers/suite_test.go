@@ -333,14 +333,16 @@ func setup() error {
 	}
 
 	err = (&AzureSqlFirewallRuleReconciler{
-		Client: k8sManager.GetClient(),
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
-			"AzureSQLFirewallRuleOperator",
-		),
-		Recorder:                    k8sManager.GetEventRecorderFor("AzureSqlFirewallRule-controller"),
-		Scheme:                      scheme.Scheme,
-		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: sqlFirewallRuleManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+				"AzureSQLFirewallRuleOperator",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlFirewallRule-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
 		return err

@@ -281,14 +281,15 @@ func main() {
 	}
 
 	if err = (&controllers.AzureSqlFirewallRuleReconciler{
-		Client: mgr.GetClient(),
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
-			"AzureSQLFirewallRuleOperator",
-		),
-		Recorder:                    mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
-		Scheme:                      mgr.GetScheme(),
-		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlFirewallRuleManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+				"AzureSQLFirewallRuleOperator"),
+			Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
 		os.Exit(1)
