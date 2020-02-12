@@ -123,6 +123,7 @@ func Environment() *azure.Environment {
 	if environment != nil {
 		return environment
 	}
+
 	env, err := azure.EnvironmentFromName(cloudName)
 	if err != nil {
 		// TODO: move to initialization of var

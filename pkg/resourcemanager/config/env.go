@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/gobuffalo/envy"
 )
@@ -22,8 +23,23 @@ const (
 // ParseEnvironment loads a sibling `.env` file then looks through all environment
 // variables to set global configuration.
 func ParseEnvironment() error {
-	envy.Load()
 	azenv := os.Getenv("AZURE_CLOUD_ENV")
+	envy.Load()
+
+	if azenv == "" {
+		azenv = "AzurePublicCloud"
+	}
+
+	allowed := []string{
+		"AzurePublicCloud",
+		"AzureUSGovernmentCloud",
+		"AzureChinaCloud",
+		"AzureGermanCloud",
+	}
+
+	if !helpers.ContainsString(allowed, azenv) {
+		return fmt.Errorf("Invalid Cloud chosen: AZURE_CLOUD_ENV set to '%s'", azenv)
+	}
 
 	azureEnv, _ := azure.EnvironmentFromName(azenv) // shouldn't fail
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
