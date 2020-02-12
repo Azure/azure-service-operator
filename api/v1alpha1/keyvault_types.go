@@ -21,10 +21,11 @@ import (
 
 // KeyVaultSpec defines the desired state of KeyVault
 type KeyVaultSpec struct {
-	Location        string               `json:"location"`
-	ResourceGroup   string               `json:"resourceGroup"`
-	NetworkPolicies *NetworkRuleSet      `json:"networkPolicies,omitempty"`
-	AccessPolicies  *[]AccessPolicyEntry `json:"accessPolicies,omitempty"`
+	Location         string               `json:"location"`
+	ResourceGroup    string               `json:"resourceGroup"`
+	EnableSoftDelete bool                 `json:"enableSoftDelete,omitempty"`
+	NetworkPolicies  *NetworkRuleSet      `json:"networkPolicies,omitempty"`
+	AccessPolicies   *[]AccessPolicyEntry `json:"accessPolicies,omitempty"`
 }
 
 type NetworkRuleSet struct {
