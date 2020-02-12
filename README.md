@@ -6,9 +6,9 @@
 
 ## Introduction
 
-Kubernetes offers the facility of extending it's API through the concept of 'Operators' ([Introducing Operators: Putting Operational Knowledge into Software](https://coreos.com/blog/introducing-operators.html)).
+Kubernetes offers the ability to extending the resource definitions that it can manage the lifecycle through the Operator concept. An Operator is an application-specific controller that extends the Kubernetes API to create, configure, and manage instances of complex stateful applications on behalf of a Kubernetes user. It builds upon the basic Kubernetes resource and controller concepts but includes domain or application-specific knowledge to automate common tasks.
 
-An Operator is an application-specific controller that extends the Kubernetes API to create, configure, and manage instances of complex stateful applications on behalf of a Kubernetes user. It builds upon the basic Kubernetes resource and controller concepts but includes domain or application-specific knowledge to automate common tasks.
+(For more details about operators, we recommend [Introducing Operators: Putting Operational Knowledge into Software](https://coreos.com/blog/introducing-operators.html)).
 
 This repository contains the resources and code to provision and deprovision different Azure services using a Kubernetes operator.
 
@@ -17,20 +17,21 @@ The Azure Operator comprises of:
 - The Custom Resource Definitions (CRDs) for each of the Azure services that the Kubernetes user can provision
 - The Kubernetes controller that watches for requests to create Custom Resources for these CRDs and creates them
 
-The project was built using
-
-[Kubebuilder](https://book.kubebuilder.io/)
+The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
 ## Install the operator
 
-For information on how to build, test and run the operator, refer to the link below.
-[Building, testing and running the operator](/docs/contents.md)
+This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm charts](./charts/azure-service-operator).
 
 ## Azure Services supported
 
 1. [Resource Group](/docs/resourcegroup/resourcegroup.md)
 2. [EventHub](/docs/eventhub/eventhub.md)
 3. [Azure SQL](/docs/azuresql/azuresql.md)
+
+## Building the operators
+
+You can also build, test, and run the operator from source by [following these instructions](/docs/contents.md).
 
 ## Contributing
 
