@@ -72,6 +72,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.AlreadyExists,
 			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
+			errhelp.BadRequest,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
