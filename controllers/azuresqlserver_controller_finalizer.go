@@ -25,7 +25,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 )
 
-const AzureSQLServerFinalizerName = "azuresqlserver.finalizers.azure.com"
+const AzureSQLServerFinalizerName = finalizerName
 
 func (r *AzureSqlServerReconciler) addFinalizer(instance *azurev1alpha1.AzureSqlServer) error {
 	helpers.AddFinalizer(instance, AzureSQLServerFinalizerName)

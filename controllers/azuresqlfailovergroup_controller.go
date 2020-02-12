@@ -34,9 +34,10 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	azuresqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
-const azureSQLFailoverGroupFinalizerName = "AzureSqlFailoverGroup.finalizers.azure.com"
+const azureSQLFailoverGroupFinalizerName = finalizerName
 
 // AzureSqlFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
 type AzureSqlFailoverGroupReconciler struct {
@@ -45,6 +46,7 @@ type AzureSqlFailoverGroupReconciler struct {
 	Recorder                     record.EventRecorder
 	Scheme                       *runtime.Scheme
 	AzureSqlFailoverGroupManager azuresqlfailovergroup.SqlFailoverGroupManager
+	SecretClient                 secrets.SecretClient
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlfailovergroups,verbs=get;list;watch;create;update;patch;delete
@@ -140,6 +142,24 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 			log.Info("waiting for failovergroup to come up")
 			return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
 		}
+		return ctrl.Result{}, err
+	}
+
+	// Check to see if secret already exists for server names and paths
+	r.Log.Info("retrieving or generating secret values")
+	secret, _ := r.GetOrPrepareSecret(ctx, &instance)
+
+	// create or update the secret
+	r.Log.Info("persisting failovergroup secrets")
+	key := types.NamespacedName{Name: instance.ObjectMeta.Name, Namespace: instance.Namespace}
+	err = r.SecretClient.Upsert(
+		ctx,
+		key,
+		secret,
+		secrets.WithOwner(&instance),
+		secrets.WithScheme(r.Scheme),
+	)
+	if err != nil {
 		return ctrl.Result{}, err
 	}
 
@@ -259,4 +279,28 @@ func (r *AzureSqlFailoverGroupReconciler) addFinalizer(instance *azurev1alpha1.A
 	}
 	r.Recorder.Event(instance, v1.EventTypeNormal, "Updated", fmt.Sprintf("finalizer %s added", azureSQLFailoverGroupFinalizerName))
 	return nil
+}
+
+func (r *AzureSqlFailoverGroupReconciler) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureSqlFailoverGroup) (map[string][]byte, error) {
+	failovergroupname := instance.ObjectMeta.Name
+	azuresqlprimaryservername := instance.Spec.Server
+	azuresqlsecondaryservername := instance.Spec.SecondaryServerName
+
+	secret := map[string][]byte{}
+
+	key := types.NamespacedName{Name: failovergroupname, Namespace: instance.Namespace}
+
+	if stored, err := r.SecretClient.Get(ctx, key); err == nil {
+		r.Log.Info("secret already exists, pulling stored values")
+		return stored, nil
+	}
+
+	r.Log.Info("secret not found, generating values for new secret")
+
+	secret["azureSqlPrimaryServerName"] = []byte(azuresqlprimaryservername)
+	secret["readWriteListenerEndpoint"] = []byte(failovergroupname + ".database.windows.net")
+	secret["azureSqlSecondaryServerName"] = []byte(azuresqlsecondaryservername)
+	secret["readOnlyListenerEndpoint"] = []byte(failovergroupname + ".secondary.database.windows.net")
+
+	return secret, nil
 }
