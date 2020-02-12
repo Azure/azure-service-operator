@@ -98,11 +98,18 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 
 	_, err = rc.DeleteRedisCache(ctx, groupName, name)
 	if err != nil {
-		if errhelp.IsStatusCode204(err) {
-			return true, nil
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.CreationPending,
+			errhelp.AsyncOpIncompleteError,
 		}
-		instance.Status.Message = fmt.Sprintf("AzureRedisCacheManager Delete failed with %s", err.Error())
-		return false, err
+		err = errhelp.NewAzureError(err)
+		if azerr, ok := err.(*errhelp.AzureError); ok {
+			if helpers.ContainsString(catch, azerr.Type) {
+				return false, nil
+			}
+		}
+		return false, fmt.Errorf("AzureRedisCacheManager Delete failed with %s", err)
 	}
 	return false, nil
 }
