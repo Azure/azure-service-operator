@@ -101,6 +101,14 @@ delete:
 	kubectl delete -f config/crd/bases
 	kustomize build config/default | kubectl delete -f -
 
+# Generate manifests for helm and package them up
+helm-chart-manifests: manifests
+	kustomize build ./config/default -o ./charts/azure-service-operator/templates
+	rm charts/azure-service-operator/templates/~g_v1_namespace_azureoperator-system.yaml
+	sed -i '' -e 's@controller:latest@{{ .Values.image.repository }}@' ./charts/azure-service-operator/templates/apps_v1_deployment_azureoperator-controller-manager.yaml
+	helm package ./charts/azure-service-operator -d ./charts
+	helm repo index ./charts
+
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases

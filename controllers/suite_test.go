@@ -26,7 +26,6 @@ import (
 	"time"
 
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
 
@@ -67,36 +66,7 @@ import (
 
 var testEnv *envtest.Environment
 
-type testContext struct {
-	k8sClient               client.Client
-	secretClient            secrets.SecretClient
-	resourceGroupName       string
-	resourceGroupLocation   string
-	eventhubNamespaceName   string
-	eventhubName            string
-	namespaceLocation       string
-	storageAccountName      string
-	blobContainerName       string
-	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
-	eventHubManagers        resourcemanagereventhub.EventHubManagers
-	eventhubClient          resourcemanagereventhub.EventHubManager
-	storageManagers         resourcemanagerstorages.StorageManagers
-	keyVaultManager         resourcemanagerkeyvaults.KeyVaultManager
-	psqlServerManager       resourcemanagerpsqlserver.PostgreSQLServerManager
-	psqlDatabaseManager     resourcemanagerpsqldatabase.PostgreSQLDatabaseManager
-	psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
-	sqlServerManager        resourcemanagersqlserver.SqlServerManager
-	sqlDbManager            resourcemanagersqldb.SqlDbManager
-	sqlFirewallRuleManager  resourcemanagersqlfirewallrule.SqlFirewallRuleManager
-	sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
-	sqlUserManager          resourcemanagersqluser.SqlUserManager
-	consumerGroupClient     resourcemanagereventhub.ConsumerGroupManager
-	timeout                 time.Duration
-	timeoutFast             time.Duration
-	retry                   time.Duration
-}
-
-var tc testContext
+var tc TestContext
 
 func setup() error {
 	log.Println(fmt.Sprintf("Starting common controller test setup"))
@@ -182,7 +152,11 @@ func setup() error {
 	var consumerGroupClient resourcemanagereventhub.ConsumerGroupManager
 
 	if os.Getenv("TEST_CONTROLLER_WITH_MOCKS") == "false" {
-		appInsightsManager = resourcemanagerappinsights.NewManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"))
+		appInsightsManager = resourcemanagerappinsights.NewManager(
+			ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
+			secretClient,
+			scheme.Scheme,
+		)
 		resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 		eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 		storageManagers = resourcemanagerstorages.AzureStorageManagers
@@ -406,6 +380,7 @@ func setup() error {
 		Recorder:              k8sManager.GetEventRecorderFor("AzureSqlAction-controller"),
 		Scheme:                scheme.Scheme,
 		AzureSqlServerManager: sqlServerManager,
+		SecretClient:          secretClient,
 	}).SetupWithManager(k8sManager)
 	if err != nil {
 		return err
@@ -498,7 +473,7 @@ func setup() error {
 		return err
 	}
 
-	tc = testContext{
+	tc = TestContext{
 		k8sClient:               k8sClient,
 		secretClient:            secretClient,
 		resourceGroupName:       resourceGroupName,

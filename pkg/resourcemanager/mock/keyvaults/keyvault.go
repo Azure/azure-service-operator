@@ -52,7 +52,11 @@ func findKeyVault(res []keyVaultResource, predicate func(keyVaultResource) bool)
 }
 
 // CreateVault creates a new key vault
-func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string, tags map[string]*string) (keyvault.Vault, error) {
+func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, tags map[string]*string) (keyvault.Vault, error) {
+	vaultName := instance.Name
+	groupName := instance.Spec.ResourceGroup
+	location := instance.Spec.Location
+
 	v := keyvault.Vault{
 		Response:   helpers.GetRestResponse(http.StatusOK),
 		Properties: &keyvault.VaultProperties{},
@@ -149,9 +153,7 @@ func (manager *MockKeyVaultManager) Ensure(ctx context.Context, obj runtime.Obje
 	tags := map[string]*string{}
 	_, _ = manager.CreateVault(
 		ctx,
-		instance.Spec.ResourceGroup,
-		instance.Name,
-		instance.Spec.Location,
+		instance,
 		tags,
 	)
 
