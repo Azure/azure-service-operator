@@ -87,12 +87,15 @@ func (m *Manager) CreateAPI(
 	svc, err := apimshared.GetAPIMgmtSvc(ctx, resourceGroupName, apiServiceName)
 	if err != nil {
 		// If there is no parent APIM service, we cannot proceed
-		m.Telemetry.LogError("failure fetching API management service", err)
 		return apimanagement.APIContract{}, err
 	}
 
 	// Submit the ARM request
 	future, err := m.APIClient.CreateOrUpdate(ctx, resourceGroupName, *svc.Name, apiID, params, eTag)
+
+	if err != nil {
+		return apimanagement.APIContract{}, err
+	}
 
 	return future.Result(m.APIClient)
 }
@@ -123,7 +126,6 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 	svc, err := apimshared.GetAPIMgmtSvc(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService)
 	if err != nil {
 		// If there is no parent APIM service, we cannot proceed
-		m.Telemetry.LogError("failure fetching API management service", err)
 		return false, err
 	}
 
@@ -132,7 +134,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 
 	if err == nil {
 		if api.StatusCode == 200 {
-			instance.Status.Message = api.Status
+			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			return true, nil
