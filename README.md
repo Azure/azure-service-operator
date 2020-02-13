@@ -21,7 +21,7 @@ The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
 ## Install the operator
 
-This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm charts](./charts/azure-service-operator).
+This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](./charts/azure-service-operator).
 
 ## Azure Services supported
 
