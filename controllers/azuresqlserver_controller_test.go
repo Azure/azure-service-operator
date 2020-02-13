@@ -44,7 +44,7 @@ func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return helpers.HasFinalizer(sqlServerInstance, AzureSQLServerFinalizerName)
+		return helpers.HasFinalizer(sqlServerInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for finalizer")
 
 	assert.Eventually(func() bool {
