@@ -6,7 +6,7 @@
 
 ## Introduction
 
-Kubernetes offers the ability to extending the resource definitions that it can manage the lifecycle through the Operator concept. An Operator is an application-specific controller that extends the Kubernetes API to create, configure, and manage instances of complex stateful applications on behalf of a Kubernetes user. It builds upon the basic Kubernetes resource and controller concepts but includes domain or application-specific knowledge to automate common tasks.
+An Operator is an application-specific controller that extends the Kubernetes API to create, configure, and manage instances of complex stateful applications on behalf of a Kubernetes user. It builds upon the basic Kubernetes resource and controller concepts but includes domain or application-specific knowledge to automate common tasks.
 
 (For more details about operators, we recommend [Introducing Operators: Putting Operational Knowledge into Software](https://coreos.com/blog/introducing-operators.html)).
 
