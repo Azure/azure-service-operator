@@ -30,7 +30,7 @@ type APIMgmtSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-type APIMgmt struct {
+type APIMgmtAPI struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
@@ -86,12 +86,12 @@ type APIProperties struct {
 
 // +kubebuilder:object:root=true
 // APIMgmtList contains a list of APIMgmt
-type APIMgmtList struct {
+type APIMgmtAPIList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []APIMgmt `json:"items"`
+	Items           []APIMgmtAPI `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&APIMgmt{}, &APIMgmtList{})
+	SchemeBuilder.Register(&APIMgmtAPI{}, &APIMgmtAPIList{})
 }

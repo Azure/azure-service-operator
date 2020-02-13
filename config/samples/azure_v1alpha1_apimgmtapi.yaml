@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
-kind: APIMgmt
+kind: APIMgmtAPI
 metadata:
-  name: aso-apimgmt-sample
+  name: aso-apimgmtapi-sample
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
@@ -10,9 +10,9 @@ spec:
   properties:
     isCurrent: true
     isOnline: true
-    displayName: aso-apimgmt-sample
-    description: "API description 1"
-    apiVersionDescription: "API version description 1"
+    displayName: aso-apimgmtapi-sample
+    description: "API description"
+    apiVersionDescription: "API version description"
     path: "/api/test"
     protocols:
     - http

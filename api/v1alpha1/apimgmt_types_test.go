@@ -30,7 +30,7 @@ import (
 var _ = Describe("AzureAPIManagement", func() {
 	var (
 		key              types.NamespacedName
-		created, fetched *APIMgmt
+		created, fetched *APIMgmtAPI
 	)
 
 	Context("Create AzureAPIManagement type", func() {
@@ -41,7 +41,7 @@ var _ = Describe("AzureAPIManagement", func() {
 				Name:      "foo",
 				Namespace: "default",
 			}
-			created = &APIMgmt{
+			created = &APIMgmtAPI{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "foo",
 					Namespace: "default",
@@ -56,7 +56,7 @@ var _ = Describe("AzureAPIManagement", func() {
 			By("creating an APIManagement type")
 			Expect(k8sClient.Create(context.TODO(), created)).To(Succeed())
 
-			fetched = &APIMgmt{}
+			fetched = &APIMgmtAPI{}
 			Expect(k8sClient.Get(context.TODO(), key, fetched)).To(Succeed())
 			Expect(fetched).To(Equal(created))
 

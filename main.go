@@ -438,7 +438,7 @@ func main() {
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "APIMgmt")
+		setupLog.Error(err, "unable to create controller", "controller", "APIMgmtAPI")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

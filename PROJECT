@@ -55,7 +55,7 @@ resources:
   kind: PostgreSQLFirewallRule
 - group: azure
   version: v1alpha1
-  kind: APIMgmt
+  kind: APIMgmtAPI
 - group: azure
   version: v1alpha1
   kind: VirtualNetwork

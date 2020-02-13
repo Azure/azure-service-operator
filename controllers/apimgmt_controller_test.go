@@ -39,7 +39,7 @@ func TestAPIMgmtController(t *testing.T) {
 	apiMgmtName := "t-apimgmt-test" + helpers.RandomString(10)
 
 	// Create an instance of Azure APIMgmnt
-	apiMgmtInstance := &azurev1alpha1.APIMgmt{
+	apiMgmtInstance := &azurev1alpha1.APIMgmtAPI{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      apiMgmtName,
 			Namespace: "default",
@@ -65,11 +65,11 @@ func TestAPIMgmtController(t *testing.T) {
 	}
 
 	err := tc.k8sClient.Create(ctx, apiMgmtInstance)
-	assert.Equal(nil, err, "create APIMgmt record in k8s")
+	assert.Equal(nil, err, "create APIMgmtAPI record in k8s")
 
 	APIMgmtNamespacedName := types.NamespacedName{Name: apiMgmtName, Namespace: "default"}
 
-	// Wait for the APIMgmt instance to be written to k8s
+	// Wait for the APIMgmtAPI instance to be written to k8s
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, APIMgmtNamespacedName, apiMgmtInstance)
 		return strings.Contains(apiMgmtInstance.Status.Message, successMsg)
@@ -79,7 +79,7 @@ func TestAPIMgmtController(t *testing.T) {
 	err = tc.k8sClient.Delete(ctx, apiMgmtInstance)
 	assert.Equal(nil, err, "deleting APIMgmt in k8s")
 
-	// Wait for the APIMgmt instance to be deleted
+	// Wait for the APIMgmtAPI instance to be deleted
 	assert.Eventually(func() bool {
 		err := tc.k8sClient.Get(ctx, APIMgmtNamespacedName, apiMgmtInstance)
 		return err != nil

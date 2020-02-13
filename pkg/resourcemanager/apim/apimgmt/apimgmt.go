@@ -48,8 +48,8 @@ type Manager struct {
 func NewManager(log logr.Logger) *Manager {
 	return &Manager{
 		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("APIMgmt"),
-			"APIMgmt",
+			ctrl.Log.WithName("controllers").WithName("APIMgmtAPI"),
+			"APIMgmtAPI",
 		),
 		APIClient: apimshared.GetAPIMClient(),
 	}
@@ -119,30 +119,24 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 		return false, err
 	}
 
-	// Set k8s status to provisioning at the beginning of this reconciliation
-	instance.Status.Provisioning = true
-
-	// Attempt to fetch the API
-	api, err := m.GetAPI(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService, instance.Spec.APIId)
-	if err == nil {
-		instance.Status.State = api.Status
-
-		if api.Status == "Succeeded" {
-			instance.Status.Message = api.Status
-			instance.Status.Provisioned = true
-			instance.Status.Provisioning = false
-			return true, nil
-		}
-
-		return false, nil
-	}
-
-	// Attempt to fetch the parent API Management service the API will reside under
+	// Attempt to fetch the parent API Management service the API will or does reside within
 	svc, err := apimshared.GetAPIMgmtSvc(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService)
 	if err != nil {
 		// If there is no parent APIM service, we cannot proceed
 		m.Telemetry.LogError("failure fetching API management service", err)
 		return false, err
+	}
+
+	// Attempt to fetch the API
+	api, err := m.GetAPI(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService, instance.Spec.APIId)
+
+	if err == nil {
+		if api.StatusCode == 200 {
+			instance.Status.Message = api.Status
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			return true, nil
+		}
 	}
 
 	// Submit the ARM request
@@ -166,11 +160,12 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 		instance.Spec.Properties.APIRevision)
 
 	if err != nil {
+		// Set the Message in the case where an unexpected error is returned
+		instance.Status.Message = err.Error()
+
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
 		}
-
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Message = err.Error()
@@ -182,43 +177,31 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 		return false, err
 	}
 
-	instance.Status.State = contract.Status
-
-	if instance.Status.Provisioning {
+	if contract.StatusCode == 200 {
 		instance.Status.Provisioned = true
 		instance.Status.Message = resourcemanager.SuccessMsg
 	} else {
 		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
 	}
 
 	return true, nil
 }
 
-// Delete removes a resource
+// Delete removes an API resource
 func (m *Manager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
 	i, err := m.convert(obj)
 	if err != nil {
-		return false, err
+		return true, err
 	}
 
 	response, err := m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.APIId, i.Spec.Properties.APIRevision, true)
 
-	if err != nil {
+	if err != nil && response.StatusCode != 404 {
 		m.Telemetry.LogInfo("Error deleting API", err.Error())
-		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			return true, err
-		}
+		i.Status.Message = err.Error()
+		return true, err
 	}
-	i.Status.State = response.Status
-
-	if err == nil {
-		if response.Status != "InProgress" {
-			return false, nil
-		}
-	}
-
-	return true, nil
+	return false, nil
 }
 
 // GetParents fetches the hierarchical parent resource references
@@ -239,8 +222,8 @@ func (m *Manager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, 
 	}, nil
 }
 
-func (m *Manager) convert(obj runtime.Object) (*v1alpha1.APIMgmt, error) {
-	i, ok := obj.(*v1alpha1.APIMgmt)
+func (m *Manager) convert(obj runtime.Object) (*v1alpha1.APIMgmtAPI, error) {
+	i, ok := obj.(*v1alpha1.APIMgmtAPI)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
