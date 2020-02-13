@@ -257,7 +257,7 @@ func main() {
 	if err = (&controllers.AzureSqlServerReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: sqlDBManager,
+			AzureClient: sqlServerManager,
 			Telemetry: telemetry.InitializePrometheusDefault(
 				ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
 				"AzureSqlServer",
