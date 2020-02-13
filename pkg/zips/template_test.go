@@ -45,8 +45,7 @@ func TestNewAzureTemplateClient(t *testing.T) {
 			},
 			Expect: func(g *gomega.GomegaWithT, client *zips.AzureTemplateClient, err error) {
 				g.Expect(err).To(gomega.BeNil())
-				g.Expect(client.DeploymentsClient).ToNot(gomega.BeNil())
-				g.Expect(client.ResourceClient).ToNot(gomega.BeNil())
+				g.Expect(client.RawClient).ToNot(gomega.BeNil())
 			},
 		},
 		{
@@ -83,18 +82,4 @@ func TestNewAzureTemplateClient(t *testing.T) {
 			c.Expect(g, client, err)
 		})
 	}
-}
-
-func TestNewResourceGroupDeploymentTemplate(t *testing.T) {
-	g := gomega.NewGomegaWithT(t)
-	template := zips.NewResourceGroupDeploymentTemplate(zips.Resource{})
-	g.Expect(template.Schema).To(gomega.Equal("https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"))
-	g.Expect(template.ContentVersion).To(gomega.Equal("1.0.0.0"))
-}
-
-func TestNewSubscriptionDeploymentTemplate(t *testing.T) {
-	g := gomega.NewGomegaWithT(t)
-	template := zips.NewSubscriptionDeploymentTemplate(zips.Resource{})
-	g.Expect(template.Schema).To(gomega.Equal("https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json"))
-	g.Expect(template.ContentVersion).To(gomega.Equal("1.0.0.0"))
 }

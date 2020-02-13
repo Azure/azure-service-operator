@@ -20,6 +20,7 @@ import (
 
 	microsoftnetworkv1 "github.com/Azure/k8s-infra/apis/microsoft.network/v1"
 	microsoftresourcesv1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
+	"github.com/Azure/k8s-infra/internal/test"
 	"github.com/Azure/k8s-infra/pkg/zips"
 )
 
@@ -34,9 +35,24 @@ func (am *ApplierMock) Apply(ctx context.Context, res zips.Resource) (zips.Resou
 	return args.Get(0).(zips.Resource), args.Error(1)
 }
 
-func (am *ApplierMock) Delete(ctx context.Context, res zips.Resource) error {
-	args := am.Called(ctx, res)
+func (am *ApplierMock) DeleteApply(ctx context.Context, deploymentID string) error {
+	args := am.Called(ctx, deploymentID)
 	return args.Error(0)
+}
+
+func (am *ApplierMock) BeginDelete(ctx context.Context, res zips.Resource) (zips.Resource, error) {
+	args := am.Called(ctx, res)
+	return args.Get(0).(zips.Resource), args.Error(1)
+}
+
+func (am *ApplierMock) GetResource(ctx context.Context, res zips.Resource) (zips.Resource, error) {
+	args := am.Called(ctx, res)
+	return args.Get(0).(zips.Resource), args.Error(1)
+}
+
+func (am *ApplierMock) HeadResource(ctx context.Context, res zips.Resource) (bool, error) {
+	args := am.Called(ctx, res)
+	return args.Bool(0), args.Error(1)
 }
 
 var _ = Describe("GenericReconciler", func() {
@@ -48,10 +64,11 @@ var _ = Describe("GenericReconciler", func() {
 
 			ctx := context.Background()
 			applier := new(ApplierMock)
+			randomName := test.RandomName("foo", 10)
 
 			nn := client.ObjectKey{
 				Namespace: "default",
-				Name:      "foo",
+				Name:      randomName,
 			}
 
 			instance := &microsoftresourcesv1.ResourceGroup{
@@ -71,11 +88,10 @@ var _ = Describe("GenericReconciler", func() {
 
 			Expect(k8sClient.Create(ctx, instance)).To(Succeed())
 			resBefore := zips.Resource{
-				Name:              nn.Name,
-				Type:              "Microsoft.Resources/resourceGroups",
-				Location:          "westus2",
-				APIVersion:        "2019-10-01",
-				ProvisioningState: "Applying",
+				Name:       nn.Name,
+				Type:       "Microsoft.Resources/resourceGroups",
+				Location:   "westus2",
+				APIVersion: "2019-10-01",
 			}
 
 			resAfter := zips.Resource{
@@ -84,7 +100,7 @@ var _ = Describe("GenericReconciler", func() {
 				Location:          "westus2",
 				APIVersion:        "2019-10-01",
 				ID:                "/subscriptions/bar/providers/Microsoft.Resources/resourceGroup/foo",
-				ProvisioningState: "Succeeded",
+				ProvisioningState: "Accepted",
 			}
 
 			// setup the applier call with the projected resource
@@ -103,9 +119,9 @@ var _ = Describe("GenericReconciler", func() {
 				NamespacedName: nn,
 			})
 			Expect(err).To(BeNil())
-			Expect(result.RequeueAfter).To(BeZero())
+			Expect(result.RequeueAfter).To(Equal(5 * time.Second))
 			Expect(k8sClient.Get(ctx, nn, instance)).ToNot(HaveOccurred())
-			Expect(instance.Status.ProvisioningState).To(Equal("Succeeded"))
+			Expect(instance.Status.ProvisioningState).To(Equal("Accepted"))
 			Expect(instance.ObjectMeta.Finalizers).To(ContainElement("infra.azure.com/finalizer"))
 			Expect(instance.ObjectMeta.Annotations).To(HaveKey(ResourceSigAnnotationKey))
 		})
@@ -142,9 +158,10 @@ var _ = Describe("GenericReconciler", func() {
 		It("should requeue if resource group is not succeeded", func() {
 			ctx := context.Background()
 			applier := new(ApplierMock)
+			randomName := test.RandomName("foo", 10)
 			nn := client.ObjectKey{
 				Namespace: "default",
-				Name:      "foo1",
+				Name:      randomName,
 			}
 
 			instance := &microsoftresourcesv1.ResourceGroup{
@@ -168,13 +185,13 @@ var _ = Describe("GenericReconciler", func() {
 			Expect(k8sClient.Get(ctx, nn, instance)).To(HaveOccurred())
 		})
 
-		It("should deploy a virtual network", func() {
+		It("should create a virtual network, but requeue in 30 seconds because the rg is not there", func() {
 			ctx := context.Background()
 			applier := new(ApplierMock)
-
+			randomName := test.RandomName("foo", 10)
 			nn := client.ObjectKey{
 				Namespace: "default",
-				Name:      "vnet2",
+				Name:      randomName,
 			}
 
 			vnetSpecProps := microsoftnetworkv1.VirtualNetworkSpecProperties{
@@ -273,11 +290,10 @@ func createAndReconcileResourceGroup(ctx context.Context, obj *microsoftresource
 	res, err := obj.ToResource()
 	Expect(err).ToNot(HaveOccurred())
 	resBefore := zips.Resource{
-		Name:              nn.Name,
-		Type:              res.Type,
-		Location:          obj.Spec.Location,
-		APIVersion:        res.APIVersion,
-		ProvisioningState: "Applying",
+		Name:       nn.Name,
+		Type:       res.Type,
+		Location:   obj.Spec.Location,
+		APIVersion: res.APIVersion,
 	}
 
 	resAfter := zips.Resource{
@@ -285,7 +301,7 @@ func createAndReconcileResourceGroup(ctx context.Context, obj *microsoftresource
 		Location:          obj.Spec.Location,
 		APIVersion:        res.APIVersion,
 		ID:                "/subscriptions/bar/providers/Microsoft.Resources/resourceGroup/foo",
-		ProvisioningState: "Succeeded",
+		ProvisioningState: zips.SucceededProvisioningState, // short cutting with succeeded rather than Accepted -> Succeeded
 	}
 
 	// setup the applier call with the projected resource
@@ -321,11 +337,20 @@ func deleteResourceGroup(ctx context.Context, obj *microsoftresourcesv1.Resource
 		Type:              res.Type,
 		Location:          obj.Spec.Location,
 		APIVersion:        res.APIVersion,
-		ProvisioningState: "Deleting",
+		ProvisioningState: zips.SucceededProvisioningState,
 		ID:                "/subscriptions/bar/providers/Microsoft.Resources/resourceGroup/foo",
 	}
 
-	applier.On("Delete", mock.Anything, resBefore).Return(nil)
+	resAfter := zips.Resource{
+		Name:              nn.Name,
+		Type:              res.Type,
+		Location:          obj.Spec.Location,
+		APIVersion:        res.APIVersion,
+		ProvisioningState: zips.DeletingProvisioningState,
+		ID:                "/subscriptions/bar/providers/Microsoft.Resources/resourceGroup/foo",
+	}
+
+	applier.On("BeginDelete", mock.Anything, resBefore).Return(resAfter, nil)
 	gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
 	Expect(err).ToNot(HaveOccurred())
 	gr := &GenericReconciler{
@@ -337,6 +362,13 @@ func deleteResourceGroup(ctx context.Context, obj *microsoftresourcesv1.Resource
 		Name:    "test-controller",
 	}
 	result, err := gr.Reconcile(ctrl.Request{
+		NamespacedName: nn,
+	})
+	Expect(err).To(BeNil())
+	Expect(result.RequeueAfter).To(Equal(5 * time.Second))
+
+	applier.On("HeadResource", mock.Anything, resAfter).Return(false, nil)
+	result, err = gr.Reconcile(ctrl.Request{
 		NamespacedName: nn,
 	})
 	Expect(err).To(BeNil())

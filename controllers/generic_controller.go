@@ -101,8 +101,8 @@ func register(mgr ctrl.Manager, applier zips.Applier, obj runtime.Object, log lo
 	}
 
 	t := v.Type()
-	name := strings.ReplaceAll(t.String(), ".", "-")
-	controllerName := fmt.Sprintf("%s-contoller", name)
+	name := strings.ReplaceAll(t.String(), ".", "_")
+	controllerName := fmt.Sprintf("%s-ctrl", name)
 
 	// Use the provided GVK to construct a new runtime object of the desired concrete type.
 	gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
@@ -141,9 +141,10 @@ func register(mgr ctrl.Manager, applier zips.Applier, obj runtime.Object, log lo
 	return nil
 }
 
+// Reconcile will take state in K8s and apply it to Azure
 func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	logger := gr.Log.WithValues("name", req.Name, "namespace", req.Namespace)
+	log := gr.Log.WithValues("name", req.Name, "namespace", req.Namespace)
 
 	obj, err := gr.Scheme.New(gr.GVK)
 	if err != nil {
@@ -152,53 +153,10 @@ func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if err := gr.Client.Get(ctx, req.NamespacedName, obj); err != nil {
 		if apierrors.IsNotFound(err) {
-			logger.Info("object not found, requeue")
-			// Object not found, return.  Created objects are automatically garbage collected.
-			// For additional cleanup logic use finalizers.
 			return ctrl.Result{}, nil
 		}
 
-		logger.Error(err, "error reading object")
-		// Error reading the object - requeue the request.
 		return ctrl.Result{}, err
-	}
-
-	if grouped, ok := obj.(apis.Grouped); ok {
-		// has a resource group, so check if the resource group is already provisioned
-		groupRef := grouped.GetResourceGroupObjectRef()
-		if groupRef == nil {
-			return ctrl.Result{}, fmt.Errorf("grouped resources must have a resource group")
-		}
-
-		key := client.ObjectKey{
-			Name:      groupRef.Name,
-			Namespace: groupRef.Namespace,
-		}
-
-		rg, err := gr.Scheme.New(groupRef.GroupVersionKind())
-		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("unknown resource group gvk with: %w", err)
-		}
-
-		if err := gr.Client.Get(ctx, key, rg); err != nil {
-			logger.Info("resource group does not exist yet; will retry in a bit")
-			return ctrl.Result{
-				RequeueAfter: 30 * time.Second,
-			}, nil
-		}
-
-		if reser, ok := rg.(zips.Resourcer); ok {
-			res, err := reser.ToResource()
-			if err != nil {
-				return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
-			}
-			if res.ProvisioningState != "Succeeded" {
-				logger.Info(fmt.Sprintf("resource group status is %s; will retry in a bit", res.ProvisioningState))
-				return ctrl.Result{
-					RequeueAfter: 30 * time.Second,
-				}, nil
-			}
-		}
 	}
 
 	// The Go type for the Kubernetes object must understand how to
@@ -210,68 +168,221 @@ func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	// reconcile delete
 	if !resourcer.GetDeletionTimestamp().IsZero() {
-		err := gr.reconcileDelete(ctx, resourcer)
-		if err != nil {
-			logger.Error(err, "error deleting the resource")
-		}
-		return ctrl.Result{}, err
+		log.Info("reconcile delete")
+		return gr.reconcileDelete(ctx, resourcer)
 	}
 
+	if grouped, ok := obj.(apis.Grouped); ok {
+		ready, err := gr.isResourceGroupReady(ctx, grouped, log)
+		if err != nil {
+			log.Error(err, "failed checking if resource group was ready")
+			return ctrl.Result{}, err
+		}
+
+		if !ready {
+			requeueTime := 30 * time.Second
+			log.Info(fmt.Sprintf("resource group %q is not ready or not created yet; will try again in about %s", grouped.GetResourceGroupObjectRef().Name, requeueTime))
+			return ctrl.Result{
+				RequeueAfter: requeueTime,
+			}, nil
+		}
+	}
+
+	log.Info("reconcile apply")
+	return gr.reconcileApply(ctx, resourcer, log)
+}
+
+// reconcileApply will determine what, if anything, has changed on the resource, and apply that state to Azure.
+// The Az infra finalizer will be applied.
+//
+// There are 3 possible state transitions.
+// *  New resource (hasChanged = true) --> Start deploying the resource and move provisioning state from "" to "{Accepted || Succeeded || Failed}"
+// *  Existing Resource (hasChanged = true) --> Start deploying the resource and move state from "{terminal state} to "{Accepted || Succeeded || Failed}"
+// *  Existing Resource (hasChanged = false) --> Probably a status change. Don't do anything as of now.
+func (gr *GenericReconciler) reconcileApply(ctx context.Context, resourcer zips.Resourcer, log logr.Logger) (ctrl.Result, error) {
 	// check if the hash on the resource has changed
 	hasChanged, err := hasResourceHashAnnotationChanged(resourcer)
 	if err != nil {
 		return ctrl.Result{}, fmt.Errorf("failed comparing resource hash with: %w", err)
 	}
 
+	azObj, err := resourcer.ToResource()
+	if err != nil {
+		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
+	}
+
 	// if the resource hash (spec) has not changed, don't apply again
-	if !hasChanged {
-		logger.Info("resource hash has not changed, we are done here")
+	if !hasChanged && zips.IsTerminalProvisioningState(azObj.ProvisioningState) {
 		return ctrl.Result{}, nil
 	}
 
-	err = gr.reconcileApply(ctx, resourcer)
+	switch {
+	case hasChanged:
+		return gr.applySpecChangeToExistingResource(ctx, resourcer)
+	case !zips.IsTerminalProvisioningState(azObj.ProvisioningState):
+		return gr.updateFromNonTerminalApplyState(ctx, resourcer)
+	default:
+		return ctrl.Result{}, nil // all is good and there are no changes to deal with
+	}
+}
+
+func (gr *GenericReconciler) isResourceGroupReady(ctx context.Context, grouped apis.Grouped, log logr.Logger) (bool, error) {
+	// has a resource group, so check if the resource group is already provisioned
+	groupRef := grouped.GetResourceGroupObjectRef()
+	if groupRef == nil {
+		return false, fmt.Errorf("grouped resources must have a resource group")
+	}
+
+	key := client.ObjectKey{
+		Name:      groupRef.Name,
+		Namespace: groupRef.Namespace,
+	}
+
+	// get the storage version of the resource group regardless of the referenced version
+	var rg microsoftresourcesv1.ResourceGroup
+	if err := gr.Client.Get(ctx, key, &rg); err != nil {
+		return false, fmt.Errorf("error GETing rg resource with: %w", err)
+	}
+
+	res, err := rg.ToResource()
 	if err != nil {
-		logger.Error(err, "error applying the resource")
+		return false, fmt.Errorf("unable to transform to resource with: %w", err)
+	}
+
+	return res.ProvisioningState == zips.SucceededProvisioningState, nil
+}
+
+// reconcileDelete will begin and follow a delete operation of a resource. The finalizer will only be removed upon the
+// resource actually being deleted in Azure.
+//
+// There are 2 possible state transitions.
+// *  obj.ProvisioningState == \*\ --> Start deleting in Azure and mark state as "Deleting"
+// *  obj.ProvisioningState == "Deleting" --> http HEAD to see if resource still exists in Azure. If so, requeue, else, remove finalizer.
+func (gr *GenericReconciler) reconcileDelete(ctx context.Context, resourcer zips.Resourcer) (ctrl.Result, error) {
+	azObj, err := resourcer.ToResource()
+	if err != nil {
+		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
+	}
+
+	switch azObj.ProvisioningState {
+	case zips.DeletingProvisioningState:
+		return gr.updateFromNonTerminalDeleteState(ctx, resourcer)
+	default:
+		return gr.startDeleteOfResource(ctx, resourcer)
+	}
+}
+
+// startDeleteOfResource will begin the delete of a resource by telling Azure to start deleting it. The resource will be
+// marked with the provisioning state of "Deleting".
+func (gr *GenericReconciler) startDeleteOfResource(ctx context.Context, resourcer zips.Resourcer) (ctrl.Result, error) {
+	azObj, err := resourcer.ToResource()
+	if err != nil {
+		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
+	}
+
+	if err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
+		if azObj, err = gr.Applier.BeginDelete(ctx, azObj); err != nil {
+			return fmt.Errorf("failed trying to delete with %w", err)
+		}
+
+		azObj.ProvisioningState = zips.DeletingProvisioningState
+
+		if err := res.FromResource(azObj); err != nil {
+			return fmt.Errorf("error res.FromResource with: %w", err)
+		}
+
+		return nil
+	}); err != nil {
+		return ctrl.Result{}, fmt.Errorf("failed to patch after starting delete with: %w", err)
+	}
+
+	// delete has started, check back to seen when the finalizer can be removed
+	return ctrl.Result{
+		RequeueAfter: 5 * time.Second,
+	}, nil
+}
+
+// updateFromNonTerminalDeleteState will call Azure to check if the resource still exists. If so, it will requeue, else,
+// the finalizer will be removed.
+func (gr *GenericReconciler) updateFromNonTerminalDeleteState(ctx context.Context, resourcer zips.Resourcer) (ctrl.Result, error) {
+	azObj, err := resourcer.ToResource()
+	if err != nil {
+		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
+	}
+
+	// already deleting, just check to see if it still exists and if it's gone, remove finalizer
+	found, err := gr.Applier.HeadResource(ctx, azObj)
+	if err != nil {
+		return ctrl.Result{}, fmt.Errorf("failed to head resource with: %w", err)
+	}
+
+	if found {
+		return ctrl.Result{RequeueAfter: 5 * time.Second}, nil
+	}
+
+	err = patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
+		controllerutil.RemoveFinalizer(res, apis.AzureInfraFinalizer)
+		return nil
+	})
+
+	// patcher will try to fetch the object after patching, so ignore not found errors
+	if apierrors.IsNotFound(err) {
+		return ctrl.Result{}, nil
 	}
 	return ctrl.Result{}, err
 }
 
-func (gr *GenericReconciler) reconcileApply(ctx context.Context, resourcer zips.Resourcer) error {
-	if err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
-		azobj, err := res.ToResource()
-		if err != nil {
-			return fmt.Errorf("unable to transform to resource with: %w", err)
-		}
-
-		azobj.ProvisioningState = "Applying"
-		if err := res.FromResource(azobj); err != nil {
-			return fmt.Errorf("error res.FromResource with: %w", err)
-		}
-		return nil
-	}); err != nil {
-		return err
+// updatedFromNonTerminalApplyState will ask Azure for the updated status of the deployment. If the object is in a
+// non terminal state, it will requeue, else, status will be updated.
+func (gr *GenericReconciler) updateFromNonTerminalApplyState(ctx context.Context, resourcer zips.Resourcer) (ctrl.Result, error) {
+	azObj, err := resourcer.ToResource()
+	if err != nil {
+		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
 	}
 
-	// apply normally;
-	//
-	// This should call to the Applier where the current state of the applied resource should be compared to the cached
-	// state of the Azure resource. If the two states differ, the Applier should then apply that state to Azure.
-	return patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
-		controllerutil.AddFinalizer(resourcer, apis.AzureInfraFinalizer)
-		azobj, err := res.ToResource()
-		if err != nil {
-			return fmt.Errorf("unable to transform to resource with: %w", err)
-		}
-
-		appliedResource, err := gr.Applier.Apply(ctx, azobj)
+	if err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
+		// update with latest information about the apply
+		azObj, err = gr.Applier.Apply(ctx, azObj)
 		if err != nil {
 			return fmt.Errorf("failed to apply state to Azure with %w", err)
 		}
 
-		// TODO (dj): this should be set from the provisioning state of the resource in Azure. For now, I think we can assume this is "Succeeded" if no error
-		appliedResource.ProvisioningState = "Succeeded"
-		if err := res.FromResource(appliedResource); err != nil {
-			return fmt.Errorf("error res.FromResource with: %w", err)
+		if err := res.FromResource(azObj); err != nil {
+			return fmt.Errorf("failed FromResource with: %w", err)
+		}
+
+		return nil
+	}); err != nil {
+		return ctrl.Result{}, fmt.Errorf("failed to patch with: %w", err)
+	}
+
+	result := ctrl.Result{}
+	if !zips.IsTerminalProvisioningState(azObj.ProvisioningState) {
+		result = ctrl.Result{
+			RequeueAfter: 5 * time.Second,
+		}
+	}
+	return result, err
+}
+
+// applySpecChangeToExistingResource will apply the new spec state to an Azure resource. The resource should then enter
+// into a non terminal state and will then be requeued for polling.
+func (gr *GenericReconciler) applySpecChangeToExistingResource(ctx context.Context, resourcer zips.Resourcer) (ctrl.Result, error) {
+	azObj, err := resourcer.ToResource()
+	if err != nil {
+		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
+	}
+
+	if err = patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
+		controllerutil.AddFinalizer(res, apis.AzureInfraFinalizer)
+
+		azObj, err = gr.Applier.Apply(ctx, azObj)
+		if err != nil {
+			return fmt.Errorf("failed to apply state to Azure with %w", err)
+		}
+
+		if err := res.FromResource(azObj); err != nil {
+			return err
 		}
 
 		if err := addResourceHashAnnotation(res); err != nil {
@@ -279,44 +390,17 @@ func (gr *GenericReconciler) reconcileApply(ctx context.Context, resourcer zips.
 		}
 
 		return nil
-	})
-}
-
-func (gr *GenericReconciler) reconcileDelete(ctx context.Context, resourcer zips.Resourcer) error {
-	if err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
-		azobj, err := res.ToResource()
-		if err != nil {
-			return fmt.Errorf("unable to transform to resource with: %w", err)
-		}
-
-		azobj.ProvisioningState = "Deleting"
-		if err := res.FromResource(azobj); err != nil {
-			return fmt.Errorf("error res.FromResource with: %w", err)
-		}
-		return nil
 	}); err != nil {
-		return err
+		return ctrl.Result{}, fmt.Errorf("failed to patch with: %w", err)
 	}
 
-	err := patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
-		azobj, err := res.ToResource()
-		if err != nil {
-			return fmt.Errorf("unable to transform to resource with: %w", err)
+	result := ctrl.Result{}
+	if !zips.IsTerminalProvisioningState(azObj.ProvisioningState) {
+		result = ctrl.Result{
+			RequeueAfter: 5 * time.Second,
 		}
-
-		if err := gr.Applier.Delete(ctx, azobj); err != nil {
-			return fmt.Errorf("failed trying to delete with %w", err)
-		}
-
-		controllerutil.RemoveFinalizer(res, apis.AzureInfraFinalizer)
-		return nil
-	})
-
-	// patcher will try to fetch the object after patching, so ignore not found errors
-	if apierrors.IsNotFound(err) {
-		return nil
 	}
-	return err
+	return result, err
 }
 
 func hasResourceHashAnnotationChanged(resourcer zips.Resourcer) (bool, error) {

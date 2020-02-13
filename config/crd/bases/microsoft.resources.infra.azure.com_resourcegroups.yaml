@@ -52,6 +52,8 @@ spec:
           status:
             description: ResourceGroupStatus defines the observed state of ResourceGroup
             properties:
+              deploymentId:
+                type: string
               id:
                 type: string
               provisioningState:

@@ -24,6 +24,7 @@ type ResourceGroupSpec struct {
 // ResourceGroupStatus defines the observed state of ResourceGroup
 type ResourceGroupStatus struct {
 	ID                string `json:"id,omitempty"`
+	DeploymentID      string `json:"deploymentId,omitempty"`
 	ProvisioningState string `json:"provisioningState,omitempty"`
 }
 
@@ -56,13 +57,14 @@ func (*ResourceGroup) Hub() {
 func (rg *ResourceGroup) ToResource() (zips.Resource, error) {
 	res := zips.Resource{
 		ID:                rg.Status.ID,
+		DeploymentID:      rg.Status.DeploymentID,
 		Type:              "Microsoft.Resources/resourceGroups",
 		Name:              rg.Name,
 		APIVersion:        rg.Spec.APIVersion,
 		Location:          rg.Spec.Location,
 		Tags:              rg.Spec.Tags,
 		ManagedBy:         rg.Spec.ManagedBy,
-		ProvisioningState: rg.Status.ProvisioningState,
+		ProvisioningState: zips.ProvisioningState(rg.Status.ProvisioningState),
 	}
 
 	return *res.SetAnnotations(rg.Annotations), nil
@@ -70,7 +72,8 @@ func (rg *ResourceGroup) ToResource() (zips.Resource, error) {
 
 func (rg *ResourceGroup) FromResource(res zips.Resource) error {
 	rg.Status.ID = res.ID
-	rg.Status.ProvisioningState = res.ProvisioningState
+	rg.Status.ProvisioningState = string(res.ProvisioningState)
+	rg.Status.DeploymentID = res.DeploymentID
 	rg.Spec.Tags = res.Tags
 	rg.Spec.ManagedBy = res.ManagedBy
 	return nil

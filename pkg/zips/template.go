@@ -12,22 +12,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2019-05-01/resources"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
-	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/go-logr/logr"
 	"github.com/google/uuid"
+	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 var _ Applier = &AzureTemplateClient{}
 
 type (
 	AzureTemplateClient struct {
-		DeploymentsClient   resources.DeploymentsClient
-		ResourceClient      resources.Client
-		ResourceGroupClient resources.GroupsClient
-		SubscriptionID      string
+		RawClient      *Client
+		Logger         logr.Logger
+		SubscriptionID string
 	}
 
 	Template struct {
@@ -87,7 +85,8 @@ type (
 	}
 
 	ClientConfig struct {
-		Env Enver
+		Env    Enver
+		Logger logr.Logger
 	}
 
 	AzureTemplateClientOption func(config *ClientConfig) *ClientConfig
@@ -100,9 +99,17 @@ func WithEnv(env Enver) func(*ClientConfig) *ClientConfig {
 	}
 }
 
+func WithLogger(logger logr.Logger) func(*ClientConfig) *ClientConfig {
+	return func(cfg *ClientConfig) *ClientConfig {
+		cfg.Logger = logger
+		return cfg
+	}
+}
+
 func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateClient, error) {
 	cfg := &ClientConfig{
-		Env: new(stdEnv),
+		Env:    new(stdEnv),
+		Logger: ctrl.Log.WithName("azure_template_client"),
 	}
 
 	for _, opt := range opts {
@@ -124,253 +131,186 @@ func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateCl
 		return nil, err
 	}
 
-	deploymentClient := resources.NewDeploymentsClient(subID)
-	resourceClient := resources.NewClient(subID)
-	resourceGroupsClient := resources.NewGroupsClient(subID)
-	deploymentClient.Authorizer = authorizer
-	deploymentClient.PollingDelay = 5 * time.Second
-	resourceClient.Authorizer = authorizer
-	resourceClient.PollingDelay = 5 * time.Second
-	resourceGroupsClient.Authorizer = authorizer
-	resourceGroupsClient.PollingDelay = 5 * time.Second
+	rawClient, err := NewClient(authorizer)
+	if err != nil {
+		return nil, err
+	}
+
 	return &AzureTemplateClient{
-		DeploymentsClient:   deploymentClient,
-		ResourceClient:      resourceClient,
-		ResourceGroupClient: resourceGroupsClient,
-		SubscriptionID:      subID,
+		RawClient:      rawClient,
+		Logger:         cfg.Logger,
+		SubscriptionID: subID,
 	}, nil
+}
+
+func (atc *AzureTemplateClient) GetResource(ctx context.Context, res Resource) (Resource, error) {
+	if res.ID == "" {
+		return Resource{}, fmt.Errorf("resource ID cannot be empty")
+	}
+
+	path := fmt.Sprintf("%s?api-version%s", res.ID, res.APIVersion)
+	err := atc.RawClient.GetResource(ctx, path, &res)
+	return res, err
 }
 
 // Apply deploys a resource to Azure via a deployment template
 func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resource, error) {
+	switch {
+	case res.ProvisioningState == DeletingProvisioningState:
+		return res, fmt.Errorf("resource is currently deleting; it can not be applied")
+	case IsTerminalProvisioningState(res.ProvisioningState):
+		// terminal state, if deploymentID is set, then clean up the deployment
+		return atc.cleanupDeployment(ctx, res)
+	case res.DeploymentID != "":
+		// existing deployment is already going, so let's get an updated status
+		return atc.updateFromExistingDeployment(ctx, res)
+	default:
+		// no provisioning state and no deployment ID, so we need to start a new deployment
+		return atc.startNewDeploy(ctx, res)
+	}
+}
+
+func (atc *AzureTemplateClient) updateFromExistingDeployment(ctx context.Context, res Resource) (Resource, error) {
+	de, err := atc.getApply(ctx, res.DeploymentID)
+	if err != nil {
+		return res, err
+	}
+
+	res, err = fillResource(de, res)
+	if err != nil {
+		return res, err
+	}
+
+	if !de.IsTerminalProvisioningState() {
+		// we are not done, so just return and wait for apply to be called again
+		return res, nil
+	}
+
+	// we have hit a terminal state, so clean up the deployment
+	return atc.cleanupDeployment(ctx, res)
+}
+
+func (atc *AzureTemplateClient) startNewDeploy(ctx context.Context, res Resource) (Resource, error) {
+	// no status yet, so start provisioning
 	deploymentUUID, err := uuid.NewUUID()
 	if err != nil {
 		return Resource{}, err
 	}
 
 	deploymentName := fmt.Sprintf("%s_%d_%s", "k8s", time.Now().Unix(), deploymentUUID.String())
-	de, err := atc.apply(ctx, deploymentName, res)
-	if err != nil {
-		return Resource{}, fmt.Errorf("apply failed with: %w", err)
-	}
-
-	// clean up after the deployment
-	var deploymentID string
-	if !res.ObjectMeta.PreserveDeployment {
-		if err := atc.deleteDeployment(ctx, res, deploymentName); err != nil {
-			return Resource{}, fmt.Errorf("deployment cleanup failed: %w", err)
-		}
-	} else {
-		deploymentID = *de.ID
-	}
-
-	if de.Properties == nil || de.Properties.Outputs == nil {
-		return Resource{}, errors.New("the result of the deployment wasn't an error, but the properties are empty")
-	}
-
-	bits, err := json.Marshal(de.Properties.Outputs)
+	deployment, err := atc.getDeployment(deploymentName, res)
 	if err != nil {
 		return Resource{}, err
 	}
 
-	var templateOutputs map[string]TemplateOutput
-	if err := json.Unmarshal(bits, &templateOutputs); err != nil {
-		return Resource{}, err
-	}
-
-	templateOutput, ok := templateOutputs["resource"]
-	if !ok {
-		return Resource{}, errors.New("could not find the resource output in the outputs map")
-	}
-
-	tOutValue := templateOutput.Value
-
-	return Resource{
-		DeploymentID:   deploymentID,
-		SubscriptionID: tOutValue.SubscriptionID,
-		ID:             tOutValue.ID,
-		Name:           res.Name,
-		Location:       res.Location,
-		Type:           res.Type,
-		Tags:           res.Tags,
-		ManagedBy:      res.ManagedBy,
-		APIVersion:     res.APIVersion,
-		Properties:     tOutValue.Properties,
-	}, nil
-}
-
-func (atc *AzureTemplateClient) apply(ctx context.Context, deploymentName string, res Resource) (*resources.DeploymentExtended, error) {
-	template := getTemplate(res)
 	objectRef := fmt.Sprintf("reference('%s/%s', '%s', 'Full')", res.Type, res.Name, res.APIVersion)
 	idRef := fmt.Sprintf("json(concat('{ \"id\": \"', resourceId('%s', '%s'), '\"}'))", res.Type, res.Name)
-	template.Outputs = map[string]Output{
+	deployment.Properties.Template.Outputs = map[string]Output{
 		"resource": {
 			Type:  "object",
 			Value: fmt.Sprintf("[union(%s, %s)]", objectRef, idRef),
 		},
 	}
 
-	deployment := getDeployment(res, template)
-	deployFunc := atc.deployToSubscription
-	if res.ResourceGroup != "" {
-		deployFunc = func(ctx context.Context, deploymentName string, deployment resources.Deployment) (*resources.DeploymentExtended, error) {
-			return atc.deployToGroup(ctx, res.ResourceGroup, deploymentName, deployment)
+	de, err := atc.RawClient.PutDeployment(ctx, deployment)
+	if err != nil {
+		return Resource{}, fmt.Errorf("apply failed with: %w", err)
+	}
+
+	res, err = fillResource(de, res)
+	if err != nil {
+		return res, err
+	}
+
+	if !de.IsTerminalProvisioningState() {
+		// we are not done, so just return and wait for apply to be called again
+		return res, nil
+	}
+
+	// we have hit a terminal state, so clean up the deployment
+	return atc.cleanupDeployment(ctx, res)
+}
+
+func (atc *AzureTemplateClient) DeleteApply(ctx context.Context, deploymentID string) error {
+	return atc.RawClient.DeleteResource(ctx, idWithAPIVersion(deploymentID), nil)
+}
+
+func (atc *AzureTemplateClient) getApply(ctx context.Context, deploymentID string) (*Deployment, error) {
+	var deployment Deployment
+	if err := atc.RawClient.GetResource(ctx, idWithAPIVersion(deploymentID), &deployment); err != nil {
+		return &deployment, err
+	}
+	return &deployment, nil
+}
+
+func (atc *AzureTemplateClient) cleanupDeployment(ctx context.Context, res Resource) (Resource, error) {
+	if res.DeploymentID != "" && !res.ObjectMeta.PreserveDeployment {
+		if err := atc.DeleteApply(ctx, res.DeploymentID); err != nil {
+			return res, err
+		}
+		res.DeploymentID = ""
+		return res, nil
+	}
+	return res, nil
+}
+
+func (atc *AzureTemplateClient) getDeployment(name string, res Resource) (*Deployment, error) {
+	if res.ResourceGroup == "" {
+		return NewSubscriptionDeployment(atc.SubscriptionID, res.Location, name, res)
+	}
+	return NewResourceGroupDeployment(atc.SubscriptionID, res.ResourceGroup, name, res)
+}
+
+func (atc *AzureTemplateClient) BeginDelete(ctx context.Context, res Resource) (Resource, error) {
+	if res.ID == "" {
+		return Resource{}, fmt.Errorf("resource ID cannot be empty")
+	}
+
+	path := fmt.Sprintf("%s?api-version=%s", res.ID, res.APIVersion)
+	if err := atc.RawClient.DeleteResource(ctx, path, &res); err != nil {
+		return res, fmt.Errorf("failed deleting %s with %w and error type %T", res.Type, err, err)
+	}
+
+	return res, nil
+}
+
+func (atc *AzureTemplateClient) HeadResource(ctx context.Context, res Resource) (bool, error) {
+	if res.ID == "" {
+		return false, fmt.Errorf("resource ID cannot be empty")
+	}
+
+	return atc.RawClient.HeadResource(ctx, res.ID)
+}
+
+func fillResource(de *Deployment, res Resource) (Resource, error) {
+	res.DeploymentID = de.ID
+	if de.Properties != nil {
+		res.ProvisioningState = de.Properties.ProvisioningState
+	}
+
+	if de.Properties != nil && de.Properties.Outputs != nil {
+		var templateOutputs map[string]TemplateOutput
+		if err := json.Unmarshal(de.Properties.Outputs, &templateOutputs); err != nil {
+			return res, err
+		}
+
+		templateOutput, ok := templateOutputs["resource"]
+		if !ok {
+			return res, errors.New("could not find the resource output in the outputs map")
+		}
+
+		tOutValue := templateOutput.Value
+		res.SubscriptionID = tOutValue.SubscriptionID
+		res.Properties = tOutValue.Properties
+
+		if de.Properties.OutputResources != nil && len(de.Properties.OutputResources) == 1 && de.Properties.OutputResources[0].ID != "" {
+			// seems like this returns a more accurate ID than the resource ID function
+			res.ID = de.Properties.OutputResources[0].ID
+		} else {
+			res.ID = tOutValue.ID
 		}
 	}
-
-	return deployFunc(ctx, deploymentName, deployment)
-}
-
-func getDeployment(res Resource, template *Template) resources.Deployment {
-	deployment := resources.Deployment{
-		Properties: &resources.DeploymentProperties{
-			Template: template,
-			Mode:     resources.Incremental,
-			DebugSetting: &resources.DebugSetting{
-				DetailLevel: to.StringPtr("requestContent,responseContent"),
-			},
-		},
-	}
-
-	if res.ResourceGroup == "" {
-		// subscription level deployments need location
-		deployment.Location = to.StringPtr(res.Location)
-	}
-
-	return deployment
-}
-
-func getTemplate(res Resource) *Template {
-	if res.ResourceGroup != "" {
-		return NewResourceGroupDeploymentTemplate(res)
-	}
-	return NewSubscriptionDeploymentTemplate(res)
-}
-
-func (atc *AzureTemplateClient) deployToSubscription(ctx context.Context, deploymentName string, deployment resources.Deployment) (*resources.DeploymentExtended, error) {
-	future, err := atc.DeploymentsClient.CreateOrUpdateAtSubscriptionScope(ctx, deploymentName, deployment)
-	if err != nil {
-		return nil, fmt.Errorf("put subscription deployment failed: %w", err)
-	}
-
-	if err := future.WaitForCompletionRef(ctx, atc.DeploymentsClient.Client); err != nil {
-		return nil, fmt.Errorf("wait for ref failed: %w", err)
-	}
-
-	de, err := future.Result(atc.DeploymentsClient)
-	if err != nil {
-		return nil, err
-	}
-
-	return &de, nil
-}
-
-func (atc *AzureTemplateClient) deployToGroup(ctx context.Context, groupName, deploymentName string, deployment resources.Deployment) (*resources.DeploymentExtended, error) {
-	future, err := atc.DeploymentsClient.CreateOrUpdate(ctx, groupName, deploymentName, deployment)
-	if err != nil {
-		return nil, fmt.Errorf("put subscription deployment failed: %w", err)
-	}
-
-	if err := future.WaitForCompletionRef(ctx, atc.DeploymentsClient.Client); err != nil {
-		return nil, fmt.Errorf("wait for ref failed: %w", err)
-	}
-
-	de, err := future.Result(atc.DeploymentsClient)
-	if err != nil {
-		return nil, err
-	}
-
-	return &de, nil
-}
-
-func (atc *AzureTemplateClient) Delete(ctx context.Context, res Resource) error {
-	arRes, err := atc.delete(ctx, res)
-	if err != nil {
-		if de, ok := err.(autorest.DetailedError); ok {
-			if de.StatusCode == 404 {
-				return nil
-			}
-		}
-		return fmt.Errorf("failed deleting %s with %w and error type %T", res.Type, err, err)
-	}
-
-	// just in case... but IRL this should not get hit. AutoRest returns an error with 404.
-	if arRes.StatusCode == 404 {
-		return nil
-	}
-
-	if arRes.StatusCode > 299 {
-		return fmt.Errorf("delete failed with status code %d and message %q", arRes.StatusCode, arRes.Status)
-	}
-	return nil
-}
-
-func (atc *AzureTemplateClient) deleteDeployment(ctx context.Context, res Resource, deploymentName string) error {
-	if res.ResourceGroup == "" {
-		_, err := atc.DeploymentsClient.DeleteAtSubscriptionScope(ctx, deploymentName)
-		return err
-	} else {
-		_, err := atc.DeploymentsClient.Delete(ctx, res.ResourceGroup, deploymentName)
-		return err
-	}
-}
-
-func (atc *AzureTemplateClient) delete(ctx context.Context, res Resource) (*autorest.Response, error) {
-	if res.Type == "Microsoft.Resources/resourceGroups" {
-		return atc.deleteResourceGroup(ctx, res)
-	}
-
-	// all other resources
-	return atc.deleteResource(ctx, res)
-}
-
-func (atc *AzureTemplateClient) deleteResource(ctx context.Context, res Resource) (*autorest.Response, error) {
-	id := res.ID
-	if id == "" {
-		return nil, errors.New("id cannot be empty")
-	}
-
-	future, err := atc.ResourceClient.DeleteByID(ctx, id[1:])
-	if err != nil {
-		return nil, err
-	}
-
-	if err := future.WaitForCompletionRef(ctx, atc.ResourceClient.Client); err != nil {
-		return nil, err
-	}
-
-	resp, err := future.Result(atc.ResourceClient)
-	return &resp, err
-}
-
-func (atc *AzureTemplateClient) deleteResourceGroup(ctx context.Context, rg Resource) (*autorest.Response, error) {
-	future, err := atc.ResourceGroupClient.Delete(ctx, rg.Name)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := future.WaitForCompletionRef(ctx, atc.ResourceClient.Client); err != nil {
-		return nil, err
-	}
-
-	resp, err := future.Result(atc.ResourceGroupClient)
-	return &resp, err
-}
-
-func NewSubscriptionDeploymentTemplate(resources ...Resource) *Template {
-	return &Template{
-		Schema:         "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json",
-		ContentVersion: "1.0.0.0",
-		Resources:      resources,
-	}
-}
-
-func NewResourceGroupDeploymentTemplate(resources ...Resource) *Template {
-	return &Template{
-		Schema:         "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-		ContentVersion: "1.0.0.0",
-		Resources:      resources,
-	}
+	return res, nil
 }
 
 // GetSettingsFromEnvironment returns the available authentication settings from the environment.

@@ -96,6 +96,7 @@ type (
 	// VirtualNetworkStatus defines the observed state of VirtualNetwork
 	VirtualNetworkStatus struct {
 		ID                string `json:"id,omitempty"`
+		DeploymentID      string `json:"deploymentId,omitempty"`
 		ProvisioningState string `json:"provisioningState,omitempty"`
 	}
 
@@ -138,13 +139,14 @@ func (vnet *VirtualNetwork) ToResource() (zips.Resource, error) {
 
 	res := zips.Resource{
 		ID:                vnet.Status.ID,
+		DeploymentID:      vnet.Status.DeploymentID,
 		Type:              "Microsoft.Network/virtualNetworks",
 		ResourceGroup:     rgName,
 		Name:              vnet.Name,
 		APIVersion:        vnet.Spec.APIVersion,
 		Location:          vnet.Spec.Location,
 		Tags:              vnet.Spec.Tags,
-		ProvisioningState: vnet.Status.ProvisioningState,
+		ProvisioningState: zips.ProvisioningState(vnet.Status.ProvisioningState),
 	}
 
 	bits, err := json.Marshal(vnet.Spec.Properties)
@@ -158,16 +160,12 @@ func (vnet *VirtualNetwork) ToResource() (zips.Resource, error) {
 
 func (vnet *VirtualNetwork) FromResource(res zips.Resource) error {
 	vnet.Status.ID = res.ID
-	vnet.Status.ProvisioningState = res.ProvisioningState
+	vnet.Status.DeploymentID = res.DeploymentID
+	vnet.Status.ProvisioningState = string(res.ProvisioningState)
 	vnet.Spec.Tags = res.Tags
 
-	bits, err := json.Marshal(res.Properties)
-	if err != nil {
-		return err
-	}
-
 	var props VirtualNetworkSpecProperties
-	if err := json.Unmarshal(bits, &props); err != nil {
+	if err := json.Unmarshal(res.Properties, &props); err != nil {
 		return err
 	}
 	vnet.Spec.Properties = props

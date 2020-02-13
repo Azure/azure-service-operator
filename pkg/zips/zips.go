@@ -28,7 +28,10 @@ type (
 
 	Applier interface {
 		Apply(ctx context.Context, res Resource) (Resource, error)
-		Delete(ctx context.Context, res Resource) error
+		DeleteApply(ctx context.Context, deploymentID string) error
+		BeginDelete(ctx context.Context, res Resource) (Resource, error)
+		GetResource(ctx context.Context, res Resource) (Resource, error)
+		HeadResource(ctx context.Context, res Resource) (bool, error)
 	}
 
 	ResourceMeta struct {
@@ -39,7 +42,7 @@ type (
 		ObjectMeta        ResourceMeta      `json:"-"`
 		ResourceGroup     string            `json:"-"` // resource group should not be serialized as part of the resource. This indicates that this should be within a resource group or at a subscription level deployment.
 		SubscriptionID    string            `json:"-"`
-		ProvisioningState string            `json:"-"`
+		ProvisioningState ProvisioningState `json:"-"`
 		DeploymentID      string            `json:"-"`
 		ID                string            `json:"id,omitempty"`
 		Name              string            `json:"name,omitempty"`
