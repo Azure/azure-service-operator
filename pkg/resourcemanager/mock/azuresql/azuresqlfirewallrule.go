@@ -8,9 +8,14 @@ package azuresql
 import (
 	"context"
 	"errors"
+	"fmt"
+
+	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
-	"github.com/Azure/go-autorest/autorest/to"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 )
 
 type MockSqlFirewallRuleManager struct {
@@ -94,4 +99,24 @@ func (manager *MockSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Con
 	manager.sqlFirewallRules = append(sqlFirewallRules[:index], sqlFirewallRules[index+1:]...)
 
 	return nil
+}
+
+func (fw *MockSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+	return true, nil
+}
+
+func (fw *MockSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	return true, nil
+}
+
+func (g *MockSqlFirewallRuleManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+	return []resourcemanager.KubeParent{}, nil
+}
+
+func (*MockSqlFirewallRuleManager) convert(obj runtime.Object) (*azurev1alpha1.AzureSqlFirewallRule, error) {
+	local, ok := obj.(*azurev1alpha1.AzureSqlFirewallRule)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }
