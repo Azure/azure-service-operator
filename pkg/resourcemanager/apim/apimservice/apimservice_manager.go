@@ -42,11 +42,11 @@ type APIMgmtServiceManager interface {
 		resourceGroupName string,
 		resourceName string,
 		publisherName string,
-		publisherEmail string) (apim.ServiceResource, error)
+		publisherEmail string) (*apim.ServiceResource, error)
 
 	DeleteAPIMgmtSvc(ctx context.Context,
 		resourceGroupName string,
-		resourceName string) (apim.ServiceResource, error)
+		resourceName string) (*apim.ServiceResource, error)
 
 	APIMgmtSvcStatus(ctx context.Context,
 		resourceGroupName string,
@@ -58,7 +58,7 @@ type APIMgmtServiceManager interface {
 		vnetType string,
 		vnetResourceGroupName string,
 		vnetResourceName string,
-		subnetName string) error
+		subnetName string) (err error, updated bool)
 
 	SetAppInsightsForAPIMgmtSvc(ctx context.Context,
 		resourceGroupName string,

@@ -53,6 +53,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 				resourceName))
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = false
+		instance.Status.Message = "API Mgmt Svc ending reconciliation due to adding a VNet to a non-premium API Mgmt Svc"
 		return true, nil
 	}
 
@@ -82,26 +83,31 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 		// if available, create the service
 		if available {
 			g.Telemetry.LogTrace("APIM reconcile", "Step 1: creating APIM service")
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = false
 			location := instance.Spec.Location
 			publisherName := instance.Spec.PublisherName
 			publisherEmail := instance.Spec.PublisherEmail
 			_, err := g.CreateAPIMgmtSvc(ctx, tier, location, resourceGroupName, resourceName, publisherName, publisherEmail)
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = true
 			if err != nil {
 				azerr := errhelp.NewAzureErrorAzureError(err)
 				if helpers.ContainsString(catch, azerr.Type) {
-					instance.Status.Provisioning = true
+					g.Telemetry.LogError("API Mgmt Svc creation error, requeueing", err)
+					instance.Status.Message = "API Mgmt Svc encountered a caught error, requeueing..."
 					return false, nil
 				}
+				instance.Status.Message = "API Mgmt Svc encountered an unknown error, requeueing..."
 				return false, fmt.Errorf("API Mgmt Svc create error %v", err)
 			}
-			instance.Status.Provisioning = true
+			instance.Status.Message = "API Mgmt Svc successfully created, waiting for requeue"
 			return false, nil
 		}
 
 		// name wasnt available, log error and stop reconciling
 		g.Telemetry.LogError("could not create API Mgmt Service due to bad resource name", fmt.Errorf("bad API Mgmt Service name"))
+		instance.Status.Message = "API Mgmt Svc is ending reconciliation due to bad name"
+		instance.Status.Provisioned = false
+		instance.Status.Provisioning = false
 		return true, nil
 	}
 
@@ -109,6 +115,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	// 	still in the proccess of provisioning
 	if !activated {
 		g.Telemetry.LogTrace("APIM reconcile", "Step 2: waiting on activation of APIM service")
+		instance.Status.Message = "API Mgmt Svc is waiting for activation / updating to complete, requeueing..."
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = true
 		return false, nil
@@ -127,31 +134,34 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			appInsightsResourceGroup,
 			appInsightsName,
 		)
+		instance.Status.Provisioned = false
+		instance.Status.Provisioning = true
 		if err != nil {
 			azerr := errhelp.NewAzureErrorAzureError(err)
 			if helpers.ContainsString(catch, azerr.Type) {
 				g.Telemetry.LogError("App Insights error, requeueing", err)
+				instance.Status.Message = "API Mgmt Svc encountered a caught error, requeueing..."
 				return false, nil
 			} else if helpers.ContainsString(fatalErr, azerr.Type) {
 				g.Telemetry.LogError("Fatal error assigning App Insights", err)
-				instance.Status.Provisioned = true
+				instance.Status.Message = "API Mgmt Svc encountered a trapped error, ending reconciliation"
+				instance.Status.Provisioned = false
 				instance.Status.Provisioning = false
 				return true, nil
 			}
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = true
+			instance.Status.Message = "API Mgmt Svc encountered an unknown error, requeueing..."
 			return false, fmt.Errorf("API Mgmt Svc could not set App Insights %s, %s - %v", appInsightsResourceGroup, appInsightsName, err)
 		}
 	}
 
 	// STEP 4:
-	// 	provisioned, now need to update with a vnet?
+	// 	need to update with a vnet?
 	if vnetType != "" && !strings.EqualFold(vnetType, "none") {
 		g.Telemetry.LogTrace("APIM reconcile", "Step 4: assignning VNet for APIM service")
 		vnetResourceGroup := instance.Spec.VnetResourceGroup
 		vnetName := instance.Spec.VnetName
 		subnetName := instance.Spec.VnetSubnetName
-		err = g.SetVNetForAPIMgmtSvc(
+		err, updated := g.SetVNetForAPIMgmtSvc(
 			ctx,
 			resourceGroupName,
 			resourceName,
@@ -160,26 +170,34 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			vnetName,
 			subnetName,
 		)
+		instance.Status.Provisioned = false
+		instance.Status.Provisioning = true
 		if err != nil {
 			azerr := errhelp.NewAzureErrorAzureError(err)
 			if !helpers.ContainsString(catch, azerr.Type) {
-				g.Telemetry.LogError("VNet error, requeueing", err)
+				g.Telemetry.LogError("VNet update error, requeueing", err)
+				instance.Status.Message = "API Mgmt Svc encountered a caught error, requeueing..."
 				return false, nil
 			} else if helpers.ContainsString(fatalErr, azerr.Type) {
 				g.Telemetry.LogError("Fatal error occured with assigning a VNet", err)
-				instance.Status.Provisioned = true
+				instance.Status.Message = "API Mgmt Svc encountered a trapped error, ending reconciliation"
+				instance.Status.Provisioned = false
 				instance.Status.Provisioning = false
 				return true, nil
 			}
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = true
+			instance.Status.Message = "API Mgmt Svc encountered an unknown error, requeueing..."
 			return false, fmt.Errorf("API Mgmt Svc could not update VNet %s, %s - %v", vnetResourceGroup, vnetName, err)
+		}
+		if updated {
+			instance.Status.Message = "API Mgmt Svc just updated VNet, requeueing..."
+			return false, nil
 		}
 	}
 
 	// STEP 5:
 	// 	everything is now completed!
-	g.Telemetry.LogTrace("APIM reconcile", "Step 5: completed")
+	g.Telemetry.LogTrace("APIM reconcile", "Step 5: completed reconcilliation successfully")
+	instance.Status.Message = "API Mgmt Svc successfully reconciled"
 	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false
 	return true, nil
