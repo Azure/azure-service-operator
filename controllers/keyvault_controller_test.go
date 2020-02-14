@@ -45,23 +45,10 @@ func TestKeyvaultControllerHappyPath(t *testing.T) {
 	}
 
 	// Create the Keyvault object and expect the Reconcile to be created
-	err := tc.k8sClient.Create(ctx, keyVaultInstance)
-	assert.Equal(nil, err, "create keyvault in k8s")
+	EnsureInstance(ctx, t, tc, keyVaultInstance)
 
 	// Prep query for get
 	keyVaultNamespacedName := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return helpers.HasFinalizer(keyVaultInstance, finalizerName)
-	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
-
-	// Wait until key vault is provisioned
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return strings.Contains(keyVaultInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in k8s")
 
 	// verify key vault exists in Azure
 	assert.Eventually(func() bool {
@@ -199,7 +186,7 @@ func TestKeyvaultControllerInvalidName(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return helpers.HasFinalizer(keyVaultInstance, finalizerName)
+		return HasFinalizer(keyVaultInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
 
 	// Verify you get the invalid name error

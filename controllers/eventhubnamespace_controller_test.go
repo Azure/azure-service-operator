@@ -89,20 +89,9 @@ func TestEventHubNamespaceControllerHappy(t *testing.T) {
 		},
 	}
 
-	err := tc.k8sClient.Create(ctx, eventhubNamespaceInstance)
-	assert.Equal(nil, err, "create eventhubns in k8s")
+	EnsureInstance(ctx, t, tc, eventhubNamespaceInstance)
 
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubNamespaceName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubNamespaceInstance)
-		return eventhubNamespaceInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry, "wait for eventhubns to have finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubNamespaceInstance)
-		return strings.Contains(eventhubNamespaceInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for eventhubns to provision")
 
 	err = tc.k8sClient.Delete(ctx, eventhubNamespaceInstance)
 	assert.Equal(nil, err, "delete eventhubns in k8s")

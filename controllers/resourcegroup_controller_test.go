@@ -39,22 +39,9 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 	}
 
 	// create rg
-	err = tc.k8sClient.Create(ctx, resourceGroupInstance)
-	assert.Equal(false, apierrors.IsInvalid(err), "create db resource")
-	assert.Equal(nil, err, "create rg in k8s")
+	EnsureInstance(ctx, t, tc, resourceGroupInstance)
 
 	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
-
-	// make sure rg has a finalizer
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
-		return resourceGroupInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry, "wait for finlizer on rg")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
-		return strings.Contains(resourceGroupInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for rg to provision")
 
 	// verify rg exists in azure
 
