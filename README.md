@@ -19,6 +19,12 @@ The Azure Operator comprises of:
 
 The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
+![](/docs/images/ASO_overview.png)
+
+For more details on the architecture and control flow of the Azure Service operator, refer to the link below
+
+[Azure Service Operator Architecture](/docs/architecture.md)
+
 ## Install the operator
 
 This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](./charts/azure-service-operator).
