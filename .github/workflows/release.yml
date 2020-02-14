@@ -11,6 +11,10 @@ jobs:
     name: tag release
     runs-on: ubuntu-latest
     steps:
+      - name: Install Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13.x
       - name: checkout code
         uses: actions/checkout@v2
       - name: set env
