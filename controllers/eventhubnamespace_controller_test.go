@@ -72,6 +72,7 @@ func TestEventHubNamespaceControllerHappy(t *testing.T) {
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
+	var err error
 
 	var rgName string = tc.resourceGroupName
 	var rgLocation string = tc.resourceGroupLocation

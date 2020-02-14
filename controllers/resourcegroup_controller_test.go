@@ -5,7 +5,6 @@ package controllers
 import (
 	"context"
 	"net/http"
-	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"

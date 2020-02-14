@@ -25,6 +25,7 @@ func TestKeyvaultControllerHappyPath(t *testing.T) {
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
+	var err error
 
 	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
 	const poll = time.Second * 10
@@ -240,7 +241,7 @@ func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return helpers.HasFinalizer(keyVaultInstance, finalizerName)
+		return HasFinalizer(keyVaultInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
 
 	// Verify you get the resource group not found error

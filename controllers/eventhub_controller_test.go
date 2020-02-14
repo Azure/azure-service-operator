@@ -129,6 +129,7 @@ func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
+	var err error
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
@@ -178,6 +179,7 @@ func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
+	var err error
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
