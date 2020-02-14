@@ -1,0 +1,69 @@
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: release
+
+jobs:
+  build:
+    name: tag release
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: set env
+        run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
+      - name: docker login
+        uses: azure/docker-login@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: make release
+        env:
+          IMG: k8s-infra-controller:${{ env.RELEASE_VERSION }}
+        run: |
+          make release
+      - name: create github release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+          body: |
+            This controller requires cert-manager and can be installed with `kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml`.
+
+            Install Azure specific secrets to the cluster with the following:
+            ``` bash
+            kubectl create namespace k8s-infra-system || true
+            cat <<EOF | kubectl apply -f -
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: manager-bootstrap-credentials
+              namespace: k8s-infra-system
+            type: Opaque
+            data:
+              subscription-id: $(echo "${AZURE_SUBSCRIPTION_ID}" | tr -d '\n' | base64 | tr -d '\n')
+              tenant-id: $(echo "${AZURE_TENANT_ID}" | tr -d '\n' | base64 | tr -d '\n')
+              client-id: $(echo "${AZURE_CLIENT_ID}" | tr -d '\n' | base64 | tr -d '\n')
+              client-secret: $(echo "${AZURE_CLIENT_SECRET}" | tr -d '\n' | base64 | tr -d '\n')
+            EOF
+            ```
+
+            The image for this release is `devigned/k8s-infra-controller:${{ env.RELEASE_VERSION }}`.
+      - name: upload manifest
+        id: manifest
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/release.yaml
+          asset_name: manifest.yaml
+          asset_content_type: application/x-yaml

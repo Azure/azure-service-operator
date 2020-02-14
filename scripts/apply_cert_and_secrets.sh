@@ -25,6 +25,6 @@ data:
   client-secret: $(echo "${AZURE_CLIENT_SECRET}" | tr -d '\n' | base64 | tr -d '\n')
 EOF
 
-sleep 5 # wait for the resources to be created, so we can wait for them
+sleep 10 # wait for the resources to be created, so we can wait for them
 
 $k wait --for=condition=Ready pod --namespace cert-manager --all --timeout 60s

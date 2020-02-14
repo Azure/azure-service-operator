@@ -27,3 +27,5 @@ bin
 .env
 
 pki/certs
+
+dist
