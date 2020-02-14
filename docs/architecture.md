@@ -2,7 +2,7 @@
 
 Below is a high level architecture of the Azure Service Operator.
 
-<In progress - arch diagram>
+![](/docs/images/OperatorArchitecture.png)
 
 ## Deploying the operator - How it works
 
