@@ -17,23 +17,25 @@ Below is a high level architecture of the Azure Service Operator.
 
 ## Resource provisioning - How it works
 
-<resource provisioning diagram>
+![](/docs/images/ProvisionFlow.png)
 
 1. The developer deploys an application that includes the manifest for installing a Azure service that the app depends on.
 
-2. The Azure Service Operator watches the CRDs and recognizes the request for a custom resource.
+2. The application is deployed using its manifest, however the deployment does not succeed yet as it is waiting for the Azure Service that it depends on. The application references a secret that provides the information required to consume the Azure service, and the secret does not exist yet.
 
-3. The Azure Seervice Operator creates the Kubernetes instance for the requested resource. It keeps the Kubernetes instance updated with the correct Status and with events.
+3. The Azure Service Operator that watches the CRDs corresponding to the Azure services recognizes the request for a custom resource.
 
-4. The Azure Service Operator requests an authorizer from Azure Active Directory for the Azure resource management endpoint, as the identity it is running as.
+4. The Azure Service Operator updates the Kubernetes instance for the requested resource with the correct Status and events.
 
-5. The Azure Service Operator then sends the provisioning request to Azure API, along with the authorizer in the request.
+5. The Azure Service Operator requests an authorizer from Azure Active Directory for the Azure resource management endpoint, as the identity it is running as.
 
-6. Azure API provisions/deprovisions the resource and returns the Resource object to the Service Operator.
+6. The Azure Service Operator then sends the provisioning request to Azure API, along with the authorizer in the request.
 
-7. The Azure Service Operator retrieves the information required to access/consume the Azure resource from the Resource objecrt and stores it in a Kubernetes secret or as a secret in a specified Azure KeyVault.
+7. Azure API provisions/deprovisions the resource and returns the Resource object to the Service Operator.
 
-8. The Azure Service Operator marks the Kubernetes instance for the resource as successfully provisioned.
+8. The Azure Service Operator retrieves the information required to access/consume the Azure resource from the Resource objecrt and stores it in a Kubernetes secret or as a secret in a specified Azure KeyVault.
+
+9. The app is deployed successfully now that the Azure service it depends on is provisioned, and the secret it references exists.
 
 ## Security considerations
 
@@ -43,4 +45,4 @@ Below is a high level architecture of the Azure Service Operator.
 
 3. It is recommended to use Azure KeyVault to store connection information, keys that are an output of the provisioning process. There is support to store as Kubernetes secrets but not recommended.
 
-3. There is no implicit deletion of resources. Resources will be deprovisioned/deleted only on an explicit delete operation.
+4. There is no implicit deletion of resources. Resources will be deprovisioned/deleted only on an explicit delete operation.
