@@ -17,16 +17,30 @@ Below is a high level architecture of the Azure Service Operator.
 
 ## Resource provisioning - How it works
 
+<resource provisioning diagram>
 
 1. The developer deploys an application that includes the manifest for installing a Azure service that the app depends on.
 
-2. The Azure Service Operator watches the CRDs and recognizes the request as that for one of those custom resources.
+2. The Azure Service Operator watches the CRDs and recognizes the request for a custom resource.
 
-3. The Azure Service Operator requests an authorizer from Azure Active Directory for the Azure resource management endpoint, as the identity it is running as.
+3. The Azure Seervice Operator creates the Kubernetes instance for the requested resource. It keeps the Kubernetes instance updated with the correct Status and with events.
 
-4. 
+4. The Azure Service Operator requests an authorizer from Azure Active Directory for the Azure resource management endpoint, as the identity it is running as.
 
+5. The Azure Service Operator then sends the provisioning request to Azure API, along with the authorizer in the request.
+
+6. Azure API provisions/deprovisions the resource and returns the Resource object to the Service Operator.
+
+7. The Azure Service Operator retrieves the information required to access/consume the Azure resource from the Resource objecrt and stores it in a Kubernetes secret or as a secret in a specified Azure KeyVault.
+
+8. The Azure Service Operator marks the Kubernetes instance for the resource as successfully provisioned.
 
 ## Security considerations
 
+1. The Azure Service Operator requests the authorizer from AAD for every provision/deprovision request. There is no caching of security tokens.
 
+2. Running the Azure Service Operator under a Managed Identity is recommended for security reasons. There is support to use Service Principals if needed, but not recommended.
+
+3. It is recommended to use Azure KeyVault to store connection information, keys that are an output of the provisioning process. There is support to store as Kubernetes secrets but not recommended.
+
+3. There is no implicit deletion of resources. Resources will be deprovisioned/deleted only on an explicit delete operation.
