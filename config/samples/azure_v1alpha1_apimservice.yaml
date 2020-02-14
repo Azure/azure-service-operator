@@ -3,13 +3,14 @@ kind: ApimService
 metadata:
   name: apimservice-sample
 spec:
-  location: westus
+  tier: premium 
+  location: southcentralus
   resourceGroup: resourcegroup-azure-operators
-  publisherName: personal name
-  publisherEmail: user_name@microsoft.com
-  vnetType: none
+  publisherName: {Your name}
+  publisherEmail: {Your email}
+  vnetType: internal
   vnetResourceGroup: resourcegroup-azure-operators
   vnetName: virtualnetwork-sample
-  vnetSubnetName: subnet1-virtualnetwork-sample
+  vnetSubnetName: test1
   appInsightsResourceGroup: resourcegroup-azure-operators
   appInsightsName: appinsights-sample
