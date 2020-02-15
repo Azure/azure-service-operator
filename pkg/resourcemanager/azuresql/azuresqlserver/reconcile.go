@@ -19,7 +19,6 @@ package azuresqlserver
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -89,18 +88,10 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object) 
 	if _, err := s.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties, false); err != nil {
 		instance.Status.Message = err.Error()
 
-		ignore := []string{
-			errhelp.ParentNotFoundErrorCode,
-			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
-		}
-
-		drop := []string{
-			errhelp.InvalidServerName,
-		}
-
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
+		// the first successful call to create the server should result in this type of error
+		// we save the credentials here
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
 			instance.Status.Message = "Resource request successfully submitted to Azure"
 
@@ -118,8 +109,11 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object) 
 			}
 		}
 
+		// SQL Server names are globally unique and sometimes events cause superfluous reconciliations after the server already exists
+		// To mitigate this we check if there is a credential that we can use to access the server
+		// If not, we assume someone else owns this server
 		if azerr.Type == errhelp.AlreadyExists {
-			//@Todo: check if secret provided...otherwise fail
+			// assume success if server exists and its credentials can be located
 			instance.Status.Provisioning = false
 
 			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
@@ -132,9 +126,24 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object) 
 			return true, nil
 		}
 
+		// these errors are expected for recoverable states
+		// ignore them and try again after some time
+		ignore := []string{
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.AsyncOpIncompleteError,
+		}
+
 		if helpers.ContainsString(ignore, azerr.Type) {
 			return false, nil
 		}
+
+		// these errors can't be recovered from without a change
+		// to the server resource's manifest, which will cause a new event/reconciliation
+		drop := []string{
+			errhelp.InvalidServerName,
+		}
+
 		if helpers.ContainsString(drop, azerr.Type) {
 			return true, nil
 		}
@@ -145,7 +154,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object) 
 	return true, nil
 }
 
-// Delete drops a AzureSqlDb
+// Delete handles idempotent deletion of a sql server
 func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
 	instance, err := s.convert(obj)
 	if err != nil {
@@ -160,19 +169,21 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object) 
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		catch := []string{
+		// these errors are expected
+		ignore := []string{
 			errhelp.AsyncOpIncompleteError,
 		}
 
-		nocatch := []string{
+		// this means the thing doesn't exist
+		finished := []string{
 			errhelp.ResourceNotFound,
 		}
 
-		if helpers.ContainsString(catch, azerr.Type) {
+		if helpers.ContainsString(ignore, azerr.Type) {
 			return true, nil
 		}
 
-		if helpers.ContainsString(nocatch, azerr.Type) {
+		if helpers.ContainsString(finished, azerr.Type) {
 			return false, nil
 		}
 
@@ -199,14 +210,15 @@ func (s *AzureSqlServerManager) GetParents(obj runtime.Object) ([]resourcemanage
 func (s *AzureSqlServerManager) convert(obj runtime.Object) (*v1alpha1.AzureSqlServer, error) {
 	local, ok := obj.(*v1alpha1.AzureSqlServer)
 	if !ok {
-		log.Println()
-		log.Printf("wanted %T, got %T", &v1alpha1.AzureSqlServer{}, obj)
-		log.Println()
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
 }
 
+// GetOrPrepareSecret handles the sql server credentials
+// It will retrieve the secret containing sql server credentials if it exists
+// if no secret exists and the server is supposed to have already been provisioned, the func returns an error
+// Otherwise credentials are generated and returned
 func (s *AzureSqlServerManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSqlServer) (map[string][]byte, error) {
 	name := instance.ObjectMeta.Name
 
@@ -218,7 +230,7 @@ func (s *AzureSqlServerManager) GetOrPrepareSecret(ctx context.Context, instance
 	}
 
 	// if this isn't a new server (ie already provisioned previously) there should have been a secret
-	// exit here so th euser knows something is wrong
+	// exit here so the user knows something is wrong
 	if instance.Status.Provisioned {
 		return secret, fmt.Errorf("Secret missing for provisioned server: %s", key.String())
 	}
