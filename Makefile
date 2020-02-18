@@ -246,7 +246,7 @@ endif
 
 install-cert-manager:
 	kubectl create namespace cert-manager
-	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+	kubectl label namespace cert-manager cert-manager.io/disable-validation=true
 	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
 
 install-aad-pod-identity:
