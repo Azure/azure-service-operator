@@ -2,15 +2,19 @@
 nameReference:
 - kind: Issuer
   group: cert-manager.io
+  version: v1alpha2
   fieldSpecs:
   - kind: Certificate
-    group: certmanager.k8s.io
+    group: cert-manager.io
+    version: v1alpha2
     path: spec/issuerRef/name
 
 varReference:
 - kind: Certificate
   group: cert-manager.io
+  version: v1alpha2
   path: spec/commonName
 - kind: Certificate
-  group: certmanager.k8s.io
+  group: cert-manager.io
+  version: v1alpha2
   path: spec/dnsNames

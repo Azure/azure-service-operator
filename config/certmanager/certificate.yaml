@@ -17,7 +17,7 @@ spec:
   # $(SERVICENAME) and $(NAMESPACE) will be substituted by kustomize
   commonName: $(SERVICENAME).$(NAMESPACE).svc
   dnsNames:
-  - $(SERVICENAME).$(NAMESPACE).svc.cluster.local
+  - $(SERVICENAME).$(NAMESPACE).svc
   issuerRef:
     kind: Issuer
     name: selfsigned-issuer
