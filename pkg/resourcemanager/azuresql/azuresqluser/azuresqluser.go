@@ -18,6 +18,8 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -126,16 +128,37 @@ func (m *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user str
 	return err
 }
 
-func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		s.SecretClient = options.SecretClient
+	}
 
 	instance, err := s.convert(obj)
 	if err != nil {
 		return false, err
 	}
 
+	var adminSecretClient secrets.SecretClient
 	// if the admin credentials haven't been set, default admin credentials to servername
 	if len(instance.Spec.AdminSecret) == 0 {
 		instance.Spec.AdminSecret = instance.Spec.Server
+	}
+
+	// if the admin secret keyvault is not specified, assume it is a kube secret
+	if len(instance.Spec.AdminSecretKeyVault) == 0 {
+		if options.KubeClient != nil {
+			adminSecretClient = k8sSecrets.New(options.KubeClient)
+		} else {
+			return false, err
+		}
+	} else {
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
 	}
 
 	// need this to detect missing databases
@@ -143,7 +166,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 
 	// get admin creds for server
 	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
-	adminSecret, err := s.SecretClient.Get(ctx, key)
+	adminSecret, err := adminSecretClient.Get(ctx, key)
 	if err != nil {
 		instance.Status.Provisioning = false
 		instance.Status.Message = fmt.Sprintf("admin secret : %s, not found", instance.Spec.AdminSecret)
@@ -199,28 +222,31 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 			instance.Status.Message = "failed creating user, err: " + err.Error()
 			return false, err
 		}
-	}
 
-	// apply roles to user
-	if len(instance.Spec.Roles) == 0 {
-		instance.Status.Message = "No roles specified for user"
-		return false, fmt.Errorf("No roles specified for database user")
-	} else {
-		s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
-	}
+		// apply roles to user
+		if len(instance.Spec.Roles) == 0 {
+			instance.Status.Message = "No roles specified for user"
+			return false, fmt.Errorf("No roles specified for database user")
+		}
+		err = s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
+		if err != nil {
+			instance.Status.Message = "GrantUserRoles failed"
+			return false, fmt.Errorf("GrantUserRoles failed")
+		}
 
-	// publish user secret
-	key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	err = s.SecretClient.Upsert(
-		ctx,
-		key,
-		DBSecret,
-		secrets.WithOwner(instance),
-		secrets.WithScheme(s.Scheme),
-	)
-	if err != nil {
-		instance.Status.Message = "failed to update secret, err: " + err.Error()
-		return false, err
+		// publish user secret
+		key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+		err = s.SecretClient.Upsert(
+			ctx,
+			key,
+			DBSecret,
+			secrets.WithOwner(instance),
+			secrets.WithScheme(s.Scheme),
+		)
+		if err != nil {
+			instance.Status.Message = "failed to update secret, err: " + err.Error()
+			return false, err
+		}
 	}
 
 	instance.Status.Provisioned = true
@@ -230,15 +256,38 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 	return true, nil
 }
 
-func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		s.SecretClient = options.SecretClient
+	}
+
 	instance, err := s.convert(obj)
 	if err != nil {
 		return false, err
 	}
 
+	var adminSecretClient secrets.SecretClient
 	// get admin credentials to connect to db
 	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
-	adminSecret, err := s.SecretClient.Get(ctx, key)
+
+	// if the admin secret keyvault is not specified, assume it is a kube secret
+	if len(instance.Spec.AdminSecretKeyVault) == 0 {
+		if options.KubeClient != nil {
+			adminSecretClient = k8sSecrets.New(options.KubeClient)
+		} else {
+			return false, err
+		}
+	} else {
+		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
+	}
+
+	adminSecret, err := adminSecretClient.Get(ctx, key)
 	if err != nil {
 		// assuming if the admin secret is gone the sql server is too
 		return false, nil
@@ -259,7 +308,6 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object) (b
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
-		s.Log.Info("error type", "type", azerr.Type)
 		return false, err
 	}
 
@@ -282,6 +330,9 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object) (b
 		return true, err
 	}
 	if !exists {
+		// Best case deletion of secrets
+		key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+		s.SecretClient.Delete(ctx, key)
 		return false, nil
 	}
 

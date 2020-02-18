@@ -7,6 +7,7 @@ package controllers
 import (
 	"context"
 	"encoding/json"
+
 	"fmt"
 	"strings"
 	"testing"
@@ -15,6 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -38,6 +40,20 @@ import (
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 )
+
+// GetKeyVaultName extracts the KeyVault name from the generic runtime object
+func GetKeyVaultName(instance runtime.Object) string {
+	keyVaultName := ""
+	target := &v1alpha1.GenericResource{}
+	serial, err := json.Marshal(instance)
+	if err != nil {
+		return keyVaultName
+	}
+
+	err = json.Unmarshal(serial, target)
+	keyVaultName = target.Spec.KeyVaultToStoreSecrets
+	return keyVaultName
+}
 
 type TestContext struct {
 	k8sClient               client.Client

@@ -96,7 +96,7 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
 	secretName := key.Namespace + "-" + key.Name
-	secretVersion := ""
+	//secretVersion := ""
 	enabled := true
 	//expireDateUTC := date.NewUnixTimeFromDuration(options.Expires)
 
@@ -115,13 +115,13 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 		},
 	}
 
-	if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+	/*if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
 		// If secret exists we delete it and recreate it again
 		_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
 		if err != nil {
 			return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
 		}
-	}
+	}*/
 
 	_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
 

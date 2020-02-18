@@ -336,7 +336,7 @@ func (k *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, v
 
 }
 
-func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := k.convert(obj)
 	if err != nil {
 		return true, err
@@ -411,7 +411,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 	return true, nil
 }
 
-func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := k.convert(obj)
 	if err != nil {
 		return true, err
