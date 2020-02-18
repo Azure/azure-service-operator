@@ -10,13 +10,6 @@ vars:
     name: webhook-service
   fieldref:
     fieldpath: metadata.namespace
-- name: CERTIFICATENAME
-  objref:
-    kind: Certificate
-    group: cert-manager.io
-    version: v1alpha2
-    name: serving-cert # this name should match the one in certificate.yaml
-- name: SERVICENAME
   objref:
     kind: Service
     version: v1
