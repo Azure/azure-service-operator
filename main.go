@@ -114,7 +114,11 @@ func main() {
 
 	vnetManager := vnet.NewAzureVNetManager(ctrl.Log.WithName("controllers").WithName("VirtualNetwork"))
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
-	appInsightsManager := resourcemanagerappinsights.NewManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"))
+	appInsightsManager := resourcemanagerappinsights.NewManager(
+		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
+		secretClient,
+		scheme,
+	)
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
@@ -124,10 +128,14 @@ func main() {
 	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
 	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
-	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"))
 	psqlserverclient := psqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, mgr.GetScheme())
 	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
 	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))
+	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(
+		ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"),
+		secretClient,
+		scheme,
+	)
 
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
@@ -258,29 +266,40 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
 		os.Exit(1)
 	}
-	if err = (&controllers.AzureSqlDatabaseReconciler{
-		Client:            mgr.GetClient(),
-		Log:               ctrl.Log.WithName("controllers").WithName("AzureSqlDatabase"),
-		Recorder:          mgr.GetEventRecorderFor("AzureSqlDatabase-controller"),
-		Scheme:            mgr.GetScheme(),
-		AzureSqlDbManager: sqlDBManager,
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDatabase")
+
+	/* Azure Sql Database */
+	err = (&controllers.AzureSqlDatabaseReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlDBManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
+				"AzureSqlDb",
+			),
+			Recorder: mgr.GetEventRecorderFor("AzureSqlDb-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr)
+	if err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlDb")
 		os.Exit(1)
 	}
+
 	if err = (&controllers.AzureSqlFirewallRuleReconciler{
-		Client: mgr.GetClient(),
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
-			"AzureSQLFirewallRuleOperator",
-		),
-		Recorder:                    mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
-		Scheme:                      mgr.GetScheme(),
-		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlFirewallRuleManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+				"AzureSQLFirewallRuleOperator"),
+			Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
 		os.Exit(1)
 	}
+
 	if err = (&controllers.AzureSqlActionReconciler{
 		Client:                mgr.GetClient(),
 		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
@@ -293,12 +312,16 @@ func main() {
 		os.Exit(1)
 	}
 	if err = (&controllers.AzureSQLUserReconciler{
-		Client:              mgr.GetClient(),
-		Log:                 ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
-		Recorder:            mgr.GetEventRecorderFor("AzureSQLUser-controller"),
-		Scheme:              mgr.GetScheme(),
-		AzureSqlUserManager: sqlUserManager,
-		SecretClient:        secretClient,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlUserManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
+				"AzureSQLUser",
+			),
+			Recorder: mgr.GetEventRecorderFor("AzureSQLUser-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
 		os.Exit(1)
@@ -309,6 +332,7 @@ func main() {
 		Recorder:                     mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
 		Scheme:                       mgr.GetScheme(),
 		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
+		SecretClient:                 secretClient,
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
 		os.Exit(1)

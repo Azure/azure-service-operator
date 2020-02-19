@@ -1,4 +1,4 @@
-// +build all azuresqlserver
+// +build all azuresqlserver azuresqlservercombined
 
 package controllers
 
@@ -12,7 +12,6 @@ import (
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	v1 "k8s.io/api/core/v1"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -22,6 +21,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
+	var err error
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
@@ -30,224 +30,222 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	rgLocation2 := "southcentralus"
 	sqlServerTwoName := "t-sqlfog-srvtwo" + helpers.RandomString(10)
 
-	// Create the SqlServer object and expect the Reconcile to be created
-	sqlServerInstance := &azurev1alpha1.AzureSqlServer{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlServerName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlServerSpec{
-			Location:      rgLocation,
-			ResourceGroup: rgName,
-		},
-	}
-
-	err := tc.k8sClient.Create(ctx, sqlServerInstance)
-	assert.Equal(nil, err, "create server in k8s")
-
-	// Send request for 2nd server (failovergroup test) before waiting on first server
-
-	sqlServerInstance2 := &azurev1alpha1.AzureSqlServer{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlServerTwoName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlServerSpec{
-			Location:      rgLocation2,
-			ResourceGroup: rgName,
-		},
-	}
-
-	err = tc.k8sClient.Create(ctx, sqlServerInstance2)
-	assert.Equal(nil, err, "create server in k8s")
-
-	// Wait for first sql server to resolve
-
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return helpers.HasFinalizer(sqlServerInstance, AzureSQLServerFinalizerName)
-	}, tc.timeout, tc.retry, "wait for server to have finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return strings.Contains(sqlServerInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for server to provision")
-
-	// Wait for 2nd sql server to resolve ---------------------------------------
-
 	sqlServerNamespacedName2 := types.NamespacedName{Name: sqlServerTwoName, Namespace: "default"}
 
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
-		return helpers.HasFinalizer(sqlServerInstance2, AzureSQLServerFinalizerName)
-	}, tc.timeout, tc.retry, "wait for server to have finalizer")
+	// Create the SqlServer object and expect the Reconcile to be created
+	sqlServerInstance := azurev1alpha1.NewAzureSQLServer(sqlServerNamespacedName, rgName, rgLocation)
 
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
-		return strings.Contains(sqlServerInstance2.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for server to provision")
+	// Send request for 2nd server (failovergroup test) before waiting on first server
+	sqlServerInstance2 := azurev1alpha1.NewAzureSQLServer(sqlServerNamespacedName2, rgName, rgLocation2)
+
+	// create and wait
+	EnsureInstance(ctx, t, tc, sqlServerInstance)
 
 	//verify secret exists in k8s for server 1 ---------------------------------
-
 	secret := &v1.Secret{}
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: sqlServerName, Namespace: sqlServerInstance.Namespace}, secret)
+
 		if err == nil {
 			if (secret.ObjectMeta.Name == sqlServerName) && (secret.ObjectMeta.Namespace == sqlServerInstance.Namespace) {
 				return true
 			}
 		}
 		return false
-	}, tc.timeout, tc.retry, "wait for server to have secret")
-
-	// Create a database in the new server ---------------------------
+	}, tc.timeoutFast, tc.retry, "wait for server to have secret")
 
 	sqlDatabaseName := "t-sqldatabase-dev-" + helpers.RandomString(10)
+	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
 
-	// Create the SqlDatabase object and expect the Reconcile to be created
-	sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlDatabaseName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlDatabaseSpec{
-			Location:      rgLocation,
-			ResourceGroup: rgName,
-			Server:        sqlServerName,
-			Edition:       0,
-		},
+	sqlFirewallRuleNamespacedNameLocal := types.NamespacedName{
+		Name:      "t-fwrule-dev-" + helpers.RandomString(10),
+		Namespace: "default",
+	}
+	sqlFirewallRuleNamespacedNameRemote := types.NamespacedName{
+		Name:      "t-fwrule-dev-" + helpers.RandomString(10),
+		Namespace: "default",
 	}
 
-	err = tc.k8sClient.Create(ctx, sqlDatabaseInstance)
-	assert.Equal(nil, err, "create db in k8s")
+	var sqlFirewallRuleInstanceLocal *azurev1alpha1.AzureSqlFirewallRule
+	var sqlFirewallRuleInstanceRemote *azurev1alpha1.AzureSqlFirewallRule
 
-	sqlDatabaseNamespacedName := types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
+	// run sub tests that require 1 sql server ----------------------------------
+	t.Run("group1", func(t *testing.T) {
+		t.Run("sub test for actions", func(t *testing.T) {
+			t.Parallel()
+			RunSQLActionHappy(t, sqlServerName)
+		})
 
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return helpers.HasFinalizer(sqlDatabaseInstance, AzureSQLDatabaseFinalizerName)
-	}, tc.timeout, tc.retry, "wait for db to have finalizer")
+		// Wait for 2nd sql server to resolve
+		t.Run("set up secondary server", func(t *testing.T) {
+			t.Parallel()
+			EnsureInstance(ctx, t, tc, sqlServerInstance2)
+		})
 
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return strings.Contains(sqlDatabaseInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for db to provision")
+		// Create a database in the new server
+		t.Run("set up database in primary server", func(t *testing.T) {
+			t.Parallel()
 
-	// Create FirewallRule ---------------------------------------
+			// Create the SqlDatabase object and expect the Reconcile to be created
+			sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      sqlDatabaseName,
+					Namespace: "default",
+				},
+				Spec: azurev1alpha1.AzureSqlDatabaseSpec{
+					Location:      rgLocation,
+					ResourceGroup: rgName,
+					Server:        sqlServerName,
+					Edition:       0,
+				},
+			}
 
-	sqlFirewallRuleName := "t-fwrule-dev-" + helpers.RandomString(10)
+			EnsureInstance(ctx, t, tc, sqlDatabaseInstance)
+		})
 
-	// Create the SqlFirewallRule object and expect the Reconcile to be created
-	sqlFirewallRuleInstance := &azurev1alpha1.AzureSqlFirewallRule{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlFirewallRuleName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlFirewallRuleSpec{
-			ResourceGroup:  rgName,
-			Server:         sqlServerName,
-			StartIPAddress: "0.0.0.0",
-			EndIPAddress:   "0.0.0.0",
-		},
-	}
+		// Create FirewallRules ---------------------------------------
 
-	err = tc.k8sClient.Create(ctx, sqlFirewallRuleInstance)
-	assert.Equal(nil, err, "create sql firewall rule in k8s")
+		t.Run("set up wide range firewall rule in primary server", func(t *testing.T) {
+			t.Parallel()
 
-	sqlFirewallRuleNamespacedName := types.NamespacedName{Name: sqlFirewallRuleName, Namespace: "default"}
+			// Create the SqlFirewallRule object and expect the Reconcile to be created
+			sqlFirewallRuleInstanceLocal = azurev1alpha1.NewAzureSQLFirewallRule(
+				sqlFirewallRuleNamespacedNameLocal,
+				rgName,
+				sqlServerName,
+				"1.1.1.1",
+				"255.255.255.255",
+			)
 
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-		return helpers.HasFinalizer(sqlFirewallRuleInstance, azureSQLFirewallRuleFinalizerName)
-	}, tc.timeout, tc.retry, "wait for firewallrule to have finalizer")
+			EnsureInstance(ctx, t, tc, sqlFirewallRuleInstanceLocal)
+		})
 
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-		return strings.Contains(sqlFirewallRuleInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for firewallrule to provision")
+		t.Run("set up azure only firewall rule in primary server", func(t *testing.T) {
+			t.Parallel()
 
-	err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
-	assert.Equal(nil, err, "delete sql firewallrule in k8s")
+			// Create the SqlFirewallRule object and expect the Reconcile to be created
+			sqlFirewallRuleInstanceRemote = azurev1alpha1.NewAzureSQLFirewallRule(
+				sqlFirewallRuleNamespacedNameRemote,
+				rgName,
+				sqlServerName,
+				"0.0.0.0",
+				"0.0.0.0",
+			)
 
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for firewallrule to be gone")
+			EnsureInstance(ctx, t, tc, sqlFirewallRuleInstanceRemote)
+		})
 
-	// Create Failovergroup instance and ensure ----------------------------------
+	})
 
+	var sqlUser *azurev1alpha1.AzureSQLUser
+
+	// run sub tests that require 2 servers or have to be run after rollcreds test ------------------
+	t.Run("group2", func(t *testing.T) {
+
+		t.Run("set up user in first db", func(t *testing.T) {
+			t.Parallel()
+
+			// create a sql user and verify it provisions
+			username := "sql-test-user" + helpers.RandomString(10)
+			roles := []string{"db_owner"}
+
+			sqlUser = &azurev1alpha1.AzureSQLUser{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      username,
+					Namespace: "default",
+				},
+				Spec: azurev1alpha1.AzureSQLUserSpec{
+					Server:        sqlServerName,
+					DbName:        sqlDatabaseName,
+					ResourceGroup: rgName,
+					Roles:         roles,
+				},
+			}
+
+			EnsureInstance(ctx, t, tc, sqlUser)
+		})
+	})
+
+	var sqlFailoverGroupInstance *azurev1alpha1.AzureSqlFailoverGroup
 	randomName := helpers.RandomString(10)
 	sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
 
-	// Create the SqlFailoverGroup object and expect the Reconcile to be created
-	sqlFailoverGroupInstance := &azurev1alpha1.AzureSqlFailoverGroup{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      sqlFailoverGroupName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.AzureSqlFailoverGroupSpec{
-			Location:                     rgLocation,
-			ResourceGroup:                rgName,
-			Server:                       sqlServerName,
-			FailoverPolicy:               "automatic",
-			FailoverGracePeriod:          30,
-			SecondaryServerName:          sqlServerTwoName,
-			SecondaryServerResourceGroup: rgName,
-			DatabaseList:                 []string{sqlDatabaseName},
-		},
-	}
-
-	err = tc.k8sClient.Create(ctx, sqlFailoverGroupInstance)
-	assert.Equal(nil, err, "create failovergroup in k8s")
-
 	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}
 
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
-		return helpers.HasFinalizer(sqlFailoverGroupInstance, azureSQLFailoverGroupFinalizerName)
-	}, tc.timeout, tc.retry, "wait for fog to have finalizer")
+	t.Run("group3", func(t *testing.T) {
+		t.Run("delete db user", func(t *testing.T) {
+			EnsureDelete(ctx, t, tc, sqlUser)
+		})
 
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
-		return strings.Contains(sqlFailoverGroupInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for failovergroup to provision")
+		t.Run("delete local firewallrule", func(t *testing.T) {
+			t.Parallel()
+			EnsureDelete(ctx, t, tc, sqlFirewallRuleInstanceLocal)
+		})
 
-	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)
-	assert.Equal(nil, err, "delete sqlFailoverGroupInstance in k8s")
+		t.Run("delete remote firewallrule", func(t *testing.T) {
+			t.Parallel()
+			EnsureDelete(ctx, t, tc, sqlFirewallRuleInstanceRemote)
+		})
 
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for fog to be gone from k8s")
+		t.Run("create failovergroup", func(t *testing.T) {
+			t.Parallel()
 
-	// Delete SQL DB instance -----------------------------------------
+			// Create the SqlFailoverGroup object and expect the Reconcile to be created
+			sqlFailoverGroupInstance = &azurev1alpha1.AzureSqlFailoverGroup{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      sqlFailoverGroupNamespacedName.Name,
+					Namespace: sqlFailoverGroupNamespacedName.Namespace,
+				},
+				Spec: azurev1alpha1.AzureSqlFailoverGroupSpec{
+					Location:                     rgLocation,
+					ResourceGroup:                rgName,
+					Server:                       sqlServerName,
+					FailoverPolicy:               "automatic",
+					FailoverGracePeriod:          30,
+					SecondaryServerName:          sqlServerTwoName,
+					SecondaryServerResourceGroup: rgName,
+					DatabaseList:                 []string{sqlDatabaseName},
+				},
+			}
 
-	err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
-	assert.Equal(nil, err, "delete db in k8s")
+			EnsureInstance(ctx, t, tc, sqlFailoverGroupInstance)
 
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for db to be gone from k8s")
+			// verify secret has been created
+			assert.Eventually(func() bool {
+				var secrets, _ = tc.secretClient.Get(ctx, sqlFailoverGroupNamespacedName)
 
-	// Delete SQL Server Instance -----------------------------------
+				return strings.Contains(string(secrets["azureSqlPrimaryServerName"]), sqlServerName)
+			}, tc.timeout, tc.retry, "wait for secret store to show failovergroup server names  ")
 
-	err = tc.k8sClient.Delete(ctx, sqlServerInstance)
-	assert.Equal(nil, err, "delete sql server in k8s")
+		})
 
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for server to be gone from k8s")
+	})
 
-	err = tc.k8sClient.Delete(ctx, sqlServerInstance2)
-	assert.Equal(nil, err, "delete sql server2 in k8s")
+	t.Run("group4", func(t *testing.T) {
 
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlServerNamespacedName2, sqlServerInstance2)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for server2 to be gone from k8s")
+		t.Run("delete failovergroup", func(t *testing.T) {
+			t.Parallel()
+			EnsureDelete(ctx, t, tc, sqlFailoverGroupInstance)
+		})
+		t.Run("delete db", func(t *testing.T) {
+			t.Parallel()
+			EnsureDelete(ctx, t, tc, sqlDatabaseInstance)
+		})
+
+	})
+
+	t.Run("group5", func(t *testing.T) {
+
+		t.Run("delete sqlServerInstance", func(t *testing.T) {
+			t.Parallel()
+			EnsureDelete(ctx, t, tc, sqlServerInstance)
+		})
+		t.Run("delete sqlServerInstance2", func(t *testing.T) {
+			t.Parallel()
+			EnsureDelete(ctx, t, tc, sqlServerInstance2)
+		})
+
+	})
 
 }

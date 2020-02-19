@@ -76,15 +76,125 @@ func getObjectID(ctx context.Context, tenantID string, clientID string) (*string
 	return functionRet, err
 }
 
-// CreateVault creates a new key vault
-func (k *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string, vaultName string, location string, tags map[string]*string) (keyvault.Vault, error) {
+func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
+	var bypass keyvault.NetworkRuleBypassOptions
+	switch instance.Spec.NetworkPolicies.Bypass {
+	case "AzureServices":
+		bypass = keyvault.AzureServices
+	case "None":
+		bypass = keyvault.None
+	default:
+		bypass = keyvault.AzureServices
+	}
+
+	var defaultAction keyvault.NetworkRuleAction
+	switch instance.Spec.NetworkPolicies.DefaultAction {
+	case "Allow":
+		defaultAction = keyvault.Allow
+	case "Deny":
+		defaultAction = keyvault.Deny
+	default:
+		defaultAction = keyvault.Deny
+	}
+
+	var ipInstances []keyvault.IPRule
+	for _, ip := range *instance.Spec.NetworkPolicies.IPRules {
+		ipInstances = append(ipInstances, keyvault.IPRule{Value: &ip})
+	}
+
+	var virtualNetworkRules []keyvault.VirtualNetworkRule
+	for _, id := range *instance.Spec.NetworkPolicies.VirtualNetworkRules {
+		virtualNetworkRules = append(virtualNetworkRules, keyvault.VirtualNetworkRule{ID: &id})
+	}
+
+	networkAcls := keyvault.NetworkRuleSet{
+		Bypass:              bypass,
+		DefaultAction:       defaultAction,
+		IPRules:             &ipInstances,
+		VirtualNetworkRules: &virtualNetworkRules,
+	}
+
+	return networkAcls
+}
+
+func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry) (keyvault.AccessPolicyEntry, error) {
+	tenantID, err := uuid.FromString(policy.TenantID)
+	if err != nil {
+		return keyvault.AccessPolicyEntry{}, err
+	}
+	appID, err := uuid.FromString(policy.TenantID)
+	if err != nil {
+		return keyvault.AccessPolicyEntry{}, err
+	}
+
+	var keyPermissions []keyvault.KeyPermissions
+	validKeyPermissions := keyvault.PossibleKeyPermissionsValues()
+	for _, key := range *policy.Permissions.Keys {
+		for _, validKey := range validKeyPermissions {
+			if keyvault.KeyPermissions(key) == validKey {
+				keyPermissions = append(keyPermissions, validKey)
+				break
+			}
+		}
+	}
+
+	var secretPermissions []keyvault.SecretPermissions
+	validSecretPermissions := keyvault.PossibleSecretPermissionsValues()
+	for _, key := range *policy.Permissions.Secrets {
+		for _, validSecret := range validSecretPermissions {
+			if keyvault.SecretPermissions(key) == validSecret {
+				secretPermissions = append(secretPermissions, validSecret)
+				break
+			}
+		}
+	}
+
+	var certificatePermissions []keyvault.CertificatePermissions
+	validCertificatePermissions := keyvault.PossibleCertificatePermissionsValues()
+	for _, key := range *policy.Permissions.Certificates {
+		for _, validCert := range validCertificatePermissions {
+			if keyvault.CertificatePermissions(key) == validCert {
+				certificatePermissions = append(certificatePermissions, validCert)
+				break
+			}
+		}
+	}
+
+	var storagePermissions []keyvault.StoragePermissions
+	validStoragePermissions := keyvault.PossibleStoragePermissionsValues()
+	for _, key := range *policy.Permissions.Storage {
+		for _, validStorage := range validStoragePermissions {
+			if keyvault.StoragePermissions(key) == validStorage {
+				storagePermissions = append(storagePermissions, validStorage)
+				break
+			}
+		}
+	}
+
+	newEntry := keyvault.AccessPolicyEntry{
+		TenantID:      &tenantID,
+		ObjectID:      &policy.ObjectID,
+		ApplicationID: &appID,
+		Permissions: &keyvault.Permissions{
+			Keys:         &keyPermissions,
+			Secrets:      &secretPermissions,
+			Certificates: &certificatePermissions,
+			Storage:      &storagePermissions,
+		},
+	}
+
+	return newEntry, nil
+}
+
+// InstantiateVault will instantiate VaultsClient
+func InstantiateVault(ctx context.Context, vaultName string) (keyvault.VaultsClient, uuid.UUID, error) {
 	vaultsClient, err := getVaultsClient()
 	if err != nil {
-		return keyvault.Vault{}, err
+		return keyvault.VaultsClient{}, uuid.UUID{}, err
 	}
 	id, err := uuid.FromString(config.TenantID())
 	if err != nil {
-		return keyvault.Vault{}, err
+		return keyvault.VaultsClient{}, uuid.UUID{}, err
 	}
 
 	// Check if keyvault name is valid
@@ -94,29 +204,65 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string
 	}
 	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
 	if err != nil {
-		return keyvault.Vault{}, err
+		return keyvault.VaultsClient{}, uuid.UUID{}, err
 	}
 	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
-		// Check for "Invalid" is to overcome a bug in KeyVault API which returns "Invalid" instead of defined "AccountNameInvalid"
-		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
+		return keyvault.VaultsClient{}, uuid.UUID{}, fmt.Errorf("AccountNameInvalid")
 	} else if result.Reason == keyvault.AlreadyExists {
-		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
+		return keyvault.VaultsClient{}, uuid.UUID{}, fmt.Errorf("AlreadyExists")
+	}
+
+	return vaultsClient, id, nil
+}
+
+// CreateVault creates a new key vault
+func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, tags map[string]*string) (keyvault.Vault, error) {
+	vaultName := instance.Name
+	location := instance.Spec.Location
+	groupName := instance.Spec.ResourceGroup
+
+	enableSoftDelete := instance.Spec.EnableSoftDelete
+
+	vaultsClient, id, err := InstantiateVault(ctx, vaultName)
+	if err != nil {
+		return keyvault.Vault{}, err
+	}
+
+	var accessPolicies []keyvault.AccessPolicyEntry
+	if instance.Spec.AccessPolicies != nil {
+		for _, policy := range *instance.Spec.AccessPolicies {
+			newEntry, err := parseAccessPolicy(&policy)
+			if err != nil {
+				return keyvault.Vault{}, err
+			}
+			accessPolicies = append(accessPolicies, newEntry)
+		}
+	} else {
+		accessPolicies = []keyvault.AccessPolicyEntry{}
+	}
+
+	var networkAcls keyvault.NetworkRuleSet
+	if instance.Spec.NetworkPolicies != nil {
+		networkAcls = parseNetworkPolicy(instance)
+	} else {
+		networkAcls = keyvault.NetworkRuleSet{}
 	}
 
 	params := keyvault.VaultCreateOrUpdateParameters{
 		Properties: &keyvault.VaultProperties{
 			TenantID:       &id,
-			AccessPolicies: &[]keyvault.AccessPolicyEntry{},
+			AccessPolicies: &accessPolicies,
 			Sku: &keyvault.Sku{
 				Family: to.StringPtr("A"),
 				Name:   keyvault.Standard,
 			},
+			NetworkAcls:      &networkAcls,
+			EnableSoftDelete: &enableSoftDelete,
 		},
 		Location: to.StringPtr(location),
 		Tags:     tags,
 	}
 
-	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v", vaultName, groupName, location))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 
 	return future.Result(vaultsClient)
@@ -124,28 +270,9 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, groupName string
 
 // CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
 func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
-	vaultsClient, err := getVaultsClient()
+	vaultsClient, id, err := InstantiateVault(ctx, vaultName)
 	if err != nil {
 		return keyvault.Vault{}, err
-	}
-	id, err := uuid.FromString(config.TenantID())
-	if err != nil {
-		return keyvault.Vault{}, err
-	}
-
-	// Check if keyvault name is valid
-	vaultNameCheck := keyvault.VaultCheckNameAvailabilityParameters{
-		Name: to.StringPtr(vaultName),
-		Type: to.StringPtr("Microsoft.KeyVault/vaults"),
-	}
-	result, err := vaultsClient.CheckNameAvailability(ctx, vaultNameCheck)
-	if err != nil {
-		return keyvault.Vault{}, err
-	}
-	if result.Reason == keyvault.Reason("Invalid") || result.Reason == keyvault.AccountNameInvalid {
-		return keyvault.Vault{}, fmt.Errorf("AccountNameInvalid")
-	} else if result.Reason == keyvault.AlreadyExists {
-		return keyvault.Vault{}, fmt.Errorf("AlreadyExists")
 	}
 
 	apList := []keyvault.AccessPolicyEntry{}
@@ -186,7 +313,6 @@ func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 		Location: to.StringPtr(location),
 	}
 
-	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -239,9 +365,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	keyvault, err = k.CreateVault(
 		ctx,
-		instance.Spec.ResourceGroup,
-		instance.Name,
-		instance.Spec.Location,
+		instance,
 		labels,
 	)
 

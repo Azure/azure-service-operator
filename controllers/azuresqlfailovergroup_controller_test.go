@@ -29,7 +29,7 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 	var sqlServerTwoName string
 	var sqlDatabaseName string
 	var err error
-  
+
 	// Add any setup steps that needs to be executed before each test
 	rgName = tc.resourceGroupName
 	rgLocation1 = "westus2"
@@ -66,7 +66,7 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, sqlFailoverGroupNamespacedName, sqlFailoverGroupInstance)
 		return strings.Contains(sqlFailoverGroupInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
-	}, tc.timeout, tc.retry, "wait for rg not found error")
+	}, tc.timeout, tc.retry, "wait for rg not found error to clear")
 
 	err = tc.k8sClient.Delete(ctx, sqlFailoverGroupInstance)
 	assert.Equal(nil, err, "delete failovergroup in k8s")
