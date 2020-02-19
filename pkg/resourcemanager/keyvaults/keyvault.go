@@ -182,6 +182,21 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry) (keyvault.AccessPolic
 		},
 	}
 
+	if policy.ApplicationID != "" {
+		appID, err := uuid.FromString(policy.ApplicationID)
+		if err != nil {
+			return keyvault.AccessPolicyEntry{}, err
+		}
+
+		newEntry.ApplicationID = &appID
+	}
+
+	if policy.ObjectID != "" {
+		if objID := getObjectID(ctx, policy.TenantID, policy.ObjectID); objID != nil {
+			newEntry.ObjectID = objID
+		}
+	}
+
 	return newEntry, nil
 }
 
