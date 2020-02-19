@@ -17,6 +17,7 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
@@ -56,6 +57,23 @@ func init() {
 	SchemeBuilder.Register(&AzureSqlFirewallRule{}, &AzureSqlFirewallRuleList{})
 }
 
+// IsSubmitted returns whether a particular firewallrule has been processed or is being processed
 func (s *AzureSqlFirewallRule) IsSubmitted() bool {
 	return s.Status.Provisioning || s.Status.Provisioned
+}
+
+// NewAzureSQLFirewallRule returns a filled struct prt
+func NewAzureSQLFirewallRule(names types.NamespacedName, resourceGroup, server, from, to string) *AzureSqlFirewallRule {
+	return &AzureSqlFirewallRule{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      names.Name,
+			Namespace: names.Namespace,
+		},
+		Spec: AzureSqlFirewallRuleSpec{
+			ResourceGroup:  resourceGroup,
+			Server:         server,
+			StartIPAddress: from,
+			EndIPAddress:   to,
+		},
+	}
 }

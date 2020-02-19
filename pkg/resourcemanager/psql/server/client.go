@@ -364,10 +364,11 @@ func (p *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azu
 	}
 
 	secret["username"] = []byte(randomUsername)
-	secret["fullyqualifiedusername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
+	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
 	secret["password"] = []byte(randomPassword)
-	secret["postgresqlservername"] = []byte(name)
-	secret["fullyqualifiedservername"] = []byte(name + ".postgres.database.azure.com")
+	secret["postgreSqlServerName"] = []byte(name)
+	// TODO: The below may not be right for non Azure public cloud.
+	secret["fullyQualifiedServerName"] = []byte(name + ".postgres.database.azure.com")
 
 	return secret, nil
 }

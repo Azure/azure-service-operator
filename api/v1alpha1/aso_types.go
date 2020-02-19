@@ -25,3 +25,11 @@ type ASOStatus struct {
 	RequestedAt  *metav1.Time `json:"requested,omitempty"`
 	CompletedAt  *metav1.Time `json:"completed,omitempty"`
 }
+
+// StatusedObject used to unmarshall runtime.Object when we need Status
+type StatusedObject struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Status ASOStatus `json:"status,omitempty"`
+}

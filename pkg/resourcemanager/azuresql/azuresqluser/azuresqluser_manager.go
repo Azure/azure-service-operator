@@ -8,6 +8,8 @@ package azuresqluser
 import (
 	"context"
 	"database/sql"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 )
 
 type SqlUserManager interface {
@@ -16,4 +18,6 @@ type SqlUserManager interface {
 	CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error)
 	UserExists(ctx context.Context, db *sql.DB, username string) (bool, error)
 	DropUser(ctx context.Context, db *sql.DB, user string) error
+	// also embed methods from AsyncClient
+	resourcemanager.ARMClient
 }

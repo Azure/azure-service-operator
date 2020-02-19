@@ -13,11 +13,11 @@ The Azure SQL operator suite consists of the following operators.
 
 ## Deploying SQL Resources
 
-You can follow the steps [here](/docs/development.md) to either run the operator locally or in a real Kubernetes cluster.
+First, you need to have the Azure Service Operator deployed in your cluster.
+
+You can follow the steps from the [project root](../../README.md) to deploy a release or build a [development version locally](/docs/development.md).
 
 You can use the YAML files in the `config/samples` folder to create the resources.
-
-**Note**  Don't forget to set the Service Principal ID, Service Principal secret, Tenant ID and Subscription ID as environment variables
 
 ### Azure SQL server
 
@@ -33,15 +33,20 @@ For instance, this is the sample YAML for the Azure SQL server.
      resourcegroup: resourceGroup1
   ```
 
-The value for kind, `AzureSqlServer` is the Custom Resource Definition (CRD) name.
-`sqlserver-sample` is the name of the SQL server resource that will be created.
+The value for kind, `AzureSqlServer` is the Custom Resource Definition (CRD) name and `sqlserver-sample` in this case is the name of the SQL server resource that will be created.
 
 The values under `spec` provide the values for the location where you want to create the Azure SQL server at and the Resource group in which you want to create it under.
 
-Once you've updated the YAML with the settings you need, and you have the operator running, you can create a Custom SQL server resource using the command.
+Deploying a SQL Server instance requires that you deploy a ResourceGroup, an AzureSqlDatabase, and AzureSqlServer CRDs.
+
+The project maintains a [set of samples](https://github.com/Azure-Samples/azure-service-operator-samples) of how to utilize the Azure Service Operator.
+
+As part of this, there is a sample voting app that utilizes a SQL server. Clone this repo, adjust the names in the resource group and SQL Server CRDs such that they are unique and then deploy them with:
 
 ```bash
-kubectl apply -f config/samples/azure_v1_sqlserver.yaml
+$ kubectl apply -f azure-votes-sql/manifests/azure_v1_resourcegroup.yaml
+$ kubectl apply -f azure-votes-sql/manifests/azure_v1_sqldatabase.yaml
+$ kubectl apply -f azure-votes-sql/manifests/azure_v1_sqlserver.yaml
 ```
 
 Along with creating the SQL server, this operator also generates the admin username and password for the SQL server and stores it in a kube secret with the same name as the SQL server.
@@ -125,7 +130,7 @@ metadata:
 spec:
   resourcegroup: ResourceGroup1
   server:  sqlserver-sample
-  
+
   # this IP range enables Azure Service access
   startipaddress: 0.0.0.0
   endipaddress: 0.0.0.0
@@ -158,7 +163,7 @@ Once you apply this, the kube secret with the same name as the SQL server is upd
 
 ### SQL failover group
 
-The SQL failover group operator is used to create a failover group on a specified primary Azure SQL server, given the secondary Azure SQL server (should be in a different location from the primary server) and the databases on the primary server that should failover.
+The SQL failover group operator is used to create a failover group across two Azure SQL servers (one primary, one secondary). The servers should already be provisioned and deployed different regions. The specified databases will be replicated from the primary server and created on the secondary.
 
 Below is a sample YAML for creating a failover group
 
@@ -182,7 +187,7 @@ spec:
 
 The `name` is a name for the failover group that we want to create. `server` is the primary SQL server on which the failover group is created, `location` and `resourcegroup` are the location and the resource group of the primary SQL server. `failoverpolicy` can be "automatic" or "manual". `failovergraceperiod` is the time in minutes. `secondaryserver` is the secondary SQL server to failover to and `secondaryserverresourcegroup` is the resource group that the server is in. `databaselist` is the list of databased on the primary SQL server that should replicate to the secondary SQL server, when there is a failover action.
 
-Once you apply this, a secret with the same name as the SQL failovergroup is also stored. This secret contains the fields for primary/secondary failovergroup listener endpoints (`readwritelistenerendpoint` and `readonlylistenerendpoint`) and the primary/secondary SQL server names (`azuresqlprimaryservername` and `azuresqlsecondaryservername`)
+Once you apply this, a secret with the same name as the SQL failovergroup is also stored. This secret contains the fields for primary/secondary failovergroup listener endpoints (`readWriteListenerEndpoint` and `readOnlyListenerEndpoint`) and the primary/secondary SQL server names (`azureSqlPrimaryServerName` and `azureSqlSecondaryServerName`)
 
 ### SQL database user
 
