@@ -1,0 +1,15 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: PostgreSQLServer
+metadata:
+  name: postgresqlserver-sample
+spec:
+  location: westus2
+  resourceGroup: resourcegroup-azure-operators
+  serverVersion: "10"
+  sslEnforcement: Enabled
+  sku:
+    name: B_Gen5_2
+    tier: Basic
+    family: Gen5
+    size: "51200"
+    capacity: 2

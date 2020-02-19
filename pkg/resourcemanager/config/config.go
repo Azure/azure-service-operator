@@ -22,13 +22,14 @@ var (
 	authorizationServerURL string
 	cloudName              string = "AzurePublicCloud"
 	useDeviceFlow          bool
+	useMI                  bool
 
-	declarative   bool // determines whether we reject calls to the kube api via webhooks
-	keepResources bool
-	groupName     string // deprecated, use baseGroupName instead
-	baseGroupName string
-	userAgent     string
-	environment   *azure.Environment
+	keepResources    bool
+	operatorKeyvault string
+	groupName        string // deprecated, use baseGroupName instead
+	baseGroupName    string
+	userAgent        string
+	environment      *azure.Environment
 )
 
 // ClientID is the OAuth client ID.
@@ -39,11 +40,6 @@ func ClientID() string {
 // ClientSecret is the OAuth client secret.
 func ClientSecret() string {
 	return clientSecret
-}
-
-// Declarative is a flag passed to the oeprator that can restrict the use of non declarative webhooks
-func Declarative() bool {
-	return declarative
 }
 
 // TenantID is the AAD tenant to which this client belongs.
@@ -75,10 +71,21 @@ func AuthorizationServerURL() string {
 	return authorizationServerURL
 }
 
+// OperatorKeyvault() specifies the keyvault the operator should use to store secrets
+func OperatorKeyvault() string {
+	return operatorKeyvault
+}
+
 // UseDeviceFlow() specifies if interactive auth should be used. Interactive
 // auth uses the OAuth Device Flow grant type.
 func UseDeviceFlow() bool {
 	return useDeviceFlow
+}
+
+// UseMI() specifies if managed service identity auth should be used. Used for
+// aad-pod-identity
+func UseMI() bool {
+	return useMI
 }
 
 // deprecated: do not use global group names

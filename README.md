@@ -1,4 +1,4 @@
-# Azure Operator (for Kubernetes)
+# Azure Service Operator (for Kubernetes)
 
 [![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
 
@@ -6,94 +6,33 @@
 
 ## Introduction
 
-Kubernetes offers the facility of extending it's API through the concept of 'Operators' ([Introducing Operators: Putting Operational Knowledge into Software](https://coreos.com/blog/introducing-operators.html)). This repository contains the resources and code to provision a Resource group and Azure Event Hub using Kubernetes operator.
+Kubernetes offers the facility of extending it's API through the concept of 'Operators' ([Introducing Operators: Putting Operational Knowledge into Software](https://coreos.com/blog/introducing-operators.html)).
+
+An Operator is an application-specific controller that extends the Kubernetes API to create, configure, and manage instances of complex stateful applications on behalf of a Kubernetes user. It builds upon the basic Kubernetes resource and controller concepts but includes domain or application-specific knowledge to automate common tasks.
+
+This repository contains the resources and code to provision and deprovision different Azure services using a Kubernetes operator.
 
 The Azure Operator comprises of:
-- The golang application is a Kubernetes controller that watches Customer Resource Definitions (CRDs) that define a Resource Group and Event Hub 
+
+- The Custom Resource Definitions (CRDs) for each of the Azure services that the Kubernetes user can provision
+- The Kubernetes controller that watches for requests to create Custom Resources for these CRDs and creates them
 
 The project was built using
 
-1. [Kubebuilder](https://book.kubebuilder.io/)
+[Kubebuilder](https://book.kubebuilder.io/)
 
-### Prerequisites And Assumptions
+## Install the operator
 
-1. You have GoLang installed.
-2. You have the kubectl command line (kubectl CLI) installed.
-3. You have acess to a Kubernetes cluster. It can be a local hosted Cluster like [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/), [Kind](https://github.com/kubernetes-sigs/kind) or, Docker for desktop installed localy with RBAC enabled. if you opt for Azure Kubernetes Service ([AKS](https://azure.microsoft.com/en-au/services/kubernetes-service/)), you can use: `az aks get-credentials --resource-group $RG_NAME --name $Cluster_NAME`
-Kubectl: Client version 1.14 Server Version 1.12
-4. [kustomize](https://github.com/kubernetes-sigs/kustomize) is also needed
+For information on how to build, test and run the operator, refer to the link below.
+[Building, testing and running the operator](/docs/contents.md)
 
-Basic commands to check your cluster
+## Azure Services supported
 
-```shell
-    kubectl config get-contexts
-    kubectl cluster-info
-    kubectl version
-    kubectl get pods -n kube-system
-```
+1. [Resource Group](/docs/resourcegroup/resourcegroup.md)
+2. [EventHub](/docs/eventhub/eventhub.md)
+3. [Azure SQL](/docs/azuresql/azuresql.md)
 
-5. [Cert Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
-```shell
-kubectl get secret webhook-server-cert -n azureoperator-system -o yaml >certs.txt
-```
-you can use `https://inbrowser.tools/` and exctarct ca.crt,tls.crt and tls.key
-
-### Run Souce Code
-
-1. Clone the repo
-
-2. Install the azure_v1_eventhub CRD in the configured Kubernetes cluster folder ~/.kube/config, 
-run `kubectl apply -f config/crd/bases` or `make install`
-
-3. Update the values in `azure_v1_eventhub.yaml` to reflect the resource group and event hub you want to provision
-
-4. you need kind to test webhooks
-
-```shell
-    GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0 && kind create cluster
-    kind create cluster
-    export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
-    kubectl cluster-info
-    IMG="docker.io/yourimage:tag" make docker-build
-    kind load docker-image docker.io/yourimage:tag --loglevel "trace"
-    make deploy
-```
-
-4. Set the environment variables AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID, REQUEUE_AFTER
-If you are running it on Windows the environment variables should not have quotes. It should be set in this way:
-SET  AZURE_TENANT_ID=11xxxx-xxx-xxx-xxx-xxxxx
-and the VSCode should be run from the same session/command window
-
-5. Set the azureoperatorsettings secrete
-
-```shell
-Create the azureoperator-system namespace
-kubectl --namespace azureoperator-system \
-    create secret generic azureoperatorsettings \
-    --from-literal=AZURE_CLIENT_ID="xxxx" \
-    --from-literal=AZURE_CLIENT_SECRET="xxxxx" \
-    --from-literal=AZURE_SUBSCRIPTION_ID="xxxx" \
-    --from-literal=AZURE_TENANT_ID="xxxxx"
-```
-### How to extend the operator and build your own images
-
-#### Updating the Azure operator:
-
-This Repo is generated by [Kubebuilder](https://book.kubebuilder.io/).
-
-To Extend the operator `github.com/Azure/azure-service-operator`:
-
-1. Run `go mod download` to download dependencies. It doesn't show any progress bar and takes a while to download all of dependencies.
-2. Update `api\v1\eventhub_types.go`.
-3. Regenerate CRD `make manifests`.
-4. Install updated CRD `make install`
-5. Generate code `make generate`
-6. Update operator `controller\eventhub_controller.go`
-7. Update tests and run `make test`
-8. Build `make build`
-9. Deploy `make deploy`
-
-# Contributing
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
@@ -102,6 +41,8 @@ the rights to use your contribution. For details, visit https://cla.opensource.m
 When you submit a pull request, a CLA bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
 provided by the bot. You will only need to do this once across all repos using our CLA.
+
+For more specific information on the GIT workflow and guidelines to follow, check [here](docs/contributionguidelines.md).
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or

@@ -1,85 +1,85 @@
-/*
-Copyright 2019 microsoft.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// +build all resourcegroup
 
 package controllers
 
 import (
 	"context"
-	"time"
+	"net/http"
+	"strings"
+	"testing"
 
-	azurev1 "github.com/Azure/azure-service-operator/api/v1"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/stretchr/testify/assert"
 
-	//resoucegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("ResourceGroup Controller", func() {
+func TestResourceGroupControllerHappyPath(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
 
-	const timeout = time.Second * 240
+	resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
 
-	BeforeEach(func() {
-		// Add any setup steps that needs to be executed before each test
-	})
+	var err error
 
-	AfterEach(func() {
-		// Add any teardown steps that needs to be executed after each test
-	})
+	// Create the ResourceGroup object and expect the Reconcile to be created
+	resourceGroupInstance := &azurev1alpha1.ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      resourceGroupName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.ResourceGroupSpec{
+			Location: tc.resourceGroupLocation,
+		},
+	}
 
-	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
-	// your API definition.
-	// Avoid adding tests for vanilla CRUD operations because they would
-	// test Kubernetes API server, which isn't the goal here.
+	// create rg
+	err = tc.k8sClient.Create(ctx, resourceGroupInstance)
+	assert.Equal(false, apierrors.IsInvalid(err), "create db resource")
+	assert.Equal(nil, err, "create rg in k8s")
 
-	Context("Create and Delete", func() {
-		It("should create and delete resource groups in k8s", func() {
-			resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
+	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 
-			var err error
+	// make sure rg has a finalizer
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
+		return resourceGroupInstance.HasFinalizer(finalizerName)
+	}, tc.timeout, tc.retry, "wait for finlizer on rg")
 
-			// Create the Resourcegroup object and expect the Reconcile to be created
-			resourceGroupInstance := &azurev1.ResourceGroup{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      resourceGroupName,
-					Namespace: "default",
-				},
-				Spec: azurev1.ResourceGroupSpec{
-					Location: "westus",
-				},
-			}
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
+		return strings.Contains(resourceGroupInstance.Status.Message, successMsg)
+	}, tc.timeout, tc.retry, "wait for rg to provision")
 
-			err = k8sClient.Create(context.Background(), resourceGroupInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
+	// verify rg exists in azure
 
-			resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
+	assert.Eventually(func() bool {
+		_, err := tc.resourceGroupManager.CheckExistence(ctx, resourceGroupName)
+		return err == nil
+	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to exist in azure")
 
-			time.Sleep(2 * time.Second)
+	// delete rg
+	err = tc.k8sClient.Delete(ctx, resourceGroupInstance)
+	assert.Equal(nil, err, "delete rg in k8s")
 
-			k8sClient.Delete(context.Background(), resourceGroupInstance)
-			Eventually(func() bool {
-				_ = k8sClient.Get(context.Background(), resourceGroupNamespacedName, resourceGroupInstance)
-				return resourceGroupInstance.IsBeingDeleted()
-			}, timeout,
-			).Should(BeTrue())
+	// verify rg is being deleted
 
-		})
-	})
-})
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to be gone from k8s")
+
+	assert.Eventually(func() bool {
+		result, _ := tc.resourceGroupManager.CheckExistence(ctx, resourceGroupName)
+		if result.Response == nil {
+			return false
+		}
+		return result.Response.StatusCode == http.StatusNotFound
+	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to be gone from azure")
+
+}

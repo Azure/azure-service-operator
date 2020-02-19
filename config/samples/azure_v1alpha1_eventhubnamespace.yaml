@@ -1,0 +1,15 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: EventhubNamespace
+metadata:
+  name: eventhubnamespace-sample-6
+spec:    
+    location: "westus"
+    resourceGroup: resourcegroup-azure-operators
+    sku:
+      name: "Standard"
+      tier: "Standard"
+      capacity: 1
+    properties:
+      isAutoInflateEnabled: false
+      maximumThroughputUnits: 0
+      kafkaEnabled: false

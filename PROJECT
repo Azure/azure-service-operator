@@ -3,11 +3,59 @@ domain: microsoft.com
 repo: github.com/Azure/azure-service-operator
 resources:
 - group: azure
-  version: v1
+  version: v1alpha1
+  kind: Storage
+- group: azure
+  version: v1alpha1
+  kind: CosmosDB
+- group: azure
+  version: v1alpha1
+  kind: RedisCache
+- group: azure
+  version: v1alpha1
   kind: Eventhub
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: ResourceGroup
 - group: azure
-  version: v1
+  version: v1alpha1
   kind: EventhubNamespace
+- group: azure
+  version: v1alpha1
+  kind: AzureSqlServer
+- group: azure
+  version: v1alpha1
+  kind: AzureSqlDatabase
+- group: azure
+  version: v1alpha1
+  kind: AzureSqlFirewallRule
+- group: azure
+  version: v1alpha1
+  kind: KeyVault
+- group: azure
+  version: v1alpha1
+  kind: ConsumerGroup
+- group: azure
+  version: v1alpha1
+  kind: AzureSqlAction
+- group: azure
+  version: v1alpha1
+  kind: BlobContainer
+- group: azure
+  version: v1alpha1
+  kind: AzureDataLakeGen2FileSystem
+- group: azure
+  version: v1alpha1
+  kind: PostgreSQLServer
+- group: azure
+  version: v1alpha1
+  kind: PostgreSQLDatabase
+- group: azure
+  version: v1alpha1
+  kind: PostgreSQLFirewallRule
+- group: azure
+  version: v1alpha1
+  kind: VirtualNetwork
+- group: azure
+  version: v1alpha1
+  kind: AppInsights

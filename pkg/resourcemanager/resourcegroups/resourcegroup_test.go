@@ -18,12 +18,16 @@ package resourcegroups
 
 import (
 	"context"
+	"net/http"
 	"time"
+
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 var _ = Describe("ResourceGroups", func() {
@@ -48,34 +52,35 @@ var _ = Describe("ResourceGroups", func() {
 			const timeout = time.Second * 240
 
 			resourcegroupName := "t-rg-" + helpers.RandomString(10)
-			resourcegroupLocation := "westus"
+			resourcegroupLocation := config.DefaultLocation()
+			resourceGroupManager := NewAzureResourceGroupManager()
 			var err error
 
-			_, err = CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)
+			_, err = resourceGroupManager.CreateGroup(context.Background(), resourcegroupName, resourcegroupLocation)
 			Expect(err).NotTo(HaveOccurred())
 
-			time.Sleep(40 * time.Second)
-
 			Eventually(func() bool {
-				result, _ := CheckExistence(context.Background(), resourcegroupName)
+				result, _ := resourceGroupManager.CheckExistence(context.Background(), resourcegroupName)
 
-				return result.Response.StatusCode == 204
+				return result.Response.StatusCode == http.StatusNoContent
 			}, timeout,
 			).Should(BeTrue())
 
-			_, err = DeleteGroup(context.Background(), resourcegroupName)
+			_, err = resourceGroupManager.DeleteGroup(context.Background(), resourcegroupName)
+			if err != nil {
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if azerr.Type == errhelp.AsyncOpIncompleteError {
+					err = nil
+				}
+			}
 			Expect(err).NotTo(HaveOccurred())
 
-			time.Sleep(30 * time.Second)
-
 			Eventually(func() bool {
-				result, _ := CheckExistence(context.Background(), resourcegroupName)
-
-				return result.Response.StatusCode == 404
+				result, _ := GetGroup(context.Background(), resourcegroupName)
+				return result.Response.StatusCode == http.StatusNotFound || *result.Properties.ProvisioningState == "Deleting"
 			}, timeout,
 			).Should(BeTrue())
 
-			//DeleteAllGroupsWithPrefix(context.Background(), "t-rg-")
 		})
 
 	})
