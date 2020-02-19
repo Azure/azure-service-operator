@@ -430,6 +430,13 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "VNet")
 		os.Exit(1)
 	}
+	if err = (&controllers.KeyVaultKeyReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "KeyVaultKey")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

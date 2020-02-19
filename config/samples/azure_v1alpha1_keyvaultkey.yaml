@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: KeyVaultKey
+metadata:
+  name: keyvaultkey-sample
+spec:
+  # Add fields here
+  foo: bar
