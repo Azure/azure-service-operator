@@ -187,7 +187,7 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 
 	if policy.ObjectID != "" {
 		if objID := getObjectID(ctx, policy.TenantID, policy.ObjectID); objID != nil {
-			newEntry.ObjectID = &policy.ObjectID
+			newEntry.ObjectID = objID
 		}
 	}
 
