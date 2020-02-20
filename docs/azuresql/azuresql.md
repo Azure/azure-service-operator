@@ -13,11 +13,11 @@ The Azure SQL operator suite consists of the following operators.
 
 ## Deploying SQL Resources
 
-You can follow the steps [here](/docs/development.md) to either run the operator locally or in a real Kubernetes cluster.
+First, you need to have the Azure Service Operator deployed in your cluster.
+
+You can follow the steps from the [project root](../../README.md) to deploy a release or build a [development version locally](/docs/development.md).
 
 You can use the YAML files in the `config/samples` folder to create the resources.
-
-**Note**  Don't forget to set the Service Principal ID, Service Principal secret, Tenant ID and Subscription ID as environment variables
 
 ### Azure SQL server
 
@@ -33,15 +33,20 @@ For instance, this is the sample YAML for the Azure SQL server.
      resourcegroup: resourceGroup1
   ```
 
-The value for kind, `AzureSqlServer` is the Custom Resource Definition (CRD) name.
-`sqlserver-sample` is the name of the SQL server resource that will be created.
+The value for kind, `AzureSqlServer` is the Custom Resource Definition (CRD) name and `sqlserver-sample` in this case is the name of the SQL server resource that will be created.
 
 The values under `spec` provide the values for the location where you want to create the Azure SQL server at and the Resource group in which you want to create it under.
 
-Once you've updated the YAML with the settings you need, and you have the operator running, you can create a Custom SQL server resource using the command.
+Deploying a SQL Server instance requires that you deploy a ResourceGroup, an AzureSqlDatabase, and AzureSqlServer CRDs.
+
+The project maintains a [set of samples](https://github.com/Azure-Samples/azure-service-operator-samples) of how to utilize the Azure Service Operator.
+
+As part of this, there is a sample voting app that utilizes a SQL server. Clone this repo, adjust the names in the resource group and SQL Server CRDs such that they are unique and then deploy them with:
 
 ```bash
-kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yaml
+$ kubectl apply -f azure-votes-sql/manifests/azure_v1_resourcegroup.yaml
+$ kubectl apply -f azure-votes-sql/manifests/azure_v1_sqldatabase.yaml
+$ kubectl apply -f azure-votes-sql/manifests/azure_v1_sqlserver.yaml
 ```
 
 Along with creating the SQL server, this operator also generates the admin username and password for the SQL server and stores it in a kube secret with the same name as the SQL server.
@@ -125,7 +130,7 @@ metadata:
 spec:
   resourcegroup: ResourceGroup1
   server:  sqlserver-sample
-  
+
   # this IP range enables Azure Service access
   startipaddress: 0.0.0.0
   endipaddress: 0.0.0.0
