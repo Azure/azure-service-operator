@@ -136,7 +136,7 @@ uninstall: manifests $(KUBECTL) $(KUSTOMIZE) ## Uninstall CRDs from a cluster
 
 .PHONY: deploy
 deploy: generate manifests $(KUBECTL) $(KUSTOMIZE) docker-build docker-push ## Deploy controller in the configured Kubernetes cluster in ~/.kube/config
-	cd config/manager && kustomize edit set image controller=$(REGISTRY)/${IMG}
+	cd config/manager && $(ROOT_DIR)/$(TOOLS_BIN_DIR)/kustomize edit set image controller=$(REGISTRY)/${IMG}
 	$(KUSTOMIZE) build config/default | $(KUBECTL) apply -f -
 
 .PHONY: deploy-kind
