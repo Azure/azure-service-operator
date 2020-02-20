@@ -1,6 +1,6 @@
 # The following manifests contain a self-signed issuer CR and a certificate CR.
 # More document can be found at https://docs.cert-manager.io
-apiVersion: cert-manager.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
 metadata:
   name: selfsigned-issuer
@@ -8,7 +8,7 @@ metadata:
 spec:
   selfSigned: {}
 ---
-apiVersion: cert-manager.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: serving-cert  # this name should match the one appeared in kustomizeconfig.yaml
@@ -17,7 +17,7 @@ spec:
   # $(SERVICENAME) and $(NAMESPACE) will be substituted by kustomize
   commonName: $(SERVICENAME).$(NAMESPACE).svc
   dnsNames:
-  - $(SERVICENAME).$(NAMESPACE).svc.cluster.local
+  - $(SERVICENAME).$(NAMESPACE).svc
   issuerRef:
     kind: Issuer
     name: selfsigned-issuer
