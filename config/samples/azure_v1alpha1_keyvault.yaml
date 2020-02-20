@@ -8,6 +8,7 @@ metadata:
 spec:
   resourceGroup: resourcegroup-azure-operators
   location: westus
+  enableSoftDelete: false
   networkPolicies: 
     bypass: AzureServices # AzureServices or None
     defaultAction: Allow # Allow or Deny
@@ -22,13 +23,15 @@ spec:
       objectID: <objectID>
       applicationID: <appID>
       permissions:
-        keys:
-          - update
-          - backup
-          - create
-        secrets:
-          - backup
-        certificates:
-          - backup
-        storage:
-          - backup
+        keys: # backup create decrypt delete encrypt get import list purge recover restore sign unwrapKey update verify wrapKey
+          - list
+          - get
+        secrets: # backup delete get list purge recover restore set
+          - list
+          - get
+        certificates: # backup create delete deleteissuers get getissuers import list listissuers managecontacts manageissuers purge recover restore setissuers update
+          - list
+          - get
+        storage: # backup delete deleteas get getas list listsas purge recover regeneratekey restore set setas update
+          - list
+          - get
