@@ -22,6 +22,7 @@ type Options struct {
 	Owner   metav1.Object
 	Scheme  *runtime.Scheme
 	Expires *time.Time
+	Flatten bool
 }
 
 // SecretOption wraps a function that sets a value in the options struct
@@ -46,5 +47,12 @@ func WithOwner(owner metav1.Object) SecretOption {
 func WithScheme(scheme *runtime.Scheme) SecretOption {
 	return func(op *Options) {
 		op.Scheme = scheme
+	}
+}
+
+// Flatten can be used to create individual string secrets rather objects for supported clients
+func Flatten(flatten bool) SecretOption {
+	return func(op *Options) {
+		op.Flatten = flatten
 	}
 }

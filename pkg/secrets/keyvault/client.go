@@ -58,32 +58,62 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 	if options.Expires != nil {
 		expireDateUTC = date.UnixTime(*options.Expires)
 	}
-	// Convert the map into a string as that's what a KeyVault secret takes
-	jsonData, err := json.Marshal(data)
-	if err != nil {
+
+	// if the caller is looking for flat secrets iterate over the array and individually persist each string
+	if options.Flatten {
+		var err error
+
+		for secretName, secretValue := range data {
+			secretName = key.Name + "-" + secretName
+			stringSecret := string(secretValue)
+
+			// Initialize secret parameters
+			secretParams := keyvaults.SecretSetParameters{
+				Value: &stringSecret,
+				SecretAttributes: &keyvaults.SecretAttributes{
+					Enabled: &enabled,
+				},
+			}
+
+			if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+				return fmt.Errorf("secret already exists %v", err)
+			}
+
+			_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
+
+			if err != nil {
+				return err
+			}
+		}
+		// If flatten has not been declared, convert the map into a json string for perisstence
+	} else {
+		jsonData, err := json.Marshal(data)
+		if err != nil {
+			return err
+		}
+		stringSecret := string(jsonData)
+		contentType := "json"
+
+		// Initialize secret parameters
+		secretParams := keyvaults.SecretSetParameters{
+			Value: &stringSecret,
+			SecretAttributes: &keyvaults.SecretAttributes{
+				Enabled: &enabled,
+				Expires: &expireDateUTC,
+			},
+			ContentType: &contentType,
+		}
+
+		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+			return fmt.Errorf("secret already exists %v", err)
+		}
+
+		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
+
 		return err
 	}
-	stringSecret := string(jsonData)
-	contentType := "json"
 
-	// Initialize secret parameters
-	secretParams := keyvaults.SecretSetParameters{
-		Value: &stringSecret,
-		SecretAttributes: &keyvaults.SecretAttributes{
-			Enabled: &enabled,
-			Expires: &expireDateUTC,
-		},
-		ContentType: &contentType,
-	}
-
-	if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
-		return fmt.Errorf("secret already exists %v", err)
-	}
-
-	_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
-
-	return err
-
+	return nil
 }
 
 // Upsert updates a key in KeyVault even if it exists already, creates if it doesn't exist
@@ -100,32 +130,66 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 	enabled := true
 	//expireDateUTC := date.NewUnixTimeFromDuration(options.Expires)
 
-	// Convert the map into a string as that's what a KeyVault secret takes
-	jsonData, err := json.Marshal(data)
-	if err != nil {
+	// if the caller is looking for flat secrets iterate over the array and individually persist each string
+	if options.Flatten {
+		var err error
+
+		for secretName, secretValue := range data {
+			secretName = key.Name + "-" + secretName
+			stringSecret := string(secretValue)
+
+			// Initialize secret parameters
+			secretParams := keyvaults.SecretSetParameters{
+				Value: &stringSecret,
+				SecretAttributes: &keyvaults.SecretAttributes{
+					Enabled: &enabled,
+				},
+			}
+
+			if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+				// If secret exists we delete it and recreate it again
+				_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
+				if err != nil {
+					return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
+				}
+			}
+
+			_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
+
+			if err != nil {
+				return err
+			}
+		}
+		// If flatten has not been declared, convert the map into a json string for perisstence
+	} else {
+		jsonData, err := json.Marshal(data)
+		if err != nil {
+			return err
+		}
+		stringSecret := string(jsonData)
+
+		// Initialize secret parameters
+		secretParams := keyvaults.SecretSetParameters{
+			Value: &stringSecret,
+			SecretAttributes: &keyvaults.SecretAttributes{
+				Enabled: &enabled,
+			},
+		}
+
+		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+			// If secret exists we delete it and recreate it again
+			_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
+			if err != nil {
+				return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
+			}
+		}
+
+		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
+
 		return err
 	}
-	stringSecret := string(jsonData)
 
-	// Initialize secret parameters
-	secretParams := keyvaults.SecretSetParameters{
-		Value: &stringSecret,
-		SecretAttributes: &keyvaults.SecretAttributes{
-			Enabled: &enabled,
-		},
-	}
-
-	if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
-		// If secret exists we delete it and recreate it again
-		_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
-		if err != nil {
-			return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
-		}
-	}
-
-	_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
-
-	return err
+	return nil
 }
 
 // Delete deletes a key in KeyVault

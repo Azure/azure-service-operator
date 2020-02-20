@@ -53,7 +53,7 @@ func NewAzureSqlUserManager(log logr.Logger, secretClient secrets.SecretClient, 
 	}
 }
 
-// ConnectToSqlDb connects to the SQL db using the given credentials
+// ConnectToSqlDb conneects to the SQL db using the given credentials
 func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, database string, port int, user string, password string) (*sql.DB, error) {
 
 	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
@@ -209,11 +209,11 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 		s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
 	}
 
-	// publish user secret
-	key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	// publish standard user secret
+	dbUserKey := "azuresqluser-" + string(DBSecret["serverName"]) + "-" + string(DBSecret["azureSqlDatabaseName"]) + "-" + instance.Name
 	err = s.SecretClient.Upsert(
 		ctx,
-		key,
+		types.NamespacedName{Namespace: "", Name: dbUserKey},
 		DBSecret,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(s.Scheme),
@@ -222,6 +222,83 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 		instance.Status.Message = "failed to update secret, err: " + err.Error()
 		return false, err
 	}
+
+	// publish additional requested secret formats
+	formattedSecrets := make(map[string][]byte)
+
+	formattedSecrets["adonet"] = []byte(fmt.Sprintf(
+		"Server=tcp:{%v},1433;Initial Catalog={%v};Persist Security Info=False;User ID={%v};Password={%v};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+		DBSecret["fullyQualifiedServerName"],
+		DBSecret["azureSqlDatabaseName"],
+		DBSecret["username"],
+		DBSecret["password"],
+	))
+
+	formattedSecrets["adonet-urlonly"] = []byte(fmt.Sprintf(
+		"Server=tcp:{%v},1433;Initial Catalog={%v};Persist Security Info=False; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout",
+		DBSecret["fullyQualifiedServerName"],
+		DBSecret["azureSqlDatabaseName"],
+	))
+
+	formattedSecrets["jdbc"] = []byte(fmt.Sprintf(
+		"jdbc:sqlserver://{%v}:1433;database={%v};user={%v}@{%v};password={%v};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
+		DBSecret["fullyQualifiedServerName"],
+		DBSecret["azureSqlDatabaseName"],
+		DBSecret["username"],
+		DBSecret["serverName"],
+		DBSecret["password"],
+	))
+
+	formattedSecrets["jdbc-urlonly"] = []byte(fmt.Sprintf(
+		"jdbc:sqlserver://{%v}:1433;database={%v};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
+		DBSecret["fullyQualifiedServerName"],
+		DBSecret["azureSqlDatabaseName"],
+	))
+
+	formattedSecrets["odbc"] = []byte(fmt.Sprintf(
+		"Server=tcp:{%v},1433;Initial Catalog={%v};Persist Security Info=False;User ID={%v};Password={%v};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+		DBSecret["fullyQualifiedServerName"],
+		DBSecret["azureSqlDatabaseName"],
+		DBSecret["username"],
+		DBSecret["password"],
+	))
+
+	formattedSecrets["odbc-urlonly"] = []byte(fmt.Sprintf(
+		"Driver={ODBC Driver 13 for SQL Server};Server=tcp:{%v},1433;Database={%v}; Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;",
+		DBSecret["fullyQualifiedServerName"],
+		DBSecret["azureSqlDatabaseName"],
+	))
+
+	formattedSecrets["server"] = []byte(fmt.Sprintf(
+		"{%v}",
+		DBSecret["fullyQualifiedServerName"],
+	))
+
+	formattedSecrets["database"] = []byte(fmt.Sprintf(
+		"{%v}",
+		instance.Spec.DbName,
+	))
+
+	formattedSecrets["username"] = []byte(fmt.Sprintf(
+		"{%v}",
+		DBSecret["username"],
+	))
+
+	formattedSecrets["password"] = []byte(fmt.Sprintf(
+		"{%v}",
+		DBSecret["password"],
+	))
+
+	err = s.SecretClient.Upsert(
+		ctx,
+		types.NamespacedName{Namespace: "", Name: dbUserKey},
+		formattedSecrets,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(s.Scheme),
+		secrets.Flatten(true),
+	)
+
+	//if err: // do something to handle the error
 
 	instance.Status.Provisioned = true
 	instance.Status.State = "Succeeded"
