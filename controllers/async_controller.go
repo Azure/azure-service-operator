@@ -7,6 +7,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -73,7 +74,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	skipReconcile = false
 	annotations := res.GetAnnotations()
 	if val, ok := annotations["skipreconcile"]; ok {
-		if val == "true" {
+		if strings.ToLower(val) == "true" {
 			skipReconcile = true
 		}
 	}
