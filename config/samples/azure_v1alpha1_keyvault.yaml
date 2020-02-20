@@ -8,6 +8,7 @@ metadata:
 spec:
   resourceGroup: resourcegroup-azure-operators
   location: westus
+  enableSoftDelete: false
   networkPolicies: 
     bypass: AzureServices # AzureServices or None
     defaultAction: Allow # Allow or Deny
