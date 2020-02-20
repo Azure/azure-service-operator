@@ -18,7 +18,6 @@ package keyvaults
 import (
 	"context"
 	"fmt"
-	"log"
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
@@ -353,34 +352,11 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	// Check if this KeyVault already exists and its state if it does.
 
-	kvopsclient := NewOpsClient(instance.Name)
-
 	keyvault, err := k.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
-
-		vaultBaseURL := *keyvault.Properties.VaultURI
-		var ksize int32 = 4096
-		kops := kvops.PossibleJSONWebKeyOperationValues()
-		katts := kvops.KeyAttributes{
-			Enabled: to.BoolPtr(true),
-		}
-		params := kvops.KeyCreateParameters{
-			Kty:           kvops.RSA,
-			KeySize:       &ksize,
-			KeyOps:        &kops,
-			KeyAttributes: &katts,
-		}
-		bundle, err := kvopsclient.CreateKey(ctx, vaultBaseURL, "mynewkey1", params)
-		if err != nil {
-			return false, err
-		}
-
-		log.Println()
-		log.Println(bundle)
-		log.Println()
 
 		return true, nil
 	}

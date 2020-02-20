@@ -35,6 +35,10 @@ import (
 type KeyVaultKeySpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Location      string `json:"location"`
+	ResourceGroup string `json:"resourceGroup"`
+	KeyVault      string `json:"keyVault,omitempty"`
+	KeySize       int32  `json:"keySize,omitempty"`
 }
 
 // +kubebuilder:object:root=true
