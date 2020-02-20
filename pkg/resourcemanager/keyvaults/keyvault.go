@@ -221,6 +221,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	vaultName := instance.Name
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
+	enableSoftDelete := instance.Spec.EnableSoftDelete
 
 	vaultsClient, id, err := InstantiateVault(ctx, vaultName, instance.Status.ContainsUpdate)
 	if err != nil {
@@ -255,13 +256,13 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 				Family: to.StringPtr("A"),
 				Name:   keyvault.Standard,
 			},
-			NetworkAcls: &networkAcls,
+			NetworkAcls:      &networkAcls,
+			EnableSoftDelete: &enableSoftDelete,
 		},
 		Location: to.StringPtr(location),
 		Tags:     tags,
 	}
 
-	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v", vaultName, groupName, location))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 
 	return future.Result(vaultsClient)
@@ -309,7 +310,6 @@ func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 		Location: to.StringPtr(location),
 	}
 
-	k.Log.Info(fmt.Sprintf("creating or updating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 	if err != nil {
 		return keyvault.Vault{}, err

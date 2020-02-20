@@ -17,6 +17,7 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
@@ -56,4 +57,18 @@ func init() {
 
 func (s *AzureSqlServer) IsSubmitted() bool {
 	return s.Status.Provisioned || s.Status.Provisioning
+}
+
+// NewAzureSQLServer returns a simple server struct filled with passed in values
+func NewAzureSQLServer(names types.NamespacedName, resourceGroup, region string) *AzureSqlServer {
+	return &AzureSqlServer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      names.Name,
+			Namespace: names.Namespace,
+		},
+		Spec: AzureSqlServerSpec{
+			Location:      region,
+			ResourceGroup: resourceGroup,
+		},
+	}
 }

@@ -114,7 +114,11 @@ func main() {
 
 	vnetManager := vnet.NewAzureVNetManager(ctrl.Log.WithName("controllers").WithName("VirtualNetwork"))
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
-	appInsightsManager := resourcemanagerappinsights.NewManager(ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"))
+	appInsightsManager := resourcemanagerappinsights.NewManager(
+		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
+		secretClient,
+		scheme,
+	)
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
@@ -277,18 +281,20 @@ func main() {
 	}
 
 	if err = (&controllers.AzureSqlFirewallRuleReconciler{
-		Client: mgr.GetClient(),
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
-			"AzureSQLFirewallRuleOperator",
-		),
-		Recorder:                    mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
-		Scheme:                      mgr.GetScheme(),
-		AzureSqlFirewallRuleManager: sqlFirewallRuleManager,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlFirewallRuleManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+				"AzureSQLFirewallRuleOperator"),
+			Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
 		os.Exit(1)
 	}
+
 	if err = (&controllers.AzureSqlActionReconciler{
 		Client:                mgr.GetClient(),
 		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
