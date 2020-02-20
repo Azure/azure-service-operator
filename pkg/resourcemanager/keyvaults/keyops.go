@@ -3,7 +3,6 @@ package keyvaults
 import (
 	"context"
 	"fmt"
-	"log"
 
 	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -25,10 +24,6 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (boo
 	}
 
 	instance.Status.Provisioning = true
-
-	log.Println()
-	log.Println("ensuring this thang!!!!!!!!!")
-	log.Println()
 
 	// Check if this KeyVault already exists and its state if it does.
 
@@ -57,10 +52,6 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (boo
 			return false, err
 		}
 
-		log.Println()
-		log.Println(bundle)
-		log.Println()
-
 		return true, nil
 	}
 
@@ -72,10 +63,6 @@ func (k *KeyvaultKeyClient) Delete(ctx context.Context, obj runtime.Object) (boo
 	if err != nil {
 		return true, err
 	}
-
-	log.Println()
-	log.Println("delete this thang!!!!!!!!!")
-	log.Println()
 
 	keyv, err := k.KeyvaultClient.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
