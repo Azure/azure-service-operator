@@ -46,7 +46,7 @@ type AccessPolicyEntry struct {
 	ObjectID string `json:"objectID,omitempty"`
 	// ApplicationID -  Application ID of the client making request on behalf of a principal
 	ApplicationID string `json:"applicationID,omitempty"`
-	// Permissions - Permissions the identity has for keys, secrets and certificates.
+	// Permissions - Permissions the identity has for keys, secrets, and certificates.
 	Permissions *Permissions `json:"permissions,omitempty"`
 }
 

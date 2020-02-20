@@ -41,7 +41,7 @@ The values under `spec` provide the values for the location where you want to cr
 Once you've updated the YAML with the settings you need, and you have the operator running, you can create a Custom SQL server resource using the command.
 
 ```bash
-kubectl apply -f config/samples/azure_v1_sqlserver.yaml
+kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yaml
 ```
 
 Along with creating the SQL server, this operator also generates the admin username and password for the SQL server and stores it in a kube secret with the same name as the SQL server.
