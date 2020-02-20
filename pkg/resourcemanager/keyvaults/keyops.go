@@ -47,7 +47,7 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (boo
 			KeyOps:        &kops,
 			KeyAttributes: &katts,
 		}
-		bundle, err := kvopsclient.CreateKey(ctx, vaultBaseURL, instance.Name, params)
+		_, err := kvopsclient.CreateKey(ctx, vaultBaseURL, instance.Name, params)
 		if err != nil {
 			return false, err
 		}
