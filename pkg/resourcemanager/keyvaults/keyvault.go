@@ -343,7 +343,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 		return true, err
 	}
 
-	hash, err := helpers.GetStructHash(obj)
+	hash, err := helpers.GetKubernetesObjectHash(obj)
 	if err != nil {
 		return true, err
 	}
