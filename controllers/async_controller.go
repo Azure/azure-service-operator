@@ -68,6 +68,24 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		return ctrl.Result{}, err
 	}
 
+	// Check to see if the skipreconcile annotation is on
+	annotations := res.GetAnnotations()
+	skipReconcile, ok := annotations["skipreconcile"]
+	if !ok {
+		skipReconcile = "false"
+	}
+
+	if skipReconcile == "true" {
+		// if this is a delete we should delete the finalizer to allow the kube instance to be deleted
+		if !res.GetDeletionTimestamp().IsZero() {
+			if HasFinalizer(res, finalizerName) {
+				RemoveFinalizer(res, finalizerName)
+			}
+		}
+		r.Recorder.Event(local, corev1.EventTypeNormal, "Skipping", "Skipping reconcile based on provided annotation")
+		return ctrl.Result{}, r.Update(ctx, local)
+	}
+
 	if res.GetDeletionTimestamp().IsZero() {
 		if !HasFinalizer(res, finalizerName) {
 			AddFinalizer(res, finalizerName)
