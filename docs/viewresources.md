@@ -1,4 +1,4 @@
-# View and Troubleshoot Custom Resources
+## View and Troubleshoot Custom Resources
 
 To view your created custom resource, run the following command:
 
@@ -69,3 +69,26 @@ Events:
 The `Status` section gives you the current state of the resource, it's `State` and if it is `Provisioned`. It also provides a more detailed `Message`
 
 The `Events` have a chronological record of what occurred through the process of provisioning the resource.
+
+## Delete Kubernetes instances without deleting Azure resources
+
+In some cases, like when you setup a new Kubernetes cluster with the same CRDs and want to take down the older cluster, you might need to delete the Kubernetes instances without impacting the Azure resources (as these are still tracked by CRDs in a different cluster)
+
+In this case, you can use the annotation `skipreconcile` set to `true'. Follow the steps below to accomplish this:
+
+1. Patch the CRD with the annotation above. You can use `kubectl apply -f <config.yaml>`. A sample YAML is below.
+
+```
+apiVersion: azure.microsoft.com/v1alpha1
+kind: KeyVault
+metadata:
+  name: keyvaultsample123
+  annotations:
+    skipreconcile: "true"
+spec:
+  resourceGroup: resourcegroup-azure-operators
+  location: westus
+  enableSoftDelete: true
+```
+
+2. Delete the CRD now using `kubectl delete`. Since the object is updated with the annotation, the kubernetes instance is deleted without impacting the Azure resource.

@@ -8,4 +8,4 @@ metadata:
 spec:
   resourceGroup: resourcegroup-azure-operators
   location: westus
-  enableSoftDelete: true
+  enableSoftDelete: false
