@@ -26,7 +26,7 @@ resources:
 
 # +kubebuilder:scaffold:crdkustomizeresource
 
-patches:
+#patches:
 # [WEBHOOK] patches here are for enabling the conversion webhook for each CRD
 #- patches/webhook_in_eventhubs.yaml
 #- patches/webhook_in_resourcegroups.yaml
