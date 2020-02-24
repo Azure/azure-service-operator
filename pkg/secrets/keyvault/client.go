@@ -50,7 +50,7 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 	}
 
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretName := key.Namespace + "-" + key.Name
+	secretBaseName := key.Namespace + "-" + key.Name
 	secretVersion := ""
 	enabled := true
 	var expireDateUTC date.UnixTime
@@ -63,9 +63,9 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 	if options.Flatten {
 		var err error
 
-		for secretName, secretValue := range data {
-			secretName = key.Name + "-" + secretName
-			stringSecret := string(secretValue)
+		for formatName, formatValue := range data {
+			secretName := secretBaseName + "-" + formatName
+			stringSecret := string(formatValue)
 
 			// Initialize secret parameters
 			secretParams := keyvaults.SecretSetParameters{
@@ -85,7 +85,7 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 				return err
 			}
 		}
-		// If flatten has not been declared, convert the map into a json string for perisstence
+		// If flatten has not been declared, convert the map into a json string for persistance
 	} else {
 		jsonData, err := json.Marshal(data)
 		if err != nil {
@@ -104,11 +104,11 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 			ContentType: &contentType,
 		}
 
-		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
 			return fmt.Errorf("secret already exists %v", err)
 		}
 
-		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
+		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secretParams)
 
 		return err
 	}
@@ -125,7 +125,7 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 	}
 
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretName := key.Namespace + "-" + key.Name
+	secretBaseName := key.Namespace + "-" + key.Name
 	secretVersion := ""
 	enabled := true
 	//expireDateUTC := date.NewUnixTimeFromDuration(options.Expires)
@@ -134,9 +134,9 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 	if options.Flatten {
 		var err error
 
-		for secretName, secretValue := range data {
-			secretName = key.Name + "-" + secretName
-			stringSecret := string(secretValue)
+		for formatName, formatValue := range data {
+			secretName := secretBaseName + "-" + formatName
+			stringSecret := string(formatValue)
 
 			// Initialize secret parameters
 			secretParams := keyvaults.SecretSetParameters{
@@ -176,15 +176,15 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 			},
 		}
 
-		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
 			// If secret exists we delete it and recreate it again
-			_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
+			_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretBaseName)
 			if err != nil {
 				return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
 			}
 		}
 
-		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
+		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secretParams)
 
 		return err
 	}

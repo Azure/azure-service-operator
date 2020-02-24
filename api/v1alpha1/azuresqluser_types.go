@@ -26,9 +26,10 @@ type AzureSQLUserSpec struct {
 	Server          string   `json:"server"`
 	DbName          string   `json:"dbName"`
 	ResourceGroup   string   `json:"resourceGroup,omitempty"`
-	SecretNamespace string   `json:"secretNamespace,omitempty"`
 	AdminSecret     string   `json:"adminSecret,omitempty"`
 	Roles           []string `json:"roles"`
+	SecretNamespace string   `json:"secretNamespace,omitempty"`
+	SecretFormats   []string `json:"secretFormats,omitempty"`
 }
 
 // +kubebuilder:object:root=true
