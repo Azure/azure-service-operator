@@ -30,6 +30,7 @@ const (
 	InvalidResourceLocation         = "InvalidResourceLocation"
 	InvalidCIDRNotation             = "InvalidCIDRNotation"
 	InvalidRequestFormat            = "InvalidRequestFormat"
+	KeyNotFound                     = "KeyNotFound"
 )
 
 func NewAzureError(err error) error {

@@ -7,16 +7,20 @@ import (
 	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
+// KeyvaultKeyClient emcompasses the methods needed for the keyops client to fulfill the ARMClient interface
 type KeyvaultKeyClient struct {
 	KeyvaultClient *azureKeyVaultManager
 }
 
+// Ensure idempotently implements the user's requested state
 func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
 	instance, err := k.convert(obj)
 	if err != nil {
@@ -30,54 +34,88 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (boo
 	kvopsclient := NewOpsClient(instance.Name)
 
 	keyvault, err := k.KeyvaultClient.GetVault(ctx, instance.Spec.ResourceGroup, instance.Spec.KeyVault)
-	if err == nil {
-		instance.Status.Message = resourcemanager.SuccessMsg
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
+	if err != nil {
+		instance.Status.Message = err.Error()
 
-		vaultBaseURL := *keyvault.Properties.VaultURI
-		var ksize int32 = instance.Spec.KeySize
-		kops := kvops.PossibleJSONWebKeyOperationValues()
-		katts := kvops.KeyAttributes{
-			Enabled: to.BoolPtr(true),
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceNotFound,
 		}
-		params := kvops.KeyCreateParameters{
-			Kty:           kvops.RSA,
-			KeySize:       &ksize,
-			KeyOps:        &kops,
-			KeyAttributes: &katts,
-		}
-		_, err := kvopsclient.CreateKey(ctx, vaultBaseURL, instance.Name, params)
-		if err != nil {
-			return false, err
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return false, nil
 		}
 
-		return true, nil
+		return false, err
+	}
+
+	instance.Status.Message = resourcemanager.SuccessMsg
+	instance.Status.Provisioned = true
+	instance.Status.Provisioning = false
+
+	vaultBaseURL := *keyvault.Properties.VaultURI
+	var ksize int32 = instance.Spec.KeySize
+	kops := kvops.PossibleJSONWebKeyOperationValues()
+	katts := kvops.KeyAttributes{
+		Enabled: to.BoolPtr(true),
+	}
+	params := kvops.KeyCreateParameters{
+		Kty:           kvops.RSA,
+		KeySize:       &ksize,
+		KeyOps:        &kops,
+		KeyAttributes: &katts,
+	}
+	_, err = kvopsclient.CreateKey(ctx, vaultBaseURL, instance.Name, params)
+	if err != nil {
+		return false, err
 	}
 
 	return true, nil
 }
 
+// Delete ensures the requested resource is gone from Azure
 func (k *KeyvaultKeyClient) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
 	instance, err := k.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	keyv, err := k.KeyvaultClient.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
-	if err == nil {
-		vaultBaseURL := *keyv.Properties.VaultURI
-		kvopsclient := NewOpsClient(instance.Name)
+	keyv, err := k.KeyvaultClient.GetVault(ctx, instance.Spec.ResourceGroup, instance.Spec.KeyVault)
+	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		_, err := kvopsclient.DeleteKey(ctx, vaultBaseURL, instance.Name)
-		if err != nil {
-			return true, err
+		if azerr.Type == errhelp.ResourceNotFound {
+			return false, nil
 		}
+		return true, err
 	}
+
+	vaultBaseURL := *keyv.Properties.VaultURI
+	kvopsclient := NewOpsClient(instance.Spec.KeyVault)
+
+	_, err = kvopsclient.DeleteKey(ctx, vaultBaseURL, instance.Name)
+	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
+
+		if azerr.Type == errhelp.KeyNotFound {
+			return false, nil
+		}
+
+		return true, err
+	}
+
+	// @Todo figure out when to purge or if we should ever
+	// _, err = kvopsclient.PurgeDeletedKey(ctx, vaultBaseURL, instance.Name)
+	// if err != nil {
+	// 	return true, err
+	// }
 
 	return false, nil
 }
 
+// GetParents returns the kube resources most likely to be parents to this resource
 func (k *KeyvaultKeyClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
 	instance, err := k.convert(obj)
