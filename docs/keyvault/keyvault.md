@@ -13,9 +13,7 @@ You can follow the steps [here](/docs/development.md) to either run the operator
 
 You can use the YAML files in the `config/samples` folder to create the resources.
 
-**Note**  Don't forget to set the Service Principal ID, Service Principal secret, Tenant ID, and Subscription ID as environment variables.
-
-### Key Vault
+### KeyVault
 
 For instance, this is the sample YAML for the Azure SQL server:
 
@@ -30,6 +28,7 @@ metadata:
 spec:
   resourceGroup: resourcegroup-azure-operators
   location: westus
+  enableSoftDelete: false
   networkPolicies: 
     bypass: AzureServices # AzureServices or None
     defaultAction: Allow # Allow or Deny
@@ -73,7 +72,7 @@ kubectl apply -f config/samples/azure_v1alpha1_keyvault.yaml
 
 Key Vault access is governed via a management plane and a data plane.  The management plane is where you manage Key Vault resources, and the data plane is where you work with data stored in a Key Vault.  
 
-In order to access a Key Vault in either plane, all callers must have proper authenticaiton and authorization.  Both planes use Azure Active Directory (AAD) for authentication and authorization.  For authorization, the management plane uses role-based access control (RBAC), and the data plane uses Access Policies.
+In order to access a Key Vault in either plane, all callers must have proper authentication and authorization.  Both planes use Azure Active Directory (AAD) for authentication and authorization.  For authorization, the management plane uses role-based access control (RBAC), and the data plane uses Access Policies.
 
 Access control for the two planes work independently.  Therefore you will notice that Azure Service Operators account for data plane access via Access Policy administration.  Notice the `accessPolicies` yaml entries in the sample above.  These are critical entries for properly securing and authorizing Key Vault data plane access.  Access Control for the management plane is administered using RBAC that is also controlled by AAD.  Therefore, authorization of the management plane is best achieved using Azure Powershell, the Azure CLI, and the Azure Portal.
 
