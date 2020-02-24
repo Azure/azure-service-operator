@@ -5,6 +5,7 @@ metadata:
 spec:
   server: sqlserver-sample-777
   dbName: azuresqldatabase-sample
+  # secretNamespace: sqlServer-sqlDatabase
   adminSecret: sqlserver-sample-777
   resourceGroup: resourcegroup-azure-operators
   # possible roles:

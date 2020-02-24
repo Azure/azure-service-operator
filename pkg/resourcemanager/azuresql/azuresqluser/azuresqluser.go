@@ -210,10 +210,15 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 	}
 
 	// publish standard user secret
-	dbUserKey := "azuresqluser-" + string(DBSecret["serverName"]) + "-" + string(DBSecret["azureSqlDatabaseName"]) + "-" + instance.Name
+	var dbUserNamespace string
+	if instance.Spec.SecretNamespace != "" {
+		dbUserNamespace = instance.Spec.SecretNamespace
+	} else {
+		dbUserNamespace = "azuresqluser-" + string(DBSecret["serverName"]) + "-" + string(DBSecret["azureSqlDatabaseName"])
+	}
 	err = s.SecretClient.Upsert(
 		ctx,
-		types.NamespacedName{Namespace: "", Name: dbUserKey},
+		types.NamespacedName{Namespace: dbUserNamespace, Name: instance.Name},
 		DBSecret,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(s.Scheme),
@@ -227,67 +232,55 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 	formattedSecrets := make(map[string][]byte)
 
 	formattedSecrets["adonet"] = []byte(fmt.Sprintf(
-		"Server=tcp:{%v},1433;Initial Catalog={%v};Persist Security Info=False;User ID={%v};Password={%v};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
-		DBSecret["fullyQualifiedServerName"],
-		DBSecret["azureSqlDatabaseName"],
-		DBSecret["username"],
-		DBSecret["password"],
+		"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False;User ID=%v;Password=%v;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+		string(DBSecret["fullyQualifiedServerName"]),
+		instance.Spec.DbName,
+		user,
+		string(DBSecret["password"]),
 	))
 
 	formattedSecrets["adonet-urlonly"] = []byte(fmt.Sprintf(
-		"Server=tcp:{%v},1433;Initial Catalog={%v};Persist Security Info=False; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout",
-		DBSecret["fullyQualifiedServerName"],
-		DBSecret["azureSqlDatabaseName"],
-	))
-
-	formattedSecrets["jdbc"] = []byte(fmt.Sprintf(
-		"jdbc:sqlserver://{%v}:1433;database={%v};user={%v}@{%v};password={%v};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
-		DBSecret["fullyQualifiedServerName"],
-		DBSecret["azureSqlDatabaseName"],
-		DBSecret["username"],
-		DBSecret["serverName"],
-		DBSecret["password"],
-	))
-
-	formattedSecrets["jdbc-urlonly"] = []byte(fmt.Sprintf(
-		"jdbc:sqlserver://{%v}:1433;database={%v};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
-		DBSecret["fullyQualifiedServerName"],
-		DBSecret["azureSqlDatabaseName"],
-	))
-
-	formattedSecrets["odbc"] = []byte(fmt.Sprintf(
-		"Server=tcp:{%v},1433;Initial Catalog={%v};Persist Security Info=False;User ID={%v};Password={%v};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
-		DBSecret["fullyQualifiedServerName"],
-		DBSecret["azureSqlDatabaseName"],
-		DBSecret["username"],
-		DBSecret["password"],
-	))
-
-	formattedSecrets["odbc-urlonly"] = []byte(fmt.Sprintf(
-		"Driver={ODBC Driver 13 for SQL Server};Server=tcp:{%v},1433;Database={%v}; Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;",
-		DBSecret["fullyQualifiedServerName"],
-		DBSecret["azureSqlDatabaseName"],
-	))
-
-	formattedSecrets["server"] = []byte(fmt.Sprintf(
-		"{%v}",
-		DBSecret["fullyQualifiedServerName"],
-	))
-
-	formattedSecrets["database"] = []byte(fmt.Sprintf(
-		"{%v}",
+		"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout",
+		string(DBSecret["fullyQualifiedServerName"]),
 		instance.Spec.DbName,
 	))
 
-	formattedSecrets["username"] = []byte(fmt.Sprintf(
-		"{%v}",
-		DBSecret["username"],
+	formattedSecrets["jdbc"] = []byte(fmt.Sprintf(
+		"jdbc:sqlserver://%v:1433;database=%v;user=%v@%v;password=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
+		string(DBSecret["fullyQualifiedServerName"]),
+		instance.Spec.DbName,
+		user,
+		instance.Spec.Server,
+		string(DBSecret["password"]),
 	))
 
-	formattedSecrets["password"] = []byte(fmt.Sprintf(
-		"{%v}",
-		DBSecret["password"],
+	formattedSecrets["jdbc-urlonly"] = []byte(fmt.Sprintf(
+		"jdbc:sqlserver://%v:1433;database=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
+		string(DBSecret["fullyQualifiedServerName"]),
+		instance.Spec.DbName,
 	))
+
+	formattedSecrets["odbc"] = []byte(fmt.Sprintf(
+		"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False;User ID=%v;Password=%v;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+		string(DBSecret["fullyQualifiedServerName"]),
+		instance.Spec.DbName,
+		user,
+		string(DBSecret["password"]),
+	))
+
+	formattedSecrets["odbc-urlonly"] = []byte(fmt.Sprintf(
+		"Driver={ODBC Driver 13 for SQL Server};Server=tcp:%v,1433;Database=%v; Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;",
+		string(DBSecret["fullyQualifiedServerName"]),
+		instance.Spec.DbName,
+	))
+
+	formattedSecrets["server"] = DBSecret["fullyQualifiedServerName"]
+
+	formattedSecrets["database"] = []byte(instance.Spec.DbName)
+
+	formattedSecrets["username"] = []byte(user)
+
+	formattedSecrets["password"] = DBSecret["password"]
 
 	err = s.SecretClient.Upsert(
 		ctx,
