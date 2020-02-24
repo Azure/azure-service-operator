@@ -204,10 +204,8 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	// Create KeyVault with access policies
 	_, err := kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, rgName, keyVaultNameForSecrets, rgLocation, userID)
 
-	assert.Eventually(func() bool {
-		vault, _ := kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
-		return *vault.Name == keyVaultNameForSecrets
-	}, tc.timeout, tc.retry, "wait for keyvault to be available")
+	vault, _ := kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
+	assert.Equal(nil, err, "wait for keyvault to be available")
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{
@@ -232,33 +230,15 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 		},
 	}
 
-	err = tc.k8sClient.Create(ctx, eventhubInstance)
-	assert.Equal(nil, err, "create eventhub in k8s")
-
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry, "wait for eventhub to have finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return strings.Contains(eventhubInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for eventhub to provision")
+	EnsureInstance(ctx, t, tc, eventhubInstance)
 
 	// Check that the secret is added to KeyVault
 	keyvaultSecretClient := kvsecrets.New(keyVaultNameForSecrets)
 	_, err = keyvaultSecretClient.Get(ctx, eventhubNamespacedName)
 	assert.Equal(nil, err, "checking if secret is present in keyvault")
 
-	err = tc.k8sClient.Delete(ctx, eventhubInstance)
-	assert.Equal(nil, err, "delete eventhub in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
+	EnsureDelete(ctx, t, tc, eventhubInstance)
 
 }
 

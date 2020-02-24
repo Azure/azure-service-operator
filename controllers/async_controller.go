@@ -71,7 +71,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		return ctrl.Result{}, err
 	}
 
-
 	// Instantiate the KeyVault Secret Client if KeyVault specified in Spec
 	r.Telemetry.LogInfo("status", "retrieving keyvault for secrets if specified")
 	var keyvaultSecretClient secrets.SecretClient
@@ -98,6 +97,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		return ctrl.Result{}, r.Update(ctx, local)
 	}
 
+	var configOptions []resourcemanager.ConfigOption
 	if res.GetDeletionTimestamp().IsZero() {
 		if !HasFinalizer(res, finalizerName) {
 			AddFinalizer(res, finalizerName)
@@ -108,11 +108,12 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		if HasFinalizer(res, finalizerName) {
 			var found bool
 			var deleteErr error
-			if len(KeyVaultName) == 0 {
-				found, deleteErr = r.AzureClient.Delete(ctx, local, resourcemanager.WithKubeClient(r.Client))
-			} else {
-				found, deleteErr = r.AzureClient.Delete(ctx, local, resourcemanager.WithSecretClient(keyvaultSecretClient), resourcemanager.WithKubeClient(r.Client))
+			configOptions = append(configOptions, resourcemanager.WithKubeClient(r.Client))
+			if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
+				configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 			}
+
+			found, deleteErr = r.AzureClient.Delete(ctx, local, configOptions...)
 			final := multierror.Append(deleteErr)
 			if err := final.ErrorOrNil(); err != nil {
 				r.Telemetry.LogError("error deleting object", err)
@@ -135,7 +136,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	for _, p := range parents {
 		//r.Telemetry.LogInfo("status", "handling parent "+p.Key.Name)
 
-		if err := r.Client.Get(ctx, p.Key, p.Target); err == nil {
+		if err := r.Get(ctx, p.Key, p.Target); err == nil {
 			//r.Telemetry.LogInfo("status", "handling parent get for "+reflect.TypeOf(p.Target).String())
 
 			if pAccessor, err := meta.Accessor(p.Target); err == nil {
@@ -155,11 +156,12 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	var done bool
 	var ensureErr error
 
-	if len(KeyVaultName) == 0 { //KeyVault was not specified in the spec
-		done, ensureErr = r.AzureClient.Ensure(ctx, local, resourcemanager.WithKubeClient(r.Client))
-	} else { //KeyVault was specified in Spec, so use that for secrets
-		done, ensureErr = r.AzureClient.Ensure(ctx, local, resourcemanager.WithSecretClient(keyvaultSecretClient), resourcemanager.WithKubeClient(r.Client))
+	configOptions = append(configOptions, resourcemanager.WithKubeClient(r.Client))
+	if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
+		configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 	}
+
+	done, ensureErr = r.AzureClient.Ensure(ctx, local, configOptions...)
 	if ensureErr != nil {
 		r.Telemetry.LogError("ensure err", ensureErr)
 	}

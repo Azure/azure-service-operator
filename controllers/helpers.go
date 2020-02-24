@@ -49,10 +49,8 @@ func GetKeyVaultName(instance runtime.Object) string {
 	if err != nil {
 		return keyVaultName
 	}
-
-	err = json.Unmarshal(serial, target)
-	keyVaultName = target.Spec.KeyVaultToStoreSecrets
-	return keyVaultName
+	_ = json.Unmarshal(serial, target)
+	return target.Spec.KeyVaultToStoreSecrets
 }
 
 type TestContext struct {

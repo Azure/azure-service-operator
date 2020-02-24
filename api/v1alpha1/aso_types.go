@@ -24,6 +24,11 @@ type ASOStatus struct {
 	Message      string `json:"message,omitempty"`
 }
 
+// CommonType is a struct to help embed fields that may be common to most CRDs
+/*type CommonType struct {
+	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
+}*/
+
 // GenericSpec is a struct to help get the KeyVaultName from the Spec
 type GenericSpec struct {
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
