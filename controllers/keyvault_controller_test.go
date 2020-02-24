@@ -92,7 +92,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
-	
+
 	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
 	const poll = time.Second * 10
 	keyVaultLocation := tc.resourceGroupLocation
@@ -123,19 +123,17 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 		},
 	}
 
-
 	// Create the Keyvault object and expect the Reconcile to be created
 	err := tc.k8sClient.Create(ctx, keyVaultInstance)
 	assert.Equal(nil, err, "create keyvault in k8s")
 
 	// Prep query for get
 	keyVaultNamespacedName := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
-  
+
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
 		return helpers.HasFinalizer(keyVaultInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
-
 
 	// Wait until key vault is provisioned
 
@@ -181,7 +179,6 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from azure")
 
 }
-
 
 func TestKeyvaultControllerInvalidName(t *testing.T) {
 	t.Parallel()
