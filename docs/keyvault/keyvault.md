@@ -76,9 +76,9 @@ In order to access a Key Vault in either plane, all callers must have proper aut
 
 Access control for the two planes work independently.  Therefore you will notice that Azure Service Operators account for data plane access via Access Policy administration.  Notice the `accessPolicies` yaml entries in the sample above.  These are critical entries for properly securing and authorizing Key Vault data plane access.  Access Control for the management plane is administered using RBAC that is also controlled by AAD.  Therefore, authorization of the management plane is best achieved using Azure Powershell, the Azure CLI, and the Azure Portal.
 
-### Key VaultKey Operator
+### KeyVaultKey Operator
 
-The Key VaultKey operator serves as an operator that allows for declarative management of Key Vault keys - one of the three resources available for storage and management in Key Vault; keys, secrets, and certificates.  Keys can be leveraged for various use cases.
+The KeyVaultKey operator serves as an operator that allows for declarative management of Key Vault keys - one of the three resources available for storage and management in Key Vault; keys, secrets, and certificates.  Keys can be leveraged for various use cases.
 
 For example, one of the most common use cases for Key Vault keys is [SQL Server Always Encrypted](https://docs.microsoft.com/sql/relational-databases/security/encryption/always-encrypted-database-engine) data encryption.  The KeyVaultKey operator will allow for generation of an key that can be used to leverage data encryption via managed keys in Key Vault:
 
