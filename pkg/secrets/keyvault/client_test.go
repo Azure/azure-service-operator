@@ -117,7 +117,8 @@ var _ = Describe("Keyvault Secrets Client", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete secret in Keyvault", func() {
 			secretName := "kvsecret" + strconv.FormatInt(GinkgoRandomSeed(), 10)
-			expireDateUTC := time.Now().UTC()
+			activationDate := time.Date(2018, time.January, 22, 15, 34, 0, 0, time.UTC)
+			expiryDate := time.Date(2030, time.February, 1, 12, 22, 0, 0, time.UTC)
 
 			var err error
 
@@ -131,7 +132,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 			key := types.NamespacedName{Name: secretName, Namespace: "default"}
 
 			Context("creating secret with KeyVault client", func() {
-				err = client.Create(ctx, key, data, secrets.WithExpiration(&expireDateUTC))
+				err = client.Create(ctx, key, data, secrets.WithActivation(&activationDate), secrets.WithExpiration(&expiryDate))
 				Expect(err).To(BeNil())
 			})
 
@@ -150,7 +151,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 			}
 
 			Context("upserting the secret to make sure it can be written", func() {
-				err = client.Upsert(ctx, key, datanew)
+				err = client.Upsert(ctx, key, datanew, secrets.WithActivation(&activationDate), secrets.WithExpiration(&expiryDate))
 				Expect(err).To(BeNil())
 			})
 
@@ -174,7 +175,6 @@ var _ = Describe("Keyvault Secrets Client", func() {
 					Expect(data[k]).To(Equal(v))
 				}
 			})
-
 		})
 
 	})

@@ -12,19 +12,27 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 const typeOfService = "Microsoft.Sql/servers"
 
 type AzureSqlServerManager struct {
-	Log logr.Logger
+	Log          logr.Logger
+	SecretClient secrets.SecretClient
+	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlServerManager(log logr.Logger) *AzureSqlServerManager {
-	return &AzureSqlServerManager{Log: log}
+func NewAzureSqlServerManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlServerManager {
+	return &AzureSqlServerManager{
+		Log:          log,
+		SecretClient: secretClient,
+		Scheme:       scheme,
+	}
 }
 
 // DeleteSQLServer deletes a SQL server
