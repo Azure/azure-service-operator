@@ -354,7 +354,8 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 	// convert kube labels to expected tag format
 	labels := map[string]*string{}
 	for k, v := range instance.GetLabels() {
-		labels[k] = &v
+		value := v
+		labels[k] = &value
 	}
 	instance.Status.Provisioning = true
 
