@@ -19,13 +19,21 @@ type SecretClient interface {
 
 // Options contains the inputs available for passing to some methods of the secret clients
 type Options struct {
-	Owner   metav1.Object
-	Scheme  *runtime.Scheme
-	Expires *time.Time
+	Owner     metav1.Object
+	Scheme    *runtime.Scheme
+	Activates *time.Time
+	Expires   *time.Time
 }
 
 // SecretOption wraps a function that sets a value in the options struct
 type SecretOption func(*Options)
+
+// WithActivation can be used to pass an activation duration
+func WithActivation(activateAfter *time.Time) SecretOption {
+	return func(op *Options) {
+		op.Activates = activateAfter
+	}
+}
 
 // WithExpiration can be used to pass an expiration duration
 func WithExpiration(expireAfter *time.Time) SecretOption {
