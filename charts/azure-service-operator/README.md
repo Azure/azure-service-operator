@@ -77,11 +77,11 @@ createNamespace: False
 
 Finally, install the chart with your added values. The chart can be installed by using a values file or environment variables.
 ```
-helm upgrade --install aso azureserviceoperator/azure-service-operator/ -f values.yaml
+helm upgrade --install aso azureserviceoperator/azure-service-operator -f values.yaml
 ```
 
 ```
-helm upgrade --install aso azureserviceoperator/azure-service-operator/ \
+helm upgrade --install aso azureserviceoperator/azure-service-operator \
     --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
     --set azureTenantID=$AZURE_TENANT_ID \
     --set azureClientID=$AZURE_CLIENT_ID \
