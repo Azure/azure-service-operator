@@ -204,7 +204,7 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	// Create KeyVault with access policies
 	_, err := kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, rgName, keyVaultNameForSecrets, rgLocation, userID)
 
-	vault, _ := kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
+	_, _ := kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
 	assert.Equal(nil, err, "wait for keyvault to be available")
 
 	// Create the EventHub object and expect the Reconcile to be created
