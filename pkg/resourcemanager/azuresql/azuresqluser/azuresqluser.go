@@ -165,7 +165,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	dbClient := azuresqldb.NewAzureSqlDbManager(s.Log)
 
 	// get admin creds for server
-	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
+	key := types.NamespacedName{Name: instance.Spec.AdminSecret}
 	adminSecret, err := adminSecretClient.Get(ctx, key)
 	if err != nil {
 		instance.Status.Provisioning = false

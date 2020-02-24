@@ -49,8 +49,13 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 		opt(options)
 	}
 
+	var secretName string
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretName := key.Namespace + "-" + key.Name
+	if len(key.Namespace) != 0 {
+		secretName = key.Namespace + "-" + key.Name
+	} else {
+		secretName = key.Name
+	}
 	secretVersion := ""
 	enabled := true
 	var expireDateUTC date.UnixTime
@@ -95,7 +100,12 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 	}
 
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretName := key.Namespace + "-" + key.Name
+	var secretName string
+	if len(key.Namespace) != 0 {
+		secretName = key.Namespace + "-" + key.Name
+	} else {
+		secretName = key.Name
+	}
 	//secretVersion := ""
 	enabled := true
 	//expireDateUTC := date.NewUnixTimeFromDuration(options.Expires)
@@ -131,7 +141,12 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 // Delete deletes a key in KeyVault
 func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedName) error {
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretName := key.Namespace + "-" + key.Name
+	var secretName string
+	if len(key.Namespace) != 0 {
+		secretName = key.Namespace + "-" + key.Name
+	} else {
+		secretName = key.Name
+	}
 	_, err := k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
 	return err
 }
@@ -139,7 +154,13 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 // Get gets a key from KeyVault
 func (k *KeyvaultSecretClient) Get(ctx context.Context, key types.NamespacedName) (map[string][]byte, error) {
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretName := key.Namespace + "-" + key.Name
+	var secretName string
+	if len(key.Namespace) != 0 {
+		secretName = key.Namespace + "-" + key.Name
+	} else {
+		secretName = key.Name
+	}
+
 	secretVersion := ""
 	data := map[string][]byte{}
 
