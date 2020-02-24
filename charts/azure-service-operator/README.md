@@ -16,16 +16,18 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9
 
 ### Helm
 
-Install [Helm](https://helm.sh/docs/intro/install/) on your machine.
+Install the latest (3.x+) [Helm](https://helm.sh/docs/intro/install/) on your machine.
 
 Add the helm repo:
 ```console
-helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
+helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts --username <github username> --password <github personal access token>
 ```
 
 ## Getting Started
 
-Set the following variables to your Azure Tenant ID and Subscription ID:
+Copy the `values.yaml` file from this directory and in the following steps fill in the requisite values.
+
+First, set the following variables to your Azure Tenant ID and Subscription ID:
 ```
 azureTenantID: 00000000-0000-0000-0000-000000000000
 azureSubscriptionID: 00000000-0000-0000-0000-000000000000
@@ -33,7 +35,7 @@ azureSubscriptionID: 00000000-0000-0000-0000-000000000000
 
 ### Authentication
 
-Choose one of the following authentication methods:
+Next, choose one of the following authentication methods, and set its appropriate variables.
 
 #### Service Principal
 
@@ -75,11 +77,11 @@ createNamespace: False
 
 Finally, install the chart with your added values. The chart can be installed by using a values file or environment variables.
 ```
-helm install aso azureserviceoperator/azure-service-operator/ -f values.yaml
+helm upgrade --install aso azureserviceoperator/azure-service-operator -f values.yaml
 ```
 
 ```
-helm install aso azureserviceoperator/azure-service-operator/ \
+helm upgrade --install aso azureserviceoperator/azure-service-operator \
     --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
     --set azureTenantID=$AZURE_TENANT_ID \
     --set azureClientID=$AZURE_CLIENT_ID \

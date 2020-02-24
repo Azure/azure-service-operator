@@ -7,6 +7,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -70,11 +71,32 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		return ctrl.Result{}, err
 	}
 
+
 	// Instantiate the KeyVault Secret Client if KeyVault specified in Spec
 	r.Telemetry.LogInfo("status", "retrieving keyvault for secrets if specified")
 	var keyvaultSecretClient secrets.SecretClient
 	KeyVaultName := GetKeyVaultName(local)
 	keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
+
+	// Check to see if the skipreconcile annotation is on
+	var skipReconcile bool
+	annotations := res.GetAnnotations()
+	if val, ok := annotations["skipreconcile"]; ok {
+		if strings.ToLower(val) == "true" {
+			skipReconcile = true
+		}
+	}
+
+	if skipReconcile {
+		// if this is a delete we should delete the finalizer to allow the kube instance to be deleted
+		if !res.GetDeletionTimestamp().IsZero() {
+			if HasFinalizer(res, finalizerName) {
+				RemoveFinalizer(res, finalizerName)
+			}
+		}
+		r.Recorder.Event(local, corev1.EventTypeNormal, "Skipping", "Skipping reconcile based on provided annotation")
+		return ctrl.Result{}, r.Update(ctx, local)
+	}
 
 	if res.GetDeletionTimestamp().IsZero() {
 		if !HasFinalizer(res, finalizerName) {
