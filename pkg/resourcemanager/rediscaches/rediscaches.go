@@ -29,17 +29,32 @@ import (
 	"errors"
 	"log"
 
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 )
 
-type AzureRedisCacheManager struct{}
+// AzureRedisCacheManager creates a new RedisCacheManager
+type AzureRedisCacheManager struct {
+	Log          logr.Logger
+	SecretClient secrets.SecretClient
+	Scheme       *runtime.Scheme
+}
 
-func NewAzureRedisCacheManager() *AzureRedisCacheManager {
-	return &AzureRedisCacheManager{}
+// NewAzureRedisCacheManager creates a new RedisCacheManager
+func NewAzureRedisCacheManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureRedisCacheManager {
+	return &AzureRedisCacheManager{
+		Log:          log,
+		SecretClient: secretClient,
+		Scheme:       scheme,
+	}
 }
 
 func getRedisCacheClient() (redis.Client, error) {
@@ -55,7 +70,8 @@ func getRedisCacheClient() (redis.Client, error) {
 }
 
 // CreateRedisCache creates a new RedisCache
-func (_ *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
+func (r *AzureRedisCacheManager) CreateRedisCache(
+	ctx context.Context,
 	groupName string,
 	redisCacheName string,
 	location string,
@@ -110,10 +126,30 @@ func (_ *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
 }
 
 // DeleteRedisCache removes the resource group named by env var
-func (_ *AzureRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
+func (r *AzureRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
 	redisClient, err := getRedisCacheClient()
 	if err != nil {
 		return result, err
 	}
 	return redisClient.Delete(ctx, groupName, redisCacheName)
+}
+
+// GetOrPrepareSecret gets or creates a secret
+func (r *AzureRedisCacheManager) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.RedisCache) (map[string][]byte, error) {
+	rediscachename := instance.ObjectMeta.Name
+	secret := map[string][]byte{}
+
+	key := types.NamespacedName{Name: rediscachename, Namespace: instance.Namespace}
+
+	if stored, err := r.SecretClient.Get(ctx, key); err == nil {
+		r.Log.Info("secret already exists, pulling stored values")
+		return stored, nil
+	}
+
+	r.Log.Info("secret not found, generating values for new secret")
+
+	secret["primarykey"] = []byte(instance.Output.PrimaryKey)
+	secret["secondarykey"] = []byte(instance.Output.SecondaryKey)
+
+	return secret, nil
 }

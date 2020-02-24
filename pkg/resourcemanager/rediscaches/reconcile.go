@@ -25,10 +25,12 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
+// Ensure checks the desired state of the operator
 func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
 	instance, err := rc.convert(obj)
 	if err != nil {
@@ -81,6 +83,22 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		return false, err
 	}
 
+	// Check to see if secret already exists
+	secret, err := rc.GetOrPrepareSecret(ctx, instance)
+	// create or update the secret
+	key := types.NamespacedName{Name: instance.ObjectMeta.Name, Namespace: instance.Namespace}
+	err = rc.SecretClient.Upsert(
+		ctx,
+		key,
+		secret,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(rc.Scheme),
+	)
+	if err != nil {
+		instance.Status.Message = fmt.Sprintf("GetOrPrepareSecrets failed with err %s", err.Error())
+		return false, err
+	}
+
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 	instance.Status.Message = resourcemanager.SuccessMsg
@@ -88,6 +106,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	return true, nil
 }
 
+// Delete removes a RedisCache resource
 func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
 	instance, err := rc.convert(obj)
 	if err != nil {
@@ -115,6 +134,7 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 	return false, nil
 }
 
+// GetParents fetches dependent ARM resources
 func (rc *AzureRedisCacheManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	instance, err := rc.convert(obj)
 	if err != nil {
