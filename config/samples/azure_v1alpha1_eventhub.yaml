@@ -16,4 +16,4 @@ spec:
       - "Manage"
       - "Send"
   secretName: "secret-stream-eventhub-sample"
-  keyVaultToStoreSecrets: "asoSecretKeyVault"
+  keyVaultToStoreSecrets: asoSecretKeyVault

@@ -13,4 +13,4 @@ spec:
     family: Gen5
     size: "51200"
     capacity: 2
-  keyVaultToStoreSecrets: "asoSecretKeyVault"
+  keyVaultToStoreSecrets: asoSecretKeyVault
