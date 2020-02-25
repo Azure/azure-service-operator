@@ -116,6 +116,9 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 		err = errhelp.NewAzureError(err)
 		if azerr, ok := err.(*errhelp.AzureError); ok {
 			if helpers.ContainsString(catch, azerr.Type) {
+				if azerr.Type == errhelp.AsyncOpIncompleteError {
+					return true, nil
+				}
 				return false, nil
 			}
 		}
