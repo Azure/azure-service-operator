@@ -29,6 +29,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
+// Ensure creates a rediscache
 func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
 	instance, err := rc.convert(obj)
 	if err != nil {
@@ -97,6 +98,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	return true, nil
 }
 
+// Delete drops a rediscache
 func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
 	instance, err := rc.convert(obj)
 	if err != nil {
@@ -127,6 +129,7 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 	return false, nil
 }
 
+// GetParents returns the parents of rediscache
 func (rc *AzureRedisCacheManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	instance, err := rc.convert(obj)
 	if err != nil {
