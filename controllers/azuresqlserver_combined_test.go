@@ -140,8 +140,13 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	var sqlUser *azurev1alpha1.AzureSQLUser
 
-	// run sub tests that require 2 servers or have to be run after rollcreds test ------------------
-	t.Run("group2", func(t *testing.T) {
+	var sqlFailoverGroupInstance *azurev1alpha1.AzureSqlFailoverGroup
+	randomName := helpers.RandomString(10)
+	sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
+
+	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}
+
+	t.Run("group3", func(t *testing.T) {
 
 		t.Run("set up user in first db", func(t *testing.T) {
 			t.Parallel()
@@ -164,28 +169,6 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			}
 
 			EnsureInstance(ctx, t, tc, sqlUser)
-		})
-	})
-
-	var sqlFailoverGroupInstance *azurev1alpha1.AzureSqlFailoverGroup
-	randomName := helpers.RandomString(10)
-	sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
-
-	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}
-
-	t.Run("group3", func(t *testing.T) {
-		t.Run("delete db user", func(t *testing.T) {
-			EnsureDelete(ctx, t, tc, sqlUser)
-		})
-
-		t.Run("delete local firewallrule", func(t *testing.T) {
-			t.Parallel()
-			EnsureDelete(ctx, t, tc, sqlFirewallRuleInstanceLocal)
-		})
-
-		t.Run("delete remote firewallrule", func(t *testing.T) {
-			t.Parallel()
-			EnsureDelete(ctx, t, tc, sqlFirewallRuleInstanceRemote)
 		})
 
 		t.Run("create failovergroup", func(t *testing.T) {
@@ -218,6 +201,24 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 				return strings.Contains(string(secrets["azureSqlPrimaryServerName"]), sqlServerName)
 			}, tc.timeout, tc.retry, "wait for secret store to show failovergroup server names  ")
 
+		})
+
+	})
+
+	t.Run("quick_deletes", func(t *testing.T) {
+
+		t.Run("delete db user", func(t *testing.T) {
+			EnsureDelete(ctx, t, tc, sqlUser)
+		})
+
+		t.Run("delete local firewallrule", func(t *testing.T) {
+			t.Parallel()
+			EnsureDelete(ctx, t, tc, sqlFirewallRuleInstanceLocal)
+		})
+
+		t.Run("delete remote firewallrule", func(t *testing.T) {
+			t.Parallel()
+			EnsureDelete(ctx, t, tc, sqlFirewallRuleInstanceRemote)
 		})
 
 	})
