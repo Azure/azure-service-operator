@@ -33,6 +33,8 @@ This project maintains [releases of the Azure Service Operator](https://github.c
 2. [EventHub](/docs/eventhub/eventhub.md)
 3. [Azure SQL](/docs/azuresql/azuresql.md)
 
+For more information on troubleshooting resources, refer to [this](/docs/viewresources.md) link
+
 ## Building the operators
 
 You can also build, test, and run the operator from source by [following these instructions](/docs/contents.md).
