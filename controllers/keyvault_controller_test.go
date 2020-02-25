@@ -115,7 +115,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	keyVaultNamespacedName := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return helpers.HasFinalizer(keyVaultInstance, finalizerName)
+		return HasFinalizer(keyVaultInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
 	// Wait until key vault is provisioned
 	assert.Eventually(func() bool {
