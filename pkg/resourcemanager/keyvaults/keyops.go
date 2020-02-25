@@ -80,6 +80,14 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (boo
 	_, err = kvopsclient.CreateKey(ctx, vaultBaseURL, instance.Name, params)
 	if err != nil {
 		instance.Status.Message = err.Error()
+
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		// this generally means the operator doesn't have access to the keyvault
+		// this can be resolved elsewhere so we should keep trying
+		if azerr.Type == "Forbidden" {
+			return false, nil
+		}
+
 		return false, err
 	}
 
