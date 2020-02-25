@@ -50,7 +50,11 @@ type AzureRedisCacheManager struct {
 
 // NewAzureRedisCacheManager creates a new RedisCacheManager
 func NewAzureRedisCacheManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureRedisCacheManager {
-	return &AzureRedisCacheManager{}
+	return &AzureRedisCacheManager{
+		Log:          log,
+		SecretClient: secretClient,
+		Scheme:       scheme,
+	}
 }
 
 func getRedisCacheClient() (redis.Client, error) {
@@ -140,7 +144,6 @@ func (r *AzureRedisCacheManager) ListKeys(ctx context.Context, resourceGroupName
 
 // CreateSecrets creates a secret for a redis cache
 func (r *AzureRedisCacheManager) CreateSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.RedisCache, data map[string][]byte) error {
-	r.Log.Info("Creating Secret")
 	key := types.NamespacedName{Name: secretName, Namespace: instance.Namespace}
 
 	err := r.SecretClient.Upsert(
