@@ -122,58 +122,69 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 		return keyvault.AccessPolicyEntry{}, err
 	}
 
-	var keyPermissions []keyvault.KeyPermissions
-	validKeyPermissions := keyvault.PossibleKeyPermissionsValues()
-	for _, key := range *policy.Permissions.Keys {
-		for _, validKey := range validKeyPermissions {
-			if keyvault.KeyPermissions(key) == validKey {
-				keyPermissions = append(keyPermissions, validKey)
-				break
-			}
-		}
-	}
-
-	var secretPermissions []keyvault.SecretPermissions
-	validSecretPermissions := keyvault.PossibleSecretPermissionsValues()
-	for _, key := range *policy.Permissions.Secrets {
-		for _, validSecret := range validSecretPermissions {
-			if keyvault.SecretPermissions(key) == validSecret {
-				secretPermissions = append(secretPermissions, validSecret)
-				break
-			}
-		}
-	}
-
-	var certificatePermissions []keyvault.CertificatePermissions
-	validCertificatePermissions := keyvault.PossibleCertificatePermissionsValues()
-	for _, key := range *policy.Permissions.Certificates {
-		for _, validCert := range validCertificatePermissions {
-			if keyvault.CertificatePermissions(key) == validCert {
-				certificatePermissions = append(certificatePermissions, validCert)
-				break
-			}
-		}
-	}
-
-	var storagePermissions []keyvault.StoragePermissions
-	validStoragePermissions := keyvault.PossibleStoragePermissionsValues()
-	for _, key := range *policy.Permissions.Storage {
-		for _, validStorage := range validStoragePermissions {
-			if keyvault.StoragePermissions(key) == validStorage {
-				storagePermissions = append(storagePermissions, validStorage)
-				break
-			}
-		}
-	}
-
 	newEntry := keyvault.AccessPolicyEntry{
-		TenantID: &tenantID,
-		Permissions: &keyvault.Permissions{
-			Keys:         &keyPermissions,
-			Secrets:      &secretPermissions,
-			Certificates: &certificatePermissions,
-			Storage:      &storagePermissions,
-		},
+		TenantID:    &tenantID,
+		Permissions: &keyvault.Permissions{},
+	}
+
+	if policy.Permissions.Keys != nil {
+		var keyPermissions []keyvault.KeyPermissions
+		validKeyPermissions := keyvault.PossibleKeyPermissionsValues()
+		for _, key := range *policy.Permissions.Keys {
+			for _, validKey := range validKeyPermissions {
+				if keyvault.KeyPermissions(key) == validKey {
+					keyPermissions = append(keyPermissions, validKey)
+					break
+				}
+			}
+		}
+
+		newEntry.Permissions.Keys = &keyPermissions
+	}
+
+	if policy.Permissions.Secrets != nil {
+		var secretPermissions []keyvault.SecretPermissions
+		validSecretPermissions := keyvault.PossibleSecretPermissionsValues()
+		for _, key := range *policy.Permissions.Secrets {
+			for _, validSecret := range validSecretPermissions {
+				if keyvault.SecretPermissions(key) == validSecret {
+					secretPermissions = append(secretPermissions, validSecret)
+					break
+				}
+			}
+		}
+
+		newEntry.Permissions.Secrets = &secretPermissions
+	}
+
+	if policy.Permissions.Secrets != nil {
+		var certificatePermissions []keyvault.CertificatePermissions
+		validCertificatePermissions := keyvault.PossibleCertificatePermissionsValues()
+		for _, key := range *policy.Permissions.Certificates {
+			for _, validCert := range validCertificatePermissions {
+				if keyvault.CertificatePermissions(key) == validCert {
+					certificatePermissions = append(certificatePermissions, validCert)
+					break
+				}
+			}
+		}
+
+		newEntry.Permissions.Certificates = &certificatePermissions
+	}
+
+	if policy.Permissions.Storage != nil {
+		var storagePermissions []keyvault.StoragePermissions
+		validStoragePermissions := keyvault.PossibleStoragePermissionsValues()
+		for _, key := range *policy.Permissions.Storage {
+			for _, validStorage := range validStoragePermissions {
+				if keyvault.StoragePermissions(key) == validStorage {
+					storagePermissions = append(storagePermissions, validStorage)
+					break
+				}
+			}
+		}
+
+		newEntry.Permissions.Storage = &storagePermissions
 	}
 
 	if policy.ApplicationID != "" {
