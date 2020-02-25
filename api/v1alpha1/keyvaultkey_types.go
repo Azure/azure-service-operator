@@ -25,6 +25,7 @@
 package v1alpha1
 
 import (
+	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -35,10 +36,12 @@ import (
 type KeyVaultKeySpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string `json:"location"`
-	ResourceGroup string `json:"resourceGroup"`
-	KeyVault      string `json:"keyVault,omitempty"`
-	KeySize       int32  `json:"keySize,omitempty"`
+	Location      string                      `json:"location"`
+	ResourceGroup string                      `json:"resourceGroup"`
+	KeyVault      string                      `json:"keyVault,omitempty"`
+	KeySize       int32                       `json:"keySize,omitempty"`
+	Type          kvops.JSONWebKeyType        `json:"type,omitempty"`
+	Operations    []kvops.JSONWebKeyOperation `json:"operations,omitempty"`
 }
 
 // +kubebuilder:object:root=true

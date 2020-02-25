@@ -51,26 +51,34 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (boo
 		return false, err
 	}
 
-	instance.Status.Message = resourcemanager.SuccessMsg
-	instance.Status.Provisioned = true
-	instance.Status.Provisioning = false
-
 	vaultBaseURL := *keyvault.Properties.VaultURI
-	var ksize int32 = instance.Spec.KeySize
-	kops := kvops.PossibleJSONWebKeyOperationValues()
+
+	// exit successfully if key already exists, @todo, determine how to roll these in a way users would expect
+	if _, err := kvopsclient.GetKey(ctx, vaultBaseURL, instance.GetName(), ""); err == nil {
+		instance.Status.Message = resourcemanager.SuccessMsg
+		instance.Status.Provisioned = true
+		instance.Status.Provisioning = false
+		return true, nil
+	}
+
 	katts := kvops.KeyAttributes{
 		Enabled: to.BoolPtr(true),
 	}
 	params := kvops.KeyCreateParameters{
-		Kty:           kvops.RSA,
-		KeySize:       &ksize,
-		KeyOps:        &kops,
+		Kty:           instance.Spec.Type,
+		KeySize:       &instance.Spec.KeySize,
+		KeyOps:        &instance.Spec.Operations,
 		KeyAttributes: &katts,
 	}
 	_, err = kvopsclient.CreateKey(ctx, vaultBaseURL, instance.Name, params)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		return false, err
 	}
+
+	instance.Status.Message = resourcemanager.SuccessMsg
+	instance.Status.Provisioned = true
+	instance.Status.Provisioning = false
 
 	return true, nil
 }
