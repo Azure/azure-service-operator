@@ -6,3 +6,7 @@ description: Deploy components and dependencies of azure-service-operator
 home: https://github.com/Azure/azure-service-operator
 sources:
   - https://github.com/Azure/azure-service-operator
+dependencies:
+  - name: aad-pod-identity
+    version: 1.5.5
+    repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts

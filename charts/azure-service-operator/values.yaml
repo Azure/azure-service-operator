@@ -16,3 +16,16 @@ createNamespace: True
 
 image:
   repository: mcr.microsoft.com/k8s/azure-service-operator:0.0.9150
+
+aad-pod-identity:
+  azureIdentityBinding:
+    name: aso-identity-binding
+    selector: aso_manager_binding
+  azureIdentity:
+    enabled: True
+    name: aso-identity
+    type: 0
+
+    # Update values for Managed Identity 
+    resourceID: ""
+    clientID: ""
