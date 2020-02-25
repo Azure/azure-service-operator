@@ -20,9 +20,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
-type DBEdition byte
-
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
@@ -54,6 +51,40 @@ type AzureSqlDatabaseList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []AzureSqlDatabase `json:"items"`
 }
+
+// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
+type DBEdition byte
+
+const (
+	// Basic ...
+	SQLEditionBasic DBEdition = 0
+	// Business ...
+	SQLEditionBusiness DBEdition = 1
+	// BusinessCritical ...
+	SQLEditionBusinessCritical DBEdition = 2
+	// DataWarehouse ...
+	SQLEditionDataWarehouse DBEdition = 3
+	// Free ...
+	SQLEditionFree DBEdition = 4
+	// GeneralPurpose ...
+	SQLEditionGeneralPurpose DBEdition = 5
+	// Hyperscale ...
+	SQLEditionHyperscale DBEdition = 6
+	// Premium ...
+	SQLEditionPremium DBEdition = 7
+	// PremiumRS ...
+	SQLEditionPremiumRS DBEdition = 8
+	// Standard ...
+	SQLEditionStandard DBEdition = 9
+	// Stretch ...
+	SQLEditionStretch DBEdition = 10
+	// System ...
+	SQLEditionSystem DBEdition = 11
+	// System2 ...
+	SQLEditionSystem2 DBEdition = 12
+	// Web ...
+	SQLEditionWeb DBEdition = 13
+)
 
 func init() {
 	SchemeBuilder.Register(&AzureSqlDatabase{}, &AzureSqlDatabaseList{})

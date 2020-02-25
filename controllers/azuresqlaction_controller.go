@@ -43,8 +43,6 @@ import (
 	"k8s.io/client-go/tools/record"
 )
 
-const AzureSqlActionFinalizerName = "azuresqlaction.finalizers.azure.com"
-
 // AzureSqlActionReconciler reconciles a AzureSqlAction object
 type AzureSqlActionReconciler struct {
 	client.Client
@@ -175,7 +173,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 		}
 
 		// Generate a new password
-		newPassword, _ := generateRandomPassword(passwordLength)
+		newPassword, _ := helpers.GenerateRandomPassword(12)
 		azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
 		if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties, true); err != nil {

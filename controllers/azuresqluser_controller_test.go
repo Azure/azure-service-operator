@@ -1,242 +1,144 @@
-/*
-Copyright 2019 microsoft.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// +build all azuresqlserver azuresqluser
 
 package controllers
 
 import (
-	. "github.com/onsi/ginkgo"
-	//. "github.com/onsi/gomega"
+	"context"
+	"strings"
+	"testing"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/stretchr/testify/assert"
+	v1 "k8s.io/api/core/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("AzureSQLUser Controller tests", func() {
-	/*
-		var err error
-		var rgName string
-		var rgLocation string
-		var sqlServerName string
-		var sqlDatabaseName string
-		var sqlFirewallRuleName string
-		var sqlServerInstance *azurev1alpha1.AzureSqlServer
-		var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
-		var sqlFirewallRuleInstance *azurev1alpha1.AzureSqlFirewallRule
-		var sqlServerNamespacedName types.NamespacedName
-		var sqlDatabaseNamespacedName types.NamespacedName
-		var sqlFirewallRuleNamespacedName types.NamespacedName
-		var sqlUser *azurev1alpha1.AzureSQLUser
-		var ctx context.Context
-	*/
-	// Setup the resources we need
-	BeforeEach(func() {
-		/*
-			rgName = tc.resourceGroupName
-			rgLocation = tc.resourceGroupLocation
-			sqlServerName = "t-sqlusr-test" + helpers.RandomString(10)
-			ctx = context.Background()
+func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
+	var err error
+	var sqlServerName string
+	var sqlDatabaseName string
+	var sqlUser *azurev1alpha1.AzureSQLUser
 
-			// Create an instance of Azure SQL
-			sqlServerInstance = &azurev1alpha1.AzureSqlServer{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      sqlServerName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.AzureSqlServerSpec{
-					Location:      rgLocation,
-					ResourceGroup: rgName,
-				},
-			}
-			err = tc.k8sClient.Create(ctx, sqlServerInstance)
-			Expect(err).To(BeNil())
+	sqlServerName = "t-sqlusr-test" + helpers.RandomString(10)
 
-			sqlServerNamespacedName = types.NamespacedName{Name: sqlServerName, Namespace: "default"}
+	username := "sql-test-user" + helpers.RandomString(10)
+	roles := []string{"db_owner"}
 
-			// Wait for the SQL Instance to be provisioned
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-				return sqlServerInstance.Status.Provisioned
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+	sqlUser = &azurev1alpha1.AzureSQLUser{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      username,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.AzureSQLUserSpec{
+			Server:      sqlServerName,
+			DbName:      sqlDatabaseName,
+			AdminSecret: "",
+			Roles:       roles,
+		},
+	}
 
-			randomName := helpers.RandomString(10)
-			sqlDatabaseName = "t-sqldatabase-test-" + randomName
+	// Create the sqlUser
+	err = tc.k8sClient.Create(ctx, sqlUser)
+	assert.Equal(nil, err, "create db user in k8s")
 
-			// Create the SqlDatabase
-			sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      sqlDatabaseName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.AzureSqlDatabaseSpec{
-					Location:      rgLocation,
-					ResourceGroup: rgName,
-					Server:        sqlServerName,
-					Edition:       0,
-				},
-			}
+	sqlUserNamespacedName := types.NamespacedName{Name: username, Namespace: "default"}
 
-			err = tc.k8sClient.Create(ctx, sqlDatabaseInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).To(BeNil())
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+		return helpers.HasFinalizer(sqlUser, finalizerName)
+	}, tc.timeout, tc.retry, "wait for finalizer")
 
-			sqlDatabaseNamespacedName = types.NamespacedName{Name: sqlDatabaseName, Namespace: "default"}
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+		return strings.Contains(sqlUser.Status.Message, "admin secret")
+	}, tc.timeout, tc.retry, "wait for missing admin secret message")
 
-			// Wait for the SQL Database to be provisioned
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(ctx, sqlDatabaseNamespacedName, sqlDatabaseInstance)
-				return sqlDatabaseInstance.Status.Provisioned
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
+	err = tc.k8sClient.Delete(ctx, sqlUser)
+	assert.Equal(nil, err, "delete db user in k8s")
 
-			// Open up the SQL firewall on the server as that's required
-			// for the user creation through operator
-			sqlFirewallRuleName = "t-fwrule-dev-" + randomName
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for user to be gone from k8s")
 
-			// Create the SqlFirewallRule object and expect the Reconcile to be created
-			sqlFirewallRuleInstance = &azurev1alpha1.AzureSqlFirewallRule{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      sqlFirewallRuleName,
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.AzureSqlFirewallRuleSpec{
-					ResourceGroup:  rgName,
-					Server:         sqlServerName,
-					StartIPAddress: "1.1.1.1",
-					EndIPAddress:   "255.255.255.255",
-				},
-			}
+}
 
-			err = tc.k8sClient.Create(ctx, sqlFirewallRuleInstance)
-			Expect(apierrors.IsInvalid(err)).To(Equal(false))
-			Expect(err).NotTo(HaveOccurred())
+func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
+	var err error
+	var sqlServerName string
+	var sqlDatabaseName string
+	var sqlUser *azurev1alpha1.AzureSQLUser
 
-			sqlFirewallRuleNamespacedName = types.NamespacedName{Name: sqlFirewallRuleName, Namespace: "default"}
+	sqlServerName = "t-sqlusr-test" + helpers.RandomString(10)
 
-			Eventually(func() bool {
-				_ = tc.k8sClient.Get(context.Background(), sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-				return sqlFirewallRuleInstance.Status.Provisioned
-			}, tc.timeout, tc.retry,
-			).Should(BeTrue())
-		*/
-	})
+	username := "sql-test-user" + helpers.RandomString(10)
+	roles := []string{"db_owner"}
 
-	// Clean up lingering resources
-	AfterEach(func() {
-		/*
-			// Delete the firewall rules created for this test
-			err = tc.k8sClient.Delete(ctx, sqlFirewallRuleInstance)
-			Expect(err).To(BeNil())
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      sqlServerName,
+			Namespace: "default",
+		},
+		// Needed to avoid nil map error
+		Data: map[string][]byte{
+			"username": []byte("username"),
+			"password": []byte("password"),
+		},
+		Type: "Opaque",
+	}
 
-			// Delete the database created for this test
-			err = tc.k8sClient.Delete(ctx, sqlDatabaseInstance)
-			Expect(err).To(BeNil())
+	// Create the sqlUser
+	err = tc.k8sClient.Create(ctx, secret)
+	assert.Equal(nil, err, "create admin secret in k8s")
 
-			// Delete the server instance created for this test
-			err = tc.k8sClient.Delete(ctx, sqlServerInstance)
-			Expect(err).To(BeNil())
-		*/
+	sqlUser = &azurev1alpha1.AzureSQLUser{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      username,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.AzureSQLUserSpec{
+			Server:        sqlServerName,
+			DbName:        sqlDatabaseName,
+			AdminSecret:   "",
+			Roles:         roles,
+			ResourceGroup: "fakerg" + helpers.RandomString(10),
+		},
+	}
 
-	})
+	// Create the sqlUser
+	err = tc.k8sClient.Create(ctx, sqlUser)
+	assert.Equal(nil, err, "create db user in k8s")
 
-	Context("Create SQL User", func() {
+	sqlUserNamespacedName := types.NamespacedName{Name: username, Namespace: "default"}
 
-		It("should create and delete a user in an Azure SQL database", func() {
-			/*
-				defer GinkgoRecover()
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+		return helpers.HasFinalizer(sqlUser, finalizerName)
+	}, tc.timeout, tc.retry, "wait for finalizer")
 
-				username := "sql-test-user" + helpers.RandomString(10)
-				roles := []string{"db_owner"}
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+		return strings.Contains(sqlUser.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+	}, tc.timeout, tc.retry, "wait for rg fail message")
 
-				// get admin creds for server
-				key := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
-				adminSecret, err := tc.secretClient.Get(ctx, key)
-				if err != nil {
-					log.Info("sql server admin secret not found")
-				}
-				log.Info("sql server secret present", "username", string(adminSecret["username"]))
+	err = tc.k8sClient.Delete(ctx, sqlUser)
+	assert.Equal(nil, err, "delete db user in k8s")
 
-				sqlUser = &azurev1alpha1.AzureSQLUser{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      username,
-						Namespace: "default",
-					},
-					Spec: azurev1alpha1.AzureSQLUserSpec{
-						Server:      sqlServerName,
-						DbName:      sqlDatabaseName,
-						AdminSecret: "",
-						Roles:       roles,
-					},
-				}
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
+		return apierrors.IsNotFound(err)
+	}, tc.timeout, tc.retry, "wait for user to be gone from k8s")
 
-				// Create the sqlUser
-				err = tc.k8sClient.Create(ctx, sqlUser)
-				Expect(err).To(BeNil())
-
-				sqlUserNamespacedName := types.NamespacedName{Name: username, Namespace: "default"}
-
-				Eventually(func() bool {
-					_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-					return helpers.HasFinalizer(sqlUser, AzureSQLUserFinalizerName)
-				}, tc.timeout, tc.retry,
-				).Should(BeTrue())
-
-				// Assure the user creation request is submitted
-				Eventually(func() bool {
-					_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-					return sqlUser.Status.Provisioned
-				}, tc.timeout, tc.retry,
-				).Should(BeTrue())
-
-				// get user creds for database
-				key = types.NamespacedName{Name: username, Namespace: "default"}
-				adminSecret, err = tc.secretClient.Get(ctx, key)
-				if err != nil {
-					log.Info("sql db user secret not found")
-				}
-
-				sqlUserName := string(adminSecret["username"])
-				sqlUserPassword := string(adminSecret["password"])
-
-				Eventually(func() bool {
-
-					db, err := tc.sqlUserManager.ConnectToSqlDb(
-						ctx,
-						DriverName,
-						sqlServerName,
-						sqlDatabaseName,
-						SqlServerPort,
-						sqlUserName,
-						sqlUserPassword)
-					if err != nil {
-						return false
-					}
-
-					// Assure the SQLUser exists in Azure
-					result, err := tc.sqlUserManager.UserExists(ctx, db, sqlUserName)
-					return result
-				}, tc.timeout, tc.retry,
-				).Should(BeTrue())
-
-				err = tc.k8sClient.Delete(ctx, sqlUser)
-
-				Eventually(func() bool {
-					_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-					return helpers.IsBeingDeleted(sqlUser)
-				}, tc.timeout, tc.retry,
-				).Should(BeTrue())
-			*/
-
-		})
-	})
-})
+}

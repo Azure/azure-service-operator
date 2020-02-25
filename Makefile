@@ -108,6 +108,14 @@ delete:
 	kubectl delete -f config/crd/bases
 	kustomize build config/default | kubectl delete -f -
 
+# Generate manifests for helm and package them up
+helm-chart-manifests: manifests
+	kustomize build ./config/default -o ./charts/azure-service-operator/templates
+	rm charts/azure-service-operator/templates/~g_v1_namespace_azureoperator-system.yaml
+	sed -i '' -e 's@controller:latest@{{ .Values.image.repository }}@' ./charts/azure-service-operator/templates/apps_v1_deployment_azureoperator-controller-manager.yaml
+	helm package ./charts/azure-service-operator -d ./charts
+	helm repo index ./charts
+
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
@@ -246,8 +254,8 @@ endif
 
 install-cert-manager:
 	kubectl create namespace cert-manager
-	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+	kubectl label namespace cert-manager cert-manager.io/disable-validation=true
+	kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
 
 install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
