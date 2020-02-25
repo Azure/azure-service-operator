@@ -23,11 +23,11 @@ const (
 // ParseEnvironment loads a sibling `.env` file then looks through all environment
 // variables to set global configuration.
 func ParseEnvironment() error {
-	azenv := os.Getenv("AZURE_CLOUD_ENV")
+	azcloud := os.Getenv("AZURE_CLOUD_ENV")
 	envy.Load()
 
-	if azenv == "" {
-		azenv = "AzurePublicCloud"
+	if azcloud == "" {
+		azcloud = "AzurePublicCloud"
 	}
 
 	allowed := []string{
@@ -37,11 +37,13 @@ func ParseEnvironment() error {
 		"AzureGermanCloud",
 	}
 
-	if !helpers.ContainsString(allowed, azenv) {
-		return fmt.Errorf("Invalid Cloud chosen: AZURE_CLOUD_ENV set to '%s'", azenv)
+	if !helpers.ContainsString(allowed, azcloud) {
+		return fmt.Errorf("Invalid Cloud chosen: AZURE_CLOUD_ENV set to '%s'", azcloud)
 	}
 
-	azureEnv, _ := azure.EnvironmentFromName(azenv) // shouldn't fail
+	cloudName = azcloud
+
+	azureEnv, _ := azure.EnvironmentFromName(azcloud) // shouldn't fail
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
 
 	// AZURE_GROUP_NAME and `config.GroupName()` are deprecated.
