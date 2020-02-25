@@ -13,7 +13,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 )
 
-// RedisCacheManager manages Azure RedisCache service components
 type RedisCacheManager interface {
 	// CreateRedisCache creates a new RedisCache
 	CreateRedisCache(ctx context.Context,

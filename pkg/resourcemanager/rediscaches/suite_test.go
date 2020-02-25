@@ -54,8 +54,8 @@ func TestAPIs(t *testing.T) {
 }
 
 var _ = BeforeSuite(func() {
-	zaplogger := zap.LoggerTo(GinkgoWriter, true)
-	logf.SetLogger(zaplogger)
+	logf.SetLogger(zap.LoggerTo(GinkgoWriter, true))
+
 	By("bootstrapping test environment")
 
 	err := resourcemanagerconfig.ParseEnvironment()
@@ -73,7 +73,6 @@ var _ = BeforeSuite(func() {
 	tc = TestContext{
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
-
 		RedisCacheManager: &AzureRedisCacheManager{
 			Log: zaplogger,
 		},
