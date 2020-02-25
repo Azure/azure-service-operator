@@ -35,11 +35,18 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		return false, err
 	}
 
+	redisName := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
 	name := instance.ObjectMeta.Name
 	location := instance.Spec.Location
 	sku := instance.Spec.Properties.Sku
 	enableNonSSLPort := instance.Spec.Properties.EnableNonSslPort
+	secretName := instance.Spec.SecretName
+
+	if len(secretName) == 0 {
+		secretName = redisName
+		instance.Spec.SecretName = redisName
+	}
 
 	instance.Status.Provisioning = true
 
@@ -51,6 +58,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	if err == nil {
 		if resp.ProvisioningState == "Succeeded" {
 			instance.Status.Message = resourcemanager.SuccessMsg
+			instance.Status.State = string(resp.ProvisioningState)
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			return true, nil
@@ -81,6 +89,15 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		return false, err
 	}
 
+	rc.Log.Info("create secret")
+	err = rc.ListKeysAndCreateSecrets(groupName, redisName, secretName, instance)
+	if err != nil {
+		instance.Status.Message = err.Error()
+		return false, err
+	}
+	rc.Log.Info("create secret")
+
+	instance.Status.State = string(resp.Status)
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 	instance.Status.Message = resourcemanager.SuccessMsg

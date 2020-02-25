@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: RedisCache
 metadata:
-  name: rediscache-sample1908xyzkj
+  name: blah
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators

@@ -25,7 +25,6 @@ type RedisCacheManager interface {
 
 	// DeleteRedisCache removes the resource group named by env var
 	DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error)
-
 	// also embed async client methods
 	resourcemanager.ARMClient
 }

@@ -47,6 +47,7 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 				},
 				EnableNonSslPort: true,
 			},
+			SecretName: "RedisCacheSecret",
 		},
 	}
 
