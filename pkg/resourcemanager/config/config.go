@@ -4,6 +4,7 @@ package config
 import (
 	"bytes"
 	"fmt"
+	"os"
 
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/marstr/randname"
@@ -20,7 +21,7 @@ var (
 	subscriptionID         string
 	locationDefault        string
 	authorizationServerURL string
-	cloudName              string = "AzurePublicCloud"
+	cloudName              string
 	useDeviceFlow          bool
 	useMI                  bool
 
@@ -118,10 +119,15 @@ func UserAgent() string {
 	return "sdk-samples"
 }
 
-// Environment() returns an `azure.Environment{...}` for the current cloud.
+// Environment returns an `azure.Environment{...}` for the current cloud.
 func Environment() *azure.Environment {
 	if environment != nil {
 		return environment
+	}
+
+	cloudName = os.Getenv("AZURE_CLOUD_ENV")
+	if cloudName == "" {
+		cloudName = "AzurePublicCloud"
 	}
 
 	env, err := azure.EnvironmentFromName(cloudName)
