@@ -64,6 +64,13 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (boo
 	katts := kvops.KeyAttributes{
 		Enabled: to.BoolPtr(true),
 	}
+
+	// default to all operations if none specified
+	ops := instance.Spec.Operations
+	if len(ops) == 0 {
+		ops = kvops.PossibleJSONWebKeyOperationValues()
+	}
+
 	params := kvops.KeyCreateParameters{
 		Kty:           instance.Spec.Type,
 		KeySize:       &instance.Spec.KeySize,
@@ -92,11 +99,17 @@ func (k *KeyvaultKeyClient) Delete(ctx context.Context, obj runtime.Object) (boo
 
 	keyv, err := k.KeyvaultClient.GetVault(ctx, instance.Spec.ResourceGroup, instance.Spec.KeyVault)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		if azerr.Type == errhelp.ResourceNotFound {
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
+
 		return true, err
 	}
 

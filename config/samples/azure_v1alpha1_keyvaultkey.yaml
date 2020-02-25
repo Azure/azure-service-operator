@@ -3,5 +3,10 @@ kind: KeyVaultKey
 metadata:
   name: keyvaultkey-sample
 spec:
-  # Add fields here
-  foo: bar
+  resourceGroup: resourcegroup-azure-operators
+  location: westus
+  keyVault: keyvaultsample123
+  keySize: 4096
+  type: RSA
+  #optional: defaults to all operations
+  #operations: ["encrypt", "wrap", "unwrap"]
