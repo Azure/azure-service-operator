@@ -123,6 +123,9 @@ func main() {
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(ctrl.Log.WithName("keyvaultmanager").WithName("KeyVault"), mgr.GetScheme())
+	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
+		KeyvaultClient: keyVaultManager,
+	}
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
 	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"))
 	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
@@ -431,14 +434,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	kvopsClient := &resourcemanagerkeyvault.KeyvaultKeyClient{
-		KeyvaultClient: keyVaultManager,
-	}
-
 	if err = (&controllers.KeyVaultKeyReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: kvopsClient,
+			AzureClient: keyVaultKeyManager,
 			Telemetry: telemetry.InitializePrometheusDefault(
 				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
 				"KeyVaultKey"),
