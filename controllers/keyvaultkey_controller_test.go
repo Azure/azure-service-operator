@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -78,6 +79,8 @@ func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 			ResourceGroup: tc.resourceGroupName,
 			KeyVault:      keyVaultName,
 			KeySize:       4096,
+			Type:          kvops.RSA,
+			Operations:    kvops.PossibleJSONWebKeyOperationValues(),
 		},
 	}
 
@@ -87,9 +90,12 @@ func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 	kvopsclient := resourcemanagerkeyvaults.NewOpsClient(keyVaultName)
 
 	assert.Eventually(func() bool {
-		kvault, _ := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)
+		kvault, err := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)
+		if err != nil {
+			return err == nil
+		}
 		vUrl := *kvault.Properties.VaultURI
-		_, err := kvopsclient.GetKey(ctx, vUrl, keyVaultKeyName, "")
+		_, err = kvopsclient.GetKey(ctx, vUrl, keyVaultKeyName, "")
 
 		return err == nil
 	}, tc.timeout, tc.retry, "wait for keyVaultkey to be ready in azure")
