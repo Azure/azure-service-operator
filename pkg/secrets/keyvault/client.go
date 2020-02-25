@@ -53,27 +53,35 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 	secretName := key.Namespace + "-" + key.Name
 	secretVersion := ""
 	enabled := true
+	var activationDateUTC date.UnixTime
 	var expireDateUTC date.UnixTime
 
-	if options.Expires != nil {
-		expireDateUTC = date.UnixTime(*options.Expires)
-	}
 	// Convert the map into a string as that's what a KeyVault secret takes
 	jsonData, err := json.Marshal(data)
 	if err != nil {
 		return err
 	}
 	stringSecret := string(jsonData)
-	contentType := "json"
+
+	// Initialize secret attributes
+	secretAttributes := keyvaults.SecretAttributes{
+		Enabled: &enabled,
+	}
+
+	if options.Activates != nil {
+		activationDateUTC = date.UnixTime(*options.Activates)
+		secretAttributes.NotBefore = &activationDateUTC
+	}
+
+	if options.Expires != nil {
+		expireDateUTC = date.UnixTime(*options.Expires)
+		secretAttributes.Expires = &expireDateUTC
+	}
 
 	// Initialize secret parameters
 	secretParams := keyvaults.SecretSetParameters{
-		Value: &stringSecret,
-		SecretAttributes: &keyvaults.SecretAttributes{
-			Enabled: &enabled,
-			Expires: &expireDateUTC,
-		},
-		ContentType: &contentType,
+		Value:            &stringSecret,
+		SecretAttributes: &secretAttributes,
 	}
 
 	if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
@@ -98,7 +106,9 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 	secretName := key.Namespace + "-" + key.Name
 	secretVersion := ""
 	enabled := true
-	//expireDateUTC := date.NewUnixTimeFromDuration(options.Expires)
+
+	var activationDateUTC date.UnixTime
+	var expireDateUTC date.UnixTime
 
 	// Convert the map into a string as that's what a KeyVault secret takes
 	jsonData, err := json.Marshal(data)
@@ -107,12 +117,25 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 	}
 	stringSecret := string(jsonData)
 
+	// Initialize secret attributes
+	secretAttributes := keyvaults.SecretAttributes{
+		Enabled: &enabled,
+	}
+
+	if options.Activates != nil {
+		activationDateUTC = date.UnixTime(*options.Activates)
+		secretAttributes.NotBefore = &activationDateUTC
+	}
+
+	if options.Expires != nil {
+		expireDateUTC = date.UnixTime(*options.Expires)
+		secretAttributes.Expires = &expireDateUTC
+	}
+
 	// Initialize secret parameters
 	secretParams := keyvaults.SecretSetParameters{
-		Value: &stringSecret,
-		SecretAttributes: &keyvaults.SecretAttributes{
-			Enabled: &enabled,
-		},
+		Value:            &stringSecret,
+		SecretAttributes: &secretAttributes,
 	}
 
 	if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
