@@ -35,7 +35,16 @@ const usernameLength = 8
 const passwordLength = 16
 
 // Ensure creates an AzureSqlServer
-func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		s.SecretClient = options.SecretClient
+	}
+
 	instance, err := s.convert(obj)
 	if err != nil {
 		return false, err
@@ -155,7 +164,16 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object) 
 }
 
 // Delete handles idempotent deletion of a sql server
-func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		s.SecretClient = options.SecretClient
+	}
+
 	instance, err := s.convert(obj)
 	if err != nil {
 		return false, err
@@ -163,6 +181,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object) 
 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
+	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 
 	_, err = s.DeleteSQLServer(ctx, groupName, name)
 	if err != nil {
@@ -184,12 +203,16 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object) 
 		}
 
 		if helpers.ContainsString(finished, azerr.Type) {
+			//Best effort deletion of secrets
+			s.SecretClient.Delete(ctx, key)
 			return false, nil
 		}
 
 		return false, err
 	}
 
+	//Best effort deletion of secrets
+	s.SecretClient.Delete(ctx, key)
 	return false, nil
 }
 
