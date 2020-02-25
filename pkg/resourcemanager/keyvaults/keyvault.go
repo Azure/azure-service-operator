@@ -117,12 +117,8 @@ func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
 	return networkAcls
 }
 
-func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry) (keyvault.AccessPolicyEntry, error) {
+func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) (keyvault.AccessPolicyEntry, error) {
 	tenantID, err := uuid.FromString(policy.TenantID)
-	if err != nil {
-		return keyvault.AccessPolicyEntry{}, err
-	}
-	appID, err := uuid.FromString(policy.TenantID)
 	if err != nil {
 		return keyvault.AccessPolicyEntry{}, err
 	}
@@ -172,15 +168,28 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry) (keyvault.AccessPolic
 	}
 
 	newEntry := keyvault.AccessPolicyEntry{
-		TenantID:      &tenantID,
-		ObjectID:      &policy.ObjectID,
-		ApplicationID: &appID,
+		TenantID: &tenantID,
 		Permissions: &keyvault.Permissions{
 			Keys:         &keyPermissions,
 			Secrets:      &secretPermissions,
 			Certificates: &certificatePermissions,
 			Storage:      &storagePermissions,
 		},
+	}
+
+	if policy.ApplicationID != "" {
+		appID, err := uuid.FromString(policy.ApplicationID)
+		if err != nil {
+			return keyvault.AccessPolicyEntry{}, err
+		}
+
+		newEntry.ApplicationID = &appID
+	}
+
+	if policy.ObjectID != "" {
+		if objID := getObjectID(ctx, policy.TenantID, policy.ObjectID); objID != nil {
+			newEntry.ObjectID = objID
+		}
 	}
 
 	return newEntry, nil
@@ -231,7 +240,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	var accessPolicies []keyvault.AccessPolicyEntry
 	if instance.Spec.AccessPolicies != nil {
 		for _, policy := range *instance.Spec.AccessPolicies {
-			newEntry, err := parseAccessPolicy(&policy)
+			newEntry, err := parseAccessPolicy(&policy, ctx)
 			if err != nil {
 				return keyvault.Vault{}, err
 			}
