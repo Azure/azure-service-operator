@@ -22,6 +22,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -68,6 +69,21 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
+		return false, err
+	}
+
+	secret, _ := fg.GetOrPrepareSecret(ctx, instance)
+
+	// create or update the secret
+	key := types.NamespacedName{Name: instance.ObjectMeta.Name, Namespace: instance.Namespace}
+	err = fg.SecretClient.Upsert(
+		ctx,
+		key,
+		secret,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(fg.Scheme),
+	)
+	if err != nil {
 		return false, err
 	}
 
