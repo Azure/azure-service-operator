@@ -12,7 +12,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-	"github.com/go-logr/logr"
 	multierror "github.com/hashicorp/go-multierror"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -37,7 +36,6 @@ type AsyncReconciler struct {
 	Telemetry   telemetry.PrometheusTelemetry
 	Recorder    record.EventRecorder
 	Scheme      *runtime.Scheme
-	Log         logr.Logger
 }
 
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctrl.Result, error) {
@@ -59,8 +57,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (ctr
 
 	res, err := meta.Accessor(local)
 	if err != nil {
-		log.Info("failed getting meta accessor", "err", err)
-
+		r.Telemetry.LogInfo("requeuing", fmt.Sprintf("failed getting meta accessor: %s", err.Error()))
 		return ctrl.Result{}, err
 	}
 

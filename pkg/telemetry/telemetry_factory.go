@@ -5,57 +5,39 @@
 
 package telemetry
 
-import (
-	"time"
+import "github.com/Azure/azure-service-operator/api/v1alpha1"
+import "github.com/prometheus/client_golang/prometheus"
 
-	"github.com/Azure/go-autorest/autorest/to"
-
-	log "github.com/go-logr/logr"
-
-
-	ctrlmetrics "sigs.k8s.io/controller-runtime/pkg/metrics"
+var (
+	statusCounter  *prometheus.CounterVec
+	activeGuage    *prometheus.GaugeVec
+	successCounter *prometheus.CounterVec
+	failureCounter *prometheus.CounterVec
+	executionTime  *prometheus.HistogramVec
 )
 
+// namespaceName is the default namespace for this project
+const namespaceName = "Azure"
 
+// subsystemName is the default subsystem for this project
+const subsystemName = "Operators"
 
-
-
-// exeuctionTimeStart base time == 0
-const exeuctionTimeStart = 0
-
-// exeuctionTimeWidth is the width of a bucket in the histogram, here it is 10s
-const exeuctionTimeWidth = 60
-
-// executionTimeBuckets is the number of buckets, here it 10 minutes worth of 10s buckets
-const executionTimeBuckets = 20
-
-// PrometheusClient stores information for the Prometheus implementation of telemetry
-type PrometheusClient struct {
+type TelemetryFactory interface {
 	Logger    log.Logger
-	Component string
-	StartTime time.Time
+	CreateTelemetry(componentName string, instanceName string) (*Telemtry, error)
 }
 
-// InitializePrometheusDefault initializes a Prometheus client
-func InitializePrometheusDefault(logger log.Logger, component string) (client *PrometheusClient) {
-	return InitializePrometheus(logger, component, defaultNamespace, defaultSubsystem)
-}
-
-// InitializePrometheus initializes a Prometheus client
-func InitializePrometheus(logger log.Logger, component string, namespaceLog string, subsystemLog string) (client *PrometheusClient) {
+// InitializeTelemetryFactoryDefault initializes a TelemetryFactory client
+func InitializeTelemetryFactoryDefault(logger log.Logger) (factory *TelemetryFactory) {
 
 	// initialize globals if neccessary
-	if namespace == nil {
-		namespace = to.StringPtr(namespaceLog)
-		subsystem = to.StringPtr(subsystemLog)
+	if statusCounter == nil {
 		initializeGlobalPrometheusMetricsEtc()
 	}
 
 	// create the client
-	return &PrometheusClient{
+	return &TelemetryFactory{
 		Logger:    logger,
-		Component: component,
-		StartTime: time.Now(),
 	}
 }
 

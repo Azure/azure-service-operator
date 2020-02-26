@@ -7,13 +7,14 @@ package telemetry
 
 import "github.com/Azure/azure-service-operator/api/v1alpha1"
 
-// BaseTelemetry contains the helper functions for basic telemetry
-type BaseTelemetry interface {
+// Telemetry contains the helper functions for basic telemetry
+type Telemetry interface {
+	ComponentName string
+	InstanceName string
+	Factory TelemetryFactory
 	LogTrace(typeTrace string, message string)
 	LogInfo(typeInfo string, message string)
 	LogWarning(typeWarning string, message string)
 	LogError(message string, err error)
-	LogStart(s *v1alpha1.ASOStatus)
-	LogSuccess(s *v1alpha1.ASOStatus)
-	LogFailure()
+	CreateHistogram(name string, start float64, width float64, numberOfBuckets int) (histogram prometheus.Histogram)
 }
