@@ -23,12 +23,14 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 	var rgLocation string
 	var rgName string
 	var redisCacheName string
+	var redisCacheSecret string
 	var redisCacheNamespacedName types.NamespacedName
 	var err error
 
 	rgName = tc.resourceGroupName
 	rgLocation = tc.resourceGroupLocation
 	redisCacheName = "t-rediscache-" + helpers.RandomString(10)
+	redisCacheSecret = "RedisCacheSecret"
 
 	// Create the RedisCache object and expect the Reconcile to be created
 	redisCacheInstance := &azurev1alpha1.RedisCache{
@@ -47,15 +49,20 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 				},
 				EnableNonSslPort: true,
 			},
-			SecretName: "RedisCacheSecret",
+			SecretName: redisCacheSecret,
 		},
 	}
+
+	data := map[string][]byte{
+		"test1": []byte("test2"),
+		"test2": []byte("test3"),
+	}
+	key := types.NamespacedName{Name: redisCacheSecret, Namespace: "default"}
+	redisCacheNamespacedName = types.NamespacedName{Name: redisCacheName, Namespace: "default"}
 
 	// create redis
 	err = tc.k8sClient.Create(ctx, redisCacheInstance)
 	assert.Equal(nil, err, "create redisCacheInstance in k8s")
-
-	redisCacheNamespacedName = types.NamespacedName{Name: redisCacheName, Namespace: "default"}
 
 	// make sure redis has a finalizer
 	assert.Eventually(func() bool {
@@ -63,11 +70,19 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 		return HasFinalizer(redisCacheInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for redisCacheInstance to have finalizer")
 
+	//add secret to redis
+	err = tc.secretClient.Upsert(ctx, key, data)
+	assert.Equal(nil, err, "expect secret to be inserted into rediscache")
+
 	// make sure redis provisions
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, redisCacheNamespacedName, redisCacheInstance)
 		return strings.Contains(redisCacheInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "wait for redisCacheInstance to be provisioned")
+
+	//confirm secret is present in redis
+	_, err = tc.secretClient.Get(ctx, redisCacheNamespacedName)
+	assert.Equal(nil, err, "checking if secret is present in rediscache")
 
 	// delete redis
 	err = tc.k8sClient.Delete(ctx, redisCacheInstance)
