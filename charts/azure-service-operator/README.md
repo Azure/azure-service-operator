@@ -10,8 +10,8 @@ This Helm chart contains certificates that depend on [cert-manager](https://cert
 
 ```
 kubectl create namespace cert-manager
-kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+kubectl label namespace cert-manager cert-manager.io/disable-validation=true
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
 ```
 
 ### Helm
@@ -77,11 +77,11 @@ createNamespace: False
 
 Finally, install the chart with your added values. The chart can be installed by using a values file or environment variables.
 ```
-helm upgrade --install aso azureserviceoperator/azure-service-operator/ -f values.yaml
+helm upgrade --install aso azureserviceoperator/azure-service-operator -f values.yaml
 ```
 
 ```
-helm upgrade --install aso azureserviceoperator/azure-service-operator/ \
+helm upgrade --install aso azureserviceoperator/azure-service-operator \
     --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
     --set azureTenantID=$AZURE_TENANT_ID \
     --set azureClientID=$AZURE_CLIENT_ID \

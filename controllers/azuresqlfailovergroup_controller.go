@@ -74,7 +74,7 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 	}()
 
 	if helpers.IsBeingDeleted(&instance) {
-		if helpers.HasFinalizer(&instance, azureSQLFailoverGroupFinalizerName) {
+		if HasFinalizer(&instance, azureSQLFailoverGroupFinalizerName) {
 			if err := r.deleteExternal(ctx, &instance); err != nil {
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
@@ -91,7 +91,7 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 				return ctrl.Result{}, err
 			}
 
-			helpers.RemoveFinalizer(&instance, azureSQLFailoverGroupFinalizerName)
+			RemoveFinalizer(&instance, azureSQLFailoverGroupFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -99,7 +99,7 @@ func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Resu
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(&instance, azureSQLFailoverGroupFinalizerName) {
+	if !HasFinalizer(&instance, azureSQLFailoverGroupFinalizerName) {
 		if err := r.addFinalizer(&instance); err != nil {
 			msg := fmt.Sprintf("Adding AzureFailoverGroup finalizer failed with error %s", err.Error())
 			log.Info(msg)
@@ -272,7 +272,7 @@ func (r *AzureSqlFailoverGroupReconciler) deleteExternal(ctx context.Context, in
 }
 
 func (r *AzureSqlFailoverGroupReconciler) addFinalizer(instance *azurev1alpha1.AzureSqlFailoverGroup) error {
-	helpers.AddFinalizer(instance, azureSQLFailoverGroupFinalizerName)
+	AddFinalizer(instance, azureSQLFailoverGroupFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)

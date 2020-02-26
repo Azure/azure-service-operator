@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
@@ -216,7 +215,7 @@ func EnsureInstance(ctx context.Context, t *testing.T, tc TestContext, instance 
 	// Wait for first sql server to resolve
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, instance)
-		return helpers.HasFinalizer(res, finalizerName)
+		return HasFinalizer(res, finalizerName)
 	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to have finalizer", typeOf))
 
 	assert.Eventually(func() bool {

@@ -53,10 +53,22 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 	secretBaseName := key.Namespace + "-" + key.Name
 	secretVersion := ""
 	enabled := true
+	var activationDateUTC date.UnixTime
 	var expireDateUTC date.UnixTime
+
+	// Initialize secret attributes
+	secretAttributes := keyvaults.SecretAttributes{
+		Enabled: &enabled,
+	}
+
+	if options.Activates != nil {
+		activationDateUTC = date.UnixTime(*options.Activates)
+		secretAttributes.NotBefore = &activationDateUTC
+	}
 
 	if options.Expires != nil {
 		expireDateUTC = date.UnixTime(*options.Expires)
+		secretAttributes.Expires = &expireDateUTC
 	}
 
 	// if the caller is looking for flat secrets iterate over the array and individually persist each string
@@ -69,10 +81,8 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 
 			// Initialize secret parameters
 			secretParams := keyvaults.SecretSetParameters{
-				Value: &stringSecret,
-				SecretAttributes: &keyvaults.SecretAttributes{
-					Enabled: &enabled,
-				},
+				Value:            &stringSecret,
+				SecretAttributes: &secretAttributes,
 			}
 
 			if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
@@ -96,12 +106,9 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 
 		// Initialize secret parameters
 		secretParams := keyvaults.SecretSetParameters{
-			Value: &stringSecret,
-			SecretAttributes: &keyvaults.SecretAttributes{
-				Enabled: &enabled,
-				Expires: &expireDateUTC,
-			},
-			ContentType: &contentType,
+			Value:            &stringSecret,
+			SecretAttributes: &secretAttributes,
+			ContentType:      &contentType,
 		}
 
 		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
@@ -128,7 +135,24 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 	secretBaseName := key.Namespace + "-" + key.Name
 	secretVersion := ""
 	enabled := true
-	//expireDateUTC := date.NewUnixTimeFromDuration(options.Expires)
+
+	var activationDateUTC date.UnixTime
+	var expireDateUTC date.UnixTime
+
+	// Initialize secret attributes
+	secretAttributes := keyvaults.SecretAttributes{
+		Enabled: &enabled,
+	}
+
+	if options.Activates != nil {
+		activationDateUTC = date.UnixTime(*options.Activates)
+		secretAttributes.NotBefore = &activationDateUTC
+	}
+
+	if options.Expires != nil {
+		expireDateUTC = date.UnixTime(*options.Expires)
+		secretAttributes.Expires = &expireDateUTC
+	}
 
 	// if the caller is looking for flat secrets iterate over the array and individually persist each string
 	if options.Flatten {
@@ -163,6 +187,7 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 		// If flatten has not been declared, convert the map into a json string for perisstence
 	} else {
 		jsonData, err := json.Marshal(data)
+
 		if err != nil {
 			return err
 		}
@@ -170,10 +195,8 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 
 		// Initialize secret parameters
 		secretParams := keyvaults.SecretSetParameters{
-			Value: &stringSecret,
-			SecretAttributes: &keyvaults.SecretAttributes{
-				Enabled: &enabled,
-			},
+			Value:            &stringSecret,
+			SecretAttributes: &secretAttributes,
 		}
 
 		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
