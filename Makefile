@@ -71,7 +71,7 @@ test-cleanup-azure-resources:
     done
 
 single-test-cleanup: 
-	az account set -s ${AZURE_SUBSCRIPTION_ID}
+	#az account set -s ${AZURE_SUBSCRIPTION_ID}
 	@echo "delete test resource group if it still exists"
 	for rgname in `az group list --query "[*].[name]" -o table | grep $(shell cat controllers/resourceGroup) `; do \
 	    echo "$$rgname will be deleted"; \
