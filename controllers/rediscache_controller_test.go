@@ -60,7 +60,7 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 	// make sure redis has a finalizer
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, redisCacheNamespacedName, redisCacheInstance)
-		return helpers.HasFinalizer(redisCacheInstance, finalizerName)
+		return redisCacheInstance.HasFinalizer(redisCacheInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for redisCacheInstance to have finalizer")
 
 	// make sure redis provisions
