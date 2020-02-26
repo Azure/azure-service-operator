@@ -157,7 +157,7 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 		newEntry.Permissions.Secrets = &secretPermissions
 	}
 
-	if policy.Permissions.Secrets != nil {
+	if policy.Permissions.Certificates != nil {
 		var certificatePermissions []keyvault.CertificatePermissions
 		validCertificatePermissions := keyvault.PossibleCertificatePermissionsValues()
 		for _, key := range *policy.Permissions.Certificates {
