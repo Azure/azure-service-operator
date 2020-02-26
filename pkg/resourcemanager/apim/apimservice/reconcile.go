@@ -197,7 +197,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	// STEP 5:
 	// 	everything is now completed!
 	g.Telemetry.LogTrace("APIM reconcile", "Step 5: completed reconcilliation successfully")
-	instance.Status.Message = "API Mgmt Svc successfully reconciled"
+	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false
 	return true, nil
