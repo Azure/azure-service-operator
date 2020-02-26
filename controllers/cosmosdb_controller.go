@@ -78,13 +78,13 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
-		if helpers.HasFinalizer(&instance, cosmosDBFinalizerName) {
+		if HasFinalizer(&instance, cosmosDBFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
 				log.Info("Error", "Delete CosmosDB failed with ", err)
 				return ctrl.Result{}, err
 			}
 
-			helpers.RemoveFinalizer(&instance, cosmosDBFinalizerName)
+			RemoveFinalizer(&instance, cosmosDBFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -92,7 +92,7 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(&instance, cosmosDBFinalizerName) {
+	if !HasFinalizer(&instance, cosmosDBFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when adding finalizer: %v", err)
@@ -119,7 +119,7 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 }
 
 func (r *CosmosDBReconciler) addFinalizer(instance *azurev1alpha1.CosmosDB) error {
-	helpers.AddFinalizer(instance, cosmosDBFinalizerName)
+	AddFinalizer(instance, cosmosDBFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)

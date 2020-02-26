@@ -89,7 +89,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	//log.V(1).Info("Describing Storage Account", "Storage", instance)
 
 	if helpers.IsBeingDeleted(&instance) {
-		if helpers.HasFinalizer(&instance, storageFinalizerName) {
+		if HasFinalizer(&instance, storageFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
 				catch := []string{
 					errhelp.AsyncOpIncompleteError,
@@ -105,7 +105,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 				return ctrl.Result{}, err
 			}
 
-			helpers.RemoveFinalizer(&instance, storageFinalizerName)
+			RemoveFinalizer(&instance, storageFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -113,7 +113,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(&instance, storageFinalizerName) {
+	if !HasFinalizer(&instance, storageFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when adding finalizer: %v", err)
@@ -190,7 +190,7 @@ func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 }
 
 func (r *StorageReconciler) addFinalizer(instance *azurev1alpha1.Storage) error {
-	helpers.AddFinalizer(instance, storageFinalizerName)
+	AddFinalizer(instance, storageFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)

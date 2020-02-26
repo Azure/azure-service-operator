@@ -77,13 +77,13 @@ func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
-		if helpers.HasFinalizer(&instance, redisCacheFinalizerName) {
+		if HasFinalizer(&instance, redisCacheFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
 				log.Info("Error", "Delete Redis Cache failed with ", err)
 				return ctrl.Result{}, err
 			}
 
-			helpers.RemoveFinalizer(&instance, redisCacheFinalizerName)
+			RemoveFinalizer(&instance, redisCacheFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -91,7 +91,7 @@ func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(&instance, redisCacheFinalizerName) {
+	if !HasFinalizer(&instance, redisCacheFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when adding finalizer: %v", err)
@@ -118,7 +118,7 @@ func (r *RedisCacheReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 }
 
 func (r *RedisCacheReconciler) addFinalizer(instance *azurev1alpha1.RedisCache) error {
-	helpers.AddFinalizer(instance, redisCacheFinalizerName)
+	AddFinalizer(instance, redisCacheFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)
