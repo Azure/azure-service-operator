@@ -2,14 +2,13 @@ package controllers
 
 import (
 	"context"
-	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/stretchr/testify/assert"
 
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -24,7 +23,6 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 	var rgName string
 	var redisCacheName string
 	var redisCacheSecret string
-	var redisCacheNamespacedName types.NamespacedName
 	var err error
 
 	rgName = tc.resourceGroupName
@@ -53,43 +51,22 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 		},
 	}
 
-	data := map[string][]byte{
-		"test1": []byte("test2"),
-		"test2": []byte("test3"),
-	}
-	key := types.NamespacedName{Name: redisCacheSecret, Namespace: "default"}
-	redisCacheNamespacedName = types.NamespacedName{Name: redisCacheName, Namespace: "default"}
+	// create rc
+	EnsureInstance(ctx, t, tc, redisCacheInstance)
 
-	// create redis
-	err = tc.k8sClient.Create(ctx, redisCacheInstance)
-	assert.Equal(nil, err, "create redisCacheInstance in k8s")
-
-	// make sure redis has a finalizer
+	//verify secret exists in k8s for rc
+	secret := &v1.Secret{}
 	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, redisCacheNamespacedName, redisCacheInstance)
-		return HasFinalizer(redisCacheInstance, finalizerName)
-	}, tc.timeout, tc.retry, "wait for redisCacheInstance to have finalizer")
+		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: redisCacheSecret, Namespace: redisCacheInstance.Namespace}, secret)
 
-	//add secret to redis
-	err = tc.secretClient.Upsert(ctx, key, data)
-	assert.Equal(nil, err, "expect secret to be inserted into rediscache")
+		if err == nil {
+			if (secret.ObjectMeta.Name == redisCacheSecret) && (secret.ObjectMeta.Namespace == redisCacheInstance.Namespace) {
+				return true
+			}
+		}
+		return false
+	}, tc.timeoutFast, tc.retry, "wait for rc to have secret")
 
-	// make sure redis provisions
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, redisCacheNamespacedName, redisCacheInstance)
-		return strings.Contains(redisCacheInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for redisCacheInstance to be provisioned")
-
-	//confirm secret is present in redis
-	_, err = tc.secretClient.Get(ctx, redisCacheNamespacedName)
-	assert.Equal(nil, err, "checking if secret is present in rediscache")
-
-	// delete redis
-	err = tc.k8sClient.Delete(ctx, redisCacheInstance)
-	assert.Equal(nil, err, "delete redisCacheInstance in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, redisCacheNamespacedName, redisCacheInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for redisCache to be gone from k8s")
+	// delete rc
+	EnsureDelete(ctx, t, tc, redisCacheInstance)
 }
