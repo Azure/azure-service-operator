@@ -229,7 +229,7 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, err
 		} else if helpers.ContainsString(requeue, azerr.Type) {
-			return true, err
+			return true, nil
 		}
 		return true, fmt.Errorf("API Mgmt Svc delete error %v", err)
 	}
