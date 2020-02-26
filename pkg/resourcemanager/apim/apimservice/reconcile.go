@@ -227,7 +227,7 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
-			return false, err
+			return false, nil
 		} else if helpers.ContainsString(requeue, azerr.Type) {
 			return true, nil
 		}
