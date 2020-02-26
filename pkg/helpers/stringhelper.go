@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/sethvargo/go-password/password"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -46,30 +47,33 @@ func IsBeingDeleted(o metav1.Object) bool {
 	return !o.GetDeletionTimestamp().IsZero()
 }
 
-// AddFinalizer accepts a metav1 object and adds the provided finalizer if not present.
-func AddFinalizer(o metav1.Object, finalizer string) {
-	f := o.GetFinalizers()
-	for _, e := range f {
-		if e == finalizer {
-			return
-		}
+// GenerateRandomUsername - helper function to generate random username for sql server
+func GenerateRandomUsername(n int, numOfDigits int) (string, error) {
+
+	// Generate a username that is n characters long, with n/2 digits and 0 symbols (not allowed),
+	// allowing only lower case letters (upper case not allowed), and disallowing repeat characters.
+	res, err := password.Generate(n, numOfDigits, 0, true, false)
+	if err != nil {
+		return "", err
 	}
-	o.SetFinalizers(append(f, finalizer))
+
+	return res, nil
 }
 
-// RemoveFinalizer accepts a metav1 object and removes the provided finalizer if present.
-func RemoveFinalizer(o metav1.Object, finalizer string) {
-	f := o.GetFinalizers()
-	for i, e := range f {
-		if e == finalizer {
-			f = append(f[:i], f[i+1:]...)
-			o.SetFinalizers(f)
-			return
-		}
-	}
-}
+// GenerateRandomPassword - helper function to generate random password for sql server
+func GenerateRandomPassword(n int) (string, error) {
 
-// HasFinalizer accepts a metav1 object and returns true if the the object has the provided finalizer.
-func HasFinalizer(o metav1.Object, finalizer string) bool {
-	return ContainsString(o.GetFinalizers(), finalizer)
+	// Math - Generate a password where: 1/3 of the # of chars are digits, 1/3 of the # of chars are symbols,
+	// and the remaining 1/3 is a mix of upper- and lower-case letters
+	digits := n / 3
+	symbols := n / 3
+
+	// Generate a password that is n characters long, with # of digits and symbols described above,
+	// allowing upper and lower case letters, and disallowing repeat characters.
+	res, err := password.Generate(n, digits, symbols, false, false)
+	if err != nil {
+		return "", err
+	}
+
+	return res, nil
 }

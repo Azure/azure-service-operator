@@ -129,6 +129,7 @@ func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
+	var err error
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
@@ -159,20 +160,9 @@ func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 		},
 	}
 
-	err := tc.k8sClient.Create(ctx, eventhubInstance)
-	assert.Equal(nil, err, "create eventhub in k8s")
+	EnsureInstance(ctx, t, tc, eventhubInstance)
 
 	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry, "wait for eventhub to have finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return strings.Contains(eventhubInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
 	err = tc.k8sClient.Delete(ctx, eventhubInstance)
 	assert.Equal(nil, err, "delete eventhub in k8s")
@@ -189,6 +179,7 @@ func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
+	var err error
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
@@ -237,20 +228,9 @@ func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
 		},
 	}
 
-	err := tc.k8sClient.Create(ctx, eventhubInstance)
-	assert.Equal(nil, err, "create eventhub in k8s")
+	EnsureInstance(ctx, t, tc, eventhubInstance)
 
 	eventHubNamespacedName := types.NamespacedName{Name: eventHubName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventhubInstance)
-		return eventhubInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry, "wait for eventhub to have finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventhubInstance)
-		return strings.Contains(eventhubInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for eventhub to provision")
 
 	assert.Eventually(func() bool {
 		hub, _ := tc.eventhubClient.GetHub(ctx, rgName, ehnName, eventHubName)
