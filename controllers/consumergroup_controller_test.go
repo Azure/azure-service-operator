@@ -53,7 +53,7 @@ func TestConsumerGroup(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, consumerGroupNamespacedName, consumerGroupInstance)
-		return helpers.HasFinalizer(consumerGroupInstance, finalizerName)
+		return HasFinalizer(consumerGroupInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for finalizer")
 
 	assert.Eventually(func() bool {
