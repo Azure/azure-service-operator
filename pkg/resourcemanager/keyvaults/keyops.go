@@ -3,6 +3,7 @@ package keyvaults
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -77,14 +78,13 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (boo
 		KeyOps:        &instance.Spec.Operations,
 		KeyAttributes: &katts,
 	}
-	_, err = kvopsclient.CreateKey(ctx, vaultBaseURL, instance.Name, params)
+	req, err := kvopsclient.CreateKey(ctx, vaultBaseURL, instance.Name, params)
 	if err != nil {
 		instance.Status.Message = err.Error()
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
 		// this generally means the operator doesn't have access to the keyvault
 		// this can be resolved elsewhere so we should keep trying
-		if azerr.Type == "Forbidden" {
+		if req.Response.StatusCode == http.StatusForbidden {
 			return false, nil
 		}
 
@@ -124,11 +124,10 @@ func (k *KeyvaultKeyClient) Delete(ctx context.Context, obj runtime.Object) (boo
 	vaultBaseURL := *keyv.Properties.VaultURI
 	kvopsclient := NewOpsClient(instance.Spec.KeyVault)
 
-	_, err = kvopsclient.DeleteKey(ctx, vaultBaseURL, instance.Name)
+	req, err := kvopsclient.DeleteKey(ctx, vaultBaseURL, instance.Name)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		if azerr.Type == errhelp.KeyNotFound {
+		if req.Response.StatusCode == http.StatusNotFound {
 			return false, nil
 		}
 
