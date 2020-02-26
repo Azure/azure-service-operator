@@ -218,6 +218,8 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 		errhelp.ResourceGroupNotFoundErrorCode,
 		errhelp.ParentNotFoundErrorCode,
 		errhelp.NotFoundErrorCode,
+	}
+	requeue := []string{
 		errhelp.AsyncOpIncompleteError,
 	}
 
@@ -225,7 +227,9 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
-			return false, nil
+			return false, err
+		} else if helpers.ContainsString(requeue, azerr.Type) {
+			return true, err
 		}
 		return true, fmt.Errorf("API Mgmt Svc delete error %v", err)
 	}
