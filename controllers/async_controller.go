@@ -74,7 +74,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	// Instantiate the KeyVault Secret Client if KeyVault specified in Spec
 	r.Telemetry.LogInfo("status", "retrieving keyvault for secrets if specified")
 	var keyvaultSecretClient secrets.SecretClient
-	KeyVaultName := GetKeyVaultName(local)
+	KeyVaultName := keyvaultsecretlib.GetKeyVaultName(local)
 	keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
 
 	// Check to see if the skipreconcile annotation is on

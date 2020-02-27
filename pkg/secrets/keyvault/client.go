@@ -7,11 +7,13 @@ import (
 	"encoding/json"
 
 	keyvaults "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/date"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -19,6 +21,18 @@ import (
 type KeyvaultSecretClient struct {
 	KeyVaultClient keyvaults.BaseClient
 	KeyVaultName   string
+}
+
+// GetKeyVaultName extracts the KeyVault name from the generic runtime object
+func GetKeyVaultName(instance runtime.Object) string {
+	keyVaultName := ""
+	target := &v1alpha1.GenericResource{}
+	serial, err := json.Marshal(instance)
+	if err != nil {
+		return keyVaultName
+	}
+	_ = json.Unmarshal(serial, target)
+	return target.Spec.KeyVaultToStoreSecrets
 }
 
 func getVaultsURL(ctx context.Context, vaultName string) string {
