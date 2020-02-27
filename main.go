@@ -177,11 +177,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: eventhubClient,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("Eventhub"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"Eventhub",
+				ctrl.Log.WithName("controllers").WithName("Eventhub"),
 			),
-			Log:      ctrl.Log.WithName("controllers").WithName("Eventhub"),
 			Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
 			Scheme:   scheme,
 		},
@@ -190,15 +189,15 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "Eventhub")
 		os.Exit(1)
 	}
+
 	err = (&controllers.ResourceGroupReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: resourceGroupManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ResourceGroup",
+				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 			),
-			Log:      ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 			Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
 			Scheme:   scheme,
 		},
@@ -212,11 +211,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: eventhubNamespaceClient,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"EventhubNamespace",
+				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
 			),
-			Log:      ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
 			Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
 			Scheme:   scheme,
 		},
@@ -230,11 +228,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: keyVaultManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("KeyVault"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"KeyVault",
+				ctrl.Log.WithName("controllers").WithName("KeyVault"),
 			),
-			Log:      ctrl.Log.WithName("controllers").WithName("KeyVault"),
 			Recorder: mgr.GetEventRecorderFor("KeyVault-controller"),
 			Scheme:   scheme,
 		},
@@ -248,11 +245,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: consumerGroupClient,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ConsumerGroup",
+				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 			),
-			Log:      ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 			Recorder: mgr.GetEventRecorderFor("ConsumerGroup-controller"),
 			Scheme:   scheme,
 		},
@@ -266,9 +262,9 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: sqlServerManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlServer",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
 			),
 			Recorder: mgr.GetEventRecorderFor("AzureSqlServer-controller"),
 			Scheme:   scheme,
@@ -283,9 +279,9 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: sqlDBManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlDb",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
 			),
 			Recorder: mgr.GetEventRecorderFor("AzureSqlDb-controller"),
 			Scheme:   scheme,
@@ -300,9 +296,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: sqlFirewallRuleManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSQLFirewallRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
-				"AzureSQLFirewallRuleOperator"),
+			),
 			Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
 			Scheme:   scheme,
 		},
@@ -327,9 +324,9 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: sqlUserManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLUser",
+				ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
 			),
 			Recorder: mgr.GetEventRecorderFor("AzureSQLUser-controller"),
 			Scheme:   scheme,
@@ -376,11 +373,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: appInsightsManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AppInsights"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AppInsights",
+				ctrl.Log.WithName("controllers").WithName("AppInsights"),
 			),
-			Log:      ctrl.Log.WithName("controllers").WithName("AppInsights"),
 			Recorder: mgr.GetEventRecorderFor("AppInsights-controller"),
 			Scheme:   scheme,
 		},
@@ -393,11 +389,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: psqlserverclient,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLServer",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
 			),
-			Log:      ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
 			Recorder: mgr.GetEventRecorderFor("PostgreSQLServer-controller"),
 			Scheme:   scheme,
 		},
@@ -410,11 +405,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: psqldatabaseclient,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabase"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLDatabase",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabase"),
 			),
-			Log:      ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabase"),
 			Recorder: mgr.GetEventRecorderFor("PostgreSQLDatabase-controller"),
 			Scheme:   scheme,
 		},
@@ -427,11 +421,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: psqlfirewallruleclient,
-			Telemetry: telemetry.InitializePrometheusDefault(
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"PostgreSQLFirewallRulee",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRulee"),
-				"PostgreSQLFirewallRule",
 			),
-			Log:      ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRulee"),
 			Recorder: mgr.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
 			Scheme:   scheme,
 		},
@@ -444,9 +437,9 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: apimServiceManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("ApimService"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ApimService",
+				ctrl.Log.WithName("controllers").WithName("ApimService"),
 			),
 			Recorder: mgr.GetEventRecorderFor("ApimService-controller"),
 			Scheme:   scheme,
@@ -460,11 +453,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: vnetManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("VNet"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"VNet",
+				ctrl.Log.WithName("controllers").WithName("VNet"),
 			),
-			Log:      ctrl.Log.WithName("controllers").WithName("VNet"),
 			Recorder: mgr.GetEventRecorderFor("VNet-controller"),
 			Scheme:   scheme,
 		},
@@ -477,9 +469,10 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: keyVaultKeyManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"KeyVaultKey",
 				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
-				"KeyVaultKey"),
+			),
 			Recorder: mgr.GetEventRecorderFor("KeyVaultKey-controller"),
 			Scheme:   scheme,
 		},
