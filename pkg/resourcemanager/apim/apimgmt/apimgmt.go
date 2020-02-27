@@ -221,6 +221,12 @@ func (m *Manager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, 
 			},
 			Target: &v1alpha1.ResourceGroup{},
 		},
+		{
+			Key: types.NamespacedName{
+				Namespace: i.Namespace,
+				Name:      i.Spec.APIService,
+			},
+		},
 	}, nil
 }
 
