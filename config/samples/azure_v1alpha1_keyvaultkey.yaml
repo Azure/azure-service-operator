@@ -1,0 +1,12 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: KeyVaultKey
+metadata:
+  name: keyvaultkey-sample
+spec:
+  resourceGroup: resourcegroup-azure-operators
+  location: westus
+  keyVault: keyvaultsample123
+  keySize: 4096
+  type: RSA
+  #optional: defaults to all operations
+  #operations: ["encrypt", "wrap", "unwrap"]
