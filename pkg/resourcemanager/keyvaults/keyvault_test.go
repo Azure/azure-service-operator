@@ -17,16 +17,97 @@ limitations under the License.
 package keyvaults
 
 import (
+	"context"
 	"fmt"
+	"testing"
 
+	"github.com/google/go-cmp/cmp"
+
+	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	uuid "github.com/satori/go.uuid"
+	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
+
+func TestParseAccessPoliciesInvalid(t *testing.T) {
+	entry := v1alpha1.AccessPolicyEntry{
+		TenantID: "00000000-0000-0000-0000-000000000000",
+		Permissions: &v1alpha1.Permissions{
+			Keys: &[]string{
+				"create",
+			},
+			Secrets: &[]string{
+				"set",
+				"badpermission",
+			},
+		},
+	}
+
+	ctx = context.Background()
+
+	resp, err := parseAccessPolicy(&entry, ctx)
+	assert.True(t, err != nil)
+	assert.True(t, cmp.Equal(resp, keyvault.AccessPolicyEntry{}))
+}
+
+func TestParseAccessPolicies(t *testing.T) {
+	entry := v1alpha1.AccessPolicyEntry{
+		TenantID: "00000000-0000-0000-0000-000000000000",
+		Permissions: &v1alpha1.Permissions{
+			Keys: &[]string{
+				"create",
+			},
+			Secrets: &[]string{
+				"set",
+				"get",
+			},
+			Certificates: &[]string{
+				"list",
+				"get",
+			},
+			Storage: &[]string{
+				"list",
+				"get",
+			},
+		},
+	}
+
+	id, err := uuid.FromString("00000000-0000-0000-0000-000000000000")
+	assert.True(t, err == nil)
+
+	out := keyvault.AccessPolicyEntry{
+		TenantID: &id,
+		Permissions: &keyvault.Permissions{
+			Keys: &[]keyvault.KeyPermissions{
+				keyvault.KeyPermissionsCreate,
+			},
+			Secrets: &[]keyvault.SecretPermissions{
+				keyvault.SecretPermissionsSet,
+				keyvault.SecretPermissionsGet,
+			},
+			Certificates: &[]keyvault.CertificatePermissions{
+				keyvault.List,
+				keyvault.Get,
+			},
+			Storage: &[]keyvault.StoragePermissions{
+				keyvault.StoragePermissionsList,
+				keyvault.StoragePermissionsGet,
+			},
+		},
+	}
+
+	ctx = context.Background()
+
+	resp, err := parseAccessPolicy(&entry, ctx)
+	assert.True(t, err == nil)
+	assert.True(t, cmp.Equal(resp, out))
+}
 
 var _ = Describe("KeyVault Resource Manager test", func() {
 

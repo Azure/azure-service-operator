@@ -130,13 +130,17 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 
 	if policy.Permissions.Keys != nil {
 		var keyPermissions []keyvault.KeyPermissions
-		validKeyPermissions := keyvault.PossibleKeyPermissionsValues()
+		permissions := keyvault.PossibleKeyPermissionsValues()
+		validKeyPermissions := []string{}
+		for _, item := range permissions {
+			validKeyPermissions = append(validKeyPermissions, string(item))
+		}
+
 		for _, key := range *policy.Permissions.Keys {
-			for _, validKey := range validKeyPermissions {
-				if keyvault.KeyPermissions(key) == validKey {
-					keyPermissions = append(keyPermissions, validKey)
-					break
-				}
+			if helpers.ContainsString(validKeyPermissions, key) {
+				keyPermissions = append(keyPermissions, keyvault.KeyPermissions(key))
+			} else {
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Permission")
 			}
 		}
 
@@ -145,13 +149,17 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 
 	if policy.Permissions.Secrets != nil {
 		var secretPermissions []keyvault.SecretPermissions
-		validSecretPermissions := keyvault.PossibleSecretPermissionsValues()
+		permissions := keyvault.PossibleSecretPermissionsValues()
+		validSecretPermissions := []string{}
+		for _, item := range permissions {
+			validSecretPermissions = append(validSecretPermissions, string(item))
+		}
+
 		for _, key := range *policy.Permissions.Secrets {
-			for _, validSecret := range validSecretPermissions {
-				if keyvault.SecretPermissions(key) == validSecret {
-					secretPermissions = append(secretPermissions, validSecret)
-					break
-				}
+			if helpers.ContainsString(validSecretPermissions, key) {
+				secretPermissions = append(secretPermissions, keyvault.SecretPermissions(key))
+			} else {
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Permission")
 			}
 		}
 
@@ -160,13 +168,17 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 
 	if policy.Permissions.Certificates != nil {
 		var certificatePermissions []keyvault.CertificatePermissions
-		validCertificatePermissions := keyvault.PossibleCertificatePermissionsValues()
+		permissions := keyvault.PossibleCertificatePermissionsValues()
+		validCertificatePermissions := []string{}
+		for _, item := range permissions {
+			validCertificatePermissions = append(validCertificatePermissions, string(item))
+		}
+
 		for _, key := range *policy.Permissions.Certificates {
-			for _, validCert := range validCertificatePermissions {
-				if keyvault.CertificatePermissions(key) == validCert {
-					certificatePermissions = append(certificatePermissions, validCert)
-					break
-				}
+			if helpers.ContainsString(validCertificatePermissions, key) {
+				certificatePermissions = append(certificatePermissions, keyvault.CertificatePermissions(key))
+			} else {
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Permission")
 			}
 		}
 
@@ -175,13 +187,17 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 
 	if policy.Permissions.Storage != nil {
 		var storagePermissions []keyvault.StoragePermissions
-		validStoragePermissions := keyvault.PossibleStoragePermissionsValues()
+		permissions := keyvault.PossibleStoragePermissionsValues()
+		validStoragePermissions := []string{}
+		for _, item := range permissions {
+			validStoragePermissions = append(validStoragePermissions, string(item))
+		}
+
 		for _, key := range *policy.Permissions.Storage {
-			for _, validStorage := range validStoragePermissions {
-				if keyvault.StoragePermissions(key) == validStorage {
-					storagePermissions = append(storagePermissions, validStorage)
-					break
-				}
+			if helpers.ContainsString(validStoragePermissions, key) {
+				storagePermissions = append(storagePermissions, keyvault.StoragePermissions(key))
+			} else {
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Permission")
 			}
 		}
 
