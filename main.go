@@ -20,9 +20,7 @@ import (
 	"os"
 
 	"github.com/Azure/azure-service-operator/controllers"
-
-	"k8s.io/apimachinery/pkg/runtime"
-
+	apimservice "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
@@ -41,6 +39,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
+	"k8s.io/apimachinery/pkg/runtime"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -112,6 +111,7 @@ func main() {
 		secretClient = keyvaultSecrets.New(keyvaultName)
 	}
 
+	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager()
 	vnetManager := vnet.NewAzureVNetManager(ctrl.Log.WithName("controllers").WithName("VirtualNetwork"))
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 	appInsightsManager := resourcemanagerappinsights.NewManager(
@@ -123,6 +123,9 @@ func main() {
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(ctrl.Log.WithName("keyvaultmanager").WithName("KeyVault"), mgr.GetScheme())
+	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
+		KeyvaultClient: keyVaultManager,
+	}
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
 	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(
 		ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"),
@@ -318,6 +321,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
 		os.Exit(1)
 	}
+
 	if err = (&controllers.AzureSQLUserReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -333,6 +337,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
 		os.Exit(1)
 	}
+
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -385,6 +390,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
 		os.Exit(1)
 	}
+
 	if err = (&controllers.PostgreSQLServerReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -416,6 +422,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLDatabase")
 		os.Exit(1)
 	}
+
 	if err = (&controllers.PostgreSQLFirewallRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -431,6 +438,23 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLFirewallRule")
 		os.Exit(1)
 	}
+
+	if err = (&controllers.ApimServiceReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: apimServiceManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("ApimService"),
+				"ApimService",
+			),
+			Recorder: mgr.GetEventRecorderFor("ApimService-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ApimService")
+		os.Exit(1)
+	}
+
 	if err = (&controllers.VirtualNetworkReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -446,6 +470,22 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "VNet")
 		os.Exit(1)
 	}
+
+	if err = (&controllers.KeyVaultKeyReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: keyVaultKeyManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
+				"KeyVaultKey"),
+			Recorder: mgr.GetEventRecorderFor("KeyVaultKey-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "KeyVaultKey")
+		os.Exit(1)
+	}
+
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
