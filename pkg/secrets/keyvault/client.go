@@ -6,14 +6,36 @@ import (
 
 	"encoding/json"
 
+	mgmtclient "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
+	"github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	keyvaults "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/date"
+	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/types"
 )
+
+func getVaultsClient() (mgmtclient.VaultsClient, error) {
+	vaultsClient := mgmtclient.NewVaultsClient(config.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		return vaultsClient, err
+	}
+	vaultsClient.Authorizer = a
+	vaultsClient.AddToUserAgent(config.UserAgent())
+	return vaultsClient, nil
+}
+
+func GetVault(ctx context.Context, groupName string, vaultName string) (result mgmtclient.Vault, err error) {
+	vaultsClient, err := getVaultsClient()
+	if err != nil {
+		return mgmtclient.Vault{}, err
+	}
+	return vaultsClient.Get(ctx, groupName, vaultName)
+
+}
 
 // KeyvaultSecretClient struct has the Key vault BaseClient that Azure uses and the KeyVault name
 type KeyvaultSecretClient struct {
@@ -23,7 +45,7 @@ type KeyvaultSecretClient struct {
 
 func getVaultsURL(ctx context.Context, vaultName string) string {
 	vaultURL := "https://" + vaultName + ".vault.azure.net" //default
-	vault, err := kvhelper.AzureKeyVaultManager.GetVault(ctx, "", vaultName)
+	vault, err := GetVault(ctx, "", vaultName)
 	if err == nil {
 		vaultURL = *vault.Properties.VaultURI
 	}
@@ -242,4 +264,23 @@ func (k *KeyvaultSecretClient) Get(ctx context.Context, key types.NamespacedName
 	json.Unmarshal([]byte(stringSecret), &data)
 
 	return data, err
+}
+
+// Create creates a key in KeyVault if it does not exist already
+func (k *KeyvaultSecretClient) CreateEncryptionKey(ctx context.Context, name string) error {
+	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
+	var ksize int32 = 4096
+	kops := keyvault.PossibleJSONWebKeyOperationValues()
+	katts := keyvault.KeyAttributes{
+		Enabled: to.BoolPtr(true),
+	}
+	params := keyvault.KeyCreateParameters{
+		Kty:           keyvault.RSA,
+		KeySize:       &ksize,
+		KeyOps:        &kops,
+		KeyAttributes: &katts,
+	}
+	k.KeyVaultClient.CreateKey(ctx, vaultBaseURL, name, params)
+	return nil
+
 }
