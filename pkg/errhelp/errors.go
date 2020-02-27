@@ -30,6 +30,7 @@ const (
 	InvalidResourceLocation         = "InvalidResourceLocation"
 	InvalidCIDRNotation             = "InvalidCIDRNotation"
 	InvalidRequestFormat            = "InvalidRequestFormat"
+	KeyNotFound                     = "KeyNotFound"
 	InvalidParameters               = "InvalidParameters"
 )
 

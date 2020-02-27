@@ -62,3 +62,6 @@ resources:
 - group: azure
   version: v1alpha1
   kind: AppInsights
+- group: azure
+  version: v1alpha1
+  kind: KeyVaultKey
