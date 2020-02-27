@@ -49,7 +49,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 	if err == nil {
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
-		instance.Status.Message = "exists but may not be ready"
+		instance.Status.Message = resourcemanager.SuccessMsg
 		return true, nil
 	}
 	instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
@@ -105,10 +105,27 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 	serverName := instance.Spec.Server
 	failoverGroupName := instance.ObjectMeta.Name
 
-	resp, err := fg.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
+	_, err = fg.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err != nil {
-		if resp.StatusCode == 200 || resp.StatusCode == 204 {
+		instance.Status.Message = err.Error()
+		azerr := errhelp.NewAzureErrorAzureError(err)
+
+		// these errors are expected
+		ignore := []string{
+			errhelp.AsyncOpIncompleteError,
+		}
+
+		// this means the thing doesn't exist
+		finished := []string{
+			errhelp.ResourceNotFound,
+		}
+
+		if helpers.ContainsString(ignore, azerr.Type) {
 			return true, nil
+		}
+
+		if helpers.ContainsString(finished, azerr.Type) {
+			return false, nil
 		}
 		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Delete failed with: %s", err.Error())
 		return false, err
