@@ -142,7 +142,6 @@ func (fg *AzureSqlFailoverGroupManager) GetParents(obj runtime.Object) ([]resour
 		return nil, err
 	}
 
-	// add db
 	return []resourcemanager.KubeParent{
 		{
 			Key: types.NamespacedName{
