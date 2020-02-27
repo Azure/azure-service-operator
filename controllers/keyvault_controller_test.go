@@ -83,16 +83,28 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
 	const poll = time.Second * 10
 	keyVaultLocation := tc.resourceGroupLocation
-	allPermissions := []string{"get", "list", "set", "delete", "recover", "backup", "restore"}
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
 		{
 			TenantID: config.TenantID(),
 			ObjectID: config.ClientID(),
 			Permissions: &azurev1alpha1.Permissions{
-				Keys:         &allPermissions,
-				Secrets:      &allPermissions,
-				Certificates: &allPermissions,
-				Storage:      &allPermissions,
+				Keys: &[]string{
+					"get",
+					"list",
+				},
+				Secrets: &[]string{
+					"get",
+					"list",
+					"set",
+				},
+				Certificates: &[]string{
+					"get",
+					"list",
+				},
+				Storage: &[]string{
+					"get",
+					"list",
+				},
 			},
 		}}
 

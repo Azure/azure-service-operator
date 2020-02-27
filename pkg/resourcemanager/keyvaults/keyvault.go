@@ -140,7 +140,7 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 			if helpers.ContainsString(validKeyPermissions, key) {
 				keyPermissions = append(keyPermissions, keyvault.KeyPermissions(key))
 			} else {
-				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Permission")
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Key Permission")
 			}
 		}
 
@@ -159,7 +159,7 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 			if helpers.ContainsString(validSecretPermissions, key) {
 				secretPermissions = append(secretPermissions, keyvault.SecretPermissions(key))
 			} else {
-				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Permission")
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Secret Permission")
 			}
 		}
 
@@ -178,7 +178,7 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 			if helpers.ContainsString(validCertificatePermissions, key) {
 				certificatePermissions = append(certificatePermissions, keyvault.CertificatePermissions(key))
 			} else {
-				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Permission")
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Certificate Permission")
 			}
 		}
 
@@ -197,7 +197,7 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 			if helpers.ContainsString(validStoragePermissions, key) {
 				storagePermissions = append(storagePermissions, keyvault.StoragePermissions(key))
 			} else {
-				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Permission")
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("Invalid Storage Permission")
 			}
 		}
 
