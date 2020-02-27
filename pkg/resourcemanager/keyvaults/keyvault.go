@@ -21,6 +21,7 @@ import (
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
+	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -369,6 +370,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+
 		return true, nil
 	}
 
@@ -477,4 +479,12 @@ func (k *azureKeyVaultManager) convert(obj runtime.Object) (*v1alpha1.KeyVault, 
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
+}
+
+func NewOpsClient(keyvaultName string) *kvops.BaseClient {
+	keyvaultClient := kvops.New()
+	a, _ := iam.GetKeyvaultAuthorizer()
+	keyvaultClient.Authorizer = a
+	keyvaultClient.AddToUserAgent(config.UserAgent())
+	return &keyvaultClient
 }
