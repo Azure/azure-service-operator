@@ -157,8 +157,8 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 
 func (f *AzureSqlFailoverGroupManager) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureSqlFailoverGroup) (map[string][]byte, error) {
 	failovergroupname := instance.ObjectMeta.Name
-	azuresqlprimaryservername := instance.Spec.Server
-	azuresqlsecondaryservername := instance.Spec.SecondaryServer
+	azuresqlprimaryserver := instance.Spec.Server
+	azuresqlsecondaryserver := instance.Spec.SecondaryServer
 
 	secret := map[string][]byte{}
 
@@ -171,9 +171,9 @@ func (f *AzureSqlFailoverGroupManager) GetOrPrepareSecret(ctx context.Context, i
 
 	f.Log.Info("secret not found, generating values for new secret")
 
-	secret["azureSqlPrimaryServerName"] = []byte(azuresqlprimaryservername)
+	secret["azureSqlPrimaryServer"] = []byte(azuresqlprimaryserver)
 	secret["readWriteListenerEndpoint"] = []byte(failovergroupname + ".database.windows.net")
-	secret["azureSqlSecondaryServerName"] = []byte(azuresqlsecondaryservername)
+	secret["azureSqlSecondaryServer"] = []byte(azuresqlsecondaryserver)
 	secret["readOnlyListenerEndpoint"] = []byte(failovergroupname + ".secondary.database.windows.net")
 
 	return secret, nil

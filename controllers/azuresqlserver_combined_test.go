@@ -203,7 +203,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 					Server:                       sqlServerName,
 					FailoverPolicy:               "automatic",
 					FailoverGracePeriod:          30,
-					SecondaryServerName:          sqlServerTwoName,
+					SecondaryServer:              sqlServerTwoName,
 					SecondaryServerResourceGroup: rgName,
 					DatabaseList:                 []string{sqlDatabaseName},
 				},
