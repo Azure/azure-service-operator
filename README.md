@@ -19,6 +19,10 @@ The Azure Operator comprises of:
 
 The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
+For more details on the control flow of the Azure Service operator, refer to the link below
+
+[Azure Service Operator control flow](/docs/controlflow.md)
+
 ## Install the operator
 
 This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](./charts/azure-service-operator).
