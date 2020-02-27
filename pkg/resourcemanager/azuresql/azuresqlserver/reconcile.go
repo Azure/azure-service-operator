@@ -61,6 +61,19 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
+	// create or update the secret
+	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	err = s.SecretClient.Upsert(
+		ctx,
+		key,
+		secret,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(s.Scheme),
+	)
+	if err != nil {
+		return false, err
+	}
+
 	azureSqlServerProperties := azuresqlshared.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr(string(secret["username"])),
 		AdministratorLoginPassword: to.StringPtr(string(secret["password"])),
@@ -104,18 +117,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
 			instance.Status.Message = "Resource request successfully submitted to Azure"
 
-			// create or update the secret
-			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-			err = s.SecretClient.Upsert(
-				ctx,
-				key,
-				secret,
-				secrets.WithOwner(instance),
-				secrets.WithScheme(s.Scheme),
-			)
-			if err != nil {
-				return false, err
-			}
 		}
 
 		// SQL Server names are globally unique and sometimes events cause superfluous reconciliations after the server already exists
