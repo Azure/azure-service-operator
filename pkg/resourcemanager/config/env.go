@@ -3,8 +3,10 @@ package config
 import (
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/gobuffalo/envy"
 )
@@ -21,8 +23,27 @@ const (
 // ParseEnvironment loads a sibling `.env` file then looks through all environment
 // variables to set global configuration.
 func ParseEnvironment() error {
+	azcloud := os.Getenv("AZURE_CLOUD_ENV")
 	envy.Load()
-	azureEnv, _ := azure.EnvironmentFromName("AzurePublicCloud") // shouldn't fail
+
+	if azcloud == "" {
+		azcloud = "AzurePublicCloud"
+	}
+
+	allowed := []string{
+		"AzurePublicCloud",
+		"AzureUSGovernmentCloud",
+		"AzureChinaCloud",
+		"AzureGermanCloud",
+	}
+
+	if !helpers.ContainsString(allowed, azcloud) {
+		return fmt.Errorf("Invalid Cloud chosen: AZURE_CLOUD_ENV set to '%s'", azcloud)
+	}
+
+	cloudName = azcloud
+
+	azureEnv, _ := azure.EnvironmentFromName(azcloud) // shouldn't fail
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
 
 	// AZURE_GROUP_NAME and `config.GroupName()` are deprecated.
