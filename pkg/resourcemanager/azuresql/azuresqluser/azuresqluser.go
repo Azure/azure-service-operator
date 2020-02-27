@@ -210,6 +210,21 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		DBSecret[SecretUsernameKey] = []byte(user)
 	}
 
+	// publish user secret
+	// We do this first so if the keyvault does not have right permissions we will not proceed to creating the user
+	key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	err = s.SecretClient.Upsert(
+		ctx,
+		key,
+		DBSecret,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(s.Scheme),
+	)
+	if err != nil {
+		instance.Status.Message = "failed to update secret, err: " + err.Error()
+		return false, err
+	}
+
 	userExists, err := s.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
@@ -234,19 +249,6 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 			return false, fmt.Errorf("GrantUserRoles failed")
 		}
 
-		// publish user secret
-		key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-		err = s.SecretClient.Upsert(
-			ctx,
-			key,
-			DBSecret,
-			secrets.WithOwner(instance),
-			secrets.WithScheme(s.Scheme),
-		)
-		if err != nil {
-			instance.Status.Message = "failed to update secret, err: " + err.Error()
-			return false, err
-		}
 	}
 
 	instance.Status.Provisioned = true

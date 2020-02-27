@@ -81,6 +81,19 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return true, err
 	}
 
+	// Check to see if secret exists and if yes retrieve the admin login and password
+	secret, err := p.GetOrPrepareSecret(ctx, instance)
+	if err != nil {
+		p.Log.Info("Ensure", "GetOrPrepareSecrets failed with err", err.Error())
+		return false, err
+	}
+	// Update secret
+	err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
+	if err != nil {
+		p.Log.Info("Ensure", "AddServerCredsToSecrets failed with err", err.Error())
+		return false, err
+	}
+
 	client := getPSQLServersClient()
 
 	// convert kube labels to expected tag format
@@ -108,21 +121,8 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 	}
 	p.Log.Info("Server not present, creating")
 
-	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := p.GetOrPrepareSecret(ctx, instance)
-	if err != nil {
-		p.Log.Info("Ensure", "GetOrPrepareSecrets failed with err", err.Error())
-		return false, err
-	}
 	adminlogin := string(secret["username"])
 	adminpassword := string(secret["password"])
-
-	// Update secret
-	err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
-	if err != nil {
-		p.Log.Info("Ensure", "AddServerCredsToSecrets failed with err", err.Error())
-		return false, err
-	}
 
 	skuInfo := psql.Sku{
 		Name:     to.StringPtr(instance.Spec.Sku.Name),

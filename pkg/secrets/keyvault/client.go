@@ -58,7 +58,7 @@ func GetKeyVaultName(instance runtime.Object) string {
 }
 
 func getVaultsURL(ctx context.Context, vaultName string) string {
-	vaultURL := "https://" + vaultName + ".vault.azure.net" //default
+	vaultURL := "https://" + vaultName + "." + config.Environment().KeyVaultDNSSuffix //default
 	vault, err := GetVault(ctx, "", vaultName)
 	if err == nil {
 		vaultURL = *vault.Properties.VaultURI
@@ -76,6 +76,18 @@ func New(keyvaultName string) *KeyvaultSecretClient {
 		KeyVaultClient: keyvaultClient,
 		KeyVaultName:   keyvaultName,
 	}
+
+}
+
+func IsVaultAvailable(keyvaultName string) bool {
+	vault, err := GetVault(context.Background(), "", keyvaultName)
+	if err == nil {
+		fmt.Println(vault.Status)
+		return true
+	}
+	fmt.Println(err.Error())
+	return false
+
 }
 
 // Create creates a key in KeyVault if it does not exist already
