@@ -117,7 +117,7 @@ func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
 	return networkAcls
 }
 
-func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) (keyvault.AccessPolicyEntry, error) {
+func ParseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) (keyvault.AccessPolicyEntry, error) {
 	tenantID, err := uuid.FromString(policy.TenantID)
 	if err != nil {
 		return keyvault.AccessPolicyEntry{}, err
@@ -267,7 +267,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	var accessPolicies []keyvault.AccessPolicyEntry
 	if instance.Spec.AccessPolicies != nil {
 		for _, policy := range *instance.Spec.AccessPolicies {
-			newEntry, err := parseAccessPolicy(&policy, ctx)
+			newEntry, err := ParseAccessPolicy(&policy, ctx)
 			if err != nil {
 				return keyvault.Vault{}, err
 			}

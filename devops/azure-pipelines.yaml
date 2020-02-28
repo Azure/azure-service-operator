@@ -125,6 +125,7 @@ steps:
     echo "all the pods should be running"
     make deploy
     make test-existing-controllers
+    make unit-tests
   continueOnError: 'false'
   displayName: 'Set kind cluster and Run int tests'
   env:
