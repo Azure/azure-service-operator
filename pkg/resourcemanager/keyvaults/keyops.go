@@ -167,7 +167,14 @@ func (k *KeyvaultKeyClient) GetParents(obj runtime.Object) ([]resourcemanager.Ku
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
 
+func (g *KeyvaultKeyClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (k *KeyvaultKeyClient) convert(obj runtime.Object) (*v1alpha1.KeyVaultKey, error) {

@@ -141,6 +141,14 @@ func (g *AzureVNetManager) GetParents(obj runtime.Object) ([]resourcemanager.Kub
 	}, nil
 }
 
+func (g *AzureVNetManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
+}
+
 func (g *AzureVNetManager) convert(obj runtime.Object) (*azurev1alpha1.VirtualNetwork, error) {
 	local, ok := obj.(*azurev1alpha1.VirtualNetwork)
 	if !ok {

@@ -207,6 +207,14 @@ func (s *AzureSqlServerManager) GetParents(obj runtime.Object) ([]resourcemanage
 	}, nil
 }
 
+func (g *AzureSqlServerManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
+}
+
 func (s *AzureSqlServerManager) convert(obj runtime.Object) (*v1alpha1.AzureSqlServer, error) {
 	local, ok := obj.(*v1alpha1.AzureSqlServer)
 	if !ok {

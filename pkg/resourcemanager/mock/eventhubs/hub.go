@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
@@ -248,7 +249,14 @@ func (e *mockEventHubManager) Delete(ctx context.Context, obj runtime.Object) (b
 
 func (e *mockEventHubManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	return []resourcemanager.KubeParent{}, nil
+}
 
+func (g *mockEventHubManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (e *mockEventHubManager) convert(obj runtime.Object) (*azurev1alpha1.Eventhub, error) {

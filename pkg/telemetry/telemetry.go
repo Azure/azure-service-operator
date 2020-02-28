@@ -47,7 +47,7 @@ type TelemetryClient interface {
 	LogInfo(typeInfo string, message string)
 	LogWarning(typeWarning string, message string)
 	LogError(message string, err error)
-	LogDuration(duration int)
+	LogDuration(duration float64)
 	CreateHistogram(name string, start float64, width float64, numberOfBuckets int) (histogram prometheus.Histogram)
 }
 

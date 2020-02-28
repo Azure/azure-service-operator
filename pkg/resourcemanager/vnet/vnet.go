@@ -28,7 +28,7 @@ import (
 
 // AzureVNetManager is the struct that the manager functions hang off
 type AzureVNetManager struct {
-	Telemetry telemetry.PrometheusTelemetry
+	Telemetry telemetry.Telemetry
 }
 
 // getVNetClient returns a new instance of an VirtualNetwork client

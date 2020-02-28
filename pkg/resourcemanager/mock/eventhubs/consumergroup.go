@@ -207,7 +207,14 @@ func (cg *mockConsumerGroupManager) GetParents(obj runtime.Object) ([]resourcema
 			Target: &v1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
 
+func (g *mockConsumerGroupManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (cg *mockConsumerGroupManager) convert(obj runtime.Object) (*v1alpha1.ConsumerGroup, error) {

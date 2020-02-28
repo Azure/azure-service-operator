@@ -15,6 +15,7 @@ import (
 	multierror "github.com/hashicorp/go-multierror"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -48,10 +49,17 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	// get the ASOStatus struct
+	status, err := r.AzureClient.GetStatus(local)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
 	// record the time that this request was requested at
 	if !status.Provisioning && !status.Provisioned {
 		status.Provisioning = true
-		status.RequestedAt = &metav1.NewTime(time.Now())
+		timeNow := metav1.NewTime(time.Now())
+		status.RequestedAt = &timeNow
 	}
 
 	res, err := meta.Accessor(local)
@@ -155,8 +163,8 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		if status.CompletedAt == nil || status.CompletedAt.IsZero() {
 			compTime := metav1.Now()
 			status.CompletedAt = &compTime
-			durationInSecs := s.CompletedAt.Sub(s.RequestedAt.Time).Seconds()
-			r.Teletry.LogDuration(durationInSecs)
+			durationInSecs := status.CompletedAt.Sub(status.RequestedAt.Time).Seconds()
+			r.Telemetry.LogDuration(durationInSecs)
 		}
 	}
 
