@@ -76,11 +76,11 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	var keyvaultSecretClient secrets.SecretClient
 	KeyVaultName := keyvaultsecretlib.GetKeyVaultName(local)
 	if len(KeyVaultName) != 0 {
-		if keyvaultsecretlib.IsVaultAvailable(KeyVaultName) {
-			keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
+		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
+		if !keyvaultsecretlib.IsKeyVaultAccessible(keyvaultSecretClient) {
+			r.Telemetry.LogInfo("requeuing", "Waiting for Keyvault to store secrets to be available")
+			return ctrl.Result{RequeueAfter: requeDuration}, nil
 		}
-		r.Telemetry.LogInfo("requeuing", "Waiting for Keyvault to store secrets to be available")
-		return ctrl.Result{RequeueAfter: requeDuration}, nil
 	}
 
 	// Check to see if the skipreconcile annotation is on

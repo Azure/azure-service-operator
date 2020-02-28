@@ -3,6 +3,7 @@ package keyvault
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"encoding/json"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	keyvaults "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -79,15 +81,31 @@ func New(keyvaultName string) *KeyvaultSecretClient {
 
 }
 
-func IsVaultAvailable(keyvaultName string) bool {
-	vault, err := GetVault(context.Background(), "", keyvaultName)
-	if err == nil {
-		fmt.Println(vault.Status)
-		return true
-	}
-	fmt.Println(err.Error())
-	return false
+func IsKeyVaultAccessible(kvsecretclient secrets.SecretClient) bool {
+	ctx := context.Background()
+	key := types.NamespacedName{Name: "", Namespace: ""}
 
+	data, err := kvsecretclient.Get(ctx, key)
+	if strings.Contains(err.Error(), errhelp.NoSuchHost) { //keyvault unavailable
+		return false
+	} else if strings.Contains(err.Error(), errhelp.Forbidden) { //Access policies missing
+		return false
+	}
+
+	data = map[string][]byte{
+		"test": []byte(""),
+	}
+	err = kvsecretclient.Upsert(ctx, key, data)
+	if strings.Contains(err.Error(), errhelp.Forbidden) {
+		return false
+	}
+
+	err = kvsecretclient.Delete(ctx, key)
+	if strings.Contains(err.Error(), errhelp.Forbidden) {
+		return false
+	}
+
+	return true
 }
 
 // Create creates a key in KeyVault if it does not exist already

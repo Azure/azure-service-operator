@@ -147,7 +147,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	var adminSecretClient secrets.SecretClient
 	// if the admin credentials haven't been set, default admin credentials to servername
 	if len(instance.Spec.AdminSecret) == 0 {
-		instance.Spec.AdminSecret = instance.Spec.Server
+		instance.Spec.AdminSecret = instance.Namespace + "-" + instance.Spec.Server
 	}
 
 	// if the admin secret keyvault is not specified, assume it is a kube secret
@@ -275,8 +275,12 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 	}
 
 	var adminSecretClient secrets.SecretClient
+
+	if len(instance.Spec.AdminSecret) == 0 {
+		instance.Spec.AdminSecret = instance.Namespace + "-" + instance.Spec.Server
+	}
 	// get admin credentials to connect to db
-	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
+	key := types.NamespacedName{Name: instance.Spec.AdminSecret}
 
 	// if the admin secret keyvault is not specified, assume it is a kube secret
 	if len(instance.Spec.AdminSecretKeyVault) == 0 {
