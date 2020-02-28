@@ -45,8 +45,13 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		DatabaseList:                 instance.Spec.DatabaseList,
 	}
 
-	_, err = fg.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
+	resp, err := fg.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err == nil {
+
+		if *resp.ReplicationState == "SEEDING" {
+			return false, nil
+		}
+
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
 		instance.Status.Message = resourcemanager.SuccessMsg
@@ -64,6 +69,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 			errhelp.AsyncOpIncompleteError,
 			errhelp.ResourceNotFound,
 			errhelp.AlreadyExists,
+			errhelp.FailoverGroupBusy,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
@@ -87,11 +93,8 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		return false, err
 	}
 
-	instance.Status.Provisioning = false
-	instance.Status.Provisioned = true
-	instance.Status.Message = resourcemanager.SuccessMsg
-
-	return true, nil
+	// create was received successfully but replication is not done
+	return false, nil
 }
 
 // Delete drops a sqlfailovergroup
