@@ -134,7 +134,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	r.Telemetry.LogTrace("reconciling", "reconciling object")
 	done, ensureErr := r.AzureClient.Ensure(ctx, local)
 	if ensureErr != nil {
-		r.Telemetry.LogError("error from Ensure", err)
+		r.Telemetry.LogError("error from Ensure", ensureErr)
 	}
 
 	// update the status of the resource in kubernetes
