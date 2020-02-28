@@ -58,7 +58,7 @@ func WithScheme(scheme *runtime.Scheme) SecretOption {
 	}
 }
 
-// Flatten can be used to create individual string secrets rather objects for supported clients
+// Flatten can be used to create individual string secrets
 func Flatten(flatten bool) SecretOption {
 	return func(op *Options) {
 		op.Flatten = flatten

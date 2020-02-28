@@ -217,8 +217,6 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (b
 
 	keyVaultEnabled := reflect.TypeOf(s.SecretClient).Elem().Name() == "KeyvaultSecretClient"
 
-	fmt.Println(keyVaultEnabled)
-
 	if keyVaultEnabled {
 		// For a keyvault secret store, check for supplied namespace parameters
 		if instance.Spec.KeyVaultSecretPrefix != "" {
