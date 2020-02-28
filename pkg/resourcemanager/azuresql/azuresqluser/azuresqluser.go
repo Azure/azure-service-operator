@@ -238,17 +238,19 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 			instance.Status.Message = "failed creating user, err: " + err.Error()
 			return false, err
 		}
+	}
 
-		// apply roles to user
-		if len(instance.Spec.Roles) == 0 {
-			instance.Status.Message = "No roles specified for user"
-			return false, fmt.Errorf("No roles specified for database user")
-		}
-		err = s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
-		if err != nil {
-			instance.Status.Message = "GrantUserRoles failed"
-			return false, fmt.Errorf("GrantUserRoles failed")
-		}
+	// apply roles to user
+	if len(instance.Spec.Roles) == 0 {
+		instance.Status.Message = "No roles specified for user"
+		return false, fmt.Errorf("No roles specified for database user")
+	}
+
+	err = s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
+	if err != nil {
+		instance.Status.Message = "GrantUserRoles failed"
+		return false, fmt.Errorf("GrantUserRoles failed")
+	}
 
 	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
 	// In keyvault we have some creative freedom to allow more flexibility

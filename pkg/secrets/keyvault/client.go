@@ -115,7 +115,7 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 		opt(options)
 	}
 
-	var secretName string
+	var secretBaseName string
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
 
 	if len(key.Namespace) != 0 {
@@ -123,7 +123,7 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 	} else {
 		secretBaseName = key.Name
 	}
-  
+
 	secretVersion := ""
 	enabled := true
 	var activationDateUTC date.UnixTime
