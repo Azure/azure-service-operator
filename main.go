@@ -422,8 +422,8 @@ func main() {
 			Client:      mgr.GetClient(),
 			AzureClient: psqlfirewallruleclient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
-				"PostgreSQLFirewallRulee",
-				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRulee"),
+				"PostgreSQLFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRule"),
 			),
 			Recorder: mgr.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
 			Scheme:   scheme,
