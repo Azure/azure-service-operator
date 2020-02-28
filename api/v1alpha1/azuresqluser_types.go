@@ -30,6 +30,8 @@ type AzureSQLUserSpec struct {
 	AdminSecretKeyVault    string   `json:"adminSecretKeyVault,omitempty"`
 	Roles                  []string `json:"roles"`
 	KeyVaultToStoreSecrets string   `json:"keyVaultToStoreSecrets,omitempty"`
+  KeyVaultSecretPrefix  string   `json:"keyVaultSecretPrefix,omitempty"`
+	KeyVaultSecretFormats []string `json:"keyVaultSecretFormats,omitempty"`
 }
 
 // +kubebuilder:object:root=true

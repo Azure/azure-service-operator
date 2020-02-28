@@ -9,6 +9,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"reflect"
 	"strings"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -249,6 +250,141 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 			return false, fmt.Errorf("GrantUserRoles failed")
 		}
 
+	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
+	// In keyvault we have some creative freedom to allow more flexibility
+	key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	var dbUserCustomNamespace string
+
+	keyVaultEnabled := reflect.TypeOf(s.SecretClient).Elem().Name() == "KeyvaultSecretClient"
+
+	if keyVaultEnabled {
+		// For a keyvault secret store, check for supplied namespace parameters
+		if instance.Spec.KeyVaultSecretPrefix != "" {
+			dbUserCustomNamespace = instance.Spec.KeyVaultSecretPrefix
+		} else {
+			dbUserCustomNamespace = "azuresqluser-" + string(DBSecret["serverName"]) + "-" + string(DBSecret["azureSqlDatabaseName"])
+		}
+
+		key = types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name}
+	}
+
+	// publish standard user secret
+	err = s.SecretClient.Upsert(
+		ctx,
+		key,
+		DBSecret,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(s.Scheme),
+	)
+	if err != nil {
+		instance.Status.Message = "failed to update secret, err: " + err.Error()
+		return false, err
+	}
+
+	// Preformatted special formats are only available through keyvault as they require separated secrets
+	if keyVaultEnabled {
+		// Instantiate a map of all formats and flip the bool to true for any that have been requested in the spec.
+		// Formats that were not requested will be explicitly deleted.
+		requestedFormats := map[string]bool{
+			"adonet":         false,
+			"adonet-urlonly": false,
+			"jdbc":           false,
+			"jdbc-urlonly":   false,
+			"odbc":           false,
+			"odbc-urlonly":   false,
+			"server":         false,
+			"database":       false,
+			"username":       false,
+			"password":       false,
+		}
+		for _, format := range instance.Spec.KeyVaultSecretFormats {
+			requestedFormats[format] = true
+		}
+
+		// Deleted items will be processed immediately but secrets that need to be added will be created in this array and persisted in one pass at the end
+		formattedSecrets := make(map[string][]byte)
+
+		for formatName, requested := range requestedFormats {
+			// Add the format to the output map if it has been requested otherwise call for its deletion from the secret store
+			if requested {
+				switch formatName {
+				case "adonet":
+					formattedSecrets["adonet"] = []byte(fmt.Sprintf(
+						"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False;User ID=%v;Password=%v;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+						string(DBSecret["fullyQualifiedServerName"]),
+						instance.Spec.DbName,
+						user,
+						string(DBSecret["password"]),
+					))
+
+				case "adonet-urlonly":
+					formattedSecrets["adonet-urlonly"] = []byte(fmt.Sprintf(
+						"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout",
+						string(DBSecret["fullyQualifiedServerName"]),
+						instance.Spec.DbName,
+					))
+
+				case "jdbc":
+					formattedSecrets["jdbc"] = []byte(fmt.Sprintf(
+						"jdbc:sqlserver://%v:1433;database=%v;user=%v@%v;password=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
+						string(DBSecret["fullyQualifiedServerName"]),
+						instance.Spec.DbName,
+						user,
+						instance.Spec.Server,
+						string(DBSecret["password"]),
+					))
+				case "jdbc-urlonly":
+					formattedSecrets["jdbc-urlonly"] = []byte(fmt.Sprintf(
+						"jdbc:sqlserver://%v:1433;database=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
+						string(DBSecret["fullyQualifiedServerName"]),
+						instance.Spec.DbName,
+					))
+
+				case "odbc":
+					formattedSecrets["odbc"] = []byte(fmt.Sprintf(
+						"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False;User ID=%v;Password=%v;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+						string(DBSecret["fullyQualifiedServerName"]),
+						instance.Spec.DbName,
+						user,
+						string(DBSecret["password"]),
+					))
+				case "odbc-urlonly":
+					formattedSecrets["odbc-urlonly"] = []byte(fmt.Sprintf(
+						"Driver={ODBC Driver 13 for SQL Server};Server=tcp:%v,1433;Database=%v; Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;",
+						string(DBSecret["fullyQualifiedServerName"]),
+						instance.Spec.DbName,
+					))
+				case "server":
+					formattedSecrets["server"] = DBSecret["fullyQualifiedServerName"]
+
+				case "database":
+					formattedSecrets["database"] = []byte(instance.Spec.DbName)
+
+				case "username":
+					formattedSecrets["username"] = []byte(user)
+
+				case "password":
+					formattedSecrets["password"] = DBSecret["password"]
+				}
+			} else {
+				err = s.SecretClient.Delete(
+					ctx,
+					types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name + "-" + formatName},
+				)
+			}
+		}
+
+		err = s.SecretClient.Upsert(
+			ctx,
+			types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name},
+			formattedSecrets,
+			secrets.WithOwner(instance),
+			secrets.WithScheme(s.Scheme),
+			secrets.Flatten(true),
+		)
+		if err != nil {
+			return false, err
+		}
 	}
 
 	instance.Status.Provisioned = true
