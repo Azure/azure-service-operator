@@ -46,7 +46,7 @@ var _ = Describe("API Management", func() {
 	})
 
 	Context("Create and Delete", func() {
-		It("should create and delete API Management instance in azure", func() {
+		It("should create and delete API instance in azure", func() {
 
 			defer GinkgoRecover()
 

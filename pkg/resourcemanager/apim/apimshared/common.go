@@ -209,4 +209,3 @@ func GetAPIMClient() apim.APIClient {
 
 	return apimClient
 }
-

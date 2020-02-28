@@ -22,6 +22,7 @@ import (
 	"github.com/Azure/azure-service-operator/controllers"
 	"k8s.io/apimachinery/pkg/runtime"
 
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	resourceapimanagement "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	apimservice "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
@@ -42,9 +43,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-	"k8s.io/apimachinery/pkg/runtime"
-
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -482,7 +480,6 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "APIMgmtAPI")
 		os.Exit(1)
 	}
-
 
 	if err = (&controllers.KeyVaultKeyReconciler{
 		Reconciler: &controllers.AsyncReconciler{
