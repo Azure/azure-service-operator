@@ -33,39 +33,30 @@ const (
 type AsyncReconciler struct {
 	client.Client
 	AzureClient resourcemanager.ARMClient
-	Telemetry   telemetry.PrometheusTelemetry
+	Telemetry   telemetry.TelemetryClient
 	Recorder    record.EventRecorder
 	Scheme      *runtime.Scheme
 }
 
+// Reconcile reconciles the change request
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, err error) {
 	ctx := context.Background()
-
-	// // log operator start
-	// r.Telemetry.LogStart()
-
-	// // log failure / success
-	// defer func() {
-	// 	if err != nil {
-	// 		r.Telemetry.LogError(
-	// 			"Failure occured during reconcilliation",
-	// 			err)
-	// 		r.Telemetry.LogFailure()
-	// 	} else if result.Requeue {
-	// 		r.Telemetry.LogFailure()
-	// 	} else {
-	// 		r.Telemetry.LogSuccess()
-	// 	}
-	// }()
+	r.Telemetry.SetInstance(req.String())
 
 	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
-		r.Telemetry.LogInfo("ignorable error", "error during fetch from api server")
+		r.Telemetry.LogInfo("requeueing", "error during fetch from api server")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	// record the time that this request was requested at
+	if !status.Provisioning && !status.Provisioned {
+		status.Provisioning = true
+		status.RequestedAt = &metav1.NewTime(time.Now())
 	}
 
 	res, err := meta.Accessor(local)
 	if err != nil {
-		r.Telemetry.LogError("accessor fail", err)
+		r.Telemetry.LogInfo("requeuing", fmt.Sprintf("failed getting meta accessor: %s", err.Error()))
 		return ctrl.Result{}, err
 	}
 
@@ -118,17 +109,13 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	// loop through parents until one is successfully referenced
 	parents, err := r.AzureClient.GetParents(local)
 	for _, p := range parents {
-		//r.Telemetry.LogInfo("status", "handling parent "+p.Key.Name)
-
 		if err := r.Get(ctx, p.Key, p.Target); err == nil {
-			//r.Telemetry.LogInfo("status", "handling parent get for "+reflect.TypeOf(p.Target).String())
-
 			if pAccessor, err := meta.Accessor(p.Target); err == nil {
 				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
-					r.Telemetry.LogInfo("status", "setting parent reference to object: "+pAccessor.GetName())
+					r.Telemetry.LogInfo("setting parent reference", pAccessor.GetName())
 					err := r.Update(ctx, local)
 					if err != nil {
-						r.Telemetry.LogInfo("warning", "failed to update instance: "+err.Error())
+						r.Telemetry.LogError("failed to reference parent", err)
 					}
 					break
 				}
@@ -136,34 +123,45 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		}
 	}
 
-	r.Telemetry.LogInfo("status", "reconciling object")
+	r.Telemetry.LogTrace("reconciling", "reconciling object")
 	done, ensureErr := r.AzureClient.Ensure(ctx, local)
 	if ensureErr != nil {
-		r.Telemetry.LogError("ensure err", ensureErr)
+		r.Telemetry.LogError("error from Ensure", err)
 	}
 
 	// update the status of the resource in kubernetes
 	// Implementations of Ensure() tend to set their outcomes in local.Status
 	err = r.Status().Update(ctx, local)
 	if err != nil {
-		r.Telemetry.LogInfo("status", "failed updating status")
+		r.Telemetry.LogError("failed to update status", err)
 	}
 
 	final := multierror.Append(ensureErr, r.Update(ctx, local))
 	err = final.ErrorOrNil()
 	if err != nil {
-		r.Recorder.Event(local, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
+		r.Recorder.Event(local, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Unexpected error during reconciliation: %s", err.Error()))
 	} else if done {
-		r.Recorder.Event(local, corev1.EventTypeNormal, "Reconciled", "Successfully reconciled")
+		r.Recorder.Event(local, corev1.EventTypeNormal, "Reconciled", "Reconciliation ended with no errors")
 	}
 
 	result = ctrl.Result{}
 	if !done {
-		r.Telemetry.LogInfo("status", "reconciling object not finished")
+		r.Telemetry.LogInfo("requeueing", "reconciling object not finished, re-queueing")
 		result.RequeueAfter = requeDuration
+	} else {
+		r.Telemetry.LogInfo("reconciling", "success")
+
+		// record the duration of the request
+		if status.CompletedAt == nil || status.CompletedAt.IsZero() {
+			compTime := metav1.Now()
+			status.CompletedAt = &compTime
+			durationInSecs := s.CompletedAt.Sub(s.RequestedAt.Time).Seconds()
+			r.Teletry.LogDuration(durationInSecs)
+		}
 	}
 
-	r.Telemetry.LogInfo("status", "exiting reconciliation")
+	r.Telemetry.LogInfo("operator", fmt.Sprintf("message from operator: %s", status.Message))
+	r.Telemetry.LogTrace("operator", "exiting reconciliation")
 
 	return result, err
 }
