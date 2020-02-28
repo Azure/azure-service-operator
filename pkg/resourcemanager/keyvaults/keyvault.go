@@ -21,6 +21,7 @@ import (
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
+	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -116,12 +117,8 @@ func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
 	return networkAcls
 }
 
-func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry) (keyvault.AccessPolicyEntry, error) {
+func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) (keyvault.AccessPolicyEntry, error) {
 	tenantID, err := uuid.FromString(policy.TenantID)
-	if err != nil {
-		return keyvault.AccessPolicyEntry{}, err
-	}
-	appID, err := uuid.FromString(policy.TenantID)
 	if err != nil {
 		return keyvault.AccessPolicyEntry{}, err
 	}
@@ -171,15 +168,28 @@ func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry) (keyvault.AccessPolic
 	}
 
 	newEntry := keyvault.AccessPolicyEntry{
-		TenantID:      &tenantID,
-		ObjectID:      &policy.ObjectID,
-		ApplicationID: &appID,
+		TenantID: &tenantID,
 		Permissions: &keyvault.Permissions{
 			Keys:         &keyPermissions,
 			Secrets:      &secretPermissions,
 			Certificates: &certificatePermissions,
 			Storage:      &storagePermissions,
 		},
+	}
+
+	if policy.ApplicationID != "" {
+		appID, err := uuid.FromString(policy.ApplicationID)
+		if err != nil {
+			return keyvault.AccessPolicyEntry{}, err
+		}
+
+		newEntry.ApplicationID = &appID
+	}
+
+	if policy.ObjectID != "" {
+		if objID := getObjectID(ctx, policy.TenantID, policy.ObjectID); objID != nil {
+			newEntry.ObjectID = objID
+		}
 	}
 
 	return newEntry, nil
@@ -220,6 +230,8 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 
+	enableSoftDelete := instance.Spec.EnableSoftDelete
+
 	vaultsClient, id, err := InstantiateVault(ctx, vaultName)
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -228,7 +240,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	var accessPolicies []keyvault.AccessPolicyEntry
 	if instance.Spec.AccessPolicies != nil {
 		for _, policy := range *instance.Spec.AccessPolicies {
-			newEntry, err := parseAccessPolicy(&policy)
+			newEntry, err := parseAccessPolicy(&policy, ctx)
 			if err != nil {
 				return keyvault.Vault{}, err
 			}
@@ -253,13 +265,13 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 				Family: to.StringPtr("A"),
 				Name:   keyvault.Standard,
 			},
-			NetworkAcls: &networkAcls,
+			NetworkAcls:      &networkAcls,
+			EnableSoftDelete: &enableSoftDelete,
 		},
 		Location: to.StringPtr(location),
 		Tags:     tags,
 	}
 
-	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v", vaultName, groupName, location))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 
 	return future.Result(vaultsClient)
@@ -307,7 +319,6 @@ func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 		Location: to.StringPtr(location),
 	}
 
-	k.Log.Info(fmt.Sprintf("creating keyvault '%s' in resource group '%s' and location: %v with access policies granted to %v", vaultName, groupName, location, clientID))
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -355,6 +366,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+
 		return true, nil
 	}
 
@@ -455,4 +467,12 @@ func (k *azureKeyVaultManager) convert(obj runtime.Object) (*v1alpha1.KeyVault, 
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
+}
+
+func NewOpsClient(keyvaultName string) *kvops.BaseClient {
+	keyvaultClient := kvops.New()
+	a, _ := iam.GetKeyvaultAuthorizer()
+	keyvaultClient.Authorizer = a
+	keyvaultClient.AddToUserAgent(config.UserAgent())
+	return &keyvaultClient
 }

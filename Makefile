@@ -247,8 +247,8 @@ endif
 
 install-cert-manager:
 	kubectl create namespace cert-manager
-	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+	kubectl label namespace cert-manager cert-manager.io/disable-validation=true
+	kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
 
 install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml

@@ -21,10 +21,11 @@ import (
 
 // KeyVaultSpec defines the desired state of KeyVault
 type KeyVaultSpec struct {
-	Location        string               `json:"location"`
-	ResourceGroup   string               `json:"resourceGroup"`
-	NetworkPolicies *NetworkRuleSet      `json:"networkPolicies,omitempty"`
-	AccessPolicies  *[]AccessPolicyEntry `json:"accessPolicies,omitempty"`
+	Location         string               `json:"location"`
+	ResourceGroup    string               `json:"resourceGroup"`
+	EnableSoftDelete bool                 `json:"enableSoftDelete,omitempty"`
+	NetworkPolicies  *NetworkRuleSet      `json:"networkPolicies,omitempty"`
+	AccessPolicies   *[]AccessPolicyEntry `json:"accessPolicies,omitempty"`
 }
 
 type NetworkRuleSet struct {
@@ -45,7 +46,7 @@ type AccessPolicyEntry struct {
 	ObjectID string `json:"objectID,omitempty"`
 	// ApplicationID -  Application ID of the client making request on behalf of a principal
 	ApplicationID string `json:"applicationID,omitempty"`
-	// Permissions - Permissions the identity has for keys, secrets and certificates.
+	// Permissions - Permissions the identity has for keys, secrets, and certificates.
 	Permissions *Permissions `json:"permissions,omitempty"`
 }
 

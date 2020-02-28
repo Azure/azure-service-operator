@@ -53,7 +53,7 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-		return helpers.HasFinalizer(sqlUser, finalizerName)
+		return HasFinalizer(sqlUser, finalizerName)
 	}, tc.timeout, tc.retry, "wait for finalizer")
 
 	assert.Eventually(func() bool {
@@ -125,7 +125,7 @@ func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-		return helpers.HasFinalizer(sqlUser, finalizerName)
+		return HasFinalizer(sqlUser, finalizerName)
 	}, tc.timeout, tc.retry, "wait for finalizer")
 
 	assert.Eventually(func() bool {
