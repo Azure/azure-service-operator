@@ -44,7 +44,7 @@ test: generate fmt vet manifests
 
 # Run tests with existing cluster
 test-existing-controllers: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -tags all -parallel 3 -v ./controllers/... -timeout 45m
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -tags all -parallel 6 -v ./controllers/... -timeout 50m
 
 # Run tests with existing cluster
 test-existing-managers: generate fmt vet manifests
