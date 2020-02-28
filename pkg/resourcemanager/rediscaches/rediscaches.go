@@ -124,6 +124,15 @@ func (r *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
 	return &result, err
 }
 
+// GetRedisCache returns a redis cache object if it exists
+func (r *AzureRedisCacheManager) GetRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.ResourceType, err error) {
+	redisClient, err := getRedisCacheClient()
+	if err != nil {
+		return result, err
+	}
+	return redisClient.Get(ctx, groupName, redisCacheName)
+}
+
 // DeleteRedisCache removes the resource group named by env var
 func (r *AzureRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
 	redisClient, err := getRedisCacheClient()

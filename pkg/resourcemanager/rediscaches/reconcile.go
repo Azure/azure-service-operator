@@ -19,6 +19,7 @@ package rediscaches
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -51,11 +52,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 	instance.Status.Provisioning = true
 
-	redisClient, err := getRedisCacheClient()
-	if err != nil {
-		return false, err
-	}
-	resp, err := redisClient.Get(ctx, groupName, name)
+	resp, err := rc.GetRedisCache(ctx, groupName, name)
 	if err == nil {
 		if resp.ProvisioningState == "Succeeded" {
 			err = rc.ListKeysAndCreateSecrets(groupName, redisName, secretName, instance)
@@ -108,25 +105,31 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
 
-	_, err = rc.DeleteRedisCache(ctx, groupName, name)
+	resp, err := rc.GetRedisCache(ctx, groupName, name)
 	if err != nil {
-		catch := []string{
-			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.CreationPending,
-			errhelp.AsyncOpIncompleteError,
+		if resp.StatusCode == http.StatusNotFound {
+			return false, nil
 		}
-		err = errhelp.NewAzureError(err)
-		if azerr, ok := err.(*errhelp.AzureError); ok {
-			if helpers.ContainsString(catch, azerr.Type) {
-				if azerr.Type == errhelp.AsyncOpIncompleteError {
-					return true, nil
-				}
-				return false, nil
-			}
-		}
-		return false, fmt.Errorf("AzureRedisCacheManager Delete failed with %s", err)
+		return false, err
 	}
-	return false, nil
+
+	if resp.ProvisioningState == "Deleting" || resp.ProvisioningState == "Creating" {
+		instance.Status.Message = fmt.Sprintf("Async Operation: %s not complete", resp.ProvisioningState)
+		return true, nil
+	}
+
+	req, err := rc.DeleteRedisCache(ctx, groupName, name)
+	if err != nil {
+		instance.Status.Message = err.Error()
+
+		if req.Response().StatusCode == http.StatusNotFound {
+			return false, nil
+		}
+
+		return true, fmt.Errorf("AzureRedisCacheManager Delete failed with %s", err)
+	}
+
+	return true, nil
 }
 
 // GetParents returns the parents of rediscache
