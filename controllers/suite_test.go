@@ -132,7 +132,7 @@ func setup() error {
 
 	var appInsightsManager resourcemanagerappinsights.ApplicationInsightsManager
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
-	var redisCacheManager resourcemanagerrediscaches.RedisCacheManager
+
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var eventhubNamespaceClient resourcemanagereventhub.EventHubNamespaceManager
@@ -168,6 +168,11 @@ func setup() error {
 
 	sqlServerManager = resourcemanagersqlserver.NewAzureSqlServerManager(
 		ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"),
+		secretClient,
+		scheme.Scheme,
+	)
+	redisCacheManager := resourcemanagerrediscaches.NewAzureRedisCacheManager(
+		ctrl.Log.WithName("rediscachemanager").WithName("RedisCache"),
 		secretClient,
 		scheme.Scheme,
 	)
