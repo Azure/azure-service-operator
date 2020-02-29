@@ -123,6 +123,9 @@ func main() {
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(ctrl.Log.WithName("keyvaultmanager").WithName("KeyVault"), mgr.GetScheme())
+	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
+		KeyvaultClient: keyVaultManager,
+	}
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme)
 	sqlServerManager := resourcemanagersqlserver.NewAzureSqlServerManager(
 		ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"),
@@ -457,6 +460,21 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "VNet")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.KeyVaultKeyReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: keyVaultKeyManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
+				"KeyVaultKey"),
+			Recorder: mgr.GetEventRecorderFor("KeyVaultKey-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "KeyVaultKey")
 		os.Exit(1)
 	}
 

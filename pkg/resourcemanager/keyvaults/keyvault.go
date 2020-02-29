@@ -21,6 +21,7 @@ import (
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
+	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -116,64 +117,91 @@ func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
 	return networkAcls
 }
 
-func parseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) (keyvault.AccessPolicyEntry, error) {
+func ParseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) (keyvault.AccessPolicyEntry, error) {
 	tenantID, err := uuid.FromString(policy.TenantID)
 	if err != nil {
 		return keyvault.AccessPolicyEntry{}, err
 	}
 
-	var keyPermissions []keyvault.KeyPermissions
-	validKeyPermissions := keyvault.PossibleKeyPermissionsValues()
-	for _, key := range *policy.Permissions.Keys {
-		for _, validKey := range validKeyPermissions {
-			if keyvault.KeyPermissions(key) == validKey {
-				keyPermissions = append(keyPermissions, validKey)
-				break
-			}
-		}
-	}
-
-	var secretPermissions []keyvault.SecretPermissions
-	validSecretPermissions := keyvault.PossibleSecretPermissionsValues()
-	for _, key := range *policy.Permissions.Secrets {
-		for _, validSecret := range validSecretPermissions {
-			if keyvault.SecretPermissions(key) == validSecret {
-				secretPermissions = append(secretPermissions, validSecret)
-				break
-			}
-		}
-	}
-
-	var certificatePermissions []keyvault.CertificatePermissions
-	validCertificatePermissions := keyvault.PossibleCertificatePermissionsValues()
-	for _, key := range *policy.Permissions.Certificates {
-		for _, validCert := range validCertificatePermissions {
-			if keyvault.CertificatePermissions(key) == validCert {
-				certificatePermissions = append(certificatePermissions, validCert)
-				break
-			}
-		}
-	}
-
-	var storagePermissions []keyvault.StoragePermissions
-	validStoragePermissions := keyvault.PossibleStoragePermissionsValues()
-	for _, key := range *policy.Permissions.Storage {
-		for _, validStorage := range validStoragePermissions {
-			if keyvault.StoragePermissions(key) == validStorage {
-				storagePermissions = append(storagePermissions, validStorage)
-				break
-			}
-		}
-	}
-
 	newEntry := keyvault.AccessPolicyEntry{
-		TenantID: &tenantID,
-		Permissions: &keyvault.Permissions{
-			Keys:         &keyPermissions,
-			Secrets:      &secretPermissions,
-			Certificates: &certificatePermissions,
-			Storage:      &storagePermissions,
-		},
+		TenantID:    &tenantID,
+		Permissions: &keyvault.Permissions{},
+	}
+
+	if policy.Permissions.Keys != nil {
+		var keyPermissions []keyvault.KeyPermissions
+		permissions := keyvault.PossibleKeyPermissionsValues()
+		validKeyPermissions := []string{}
+		for _, item := range permissions {
+			validKeyPermissions = append(validKeyPermissions, string(item))
+		}
+
+		for _, key := range *policy.Permissions.Keys {
+			if helpers.ContainsString(validKeyPermissions, key) {
+				keyPermissions = append(keyPermissions, keyvault.KeyPermissions(key))
+			} else {
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("InvalidAccessPolicy: Invalid Key Permission")
+			}
+		}
+
+		newEntry.Permissions.Keys = &keyPermissions
+	}
+
+	if policy.Permissions.Secrets != nil {
+		var secretPermissions []keyvault.SecretPermissions
+		permissions := keyvault.PossibleSecretPermissionsValues()
+		validSecretPermissions := []string{}
+		for _, item := range permissions {
+			validSecretPermissions = append(validSecretPermissions, string(item))
+		}
+
+		for _, key := range *policy.Permissions.Secrets {
+			if helpers.ContainsString(validSecretPermissions, key) {
+				secretPermissions = append(secretPermissions, keyvault.SecretPermissions(key))
+			} else {
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("InvalidAccessPolicy: Invalid Secret Permission")
+			}
+		}
+
+		newEntry.Permissions.Secrets = &secretPermissions
+	}
+
+	if policy.Permissions.Certificates != nil {
+		var certificatePermissions []keyvault.CertificatePermissions
+		permissions := keyvault.PossibleCertificatePermissionsValues()
+		validCertificatePermissions := []string{}
+		for _, item := range permissions {
+			validCertificatePermissions = append(validCertificatePermissions, string(item))
+		}
+
+		for _, key := range *policy.Permissions.Certificates {
+			if helpers.ContainsString(validCertificatePermissions, key) {
+				certificatePermissions = append(certificatePermissions, keyvault.CertificatePermissions(key))
+			} else {
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("InvalidAccessPolicy: Invalid Certificate Permission")
+			}
+		}
+
+		newEntry.Permissions.Certificates = &certificatePermissions
+	}
+
+	if policy.Permissions.Storage != nil {
+		var storagePermissions []keyvault.StoragePermissions
+		permissions := keyvault.PossibleStoragePermissionsValues()
+		validStoragePermissions := []string{}
+		for _, item := range permissions {
+			validStoragePermissions = append(validStoragePermissions, string(item))
+		}
+
+		for _, key := range *policy.Permissions.Storage {
+			if helpers.ContainsString(validStoragePermissions, key) {
+				storagePermissions = append(storagePermissions, keyvault.StoragePermissions(key))
+			} else {
+				return keyvault.AccessPolicyEntry{}, fmt.Errorf("InvalidAccessPolicy: Invalid Storage Permission")
+			}
+		}
+
+		newEntry.Permissions.Storage = &storagePermissions
 	}
 
 	if policy.ApplicationID != "" {
@@ -239,7 +267,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	var accessPolicies []keyvault.AccessPolicyEntry
 	if instance.Spec.AccessPolicies != nil {
 		for _, policy := range *instance.Spec.AccessPolicies {
-			newEntry, err := parseAccessPolicy(&policy, ctx)
+			newEntry, err := ParseAccessPolicy(&policy, ctx)
 			if err != nil {
 				return keyvault.Vault{}, err
 			}
@@ -345,7 +373,7 @@ func (k *azureKeyVaultManager) GetVault(ctx context.Context, groupName string, v
 
 }
 
-func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := k.convert(obj)
 	if err != nil {
 		return true, err
@@ -354,7 +382,8 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 	// convert kube labels to expected tag format
 	labels := map[string]*string{}
 	for k, v := range instance.GetLabels() {
-		labels[k] = &v
+		value := v
+		labels[k] = &value
 	}
 	instance.Status.Provisioning = true
 
@@ -365,6 +394,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+
 		return true, nil
 	}
 
@@ -389,6 +419,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 		catchUnrecoverableErrors := []string{
 			errhelp.AccountNameInvalid,
 			errhelp.AlreadyExists,
+			errhelp.InvalidAccessPolicy,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -420,7 +451,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object) (
 	return true, nil
 }
 
-func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := k.convert(obj)
 	if err != nil {
 		return true, err
@@ -465,4 +496,12 @@ func (k *azureKeyVaultManager) convert(obj runtime.Object) (*v1alpha1.KeyVault, 
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
+}
+
+func NewOpsClient(keyvaultName string) *kvops.BaseClient {
+	keyvaultClient := kvops.New()
+	a, _ := iam.GetKeyvaultAuthorizer()
+	keyvaultClient.Authorizer = a
+	keyvaultClient.AddToUserAgent(config.UserAgent())
+	return &keyvaultClient
 }

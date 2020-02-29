@@ -7,6 +7,7 @@ package controllers
 import (
 	"context"
 	"encoding/json"
+
 	"fmt"
 	"strings"
 	"testing"
@@ -14,6 +15,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
