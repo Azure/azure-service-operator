@@ -72,18 +72,11 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 	}
 
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretName := key.Namespace + "-" + key.Name
+	secretBaseName := key.Namespace + "-" + key.Name
 	secretVersion := ""
 	enabled := true
 	var activationDateUTC date.UnixTime
 	var expireDateUTC date.UnixTime
-
-	// Convert the map into a string as that's what a KeyVault secret takes
-	jsonData, err := json.Marshal(data)
-	if err != nil {
-		return err
-	}
-	stringSecret := string(jsonData)
 
 	// Initialize secret attributes
 	secretAttributes := keyvaults.SecretAttributes{
@@ -100,20 +93,56 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 		secretAttributes.Expires = &expireDateUTC
 	}
 
-	// Initialize secret parameters
-	secretParams := keyvaults.SecretSetParameters{
-		Value:            &stringSecret,
-		SecretAttributes: &secretAttributes,
+	// if the caller is looking for flat secrets iterate over the array and individually persist each string
+	if options.Flatten {
+		var err error
+
+		for formatName, formatValue := range data {
+			secretName := secretBaseName + "-" + formatName
+			stringSecret := string(formatValue)
+
+			// Initialize secret parameters
+			secretParams := keyvaults.SecretSetParameters{
+				Value:            &stringSecret,
+				SecretAttributes: &secretAttributes,
+			}
+
+			if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+				return fmt.Errorf("secret already exists %v", err)
+			}
+
+			_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
+
+			if err != nil {
+				return err
+			}
+		}
+		// If flatten has not been declared, convert the map into a json string for persistance
+	} else {
+		jsonData, err := json.Marshal(data)
+		if err != nil {
+			return err
+		}
+		stringSecret := string(jsonData)
+		contentType := "json"
+
+		// Initialize secret parameters
+		secretParams := keyvaults.SecretSetParameters{
+			Value:            &stringSecret,
+			SecretAttributes: &secretAttributes,
+			ContentType:      &contentType,
+		}
+
+		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
+			return fmt.Errorf("secret already exists %v", err)
+		}
+
+		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secretParams)
+
+		return err
 	}
 
-	if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
-		return fmt.Errorf("secret already exists %v", err)
-	}
-
-	_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
-
-	return err
-
+	return nil
 }
 
 // Upsert updates a key in KeyVault even if it exists already, creates if it doesn't exist
@@ -125,19 +154,12 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 	}
 
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretName := key.Namespace + "-" + key.Name
+	secretBaseName := key.Namespace + "-" + key.Name
 	secretVersion := ""
 	enabled := true
 
 	var activationDateUTC date.UnixTime
 	var expireDateUTC date.UnixTime
-
-	// Convert the map into a string as that's what a KeyVault secret takes
-	jsonData, err := json.Marshal(data)
-	if err != nil {
-		return err
-	}
-	stringSecret := string(jsonData)
 
 	// Initialize secret attributes
 	secretAttributes := keyvaults.SecretAttributes{
@@ -154,23 +176,65 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 		secretAttributes.Expires = &expireDateUTC
 	}
 
-	// Initialize secret parameters
-	secretParams := keyvaults.SecretSetParameters{
-		Value:            &stringSecret,
-		SecretAttributes: &secretAttributes,
-	}
+	// if the caller is looking for flat secrets iterate over the array and individually persist each string
+	if options.Flatten {
+		var err error
 
-	if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
-		// If secret exists we delete it and recreate it again
-		_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
-		if err != nil {
-			return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
+		for formatName, formatValue := range data {
+			secretName := secretBaseName + "-" + formatName
+			stringSecret := string(formatValue)
+
+			// Initialize secret parameters
+			secretParams := keyvaults.SecretSetParameters{
+				Value: &stringSecret,
+				SecretAttributes: &keyvaults.SecretAttributes{
+					Enabled: &enabled,
+				},
+			}
+
+			if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+				// If secret exists we delete it and recreate it again
+				_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
+				if err != nil {
+					return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
+				}
+			}
+
+			_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
+
+			if err != nil {
+				return err
+			}
 		}
+		// If flatten has not been declared, convert the map into a json string for perisstence
+	} else {
+		jsonData, err := json.Marshal(data)
+
+		if err != nil {
+			return err
+		}
+		stringSecret := string(jsonData)
+
+		// Initialize secret parameters
+		secretParams := keyvaults.SecretSetParameters{
+			Value:            &stringSecret,
+			SecretAttributes: &secretAttributes,
+		}
+
+		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
+			// If secret exists we delete it and recreate it again
+			_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretBaseName)
+			if err != nil {
+				return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
+			}
+		}
+
+		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secretParams)
+
+		return err
 	}
 
-	_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
-
-	return err
+	return nil
 }
 
 // Delete deletes a key in KeyVault
