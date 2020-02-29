@@ -34,6 +34,7 @@ const (
 	InvalidParameters               = "InvalidParameters"
 	Forbidden                       = "Forbidden"
 	NoSuchHost                      = "no such host"
+	CannotParseError                = "CannotParseError"
 )
 
 func NewAzureError(err error) error {
@@ -49,11 +50,21 @@ func NewAzureError(err error) error {
 
 		ae.Code = det.StatusCode.(int)
 		if e, ok := det.Original.(*azure.RequestError); ok {
-			kind = e.ServiceError.Code
-			reason = e.ServiceError.Message
+			if e.ServiceError != nil {
+				kind = e.ServiceError.Code
+				reason = e.ServiceError.Message
+			} else {
+				kind = CannotParseError
+				reason = CannotParseError
+			}
 		} else if e, ok := det.Original.(azure.RequestError); ok {
-			kind = e.ServiceError.Code
-			reason = e.ServiceError.Message
+			if e.ServiceError != nil {
+				kind = e.ServiceError.Code
+				reason = e.ServiceError.Message
+			} else {
+				kind = CannotParseError
+				reason = CannotParseError
+			}
 		} else if e, ok := det.Original.(*azure.ServiceError); ok {
 			kind = e.Code
 			reason = e.Message
