@@ -160,7 +160,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	r.Telemetry.LogInfo("status", "reconciling object")
 
-	configOptions = append(configOptions, resourcemanager.WithKubeClient(r.Client))
 	if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
 		configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 	}

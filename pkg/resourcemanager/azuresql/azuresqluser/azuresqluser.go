@@ -136,6 +136,13 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		opt(options)
 	}
 
+	adminSecretClient := s.SecretClient
+
+	if len(instance.Spec.AdminSecret) == 0 {
+		instance.Spec.AdminSecret = instance.Spec.Server
+	}
+	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
+
 	if options.SecretClient != nil {
 		s.SecretClient = options.SecretClient
 	}
@@ -145,21 +152,9 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	var adminSecretClient secrets.SecretClient
-
 	var key types.NamespacedName
 	// if the admin secret keyvault is not specified, assume it is a kube secret
-	if len(instance.Spec.AdminSecretKeyVault) == 0 {
-		if options.KubeClient != nil {
-			adminSecretClient = k8sSecrets.New(options.KubeClient)
-			if len(instance.Spec.AdminSecret) == 0 {
-				instance.Spec.AdminSecret = instance.Spec.Server
-			}
-			key = types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
-		} else {
-			return false, err
-		}
-	} else {
+	if len(instance.Spec.AdminSecretKeyVault) != 0 {
 		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
 		if len(instance.Spec.AdminSecret) == 0 {
 			instance.Spec.AdminSecret = instance.Namespace + "-" + instance.Spec.Server
