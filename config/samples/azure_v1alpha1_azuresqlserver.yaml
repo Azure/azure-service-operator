@@ -5,3 +5,4 @@ metadata:
 spec:
   location: westus
   resourcegroup: resourcegroup-azure-operators
+  keyVaultToStoreSecrets: asoSecretKeyVault

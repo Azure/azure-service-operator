@@ -32,6 +32,8 @@ const (
 	InvalidRequestFormat            = "InvalidRequestFormat"
 	KeyNotFound                     = "KeyNotFound"
 	InvalidParameters               = "InvalidParameters"
+	Forbidden                       = "Forbidden"
+	NoSuchHost                      = "no such host"
 	CannotParseError                = "CannotParseError"
 )
 
