@@ -126,11 +126,8 @@ func main() {
 		secretClient,
 		scheme,
 	)
-	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager()
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
-	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager()
-	eventhubManagers := resourcemanagereventhub.AzureEventHubManagers
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(ctrl.Log.WithName("keyvaultmanager").WithName("KeyVault"), mgr.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{

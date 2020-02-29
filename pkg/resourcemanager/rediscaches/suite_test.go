@@ -19,7 +19,6 @@ import (
 	"testing"
 
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 
 	. "github.com/onsi/ginkgo"
@@ -39,7 +38,7 @@ type TestContext struct {
 	ResourceGroupName     string
 	ResourceGroupLocation string
 	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
-	RedisCacheManager     resourcemanagerrediscaches.RedisCacheManager
+	RedisCacheManager     *AzureRedisCacheManager
 }
 
 var tc TestContext

@@ -31,7 +31,7 @@ import (
 )
 
 // Ensure creates a rediscache
-func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := rc.convert(obj)
 	if err != nil {
 		return false, err
@@ -96,7 +96,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 }
 
 // Delete drops a rediscache
-func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := rc.convert(obj)
 	if err != nil {
 		return false, err
