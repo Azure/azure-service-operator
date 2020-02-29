@@ -146,27 +146,31 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	}
 
 	var adminSecretClient secrets.SecretClient
-	// if the admin credentials haven't been set, default admin credentials to servername
-	if len(instance.Spec.AdminSecret) == 0 {
-		instance.Spec.AdminSecret = instance.Namespace + "-" + instance.Spec.Server
-	}
 
+	var key types.NamespacedName
 	// if the admin secret keyvault is not specified, assume it is a kube secret
 	if len(instance.Spec.AdminSecretKeyVault) == 0 {
 		if options.KubeClient != nil {
 			adminSecretClient = k8sSecrets.New(options.KubeClient)
+			if len(instance.Spec.AdminSecret) == 0 {
+				instance.Spec.AdminSecret = instance.Spec.Server
+			}
+			key = types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
 		} else {
 			return false, err
 		}
 	} else {
 		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
+		if len(instance.Spec.AdminSecret) == 0 {
+			instance.Spec.AdminSecret = instance.Namespace + "-" + instance.Spec.Server
+		}
+		key = types.NamespacedName{Name: instance.Spec.AdminSecret}
 	}
 
 	// need this to detect missing databases
 	dbClient := azuresqldb.NewAzureSqlDbManager(s.Log)
 
 	// get admin creds for server
-	key := types.NamespacedName{Name: instance.Spec.AdminSecret}
 	adminSecret, err := adminSecretClient.Get(ctx, key)
 	if err != nil {
 		instance.Status.Provisioning = false
