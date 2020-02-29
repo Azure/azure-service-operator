@@ -3,6 +3,7 @@ package errhelp
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
@@ -32,6 +33,7 @@ const (
 	InvalidRequestFormat            = "InvalidRequestFormat"
 	KeyNotFound                     = "KeyNotFound"
 	InvalidParameters               = "InvalidParameters"
+	InvalidAccessPolicy             = "InvalidAccessPolicy"
 	Forbidden                       = "Forbidden"
 	NoSuchHost                      = "no such host"
 	CannotParseError                = "CannotParseError"
@@ -96,6 +98,9 @@ func NewAzureError(err error) error {
 	} else if err.Error() == AccountNameInvalid {
 		kind = AccountNameInvalid
 		reason = AccountNameInvalid
+	} else if strings.Contains(err.Error(), InvalidAccessPolicy) {
+		kind = InvalidAccessPolicy
+		reason = InvalidAccessPolicy
 	}
 	ae.Reason = reason
 	ae.Type = kind

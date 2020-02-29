@@ -31,16 +31,13 @@ func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 
 	keyVaultLocation := tc.resourceGroupLocation
 
-	allPermissions := []string{"get", "list", "set", "delete", "recover", "backup", "restore", "create"}
+	keyPermissions := []string{"get", "list", "update", "delete", "recover", "backup", "restore", "create", "import"}
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
 		{
 			TenantID: config.TenantID(),
 			ObjectID: config.ClientID(),
 			Permissions: &azurev1alpha1.Permissions{
-				Keys:         &allPermissions,
-				Secrets:      &allPermissions,
-				Certificates: &allPermissions,
-				Storage:      &allPermissions,
+				Keys: &keyPermissions,
 			},
 		}}
 
