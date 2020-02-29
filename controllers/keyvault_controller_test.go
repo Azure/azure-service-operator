@@ -67,6 +67,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
+
 	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
 	const poll = time.Second * 10
 	keyVaultLocation := tc.resourceGroupLocation
@@ -74,6 +75,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 		{
 			TenantID: config.TenantID(),
 			ObjectID: config.ClientID(),
+
 			Permissions: &azurev1alpha1.Permissions{
 				Keys: &[]string{
 					"get",
@@ -115,6 +117,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 		result, _ := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)
 		return result.Response.StatusCode == http.StatusOK
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in azure")
+
 	//Add code to set secret and get secret from this keyvault using secretclient
 
 	keyvaultSecretClient := kvsecrets.New(keyVaultName)
@@ -198,6 +201,7 @@ func TestKeyvaultControllerWithLimitedAccessPolicies(t *testing.T) {
 		result, _ := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)
 		return result.Response.StatusCode == http.StatusNotFound
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from azure")
+
 }
 
 func TestKeyvaultControllerInvalidName(t *testing.T) {

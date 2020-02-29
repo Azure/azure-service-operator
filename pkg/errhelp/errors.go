@@ -34,6 +34,8 @@ const (
 	KeyNotFound                     = "KeyNotFound"
 	InvalidParameters               = "InvalidParameters"
 	InvalidAccessPolicy             = "InvalidAccessPolicy"
+	Forbidden                       = "Forbidden"
+	NoSuchHost                      = "no such host"
 	CannotParseError                = "CannotParseError"
 )
 

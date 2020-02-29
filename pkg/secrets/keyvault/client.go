@@ -3,17 +3,21 @@ package keyvault
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"encoding/json"
 
 	mgmtclient "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	keyvaults "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/date"
 	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -43,8 +47,20 @@ type KeyvaultSecretClient struct {
 	KeyVaultName   string
 }
 
+// GetKeyVaultName extracts the KeyVault name from the generic runtime object
+func GetKeyVaultName(instance runtime.Object) string {
+	keyVaultName := ""
+	target := &v1alpha1.GenericResource{}
+	serial, err := json.Marshal(instance)
+	if err != nil {
+		return keyVaultName
+	}
+	_ = json.Unmarshal(serial, target)
+	return target.Spec.KeyVaultToStoreSecrets
+}
+
 func getVaultsURL(ctx context.Context, vaultName string) string {
-	vaultURL := "https://" + vaultName + ".vault.azure.net" //default
+	vaultURL := "https://" + vaultName + "." + config.Environment().KeyVaultDNSSuffix //default
 	vault, err := GetVault(ctx, "", vaultName)
 	if err == nil {
 		vaultURL = *vault.Properties.VaultURI
@@ -62,6 +78,34 @@ func New(keyvaultName string) *KeyvaultSecretClient {
 		KeyVaultClient: keyvaultClient,
 		KeyVaultName:   keyvaultName,
 	}
+
+}
+
+func IsKeyVaultAccessible(kvsecretclient secrets.SecretClient) bool {
+	ctx := context.Background()
+	key := types.NamespacedName{Name: "", Namespace: ""}
+
+	data, err := kvsecretclient.Get(ctx, key)
+	if strings.Contains(err.Error(), errhelp.NoSuchHost) { //keyvault unavailable
+		return false
+	} else if strings.Contains(err.Error(), errhelp.Forbidden) { //Access policies missing
+		return false
+	}
+
+	data = map[string][]byte{
+		"test": []byte(""),
+	}
+	err = kvsecretclient.Upsert(ctx, key, data)
+	if strings.Contains(err.Error(), errhelp.Forbidden) {
+		return false
+	}
+
+	err = kvsecretclient.Delete(ctx, key)
+	if strings.Contains(err.Error(), errhelp.Forbidden) {
+		return false
+	}
+
+	return true
 }
 
 // Create creates a key in KeyVault if it does not exist already
@@ -71,8 +115,15 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 		opt(options)
 	}
 
+	var secretBaseName string
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretBaseName := key.Namespace + "-" + key.Name
+
+	if len(key.Namespace) != 0 {
+		secretBaseName = key.Namespace + "-" + key.Name
+	} else {
+		secretBaseName = key.Name
+	}
+
 	secretVersion := ""
 	enabled := true
 	var activationDateUTC date.UnixTime
@@ -154,8 +205,13 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 	}
 
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretBaseName := key.Namespace + "-" + key.Name
-	secretVersion := ""
+	var secretBaseName string
+	if len(key.Namespace) != 0 {
+		secretBaseName = key.Namespace + "-" + key.Name
+	} else {
+		secretBaseName = key.Name
+	}
+	//secretVersion := ""
 	enabled := true
 
 	var activationDateUTC date.UnixTime
@@ -192,13 +248,13 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 				},
 			}
 
-			if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
+			/*if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretName, secretVersion); err == nil {
 				// If secret exists we delete it and recreate it again
 				_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
 				if err != nil {
 					return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
 				}
-			}
+			}*/
 
 			_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretName, secretParams)
 
@@ -209,10 +265,6 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 		// If flatten has not been declared, convert the map into a json string for perisstence
 	} else {
 		jsonData, err := json.Marshal(data)
-
-		if err != nil {
-			return err
-		}
 		stringSecret := string(jsonData)
 
 		// Initialize secret parameters
@@ -221,13 +273,13 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 			SecretAttributes: &secretAttributes,
 		}
 
-		if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
+		/*if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
 			// If secret exists we delete it and recreate it again
 			_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretBaseName)
 			if err != nil {
 				return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
 			}
-		}
+		}*/
 
 		_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secretParams)
 
@@ -240,7 +292,12 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 // Delete deletes a key in KeyVault
 func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedName) error {
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretName := key.Namespace + "-" + key.Name
+	var secretName string
+	if len(key.Namespace) != 0 {
+		secretName = key.Namespace + "-" + key.Name
+	} else {
+		secretName = key.Name
+	}
 	_, err := k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
 	return err
 }
@@ -248,7 +305,13 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 // Get gets a key from KeyVault
 func (k *KeyvaultSecretClient) Get(ctx context.Context, key types.NamespacedName) (map[string][]byte, error) {
 	vaultBaseURL := getVaultsURL(ctx, k.KeyVaultName)
-	secretName := key.Namespace + "-" + key.Name
+	var secretName string
+	if len(key.Namespace) != 0 {
+		secretName = key.Namespace + "-" + key.Name
+	} else {
+		secretName = key.Name
+	}
+
 	secretVersion := ""
 	data := map[string][]byte{}
 
