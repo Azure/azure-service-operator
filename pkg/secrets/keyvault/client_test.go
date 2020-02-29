@@ -176,5 +176,6 @@ var _ = Describe("Keyvault Secrets Client", func() {
 				}
 			})
 		})
+
 	})
 })
