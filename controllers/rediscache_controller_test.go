@@ -43,7 +43,7 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 				Sku: azurev1alpha1.RedisCacheSku{
 					Name:     "B_Gen5_2",
 					Family:   "Gen5",
-					Capacity: 2,
+					Capacity: 0,
 				},
 				EnableNonSslPort: true,
 			},
