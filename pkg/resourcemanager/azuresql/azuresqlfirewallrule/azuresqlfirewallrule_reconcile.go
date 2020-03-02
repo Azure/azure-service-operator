@@ -26,7 +26,7 @@ import (
 )
 
 // Ensure creates a sqlfirewallrule
-func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := fw.convert(obj)
 	if err != nil {
 		return false, err
@@ -72,7 +72,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 }
 
 // Delete drops a sqlfirewallrule
-func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := fw.convert(obj)
 	if err != nil {
 		return false, err
