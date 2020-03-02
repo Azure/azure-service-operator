@@ -344,9 +344,9 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: sqlFailoverGroupManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlFailoverGroup",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
 			),
 			Recorder: mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
 			Scheme:   mgr.GetScheme(),

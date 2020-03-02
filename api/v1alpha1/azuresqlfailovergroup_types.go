@@ -37,10 +37,8 @@ type AzureSqlFailoverGroupSpec struct {
 // AzureSqlFailoverGroupStatus defines the observed state of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool   `json:"provisioning,omitempty"`
-	Provisioned  bool   `json:"provisioned,omitempty"`
-	State        string `json:"state,omitempty"`
-	Message      string `json:"message,omitempty"`
+	Status  ASOStatus `json:"status,omitempty"`
+	Message string    `json:"message,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -50,8 +48,8 @@ type AzureSqlFailoverGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSqlFailoverGroupSpec   `json:"spec,omitempty"`
-	Status AzureSqlFailoverGroupStatus `json:"status,omitempty"`
+	Spec   AzureSqlFailoverGroupSpec `json:"spec,omitempty"`
+	Status ASOStatus                 `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

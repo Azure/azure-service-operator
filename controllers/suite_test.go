@@ -357,9 +357,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: sqlFailoverGroupManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlFailoverGroup",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
 			Scheme:   scheme.Scheme,

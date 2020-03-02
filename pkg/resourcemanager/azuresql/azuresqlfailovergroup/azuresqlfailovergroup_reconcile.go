@@ -161,7 +161,15 @@ func (fg *AzureSqlFailoverGroupManager) GetParents(obj runtime.Object) ([]resour
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
 
+// GetStatus gets the ASOStatus
+func (g *AzureSqlFailoverGroupManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (fg *AzureSqlFailoverGroupManager) convert(obj runtime.Object) (*azurev1alpha1.AzureSqlFailoverGroup, error) {
