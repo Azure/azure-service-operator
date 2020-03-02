@@ -1,3 +1,5 @@
+// +build all redis
+
 package controllers
 
 import (
@@ -41,9 +43,9 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 			ResourceGroupName: rgName,
 			Properties: azurev1alpha1.RedisCacheProperties{
 				Sku: azurev1alpha1.RedisCacheSku{
-					Name:     "B_Gen5_2",
-					Family:   "Gen5",
-					Capacity: 2,
+					Name:     "Basic",
+					Family:   "C",
+					Capacity: 1,
 				},
 				EnableNonSslPort: true,
 			},
