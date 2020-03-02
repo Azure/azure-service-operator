@@ -1,8 +1,13 @@
+// +build all rediscache
+
 package controllers
 
 import (
 	"context"
+	"fmt"
+	"strings"
 	"testing"
+	"time"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -12,6 +17,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
+
+const longRunningTimeout = 25 * time.Minute
 
 func TestRedisCacheControllerHappyPath(t *testing.T) {
 	t.Parallel()
@@ -41,18 +48,33 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 			ResourceGroupName: rgName,
 			Properties: azurev1alpha1.RedisCacheProperties{
 				Sku: azurev1alpha1.RedisCacheSku{
-					Name:     "B_Gen5_2",
-					Family:   "Gen5",
-					Capacity: 2,
+					Name:     "Basic",
+					Family:   "C",
+					Capacity: 0,
 				},
 				EnableNonSslPort: true,
 			},
-			SecretName: redisCacheSecret,
 		},
 	}
 
 	// create rc
-	EnsureInstance(ctx, t, tc, redisCacheInstance)
+	//EnsureInstance(ctx, t, tc, redisCacheInstance)
+
+	err = tc.k8sClient.Create(ctx, redisCacheInstance)
+	assert.Equal(nil, err, "create redis cache in k8s")
+
+	names := types.NamespacedName{Name: redisCacheInstance.GetName(), Namespace: redisCacheInstance.GetNamespace()}
+
+	// Wait for first sql server to resolve
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, names, redisCacheInstance)
+		return HasFinalizer(redisCacheInstance, finalizerName)
+	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to have finalizer", "rediscache"))
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, names, redisCacheInstance)
+		return strings.Contains(redisCacheInstance.Status.Message, successMsg) && redisCacheInstance.Status.Provisioned == true
+	}, longRunningTimeout, tc.retry, fmt.Sprintf("wait for %s to provision", "rediscache"))
 
 	//verify secret exists in k8s for rc
 	secret := &v1.Secret{}
@@ -60,9 +82,7 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: redisCacheSecret, Namespace: redisCacheInstance.Namespace}, secret)
 
 		if err == nil {
-			if (secret.ObjectMeta.Name == redisCacheSecret) && (secret.ObjectMeta.Namespace == redisCacheInstance.Namespace) {
-				return true
-			}
+			return true
 		}
 		return false
 	}, tc.timeoutFast, tc.retry, "wait for rc to have secret")
