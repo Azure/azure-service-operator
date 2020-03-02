@@ -52,7 +52,7 @@ var _ = Describe("AzureSqlFailoverGroup", func() {
 					Server:                       "sqlsrvsample",
 					FailoverPolicy:               "automatic",
 					FailoverGracePeriod:          30,
-					SecondaryServerName:          "sqlsrvsample2",
+					SecondaryServer:              "sqlsrvsample2",
 					SecondaryServerResourceGroup: "foo-failovergroup",
 					DatabaseList:                 []string{"database1", "database2"},
 				}}

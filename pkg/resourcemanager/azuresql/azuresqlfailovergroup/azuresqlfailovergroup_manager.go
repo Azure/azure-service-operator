@@ -7,6 +7,7 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/go-autorest/autorest"
 )
@@ -17,4 +18,5 @@ type SqlFailoverGroupManager interface {
 	GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error)
 	GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error)
 	GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error)
+	resourcemanager.ARMClient
 }

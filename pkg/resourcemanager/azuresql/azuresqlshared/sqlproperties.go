@@ -54,7 +54,7 @@ type SQLFailoverGroupProperties struct {
 	FailoverGracePeriod int32
 
 	// Secondary server to failover to (should be in a different region)
-	SecondaryServerName string
+	SecondaryServer string
 
 	// Resource Group for the Secondary server
 	SecondaryServerResourceGroup string

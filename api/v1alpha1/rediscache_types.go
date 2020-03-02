@@ -20,6 +20,7 @@ type RedisCacheSpec struct {
 	Location          string               `json:"location,omitempty"`
 	ResourceGroupName string               `json:"resourceGroup"`
 	Properties        RedisCacheProperties `json:"properties,omitempty"`
+	SecretName        string               `json:"secretName,omitempty"`
 }
 
 // RedisCacheProperties the properties of the Redis Cache.
@@ -61,7 +62,7 @@ type RedisCacheOutput struct {
 	SecondaryKey   string `json:"secondaryKey,omitempty"`
 }
 
-// StorageAdditionalResources holds the additional resources
+// RedisCacheAdditionalResources holds the additional resources
 type RedisCacheAdditionalResources struct {
 	Secrets []string `json:"secrets,omitempty"`
 }
