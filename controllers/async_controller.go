@@ -112,14 +112,10 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		}
 	} else {
 		if HasFinalizer(res, finalizerName) {
-			var found bool
-			var deleteErr error
-			configOptions = append(configOptions, resourcemanager.WithKubeClient(r.Client))
 			if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
 				configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 			}
-
-			found, deleteErr = r.AzureClient.Delete(ctx, local, configOptions...)
+			found, deleteErr := r.AzureClient.Delete(ctx, local, configOptions...)
 			final := multierror.Append(deleteErr)
 			if err := final.ErrorOrNil(); err != nil {
 				r.Telemetry.LogError("error deleting object", err)
