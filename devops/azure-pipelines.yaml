@@ -138,6 +138,21 @@ steps:
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
     BUILD_ID: $(BuildID)
   workingDirectory: '$(MODULE_PATH)'
+      make test-cleanup-azure-resources
+
+- task: AzureCLI@2
+  displayName: 'Clean up Azure Resources'
+  condition: always()
+  env:
+    BUILD_ID: $(BUILD_ID)
+  inputs:
+    azureSubscription: 'Az Internal Consumption'
+    scriptType: bash
+    scriptLocation: inlineScript
+    workingDirectory: '$(MODULE_PATH)'
+    inlineScript: |
+      sleep ${CLEANUP_DELAY:-0}
+      make test-cleanup-azure-resources
 
 # - task: PublishTestResults@2
 #   displayName: 'test cluster'
