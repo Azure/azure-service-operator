@@ -1,4 +1,4 @@
-// +build all eventhub
+// +build all eventhub onlyeventhub
 
 package controllers
 
@@ -10,6 +10,10 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
@@ -17,7 +21,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func TestEventHubControlleNoNamespace(t *testing.T) {
+func TestEventHubControllerNoNamespace(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover()
 	ctx := context.Background()
@@ -67,7 +71,7 @@ func TestEventHubControlleNoNamespace(t *testing.T) {
 
 }
 
-func TestEventHubControlleCeateAndDelete(t *testing.T) {
+func TestEventHubControllerCreateAndDelete(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover()
 	ctx := context.Background()
@@ -124,7 +128,7 @@ func TestEventHubControlleCeateAndDelete(t *testing.T) {
 
 }
 
-func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
+func TestEventHubControllerCreateAndDeleteCustomSecret(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover()
 	ctx := context.Background()
@@ -173,8 +177,62 @@ func TestEventHubControlleCeateAndDeleteCustomSecret(t *testing.T) {
 	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
 
 }
+func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover()
+	ctx := context.Background()
+	assert := assert.New(t)
 
-func TestEventHubControlleCeateAndDeleteCapture(t *testing.T) {
+	// Add any setup steps that needs to be executed before each test
+	rgName := tc.resourceGroupName
+	rgLocation := tc.resourceGroupLocation
+	ehnName := tc.eventhubNamespaceName
+	eventhubName := "t-eh-" + helpers.RandomString(10)
+	keyVaultNameForSecrets := "t-eh-kv-secrets-" + helpers.RandomString(5)
+	userID := config.ClientID()
+
+	// Create KeyVault with access policies
+	_, err := kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, rgName, keyVaultNameForSecrets, rgLocation, userID)
+
+	_, err = kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
+	assert.Equal(nil, err, "wait for keyvault to be available")
+
+	// Create the EventHub object and expect the Reconcile to be created
+	eventhubInstance := &azurev1alpha1.Eventhub{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      eventhubName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.EventhubSpec{
+			Location:      rgLocation,
+			Namespace:     ehnName,
+			ResourceGroup: rgName,
+			Properties: azurev1alpha1.EventhubProperties{
+				MessageRetentionInDays: 7,
+				PartitionCount:         2,
+			},
+			AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
+				Name:   "RootManageSharedAccessKey",
+				Rights: []string{"Listen"},
+			},
+			SecretName:             "",
+			KeyVaultToStoreSecrets: keyVaultNameForSecrets,
+		},
+	}
+
+	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
+	EnsureInstance(ctx, t, tc, eventhubInstance)
+
+	// Check that the secret is added to KeyVault
+	keyvaultSecretClient := kvsecrets.New(keyVaultNameForSecrets)
+	_, err = keyvaultSecretClient.Get(ctx, eventhubNamespacedName)
+	assert.Equal(nil, err, "checking if secret is present in keyvault")
+
+	EnsureDelete(ctx, t, tc, eventhubInstance)
+
+}
+
+func TestEventHubControllerCreateAndDeleteCapture(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover()
 	ctx := context.Background()

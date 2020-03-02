@@ -120,7 +120,7 @@ func (manager *mockConsumerGroupManager) GetConsumerGroup(ctx context.Context, r
 	return group.ConsumerGroup, nil
 }
 
-func (cg *mockConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (cg *mockConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := cg.convert(obj)
 	if err != nil {
@@ -156,7 +156,7 @@ func (cg *mockConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	return true, nil
 }
 
-func (cg *mockConsumerGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (cg *mockConsumerGroupManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := cg.convert(obj)
 	if err != nil {

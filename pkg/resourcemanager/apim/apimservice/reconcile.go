@@ -31,7 +31,7 @@ import (
 )
 
 // Ensure makes sure that an API Mgmt Svc instance exists
-func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := g.convert(obj)
 	if err != nil {
@@ -205,7 +205,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 }
 
 // Delete makes sure that an API Mgmt Svc has been deleted
-func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := g.convert(obj)
 	if err != nil {

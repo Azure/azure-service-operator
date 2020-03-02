@@ -135,7 +135,7 @@ func (_ *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, res
 	return future.Result(nsClient)
 }
 
-func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := ns.convert(obj)
 	if err != nil {
@@ -191,7 +191,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 	return true, nil
 }
 
-func (ns *azureEventHubNamespaceManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (ns *azureEventHubNamespaceManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := ns.convert(obj)
 	if err != nil {

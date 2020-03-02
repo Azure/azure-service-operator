@@ -66,10 +66,32 @@ func (p *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, serv
 	return false, err
 
 }
-func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		p.SecretClient = options.SecretClient
+	}
+
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
+	}
+
+	// Check to see if secret exists and if yes retrieve the admin login and password
+	secret, err := p.GetOrPrepareSecret(ctx, instance)
+	if err != nil {
+		p.Log.Info("Ensure", "GetOrPrepareSecrets failed with err", err.Error())
+		return false, err
+	}
+	// Update secret
+	err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
+	if err != nil {
+		p.Log.Info("Ensure", "AddServerCredsToSecrets failed with err", err.Error())
+		return false, err
 	}
 
 	client := getPSQLServersClient()
@@ -99,21 +121,8 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 	}
 	p.Log.Info("Server not present, creating")
 
-	// Check to see if secret exists and if yes retrieve the admin login and password
-	secret, err := p.GetOrPrepareSecret(ctx, instance)
-	if err != nil {
-		p.Log.Info("Ensure", "GetOrPrepareSecrets failed with err", err.Error())
-		return false, err
-	}
 	adminlogin := string(secret["username"])
 	adminpassword := string(secret["password"])
-
-	// Update secret
-	err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
-	if err != nil {
-		p.Log.Info("Ensure", "AddServerCredsToSecrets failed with err", err.Error())
-		return false, err
-	}
 
 	skuInfo := psql.Sku{
 		Name:     to.StringPtr(instance.Spec.Sku.Name),
@@ -204,7 +213,17 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object) (bool
 	return true, nil
 }
 
-func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		p.SecretClient = options.SecretClient
+	}
+
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
@@ -223,6 +242,9 @@ func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object) (bool
 
 	if err == nil {
 		if status != "InProgress" {
+			// Best case deletion of secrets
+			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+			p.SecretClient.Delete(ctx, key)
 			return false, nil
 		}
 	}
