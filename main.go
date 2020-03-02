@@ -179,9 +179,9 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: redisCacheManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("RedisCache"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"RedisCache",
+				ctrl.Log.WithName("controllers").WithName("RedisCache"),
 			),
 			Recorder: mgr.GetEventRecorderFor("RedisCache-controller"),
 			Scheme:   scheme,

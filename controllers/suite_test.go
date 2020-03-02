@@ -276,9 +276,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: redisCacheManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("RedisCache"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"RedisCache",
+				ctrl.Log.WithName("controllers").WithName("RedisCache"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("RedisCache-controller"),
 			Scheme:   scheme.Scheme,
