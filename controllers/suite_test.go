@@ -76,7 +76,7 @@ func setup() error {
 	eventhubName := GenerateGroupName("ev-prime")
 	namespaceLocation := resourcemanagerconfig.DefaultLocation()
 
-	storageAccountName := GenerateGroupName("sa-prime")
+	storageAccountName := strings.ReplaceAll(GenerateGroupName("saprime"), "-", "")
 	blobContainerName := GenerateGroupName("blob-prime")
 	containerAccessLevel := s.PublicAccessContainer
 
@@ -608,10 +608,5 @@ func PanicRecover() {
 	if err := recover(); err != nil {
 		fmt.Println("caught panic in test:")
 		fmt.Println(err)
-		// fmt.Println("attempt to tear down...")
-		// err = teardown()
-		// if err != nil {
-		// 	log.Println(fmt.Sprintf("could not tear down environment: %v\n", err))
-		// }
 	}
 }

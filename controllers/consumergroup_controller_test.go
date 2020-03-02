@@ -27,7 +27,7 @@ func TestConsumerGroup(t *testing.T) {
 	var ctx = context.Background()
 	defer PanicRecover()
 
-	consumerGroupName := "t-cg-" + helpers.RandomString(10)
+	consumerGroupName := GenerateGroupName("consumer-group")
 	azureConsumerGroupName := consumerGroupName + "-azure"
 
 	var err error

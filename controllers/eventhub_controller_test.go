@@ -32,7 +32,7 @@ func TestEventHubControllerNoNamespace(t *testing.T) {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 
-	eventhubName := "t-eh-" + helpers.RandomString(10)
+	eventhubName := GenerateGroupName("eventhub")
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{
@@ -80,7 +80,7 @@ func TestEventHubControllerCreateAndDelete(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	ehnName := tc.eventhubNamespaceName
-	eventhubName := "t-eh-" + helpers.RandomString(10)
+	eventhubName := GenerateGroupName("eventhub")
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{
@@ -139,7 +139,7 @@ func TestEventHubControllerCreateAndDeleteCustomSecret(t *testing.T) {
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
 	ehnName := tc.eventhubNamespaceName
-	eventhubName := "t-eh-" + helpers.RandomString(10)
+	eventhubName := GenerateGroupName("evhub-customsec")
 	secretName := "secret-" + eventhubName
 
 	// Create the EventHub object and expect the Reconcile to be created
@@ -187,8 +187,8 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
 	ehnName := tc.eventhubNamespaceName
-	eventhubName := "t-eh-" + helpers.RandomString(10)
-	keyVaultNameForSecrets := "t-eh-kv-secrets-" + helpers.RandomString(5)
+	eventhubName := GenerateGroupName("eventhub")
+	keyVaultNameForSecrets := GenerateGroupName("evhub-keyvault")
 	userID := config.ClientID()
 
 	// Create KeyVault with access policies
@@ -245,7 +245,7 @@ func TestEventHubControllerCreateAndDeleteCapture(t *testing.T) {
 	ehnName := tc.eventhubNamespaceName
 	saName := tc.storageAccountName
 	bcName := tc.blobContainerName
-	eventHubName := "t-eh-" + helpers.RandomString(10)
+	eventHubName := GenerateGroupName("evhub-capture")
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{

@@ -38,8 +38,8 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 
-	blobContainerName := "bc-" + helpers.RandomString(10)
-	resourceGroupName := "rg-" + helpers.RandomString(10)
+	blobContainerName := GenerateGroupName("blob-container")
+	resourceGroupName := GenerateGroupName("fake-rg")
 
 	var err error
 
@@ -91,8 +91,8 @@ func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
 	rgName = tc.resourceGroupName
 	containerAccessLevel = s.PublicAccessContainer
 
-	blobContainerName := "bc-" + helpers.RandomString(10)
-	storageAccountName := "sa-" + helpers.RandomString(10)
+	blobContainerName := GenerateGroupName("blob-container")
+	storageAccountName := "fake-sa"
 
 	var err error
 
@@ -151,7 +151,7 @@ func TestTestBlobContainerControllerHappyPath(t *testing.T) {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 
-	blobContainerName := "bc-" + helpers.RandomString(10)
+	blobContainerName := GenerateGroupName("blobcontainer")
 
 	var err error
 

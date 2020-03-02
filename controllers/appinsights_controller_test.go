@@ -38,7 +38,7 @@ func TestAppInsightsController(t *testing.T) {
 
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
-	appInsightsName := "t-appinsights-test" + helpers.RandomString(10)
+	appInsightsName := GenerateGroupName("appinsights")
 
 	// Create an instance of Azure AppInsights
 	appInsightsInstance := &azurev1alpha1.AppInsights{
