@@ -149,23 +149,9 @@ func (fg *AzureSqlFailoverGroupManager) GetParents(obj runtime.Object) ([]resour
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.SecondaryServer,
-			},
-			Target: &azurev1alpha1.AzureSqlServer{},
-		},
-		{
-			Key: types.NamespacedName{
-				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
 			Target: &azurev1alpha1.AzureSqlServer{},
-		},
-		{
-			Key: types.NamespacedName{
-				Namespace: instance.Namespace,
-				Name:      instance.Spec.SecondaryServerResourceGroup,
-			},
-			Target: &azurev1alpha1.ResourceGroup{},
 		},
 		{
 			Key: types.NamespacedName{
