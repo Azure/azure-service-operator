@@ -37,7 +37,7 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	resourcegroupName := instance.ObjectMeta.Name
 	instance.Status.Provisioning = true
 
-	_, err = g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
+	group, err := g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
 		instance.Status.Provisioned = false
 		instance.Status.Message = err.Error()
@@ -53,6 +53,7 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 		instance.Status.Provisioning = true
 	}
 
+	instance.Status.ResourceID = *group.ID
 	return true, nil
 }
 
