@@ -130,7 +130,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 				return ctrl.Result{}, r.Update(ctx, local)
 			}
 			r.Telemetry.LogInfoByInstance("requeuing", "deletion unfinished", req.String())
-			return ctrl.Result{RequeueAfter: requeDuration}, nil
+			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, local)
 		}
 		return ctrl.Result{}, nil
 	}

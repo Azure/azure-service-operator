@@ -42,6 +42,9 @@ import (
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
+
+	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
+
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -129,6 +132,7 @@ func setup() error {
 
 	var appInsightsManager resourcemanagerappinsights.ApplicationInsightsManager
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
+
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var eventhubNamespaceClient resourcemanagereventhub.EventHubNamespaceManager
@@ -164,6 +168,11 @@ func setup() error {
 
 	sqlServerManager = resourcemanagersqlserver.NewAzureSqlServerManager(
 		ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"),
+		secretClient,
+		scheme.Scheme,
+	)
+	redisCacheManager := resourcemanagerrediscaches.NewAzureRedisCacheManager(
+		ctrl.Log.WithName("rediscachemanager").WithName("RedisCache"),
 		secretClient,
 		scheme.Scheme,
 	)
@@ -256,6 +265,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&RedisCacheReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: redisCacheManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("RedisCache"),
+				"RedisCache",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("RedisCache-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
@@ -497,6 +522,7 @@ func setup() error {
 		eventHubManagers:        eventHubManagers,
 		eventhubClient:          eventhubClient,
 		resourceGroupManager:    resourceGroupManager,
+		redisCacheManager:       redisCacheManager,
 		sqlServerManager:        sqlServerManager,
 		sqlDbManager:            sqlDbManager,
 		sqlFirewallRuleManager:  sqlFirewallRuleManager,

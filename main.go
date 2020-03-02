@@ -33,6 +33,7 @@ import (
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
+	resourcemanagerrediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
@@ -114,6 +115,12 @@ func main() {
 	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager()
 	vnetManager := vnet.NewAzureVNetManager(ctrl.Log.WithName("controllers").WithName("VirtualNetwork"))
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
+
+	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager(
+		ctrl.Log.WithName("rediscachemanager").WithName("RedisCache"),
+		secretClient,
+		scheme,
+	)
 	appInsightsManager := resourcemanagerappinsights.NewManager(
 		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
 		secretClient,
@@ -168,11 +175,19 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
 		os.Exit(1)
 	}
-	if err = (&controllers.RedisCacheReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("RedisCache"),
-		Recorder: mgr.GetEventRecorderFor("RedisCache-controller"),
-	}).SetupWithManager(mgr); err != nil {
+	err = (&controllers.RedisCacheReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: redisCacheManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("RedisCache"),
+				"RedisCache",
+			),
+			Recorder: mgr.GetEventRecorderFor("RedisCache-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr)
+	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
 		os.Exit(1)
 	}
