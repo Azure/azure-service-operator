@@ -168,7 +168,6 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	})
 
 	var sqlFailoverGroupInstance *azurev1alpha1.AzureSqlFailoverGroup
-	randomName := helpers.RandomString(10)
 	sqlFailoverGroupName := GenerateGroupName("sqlfailovergroup")
 
 	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}

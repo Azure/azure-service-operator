@@ -80,7 +80,7 @@ func TestEventHubControllerCreateAndDelete(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	ehnName := tc.eventhubNamespaceName
-	eventhubName := GenerateGroupName("eventhub")
+	eventhubName := GenerateGroupName("eventhub-cd")
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{

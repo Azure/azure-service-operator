@@ -12,7 +12,6 @@ import (
 
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
