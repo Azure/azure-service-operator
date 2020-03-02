@@ -113,7 +113,7 @@ func (manager *MockPostgreSqlFirewallRuleManager) convert(obj runtime.Object) (*
 	return local, nil
 }
 
-func (manager *MockPostgreSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (manager *MockPostgreSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := manager.convert(obj)
 	if err != nil {
 		return true, err
@@ -126,7 +126,7 @@ func (manager *MockPostgreSqlFirewallRuleManager) Ensure(ctx context.Context, ob
 	return true, nil
 }
 
-func (manager *MockPostgreSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (manager *MockPostgreSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := manager.convert(obj)
 	if err != nil {
 		return true, err

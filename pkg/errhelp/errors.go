@@ -3,6 +3,7 @@ package errhelp
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
@@ -32,6 +33,10 @@ const (
 	InvalidRequestFormat            = "InvalidRequestFormat"
 	KeyNotFound                     = "KeyNotFound"
 	InvalidParameters               = "InvalidParameters"
+	InvalidAccessPolicy             = "InvalidAccessPolicy"
+	Forbidden                       = "Forbidden"
+	NoSuchHost                      = "no such host"
+	CannotParseError                = "CannotParseError"
 )
 
 func NewAzureError(err error) error {
@@ -47,11 +52,21 @@ func NewAzureError(err error) error {
 
 		ae.Code = det.StatusCode.(int)
 		if e, ok := det.Original.(*azure.RequestError); ok {
-			kind = e.ServiceError.Code
-			reason = e.ServiceError.Message
+			if e.ServiceError != nil {
+				kind = e.ServiceError.Code
+				reason = e.ServiceError.Message
+			} else {
+				kind = CannotParseError
+				reason = CannotParseError
+			}
 		} else if e, ok := det.Original.(azure.RequestError); ok {
-			kind = e.ServiceError.Code
-			reason = e.ServiceError.Message
+			if e.ServiceError != nil {
+				kind = e.ServiceError.Code
+				reason = e.ServiceError.Message
+			} else {
+				kind = CannotParseError
+				reason = CannotParseError
+			}
 		} else if e, ok := det.Original.(*azure.ServiceError); ok {
 			kind = e.Code
 			reason = e.Message
@@ -83,6 +98,9 @@ func NewAzureError(err error) error {
 	} else if err.Error() == AccountNameInvalid {
 		kind = AccountNameInvalid
 		reason = AccountNameInvalid
+	} else if strings.Contains(err.Error(), InvalidAccessPolicy) {
+		kind = InvalidAccessPolicy
+		reason = InvalidAccessPolicy
 	}
 	ae.Reason = reason
 	ae.Type = kind

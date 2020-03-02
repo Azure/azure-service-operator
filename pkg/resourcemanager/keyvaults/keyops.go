@@ -22,7 +22,7 @@ type KeyvaultKeyClient struct {
 }
 
 // Ensure idempotently implements the user's requested state
-func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := k.convert(obj)
 	if err != nil {
 		return true, err
@@ -99,7 +99,7 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object) (boo
 }
 
 // Delete ensures the requested resource is gone from Azure
-func (k *KeyvaultKeyClient) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (k *KeyvaultKeyClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := k.convert(obj)
 	if err != nil {
 		return true, err
