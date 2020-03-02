@@ -28,7 +28,7 @@ import (
 )
 
 // Ensure creates a sqlfailovergroup
-func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := fg.convert(obj)
 	if err != nil {
 		return false, err
@@ -98,7 +98,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 }
 
 // Delete drops a sqlfailovergroup
-func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := fg.convert(obj)
 	if err != nil {
 		return false, err
