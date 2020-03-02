@@ -134,7 +134,11 @@ func main() {
 	)
 	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
-	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
+		ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"),
+		secretClient,
+		scheme,
+	)
 	psqlserverclient := psqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, mgr.GetScheme())
 	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
 	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))
@@ -335,12 +339,16 @@ func main() {
 	}
 
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
-		Client:                       mgr.GetClient(),
-		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:                     mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-		Scheme:                       mgr.GetScheme(),
-		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
-		SecretClient:                 secretClient,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlFailoverGroupManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+				"AzureSqlFailoverGroup",
+			),
+			Recorder: mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+			Scheme:   mgr.GetScheme(),
+		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
 		os.Exit(1)

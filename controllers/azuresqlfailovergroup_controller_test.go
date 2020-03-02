@@ -52,7 +52,7 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 			Server:                       sqlServerOneName,
 			FailoverPolicy:               "automatic",
 			FailoverGracePeriod:          30,
-			SecondaryServerName:          sqlServerTwoName,
+			SecondaryServer:              sqlServerTwoName,
 			SecondaryServerResourceGroup: rgName,
 			DatabaseList:                 []string{sqlDatabaseName},
 		},

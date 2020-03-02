@@ -8,9 +8,14 @@ package azuresql
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/mock/helpers"
 	"github.com/Azure/go-autorest/autorest"
@@ -101,4 +106,24 @@ func (manager *MockSqlFailoverGroupManager) GetServer(ctx context.Context, resou
 func (manager *MockSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result sql.Database, err error) {
 	sqlManager := MockSqlDbManager{}
 	return sqlManager.GetDB(ctx, resourceGroupName, serverName, databaseName)
+}
+
+func (fg *MockSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+	return true, nil
+}
+
+func (fg *MockSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+	return true, nil
+}
+
+func (g *MockSqlFailoverGroupManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+	return []resourcemanager.KubeParent{}, nil
+}
+
+func (*MockSqlFailoverGroupManager) convert(obj runtime.Object) (*azurev1alpha1.AzureSqlFailoverGroup, error) {
+	local, ok := obj.(*azurev1alpha1.AzureSqlFailoverGroup)
+	if !ok {
+		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
+	}
+	return local, nil
 }
