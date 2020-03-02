@@ -37,6 +37,7 @@ const (
 	Forbidden                       = "Forbidden"
 	NoSuchHost                      = "no such host"
 	CannotParseError                = "CannotParseError"
+	CreationPending                 = "CreationPending"
 )
 
 func NewAzureError(err error) error {

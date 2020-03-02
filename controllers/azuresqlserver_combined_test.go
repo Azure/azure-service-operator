@@ -203,7 +203,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 					Server:                       sqlServerName,
 					FailoverPolicy:               "automatic",
 					FailoverGracePeriod:          30,
-					SecondaryServerName:          sqlServerTwoName,
+					SecondaryServer:              sqlServerTwoName,
 					SecondaryServerResourceGroup: rgName,
 					DatabaseList:                 []string{sqlDatabaseName},
 				},
@@ -215,7 +215,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			assert.Eventually(func() bool {
 				var secrets, _ = tc.secretClient.Get(ctx, sqlFailoverGroupNamespacedName)
 
-				return strings.Contains(string(secrets["azureSqlPrimaryServerName"]), sqlServerName)
+				return strings.Contains(string(secrets["azureSqlPrimaryServer"]), sqlServerName)
 			}, tc.timeout, tc.retry, "wait for secret store to show failovergroup server names  ")
 
 		})
