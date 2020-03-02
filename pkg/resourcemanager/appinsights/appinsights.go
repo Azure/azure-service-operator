@@ -108,7 +108,7 @@ func (m *Manager) CreateAppInsights(
 }
 
 // Ensure checks the desired state of the operator
-func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
@@ -122,7 +122,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 		instance.Status.State = *comp.ProvisioningState
 
 		if *comp.ProvisioningState == "Succeeded" {
-			instance.Status.Message = *comp.ProvisioningState
+			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			return true, nil
@@ -184,7 +184,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 }
 
 // Delete removes an AppInsights resource
-func (m *Manager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	i, err := m.convert(obj)
 	if err != nil {
 		return false, err

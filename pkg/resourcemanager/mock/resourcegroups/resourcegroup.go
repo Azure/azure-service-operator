@@ -102,7 +102,7 @@ func (manager *MockResourceGroupManager) CheckExistence(ctx context.Context, gro
 	return helpers.GetRestResponse(http.StatusNoContent), nil
 }
 
-func (g *MockResourceGroupManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (g *MockResourceGroupManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := g.convert(obj)
 	if err != nil {
 		return false, err
@@ -119,7 +119,7 @@ func (g *MockResourceGroupManager) Ensure(ctx context.Context, obj runtime.Objec
 	return true, nil
 }
 
-func (g *MockResourceGroupManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (g *MockResourceGroupManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := g.convert(obj)
 	if err != nil {
 		return false, err

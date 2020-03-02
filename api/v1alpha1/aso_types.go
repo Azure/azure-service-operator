@@ -26,6 +26,16 @@ type ASOStatus struct {
 	ContainsUpdate bool   `json:"containsUpdate,omitempty"`
 }
 
+// GenericSpec is a struct to help get the KeyVaultName from the Spec
+type GenericSpec struct {
+	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
+}
+
+// GenericResource is a struct to help get a generic resource to extract keyvault name
+type GenericResource struct {
+	Spec GenericSpec `json:"spec,omitempty"`
+}
+
 // StatusedObject used to unmarshall runtime.Object when we need Status
 type StatusedObject struct {
 	metav1.TypeMeta   `json:",inline"`
