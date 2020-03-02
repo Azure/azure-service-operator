@@ -44,10 +44,9 @@ type AsyncReconciler struct {
 // Reconcile reconciles the change request
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, err error) {
 	ctx := context.Background()
-	r.Telemetry.SetInstance(req.String())
 
 	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
-		r.Telemetry.LogInfo("requeueing", "error during fetch from api server")
+		r.Telemetry.LogInfoByInstance("requeueing", "error during fetch from api server", req.String())
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
@@ -66,18 +65,18 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	res, err := meta.Accessor(local)
 	if err != nil {
-		r.Telemetry.LogInfo("requeuing", fmt.Sprintf("failed getting meta accessor: %s", err.Error()))
+		r.Telemetry.LogInfoByInstance("requeuing", fmt.Sprintf("failed getting meta accessor: %s", err.Error()), req.String())
 		return ctrl.Result{}, err
 	}
 
 	// Instantiate the KeyVault Secret Client if KeyVault specified in Spec
-	r.Telemetry.LogInfo("status", "retrieving keyvault for secrets if specified")
+	r.Telemetry.LogInfoByInstance("status", "retrieving keyvault for secrets if specified", req.String())
 	var keyvaultSecretClient secrets.SecretClient
 	KeyVaultName := keyvaultsecretlib.GetKeyVaultName(local)
 	if len(KeyVaultName) != 0 {
 		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
 		if !keyvaultsecretlib.IsKeyVaultAccessible(keyvaultSecretClient) {
-			r.Telemetry.LogInfo("requeuing", "Waiting for Keyvault to store secrets to be available")
+			r.Telemetry.LogInfoByInstance("requeuing", "Waiting for Keyvault to store secrets to be available", req.String())
 			return ctrl.Result{RequeueAfter: requeDuration}, nil
 		}
 	}
@@ -121,7 +120,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 			found, deleteErr = r.AzureClient.Delete(ctx, local, configOptions...)
 			final := multierror.Append(deleteErr)
 			if err := final.ErrorOrNil(); err != nil {
-				r.Telemetry.LogError("error deleting object", err)
+				r.Telemetry.LogErrorByInstance("error deleting object", err, req.String())
 				r.Recorder.Event(local, corev1.EventTypeWarning, "FailedDelete", fmt.Sprintf("Failed to delete resource: %s", err.Error()))
 				return ctrl.Result{}, err
 			}
@@ -130,7 +129,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 				RemoveFinalizer(res, finalizerName)
 				return ctrl.Result{}, r.Update(ctx, local)
 			}
-			r.Telemetry.LogInfo("requeuing", "deletion unfinished")
+			r.Telemetry.LogInfoByInstance("requeuing", "deletion unfinished", req.String())
 			return ctrl.Result{RequeueAfter: requeDuration}, nil
 		}
 		return ctrl.Result{}, nil
@@ -142,10 +141,10 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		if err := r.Get(ctx, p.Key, p.Target); err == nil {
 			if pAccessor, err := meta.Accessor(p.Target); err == nil {
 				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
-					r.Telemetry.LogInfo("setting parent reference", pAccessor.GetName())
+					r.Telemetry.LogInfoByInstance("setting parent reference", pAccessor.GetName(), req.String())
 					err := r.Update(ctx, local)
 					if err != nil {
-						r.Telemetry.LogError("failed to reference parent", err)
+						r.Telemetry.LogErrorByInstance("failed to reference parent", err, req.String())
 					}
 					break
 				}
@@ -153,7 +152,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		}
 	}
 
-	r.Telemetry.LogTrace("reconciling", "reconciling object")
+	r.Telemetry.LogTraceByInstance("reconciling", "reconciling object", req.String())
 
 	configOptions = append(configOptions, resourcemanager.WithKubeClient(r.Client))
 	if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
@@ -162,14 +161,14 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	done, ensureErr := r.AzureClient.Ensure(ctx, local, configOptions...)
 	if ensureErr != nil {
-		r.Telemetry.LogError("error from Ensure", ensureErr)
+		r.Telemetry.LogErrorByInstance("error from Ensure", ensureErr, req.String())
 	}
 
 	// update the status of the resource in kubernetes
 	// Implementations of Ensure() tend to set their outcomes in local.Status
 	err = r.Status().Update(ctx, local)
 	if err != nil {
-		r.Telemetry.LogError("failed to update status", err)
+		r.Telemetry.LogErrorByInstance("failed to update status", err, req.String())
 	}
 
 	final := multierror.Append(ensureErr, r.Update(ctx, local))
@@ -182,22 +181,26 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	result = ctrl.Result{}
 	if !done {
-		r.Telemetry.LogInfo("requeueing", "reconciling object not finished, re-queueing")
+		r.Telemetry.LogInfoByInstance("requeueing", "reconciling object not finished, re-queueing", req.String())
 		result.RequeueAfter = requeDuration
 	} else {
-		r.Telemetry.LogInfo("reconciling", "success")
+		r.Telemetry.LogInfoByInstance("reconciling", "success", req.String())
 
 		// record the duration of the request
 		if status.CompletedAt == nil || status.CompletedAt.IsZero() {
 			compTime := metav1.Now()
 			status.CompletedAt = &compTime
-			durationInSecs := status.CompletedAt.Sub(status.RequestedAt.Time).Seconds()
-			r.Telemetry.LogDuration(durationInSecs)
+			if status.RequestedAt == nil {
+				r.Telemetry.LogErrorByInstance("Cannot find request time", fmt.Errorf("Request time was nil"), req.String())
+			} else {
+				durationInSecs := (*status.CompletedAt).Sub((*status.RequestedAt).Time).Seconds()
+				r.Telemetry.LogDuration(durationInSecs)
+			}
 		}
 	}
 
-	r.Telemetry.LogInfo("operator", fmt.Sprintf("message from operator: %s", status.Message))
-	r.Telemetry.LogTrace("operator", "exiting reconciliation")
+	r.Telemetry.LogInfoByInstance("operator", fmt.Sprintf("message from operator: %s", status.Message), req.String())
+	r.Telemetry.LogTraceByInstance("operator", "exiting reconciliation", req.String())
 
 	return result, err
 }

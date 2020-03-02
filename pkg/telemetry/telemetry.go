@@ -6,6 +6,8 @@
 package telemetry
 
 import (
+	"fmt"
+
 	"github.com/go-logr/logr"
 	"github.com/prometheus/client_golang/prometheus"
 	ctrlmetrics "sigs.k8s.io/controller-runtime/pkg/metrics"
@@ -37,17 +39,19 @@ type Telemetry struct {
 	SubsystemName string
 	ComponentName string
 	Logger        logr.Logger
-	Instance      string
 }
 
 // TelemetryClient contains the functions for Telemetry
 type TelemetryClient interface {
-	SetInstance(instance string)
 	LogTrace(typeTrace string, message string)
 	LogInfo(typeInfo string, message string)
 	LogWarning(typeWarning string, message string)
 	LogError(message string, err error)
 	LogDuration(duration float64)
+	LogTraceByInstance(typeTrace string, message string, instance string)
+	LogInfoByInstance(typeInfo string, message string, instance string)
+	LogWarningByInstance(typeWarning string, message string, instance string)
+	LogErrorByInstance(message string, err error, instance string)
 	CreateHistogram(name string, start float64, width float64, numberOfBuckets int) (histogram prometheus.Histogram)
 }
 
@@ -64,7 +68,6 @@ func InitializeTelemetryDefault(componentName string, logger logr.Logger) *Telem
 		SubsystemName: subsystemNameDefault,
 		ComponentName: componentName,
 		Logger:        logger,
-		Instance:      "",
 	}
 }
 
@@ -106,42 +109,58 @@ func initializeGlobalPrometheusMetrics() {
 	ctrlmetrics.Registry.MustRegister(durationHistogram)
 }
 
-// SetInstance must be called first if you want to set an instance for the subsequent telemetry calls
-func (t *Telemetry) SetInstance(instance string) {
-	t.Instance = instance
-}
-
 // LogTrace logs a trace message, it does not send telemetry to Prometheus
 func (t *Telemetry) LogTrace(typeTrace string, message string) {
-	t.Logger.Info(message, "Trace Type", typeTrace, "Component", t.ComponentName, "Instance", t.Instance)
+	t.LogTraceByInstance(typeTrace, message, "")
 }
 
 // LogInfo logs an informational message
 func (t *Telemetry) LogInfo(typeInfo string, message string) {
-	t.Logger.Info(message, "Info Type", typeInfo, "Component", t.ComponentName, "Instance", t.Instance)
-	statusCounter.WithLabelValues(t.ComponentName, t.Instance, "Info", typeInfo, message).Inc()
+	t.LogInfoByInstance(typeInfo, message, "")
 }
 
 // LogWarning logs a warning
 func (t *Telemetry) LogWarning(typeWarning string, message string) {
-
-	// logs this as info as there's no go-logr warning level
-	t.Logger.Info(message, "Warning Type", typeWarning, "Component", t.ComponentName, "Instance", t.Instance)
-	statusCounter.WithLabelValues(t.ComponentName, t.Instance, "Warning", typeWarning, message).Inc()
+	t.LogWarningByInstance(typeWarning, message, "")
 }
 
 // LogError logs an error
 func (t *Telemetry) LogError(message string, err error) {
-	errorString := err.Error()
-
-	// logs the error as info (eventhough there's an error) as this follows the previous pattern
-	t.Logger.Info(message, "Component", t.ComponentName, "Error", errorString, "Instance", t.Instance)
-	statusCounter.WithLabelValues(t.ComponentName, t.Instance, "Error", "Error", errorString).Inc()
+	t.LogErrorByInstance(message, err, "")
 }
 
 // LogDuration logs the duration of an operation in seconds
 func (t *Telemetry) LogDuration(durationInSecs float64) {
+	t.Logger.Info("duration", "Info Type", "duration", "Component", t.ComponentName, "Time", fmt.Sprintf("%f seconds", durationInSecs))
 	durationHistogram.WithLabelValues(t.ComponentName).Observe(durationInSecs)
+}
+
+// LogTraceByInstance logs a trace
+func (t *Telemetry) LogTraceByInstance(typeTrace string, message string, instance string) {
+	t.Logger.Info(message, "Trace Type", typeTrace, "Component", t.ComponentName, "Instance", instance)
+}
+
+// LogInfoByInstance logs an informational message
+func (t *Telemetry) LogInfoByInstance(typeInfo string, message string, instance string) {
+	t.Logger.Info(message, "Info Type", typeInfo, "Component", t.ComponentName, "Instance", instance)
+	statusCounter.WithLabelValues(t.ComponentName, instance, "Info", typeInfo, message).Inc()
+}
+
+// LogWarningByInstance logs a warning
+func (t *Telemetry) LogWarningByInstance(typeWarning string, message string, instance string) {
+
+	// logs this as info as there's no go-logr warning level
+	t.Logger.Info(message, "Warning Type", typeWarning, "Component", t.ComponentName, "Instance", instance)
+	statusCounter.WithLabelValues(t.ComponentName, instance, "Warning", typeWarning, message).Inc()
+}
+
+// LogErrorByInstance logs an error
+func (t *Telemetry) LogErrorByInstance(message string, err error, instance string) {
+	errorString := err.Error()
+
+	// logs the error as info (eventhough there's an error) as this follows the previous pattern
+	t.Logger.Info(message, "Component", t.ComponentName, "Error", errorString, "Instance", instance)
+	statusCounter.WithLabelValues(t.ComponentName, instance, "Error", "Error", errorString).Inc()
 }
 
 // CreateHistogram creates a histogram, start = what value the historgram starts at, width = how wide are the buckets,
