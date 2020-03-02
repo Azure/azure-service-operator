@@ -23,13 +23,13 @@ var (
 	cloudName              string
 	useDeviceFlow          bool
 	useMI                  bool
-
-	keepResources    bool
-	operatorKeyvault string
-	groupName        string // deprecated, use baseGroupName instead
-	baseGroupName    string
-	userAgent        string
-	environment      *azure.Environment
+	buildID                string
+	keepResources          bool
+	operatorKeyvault       string
+	groupName              string // deprecated, use baseGroupName instead
+	baseGroupName          string
+	userAgent              string
+	environment            *azure.Environment
 )
 
 // ClientID is the OAuth client ID.
@@ -154,4 +154,8 @@ func GenerateGroupName(affixes ...string) string {
 // AppendRandomSuffix will append a suffix of five random characters to the specified prefix.
 func AppendRandomSuffix(prefix string) string {
 	return randname.GenerateWithPrefix(prefix, 5)
+}
+
+func BuildID() string {
+	return buildID
 }

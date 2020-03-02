@@ -15,6 +15,7 @@ func AddFlags() error {
 	flag.BoolVar(&useDeviceFlow, "useDeviceFlow", useDeviceFlow, "Use device-flow grant type rather than client credentials.")
 	flag.BoolVar(&useMI, "useMI", useMI, "Use MI authentication (aad-pod-identity).")
 	flag.BoolVar(&keepResources, "keepResources", keepResources, "Keep resources created by samples.")
+	flag.StringVar(&buildID, "buildID", buildID, "A build identifier used when naming resources in tests")
 
 	return nil
 }

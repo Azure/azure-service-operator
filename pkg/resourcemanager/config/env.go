@@ -51,7 +51,7 @@ func ParseEnvironment() error {
 	groupName = envy.Get("AZURE_GROUP_NAME", "azure-go-samples")           // GroupName()
 	baseGroupName = envy.Get("AZURE_BASE_GROUP_NAME", groupName)           // BaseGroupName()
 	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "southcentralus") // DefaultLocation()
-
+	buildID = envy.Get("BUILD_ID", "1")
 	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW")         // UseDeviceFlow()
 	useMI = ParseBoolFromEnvironment("AZURE_USE_MI")                         // UseMI()
 	keepResources = ParseBoolFromEnvironment("AZURE_SAMPLES_KEEP_RESOURCES") // KeepResources()

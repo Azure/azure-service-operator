@@ -14,8 +14,8 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -258,4 +258,8 @@ func ConvertToStatus(instance runtime.Object) *v1alpha1.StatusedObject {
 
 	err = json.Unmarshal(serial, target)
 	return target
+}
+
+func GenerateGroupName(identifier string) string {
+	return "ci-aso-" + config.BuildID() + "-" + identifier
 }

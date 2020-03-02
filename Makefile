@@ -12,6 +12,8 @@ IMG ?= controller:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
+BUILD_ID ?= $(shell az ad signed-in-user show | jq -r .mailNickname)
+
 all: manager
 
 # Generate test certs for development

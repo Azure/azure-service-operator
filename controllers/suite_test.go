@@ -29,7 +29,6 @@ import (
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
@@ -70,15 +69,15 @@ func setup() error {
 		return err
 	}
 
-	resourceGroupName := "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourceGroupName := GenerateGroupName("rg-prime")
 	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
 
-	eventhubNamespaceName := "t-ns-dev-eh-ns-" + helpers.RandomString(10)
-	eventhubName := "t-eh-dev-sample-" + helpers.RandomString(10)
+	eventhubNamespaceName := GenerateGroupName("evns-prime")
+	eventhubName := GenerateGroupName("ev-prime")
 	namespaceLocation := resourcemanagerconfig.DefaultLocation()
 
-	storageAccountName := "tsadeveh" + helpers.RandomString(10)
-	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
+	storageAccountName := GenerateGroupName("sa-prime")
+	blobContainerName := GenerateGroupName("blob-prime")
 	containerAccessLevel := s.PublicAccessContainer
 
 	var timeout time.Duration

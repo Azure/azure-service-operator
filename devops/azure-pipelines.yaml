@@ -16,6 +16,7 @@ variables:
   MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
   IMAGE_NAME: 'candidate/k8s/azure-service-operator'
   KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+  BUILD_ID: '$(Build.BuildId)'
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Service Connection
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
@@ -135,6 +136,7 @@ steps:
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+    BUILD_ID: $(BuildID)
   workingDirectory: '$(MODULE_PATH)'
 
 # - task: PublishTestResults@2
