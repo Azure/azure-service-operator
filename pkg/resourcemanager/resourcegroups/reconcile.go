@@ -53,7 +53,7 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 		instance.Status.Provisioning = true
 	}
 
-	instance.Status.ResourceID = *group.ID
+	instance.Status.ResourceId = *group.ID
 	return true, nil
 }
 
