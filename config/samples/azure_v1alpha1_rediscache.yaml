@@ -6,6 +6,9 @@ spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
   properties:
+    # possible values for sku.Name are "Basic", "Premium" or "Standard"
+    # possible values for sku.family are "C" and "P". 
+    # If sku.Name is "Premium", then sku.family should be "P"
     sku:
       name: Basic
       family: C

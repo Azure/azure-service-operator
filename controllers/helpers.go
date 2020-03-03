@@ -7,6 +7,7 @@ package controllers
 import (
 	"context"
 	"encoding/json"
+
 	"fmt"
 	"strings"
 	"testing"
@@ -14,6 +15,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -34,6 +36,7 @@ import (
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
+	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 )
@@ -49,6 +52,7 @@ type TestContext struct {
 	storageAccountName      string
 	blobContainerName       string
 	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
+	redisCacheManager       resourcemanagerrediscaches.RedisCacheManager
 	eventHubManagers        resourcemanagereventhub.EventHubManagers
 	eventhubClient          resourcemanagereventhub.EventHubManager
 	storageManagers         resourcemanagerstorages.StorageManagers
