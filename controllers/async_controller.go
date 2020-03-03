@@ -46,7 +46,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	ctx := context.Background()
 
 	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
-		r.Telemetry.LogInfoByInstance("requeueing", "error during fetch from api server", req.String())
+		r.Telemetry.LogInfoByInstance("ignorable error", "error during fetch from api server", req.String())
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
@@ -141,7 +141,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		if err := r.Get(ctx, p.Key, p.Target); err == nil {
 			if pAccessor, err := meta.Accessor(p.Target); err == nil {
 				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
-					r.Telemetry.LogInfoByInstance("setting parent reference", pAccessor.GetName(), req.String())
+					r.Telemetry.LogInfoByInstance("status", "setting parent reference", req.String())
 					err := r.Update(ctx, local)
 					if err != nil {
 						r.Telemetry.LogErrorByInstance("failed to reference parent", err, req.String())
@@ -161,7 +161,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	done, ensureErr := r.AzureClient.Ensure(ctx, local, configOptions...)
 	if ensureErr != nil {
-		r.Telemetry.LogErrorByInstance("error from Ensure", ensureErr, req.String())
+		r.Telemetry.LogErrorByInstance("ensure err", ensureErr, req.String())
 	}
 
 	// update the status of the resource in kubernetes
