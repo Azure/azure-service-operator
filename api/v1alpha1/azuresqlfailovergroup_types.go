@@ -29,18 +29,9 @@ type AzureSqlFailoverGroupSpec struct {
 	Server                       string                          `json:"server"`
 	FailoverPolicy               ReadWriteEndpointFailoverPolicy `json:"failoverpolicy"`
 	FailoverGracePeriod          int32                           `json:"failovergraceperiod"`
-	SecondaryServerName          string                          `json:"secondaryserver"`
+	SecondaryServer              string                          `json:"secondaryserver"`
 	SecondaryServerResourceGroup string                          `json:"secondaryserverresourcegroup"`
 	DatabaseList                 []string                        `json:"databaselist"`
-}
-
-// AzureSqlFailoverGroupStatus defines the observed state of AzureSqlFailoverGroup
-type AzureSqlFailoverGroupStatus struct {
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool   `json:"provisioning,omitempty"`
-	Provisioned  bool   `json:"provisioned,omitempty"`
-	State        string `json:"state,omitempty"`
-	Message      string `json:"message,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -50,8 +41,8 @@ type AzureSqlFailoverGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSqlFailoverGroupSpec   `json:"spec,omitempty"`
-	Status AzureSqlFailoverGroupStatus `json:"status,omitempty"`
+	Spec   AzureSqlFailoverGroupSpec `json:"spec,omitempty"`
+	Status ASOStatus                 `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -17,6 +17,7 @@ require (
 	github.com/denisenkom/go-mssqldb v0.0.0-20191128021309-1d7a30a10f73
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/envy v1.7.0
+	github.com/google/go-cmp v0.3.0
 	github.com/google/uuid v1.1.1
 	github.com/googleapis/gnostic v0.3.0 // indirect
 	github.com/gophercloud/gophercloud v0.4.0 // indirect
@@ -30,12 +31,13 @@ require (
 	github.com/prometheus/common v0.2.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/sethvargo/go-password v0.1.2
-	github.com/stretchr/testify v1.4.1-0.20200116033420-8c465a0c8e80
+	github.com/stretchr/testify v1.5.1
 	go.uber.org/zap v1.9.1
 	golang.org/x/net v0.0.0-20190620200207-3b0461eec859
 	golang.org/x/sys v0.0.0-20190621203818-d432491b9138 // indirect
 	golang.org/x/tools v0.0.0-20200130203232-449c356b79e5 // indirect
 	google.golang.org/grpc v1.19.1
+	gopkg.in/yaml.v2 v2.2.8 // indirect
 	k8s.io/api v0.0.0-20190409021203-6e4e0e4f393b
 	k8s.io/apimachinery v0.0.0-20190404173353-6a84e37a896d
 	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible
