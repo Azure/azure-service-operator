@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 // +build all azuresqlserver azuresqldatabase
 
 package controllers
