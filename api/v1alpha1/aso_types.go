@@ -13,7 +13,7 @@ type ASOStatus struct {
 	Provisioned  bool   `json:"provisioned,omitempty"`
 	State        string `json:"state,omitempty"`
 	Message      string `json:"message,omitempty"`
-	ResourceId   string `json:"resourceid,omitempty"`
+	ResourceId   string `json:"resourceId,omitempty"`
 }
 
 // GenericSpec is a struct to help get the KeyVaultName from the Spec
