@@ -143,11 +143,9 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	adminSecretClient := s.SecretClient
 
 	adminsecretName := instance.Spec.AdminSecret
-
 	if len(instance.Spec.AdminSecret) == 0 {
 		adminsecretName = instance.Spec.Server
 	}
-
 	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
 
 	var sqlUserSecretClient secrets.SecretClient
@@ -155,26 +153,22 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		sqlUserSecretClient = options.SecretClient
 	}
 
-	// if the admin secret keyvault is not specified, assume it is a kube secret
+	// if the admin secret keyvault is not specified, fall back to global secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
 		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
-		if len(instance.Spec.AdminSecret) == 0 {
-			adminsecretName = instance.Namespace + "-" + instance.Spec.Server
+		if len(instance.Spec.AdminSecret) != 0 {
+			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
 		}
-		key = types.NamespacedName{Name: adminsecretName}
 	}
 
 	// need this to detect missing databases
 	dbClient := azuresqldb.NewAzureSqlDbManager(s.Log)
 
 	// get admin creds for server
-	if reflect.TypeOf(adminSecretClient).Elem().Name() == "KeyvaultSecretClient" {
-		fmt.Println("admin secret is looked in keyvault")
-	}
 	adminSecret, err := adminSecretClient.Get(ctx, key)
 	if err != nil {
 		instance.Status.Provisioning = false
-		instance.Status.Message = fmt.Sprintf("admin secret : %s, not found", key.String())
+		instance.Status.Message = fmt.Sprintf("admin secret : %s, not found in %s", key.String(), reflect.TypeOf(adminSecretClient).Elem().Name())
 		return false, nil
 	}
 
@@ -414,23 +408,23 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 
 	adminSecretClient := s.SecretClient
 
+	adminsecretName := instance.Spec.AdminSecret
 	if len(instance.Spec.AdminSecret) == 0 {
-		instance.Spec.AdminSecret = instance.Spec.Server
+		adminsecretName = instance.Spec.Server
 	}
-	key := types.NamespacedName{Name: instance.Spec.AdminSecret, Namespace: instance.Namespace}
+	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
 
 	var sqlUserSecretClient secrets.SecretClient
 	if options.SecretClient != nil {
 		sqlUserSecretClient = options.SecretClient
 	}
 
-	// if the admin secret keyvault is not specified, assume it is a kube secret
+	// if the admin secret keyvault is not specified, fall back to global secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
 		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
-		if len(instance.Spec.AdminSecret) == 0 {
-			instance.Spec.AdminSecret = instance.Namespace + "-" + instance.Spec.Server
+		if len(instance.Spec.AdminSecret) != 0 {
+			key = types.NamespacedName{Name: instance.Spec.AdminSecret}
 		}
-		key = types.NamespacedName{Name: instance.Spec.AdminSecret}
 	}
 
 	adminSecret, err := adminSecretClient.Get(ctx, key)
