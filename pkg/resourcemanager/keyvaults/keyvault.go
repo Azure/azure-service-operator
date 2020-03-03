@@ -428,6 +428,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance.Status.ContainsUpdate = true
 	}
 
+	keyvault, err = k.CreateVault(
 		ctx,
 		instance,
 		labels,

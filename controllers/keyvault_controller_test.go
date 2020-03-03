@@ -4,15 +4,19 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"strings"
 	"testing"
 	"time"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	"github.com/stretchr/testify/assert"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -198,16 +202,16 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 
 	retInstance := &azurev1alpha1.KeyVault{}
 	err = tc.k8sClient.Get(ctx, names, retInstance)
-	assert.Equal(nil, err, fmt.Sprintf("get keyvault in k8s")
+	assert.Equal(nil, err, fmt.Sprintf("get keyvault in k8s"))
 	originalHash := retInstance.Status.SpecHash
 	retInstance.Spec.AccessPolicies = &[]azurev1alpha1.AccessPolicyEntry{accessPolicies}
 
 	err = tc.k8sClient.Update(ctx, retInstance)
-	assert.Equal(nil, err, fmt.Sprintf("updating keyvault in k8s")
+	assert.Equal(nil, err, fmt.Sprintf("updating keyvault in k8s"))
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, retInstance)
-		return originalHash != retInstance.Status.SpecHash
+		return originalHash == retInstance.Status.SpecHash
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be updated")
 
 	err = keyvaultSecretClient.Upsert(ctx, key, datanew)
