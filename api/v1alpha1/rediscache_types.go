@@ -41,6 +41,7 @@ type RedisCacheSpec struct {
 	Location          string               `json:"location,omitempty"`
 	ResourceGroupName string               `json:"resourceGroup"`
 	Properties        RedisCacheProperties `json:"properties,omitempty"`
+	SecretName        string               `json:"secretName,omitempty"`
 }
 
 // RedisCacheProperties the properties of the Redis Cache.
@@ -76,17 +77,6 @@ const (
 	P RedisCacheSkuFamily = "P"
 )
 
-type RedisCacheOutput struct {
-	RedisCacheName string `json:"redisCacheName,omitempty"`
-	PrimaryKey     string `json:"primaryKey,omitempty"`
-	SecondaryKey   string `json:"secondaryKey,omitempty"`
-}
-
-// StorageAdditionalResources holds the additional resources
-type RedisCacheAdditionalResources struct {
-	Secrets []string `json:"secrets,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
@@ -95,10 +85,8 @@ type RedisCache struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec                RedisCacheSpec                `json:"spec,omitempty"`
-	Status              ASOStatus                     `json:"status,omitempty"`
-	Output              RedisCacheOutput              `json:"output,omitempty"`
-	AdditionalResources RedisCacheAdditionalResources `json:"additionalResources,omitempty"`
+	Spec   RedisCacheSpec `json:"spec,omitempty"`
+	Status ASOStatus      `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

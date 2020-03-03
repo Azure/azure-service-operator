@@ -41,6 +41,9 @@ import (
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
+
+	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
+
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -128,6 +131,7 @@ func setup() error {
 
 	var appInsightsManager resourcemanagerappinsights.ApplicationInsightsManager
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
+
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var eventhubNamespaceClient resourcemanagereventhub.EventHubNamespaceManager
@@ -166,9 +170,18 @@ func setup() error {
 		secretClient,
 		scheme.Scheme,
 	)
+	redisCacheManager := resourcemanagerrediscaches.NewAzureRedisCacheManager(
+		ctrl.Log.WithName("rediscachemanager").WithName("RedisCache"),
+		secretClient,
+		scheme.Scheme,
+	)
 	sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 	sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
-	sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"))
+	sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
+		ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"),
+		secretClient,
+		scheme.Scheme,
+	)
 	consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(
 		ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"),
@@ -251,6 +264,22 @@ func setup() error {
 				"ResourceGroup",
 			),
 			Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&RedisCacheReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: redisCacheManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("RedisCache"),
+				"RedisCache",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("RedisCache-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
@@ -349,12 +378,16 @@ func setup() error {
 	}
 
 	err = (&AzureSqlFailoverGroupReconciler{
-		Client:                       k8sManager.GetClient(),
-		Log:                          ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
-		Recorder:                     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-		Scheme:                       scheme.Scheme,
-		AzureSqlFailoverGroupManager: sqlFailoverGroupManager,
-		SecretClient:                 secretClient,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: sqlFailoverGroupManager,
+			Telemetry: telemetry.InitializePrometheusDefault(
+				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+				"AzureSqlFailoverGroup",
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
 		return err
@@ -488,6 +521,7 @@ func setup() error {
 		eventHubManagers:        eventHubManagers,
 		eventhubClient:          eventhubClient,
 		resourceGroupManager:    resourceGroupManager,
+		redisCacheManager:       redisCacheManager,
 		sqlServerManager:        sqlServerManager,
 		sqlDbManager:            sqlDbManager,
 		sqlFirewallRuleManager:  sqlFirewallRuleManager,
