@@ -34,13 +34,6 @@ type AzureSqlFailoverGroupSpec struct {
 	DatabaseList                 []string                        `json:"databaselist"`
 }
 
-// AzureSqlFailoverGroupStatus defines the observed state of AzureSqlFailoverGroup
-type AzureSqlFailoverGroupStatus struct {
-	// Important: Run "make" to regenerate code after modifying this file
-	Status  ASOStatus `json:"status,omitempty"`
-	Message string    `json:"message,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // AzureSqlFailoverGroup is the Schema for the azuresqlfailovergroups API
