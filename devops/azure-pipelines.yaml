@@ -126,6 +126,7 @@ steps:
     echo "all the pods should be running"
     make deploy
     make test-existing-controllers
+    make test-cleanup-azure-resources
   continueOnError: 'false'
   displayName: 'Set kind cluster and Run int tests'
   env:
@@ -137,8 +138,7 @@ steps:
     REQUEUE_AFTER: $(REQUEUE_AFTER)
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
     BUILD_ID: $(BuildID)
-  workingDirectory: '$(MODULE_PATH)'
-      make test-cleanup-azure-resources
+  workingDirectory: '$(MODULE_PATH)'      
 
 - task: AzureCLI@2
   displayName: 'Clean up Azure Resources'
