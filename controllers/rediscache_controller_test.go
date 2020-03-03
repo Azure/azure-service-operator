@@ -1,11 +1,11 @@
 // +build rediscache
 
-
 package controllers
 
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"testing"
 	"time"
@@ -31,13 +31,11 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 	var rgLocation string
 	var rgName string
 	var redisCacheName string
-	var redisCacheSecret string
 	var err error
 
 	rgName = tc.resourceGroupName
 	rgLocation = tc.resourceGroupLocation
 	redisCacheName = "t-rediscache-" + helpers.RandomString(10)
-	redisCacheSecret = "RedisCacheSecret"
 
 	// Create the RedisCache object and expect the Reconcile to be created
 	redisCacheInstance := &azurev1alpha1.RedisCache{
@@ -81,13 +79,13 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 	//verify secret exists in k8s for rc
 	secret := &v1.Secret{}
 	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: redisCacheSecret, Namespace: redisCacheInstance.Namespace}, secret)
-
+		log.Println("get secret")
+		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: redisCacheInstance.Name, Namespace: redisCacheInstance.Namespace}, secret)
 		if err == nil {
 			return true
 		}
 		return false
-	}, tc.timeoutFast, tc.retry, "wait for rc to have secret")
+	}, 45*time.Second, tc.retry, "wait for rc to have secret")
 
 	// delete rc
 	err = tc.k8sClient.Delete(ctx, redisCacheInstance)
