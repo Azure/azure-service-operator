@@ -151,6 +151,8 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	var sqlUserSecretClient secrets.SecretClient
 	if options.SecretClient != nil {
 		sqlUserSecretClient = options.SecretClient
+	} else {
+		sqlUserSecretClient = s.SecretClient
 	}
 
 	// if the admin secret keyvault is not specified, fall back to global secretclient
@@ -417,6 +419,8 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 	var sqlUserSecretClient secrets.SecretClient
 	if options.SecretClient != nil {
 		sqlUserSecretClient = options.SecretClient
+	} else {
+		sqlUserSecretClient = s.SecretClient
 	}
 
 	// if the admin secret keyvault is not specified, fall back to global secretclient
