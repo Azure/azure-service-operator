@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package helpers
 
 // IsDeploymentComplete will dtermine if the deployment is complete
