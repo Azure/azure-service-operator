@@ -65,7 +65,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	res, err := meta.Accessor(local)
 	if err != nil {
-		r.Telemetry.LogInfoByInstance("requeuing", fmt.Sprintf("failed getting meta accessor: %s", err.Error()), req.String())
+		r.Telemetry.LogErrorByInstance("accessor fail", err, req.String())
 		return ctrl.Result{}, err
 	}
 
@@ -152,7 +152,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		}
 	}
 
-	r.Telemetry.LogTraceByInstance("reconciling", "reconciling object", req.String())
+	r.Telemetry.LogInfoByInstance("status", "reconciling object", req.String())
 
 	configOptions = append(configOptions, resourcemanager.WithKubeClient(r.Client))
 	if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
@@ -168,7 +168,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	// Implementations of Ensure() tend to set their outcomes in local.Status
 	err = r.Status().Update(ctx, local)
 	if err != nil {
-		r.Telemetry.LogErrorByInstance("failed to update status", err, req.String())
+		r.Telemetry.LogInfoByInstance("status", "failed updating status", req.String())
 	}
 
 	final := multierror.Append(ensureErr, r.Update(ctx, local))
@@ -181,7 +181,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	result = ctrl.Result{}
 	if !done {
-		r.Telemetry.LogInfoByInstance("requeueing", "reconciling object not finished, re-queueing", req.String())
+		r.Telemetry.LogInfoByInstance("status", "reconciling object not finished", req.String())
 		result.RequeueAfter = requeDuration
 	} else {
 		r.Telemetry.LogInfoByInstance("reconciling", "success", req.String())
@@ -199,8 +199,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		}
 	}
 
-	r.Telemetry.LogInfoByInstance("operator", fmt.Sprintf("message from operator: %s", status.Message), req.String())
-	r.Telemetry.LogTraceByInstance("operator", "exiting reconciliation", req.String())
+	r.Telemetry.LogInfo("status", "exiting reconciliation")
 
 	return result, err
 }
