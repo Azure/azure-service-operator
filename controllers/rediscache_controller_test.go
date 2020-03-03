@@ -1,4 +1,4 @@
-// +build all rediscache
+// +build rediscache
 
 package controllers
 
@@ -14,6 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	v1 "k8s.io/api/core/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -88,5 +89,12 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 	}, tc.timeoutFast, tc.retry, "wait for rc to have secret")
 
 	// delete rc
-	EnsureDelete(ctx, t, tc, redisCacheInstance)
+	err = tc.k8sClient.Delete(ctx, redisCacheInstance)
+	assert.Equal(nil, err, fmt.Sprintf("delete %s in k8s", "rediscache"))
+
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, names, redisCacheInstance)
+		return apierrors.IsNotFound(err)
+	}, longRunningTimeout, tc.retry, fmt.Sprintf("wait for %s to be gone from k8s", "rediscache"))
+
 }
