@@ -238,7 +238,7 @@ func ParseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 	return newEntry, nil
 }
 
-// InstantiateVault will instantiate VaultsClient and do error checking
+// InstantiateVault will instantiate VaultsClient
 func InstantiateVault(ctx context.Context, vaultName string, containsUpdate bool) (keyvault.VaultsClient, uuid.UUID, error) {
 	vaultsClient, err := getVaultsClient()
 	if err != nil {
@@ -428,7 +428,6 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance.Status.ContainsUpdate = true
 	}
 
-	keyvault, err = k.CreateVault(
 		ctx,
 		instance,
 		labels,
