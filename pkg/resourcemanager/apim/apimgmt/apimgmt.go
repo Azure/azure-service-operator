@@ -116,7 +116,7 @@ func (m *Manager) GetAPI(ctx context.Context, resourceGroupName string, apiServi
 }
 
 // Ensure executes a desired state check against the resource
-func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
@@ -190,7 +190,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 }
 
 // Delete removes an API resource
-func (m *Manager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	i, err := m.convert(obj)
 	if err != nil {
 		return true, err
