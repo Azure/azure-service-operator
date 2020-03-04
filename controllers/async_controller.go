@@ -161,6 +161,9 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	if ensureErr != nil {
 		r.Telemetry.LogErrorByInstance("ensure err", ensureErr, req.String())
 	}
+	if !done && !status.Provisioning {
+		status.RequestedAt = nil
+	}
 
 	// update the status of the resource in kubernetes
 	// Implementations of Ensure() tend to set their outcomes in local.Status
