@@ -14,6 +14,7 @@ import (
 	"golang.org/x/net/context"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
@@ -108,12 +109,13 @@ var _ = Describe("GenericReconciler", func() {
 			gvk, err := apiutil.GVKForObject(instance, mgr.GetScheme())
 			Expect(err).ToNot(HaveOccurred())
 			gr := &GenericReconciler{
-				GVK:     gvk,
-				Client:  k8sClient,
-				Applier: applier,
-				Scheme:  mgr.GetScheme(),
-				Log:     ctrl.Log.WithName("test-controller"),
-				Name:    "test-controller",
+				GVK:      gvk,
+				Client:   k8sClient,
+				Applier:  applier,
+				Scheme:   mgr.GetScheme(),
+				Log:      ctrl.Log.WithName("test-controller"),
+				Name:     "test-controller",
+				Recorder: record.NewFakeRecorder(10),
 			}
 			result, err := gr.Reconcile(ctrl.Request{
 				NamespacedName: nn,
@@ -240,12 +242,13 @@ var _ = Describe("GenericReconciler", func() {
 			gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
 			Expect(err).ToNot(HaveOccurred())
 			gr := &GenericReconciler{
-				GVK:     gvk,
-				Client:  k8sClient,
-				Applier: applier,
-				Scheme:  mgr.GetScheme(),
-				Log:     ctrl.Log.WithName("test-controller"),
-				Name:    "test-controller",
+				GVK:      gvk,
+				Client:   k8sClient,
+				Applier:  applier,
+				Scheme:   mgr.GetScheme(),
+				Log:      ctrl.Log.WithName("test-controller"),
+				Name:     "test-controller",
+				Recorder: record.NewFakeRecorder(10),
 			}
 			result, err := gr.Reconcile(ctrl.Request{
 				NamespacedName: nn,
@@ -309,12 +312,13 @@ func createAndReconcileResourceGroup(ctx context.Context, obj *microsoftresource
 	gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
 	Expect(err).ToNot(HaveOccurred())
 	gr := &GenericReconciler{
-		GVK:     gvk,
-		Client:  k8sClient,
-		Applier: applier,
-		Scheme:  mgr.GetScheme(),
-		Log:     ctrl.Log.WithName("test-controller"),
-		Name:    "test-controller",
+		GVK:      gvk,
+		Client:   k8sClient,
+		Applier:  applier,
+		Scheme:   mgr.GetScheme(),
+		Log:      ctrl.Log.WithName("test-controller"),
+		Name:     "test-controller",
+		Recorder: record.NewFakeRecorder(10),
 	}
 	result, err := gr.Reconcile(ctrl.Request{
 		NamespacedName: nn,
@@ -354,12 +358,13 @@ func deleteResourceGroup(ctx context.Context, obj *microsoftresourcesv1.Resource
 	gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
 	Expect(err).ToNot(HaveOccurred())
 	gr := &GenericReconciler{
-		GVK:     gvk,
-		Client:  k8sClient,
-		Applier: applier,
-		Scheme:  mgr.GetScheme(),
-		Log:     ctrl.Log.WithName("test-controller"),
-		Name:    "test-controller",
+		GVK:      gvk,
+		Client:   k8sClient,
+		Applier:  applier,
+		Scheme:   mgr.GetScheme(),
+		Log:      ctrl.Log.WithName("test-controller"),
+		Name:     "test-controller",
+		Recorder: record.NewFakeRecorder(10),
 	}
 	result, err := gr.Reconcile(ctrl.Request{
 		NamespacedName: nn,

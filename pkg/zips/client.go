@@ -57,6 +57,10 @@ type (
 		Body       string
 		Response   *http.Response
 	}
+
+	NotFoundError struct {
+		Response *http.Response
+	}
 )
 
 var (
@@ -127,7 +131,7 @@ func (c *Client) PutDeployment(ctx context.Context, deployment *Deployment, mw .
 	}
 
 	if res.StatusCode > 299 {
-		return nil, fmt.Errorf("uri: %s, status: %d, body: %s", res.Request.URL, res.StatusCode, body)
+		return nil, NewHttpError(res, string(body))
 	}
 
 	if err := json.Unmarshal(body, deployment); err != nil {
@@ -145,6 +149,12 @@ func (c *Client) GetResource(ctx context.Context, resourceID string, resource in
 		return err
 	}
 
+	if res.StatusCode == 404 {
+		return &NotFoundError{
+			Response: res,
+		}
+	}
+
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return err
@@ -154,7 +164,11 @@ func (c *Client) GetResource(ctx context.Context, resourceID string, resource in
 		return NewHttpError(res, string(body))
 	}
 
-	return json.Unmarshal(body, resource)
+	if resource != nil {
+		return json.Unmarshal(body, resource)
+	}
+
+	return nil
 }
 
 // DeleteResource will make an HTTP DELETE call to the resourceID and attempt to fill the resource with the response.
@@ -187,28 +201,6 @@ func (c *Client) DeleteResource(ctx context.Context, resourceID string, resource
 	}
 
 	return json.Unmarshal(body, resource)
-}
-
-func (c *Client) HeadResource(ctx context.Context, resourceID string, mw ...MiddlewareFunc) (bool, error) {
-	res, err := c.Head(ctx, idWithAPIVersion(resourceID), mw...)
-	defer closeResponse(ctx, res)
-
-	if err != nil {
-		return false, err
-	}
-
-	if res.StatusCode == 404 {
-		// you asked it to be gone, well, it is.
-		return false, nil
-	}
-
-	if res.StatusCode > 299 {
-		// do our best to read the body, but if we can't, just carry on
-		body, _ := ioutil.ReadAll(res.Body)
-		return false, NewHttpError(res, string(body))
-	}
-
-	return true, nil
 }
 
 // Get will execute a HTTP GET request
@@ -319,6 +311,23 @@ func (e HttpError) Error() string {
 		u = e.Response.Request.URL
 	}
 	return fmt.Sprintf("uri: %s, status: %d, body: %s", u, e.StatusCode, e.Body)
+}
+
+func (e NotFoundError) Error() string {
+	var u *url.URL
+	var statusCode int
+	if e.Response != nil {
+		statusCode = e.Response.StatusCode
+		if e.Response.Request != nil {
+			u = e.Response.Request.URL
+		}
+	}
+	return fmt.Sprintf("not found uri: %s, status: %d", u, statusCode)
+}
+
+func IsNotFound(err error) bool {
+	_, ok := err.(*NotFoundError)
+	return ok
 }
 
 // WithAuthorization will inject the AZURE_TOKEN env var as the bearer token for API auth

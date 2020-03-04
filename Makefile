@@ -114,11 +114,10 @@ run: $(TLS_CERT_PATH) generate fmt manifests install ## Run a development cluste
 
 $(KIND_CLUSTER_TOUCH): $(KIND) $(KUBECTL)
 	$(KIND) create cluster --name=$(KIND_CLUSTER_NAME) --kubeconfig=$(KIND_KUBECONFIG) --image=kindest/node:v1.16.4
-	KUBECONFIG=$(KIND_KUBECONFIG) ./scripts/apply_cert_and_secrets.sh
 	touch $(KIND_CLUSTER_TOUCH)
 
-.PHONY: apply-kind-defaults
-apply-kind-defaults: $(KUBECTL)
+.PHONY: apply-certs-and-secrets
+apply-certs-and-secrets: $(KUBECTL)
 	./scripts/apply_cert_and_secrets.sh
 
 .PHONY: kind-reset
@@ -142,7 +141,7 @@ deploy: generate manifests $(KUBECTL) $(KUSTOMIZE) docker-build docker-push ## D
 .PHONY: deploy-kind
 deploy-kind: $(KIND) $(KIND_CLUSTER_TOUCH)
 deploy-kind: export KUBECONFIG = $(KIND_KUBECONFIG)
-deploy-kind: deploy
+deploy-kind: apply-certs-and-secrets deploy
 
 .PHONY: manifests
 manifests: $(CONTROLLER_GEN) ## Generate manifests e.g. CRD, RBAC etc.

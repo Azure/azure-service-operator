@@ -246,7 +246,9 @@ func (atc *AzureTemplateClient) getApply(ctx context.Context, deploymentID strin
 func (atc *AzureTemplateClient) cleanupDeployment(ctx context.Context, res Resource) (Resource, error) {
 	if res.DeploymentID != "" && !res.ObjectMeta.PreserveDeployment {
 		if err := atc.DeleteApply(ctx, res.DeploymentID); err != nil {
-			return res, err
+			if !IsNotFound(err) {
+				return res, err
+			}
 		}
 		res.DeploymentID = ""
 		return res, nil
@@ -274,12 +276,26 @@ func (atc *AzureTemplateClient) BeginDelete(ctx context.Context, res Resource) (
 	return res, nil
 }
 
+// HeadResource checks to see if the resource exists
+//
+// Note: this doesn't actually use HTTP HEAD as Azure Resource Manager does not uniformly implement HEAD for all
+// all resources. Also, ARM returns a 400 rather than 405 when requesting HEAD for a resource which the Resource
+// Provider does not implement HEAD. For these reasons, we use an HTTP GET
 func (atc *AzureTemplateClient) HeadResource(ctx context.Context, res Resource) (bool, error) {
 	if res.ID == "" {
 		return false, fmt.Errorf("resource ID cannot be empty")
 	}
 
-	return atc.RawClient.HeadResource(ctx, res.ID)
+	idAndAPIVersion := res.ID + fmt.Sprintf("?api-version=%s", res.APIVersion)
+	err := atc.RawClient.GetResource(ctx, idAndAPIVersion, nil, nil)
+	switch {
+	case IsNotFound(err):
+		return false, nil
+	case err != nil:
+		return false, err
+	default:
+		return true, nil
+	}
 }
 
 func fillResource(de *Deployment, res Resource) (Resource, error) {

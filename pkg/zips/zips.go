@@ -12,9 +12,12 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"strings"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -70,11 +73,25 @@ func (res *Resource) SetAnnotations(annotations map[string]string) *Resource {
 	return res
 }
 
-// GetSignature will return
-func (res *Resource) GetSignature() (string, error) {
-	bits, err := json.Marshal(res)
+func SpecSignature(resourcer Resourcer) (string, error) {
+	// Convert the resource to unstructured for easier comparison later.
+	unstructuredResourcer, err := runtime.DefaultUnstructuredConverter.ToUnstructured(resourcer)
 	if err != nil {
 		return "", err
+	}
+
+	spec, ok, err := unstructured.NestedMap(unstructuredResourcer, "spec")
+	if err != nil {
+		return "", err
+	}
+
+	if !ok {
+		return "", errors.New("unable to find spec within unstructured resourcer")
+	}
+
+	bits, err := json.Marshal(spec)
+	if err != nil {
+		return "", fmt.Errorf("unable to marshal spec of unstructured resourcer with: %w", err)
 	}
 
 	hash := sha256.Sum256(bits)

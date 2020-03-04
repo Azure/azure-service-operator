@@ -8,10 +8,10 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/go-logr/logr"
+	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/conversion"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -55,6 +55,7 @@ type (
 		Owns() []runtime.Object
 	}
 
+	// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
 	// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
 	// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups/status,verbs=get;update;patch
 	// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=virtualnetworks,verbs=get;list;watch;create;update;patch;delete
@@ -101,8 +102,7 @@ func register(mgr ctrl.Manager, applier zips.Applier, obj runtime.Object, log lo
 	}
 
 	t := v.Type()
-	name := strings.ReplaceAll(t.String(), ".", "_")
-	controllerName := fmt.Sprintf("%s-ctrl", name)
+	controllerName := fmt.Sprintf("%sCtrl", t.Name())
 
 	// Use the provided GVK to construct a new runtime object of the desired concrete type.
 	gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
@@ -114,7 +114,7 @@ func register(mgr ctrl.Manager, applier zips.Applier, obj runtime.Object, log lo
 		Client:   mgr.GetClient(),
 		Applier:  applier,
 		Scheme:   mgr.GetScheme(),
-		Name:     name,
+		Name:     t.Name(),
 		Log:      log.WithName(controllerName),
 		Recorder: mgr.GetEventRecorderFor(controllerName),
 		GVK:      gvk,
@@ -168,28 +168,46 @@ func (gr *GenericReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	// reconcile delete
 	if !resourcer.GetDeletionTimestamp().IsZero() {
-		log.Info("reconcile delete")
-		return gr.reconcileDelete(ctx, resourcer)
+		log.Info("reconcile delete start")
+		result, err := gr.reconcileDelete(ctx, resourcer)
+		if err != nil {
+			gr.Recorder.Event(resourcer, v1.EventTypeWarning, "ReconcileDeleteError", err.Error())
+			log.Error(err, "reconcile delete error")
+			return result, err
+		}
+
+		log.Info("reconcile delete complete")
+		return result, err
 	}
 
 	if grouped, ok := obj.(apis.Grouped); ok {
 		ready, err := gr.isResourceGroupReady(ctx, grouped, log)
 		if err != nil {
 			log.Error(err, "failed checking if resource group was ready")
+			gr.Recorder.Event(resourcer, v1.EventTypeWarning, "GroupReadyError", fmt.Sprintf("isResourceGroupReady failed with: %s", err))
 			return ctrl.Result{}, err
 		}
 
 		if !ready {
 			requeueTime := 30 * time.Second
-			log.Info(fmt.Sprintf("resource group %q is not ready or not created yet; will try again in about %s", grouped.GetResourceGroupObjectRef().Name, requeueTime))
+			msg := fmt.Sprintf("resource group %q is not ready or not created yet; will try again in about %s", grouped.GetResourceGroupObjectRef().Name, requeueTime)
+			gr.Recorder.Event(resourcer, v1.EventTypeNormal, "ResourceGroupNotReady", msg)
 			return ctrl.Result{
 				RequeueAfter: requeueTime,
 			}, nil
 		}
 	}
 
-	log.Info("reconcile apply")
-	return gr.reconcileApply(ctx, resourcer, log)
+	log.Info("reconcile apply start")
+	result, err := gr.reconcileApply(ctx, resourcer, log)
+	if err != nil {
+		log.Error(err, "reconcile apply error")
+		gr.Recorder.Event(resourcer, v1.EventTypeWarning, "ReconcileError", err.Error())
+		return result, err
+	}
+
+	log.Info("reconcile apply complete")
+	return result, err
 }
 
 // reconcileApply will determine what, if anything, has changed on the resource, and apply that state to Azure.
@@ -203,25 +221,37 @@ func (gr *GenericReconciler) reconcileApply(ctx context.Context, resourcer zips.
 	// check if the hash on the resource has changed
 	hasChanged, err := hasResourceHashAnnotationChanged(resourcer)
 	if err != nil {
-		return ctrl.Result{}, fmt.Errorf("failed comparing resource hash with: %w", err)
+		err = fmt.Errorf("failed comparing resource hash with: %w", err)
+		gr.Recorder.Event(resourcer, v1.EventTypeWarning, "AnnotationError", err.Error())
+		return ctrl.Result{}, err
 	}
 
 	azObj, err := resourcer.ToResource()
 	if err != nil {
-		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
+		err := fmt.Errorf("unable to transform to resource with: %w", err)
+		gr.Recorder.Event(resourcer, v1.EventTypeWarning, "ToResourceError", err.Error())
+		return ctrl.Result{}, err
 	}
 
 	// if the resource hash (spec) has not changed, don't apply again
 	if !hasChanged && zips.IsTerminalProvisioningState(azObj.ProvisioningState) {
+		msg := fmt.Sprintf("resource in state %q and spec has not changed", azObj.ProvisioningState)
+		gr.Recorder.Event(resourcer, v1.EventTypeNormal, "ResourceHasNotChanged", msg)
 		return ctrl.Result{}, nil
 	}
 
 	switch {
 	case hasChanged:
-		return gr.applySpecChangeToExistingResource(ctx, resourcer)
+		msg := fmt.Sprintf("resource in state %q has changed and spec will be applied to Azure", azObj.ProvisioningState)
+		gr.Recorder.Event(resourcer, v1.EventTypeNormal, "ResourceHasChanged", msg)
+		return gr.applySpecChange(ctx, resourcer)
 	case !zips.IsTerminalProvisioningState(azObj.ProvisioningState):
+		msg := fmt.Sprintf("resource in state %q, asking Azure for updated state", azObj.ProvisioningState)
+		gr.Recorder.Event(resourcer, v1.EventTypeNormal, "ResourceStateNonTerminal", msg)
 		return gr.updateFromNonTerminalApplyState(ctx, resourcer)
 	default:
+		msg := fmt.Sprintf("resource in state %q and spec has not changed", azObj.ProvisioningState)
+		gr.Recorder.Event(resourcer, v1.EventTypeNormal, "ResourceNoopReconcile", msg)
 		return ctrl.Result{}, nil // all is good and there are no changes to deal with
 	}
 }
@@ -241,6 +271,10 @@ func (gr *GenericReconciler) isResourceGroupReady(ctx context.Context, grouped a
 	// get the storage version of the resource group regardless of the referenced version
 	var rg microsoftresourcesv1.ResourceGroup
 	if err := gr.Client.Get(ctx, key, &rg); err != nil {
+		if apierrors.IsNotFound(err) {
+			// not able to find the resource, but that's ok. It might not exist yet
+			return false, nil
+		}
 		return false, fmt.Errorf("error GETing rg resource with: %w", err)
 	}
 
@@ -266,8 +300,12 @@ func (gr *GenericReconciler) reconcileDelete(ctx context.Context, resourcer zips
 
 	switch azObj.ProvisioningState {
 	case zips.DeletingProvisioningState:
+		msg := fmt.Sprintf("deleting... checking for updated state")
+		gr.Recorder.Event(resourcer, v1.EventTypeNormal, "ResourceDeleteInProgress", msg)
 		return gr.updateFromNonTerminalDeleteState(ctx, resourcer)
 	default:
+		msg := fmt.Sprintf("start deleting resource in state %q", azObj.ProvisioningState)
+		gr.Recorder.Event(resourcer, v1.EventTypeNormal, "ResourceDeleteStart", msg)
 		return gr.startDeleteOfResource(ctx, resourcer)
 	}
 }
@@ -317,7 +355,7 @@ func (gr *GenericReconciler) updateFromNonTerminalDeleteState(ctx context.Contex
 	}
 
 	if found {
-		return ctrl.Result{RequeueAfter: 5 * time.Second}, nil
+		return ctrl.Result{RequeueAfter: 10 * time.Second}, nil
 	}
 
 	err = patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
@@ -351,6 +389,10 @@ func (gr *GenericReconciler) updateFromNonTerminalApplyState(ctx context.Context
 			return fmt.Errorf("failed FromResource with: %w", err)
 		}
 
+		if err := addResourceHashAnnotation(res); err != nil {
+			return fmt.Errorf("failed to addResourceHashAnnotation with: %w", err)
+		}
+
 		return nil
 	}); err != nil {
 		return ctrl.Result{}, fmt.Errorf("failed to patch with: %w", err)
@@ -365,9 +407,9 @@ func (gr *GenericReconciler) updateFromNonTerminalApplyState(ctx context.Context
 	return result, err
 }
 
-// applySpecChangeToExistingResource will apply the new spec state to an Azure resource. The resource should then enter
+// applySpecChange will apply the new spec state to an Azure resource. The resource should then enter
 // into a non terminal state and will then be requeued for polling.
-func (gr *GenericReconciler) applySpecChangeToExistingResource(ctx context.Context, resourcer zips.Resourcer) (ctrl.Result, error) {
+func (gr *GenericReconciler) applySpecChange(ctx context.Context, resourcer zips.Resourcer) (ctrl.Result, error) {
 	azObj, err := resourcer.ToResource()
 	if err != nil {
 		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
@@ -376,6 +418,7 @@ func (gr *GenericReconciler) applySpecChangeToExistingResource(ctx context.Conte
 	if err = patcher(ctx, gr.Client, resourcer, func(res zips.Resourcer) error {
 		controllerutil.AddFinalizer(res, apis.AzureInfraFinalizer)
 
+		azObj.ProvisioningState = ""
 		azObj, err = gr.Applier.Apply(ctx, azObj)
 		if err != nil {
 			return fmt.Errorf("failed to apply state to Azure with %w", err)
@@ -410,27 +453,16 @@ func hasResourceHashAnnotationChanged(resourcer zips.Resourcer) (bool, error) {
 		return true, nil
 	}
 
-	res, err := resourcer.ToResource()
+	newSig, err := zips.SpecSignature(resourcer)
 	if err != nil {
 		return false, err
 	}
-
-	newSig, err := res.GetSignature()
-	if err != nil {
-		return false, err
-	}
-
 	// check if the last signature matches the new signature
 	return oldSig != newSig, nil
 }
 
 func addResourceHashAnnotation(resourcer zips.Resourcer) error {
-	res, err := resourcer.ToResource()
-	if err != nil {
-		return err
-	}
-
-	sig, err := res.GetSignature()
+	sig, err := zips.SpecSignature(resourcer)
 	if err != nil {
 		return err
 	}
