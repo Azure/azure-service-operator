@@ -57,8 +57,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	}
 
 	// record the time that this request was requested at
-	if !status.Provisioning && !status.Provisioned {
-		status.Provisioning = true
+	if status.RequestedAt == nil {
 		timeNow := metav1.NewTime(time.Now())
 		status.RequestedAt = &timeNow
 	}
