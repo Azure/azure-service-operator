@@ -34,8 +34,8 @@ func TestAPIMgmtController(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	rgName := tc.resourceGroupName
-	rgLocation := tc.resourceGroupLocation
+	// rgName := tc.resourceGroupName
+	rgLocation := "southcentralus"
 	apiMgmtName := "t-apimgmt-test" + helpers.RandomString(10)
 
 	// Create an instance of Azure APIMgmnt
@@ -46,20 +46,18 @@ func TestAPIMgmtController(t *testing.T) {
 		},
 		Spec: azurev1alpha1.APIMgmtSpec{
 			Location:      rgLocation,
-			ResourceGroup: rgName,
+			ResourceGroup: "AzureOperatorsTest",
+			APIService:    "AzureOperatorsTestAPIM",
+			APIId:         "apiId0",
 			Properties: azurev1alpha1.APIProperties{
-				Format:                 "Openapi",
-				APIRevision:            "v1",
-				APIRevisionDescription: "revision description",
-				IsCurrent:              true,
-				IsOnline:               true,
-				DisplayName:            "my-api",
-				Description:            "API description",
-				APIVersionDescription:  "version description",
-				Path:                   "/api/test",
-				Protocols:              []string{"http", "udp"},
-				SubscriptionRequired:   false,
-				ServiceURL:             "https://my-api/api",
+				IsCurrent:             true,
+				IsOnline:              true,
+				DisplayName:           apiMgmtName,
+				Description:           "API description",
+				APIVersionDescription: "API version description",
+				Path:                  "/api/test",
+				Protocols:             []string{"http"},
+				SubscriptionRequired:  false,
 			},
 		},
 	}
@@ -71,7 +69,7 @@ func TestAPIMgmtController(t *testing.T) {
 
 	// Wait for the APIMgmtAPI instance to be written to k8s
 	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, APIMgmtNamespacedName, apiMgmtInstance)
+		err = tc.k8sClient.Get(ctx, APIMgmtNamespacedName, apiMgmtInstance)
 		return strings.Contains(apiMgmtInstance.Status.Message, successMsg)
 	}, tc.timeout, tc.retry, "awaiting APIMgmt instance creation")
 

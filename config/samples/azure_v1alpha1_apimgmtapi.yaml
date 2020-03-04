@@ -3,8 +3,8 @@ kind: APIMgmtAPI
 metadata:
   name: aso-apimgmtapi-sample
 spec:
-  location: westus
-  resourceGroup: resourcegroup-azure-operators
+  location: southcentralus
+  resourceGroup: AzureOperatorsTest
   apiService: AzureOperatorsTestAPIM
   apiId: apiId0
   properties:

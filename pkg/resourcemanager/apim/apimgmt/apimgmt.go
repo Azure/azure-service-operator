@@ -196,9 +196,9 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, options ...res
 		return true, err
 	}
 
-	response, err := m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.APIId, i.Spec.Properties.APIRevision, true)
+	_, err = m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.APIId, i.Spec.Properties.APIRevision, true)
 
-	if err != nil && response.StatusCode != 404 {
+	if err != nil {
 		m.Telemetry.LogInfo("Error deleting API", err.Error())
 		i.Status.Message = err.Error()
 		return true, err
