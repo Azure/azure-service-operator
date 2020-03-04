@@ -132,6 +132,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		}
 
 		if helpers.ContainsString(ignore, azerr.Type) {
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 

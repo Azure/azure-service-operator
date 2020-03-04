@@ -12,11 +12,13 @@ spec:
   # db_owner, db_securityadmin, db_accessadmin, db_backupoperator, db_ddladmin, db_datawriter, db_datareader, db_denydatawriter, db_denydatareader
   roles:
     - "db_owner"
-  keyVaultToStoreSecrets: asoSecretKeyVault
-  # keyVaultSecretPrefix: sqlServer-sqlDatabase
+  # Use the field below to optionally specify a different keyvault 
+  # to store the secrets in
+  #keyVaultToStoreSecrets: asoSecretKeyVault
+  #keyVaultSecretPrefix: sqlServer-sqlDatabase
   # valid secret formats
   # adonet, adonet-urlonly, jdbc, jdbc-urlonly, odbc, odbc-urlonly, server, database, username, password
-  # keyVaultSecretFormats:  
+  #keyVaultSecretFormats:  
   #   - "adonet"
 
 

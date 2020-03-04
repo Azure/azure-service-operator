@@ -19,6 +19,15 @@ import (
 
 // Ensure creates a rediscache
 func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		rc.SecretClient = options.SecretClient
+	}
+
 	instance, err := rc.convert(obj)
 	if err != nil {
 		return false, err
@@ -84,6 +93,15 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 // Delete drops a rediscache
 func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		rc.SecretClient = options.SecretClient
+	}
+
 	instance, err := rc.convert(obj)
 	if err != nil {
 		return false, err
@@ -92,9 +110,18 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
 
+	if len(instance.Spec.SecretName) == 0 {
+		instance.Spec.SecretName = name
+	}
+
+	// key for SecretClient to delete secrets on successful deletion
+	key := types.NamespacedName{Name: instance.Spec.SecretName, Namespace: instance.Namespace}
+
 	resp, err := rc.GetRedisCache(ctx, groupName, name)
 	if err != nil {
 		if resp.StatusCode == http.StatusNotFound {
+			// Best case deletion of secrets
+			rc.SecretClient.Delete(ctx, key)
 			return false, nil
 		}
 		return false, err
@@ -110,6 +137,8 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 		instance.Status.Message = err.Error()
 
 		if req.Response().StatusCode == http.StatusNotFound {
+			// Best case deletion of secrets
+			rc.SecretClient.Delete(ctx, key)
 			return false, nil
 		}
 
