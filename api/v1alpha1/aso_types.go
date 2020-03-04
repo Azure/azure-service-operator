@@ -5,7 +5,7 @@ package v1alpha1
 
 import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-// AzureServiceOperatorsStatus (ASOStatus) defines the observed state of resource actions
+// ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
 type ASOStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
@@ -15,6 +15,7 @@ type ASOStatus struct {
 	Message        string `json:"message,omitempty"`
 	SpecHash       uint64 `json:"specHash,omitempty"`
 	ContainsUpdate bool   `json:"containsUpdate,omitempty"`
+	ResourceId   string `json:"resourceId,omitempty"`
 }
 
 // GenericSpec is a struct to help get the KeyVaultName from the Spec
