@@ -214,7 +214,7 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, retInstance)
-		return originalHash == retInstance.Status.SpecHash
+		return originalHash != retInstance.Status.SpecHash
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be updated")
 
 	err = keyvaultSecretClient.Upsert(ctx, key, datanew)
