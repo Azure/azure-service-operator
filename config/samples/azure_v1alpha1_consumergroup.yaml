@@ -5,5 +5,5 @@ metadata:
 spec:
   # Add fields here
   resourceGroup: resourcegroup-azure-operators
-  namespace: "eventhubnamespace-sample-1"
-  eventHub: "eventhub-sample-2"
+  namespace: "eventhubnamespace-sample-6"
+  eventHub: "eventhub-sample-2307-09"
