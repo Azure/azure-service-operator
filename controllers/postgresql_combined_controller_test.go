@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 // +build all psql psqldatabase
 
 package controllers
@@ -61,7 +64,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, postgreSQLServerNamespacedName, postgreSQLServerInstance)
-		return helpers.HasFinalizer(postgreSQLServerInstance, finalizerName)
+		return HasFinalizer(postgreSQLServerInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for postgreSQLserver to have finlizer")
 
 	assert.Eventually(func() bool {
@@ -90,7 +93,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, postgreSQLDatabaseNamespacedName, postgreSQLDatabaseInstance)
-		return helpers.HasFinalizer(postgreSQLDatabaseInstance, finalizerName)
+		return HasFinalizer(postgreSQLDatabaseInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for postgreSQLDBInstance to have finalizer")
 
 	assert.Eventually(func() bool {
@@ -131,7 +134,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, postgreSQLFirewallRuleNamespacedName, postgreSQLFirewallRuleInstance)
-		return helpers.HasFinalizer(postgreSQLFirewallRuleInstance, finalizerName)
+		return HasFinalizer(postgreSQLFirewallRuleInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for postgreSQLFirewallRuleInstance to have finalizer")
 
 	assert.Eventually(func() bool {

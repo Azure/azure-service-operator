@@ -1,23 +1,15 @@
-/*
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package controllers
 
 import (
 	"context"
 	"fmt"
+	"os"
+	"strconv"
+	"time"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -26,11 +18,8 @@ import (
 	"github.com/go-logr/logr"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
-	"os"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"strconv"
-	"time"
 )
 
 const fileSystemFinalizerName = "filesystem.finalizers.azure.com"
@@ -64,13 +53,13 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 	}
 
 	if helpers.IsBeingDeleted(&instance) {
-		if helpers.HasFinalizer(&instance, fileSystemFinalizerName) {
+		if HasFinalizer(&instance, fileSystemFinalizerName) {
 			if err := r.deleteExternal(&instance); err != nil {
 				log.Info("Error", "Delete Storage failed with ", err)
 				return ctrl.Result{}, err
 			}
 
-			helpers.RemoveFinalizer(&instance, fileSystemFinalizerName)
+			RemoveFinalizer(&instance, fileSystemFinalizerName)
 			if err := r.Update(context.Background(), &instance); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -78,7 +67,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 		return ctrl.Result{}, nil
 	}
 
-	if !helpers.HasFinalizer(&instance, fileSystemFinalizerName) {
+	if !HasFinalizer(&instance, fileSystemFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("error when adding finalizer: %v", err)
@@ -108,7 +97,7 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 }
 
 func (r *AzureDataLakeGen2FileSystemReconciler) addFinalizer(instance *azurev1alpha1.AzureDataLakeGen2FileSystem) error {
-	helpers.AddFinalizer(instance, fileSystemFinalizerName)
+	AddFinalizer(instance, fileSystemFinalizerName)
 	err := r.Update(context.Background(), instance)
 	if err != nil {
 		return fmt.Errorf("failed to update finalizer: %v", err)

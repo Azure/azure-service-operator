@@ -1,18 +1,5 @@
-/*
-Copyright 2019 microsoft.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package vnet
 
@@ -29,7 +16,7 @@ import (
 )
 
 // Ensure makes sure that an VNet instance exists
-func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := g.convert(obj)
 	if err != nil {
@@ -105,7 +92,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 }
 
 // Delete makes sure that the VNet has been deleted
-func (g *AzureVNetManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (g *AzureVNetManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := g.convert(obj)
 	if err != nil {

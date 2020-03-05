@@ -22,11 +22,13 @@ resources:
 - bases/azure.microsoft.com_postgresqlservers.yaml
 - bases/azure.microsoft.com_postgresqldatabases.yaml
 - bases/azure.microsoft.com_postgresqlfirewallrules.yaml
+- bases/azure.microsoft.com_apimservices.yaml
 - bases/azure.microsoft.com_virtualnetworks.yaml
 
+- bases/azure.microsoft.com_keyvaultkeys.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
-patches:
+#patches:
 # [WEBHOOK] patches here are for enabling the conversion webhook for each CRD
 #- patches/webhook_in_eventhubs.yaml
 #- patches/webhook_in_resourcegroups.yaml
@@ -45,7 +47,9 @@ patches:
 #- patches/webhook_in_postgresqlservers.yaml
 #- patches/webhook_in_postgresqldatabases.yaml
 #- patches/webhook_in_postgresqlfirewallrules.yaml
+#- patches/webhook_in_apimservices.yaml
 #- patches/webhook_in_virtualnetworks.yaml
+#- patches/webhook_in_keyvaultkeys.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
 
 # [CAINJECTION] patches here are for enabling the CA injection for each CRD
@@ -66,7 +70,9 @@ patches:
 #- patches/cainjection_in_postgresqlservers.yaml
 #- patches/cainjection_in_postgresqldatabases.yaml
 #- patches/cainjection_in_postgresqlfirewallrules.yaml
+#- patches/cainjection_in_apimservices.yaml
 #- patches/cainjection_in_virtualnetworks.yaml
+#- patches/cainjection_in_keyvaultkeys.yaml
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch
 
 # the following config is for teaching kustomize how to do kustomization for CRDs.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 // +build all azuresqlfirewall
 
 package controllers
@@ -51,7 +54,7 @@ func TestAzureSqlFirewallRuleControllerNoResourceGroup(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, sqlFirewallRuleNamespacedName, sqlFirewallRuleInstance)
-		return helpers.HasFinalizer(sqlFirewallRuleInstance, finalizerName)
+		return HasFinalizer(sqlFirewallRuleInstance, finalizerName)
 	}, tc.timeout, tc.retry, "wait for firewallrule to have finalizer")
 
 	assert.Eventually(func() bool {

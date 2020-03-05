@@ -44,7 +44,12 @@ test: generate fmt vet manifests
 
 # Run tests with existing cluster
 test-existing-controllers: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -tags all -parallel 3 -v ./controllers/... -timeout 30m
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -tags all -parallel 3 -v ./controllers/... -timeout 45m
+
+
+unit-tests:
+	go test ./pkg/resourcemanager/keyvaults/unittest/
+
 
 # Run tests with existing cluster
 test-existing-managers: generate fmt vet manifests
@@ -246,8 +251,8 @@ endif
 
 install-cert-manager:
 	kubectl create namespace cert-manager
-	kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.9.0/cert-manager.yaml
+	kubectl label namespace cert-manager cert-manager.io/disable-validation=true
+	kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
 
 install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml

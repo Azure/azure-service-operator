@@ -1,9 +1,7 @@
-package helpers
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-import (
-	"bytes"
-	"text/template"
-)
+package helpers
 
 // IsDeploymentComplete will dtermine if the deployment is complete
 func IsDeploymentComplete(status string) bool {
@@ -16,21 +14,4 @@ func IsDeploymentComplete(status string) bool {
 		return true
 	}
 	return false
-}
-
-// Templatize returns the proper values based on the templating
-func Templatize(tempStr string, data interface{}) (resp string, err error) {
-	t := template.New("templating")
-	t, err = t.Parse(string(tempStr))
-	if err != nil {
-		return
-	}
-
-	var tpl bytes.Buffer
-	err = t.Execute(&tpl, data)
-	return tpl.String(), err
-}
-
-func GetOutput(outputs interface{}, key string) string {
-	return outputs.(map[string]interface{})[key].(map[string]interface{})["value"].(string)
 }

@@ -1,7 +1,5 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package azuresql
 
@@ -105,11 +103,11 @@ func (manager *MockSqlUserManager) GrantUserRoles(ctx context.Context, user stri
 	return nil
 }
 
-func (s *MockSqlUserManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (s *MockSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	return true, nil
 }
 
-func (s *MockSqlUserManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (s *MockSqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	return true, nil
 }
 
