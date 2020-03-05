@@ -271,7 +271,14 @@ func (p *PSQLServerClient) GetParents(obj runtime.Object) ([]resourcemanager.Kub
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
 
+func (g *PSQLServerClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (p *PSQLServerClient) convert(obj runtime.Object) (*v1alpha1.PostgreSQLServer, error) {
