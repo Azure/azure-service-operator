@@ -5,7 +5,7 @@ metadata:
 spec:
   location: "westus"
   resourceGroup: resourcegroup-azure-operators
-  namespace: "eventhubnamespace-sample-6"
+  namespace: "eventhubnamespace-sample-1"
   properties:
     messageRetentionInDays: 7
     partitionCount: 2
