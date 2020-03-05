@@ -50,6 +50,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 	if exists, _ := g.VNetExists(ctx, resourceGroup, resourceName); exists {
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
+		instance.Status.Message = resourcemanager.SuccessMsg
 		return true, nil
 	}
 
@@ -98,6 +99,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object) (bool
 	}
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
+	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
 }
