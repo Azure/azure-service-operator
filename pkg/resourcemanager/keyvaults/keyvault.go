@@ -6,6 +6,7 @@ package keyvaults
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
@@ -107,18 +108,18 @@ func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
 }
 
 // GetKubernetesObjectHash - helper function that generates a unique hash for a Kubernetes runtime.Object resource
-func GetKubernetesObjectHash(obj runtime.Object) (uint64, error) {
+func GetKubernetesObjectHash(obj runtime.Object) (string, error) {
 	unstructured, err := runtime.DefaultUnstructuredConverter.ToUnstructured(obj)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 
 	hash, err := hashstructure.Hash(unstructured["spec"].(map[string]interface{}), nil)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 
-	return hash, nil
+	return strconv.FormatUint(hash, 10), nil
 }
 
 func ParseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) (keyvault.AccessPolicyEntry, error) {
@@ -389,7 +390,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return true, err
 	}
 
-	if instance.Status.SpecHash == 0 {
+	if instance.Status.SpecHash == "" {
 		instance.Status.SpecHash = hash
 	}
 
