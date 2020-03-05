@@ -16,7 +16,6 @@ variables:
   MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
   IMAGE_NAME: 'candidate/k8s/azure-service-operator'
   KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-  BUILD_ID: '$(Build.BuildId)'
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Service Connection
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
@@ -126,7 +125,6 @@ steps:
     echo "all the pods should be running"
     make deploy
     make test-existing-controllers
-    make test-cleanup-azure-resources
   continueOnError: 'false'
   displayName: 'Set kind cluster and Run int tests'
   env:
@@ -144,14 +142,13 @@ steps:
   displayName: 'Clean up Azure Resources'
   condition: always()
   env:
-    BUILD_ID: $(BUILD_ID)
+    BUILD_ID: $(Build.BuildId)
   inputs:
     azureSubscription: 'Az Internal Consumption'
     scriptType: bash
     scriptLocation: inlineScript
     workingDirectory: '$(MODULE_PATH)'
     inlineScript: |
-      sleep ${CLEANUP_DELAY:-0}
       make test-cleanup-azure-resources
 
 # - task: PublishTestResults@2
