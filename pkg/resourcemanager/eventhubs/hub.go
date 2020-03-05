@@ -226,7 +226,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	capturePtr := getCaptureDescriptionPtr(captureDescription)
 
-	resp, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	hub, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		// let the user know what happened
 
@@ -277,11 +277,11 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 
 	// write information back to instance
-	instance.Status.State = string(resp.Status)
+	instance.Status.State = string(hub.Status)
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-
+	instance.Status.ResourceId = *hub.ID
 	// reconciliation done and everything looks ok
 	return true, nil
 }
