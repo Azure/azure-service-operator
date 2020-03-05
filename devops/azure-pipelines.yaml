@@ -135,7 +135,7 @@ steps:
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-    BUILD_ID: $(BuildID)
+    BUILD_ID: $(Build.BuildId)
   workingDirectory: '$(MODULE_PATH)'      
 
 - task: AzureCLI@2
