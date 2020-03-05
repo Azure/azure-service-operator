@@ -84,7 +84,7 @@ func (_ *AzureAPIMgmtServiceManager) APIMgmtSvcStatus(ctx context.Context, resou
 func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, vnetType string, vnetResourceGroupName string, vnetResourceName string, subnetName string) (err error, updated bool) {
 
 	// check to make sure that the API Mgmt Svc has been activated
-	exists, activated, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
+	exists, activated, _, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 	if !exists || !activated || err != nil {
 		return fmt.Errorf("API Mgmt Service hasn't been created or activated yet: %s, %s", resourceGroupName, resourceName), false
 	}
@@ -157,7 +157,7 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 	}
 
 	// check to make sure that the API Mgmt Svc has been activated
-	exists, activated, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
+	exists, activated, _, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 	if !exists || !activated || err != nil {
 		return fmt.Errorf("API Mgmt Service hasn't been created or activated yet: %s, %s", resourceGroupName, resourceName)
 	}
