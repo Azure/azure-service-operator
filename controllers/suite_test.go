@@ -72,15 +72,15 @@ func setup() error {
 		return err
 	}
 
-	resourceGroupName := GenerateGroupName("rg-prime")
+	resourceGroupName := GenerateTestResourceName("rg-prime")
 	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
 
-	eventhubNamespaceName := GenerateGroupName("evns-prime")
-	eventhubName := GenerateGroupName("ev-prime")
+	eventhubNamespaceName := GenerateTestResourceName("evns-prime")
+	eventhubName := GenerateTestResourceName("ev-prime")
 	namespaceLocation := resourcemanagerconfig.DefaultLocation()
 
-	storageAccountName := strings.ReplaceAll(GenerateGroupName("saprime"), "-", "")
-	blobContainerName := GenerateGroupName("blob-prime")
+	storageAccountName := GenerateAlphaNumTestResourceName("saprime")
+	blobContainerName := GenerateTestResourceName("blob-prime")
 	containerAccessLevel := s.PublicAccessContainer
 
 	var timeout time.Duration

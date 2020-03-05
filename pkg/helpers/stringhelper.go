@@ -2,7 +2,9 @@ package helpers
 
 import (
 	"math/rand"
+	"strings"
 	"time"
+	"unicode"
 
 	"github.com/sethvargo/go-password/password"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -76,4 +78,24 @@ func GenerateRandomPassword(n int) (string, error) {
 	}
 
 	return res, nil
+}
+
+// RemoveNonAlphaNumeric removes all runes that are not letters or digits
+func RemoveNonAlphaNumeric(s string) string {
+	var sb strings.Builder
+	for _, r := range s {
+		if unicode.IsLetter(r) || unicode.IsDigit(r) {
+			sb.WriteRune(r)
+		}
+	}
+	return sb.String()
+}
+
+// PadRightWithRandom pads a string up to a maxLen with random characters
+func FillWithRandom(s string, maxLen int) string {
+	diff := maxLen - len(s)
+	if diff <= 0 {
+		return s
+	}
+	return s + RandomString(diff)
 }

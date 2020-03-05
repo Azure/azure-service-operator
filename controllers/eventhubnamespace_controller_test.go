@@ -9,7 +9,6 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/stretchr/testify/assert"
 
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -33,7 +32,7 @@ func TestEventHubNamespaceControllerNoResourceGroup(t *testing.T) {
 
 	// setting this rg name tells the mocks to set a proper error
 	resourceGroupName := "gone"
-	eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
+	eventhubNamespaceName := GenerateTestResourceNameWithRandom("ns-dev-eh")
 
 	// Create the EventHubNamespace object and expect the Reconcile to be created
 	eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
@@ -76,7 +75,7 @@ func TestEventHubNamespaceControllerHappy(t *testing.T) {
 
 	var rgName string = tc.resourceGroupName
 	var rgLocation string = tc.resourceGroupLocation
-	eventhubNamespaceName := "t-ns-dev-eh-" + helpers.RandomString(10)
+	eventhubNamespaceName := GenerateTestResourceNameWithRandom("ns-dev-eh")
 
 	// Create the Eventhub namespace object and expect the Reconcile to be created
 	eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{

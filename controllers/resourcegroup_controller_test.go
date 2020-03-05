@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/stretchr/testify/assert"
 
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -22,7 +21,7 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	resourceGroupName := "t-rg-dev-" + helpers.RandomString(10)
+	resourceGroupName := GenerateTestResourceNameWithRandom("rg-dev")
 
 	var err error
 

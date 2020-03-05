@@ -11,7 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -33,12 +32,10 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName = tc.resourceGroupName
 	rgLocation1 = "westus2"
-	sqlServerOneName = "t-sqlfog-srvone" + helpers.RandomString(10)
-	sqlServerTwoName = "t-sqlfog-srvtwo" + helpers.RandomString(10)
-	sqlDatabaseName = "t-sqldb" + helpers.RandomString(10)
-
-	randomName := helpers.RandomString(10)
-	sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
+	sqlServerOneName = GenerateTestResourceNameWithRandom("sqlfog-srvone")
+	sqlServerTwoName = GenerateTestResourceNameWithRandom("sqlfog-srvtwo")
+	sqlDatabaseName = GenerateTestResourceNameWithRandom("sqldb")
+	sqlFailoverGroupName := GenerateTestResourceNameWithRandom("sqlfog-dev")
 
 	// Create the SqlFailoverGroup object and expect the Reconcile to be created
 	sqlFailoverGroupInstance := &azurev1alpha1.AzureSqlFailoverGroup{
@@ -48,7 +45,7 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 		},
 		Spec: azurev1alpha1.AzureSqlFailoverGroupSpec{
 			Location:                     rgLocation1,
-			ResourceGroup:                "t-rg-fake-" + helpers.RandomString(10),
+			ResourceGroup:                GenerateTestResourceNameWithRandom("rg-fake"),
 			Server:                       sqlServerOneName,
 			FailoverPolicy:               "automatic",
 			FailoverGracePeriod:          30,

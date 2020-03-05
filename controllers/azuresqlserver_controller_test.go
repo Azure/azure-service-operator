@@ -11,7 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -23,7 +22,7 @@ func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver-dev")
 
 	// Create the SqlServer object and expect the Reconcile to be created
 	sqlServerInstance := &azurev1alpha1.AzureSqlServer{
@@ -33,7 +32,7 @@ func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 		},
 		Spec: azurev1alpha1.AzureSqlServerSpec{
 			Location:      tc.resourceGroupLocation,
-			ResourceGroup: "t-rg-fake-dev-" + helpers.RandomString(10),
+			ResourceGroup: GenerateTestResourceNameWithRandom("rg-fake-dev"),
 		},
 	}
 

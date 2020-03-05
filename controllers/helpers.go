@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
@@ -31,6 +31,7 @@ import (
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
@@ -44,6 +45,7 @@ import (
 type TestContext struct {
 	k8sClient               client.Client
 	secretClient            secrets.SecretClient
+	resourceNamePrefix      string
 	resourceGroupName       string
 	resourceGroupLocation   string
 	eventhubNamespaceName   string
@@ -262,6 +264,17 @@ func ConvertToStatus(instance runtime.Object) *v1alpha1.StatusedObject {
 	return target
 }
 
-func GenerateGroupName(identifier string) string {
-	return "ci-aso-" + config.BuildID() + "-" + identifier
+// GenerateTestResourceName returns a resource name
+func GenerateTestResourceName(id string) string {
+	return resourcemanagerconfig.TestResourcePrefix() + "-" + id
+}
+
+// GenerateTestResourceNameWithRandom returns a resource name with a random string appended
+func GenerateTestResourceNameWithRandom(id string) string {
+	return GenerateTestResourceName(id) + "-" + helpers.RandomString(10)
+}
+
+// GenerateAlphaNumTestResourceName returns an alpha-numeric resource name
+func GenerateAlphaNumTestResourceName(id string) string {
+	return helpers.RemoveNonAlphaNumeric(GenerateTestResourceName(id))
 }

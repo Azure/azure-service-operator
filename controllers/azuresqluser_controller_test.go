@@ -27,7 +27,7 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 	var sqlDatabaseName string
 	var sqlUser *azurev1alpha1.AzureSQLUser
 
-	sqlServerName = "t-sqlusr-test" + helpers.RandomString(10)
+	sqlServerName = GenerateTestResourceNameWithRandom("sqlusr-test")
 
 	username := "sql-test-user" + helpers.RandomString(10)
 	roles := []string{"db_owner"}
@@ -81,7 +81,7 @@ func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
 	var sqlDatabaseName string
 	var sqlUser *azurev1alpha1.AzureSQLUser
 
-	sqlServerName = "t-sqlusr-test" + helpers.RandomString(10)
+	sqlServerName = GenerateTestResourceNameWithRandom("sqlusr-test")
 
 	username := "sql-test-user" + helpers.RandomString(10)
 	roles := []string{"db_owner"}
