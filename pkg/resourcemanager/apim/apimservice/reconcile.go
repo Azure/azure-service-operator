@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -250,4 +251,12 @@ func (g *AzureAPIMgmtServiceManager) convert(obj runtime.Object) (*azurev1alpha1
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
+}
+
+func (g *AzureAPIMgmtServiceManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }

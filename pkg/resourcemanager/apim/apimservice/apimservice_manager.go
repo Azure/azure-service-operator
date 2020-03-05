@@ -15,9 +15,9 @@ import (
 // NewAzureAPIMgmtServiceManager creates a new instance of AzureAPIMgmtServiceManager
 func NewAzureAPIMgmtServiceManager() *AzureAPIMgmtServiceManager {
 	return &AzureAPIMgmtServiceManager{
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("ApimService"),
+		Telemetry: *telemetry.InitializeTelemetryDefault(
 			"ApimService",
+			ctrl.Log.WithName("controllers").WithName("ApimService"),
 		),
 	}
 }

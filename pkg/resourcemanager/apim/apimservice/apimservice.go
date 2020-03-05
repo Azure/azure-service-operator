@@ -15,7 +15,7 @@ import (
 )
 
 type AzureAPIMgmtServiceManager struct {
-	Telemetry telemetry.PrometheusTelemetry
+	Telemetry telemetry.Telemetry
 }
 
 // CreateAPIMgmtSvc creates a new API Mgmt Svc
