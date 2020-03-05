@@ -18,9 +18,9 @@ import (
 // NewAzureVNetManager creates a new instance of AzureVNetManager
 func NewAzureVNetManager(log logr.Logger) *AzureVNetManager {
 	return &AzureVNetManager{
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("VNet"),
+		Telemetry: *telemetry.InitializeTelemetryDefault(
 			"VNet",
+			ctrl.Log.WithName("controllers").WithName("VNet"),
 		),
 	}
 }

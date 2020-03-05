@@ -66,6 +66,14 @@ func (m *Manager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, 
 	}, nil
 }
 
+func (g *Manager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
+}
+
 // CreateAppInsights creates or updates an Application Insights service
 func (m *Manager) CreateAppInsights(
 	ctx context.Context,
