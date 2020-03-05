@@ -16,6 +16,7 @@ import (
 	multierror "github.com/hashicorp/go-multierror"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -34,50 +35,46 @@ const (
 type AsyncReconciler struct {
 	client.Client
 	AzureClient resourcemanager.ARMClient
-	Telemetry   telemetry.PrometheusTelemetry
+	Telemetry   telemetry.TelemetryClient
 	Recorder    record.EventRecorder
 	Scheme      *runtime.Scheme
 }
 
+// Reconcile reconciles the change request
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, err error) {
 	ctx := context.Background()
 
-	// // log operator start
-	// r.Telemetry.LogStart()
-
-	// // log failure / success
-	// defer func() {
-	// 	if err != nil {
-	// 		r.Telemetry.LogError(
-	// 			"Failure occured during reconcilliation",
-	// 			err)
-	// 		r.Telemetry.LogFailure()
-	// 	} else if result.Requeue {
-	// 		r.Telemetry.LogFailure()
-	// 	} else {
-	// 		r.Telemetry.LogSuccess()
-	// 	}
-	// }()
-
 	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
-		r.Telemetry.LogInfo("ignorable error", "error during fetch from api server")
+		r.Telemetry.LogInfoByInstance("ignorable error", "error during fetch from api server", req.String())
 		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	// get the ASOStatus struct
+	status, err := r.AzureClient.GetStatus(local)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
+	// record the time that this request was requested at
+	if status.RequestedAt == nil {
+		timeNow := metav1.NewTime(time.Now())
+		status.RequestedAt = &timeNow
 	}
 
 	res, err := meta.Accessor(local)
 	if err != nil {
-		r.Telemetry.LogError("accessor fail", err)
+		r.Telemetry.LogErrorByInstance("accessor fail", err, req.String())
 		return ctrl.Result{}, err
 	}
 
 	// Instantiate the KeyVault Secret Client if KeyVault specified in Spec
-	r.Telemetry.LogInfo("status", "retrieving keyvault for secrets if specified")
+	r.Telemetry.LogInfoByInstance("status", "retrieving keyvault for secrets if specified", req.String())
 	var keyvaultSecretClient secrets.SecretClient
 	KeyVaultName := keyvaultsecretlib.GetKeyVaultName(local)
 	if len(KeyVaultName) != 0 {
 		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
 		if !keyvaultsecretlib.IsKeyVaultAccessible(keyvaultSecretClient) {
-			r.Telemetry.LogInfo("requeuing", "Waiting for Keyvault to store secrets to be available")
+			r.Telemetry.LogInfoByInstance("requeuing", "Waiting for Keyvault to store secrets to be available", req.String())
 			return ctrl.Result{RequeueAfter: requeDuration}, nil
 		}
 	}
@@ -117,7 +114,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 			found, deleteErr := r.AzureClient.Delete(ctx, local, configOptions...)
 			final := multierror.Append(deleteErr)
 			if err := final.ErrorOrNil(); err != nil {
-				r.Telemetry.LogError("error deleting object", err)
+				r.Telemetry.LogErrorByInstance("error deleting object", err, req.String())
 				r.Recorder.Event(local, corev1.EventTypeWarning, "FailedDelete", fmt.Sprintf("Failed to delete resource: %s", err.Error()))
 				return ctrl.Result{}, err
 			}
@@ -126,7 +123,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 				RemoveFinalizer(res, finalizerName)
 				return ctrl.Result{}, r.Update(ctx, local)
 			}
-			r.Telemetry.LogInfo("requeuing", "deletion unfinished")
+			r.Telemetry.LogInfoByInstance("requeuing", "deletion unfinished", req.String())
 			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, local)
 		}
 		return ctrl.Result{}, nil
@@ -135,17 +132,13 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	// loop through parents until one is successfully referenced
 	parents, err := r.AzureClient.GetParents(local)
 	for _, p := range parents {
-		//r.Telemetry.LogInfo("status", "handling parent "+p.Key.Name)
-
 		if err := r.Get(ctx, p.Key, p.Target); err == nil {
-			//r.Telemetry.LogInfo("status", "handling parent get for "+reflect.TypeOf(p.Target).String())
-
 			if pAccessor, err := meta.Accessor(p.Target); err == nil {
 				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
-					r.Telemetry.LogInfo("status", "setting parent reference to object: "+pAccessor.GetName())
+					r.Telemetry.LogInfoByInstance("status", "setting parent reference", req.String())
 					err := r.Update(ctx, local)
 					if err != nil {
-						r.Telemetry.LogInfo("warning", "failed to update instance: "+err.Error())
+						r.Telemetry.LogErrorByInstance("failed to reference parent", err, req.String())
 					}
 					break
 				}
@@ -153,7 +146,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		}
 	}
 
-	r.Telemetry.LogInfo("status", "reconciling object")
+	r.Telemetry.LogInfoByInstance("status", "reconciling object", req.String())
 
 	if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
 		configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
@@ -161,14 +154,17 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	done, ensureErr := r.AzureClient.Ensure(ctx, local, configOptions...)
 	if ensureErr != nil {
-		r.Telemetry.LogError("ensure err", ensureErr)
+		r.Telemetry.LogErrorByInstance("ensure err", ensureErr, req.String())
+	}
+	if !done && !status.Provisioning {
+		status.RequestedAt = nil
 	}
 
 	// update the status of the resource in kubernetes
 	// Implementations of Ensure() tend to set their outcomes in local.Status
 	err = r.Status().Update(ctx, local)
 	if err != nil {
-		r.Telemetry.LogInfo("status", "failed updating status")
+		r.Telemetry.LogInfoByInstance("status", "failed updating status", req.String())
 	}
 
 	final := multierror.Append(ensureErr, r.Update(ctx, local))
@@ -181,8 +177,22 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 	result = ctrl.Result{}
 	if !done {
-		r.Telemetry.LogInfo("status", "reconciling object not finished")
+		r.Telemetry.LogInfoByInstance("status", "reconciling object not finished", req.String())
 		result.RequeueAfter = requeDuration
+	} else {
+		r.Telemetry.LogInfoByInstance("reconciling", "success", req.String())
+
+		// record the duration of the request
+		if status.CompletedAt == nil || status.CompletedAt.IsZero() {
+			compTime := metav1.Now()
+			status.CompletedAt = &compTime
+			if status.RequestedAt == nil {
+				r.Telemetry.LogErrorByInstance("Cannot find request time", fmt.Errorf("Request time was nil"), req.String())
+			} else {
+				durationInSecs := (*status.CompletedAt).Sub((*status.RequestedAt).Time).Seconds()
+				r.Telemetry.LogDuration(durationInSecs)
+			}
+		}
 	}
 
 	r.Telemetry.LogInfo("status", "exiting reconciliation")
