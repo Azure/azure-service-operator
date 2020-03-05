@@ -24,9 +24,8 @@ func TestAzureSqlDatabaseControllerNoResourceGroup(t *testing.T) {
 
 	// Add any setup steps that needs to be executed before each test
 	rgLocation := tc.resourceGroupLocation
-	sqlServerName := GenerateTestResourceNameWithRandom("sqldb-test-srv")
-
-	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase-dev")
+	sqlServerName := GenerateTestResourceNameWithRandom("sqldb-test-srv", 10)
+	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase-dev", 10)
 
 	// Create the SqlDatabase object and expect the Reconcile to be created
 	sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
@@ -36,7 +35,7 @@ func TestAzureSqlDatabaseControllerNoResourceGroup(t *testing.T) {
 		},
 		Spec: azurev1alpha1.AzureSqlDatabaseSpec{
 			Location:      rgLocation,
-			ResourceGroup: GenerateTestResourceNameWithRandom("rg-test-srv"),
+			ResourceGroup: GenerateTestResourceNameWithRandom("rg-test-srv", 10),
 			Server:        sqlServerName,
 			Edition:       0,
 		},
@@ -71,8 +70,8 @@ func TestAzureSqlDatabaseControllerNoServer(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
-	sqlServerName := GenerateTestResourceNameWithRandom("sqldb-test-srv")
-	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase-dev")
+	sqlServerName := GenerateTestResourceNameWithRandom("sqldb-test-srv", 10)
+	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase-dev", 10)
 
 	// Create the SqlDatabase object and expect the Reconcile to be created
 	sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{

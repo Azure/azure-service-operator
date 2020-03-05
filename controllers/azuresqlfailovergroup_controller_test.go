@@ -32,10 +32,10 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName = tc.resourceGroupName
 	rgLocation1 = "westus2"
-	sqlServerOneName = GenerateTestResourceNameWithRandom("sqlfog-srvone")
-	sqlServerTwoName = GenerateTestResourceNameWithRandom("sqlfog-srvtwo")
-	sqlDatabaseName = GenerateTestResourceNameWithRandom("sqldb")
-	sqlFailoverGroupName := GenerateTestResourceNameWithRandom("sqlfog-dev")
+	sqlServerOneName = GenerateTestResourceNameWithRandom("sqlfog-srvone", 10)
+	sqlServerTwoName = GenerateTestResourceNameWithRandom("sqlfog-srvtwo", 10)
+	sqlDatabaseName = GenerateTestResourceNameWithRandom("sqldb", 10)
+	sqlFailoverGroupName := GenerateTestResourceNameWithRandom("sqlfog-dev", 10)
 
 	// Create the SqlFailoverGroup object and expect the Reconcile to be created
 	sqlFailoverGroupInstance := &azurev1alpha1.AzureSqlFailoverGroup{
@@ -45,7 +45,7 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 		},
 		Spec: azurev1alpha1.AzureSqlFailoverGroupSpec{
 			Location:                     rgLocation1,
-			ResourceGroup:                GenerateTestResourceNameWithRandom("rg-fake"),
+			ResourceGroup:                GenerateTestResourceNameWithRandom("rg-fake", 10),
 			Server:                       sqlServerOneName,
 			FailoverPolicy:               "automatic",
 			FailoverGracePeriod:          30,

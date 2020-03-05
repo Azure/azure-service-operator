@@ -30,7 +30,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 	rgName = tc.resourceGroupName
 	rgLocation = tc.resourceGroupLocation
 
-	postgreSQLServerName = GenerateTestResourceNameWithRandom("psql-srv")
+	postgreSQLServerName = GenerateTestResourceNameWithRandom("psql-srv", 10)
 
 	// Create the PostgreSQLServer object and expect the Reconcile to be created
 	postgreSQLServerInstance = &azurev1alpha1.PostgreSQLServer{
@@ -68,7 +68,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 		return postgreSQLServerInstance.Status.Provisioned
 	}, tc.timeout, tc.retry, "wait for postgreSQLserver to be provisioned")
 
-	postgreSQLDatabaseName := GenerateTestResourceNameWithRandom("psql-db")
+	postgreSQLDatabaseName := GenerateTestResourceNameWithRandom("psql-db", 10)
 
 	// Create the PostgreSQLDatabase object and expect the Reconcile to be created
 	postgreSQLDatabaseInstance := &azurev1alpha1.PostgreSQLDatabase{
@@ -107,7 +107,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	// Test firewall rule -------------------------------
 
-	postgreSQLFirewallRuleName := GenerateTestResourceNameWithRandom("psql-fwrule")
+	postgreSQLFirewallRuleName := GenerateTestResourceNameWithRandom("psql-fwrule", 10)
 
 	// Create the PostgreSQLFirewallRule object and expect the Reconcile to be created
 	postgreSQLFirewallRuleInstance := &azurev1alpha1.PostgreSQLFirewallRule{

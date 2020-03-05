@@ -10,9 +10,11 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
@@ -31,7 +33,7 @@ func TestEventHubControllerNoNamespace(t *testing.T) {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 
-	eventhubName := GenerateTestResourceName("eventhub")
+	eventhubName := GenerateTestResourceNameWithRandom("eh", 10)
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{
@@ -41,7 +43,7 @@ func TestEventHubControllerNoNamespace(t *testing.T) {
 		},
 		Spec: azurev1alpha1.EventhubSpec{
 			Location:      "westus",
-			Namespace:     GenerateTestResourceNameWithRandom("ns-dev-eh"),
+			Namespace:     GenerateTestResourceNameWithRandom("ns-dev-eh", 10),
 			ResourceGroup: tc.resourceGroupName,
 			Properties: azurev1alpha1.EventhubProperties{
 				MessageRetentionInDays: 7,
@@ -79,7 +81,7 @@ func TestEventHubControllerCreateAndDelete(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	ehnName := tc.eventhubNamespaceName
-	eventhubName := GenerateTestResourceName("eventhub-cd")
+	eventhubName := GenerateTestResourceNameWithRandom("eh-cd", 10)
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{
@@ -138,7 +140,7 @@ func TestEventHubControllerCreateAndDeleteCustomSecret(t *testing.T) {
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
 	ehnName := tc.eventhubNamespaceName
-	eventhubName := GenerateTestResourceName("evhub-customsec")
+	eventhubName := GenerateTestResourceNameWithRandom("eh-customsec", 10)
 	secretName := "secret-" + eventhubName
 
 	// Create the EventHub object and expect the Reconcile to be created
@@ -186,8 +188,8 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
 	ehnName := tc.eventhubNamespaceName
-	eventhubName := GenerateTestResourceName("eventhub")
-	keyVaultNameForSecrets := GenerateTestResourceName("evhub-keyvault")
+	eventhubName := GenerateTestResourceNameWithRandom("ev", 10)
+	keyVaultNameForSecrets := helpers.FillWithRandom(GenerateTestResourceName("ev-kv"), 24)
 	userID := config.ClientID()
 
 	// Create KeyVault with access policies
@@ -244,7 +246,7 @@ func TestEventHubControllerCreateAndDeleteCapture(t *testing.T) {
 	ehnName := tc.eventhubNamespaceName
 	saName := tc.storageAccountName
 	bcName := tc.blobContainerName
-	eventHubName := GenerateTestResourceName("evhub-capture")
+	eventHubName := GenerateTestResourceNameWithRandom("eh-capture", 10)
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{

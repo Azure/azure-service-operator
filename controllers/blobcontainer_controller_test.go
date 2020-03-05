@@ -7,11 +7,14 @@ import (
 	"strings"
 	"testing"
 
+	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+
 	"github.com/stretchr/testify/assert"
 
-	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -37,8 +40,8 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 
-	blobContainerName := GenerateTestResourceName("blob-container")
-	resourceGroupName := GenerateTestResourceName("fake-rg")
+	blobContainerName := GenerateTestResourceNameWithRandom("bc", 10)
+	resourceGroupName := GenerateTestResourceNameWithRandom("rg", 10)
 
 	var err error
 
@@ -90,8 +93,8 @@ func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
 	rgName = tc.resourceGroupName
 	containerAccessLevel = s.PublicAccessContainer
 
-	blobContainerName := GenerateTestResourceName("blob-container")
-	storageAccountName := "fake-sa"
+	blobContainerName := GenerateTestResourceNameWithRandom("bc", 10)
+	storageAccountName := helpers.FillWithRandom(GenerateAlphaNumTestResourceName("sa"), 24)
 
 	var err error
 
@@ -150,7 +153,7 @@ func TestTestBlobContainerControllerHappyPath(t *testing.T) {
 	// Avoid adding tests for vanilla CRUD operations because they would
 	// test Kubernetes API server, which isn't the goal here.
 
-	blobContainerName := GenerateTestResourceName("blobcontainer")
+	blobContainerName := GenerateTestResourceNameWithRandom("bc", 10)
 
 	var err error
 

@@ -22,7 +22,7 @@ func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver-dev")
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver-dev", 10)
 
 	// Create the SqlServer object and expect the Reconcile to be created
 	sqlServerInstance := &azurev1alpha1.AzureSqlServer{
@@ -32,7 +32,7 @@ func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 		},
 		Spec: azurev1alpha1.AzureSqlServerSpec{
 			Location:      tc.resourceGroupLocation,
-			ResourceGroup: GenerateTestResourceNameWithRandom("rg-fake-dev"),
+			ResourceGroup: GenerateTestResourceNameWithRandom("rg-fake-dev", 10),
 		},
 	}
 

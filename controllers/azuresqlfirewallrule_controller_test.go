@@ -24,9 +24,8 @@ func TestAzureSqlFirewallRuleControllerNoResourceGroup(t *testing.T) {
 
 	// Add any setup steps that needs to be executed before each test
 	//rgName := tc.resourceGroupName
-	sqlServerName := GenerateTestResourceNameWithRandom("sqlfwrule-test-srv")
-
-	sqlFirewallRuleName := GenerateTestResourceNameWithRandom("fwrule-dev")
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlfwrule-test-srv", 10)
+	sqlFirewallRuleName := GenerateTestResourceNameWithRandom("fwrule-dev", 10)
 
 	// Create the SqlFirewallRule object and expect the Reconcile to be created
 	sqlFirewallRuleInstance := &azurev1alpha1.AzureSqlFirewallRule{
@@ -35,7 +34,7 @@ func TestAzureSqlFirewallRuleControllerNoResourceGroup(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzureSqlFirewallRuleSpec{
-			ResourceGroup:  GenerateTestResourceNameWithRandom("rg-fake-srv"),
+			ResourceGroup:  GenerateTestResourceNameWithRandom("rg-fake-srv", 10),
 			Server:         sqlServerName,
 			StartIPAddress: "0.0.0.0",
 			EndIPAddress:   "0.0.0.0",

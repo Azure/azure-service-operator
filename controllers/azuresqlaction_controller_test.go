@@ -33,7 +33,7 @@ func RunSQLActionHappy(t *testing.T, server string) {
 		return true
 	}, tc.timeoutFast, tc.retry, "wait for server to return secret")
 
-	sqlActionName := GenerateTestResourceNameWithRandom("azuresqlaction-dev")
+	sqlActionName := GenerateTestResourceNameWithRandom("azuresqlaction-dev", 10)
 
 	// Create the Sql Action object and expect the Reconcile to be created
 	sqlActionInstance := &azurev1alpha1.AzureSqlAction{

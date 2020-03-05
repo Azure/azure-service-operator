@@ -25,10 +25,10 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
-	sqlServerName := GenerateTestResourceName("sqlserver")
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver", 10)
 	rgLocation := "westus2"
 	rgLocation2 := "southcentralus"
-	sqlServerTwoName := GenerateTestResourceName("sqlserver-two")
+	sqlServerTwoName := GenerateTestResourceNameWithRandom("sqlserver-two", 10)
 
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 	sqlServerNamespacedName2 := types.NamespacedName{Name: sqlServerTwoName, Namespace: "default"}
@@ -55,15 +55,15 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		return false
 	}, tc.timeoutFast, tc.retry, "wait for server to have secret")
 
-	sqlDatabaseName := GenerateTestResourceName("sqldatabase")
+	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase", 10)
 	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
 
 	sqlFirewallRuleNamespacedNameLocal := types.NamespacedName{
-		Name:      GenerateTestResourceName("sqlfirewallrule-external"),
+		Name:      GenerateTestResourceNameWithRandom("sqlfwr-local", 10),
 		Namespace: "default",
 	}
 	sqlFirewallRuleNamespacedNameRemote := types.NamespacedName{
-		Name:      GenerateTestResourceName("sqlfirewallrule-inernal"),
+		Name:      GenerateTestResourceNameWithRandom("sqlfwr-remote", 10),
 		Namespace: "default",
 	}
 
@@ -168,7 +168,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	})
 
 	var sqlFailoverGroupInstance *azurev1alpha1.AzureSqlFailoverGroup
-	sqlFailoverGroupName := GenerateTestResourceName("sqlfailovergroup")
+	sqlFailoverGroupName := GenerateTestResourceNameWithRandom("sqlfog-dev", 10)
 
 	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}
 

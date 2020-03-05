@@ -270,11 +270,16 @@ func GenerateTestResourceName(id string) string {
 }
 
 // GenerateTestResourceNameWithRandom returns a resource name with a random string appended
-func GenerateTestResourceNameWithRandom(id string) string {
-	return GenerateTestResourceName(id) + "-" + helpers.RandomString(10)
+func GenerateTestResourceNameWithRandom(id string, rc int) string {
+	return GenerateTestResourceName(id) + "-" + helpers.RandomString(rc)
 }
 
 // GenerateAlphaNumTestResourceName returns an alpha-numeric resource name
 func GenerateAlphaNumTestResourceName(id string) string {
 	return helpers.RemoveNonAlphaNumeric(GenerateTestResourceName(id))
+}
+
+// GenerateAlphaNumTestResourceNameWithRandom returns an alpha-numeric resource name with a random string appended
+func GenerateAlphaNumTestResourceNameWithRandom(id string, rc int) string {
+	return helpers.RemoveNonAlphaNumeric(GenerateTestResourceName(id) + helpers.RandomString(rc))
 }

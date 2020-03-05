@@ -32,7 +32,7 @@ func TestEventHubNamespaceControllerNoResourceGroup(t *testing.T) {
 
 	// setting this rg name tells the mocks to set a proper error
 	resourceGroupName := "gone"
-	eventhubNamespaceName := GenerateTestResourceNameWithRandom("ns-dev-eh")
+	eventhubNamespaceName := GenerateTestResourceNameWithRandom("ns-dev-eh", 10)
 
 	// Create the EventHubNamespace object and expect the Reconcile to be created
 	eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
@@ -75,7 +75,7 @@ func TestEventHubNamespaceControllerHappy(t *testing.T) {
 
 	var rgName string = tc.resourceGroupName
 	var rgLocation string = tc.resourceGroupLocation
-	eventhubNamespaceName := GenerateTestResourceNameWithRandom("ns-dev-eh")
+	eventhubNamespaceName := GenerateTestResourceNameWithRandom("ns-dev-eh", 10)
 
 	// Create the Eventhub namespace object and expect the Reconcile to be created
 	eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{

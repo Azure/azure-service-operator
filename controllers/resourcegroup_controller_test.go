@@ -21,7 +21,7 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	resourceGroupName := GenerateTestResourceNameWithRandom("rg-dev")
+	resourceGroupName := GenerateTestResourceNameWithRandom("rg-dev", 10)
 
 	var err error
 

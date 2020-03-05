@@ -25,7 +25,7 @@ func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 	assert := assert.New(t)
 
 	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
-	keyVaultKeyName := GenerateTestResourceNameWithRandom("kv-dev")
+	keyVaultKeyName := GenerateTestResourceNameWithRandom("kvk-dev", 10)
 	const poll = time.Second * 10
 
 	keyVaultLocation := tc.resourceGroupLocation
