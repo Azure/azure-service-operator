@@ -76,7 +76,7 @@ func (_ *AzureAPIMgmtServiceManager) DeleteAPIMgmtSvc(ctx context.Context, resou
 }
 
 // APIMgmtSvcStatus checks to see if the API Mgmt Svc has been activated
-func (_ *AzureAPIMgmtServiceManager) APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error) {
+func (_ *AzureAPIMgmtServiceManager) APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, resourceID *string, err error) {
 	return apimshared.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 }
 
