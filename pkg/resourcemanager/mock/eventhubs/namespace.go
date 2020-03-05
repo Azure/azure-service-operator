@@ -216,7 +216,14 @@ func (ns *mockEventHubNamespaceManager) GetParents(obj runtime.Object) ([]resour
 	return []resourcemanager.KubeParent{
 		{Key: key, Target: &v1alpha1.ResourceGroup{}},
 	}, nil
+}
 
+func (g *mockEventHubNamespaceManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (ns *mockEventHubNamespaceManager) convert(obj runtime.Object) (*v1alpha1.EventhubNamespace, error) {
