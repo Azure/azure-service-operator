@@ -1,18 +1,5 @@
-/*
-Copyright 2019 microsoft.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package eventhubs
 
@@ -119,7 +106,7 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 		azureConsumerGroupName = kubeObjectName
 	}
 
-	_, err = cg.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
+	newCg, err := cg.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		instance.Status.Provisioning = false
@@ -143,6 +130,7 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
+	instance.Status.ResourceId = *newCg.ID
 
 	return true, nil
 }
@@ -221,7 +209,14 @@ func (cg *azureConsumerGroupManager) GetParents(obj runtime.Object) ([]resourcem
 			Target: &v1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
 
+func (g *azureConsumerGroupManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (cg *azureConsumerGroupManager) convert(obj runtime.Object) (*v1alpha1.ConsumerGroup, error) {

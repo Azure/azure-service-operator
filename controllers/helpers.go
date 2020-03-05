@@ -1,6 +1,5 @@
-/*
-Copyright 2019 Alexander Eldeib.
-*/
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package controllers
 

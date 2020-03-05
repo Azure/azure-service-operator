@@ -297,14 +297,14 @@ go build -o bin/manager main.go
 
     ```go
         type AzureNewTypeClient struct {
-        Telemetry telemetry.PrometheusTelemetry
+            Telemetry telemetry.Telemetry
         }
 
         func NewAzureNewTypeClient(log logr.Logger) *AzureNewTypeClient {
             return &AzureNewTypeClient{
-                Telemetry: telemetry.InitializePrometheusDefault(
-                    log,
+                Telemetry: telemetry.InitializeTelemetryDefault(
                     "NewType",
+                    log,
                 ),
             }
         }
@@ -317,6 +317,7 @@ go build -o bin/manager main.go
             }
             // Add logic to idempotently create the resource
 
+            // successful return
             return true, nil
         }
 
@@ -327,6 +328,7 @@ go build -o bin/manager main.go
             }
             // Add logic to idempotently delete the resource
 
+            // successful return
             return false, nil
         }
 
@@ -348,7 +350,15 @@ go build -o bin/manager main.go
                     Target: &azurev1alpha1.ResourceGroup{},
                 },
             }, nil
+        }
 
+        // GetStatus is a boilerplate function... just use this function body (make sure to alter what struct you attach the function to)
+        func (p *AzureNewTypeClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+            instance, err := g.convert(obj)
+            if err != nil {
+                return nil, err
+            }
+            return &instance.Status, nil
         }
 
         func (p *AzureNewTypeClient) convert(obj runtime.Object) (*v1alpha1.AzureNewType, error) {

@@ -1,4 +1,7 @@
-// package config manages loading configuration from environment and command-line params
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// Package config manages loading configuration from environment and command-line params
 package config
 
 import (

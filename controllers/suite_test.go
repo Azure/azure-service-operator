@@ -1,17 +1,5 @@
-/*
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package controllers
 
@@ -195,9 +183,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: keyVaultManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("KeyVault"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"KeyVault",
+				ctrl.Log.WithName("controllers").WithName("KeyVault"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("KeyVault-controller"),
 			Scheme:   scheme.Scheme,
@@ -211,9 +199,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: keyVaultKeyManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"KeyVaultKey",
+				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("KeyVaultKey-controller"),
 			Scheme:   scheme.Scheme,
@@ -227,9 +215,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: appInsightsManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AppInsights"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AppInsights",
+				ctrl.Log.WithName("controllers").WithName("AppInsights"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AppInsights-controller"),
 			Scheme:   scheme.Scheme,
@@ -243,9 +231,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: eventhubClient,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("EventHub"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"EventHub",
+				ctrl.Log.WithName("controllers").WithName("EventHub"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
 			Scheme:   scheme.Scheme,
@@ -259,9 +247,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: resourceGroupManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ResourceGroup",
+				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
 			Scheme:   scheme.Scheme,
@@ -275,9 +263,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: redisCacheManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("RedisCache"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"RedisCache",
+				ctrl.Log.WithName("controllers").WithName("RedisCache"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("RedisCache-controller"),
 			Scheme:   scheme.Scheme,
@@ -291,9 +279,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: eventhubNamespaceClient,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"EventhubNamespace",
+				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
 			Scheme:   scheme.Scheme,
@@ -307,9 +295,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: consumerGroupClient,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ConsumerGroup",
+				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
 			Scheme:   scheme.Scheme,
@@ -333,9 +321,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: sqlServerManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlServer",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
 			Scheme:   scheme.Scheme,
@@ -349,9 +337,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: sqlDbManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlDb",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlDb-controller"),
 			Scheme:   scheme.Scheme,
@@ -365,9 +353,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: sqlFirewallRuleManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSQLFirewallRuleOperator",
+				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlFirewallRule-controller"),
 			Scheme:   scheme.Scheme,
@@ -381,9 +369,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: sqlFailoverGroupManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlFailoverGroup",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
 			Scheme:   scheme.Scheme,
@@ -397,9 +385,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: sqlUserManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlUser",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
 			Scheme:   scheme.Scheme,
@@ -436,9 +424,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: psqlServerManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLServer",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLServer-controller"),
 			Scheme:   k8sManager.GetScheme(),
@@ -452,9 +440,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: psqlDatabaseManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabaser"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLDatabase",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabase"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLDatabase-controller"),
 			Scheme:   k8sManager.GetScheme(),
@@ -468,9 +456,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: psqlFirewallRuleManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRule"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PostgreSQLFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRule"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
 			Scheme:   k8sManager.GetScheme(),

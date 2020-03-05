@@ -1,18 +1,5 @@
-/*
-Copyright 2019 microsoft.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package eventhubs
 
@@ -160,6 +147,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
+			instance.Status.ResourceId = *evhns.ID
 			return true, nil
 		}
 
@@ -187,7 +175,6 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 
 	// write information back to instance
 	instance.Status.State = *newNs.ProvisioningState
-
 	return true, nil
 }
 
@@ -250,7 +237,14 @@ func (ns *azureEventHubNamespaceManager) GetParents(obj runtime.Object) ([]resou
 	return []resourcemanager.KubeParent{
 		{Key: key, Target: &v1alpha1.ResourceGroup{}},
 	}, nil
+}
 
+func (g *azureEventHubNamespaceManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (ns *azureEventHubNamespaceManager) convert(obj runtime.Object) (*azurev1alpha1.EventhubNamespace, error) {

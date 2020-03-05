@@ -1,18 +1,5 @@
-/*
-Copyright 2019 microsoft.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package vnet
 
@@ -96,6 +83,9 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		instance.Status.Provisioning = false
 		return false, fmt.Errorf("Error creating VNet: %s, %s - %v", resourceGroup, resourceName, err)
 	}
+
+	// success
+	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 
@@ -139,6 +129,14 @@ func (g *AzureVNetManager) GetParents(obj runtime.Object) ([]resourcemanager.Kub
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
+
+func (g *AzureVNetManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (g *AzureVNetManager) convert(obj runtime.Object) (*azurev1alpha1.VirtualNetwork, error) {
