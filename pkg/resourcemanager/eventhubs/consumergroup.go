@@ -209,7 +209,14 @@ func (cg *azureConsumerGroupManager) GetParents(obj runtime.Object) ([]resourcem
 			Target: &v1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
 
+func (g *azureConsumerGroupManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (cg *azureConsumerGroupManager) convert(obj runtime.Object) (*v1alpha1.ConsumerGroup, error) {
