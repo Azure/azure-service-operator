@@ -1,4 +1,7 @@
-// package config manages loading configuration from environment and command-line params
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// Package config manages loading configuration from environment and command-line params
 package config
 
 import (
@@ -20,7 +23,7 @@ var (
 	subscriptionID         string
 	locationDefault        string
 	authorizationServerURL string
-	cloudName              string = "AzurePublicCloud"
+	cloudName              string
 	useDeviceFlow          bool
 	useMI                  bool
 
@@ -118,11 +121,12 @@ func UserAgent() string {
 	return "sdk-samples"
 }
 
-// Environment() returns an `azure.Environment{...}` for the current cloud.
+// Environment returns an `azure.Environment{...}` for the current cloud.
 func Environment() *azure.Environment {
 	if environment != nil {
 		return environment
 	}
+
 	env, err := azure.EnvironmentFromName(cloudName)
 	if err != nil {
 		// TODO: move to initialization of var

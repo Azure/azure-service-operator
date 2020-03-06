@@ -1,7 +1,5 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package azuresql
 
@@ -101,11 +99,11 @@ func (manager *MockSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Con
 	return nil
 }
 
-func (fw *MockSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (fw *MockSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	return true, nil
 }
 
-func (fw *MockSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (fw *MockSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	return true, nil
 }
 

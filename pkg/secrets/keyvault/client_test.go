@@ -1,18 +1,5 @@
-/*
-Copyright 2019 microsoft.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package keyvault
 
@@ -117,7 +104,8 @@ var _ = Describe("Keyvault Secrets Client", func() {
 	Context("Create and Delete", func() {
 		It("should create and delete secret in Keyvault", func() {
 			secretName := "kvsecret" + strconv.FormatInt(GinkgoRandomSeed(), 10)
-			expireDateUTC := time.Now().UTC()
+			activationDate := time.Date(2018, time.January, 22, 15, 34, 0, 0, time.UTC)
+			expiryDate := time.Date(2030, time.February, 1, 12, 22, 0, 0, time.UTC)
 
 			var err error
 
@@ -131,7 +119,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 			key := types.NamespacedName{Name: secretName, Namespace: "default"}
 
 			Context("creating secret with KeyVault client", func() {
-				err = client.Create(ctx, key, data, secrets.WithExpiration(&expireDateUTC))
+				err = client.Create(ctx, key, data, secrets.WithActivation(&activationDate), secrets.WithExpiration(&expiryDate))
 				Expect(err).To(BeNil())
 			})
 
@@ -150,7 +138,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 			}
 
 			Context("upserting the secret to make sure it can be written", func() {
-				err = client.Upsert(ctx, key, datanew)
+				err = client.Upsert(ctx, key, datanew, secrets.WithActivation(&activationDate), secrets.WithExpiration(&expiryDate))
 				Expect(err).To(BeNil())
 			})
 
@@ -174,7 +162,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 					Expect(data[k]).To(Equal(v))
 				}
 			})
-
 		})
+
 	})
 })

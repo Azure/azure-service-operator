@@ -1,11 +1,11 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: Eventhub
 metadata:
-  name: eventhub-sample-2307-09
+  name: eventhub-sample-1
 spec:
   location: "westus"
   resourceGroup: resourcegroup-azure-operators
-  namespace: "eventhubnamespace-sample-6"
+  namespace: "eventhubnamespace-sample-1"
   properties:
     messageRetentionInDays: 7
     partitionCount: 2
@@ -15,4 +15,6 @@ spec:
       - "Listen"
       - "Manage"
       - "Send"
-  secretName: "secret-stream-eventhub-sample"
+# Optional Fields
+  # secretName: "secret-stream-eventhub-sample"
+  # keyVaultToStoreSecrets: asoSecretKeyVault

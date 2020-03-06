@@ -1,7 +1,5 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package psql
 
@@ -120,7 +118,7 @@ func (manager *MockPostgreSqlServerManager) convert(obj runtime.Object) (*v1alph
 	return local, nil
 }
 
-func (manager *MockPostgreSqlServerManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (manager *MockPostgreSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := manager.convert(obj)
 	if err != nil {
@@ -145,7 +143,7 @@ func (manager *MockPostgreSqlServerManager) Ensure(ctx context.Context, obj runt
 
 	return true, nil
 }
-func (manager *MockPostgreSqlServerManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (manager *MockPostgreSqlServerManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := manager.convert(obj)
 	if err != nil {

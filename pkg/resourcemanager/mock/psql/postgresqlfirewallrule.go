@@ -1,7 +1,5 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package psql
 
@@ -113,7 +111,7 @@ func (manager *MockPostgreSqlFirewallRuleManager) convert(obj runtime.Object) (*
 	return local, nil
 }
 
-func (manager *MockPostgreSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (manager *MockPostgreSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := manager.convert(obj)
 	if err != nil {
 		return true, err
@@ -126,7 +124,7 @@ func (manager *MockPostgreSqlFirewallRuleManager) Ensure(ctx context.Context, ob
 	return true, nil
 }
 
-func (manager *MockPostgreSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (manager *MockPostgreSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := manager.convert(obj)
 	if err != nil {
 		return true, err

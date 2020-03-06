@@ -1,7 +1,5 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package azuresql
 
@@ -106,7 +104,7 @@ func (manager *MockSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName
 	return helpers.GetRestResponse(http.StatusOK), nil
 }
 
-func (db *MockSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (db *MockSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := db.convert(obj)
 	if err != nil {
 		return false, err
@@ -134,7 +132,7 @@ func (db *MockSqlDbManager) Ensure(ctx context.Context, obj runtime.Object) (boo
 	return true, nil
 }
 
-func (db *MockSqlDbManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (db *MockSqlDbManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := db.convert(obj)
 	if err != nil {
 		return false, err

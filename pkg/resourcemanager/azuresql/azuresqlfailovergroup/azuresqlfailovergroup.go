@@ -1,7 +1,5 @@
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// This source code is licensed under the MIT license found in the
-// LICENSE file in the root directory of this source tree.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package azuresqlfailovergroup
 
@@ -9,7 +7,11 @@ import (
 	"context"
 	"net/http"
 
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/go-autorest/autorest"
@@ -17,15 +19,21 @@ import (
 )
 
 type AzureSqlFailoverGroupManager struct {
-	Log logr.Logger
+	Log          logr.Logger
+	SecretClient secrets.SecretClient
+	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlFailoverGroupManager(log logr.Logger) *AzureSqlFailoverGroupManager {
-	return &AzureSqlFailoverGroupManager{Log: log}
+func NewAzureSqlFailoverGroupManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlFailoverGroupManager {
+	return &AzureSqlFailoverGroupManager{
+		Log:          log,
+		SecretClient: secretClient,
+		Scheme:       scheme,
+	}
 }
 
 // GetServer returns a SQL server
-func (_ *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
+func (f *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
 	serversClient := azuresqlshared.GetGoServersClient()
 
 	return serversClient.Get(
@@ -36,7 +44,7 @@ func (_ *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGr
 }
 
 // GetDB retrieves a database
-func (_ *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
+func (f *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
 	dbClient := azuresqlshared.GetGoDbClient()
 
 	return dbClient.Get(
@@ -49,7 +57,7 @@ func (_ *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupN
 }
 
 // GetFailoverGroup retrieves a failover group
-func (_ *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error) {
+func (f *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error) {
 	failoverGroupsClient := azuresqlshared.GetGoFailoverGroupsClient()
 
 	return failoverGroupsClient.Get(
@@ -99,7 +107,7 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 	// Construct a PartnerInfo object from the server name
 	// Get resource ID from the servername to use
 
-	server, err := sdk.GetServer(ctx, properties.SecondaryServerResourceGroup, properties.SecondaryServerName)
+	server, err := sdk.GetServer(ctx, properties.SecondaryServerResourceGroup, properties.SecondaryServer)
 	if err != nil {
 		return result, nil
 	}
@@ -143,4 +151,28 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 		serverName,
 		failovergroupname,
 		failoverGroup)
+}
+
+func (f *AzureSqlFailoverGroupManager) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureSqlFailoverGroup) (map[string][]byte, error) {
+	failovergroupname := instance.ObjectMeta.Name
+	azuresqlprimaryserver := instance.Spec.Server
+	azuresqlsecondaryserver := instance.Spec.SecondaryServer
+
+	secret := map[string][]byte{}
+
+	key := types.NamespacedName{Name: failovergroupname, Namespace: instance.Namespace}
+
+	if stored, err := f.SecretClient.Get(ctx, key); err == nil {
+		f.Log.Info("secret already exists, pulling stored values")
+		return stored, nil
+	}
+
+	f.Log.Info("secret not found, generating values for new secret")
+
+	secret["azureSqlPrimaryServer"] = []byte(azuresqlprimaryserver)
+	secret["readWriteListenerEndpoint"] = []byte(failovergroupname + ".database.windows.net")
+	secret["azureSqlSecondaryServer"] = []byte(azuresqlsecondaryserver)
+	secret["readOnlyListenerEndpoint"] = []byte(failovergroupname + ".secondary.database.windows.net")
+
+	return secret, nil
 }

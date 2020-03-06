@@ -1,18 +1,5 @@
-/*
-Copyright 2019 microsoft.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package eventhubs
 
@@ -23,6 +10,7 @@ import (
 	"strings"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -154,6 +142,22 @@ func (e *azureEventHubManager) createEventhubSecrets(ctx context.Context, secret
 	return nil
 }
 
+func (e *azureEventHubManager) deleteEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub) error {
+	key := types.NamespacedName{
+		Name:      secretName,
+		Namespace: instance.Namespace,
+	}
+
+	err := e.SecretClient.Delete(ctx,
+		key,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup string, eventhubNamespace string, eventhubName string, secretName string, authorizationRuleName string, instance *azurev1alpha1.Eventhub) error {
 
 	var err error
@@ -189,7 +193,11 @@ func (e *azureEventHubManager) listAccessKeysAndCreateSecrets(resourcegroup stri
 
 }
 
-func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
 
 	instance, err := e.convert(obj)
 	if err != nil {
@@ -204,6 +212,10 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 	captureDescription := instance.Spec.Properties.CaptureDescription
 	secretName := instance.Spec.SecretName
 
+	if options.SecretClient != nil {
+		e.SecretClient = options.SecretClient
+	}
+
 	if len(secretName) == 0 {
 		secretName = eventhubName
 		instance.Spec.SecretName = eventhubName
@@ -214,7 +226,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 
 	capturePtr := getCaptureDescriptionPtr(captureDescription)
 
-	resp, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	hub, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		// let the user know what happened
 
@@ -265,16 +277,21 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object) (
 	}
 
 	// write information back to instance
-	instance.Status.State = string(resp.Status)
+	instance.Status.State = string(hub.Status)
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-
+	instance.Status.ResourceId = *hub.ID
 	// reconciliation done and everything looks ok
 	return true, nil
 }
 
-func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
 
 	instance, err := e.convert(obj)
 	if err != nil {
@@ -284,6 +301,16 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object) (
 	eventhubName := instance.ObjectMeta.Name
 	namespaceName := instance.Spec.Namespace
 	resourcegroup := instance.Spec.ResourceGroup
+	secretName := instance.Spec.SecretName
+
+	if options.SecretClient != nil {
+		e.SecretClient = options.SecretClient
+	}
+
+	if len(secretName) == 0 {
+		secretName = eventhubName
+		instance.Spec.SecretName = eventhubName
+	}
 
 	resp, err := e.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
 	if err != nil {
@@ -301,6 +328,8 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object) (
 	}
 
 	if resp.StatusCode == http.StatusNoContent {
+		//Delete the secrets as best effort before successful return after delete
+		e.deleteEventhubSecrets(ctx, secretName, instance)
 		return false, nil
 	}
 
@@ -330,7 +359,14 @@ func (e *azureEventHubManager) GetParents(obj runtime.Object) ([]resourcemanager
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
 
+func (g *azureEventHubManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (e *azureEventHubManager) convert(obj runtime.Object) (*azurev1alpha1.Eventhub, error) {

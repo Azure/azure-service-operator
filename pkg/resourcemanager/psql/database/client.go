@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package database
 
 import (
@@ -60,7 +63,8 @@ func (p *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, 
 	return false, err
 
 }
-func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
@@ -160,7 +164,8 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object) (bo
 	return true, nil
 }
 
-func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
@@ -209,7 +214,14 @@ func (p *PSQLDatabaseClient) GetParents(obj runtime.Object) ([]resourcemanager.K
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
 
+func (g *PSQLDatabaseClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (p *PSQLDatabaseClient) convert(obj runtime.Object) (*v1alpha1.PostgreSQLDatabase, error) {

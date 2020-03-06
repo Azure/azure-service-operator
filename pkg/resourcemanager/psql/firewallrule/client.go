@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package server
 
 import (
@@ -36,7 +39,7 @@ func getPSQLFirewallRulesClient() psql.FirewallRulesClient {
 	return firewallRulesClient
 }
 
-func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
@@ -137,7 +140,7 @@ func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object)
 	return true, nil
 }
 
-func (p *PSQLFirewallRuleClient) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (p *PSQLFirewallRuleClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := p.convert(obj)
 	if err != nil {
 		return true, err
@@ -186,7 +189,14 @@ func (p *PSQLFirewallRuleClient) GetParents(obj runtime.Object) ([]resourcemanag
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
 
+func (g *PSQLFirewallRuleClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (p *PSQLFirewallRuleClient) convert(obj runtime.Object) (*v1alpha1.PostgreSQLFirewallRule, error) {

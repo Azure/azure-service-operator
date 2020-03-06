@@ -1,17 +1,5 @@
-/*
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 package appinsights
 
@@ -78,6 +66,14 @@ func (m *Manager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, 
 	}, nil
 }
 
+func (g *Manager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
+}
+
 // CreateAppInsights creates or updates an Application Insights service
 func (m *Manager) CreateAppInsights(
 	ctx context.Context,
@@ -108,7 +104,7 @@ func (m *Manager) CreateAppInsights(
 }
 
 // Ensure checks the desired state of the operator
-func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) {
+func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
@@ -122,7 +118,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 		instance.Status.State = *comp.ProvisioningState
 
 		if *comp.ProvisioningState == "Succeeded" {
-			instance.Status.Message = *comp.ProvisioningState
+			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			return true, nil
@@ -184,7 +180,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object) (bool, error) 
 }
 
 // Delete removes an AppInsights resource
-func (m *Manager) Delete(ctx context.Context, obj runtime.Object) (bool, error) {
+func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	i, err := m.convert(obj)
 	if err != nil {
 		return false, err
