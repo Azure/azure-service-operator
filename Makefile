@@ -12,10 +12,10 @@ IMG ?= controller:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
-BUILD_ID?=$(shell git rev-parse --short HEAD)
+BUILD_ID ?= $(shell git rev-parse --short HEAD)
 
 # best to keep the prefix as short as possible to not exceed naming limits for things like keyvault (24 chars)
-TEST_RESOURCE_PREFIX?=t-$(BUILD_ID)
+TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
 
 all: manager
 
