@@ -382,6 +382,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+		instance.Status.ResourceId = *keyvault.ID
 
 		return true, nil
 	}
