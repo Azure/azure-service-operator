@@ -37,6 +37,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	if exists, _ := g.VNetExists(ctx, resourceGroup, resourceName); exists {
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
+		instance.Status.Message = resourcemanager.SuccessMsg
 		return true, nil
 	}
 
@@ -83,8 +84,12 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		instance.Status.Provisioning = false
 		return false, fmt.Errorf("Error creating VNet: %s, %s - %v", resourceGroup, resourceName, err)
 	}
+
+	// success
+	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
+	instance.Status.Message = resourcemanager.SuccessMsg
 
 	return true, nil
 }
@@ -126,6 +131,14 @@ func (g *AzureVNetManager) GetParents(obj runtime.Object) ([]resourcemanager.Kub
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
+
+func (g *AzureVNetManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (g *AzureVNetManager) convert(obj runtime.Object) (*azurev1alpha1.VirtualNetwork, error) {

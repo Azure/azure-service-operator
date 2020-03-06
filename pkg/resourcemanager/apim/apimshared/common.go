@@ -82,16 +82,16 @@ func GetAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName s
 }
 
 // APIMgmtSvcStatus check to see if the API Mgmt Svc has been activated, returns "true" if it has been activated
-func APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error) {
+func APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, resourceID *string, err error) {
 	resource, err := GetAPIMgmtSvc(
 		ctx,
 		resourceGroupName,
 		resourceName,
 	)
 	if err != nil {
-		return false, false, err
+		return false, false, nil, err
 	} else if resource.Name == nil {
-		return false, false, nil
+		return false, false, nil, nil
 	}
 
 	result = false
@@ -103,7 +103,7 @@ func APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceNam
 		err = nil
 	}
 
-	return true, result, err
+	return true, result, resource.ID, err
 }
 
 // GetSubnetConfigurationByName gets a VNet by name
