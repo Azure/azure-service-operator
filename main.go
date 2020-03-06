@@ -482,9 +482,9 @@ func main() {
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: apimManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("APIManagement"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"APIManagement",
+				ctrl.Log.WithName("controllers").WithName("APIManagement"),
 			),
 			Recorder: mgr.GetEventRecorderFor("APIManagement-controller"),
 			Scheme:   scheme,

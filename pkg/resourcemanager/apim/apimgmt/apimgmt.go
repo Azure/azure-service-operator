@@ -40,16 +40,16 @@ import (
 
 // Manager represents an API Management type
 type Manager struct {
-	Telemetry telemetry.PrometheusTelemetry
+	Telemetry telemetry.TelemetryClient
 	APIClient apimanagement.APIClient
 }
 
 // NewManager returns an API Manager type
 func NewManager(log logr.Logger) *Manager {
 	return &Manager{
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("APIMgmtAPI"),
+		Telemetry: telemetry.InitializeTelemetryDefault(
 			"APIMgmtAPI",
+			ctrl.Log.WithName("controllers").WithName("APIMgmtAPI"),
 		),
 		APIClient: apimshared.GetAPIMClient(),
 	}
@@ -228,6 +228,15 @@ func (m *Manager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, 
 			},
 		},
 	}, nil
+}
+
+// GetStatus returns the current status of the resource
+func (m *Manager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := m.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (m *Manager) convert(obj runtime.Object) (*v1alpha1.APIMgmtAPI, error) {

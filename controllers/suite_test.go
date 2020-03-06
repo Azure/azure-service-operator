@@ -234,9 +234,9 @@ func setup() error {
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: apiMgmtManager,
-			Telemetry: telemetry.InitializePrometheusDefault(
-				ctrl.Log.WithName("controllers").WithName("ApiMgmt"),
+			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ApiMgmt",
+				ctrl.Log.WithName("controllers").WithName("ApiMgmt"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("ApiMgmt-controller"),
 			Scheme:   scheme.Scheme,
