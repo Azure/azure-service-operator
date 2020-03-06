@@ -15,9 +15,9 @@ import (
 // NewAzureAPIMgmtServiceManager creates a new instance of AzureAPIMgmtServiceManager
 func NewAzureAPIMgmtServiceManager() *AzureAPIMgmtServiceManager {
 	return &AzureAPIMgmtServiceManager{
-		Telemetry: telemetry.InitializePrometheusDefault(
-			ctrl.Log.WithName("controllers").WithName("ApimService"),
+		Telemetry: *telemetry.InitializeTelemetryDefault(
 			"ApimService",
+			ctrl.Log.WithName("controllers").WithName("ApimService"),
 		),
 	}
 }
@@ -38,7 +38,7 @@ type APIMgmtServiceManager interface {
 
 	APIMgmtSvcStatus(ctx context.Context,
 		resourceGroupName string,
-		resourceName string) (exists bool, result bool, err error)
+		resourceName string) (exists bool, result bool, resourceID *string, err error)
 
 	SetVNetForAPIMgmtSvc(ctx context.Context,
 		resourceGroupName string,

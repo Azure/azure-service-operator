@@ -6,4 +6,4 @@ spec:
   # Add fields here
   resourceGroup: resourcegroup-azure-operators
   namespace: "eventhubnamespace-sample-1"
-  eventHub: "eventhub-sample-2"
+  eventHub: "eventhub-sample-1"

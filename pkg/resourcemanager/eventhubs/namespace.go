@@ -147,6 +147,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
+			instance.Status.ResourceId = *evhns.ID
 			return true, nil
 		}
 
@@ -174,7 +175,6 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 
 	// write information back to instance
 	instance.Status.State = *newNs.ProvisioningState
-
 	return true, nil
 }
 
@@ -237,7 +237,14 @@ func (ns *azureEventHubNamespaceManager) GetParents(obj runtime.Object) ([]resou
 	return []resourcemanager.KubeParent{
 		{Key: key, Target: &v1alpha1.ResourceGroup{}},
 	}, nil
+}
 
+func (g *azureEventHubNamespaceManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (ns *azureEventHubNamespaceManager) convert(obj runtime.Object) (*azurev1alpha1.EventhubNamespace, error) {
