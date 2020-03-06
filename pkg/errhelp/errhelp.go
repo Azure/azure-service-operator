@@ -41,3 +41,8 @@ func IsStatusCode404(err error) bool {
 func IsResourceNotFound(err error) bool {
 	return strings.Contains(err.Error(), "ResourceNotFound")
 }
+
+// IsBadRequest checks if the error reports that a wrong request
+func IsBadRequest(err error) bool {
+	return strings.Contains(err.Error(), "BadRequest")
+}
