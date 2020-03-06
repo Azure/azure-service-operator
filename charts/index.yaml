@@ -3,9 +3,9 @@ entries:
   azure-service-operator:
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2020-02-21T11:16:52.24973-08:00"
+    created: "2020-03-06T14:26:14.602551-06:00"
     description: Deploy components and dependencies of azure-service-operator
-    digest: 34019c8b85cf67a719aa02c883e7fde8647daefb1ba2f5e5ce338b05d132f7b6
+    digest: 750c0bcca38b207a99214d0086caf982c0b62b438d83293b406997912d7e18e7
     home: https://github.com/Azure/azure-service-operator
     name: azure-service-operator
     sources:
@@ -13,4 +13,4 @@ entries:
     urls:
     - azure-service-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2020-02-21T11:16:52.246282-08:00"
+generated: "2020-03-06T14:26:14.599903-06:00"
