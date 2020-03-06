@@ -16,7 +16,7 @@ import (
 // ResourceGroupReconciler reconciles a ResourceGroup object
 type ResourceGroupReconciler struct {
 	client.Client
-	Telemetry            telemetry.PrometheusTelemetry
+	Telemetry            telemetry.Telemetry
 	Recorder             record.EventRecorder
 	Reconciler           *AsyncReconciler
 	ResourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager

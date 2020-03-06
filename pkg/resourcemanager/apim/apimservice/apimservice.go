@@ -15,7 +15,7 @@ import (
 )
 
 type AzureAPIMgmtServiceManager struct {
-	Telemetry telemetry.PrometheusTelemetry
+	Telemetry telemetry.Telemetry
 }
 
 // CreateAPIMgmtSvc creates a new API Mgmt Svc
@@ -76,7 +76,7 @@ func (_ *AzureAPIMgmtServiceManager) DeleteAPIMgmtSvc(ctx context.Context, resou
 }
 
 // APIMgmtSvcStatus checks to see if the API Mgmt Svc has been activated
-func (_ *AzureAPIMgmtServiceManager) APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, err error) {
+func (_ *AzureAPIMgmtServiceManager) APIMgmtSvcStatus(ctx context.Context, resourceGroupName string, resourceName string) (exists bool, result bool, resourceID *string, err error) {
 	return apimshared.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 }
 
@@ -84,7 +84,7 @@ func (_ *AzureAPIMgmtServiceManager) APIMgmtSvcStatus(ctx context.Context, resou
 func (g *AzureAPIMgmtServiceManager) SetVNetForAPIMgmtSvc(ctx context.Context, resourceGroupName string, resourceName string, vnetType string, vnetResourceGroupName string, vnetResourceName string, subnetName string) (err error, updated bool) {
 
 	// check to make sure that the API Mgmt Svc has been activated
-	exists, activated, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
+	exists, activated, _, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 	if !exists || !activated || err != nil {
 		return fmt.Errorf("API Mgmt Service hasn't been created or activated yet: %s, %s", resourceGroupName, resourceName), false
 	}
@@ -157,7 +157,7 @@ func (g *AzureAPIMgmtServiceManager) SetAppInsightsForAPIMgmtSvc(ctx context.Con
 	}
 
 	// check to make sure that the API Mgmt Svc has been activated
-	exists, activated, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
+	exists, activated, _, err := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 	if !exists || !activated || err != nil {
 		return fmt.Errorf("API Mgmt Service hasn't been created or activated yet: %s, %s", resourceGroupName, resourceName)
 	}

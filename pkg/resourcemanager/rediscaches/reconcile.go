@@ -39,22 +39,23 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 	instance.Status.Provisioning = true
 
-	resp, err := rc.GetRedisCache(ctx, groupName, name)
+	newRc, err := rc.GetRedisCache(ctx, groupName, name)
 	if err == nil {
-		if resp.ProvisioningState == "Succeeded" {
+		if newRc.ProvisioningState == "Succeeded" {
 			err = rc.ListKeysAndCreateSecrets(groupName, redisName, secretName, instance)
 			if err != nil {
 				instance.Status.Message = err.Error()
 				return false, err
 			}
 			instance.Status.Message = resourcemanager.SuccessMsg
-			instance.Status.State = string(resp.ProvisioningState)
+			instance.Status.State = string(newRc.ProvisioningState)
+			instance.Status.ResourceId = *newRc.ID
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			return true, nil
 		}
 		instance.Status.Message = "RedisCache exists but may not be ready"
-		instance.Status.State = string(resp.ProvisioningState)
+		instance.Status.State = string(newRc.ProvisioningState)
 		return false, nil
 	}
 	instance.Status.Message = fmt.Sprintf("RedisCache Get error %s", err.Error())
@@ -135,6 +136,15 @@ func (rc *AzureRedisCacheManager) GetParents(obj runtime.Object) ([]resourcemana
 			Target: &v1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
+
+// GetStatus gets the ASOStatus
+func (g *AzureRedisCacheManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (rc *AzureRedisCacheManager) convert(obj runtime.Object) (*azurev1alpha1.RedisCache, error) {
