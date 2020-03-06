@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -225,7 +226,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	capturePtr := getCaptureDescriptionPtr(captureDescription)
 
-	resp, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
+	hub, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		// let the user know what happened
 
@@ -276,11 +277,11 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 
 	// write information back to instance
-	instance.Status.State = string(resp.Status)
+	instance.Status.State = string(hub.Status)
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-
+	instance.Status.ResourceId = *hub.ID
 	// reconciliation done and everything looks ok
 	return true, nil
 }
@@ -358,7 +359,14 @@ func (e *azureEventHubManager) GetParents(obj runtime.Object) ([]resourcemanager
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+}
 
+func (g *azureEventHubManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
+	if err != nil {
+		return nil, err
+	}
+	return &instance.Status, nil
 }
 
 func (e *azureEventHubManager) convert(obj runtime.Object) (*azurev1alpha1.Eventhub, error) {
