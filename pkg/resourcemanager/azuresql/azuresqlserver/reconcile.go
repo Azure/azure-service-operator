@@ -88,10 +88,11 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Provisioning = false
 			return true, nil
 		}
+
 		// server not done provisioning
 		return false, nil
-
 	}
+
 	// create the sql server
 	instance.Status.Provisioning = true
 	if _, err := s.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties, false); err != nil {
@@ -103,21 +104,21 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		// we save the credentials here
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
 			instance.Status.Message = "Resource request successfully submitted to Azure"
-
+			return false, nil
 		}
 
 		// SQL Server names are globally unique and sometimes events cause superfluous reconciliations after the server already exists
 		// To mitigate this we check if there is a credential that we can use to access the server
 		// If not, we assume someone else owns this server
 		if azerr.Type == errhelp.AlreadyExists {
-			// assume success if server exists and its credentials can be located
 			instance.Status.Provisioning = false
-
 			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 			if _, err := s.SecretClient.Get(ctx, key); err == nil {
 				instance.Status.Message = resourcemanager.SuccessMsg
 				instance.Status.Provisioned = true
 				instance.Status.Provisioning = false
+			} else {
+				instance.Status.FailedReconciliation = true
 			}
 
 			return true, nil
@@ -130,7 +131,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
-
 		if helpers.ContainsString(ignore, azerr.Type) {
 			return false, nil
 		}
@@ -140,8 +140,8 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		drop := []string{
 			errhelp.InvalidServerName,
 		}
-
 		if helpers.ContainsString(drop, azerr.Type) {
+			instance.Status.FailedReconciliation = true
 			return true, nil
 		}
 
