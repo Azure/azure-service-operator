@@ -59,7 +59,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 
 	// STEP 1:
 	// 	does it already exist? if not, then provision
-	exists, activated, _ := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
+	exists, activated, resourceID, _ := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
 	if !exists {
 
 		// check to see if name is available
@@ -188,6 +188,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false
+	instance.Status.ResourceId = *resourceID
 	return true, nil
 }
 
