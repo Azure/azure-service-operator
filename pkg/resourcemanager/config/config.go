@@ -5,7 +5,6 @@
 package config
 
 import (
-	"bytes"
 	"fmt"
 
 	"github.com/Azure/go-autorest/autorest/azure"
@@ -26,13 +25,13 @@ var (
 	cloudName              string
 	useDeviceFlow          bool
 	useMI                  bool
+	buildID                string
+	keepResources          bool
+	operatorKeyvault       string
+	userAgent              string
+	environment            *azure.Environment
 
-	keepResources    bool
-	operatorKeyvault string
-	groupName        string // deprecated, use baseGroupName instead
-	baseGroupName    string
-	userAgent        string
-	environment      *azure.Environment
+	testResourcePrefix string // used to generate resource names in tests, should probably exist in a test only package
 )
 
 // ClientID is the OAuth client ID.
@@ -91,23 +90,6 @@ func UseMI() bool {
 	return useMI
 }
 
-// deprecated: do not use global group names
-// utilize `BaseGroupName()` for a shared prefix
-func GroupName() string {
-	return groupName
-}
-
-// deprecated: we have to set this because we use a global for group names
-// once that's fixed this should be removed
-func SetGroupName(name string) {
-	groupName = name
-}
-
-// BaseGroupName() returns a prefix for new groups.
-func BaseGroupName() string {
-	return baseGroupName
-}
-
 // KeepResources() specifies whether to keep resources created by samples.
 func KeepResources() bool {
 	return keepResources
@@ -119,6 +101,11 @@ func UserAgent() string {
 		return userAgent
 	}
 	return "sdk-samples"
+}
+
+// TestResourcePrefix specifies a string to prefix test resources with
+func TestResourcePrefix() string {
+	return testResourcePrefix
 }
 
 // Environment returns an `azure.Environment{...}` for the current cloud.
@@ -135,23 +122,6 @@ func Environment() *azure.Environment {
 	}
 	environment = &env
 	return environment
-}
-
-// GenerateGroupName leverages BaseGroupName() to return a more detailed name,
-// helping to avoid collisions.  It appends each of the `affixes` to
-// BaseGroupName() separated by dashes, and adds a 5-character random string.
-func GenerateGroupName(affixes ...string) string {
-	// go1.10+
-	// import strings
-	// var b strings.Builder
-	// b.WriteString(BaseGroupName())
-	b := bytes.NewBufferString(BaseGroupName())
-	b.WriteRune('-')
-	for _, affix := range affixes {
-		b.WriteString(affix)
-		b.WriteRune('-')
-	}
-	return randname.GenerateWithPrefix(b.String(), 5)
 }
 
 // AppendRandomSuffix will append a suffix of five random characters to the specified prefix.

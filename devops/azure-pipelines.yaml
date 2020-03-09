@@ -135,7 +135,21 @@ steps:
     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
     REQUEUE_AFTER: $(REQUEUE_AFTER)
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-  workingDirectory: '$(MODULE_PATH)'
+    BUILD_ID: $(Build.BuildId)
+  workingDirectory: '$(MODULE_PATH)'      
+
+- task: AzureCLI@2
+  displayName: 'Clean up Azure Resources'
+  condition: always()
+  env:
+    BUILD_ID: $(Build.BuildId)
+  inputs:
+    azureSubscription: 'Az Internal Consumption'
+    scriptType: bash
+    scriptLocation: inlineScript
+    workingDirectory: '$(MODULE_PATH)'
+    inlineScript: |
+      make test-cleanup-azure-resources
 
 # - task: PublishTestResults@2
 #   displayName: 'test cluster'
