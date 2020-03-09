@@ -408,6 +408,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 			errhelp.AccountNameInvalid,
 			errhelp.AlreadyExists,
 			errhelp.InvalidAccessPolicy,
+			errhelp.BadRequest,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
