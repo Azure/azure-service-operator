@@ -16,7 +16,7 @@ type ASOStatus struct {
 	RequestedAt        *metav1.Time `json:"requested,omitempty"`
 	CompletedAt        *metav1.Time `json:"completed,omitempty"`
 	ResourceId         string       `json:"resourceId,omitempty"`
-	FailedProvisioning bool         `json:"FailedProvisioning,omitempty"`
+	FailedProvisioning bool         `json:"failedProvisioning,omitempty"`
 }
 
 // GenericSpec is a struct to help get the KeyVaultName from the Spec
