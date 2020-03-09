@@ -32,6 +32,7 @@ var (
 	groupName        string // deprecated, use baseGroupName instead
 	baseGroupName    string
 	userAgent        string
+	baseURI          string
 	environment      *azure.Environment
 )
 
@@ -157,4 +158,9 @@ func GenerateGroupName(affixes ...string) string {
 // AppendRandomSuffix will append a suffix of five random characters to the specified prefix.
 func AppendRandomSuffix(prefix string) string {
 	return randname.GenerateWithPrefix(prefix, 5)
+}
+
+// Base URI for provisioning
+func BaseURI() string {
+	return baseURI
 }

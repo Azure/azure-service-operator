@@ -48,7 +48,7 @@ func ParseEnvironment() error {
 
 	azureEnv, _ := azure.EnvironmentFromName(azcloud) // shouldn't fail
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
-
+	baseURI = azureEnv.ResourceManagerEndpoint // BaseURI()
 	// AZURE_GROUP_NAME and `config.GroupName()` are deprecated.
 	// Use AZURE_BASE_GROUP_NAME and `config.GenerateGroupName()` instead.
 	groupName = envy.Get("AZURE_GROUP_NAME", "azure-go-samples")           // GroupName()
