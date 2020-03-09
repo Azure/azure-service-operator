@@ -103,7 +103,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		// we save the credentials here
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
 			instance.Status.Message = "Resource request successfully submitted to Azure"
-
+			return false, nil
 		}
 
 		// SQL Server names are globally unique and sometimes events cause superfluous reconciliations after the server already exists
@@ -128,10 +128,10 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		ignore := []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
 		}
 
 		if helpers.ContainsString(ignore, azerr.Type) {
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 
