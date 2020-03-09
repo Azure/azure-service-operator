@@ -12,6 +12,11 @@ IMG ?= controller:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
+BUILD_ID ?= $(shell git rev-parse --short HEAD)
+
+# best to keep the prefix as short as possible to not exceed naming limits for things like keyvault (24 chars)
+TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
+
 all: manager
 
 # Generate test certs for development
@@ -44,8 +49,7 @@ test: generate fmt vet manifests
 
 # Run tests with existing cluster
 test-existing-controllers: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -tags all -parallel 3 -v ./controllers/... -timeout 60m
-
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 go test -tags all -parallel 6 -v ./controllers/... -timeout 60m
 
 unit-tests:
 	go test ./pkg/resourcemanager/keyvaults/unittest/
@@ -66,11 +70,9 @@ test-existing-managers: generate fmt vet manifests
 	./pkg/resourcemanager/vnet/...
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
-test-cleanup-azure-resources: 
-	az account set -s ${AZURE_SUBSCRIPTION_ID}
-	
+test-cleanup-azure-resources: 	
 	# Delete the resource groups that match the pattern
-	for rgname in `az group list --query "[*].[name]" -o table | grep '^t-rg-' `; do \
+	for rgname in `az group list --query "[*].[name]" -o table | grep '^${TEST_RESOURCE_PREFIX}' `; do \
 	    echo "$$rgname will be deleted"; \
 	    az group delete --name $$rgname --no-wait --yes; \
     done

@@ -15,6 +15,10 @@ spec:
       - "Listen"
       - "Manage"
       - "Send"
-# Optional Fields
+  # If you do not specify the secretName below, the secretName will 
+  # be derived from metadata.name
   # secretName: "secret-stream-eventhub-sample"
-  # keyVaultToStoreSecrets: asoSecretKeyVault
+  # Use the field below to optionally specify a different keyvault 
+  # to store the connectiong string secrets in
+  #keyVaultToStoreSecrets: asoSecretKeyVault
+
