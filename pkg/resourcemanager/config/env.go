@@ -49,16 +49,12 @@ func ParseEnvironment() error {
 	azureEnv, _ := azure.EnvironmentFromName(azcloud) // shouldn't fail
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
 
-	// AZURE_GROUP_NAME and `config.GroupName()` are deprecated.
-	// Use AZURE_BASE_GROUP_NAME and `config.GenerateGroupName()` instead.
-	groupName = envy.Get("AZURE_GROUP_NAME", "azure-go-samples")           // GroupName()
-	baseGroupName = envy.Get("AZURE_BASE_GROUP_NAME", groupName)           // BaseGroupName()
-	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "southcentralus") // DefaultLocation()
-
+	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "southcentralus")   // DefaultLocation()
 	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW")         // UseDeviceFlow()
 	useMI = ParseBoolFromEnvironment("AZURE_USE_MI")                         // UseMI()
 	keepResources = ParseBoolFromEnvironment("AZURE_SAMPLES_KEEP_RESOURCES") // KeepResources()
 	operatorKeyvault = envy.Get("AZURE_OPERATOR_KEYVAULT", "")               // operatorKeyvault()
+	testResourcePrefix = envy.Get("TEST_RESOURCE_PREFIX", "t-"+helpers.RandomString(6))
 
 	var err error
 

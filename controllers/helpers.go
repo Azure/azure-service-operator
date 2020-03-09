@@ -13,8 +13,8 @@ import (
 	"time"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -30,6 +30,7 @@ import (
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
@@ -43,6 +44,7 @@ import (
 type TestContext struct {
 	k8sClient               client.Client
 	secretClient            secrets.SecretClient
+	resourceNamePrefix      string
 	resourceGroupName       string
 	resourceGroupLocation   string
 	eventhubNamespaceName   string
@@ -259,4 +261,24 @@ func ConvertToStatus(instance runtime.Object) *v1alpha1.StatusedObject {
 
 	err = json.Unmarshal(serial, target)
 	return target
+}
+
+// GenerateTestResourceName returns a resource name
+func GenerateTestResourceName(id string) string {
+	return resourcemanagerconfig.TestResourcePrefix() + "-" + id
+}
+
+// GenerateTestResourceNameWithRandom returns a resource name with a random string appended
+func GenerateTestResourceNameWithRandom(id string, rc int) string {
+	return GenerateTestResourceName(id) + "-" + helpers.RandomString(rc)
+}
+
+// GenerateAlphaNumTestResourceName returns an alpha-numeric resource name
+func GenerateAlphaNumTestResourceName(id string) string {
+	return helpers.RemoveNonAlphaNumeric(GenerateTestResourceName(id))
+}
+
+// GenerateAlphaNumTestResourceNameWithRandom returns an alpha-numeric resource name with a random string appended
+func GenerateAlphaNumTestResourceNameWithRandom(id string, rc int) string {
+	return helpers.RemoveNonAlphaNumeric(GenerateTestResourceName(id) + helpers.RandomString(rc))
 }
