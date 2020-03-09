@@ -228,8 +228,11 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 
 	// Check that the secret is added to KeyVault
 	keyvaultSecretClient := kvsecrets.New(keyVaultNameForSecrets)
-	_, err = keyvaultSecretClient.Get(ctx, eventhubNamespacedName)
-	assert.Equal(nil, err, "checking if secret is present in keyvault")
+
+	assert.Eventually(func() bool {
+		_, err = keyvaultSecretClient.Get(ctx, eventhubNamespacedName)
+		return err == nil
+	}, tc.timeout, tc.retry, "wait for secret to exist in keyvault")
 
 	EnsureDelete(ctx, t, tc, eventhubInstance)
 
