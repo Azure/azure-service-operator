@@ -47,12 +47,12 @@ azureClientSecret: 00000000-0000-0000-0000-000000000000
 
 #### Managed Identity
 
-Set the following Helm Chart Value:
+Set the following Helm Chart values:
 ```
 azureUseMI: True
 aad-pod-identity:
     azureIdentity:
-        resourceID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rg>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<identity>""
+        resourceID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rg>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<identity>"
         clientID: "00000000-0000-0000-0000-000000000000"
 ```
 
@@ -100,7 +100,7 @@ The following table lists the configurable parameters of the azure-service-opera
 | `azureTenantID`  | Azure Tenant ID | `` |
 | `azureClientID`  | Azure Service Principal Client ID | `` |
 | `azureClientSecret`  | Azure Service Principal Client Secret | `` |
-| `azureUseMI`  | Set to True if using Managed Identity for authentication | `` |
+| `azureUseMI`  | Set to True if using Managed Identity for authentication | `False` |
 | `azureOperatorKeyvault`  | Set this value with the name of your Azure Key Vault resource if you prefer to store secrets in Key Vault rather than as Kubernetes secrets (default) | `` |
 | `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azure-service-operator:0.0.9150` |
 | `createNamespace`  | Set to True if you would like the namespace autocreated, otherwise False if you have an existing namespace | `True` |
