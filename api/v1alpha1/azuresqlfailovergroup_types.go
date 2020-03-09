@@ -20,6 +20,7 @@ type AzureSqlFailoverGroupSpec struct {
 	SecondaryServer              string                          `json:"secondaryserver"`
 	SecondaryServerResourceGroup string                          `json:"secondaryserverresourcegroup"`
 	DatabaseList                 []string                        `json:"databaselist"`
+	KeyVaultToStoreSecrets       string                          `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
