@@ -38,7 +38,7 @@ type APIMgmtServiceManager interface {
 
 	APIMgmtSvcStatus(ctx context.Context,
 		resourceGroupName string,
-		resourceName string) (exists bool, result bool, err error)
+		resourceName string) (exists bool, result bool, resourceID *string, err error)
 
 	SetVNetForAPIMgmtSvc(ctx context.Context,
 		resourceGroupName string,
