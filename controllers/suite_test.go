@@ -17,7 +17,6 @@ import (
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
@@ -61,15 +60,15 @@ func setup() error {
 		return err
 	}
 
-	resourceGroupName := "t-rg-dev-controller-" + helpers.RandomString(10)
+	resourceGroupName := GenerateTestResourceName("rg-prime")
 	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
 
-	eventhubNamespaceName := "t-ns-dev-eh-ns-" + helpers.RandomString(10)
-	eventhubName := "t-eh-dev-sample-" + helpers.RandomString(10)
+	eventhubNamespaceName := GenerateTestResourceName("evns-prime")
+	eventhubName := GenerateTestResourceName("ev-prime")
 	namespaceLocation := resourcemanagerconfig.DefaultLocation()
 
-	storageAccountName := "tsadeveh" + helpers.RandomString(10)
-	blobContainerName := "t-bc-dev-eh-" + helpers.RandomString(10)
+	storageAccountName := GenerateAlphaNumTestResourceName("saprime")
+	blobContainerName := GenerateTestResourceName("blob-prime")
 	containerAccessLevel := s.PublicAccessContainer
 
 	var timeout time.Duration
@@ -631,10 +630,5 @@ func PanicRecover() {
 	if err := recover(); err != nil {
 		fmt.Println("caught panic in test:")
 		fmt.Println(err)
-		// fmt.Println("attempt to tear down...")
-		// err = teardown()
-		// if err != nil {
-		// 	log.Println(fmt.Sprintf("could not tear down environment: %v\n", err))
-		// }
 	}
 }

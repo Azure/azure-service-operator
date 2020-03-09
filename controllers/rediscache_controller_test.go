@@ -38,7 +38,7 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 
 	rgName = tc.resourceGroupName
 	rgLocation = tc.resourceGroupLocation
-	redisCacheName = "t-rediscache-" + helpers.RandomString(10)
+	redisCacheName = GenerateTestResourceNameWithRandom("rediscache", 10)
 
 	// Create the RedisCache object and expect the Reconcile to be created
 	redisCacheInstance := &azurev1alpha1.RedisCache{
