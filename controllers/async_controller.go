@@ -159,6 +159,9 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	if !done && !status.Provisioning {
 		status.RequestedAt = nil
 	}
+	if done && !status.Provisioned && ensureErr == nil {
+		status.FailedProvisioning = true
+	}
 
 	// update the status of the resource in kubernetes
 	// Implementations of Ensure() tend to set their outcomes in local.Status
