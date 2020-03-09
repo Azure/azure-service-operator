@@ -159,7 +159,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	if !done && !status.Provisioning {
 		status.RequestedAt = nil
 	}
-	if done && !status.Provisioned {
+	if done && !status.Provisioned && ensureErr == nil {
 		status.FailedProvisioning = true
 	}
 
