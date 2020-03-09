@@ -107,8 +107,8 @@ func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
 	return networkAcls
 }
 
-// GetKubernetesObjectHash - helper function that generates a unique hash for a Kubernetes runtime.Object resource
-func GetKubernetesObjectHash(obj runtime.Object) (string, error) {
+// GenerateSpecHash - helper function that generates a unique hash for a Kubernetes runtime.Object resource
+func GenerateSpecHash(obj runtime.Object) (string, error) {
 	unstructured, err := runtime.DefaultUnstructuredConverter.ToUnstructured(obj)
 	if err != nil {
 		return "", err
@@ -385,7 +385,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return true, err
 	}
 
-	hash, err := GetKubernetesObjectHash(obj)
+	hash, err := GenerateSpecHash(obj)
 	if err != nil {
 		return true, err
 	}

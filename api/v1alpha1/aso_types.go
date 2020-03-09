@@ -10,16 +10,16 @@ type ASOStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	Provisioning   bool         `json:"provisioning,omitempty"`
-	Provisioned    bool         `json:"provisioned,omitempty"`
-	State          string       `json:"state,omitempty"`
-	Message        string       `json:"message,omitempty"`
-	ResourceId     string       `json:"resourceId,omitempty"`
-	SpecHash       string       `json:"specHash,omitempty"`
-	ContainsUpdate bool         `json:"containsUpdate,omitempty"`
-	RequestedAt    *metav1.Time `json:"requested,omitempty"`
-	CompletedAt    *metav1.Time `json:"completed,omitempty"`
-  FailedProvisioning bool         `json:"failedProvisioning,omitempty"`
+	Provisioning       bool         `json:"provisioning,omitempty"`
+	Provisioned        bool         `json:"provisioned,omitempty"`
+	State              string       `json:"state,omitempty"`
+	Message            string       `json:"message,omitempty"`
+	ResourceId         string       `json:"resourceId,omitempty"`
+	SpecHash           string       `json:"specHash,omitempty"`
+	ContainsUpdate     bool         `json:"containsUpdate,omitempty"`
+	RequestedAt        *metav1.Time `json:"requested,omitempty"`
+	CompletedAt        *metav1.Time `json:"completed,omitempty"`
+	FailedProvisioning bool         `json:"failedProvisioning,omitempty"`
 }
 
 // GenericSpec is a struct to help get the KeyVaultName from the Spec
