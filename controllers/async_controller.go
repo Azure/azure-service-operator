@@ -54,7 +54,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	if err != nil {
 		return ctrl.Result{}, err
 	}
-	status.FailedReconciliation = false
 
 	// record the time that this request was requested at
 	if status.RequestedAt == nil {

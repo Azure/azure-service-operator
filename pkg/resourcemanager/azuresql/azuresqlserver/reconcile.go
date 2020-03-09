@@ -118,7 +118,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 				instance.Status.Provisioned = true
 				instance.Status.Provisioning = false
 			} else {
-				instance.Status.FailedReconciliation = true
+				instance.Status.FailedProvisioning = true
 			}
 
 			return true, nil
@@ -141,7 +141,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			errhelp.InvalidServerName,
 		}
 		if helpers.ContainsString(drop, azerr.Type) {
-			instance.Status.FailedReconciliation = true
+			instance.Status.FailedProvisioning = true
 			return true, nil
 		}
 
