@@ -11,7 +11,6 @@ import (
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -25,7 +24,7 @@ func TestAppInsightsController(t *testing.T) {
 
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
-	appInsightsName := "t-appinsights-test" + helpers.RandomString(10)
+	appInsightsName := GenerateTestResourceName("appinsights")
 
 	// Create an instance of Azure AppInsights
 	appInsightsInstance := &azurev1alpha1.AppInsights{

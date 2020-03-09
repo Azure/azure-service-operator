@@ -12,16 +12,18 @@ spec:
     - "db_owner"
   # Specify adminSecret and adminSecretKeyVault if you want to 
   # read the SQL server admin creds from a specific keyvault secret
-  adminSecret: sqlserver-sample-777
-  adminSecretKeyVault: sqlserver-keyvault
-  # keyVaultToStoreSecrets is the Keyvault name where you want to store
-  # the secrets from the SQL user provisioning
-  keyVaultToStoreSecrets: asoSecretKeyVault
+  # adminSecret: sqlserver-sample-777
+  # adminSecretKeyVault: sqlserver-keyvault
+  
+  # Use the field below to optionally specify a different keyvault 
+  # to store the secrets in
+  #keyVaultToStoreSecrets: asoSecretKeyVault
+  
   # Below are optional fields that allow customizing the secrets you need
   # keyVaultSecretPrefix: sqlServer-sqlDatabase
   # valid secret formats
   # adonet, adonet-urlonly, jdbc, jdbc-urlonly, odbc, odbc-urlonly, server, database, username, password
-  # keyVaultSecretFormats:  
+  #keyVaultSecretFormats:  
   #   - "adonet"
 
 

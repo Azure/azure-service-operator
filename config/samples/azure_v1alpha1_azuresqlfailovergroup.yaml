@@ -13,3 +13,6 @@ spec:
   databaselist:
     - "azuresqldatabase-sample"
     - "azuresqldatabase-sample2"
+  # Use the field below to optionally specify a different keyvault 
+  # to store the listener endpoint secrets in
+  #keyVaultToStoreSecrets: asoSecretKeyVault

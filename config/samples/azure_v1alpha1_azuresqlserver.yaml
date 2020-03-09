@@ -5,4 +5,6 @@ metadata:
 spec:
   location: westus
   resourcegroup: resourcegroup-azure-operators
-  keyVaultToStoreSecrets: asoSecretKeyVault
+  # Use the field below to optionally specify a different keyvault 
+  # to store the server admin credential secrets in
+  #keyVaultToStoreSecrets: asoSecretKeyVault
