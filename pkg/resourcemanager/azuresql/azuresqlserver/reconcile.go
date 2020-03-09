@@ -88,10 +88,11 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Provisioning = false
 			return true, nil
 		}
+
 		// server not done provisioning
 		return false, nil
-
 	}
+
 	// create the sql server
 	instance.Status.Provisioning = true
 	if _, err := s.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties, false); err != nil {
@@ -110,9 +111,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		// To mitigate this we check if there is a credential that we can use to access the server
 		// If not, we assume someone else owns this server
 		if azerr.Type == errhelp.AlreadyExists {
-			// assume success if server exists and its credentials can be located
 			instance.Status.Provisioning = false
-
 			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 			if _, err := s.SecretClient.Get(ctx, key); err == nil {
 				instance.Status.Message = resourcemanager.SuccessMsg
@@ -129,7 +128,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
-
 		if helpers.ContainsString(ignore, azerr.Type) {
 			instance.Status.Provisioning = false
 			return false, nil
@@ -140,7 +138,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		drop := []string{
 			errhelp.InvalidServerName,
 		}
-
 		if helpers.ContainsString(drop, azerr.Type) {
 			return true, nil
 		}
