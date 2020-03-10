@@ -14,7 +14,6 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -37,7 +36,7 @@ func RunSQLActionHappy(t *testing.T, server string) {
 		return true
 	}, tc.timeoutFast, tc.retry, "wait for server to return secret")
 
-	sqlActionName := "t-azuresqlaction-dev-" + helpers.RandomString(10)
+	sqlActionName := GenerateTestResourceNameWithRandom("azuresqlaction-dev", 10)
 
 	// Create the Sql Action object and expect the Reconcile to be created
 	sqlActionInstance := &azurev1alpha1.AzureSqlAction{

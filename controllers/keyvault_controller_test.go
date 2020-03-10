@@ -17,6 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+
 	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -29,7 +30,7 @@ func TestKeyvaultControllerHappyPath(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
+	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
 	const poll = time.Second * 10
 
 	keyVaultLocation := tc.resourceGroupLocation
@@ -71,7 +72,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
+	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
 	const poll = time.Second * 10
 	keyVaultLocation := tc.resourceGroupLocation
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
@@ -149,7 +150,7 @@ func TestKeyvaultControllerWithLimitedAccessPolicies(t *testing.T) {
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
-	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
+	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
 	const poll = time.Second * 10
 	keyVaultLocation := tc.resourceGroupLocation
 	limitedPermissions := []string{"backup"}
@@ -267,7 +268,7 @@ func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
+	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
 
 	keyVaultLocation := tc.resourceGroupLocation
 
