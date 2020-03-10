@@ -197,10 +197,20 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 	}
 
 	_, err = m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.APIId, i.Spec.Properties.APIRevision, true)
-
 	if err != nil {
 		m.Telemetry.LogInfo("Error deleting API", err.Error())
 		i.Status.Message = err.Error()
+
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		handle := []string{
+			errhelp.ResourceNotFound,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
+		}
+		if helpers.ContainsString(handle, azerr.Type) {
+			return false, nil
+		}
+
 		return true, err
 	}
 	return false, nil
