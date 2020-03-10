@@ -14,3 +14,6 @@ spec:
       family: C
       capacity: 1
     enableNonSslPort: true
+  # Use the field below to optionally specify a different keyvault 
+  # to store the primary and secondary key secrets in
+  #keyVaultToStoreSecrets: asoSecretKeyVault
