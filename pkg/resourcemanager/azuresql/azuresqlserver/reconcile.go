@@ -127,9 +127,9 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		ignore := []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
 		}
 		if helpers.ContainsString(ignore, azerr.Type) {
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 
