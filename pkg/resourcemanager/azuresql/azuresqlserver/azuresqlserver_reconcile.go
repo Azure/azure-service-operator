@@ -120,6 +120,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 				instance.Status.Provisioning = false
 				//todo: add resourceId
 			}
+			instance.Status.RequestedAt = nil
 
 			return true, nil
 		}
@@ -147,6 +148,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
+	// this section matters when the sql server already exists in Azure
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false
