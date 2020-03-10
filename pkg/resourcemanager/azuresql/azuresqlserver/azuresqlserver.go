@@ -6,7 +6,6 @@ package azuresqlserver
 import (
 	"context"
 	"errors"
-	"log"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
@@ -80,9 +79,6 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 	if forceUpdate == false {
 		checkNameResult, _ := CheckNameAvailability(ctx, resourceGroupName, serverName)
 		if checkNameResult.Reason == sql.AlreadyExists {
-			log.Println()
-			log.Println(checkNameResult.Reason)
-			log.Println()
 			srv, err := serversClient.Get(ctx, resourceGroupName, serverName)
 			if err != nil {
 				return result, errors.New("AlreadyExists")

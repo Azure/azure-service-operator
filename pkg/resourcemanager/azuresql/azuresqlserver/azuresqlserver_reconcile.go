@@ -147,6 +147,8 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
+	instance.Status.Provisioning = false
+
 	return true, nil
 }
 
