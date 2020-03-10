@@ -19,7 +19,6 @@ package apimgmt
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -171,9 +170,6 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		log.Println()
-		log.Println(azerr.Type)
-		log.Println()
 		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Message = err.Error()
 			return false, nil
