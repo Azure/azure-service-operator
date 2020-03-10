@@ -119,6 +119,10 @@ func GenerateSpecHash(obj runtime.Object) (string, error) {
 		return "", err
 	}
 
+	if hash == 0 {
+		return "", fmt.Errorf("InvalidHash: Hashing function returned 0")
+	}
+
 	return strconv.FormatUint(hash, 10), nil
 }
 
