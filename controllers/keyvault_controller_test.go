@@ -7,6 +7,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strings"
 	"testing"
@@ -17,6 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+
 	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -29,7 +31,7 @@ func TestKeyvaultControllerHappyPath(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
+	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
 	const poll = time.Second * 10
 
 	keyVaultLocation := tc.resourceGroupLocation
@@ -71,7 +73,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
+	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
 	const poll = time.Second * 10
 	keyVaultLocation := tc.resourceGroupLocation
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
@@ -144,24 +146,23 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from azure")
 }
 
-func TestKeyvaultControllerWithLimitedAccessPolicies(t *testing.T) {
+func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover()
 	ctx := context.Background()
 	assert := assert.New(t)
-	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
+	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
 	const poll = time.Second * 10
 	keyVaultLocation := tc.resourceGroupLocation
 	limitedPermissions := []string{"backup"}
-	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
-		{
-			TenantID: config.TenantID(),
-			ObjectID: config.ClientID(),
-			Permissions: &azurev1alpha1.Permissions{
-				Keys:    &limitedPermissions,
-				Secrets: &limitedPermissions,
-			},
-		}}
+
+	accessPolicies := azurev1alpha1.AccessPolicyEntry{
+		TenantID: config.TenantID(),
+		ObjectID: config.ClientID(),
+		Permissions: &azurev1alpha1.Permissions{
+			Secrets: &limitedPermissions,
+		},
+	}
 
 	// Declare KeyVault object
 	keyVaultInstance := &azurev1alpha1.KeyVault{
@@ -172,7 +173,7 @@ func TestKeyvaultControllerWithLimitedAccessPolicies(t *testing.T) {
 		Spec: azurev1alpha1.KeyVaultSpec{
 			Location:       keyVaultLocation,
 			ResourceGroup:  tc.resourceGroupName,
-			AccessPolicies: &accessPolicies,
+			AccessPolicies: &[]azurev1alpha1.AccessPolicyEntry{accessPolicies},
 		},
 	}
 
@@ -197,6 +198,31 @@ func TestKeyvaultControllerWithLimitedAccessPolicies(t *testing.T) {
 
 	_, err = keyvaultSecretClient.Get(ctx, key)
 	assert.NotEqual(nil, err, "should not be able to get secrets")
+
+	updatedPermissions := []string{"get", "list", "set"}
+	accessPolicies.Permissions.Secrets = &updatedPermissions
+
+	names := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
+
+	retInstance := &azurev1alpha1.KeyVault{}
+	err = tc.k8sClient.Get(ctx, names, retInstance)
+	assert.Equal(nil, err, fmt.Sprintf("get keyvault in k8s"))
+	originalHash := retInstance.Status.SpecHash
+	retInstance.Spec.AccessPolicies = &[]azurev1alpha1.AccessPolicyEntry{accessPolicies}
+
+	err = tc.k8sClient.Update(ctx, retInstance)
+	assert.Equal(nil, err, fmt.Sprintf("updating keyvault in k8s"))
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, names, retInstance)
+		return originalHash != retInstance.Status.SpecHash
+	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be updated")
+
+	err = keyvaultSecretClient.Upsert(ctx, key, datanew)
+	assert.Equal(nil, err, "expect secret to be inserted into keyvault after update")
+
+	_, err = keyvaultSecretClient.Get(ctx, key)
+	assert.Equal(nil, err, "should be able to get secrets after update")
 
 	EnsureDelete(ctx, t, tc, keyVaultInstance)
 
@@ -267,7 +293,7 @@ func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
+	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
 
 	keyVaultLocation := tc.resourceGroupLocation
 

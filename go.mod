@@ -24,6 +24,7 @@ require (
 	github.com/hashicorp/go-multierror v1.0.0
 	github.com/jstemmer/go-junit-report v0.9.1 // indirect
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
+	github.com/mitchellh/hashstructure v1.0.0
 	github.com/onsi/ginkgo v1.11.0
 	github.com/onsi/gomega v1.7.0
 	github.com/pkg/errors v0.8.1
