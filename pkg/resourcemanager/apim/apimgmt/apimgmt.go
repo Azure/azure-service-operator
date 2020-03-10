@@ -125,13 +125,13 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 	// Attempt to fetch the parent API Management service the API will or does reside within
 	svc, err := apimshared.GetAPIMgmtSvc(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		// If there is no parent APIM service, we cannot proceed
-		return false, err
+		return false, nil
 	}
 
 	// Attempt to fetch the API
 	api, err := m.GetAPI(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService, instance.Spec.APIId)
-
 	if err == nil {
 		if api.StatusCode == 200 {
 			instance.Status.Message = resourcemanager.SuccessMsg
@@ -159,7 +159,8 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 			Path:                   instance.Spec.Properties.Path,
 			Format:                 instance.Spec.Properties.Format,
 		},
-		instance.Spec.Properties.APIRevision)
+		instance.Spec.Properties.APIRevision,
+	)
 
 	if err != nil {
 		// Set the Message in the case where an unexpected error is returned
@@ -197,10 +198,20 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 	}
 
 	_, err = m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.APIId, i.Spec.Properties.APIRevision, true)
-
 	if err != nil {
 		m.Telemetry.LogInfo("Error deleting API", err.Error())
 		i.Status.Message = err.Error()
+
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		handle := []string{
+			errhelp.ResourceNotFound,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
+		}
+		if helpers.ContainsString(handle, azerr.Type) {
+			return false, nil
+		}
+
 		return true, err
 	}
 	return false, nil
