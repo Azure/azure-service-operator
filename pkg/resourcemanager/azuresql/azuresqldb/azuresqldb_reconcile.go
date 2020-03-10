@@ -38,12 +38,6 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	instance.Status.Provisioning = true
 
 	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
-	if resp != nil && resp.StatusCode == 404 {
-
-		// a 404 error implies that the Azure SQL server hasn't been provisioned yet
-		instance.Status.Message = fmt.Sprintf("Waiting for SQL Server %s to provision", server)
-		return false, nil
-	}
 	if err != nil {
 		instance.Status.Message = err.Error()
 		catch := []string{
@@ -53,6 +47,12 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
+			return false, nil
+		}
+
+		// a 404 error implies that the Azure SQL server hasn't been provisioned yet
+		if resp != nil && resp.StatusCode == 404 {
+			instance.Status.Message = fmt.Sprintf("Waiting for SQL Server %s to provision", server)
 			return false, nil
 		}
 
