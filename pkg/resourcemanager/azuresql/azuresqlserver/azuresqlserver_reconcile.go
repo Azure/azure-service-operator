@@ -147,7 +147,10 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
+	instance.Status.Message = resourcemanager.SuccessMsg
+	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false
+	instance.Status.RequestedAt = nil
 
 	return true, nil
 }
