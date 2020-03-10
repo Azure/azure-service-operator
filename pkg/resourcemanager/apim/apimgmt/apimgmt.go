@@ -19,6 +19,7 @@ package apimgmt
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -125,13 +126,13 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 	// Attempt to fetch the parent API Management service the API will or does reside within
 	svc, err := apimshared.GetAPIMgmtSvc(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService)
 	if err != nil {
+		instance.Status.Message = err.Error()
 		// If there is no parent APIM service, we cannot proceed
-		return false, err
+		return false, nil
 	}
 
 	// Attempt to fetch the API
 	api, err := m.GetAPI(ctx, instance.Spec.ResourceGroup, instance.Spec.APIService, instance.Spec.APIId)
-
 	if err == nil {
 		if api.StatusCode == 200 {
 			instance.Status.Message = resourcemanager.SuccessMsg
@@ -159,7 +160,8 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 			Path:                   instance.Spec.Properties.Path,
 			Format:                 instance.Spec.Properties.Format,
 		},
-		instance.Spec.Properties.APIRevision)
+		instance.Spec.Properties.APIRevision,
+	)
 
 	if err != nil {
 		// Set the Message in the case where an unexpected error is returned
@@ -169,6 +171,9 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
+		log.Println()
+		log.Println(azerr.Type)
+		log.Println()
 		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Message = err.Error()
 			return false, nil
