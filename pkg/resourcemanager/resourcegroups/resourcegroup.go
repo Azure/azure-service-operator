@@ -13,7 +13,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/Azure/go-autorest/autorest/to"
 )
@@ -22,7 +21,7 @@ import (
 type AzureResourceGroupManager struct{}
 
 func getGroupsClient() resources.GroupsClient {
-	groupsClient := resources.NewGroupsClient(config.SubscriptionID())
+	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return resources.GroupsClient{}
@@ -33,10 +32,10 @@ func getGroupsClient() resources.GroupsClient {
 }
 
 func getGroupsClientWithAuthFile() resources.GroupsClient {
-	groupsClient := resources.NewGroupsClient(config.SubscriptionID())
+	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	// requires env var AZURE_AUTH_LOCATION set to output of
 	// `az ad sp create-for-rbac --sdk-auth`
-	a, err := auth.NewAuthorizerFromFile(azure.PublicCloud.ResourceManagerEndpoint)
+	a, err := auth.NewAuthorizerFromFile(config.BaseURI())
 	if err != nil {
 		return resources.GroupsClient{}
 	}
