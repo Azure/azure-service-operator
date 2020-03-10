@@ -225,13 +225,15 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, instance)
 		return HasFinalizer(res, finalizerName)
-	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to have finalizer", typeOf))
+	}, tc.timeoutFast, tc.retry, "error waiting for %s to have finalizer", typeOf)
 
+	msg := ""
 	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, names, instance)
+		err = tc.k8sClient.Get(ctx, names, instance)
 		statused := ConvertToStatus(instance)
+		msg = statused.Status.Message
 		return strings.Contains(statused.Status.Message, message) && statused.Status.Provisioned == provisioned
-	}, tc.timeout, tc.retry, fmt.Sprintf("wait for %s to provision", typeOf))
+	}, tc.timeout, tc.retry, "error waiting for %s to provision, err: %v, msg: %s", typeOf, err, msg)
 
 }
 
