@@ -3,9 +3,9 @@ kind: APIMgmtAPI
 metadata:
   name: aso-apimgmtapi-sample
 spec:
-  location: southcentralus
-  resourceGroup: AzureOperatorsTest
-  apiService: AzureOperatorsTestAPIM
+  location: westus
+  resourceGroup: resourcegroup-azure-operators
+  apiService: apimservice-sample
   apiId: apiId0
   properties:
     isCurrent: true
