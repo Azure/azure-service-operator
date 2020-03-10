@@ -19,6 +19,15 @@ import (
 
 // Ensure creates a sqlfailovergroup
 func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		fg.SecretClient = options.SecretClient
+	}
+
 	instance, err := fg.convert(obj)
 	if err != nil {
 		return false, err
@@ -89,6 +98,15 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 
 // Delete drops a sqlfailovergroup
 func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		fg.SecretClient = options.SecretClient
+	}
+
 	instance, err := fg.convert(obj)
 	if err != nil {
 		return false, err
@@ -98,6 +116,9 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 	serverName := instance.Spec.Server
 	failoverGroupName := instance.ObjectMeta.Name
 
+	// key for Secret to delete on successful provision
+	key := types.NamespacedName{Name: instance.ObjectMeta.Name, Namespace: instance.Namespace}
+
 	_, err = fg.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err != nil {
 		instance.Status.Message = err.Error()
@@ -106,6 +127,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 		// these errors are expected
 		ignore := []string{
 			errhelp.AsyncOpIncompleteError,
+			errhelp.FailoverGroupBusy,
 		}
 
 		// this means the thing doesn't exist
@@ -118,6 +140,8 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 		}
 
 		if helpers.ContainsString(finished, azerr.Type) {
+			// Best case deletion of secret
+			fg.SecretClient.Delete(ctx, key)
 			return false, nil
 		}
 		instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Delete failed with: %s", err.Error())
@@ -125,6 +149,8 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 	}
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFailoverGroup succeeded")
+	// Best case deletion of secret
+	fg.SecretClient.Delete(ctx, key)
 	return false, nil
 }
 
