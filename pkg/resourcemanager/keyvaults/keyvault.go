@@ -466,6 +466,13 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return false, err
 
 	}
+	instance.Status.ContainsUpdate = false
+	instance.Status.State = keyvault.Status
+
+	instance.Status.Provisioned = true
+	instance.Status.Provisioning = false
+	instance.Status.Message = resourcemanager.SuccessMsg
+	instance.Status.ResourceId = *keyvault.ID
 
 	return true, nil
 }
