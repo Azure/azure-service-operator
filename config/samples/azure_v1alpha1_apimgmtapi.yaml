@@ -1,0 +1,19 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: APIMgmtAPI
+metadata:
+  name: aso-apimgmtapi-sample
+spec:
+  location: westus
+  resourceGroup: resourcegroup-azure-operators
+  apiService: apimservice-sample
+  apiId: apiId0
+  properties:
+    isCurrent: true
+    isOnline: true
+    displayName: aso-apimgmtapi-sample
+    description: "API description"
+    apiVersionDescription: "API version description"
+    path: "/api/test"
+    protocols:
+    - http
+    subscriptionRequired: false
