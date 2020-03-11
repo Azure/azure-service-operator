@@ -8,6 +8,10 @@ import (
 	"os"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	resourceapimanagement "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	apimservice "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
@@ -28,9 +32,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
-	"k8s.io/apimachinery/pkg/runtime"
-
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -100,6 +101,7 @@ func main() {
 		secretClient = keyvaultSecrets.New(keyvaultName)
 	}
 
+	apimManager := resourceapimanagement.NewManager(ctrl.Log.WithName("controllers").WithName("APIManagement"))
 	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager()
 	vnetManager := vnet.NewAzureVNetManager(ctrl.Log.WithName("controllers").WithName("VirtualNetwork"))
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
@@ -473,6 +475,22 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "VNet")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.APIMAPIReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: apimManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"APIManagement",
+				ctrl.Log.WithName("controllers").WithName("APIManagement"),
+			),
+			Recorder: mgr.GetEventRecorderFor("APIManagement-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "APIMgmtAPI")
 		os.Exit(1)
 	}
 
