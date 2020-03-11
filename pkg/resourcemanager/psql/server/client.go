@@ -37,7 +37,7 @@ func NewPSQLServerClient(log logr.Logger, secretclient secrets.SecretClient, sch
 }
 
 func getPSQLServersClient() psql.ServersClient {
-	serversClient := psql.NewServersClient(config.SubscriptionID())
+	serversClient := psql.NewServersClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	serversClient.Authorizer = a
 	serversClient.AddToUserAgent(config.UserAgent())
@@ -45,7 +45,7 @@ func getPSQLServersClient() psql.ServersClient {
 }
 
 func getPSQLCheckNameAvailabilityClient() psql.CheckNameAvailabilityClient {
-	nameavailabilityClient := psql.NewCheckNameAvailabilityClient(config.SubscriptionID())
+	nameavailabilityClient := psql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	nameavailabilityClient.Authorizer = a
 	nameavailabilityClient.AddToUserAgent(config.UserAgent())
