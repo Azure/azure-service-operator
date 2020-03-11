@@ -315,6 +315,22 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.AzureSQLVNetRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlVnetRuleManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSQLVNetRuleOperator",
+				ctrl.Log.WithName("controllers").WithName("AzureSQLVNetRuleOperator"),
+			),
+			Recorder: mgr.GetEventRecorderFor("SqlVnetRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlVNetRule")
+		os.Exit(1)
+	}
+
 	if err = (&controllers.AzureSqlActionReconciler{
 		Client:                mgr.GetClient(),
 		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),

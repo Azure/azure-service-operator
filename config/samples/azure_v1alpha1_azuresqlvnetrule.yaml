@@ -1,0 +1,11 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSQLVNetRule
+metadata:
+  name: azuresqlvnetrule-sample
+spec:
+  resourceGroup: resourcegroup-azure-operators
+  server: sqlserver-sample-777
+  virtualNetworkName: virtualnetwork-sample
+  subnetName: test1
+  addressPrefix: "10.1.0.0/16"
+  ignoreMissingServiceEndpoint: true
