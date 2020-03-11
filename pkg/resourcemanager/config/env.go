@@ -48,6 +48,7 @@ func ParseEnvironment() error {
 
 	azureEnv, _ := azure.EnvironmentFromName(azcloud) // shouldn't fail
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
+	baseURI = azureEnv.ResourceManagerEndpoint // BaseURI()
 
 	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "southcentralus")   // DefaultLocation()
 	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW")         // UseDeviceFlow()

@@ -167,6 +167,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			}
 
 			EnsureInstance(ctx, t, tc, sqlUser)
+			t.Log(sqlUser.Status)
 		})
 	})
 
