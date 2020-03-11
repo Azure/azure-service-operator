@@ -32,36 +32,39 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	if strings.ToLower(instance.Spec.ActionName) == "rolladmincreds" {
 
-		// Determine the secret key based on the spec
-		if len(instance.Spec.ServerAdminSecretName) == 0 {
-			key = types.NamespacedName{Name: instance.Spec.ServerName, Namespace: instance.Namespace}
-		} else {
-			key = types.NamespacedName{Name: instance.Spec.ServerAdminSecretName}
-		}
+		if !instance.Status.Provisioned {
 
-		// Determine secretclient based on Spec. If Keyvault name isn't specified, fall back to
-		// global secret client
-		if len(instance.Spec.ServerSecretKeyVault) == 0 {
-			adminSecretClient = s.SecretClient
-		} else {
-			adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault)
-			if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
-				s.Telemetry.LogInfo("requeuing", "Keyvault specified not accessible yet")
-				instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
-				return false, nil
+			// Determine the secret key based on the spec
+			if len(instance.Spec.ServerAdminSecretName) == 0 {
+				key = types.NamespacedName{Name: instance.Spec.ServerName, Namespace: instance.Namespace}
+			} else {
+				key = types.NamespacedName{Name: instance.Spec.ServerAdminSecretName}
 			}
-		}
 
-		// Roll SQL server's admin password
-		err := s.UpdateAdminPassword(ctx, groupName, serverName, key, adminSecretClient)
-		if err != nil {
-			instance.Status.Message = err.Error()
-			return true, nil
-		}
+			// Determine secretclient based on Spec. If Keyvault name isn't specified, fall back to
+			// global secret client
+			if len(instance.Spec.ServerSecretKeyVault) == 0 {
+				adminSecretClient = s.SecretClient
+			} else {
+				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault)
+				if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
+					s.Telemetry.LogInfo("requeuing", "Keyvault specified not accessible yet")
+					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
+					return false, nil
+				}
+			}
 
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		instance.Status.Message = resourcemanager.SuccessMsg
+			// Roll SQL server's admin password
+			err := s.UpdateAdminPassword(ctx, groupName, serverName, key, adminSecretClient)
+			if err != nil {
+				instance.Status.Message = err.Error()
+				return true, nil
+			}
+
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			instance.Status.Message = resourcemanager.SuccessMsg
+		}
 
 	} else {
 		instance.Status.Message = "Unrecognized action"
