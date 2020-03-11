@@ -54,12 +54,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		}
 		return false, err
 	}
-
-	instance.Status.Provisioning = false
-	instance.Status.Provisioned = true
-	instance.Status.Message = resourcemanager.SuccessMsg
-
-	return true, nil
+	return false, nil
 }
 
 // Delete drops a sqlfirewallrule
