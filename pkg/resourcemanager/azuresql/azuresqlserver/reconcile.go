@@ -118,6 +118,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 				instance.Status.Message = resourcemanager.SuccessMsg
 				instance.Status.Provisioned = true
 				instance.Status.Provisioning = false
+				//todo: add resourceId
 			}
 
 			return true, nil
