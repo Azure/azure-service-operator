@@ -31,7 +31,7 @@ func NewPSQLDatabaseClient(log logr.Logger) *PSQLDatabaseClient {
 }
 
 func getPSQLDatabasesClient() psql.DatabasesClient {
-	databasesClient := psql.NewDatabasesClient(config.SubscriptionID())
+	databasesClient := psql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	databasesClient.Authorizer = a
 	databasesClient.AddToUserAgent(config.UserAgent())
@@ -39,7 +39,7 @@ func getPSQLDatabasesClient() psql.DatabasesClient {
 }
 
 func getPSQLCheckNameAvailabilityClient() psql.CheckNameAvailabilityClient {
-	nameavailabilityClient := psql.NewCheckNameAvailabilityClient(config.SubscriptionID())
+	nameavailabilityClient := psql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	nameavailabilityClient.Authorizer = a
 	nameavailabilityClient.AddToUserAgent(config.UserAgent())

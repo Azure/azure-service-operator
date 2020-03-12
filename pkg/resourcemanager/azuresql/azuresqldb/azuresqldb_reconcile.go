@@ -53,7 +53,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		return true, fmt.Errorf("AzureSqlDb CreateOrUpdate error %v", err)
 	}
 
-	resp, err := db.GetDB(ctx, groupName, server, dbName)
+	newDb, err := db.GetDB(ctx, groupName, server, dbName)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		catch := []string{
@@ -68,8 +68,9 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
-	instance.Status.State = string(*resp.Status)
+	instance.Status.State = string(*newDb.Status)
 	instance.Status.Message = resourcemanager.SuccessMsg
+	instance.Status.ResourceId = *newDb.ID
 
 	return true, nil
 }

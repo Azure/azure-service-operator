@@ -32,7 +32,7 @@ func NewPSQLFirewallRuleClient(log logr.Logger) *PSQLFirewallRuleClient {
 }
 
 func getPSQLFirewallRulesClient() psql.FirewallRulesClient {
-	firewallRulesClient := psql.NewFirewallRulesClient(config.SubscriptionID())
+	firewallRulesClient := psql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	firewallRulesClient.Authorizer = a
 	firewallRulesClient.AddToUserAgent(config.UserAgent())
