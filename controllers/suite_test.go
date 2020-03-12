@@ -24,6 +24,7 @@ import (
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -133,6 +134,7 @@ func setup() error {
 	var psqlDatabaseManager resourcemanagerpsqldatabase.PostgreSQLDatabaseManager
 	var psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
 	var consumerGroupClient resourcemanagereventhub.ConsumerGroupManager
+	var sqlVNetRuleManager resourcemanagersqlvnetrule.SqlVNetRuleManager
 
 	appInsightsManager = resourcemanagerappinsights.NewManager(
 		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
@@ -170,6 +172,7 @@ func setup() error {
 	)
 	sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 	sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlVNetRuleManager = resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager(*telemetry.InitializeTelemetryDefault("AzureSqlVNetRule", ctrl.Log.WithName("controllers").WithName("AzureSqlVNetRule")))
 	sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
 		ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"),
 		secretClient,
@@ -379,6 +382,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlFirewallRule-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureSQLVNetRuleReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: sqlVNetRuleManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSQLVNetRuleOperator",
+				ctrl.Log.WithName("controllers").WithName("AzureSQLVNetRuleOperator"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlVNetRule-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
