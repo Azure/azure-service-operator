@@ -222,8 +222,8 @@ func ParseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) 
 		newEntry.ApplicationID = &appID
 	}
 
-	if policy.ObjectID != "" {
-		if objID := getObjectID(ctx, policy.TenantID, policy.ObjectID); objID != nil {
+	if policy.ClientID != "" {
+		if objID := getObjectID(ctx, policy.TenantID, policy.ClientID); objID != nil {
 			newEntry.ObjectID = objID
 		}
 	}
