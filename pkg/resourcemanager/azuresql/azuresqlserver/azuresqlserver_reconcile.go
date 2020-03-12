@@ -275,32 +275,6 @@ func (s *AzureSqlServerManager) convert(obj runtime.Object) (*v1alpha1.AzureSqlS
 	return local, nil
 }
 
-// GetOrPrepareSecret handles the sql server credentials
-// It will retrieve the secret containing sql server credentials if it exists
-// if no secret exists and the server is supposed to have already been provisioned, the func returns an error
-// Otherwise credentials are generated and returned
-func (s *AzureSqlServerManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSqlServer) (bool, map[string][]byte, error) {
-	name := instance.ObjectMeta.Name
-
-	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
-	if stored, err := s.SecretClient.Get(ctx, key); err == nil {
-		return true, stored, nil
-	}
-
-	// if this isn't a new server (ie already provisioned previously) there should have been a secret
-	// exit here so the user knows something is wrong
-	if instance.Status.Provisioned {
-		return false, map[string][]byte{}, fmt.Errorf("Secret missing for provisioned server: %s", key.String())
-	}
-
-	secret, err := NewSecret(name)
-	if err != nil {
-		return false, secret, err
-	}
-
-	return false, secret, nil
-}
-
 // NewSecret generates a new sqlserver secret
 func NewSecret(serverName string) (map[string][]byte, error) {
 
