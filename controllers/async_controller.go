@@ -67,14 +67,19 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		return ctrl.Result{}, err
 	}
 
-	// Instantiate the KeyVault Secret Client if KeyVault specified in Spec
-	r.Telemetry.LogInfoByInstance("status", "retrieving keyvault for secrets if specified", req.String())
 	var keyvaultSecretClient secrets.SecretClient
+
+	// Determine if we need to check KeyVault for secrets
 	KeyVaultName := keyvaultsecretlib.GetKeyVaultName(local)
+
 	if len(KeyVaultName) != 0 {
+		// Instantiate the KeyVault Secret Client
 		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
+
+		r.Telemetry.LogInfoByInstance("status", "ensuring vault", req.String())
+
 		if !keyvaultsecretlib.IsKeyVaultAccessible(keyvaultSecretClient) {
-			r.Telemetry.LogInfoByInstance("requeuing", "Waiting for Keyvault to store secrets to be available", req.String())
+			r.Telemetry.LogInfoByInstance("requeuing", "awaiting vault verification", req.String())
 			return ctrl.Result{RequeueAfter: requeDuration}, nil
 		}
 	}
