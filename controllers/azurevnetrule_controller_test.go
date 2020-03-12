@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all azuresqlvnet
+// +build all azuresqlserver azuresqlservercombined testvnetrule
 
 package controllers
 
@@ -51,24 +51,28 @@ func TestAzureSqlVNetRuleControllerNoResourceGroup(t *testing.T) {
 	sqlVNETRuleNamespacedName := types.NamespacedName{Name: sqlVNetRuleName, Namespace: "default"}
 
 	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlVNETRuleNamespacedName, sqlVNETRuleInstance)
+		err = tc.k8sClient.Get(ctx, sqlVNETRuleNamespacedName, sqlVNetRuleInstance)
 		if err == nil {
-			return HasFinalizer(sqlVNETRuleInstance, finalizerName)
+			return HasFinalizer(sqlVNetRuleInstance, finalizerName)
+		} else {
+			return false
 		}
 	}, tc.timeout, tc.retry, "wait for sqlvnetrule to have finalizer")
 
 	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlVNETRuleNamespacedName, sqlVNETRuleInstance)
+		err = tc.k8sClient.Get(ctx, sqlVNETRuleNamespacedName, sqlVNetRuleInstance)
 		if err == nil {
-			return strings.Contains(sqlVNETRuleInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+			return strings.Contains(sqlVNetRuleInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
+		} else {
+			return false
 		}
 	}, tc.timeout, tc.retry, "wait for sqlvnetrule to have rg not found error")
 
-	err = tc.k8sClient.Delete(ctx, sqlVNETRuleInstance)
+	err = tc.k8sClient.Delete(ctx, sqlVNetRuleInstance)
 	assert.Equal(nil, err, "delete sqlvnetrule in k8s")
 
 	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlVNETRuleNamespacedName, sqlVNETRuleInstance)
+		err = tc.k8sClient.Get(ctx, sqlVNETRuleNamespacedName, sqlVNetRuleInstance)
 		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry, "wait for sqlvnetrule to be gone from k8s")
 }
@@ -80,7 +84,7 @@ func RunAzureSqlVNetRuleHappyPath(t *testing.T, sqlServerName string) {
 	sqlVNetRuleName := GenerateTestResourceNameWithRandom("vnet-rule", 10)
 	VNetName := GenerateTestResourceNameWithRandom("vnet", 10)
 	subnetName := "subnet-test"
-	VNetSubNetInstance := azurev1alpha.VNetSubnets{
+	VNetSubNetInstance := azurev1alpha1.VNetSubnets{
 		SubnetName:          subnetName,
 		SubnetAddressPrefix: "10.1.0.0/16",
 	}
@@ -95,7 +99,7 @@ func RunAzureSqlVNetRuleHappyPath(t *testing.T, sqlServerName string) {
 			Location:      tc.resourceGroupLocation,
 			ResourceGroup: tc.resourceGroupName,
 			AddressSpace:  "10.0.0.0/8",
-			Subnets:       []azurev1alpha.VNetSubnets{VNetSubNetInstance},
+			Subnets:       []azurev1alpha1.VNetSubnets{VNetSubNetInstance},
 		},
 	}
 
