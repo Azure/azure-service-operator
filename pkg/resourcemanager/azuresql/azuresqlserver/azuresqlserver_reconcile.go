@@ -147,13 +147,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 			// this server likely belongs to someone else
 			instance.Status.Provisioning = false
-			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-			if _, err := s.SecretClient.Get(ctx, key); err == nil {
-				instance.Status.Message = resourcemanager.SuccessMsg
-				instance.Status.Provisioned = true
-				instance.Status.Provisioning = false
-				//todo: add resourceId
-			}
 			instance.Status.RequestedAt = nil
 
 			return true, nil
