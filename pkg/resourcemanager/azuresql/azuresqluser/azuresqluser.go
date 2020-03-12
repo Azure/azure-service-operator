@@ -78,8 +78,13 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
 	var errorStrings []string
 	for _, role := range roles {
-		tsql := fmt.Sprintf("sp_addrolemember \"%s\", \"%s\"", role, user)
-		_, err := db.ExecContext(ctx, tsql)
+		tsql := "sp_addrolemember @role, @user"
+
+		_, err := db.ExecContext(
+			ctx, tsql,
+			sql.Named("role", role),
+			sql.Named("user", user),
+		)
 		if err != nil {
 			m.Log.Info("GrantUserRoles:", "Error executing add role:", err.Error())
 			errorStrings = append(errorStrings, err.Error())
@@ -144,6 +149,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	if len(instance.Spec.AdminSecret) == 0 {
 		adminsecretName = instance.Spec.Server
 	}
+
 	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
 
 	var sqlUserSecretClient secrets.SecretClient
