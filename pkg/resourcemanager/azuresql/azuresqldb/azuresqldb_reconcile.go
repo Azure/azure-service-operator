@@ -76,6 +76,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	instance.Status.Provisioned = true
 	instance.Status.State = string(*dbGet.Status)
 	instance.Status.Message = resourcemanager.SuccessMsg
+	instance.Status.ResourceId = *newDb.ID
 
 	return true, nil
 }
