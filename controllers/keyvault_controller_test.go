@@ -79,7 +79,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
 		{
 			TenantID: config.TenantID(),
-			ObjectID: config.ClientID(),
+			ClientID: config.ClientID(),
 
 			Permissions: &azurev1alpha1.Permissions{
 				Keys: &[]string{
@@ -158,7 +158,7 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 
 	accessPolicies := azurev1alpha1.AccessPolicyEntry{
 		TenantID: config.TenantID(),
-		ObjectID: config.ClientID(),
+		ClientID: config.ClientID(),
 		Permissions: &azurev1alpha1.Permissions{
 			Secrets: &limitedPermissions,
 		},
