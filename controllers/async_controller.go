@@ -76,10 +76,10 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		// Instantiate the KeyVault Secret Client
 		keyvaultSecretClient = keyvaultsecretlib.New(KeyVaultName)
 
-		r.Telemetry.LogInfoByInstance("status", "retrieving keyvault secrets", req.String())
+		r.Telemetry.LogInfoByInstance("status", "ensuring vault", req.String())
 
 		if !keyvaultsecretlib.IsKeyVaultAccessible(keyvaultSecretClient) {
-			r.Telemetry.LogInfoByInstance("requeuing", "waiting for KeyVault secrets to become available", req.String())
+			r.Telemetry.LogInfoByInstance("requeuing", "awaiting vault verification", req.String())
 			return ctrl.Result{RequeueAfter: requeDuration}, nil
 		}
 	}
