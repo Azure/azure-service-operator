@@ -14,9 +14,9 @@ type AzureSQLVNetRuleSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	ResourceGroup                string `json:"resourceGroup"`
 	Server                       string `json:"server"`
-	VirtualNetworkName           string `json:"virtualNetworkName"`
+	VNetResourceGroup            string `json:"vNetResourceGroup"`
+	VNetName                     string `json:"vNetName"`
 	SubnetName                   string `json:"subnetName"`
-	AddressPrefix                string `json:"addressPrefix"`
 	IgnoreMissingServiceEndpoint bool   `json:"ignoreMissingServiceEndpoint,omitempty"`
 }
 
