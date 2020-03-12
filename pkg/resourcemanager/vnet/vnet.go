@@ -21,7 +21,7 @@ type AzureVNetManager struct {
 
 // getVNetClient returns a new instance of an VirtualNetwork client
 func getVNetClient() (vnetwork.VirtualNetworksClient, error) {
-	client := vnetwork.NewVirtualNetworksClient(config.SubscriptionID())
+	client := vnetwork.NewVirtualNetworksClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		client = vnetwork.VirtualNetworksClient{}
@@ -34,7 +34,7 @@ func getVNetClient() (vnetwork.VirtualNetworksClient, error) {
 
 // getSubnetsClient returns a new instance of an VirtualNetwork client
 func getSubnetsClient() (vnetwork.SubnetsClient, error) {
-	client := vnetwork.NewSubnetsClient(config.SubscriptionID())
+	client := vnetwork.NewSubnetsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		client = vnetwork.SubnetsClient{}
