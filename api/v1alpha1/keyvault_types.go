@@ -30,8 +30,8 @@ type NetworkRuleSet struct {
 type AccessPolicyEntry struct {
 	// TenantID - The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
 	TenantID string `json:"tenantID,omitempty"`
-	// ObjectID - The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies.
-	ObjectID string `json:"objectID,omitempty"`
+	// ClientID - The client ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The client ID must be unique for the list of access policies.
+	ClientID string `json:"clientID,omitempty"`
 	// ApplicationID -  Application ID of the client making request on behalf of a principal
 	ApplicationID string `json:"applicationID,omitempty"`
 	// Permissions - Permissions the identity has for keys, secrets, and certificates.
