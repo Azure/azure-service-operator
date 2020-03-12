@@ -86,7 +86,7 @@ func RunAzureSqlVNetRuleHappyPath(t *testing.T, sqlServerName string) {
 	subnetName := "subnet-test"
 	VNetSubNetInstance := azurev1alpha1.VNetSubnets{
 		SubnetName:          subnetName,
-		SubnetAddressPrefix: "10.1.0.0/16",
+		SubnetAddressPrefix: "110.1.0.0/16",
 	}
 
 	// Create a VNET
@@ -98,7 +98,7 @@ func RunAzureSqlVNetRuleHappyPath(t *testing.T, sqlServerName string) {
 		Spec: azurev1alpha1.VirtualNetworkSpec{
 			Location:      tc.resourceGroupLocation,
 			ResourceGroup: tc.resourceGroupName,
-			AddressSpace:  "10.0.0.0/8",
+			AddressSpace:  "110.0.0.0/8",
 			Subnets:       []azurev1alpha1.VNetSubnets{VNetSubNetInstance},
 		},
 	}
