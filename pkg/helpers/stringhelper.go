@@ -15,10 +15,11 @@ import (
 
 const (
 	passwordLength  = 16
-	passwordChars   = lowerAlphaChars + upperAlphaChars + numberChars
+	passwordChars   = lowerAlphaChars + upperAlphaChars + numberChars + specialChars
 	lowerAlphaChars = "abcdefghijklmnopqrstuvwxyz"
 	upperAlphaChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	numberChars     = "0123456789"
+	specialChars    = "!@#$%^&*"
 )
 
 var seededRand = NewSeeded()
