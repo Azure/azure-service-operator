@@ -63,7 +63,12 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 				return true, nil
 			}
 
-			instance.Status.Message = fmt.Sprintf("SQL server already exists and the credential '%s' could not be found", key.Name)
+			instance.Status.Message = fmt.Sprintf(
+				`SQL server already exists and the credentials could not be found. 
+				If using kube secrets a secret should exist at '%s' for keyvault it should be '%s'`,
+				key.String(),
+				fmt.Sprintf("%s-%s", key.Namespace, key.Name),
+			)
 
 			return false, nil
 		}
@@ -198,7 +203,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	// if the resource is in a failed state it was never creatred or could never be verified
 	// so we skip attempting to delete the resrouce from Azure
-	if instance.Status.FailedProvisioning {
+	if instance.Status.FailedProvisioning || (!instance.Status.Provisioned && !instance.Status.Provisioning) {
 		return false, nil
 	}
 
