@@ -37,7 +37,8 @@ func NewAzureRedisCacheManager(log logr.Logger, secretClient secrets.SecretClien
 }
 
 func getRedisCacheClient() (redis.Client, error) {
-	redisClient := redis.NewClient(config.SubscriptionID())
+	redisClient := redis.NewClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		log.Println("failed to initialize authorizer: " + err.Error())
