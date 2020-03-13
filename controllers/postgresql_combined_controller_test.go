@@ -18,7 +18,7 @@ import (
 
 func TestPSQLDatabaseController(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
