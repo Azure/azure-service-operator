@@ -27,7 +27,7 @@ import (
 
 func TestEventHubControllerNoNamespace(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -77,7 +77,7 @@ func TestEventHubControllerNoNamespace(t *testing.T) {
 
 func TestEventHubControllerCreateAndDelete(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -134,7 +134,7 @@ func TestEventHubControllerCreateAndDelete(t *testing.T) {
 
 func TestEventHubControllerCreateAndDeleteCustomSecret(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 	var err error
@@ -183,7 +183,7 @@ func TestEventHubControllerCreateAndDeleteCustomSecret(t *testing.T) {
 }
 func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -241,7 +241,7 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 
 func TestEventHubControllerCreateAndDeleteCapture(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 	var err error
