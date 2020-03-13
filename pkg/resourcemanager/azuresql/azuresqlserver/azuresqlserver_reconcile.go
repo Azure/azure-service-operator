@@ -135,9 +135,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			return false, nil
 		}
 
-		// SQL Server names are globally unique and sometimes events cause superfluous reconciliations after the server already exists
-		// To mitigate this we check if there is a credential that we can use to access the server
-		// If not, we assume someone else owns this server
+		// SQL Server names are globally unique so if a server with this name exists we need to see if it meets our criteria (ie. same rg/sub)
 		if azerr.Type == errhelp.AlreadyExists {
 			// see if server exists in correct rg
 			if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err == nil {
