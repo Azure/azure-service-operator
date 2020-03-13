@@ -40,7 +40,7 @@ spec:
       - /subscriptions/<subid>/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet2
   accessPolicies:
     - tenantID: <tenantID>
-      objectID: <objectID>
+      clientID: <clientID>
       applicationID: <appID>
       permissions:
         keys: # backup create decrypt delete encrypt get import list purge record restore sign unwrapKey update verify wrapKey

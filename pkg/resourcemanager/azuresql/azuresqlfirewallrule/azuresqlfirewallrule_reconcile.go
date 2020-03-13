@@ -28,11 +28,12 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 	startIP := instance.Spec.StartIPAddress
 	endIP := instance.Spec.EndIPAddress
 
-	_, err = fw.GetSQLFirewallRule(ctx, groupName, server, ruleName)
+	fwr, err := fw.GetSQLFirewallRule(ctx, groupName, server, ruleName)
 	if err == nil {
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
 		instance.Status.Message = resourcemanager.SuccessMsg
+		instance.Status.ResourceId = *fwr.ID
 		return true, nil
 	}
 	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Get error %s", err.Error())
@@ -53,12 +54,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		}
 		return false, err
 	}
-
-	instance.Status.Provisioning = false
-	instance.Status.Provisioned = true
-	instance.Status.Message = resourcemanager.SuccessMsg
-
-	return true, nil
+	return false, nil
 }
 
 // Delete drops a sqlfirewallrule
