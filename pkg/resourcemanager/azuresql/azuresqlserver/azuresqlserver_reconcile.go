@@ -6,6 +6,7 @@ package azuresqlserver
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -203,7 +204,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	// if the resource is in a failed state it was never creatred or could never be verified
 	// so we skip attempting to delete the resrouce from Azure
-	if instance.Status.FailedProvisioning || (!instance.Status.Provisioned && !instance.Status.Provisioning) {
+	if instance.Status.FailedProvisioning || strings.Contains(instance.Status.Message, "credentials could not be found") {
 		return false, nil
 	}
 
