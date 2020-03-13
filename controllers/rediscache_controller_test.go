@@ -27,7 +27,7 @@ const longRunningTimeout = 25 * time.Minute
 
 func TestRedisCacheControllerHappyPath(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
