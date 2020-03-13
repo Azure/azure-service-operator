@@ -32,19 +32,6 @@ func getVNetClient() (vnetwork.VirtualNetworksClient, error) {
 	return client, err
 }
 
-// getSubnetsClient returns a new instance of an VirtualNetwork client
-func getSubnetsClient() (vnetwork.SubnetsClient, error) {
-	client := vnetwork.NewSubnetsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
-	if err != nil {
-		client = vnetwork.SubnetsClient{}
-	} else {
-		client.Authorizer = a
-		client.AddToUserAgent(config.UserAgent())
-	}
-	return client, err
-}
-
 // CreateVNet creates VNets
 func (_ *AzureVNetManager) CreateVNet(ctx context.Context, location string, resourceGroupName string, resourceName string, addressSpace string, subnets []azurev1alpha1.VNetSubnets) (vnetwork.VirtualNetwork, error) {
 	client, err := getVNetClient()
