@@ -101,6 +101,15 @@ func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, r
 func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
 	newUser := string(secret[SecretUsernameKey])
 	newPassword := string(secret[SecretPasswordKey])
+
+	// make an effort to prevent sql injectino
+	if err := findBadChars(newUser); err != nil {
+		return "", fmt.Errorf("Problem found with username: %v", err)
+	}
+	if err := findBadChars(newPassword); err != nil {
+		return "", fmt.Errorf("Problem found with password: %v", err)
+	}
+
 	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
 	_, err := db.ExecContext(ctx, tsql)
 
@@ -624,4 +633,19 @@ func generateRandomPassword(n int) (string, error) {
 	}
 
 	return res, nil
+}
+
+func findBadChars(stack string) error {
+	badChars := []string{
+		"'",
+		";",
+		"--",
+	}
+
+	for _, s := range badChars {
+		if idx := strings.Index(stack, s); idx > -1 {
+			return fmt.Errorf("potentially dangerous character seqience found: '%s' at pos: %d", s, idx)
+		}
+	}
+	return nil
 }
