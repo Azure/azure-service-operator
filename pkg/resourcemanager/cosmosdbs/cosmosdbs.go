@@ -16,7 +16,7 @@ import (
 )
 
 func getCosmosDBClient() documentdb.DatabaseAccountsClient {
-	cosmosDBClient := documentdb.NewDatabaseAccountsClient(config.SubscriptionID())
+	cosmosDBClient := documentdb.NewDatabaseAccountsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		log.Fatalf("failed to initialize authorizer: %v\n", err)
