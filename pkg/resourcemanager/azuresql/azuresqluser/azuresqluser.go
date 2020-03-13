@@ -23,7 +23,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 
 	_ "github.com/denisenkom/go-mssqldb"
-	"github.com/sethvargo/go-password/password"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -599,7 +598,7 @@ func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 
 // GetOrPrepareSecret gets or creates a secret
 func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) map[string][]byte {
-	pw, _ := generateRandomPassword(16)
+	pw := helpers.NewPassword()
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 
 	secret, err := secretClient.Get(ctx, key)
@@ -615,24 +614,6 @@ func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *
 		}
 	}
 	return secret
-}
-
-// helper function to generate random password for sql server
-func generateRandomPassword(n int) (string, error) {
-
-	// Math - Generate a password where: 1/3 of the # of chars are digits, 1/3 of the # of chars are symbols,
-	// and the remaining 1/3 is a mix of upper- and lower-case letters
-	digits := n / 3
-	symbols := n / 3
-
-	// Generate a password that is n characters long, with # of digits and symbols described above,
-	// allowing upper and lower case letters, and disallowing repeat characters.
-	res, err := password.Generate(n, digits, symbols, false, false)
-	if err != nil {
-		return "", err
-	}
-
-	return res, nil
 }
 
 func findBadChars(stack string) error {
