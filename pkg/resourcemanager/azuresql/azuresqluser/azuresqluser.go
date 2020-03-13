@@ -622,6 +622,7 @@ func findBadChars(stack string) error {
 		"\"",
 		";",
 		"--",
+		"/*",
 	}
 
 	for _, s := range badChars {
