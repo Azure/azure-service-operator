@@ -63,7 +63,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 				return true, nil
 			}
 
-			instance.Status.Message = "SQL server already exists and no credentials could be found"
+			instance.Status.Message = fmt.Sprintf("SQL server already exists and the credential '%s' could not be found", key.Name)
 
 			return false, nil
 		}
