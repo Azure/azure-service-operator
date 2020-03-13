@@ -8,15 +8,13 @@ import (
 
 	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
-	"github.com/Azure/azure-service-operator/pkg/telemetry"
 )
 
 type AzureSqlVNetRuleManager struct {
-	Telemetry telemetry.Telemetry
 }
 
-func NewAzureSqlVNetRuleManager(telemetry telemetry.Telemetry) *AzureSqlVNetRuleManager {
-	return &AzureSqlVNetRuleManager{Telemetry: telemetry}
+func NewAzureSqlVNetRuleManager() *AzureSqlVNetRuleManager {
+	return &AzureSqlVNetRuleManager{}
 }
 
 // GetSQLVNetRule returns a VNet rule

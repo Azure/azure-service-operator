@@ -142,7 +142,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		// Create VNet and VNetRules -----
 		t.Run("run subtest to test VNet Rule in primary server", func(t *testing.T) {
 			t.Parallel()
-			RunAzureSqlVNetRuleHappyPath(t, sqlServerName)
+			RunAzureSqlVNetRuleHappyPath(t, sqlServerName, rgLocation)
 		})
 
 	})

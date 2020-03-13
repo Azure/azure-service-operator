@@ -43,6 +43,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 				return true, nil
 			}
 		}
+		return false, nil
 	}
 	instance.Status.Message = fmt.Sprintf("AzureSqlVNetRule Get error %s", err.Error())
 

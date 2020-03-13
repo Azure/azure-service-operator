@@ -132,9 +132,7 @@ func main() {
 	)
 	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
-	sqlVNetRuleManager := resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager(telemetry.Telemetry{
-		Logger: ctrl.Log.WithName("sqlvnetrule").WithName("AzureSqlVNetRule"),
-	})
+	sqlVNetRuleManager := resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager()
 	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
 		ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"),
 		secretClient,

@@ -77,7 +77,7 @@ func TestAzureSqlVNetRuleControllerNoResourceGroup(t *testing.T) {
 	}, tc.timeout, tc.retry, "wait for sqlvnetrule to be gone from k8s")
 }
 
-func RunAzureSqlVNetRuleHappyPath(t *testing.T, sqlServerName string) {
+func RunAzureSqlVNetRuleHappyPath(t *testing.T, sqlServerName string, rgLocation string) {
 	defer PanicRecover()
 	ctx := context.Background()
 
@@ -96,7 +96,7 @@ func RunAzureSqlVNetRuleHappyPath(t *testing.T, sqlServerName string) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.VirtualNetworkSpec{
-			Location:      tc.resourceGroupLocation,
+			Location:      rgLocation,
 			ResourceGroup: tc.resourceGroupName,
 			AddressSpace:  "110.0.0.0/8",
 			Subnets:       []azurev1alpha1.VNetSubnets{VNetSubNetInstance},

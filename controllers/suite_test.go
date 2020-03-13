@@ -172,7 +172,7 @@ func setup() error {
 	)
 	sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 	sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
-	sqlVNetRuleManager = resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager(*telemetry.InitializeTelemetryDefault("AzureSqlVNetRule", ctrl.Log.WithName("controllers").WithName("AzureSqlVNetRule")))
+	sqlVNetRuleManager = resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager()
 	sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
 		ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"),
 		secretClient,
