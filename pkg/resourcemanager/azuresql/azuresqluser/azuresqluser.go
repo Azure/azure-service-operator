@@ -74,7 +74,7 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 	return db, err
 }
 
-// Grants roles to a user for a given database
+// GrantUserRoles  gramts roles to a user for a given database
 func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
 	var errorStrings []string
 	for _, role := range roles {
@@ -116,7 +116,11 @@ func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string]
 
 // UserExists checks if db contains user
 func (m *AzureSqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
-	res, err := db.ExecContext(ctx, fmt.Sprintf("SELECT * FROM sysusers WHERE NAME='%s'", username))
+	res, err := db.ExecContext(
+		ctx,
+		"SELECT * FROM sysusers WHERE NAME=@user",
+		sql.Named("user", username),
+	)
 	if err != nil {
 		return false, err
 	}
@@ -126,8 +130,8 @@ func (m *AzureSqlUserManager) UserExists(ctx context.Context, db *sql.DB, userna
 
 // Drops user from db
 func (m *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
-	tsql := fmt.Sprintf("DROP USER \"%s\"", user)
-	_, err := db.ExecContext(ctx, tsql)
+	tsql := "DROP USER @user"
+	_, err := db.ExecContext(ctx, tsql, sql.Named("user", user))
 	return err
 }
 
