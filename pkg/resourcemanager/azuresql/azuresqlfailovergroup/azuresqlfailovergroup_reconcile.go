@@ -54,6 +54,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
 		instance.Status.Message = resourcemanager.SuccessMsg
+		instance.Status.ResourceId = *resp.ID
 		return true, nil
 	}
 	instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
