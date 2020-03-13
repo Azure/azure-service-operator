@@ -1,0 +1,20 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlServer
+metadata:
+  name: sqlserver-sample-777
+spec:
+  location: westus
+  resourcegroup: resourcegroup-azure-operators
+  # Use the field below to optionally specify a different keyvault 
+  # to store the server admin credential secrets in
+  #keyVaultToStoreSecrets: asoSecretKeyVault
+---
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlDatabase
+metadata:
+  name:  azuresqldatabase-sample
+spec:
+  location: westus
+  resourcegroup: resourcegroup-azure-operators
+  server:  sqlserver-sample-777
+  edition: 0
