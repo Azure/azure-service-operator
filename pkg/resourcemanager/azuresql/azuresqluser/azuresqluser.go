@@ -619,6 +619,7 @@ func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *
 func findBadChars(stack string) error {
 	badChars := []string{
 		"'",
+		"\"",
 		";",
 		"--",
 	}
