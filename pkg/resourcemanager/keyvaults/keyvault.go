@@ -66,9 +66,9 @@ func getObjectID(ctx context.Context, tenantID string, clientID string) *string 
 	return result.Value
 }
 
-func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
+func ParseNetworkPolicy(ruleSet *v1alpha1.NetworkRuleSet) keyvault.NetworkRuleSet {
 	var bypass keyvault.NetworkRuleBypassOptions
-	switch instance.Spec.NetworkPolicies.Bypass {
+	switch ruleSet.Bypass {
 	case "AzureServices":
 		bypass = keyvault.AzureServices
 	case "None":
@@ -78,7 +78,7 @@ func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
 	}
 
 	var defaultAction keyvault.NetworkRuleAction
-	switch instance.Spec.NetworkPolicies.DefaultAction {
+	switch ruleSet.DefaultAction {
 	case "Allow":
 		defaultAction = keyvault.Allow
 	case "Deny":
@@ -88,13 +88,19 @@ func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
 	}
 
 	var ipInstances []keyvault.IPRule
-	for _, ip := range *instance.Spec.NetworkPolicies.IPRules {
-		ipInstances = append(ipInstances, keyvault.IPRule{Value: &ip})
+	if ruleSet.IPRules != nil {
+		for _, i := range *ruleSet.IPRules {
+			ip := i
+			ipInstances = append(ipInstances, keyvault.IPRule{Value: &ip})
+		}
 	}
 
 	var virtualNetworkRules []keyvault.VirtualNetworkRule
-	for _, id := range *instance.Spec.NetworkPolicies.VirtualNetworkRules {
-		virtualNetworkRules = append(virtualNetworkRules, keyvault.VirtualNetworkRule{ID: &id})
+	if ruleSet.VirtualNetworkRules != nil {
+		for _, i := range *ruleSet.VirtualNetworkRules {
+			id := i
+			virtualNetworkRules = append(virtualNetworkRules, keyvault.VirtualNetworkRule{ID: &id})
+		}
 	}
 
 	networkAcls := keyvault.NetworkRuleSet{
@@ -289,7 +295,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 
 	var networkAcls keyvault.NetworkRuleSet
 	if instance.Spec.NetworkPolicies != nil {
-		networkAcls = parseNetworkPolicy(instance)
+		networkAcls = ParseNetworkPolicy(instance.Spec.NetworkPolicies)
 	} else {
 		networkAcls = keyvault.NetworkRuleSet{}
 	}
