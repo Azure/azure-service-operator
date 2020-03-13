@@ -27,7 +27,7 @@ func TestConsumerGroup(t *testing.T) {
 	var ehnName string = tc.eventhubNamespaceName
 	var ehName string = tc.eventhubName
 	var ctx = context.Background()
-	defer PanicRecover()
+	defer PanicRecover(t)
 
 	consumerGroupName := GenerateTestResourceNameWithRandom("cg", 10)
 	azureConsumerGroupName := consumerGroupName + "-azure"
