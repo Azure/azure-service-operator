@@ -40,7 +40,7 @@ func NewAzureKeyVaultManager(log logr.Logger, scheme *runtime.Scheme) *azureKeyV
 }
 
 func getVaultsClient() (keyvault.VaultsClient, error) {
-	vaultsClient := keyvault.NewVaultsClient(config.SubscriptionID())
+	vaultsClient := keyvault.NewVaultsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return vaultsClient, err
