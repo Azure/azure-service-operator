@@ -14,7 +14,7 @@ import (
 )
 
 func TestVirtualNetworkHappyPath(t *testing.T) {
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 
 	VNetName := GenerateTestResourceNameWithRandom("vnet", 10)

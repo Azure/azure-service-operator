@@ -21,7 +21,7 @@ import (
 
 func TestAzureSqlVNetRuleControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -78,7 +78,7 @@ func TestAzureSqlVNetRuleControllerNoResourceGroup(t *testing.T) {
 }
 
 func RunAzureSqlVNetRuleHappyPath(t *testing.T, sqlServerName string, rgLocation string) {
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 
 	sqlVNetRuleName := GenerateTestResourceNameWithRandom("vnet-rule", 10)
