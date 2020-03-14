@@ -231,7 +231,7 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 		_ = tc.k8sClient.Get(ctx, names, instance)
 		statused := ConvertToStatus(instance)
 		return strings.Contains(statused.Status.Message, message) && statused.Status.Provisioned == provisioned
-	}, tc.timeout, tc.retry, "wait for %s to provision", typeO)
+	}, tc.timeout, tc.retry, "wait for %s to provision", typeOf)
 
 }
 
