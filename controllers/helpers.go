@@ -206,6 +206,10 @@ func removeString(slice []string, s string) []string {
 
 // EnsureInstance creates the instance and waits for it to exist or timeout
 func EnsureInstance(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
+	EnsureInstanceWithResult(ctx, t, tc, instance, successMsg, true)
+}
+
+func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, message string, provisioned bool) {
 	assert := assert.New(t)
 	typeOf := fmt.Sprintf("%T", instance)
 
@@ -221,13 +225,13 @@ func EnsureInstance(ctx context.Context, t *testing.T, tc TestContext, instance 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, instance)
 		return HasFinalizer(res, finalizerName)
-	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to have finalizer", typeOf))
+	}, tc.timeoutFast, tc.retry, "error waiting for %s to have finalizer", typeOf)
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, instance)
 		statused := ConvertToStatus(instance)
-		return strings.Contains(statused.Status.Message, successMsg) && statused.Status.Provisioned == true
-	}, tc.timeout, tc.retry, fmt.Sprintf("wait for %s to provision", typeOf))
+		return strings.Contains(statused.Status.Message, message) && statused.Status.Provisioned == provisioned
+	}, tc.timeout, tc.retry, "wait for %s to provision", typeOf)
 
 }
 
