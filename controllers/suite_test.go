@@ -52,7 +52,6 @@ var tc TestContext
 
 func setup() error {
 	log.Println(fmt.Sprintf("Starting common controller test setup"))
-	defer PanicRecover()
 
 	err := resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
@@ -644,9 +643,10 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func PanicRecover() {
+func PanicRecover(t *testing.T) {
 	if err := recover(); err != nil {
 		fmt.Println("caught panic in test:")
 		fmt.Println(err)
+		t.Fail()
 	}
 }

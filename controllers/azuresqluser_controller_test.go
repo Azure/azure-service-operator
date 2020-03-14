@@ -22,7 +22,7 @@ import (
 
 func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 	var err error
@@ -76,7 +76,7 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 
 func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 	var err error
