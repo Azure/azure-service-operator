@@ -227,13 +227,11 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 		return HasFinalizer(res, finalizerName)
 	}, tc.timeoutFast, tc.retry, "error waiting for %s to have finalizer", typeOf)
 
-	var saved *v1alpha1.StatusedObject
 	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, names, instance)
+		_ = tc.k8sClient.Get(ctx, names, instance)
 		statused := ConvertToStatus(instance)
-		saved = statused
 		return strings.Contains(statused.Status.Message, message) && statused.Status.Provisioned == provisioned
-	}, tc.timeout, tc.retry, "error waiting for %s to provision, err: %v, msg: %s, provisioning: %v, provisioned: %v", typeOf, err, saved.Status.Message, saved.Status.Provisioning, saved.Status.Provisioned)
+	}, tc.timeout, tc.retry, "wait for %s to provision", typeO)
 
 }
 
