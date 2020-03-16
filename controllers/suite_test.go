@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"strings"
 	"testing"
 	"time"
@@ -683,8 +684,8 @@ func TestMain(m *testing.M) {
 
 func PanicRecover(t *testing.T) {
 	if err := recover(); err != nil {
-		fmt.Println("caught panic in test:")
-		fmt.Println(err)
+		t.Logf("caught panic in test: %v", err)
+		t.Logf("stacktrace from panic: \n%s", string(debug.Stack()))
 		t.Fail()
 	}
 }
