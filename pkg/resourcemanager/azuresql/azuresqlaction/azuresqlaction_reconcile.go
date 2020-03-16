@@ -9,6 +9,8 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultsecretlib "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
@@ -57,8 +59,17 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			// Roll SQL server's admin password
 			err := s.UpdateAdminPassword(ctx, groupName, serverName, key, adminSecretClient)
 			if err != nil {
+				catch := []string{
+					errhelp.ResourceGroupNotFoundErrorCode, // RG not present yet
+					errhelp.ResourceNotFound,               // server not present yet
+				}
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if helpers.ContainsString(catch, azerr.Type) {
+					instance.Status.Message = "Requeuing: " + err.Error()
+					return false, nil //requeue until server/RG ready
+				}
 				instance.Status.Message = err.Error()
-				return true, nil
+				return true, nil // unrecoverable error
 			}
 
 			instance.Status.Provisioned = true

@@ -5,7 +5,6 @@ package azuresqlaction
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -45,7 +44,7 @@ func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupNa
 	// Get the SQL server instance
 	server, err := azuresqlserverManager.GetServer(ctx, groupName, serverName)
 	if err != nil {
-		return fmt.Errorf("GetServer failed with " + err.Error())
+		return err
 	}
 
 	// We were able to get the server instance from Azure, so we proceed to update the admin password
