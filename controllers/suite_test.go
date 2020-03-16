@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"strings"
 	"testing"
 	"time"
@@ -17,6 +18,7 @@ import (
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
 
+	resourcemanagerapimgmt "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
@@ -29,9 +31,7 @@ import (
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
-
 	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
-
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -53,7 +53,6 @@ var tc TestContext
 
 func setup() error {
 	log.Println(fmt.Sprintf("Starting common controller test setup"))
-	defer PanicRecover()
 
 	err := resourcemanagerconfig.ParseEnvironment()
 	if err != nil {
@@ -118,8 +117,8 @@ func setup() error {
 	secretClient := k8sSecrets.New(k8sManager.GetClient())
 
 	var appInsightsManager resourcemanagerappinsights.ApplicationInsightsManager
+	var apiMgmtManager resourcemanagerapimgmt.APIManager
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
-
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
 	var eventhubNamespaceClient resourcemanagereventhub.EventHubNamespaceManager
@@ -138,6 +137,9 @@ func setup() error {
 		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
 		secretClient,
 		scheme.Scheme,
+	)
+	apiMgmtManager = resourcemanagerapimgmt.NewManager(
+		ctrl.Log.WithName("appinsightsmanager").WithName("ApiMgmt"),
 	)
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
@@ -220,6 +222,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("AppInsights"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AppInsights-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&APIMAPIReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: apiMgmtManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"ApiMgmt",
+				ctrl.Log.WithName("controllers").WithName("ApiMgmt"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("ApiMgmt-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
@@ -626,9 +644,10 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func PanicRecover() {
+func PanicRecover(t *testing.T) {
 	if err := recover(); err != nil {
-		fmt.Println("caught panic in test:")
-		fmt.Println(err)
+		t.Logf("caught panic in test: %v", err)
+		t.Logf("stacktrace from panic: \n%s", string(debug.Stack()))
+		t.Fail()
 	}
 }

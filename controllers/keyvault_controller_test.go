@@ -27,7 +27,7 @@ import (
 
 func TestKeyvaultControllerHappyPath(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -69,7 +69,7 @@ func TestKeyvaultControllerHappyPath(t *testing.T) {
 
 func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -79,7 +79,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
 		{
 			TenantID: config.TenantID(),
-			ObjectID: config.ClientID(),
+			ClientID: config.ClientID(),
 
 			Permissions: &azurev1alpha1.Permissions{
 				Keys: &[]string{
@@ -148,7 +148,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 
 func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
@@ -158,7 +158,7 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 
 	accessPolicies := azurev1alpha1.AccessPolicyEntry{
 		TenantID: config.TenantID(),
-		ObjectID: config.ClientID(),
+		ClientID: config.ClientID(),
 		Permissions: &azurev1alpha1.Permissions{
 			Secrets: &limitedPermissions,
 		},
@@ -235,7 +235,7 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 
 func TestKeyvaultControllerInvalidName(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -289,7 +289,7 @@ func TestKeyvaultControllerInvalidName(t *testing.T) {
 
 func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 

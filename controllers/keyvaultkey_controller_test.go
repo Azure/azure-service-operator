@@ -23,7 +23,7 @@ import (
 
 func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -37,7 +37,7 @@ func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
 		{
 			TenantID: config.TenantID(),
-			ObjectID: config.ClientID(),
+			ClientID: config.ClientID(),
 			Permissions: &azurev1alpha1.Permissions{
 				Keys: &keyPermissions,
 			},
