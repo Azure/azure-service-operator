@@ -68,3 +68,6 @@ resources:
 - group: azure
   version: v1alpha1
   kind: KeyVaultKey
+- group: azure
+  version: v1alpha1
+  kind: AzureSQLVNetRule
