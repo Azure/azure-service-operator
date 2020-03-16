@@ -94,9 +94,16 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, nil
 	}
 
+	// convert kube labels to expected tag format
+	labels := map[string]*string{}
+	for k, v := range instance.GetLabels() {
+		value := v
+		labels[k] = &value
+	}
+
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := s.CreateOrUpdateSQLServer(ctx, groupName, location, name, azureSqlServerProperties, false); err != nil {
+	if _, err := s.CreateOrUpdateSQLServer(ctx, groupName, location, name, labels, azureSqlServerProperties, false); err != nil {
 		instance.Status.Message = err.Error()
 
 		azerr := errhelp.NewAzureErrorAzureError(err)

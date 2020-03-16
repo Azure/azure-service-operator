@@ -72,7 +72,7 @@ func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (result sql.Server, err error) {
+func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (result sql.Server, err error) {
 	serversClient := azuresqlshared.GetGoServersClient()
 	serverProp := azuresqlshared.SQLServerPropertiesToServer(properties)
 
@@ -93,7 +93,9 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 		sql.Server{
 			Location:         to.StringPtr(location),
 			ServerProperties: &serverProp,
+			Tags:             tags,
 		})
+
 	if err != nil {
 		return result, err
 	}
