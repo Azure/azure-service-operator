@@ -11,7 +11,7 @@ import (
 
 // GetGoDbClient retrieves a DatabasesClient
 func GetGoDbClient() sql.DatabasesClient {
-	dbClient := sql.NewDatabasesClient(config.SubscriptionID())
+	dbClient := sql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	dbClient.Authorizer = a
 	dbClient.AddToUserAgent(config.UserAgent())
@@ -20,7 +20,8 @@ func GetGoDbClient() sql.DatabasesClient {
 
 // GetGoServersClient retrieves a ServersClient
 func GetGoServersClient() sql.ServersClient {
-	serversClient := sql.NewServersClient(config.SubscriptionID())
+	serversClient := sql.NewServersClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+
 	a, _ := iam.GetResourceManagementAuthorizer()
 	serversClient.Authorizer = a
 	serversClient.AddToUserAgent(config.UserAgent())
@@ -29,7 +30,7 @@ func GetGoServersClient() sql.ServersClient {
 
 // GetGoFailoverGroupsClient retrieves a FailoverGroupsClient
 func GetGoFailoverGroupsClient() sql.FailoverGroupsClient {
-	failoverGroupsClient := sql.NewFailoverGroupsClient(config.SubscriptionID())
+	failoverGroupsClient := sql.NewFailoverGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	failoverGroupsClient.Authorizer = a
 	failoverGroupsClient.AddToUserAgent(config.UserAgent())
@@ -38,7 +39,7 @@ func GetGoFailoverGroupsClient() sql.FailoverGroupsClient {
 
 // GetGoFirewallClient retrieves a FirewallRulesClient
 func GetGoFirewallClient() sql.FirewallRulesClient {
-	firewallClient := sql.NewFirewallRulesClient(config.SubscriptionID())
+	firewallClient := sql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	firewallClient.Authorizer = a
 	firewallClient.AddToUserAgent(config.UserAgent())
