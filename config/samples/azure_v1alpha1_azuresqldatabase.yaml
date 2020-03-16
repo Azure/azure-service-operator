@@ -3,8 +3,8 @@ kind: AzureSqlDatabase
 metadata:
   name:  azuresqldatabase-sample
   labels: # Provide tags to add to AzureSqlServer as labels
-  tag1: value1
-  tag2: value2
+    tag1: value1
+    tag2: value2
 spec:
   location: westus
   resourcegroup: resourcegroup-azure-operators
