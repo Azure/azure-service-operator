@@ -49,7 +49,7 @@ test: generate fmt vet manifests
 
 # Run tests with existing cluster
 test-existing-controllers: generate fmt vet manifests
-	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 go test -tags all -parallel 5 -v ./controllers/... -timeout 45m
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 go test -tags all -parallel 4 -v ./controllers/... -timeout 45m
 
 unit-tests:
 	go test ./pkg/resourcemanager/keyvaults/unittest/
@@ -67,7 +67,8 @@ test-existing-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/database/... \
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/... \
-	./pkg/resourcemanager/vnet/...
+	./pkg/resourcemanager/vnet/... \
+	./pkg/resourcemanager/apim/apimgmt...
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
 test-cleanup-azure-resources: 	

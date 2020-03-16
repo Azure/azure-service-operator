@@ -25,7 +25,7 @@ import (
 
 func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -83,7 +83,7 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 
 func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -136,7 +136,7 @@ func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
 
 func TestTestBlobContainerControllerHappyPath(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 

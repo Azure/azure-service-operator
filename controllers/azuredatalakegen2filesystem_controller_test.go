@@ -20,7 +20,7 @@ import (
 
 func TestADLSFilesystemControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	assert := assert.New(t)
 	ctx := context.Background()
 
@@ -71,7 +71,7 @@ func TestADLSFilesystemControllerNoResourceGroup(t *testing.T) {
 
 func TestADLSFilesystemControllerNoStorageAccount(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	assert := assert.New(t)
 	ctx := context.Background()
 

@@ -160,6 +160,7 @@ func CheckAPIMgmtSvcName(ctx context.Context, resourceName string) (available bo
 			Name: &resourceName,
 		},
 	)
+
 	nameAvailable := false
 	if result.NameAvailable != nil {
 		nameAvailable = *result.NameAvailable
@@ -180,4 +181,19 @@ func GetAppInstanceIDByName(ctx context.Context, resourceGroup string, resourceN
 		resourceGroup,
 		resourceName,
 	)
+}
+
+// GetAPIMClient returns a pointer to an API Management client
+func GetAPIMClient() apim.APIClient {
+	apimClient := apim.NewAPIClient(config.SubscriptionID())
+
+	a, err := iam.GetResourceManagementAuthorizer()
+	apimClient.Authorizer = a
+	apimClient.AddToUserAgent(config.UserAgent())
+
+	if err != nil {
+		panic(err)
+	}
+
+	return apimClient
 }
