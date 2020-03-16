@@ -2,7 +2,7 @@ apiVersion: azure.microsoft.com/v1alpha1
 kind: AzureSqlDatabase
 metadata:
   name:  azuresqldatabase-sample
-  labels: # Provide tags to add to AzureSqlServer as labels
+  labels: # Provide tags to add to AzureSqlDatabase as labels
     tag1: value1
     tag2: value2
 spec:
