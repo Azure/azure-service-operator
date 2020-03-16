@@ -24,20 +24,31 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		return false, err
 	}
 
+	// set a spec hash if one hasn't been set
+	hash := helpers.Hash256(instance.Spec)
+	if instance.Status.SpecHash == hash && instance.Status.Provisioned {
+		instance.Status.RequestedAt = nil
+		return true, nil
+	}
+
+	if instance.Status.SpecHash == "" {
+		instance.Status.SpecHash = hash
+	}
+
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
-	dbName := instance.ObjectMeta.Name
+	dbName := instance.Name
 	dbEdition := instance.Spec.Edition
 
-	azureSqlDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
+	azureSQLDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
 		Edition:      dbEdition,
 	}
 
 	instance.Status.Provisioning = true
 
-	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
+	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, azureSQLDatabaseProperties)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		catch := []string{
