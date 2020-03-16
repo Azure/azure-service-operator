@@ -4,6 +4,8 @@
 package helpers
 
 import (
+	"crypto/sha256"
+	"fmt"
 	"math/rand"
 	"strings"
 	"time"
@@ -101,4 +103,11 @@ func FillWithRandom(s string, maxLen int) string {
 		return s
 	}
 	return s + RandomString(diff)
+}
+
+// Hash256 hashes the i argument to a sha265 string
+func Hash256(i interface{}) string {
+	h := sha256.New()
+	h.Write([]byte(fmt.Sprintf("%v", i)))
+	return fmt.Sprintf("%x", h.Sum(nil))
 }
