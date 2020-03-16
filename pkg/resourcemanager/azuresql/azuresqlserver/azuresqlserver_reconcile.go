@@ -136,11 +136,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// create the sql server
 	instance.Status.Provisioning = true
-<<<<<<< HEAD
-	if _, err := s.CreateOrUpdateSQLServer(ctx, groupName, location, name, labels, azureSqlServerProperties, false); err != nil {
-=======
-	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, azureSQLServerProperties, false); err != nil {
->>>>>>> 15111d504c38efa5fb6be8a3187d923754a6e47d
+	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
 		instance.Status.Message = err.Error()
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
