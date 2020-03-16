@@ -101,7 +101,7 @@ func UserAgent() string {
 	if len(userAgent) > 0 {
 		return userAgent
 	}
-	return "sdk-samples"
+	return "azure-service-operator-v1"
 }
 
 // TestResourcePrefix specifies a string to prefix test resources with
