@@ -13,23 +13,22 @@ import (
 
 	kvops "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
+	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
-	"github.com/stretchr/testify/assert"
 
-	//apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := "t-kv-dev-" + helpers.RandomString(10)
-	keyVaultKeyName := "t-kv-dev-" + helpers.RandomString(10)
+	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
+	keyVaultKeyName := GenerateTestResourceNameWithRandom("kvk-dev", 10)
 	const poll = time.Second * 10
 
 	keyVaultLocation := tc.resourceGroupLocation
@@ -38,7 +37,7 @@ func TestKeyvaultKeyControllerHappyPath(t *testing.T) {
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
 		{
 			TenantID: config.TenantID(),
-			ObjectID: config.ClientID(),
+			ClientID: config.ClientID(),
 			Permissions: &azurev1alpha1.Permissions{
 				Keys: &keyPermissions,
 			},

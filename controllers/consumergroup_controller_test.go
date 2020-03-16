@@ -11,7 +11,6 @@ import (
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/stretchr/testify/assert"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -28,9 +27,9 @@ func TestConsumerGroup(t *testing.T) {
 	var ehnName string = tc.eventhubNamespaceName
 	var ehName string = tc.eventhubName
 	var ctx = context.Background()
-	defer PanicRecover()
+	defer PanicRecover(t)
 
-	consumerGroupName := "t-cg-" + helpers.RandomString(10)
+	consumerGroupName := GenerateTestResourceNameWithRandom("cg", 10)
 	azureConsumerGroupName := consumerGroupName + "-azure"
 
 	var err error

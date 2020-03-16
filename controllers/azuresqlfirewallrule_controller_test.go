@@ -14,7 +14,6 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -22,16 +21,14 @@ import (
 
 func TestAzureSqlFirewallRuleControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
 	// Add any setup steps that needs to be executed before each test
 	//rgName := tc.resourceGroupName
-	sqlServerName := "t-sqlfwrule-test-srv" + helpers.RandomString(10)
-
-	randomName := helpers.RandomString(10)
-	sqlFirewallRuleName := "t-fwrule-dev-" + randomName
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlfwrule-test-srv", 10)
+	sqlFirewallRuleName := GenerateTestResourceNameWithRandom("fwrule-dev", 10)
 
 	// Create the SqlFirewallRule object and expect the Reconcile to be created
 	sqlFirewallRuleInstance := &azurev1alpha1.AzureSqlFirewallRule{
@@ -40,7 +37,7 @@ func TestAzureSqlFirewallRuleControllerNoResourceGroup(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzureSqlFirewallRuleSpec{
-			ResourceGroup:  "t-rg-fake-srv" + helpers.RandomString(10),
+			ResourceGroup:  GenerateTestResourceNameWithRandom("rg-fake-srv", 10),
 			Server:         sqlServerName,
 			StartIPAddress: "0.0.0.0",
 			EndIPAddress:   "0.0.0.0",

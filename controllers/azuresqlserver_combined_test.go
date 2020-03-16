@@ -21,17 +21,17 @@ import (
 
 func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 	var err error
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
-	sqlServerName := "t-sqlserver-dev-" + helpers.RandomString(10)
+	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver", 10)
 	rgLocation := "westus2"
 	rgLocation2 := "southcentralus"
-	sqlServerTwoName := "t-sqlfog-srvtwo" + helpers.RandomString(10)
+	sqlServerTwoName := GenerateTestResourceNameWithRandom("sqlserver-two", 10)
 
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 	sqlServerNamespacedName2 := types.NamespacedName{Name: sqlServerTwoName, Namespace: "default"}
@@ -58,15 +58,15 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		return false
 	}, tc.timeoutFast, tc.retry, "wait for server to have secret")
 
-	sqlDatabaseName := "t-sqldatabase-dev-" + helpers.RandomString(10)
+	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase", 10)
 	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
 
 	sqlFirewallRuleNamespacedNameLocal := types.NamespacedName{
-		Name:      "t-fwrule-dev-" + helpers.RandomString(10),
+		Name:      GenerateTestResourceNameWithRandom("sqlfwr-local", 10),
 		Namespace: "default",
 	}
 	sqlFirewallRuleNamespacedNameRemote := types.NamespacedName{
-		Name:      "t-fwrule-dev-" + helpers.RandomString(10),
+		Name:      GenerateTestResourceNameWithRandom("sqlfwr-remote", 10),
 		Namespace: "default",
 	}
 
@@ -167,12 +167,12 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			}
 
 			EnsureInstance(ctx, t, tc, sqlUser)
+			t.Log(sqlUser.Status)
 		})
 	})
 
 	var sqlFailoverGroupInstance *azurev1alpha1.AzureSqlFailoverGroup
-	randomName := helpers.RandomString(10)
-	sqlFailoverGroupName := "t-sqlfog-dev-" + randomName
+	sqlFailoverGroupName := GenerateTestResourceNameWithRandom("sqlfog-dev", 10)
 
 	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}
 

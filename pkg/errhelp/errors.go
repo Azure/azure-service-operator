@@ -41,6 +41,7 @@ const (
 	NoSuchHost                      = "no such host"
 	CannotParseError                = "CannotParseError"
 	CreationPending                 = "CreationPending"
+	ConflictingServerOperation      = "ConflictingServerOperation"
 )
 
 func NewAzureError(err error) error {

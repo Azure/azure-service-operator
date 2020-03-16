@@ -10,7 +10,6 @@ import (
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/stretchr/testify/assert"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -19,7 +18,7 @@ import (
 
 func TestPSQLDatabaseController(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -34,7 +33,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 	rgName = tc.resourceGroupName
 	rgLocation = tc.resourceGroupLocation
 
-	postgreSQLServerName = "t-psql-srv-" + helpers.RandomString(10)
+	postgreSQLServerName = GenerateTestResourceNameWithRandom("psql-srv", 10)
 
 	// Create the PostgreSQLServer object and expect the Reconcile to be created
 	postgreSQLServerInstance = &azurev1alpha1.PostgreSQLServer{
@@ -72,7 +71,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 		return postgreSQLServerInstance.Status.Provisioned
 	}, tc.timeout, tc.retry, "wait for postgreSQLserver to be provisioned")
 
-	postgreSQLDatabaseName := "t-psql-db-" + helpers.RandomString(10)
+	postgreSQLDatabaseName := GenerateTestResourceNameWithRandom("psql-db", 10)
 
 	// Create the PostgreSQLDatabase object and expect the Reconcile to be created
 	postgreSQLDatabaseInstance := &azurev1alpha1.PostgreSQLDatabase{
@@ -111,7 +110,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	// Test firewall rule -------------------------------
 
-	postgreSQLFirewallRuleName := "t-psql-fwrule-" + helpers.RandomString(10)
+	postgreSQLFirewallRuleName := GenerateTestResourceNameWithRandom("psql-fwrule", 10)
 
 	// Create the PostgreSQLFirewallRule object and expect the Reconcile to be created
 	postgreSQLFirewallRuleInstance := &azurev1alpha1.PostgreSQLFirewallRule{

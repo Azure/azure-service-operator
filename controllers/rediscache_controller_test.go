@@ -27,7 +27,7 @@ const longRunningTimeout = 25 * time.Minute
 
 func TestRedisCacheControllerHappyPath(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -38,7 +38,7 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 
 	rgName = tc.resourceGroupName
 	rgLocation = tc.resourceGroupLocation
-	redisCacheName = "t-rediscache-" + helpers.RandomString(10)
+	redisCacheName = GenerateTestResourceNameWithRandom("rediscache", 10)
 
 	// Create the RedisCache object and expect the Reconcile to be created
 	redisCacheInstance := &azurev1alpha1.RedisCache{

@@ -23,7 +23,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 
 	_ "github.com/denisenkom/go-mssqldb"
-	"github.com/sethvargo/go-password/password"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -74,12 +73,17 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 	return db, err
 }
 
-// Grants roles to a user for a given database
+// GrantUserRoles  gramts roles to a user for a given database
 func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
 	var errorStrings []string
 	for _, role := range roles {
-		tsql := fmt.Sprintf("sp_addrolemember \"%s\", \"%s\"", role, user)
-		_, err := db.ExecContext(ctx, tsql)
+		tsql := "sp_addrolemember @role, @user"
+
+		_, err := db.ExecContext(
+			ctx, tsql,
+			sql.Named("role", role),
+			sql.Named("user", user),
+		)
 		if err != nil {
 			m.Log.Info("GrantUserRoles:", "Error executing add role:", err.Error())
 			errorStrings = append(errorStrings, err.Error())
@@ -96,6 +100,15 @@ func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, r
 func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
 	newUser := string(secret[SecretUsernameKey])
 	newPassword := string(secret[SecretPasswordKey])
+
+	// make an effort to prevent sql injectino
+	if err := findBadChars(newUser); err != nil {
+		return "", fmt.Errorf("Problem found with username: %v", err)
+	}
+	if err := findBadChars(newPassword); err != nil {
+		return "", fmt.Errorf("Problem found with password: %v", err)
+	}
+
 	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
 	_, err := db.ExecContext(ctx, tsql)
 
@@ -111,7 +124,11 @@ func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string]
 
 // UserExists checks if db contains user
 func (m *AzureSqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
-	res, err := db.ExecContext(ctx, fmt.Sprintf("SELECT * FROM sysusers WHERE NAME='%s'", username))
+	res, err := db.ExecContext(
+		ctx,
+		"SELECT * FROM sysusers WHERE NAME=@user",
+		sql.Named("user", username),
+	)
 	if err != nil {
 		return false, err
 	}
@@ -121,8 +138,8 @@ func (m *AzureSqlUserManager) UserExists(ctx context.Context, db *sql.DB, userna
 
 // Drops user from db
 func (m *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
-	tsql := fmt.Sprintf("DROP USER \"%s\"", user)
-	_, err := db.ExecContext(ctx, tsql)
+	tsql := "DROP USER @user"
+	_, err := db.ExecContext(ctx, tsql, sql.Named("user", user))
 	return err
 }
 
@@ -144,6 +161,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	if len(instance.Spec.AdminSecret) == 0 {
 		adminsecretName = instance.Spec.Server
 	}
+
 	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
 
 	var sqlUserSecretClient secrets.SecretClient
@@ -211,44 +229,6 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	// publish user secret
 	// We do this first so if the keyvault does not have right permissions we will not proceed to creating the user
-	key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	err = sqlUserSecretClient.Upsert(
-		ctx,
-		key,
-		DBSecret,
-		secrets.WithOwner(instance),
-		secrets.WithScheme(s.Scheme),
-	)
-	if err != nil {
-		instance.Status.Message = "failed to update secret, err: " + err.Error()
-		return false, err
-	}
-
-	userExists, err := s.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
-	if err != nil {
-		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
-		return false, nil
-	}
-
-	if !userExists {
-		user, err = s.CreateUser(ctx, DBSecret, db)
-		if err != nil {
-			instance.Status.Message = "failed creating user, err: " + err.Error()
-			return false, err
-		}
-	}
-
-	// apply roles to user
-	if len(instance.Spec.Roles) == 0 {
-		instance.Status.Message = "No roles specified for user"
-		return false, fmt.Errorf("No roles specified for database user")
-	}
-
-	err = s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
-	if err != nil {
-		instance.Status.Message = "GrantUserRoles failed"
-		return false, fmt.Errorf("GrantUserRoles failed")
-	}
 
 	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
 	// In keyvault we have some creative freedom to allow more flexibility
@@ -262,7 +242,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		if instance.Spec.KeyVaultSecretPrefix != "" {
 			dbUserCustomNamespace = instance.Spec.KeyVaultSecretPrefix
 		} else {
-			dbUserCustomNamespace = "azuresqluser-" + string(DBSecret["serverName"]) + "-" + string(DBSecret["azureSqlDatabaseName"])
+			dbUserCustomNamespace = "azuresqluser-" + string(DBSecret["azureSqlServerName"]) + "-" + string(DBSecret["azureSqlDatabaseName"])
 		}
 
 		key = types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name}
@@ -387,6 +367,33 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		}
 	}
 
+	userExists, err := s.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
+	if err != nil {
+		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
+		return false, nil
+	}
+
+	if !userExists {
+		user, err = s.CreateUser(ctx, DBSecret, db)
+		if err != nil {
+			instance.Status.Message = "failed creating user, err: " + err.Error()
+			return false, err
+		}
+	}
+
+	// apply roles to user
+	if len(instance.Spec.Roles) == 0 {
+		instance.Status.Message = "No roles specified for user"
+		return false, fmt.Errorf("No roles specified for database user")
+	}
+
+	err = s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
+	if err != nil {
+		fmt.Println(err)
+		instance.Status.Message = "GrantUserRoles failed"
+		return false, fmt.Errorf("GrantUserRoles failed")
+	}
+
 	instance.Status.Provisioned = true
 	instance.Status.State = "Succeeded"
 	instance.Status.Message = resourcemanager.SuccessMsg
@@ -461,20 +468,12 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	DBSecret := s.GetOrPrepareSecret(ctx, instance, sqlUserSecretClient)
-	if string(DBSecret[SecretUsernameKey]) == "" {
-		// maybe this could be an error...
-		return false, nil // fmt.Errorf("no username in SQLUser secret")
-	}
-
 	exists, err := s.UserExists(ctx, db, user)
 	if err != nil {
 		return true, err
 	}
 	if !exists {
-		// Best case deletion of secrets
-		key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-		sqlUserSecretClient.Delete(ctx, key)
+		s.DeleteSecrets(ctx, instance, sqlUserSecretClient)
 		return false, nil
 	}
 
@@ -483,6 +482,9 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser failed with %s", err.Error())
 		return false, err
 	}
+
+	// Once the user has been dropped, also delete their secrets.
+	s.DeleteSecrets(ctx, instance, sqlUserSecretClient)
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser succeeded")
 
@@ -536,9 +538,67 @@ func (s *AzureSqlUserManager) convert(obj runtime.Object) (*v1alpha1.AzureSQLUse
 	return local, nil
 }
 
+// Deletes the secrets associated with a SQLUser
+func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) (bool, error) {
+	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
+	// In keyvault we have some creative freedom to allow more flexibility
+	DBSecret := s.GetOrPrepareSecret(ctx, instance, s.SecretClient)
+	secretKey := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+
+	var dbUserCustomNamespace string
+
+	keyVaultEnabled := reflect.TypeOf(s.SecretClient).Elem().Name() == "KeyvaultSecretClient"
+
+	if keyVaultEnabled {
+		// For a keyvault secret store, check for supplied namespace parameters
+		if instance.Spec.KeyVaultSecretPrefix != "" {
+			dbUserCustomNamespace = instance.Spec.KeyVaultSecretPrefix
+		} else {
+			dbUserCustomNamespace = "azuresqluser-" + string(DBSecret["azureSqlServerName"]) + "-" + string(DBSecret["azureSqlDatabaseName"])
+		}
+
+		secretKey = types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name}
+	}
+
+	// delete standard user secret
+	err := s.SecretClient.Delete(
+		ctx,
+		secretKey,
+	)
+	if err != nil {
+		instance.Status.Message = "failed to delete secret, err: " + err.Error()
+		return false, err
+	}
+
+	// delete all the custom formatted secrets if keyvault is in use
+	if keyVaultEnabled {
+		customFormatNames := []string{
+			"adonet",
+			"adonet-urlonly",
+			"jdbc",
+			"jdbc-urlonly",
+			"odbc",
+			"odbc-urlonly",
+			"server",
+			"database",
+			"username",
+			"password",
+		}
+
+		for _, formatName := range customFormatNames {
+			err = s.SecretClient.Delete(
+				ctx,
+				types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name + "-" + formatName},
+			)
+		}
+	}
+
+	return false, nil
+}
+
 // GetOrPrepareSecret gets or creates a secret
 func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) map[string][]byte {
-	pw, _ := generateRandomPassword(16)
+	pw := helpers.NewPassword()
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 
 	secret, err := secretClient.Get(ctx, key)
@@ -556,20 +616,19 @@ func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *
 	return secret
 }
 
-// helper function to generate random password for sql server
-func generateRandomPassword(n int) (string, error) {
-
-	// Math - Generate a password where: 1/3 of the # of chars are digits, 1/3 of the # of chars are symbols,
-	// and the remaining 1/3 is a mix of upper- and lower-case letters
-	digits := n / 3
-	symbols := n / 3
-
-	// Generate a password that is n characters long, with # of digits and symbols described above,
-	// allowing upper and lower case letters, and disallowing repeat characters.
-	res, err := password.Generate(n, digits, symbols, false, false)
-	if err != nil {
-		return "", err
+func findBadChars(stack string) error {
+	badChars := []string{
+		"'",
+		"\"",
+		";",
+		"--",
+		"/*",
 	}
 
-	return res, nil
+	for _, s := range badChars {
+		if idx := strings.Index(stack, s); idx > -1 {
+			return fmt.Errorf("potentially dangerous character seqience found: '%s' at pos: %d", s, idx)
+		}
+	}
+	return nil
 }

@@ -22,7 +22,7 @@ import (
 
 func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 	var err error
@@ -30,7 +30,7 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 	var sqlDatabaseName string
 	var sqlUser *azurev1alpha1.AzureSQLUser
 
-	sqlServerName = "t-sqlusr-test" + helpers.RandomString(10)
+	sqlServerName = GenerateTestResourceNameWithRandom("sqlusr-test", 10)
 
 	username := "sql-test-user" + helpers.RandomString(10)
 	roles := []string{"db_owner"}
@@ -76,7 +76,7 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 
 func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 	var err error
@@ -84,7 +84,7 @@ func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
 	var sqlDatabaseName string
 	var sqlUser *azurev1alpha1.AzureSQLUser
 
-	sqlServerName = "t-sqlusr-test" + helpers.RandomString(10)
+	sqlServerName = GenerateTestResourceNameWithRandom("sqlusr-test", 10)
 
 	username := "sql-test-user" + helpers.RandomString(10)
 	roles := []string{"db_owner"}
