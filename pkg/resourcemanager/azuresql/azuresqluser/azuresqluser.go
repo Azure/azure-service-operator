@@ -211,44 +211,6 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	// publish user secret
 	// We do this first so if the keyvault does not have right permissions we will not proceed to creating the user
-	key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	err = sqlUserSecretClient.Upsert(
-		ctx,
-		key,
-		DBSecret,
-		secrets.WithOwner(instance),
-		secrets.WithScheme(s.Scheme),
-	)
-	if err != nil {
-		instance.Status.Message = "failed to update secret, err: " + err.Error()
-		return false, err
-	}
-
-	userExists, err := s.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
-	if err != nil {
-		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
-		return false, nil
-	}
-
-	if !userExists {
-		user, err = s.CreateUser(ctx, DBSecret, db)
-		if err != nil {
-			instance.Status.Message = "failed creating user, err: " + err.Error()
-			return false, err
-		}
-	}
-
-	// apply roles to user
-	if len(instance.Spec.Roles) == 0 {
-		instance.Status.Message = "No roles specified for user"
-		return false, fmt.Errorf("No roles specified for database user")
-	}
-
-	err = s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
-	if err != nil {
-		instance.Status.Message = "GrantUserRoles failed"
-		return false, fmt.Errorf("GrantUserRoles failed")
-	}
 
 	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
 	// In keyvault we have some creative freedom to allow more flexibility
@@ -262,7 +224,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		if instance.Spec.KeyVaultSecretPrefix != "" {
 			dbUserCustomNamespace = instance.Spec.KeyVaultSecretPrefix
 		} else {
-			dbUserCustomNamespace = "azuresqluser-" + string(DBSecret["serverName"]) + "-" + string(DBSecret["azureSqlDatabaseName"])
+			dbUserCustomNamespace = "azuresqluser-" + string(DBSecret["azureSqlServerName"]) + "-" + string(DBSecret["azureSqlDatabaseName"])
 		}
 
 		key = types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name}
@@ -387,6 +349,33 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		}
 	}
 
+	userExists, err := s.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
+	if err != nil {
+		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
+		return false, nil
+	}
+
+	if !userExists {
+		user, err = s.CreateUser(ctx, DBSecret, db)
+		if err != nil {
+			instance.Status.Message = "failed creating user, err: " + err.Error()
+			return false, err
+		}
+	}
+
+	// apply roles to user
+	if len(instance.Spec.Roles) == 0 {
+		instance.Status.Message = "No roles specified for user"
+		return false, fmt.Errorf("No roles specified for database user")
+	}
+
+	err = s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
+	if err != nil {
+		fmt.Println(err)
+		instance.Status.Message = "GrantUserRoles failed"
+		return false, fmt.Errorf("GrantUserRoles failed")
+	}
+
 	instance.Status.Provisioned = true
 	instance.Status.State = "Succeeded"
 	instance.Status.Message = resourcemanager.SuccessMsg
@@ -461,20 +450,12 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	DBSecret := s.GetOrPrepareSecret(ctx, instance, sqlUserSecretClient)
-	if string(DBSecret[SecretUsernameKey]) == "" {
-		// maybe this could be an error...
-		return false, nil // fmt.Errorf("no username in SQLUser secret")
-	}
-
 	exists, err := s.UserExists(ctx, db, user)
 	if err != nil {
 		return true, err
 	}
 	if !exists {
-		// Best case deletion of secrets
-		key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-		sqlUserSecretClient.Delete(ctx, key)
+		s.DeleteSecrets(ctx, instance, sqlUserSecretClient)
 		return false, nil
 	}
 
@@ -483,6 +464,9 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser failed with %s", err.Error())
 		return false, err
 	}
+
+	// Once the user has been dropped, also delete their secrets.
+	s.DeleteSecrets(ctx, instance, sqlUserSecretClient)
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser succeeded")
 
@@ -534,6 +518,64 @@ func (s *AzureSqlUserManager) convert(obj runtime.Object) (*v1alpha1.AzureSQLUse
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
+}
+
+// Deletes the secrets associated with a SQLUser
+func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) (bool, error) {
+	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
+	// In keyvault we have some creative freedom to allow more flexibility
+	DBSecret := s.GetOrPrepareSecret(ctx, instance, s.SecretClient)
+	secretKey := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+
+	var dbUserCustomNamespace string
+
+	keyVaultEnabled := reflect.TypeOf(s.SecretClient).Elem().Name() == "KeyvaultSecretClient"
+
+	if keyVaultEnabled {
+		// For a keyvault secret store, check for supplied namespace parameters
+		if instance.Spec.KeyVaultSecretPrefix != "" {
+			dbUserCustomNamespace = instance.Spec.KeyVaultSecretPrefix
+		} else {
+			dbUserCustomNamespace = "azuresqluser-" + string(DBSecret["azureSqlServerName"]) + "-" + string(DBSecret["azureSqlDatabaseName"])
+		}
+
+		secretKey = types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name}
+	}
+
+	// delete standard user secret
+	err := s.SecretClient.Delete(
+		ctx,
+		secretKey,
+	)
+	if err != nil {
+		instance.Status.Message = "failed to delete secret, err: " + err.Error()
+		return false, err
+	}
+
+	// delete all the custom formatted secrets if keyvault is in use
+	if keyVaultEnabled {
+		customFormatNames := []string{
+			"adonet",
+			"adonet-urlonly",
+			"jdbc",
+			"jdbc-urlonly",
+			"odbc",
+			"odbc-urlonly",
+			"server",
+			"database",
+			"username",
+			"password",
+		}
+
+		for _, formatName := range customFormatNames {
+			err = s.SecretClient.Delete(
+				ctx,
+				types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name + "-" + formatName},
+			)
+		}
+	}
+
+	return false, nil
 }
 
 // GetOrPrepareSecret gets or creates a secret
