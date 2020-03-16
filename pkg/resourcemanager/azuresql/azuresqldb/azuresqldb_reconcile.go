@@ -30,6 +30,13 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	dbName := instance.ObjectMeta.Name
 	dbEdition := instance.Spec.Edition
 
+	// convert kube labels to expected tag format
+	labels := map[string]*string{}
+	for k, v := range instance.GetLabels() {
+		value := v
+		labels[k] = &value
+	}
+
 	azureSqlDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
 		Edition:      dbEdition,
@@ -37,7 +44,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 	instance.Status.Provisioning = true
 
-	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
+	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSqlDatabaseProperties)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		catch := []string{
