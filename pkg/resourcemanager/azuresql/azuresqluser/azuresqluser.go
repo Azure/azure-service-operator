@@ -23,7 +23,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 
 	_ "github.com/denisenkom/go-mssqldb"
-	"github.com/sethvargo/go-password/password"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -74,12 +73,17 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 	return db, err
 }
 
-// Grants roles to a user for a given database
+// GrantUserRoles  gramts roles to a user for a given database
 func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
 	var errorStrings []string
 	for _, role := range roles {
-		tsql := fmt.Sprintf("sp_addrolemember \"%s\", \"%s\"", role, user)
-		_, err := db.ExecContext(ctx, tsql)
+		tsql := "sp_addrolemember @role, @user"
+
+		_, err := db.ExecContext(
+			ctx, tsql,
+			sql.Named("role", role),
+			sql.Named("user", user),
+		)
 		if err != nil {
 			m.Log.Info("GrantUserRoles:", "Error executing add role:", err.Error())
 			errorStrings = append(errorStrings, err.Error())
@@ -96,6 +100,15 @@ func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, r
 func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
 	newUser := string(secret[SecretUsernameKey])
 	newPassword := string(secret[SecretPasswordKey])
+
+	// make an effort to prevent sql injectino
+	if err := findBadChars(newUser); err != nil {
+		return "", fmt.Errorf("Problem found with username: %v", err)
+	}
+	if err := findBadChars(newPassword); err != nil {
+		return "", fmt.Errorf("Problem found with password: %v", err)
+	}
+
 	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
 	_, err := db.ExecContext(ctx, tsql)
 
@@ -111,7 +124,11 @@ func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string]
 
 // UserExists checks if db contains user
 func (m *AzureSqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
-	res, err := db.ExecContext(ctx, fmt.Sprintf("SELECT * FROM sysusers WHERE NAME='%s'", username))
+	res, err := db.ExecContext(
+		ctx,
+		"SELECT * FROM sysusers WHERE NAME=@user",
+		sql.Named("user", username),
+	)
 	if err != nil {
 		return false, err
 	}
@@ -121,8 +138,8 @@ func (m *AzureSqlUserManager) UserExists(ctx context.Context, db *sql.DB, userna
 
 // Drops user from db
 func (m *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
-	tsql := fmt.Sprintf("DROP USER \"%s\"", user)
-	_, err := db.ExecContext(ctx, tsql)
+	tsql := "DROP USER @user"
+	_, err := db.ExecContext(ctx, tsql, sql.Named("user", user))
 	return err
 }
 
@@ -144,6 +161,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	if len(instance.Spec.AdminSecret) == 0 {
 		adminsecretName = instance.Spec.Server
 	}
+
 	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
 
 	var sqlUserSecretClient secrets.SecretClient
@@ -580,7 +598,7 @@ func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 
 // GetOrPrepareSecret gets or creates a secret
 func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) map[string][]byte {
-	pw, _ := generateRandomPassword(16)
+	pw := helpers.NewPassword()
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 
 	secret, err := secretClient.Get(ctx, key)
@@ -598,20 +616,19 @@ func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *
 	return secret
 }
 
-// helper function to generate random password for sql server
-func generateRandomPassword(n int) (string, error) {
-
-	// Math - Generate a password where: 1/3 of the # of chars are digits, 1/3 of the # of chars are symbols,
-	// and the remaining 1/3 is a mix of upper- and lower-case letters
-	digits := n / 3
-	symbols := n / 3
-
-	// Generate a password that is n characters long, with # of digits and symbols described above,
-	// allowing upper and lower case letters, and disallowing repeat characters.
-	res, err := password.Generate(n, digits, symbols, false, false)
-	if err != nil {
-		return "", err
+func findBadChars(stack string) error {
+	badChars := []string{
+		"'",
+		"\"",
+		";",
+		"--",
+		"/*",
 	}
 
-	return res, nil
+	for _, s := range badChars {
+		if idx := strings.Index(stack, s); idx > -1 {
+			return fmt.Errorf("potentially dangerous character seqience found: '%s' at pos: %d", s, idx)
+		}
+	}
+	return nil
 }
