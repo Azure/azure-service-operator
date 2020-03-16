@@ -41,6 +41,13 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
+	// convert kube labels to expected tag format
+	labels := map[string]*string{}
+	for k, v := range instance.GetLabels() {
+		value := v
+		labels[k] = &value
+	}
+
 	// Check to see if secret already exists for admin username/password
 	secret, err := s.GetOrPrepareSecret(ctx, instance)
 	if err != nil {
@@ -92,13 +99,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 		// server not done provisioning
 		return false, nil
-	}
-
-	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		value := v
-		labels[k] = &value
 	}
 
 	// create the sql server
