@@ -15,32 +15,34 @@ import (
 )
 
 const (
-	ParentNotFoundErrorCode         = "ParentResourceNotFound"
-	ResourceGroupNotFoundErrorCode  = "ResourceGroupNotFound"
-	NotFoundErrorCode               = "NotFound"
-	ResourceNotFound                = "ResourceNotFound"
-	AsyncOpIncompleteError          = "AsyncOpIncomplete"
-	InvalidServerName               = "InvalidServerName"
-	ContainerOperationFailure       = "ContainerOperationFailure"
-	ValidationError                 = "ValidationError"
-	AlreadyExists                   = "AlreadyExists"
-	BadRequest                      = "BadRequest"
-	AccountNameInvalid              = "AccountNameInvalid"
-	RequestConflictError            = "Conflict"
-	FailoverGroupBusy               = "FailoverGroupBusy"
-	NetcfgInvalidIPAddressPrefix    = "NetcfgInvalidIPAddressPrefix"
-	NetcfgInvalidSubnet             = "NetcfgInvalidSubnet"
-	NetcfgInvalidVirtualNetworkSite = "NetcfgInvalidVirtualNetworkSite"
-	InvalidResourceLocation         = "InvalidResourceLocation"
-	InvalidCIDRNotation             = "InvalidCIDRNotation"
-	InvalidRequestFormat            = "InvalidRequestFormat"
-	KeyNotFound                     = "KeyNotFound"
-	InvalidParameters               = "InvalidParameters"
-	InvalidAccessPolicy             = "InvalidAccessPolicy"
-	Forbidden                       = "Forbidden"
-	NoSuchHost                      = "no such host"
-	CannotParseError                = "CannotParseError"
-	CreationPending                 = "CreationPending"
+	ParentNotFoundErrorCode             = "ParentResourceNotFound"
+	ResourceGroupNotFoundErrorCode      = "ResourceGroupNotFound"
+	NotFoundErrorCode                   = "NotFound"
+	ResourceNotFound                    = "ResourceNotFound"
+	AsyncOpIncompleteError              = "AsyncOpIncomplete"
+	InvalidServerName                   = "InvalidServerName"
+	ContainerOperationFailure           = "ContainerOperationFailure"
+	ValidationError                     = "ValidationError"
+	AlreadyExists                       = "AlreadyExists"
+	BadRequest                          = "BadRequest"
+	AccountNameInvalid                  = "AccountNameInvalid"
+	RequestConflictError                = "Conflict"
+	FailoverGroupBusy                   = "FailoverGroupBusy"
+	NetcfgInvalidIPAddressPrefix        = "NetcfgInvalidIPAddressPrefix"
+	NetcfgInvalidSubnet                 = "NetcfgInvalidSubnet"
+	NetcfgInvalidVirtualNetworkSite     = "NetcfgInvalidVirtualNetworkSite"
+	InvalidResourceLocation             = "InvalidResourceLocation"
+	InvalidCIDRNotation                 = "InvalidCIDRNotation"
+	InvalidRequestFormat                = "InvalidRequestFormat"
+	KeyNotFound                         = "KeyNotFound"
+	InvalidParameters                   = "InvalidParameters"
+	InvalidAccessPolicy                 = "InvalidAccessPolicy"
+	Forbidden                           = "Forbidden"
+	NoSuchHost                          = "no such host"
+	CannotParseError                    = "CannotParseError"
+	CreationPending                     = "CreationPending"
+	ConflictingServerOperation          = "ConflictingServerOperation"
+	LocationNotAvailableForResourceType = "LocationNotAvailableForResourceType"
 )
 
 func NewAzureError(err error) error {
@@ -105,6 +107,9 @@ func NewAzureError(err error) error {
 	} else if strings.Contains(err.Error(), InvalidAccessPolicy) {
 		kind = InvalidAccessPolicy
 		reason = InvalidAccessPolicy
+	} else if strings.Contains(err.Error(), LocationNotAvailableForResourceType) {
+		kind = LocationNotAvailableForResourceType
+		reason = LocationNotAvailableForResourceType
 	}
 	ae.Reason = reason
 	ae.Type = kind

@@ -4,6 +4,8 @@
 package helpers
 
 import (
+	"crypto/sha256"
+	"fmt"
 	"math/rand"
 	"strings"
 	"time"
@@ -13,7 +15,40 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-const charset = "abcdefghijklmnopqrstuvwxyz"
+const (
+	passwordLength  = 16
+	passwordChars   = lowerAlphaChars + upperAlphaChars + numberChars + specialChars
+	lowerAlphaChars = "abcdefghijklmnopqrstuvwxyz"
+	upperAlphaChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	numberChars     = "0123456789"
+	specialChars    = "!@#$%^&*"
+)
+
+var seededRand = NewSeeded()
+
+// NewPassword generates a strong, random password
+// stolen from osba-azure
+func NewPassword() string {
+	b := make([]byte, passwordLength)
+	// Passwords need to include at least one character from each of the three
+	// groups. To ensure that, we'll fill each of the first three []byte elements
+	// with a random character from a specific group.
+	b[0] = lowerAlphaChars[seededRand.Intn(len(lowerAlphaChars))]
+	b[1] = upperAlphaChars[seededRand.Intn(len(upperAlphaChars))]
+	b[2] = numberChars[seededRand.Intn(len(numberChars))]
+	// The remainder of the characters can be completely random and drawn from
+	// all three character groups.
+	for i := 3; i < passwordLength; i++ {
+		b[i] = passwordChars[seededRand.Intn(len(passwordChars))]
+	}
+	// For good measure, shuffle the elements of the entire []byte so that
+	// the 0 character isn't predicatably lowercase, etc...
+	for i := range b {
+		j := seededRand.Intn(len(b))
+		b[i], b[j] = b[j], b[i]
+	}
+	return string(b)
+}
 
 func ContainsString(slice []string, s string) bool {
 	for _, item := range slice {
@@ -44,7 +79,7 @@ func randomStringWithCharset(length int, charset string) string {
 }
 
 func RandomString(length int) string {
-	return randomStringWithCharset(length, charset)
+	return randomStringWithCharset(length, lowerAlphaChars)
 }
 
 // IsBeingDeleted returns true if the current object is being deleted from the API server.
@@ -101,4 +136,11 @@ func FillWithRandom(s string, maxLen int) string {
 		return s
 	}
 	return s + RandomString(diff)
+}
+
+// Hash256 hashes the i argument to a sha265 string
+func Hash256(i interface{}) string {
+	h := sha256.New()
+	h.Write([]byte(fmt.Sprintf("%v", i)))
+	return fmt.Sprintf("%x", h.Sum(nil))
 }

@@ -21,7 +21,7 @@ import (
 
 func TestAzureSqlDatabaseControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
@@ -66,7 +66,7 @@ func TestAzureSqlDatabaseControllerNoResourceGroup(t *testing.T) {
 
 func TestAzureSqlDatabaseControllerNoServer(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 
