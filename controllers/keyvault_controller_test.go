@@ -7,7 +7,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strings"
 	"testing"
@@ -206,12 +205,12 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 
 	retInstance := &azurev1alpha1.KeyVault{}
 	err = tc.k8sClient.Get(ctx, names, retInstance)
-	assert.Equal(nil, err, fmt.Sprintf("get keyvault in k8s"))
+	assert.Equal(nil, err, "get keyvault in k8s")
 	originalHash := retInstance.Status.SpecHash
 	retInstance.Spec.AccessPolicies = &[]azurev1alpha1.AccessPolicyEntry{accessPolicies}
 
 	err = tc.k8sClient.Update(ctx, retInstance)
-	assert.Equal(nil, err, fmt.Sprintf("updating keyvault in k8s"))
+	assert.Equal(nil, err, "updating keyvault in k8s")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, retInstance)
@@ -402,7 +401,7 @@ func TestKeyvaultControllerWithVirtualNetworkRulesAndUpdate(t *testing.T) {
 	retInstance := &azurev1alpha1.KeyVault{}
 	err = tc.k8sClient.Get(ctx, names, retInstance)
 
-	assert.Equal(nil, err, fmt.Sprintf("get keyvault in k8s"))
+	assert.Equal(nil, err, "get keyvault in k8s")
 	originalHash := retInstance.Status.SpecHash
 	networkPolicy := azurev1alpha1.NetworkRuleSet{
 		Bypass:        "None",
@@ -411,7 +410,7 @@ func TestKeyvaultControllerWithVirtualNetworkRulesAndUpdate(t *testing.T) {
 	retInstance.Spec.NetworkPolicies = &networkPolicy
 
 	err = tc.k8sClient.Update(ctx, retInstance)
-	assert.Equal(nil, err, fmt.Sprintf("updating keyvault in k8s"))
+	assert.Equal(nil, err, "updating keyvault in k8s")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, retInstance)

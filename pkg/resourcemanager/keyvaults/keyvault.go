@@ -66,6 +66,7 @@ func getObjectID(ctx context.Context, tenantID string, clientID string) *string 
 	return result.Value
 }
 
+// ParseNetworkPolicy - helper function to parse network policies from Kubernetes spec
 func ParseNetworkPolicy(ruleSet *v1alpha1.NetworkRuleSet) keyvault.NetworkRuleSet {
 	var bypass keyvault.NetworkRuleBypassOptions
 	switch ruleSet.Bypass {
@@ -132,6 +133,7 @@ func GenerateSpecHash(obj runtime.Object) (string, error) {
 	return strconv.FormatUint(hash, 10), nil
 }
 
+// ParseAccessPolicy - helper function to parse access policies from Kubernetes spec
 func ParseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) (keyvault.AccessPolicyEntry, error) {
 	tenantID, err := uuid.FromString(policy.TenantID)
 	if err != nil {
