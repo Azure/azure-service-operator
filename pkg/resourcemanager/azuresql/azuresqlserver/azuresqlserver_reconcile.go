@@ -156,6 +156,14 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			return true, nil
 		}
 
+		// is this a bad location / region?
+		if azerr.Type == errhelp.LocationNotAvailableForResourceType {
+			instance.Status.Message = fmt.Sprintf("%s is an invalid location for an Azure SQL Server based on your subscription", instance.Spec.Location)
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = false
+			return true, nil
+		}
+
 		// these errors are expected for recoverable states
 		// ignore them and try again after some time
 		ignore := []string{
