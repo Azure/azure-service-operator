@@ -44,15 +44,39 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 	instance.Status.Provisioning = true
 
+	dbGet, err := db.GetDB(ctx, groupName, server, dbName)
+	if err == nil {
+
+		// db exists, we have successfully provisioned everything
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = true
+		instance.Status.State = string(*dbGet.Status)
+		instance.Status.Message = resourcemanager.SuccessMsg
+		instance.Status.ResourceId = *dbGet.ID
+		return true, nil
+	} else {
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		ignore := []string{
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		if !helpers.ContainsString(ignore, azerr.Type) {
+			instance.Status.Message = err.Error()
+			return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
+		}
+	}
+
 	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSqlDatabaseProperties)
 	if err != nil {
 		instance.Status.Message = err.Error()
+		azerr := errhelp.NewAzureErrorAzureError(err)
+
+		// the errors that can arise during reconcilliation where we simply requeue
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
@@ -66,26 +90,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		return true, fmt.Errorf("AzureSqlDb CreateOrUpdate error %v", err)
 	}
 
-	dbGet, err := db.GetDB(ctx, groupName, server, dbName)
-	if err != nil {
-		instance.Status.Message = err.Error()
-		catch := []string{
-			errhelp.NotFoundErrorCode,
-		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
-			return false, nil
-		}
-		return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
-	}
-
-	instance.Status.Provisioning = false
-	instance.Status.Provisioned = true
-	instance.Status.State = string(*dbGet.Status)
-	instance.Status.Message = resourcemanager.SuccessMsg
-	instance.Status.ResourceId = *dbGet.ID
-
-	return true, nil
+	return false, nil
 }
 
 // Delete drops a AzureSqlDb
