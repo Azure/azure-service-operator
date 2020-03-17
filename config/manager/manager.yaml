@@ -12,6 +12,7 @@ metadata:
   namespace: system
   labels:
     control-plane: controller-manager
+    app: azure-service-operator-v1
 spec:
   selector:
     matchLabels:
