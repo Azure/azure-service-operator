@@ -106,22 +106,21 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		instance.Status.SpecHash = hash
 	}
 
-	if instance.Status.Provisioning {
-
-		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
-		if err != nil {
-			azerr := errhelp.NewAzureErrorAzureError(err)
-			// @Todo: ResourceNotFound should be handled if the time since the last PUT is unreasonable
-			if azerr.Type != errhelp.ResourceNotFound {
-				return false, err
-			}
-
-			// the first minute or so after a PUT to create a server will result in failed GETs
-			instance.Status.State = "NotReady"
-		} else {
-			instance.Status.State = *serv.State
+	// check to see if server exists
+	serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
+	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		// @Todo: ResourceNotFound should be handled if the time since the last PUT is unreasonable
+		if azerr.Type != errhelp.ResourceNotFound {
+			return false, err
 		}
 
+		// the first minute or so after a PUT to create a server will result in failed GETs
+		instance.Status.State = "NotReady"
+	} else {
+		instance.Status.State = *serv.State
+
+		// if server is ready, we are done
 		if instance.Status.State == "Ready" {
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
@@ -130,11 +129,11 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			return true, nil
 		}
 
-		// server not done provisioning
+		// not ready yet, requeue
 		return false, nil
 	}
 
-	// create the sql server
+	// sql server doesn't exist yet, so create the sql server
 	instance.Status.Provisioning = true
 	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
 		instance.Status.Message = err.Error()
