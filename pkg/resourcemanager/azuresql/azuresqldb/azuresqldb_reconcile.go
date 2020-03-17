@@ -47,6 +47,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	}
 
 	instance.Status.Provisioning = true
+	instance.Status.Provisioned = false
 
 	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, azureSQLDatabaseProperties)
 	if err != nil {
