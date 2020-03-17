@@ -164,7 +164,7 @@ func (r *AzureSqlActionReconciler) reconcileExternal(ctx context.Context, instan
 		newPassword, _ := helpers.GenerateRandomPassword(12)
 		azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
-		if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties, true); err != nil {
+		if _, err := r.AzureSqlServerManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, server.Tags, azureSqlServerProperties, true); err != nil {
 			if !strings.Contains(err.Error(), "not complete") {
 				r.Recorder.Event(instance, corev1.EventTypeWarning, "Failed", "Unable to provision or update instance")
 				return err
