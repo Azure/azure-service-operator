@@ -7,6 +7,7 @@ The Azure SQL operator suite consists of the following operators.
 1. Azure SQL server - Deploys an Azure SQL server given the location and Resource group
 2. Azure SQL database - Deploys an SQL database given the SQL server
 3. Azure SQL firewall rule - Deploys a firewall rule to allow access to the SQL server from specific IPs
+4. Azure SQL VirtualNetwork rule - Deploys a VirtualNetwork rule to allow access to the SQL server from specific VNets
 4. Azure SQL Action - Allows you to roll the password for the specified SQL server
 5. Azure SQL failover group - Deploys a failover group on a specified Azure SQL server given the secondary server and the databases to failover
 6. Azure SQL User - Creates an user on the specified Azure SQL database and stores the username/password as secrets
@@ -21,17 +22,7 @@ You can use the YAML files in the `config/samples` folder to create the resource
 
 ### Azure SQL server
 
-For instance, this is the sample YAML for the Azure SQL server.
-
-  ```yaml
-    apiVersion: azure.microsoft.com/v1alpha1
-    kind: AzureSqlServer
-    metadata:
-    name: sqlserver-sample
-    spec:
-     location: westus
-     resourcegroup: resourceGroup1
-  ```
+Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqlserver.yaml) for the Azure SQL server.
 
 The value for kind, `AzureSqlServer` is the Custom Resource Definition (CRD) name and `sqlserver-sample` in this case is the name of the SQL server resource that will be created.
 
@@ -95,67 +86,36 @@ type: Opaque
 
 ### SQL Database
 
-Below is the sample YAML for SQL database
-
-```yaml
-apiVersion: azure.microsoft.com/v1alpha1
-kind: AzureSqlDatabase
-metadata:
-  name:  sqldatabase-sample
-spec:
-  location: westus
-  resourcegroup: ResourceGroup1
-  # Database Editions
-  # Basic=0; Business=1; BusinessCritical=2; DataWarehouse=3; Free=4;
-  # GeneralPurpose=5; Hyperscale=6; Premium=7; PremiumRS=8; Standard=9;
-  # Stretch=10; System=11; System2=12; Web=13
-  edition: 0
-  server:  sqlserver-sample
-```
+Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqldatabase.yaml) for SQL database
 
 Update the `location` and the `resourcegroup` to where you want to provisiong the SQL database. `server` is the name of the Azure SQL server where you want to create the database in.
 The `edition` represents the SQL database edition you want to use when creating the resource and should be one of the values above.
 
-### SQL firewall
+### SQL firewall rule
 
 The SQL firewall operator allows you to add a SQL firewall rule to the SQL server.
 
-Below is the sample YAML for SQL firewall rule
-
-```yaml
-apiVersion: azure.microsoft.com/v1alpha1
-kind: AzureSqlFirewallRule
-metadata:
-  name: sqlf-allowazuresvcaccess
-spec:
-  resourcegroup: ResourceGroup1
-  server:  sqlserver-sample
-
-  # this IP range enables Azure Service access
-  startipaddress: 0.0.0.0
-  endipaddress: 0.0.0.0
-```
+Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqlfirewallrule.yaml) for SQL firewall rule
 
 The `server` indicates the SQL server on which you want to configure the new SQL firewall rule on and `resourcegroup` is the resource group of the SQL server. The `startipaddress` and `endipaddress` indicate the IP range of sources to allow access to the SQL server.
 
 When the `startipadress` and `endipaddress` are 0.0.0.0, it is a special case that adds a firewall rule to allow all Azure services to access the SQL server.
 
+### SQL VirtualNetwork rule
+
+The SQL VNet rule operator allows you to add a SQL VNet (VirtualNetwork()) rule to the SQL server.
+
+Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqlvnetrule.yaml) for SQL VNet rule
+
+The `server` indicates the SQL server on which you want to configure the new SQL VNet rule on and `resourceGroup` is the resource group of the SQL server.
+`vNetResourceGroup`, `vNetName` and `subnetName` identify the Subnet on the particular VirtualNetwork that should be added to the rule.
+`ignoreMissingServiceEndpoint` tells the operator to go ahead and add the rule with the specified VirtualNetwork/Subnet even if that VirtualNetwork does not have the Microsoft.Sql Service Endpoint enabled
+
 ### SQL Action
 
 The SQL Action operator is used to trigger an action on the SQL server. Right now, the only action supported is `rollcreds` which rolls the password for the SQL server to a new one.
 
-Below is a sample YAML for rolling the password
-
-```yaml
-apiVersion: azure.microsoft.com/v1alpha1
-kind: AzureSqlAction
-metadata:
-  name: Sql-rollcreds-action
-spec:
-  resourcegroup: ResourceGroup1
-  actionname: rollcreds
-  servername: sqlserver-sample
-```
+Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqlaction.yaml) for rolling the admin password of the SQL server
 
 The `name` is a name for the action that we want to trigger. The type of action is determined by the value of `actionname` in the spec which is `rollcreds` if you want to roll the password (Note: This action name should be exactly `rollcreds` for the password to be rolled). The `resourcegroup` and `servername` identify the SQL server on which the action should be triggered on.
 
@@ -165,25 +125,7 @@ Once you apply this, the kube secret with the same name as the SQL server is upd
 
 The SQL failover group operator is used to create a failover group across two Azure SQL servers (one primary, one secondary). The servers should already be provisioned and deployed different regions. The specified databases will be replicated from the primary server and created on the secondary.
 
-Below is a sample YAML for creating a failover group
-
-```yaml
-apiVersion: azure.microsoft.com/v1alpha1
-kind: AzureSqlFailoverGroup
-metadata:
-  name: azuresqlfailovergroup-sample
-spec:
-  location: eastus
-  resourcegroup: resourcegroup-azure-operators
-  server: sqlserver-samplepri
-  failoverpolicy: automatic
-  failovergraceperiod: 30
-  secondaryserver: sqlserver-samplesec
-  secondaryserverresourcegroup: resourcegroup-azure-operators
-  databaselist:
-    - "azuresqldatabase-sample"
-    - "azuresqldatabase-sample2"
-```
+Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqlfailovergroup.yaml) for creating a failover group
 
 The `name` is a name for the failover group that we want to create. `server` is the primary SQL server on which the failover group is created, `location` and `resourcegroup` are the location and the resource group of the primary SQL server. `failoverpolicy` can be "automatic" or "manual". `failovergraceperiod` is the time in minutes. `secondaryserver` is the secondary SQL server to failover to and `secondaryserverresourcegroup` is the resource group that the server is in. `databaselist` is the list of databased on the primary SQL server that should replicate to the secondary SQL server, when there is a failover action.
 
@@ -206,28 +148,8 @@ When Key Vault is configured, each value is Base64 encoded and the set of secret
 The default secret name prefix in Key Vault is `azuresqluser-<serverName>-<azureSqlDatabaseName>`. Users can set the `keyVaultSecretPrefix` parameter to override this value.
 
 Additionally, some client libraries support connecting directly to Key Vault to retrieve secrets. Users can set the `keyVaultSecretFormats` parameter so that explicit connection strings for their desired formats are added to the Key Vault. Each secret will be named after the secret prefix followed by the format name, for example: `azuresqluser-<serverName>-<azureSqlDatabaseName>-adonet`.
+Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqluser.yaml) for creating a database user
 
-Below is a sample YAML for creating a database user
-
-```yaml
-apiVersion: azure.microsoft.com/v1alpha1
-kind: AzureSQLUser
-metadata:
-  name: sqluser-sample
-spec:
-  server: sqlserver-sample-777
-  dbname: azuresqldatabase-sample
-  adminsecret: sqlserver-sample-777
-  # possible roles:
-  # db_owner, db_securityadmin, db_accessadmin, db_backupoperator, db_ddladmin, db_datawriter, db_datareader, db_denydatawriter, db_denydatareader
-  roles:
-    - "db_owner"
-  keyVaultSecretPrefix: sqlServer-sqlDatabase
-  # valid secret formats:
-  # adonet, adonet-urlonly, jdbc, jdbc-urlonly, odbc, odbc-urlonly, server, database, username, password
-  keyVaultSecretFormats:  
-    - "adonet"
-```
 
 The `name` is used to generate the username on the database. The exact name is not used but rather a UUID is appended to this to make it unique. `server` and `dbname` qualify the database on which you want to create the user on. `adminsecret` is the name of the secret where the username and password will be stored. `roles` specify the security roles that this user should have on the specified database.
 

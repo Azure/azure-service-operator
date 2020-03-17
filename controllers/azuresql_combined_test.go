@@ -139,6 +139,12 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			EnsureInstance(ctx, t, tc, sqlFirewallRuleInstanceRemote)
 		})
 
+		// Create VNet and VNetRules -----
+		t.Run("run subtest to test VNet Rule in primary server", func(t *testing.T) {
+			t.Parallel()
+			RunAzureSqlVNetRuleHappyPath(t, sqlServerName, rgLocation)
+		})
+
 	})
 
 	var sqlUser *azurev1alpha1.AzureSQLUser
