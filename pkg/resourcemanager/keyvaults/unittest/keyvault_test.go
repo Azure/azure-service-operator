@@ -88,3 +88,47 @@ func TestParseAccessPolicies(t *testing.T) {
 	assert.True(t, err == nil)
 	assert.True(t, cmp.Equal(resp, out))
 }
+
+func TestParseNetworkPolicy(t *testing.T) {
+	ip1 := "191.10.1.0/24"
+	ip2 := "191.10.2.0/24"
+	vnetRule1 := "/subscriptions/<subid>/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1"
+	vnetRule2 := "/subscriptions/<subid>/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet2"
+	entry := v1alpha1.NetworkRuleSet{
+		Bypass:        "None",
+		DefaultAction: "Deny",
+		IPRules: &[]string{
+			ip1,
+			ip2,
+		},
+		VirtualNetworkRules: &[]string{
+			vnetRule1,
+			vnetRule2,
+		},
+	}
+
+	out := keyvault.NetworkRuleSet{
+		Bypass:        keyvault.None,
+		DefaultAction: keyvault.Deny,
+		IPRules: &[]keyvault.IPRule{
+			keyvault.IPRule{
+				Value: &ip1,
+			},
+			keyvault.IPRule{
+				Value: &ip2,
+			},
+		},
+		VirtualNetworkRules: &[]keyvault.VirtualNetworkRule{
+			keyvault.VirtualNetworkRule{
+				ID: &vnetRule1,
+			},
+			keyvault.VirtualNetworkRule{
+				ID: &vnetRule2,
+			},
+		},
+	}
+
+	resp := azurekeyvault.ParseNetworkPolicy(&entry)
+
+	assert.True(t, cmp.Equal(resp, out))
+}
