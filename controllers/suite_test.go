@@ -26,6 +26,7 @@ import (
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -35,6 +36,7 @@ import (
 	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -134,6 +136,7 @@ func setup() error {
 	var psqlDatabaseManager resourcemanagerpsqldatabase.PostgreSQLDatabaseManager
 	var psqlFirewallRuleManager resourcemanagerpsqlfirewallrule.PostgreSQLFirewallRuleManager
 	var consumerGroupClient resourcemanagereventhub.ConsumerGroupManager
+	var sqlVNetRuleManager resourcemanagersqlvnetrule.SqlVNetRuleManager
 
 	appInsightsManager = resourcemanagerappinsights.NewManager(
 		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
@@ -150,6 +153,8 @@ func setup() error {
 	keyVaultKeyManager := &resourcemanagerkeyvaults.KeyvaultKeyClient{
 		KeyvaultClient: keyVaultManager,
 	}
+
+	virtualNetworkManager := resourcemanagervnet.NewAzureVNetManager(ctrl.Log.WithName("virtualnetwork").WithName("VirtualNetwork"))
 
 	eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
 	psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, k8sManager.GetScheme())
@@ -169,6 +174,7 @@ func setup() error {
 	)
 	sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 	sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlVNetRuleManager = resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager()
 	sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
 		ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"),
 		secretClient,
@@ -386,6 +392,22 @@ func setup() error {
 		return err
 	}
 
+	err = (&AzureSQLVNetRuleReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: sqlVNetRuleManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSQLVNetRuleOperator",
+				ctrl.Log.WithName("controllers").WithName("AzureSQLVNetRuleOperator"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlVNetRule-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
 	err = (&AzureSqlFailoverGroupReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
@@ -411,6 +433,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&VirtualNetworkReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: virtualNetworkManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VirtualNetwork",
+				ctrl.Log.WithName("controllers").WithName("VirtualNetwork"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("VirtualNetwork-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
