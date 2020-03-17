@@ -32,7 +32,7 @@ func NewConsumerGroupClient(log logr.Logger) *azureConsumerGroupManager {
 }
 
 func getConsumerGroupsClient() eventhub.ConsumerGroupsClient {
-	consumerGroupClient := eventhub.NewConsumerGroupsClient(config.SubscriptionID())
+	consumerGroupClient := eventhub.NewConsumerGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	auth, _ := iam.GetResourceManagementAuthorizer()
 	consumerGroupClient.Authorizer = auth
 	consumerGroupClient.AddToUserAgent(config.UserAgent())
