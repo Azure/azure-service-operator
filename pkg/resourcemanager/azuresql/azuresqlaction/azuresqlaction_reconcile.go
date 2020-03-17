@@ -59,16 +59,15 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			// Roll SQL server's admin password
 			err := s.UpdateAdminPassword(ctx, groupName, serverName, key, adminSecretClient)
 			if err != nil {
+				instance.Status.Message = err.Error()
 				catch := []string{
 					errhelp.ResourceGroupNotFoundErrorCode, // RG not present yet
 					errhelp.ResourceNotFound,               // server not present yet
 				}
 				azerr := errhelp.NewAzureErrorAzureError(err)
 				if helpers.ContainsString(catch, azerr.Type) {
-					instance.Status.Message = "Requeuing: " + err.Error()
 					return false, nil //requeue until server/RG ready
 				}
-				instance.Status.Message = err.Error()
 				return true, nil // unrecoverable error
 			}
 
