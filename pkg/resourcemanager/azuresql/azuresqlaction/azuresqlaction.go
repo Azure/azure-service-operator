@@ -64,7 +64,7 @@ func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupNa
 	azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
 	// Update the SQL server with the newly generated password
-	_, err = azuresqlserverManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, azureSqlServerProperties, true)
+	_, err = azuresqlserverManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, server.Tags, azureSqlServerProperties, true)
 
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
