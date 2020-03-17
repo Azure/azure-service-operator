@@ -7,7 +7,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strings"
 	"testing"
@@ -206,12 +205,12 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 
 	retInstance := &azurev1alpha1.KeyVault{}
 	err = tc.k8sClient.Get(ctx, names, retInstance)
-	assert.Equal(nil, err, fmt.Sprintf("get keyvault in k8s"))
+	assert.Equal(nil, err, "get keyvault in k8s")
 	originalHash := retInstance.Status.SpecHash
 	retInstance.Spec.AccessPolicies = &[]azurev1alpha1.AccessPolicyEntry{accessPolicies}
 
 	err = tc.k8sClient.Update(ctx, retInstance)
-	assert.Equal(nil, err, fmt.Sprintf("updating keyvault in k8s"))
+	assert.Equal(nil, err, "updating keyvault in k8s")
 
 	assert.Eventually(func() bool {
 		_ = tc.k8sClient.Get(ctx, names, retInstance)
@@ -339,4 +338,92 @@ func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from k8s")
 
+}
+
+func TestKeyvaultControllerWithVirtualNetworkRulesAndUpdate(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+	assert := assert.New(t)
+
+	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
+	const poll = time.Second * 10
+	keyVaultLocation := tc.resourceGroupLocation
+	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
+		{
+			TenantID: config.TenantID(),
+			ClientID: config.ClientID(),
+
+			Permissions: &azurev1alpha1.Permissions{
+				Secrets: &[]string{
+					"get",
+					"list",
+					"set",
+				},
+			},
+		}}
+
+	// Declare KeyVault object
+	keyVaultInstance := &azurev1alpha1.KeyVault{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      keyVaultName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.KeyVaultSpec{
+			Location:       keyVaultLocation,
+			ResourceGroup:  tc.resourceGroupName,
+			AccessPolicies: &accessPolicies,
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, keyVaultInstance)
+
+	// verify key vault exists in Azure
+	assert.Eventually(func() bool {
+		result, _ := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)
+		return result.Response.StatusCode == http.StatusOK
+	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be ready in azure")
+
+	keyvaultSecretClient := kvsecrets.New(keyVaultName)
+	secretName := "test-key"
+	key := types.NamespacedName{Name: secretName, Namespace: "default"}
+	datanew := map[string][]byte{
+		"test1": []byte("test2"),
+		"test2": []byte("test3"),
+	}
+	err := keyvaultSecretClient.Upsert(ctx, key, datanew)
+	assert.Equal(nil, err, "expect secret to be inserted into keyvault")
+
+	_, err = keyvaultSecretClient.Get(ctx, key)
+	assert.Equal(nil, err, "checking if secret is present in keyvault")
+
+	names := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
+	retInstance := &azurev1alpha1.KeyVault{}
+	err = tc.k8sClient.Get(ctx, names, retInstance)
+
+	assert.Equal(nil, err, "get keyvault in k8s")
+	originalHash := retInstance.Status.SpecHash
+	networkPolicy := azurev1alpha1.NetworkRuleSet{
+		Bypass:        "None",
+		DefaultAction: "Deny",
+	}
+	retInstance.Spec.NetworkPolicies = &networkPolicy
+
+	err = tc.k8sClient.Update(ctx, retInstance)
+	assert.Equal(nil, err, "updating keyvault in k8s")
+
+	assert.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, names, retInstance)
+		return originalHash != retInstance.Status.SpecHash
+	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be updated")
+
+	_, err = keyvaultSecretClient.Get(ctx, key)
+	assert.NotEqual(nil, err, "should not be able to get secrets after updating network rules")
+
+	EnsureDelete(ctx, t, tc, keyVaultInstance)
+
+	assert.Eventually(func() bool {
+		result, _ := tc.keyVaultManager.GetVault(ctx, tc.resourceGroupName, keyVaultInstance.Name)
+		return result.Response.StatusCode == http.StatusNotFound
+	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from azure")
 }
