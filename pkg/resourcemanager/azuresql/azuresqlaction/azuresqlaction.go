@@ -60,7 +60,7 @@ func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupNa
 	}
 
 	// Generate a new password
-	newPassword, _ := helpers.GenerateRandomPassword(12)
+	newPassword := helpers.NewPassword()
 	azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
 	// Update the SQL server with the newly generated password
