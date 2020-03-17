@@ -83,10 +83,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 			// update the status of the resource in kubernetes
 			status.Message = "Waiting for secretclient keyvault to be available"
-
-			err = r.Status().Update(ctx, local)
-
-			return ctrl.Result{RequeueAfter: requeDuration}, err
+			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, local)
 		}
 	}
 
