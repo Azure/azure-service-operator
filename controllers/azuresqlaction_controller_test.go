@@ -45,7 +45,7 @@ func RunSQLActionHappy(t *testing.T, server string) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzureSqlActionSpec{
-			ActionName:    "rollcreds",
+			ActionName:    "rolladmincreds",
 			ServerName:    server,
 			ResourceGroup: rgName,
 		},
