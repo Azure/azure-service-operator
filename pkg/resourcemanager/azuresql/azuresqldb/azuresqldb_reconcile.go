@@ -41,7 +41,6 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	dbName := instance.Name
 	dbEdition := instance.Spec.Edition
 
-
 	// convert kube labels to expected tag format
 	labels := map[string]*string{}
 	for k, v := range instance.GetLabels() {
@@ -56,7 +55,6 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
-
 
 	dbGet, err := db.GetDB(ctx, groupName, server, dbName)
 	if err == nil {
@@ -80,7 +78,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		}
 	}
 
-	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, azureSQLDatabaseProperties)
+	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSQLDatabaseProperties)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
