@@ -32,7 +32,7 @@ type azureEventHubNamespaceManager struct {
 }
 
 func getNamespacesClient() eventhub.NamespacesClient {
-	nsClient := eventhub.NewNamespacesClient(config.SubscriptionID())
+	nsClient := eventhub.NewNamespacesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	auth, _ := iam.GetResourceManagementAuthorizer()
 	nsClient.Authorizer = auth
 	nsClient.AddToUserAgent(config.UserAgent())
