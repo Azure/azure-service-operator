@@ -41,17 +41,18 @@ type AsyncReconciler struct {
 }
 
 // Reconcile reconciles the change request
-func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (result ctrl.Result, err error) {
+func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (result ctrl.Result, err error) {
 	ctx := context.Background()
 
-	if err := r.Get(ctx, req.NamespacedName, local); err != nil {
+	if err := r.Get(ctx, req.NamespacedName, obj); err != nil {
 		r.Telemetry.LogInfoByInstance("ignorable error", "error during fetch from api server", req.String())
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	// get the ASOStatus struct
-	status, err := r.AzureClient.GetStatus(local)
+	status, err := r.AzureClient.GetStatus(obj)
 	if err != nil {
+		r.Telemetry.LogErrorByInstance("unable to fetch status", err, req.String())
 		return ctrl.Result{}, err
 	}
 
@@ -61,7 +62,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		status.RequestedAt = &timeNow
 	}
 
-	res, err := meta.Accessor(local)
+	res, err := meta.Accessor(obj)
 	if err != nil {
 		r.Telemetry.LogErrorByInstance("accessor fail", err, req.String())
 		return ctrl.Result{}, err
@@ -70,7 +71,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	var keyvaultSecretClient secrets.SecretClient
 
 	// Determine if we need to check KeyVault for secrets
-	KeyVaultName := keyvaultsecretlib.GetKeyVaultName(local)
+	KeyVaultName := keyvaultsecretlib.GetKeyVaultName(obj)
 
 	if len(KeyVaultName) != 0 {
 		// Instantiate the KeyVault Secret Client
@@ -83,7 +84,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 			// update the status of the resource in kubernetes
 			status.Message = "Waiting for secretclient keyvault to be available"
-			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, local)
+			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, obj)
 		}
 	}
 
@@ -103,48 +104,48 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 				RemoveFinalizer(res, finalizerName)
 			}
 		}
-		r.Recorder.Event(local, corev1.EventTypeNormal, "Skipping", "Skipping reconcile based on provided annotation")
-		return ctrl.Result{}, r.Update(ctx, local)
+		r.Recorder.Event(obj, corev1.EventTypeNormal, "Skipping", "Skipping reconcile based on provided annotation")
+		return ctrl.Result{}, r.Update(ctx, obj)
 	}
 
 	var configOptions []resourcemanager.ConfigOption
 	if res.GetDeletionTimestamp().IsZero() {
 		if !HasFinalizer(res, finalizerName) {
 			AddFinalizer(res, finalizerName)
-			r.Recorder.Event(local, corev1.EventTypeNormal, "Added", "Object finalizer is added")
-			return ctrl.Result{}, r.Update(ctx, local)
+			r.Recorder.Event(obj, corev1.EventTypeNormal, "Added", "Object finalizer is added")
+			return ctrl.Result{}, r.Update(ctx, obj)
 		}
 	} else {
 		if HasFinalizer(res, finalizerName) {
 			if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
 				configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 			}
-			found, deleteErr := r.AzureClient.Delete(ctx, local, configOptions...)
+			found, deleteErr := r.AzureClient.Delete(ctx, obj, configOptions...)
 			final := multierror.Append(deleteErr)
 			if err := final.ErrorOrNil(); err != nil {
 				r.Telemetry.LogErrorByInstance("error deleting object", err, req.String())
-				r.Recorder.Event(local, corev1.EventTypeWarning, "FailedDelete", fmt.Sprintf("Failed to delete resource: %s", err.Error()))
+				r.Recorder.Event(obj, corev1.EventTypeWarning, "FailedDelete", fmt.Sprintf("Failed to delete resource: %s", err.Error()))
 				return ctrl.Result{}, err
 			}
 			if !found {
-				r.Recorder.Event(local, corev1.EventTypeNormal, "Deleted", "Successfully deleted")
+				r.Recorder.Event(obj, corev1.EventTypeNormal, "Deleted", "Successfully deleted")
 				RemoveFinalizer(res, finalizerName)
-				return ctrl.Result{}, r.Update(ctx, local)
+				return ctrl.Result{}, r.Update(ctx, obj)
 			}
 			r.Telemetry.LogInfoByInstance("requeuing", "deletion unfinished", req.String())
-			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, local)
+			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, obj)
 		}
 		return ctrl.Result{}, nil
 	}
 
 	// loop through parents until one is successfully referenced
-	parents, err := r.AzureClient.GetParents(local)
+	parents, err := r.AzureClient.GetParents(obj)
 	for _, p := range parents {
 		if err := r.Get(ctx, p.Key, p.Target); err == nil {
 			if pAccessor, err := meta.Accessor(p.Target); err == nil {
 				if err := controllerutil.SetControllerReference(pAccessor, res, r.Scheme); err == nil {
 					r.Telemetry.LogInfoByInstance("status", "setting parent reference", req.String())
-					err := r.Update(ctx, local)
+					err := r.Update(ctx, obj)
 					if err != nil {
 						r.Telemetry.LogErrorByInstance("failed to reference parent", err, req.String())
 					}
@@ -160,7 +161,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 		configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 	}
 
-	done, ensureErr := r.AzureClient.Ensure(ctx, local, configOptions...)
+	done, ensureErr := r.AzureClient.Ensure(ctx, obj, configOptions...)
 	if ensureErr != nil {
 		r.Telemetry.LogErrorByInstance("ensure err", ensureErr, req.String())
 	}
@@ -172,18 +173,18 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 	}
 
 	// update the status of the resource in kubernetes
-	// Implementations of Ensure() tend to set their outcomes in local.Status
-	err = r.Status().Update(ctx, local)
+	// Implementations of Ensure() tend to set their outcomes in obj.Status
+	err = r.Status().Update(ctx, obj)
 	if err != nil {
 		r.Telemetry.LogInfoByInstance("status", "failed updating status", req.String())
 	}
 
-	final := multierror.Append(ensureErr, r.Update(ctx, local))
+	final := multierror.Append(ensureErr, r.Update(ctx, obj))
 	err = final.ErrorOrNil()
 	if err != nil {
-		r.Recorder.Event(local, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
+		r.Recorder.Event(obj, corev1.EventTypeWarning, "FailedReconcile", fmt.Sprintf("Failed to reconcile resource: %s", err.Error()))
 	} else if done {
-		r.Recorder.Event(local, corev1.EventTypeNormal, "Reconciled", "Successfully reconciled")
+		r.Recorder.Event(obj, corev1.EventTypeNormal, "Reconciled", "Successfully reconciled")
 	}
 
 	result = ctrl.Result{}

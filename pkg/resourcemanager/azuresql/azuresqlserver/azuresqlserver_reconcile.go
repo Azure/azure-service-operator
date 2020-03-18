@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -39,18 +38,18 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		value := v
-		labels[k] = &value
-	}
+	// Assure that the requested name is available
+	checkNameResult, _ := CheckNameAvailability(ctx, instance.Name)
+	if *checkNameResult.Available != true {
 
-	// set a spec hash if one hasn't been set
-	hash := helpers.Hash256(instance.Spec)
-	if instance.Status.SpecHash == hash && instance.Status.Provisioned {
-		instance.Status.RequestedAt = nil
-		return true, nil
+		instance.Status.Provisioning = false
+
+		if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err != nil {
+			instance.Status.Message = fmt.Sprintf("The SQL Server name %s is unavailable", instance.Name)
+			return true, nil
+		}
+
+		return false, nil
 	}
 
 	// Check to see if secret already exists for admin username/password
@@ -60,26 +59,15 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	if err != nil {
 		if instance.Status.Provisioned {
 			instance.Status.Message = err.Error()
-			return false, fmt.Errorf("Secret missing for provisioned server: %s", key.String())
+			return false, fmt.Errorf("Secret missing for provisioned server: %s", key)
 		}
 
-		checkNameResult, _ := CheckNameAvailability(ctx, instance.Name)
-		if checkNameResult.Reason == sql.AlreadyExists {
-			instance.Status.Provisioning = false
-			if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err != nil {
-				instance.Status.Message = "SQL server already exists somewhere else"
-				return true, nil
-			}
-
-			instance.Status.Message = fmt.Sprintf(
-				`SQL server already exists and the credentials could not be found. 
-				If using kube secrets a secret should exist at '%s' for keyvault it should be '%s'`,
-				key.String(),
-				fmt.Sprintf("%s-%s", key.Namespace, key.Name),
-			)
-
-			return false, nil
-		}
+		instance.Status.Message = fmt.Sprintf(
+			`SQL server already exists and the credentials could not be found. 
+			If using kube secrets a secret should exist at '%s' for keyvault it should be '%v'`,
+			key,
+			fmt.Sprintf("%s-%s", key.Namespace, key.Name),
+		)
 
 		secret, err = NewSecret(instance.Name)
 		if err != nil {
@@ -100,6 +88,20 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	azureSQLServerProperties := azuresqlshared.SQLServerProperties{
 		AdministratorLogin:         to.StringPtr(string(secret["username"])),
 		AdministratorLoginPassword: to.StringPtr(string(secret["password"])),
+	}
+
+	// convert kube labels to expected tag format
+	labels := map[string]*string{}
+	for k, v := range instance.GetLabels() {
+		value := v
+		labels[k] = &value
+	}
+
+	// set a spec hash if one hasn't been set
+	hash := helpers.Hash256(instance.Spec)
+	if instance.Status.SpecHash == hash && instance.Status.Provisioned {
+		instance.Status.RequestedAt = nil
+		return true, nil
 	}
 
 	if instance.Status.SpecHash == "" {
@@ -136,9 +138,22 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
-		instance.Status.Message = err.Error()
+	if result, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
+		if err != nil {
+			instance.Status.Message = err.Error()
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = false
+			return true, err
+		}
 
+		// we're still waiting for a valid response from Azure
+		if result.Response.Response == nil {
+			instance.Status.Message = "Awaiting a valid response"
+			instance.Status.Provisioned = false
+			return true, nil
+		}
+
+		// check for our known errors
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		// the first successful call to create the server should result in this type of error
@@ -148,7 +163,8 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			return false, nil
 		}
 
-		// SQL Server names are globally unique so if a server with this name exists we need to see if it meets our criteria (ie. same rg/sub)
+		// SQL Server names are globally unique so if a server with this name exists we
+		// need to see if it meets our criteria (ie. same rg/sub)
 		if azerr.Type == errhelp.AlreadyExists {
 			// see if server exists in correct rg
 			if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err == nil {
@@ -160,14 +176,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Provisioning = false
 			instance.Status.RequestedAt = nil
 
-			return true, nil
-		}
-
-		// is this a bad location / region?
-		if azerr.Type == errhelp.LocationNotAvailableForResourceType {
-			instance.Status.Message = fmt.Sprintf("%s is an invalid location for an Azure SQL Server based on your subscription", instance.Spec.Location)
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = false
 			return true, nil
 		}
 
