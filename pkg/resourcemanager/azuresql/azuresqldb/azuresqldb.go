@@ -79,7 +79,7 @@ func (sdk *AzureSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName st
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
-func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLDatabaseProperties) (*http.Response, error) {
+func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLDatabaseProperties) (*http.Response, error) {
 	dbClient := azuresqlshared.GetGoDbClient()
 	dbProp := azuresqlshared.SQLDatabasePropertiesToDatabase(properties)
 
@@ -91,6 +91,7 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 		sql.Database{
 			Location:           to.StringPtr(location),
 			DatabaseProperties: &dbProp,
+			Tags:               tags,
 		})
 
 	return future.Response(), err
