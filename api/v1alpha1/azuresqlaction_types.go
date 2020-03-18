@@ -14,9 +14,11 @@ import (
 type AzureSqlActionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ResourceGroup string `json:"resourcegroup"`
-	ActionName    string `json:"actionname"`
-	ServerName    string `json:"servername"`
+	ResourceGroup         string `json:"resourceGroup"`
+	ActionName            string `json:"actionName"`
+	ServerName            string `json:"serverName"`
+	ServerAdminSecretName string `json:"serverAdminSecretName,omitempty"`
+	ServerSecretKeyVault  string `json:"serverSecretKeyVault,omitempty"`
 }
 
 // +kubebuilder:object:root=true
