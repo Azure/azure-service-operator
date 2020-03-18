@@ -14,6 +14,7 @@ import (
 	resourceapimanagement "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	apimservice "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
+	resourcemanagersqlaction "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlaction"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
@@ -146,6 +147,7 @@ func main() {
 		secretClient,
 		scheme,
 	)
+	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
 
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
@@ -336,14 +338,18 @@ func main() {
 	}
 
 	if err = (&controllers.AzureSqlActionReconciler{
-		Client:                mgr.GetClient(),
-		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
-		Recorder:              mgr.GetEventRecorderFor("AzureSqlAction-controller"),
-		Scheme:                mgr.GetScheme(),
-		AzureSqlServerManager: sqlServerManager,
-		SecretClient:          secretClient,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlActionManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSQLActionOperator",
+				ctrl.Log.WithName("controllers").WithName("AzureSQLActionOperator"),
+			),
+			Recorder: mgr.GetEventRecorderFor("SqlAction-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
+		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
 		os.Exit(1)
 	}
 

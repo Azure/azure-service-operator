@@ -453,6 +453,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 			errhelp.AlreadyExists,
 			errhelp.InvalidAccessPolicy,
 			errhelp.BadRequest,
+			errhelp.LocationNotAvailableForResourceType,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
