@@ -109,9 +109,8 @@ func (fw *AzureSqlFirewallRuleManager) GetParents(obj runtime.Object) ([]resourc
 	}, nil
 }
 
-// GetStatus returns the status of the runtime object if it is an instance of AzureSqlFirewallRule
-func (fw *AzureSqlFirewallRuleManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
-	instance, err := fw.convert(obj)
+func (g *AzureSqlFirewallRuleManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
 	if err != nil {
 		return nil, err
 	}

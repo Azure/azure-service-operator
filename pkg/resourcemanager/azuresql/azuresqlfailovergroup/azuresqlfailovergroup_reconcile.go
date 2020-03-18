@@ -57,14 +57,11 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		instance.Status.ResourceId = *resp.ID
 		return true, nil
 	}
-
 	instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
-	instance.Status.Provisioning = true
 
 	_, err = fg.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		instance.Status.Provisioning = false
 		catch := []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
@@ -93,7 +90,6 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		secrets.WithScheme(fg.Scheme),
 	)
 	if err != nil {
-		instance.Status.Provisioning = false
 		return false, err
 	}
 
@@ -184,9 +180,9 @@ func (fg *AzureSqlFailoverGroupManager) GetParents(obj runtime.Object) ([]resour
 	}, nil
 }
 
-// GetStatus returns the status of the runtime object if it is an instance of AzureSqlFailoverGroup
-func (fg *AzureSqlFailoverGroupManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
-	instance, err := fg.convert(obj)
+// GetStatus gets the ASOStatus
+func (g *AzureSqlFailoverGroupManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := g.convert(obj)
 	if err != nil {
 		return nil, err
 	}
