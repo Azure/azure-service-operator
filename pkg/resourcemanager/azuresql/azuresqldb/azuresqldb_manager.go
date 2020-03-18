@@ -20,6 +20,7 @@ type SqlDbManager interface {
 		resourceGroupName string,
 		location string,
 		serverName string,
+		tags map[string]*string,
 		properties azuresqlshared.SQLDatabaseProperties) (*http.Response, error)
 
 	DeleteDB(ctx context.Context,
