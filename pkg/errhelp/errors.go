@@ -43,6 +43,7 @@ const (
 	CreationPending                     = "CreationPending"
 	ConflictingServerOperation          = "ConflictingServerOperation"
 	LocationNotAvailableForResourceType = "LocationNotAvailableForResourceType"
+	InvalidFailoverGroupRegion          = "InvalidFailoverGroupRegion"
 )
 
 func NewAzureError(err error) error {
