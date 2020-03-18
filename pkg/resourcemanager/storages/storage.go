@@ -19,7 +19,7 @@ import (
 type azureStorageManager struct{}
 
 func getStoragesClient() storage.AccountsClient {
-	storagesClient := storage.NewAccountsClient(config.SubscriptionID())
+	storagesClient := storage.NewAccountsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		log.Printf("failed to initialize authorizer: %v\n", err)

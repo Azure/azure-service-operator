@@ -17,7 +17,7 @@ import (
 type azureBlobContainerManager struct{}
 
 func getContainerClient() s.BlobContainersClient {
-	containersClient := s.NewBlobContainersClient(config.SubscriptionID())
+	containersClient := s.NewBlobContainersClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	auth, _ := iam.GetResourceManagementAuthorizer()
 	containersClient.Authorizer = auth
 	containersClient.AddToUserAgent(config.UserAgent())
