@@ -80,7 +80,10 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, local runtime.Object) (res
 
 		if !keyvaultsecretlib.IsKeyVaultAccessible(keyvaultSecretClient) {
 			r.Telemetry.LogInfoByInstance("requeuing", "awaiting vault verification", req.String())
-			return ctrl.Result{RequeueAfter: requeDuration}, nil
+
+			// update the status of the resource in kubernetes
+			status.Message = "Waiting for secretclient keyvault to be available"
+			return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, local)
 		}
 	}
 
