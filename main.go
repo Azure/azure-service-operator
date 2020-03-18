@@ -19,6 +19,8 @@ import (
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
+	resourcemanagersqlaction "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlaction"
+	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -131,6 +133,7 @@ func main() {
 	)
 	sqlDBManager := resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
 	sqlFirewallRuleManager := resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlVNetRuleManager := resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager()
 	sqlFailoverGroupManager := resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
 		ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"),
 		secretClient,
@@ -144,6 +147,7 @@ func main() {
 		secretClient,
 		scheme,
 	)
+	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
 
 	err = (&controllers.StorageReconciler{
 		Client:         mgr.GetClient(),
@@ -317,15 +321,35 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.AzureSqlActionReconciler{
-		Client:                mgr.GetClient(),
-		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
-		Recorder:              mgr.GetEventRecorderFor("AzureSqlAction-controller"),
-		Scheme:                mgr.GetScheme(),
-		AzureSqlServerManager: sqlServerManager,
-		SecretClient:          secretClient,
+	if err = (&controllers.AzureSQLVNetRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlVNetRuleManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSQLVNetRuleOperator",
+				ctrl.Log.WithName("controllers").WithName("AzureSQLVNetRuleOperator"),
+			),
+			Recorder: mgr.GetEventRecorderFor("SqlVnetRule-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlAction")
+		setupLog.Error(err, "unable to create controller", "controller", "SqlVNetRule")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.AzureSqlActionReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlActionManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSQLActionOperator",
+				ctrl.Log.WithName("controllers").WithName("AzureSQLActionOperator"),
+			),
+			Recorder: mgr.GetEventRecorderFor("SqlAction-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
 		os.Exit(1)
 	}
 

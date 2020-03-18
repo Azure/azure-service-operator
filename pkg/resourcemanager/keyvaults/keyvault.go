@@ -66,9 +66,10 @@ func getObjectID(ctx context.Context, tenantID string, clientID string) *string 
 	return result.Value
 }
 
-func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
+// ParseNetworkPolicy - helper function to parse network policies from Kubernetes spec
+func ParseNetworkPolicy(ruleSet *v1alpha1.NetworkRuleSet) keyvault.NetworkRuleSet {
 	var bypass keyvault.NetworkRuleBypassOptions
-	switch instance.Spec.NetworkPolicies.Bypass {
+	switch ruleSet.Bypass {
 	case "AzureServices":
 		bypass = keyvault.AzureServices
 	case "None":
@@ -78,7 +79,7 @@ func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
 	}
 
 	var defaultAction keyvault.NetworkRuleAction
-	switch instance.Spec.NetworkPolicies.DefaultAction {
+	switch ruleSet.DefaultAction {
 	case "Allow":
 		defaultAction = keyvault.Allow
 	case "Deny":
@@ -88,13 +89,19 @@ func parseNetworkPolicy(instance *v1alpha1.KeyVault) keyvault.NetworkRuleSet {
 	}
 
 	var ipInstances []keyvault.IPRule
-	for _, ip := range *instance.Spec.NetworkPolicies.IPRules {
-		ipInstances = append(ipInstances, keyvault.IPRule{Value: &ip})
+	if ruleSet.IPRules != nil {
+		for _, i := range *ruleSet.IPRules {
+			ip := i
+			ipInstances = append(ipInstances, keyvault.IPRule{Value: &ip})
+		}
 	}
 
 	var virtualNetworkRules []keyvault.VirtualNetworkRule
-	for _, id := range *instance.Spec.NetworkPolicies.VirtualNetworkRules {
-		virtualNetworkRules = append(virtualNetworkRules, keyvault.VirtualNetworkRule{ID: &id})
+	if ruleSet.VirtualNetworkRules != nil {
+		for _, i := range *ruleSet.VirtualNetworkRules {
+			id := i
+			virtualNetworkRules = append(virtualNetworkRules, keyvault.VirtualNetworkRule{ID: &id})
+		}
 	}
 
 	networkAcls := keyvault.NetworkRuleSet{
@@ -126,6 +133,7 @@ func GenerateSpecHash(obj runtime.Object) (string, error) {
 	return strconv.FormatUint(hash, 10), nil
 }
 
+// ParseAccessPolicy - helper function to parse access policies from Kubernetes spec
 func ParseAccessPolicy(policy *v1alpha1.AccessPolicyEntry, ctx context.Context) (keyvault.AccessPolicyEntry, error) {
 	tenantID, err := uuid.FromString(policy.TenantID)
 	if err != nil {
@@ -289,7 +297,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 
 	var networkAcls keyvault.NetworkRuleSet
 	if instance.Spec.NetworkPolicies != nil {
-		networkAcls = parseNetworkPolicy(instance)
+		networkAcls = ParseNetworkPolicy(instance.Spec.NetworkPolicies)
 	} else {
 		networkAcls = keyvault.NetworkRuleSet{}
 	}
@@ -445,6 +453,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 			errhelp.AlreadyExists,
 			errhelp.InvalidAccessPolicy,
 			errhelp.BadRequest,
+			errhelp.LocationNotAvailableForResourceType,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)

@@ -39,6 +39,13 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
+	// convert kube labels to expected tag format
+	labels := map[string]*string{}
+	for k, v := range instance.GetLabels() {
+		value := v
+		labels[k] = &value
+	}
+
 	// set a spec hash if one hasn't been set
 	hash := helpers.Hash256(instance.Spec)
 	if instance.Status.SpecHash == hash && instance.Status.Provisioned {
@@ -129,7 +136,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, azureSQLServerProperties, false); err != nil {
+	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
 		instance.Status.Message = err.Error()
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -153,6 +160,14 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Provisioning = false
 			instance.Status.RequestedAt = nil
 
+			return true, nil
+		}
+
+		// is this a bad location / region?
+		if azerr.Type == errhelp.LocationNotAvailableForResourceType {
+			instance.Status.Message = fmt.Sprintf("%s is an invalid location for an Azure SQL Server based on your subscription", instance.Spec.Location)
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = false
 			return true, nil
 		}
 
@@ -282,10 +297,7 @@ func NewSecret(serverName string) (map[string][]byte, error) {
 		return secret, err
 	}
 
-	randomPassword, err := helpers.GenerateRandomPassword(passwordLength)
-	if err != nil {
-		return secret, err
-	}
+	randomPassword := helpers.NewPassword()
 
 	secret["username"] = []byte(randomUsername)
 	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, serverName))

@@ -6,6 +6,9 @@ package storages
 import (
 	"context"
 	"errors"
+	"log"
+	"net/http"
+
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2018-02-01/resources"
 	"github.com/Azure/azure-sdk-for-go/services/storage/datalake/2019-10-31/storagedatalake"
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
@@ -13,8 +16,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
-	"log"
-	"net/http"
 )
 
 type azureFileSystemManager struct{}
@@ -89,7 +90,7 @@ func getFileSystemClient(ctx context.Context, groupName string, accountName stri
 }
 
 func getResourcesClient() resources.GroupsClient {
-	resourcesClient := resources.NewGroupsClient(config.SubscriptionID())
+	resourcesClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	resourcesClient.Authorizer = a
 	resourcesClient.AddToUserAgent(config.UserAgent())
