@@ -66,6 +66,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		// assertion that a 404 error implies that the Azure SQL server hasn't been provisioned yet
 		if resp != nil && resp.StatusCode == 404 {
 			instance.Status.Message = fmt.Sprintf("Waiting for SQL Server %s to provision", server)
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 
@@ -75,6 +76,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	dbGet, err := db.GetDB(ctx, groupName, server, dbName)
 	if err != nil {
 		instance.Status.Message = err.Error()
+		instance.Status.Provisioning = false
 		catch := []string{
 			errhelp.NotFoundErrorCode,
 		}
@@ -82,7 +84,6 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
-		instance.Status.Provisioning = false
 		return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
 	}
 

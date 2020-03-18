@@ -52,11 +52,12 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
 	if err != nil {
 		instance.Status.Message = err.Error()
+		instance.Status.Provisioning = false
+
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			instance.Status.Message = "Resource request submitted to Azure successfully"
-			instance.Status.Provisioning = false
 			return false, nil
 		}
 
@@ -66,7 +67,6 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 			errhelp.ResourceNotFound,
 		}
 		if helpers.ContainsString(ignorableErrors, azerr.Type) {
-			instance.Status.Provisioning = false
 			return false, nil
 		}
 		return false, err
