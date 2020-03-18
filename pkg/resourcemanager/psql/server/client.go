@@ -115,6 +115,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			instance.Status.State = "Ready"
+			instance.Status.Message = resourcemanager.SuccessMsg
 			return true, nil
 		} else {
 			p.Log.Info("Server creation is InProgress")

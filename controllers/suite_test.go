@@ -20,6 +20,7 @@ import (
 
 	resourcemanagerapimgmt "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
+	resourcemanagersqlaction "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlaction"
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
@@ -129,6 +130,7 @@ func setup() error {
 	var sqlFirewallRuleManager resourcemanagersqlfirewallrule.SqlFirewallRuleManager
 	var sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
 	var sqlUserManager resourcemanagersqluser.SqlUserManager
+	var sqlActionManager resourcemanagersqlaction.SqlActionManager
 	var eventhubClient resourcemanagereventhub.EventHubManager
 	var psqlServerManager resourcemanagerpsqlserver.PostgreSQLServerManager
 	var psqlDatabaseManager resourcemanagerpsqldatabase.PostgreSQLDatabaseManager
@@ -184,6 +186,7 @@ func setup() error {
 		secretClient,
 		scheme.Scheme,
 	)
+	sqlActionManager = resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme.Scheme)
 
 	timeout = time.Second * 720
 
@@ -454,12 +457,16 @@ func setup() error {
 	}
 
 	err = (&AzureSqlActionReconciler{
-		Client:                k8sManager.GetClient(),
-		Log:                   ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
-		Recorder:              k8sManager.GetEventRecorderFor("AzureSqlAction-controller"),
-		Scheme:                scheme.Scheme,
-		AzureSqlServerManager: sqlServerManager,
-		SecretClient:          secretClient,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: sqlActionManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSqlAction",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlAction-controller"),
+			Scheme:   scheme.Scheme,
+		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
 		return err
