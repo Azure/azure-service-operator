@@ -2,6 +2,9 @@ apiVersion: azure.microsoft.com/v1alpha1
 kind: AzureSqlServer
 metadata:
   name: sqlserver-sample-777
+  labels: # Provide tags to add to AzureSqlServer as labels
+    tag1: value1
+    tag2: value2
 spec:
   location: westus
   resourcegroup: resourcegroup-azure-operators

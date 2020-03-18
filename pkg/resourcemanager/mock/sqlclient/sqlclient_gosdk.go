@@ -24,7 +24,7 @@ type MockGoSDKClient struct {
 }
 
 // CreateOrUpdateSQLServer creates a new sql server
-func (sdk *MockGoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (result sql.Server, err error) {
+func (sdk *MockGoSDKClient) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (result sql.Server, err error) {
 	var sqlServer = sql.Server{
 		Response: helpers.GetRestResponse(http.StatusCreated),
 	}
