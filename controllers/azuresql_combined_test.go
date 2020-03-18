@@ -21,7 +21,7 @@ import (
 
 func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	t.Parallel()
-	defer PanicRecover()
+	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
 	var err error
@@ -137,6 +137,12 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			)
 
 			EnsureInstance(ctx, t, tc, sqlFirewallRuleInstanceRemote)
+		})
+
+		// Create VNet and VNetRules -----
+		t.Run("run subtest to test VNet Rule in primary server", func(t *testing.T) {
+			t.Parallel()
+			RunAzureSqlVNetRuleHappyPath(t, sqlServerName, rgLocation)
 		})
 
 	})
