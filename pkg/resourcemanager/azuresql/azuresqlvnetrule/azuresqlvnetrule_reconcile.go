@@ -45,9 +45,10 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 		}
 		return false, nil
 	}
-	instance.Status.Message = fmt.Sprintf("AzureSqlVNetRule Get error %s", err.Error())
 
+	instance.Status.Message = fmt.Sprintf("AzureSqlVNetRule Get error %s", err.Error())
 	instance.Status.Provisioning = true
+
 	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
 	if err != nil {
 		instance.Status.Message = err.Error()
@@ -55,6 +56,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 
 		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			instance.Status.Message = "Resource request submitted to Azure successfully"
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 
@@ -63,7 +65,6 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-
 		if helpers.ContainsString(ignorableErrors, azerr.Type) {
 			instance.Status.Provisioning = false
 			return false, nil
@@ -139,6 +140,7 @@ func (vr *AzureSqlVNetRuleManager) GetParents(obj runtime.Object) ([]resourceman
 	}, nil
 }
 
+// GetStatus returns the status of the runtime object if it is an instance of AzureSQLVNetRule
 func (vr *AzureSqlVNetRuleManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
 	instance, err := vr.convert(obj)
 	if err != nil {

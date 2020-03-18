@@ -52,6 +52,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 				if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
 					s.Telemetry.LogInfo("requeuing", "Keyvault specified not accessible yet")
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
+					instance.Status.Provisioning = false
 					return false, nil
 				}
 			}
@@ -78,10 +79,10 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	} else {
 		instance.Status.Message = "Unrecognized action"
+		instance.Status.Provisioning = false
 	}
 
 	return true, nil
-
 }
 
 // Delete removes an AzureSqlAction
@@ -104,8 +105,8 @@ func (s *AzureSqlActionManager) GetParents(obj runtime.Object) ([]resourcemanage
 }
 
 // GetStatus gets the Status object of the AzureSqlAction instance
-func (g *AzureSqlActionManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
-	instance, err := g.convert(obj)
+func (s *AzureSqlActionManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := s.convert(obj)
 	if err != nil {
 		return nil, err
 	}

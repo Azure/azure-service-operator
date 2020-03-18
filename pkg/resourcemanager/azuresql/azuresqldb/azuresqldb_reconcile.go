@@ -59,6 +59,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 
@@ -81,6 +82,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
+		instance.Status.Provisioning = false
 		return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
 	}
 
@@ -133,8 +135,9 @@ func (db *AzureSqlDbManager) GetParents(obj runtime.Object) ([]resourcemanager.K
 	}, nil
 }
 
-func (g *AzureSqlDbManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
-	instance, err := g.convert(obj)
+// GetStatus returns the status of the runtime object if it is an instance of AzureSqlDatabase
+func (db *AzureSqlDbManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+	instance, err := db.convert(obj)
 	if err != nil {
 		return nil, err
 	}

@@ -145,6 +145,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		// we save the credentials here
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
 			instance.Status.Message = "Resource request successfully submitted to Azure"
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 
@@ -271,8 +272,9 @@ func (s *AzureSqlServerManager) GetParents(obj runtime.Object) ([]resourcemanage
 	}, nil
 }
 
-func (g *AzureSqlServerManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
-	instance, err := g.convert(obj)
+// GetStatus returns the status of the runtime object if it is an instance of AzureSqlServer
+func (s *AzureSqlServerManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := s.convert(obj)
 	if err != nil {
 		return nil, err
 	}
