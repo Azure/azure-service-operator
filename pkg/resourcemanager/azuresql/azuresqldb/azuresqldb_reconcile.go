@@ -71,6 +71,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		ignore := []string{
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
+			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		if !helpers.ContainsString(ignore, azerr.Type) {
 			instance.Status.Message = err.Error()
