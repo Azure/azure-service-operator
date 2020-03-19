@@ -3,14 +3,16 @@
 
 package storages
 
+import "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
+
 type StorageManagers struct {
-	Storage       StorageManager
+	Storage       storageaccount.StorageManager
 	BlobContainer BlobContainerManager
 	FileSystem    FileSystemManager
 }
 
 var AzureStorageManagers = StorageManagers{
-	Storage:       &azureStorageManager{},
+	Storage:       storageaccount.New(),
 	BlobContainer: &azureBlobContainerManager{},
 	FileSystem:    &azureFileSystemManager{},
 }

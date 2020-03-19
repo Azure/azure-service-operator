@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package storages
+package storageaccount
 
 import (
 	"context"
@@ -101,4 +101,9 @@ func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName 
 func (_ *azureStorageManager) DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
 	storagesClient := getStoragesClient()
 	return storagesClient.Delete(ctx, groupName, storageAccountName)
+}
+
+func (_ *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName string, accountName string) (result storage.AccountListKeysResult, err error) {
+	storagesClient := getStoragesClient()
+	return storagesClient.ListKeys(ctx, resourceGroupName, accountName, storage.Kerb)
 }
