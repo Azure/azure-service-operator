@@ -6,7 +6,6 @@ package azuresqlserver
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -138,20 +137,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if result, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
-		if err != nil {
-			instance.Status.Message = err.Error()
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = false
-			return true, err
-		}
-
-		// we're still waiting for a valid response from Azure
-		if result.Response.Response == nil {
-			instance.Status.Message = "Awaiting a valid response"
-			instance.Status.Provisioned = false
-			return true, nil
-		}
+	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
 
 		// check for our known errors
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -199,6 +185,14 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			return true, nil
 		}
 
+		// if we've encountered an error that we don't handle, bail on reconciliation
+		if err != nil {
+			instance.Status.Message = err.Error()
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = false
+			return true, nil
+		}
+
 		return false, err
 	}
 
@@ -224,12 +218,6 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-
-	// if the resource is in a failed state it was never creatred or could never be verified
-	// so we skip attempting to delete the resrouce from Azure
-	if instance.Status.FailedProvisioning || strings.Contains(instance.Status.Message, "credentials could not be found") {
-		return false, nil
-	}
 
 	_, err = s.DeleteSQLServer(ctx, groupName, name)
 	if err != nil {
