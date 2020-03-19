@@ -232,7 +232,7 @@ func (m *Manager) GetAppInsights(
 }
 
 func getComponentsClient() insights.ComponentsClient {
-	insightsClient := insights.NewComponentsClient(config.SubscriptionID())
+	insightsClient := insights.NewComponentsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {

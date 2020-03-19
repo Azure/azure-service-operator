@@ -97,7 +97,7 @@ func (sdk *MockGoSDKClient) GetDB(ctx context.Context, resourceGroupName string,
 }
 
 //CreateOrUpdateDB create or update DB
-func (sdk *MockGoSDKClient) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
+func (sdk *MockGoSDKClient) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
 
 	var sqlDatabasesCreateOrUpdateFuture = sql.DatabasesCreateOrUpdateFuture{}
 

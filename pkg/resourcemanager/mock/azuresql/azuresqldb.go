@@ -45,7 +45,7 @@ func findSqlDb(res []MockSqlDbResource, predicate func(MockSqlDbResource) bool) 
 }
 
 //CreateorUpdateDB creates a sql Db
-func (manager *MockSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, properties azuresqlshared.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
+func (manager *MockSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLDatabaseProperties) (sql.DatabasesCreateOrUpdateFuture, error) {
 	index, _ := findSqlDb(manager.sqlDbs, func(s MockSqlDbResource) bool {
 		return s.resourceGroupName == resourceGroupName && s.sqlServerName == serverName && *s.sqlDb.Name == properties.DatabaseName
 	})
@@ -115,13 +115,14 @@ func (db *MockSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opts
 	server := instance.Spec.Server
 	dbName := instance.ObjectMeta.Name
 	dbEdition := instance.Spec.Edition
+	tags := map[string]*string{}
 
 	azureSqlDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
 		Edition:      dbEdition,
 	}
 
-	_, err = db.CreateOrUpdateDB(ctx, groupName, location, server, azureSqlDatabaseProperties)
+	_, err = db.CreateOrUpdateDB(ctx, groupName, location, server, tags, azureSqlDatabaseProperties)
 	if err != nil {
 		return false, err
 	}
