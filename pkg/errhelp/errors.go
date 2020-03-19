@@ -43,6 +43,7 @@ const (
 	CreationPending                     = "CreationPending"
 	ConflictingServerOperation          = "ConflictingServerOperation"
 	LocationNotAvailableForResourceType = "LocationNotAvailableForResourceType"
+	ProvisioningDisabled                = "ProvisioningDisabled"
 )
 
 func NewAzureError(err error) error {
