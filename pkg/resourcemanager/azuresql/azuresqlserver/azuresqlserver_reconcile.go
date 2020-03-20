@@ -6,6 +6,7 @@ package azuresqlserver
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -37,20 +38,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	// Assure that the requested name is available
-	checkNameResult, _ := CheckNameAvailability(ctx, instance.Name)
-	if *checkNameResult.Available != true {
-
-		instance.Status.Provisioning = false
-
-		if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err != nil {
-			instance.Status.Message = fmt.Sprintf("The SQL Server name %s is unavailable", instance.Name)
-			return true, nil
-		}
-
-		return false, nil
-	}
-
 	// Check to see if secret already exists for admin username/password
 	// create or update the secret
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
@@ -59,6 +46,16 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		if instance.Status.Provisioned {
 			instance.Status.Message = err.Error()
 			return false, fmt.Errorf("Secret missing for provisioned server: %s", key)
+		}
+
+		// Assure that the requested name is available
+		checkNameResult, _ := CheckNameAvailability(ctx, instance.Name)
+		if *checkNameResult.Available != true {
+			instance.Status.Provisioning = false
+			instance.Status.Provisioned = false
+			instance.Status.Message = fmt.Sprintf("The SQL Server name %s is unavailable", instance.Name)
+
+			return false, nil
 		}
 
 		instance.Status.Message = fmt.Sprintf(
@@ -139,30 +136,34 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	instance.Status.Provisioning = true
 	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
 
+		instance.Status.Message = err.Error()
+
 		// check for our known errors
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		// the first successful call to create the server should result in this type of error
-		// we save the credentials here
-		if azerr.Type == errhelp.AsyncOpIncompleteError {
+		switch azerr.Type {
+		case errhelp.AsyncOpIncompleteError:
+			// the first successful call to create the server should result in this type of error
+			// we save the credentials here
 			instance.Status.Message = "Resource request successfully submitted to Azure"
 			return false, nil
-		}
-
-		// SQL Server names are globally unique so if a server with this name exists we
-		// need to see if it meets our criteria (ie. same rg/sub)
-		if azerr.Type == errhelp.AlreadyExists {
+		case errhelp.AlreadyExists:
+			// SQL Server names are globally unique so if a server with this name exists we
+			// need to see if it meets our criteria (ie. same rg/sub)
 			// see if server exists in correct rg
 			if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err == nil {
 				// should be good, let the next reconcile finish
 				return false, nil
 			}
-
 			// this server likely belongs to someone else
 			instance.Status.Provisioning = false
 			instance.Status.RequestedAt = nil
-
 			return true, nil
+		case errhelp.LocationNotAvailableForResourceType:
+			// Subscription does not support the requested service in the requested region
+			instance.Status.Provisioning = false
+			instance.Status.Provisioned = false
+			return true, err
 		}
 
 		// these errors are expected for recoverable states
@@ -182,14 +183,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			errhelp.InvalidServerName,
 		}
 		if helpers.ContainsString(drop, azerr.Type) {
-			return true, nil
-		}
-
-		// if we've encountered an error that we don't handle, bail on reconciliation
-		if err != nil {
-			instance.Status.Message = err.Error()
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = false
 			return true, nil
 		}
 
@@ -218,6 +211,12 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+
+	// if the resource is in a failed state it was never created or could never be verified
+	// so we skip attempting to delete the resrouce from Azure
+	if strings.Contains(instance.Status.Message, "credentials could not be found") {
+		return false, nil
+	}
 
 	_, err = s.DeleteSQLServer(ctx, groupName, name)
 	if err != nil {
