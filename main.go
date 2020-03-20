@@ -30,6 +30,7 @@ import (
 	resourcemanagerrediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	stoageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -392,11 +393,16 @@ func main() {
 	}
 
 	if err = (&controllers.BlobContainerReconciler{
-		Client:         mgr.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
-		Recorder:       mgr.GetEventRecorderFor("BlobContainer-controller"),
-		Scheme:         mgr.GetScheme(),
-		StorageManager: storageManagers.BlobContainer,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: blobContainerManager.New(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"BlobContainer",
+				ctrl.Log.WithName("controllers").WithName("BlobContainer"),
+			),
+			Recorder: mgr.GetEventRecorderFor("BlobContainer-controller"),
+			Scheme:   mgr.GetScheme(),
+		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
 		os.Exit(1)
