@@ -13,3 +13,13 @@ spec:
       isAutoInflateEnabled: false
       maximumThroughputUnits: 0
       kafkaEnabled: false
+    networkRules:
+      defaultAction: deny
+      virtualNetworkRules: 
+        - subnetId: /subscriptions/<subid>/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1
+          ignoreMissingServiceEndpoint: true
+        - subnetId: /subscriptions/<subid>/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet2
+          ignoreMissingServiceEndpoint: true
+      ipRules:
+        - ipMask: 1.1.1.1
+        - ipMask: 2.2.0.0/24
