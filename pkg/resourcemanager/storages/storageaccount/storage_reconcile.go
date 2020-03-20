@@ -39,18 +39,19 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 		labels[k] = &value
 	}
 
-	hash := helpers.Hash256(instance.Spec)
-	if instance.Status.SpecHash == hash && instance.Status.Provisioned {
-		instance.Status.RequestedAt = nil
-		return true, nil
-	}
-
+	hash := ""
 	stor, err := sa.GetStorage(ctx, groupName, name)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		instance.Status.State = "NotReady"
 	} else {
 		instance.Status.State = string(stor.ProvisioningState)
+
+		hash = helpers.Hash256(instance.Spec)
+		if instance.Status.SpecHash == hash && instance.Status.Provisioned {
+			instance.Status.RequestedAt = nil
+			return true, nil
+		}
 	}
 
 	if instance.Status.State == "Succeeded" {
@@ -58,6 +59,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		instance.Status.SpecHash = hash
+		instance.Status.ResourceId = *stor.ID
 		return true, nil
 	}
 
