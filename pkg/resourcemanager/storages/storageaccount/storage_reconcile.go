@@ -39,14 +39,15 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 		labels[k] = &value
 	}
 
+	hash := helpers.Hash256(instance.Spec)
+	if instance.Status.SpecHash == hash && instance.Status.Provisioned {
+		instance.Status.RequestedAt = nil
+		return true, nil
+	}
+
 	stor, err := sa.GetStorage(ctx, groupName, name)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if azerr.Type != errhelp.ResourceNotFound && instance.Status.Provisioning == true {
-			instance.Status.Provisioning = false
-			return false, nil
-		}
-
+		instance.Status.Message = err.Error()
 		instance.Status.State = "NotReady"
 	} else {
 		instance.Status.State = string(stor.ProvisioningState)
@@ -56,6 +57,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+		instance.Status.SpecHash = hash
 		return true, nil
 	}
 
@@ -65,16 +67,24 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	_, err = sa.CreateStorage(ctx, groupName, name, location, sku, kind, labels, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled)
 	if err != nil {
 		instance.Status.Message = err.Error()
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		instance.Status.Provisioning = false
 
-		catch := []string{
+		ignore := []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.AccountNameInvalid,
-			errhelp.AlreadyExists,
-			errhelp.AsyncOpIncompleteError,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
+		if helpers.ContainsString(ignore, azerr.Type) {
+			instance.Status.Provisioning = false
+			return false, nil
+		}
+
+		wait := []string{
+			errhelp.AsyncOpIncompleteError,
+			errhelp.AlreadyExists,
+		}
+		if helpers.ContainsString(wait, azerr.Type) {
+
 			if azerr.Type == errhelp.AlreadyExists {
 				// This error could happen in two cases - when the storage account
 				// exists in some other resource group or when this is a repeat
@@ -86,18 +96,24 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 					// This means that the Server exists elsewhere and we should
 					// terminate the reconcile loop
 					instance.Status.Message = "Storage Account Already exists somewhere else"
-					instance.Status.Provisioning = false
 					return true, nil
 				}
+				instance.Status.Provisioning = true
 			}
 
-			if azerr.Type == errhelp.AccountNameInvalid {
-				instance.Status.Message = "Invalid Storage Account Name"
-				return true, nil
+			if azerr.Type == errhelp.AsyncOpIncompleteError {
+				instance.Status.Provisioning = true
 			}
-
 			return false, nil
 		}
+
+		stop := []string{
+			errhelp.AccountNameInvalid,
+		}
+		if helpers.ContainsString(stop, azerr.Type) {
+			return true, nil
+		}
+
 		return false, err
 	}
 
