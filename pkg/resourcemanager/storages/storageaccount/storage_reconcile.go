@@ -157,7 +157,7 @@ func (sa *azureStorageManager) GetParents(obj runtime.Object) ([]resourcemanager
 				Name:      instance.Spec.ResourceGroup,
 				Namespace: instance.Namespace,
 			},
-			Target: &azurev1alpha1.AzureSqlServer{},
+			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
 }
