@@ -133,6 +133,7 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
+			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -142,6 +143,8 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 			switch azerr.Type {
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
+			case errhelp.SubscriptionDoesNotHaveServer:
+				instance.Status.Message = fmt.Sprintf("The PostgreSQL Server %s has not been provisioned yet. ", instance.Spec.Server)
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil
