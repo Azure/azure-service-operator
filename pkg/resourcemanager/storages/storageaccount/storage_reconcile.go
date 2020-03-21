@@ -133,17 +133,16 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 	groupName := instance.Spec.ResourceGroup
 	_, err = sa.DeleteStorage(ctx, groupName, name)
 	if err != nil {
-		if errhelp.IsStatusCode204(err) {
-			return true, nil
-		}
-		if errhelp.IsStatusCode404(err) {
-			return false, nil
-		}
-
 		return true, err
 	}
 
-	return false, nil
+	_, err = sa.GetStorage(ctx, groupName, name)
+	if err != nil {
+		if errhelp.IsStatusCode404(err) {
+			return false, nil
+		}
+	}
+	return true, nil
 }
 
 // GetParents returns the parents of AzureSqlDatabase
