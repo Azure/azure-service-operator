@@ -1,3 +1,8 @@
+/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
+
 package zips_test
 
 import (
@@ -14,7 +19,7 @@ import (
 )
 
 func TestNewResourceGroupDeployment(t *testing.T) {
-	res := zips.Resource{
+	res := &zips.Resource{
 		ObjectMeta:     zips.ResourceMeta{},
 		ResourceGroup:  "foo",
 		SubscriptionID: "subID",
@@ -34,7 +39,7 @@ func TestNewResourceGroupDeployment(t *testing.T) {
 }
 
 func TestNewSubscriptionDeployment(t *testing.T) {
-	res := zips.Resource{
+	res := &zips.Resource{
 		ObjectMeta:     zips.ResourceMeta{},
 		SubscriptionID: "subID",
 		Name:           "name",

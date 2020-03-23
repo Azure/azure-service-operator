@@ -1,0 +1,7 @@
+apiVersion: microsoft.network.infra.azure.com/v20191101
+kind: OutboundRule
+metadata:
+  name: outboundrule-sample
+spec:
+  # Add fields here
+  foo: bar

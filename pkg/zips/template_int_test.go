@@ -27,7 +27,7 @@ func TestAzureTemplateClient_ApplyResourceGroup(t *testing.T) {
 
 	random := test.RandomName("foo", 10)
 	ctx := context.TODO()
-	res := zips.Resource{
+	res := &zips.Resource{
 		Name:       random,
 		Location:   "westus2",
 		Type:       "Microsoft.Resources/resourceGroups",
@@ -71,7 +71,7 @@ func TestAzureTemplateClient_ApplyVirtualNetwork(t *testing.T) {
 	defer clean()
 
 	props := microsoftnetworkv1.VirtualNetworkSpecProperties{
-		AddressSpace: microsoftnetworkv1.AddressSpaceSpec{
+		AddressSpace: &microsoftnetworkv1.AddressSpaceSpec{
 			AddressPrefixes: []string{
 				"10.0.0.0/16",
 			},
@@ -89,7 +89,7 @@ func TestAzureTemplateClient_ApplyVirtualNetwork(t *testing.T) {
 
 	propBits, err := json.Marshal(props)
 	g.Expect(err).ToNot(gomega.HaveOccurred())
-	res, err := atc.Apply(ctx, zips.Resource{
+	res, err := atc.Apply(ctx, &zips.Resource{
 		ResourceGroup: random,
 		Name:          "vnet-" + random,
 		Location:      "westus2",
@@ -117,7 +117,7 @@ func TestAzureTemplateClient_ApplyVirtualNetwork(t *testing.T) {
 }
 
 func createResourceGroup(g *gomega.GomegaWithT, ctx context.Context, atc *zips.AzureTemplateClient, groupName string) func() {
-	res, err := atc.Apply(ctx, zips.Resource{
+	res, err := atc.Apply(ctx, &zips.Resource{
 		Name:       groupName,
 		Location:   "westus2",
 		Type:       "Microsoft.Resources/resourceGroups",

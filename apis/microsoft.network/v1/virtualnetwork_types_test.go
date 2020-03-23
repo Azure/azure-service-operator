@@ -1,3 +1,8 @@
+/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
+
 package v1
 
 import (
@@ -13,8 +18,8 @@ func TestVirtualNetwork_Marshalling(t *testing.T) {
 			APIVersion: "api",
 			Location:   "westus2",
 			Tags:       nil,
-			Properties: VirtualNetworkSpecProperties{
-				AddressSpace: AddressSpaceSpec{
+			Properties: &VirtualNetworkSpecProperties{
+				AddressSpace: &AddressSpaceSpec{
 					AddressPrefixes: []string{
 						"10.0.0.0/16",
 					},

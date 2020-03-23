@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/Azure/go-autorest/autorest/azure"
@@ -33,7 +34,7 @@ type (
 		ContentVersion string            `json:"contentVersion,omitempty"`
 		Parameters     interface{}       `json:"parameters,omitempty"`
 		Variables      interface{}       `json:"variables,omitempty"`
-		Resources      []Resource        `json:"resources,omitempty"`
+		Resources      []*Resource       `json:"resources,omitempty"`
 		Outputs        map[string]Output `json:"outputs,omitempty"`
 	}
 
@@ -143,9 +144,9 @@ func NewAzureTemplateClient(opts ...AzureTemplateClientOption) (*AzureTemplateCl
 	}, nil
 }
 
-func (atc *AzureTemplateClient) GetResource(ctx context.Context, res Resource) (Resource, error) {
+func (atc *AzureTemplateClient) GetResource(ctx context.Context, res *Resource) (*Resource, error) {
 	if res.ID == "" {
-		return Resource{}, fmt.Errorf("resource ID cannot be empty")
+		return nil, fmt.Errorf("resource ID cannot be empty")
 	}
 
 	path := fmt.Sprintf("%s?api-version%s", res.ID, res.APIVersion)
@@ -154,7 +155,7 @@ func (atc *AzureTemplateClient) GetResource(ctx context.Context, res Resource) (
 }
 
 // Apply deploys a resource to Azure via a deployment template
-func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resource, error) {
+func (atc *AzureTemplateClient) Apply(ctx context.Context, res *Resource) (*Resource, error) {
 	switch {
 	case res.ProvisioningState == DeletingProvisioningState:
 		return res, fmt.Errorf("resource is currently deleting; it can not be applied")
@@ -170,14 +171,13 @@ func (atc *AzureTemplateClient) Apply(ctx context.Context, res Resource) (Resour
 	}
 }
 
-func (atc *AzureTemplateClient) updateFromExistingDeployment(ctx context.Context, res Resource) (Resource, error) {
+func (atc *AzureTemplateClient) updateFromExistingDeployment(ctx context.Context, res *Resource) (*Resource, error) {
 	de, err := atc.getApply(ctx, res.DeploymentID)
 	if err != nil {
 		return res, err
 	}
 
-	res, err = fillResource(de, res)
-	if err != nil {
+	if err := fillResource(de, res); err != nil {
 		return res, err
 	}
 
@@ -190,21 +190,28 @@ func (atc *AzureTemplateClient) updateFromExistingDeployment(ctx context.Context
 	return atc.cleanupDeployment(ctx, res)
 }
 
-func (atc *AzureTemplateClient) startNewDeploy(ctx context.Context, res Resource) (Resource, error) {
+func (atc *AzureTemplateClient) startNewDeploy(ctx context.Context, res *Resource) (*Resource, error) {
 	// no status yet, so start provisioning
 	deploymentUUID, err := uuid.NewUUID()
 	if err != nil {
-		return Resource{}, err
+		return nil, err
 	}
 
 	deploymentName := fmt.Sprintf("%s_%d_%s", "k8s", time.Now().Unix(), deploymentUUID.String())
 	deployment, err := atc.getDeployment(deploymentName, res)
 	if err != nil {
-		return Resource{}, err
+		return nil, err
 	}
 
-	objectRef := fmt.Sprintf("reference('%s/%s', '%s', 'Full')", res.Type, res.Name, res.APIVersion)
-	idRef := fmt.Sprintf("json(concat('{ \"id\": \"', resourceId('%s', '%s'), '\"}'))", res.Type, res.Name)
+	names := strings.Split(res.Name, "/")
+	formattedNames := make([]string, len(names))
+	for i, name := range names {
+		formattedNames[i] = fmt.Sprintf("'%s'", name)
+	}
+
+	resourceIDTemplateFunction := fmt.Sprintf("resourceId('%s', %s)", res.Type, strings.Join(formattedNames, ", "))
+	objectRef := fmt.Sprintf("reference(%s, '%s', 'Full')", resourceIDTemplateFunction, res.APIVersion)
+	idRef := fmt.Sprintf("json(concat('{ \"id\": \"', %s, '\"}'))", resourceIDTemplateFunction)
 	deployment.Properties.Template.Outputs = map[string]Output{
 		"resource": {
 			Type:  "object",
@@ -214,11 +221,10 @@ func (atc *AzureTemplateClient) startNewDeploy(ctx context.Context, res Resource
 
 	de, err := atc.RawClient.PutDeployment(ctx, deployment)
 	if err != nil {
-		return Resource{}, fmt.Errorf("apply failed with: %w", err)
+		return nil, fmt.Errorf("apply failed with: %w", err)
 	}
 
-	res, err = fillResource(de, res)
-	if err != nil {
+	if err := fillResource(de, res); err != nil {
 		return res, err
 	}
 
@@ -243,7 +249,7 @@ func (atc *AzureTemplateClient) getApply(ctx context.Context, deploymentID strin
 	return &deployment, nil
 }
 
-func (atc *AzureTemplateClient) cleanupDeployment(ctx context.Context, res Resource) (Resource, error) {
+func (atc *AzureTemplateClient) cleanupDeployment(ctx context.Context, res *Resource) (*Resource, error) {
 	if res.DeploymentID != "" && !res.ObjectMeta.PreserveDeployment {
 		if err := atc.DeleteApply(ctx, res.DeploymentID); err != nil {
 			if !IsNotFound(err) {
@@ -256,16 +262,16 @@ func (atc *AzureTemplateClient) cleanupDeployment(ctx context.Context, res Resou
 	return res, nil
 }
 
-func (atc *AzureTemplateClient) getDeployment(name string, res Resource) (*Deployment, error) {
+func (atc *AzureTemplateClient) getDeployment(name string, res *Resource) (*Deployment, error) {
 	if res.ResourceGroup == "" {
 		return NewSubscriptionDeployment(atc.SubscriptionID, res.Location, name, res)
 	}
 	return NewResourceGroupDeployment(atc.SubscriptionID, res.ResourceGroup, name, res)
 }
 
-func (atc *AzureTemplateClient) BeginDelete(ctx context.Context, res Resource) (Resource, error) {
+func (atc *AzureTemplateClient) BeginDelete(ctx context.Context, res *Resource) (*Resource, error) {
 	if res.ID == "" {
-		return Resource{}, fmt.Errorf("resource ID cannot be empty")
+		return nil, fmt.Errorf("resource ID cannot be empty")
 	}
 
 	path := fmt.Sprintf("%s?api-version=%s", res.ID, res.APIVersion)
@@ -281,7 +287,7 @@ func (atc *AzureTemplateClient) BeginDelete(ctx context.Context, res Resource) (
 // Note: this doesn't actually use HTTP HEAD as Azure Resource Manager does not uniformly implement HEAD for all
 // all resources. Also, ARM returns a 400 rather than 405 when requesting HEAD for a resource which the Resource
 // Provider does not implement HEAD. For these reasons, we use an HTTP GET
-func (atc *AzureTemplateClient) HeadResource(ctx context.Context, res Resource) (bool, error) {
+func (atc *AzureTemplateClient) HeadResource(ctx context.Context, res *Resource) (bool, error) {
 	if res.ID == "" {
 		return false, fmt.Errorf("resource ID cannot be empty")
 	}
@@ -298,7 +304,7 @@ func (atc *AzureTemplateClient) HeadResource(ctx context.Context, res Resource) 
 	}
 }
 
-func fillResource(de *Deployment, res Resource) (Resource, error) {
+func fillResource(de *Deployment, res *Resource) error {
 	res.DeploymentID = de.ID
 	if de.Properties != nil {
 		res.ProvisioningState = de.Properties.ProvisioningState
@@ -307,12 +313,12 @@ func fillResource(de *Deployment, res Resource) (Resource, error) {
 	if de.Properties != nil && de.Properties.Outputs != nil {
 		var templateOutputs map[string]TemplateOutput
 		if err := json.Unmarshal(de.Properties.Outputs, &templateOutputs); err != nil {
-			return res, err
+			return err
 		}
 
 		templateOutput, ok := templateOutputs["resource"]
 		if !ok {
-			return res, errors.New("could not find the resource output in the outputs map")
+			return errors.New("could not find the resource output in the outputs map")
 		}
 
 		tOutValue := templateOutput.Value
@@ -326,7 +332,7 @@ func fillResource(de *Deployment, res Resource) (Resource, error) {
 			res.ID = tOutValue.ID
 		}
 	}
-	return res, nil
+	return nil
 }
 
 // GetSettingsFromEnvironment returns the available authentication settings from the environment.

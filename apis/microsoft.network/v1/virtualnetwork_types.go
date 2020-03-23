@@ -6,13 +6,9 @@ Licensed under the MIT license.
 package v1
 
 import (
-	"encoding/json"
-	"fmt"
-
-	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/Azure/k8s-infra/pkg/zips"
+	azcorev1 "github.com/Azure/k8s-infra/apis/core/v1"
 )
 
 type (
@@ -62,7 +58,7 @@ type (
 	// VirtualNetworkSpecProperties are the property bodies to be applied
 	VirtualNetworkSpecProperties struct {
 		// AddressSpace contains an array of IP address ranges that can be used by subnets
-		AddressSpace AddressSpaceSpec `json:"addressSpace,omitempty"`
+		AddressSpace *AddressSpaceSpec `json:"addressSpace,omitempty"`
 
 		// BGPCommunities are BGP communities sent over ExpressRoute with each route corresponding to a prefix in this VNET
 		// +optional
@@ -83,19 +79,23 @@ type (
 
 	// VirtualNetworkSpec defines the desired state of VirtualNetwork
 	VirtualNetworkSpec struct {
-		// ResourceGroup is the Azure Resource Group the VirtualNetwork resides within
-		ResourceGroup *corev1.ObjectReference `json:"group"`
-		APIVersion    string                  `json:"apiVersion,omitempty"`
-		Location      string                  `json:"location,omitempty"`
-		Tags          map[string]string       `json:"tags,omitempty"`
+		// +k8s:conversion-gen=false
+		APIVersion string `json:"apiVersion,omitempty"`
+
+		// ResourceGroupRef is the Azure Resource Group the VirtualNetwork resides within
+		ResourceGroupRef *azcorev1.KnownTypeReference `json:"resourceGroupRef" group:"microsoft.resources.infra.azure.com" kind:"ResourceGroup"`
+
+		Location string            `json:"location,omitempty"`
+		Tags     map[string]string `json:"tags,omitempty"`
 
 		// Properties of the Virtual Network
-		Properties VirtualNetworkSpecProperties `json:"properties,omitempty"`
+		Properties *VirtualNetworkSpecProperties `json:"properties,omitempty"`
 	}
 
 	// VirtualNetworkStatus defines the observed state of VirtualNetwork
 	VirtualNetworkStatus struct {
-		ID                string `json:"id,omitempty"`
+		ID string `json:"id,omitempty"`
+		// +k8s:conversion-gen=false
 		DeploymentID      string `json:"deploymentId,omitempty"`
 		ProvisioningState string `json:"provisioningState,omitempty"`
 	}
@@ -122,55 +122,6 @@ type (
 		Items           []VirtualNetwork `json:"items"`
 	}
 )
-
-func (*VirtualNetwork) Hub() {
-	fmt.Println("Hub was called!")
-}
-
-func (vnet *VirtualNetwork) GetResourceGroupObjectRef() *corev1.ObjectReference {
-	return vnet.Spec.ResourceGroup
-}
-
-func (vnet *VirtualNetwork) ToResource() (zips.Resource, error) {
-	rgName := ""
-	if vnet.Spec.ResourceGroup != nil {
-		rgName = vnet.Spec.ResourceGroup.Name
-	}
-
-	res := zips.Resource{
-		ID:                vnet.Status.ID,
-		DeploymentID:      vnet.Status.DeploymentID,
-		Type:              "Microsoft.Network/virtualNetworks",
-		ResourceGroup:     rgName,
-		Name:              vnet.Name,
-		APIVersion:        vnet.Spec.APIVersion,
-		Location:          vnet.Spec.Location,
-		Tags:              vnet.Spec.Tags,
-		ProvisioningState: zips.ProvisioningState(vnet.Status.ProvisioningState),
-	}
-
-	bits, err := json.Marshal(vnet.Spec.Properties)
-	if err != nil {
-		return res, err
-	}
-	res.Properties = bits
-
-	return *res.SetAnnotations(vnet.Annotations), nil
-}
-
-func (vnet *VirtualNetwork) FromResource(res zips.Resource) error {
-	vnet.Status.ID = res.ID
-	vnet.Status.DeploymentID = res.DeploymentID
-	vnet.Status.ProvisioningState = string(res.ProvisioningState)
-	vnet.Spec.Tags = res.Tags
-
-	var props VirtualNetworkSpecProperties
-	if err := json.Unmarshal(res.Properties, &props); err != nil {
-		return err
-	}
-	vnet.Spec.Properties = props
-	return nil
-}
 
 func init() {
 	SchemeBuilder.Register(&VirtualNetwork{}, &VirtualNetworkList{})

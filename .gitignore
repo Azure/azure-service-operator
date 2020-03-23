@@ -29,3 +29,5 @@ bin
 pki/certs
 
 dist
+
+template.json

@@ -1,0 +1,14 @@
+apiVersion: microsoft.network.infra.azure.com/v20191101
+kind: RouteTable
+metadata:
+  name: routetable-sample
+spec:
+  location: westus2
+  resourceGroupRef:
+    name: foo-2019
+    namespace: default
+  properties:
+    disableBgpRoutePropagation: false
+    routeRefs:
+      - name: route-2019-1
+        namespace: default

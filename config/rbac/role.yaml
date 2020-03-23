@@ -19,6 +19,17 @@ rules:
 - apiGroups:
   - microsoft.network.infra.azure.com
   resources:
+  - backendaddresspools
+  - frontendipconfigurations
+  - inboundnatrules
+  - loadbalancers
+  - loadbalancingrules
+  - networkinterfaceipconfigurations
+  - networksecuritygroups
+  - outboundrules
+  - routes
+  - routetables
+  - securityrules
   - virtualnetworks
   verbs:
   - create
@@ -31,6 +42,17 @@ rules:
 - apiGroups:
   - microsoft.network.infra.azure.com
   resources:
+  - backendaddresspools/status
+  - frontendipconfigurations/status
+  - inboundnatrules/status
+  - loadbalancers/status
+  - loadbalancingrules/status
+  - networkinterfaceipconfigurations/status
+  - networksecuritygroups/status
+  - outboundrules/status
+  - routes/status
+  - routetables/status
+  - securityrules/status
   - virtualnetworks/status
   verbs:
   - get

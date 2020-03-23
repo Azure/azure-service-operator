@@ -1,0 +1,24 @@
+# permissions for end users to edit outboundrules.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: outboundrule-editor-role
+rules:
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - outboundrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - outboundrules/status
+  verbs:
+  - get

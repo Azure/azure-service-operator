@@ -4,7 +4,7 @@ SHELL := /bin/bash
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
 REGISTRY ?= devigned
 IMG ?= k8s-infra-contoller-dev:$(timestamp)
-CRD_OPTIONS ?= "crd:trivialVersions=false,preserveUnknownFields=false"
+CRD_OPTIONS ?= "crd:crdVersions=v1"
 
 KIND_CLUSTER_NAME ?= k8sinfra
 KIND_CLUSTER_TOUCH := .$(KIND_CLUSTER_NAME).cluster
@@ -23,11 +23,10 @@ ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 TOOLS_DIR := hack/tools
 TOOLS_BIN_DIR := $(TOOLS_DIR)/bin
 
-export PATH := $(TOOLS_BIN_DIR):$(PATH)
-
 # Binaries.
 GOLANGCI_LINT := $(TOOLS_BIN_DIR)/golangci-lint
 CONTROLLER_GEN := $(TOOLS_BIN_DIR)/controller-gen
+CONVERSION_GEN := $(TOOLS_BIN_DIR)/conversion-gen
 KUBECTL=$(TOOLS_BIN_DIR)/kubectl
 KUBE_APISERVER=$(TOOLS_BIN_DIR)/kube-apiserver
 ETCD=$(TOOLS_BIN_DIR)/etcd
@@ -49,7 +48,7 @@ test test-int test-cover: export TEST_ASSET_KUBECTL = $(ROOT_DIR)/$(KUBECTL)
 test test-int test-cover: export TEST_ASSET_KUBE_APISERVER = $(ROOT_DIR)/$(KUBE_APISERVER)
 test test-int test-cover: export TEST_ASSET_ETCD = $(ROOT_DIR)/$(ETCD)
 
-test: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) fmt generate lint manifests ## Run tests
+test: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) fmt lint header-check manifests ## Run tests
 	go test -v ./...
 
 test-int: .env $(KUBECTL) $(KUBE_APISERVER) $(ETCD) fmt generate lint manifests ## Run integration tests
@@ -83,6 +82,9 @@ $(KUSTOMIZE): ## Install kustomize
 $(CONTROLLER_GEN): $(TOOLS_DIR)/go.mod ## Build controller-gen from tools folder.
 	cd $(TOOLS_DIR); go build -tags=tools -o bin/controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen
 
+$(CONVERSION_GEN): $(TOOLS_DIR)/go.mod ## Build conversion-gen from tools folder.
+	cd $(TOOLS_DIR); go build -tags=tools -o bin/conversion-gen k8s.io/code-generator/cmd/conversion-gen
+
 $(GOLANGCI_LINT): $(TOOLS_DIR)/go.mod ## Build golangci-lint from tools folder.
 	cd $(TOOLS_DIR); go build -tags=tools -o bin/golangci-lint github.com/golangci/golangci-lint/cmd/golangci-lint
 
@@ -99,7 +101,7 @@ lint-full: $(GOLANGCI_LINT) ## Run slower linters to detect possible issues
 	$(GOLANGCI_LINT) run -v --fast=false --timeout 5m
 
 .PHONY: build
-build: generate fmt ## Build manager binary
+build: fmt ## Build manager binary
 	go build -o bin/manager main.go
 
 $(TLS_CERT_PATH): $(CFSSL) $(CFSSLJSON) $(MKBUNDLE) ## Generate local certificates so the webhooks will run
@@ -134,7 +136,7 @@ uninstall: manifests $(KUBECTL) $(KUSTOMIZE) ## Uninstall CRDs from a cluster
 	$(KUSTOMIZE) build config/crd | $(KUBECTL) delete -f -
 
 .PHONY: deploy
-deploy: generate manifests $(KUBECTL) $(KUSTOMIZE) docker-build docker-push ## Deploy controller in the configured Kubernetes cluster in ~/.kube/config
+deploy: manifests $(KUBECTL) $(KUSTOMIZE) docker-build docker-push ## Deploy controller in the configured Kubernetes cluster in ~/.kube/config
 	cd config/manager && $(ROOT_DIR)/$(TOOLS_BIN_DIR)/kustomize edit set image controller=$(REGISTRY)/${IMG}
 	$(KUSTOMIZE) build config/default | $(KUBECTL) apply -f -
 
@@ -155,9 +157,19 @@ fmt: ## Run go fmt against code
 vet: ## Run go vet against code
 	go vet ./...
 
+.PHONY: header-check
+header-check:
+	./scripts/verify_boilerplate.sh
+
 .PHONY: generate
-generate: $(CONTROLLER_GEN) ## Generate code
+generate: $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths="./..."
+
+	$(CONVERSION_GEN) \
+    		--input-dirs=./apis/microsoft.network/v20191101,./apis/microsoft.resources/v20191001,./apis/microsoft.resources/v20150101 \
+    		--output-file-base=zz_generated.conversion \
+    		--output-base=$(ROOT_DIR) \
+    		--go-header-file=./hack/boilerplate.go.txt
 
 .PHONY: docker-build
 docker-build: test ## Build the docker image
@@ -167,8 +179,11 @@ docker-build: test ## Build the docker image
 docker-push: ## Push the docker image
 	docker push $(REGISTRY)/${IMG}
 
-.PHONY: release
-release: docker-build docker-push $(KUSTOMIZE) ## Build, push, generate dist for release
+.PHONY: dist
+dist:
 	mkdir -p dist
 	cd config/manager && $(ROOT_DIR)/$(TOOLS_BIN_DIR)/kustomize edit set image controller=$(REGISTRY)/${IMG}
 	$(KUSTOMIZE) build config/default > dist/release.yaml
+
+.PHONY: release
+release: dist docker-build docker-push $(KUSTOMIZE) ## Build, push, generate dist for release

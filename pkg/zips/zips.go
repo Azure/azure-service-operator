@@ -9,32 +9,17 @@ package zips
 
 import (
 	"context"
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
-	"errors"
-	"fmt"
 	"strings"
-
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type (
-	Resourcer interface {
-		runtime.Object
-		metav1.Object
-		ToResource() (Resource, error)
-		FromResource(Resource) error
-	}
-
 	Applier interface {
-		Apply(ctx context.Context, res Resource) (Resource, error)
+		Apply(ctx context.Context, res *Resource) (*Resource, error)
 		DeleteApply(ctx context.Context, deploymentID string) error
-		BeginDelete(ctx context.Context, res Resource) (Resource, error)
-		GetResource(ctx context.Context, res Resource) (Resource, error)
-		HeadResource(ctx context.Context, res Resource) (bool, error)
+		BeginDelete(ctx context.Context, res *Resource) (*Resource, error)
+		GetResource(ctx context.Context, res *Resource) (*Resource, error)
+		HeadResource(ctx context.Context, res *Resource) (bool, error)
 	}
 
 	ResourceMeta struct {
@@ -71,29 +56,4 @@ func (res *Resource) SetAnnotations(annotations map[string]string) *Resource {
 		res.ObjectMeta.PreserveDeployment = strings.ToLower(val) == "true"
 	}
 	return res
-}
-
-func SpecSignature(resourcer Resourcer) (string, error) {
-	// Convert the resource to unstructured for easier comparison later.
-	unstructuredResourcer, err := runtime.DefaultUnstructuredConverter.ToUnstructured(resourcer)
-	if err != nil {
-		return "", err
-	}
-
-	spec, ok, err := unstructured.NestedMap(unstructuredResourcer, "spec")
-	if err != nil {
-		return "", err
-	}
-
-	if !ok {
-		return "", errors.New("unable to find spec within unstructured resourcer")
-	}
-
-	bits, err := json.Marshal(spec)
-	if err != nil {
-		return "", fmt.Errorf("unable to marshal spec of unstructured resourcer with: %w", err)
-	}
-
-	hash := sha256.Sum256(bits)
-	return hex.EncodeToString(hash[:]), nil
 }

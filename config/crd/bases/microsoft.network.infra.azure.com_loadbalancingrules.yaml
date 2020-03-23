@@ -1,0 +1,178 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.6-0.20200226180227-d6efdcdd90e2
+  creationTimestamp: null
+  name: loadbalancingrules.microsoft.network.infra.azure.com
+spec:
+  group: microsoft.network.infra.azure.com
+  names:
+    kind: LoadBalancingRule
+    listKind: LoadBalancingRuleList
+    plural: loadbalancingrules
+    singular: loadbalancingrule
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: LoadBalancingRule is the Schema for the loadbalancingrules API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: LoadBalancingRuleSpec defines the desired state of LoadBalancingRule
+            properties:
+              apiVersion:
+                type: string
+              properties:
+                properties:
+                  backendPort:
+                    type: integer
+                  disableOutboundSnat:
+                    type: boolean
+                  enableFloatingIP:
+                    type: boolean
+                  enableTCPReset:
+                    type: boolean
+                  frontendIPConfigurationRef:
+                    description: KnownTypeReference is a reference to an object which
+                      the type and version is already known
+                    properties:
+                      name:
+                        description: Name is the name of resource being referenced
+                        type: string
+                      namespace:
+                        description: Namespace is the namespace of resource being
+                          referenced.
+                        type: string
+                    required:
+                    - name
+                    - namespace
+                    type: object
+                  frontendPort:
+                    type: integer
+                  idleTimeoutInMinutes:
+                    type: integer
+                  loadDistribution:
+                    enum:
+                    - Default
+                    - SourceIP
+                    - SourceIPProtocol
+                    type: string
+                  protocol:
+                    enum:
+                    - All
+                    - Tcp
+                    - Udp
+                    type: string
+                type: object
+            type: object
+          status:
+            description: LoadBalancingRuleStatus defines the observed state of LoadBalancingRule
+            properties:
+              deploymentId:
+                type: string
+              id:
+                type: string
+              provisioningState:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+  - name: v20191101
+    schema:
+      openAPIV3Schema:
+        description: LoadBalancingRule is the Schema for the loadbalancingrules API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: LoadBalancingRuleSpec defines the desired state of LoadBalancingRule
+            properties:
+              properties:
+                properties:
+                  backendPort:
+                    type: integer
+                  disableOutboundSnat:
+                    type: boolean
+                  enableFloatingIP:
+                    type: boolean
+                  enableTCPReset:
+                    type: boolean
+                  frontendIPConfigurationRef:
+                    description: KnownTypeReference is a reference to an object which
+                      the type and version is already known
+                    properties:
+                      name:
+                        description: Name is the name of resource being referenced
+                        type: string
+                      namespace:
+                        description: Namespace is the namespace of resource being
+                          referenced.
+                        type: string
+                    required:
+                    - name
+                    - namespace
+                    type: object
+                  frontendPort:
+                    type: integer
+                  idleTimeoutInMinutes:
+                    type: integer
+                  loadDistribution:
+                    enum:
+                    - Default
+                    - SourceIP
+                    - SourceIPProtocol
+                    type: string
+                  protocol:
+                    enum:
+                    - All
+                    - Tcp
+                    - Udp
+                    type: string
+                type: object
+            type: object
+          status:
+            description: LoadBalancingRuleStatus defines the observed state of LoadBalancingRule
+            properties:
+              id:
+                type: string
+              provisioningState:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

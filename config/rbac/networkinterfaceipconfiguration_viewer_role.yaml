@@ -1,0 +1,20 @@
+# permissions for end users to view networkinterfaceipconfigurations.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: networkinterfaceipconfiguration-viewer-role
+rules:
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - networkinterfaceipconfigurations
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - networkinterfaceipconfigurations/status
+  verbs:
+  - get

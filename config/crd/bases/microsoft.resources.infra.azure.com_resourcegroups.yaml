@@ -1,10 +1,10 @@
 
 ---
-apiVersion: apiextensions.k8s.io/v1beta1
+apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.2.4
+    controller-gen.kubebuilder.io/version: v0.2.6-0.20200226180227-d6efdcdd90e2
   creationTimestamp: null
   name: resourcegroups.microsoft.resources.infra.azure.com
 spec:
@@ -14,9 +14,7 @@ spec:
     listKind: ResourceGroupList
     plural: resourcegroups
     singular: resourcegroup
-  preserveUnknownFields: false
   scope: Namespaced
-  version: v1
   versions:
   - name: v1
     schema:
@@ -145,8 +143,6 @@ spec:
               id:
                 type: string
               provisioningState:
-                type: string
-              type:
                 type: string
             type: object
         type: object

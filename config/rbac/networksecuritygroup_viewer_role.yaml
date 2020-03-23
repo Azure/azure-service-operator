@@ -1,0 +1,20 @@
+# permissions for end users to view networksecuritygroups.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: networksecuritygroup-viewer-role
+rules:
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - networksecuritygroups
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - networksecuritygroups/status
+  verbs:
+  - get
