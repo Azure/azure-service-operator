@@ -23,6 +23,7 @@ resources:
 - bases/azure.microsoft.com_postgresqldatabases.yaml
 - bases/azure.microsoft.com_postgresqlfirewallrules.yaml
 - bases/azure.microsoft.com_apimservices.yaml
+- bases/azure.microsoft.com_apimgmtapis.yaml
 - bases/azure.microsoft.com_virtualnetworks.yaml
 
 - bases/azure.microsoft.com_keyvaultkeys.yaml
@@ -49,6 +50,7 @@ resources:
 #- patches/webhook_in_postgresqldatabases.yaml
 #- patches/webhook_in_postgresqlfirewallrules.yaml
 #- patches/webhook_in_apimservices.yaml
+#- patches/webhook_in_apimgmtapis.yaml
 #- patches/webhook_in_virtualnetworks.yaml
 #- patches/webhook_in_keyvaultkeys.yaml
 #- patches/webhook_in_azuresqlvnetrules.yaml
@@ -73,6 +75,7 @@ resources:
 #- patches/cainjection_in_postgresqldatabases.yaml
 #- patches/cainjection_in_postgresqlfirewallrules.yaml
 #- patches/cainjection_in_apimservices.yaml
+#- patches/cainjection_in_apimgmtapis.yaml
 #- patches/cainjection_in_virtualnetworks.yaml
 #- patches/cainjection_in_keyvaultkeys.yaml
 #- patches/cainjection_in_azuresqlvnetrules.yaml
