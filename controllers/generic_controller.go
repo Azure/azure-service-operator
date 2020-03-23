@@ -370,7 +370,6 @@ func (gr *GenericReconciler) reconcileDelete(ctx context.Context, metaObj azcore
 	resource, err := gr.Converter.ToResource(ctx, metaObj)
 	// if error IsOwnerNotFound, then carry on. Perhaps, the owner has already been deleted.
 	if err != nil && !xform.IsOwnerNotFound(err) {
-
 		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
 	}
 
@@ -443,7 +442,6 @@ func (gr *GenericReconciler) updateFromNonTerminalDeleteState(ctx context.Contex
 // updatedFromNonTerminalApplyState will ask Azure for the updated status of the deployment. If the object is in a
 // non terminal state, it will requeue, else, status will be updated.
 func (gr *GenericReconciler) updateFromNonTerminalApplyState(ctx context.Context, metaObj azcorev1.MetaObject, log logr.Logger) (ctrl.Result, error) {
-	log.Info("before ToResource", "metaObj", metaObj)
 	resource, err := gr.Converter.ToResource(ctx, metaObj)
 	if err != nil {
 		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
@@ -451,19 +449,14 @@ func (gr *GenericReconciler) updateFromNonTerminalApplyState(ctx context.Context
 
 	if err := patcher(ctx, gr.Client, metaObj, func(mutMetaObj azcorev1.MetaObject) error {
 		// update with latest information about the apply
-		log.Info("about to apply", "res.ID", resource.ID, "res.State", resource.ProvisioningState, "res.deploymentID", resource.DeploymentID, "mutMetaObj", mutMetaObj)
 		resource, err = gr.Applier.Apply(ctx, resource)
 		if err != nil {
 			return fmt.Errorf("failed to apply state to Azure with %w", err)
 		}
 
-		log.Info("applied", "res.ID", resource.ID, "res.State", resource.ProvisioningState, "res.deploymentID", resource.DeploymentID, "mutMetaObj", mutMetaObj)
-
 		if err := gr.Converter.FromResource(resource, mutMetaObj); err != nil {
 			return fmt.Errorf("failed FromResource with: %w", err)
 		}
-
-		log.Info("fromResource", "res.ID", resource.ID, "res.State", resource.ProvisioningState, "res.deploymentID", resource.DeploymentID, "mutMetaObj", mutMetaObj)
 
 		if err := addResourceHashAnnotation(mutMetaObj); err != nil {
 			return fmt.Errorf("failed to addResourceHashAnnotation with: %w", err)
@@ -476,7 +469,7 @@ func (gr *GenericReconciler) updateFromNonTerminalApplyState(ctx context.Context
 
 	result := ctrl.Result{}
 	if !zips.IsTerminalProvisioningState(resource.ProvisioningState) {
-		log.Info("requeuing in 5 seconds", "res.ID", resource.ID, "res.State", resource.ProvisioningState, "res.deploymentID", resource.DeploymentID, "metaObj", metaObj)
+		log.Info("requeuing in 20 seconds", "res.ID", resource.ID, "res.State", resource.ProvisioningState, "res.deploymentID", resource.DeploymentID, "metaObj", metaObj)
 		result = ctrl.Result{
 			RequeueAfter: 20 * time.Second,
 		}
