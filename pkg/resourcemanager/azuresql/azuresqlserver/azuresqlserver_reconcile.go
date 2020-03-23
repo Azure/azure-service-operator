@@ -163,7 +163,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			// Subscription does not support the requested service in the requested region
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = false
-			return true, err
+			return true, nil
 		}
 
 		// these errors are expected for recoverable states
