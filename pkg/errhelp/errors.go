@@ -34,6 +34,7 @@ const (
 	InvalidServerName                   = "InvalidServerName"
 	KeyNotFound                         = "KeyNotFound"
 	LocationNotAvailableForResourceType = "LocationNotAvailableForResourceType"
+	ProvisioningDisabled                = "ProvisioningDisabled"
 	NetcfgInvalidIPAddressPrefix        = "NetcfgInvalidIPAddressPrefix"
 	NetcfgInvalidSubnet                 = "NetcfgInvalidSubnet"
 	NetcfgInvalidVirtualNetworkSite     = "NetcfgInvalidVirtualNetworkSite"
