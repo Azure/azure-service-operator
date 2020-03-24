@@ -17,8 +17,8 @@ type StorageSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location          string `json:"location,omitempty"`
-	ResourceGroupName string `json:"resourceGroup"`
+	Location      string `json:"location,omitempty"`
+	ResourceGroup string `json:"resourceGroup"`
 
 	Sku StorageSku `json:"sku,omitempty"`
 

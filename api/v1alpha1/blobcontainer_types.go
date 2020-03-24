@@ -22,16 +22,6 @@ type BlobContainerSpec struct {
 	AccessLevel   s.PublicAccess `json:"accesslevel,omitempty"`
 }
 
-// BlobContainerStatus defines the observed state of BlobContainer
-type BlobContainerStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	Provisioning bool   `json:"provisioning,omitempty"`
-	Provisioned  bool   `json:"provisioned,omitempty"`
-	State        string `json:"state,omitempty"`
-	Message      string `json:"message,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // BlobContainer is the Schema for the blobcontainers API
@@ -39,8 +29,8 @@ type BlobContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   BlobContainerSpec   `json:"spec,omitempty"`
-	Status BlobContainerStatus `json:"status,omitempty"`
+	Spec   BlobContainerSpec `json:"spec,omitempty"`
+	Status ASOStatus         `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
