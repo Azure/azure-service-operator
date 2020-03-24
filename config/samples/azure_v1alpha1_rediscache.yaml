@@ -1,7 +1,10 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: RedisCache
 metadata:
-  name: rediscache-sample1908xyzkj
+  name: rediscache-sample-1
+  labels: # Provide tags to add to RedisCache as labels
+    tag1: value1
+    tag2: value2
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators

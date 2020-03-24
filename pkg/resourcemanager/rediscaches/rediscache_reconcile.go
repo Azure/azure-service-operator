@@ -40,6 +40,13 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	sku := instance.Spec.Properties.Sku
 	enableNonSSLPort := instance.Spec.Properties.EnableNonSslPort
 
+	// convert kube labels to expected tag format
+	labels := map[string]*string{}
+	for k, v := range instance.GetLabels() {
+		value := v
+		labels[k] = &value
+	}
+
 	if len(instance.Spec.SecretName) == 0 {
 		instance.Spec.SecretName = redisName
 	}
@@ -67,7 +74,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	}
 	instance.Status.Message = fmt.Sprintf("RedisCache Get error %s", err.Error())
 
-	_, err = rc.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, nil)
+	_, err = rc.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, labels)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		instance.Status.Provisioning = false
