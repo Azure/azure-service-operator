@@ -138,7 +138,6 @@ func TestTestBlobContainerControllerHappyPath(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	var rgLocation string
 	var rgName string
@@ -158,8 +157,6 @@ func TestTestBlobContainerControllerHappyPath(t *testing.T) {
 
 	blobContainerName := GenerateTestResourceNameWithRandom("bc", 10)
 
-	var err error
-
 	blobContainerInstance := &azurev1alpha1.BlobContainer{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      blobContainerName,
@@ -173,27 +170,8 @@ func TestTestBlobContainerControllerHappyPath(t *testing.T) {
 		},
 	}
 
-	err = tc.k8sClient.Create(ctx, blobContainerInstance)
-	assert.Equal(nil, err, "create blobcontainer in k8s")
+	EnsureInstance(ctx, t, tc, blobContainerInstance)
 
-	blobContainerNamespacedName := types.NamespacedName{Name: blobContainerName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
-		return blobContainerInstance.HasFinalizer(blobContainerFinalizerName)
-	}, tc.timeout, tc.retry, "wait for blob to have finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
-		return blobContainerInstance.Status.Provisioned
-	}, tc.timeout, tc.retry, "wait for blob to be provisioned")
-
-	err = tc.k8sClient.Delete(ctx, blobContainerInstance)
-	assert.Equal(nil, err, "delete blob container in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, blobContainerNamespacedName, blobContainerInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for blob to be not found")
+	EnsureDelete(ctx, t, tc, blobContainerInstance)
 
 }

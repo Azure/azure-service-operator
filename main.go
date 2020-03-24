@@ -30,6 +30,8 @@ import (
 	resourcemanagerrediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
+	stoageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
@@ -150,11 +152,16 @@ func main() {
 	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
 
 	err = (&controllers.StorageReconciler{
-		Client:         mgr.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("Storage"),
-		Recorder:       mgr.GetEventRecorderFor("Storage-controller"),
-		Scheme:         mgr.GetScheme(),
-		StorageManager: storageManagers.Storage,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: stoageaccountManager.New(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"Storage",
+				ctrl.Log.WithName("controllers").WithName("Storage"),
+			),
+			Recorder: mgr.GetEventRecorderFor("Storage-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Storage")
@@ -386,11 +393,16 @@ func main() {
 	}
 
 	if err = (&controllers.BlobContainerReconciler{
-		Client:         mgr.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
-		Recorder:       mgr.GetEventRecorderFor("BlobContainer-controller"),
-		Scheme:         mgr.GetScheme(),
-		StorageManager: storageManagers.BlobContainer,
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: blobContainerManager.New(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"BlobContainer",
+				ctrl.Log.WithName("controllers").WithName("BlobContainer"),
+			),
+			Recorder: mgr.GetEventRecorderFor("BlobContainer-controller"),
+			Scheme:   mgr.GetScheme(),
+		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
 		os.Exit(1)
