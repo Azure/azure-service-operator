@@ -6,6 +6,7 @@ package rediscaches
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
@@ -49,15 +50,20 @@ func getRedisCacheClient() (redis.Client, error) {
 }
 
 // CreateRedisCache creates a new RedisCache
-func (r *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
-	groupName string,
-	redisCacheName string,
-	location string,
-	sku azurev1alpha1.RedisCacheSku,
-	enableNonSSLPort bool,
-	tags map[string]*string) (*redis.ResourceType, error) {
-	redisClient, err := getRedisCacheClient()
+func (r *AzureRedisCacheManager) CreateRedisCache(
+	ctx context.Context,
+	instance azurev1alpha1.RedisCache) (*redis.ResourceType, error) {
 
+	props := instance.Spec.Properties
+
+	// convert kube labels to expected tag format
+	tags := map[string]*string{}
+	for k, v := range instance.GetLabels() {
+		value := v
+		tags[k] = &value
+	}
+
+	redisClient, err := getRedisCacheClient()
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +71,7 @@ func (r *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
 	//Check if name is available
 	redisType := "Microsoft.Cache/redis"
 	checkNameParams := redis.CheckNameAvailabilityParameters{
-		Name: &redisCacheName,
+		Name: &instance.Name,
 		Type: &redisType,
 	}
 	checkNameResult, err := redisClient.CheckNameAvailability(ctx, checkNameParams)
@@ -74,27 +80,47 @@ func (r *AzureRedisCacheManager) CreateRedisCache(ctx context.Context,
 	}
 
 	if checkNameResult.StatusCode != 200 {
-		log.Println("redis cache name (%s) not available: " + redisCacheName + checkNameResult.Status)
+		log.Println("redis cache name (%s) not available: " + instance.Name + checkNameResult.Status)
 		return nil, errors.New("redis cache name not available")
 	}
 
-	redisSku := redis.Sku{
-		Name:     redis.SkuName(sku.Name),
-		Family:   redis.SkuFamily(sku.Family),
-		Capacity: to.Int32Ptr(sku.Capacity),
+	redisSku := &redis.Sku{
+		Name:     redis.SkuName(props.Sku.Name),
+		Family:   redis.SkuFamily(props.Sku.Family),
+		Capacity: to.Int32Ptr(props.Sku.Capacity),
 	}
 
 	createParams := redis.CreateParameters{
-		Location: to.StringPtr(location),
+		Location: to.StringPtr(instance.Spec.Location),
 		Tags:     tags,
 		CreateProperties: &redis.CreateProperties{
-			EnableNonSslPort: &enableNonSSLPort,
-			Sku:              &redisSku,
+			EnableNonSslPort: &props.EnableNonSslPort,
+			Sku:              redisSku,
 		},
 	}
 
+	// handle vnet settings
+	if len(props.SubnetID) > 0 {
+		if len(props.StaticIP) == 0 {
+			return nil, fmt.Errorf("subnet id provided but no static ip has been set")
+		}
+		createParams.CreateProperties.SubnetID = &props.SubnetID
+		createParams.CreateProperties.StaticIP = &props.StaticIP
+	}
+
+	// set redis config if one was provided
+	if len(props.RedisConfiguration) > 0 {
+		config := map[string]*string{}
+		for k, v := range props.RedisConfiguration {
+			value := v
+			config[k] = &value
+		}
+		createParams.CreateProperties.RedisConfiguration = config
+	}
+
 	future, err := redisClient.Create(
-		ctx, groupName, redisCacheName, createParams)
+		ctx, instance.Spec.ResourceGroupName, instance.Name, createParams,
+	)
 	if err != nil {
 		return nil, err
 	}
