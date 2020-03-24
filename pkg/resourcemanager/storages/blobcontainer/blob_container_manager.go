@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package storages
+package blobcontainer
 
 import (
 	"context"
@@ -11,6 +11,12 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 )
 
+// New returns a pointer to a new instance of a blob container client
+func New() *AzureBlobContainerManager {
+	return &AzureBlobContainerManager{}
+}
+
+// BlobContainerManager exists in case we need it
 type BlobContainerManager interface {
 	CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string, accessLevel s.PublicAccess) (*storage.BlobContainer, error)
 
