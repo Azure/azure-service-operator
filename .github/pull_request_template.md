@@ -1,7 +1,7 @@
 <!--  Thanks for sending a pull request!  Here are some tips for you:
 If this PR closes another issue, add 'closes #<issue number>' somewhere in the PR summary. GitHub will automatically close that issue when this PR gets merged. Alternatively, adding 'refs #<issue number>' will not close the issue, but help provide the reviewer more context.-->
 
-Closes Issue #
+Closes #[issue number]
 
 **What this PR does / why we need it**:
 
