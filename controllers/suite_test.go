@@ -75,6 +75,8 @@ func setup() error {
 	blobContainerName := GenerateTestResourceName("blob-prime")
 	containerAccessLevel := s.PublicAccessContainer
 
+	keyvaultName := GenerateAlphaNumTestResourceName("kv-prime")
+
 	var timeout time.Duration
 
 	testEnv = &envtest.Environment{
@@ -186,7 +188,7 @@ func setup() error {
 	)
 	sqlActionManager = resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme.Scheme)
 
-	timeout = time.Second * 720
+	timeout = time.Second * 780
 
 	err = (&KeyVaultReconciler{
 		Reconciler: &AsyncReconciler{
@@ -588,6 +590,7 @@ func setup() error {
 		namespaceLocation:       namespaceLocation,
 		storageAccountName:      storageAccountName,
 		blobContainerName:       blobContainerName,
+		keyvaultName:            keyvaultName,
 		eventHubManagers:        eventHubManagers,
 		eventhubClient:          eventhubClient,
 		resourceGroupManager:    resourceGroupManager,
@@ -650,6 +653,12 @@ func setup() error {
 	}
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
+	if err != nil {
+		return err
+	}
+
+	log.Println("Creating KV:", keyvaultName)
+	_, err = resourcemanagerkeyvaults.AzureKeyVaultManager.CreateVaultWithAccessPolicies(context.Background(), resourceGroupName, keyvaultName, resourcegroupLocation, resourcemanagerconfig.ClientID())
 	if err != nil {
 		return err
 	}
