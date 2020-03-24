@@ -40,11 +40,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	}
 
 	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		value := v
-		labels[k] = &value
-	}
+	tags, _ := helpers.LabelsToTags(instance.GetLabels())
 
 	// set a spec hash if one hasn't been set
 	hash := helpers.Hash256(instance.Spec)
@@ -136,7 +132,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
+	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, tags, azureSQLServerProperties, false); err != nil {
 		instance.Status.Message = err.Error()
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
