@@ -160,6 +160,11 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.AsyncOpIncompleteError,
 		}
 
+		catchUnrecoverableErrors := []string{
+			errhelp.ProvisioningDisabled,
+			errhelp.LocationNotAvailableForResourceType,
+		}
+
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
@@ -169,6 +174,11 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil
+		}
+		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
+			// Unrecoverable error, so stop reconcilation
+			instance.Status.Message = "Reconcilation hit unrecoverable error: " + err.Error()
+			return true, nil
 		}
 		// reconciliation not done and we don't know what happened
 		return false, err
