@@ -120,11 +120,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.State = "NotReady"
 		} else {
 			instance.Status.State = *serv.State
-
-			if *serv.Location != instance.Spec.Location {
-				instance.Status.Message = fmt.Sprintf("%s does not match location of existing sql server, %s", instance.Spec.Location, *serv.Location)
-				return true, nil
-			}
 		}
 
 		if instance.Status.State == "Ready" {
@@ -156,7 +151,15 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		// SQL Server names are globally unique so if a server with this name exists we need to see if it meets our criteria (ie. same rg/sub)
 		if azerr.Type == errhelp.AlreadyExists {
 			// see if server exists in correct rg
-			if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err == nil {
+			if serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err == nil {
+				// mismatched location
+				if *serv.Location != instance.Spec.Location {
+					instance.Status.Provisioned = false
+					instance.Status.Provisioning = false
+					instance.Status.Message = fmt.Sprintf("%s does not match location of existing sql server, %s", instance.Spec.Location, *serv.Location)
+					return true, nil
+				}
+
 				// should be good, let the next reconcile finish
 				return false, nil
 			}
