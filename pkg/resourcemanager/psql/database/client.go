@@ -82,6 +82,7 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		instance.Status.State = db.Status
+		instance.Status.Message = resourcemanager.SuccessMsg
 		return true, nil
 	}
 	p.Log.Info("Ensure: Database not present, creating")
