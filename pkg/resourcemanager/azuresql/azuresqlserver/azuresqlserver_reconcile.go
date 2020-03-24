@@ -120,11 +120,11 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.State = "NotReady"
 		} else {
 			instance.Status.State = *serv.State
-		}
 
-		if *serv.Location != instance.Spec.Location {
-			instance.Status.Message = fmt.Sprintf("%s does not match location of existing sql server, %s", instance.Spec.Location, *serv.Location)
-			return true, nil
+			if *serv.Location != instance.Spec.Location {
+				instance.Status.Message = fmt.Sprintf("%s does not match location of existing sql server, %s", instance.Spec.Location, *serv.Location)
+				return true, nil
+			}
 		}
 
 		if instance.Status.State == "Ready" {
