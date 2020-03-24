@@ -11,10 +11,10 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2018-02-01/resources"
 	"github.com/Azure/azure-sdk-for-go/services/storage/datalake/2019-10-31/storagedatalake"
-	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	"github.com/Azure/go-autorest/autorest"
 )
 
@@ -71,9 +71,8 @@ func (_ *azureFileSystemManager) DeleteFileSystem(ctx context.Context, groupName
 func getFileSystemClient(ctx context.Context, groupName string, accountName string) storagedatalake.FilesystemClient {
 	xmsversion := "2019-02-02"
 	fsClient := storagedatalake.NewFilesystemClient(xmsversion, accountName)
-	adlsClient := getStoragesClient()
 
-	accountKey, err := getAccountKey(ctx, groupName, accountName, adlsClient)
+	accountKey, err := getAccountKey(ctx, groupName, accountName)
 	if err != nil {
 		log.Printf("failed to get the account key for the authorizer: %v\n", err)
 	}
@@ -99,14 +98,14 @@ func getResourcesClient() resources.GroupsClient {
 
 func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeName string) error {
 	rgClient := getResourcesClient()
-	storagesClient := getStoragesClient()
+	storagesClient := storageaccount.New()
 
 	response, err := rgClient.CheckExistence(ctx, groupName)
 	if response.IsHTTPStatus(404) {
 		return errhelp.NewAzureError(errors.New("ResourceGroupNotFound"))
 	}
 
-	_, err = storagesClient.ListKeys(ctx, groupName, datalakeName, storage.Kerb)
+	_, err = storagesClient.ListKeys(ctx, groupName, datalakeName)
 	if err != nil {
 		return errhelp.NewAzureError(errors.New("ParentResourceNotFound"))
 	}
@@ -114,8 +113,9 @@ func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeNam
 	return err
 }
 
-func getAccountKey(ctx context.Context, groupName string, accountName string, adlsClient storage.AccountsClient) (accountKey string, err error) {
-	keys, err := adlsClient.ListKeys(ctx, groupName, accountName, storage.Kerb)
+func getAccountKey(ctx context.Context, groupName string, accountName string) (accountKey string, err error) {
+	adlsClient := storageaccount.New()
+	keys, err := adlsClient.ListKeys(ctx, groupName, accountName)
 	if err != nil {
 		return "", err
 	}
