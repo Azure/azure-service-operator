@@ -9,11 +9,11 @@ assignees: ''
 
 <Describe what the task is about>
 
-**Done criteria **
+**Done criteria**
 This is the "done" criteria for this task
 
 - [ ] For eg. After this task is done, the user should be able to use either webhooks or the declarative model for K8s
 
-**User story reference***
+**User story reference**
 
 #<issue number of the user story that this task accrues to>
