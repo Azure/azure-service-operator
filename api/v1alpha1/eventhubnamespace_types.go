@@ -15,11 +15,10 @@ import (
 type EventhubNamespaceSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string                          `json:"location"`
-	Sku           EventhubNamespaceSku            `json:"sku,omitempty"`
-	Properties    EventhubNamespaceProperties     `json:"properties,omitempty"`
-	ResourceGroup string                          `json:"resourceGroup,omitempty"`
-	NetworkRules  EventhubNamespaceNetworkRuleSet `json:"networkRules,omitempty"`
+	Location      string                      `json:"location"`
+	Sku           EventhubNamespaceSku        `json:"sku,omitempty"`
+	Properties    EventhubNamespaceProperties `json:"properties,omitempty"`
+	ResourceGroup string                      `json:"resourceGroup,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -54,37 +53,6 @@ type EventhubNamespaceProperties struct {
 	IsAutoInflateEnabled   bool  `json:"isAutoInflateEnabled,omitempty"`
 	MaximumThroughputUnits int32 `json:"maximumThroughputUnits,omitempty"`
 	KafkaEnabled           bool  `json:"kafkaEnabled,omitempty"`
-}
-
-// EventhubNamespaceNetworkRuleSet defines the network rules
-type EventhubNamespaceNetworkRuleSet struct {
-	DefaultAction DefaultAction `json:"defaultAction,omitempty"`
-	// VirtualNetworkRules - List VirtualNetwork Rules
-	VirtualNetworkRules *[]VirtualNetworkRules `json:"virtualNetworkRules,omitempty"`
-	// IPRules - List of IpRules
-	IPRules *[]IPRules `json:"ipRules,omitempty"`
-}
-
-// DefaultAction defined as a string
-type DefaultAction string
-
-const (
-	// Allow ...
-	Allow DefaultAction = "Allow"
-	// Deny ...
-	Deny DefaultAction = "Deny"
-)
-
-type VirtualNetworkRules struct {
-	// Subnet - Full Resource ID of Virtual Network Subnet
-	SubnetID string `json:"subnetId,omitempty"`
-	// IgnoreMissingVnetServiceEndpoint - Value that indicates whether to ignore missing VNet Service Endpoint
-	IgnoreMissingServiceEndpoint *bool `json:"ignoreMissingServiceEndpoint,omitempty"`
-}
-
-type IPRules struct {
-	// IPMask - IPv4 address 1.1.1.1 or CIDR notation 1.1.0.0/24
-	IPMask *string `json:"ipMask,omitempty"`
 }
 
 func init() {

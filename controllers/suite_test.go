@@ -29,6 +29,7 @@ import (
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+	resourcemanagereventhubnsnetwork "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs/namespacenetworkrule"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
@@ -148,6 +149,7 @@ func setup() error {
 	)
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
+	eventHubNSNetworkRuleManager := resourcemanagereventhubnsnetwork.NewAzureNamespaceNetworkRuleManager()
 	storageManagers = resourcemanagerstorages.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(ctrl.Log.WithName("controllers").WithName("KeyVault"), k8sManager.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvaults.KeyvaultKeyClient{
@@ -311,6 +313,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&EventhubNamespaceNetworkRuleReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: eventHubNSNetworkRuleManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"EventhubNamespaceNetworkRule",
+				ctrl.Log.WithName("controllers").WithName("EventhubNamespaceNetworkRule"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("EventhubNamespaceNetworkRule-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
