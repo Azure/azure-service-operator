@@ -75,6 +75,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		}
 		if !helpers.ContainsString(ignore, azerr.Type) {
 			instance.Status.Message = err.Error()
+			instance.Status.Provisioning = false
 			return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
 		}
 	}
@@ -100,6 +101,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			return false, nil
 		}
 
+		instance.Status.Provisioning = false
 		return true, fmt.Errorf("AzureSqlDb CreateOrUpdate error %v", err)
 	}
 

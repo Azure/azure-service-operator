@@ -34,14 +34,12 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 
 	vnetrule, err := vr.GetSQLVNetRule(ctx, groupName, server, ruleName)
 	if err == nil {
-		if vnetrule.VirtualNetworkRuleProperties != nil {
-			if vnetrule.VirtualNetworkRuleProperties.State == sql.Ready {
-				instance.Status.Provisioning = false
-				instance.Status.Provisioned = true
-				instance.Status.Message = resourcemanager.SuccessMsg
-				instance.Status.ResourceId = *vnetrule.ID
-				return true, nil
-			}
+		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == sql.Ready {
+			instance.Status.Provisioning = false
+			instance.Status.Provisioned = true
+			instance.Status.Message = resourcemanager.SuccessMsg
+			instance.Status.ResourceId = *vnetrule.ID
+			return true, nil
 		}
 		return false, nil
 	}
@@ -54,6 +52,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
+			instance.Status.Provisioning = false
 			instance.Status.Message = "Resource request submitted to Azure successfully"
 			return false, nil
 		}
@@ -63,7 +62,6 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-
 		if helpers.ContainsString(ignorableErrors, azerr.Type) {
 			instance.Status.Provisioning = false
 			return false, nil
