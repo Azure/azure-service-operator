@@ -45,19 +45,24 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	if err != nil {
 		if instance.Status.Provisioned {
 			instance.Status.Message = err.Error()
-			return false, fmt.Errorf(
-				`SQL server already exists and the credentials could not be found. 
-				If using kube secrets a secret should exist at '%s' for keyvault it should be '%v'`,
-				key,
-				fmt.Sprintf("%s-%s", key.Namespace, key.Name))
+			return false, fmt.Errorf("Secret missing for provisioned server: %s", key.String())
 		}
 
-		// Assure that the requested name is available
+		// Assure that the requested name is available and assume the secret exists
 		checkNameResult, _ := CheckNameAvailability(ctx, instance.Name)
 		if *checkNameResult.Available != true {
 			instance.Status.Provisioning = false
-			instance.Status.Provisioned = false
-			instance.Status.Message = fmt.Sprintf("The SQL Server name %s is unavailable", instance.Name)
+			if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err != nil {
+				instance.Status.Message = "SQL server already exists somewhere else"
+				return true, nil
+			}
+
+			instance.Status.Message = fmt.Sprintf(
+				`SQL server already exists and the credentials could not be found. 
+				If using kube secrets a secret should exist at '%s' for keyvault it should be '%s'`,
+				key.String(),
+				fmt.Sprintf("%s-%s", key.Namespace, key.Name),
+			)
 
 			return false, nil
 		}
