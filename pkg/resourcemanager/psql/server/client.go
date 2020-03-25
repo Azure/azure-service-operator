@@ -100,7 +100,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		labels[k] = &v
 	}
 	instance.Status.Provisioning = true
-	// Check if this server already exists. This is required
+	// Check if this server already exists and its state if it does. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
 
 	server, err := p.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
