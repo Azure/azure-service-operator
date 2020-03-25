@@ -205,31 +205,31 @@ func TestEventHubNamespaceNetworkRuleControllerHappy(t *testing.T) {
 	EnsureInstance(ctx, t, tc, VNetInstance)
 
 	// Create EventhubNamespace network rule for this namespace and expect success
-	subnetID := "/subscriptions/"+config.SubscriptionID()+"/resourceGroups/"+rgName+"/providers/Microsoft.Network/virtualNetworks/"+VNetName+"/subnets/"+subnetName
+	subnetID := "/subscriptions/" + config.SubscriptionID() + "/resourceGroups/" + rgName + "/providers/Microsoft.Network/virtualNetworks/" + VNetName + "/subnets/" + subnetName
 	vnetRules := []v1alpha1.VirtualNetworkRules{
 		{
-			SubnetID: subnetID,
+			SubnetID:                     subnetID,
 			IgnoreMissingServiceEndpoint: true,
-		}
+		},
 	}
 	ipmask := "1.1.1.1"
 	ipRules := []v1alpha1.IPRules{
 		{
 			IPMask: &ipmask,
-		}
+		},
 	}
-	
+
 	eventhubNamespaceNetRuleInstance := &azurev1alpha1.EventhubNamespaceNetworkRule{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "ehns-netrule",
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.EventhubNamespaceNetworkRule{
-			Namespace:     eventhubNamespaceName,
-			ResourceGroup: rgName,
-			DefaultAction: "deny",
+			Namespace:           eventhubNamespaceName,
+			ResourceGroup:       rgName,
+			DefaultAction:       "deny",
 			VirtualNetworkRules: &vnetRules,
-			IPRules: &ipRules,
+			IPRules:             &ipRules,
 		},
 	}
 
