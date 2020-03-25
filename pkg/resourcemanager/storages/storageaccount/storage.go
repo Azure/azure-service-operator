@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package storages
+package storageaccount
 
 import (
 	"context"
@@ -49,11 +49,9 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 		return result, err
 	}
 	if dataLakeEnabled == to.BoolPtr(true) && kind != "StorageV2" {
-		log.Printf("Cannot create storage account. Datalake enabled storage account must be of kind: StorageV2")
 		return result, errors.New("unable to create datalake enabled storage account")
 	}
 	if *checkNameResult.NameAvailable == false {
-		log.Println("storage account not available: " + checkNameResult.Reason)
 		if checkNameResult.Reason == storage.AccountNameInvalid {
 			return result, errors.New("AccountNameInvalid")
 		} else if checkNameResult.Reason == storage.AlreadyExists {
@@ -101,4 +99,9 @@ func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName 
 func (_ *azureStorageManager) DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
 	storagesClient := getStoragesClient()
 	return storagesClient.Delete(ctx, groupName, storageAccountName)
+}
+
+func (_ *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName string, accountName string) (result storage.AccountListKeysResult, err error) {
+	storagesClient := getStoragesClient()
+	return storagesClient.ListKeys(ctx, resourceGroupName, accountName, storage.Kerb)
 }
