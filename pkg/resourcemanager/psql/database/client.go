@@ -15,19 +15,15 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 type PSQLDatabaseClient struct {
-	Log logr.Logger
 }
 
-func NewPSQLDatabaseClient(log logr.Logger) *PSQLDatabaseClient {
-	return &PSQLDatabaseClient{
-		Log: log,
-	}
+func NewPSQLDatabaseClient() *PSQLDatabaseClient {
+	return &PSQLDatabaseClient{}
 }
 
 func getPSQLDatabasesClient() psql.DatabasesClient {
@@ -78,14 +74,12 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 
 	db, err := p.GetDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
 	if err == nil {
-		p.Log.Info("Database present", "State=", db.Status)
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		instance.Status.State = db.Status
+		instance.Status.Message = resourcemanager.SuccessMsg
 		return true, nil
 	}
-	p.Log.Info("Ensure: Database not present, creating")
-
 	future, err := p.CreateDatabaseIfValid(
 		ctx,
 		instance.Name,
@@ -133,15 +127,17 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
+			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		p.Log.Info("Ensure", "azerr.Type", azerr.Type)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
+			case errhelp.SubscriptionDoesNotHaveServer:
+				instance.Status.Message = fmt.Sprintf("The PostgreSQL Server %s has not been provisioned yet. ", instance.Spec.Server)
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil
@@ -173,14 +169,11 @@ func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object, opt
 
 	status, err := p.DeleteDatabase(ctx, instance.Name, instance.Spec.Server, instance.Spec.ResourceGroup)
 	if err != nil {
-		p.Log.Info("Delete:", "db Delete returned=", err.Error())
 		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			p.Log.Info("Error from delete call")
 			return true, err
 		}
 	}
 	instance.Status.State = status
-	p.Log.Info("Delete", "future.Status=", status)
 
 	if err == nil {
 		if status != "InProgress" {
@@ -239,7 +232,6 @@ func (p *PSQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, database
 	// Check if name is valid if this is the first create call
 	valid, err := p.CheckDatabaseNameAvailability(ctx, databasename)
 	if valid == false {
-		p.Log.Info("Database name invalid - cannot create db")
 		return future, err
 	}
 
