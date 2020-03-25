@@ -111,10 +111,8 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			instance.Status.State = string(server.UserVisibleState)
 			instance.Status.Message = resourcemanager.SuccessMsg
 			return true, nil
-		} else {
-			instance.Status.State = string(server.UserVisibleState)
-			return false, nil
 		}
+		return false, nil
 	}
 
 	adminlogin := string(secret["username"])
