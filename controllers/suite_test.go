@@ -161,9 +161,9 @@ func setup() error {
 	virtualNetworkManager := resourcemanagervnet.NewAzureVNetManager(ctrl.Log.WithName("virtualnetwork").WithName("VirtualNetwork"))
 
 	eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
-	psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, k8sManager.GetScheme())
-	psqlDatabaseManager = resourcemanagerpsqldatabase.NewPSQLDatabaseClient(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
-	psqlFirewallRuleManager = resourcemanagerpsqlfirewallrule.NewPSQLFirewallRuleClient(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))
+	psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(secretClient, k8sManager.GetScheme())
+	psqlDatabaseManager = resourcemanagerpsqldatabase.NewPSQLDatabaseClient()
+	psqlFirewallRuleManager = resourcemanagerpsqlfirewallrule.NewPSQLFirewallRuleClient()
 	eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 
 	sqlServerManager = resourcemanagersqlserver.NewAzureSqlServerManager(

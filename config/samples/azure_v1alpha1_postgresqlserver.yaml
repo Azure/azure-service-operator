@@ -1,10 +1,10 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: PostgreSQLServer
 metadata:
-  name: postgresqlserver-sample
+  name: postgresqlserver-sample-melon
 spec:
   location: westus2
-  resourceGroup: resourcegroup-azure-operators
+  resourceGroup: resourcegroup-azure-operators-mel
   serverVersion: "10"
   sslEnforcement: Enabled
   sku:
