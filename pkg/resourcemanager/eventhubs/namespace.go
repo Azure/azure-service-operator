@@ -157,7 +157,6 @@ func (_ *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, res
 	)
 
 	if err != nil {
-		fmt.Println("EventhubNamespace create failed with error: " + err.Error())
 		return eventhub.EHNamespace{}, err
 	}
 

@@ -7,23 +7,18 @@ package controllers
 
 import (
 	"context"
-	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"github.com/stretchr/testify/assert"
-
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	config "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestEventHubNamespaceNetworkRuleControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	var rgName string = tc.resourceGroupName
 	var rgLocation string = tc.resourceGroupLocation
@@ -50,7 +45,7 @@ func TestEventHubNamespaceNetworkRuleControllerNoResourceGroup(t *testing.T) {
 			Name:      "ehns-netrule",
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.EventhubNamespaceNetworkRule{
+		Spec: azurev1alpha1.EventhubNamespaceNetworkRuleSpec{
 			Namespace:     eventhubNamespaceName,
 			ResourceGroup: "gone",
 			DefaultAction: "allow",
@@ -70,10 +65,8 @@ func TestEventHubNamespaceNetworkRuleControllerNoNamespace(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	var rgName string = tc.resourceGroupName
-	var rgLocation string = tc.resourceGroupLocation
 	eventhubNamespaceName := GenerateTestResourceNameWithRandom("ns-dev-eh", 10)
 
 	// Create EventhubNamespace network rule for this namespace but with a non existent RG
@@ -83,7 +76,7 @@ func TestEventHubNamespaceNetworkRuleControllerNoNamespace(t *testing.T) {
 			Name:      "ehns-netrule",
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.EventhubNamespaceNetworkRule{
+		Spec: azurev1alpha1.EventhubNamespaceNetworkRuleSpec{
 			Namespace:     eventhubNamespaceName,
 			ResourceGroup: rgName,
 			DefaultAction: "allow",
@@ -101,7 +94,6 @@ func TestEventHubNamespaceNetworkRuleControllerBasicNamespace(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	var rgName string = tc.resourceGroupName
 	var rgLocation string = tc.resourceGroupLocation
@@ -133,7 +125,7 @@ func TestEventHubNamespaceNetworkRuleControllerBasicNamespace(t *testing.T) {
 			Name:      "ehns-netrule",
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.EventhubNamespaceNetworkRule{
+		Spec: azurev1alpha1.EventhubNamespaceNetworkRuleSpec{
 			Namespace:     eventhubNamespaceName,
 			ResourceGroup: rgName,
 			DefaultAction: "allow",
@@ -154,8 +146,6 @@ func TestEventHubNamespaceNetworkRuleControllerHappy(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
-	var err error
 
 	var rgName string = tc.resourceGroupName
 	var rgLocation string = tc.resourceGroupLocation
@@ -206,14 +196,14 @@ func TestEventHubNamespaceNetworkRuleControllerHappy(t *testing.T) {
 
 	// Create EventhubNamespace network rule for this namespace and expect success
 	subnetID := "/subscriptions/" + config.SubscriptionID() + "/resourceGroups/" + rgName + "/providers/Microsoft.Network/virtualNetworks/" + VNetName + "/subnets/" + subnetName
-	vnetRules := []v1alpha1.VirtualNetworkRules{
+	vnetRules := []azurev1alpha1.VirtualNetworkRules{
 		{
 			SubnetID:                     subnetID,
 			IgnoreMissingServiceEndpoint: true,
 		},
 	}
 	ipmask := "1.1.1.1"
-	ipRules := []v1alpha1.IPRules{
+	ipRules := []azurev1alpha1.IPRules{
 		{
 			IPMask: &ipmask,
 		},
@@ -224,7 +214,7 @@ func TestEventHubNamespaceNetworkRuleControllerHappy(t *testing.T) {
 			Name:      "ehns-netrule",
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.EventhubNamespaceNetworkRule{
+		Spec: azurev1alpha1.EventhubNamespaceNetworkRuleSpec{
 			Namespace:           eventhubNamespaceName,
 			ResourceGroup:       rgName,
 			DefaultAction:       "deny",
