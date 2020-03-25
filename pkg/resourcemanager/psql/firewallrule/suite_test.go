@@ -4,8 +4,6 @@
 package server
 
 import (
-	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -20,8 +18,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	server "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
-	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -49,9 +45,6 @@ func TestAPIs(t *testing.T) {
 
 var _ = BeforeSuite(func() {
 
-	zaplogger := zap.LoggerTo(GinkgoWriter, true)
-	logf.SetLogger(zaplogger)
-
 	By("bootstrapping test environment")
 
 	ctx = context.Background()
@@ -67,17 +60,13 @@ var _ = BeforeSuite(func() {
 	Expect(err).ToNot(HaveOccurred())
 
 	tc = TestContext{
-		ResourceGroupName:     resourceGroupName,
-		ResourceGroupLocation: resourceGroupLocation,
-		postgreSQLServerManager: &server.PSQLServerClient{
-			Log: zaplogger,
-		},
-		postgreSQLFirewallRuleManager: &PSQLFirewallRuleClient{
-			Log: zaplogger,
-		},
-		ResourceGroupManager: resourceGroupManager,
-		timeout:              20 * time.Minute,
-		retryInterval:        3 * time.Second,
+		ResourceGroupName:             resourceGroupName,
+		ResourceGroupLocation:         resourceGroupLocation,
+		postgreSQLServerManager:       &server.PSQLServerClient{},
+		postgreSQLFirewallRuleManager: &PSQLFirewallRuleClient{},
+		ResourceGroupManager:          resourceGroupManager,
+		timeout:                       20 * time.Minute,
+		retryInterval:                 3 * time.Second,
 	}
 })
 
@@ -86,7 +75,6 @@ var _ = AfterSuite(func() {
 	// delete the resource group and contained resources
 	_, err := tc.ResourceGroupManager.DeleteGroup(ctx, tc.ResourceGroupName)
 	if !errhelp.IsAsynchronousOperationNotComplete(err) {
-		log.Println("Delete RG failed")
 		return
 	}
 
@@ -94,13 +82,10 @@ var _ = AfterSuite(func() {
 		time.Sleep(time.Second * 10)
 		_, err := resourcegroupsresourcemanager.GetGroup(ctx, tc.ResourceGroupName)
 		if err == nil {
-			log.Println("waiting for resource group to be deleted")
 		} else {
 			if errhelp.IsGroupNotFound(err) {
-				log.Println("resource group deleted")
 				break
 			} else {
-				log.Println(fmt.Sprintf("cannot delete resource group: %v", err))
 				return
 			}
 		}

@@ -143,9 +143,9 @@ func main() {
 		secretClient,
 		scheme,
 	)
-	psqlserverclient := psqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, mgr.GetScheme())
-	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
-	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))
+	psqlserverclient := psqlserver.NewPSQLServerClient(secretClient, mgr.GetScheme())
+	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient()
+	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient()
 	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(
 		ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"),
 		secretClient,
