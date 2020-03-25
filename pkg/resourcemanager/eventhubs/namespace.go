@@ -130,11 +130,19 @@ func (_ *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, res
 		namespaceSku.Tier = eventhub.SkuTierStandard
 	}
 
-	// Construct the properties struct
-	namespaceProperties := eventhub.EHNamespaceProperties{
-		IsAutoInflateEnabled:   &properties.IsAutoInflateEnabled,
-		MaximumThroughputUnits: &properties.MaximumThroughputUnits,
-		KafkaEnabled:           &properties.KafkaEnabled,
+	namespaceProperties := eventhub.EHNamespaceProperties{}
+
+	// Construct the properties struct if tier is not "Basic"
+	// These properties are only valid if tier is "Standard"
+	// We need to do this as the SDK doesnt handle this gracefully if we set them,
+	// and causes the eventhubs to not open up in the portal
+
+	if namespaceSku.Tier == eventhub.SkuTierStandard {
+		namespaceProperties = eventhub.EHNamespaceProperties{
+			IsAutoInflateEnabled:   &properties.IsAutoInflateEnabled,
+			MaximumThroughputUnits: &properties.MaximumThroughputUnits,
+			KafkaEnabled:           &properties.KafkaEnabled,
+		}
 	}
 
 	future, err := nsClient.CreateOrUpdate(

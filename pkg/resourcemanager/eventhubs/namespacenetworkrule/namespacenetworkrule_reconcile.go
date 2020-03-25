@@ -118,6 +118,7 @@ func (vr *AzureNamespaceNetworkRuleManager) Delete(ctx context.Context, obj runt
 			errhelp.ResourceNotFound,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.BadRequest, // get this if we had created this with namespace tier as "Basic"
 		}
 
 		if helpers.ContainsString(ignore, azerr.Type) {

@@ -180,7 +180,45 @@ func TestEventHubNamespaceNetworkRuleControllerHappy(t *testing.T) {
 
 	EnsureInstance(ctx, t, tc, eventhubNamespaceInstance)
 
+	// Create a VNET as prereq for the test
+	VNetName := GenerateTestResourceNameWithRandom("vnet", 10)
+	subnetName := "subnet-test"
+	VNetSubNetInstance := azurev1alpha1.VNetSubnets{
+		SubnetName:          subnetName,
+		SubnetAddressPrefix: "110.1.0.0/16",
+	}
+
+	// Create a VNET
+	VNetInstance := &azurev1alpha1.VirtualNetwork{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      VNetName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.VirtualNetworkSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+			AddressSpace:  "110.0.0.0/8",
+			Subnets:       []azurev1alpha1.VNetSubnets{VNetSubNetInstance},
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, VNetInstance)
+
 	// Create EventhubNamespace network rule for this namespace and expect success
+	subnetID := "/subscriptions/"+config.SubscriptionID()+"/resourceGroups/"+rgName+"/providers/Microsoft.Network/virtualNetworks/"+VNetName+"/subnets/"+subnetName
+	vnetRules := []v1alpha1.VirtualNetworkRules{
+		{
+			SubnetID: subnetID,
+			IgnoreMissingServiceEndpoint: true,
+		}
+	}
+	ipmask := "1.1.1.1"
+	ipRules := []v1alpha1.IPRules{
+		{
+			IPMask: &ipmask,
+		}
+	}
+	
 	eventhubNamespaceNetRuleInstance := &azurev1alpha1.EventhubNamespaceNetworkRule{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "ehns-netrule",
@@ -190,11 +228,13 @@ func TestEventHubNamespaceNetworkRuleControllerHappy(t *testing.T) {
 			Namespace:     eventhubNamespaceName,
 			ResourceGroup: rgName,
 			DefaultAction: "deny",
+			VirtualNetworkRules: &vnetRules,
+			IPRules: &ipRules,
 		},
 	}
 
 	// Check that we get success
-	EnsureInstanceW(ctx, t, tc, eventhubNamespaceNetRuleInstance)
+	EnsureInstance(ctx, t, tc, eventhubNamespaceNetRuleInstance)
 
 	//TODO: How do we check if the rule was actually added?
 
