@@ -5,6 +5,7 @@ package helpers
 
 import (
 	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"strings"
@@ -141,6 +142,7 @@ func FillWithRandom(s string, maxLen int) string {
 // Hash256 hashes the i argument to a sha265 string
 func Hash256(i interface{}) string {
 	h := sha256.New()
-	h.Write([]byte(fmt.Sprintf("%v", i)))
+	inBytes, _ := json.Marshal(i)
+	h.Write(inBytes)
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
