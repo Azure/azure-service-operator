@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: PostgreSQLDatabase
 metadata:
-  name: postgresqldatabase-sample-hiya
+  name: postgresqldatabase-sample
 spec:
-  resourceGroup: resourcegroup-azure-operators-mel
-  server: postgresqlserver-sample-melon
+  resourceGroup: resourcegroup-azure-operators
+  server: postgresqlserver-sample
