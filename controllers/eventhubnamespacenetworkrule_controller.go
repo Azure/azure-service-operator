@@ -4,9 +4,8 @@
 package controllers
 
 import (
-	ctrl "sigs.k8s.io/controller-runtime"
-
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 // EventhubNamespaceNetworkRuleReconciler reconciles a EventhubNamespaceNetworkRule object

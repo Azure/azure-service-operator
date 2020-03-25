@@ -6,7 +6,6 @@ package namespacenetworkrule
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -41,31 +40,27 @@ func (vr *AzureNamespaceNetworkRuleManager) Ensure(ctx context.Context, obj runt
 
 	networkRuleSet := ParseNetworkRules(instance.Spec.DefaultAction, instance.Spec.VirtualNetworkRules, instance.Spec.IPRules)
 
-	nwruleset, err := vr.GetNetworkRuleSet(ctx, groupName, namespace)
-	if err == nil {
-		if instance.Status.SpecHash == hash { //Signifies Get is successful for the spec we requested
-			if nwruleset.NetworkRuleSetProperties != nil {
-				instance.Status.Provisioning = false
-				instance.Status.Provisioned = true
-				instance.Status.Message = resourcemanager.SuccessMsg
-				instance.Status.ResourceId = *nwruleset.ID
-				return true, nil
+	/*
+		nwruleset, err := vr.GetNetworkRuleSet(ctx, groupName, namespace)
+		if err == nil {
+			if instance.Status.SpecHash == hash { //Signifies Get is successful for the spec we requested
+				if nwruleset.NetworkRuleSetProperties != nil {
+					instance.Status.Provisioning = false
+					instance.Status.Provisioned = true
+					instance.Status.Message = resourcemanager.SuccessMsg
+					instance.Status.ResourceId = *nwruleset.ID
+					return true, nil
 
+				}
+				return false, nil
 			}
-			return false, nil
-		}
-	}
+		}*/
 
 	instance.Status.Provisioning = true
-	_, err = vr.CreateNetworkRuleSet(ctx, groupName, namespace, networkRuleSet)
+	nwruleset, err := vr.CreateNetworkRuleSet(ctx, groupName, namespace, networkRuleSet)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
-
-		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
-			instance.Status.Message = "Resource request submitted to Azure successfully"
-			return false, nil
-		}
 
 		ignorableErrors := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
@@ -73,16 +68,29 @@ func (vr *AzureNamespaceNetworkRuleManager) Ensure(ctx context.Context, obj runt
 			errhelp.ResourceNotFound,
 		}
 
+		unrecoverableErrors := []string{
+			errhelp.BadRequest, // error we get when namespace is "Basic" SKU
+		}
+
 		if helpers.ContainsString(ignorableErrors, azerr.Type) {
 			instance.Status.Provisioning = false
-			return false, nil
+			return false, nil //requeue
 		}
+
+		if helpers.ContainsString(unrecoverableErrors, azerr.Type) {
+			instance.Status.Provisioning = false
+			return true, nil // Stop reconciliation
+		}
+
 		return false, err
 	}
 
 	instance.Status.SpecHash = hash // Reset the Hash in status to the hash of the spec
-
-	return false, nil // We requeue so the success can be caught in the Get() path
+	instance.Status.Provisioning = false
+	instance.Status.Provisioned = true
+	instance.Status.Message = resourcemanager.SuccessMsg
+	instance.Status.ResourceId = *nwruleset.ID
+	return true, nil
 }
 
 // Delete drops a namespace network rule
@@ -109,6 +117,7 @@ func (vr *AzureNamespaceNetworkRuleManager) Delete(ctx context.Context, obj runt
 		finished := []string{
 			errhelp.ResourceNotFound,
 			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 
 		if helpers.ContainsString(ignore, azerr.Type) {

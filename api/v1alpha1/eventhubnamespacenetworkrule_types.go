@@ -14,8 +14,8 @@ import (
 type EventhubNamespaceNetworkRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Namespace     string        `json:"namespace,omitempty"`
-	ResourceGroup string        `json:"resourceGroup,omitempty"`
+	Namespace     string        `json:"namespace"`
+	ResourceGroup string        `json:"resourceGroup"`
 	DefaultAction DefaultAction `json:"defaultAction,omitempty"`
 	// VirtualNetworkRules - List VirtualNetwork Rules
 	VirtualNetworkRules *[]VirtualNetworkRules `json:"virtualNetworkRules,omitempty"`

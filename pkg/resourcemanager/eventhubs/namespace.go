@@ -104,18 +104,52 @@ func (_ *azureEventHubNamespaceManager) CreateNamespaceAndWait(ctx context.Conte
 	return &result, err
 }
 
-func (_ *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, resourceGroupName string, namespaceName string, location string) (eventhub.EHNamespace, error) {
+func (_ *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, resourceGroupName string, namespaceName string, location string, sku v1alpha1.EventhubNamespaceSku, properties v1alpha1.EventhubNamespaceProperties) (eventhub.EHNamespace, error) {
 	nsClient := getNamespacesClient()
+
+	// Construct the Sku struct for the namespace
+	namespaceSku := eventhub.Sku{
+		Capacity: &sku.Capacity,
+	}
+
+	switch sku.Name {
+	case "Basic":
+		namespaceSku.Name = eventhub.Basic
+	case "Standard":
+		namespaceSku.Name = eventhub.Standard
+	default:
+		namespaceSku.Name = eventhub.Standard
+	}
+
+	switch sku.Tier {
+	case "Basic":
+		namespaceSku.Tier = eventhub.SkuTierBasic
+	case "Standard":
+		namespaceSku.Tier = eventhub.SkuTierStandard
+	default:
+		namespaceSku.Tier = eventhub.SkuTierStandard
+	}
+
+	// Construct the properties struct
+	namespaceProperties := eventhub.EHNamespaceProperties{
+		IsAutoInflateEnabled:   &properties.IsAutoInflateEnabled,
+		MaximumThroughputUnits: &properties.MaximumThroughputUnits,
+		KafkaEnabled:           &properties.KafkaEnabled,
+	}
 
 	future, err := nsClient.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
 		namespaceName,
 		eventhub.EHNamespace{
-			Location: to.StringPtr(location),
+			Location:              to.StringPtr(location),
+			EHNamespaceProperties: &namespaceProperties,
+			Sku:                   &namespaceSku,
 		},
 	)
+
 	if err != nil {
+		fmt.Println("EventhubNamespace create failed with error: " + err.Error())
 		return eventhub.EHNamespace{}, err
 	}
 
@@ -132,6 +166,8 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 	namespaceLocation := instance.Spec.Location
 	namespaceName := instance.Name
 	resourcegroup := instance.Spec.ResourceGroup
+	eventHubNSSku := instance.Spec.Sku
+	eventHubNSProperties := instance.Spec.Properties
 
 	// write information back to instance
 	instance.Status.Provisioning = true
@@ -155,7 +191,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 	}
 
 	// create Event Hubs namespace
-	newNs, err := ns.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation)
+	newNs, err := ns.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation, eventHubNSSku, eventHubNSProperties)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		catch := []string{
