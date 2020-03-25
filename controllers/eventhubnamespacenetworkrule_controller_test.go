@@ -190,8 +190,6 @@ func TestEventHubNamespaceNetworkRuleControllerHappy(t *testing.T) {
 			Namespace:     eventhubNamespaceName,
 			ResourceGroup: rgName,
 			DefaultAction: "deny",
-			VirtualNetworkRules: []{v1alpha1.VirtualNetworkRules{
-			}}
 		},
 	}
 
