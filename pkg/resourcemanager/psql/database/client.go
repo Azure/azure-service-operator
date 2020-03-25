@@ -73,15 +73,13 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 	client := getPSQLDatabasesClient()
 
 	instance.Status.Provisioning = true
-	// Check if this database already exists and its state if it does. This is required
+	// Check if this database already exists. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
 
-	db, err := p.GetDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
+	_, err = p.GetDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
 	if err == nil {
-		p.Log.Info("Database present", "State=", db.Status)
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
-		instance.Status.State = db.Status
 		instance.Status.Message = resourcemanager.SuccessMsg
 		return true, nil
 	}
@@ -121,9 +119,7 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 		return false, err
 	}
 
-	instance.Status.State = future.Status()
-
-	db, err = future.Result(client)
+	_, err = future.Result(client)
 	if err != nil {
 		// let the user know what happened
 		instance.Status.Message = err.Error()
@@ -154,8 +150,6 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 		return false, err
 	}
 
-	instance.Status.State = db.Status
-
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
@@ -183,7 +177,6 @@ func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object, opt
 			return true, err
 		}
 	}
-	instance.Status.State = status
 	p.Log.Info("Delete", "future.Status=", status)
 
 	if err == nil {

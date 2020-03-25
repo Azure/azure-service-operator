@@ -105,21 +105,19 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		labels[k] = &v
 	}
 	instance.Status.Provisioning = true
-	// Check if this server already exists and its state if it does. This is required
+	// Check if this server already exists. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
 
 	server, err := p.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
 		if server.UserVisibleState == "Ready" {
-			p.Log.Info("Server in Ready state")
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
-			instance.Status.State = "Ready"
+			instance.Status.State = string(server.UserVisibleState)
 			instance.Status.Message = resourcemanager.SuccessMsg
 			return true, nil
 		} else {
-			p.Log.Info("Server creation is InProgress")
-			instance.Status.State = "InProgress"
+			instance.Status.State = string(server.UserVisibleState)
 			return false, nil
 		}
 	}
@@ -213,7 +211,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	instance.Status.State = server.Status
+	instance.Status.State = string(server.UserVisibleState)
 
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
@@ -252,7 +250,6 @@ func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 		}
 	}
 	instance.Status.State = status
-	p.Log.Info("Delete", "future.Status=", status)
 
 	if err == nil {
 		if status != "InProgress" {
