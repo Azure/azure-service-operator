@@ -45,6 +45,7 @@ const (
 	ResourceNotFound                    = "ResourceNotFound"
 	RequestConflictError                = "Conflict"
 	ValidationError                     = "ValidationError"
+	SubscriptionDoesNotHaveServer       = "SubscriptionDoesNotHaveServer"
 )
 
 func NewAzureError(err error) error {
