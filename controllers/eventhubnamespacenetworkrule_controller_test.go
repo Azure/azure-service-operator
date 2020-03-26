@@ -39,10 +39,10 @@ func TestEventHubNamespaceNetworkRuleControllerNoResourceGroup(t *testing.T) {
 	EnsureInstance(ctx, t, tc, eventhubNamespaceInstance)
 
 	// Create EventhubNamespace network rule for this namespace but with a non existent RG
-
+	netRuleName := GenerateTestResourceNameWithRandom("ns-rule", 4)
 	eventhubNamespaceNetRuleInstance := &azurev1alpha1.EventhubNamespaceNetworkRule{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "ehns-netrule",
+			Name:      netRuleName,
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.EventhubNamespaceNetworkRuleSpec{
@@ -70,10 +70,10 @@ func TestEventHubNamespaceNetworkRuleControllerNoNamespace(t *testing.T) {
 	eventhubNamespaceName := GenerateTestResourceNameWithRandom("ns-dev-eh", 10)
 
 	// Create EventhubNamespace network rule for this namespace but with a non existent RG
-
+	netRuleName := GenerateTestResourceNameWithRandom("ns-rule", 4)
 	eventhubNamespaceNetRuleInstance := &azurev1alpha1.EventhubNamespaceNetworkRule{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "ehns-netrule",
+			Name:      netRuleName,
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.EventhubNamespaceNetworkRuleSpec{
@@ -119,10 +119,10 @@ func TestEventHubNamespaceNetworkRuleControllerBasicNamespace(t *testing.T) {
 	EnsureInstance(ctx, t, tc, eventhubNamespaceInstance)
 
 	// Create EventhubNamespace network rule for this namespace and expect error
-
+	netRuleName := GenerateTestResourceNameWithRandom("ns-rule", 4)
 	eventhubNamespaceNetRuleInstance := &azurev1alpha1.EventhubNamespaceNetworkRule{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "ehns-netrule",
+			Name:      netRuleName,
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.EventhubNamespaceNetworkRuleSpec{
@@ -208,10 +208,10 @@ func TestEventHubNamespaceNetworkRuleControllerHappy(t *testing.T) {
 			IPMask: &ipmask,
 		},
 	}
-
+	netRuleName := GenerateTestResourceNameWithRandom("ns-rule", 4)
 	eventhubNamespaceNetRuleInstance := &azurev1alpha1.EventhubNamespaceNetworkRule{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "ehns-netrule",
+			Name:      netRuleName,
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.EventhubNamespaceNetworkRuleSpec{
