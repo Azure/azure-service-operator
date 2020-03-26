@@ -174,7 +174,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	instance.Status.State = future.Status()
+	instance.Status.State = string(server.UserVisibleState)
 
 	server, err = future.Result(client)
 	if err != nil {
