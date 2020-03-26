@@ -17,7 +17,7 @@ spec:
       family: C
       capacity: 1
     enableNonSslPort: true
-    ## Optional - vnet usage may require a higher tier sku
+    ## Optional - vnet usage requires the 'Premium' sku
     #subnetId: /subscriptions/{SUBID}/resourceGroups/{resourcegroupName}/providers/Microsoft.Network/virtualNetworks/{vnet name}/subnets/{subnet name}
     #staticIp: 172.22.0.10
   # Use the field below to optionally specify a different keyvault 
