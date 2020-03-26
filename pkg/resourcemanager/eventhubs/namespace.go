@@ -109,7 +109,11 @@ func (_ *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, res
 
 	// Construct the Sku struct for the namespace
 	namespaceSku := eventhub.Sku{
-		Capacity: &sku.Capacity,
+		Capacity: to.Int32Ptr(1),
+	}
+
+	if sku.Capacity != 0 {
+		namespaceSku.Capacity = &sku.Capacity
 	}
 
 	switch sku.Name {
