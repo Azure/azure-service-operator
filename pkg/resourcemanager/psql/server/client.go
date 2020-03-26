@@ -105,10 +105,10 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	server, err := p.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
+		instance.Status.State = string(server.UserVisibleState)
 		if server.UserVisibleState == "Ready" {
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
-			instance.Status.State = string(server.UserVisibleState)
 			instance.Status.Message = resourcemanager.SuccessMsg
 			return true, nil
 		}
