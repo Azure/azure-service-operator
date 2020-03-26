@@ -6,6 +6,7 @@ package resourcegroups
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -29,19 +30,22 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 	if err != nil {
 		instance.Status.Provisioned = false
 		instance.Status.Message = err.Error()
+
+		// handle special cases that won't work without a change to spec
+		if group.StatusCode == http.StatusBadRequest {
+			instance.Status.Provisioning = false
+			return true, nil
+		}
+
 		return false, fmt.Errorf("ResourceGroup create error %v", err)
 
 	}
-	if instance.Status.Provisioning {
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		instance.Status.Message = resourcemanager.SuccessMsg
-	} else {
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
-	}
 
+	instance.Status.Provisioned = true
+	instance.Status.Provisioning = false
+	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.ResourceId = *group.ID
+
 	return true, nil
 }
 
