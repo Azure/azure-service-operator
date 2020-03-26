@@ -16,19 +16,15 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 type PSQLFirewallRuleClient struct {
-	Log logr.Logger
 }
 
-func NewPSQLFirewallRuleClient(log logr.Logger) *PSQLFirewallRuleClient {
-	return &PSQLFirewallRuleClient{
-		Log: log,
-	}
+func NewPSQLFirewallRuleClient() *PSQLFirewallRuleClient {
+	return &PSQLFirewallRuleClient{}
 }
 
 func getPSQLFirewallRulesClient() psql.FirewallRulesClient {
@@ -58,7 +54,6 @@ func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object,
 		instance.Status.State = firewallrule.Status
 		return true, nil
 	}
-	p.Log.Info("Firewall rule not present, creating")
 
 	future, err := p.CreateFirewallRule(
 		ctx,
@@ -82,7 +77,6 @@ func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		p.Log.Info("Ensure", "azerr.Type", azerr.Type)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -112,7 +106,6 @@ func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		p.Log.Info("Ensure", "azerr.Type", azerr.Type)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -148,14 +141,11 @@ func (p *PSQLFirewallRuleClient) Delete(ctx context.Context, obj runtime.Object,
 
 	status, err := p.DeleteFirewallRule(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
 	if err != nil {
-		p.Log.Info("Delete:", "Firewall Rule Delete returned=", err.Error())
 		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			p.Log.Info("Error from delete call")
 			return true, err
 		}
 	}
 	instance.Status.State = status
-	p.Log.Info("Delete", "future.Status=", status)
 
 	if err == nil {
 		if status != "InProgress" {
