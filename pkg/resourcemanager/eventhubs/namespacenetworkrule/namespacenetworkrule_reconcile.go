@@ -6,7 +6,6 @@ package namespacenetworkrule
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -181,7 +180,9 @@ func ParseNetworkRules(defAction v1alpha1.DefaultAction, vNetRules *[]v1alpha1.V
 
 	defaultAction := eventhub.Deny
 
-	switch strings.ToLower(defAction) {
+	defActionStr := string(defAction)
+
+	switch defActionStr {
 	case "allow":
 		defaultAction = eventhub.Allow
 	case "deny":
