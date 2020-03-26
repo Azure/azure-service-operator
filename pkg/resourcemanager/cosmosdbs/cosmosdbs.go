@@ -6,7 +6,6 @@ package cosmosdbs
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -17,10 +16,7 @@ import (
 
 func getCosmosDBClient() documentdb.DatabaseAccountsClient {
 	cosmosDBClient := documentdb.NewDatabaseAccountsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
-	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
-	}
+	a, _ := iam.GetResourceManagementAuthorizer()
 	cosmosDBClient.Authorizer = a
 	cosmosDBClient.AddToUserAgent(config.UserAgent())
 	return cosmosDBClient

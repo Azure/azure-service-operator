@@ -6,7 +6,6 @@ package appinsights
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
@@ -234,10 +233,7 @@ func (m *Manager) GetAppInsights(
 func getComponentsClient() insights.ComponentsClient {
 	insightsClient := insights.NewComponentsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 
-	a, err := iam.GetResourceManagementAuthorizer()
-	if err != nil {
-		log.Fatalf("failed to initialize authorizer %v\n", err)
-	}
+	a, _ := iam.GetResourceManagementAuthorizer()
 	insightsClient.Authorizer = a
 	insightsClient.AddToUserAgent(config.UserAgent())
 
