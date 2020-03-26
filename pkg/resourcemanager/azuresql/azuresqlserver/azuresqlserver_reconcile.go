@@ -163,6 +163,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			return true, nil
 		case errhelp.LocationNotAvailableForResourceType:
 			// Subscription does not support the requested service in the requested region
+			instance.Status.Message = fmt.Sprintf("%s is an invalid location for an Azure SQL Server based on your subscription", instance.Spec.Location)
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = false
 			return true, nil
