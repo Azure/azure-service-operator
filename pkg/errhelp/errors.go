@@ -46,6 +46,7 @@ const (
 	RequestConflictError                = "Conflict"
 	ValidationError                     = "ValidationError"
 	SubscriptionDoesNotHaveServer       = "SubscriptionDoesNotHaveServer"
+	ServerQuotaExceeded                 = "ServerQuotaExceeded"
 )
 
 func NewAzureError(err error) error {
