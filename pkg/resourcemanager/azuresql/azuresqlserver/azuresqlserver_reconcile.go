@@ -39,7 +39,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	}
 
 	// convert kube labels to expected tag format
-	tags, _ := helpers.LabelsToTags(instance.GetLabels())
+	tags := helpers.LabelsToTags(instance.GetLabels())
 
 	// set a spec hash if one hasn't been set
 	hash := helpers.Hash256(instance.Spec)
