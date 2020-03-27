@@ -64,11 +64,17 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	}
 	instance.Status.Message = fmt.Sprintf("RedisCache Get error %s", err.Error())
 
-	_, err = rc.CreateRedisCache(ctx, *instance)
+	result, err := rc.CreateRedisCache(ctx, *instance)
 	if err != nil {
-		instance.Status.Message = err.Error()
+		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
 
+		if result != nil {
+			// stop reconciling if the spec is bad
+			if result.StatusCode == http.StatusBadRequest {
+				return true, nil
+			}
+		}
 		catch := []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,

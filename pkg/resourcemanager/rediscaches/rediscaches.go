@@ -15,6 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -109,9 +110,9 @@ func (r *AzureRedisCacheManager) CreateRedisCache(
 	}
 
 	// set redis config if one was provided
-	if len(props.RedisConfiguration) > 0 {
+	if len(props.Configuration) > 0 {
 		config := map[string]*string{}
-		for k, v := range props.RedisConfiguration {
+		for k, v := range props.Configuration {
 			value := v
 			config[k] = &value
 		}
@@ -122,7 +123,11 @@ func (r *AzureRedisCacheManager) CreateRedisCache(
 		ctx, instance.Spec.ResourceGroupName, instance.Name, createParams,
 	)
 	if err != nil {
-		return nil, err
+		return &redis.ResourceType{
+			Response: autorest.Response{
+				Response: future.Response(),
+			},
+		}, err
 	}
 
 	result, err := future.Result(redisClient)
