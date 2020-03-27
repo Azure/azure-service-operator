@@ -181,31 +181,6 @@ steps:
 #     failIfCoverageEmpty: 'true'
 #     failOnStandardError: 'true'
 
-- script: docker build -t $(IMAGE_NAME) .  # add options to this command to meet your needs
-  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
-  displayName: 'Docker build'
-  workingDirectory: '$(MODULE_PATH)'
-
-- task: Docker@2
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  displayName: Login to ACR
-  inputs:
-    command: login
-    containerRegistry: $(CONTAINER_REGISTRY)
-
-- task: Docker@2
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  displayName: Build and Push Docker Image $(IMAGE_NAME)
-  inputs:
-    command: buildAndPush
-    containerRegistry: $(CONTAINER_REGISTRY)
-    repository: $(IMAGE_NAME)
-    Dockerfile: "$(MODULE_PATH)/Dockerfile"    
-    buildContext: $(MODULE_PATH)
-    tags: |
-      latest
-      $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
-
 
 - script: |
     echo "updating kustomize image patch file for manager resource"
