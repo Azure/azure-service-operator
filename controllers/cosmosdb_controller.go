@@ -124,7 +124,7 @@ func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1alpha1.CosmosDB)
 		//log error and kill it
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
-	_, err = cosmosdbs.CreateCosmosDB(ctx, groupName, name, location, kind, dbType, nil)
+	cosmosdbs.NewAzureCosmosDBManager().CreateCosmosDB(ctx, groupName, name, location, kind, dbType, nil)
 	if err != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
@@ -151,7 +151,7 @@ func (r *CosmosDBReconciler) deleteExternal(instance *azurev1alpha1.CosmosDB) er
 	ctx := context.Background()
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroupName
-	_, err := cosmosdbs.DeleteCosmosDB(ctx, groupName, name)
+	_, err := cosmosdbs.NewAzureCosmosDBManager().DeleteCosmosDB(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode204(err) {
 			r.Recorder.Event(instance, v1.EventTypeWarning, "DoesNotExist", "Resource to delete does not exist")
