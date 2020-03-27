@@ -59,7 +59,7 @@ func (vr *AzureNamespaceNetworkRuleManager) Ensure(ctx context.Context, obj runt
 	instance.Status.Provisioning = true
 	nwruleset, err := vr.CreateNetworkRuleSet(ctx, groupName, namespace, networkRuleSet)
 	if err != nil {
-		instance.Status.Message = err.Error()
+		instance.Status.Message = helpers.RemoveUUIDs(err.Error())
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		ignorableErrors := []string{
@@ -69,7 +69,7 @@ func (vr *AzureNamespaceNetworkRuleManager) Ensure(ctx context.Context, obj runt
 		}
 
 		unrecoverableErrors := []string{
-			errhelp.BadRequest, // error we get when namespace is "Basic" SKU
+			errhelp.BadRequest, // error we get when namespace is "Basic" SKU, invalid rule etc.
 		}
 
 		if helpers.ContainsString(ignorableErrors, azerr.Type) {
@@ -105,7 +105,7 @@ func (vr *AzureNamespaceNetworkRuleManager) Delete(ctx context.Context, obj runt
 
 	_, err = vr.DeleteNetworkRuleSet(ctx, groupName, namespace)
 	if err != nil {
-		instance.Status.Message = err.Error()
+		instance.Status.Message = helpers.RemoveUUIDs(err.Error())
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		// these errors are expected

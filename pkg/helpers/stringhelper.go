@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/rand"
+	"regexp"
 	"strings"
 	"time"
 	"unicode"
@@ -145,4 +146,11 @@ func Hash256(i interface{}) string {
 	inBytes, _ := json.Marshal(i)
 	h.Write(inBytes)
 	return fmt.Sprintf("%x", h.Sum(nil))
+}
+
+// RemoveUUIDs removes the UUIDs from the string that change for every reconcile loop
+func RemoveUUIDs(s string) string {
+	re := regexp.MustCompile("[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+	res := re.ReplaceAllString(s, "")
+	return res
 }
