@@ -107,7 +107,6 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			return false, nil
 		}
 
-		instance.Status.Provisioning = false
 		return true, fmt.Errorf("AzureSqlDb CreateOrUpdate error %v", err)
 	}
 
