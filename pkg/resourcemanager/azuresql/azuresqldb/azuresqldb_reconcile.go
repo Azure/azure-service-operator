@@ -75,6 +75,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		}
 		if !helpers.ContainsString(ignore, azerr.Type) {
 			instance.Status.Message = err.Error()
+			instance.Status.Provisioning = false
 			return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
 		}
 	}
@@ -84,19 +85,26 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
+		// resource request has been sent to ARM
+		if azerr.Type == errhelp.AsyncOpIncompleteError {
+			instance.Status.Provisioning = true
+			return false, nil
+		}
+
 		// the errors that can arise during reconcilliation where we simply requeue
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 
 		// assertion that a 404 error implies that the Azure SQL server hasn't been provisioned yet
 		if resp != nil && resp.StatusCode == 404 {
 			instance.Status.Message = fmt.Sprintf("Waiting for SQL Server %s to provision", server)
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 
