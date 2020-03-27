@@ -75,7 +75,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.RequestConflictError,
 			errhelp.BadRequest,
 		}
-		if helpers.ContainsString(unrecoverable, azerr.Type) {
+		if helpers.ContainsString(unrecoverable, azerr.Type) || azerr.Code == http.StatusBadRequest {
 			return true, nil
 		}
 
