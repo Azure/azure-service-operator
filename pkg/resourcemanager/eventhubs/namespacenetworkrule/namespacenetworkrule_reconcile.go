@@ -59,7 +59,7 @@ func (vr *AzureNamespaceNetworkRuleManager) Ensure(ctx context.Context, obj runt
 	instance.Status.Provisioning = true
 	nwruleset, err := vr.CreateNetworkRuleSet(ctx, groupName, namespace, networkRuleSet)
 	if err != nil {
-		instance.Status.Message = helpers.RemoveUUIDs(err.Error())
+		instance.Status.Message = errhelp.StripErrorIDs(err)
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		ignorableErrors := []string{
@@ -105,7 +105,7 @@ func (vr *AzureNamespaceNetworkRuleManager) Delete(ctx context.Context, obj runt
 
 	_, err = vr.DeleteNetworkRuleSet(ctx, groupName, namespace)
 	if err != nil {
-		instance.Status.Message = helpers.RemoveUUIDs(err.Error())
+		instance.Status.Message = errhelp.StripErrorIDs(err)
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		// these errors are expected
