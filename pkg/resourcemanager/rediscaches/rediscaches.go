@@ -15,7 +15,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -123,11 +122,7 @@ func (r *AzureRedisCacheManager) CreateRedisCache(
 		ctx, instance.Spec.ResourceGroupName, instance.Name, createParams,
 	)
 	if err != nil {
-		return &redis.ResourceType{
-			Response: autorest.Response{
-				Response: future.Response(),
-			},
-		}, err
+		return nil, err
 	}
 
 	result, err := future.Result(redisClient)

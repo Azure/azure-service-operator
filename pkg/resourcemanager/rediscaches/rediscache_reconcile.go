@@ -42,6 +42,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	}
 
 	instance.Status.Provisioning = true
+	instance.Status.FailedProvisioning = false
 
 	newRc, err := rc.GetRedisCache(ctx, groupName, name)
 	if err == nil {
@@ -64,29 +65,38 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	}
 	instance.Status.Message = fmt.Sprintf("RedisCache Get error %s", err.Error())
 
-	result, err := rc.CreateRedisCache(ctx, *instance)
+	_, err = rc.CreateRedisCache(ctx, *instance)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
+		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		if result != nil {
-			// stop reconciling if the spec is bad
-			if result.StatusCode == http.StatusBadRequest {
-				return true, nil
-			}
+		unrecoverable := []string{
+			errhelp.RequestConflictError,
+			errhelp.BadRequest,
 		}
-		catch := []string{
+		if helpers.ContainsString(unrecoverable, azerr.Type) {
+			return true, nil
+		}
+
+		catchNotProvisioning := []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AlreadyExists,
 			errhelp.NotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
-			errhelp.BadRequest,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
+		if helpers.ContainsString(catchNotProvisioning, azerr.Type) {
 			return false, nil
 		}
+
+		catchProvisioning := []string{
+			errhelp.AsyncOpIncompleteError,
+		}
+		if helpers.ContainsString(catchProvisioning, azerr.Type) {
+			instance.Status.Provisioning = true
+			return false, nil
+		}
+
 		return false, err
 	}
 
