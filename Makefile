@@ -17,6 +17,9 @@ BUILD_ID ?= $(shell git rev-parse --short HEAD)
 # best to keep the prefix as short as possible to not exceed naming limits for things like keyvault (24 chars)
 TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
 
+# Some parts of the test suite use Go Build Tags to ignore certain tests. Default to all tests but allow the user to pass custom tags.
+BUILD_TAGS ?= all
+
 all: manager
 
 # Generate test certs for development
@@ -40,7 +43,7 @@ api-test: generate fmt vet manifests
 # Run tests
 test: generate fmt vet manifests 
 	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 \
-	go test -tags all -parallel 3 -v -coverprofile=coverage.txt -covermode count \
+	go test -tags "$(BUILD_TAGS)" -parallel 3 -v -coverprofile=coverage.txt -covermode count \
 	./api/... \
 	./controllers/... \
 	-timeout 10m 2>&1 | tee testlogs.txt
@@ -49,7 +52,7 @@ test: generate fmt vet manifests
 
 # Run tests with existing cluster
 test-existing-controllers: generate fmt vet manifests
-	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 go test -tags all -parallel 4 -v ./controllers/... -timeout 45m
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 go test -tags "$(BUILD_TAGS)" -parallel 4 -v ./controllers/... -timeout 45m
 
 unit-tests:
 	go test ./pkg/resourcemanager/keyvaults/unittest/
