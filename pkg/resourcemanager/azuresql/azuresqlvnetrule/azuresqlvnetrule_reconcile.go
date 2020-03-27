@@ -6,7 +6,6 @@ package azuresqlvnetrule
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -51,8 +50,8 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
-			instance.Status.Provisioning = false
+		if azerr.Type == errhelp.AsyncOpIncompleteError {
+			instance.Status.Provisioning = true
 			instance.Status.Message = "Resource request submitted to Azure successfully"
 			return false, nil
 		}
@@ -66,6 +65,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 			instance.Status.Provisioning = false
 			return false, nil
 		}
+
 		return false, err
 	}
 

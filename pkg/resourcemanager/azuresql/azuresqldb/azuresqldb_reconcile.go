@@ -85,13 +85,19 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
+		// resource request has been sent to ARM
+		if azerr.Type == errhelp.AsyncOpIncompleteError {
+			instance.Status.Provisioning = true
+			return false, nil
+		}
+
 		// the errors that can arise during reconcilliation where we simply requeue
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 
