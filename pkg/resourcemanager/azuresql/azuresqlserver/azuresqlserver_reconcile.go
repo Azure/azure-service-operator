@@ -225,7 +225,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	// if the resource is in a failed state it was never created or could never be verified
 	// so we skip attempting to delete the resrouce from Azure
-	if strings.Contains(instance.Status.Message, "credentials could not be found") {
+	if instance.Status.FailedProvisioning || strings.Contains(instance.Status.Message, "credentials could not be found") {
 		return false, nil
 	}
 
