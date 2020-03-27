@@ -104,6 +104,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		// assertion that a 404 error implies that the Azure SQL server hasn't been provisioned yet
 		if resp != nil && resp.StatusCode == 404 {
 			instance.Status.Message = fmt.Sprintf("Waiting for SQL Server %s to provision", server)
+			instance.Status.Provisioning = false
 			return false, nil
 		}
 
