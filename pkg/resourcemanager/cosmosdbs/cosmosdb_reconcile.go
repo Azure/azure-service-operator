@@ -59,7 +59,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 
 	// create the database
-	_, err = m.CreateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
+	_, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
 	if err == nil {
 		// creation succeeded, update state and return
 		instance.Status.Provisioning = false

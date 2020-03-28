@@ -30,15 +30,15 @@ func getCosmosDBClient() documentdb.DatabaseAccountsClient {
 	return cosmosDBClient
 }
 
-// CreateCosmosDB creates a new CosmosDB
-func (*AzureCosmosDBManager) CreateCosmosDB(
+// CreateOrUpdateCosmosDB creates a new CosmosDB
+func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	ctx context.Context,
 	groupName string,
 	cosmosDBName string,
 	location string,
 	kind v1alpha1.CosmosDBKind,
 	dbType v1alpha1.CosmosDBDatabaseAccountOfferType,
-	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
+	tags map[string]*string) (result documentdb.DatabaseAccount, err error) {
 	cosmosDBClient := getCosmosDBClient()
 
 	dbKind := documentdb.DatabaseAccountKind(kind)
@@ -84,17 +84,10 @@ func (*AzureCosmosDBManager) CreateCosmosDB(
 		ctx, groupName, cosmosDBName, createUpdateParams)
 
 	if err != nil {
-		return nil, err
+		return result, err
 	}
 
-	//TODO: this seems synchronous?
-	err = future.WaitForCompletionRef(ctx, cosmosDBClient.Client)
-	if err != nil {
-		return nil, err
-	}
-
-	result, err := future.Result(cosmosDBClient)
-	return &result, err
+	return future.Result(cosmosDBClient)
 }
 
 // GetCosmosDB gets the cosmos db account

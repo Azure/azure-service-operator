@@ -124,7 +124,7 @@ func (r *CosmosDBReconciler) reconcileExternal(instance *azurev1alpha1.CosmosDB)
 		//log error and kill it
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Unable to update instance")
 	}
-	cosmosdbs.NewAzureCosmosDBManager().CreateCosmosDB(ctx, groupName, name, location, kind, dbType, nil)
+	cosmosdbs.NewAzureCosmosDBManager().CreateOrUpdateCosmosDB(ctx, groupName, name, location, kind, dbType, nil)
 	if err != nil {
 		r.Recorder.Event(instance, v1.EventTypeWarning, "Failed", "Couldn't create resource in azure")
 		instance.Status.Provisioning = false
