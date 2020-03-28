@@ -46,6 +46,8 @@ const (
 	RequestConflictError                = "Conflict"
 	ValidationError                     = "ValidationError"
 	SubscriptionDoesNotHaveServer       = "SubscriptionDoesNotHaveServer"
+	NotSupported                        = "NotSupported"
+	SecretNotFound                      = "SecretNotFound"
 )
 
 func NewAzureError(err error) error {
