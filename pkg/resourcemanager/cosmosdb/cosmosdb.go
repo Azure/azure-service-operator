@@ -10,8 +10,10 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
@@ -38,7 +40,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	location string,
 	kind v1alpha1.CosmosDBKind,
 	dbType v1alpha1.CosmosDBDatabaseAccountOfferType,
-	tags map[string]*string) (result documentdb.DatabaseAccount, err error) {
+	tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError) {
 	cosmosDBClient := getCosmosDBClient()
 
 	dbKind := documentdb.DatabaseAccountKind(kind)
@@ -80,31 +82,55 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 			Locations:                     &locationsArray,
 		},
 	}
-	future, err := cosmosDBClient.CreateOrUpdate(
+	createUpdateFuture, err := cosmosDBClient.CreateOrUpdate(
 		ctx, groupName, cosmosDBName, createUpdateParams)
 
 	if err != nil {
-		return result, err
+		// initial create request failed, wrap error
+		return nil, errhelp.NewAzureErrorAzureError(err)
 	}
 
-	return future.Result(cosmosDBClient)
+	result, err := createUpdateFuture.Result(cosmosDBClient)
+	if err != nil {
+		// there is no immediate result, wrap error
+		return &result, errhelp.NewAzureErrorAzureError(err)
+	}
+	return &result, nil
 }
 
 // GetCosmosDB gets the cosmos db account
 func (*AzureCosmosDBManager) GetCosmosDB(
 	ctx context.Context,
 	groupName string,
-	cosmosDBName string) (result documentdb.DatabaseAccount, err error) {
+	cosmosDBName string) (*documentdb.DatabaseAccount, *errhelp.AzureError) {
 	cosmosDBClient := getCosmosDBClient()
 
-	return cosmosDBClient.Get(ctx, groupName, cosmosDBName)
+	result, err := cosmosDBClient.Get(ctx, groupName, cosmosDBName)
+	if err != nil {
+		return &result, errhelp.NewAzureErrorAzureError(err)
+	}
+	return &result, nil
 }
 
 // DeleteCosmosDB removes the resource group named by env var
 func (*AzureCosmosDBManager) DeleteCosmosDB(
 	ctx context.Context,
 	groupName string,
-	cosmosDBName string) (result documentdb.DatabaseAccountsDeleteFuture, err error) {
+	cosmosDBName string) (resp *autorest.Response, azerr *errhelp.AzureError) {
 	cosmosDBClient := getCosmosDBClient()
-	return cosmosDBClient.Delete(ctx, groupName, cosmosDBName)
+
+	result, err := cosmosDBClient.Delete(ctx, groupName, cosmosDBName)
+	if err != nil {
+		azerr = errhelp.NewAzureErrorAzureError(err)
+		return
+	}
+
+	ar, err := result.Result(cosmosDBClient)
+
+	if err != nil {
+		azerr = errhelp.NewAzureErrorAzureError(err)
+	}
+
+	resp = &ar
+	return
 }
