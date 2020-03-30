@@ -250,7 +250,7 @@ func InstantiateVault(ctx context.Context, vaultName string, containsUpdate bool
 }
 
 // CreateVault creates a new key vault
-func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, tags map[string]*string) (keyvault.Vault, error) {
+func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, sku azurev1alpha1.KeyVaultSku, tags map[string]*string) (keyvault.Vault, error) {
 	vaultName := instance.Name
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
@@ -281,14 +281,16 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 		networkAcls = keyvault.NetworkRuleSet{}
 	}
 
+	keyVaultSku := keyvault.Sku{
+		Family: to.StringPtr("A"),
+		Name:   keyvault.SkuName(sku.Name),
+	}
+
 	params := keyvault.VaultCreateOrUpdateParameters{
 		Properties: &keyvault.VaultProperties{
-			TenantID:       &id,
-			AccessPolicies: &accessPolicies,
-			Sku: &keyvault.Sku{
-				Family: to.StringPtr("A"),
-				Name:   keyvault.Standard,
-			},
+			TenantID:         &id,
+			AccessPolicies:   &accessPolicies,
+			Sku:              &keyVaultSku,
 			NetworkAcls:      &networkAcls,
 			EnableSoftDelete: &enableSoftDelete,
 		},
@@ -376,6 +378,8 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return true, err
 	}
 
+	sku := instance.Spec.Sku
+
 	// hash the spec and set if new
 	hash := helpers.Hash256(instance.Spec)
 	if instance.Status.SpecHash == "" {
@@ -409,6 +413,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 	keyvault, err = k.CreateVault(
 		ctx,
 		instance,
+		*sku,
 		labels,
 	)
 
