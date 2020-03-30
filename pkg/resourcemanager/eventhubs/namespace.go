@@ -167,11 +167,100 @@ func (_ *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, res
 	return future.Result(nsClient)
 }
 
+func (nr *azureEventHubNamespaceManager) CreateNetworkRuleSet(ctx context.Context, groupname string, namespace string, rules eventhub.NetworkRuleSet) (result eventhub.NetworkRuleSet, err error) {
+	namespaceclient := getNamespacesClient()
+	return namespaceclient.CreateOrUpdateNetworkRuleSet(ctx, groupname, namespace, rules)
+}
+
+func (nr *azureEventHubNamespaceManager) GetNetworkRuleSet(ctx context.Context, groupName string, namespace string) (ruleset eventhub.NetworkRuleSet, err error) {
+	namespaceclient := getNamespacesClient()
+	return namespaceclient.GetNetworkRuleSet(ctx, groupName, namespace)
+}
+
+func (nr *azureEventHubNamespaceManager) DeleteNetworkRuleSet(ctx context.Context, groupName string, namespace string) (result eventhub.NetworkRuleSet, err error) {
+	namespaceclient := getNamespacesClient()
+
+	// SDK does not have a DeleteNetworkRuleSet function, so setting rules to empty
+	// and calling Create to delete the rules
+
+	emptyrules := eventhub.NetworkRuleSet{
+		NetworkRuleSetProperties: &eventhub.NetworkRuleSetProperties{
+			DefaultAction: eventhub.Allow,
+		},
+	}
+	return namespaceclient.CreateOrUpdateNetworkRuleSet(ctx, groupName, namespace, emptyrules)
+
+}
+
+// ParseNetworkRules parses the network rules specified in the yaml and converts to the SDK struct
+func ParseNetworkRules(networkRule *v1alpha1.EventhubNamespaceNetworkRule) eventhub.NetworkRuleSet {
+
+	defaultAction := eventhub.Allow
+
+	if len(networkRule.DefaultAction) != 0 {
+		defActionStr := string(networkRule.DefaultAction)
+
+		switch defActionStr {
+		case "allow":
+			defaultAction = eventhub.Allow
+		case "deny":
+			defaultAction = eventhub.Deny
+		default:
+			defaultAction = eventhub.Deny
+		}
+	}
+
+	var vNetRulesSet []eventhub.NWRuleSetVirtualNetworkRules
+	if networkRule.VirtualNetworkRules != nil {
+		for _, i := range *networkRule.VirtualNetworkRules {
+			subnetID := i.SubnetID
+			ignoreEndpoint := i.IgnoreMissingServiceEndpoint
+			vNetRulesSet = append(vNetRulesSet, eventhub.NWRuleSetVirtualNetworkRules{
+				Subnet: &eventhub.Subnet{
+					ID: &subnetID,
+				},
+				IgnoreMissingVnetServiceEndpoint: &ignoreEndpoint,
+			})
+		}
+	}
+
+	var ipRulesSet []eventhub.NWRuleSetIPRules
+	if networkRule.IPRules != nil {
+		for _, i := range *networkRule.IPRules {
+			ipmask := i.IPMask
+			ipRulesSet = append(ipRulesSet, eventhub.NWRuleSetIPRules{
+				IPMask: ipmask,
+				Action: eventhub.NetworkRuleIPActionAllow, // only applicable value
+			})
+		}
+	}
+
+	return eventhub.NetworkRuleSet{
+		NetworkRuleSetProperties: &eventhub.NetworkRuleSetProperties{
+			DefaultAction:       defaultAction,
+			VirtualNetworkRules: &vNetRulesSet,
+			IPRules:             &ipRulesSet,
+		},
+	}
+
+}
+
 func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := ns.convert(obj)
 	if err != nil {
 		return false, err
+	}
+
+	// set a spec hash if one hasn't been set
+	hash := helpers.Hash256(instance.Spec)
+	if instance.Status.SpecHash == hash && instance.Status.Provisioned {
+		instance.Status.RequestedAt = nil
+		return true, nil
+	}
+
+	if instance.Status.SpecHash == "" {
+		instance.Status.SpecHash = hash
 	}
 
 	namespaceLocation := instance.Spec.Location
@@ -182,23 +271,67 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 
 	// write information back to instance
 	instance.Status.Provisioning = true
+	instance.Status.Provisioned = false
+	instance.Status.FailedProvisioning = false
 
-	// @todo handle updates
 	evhns, err := ns.GetNamespace(ctx, resourcegroup, namespaceName)
 	if err == nil {
+		if instance.Status.SpecHash == hash { // SpecHash matches what is asked for
+			instance.Status.State = *evhns.ProvisioningState
+			instance.Status.Message = "namespace exists but may not be ready"
 
-		instance.Status.State = *evhns.ProvisioningState
-		instance.Status.Message = "namespace exists but may not be ready"
+			if *evhns.ProvisioningState == "Succeeded" {
+				// Provision network rules
 
-		if *evhns.ProvisioningState == "Succeeded" {
-			instance.Status.Message = resourcemanager.SuccessMsg
-			instance.Status.Provisioned = true
-			instance.Status.Provisioning = false
-			instance.Status.ResourceId = *evhns.ID
-			return true, nil
+				instance.Status.Message = "namespace created, creating network rule"
+
+				networkRuleSet := eventhub.NetworkRuleSet{
+					NetworkRuleSetProperties: &eventhub.NetworkRuleSetProperties{
+						DefaultAction: eventhub.Allow,
+					},
+				}
+				if instance.Spec.NetworkRule != nil {
+					networkRuleSet = ParseNetworkRules(instance.Spec.NetworkRule)
+				}
+
+				_, err := ns.CreateNetworkRuleSet(ctx, resourcegroup, namespaceName, networkRuleSet)
+				if err != nil {
+					instance.Status.Message = errhelp.StripErrorIDs(err)
+					azerr := errhelp.NewAzureErrorAzureError(err)
+
+					ignorableErrors := []string{
+						errhelp.ResourceGroupNotFoundErrorCode,
+						errhelp.ParentNotFoundErrorCode,
+						errhelp.ResourceNotFound,
+					}
+
+					unrecoverableErrors := []string{
+						errhelp.BadRequest, // error we get when namespace is "Basic" SKU, invalid rule etc.
+					}
+
+					if helpers.ContainsString(ignorableErrors, azerr.Type) {
+						instance.Status.Provisioning = false
+						return false, nil //requeue
+					}
+
+					if helpers.ContainsString(unrecoverableErrors, azerr.Type) {
+						instance.Status.Provisioning = false
+						return true, nil // Stop reconciliation
+					}
+
+					return false, err
+				}
+
+				instance.Status.SpecHash = hash
+				instance.Status.Message = resourcemanager.SuccessMsg
+				instance.Status.Provisioned = true
+				instance.Status.Provisioning = false
+				instance.Status.ResourceId = *evhns.ID
+				return true, nil
+			}
+
+			return false, nil
 		}
-
-		return false, nil
 	}
 
 	// create Event Hubs namespace
@@ -210,6 +343,11 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 			errhelp.AsyncOpIncompleteError,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
+		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
+			// resource creation request sent to Azure
+			instance.Status.SpecHash = hash
+		}
+
 		if helpers.ContainsString(catch, azerr.Type) || strings.Contains(err.Error(), "validation failed") {
 			return false, nil
 		}

@@ -71,6 +71,3 @@ resources:
 - group: azure
   version: v1alpha1
   kind: AzureSQLVNetRule
-- group: azure
-  version: v1alpha1
-  kind: EventhubNamespaceNetworkRule

@@ -23,7 +23,6 @@ import (
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
-	resourcemanagereventhubnsnetwork "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs/namespacenetworkrule"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
@@ -122,7 +121,6 @@ func main() {
 		scheme,
 	)
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
-	eventhubNamespaceNetworkRuleClient := resourcemanagereventhubnsnetwork.NewAzureNamespaceNetworkRuleManager()
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(ctrl.Log.WithName("keyvaultmanager").WithName("KeyVault"), mgr.GetScheme())
@@ -243,23 +241,6 @@ func main() {
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespace")
-		os.Exit(1)
-	}
-
-	err = (&controllers.EventhubNamespaceNetworkRuleReconciler{
-		Reconciler: &controllers.AsyncReconciler{
-			Client:      mgr.GetClient(),
-			AzureClient: eventhubNamespaceNetworkRuleClient,
-			Telemetry: telemetry.InitializeTelemetryDefault(
-				"EventhubNamespaceNetworkRule",
-				ctrl.Log.WithName("controllers").WithName("EventhubNamespaceNetworkRule"),
-			),
-			Recorder: mgr.GetEventRecorderFor("EventhubNamespaceNetworkRule-controller"),
-			Scheme:   scheme,
-		},
-	}).SetupWithManager(mgr)
-	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "EventhubNamespaceNetworkRule")
 		os.Exit(1)
 	}
 
