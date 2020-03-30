@@ -17,10 +17,10 @@ type CosmosDBSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location          string             `json:"location,omitempty"`
-	ResourceGroupName string             `json:"resourceGroup"`
-	Kind              CosmosDBKind       `json:"kind,omitempty"`
-	Properties        CosmosDBProperties `json:"properties,omitempty"`
+	Location      string             `json:"location,omitempty"`
+	ResourceGroup string             `json:"resourceGroup"`
+	Kind          CosmosDBKind       `json:"kind,omitempty"`
+	Properties    CosmosDBProperties `json:"properties,omitempty"`
 }
 
 // CosmosDBKind enumerates the values for kind.
@@ -31,8 +31,10 @@ type CosmosDBSpec struct {
 type CosmosDBKind string
 
 const (
+	// CosmosDBKindGlobalDocumentDB string constant describing global document database
 	CosmosDBKindGlobalDocumentDB CosmosDBKind = "GlobalDocumentDB"
-	CosmosDBKindMongoDB          CosmosDBKind = "MongoDB"
+	// CosmosDBKindMongoDB string constant describing mongo database
+	CosmosDBKindMongoDB CosmosDBKind = "MongoDB"
 )
 
 // CosmosDBProperties the CosmosDBProperties of CosmosDB.
@@ -46,6 +48,7 @@ type CosmosDBProperties struct {
 type CosmosDBDatabaseAccountOfferType string
 
 const (
+	// CosmosDBDatabaseAccountOfferTypeStandard string constant describing standard account offer type
 	CosmosDBDatabaseAccountOfferTypeStandard CosmosDBDatabaseAccountOfferType = "Standard"
 )
 
@@ -57,6 +60,7 @@ type CosmosDBLocation struct {
 }
 */
 
+// CosmosDBOutput struct the output of cosmos database provisioning
 type CosmosDBOutput struct {
 	CosmosDBName     string `json:"cosmosDBName,omitempty"`
 	PrimaryMasterKey string `json:"primaryMasterKey,omitempty"`
@@ -98,6 +102,7 @@ func init() {
 	SchemeBuilder.Register(&CosmosDB{}, &CosmosDBList{})
 }
 
+// IsSubmitted function to determine if CosmosDB is provisioning or provisioned
 func (cosmosDB *CosmosDB) IsSubmitted() bool {
 	return cosmosDB.Status.Provisioning || cosmosDB.Status.Provisioned
 }

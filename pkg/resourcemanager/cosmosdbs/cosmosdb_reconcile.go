@@ -32,7 +32,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	hash := helpers.Hash256(instance.Spec)
 	accountName := instance.ObjectMeta.Name
-	groupName := instance.Spec.ResourceGroupName
+	groupName := instance.Spec.ResourceGroup
 	location := instance.Spec.Location
 	kind := instance.Spec.Kind
 	dbType := instance.Spec.Properties.DatabaseAccountOfferType
@@ -92,7 +92,7 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 	}
 
 	name := instance.ObjectMeta.Name
-	groupName := instance.Spec.ResourceGroupName
+	groupName := instance.Spec.ResourceGroup
 
 	resp, azerr := m.DeleteCosmosDB(ctx, groupName, name)
 	if azerr != nil {
@@ -125,7 +125,7 @@ func (m *AzureCosmosDBManager) GetParents(obj runtime.Object) ([]resourcemanager
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.ResourceGroupName,
+				Name:      instance.Spec.ResourceGroup,
 			},
 			Target: &v1alpha1.ResourceGroup{},
 		},
