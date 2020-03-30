@@ -12,15 +12,13 @@ import (
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/go-logr/logr"
 )
 
 type AzureSqlDbManager struct {
-	Log logr.Logger
 }
 
-func NewAzureSqlDbManager(log logr.Logger) *AzureSqlDbManager {
-	return &AzureSqlDbManager{Log: log}
+func NewAzureSqlDbManager() *AzureSqlDbManager {
+	return &AzureSqlDbManager{}
 }
 
 // GetServer returns a SQL server
