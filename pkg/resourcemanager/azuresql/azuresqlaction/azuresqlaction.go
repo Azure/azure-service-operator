@@ -12,25 +12,18 @@ import (
 	azuresqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
-	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 type AzureSqlActionManager struct {
-	Telemetry    telemetry.Telemetry
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
 func NewAzureSqlActionManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlActionManager {
 	return &AzureSqlActionManager{
-		Telemetry: *telemetry.InitializeTelemetryDefault(
-			"AzureSqlAction",
-			ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
-		),
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
@@ -40,7 +33,7 @@ func NewAzureSqlActionManager(secretClient secrets.SecretClient, scheme *runtime
 // for the server and stores the new password in the secret
 func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupName string, serverName string, secretKey types.NamespacedName, secretClient secrets.SecretClient) error {
 
-	azuresqlserverManager := azuresqlserver.NewAzureSqlServerManager(s.Telemetry.Logger, secretClient, s.Scheme)
+	azuresqlserverManager := azuresqlserver.NewAzureSqlServerManager(secretClient, s.Scheme)
 	// Get the SQL server instance
 	server, err := azuresqlserverManager.GetServer(ctx, groupName, serverName)
 	if err != nil {
