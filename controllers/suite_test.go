@@ -167,7 +167,6 @@ func setup() error {
 	eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 
 	sqlServerManager = resourcemanagersqlserver.NewAzureSqlServerManager(
-		ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"),
 		secretClient,
 		scheme.Scheme,
 	)
@@ -176,17 +175,15 @@ func setup() error {
 		secretClient,
 		scheme.Scheme,
 	)
-	sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
-	sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager()
+	sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager()
 	sqlVNetRuleManager = resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager()
 	sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
-		ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"),
 		secretClient,
 		scheme.Scheme,
 	)
 	consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(
-		ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"),
 		secretClient,
 		scheme.Scheme,
 	)

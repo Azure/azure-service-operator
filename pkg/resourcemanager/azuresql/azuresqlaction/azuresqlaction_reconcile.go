@@ -50,7 +50,6 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			} else {
 				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault)
 				if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
-					s.Telemetry.LogInfo("requeuing", "Keyvault specified not accessible yet")
 					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
 					return false, nil
 				}
