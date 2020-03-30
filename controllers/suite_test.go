@@ -36,6 +36,8 @@ import (
 	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
+	resourcemanagerblobcontainer "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
+	resourcemanagerstorageaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
@@ -149,6 +151,8 @@ func setup() error {
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 	storageManagers = resourcemanagerstorages.AzureStorageManagers
+	storageAccountManager := resourcemanagerstorageaccount.New()
+	blobContainerManager := resourcemanagerblobcontainer.New()
 	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(ctrl.Log.WithName("controllers").WithName("KeyVault"), k8sManager.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvaults.KeyvaultKeyClient{
 		KeyvaultClient: keyVaultManager,
@@ -157,13 +161,12 @@ func setup() error {
 	virtualNetworkManager := resourcemanagervnet.NewAzureVNetManager(ctrl.Log.WithName("virtualnetwork").WithName("VirtualNetwork"))
 
 	eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
-	psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(ctrl.Log.WithName("psqlservermanager").WithName("PostgreSQLServer"), secretClient, k8sManager.GetScheme())
-	psqlDatabaseManager = resourcemanagerpsqldatabase.NewPSQLDatabaseClient(ctrl.Log.WithName("psqldatabasemanager").WithName("PostgreSQLDatabase"))
-	psqlFirewallRuleManager = resourcemanagerpsqlfirewallrule.NewPSQLFirewallRuleClient(ctrl.Log.WithName("psqlfirewallrulemanager").WithName("PostgreSQLFirewallRule"))
+	psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(secretClient, k8sManager.GetScheme())
+	psqlDatabaseManager = resourcemanagerpsqldatabase.NewPSQLDatabaseClient()
+	psqlFirewallRuleManager = resourcemanagerpsqlfirewallrule.NewPSQLFirewallRuleClient()
 	eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
 
 	sqlServerManager = resourcemanagersqlserver.NewAzureSqlServerManager(
-		ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"),
 		secretClient,
 		scheme.Scheme,
 	)
@@ -172,17 +175,15 @@ func setup() error {
 		secretClient,
 		scheme.Scheme,
 	)
-	sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
-	sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager()
+	sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager()
 	sqlVNetRuleManager = resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager()
 	sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
-		ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"),
 		secretClient,
 		scheme.Scheme,
 	)
 	consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
 	sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(
-		ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"),
 		secretClient,
 		scheme.Scheme,
 	)
@@ -473,11 +474,16 @@ func setup() error {
 	}
 
 	err = (&BlobContainerReconciler{
-		Client:         k8sManager.GetClient(),
-		Log:            ctrl.Log.WithName("controllers").WithName("BlobContainer"),
-		Recorder:       k8sManager.GetEventRecorderFor("BlobContainer-controller"),
-		Scheme:         scheme.Scheme,
-		StorageManager: storageManagers.BlobContainer,
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: blobContainerManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"BlobContainer",
+				ctrl.Log.WithName("controllers").WithName("BlobContainer"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("BlobContainer-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
 		return err
@@ -525,6 +531,22 @@ func setup() error {
 			),
 			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
 			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&StorageReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: storageAccountManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"Storage",
+				ctrl.Log.WithName("controllers").WithName("Storage"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("Storage-controller"),
+			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -610,7 +632,7 @@ func setup() error {
 
 	log.Println("Creating SA:", storageAccountName)
 	// Create the Storage Account and Container
-	_, _ = storageManagers.Storage.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
+	_, _ = storageAccountManager.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
 		Name: "Standard_LRS",
 	}, "Storage", map[string]*string{}, "", nil, nil)
 
@@ -623,7 +645,7 @@ func setup() error {
 			return fmt.Errorf("time out waiting for storage account")
 		}
 
-		result, _ := storageManagers.Storage.GetStorage(context.Background(), resourceGroupName, storageAccountName)
+		result, _ := storageAccountManager.GetStorage(context.Background(), resourceGroupName, storageAccountName)
 		if result.ProvisioningState == s.Succeeded {
 			break
 		}

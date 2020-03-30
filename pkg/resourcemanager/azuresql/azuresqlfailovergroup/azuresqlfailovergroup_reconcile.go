@@ -71,9 +71,17 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 			errhelp.AlreadyExists,
 			errhelp.FailoverGroupBusy,
 		}
+		catchUnrecoverableErrors := []string{
+			errhelp.InvalidFailoverGroupRegion,
+		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
+		}
+		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
+			// Unrecoverable error, so stop reconcilation
+			instance.Status.Message = "Reconcilation hit unrecoverable error " + err.Error()
+			return true, nil
 		}
 		return false, err
 	}

@@ -17,20 +17,17 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 type PSQLServerClient struct {
-	Log          logr.Logger
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewPSQLServerClient(log logr.Logger, secretclient secrets.SecretClient, scheme *runtime.Scheme) *PSQLServerClient {
+func NewPSQLServerClient(secretclient secrets.SecretClient, scheme *runtime.Scheme) *PSQLServerClient {
 	return &PSQLServerClient{
-		Log:          log,
 		SecretClient: secretclient,
 		Scheme:       scheme,
 	}
@@ -87,13 +84,11 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 	// Check to see if secret exists and if yes retrieve the admin login and password
 	secret, err := p.GetOrPrepareSecret(ctx, instance)
 	if err != nil {
-		p.Log.Info("Ensure", "GetOrPrepareSecrets failed with err", err.Error())
 		return false, err
 	}
 	// Update secret
 	err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
 	if err != nil {
-		p.Log.Info("Ensure", "AddServerCredsToSecrets failed with err", err.Error())
 		return false, err
 	}
 
@@ -111,19 +106,16 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 	server, err := p.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
 		if server.UserVisibleState == "Ready" {
-			p.Log.Info("Server in Ready state")
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			instance.Status.State = "Ready"
 			instance.Status.Message = resourcemanager.SuccessMsg
 			return true, nil
 		} else {
-			p.Log.Info("Server creation is InProgress")
 			instance.Status.State = "InProgress"
 			return false, nil
 		}
 	}
-	p.Log.Info("Server not present, creating")
 
 	adminlogin := string(secret["username"])
 	adminpassword := string(secret["password"])
@@ -160,6 +152,11 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.AsyncOpIncompleteError,
 		}
 
+		catchUnrecoverableErrors := []string{
+			errhelp.ProvisioningDisabled,
+			errhelp.LocationNotAvailableForResourceType,
+		}
+
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
@@ -169,6 +166,11 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil
+		}
+		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
+			// Unrecoverable error, so stop reconcilation
+			instance.Status.Message = "Reconcilation hit unrecoverable error: " + err.Error()
+			return true, nil
 		}
 		// reconciliation not done and we don't know what happened
 		return false, err
@@ -235,14 +237,11 @@ func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 
 	status, err := p.DeleteServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err != nil {
-		p.Log.Info("Delete:", "Server Delete returned=", err.Error())
 		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			p.Log.Info("Error from delete call")
 			return true, err
 		}
 	}
 	instance.Status.State = status
-	p.Log.Info("Delete", "future.Status=", status)
 
 	if err == nil {
 		if status != "InProgress" {
@@ -297,7 +296,6 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context, servername s
 	// Check if name is valid if this is the first create call
 	valid, err := p.CheckServerNameAvailability(ctx, servername)
 	if valid == false {
-		p.Log.Info("Servername invalid - cannot create server")
 		return future, err
 	}
 
@@ -372,11 +370,8 @@ func (p *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azu
 
 	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
 	if stored, err := p.SecretClient.Get(ctx, key); err == nil {
-		p.Log.Info("secret already exists, pulling creds now")
 		return stored, nil
 	}
-
-	p.Log.Info("secret not found, generating values for new secret")
 
 	randomUsername, err := helpers.GenerateRandomUsername(usernameLength, 0)
 	if err != nil {
