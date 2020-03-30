@@ -41,13 +41,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	// convert kube labels to expected tag format
 	tags := helpers.LabelsToTags(instance.GetLabels())
 
-	// set a spec hash if one hasn't been set
-	hash := helpers.Hash256(instance.Spec)
-	if instance.Status.SpecHash == hash && instance.Status.Provisioned {
-		instance.Status.RequestedAt = nil
-		return true, nil
-	}
-
 	// Check to see if secret already exists for admin username/password
 	// create or update the secret
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
