@@ -80,9 +80,12 @@ func (m *Manager) CreateAppInsights(
 	kind string,
 	applicationType string,
 	location string,
-	resourceName string) (insights.ApplicationInsightsComponent, error) {
+	resourceName string) (*insights.ApplicationInsightsComponent, error) {
 
-	componentsClient := getComponentsClient()
+	componentsClient, err := getComponentsClient()
+	if err != nil {
+		return nil, err
+	}
 
 	// submit the ARM request
 	result, err := componentsClient.CreateOrUpdate(
@@ -99,7 +102,7 @@ func (m *Manager) CreateAppInsights(
 			},
 		},
 	)
-	return result, err
+	return &result, err
 }
 
 // Ensure checks the desired state of the operator
@@ -211,7 +214,7 @@ func (m *Manager) DeleteAppInsights(
 	resourceGroupName string,
 	resourceName string) (autorest.Response, error) {
 
-	componentsClient := getComponentsClient()
+	componentsClient, _ := getComponentsClient()
 
 	result, err := componentsClient.Get(ctx, resourceGroupName, resourceName)
 	if err == nil {
@@ -226,16 +229,21 @@ func (m *Manager) GetAppInsights(
 	resourceGroupName string,
 	resourceName string) (insights.ApplicationInsightsComponent, error) {
 
-	componentsClient := getComponentsClient()
+	componentsClient, err := getComponentsClient()
+	if err != nil {
+		return insights.ApplicationInsightsComponent{}, err
+	}
 	return componentsClient.Get(ctx, resourceGroupName, resourceName)
 }
 
-func getComponentsClient() insights.ComponentsClient {
+func getComponentsClient() (insights.ComponentsClient, error) {
 	insightsClient := insights.NewComponentsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-
-	a, _ := iam.GetResourceManagementAuthorizer()
-	insightsClient.Authorizer = a
-	insightsClient.AddToUserAgent(config.UserAgent())
-
-	return insightsClient
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		insightsClient = insights.ComponentsClient{}
+	} else {
+		insightsClient.Authorizer = a
+		insightsClient.AddToUserAgent(config.UserAgent())
+	}
+	return insightsClient, err
 }
