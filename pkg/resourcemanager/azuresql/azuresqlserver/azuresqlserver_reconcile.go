@@ -175,6 +175,11 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = false
 			return true, nil
+		case errhelp.ServerQuotaExceeded:
+			instance.Status.Message = "Azure SQL Server quota exceeded"
+			instance.Status.Provisioning = false
+			instance.Status.Provisioned = false
+			return true, nil
 		}
 
 		// these errors are expected for recoverable states
@@ -225,7 +230,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	// if the resource is in a failed state it was never created or could never be verified
 	// so we skip attempting to delete the resrouce from Azure
-	if instance.Status.FailedProvisioning || strings.Contains(instance.Status.Message, "credentials could not be found") {
+	if strings.Contains(instance.Status.Message, "credentials could not be found") {
 		return false, nil
 	}
 
