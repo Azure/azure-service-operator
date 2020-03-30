@@ -51,10 +51,11 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		instance.Spec.SecretName = redisName
 	}
 
-	instance.Status.Provisioning = true
-
+	// if an error occurs thats ok as it means that it doesn't exist yet
 	newRc, err := rc.GetRedisCache(ctx, groupName, name)
 	if err == nil {
+
+		// succeeded! so end reconcilliation successfully
 		if newRc.ProvisioningState == "Succeeded" {
 			err = rc.ListKeysAndCreateSecrets(groupName, redisName, instance.Spec.SecretName, instance)
 			if err != nil {
@@ -68,33 +69,50 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			instance.Status.Provisioning = false
 			return true, nil
 		}
+
+		// the redis cache exists but has not provisioned yet - so keep waiting
 		instance.Status.Message = "RedisCache exists but may not be ready"
 		instance.Status.State = string(newRc.ProvisioningState)
 		return false, nil
 	}
-	instance.Status.Message = fmt.Sprintf("RedisCache Get error %s", err.Error())
 
+	// actually provision the redis cache
+	instance.Status.Provisioning = true
 	_, err = rc.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, labels)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		instance.Status.Provisioning = false
+		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		catch := []string{
+		catchInProgress := []string{
+			errhelp.AsyncOpIncompleteError,
+			errhelp.AlreadyExists,
+		}
+		catchKnownError := []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.AlreadyExists,
 			errhelp.NotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
 			errhelp.BadRequest,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
+
+		// handle the error
+		if helpers.ContainsString(catchInProgress, azerr.Type) {
+			instance.Status.Message = "RedisCache exists but may not be ready"
 			return false, nil
+		} else if helpers.ContainsString(catchKnownError, azerr.Type) {
+			instance.Status.Provisioning = false
+			return false, nil
+		} else {
+
+			// serious error occured, end reconcilliation and mark it as failed
+			instance.Status.Message = fmt.Sprintf("Error occurred creating the RedisCache: %s", err)
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = false
+			instance.Status.FailedProvisioning = true
+			return true, nil
 		}
-		return false, err
 	}
 
-	return true, nil
+	return false, nil
 }
 
 // Delete drops a rediscache
