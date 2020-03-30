@@ -178,6 +178,11 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = false
 			return true, nil
+		case errhelp.RequestDisallowedByPolicy:
+			instance.Status.Message = "Unable to provision Azure SQL Server due to Azure Policy restrictions contact your policy administrators for further assistance"
+			instance.Status.Provisioning = false
+			instance.Status.Provisioned = false
+			return true, nil
 		}
 
 		// these errors are expected for recoverable states
