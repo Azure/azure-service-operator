@@ -13,21 +13,18 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
 const typeOfService = "Microsoft.Sql/servers"
 
 type AzureSqlServerManager struct {
-	Log          logr.Logger
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlServerManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlServerManager {
+func NewAzureSqlServerManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlServerManager {
 	return &AzureSqlServerManager{
-		Log:          log,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
