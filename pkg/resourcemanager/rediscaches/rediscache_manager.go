@@ -15,12 +15,7 @@ import (
 type RedisCacheManager interface {
 	// CreateRedisCache creates a new RedisCache
 	CreateRedisCache(ctx context.Context,
-		groupName string,
-		redisCacheName string,
-		location string,
-		sku azurev1alpha1.RedisCacheSku,
-		enableNonSSLPort bool,
-		tags map[string]*string) (*redis.ResourceType, error)
+		instance azurev1alpha1.RedisCache) (*redis.ResourceType, error)
 
 	// DeleteRedisCache removes the resource group named by env var
 	DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error)

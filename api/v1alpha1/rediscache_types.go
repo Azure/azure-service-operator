@@ -26,9 +26,11 @@ type RedisCacheSpec struct {
 
 // RedisCacheProperties the properties of the Redis Cache.
 type RedisCacheProperties struct {
-	Sku RedisCacheSku `json:"sku,omitempty"`
-
-	EnableNonSslPort bool `json:"enableNonSslPort,omitempty"`
+	Sku              RedisCacheSku     `json:"sku,omitempty"`
+	EnableNonSslPort bool              `json:"enableNonSslPort,omitempty"`
+	SubnetID         string            `json:"subnetId,omitempty"`
+	StaticIP         string            `json:"staticIp,omitempty"`
+	Configuration    map[string]string `json:"configuration,omitempty"`
 }
 
 // RedisCacheSku the SKU of the Redis Cache.
