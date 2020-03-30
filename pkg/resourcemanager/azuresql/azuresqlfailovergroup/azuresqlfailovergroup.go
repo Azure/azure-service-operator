@@ -15,18 +15,15 @@ import (
 
 	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/go-autorest/autorest"
-	"github.com/go-logr/logr"
 )
 
 type AzureSqlFailoverGroupManager struct {
-	Log          logr.Logger
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlFailoverGroupManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlFailoverGroupManager {
+func NewAzureSqlFailoverGroupManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlFailoverGroupManager {
 	return &AzureSqlFailoverGroupManager{
-		Log:          log,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
@@ -163,11 +160,8 @@ func (f *AzureSqlFailoverGroupManager) GetOrPrepareSecret(ctx context.Context, i
 	key := types.NamespacedName{Name: failovergroupname, Namespace: instance.Namespace}
 
 	if stored, err := f.SecretClient.Get(ctx, key); err == nil {
-		f.Log.Info("secret already exists, pulling stored values")
 		return stored, nil
 	}
-
-	f.Log.Info("secret not found, generating values for new secret")
 
 	secret["azureSqlPrimaryServer"] = []byte(azuresqlprimaryserver)
 	secret["readWriteListenerEndpoint"] = []byte(failovergroupname + ".database.windows.net")

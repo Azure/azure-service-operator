@@ -47,6 +47,7 @@ const (
 	ValidationError                     = "ValidationError"
 	SubscriptionDoesNotHaveServer       = "SubscriptionDoesNotHaveServer"
 	ServerQuotaExceeded                 = "ServerQuotaExceeded"
+	RequestDisallowedByPolicy           = "RequestDisallowedByPolicy"
 )
 
 func NewAzureError(err error) error {
