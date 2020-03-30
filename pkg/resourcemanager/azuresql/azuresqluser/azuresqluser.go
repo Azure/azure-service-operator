@@ -18,7 +18,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
-	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	"k8s.io/apimachinery/pkg/runtime"
 
@@ -39,14 +38,12 @@ const SecretUsernameKey = "username"
 const SecretPasswordKey = "password"
 
 type AzureSqlUserManager struct {
-	Log          logr.Logger
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-func NewAzureSqlUserManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlUserManager {
+func NewAzureSqlUserManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureSqlUserManager {
 	return &AzureSqlUserManager{
-		Log:          log,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
@@ -60,13 +57,11 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 
 	db, err := sql.Open(drivername, connString)
 	if err != nil {
-		m.Log.Info("ConnectToSqlDb", "error from sql.Open is:", err.Error())
 		return db, err
 	}
 
 	err = db.PingContext(ctx)
 	if err != nil {
-		m.Log.Info("ConnectToSqlDb", "error from db.Ping is:", err.Error())
 		return db, err
 	}
 
@@ -85,7 +80,6 @@ func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, r
 			sql.Named("user", user),
 		)
 		if err != nil {
-			m.Log.Info("GrantUserRoles:", "Error executing add role:", err.Error())
 			errorStrings = append(errorStrings, err.Error())
 		}
 	}
@@ -180,7 +174,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	}
 
 	// need this to detect missing databases
-	dbClient := azuresqldb.NewAzureSqlDbManager(s.Log)
+	dbClient := azuresqldb.NewAzureSqlDbManager()
 
 	// get admin creds for server
 	adminSecret, err := adminSecretClient.Get(ctx, key)
@@ -443,7 +437,7 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 	}
 
 	// short circuit connection if database doesn't exist
-	dbClient := azuresqldb.NewAzureSqlDbManager(s.Log)
+	dbClient := azuresqldb.NewAzureSqlDbManager()
 	_, err = dbClient.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = err.Error()
