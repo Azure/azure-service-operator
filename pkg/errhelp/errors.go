@@ -48,6 +48,7 @@ const (
 	SubscriptionDoesNotHaveServer       = "SubscriptionDoesNotHaveServer"
 	NotSupported                        = "NotSupported"
 	SecretNotFound                      = "SecretNotFound"
+	RequestDisallowedByPolicy           = "RequestDisallowedByPolicy"
 )
 
 func NewAzureError(err error) error {

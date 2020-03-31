@@ -6,7 +6,6 @@ package keyvaults
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
@@ -20,21 +19,17 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/go-logr/logr"
-	"github.com/mitchellh/hashstructure"
 	uuid "github.com/satori/go.uuid"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 type azureKeyVaultManager struct {
-	Log    logr.Logger
 	Scheme *runtime.Scheme
 }
 
-func NewAzureKeyVaultManager(log logr.Logger, scheme *runtime.Scheme) *azureKeyVaultManager {
+func NewAzureKeyVaultManager(scheme *runtime.Scheme) *azureKeyVaultManager {
 	return &azureKeyVaultManager{
-		Log:    log,
 		Scheme: scheme,
 	}
 }
@@ -112,25 +107,6 @@ func ParseNetworkPolicy(ruleSet *v1alpha1.NetworkRuleSet) keyvault.NetworkRuleSe
 	}
 
 	return networkAcls
-}
-
-// GenerateSpecHash - helper function that generates a unique hash for a Kubernetes runtime.Object resource
-func GenerateSpecHash(obj runtime.Object) (string, error) {
-	unstructured, err := runtime.DefaultUnstructuredConverter.ToUnstructured(obj)
-	if err != nil {
-		return "", err
-	}
-
-	hash, err := hashstructure.Hash(unstructured["spec"].(map[string]interface{}), nil)
-	if err != nil {
-		return "", err
-	}
-
-	if hash == 0 {
-		return "", fmt.Errorf("InvalidHash: Hashing function returned 0")
-	}
-
-	return strconv.FormatUint(hash, 10), nil
 }
 
 // ParseAccessPolicy - helper function to parse access policies from Kubernetes spec
@@ -397,11 +373,8 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return true, err
 	}
 
-	hash, err := GenerateSpecHash(obj)
-	if err != nil {
-		return true, err
-	}
-
+	// hash the spec and set if new
+	hash := helpers.Hash256(instance.Spec)
 	if instance.Status.SpecHash == "" {
 		instance.Status.SpecHash = hash
 	}
