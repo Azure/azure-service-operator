@@ -28,6 +28,7 @@ import (
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
@@ -123,6 +124,7 @@ func setup() error {
 
 	var appInsightsManager resourcemanagerappinsights.ApplicationInsightsManager
 	var apiMgmtManager resourcemanagerapimgmt.APIManager
+	var cosmosDbManager resourcemanagercosmosdb.CosmosDBManager
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
@@ -148,6 +150,7 @@ func setup() error {
 	apiMgmtManager = resourcemanagerapimgmt.NewManager(
 		ctrl.Log.WithName("appinsightsmanager").WithName("ApiMgmt"),
 	)
+	cosmosDbManager = resourcemanagercosmosdb.NewAzureCosmosDBManager()
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 	storageManagers = resourcemanagerstorages.AzureStorageManagers
@@ -251,6 +254,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("ApiMgmt"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("ApiMgmt-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&CosmosDBReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: cosmosDbManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"CosmosDB",
+				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("CosmosDB-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
