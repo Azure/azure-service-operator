@@ -14,7 +14,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
-	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 
@@ -22,13 +21,10 @@ import (
 )
 
 type azureConsumerGroupManager struct {
-	Log logr.Logger
 }
 
-func NewConsumerGroupClient(log logr.Logger) *azureConsumerGroupManager {
-	return &azureConsumerGroupManager{
-		Log: log,
-	}
+func NewConsumerGroupClient() *azureConsumerGroupManager {
+	return &azureConsumerGroupManager{}
 }
 
 func getConsumerGroupsClient() eventhub.ConsumerGroupsClient {
