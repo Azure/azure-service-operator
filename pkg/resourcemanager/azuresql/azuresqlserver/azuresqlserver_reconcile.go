@@ -136,6 +136,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// create the sql server
 	instance.Status.Provisioning = true
+
 	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
 
 		instance.Status.Message = err.Error()
@@ -144,6 +145,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		switch azerr.Type {
+
 		case errhelp.AsyncOpIncompleteError:
 			// the first successful call to create the server should result in this type of error
 			// we save the credentials here
@@ -161,7 +163,6 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 					instance.Status.Message = fmt.Sprintf("%s does not match location of existing sql server, %s", instance.Spec.Location, *serv.Location)
 					return true, nil
 				}
-
 				// should be good, let the next reconcile finish
 				return false, nil
 			}
@@ -175,13 +176,13 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = false
 			return true, nil
-		case errhelp.ServerQuotaExceeded:
-			instance.Status.Message = "Azure SQL Server quota exceeded"
+		case errhelp.RequestDisallowedByPolicy:
+			instance.Status.Message = "Unable to provision Azure SQL Server due to Azure Policy restrictions contact your policy administrators for further assistance"
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = false
 			return true, nil
-		case errhelp.RequestDisallowedByPolicy:
-			instance.Status.Message = "Unable to provision Azure SQL Server due to Azure Policy restrictions contact your policy administrators for further assistance"
+			// Azure subscription quota has been exceeded
+		case errhelp.QuotaExceeded:
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = false
 			return true, nil

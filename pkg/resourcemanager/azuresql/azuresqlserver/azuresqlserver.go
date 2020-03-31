@@ -69,16 +69,16 @@ func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (result sql.Server, err error) {
+func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (*sql.Server, error) {
 	serversClient := azuresqlshared.GetGoServersClient()
 	serverProp := azuresqlshared.SQLServerPropertiesToServer(properties)
 
 	if forceUpdate == false {
 		checkNameResult, _ := CheckNameAvailability(ctx, serverName)
 		if checkNameResult.Reason == sql.AlreadyExists {
-			return result, errors.New("AlreadyExists")
+			return nil, errors.New("AlreadyExists")
 		} else if checkNameResult.Reason == sql.Invalid {
-			return result, errors.New("InvalidServerName")
+			return nil, errors.New("InvalidServerName")
 		}
 	}
 
@@ -94,10 +94,15 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 		})
 
 	if err != nil {
-		return result, err
+		return nil, err
+	}
+	err = future.WaitForCompletionRef(ctx, serversClient.Client)
+	if err != nil {
+		return nil, err
 	}
 
-	return future.Result(serversClient)
+	result, err := future.Result(serversClient)
+	return &result, err
 }
 
 func CheckNameAvailability(ctx context.Context, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {

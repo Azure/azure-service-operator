@@ -12,7 +12,7 @@ import (
 
 // ResourceClient contains the helper functions for interacting with SQL servers / databases
 type ResourceClient interface {
-	CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties SQLServerProperties, forceUpdate bool) (result sql.Server, err error)
+	CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties SQLServerProperties, forceUpdate bool) (result *sql.Server, err error)
 	DeleteSQLServer(ctx context.Context, resourceGroupName string, serverName string) (result autorest.Response, err error)
 	GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error)
 	DeleteSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (err error)

@@ -46,10 +46,11 @@ const (
 	RequestConflictError                = "Conflict"
 	ValidationError                     = "ValidationError"
 	SubscriptionDoesNotHaveServer       = "SubscriptionDoesNotHaveServer"
-	ServerQuotaExceeded                 = "ServerQuotaExceeded"
 	RequestDisallowedByPolicy           = "RequestDisallowedByPolicy"
+	QuotaExceeded                       = "QuotaExceeded"
 )
 
+// NewAzureError parses autorest errors
 func NewAzureError(err error) error {
 	var kind, reason string
 	if err == nil {
@@ -57,6 +58,12 @@ func NewAzureError(err error) error {
 	}
 	ae := AzureError{
 		Original: err,
+	}
+
+	if strings.ContainsAny(err.Error(), QuotaExceeded) {
+		ae.Reason = "Quota exceeded"
+		ae.Type = QuotaExceeded
+		return &ae
 	}
 
 	if det, ok := err.(autorest.DetailedError); ok {
@@ -93,7 +100,6 @@ func NewAzureError(err error) error {
 			kind = NotFoundErrorCode
 			reason = NotFoundErrorCode
 		}
-
 	} else if _, ok := err.(azure.AsyncOpIncompleteError); ok {
 		kind = "AsyncOpIncomplete"
 		reason = "AsyncOpIncomplete"
@@ -116,6 +122,7 @@ func NewAzureError(err error) error {
 		kind = LocationNotAvailableForResourceType
 		reason = LocationNotAvailableForResourceType
 	}
+
 	ae.Reason = reason
 	ae.Type = kind
 
