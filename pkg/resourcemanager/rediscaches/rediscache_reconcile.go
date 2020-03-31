@@ -68,7 +68,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 	// actually provision the redis cache
 	instance.Status.Provisioning = true
-	_, err = rc.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, labels)
+	_, err = rc.CreateRedisCache(ctx, *instance)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -99,8 +99,6 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			instance.Status.FailedProvisioning = true
 			return true, nil
 		}
-
-		return false, err
 	}
 
 	return false, nil
