@@ -19,7 +19,7 @@ type ApplicationInsightsManager interface {
 		kind string,
 		applicationType string,
 		location string,
-		resourceName string) (insights.ApplicationInsightsComponent, error)
+		resourceName string) (*insights.ApplicationInsightsComponent, error)
 	DeleteAppInsights(ctx context.Context, resourceGroupName string, resourceName string) (autorest.Response, error)
 	GetAppInsights(ctx context.Context, resourceGroupName string, resourceName string) (insights.ApplicationInsightsComponent, error)
 
