@@ -153,7 +153,7 @@ func setup() error {
 	storageManagers = resourcemanagerstorages.AzureStorageManagers
 	storageAccountManager := resourcemanagerstorageaccount.New()
 	blobContainerManager := resourcemanagerblobcontainer.New()
-	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(ctrl.Log.WithName("controllers").WithName("KeyVault"), k8sManager.GetScheme())
+	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(k8sManager.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvaults.KeyvaultKeyClient{
 		KeyvaultClient: keyVaultManager,
 	}
@@ -164,10 +164,9 @@ func setup() error {
 	psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(secretClient, k8sManager.GetScheme())
 	psqlDatabaseManager = resourcemanagerpsqldatabase.NewPSQLDatabaseClient()
 	psqlFirewallRuleManager = resourcemanagerpsqlfirewallrule.NewPSQLFirewallRuleClient()
-	eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
+	eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient()
 
 	sqlServerManager = resourcemanagersqlserver.NewAzureSqlServerManager(
-		ctrl.Log.WithName("sqlservermanager").WithName("AzureSqlServer"),
 		secretClient,
 		scheme.Scheme,
 	)
@@ -176,17 +175,15 @@ func setup() error {
 		secretClient,
 		scheme.Scheme,
 	)
-	sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager(ctrl.Log.WithName("sqldbmanager").WithName("AzureSqlDb"))
-	sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager(ctrl.Log.WithName("sqlfirewallrulemanager").WithName("AzureSqlFirewallRule"))
+	sqlDbManager = resourcemanagersqldb.NewAzureSqlDbManager()
+	sqlFirewallRuleManager = resourcemanagersqlfirewallrule.NewAzureSqlFirewallRuleManager()
 	sqlVNetRuleManager = resourcemanagersqlvnetrule.NewAzureSqlVNetRuleManager()
 	sqlFailoverGroupManager = resourcemanagersqlfailovergroup.NewAzureSqlFailoverGroupManager(
-		ctrl.Log.WithName("sqlfailovergroupmanager").WithName("AzureSqlFailoverGroup"),
 		secretClient,
 		scheme.Scheme,
 	)
-	consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
+	consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient()
 	sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(
-		ctrl.Log.WithName("sqlusermanager").WithName("AzureSqlUser"),
 		secretClient,
 		scheme.Scheme,
 	)

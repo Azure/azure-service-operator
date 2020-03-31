@@ -10,15 +10,13 @@ import (
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/go-logr/logr"
 )
 
 type AzureSqlFirewallRuleManager struct {
-	Log logr.Logger
 }
 
-func NewAzureSqlFirewallRuleManager(log logr.Logger) *AzureSqlFirewallRuleManager {
-	return &AzureSqlFirewallRuleManager{Log: log}
+func NewAzureSqlFirewallRuleManager() *AzureSqlFirewallRuleManager {
+	return &AzureSqlFirewallRuleManager{}
 }
 
 // GetServer returns a SQL server

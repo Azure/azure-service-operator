@@ -19,20 +19,17 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/go-logr/logr"
 	uuid "github.com/satori/go.uuid"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 type azureKeyVaultManager struct {
-	Log    logr.Logger
 	Scheme *runtime.Scheme
 }
 
-func NewAzureKeyVaultManager(log logr.Logger, scheme *runtime.Scheme) *azureKeyVaultManager {
+func NewAzureKeyVaultManager(scheme *runtime.Scheme) *azureKeyVaultManager {
 	return &azureKeyVaultManager{
-		Log:    log,
 		Scheme: scheme,
 	}
 }
