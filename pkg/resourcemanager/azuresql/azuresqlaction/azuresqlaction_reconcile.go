@@ -29,11 +29,11 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 	}
 	var key types.NamespacedName
 	var adminSecretClient secrets.SecretClient
+	var userSecretClient secrets.SecretClient
 	serverName := instance.Spec.ServerName
 	groupName := instance.Spec.ResourceGroup
 
 	if strings.ToLower(instance.Spec.ActionName) == "rolladmincreds" {
-
 		if !instance.Status.Provisioned {
 
 			// Determine the secret key based on the spec
@@ -75,6 +75,50 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Message = resourcemanager.SuccessMsg
 		}
 
+	} else if strings.ToLower(instance.Spec.ActionName) == "rollusercreds" {
+		if !instance.Status.Provisioned {
+
+			// Determine the secret key based on the spec
+			if len(instance.Spec.ServerAdminSecretName) == 0 {
+				key = types.NamespacedName{Name: instance.Spec.ServerName, Namespace: instance.Namespace}
+			} else {
+				key = types.NamespacedName{Name: instance.Spec.ServerAdminSecretName}
+			}
+
+			// Determine secretclient based on Spec. If Keyvault name isn't specified, fall back to
+			// global secret client
+			if len(instance.Spec.ServerSecretKeyVault) == 0 {
+				adminSecretClient = s.SecretClient
+			} else {
+				adminSecretClient = keyvaultsecretlib.New(instance.Spec.ServerSecretKeyVault)
+				if !keyvaultsecretlib.IsKeyVaultAccessible(adminSecretClient) {
+					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
+					return false, nil
+				}
+			}
+
+			// Determine userSecretclient based on Spec. If Keyvault name isn't specified, fall back to
+			// global secret client
+			if len(instance.Spec.ServerSecretKeyVault) == 0 {
+				userSecretClient = s.SecretClient
+			} else {
+				userSecretClient = keyvaultsecretlib.New(instance.Spec.UserSecretKeyVault)
+				if !keyvaultsecretlib.IsKeyVaultAccessible(userSecretClient) {
+					instance.Status.Message = "InvalidKeyVaultAccess: Keyvault not accessible yet"
+					return false, nil
+				}
+			}
+
+			err := s.UpdateUserPassword(ctx, groupName, serverName, instance.Spec.DbUser, instance.Spec.DbName, key, adminSecretClient, userSecretClient)
+			if err != nil {
+				instance.Status.Message = err.Error()
+				return true, nil // unrecoverable error
+			}
+
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			instance.Status.Message = resourcemanager.SuccessMsg
+		}
 	} else {
 		instance.Status.Message = "Unrecognized action"
 	}

@@ -68,7 +68,7 @@ func (m *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername str
 	return db, err
 }
 
-// GrantUserRoles  gramts roles to a user for a given database
+// GrantUserRoles grants roles to a user for a given database
 func (m *AzureSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
 	var errorStrings []string
 	for _, role := range roles {
@@ -114,6 +114,25 @@ func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string]
 		return newUser, err
 	}
 	return newUser, nil
+}
+
+// UpdateUser - Updates user password
+func (m *AzureSqlUserManager) UpdateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) error {
+	user := string(secret[SecretUsernameKey])
+	newPassword := helpers.NewPassword()
+
+	// make an effort to prevent sql injectino
+	if err := findBadChars(user); err != nil {
+		return fmt.Errorf("Problem found with username: %v", err)
+	}
+	if err := findBadChars(newPassword); err != nil {
+		return fmt.Errorf("Problem found with password: %v", err)
+	}
+
+	tsql := fmt.Sprintf("ALTER USER \"%s\" WITH PASSWORD='%s'", user, newPassword)
+	_, err := db.ExecContext(ctx, tsql)
+
+	return err
 }
 
 // UserExists checks if db contains user
