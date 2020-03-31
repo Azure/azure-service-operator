@@ -111,6 +111,10 @@ delete:
 	kubectl delete -f config/crd/bases
 	kustomize build config/default | kubectl delete -f -
 
+# Validate copyright headers
+validate-copyright-headers:
+	@./scripts/validate-copyright-headers.sh
+
 # Generate manifests for helm and package them up
 helm-chart-manifests: manifests
 	kustomize build ./config/default -o ./charts/azure-service-operator/templates
@@ -128,7 +132,7 @@ fmt:
 	go fmt ./...
 
 # Run go vet against code
-vet:
+vet: 
 	go vet ./...
 
 # Generate code

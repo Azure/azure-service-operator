@@ -6,7 +6,6 @@ package cosmosdbs
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
@@ -21,16 +20,18 @@ import (
 // AzureCosmosDBManager is the struct which contains helper functions for resource groups
 type AzureCosmosDBManager struct{}
 
-func getCosmosDBClient() documentdb.DatabaseAccountsClient {
+func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
 	cosmosDBClient := documentdb.NewDatabaseAccountsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		// should we have Fatalf's in our code?
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
+		cosmosDBClient = documentdb.DatabaseAccountsClient{}
+	} else {
+		cosmosDBClient.Authorizer = a
+		cosmosDBClient.AddToUserAgent(config.UserAgent())
 	}
-	cosmosDBClient.Authorizer = a
-	cosmosDBClient.AddToUserAgent(config.UserAgent())
-	return cosmosDBClient
+
+	return cosmosDBClient, err
 }
 
 // CreateOrUpdateCosmosDB creates a new CosmosDB
@@ -42,7 +43,10 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	kind v1alpha1.CosmosDBKind,
 	dbType v1alpha1.CosmosDBDatabaseAccountOfferType,
 	tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError) {
-	cosmosDBClient := getCosmosDBClient()
+	cosmosDBClient, err := getCosmosDBClient()
+	if err != nil {
+		return nil, errhelp.NewAzureErrorAzureError(err)
+	}
 
 	dbKind := documentdb.DatabaseAccountKind(kind)
 	sDBType := string(dbType)
@@ -65,7 +69,6 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 		FailoverPriority: to.Int32Ptr(0),
 		LocationName:     to.StringPtr(location),
 	}
-
 	locationsArray := []documentdb.Location{
 		locationObj,
 	}
@@ -104,7 +107,10 @@ func (*AzureCosmosDBManager) GetCosmosDB(
 	ctx context.Context,
 	groupName string,
 	cosmosDBName string) (*documentdb.DatabaseAccount, *errhelp.AzureError) {
-	cosmosDBClient := getCosmosDBClient()
+	cosmosDBClient, err := getCosmosDBClient()
+	if err != nil {
+		return nil, errhelp.NewAzureErrorAzureError(err)
+	}
 
 	result, err := cosmosDBClient.Get(ctx, groupName, cosmosDBName)
 	if err != nil {
@@ -117,7 +123,10 @@ func (*AzureCosmosDBManager) GetCosmosDB(
 func (*AzureCosmosDBManager) CheckNameExistsCosmosDB(
 	ctx context.Context,
 	accountName string) (bool, *errhelp.AzureError) {
-	cosmosDBClient := getCosmosDBClient()
+	cosmosDBClient, err := getCosmosDBClient()
+	if err != nil {
+		return false, errhelp.NewAzureErrorAzureError(err)
+	}
 
 	response, err := cosmosDBClient.CheckNameExists(ctx, accountName)
 	if err != nil {
@@ -138,21 +147,20 @@ func (*AzureCosmosDBManager) CheckNameExistsCosmosDB(
 func (*AzureCosmosDBManager) DeleteCosmosDB(
 	ctx context.Context,
 	groupName string,
-	cosmosDBName string) (resp *autorest.Response, azerr *errhelp.AzureError) {
-	cosmosDBClient := getCosmosDBClient()
-
-	result, err := cosmosDBClient.Delete(ctx, groupName, cosmosDBName)
+	cosmosDBName string) (*autorest.Response, *errhelp.AzureError) {
+	cosmosDBClient, err := getCosmosDBClient()
 	if err != nil {
-		azerr = errhelp.NewAzureErrorAzureError(err)
-		return
+		return nil, errhelp.NewAzureErrorAzureError(err)
 	}
 
-	ar, err := result.Result(cosmosDBClient)
-
+	deleteFuture, err := cosmosDBClient.Delete(ctx, groupName, cosmosDBName)
 	if err != nil {
-		azerr = errhelp.NewAzureErrorAzureError(err)
+		return nil, errhelp.NewAzureErrorAzureError(err)
 	}
 
-	resp = &ar
-	return
+	ar, err := deleteFuture.Result(cosmosDBClient)
+	if err != nil {
+		return nil, errhelp.NewAzureErrorAzureError(err)
+	}
+	return &ar, nil
 }
