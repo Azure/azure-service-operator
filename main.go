@@ -24,6 +24,7 @@ import (
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
@@ -541,6 +542,24 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.MySQLServerReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client: mgr.GetClient(),
+			AzureClient: mysqlserver.NewMySQLServerClient(
+				secretClient,
+				mgr.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLServer",
+				ctrl.Log.WithName("controllers").WithName("MySQLServer"),
+			),
+			Recorder: mgr.GetEventRecorderFor("MySQLServer-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLServer")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
