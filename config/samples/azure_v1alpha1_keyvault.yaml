@@ -11,7 +11,7 @@ spec:
   enableSoftDelete: false
   # possible values for sku.Name are "Standard" or "Premium"  
   sku:
-    name: premium
+    name: standard
   networkPolicies: 
     bypass: AzureServices # AzureServices or None
     defaultAction: Allow # Allow or Deny
