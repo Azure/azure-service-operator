@@ -308,6 +308,8 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 		if azerr.Type == errhelp.RequestConflictError { // keyvault is still deleting and so purge encounters a "conflict"; purge again
 			time.Sleep(2 * time.Second)
 			_, err = k.KeyVaultClient.PurgeDeletedSecret(ctx, vaultBaseURL, secretName)
+		} else {
+			return err
 		}
 	}
 	return err
