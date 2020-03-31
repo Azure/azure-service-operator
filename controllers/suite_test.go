@@ -164,7 +164,7 @@ func setup() error {
 	psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(secretClient, k8sManager.GetScheme())
 	psqlDatabaseManager = resourcemanagerpsqldatabase.NewPSQLDatabaseClient()
 	psqlFirewallRuleManager = resourcemanagerpsqlfirewallrule.NewPSQLFirewallRuleClient()
-	eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient(ctrl.Log.WithName("controllers").WithName("EventhubNamespace"))
+	eventhubNamespaceClient = resourcemanagereventhub.NewEventHubNamespaceClient()
 
 	sqlServerManager = resourcemanagersqlserver.NewAzureSqlServerManager(
 		secretClient,
@@ -182,7 +182,7 @@ func setup() error {
 		secretClient,
 		scheme.Scheme,
 	)
-	consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient(ctrl.Log.WithName("controllers").WithName("ConsumerGroup"))
+	consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient()
 	sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(
 		secretClient,
 		scheme.Scheme,
