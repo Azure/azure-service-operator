@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"encoding/json"
 
@@ -35,15 +36,6 @@ func getVaultsClient() (mgmtclient.VaultsClient, error) {
 	return vaultsClient, nil
 }
 
-func GetVault(ctx context.Context, groupName string, vaultName string) (result mgmtclient.Vault, err error) {
-	vaultsClient, err := getVaultsClient()
-	if err != nil {
-		return mgmtclient.Vault{}, err
-	}
-	return vaultsClient.Get(ctx, groupName, vaultName)
-
-}
-
 // KeyvaultSecretClient struct has the Key vault BaseClient that Azure uses and the KeyVault name
 type KeyvaultSecretClient struct {
 	KeyVaultClient keyvaults.BaseClient
@@ -64,10 +56,6 @@ func GetKeyVaultName(instance runtime.Object) string {
 
 func getVaultsURL(ctx context.Context, vaultName string) string {
 	vaultURL := "https://" + vaultName + "." + config.Environment().KeyVaultDNSSuffix //default
-	vault, err := GetVault(ctx, "", vaultName)
-	if err == nil {
-		vaultURL = *vault.Properties.VaultURI
-	}
 	return vaultURL
 }
 
@@ -302,6 +290,28 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 		secretName = key.Name
 	}
 	_, err := k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
+
+	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if azerr.Type != errhelp.SecretNotFound { // If not found still need to purge
+			return err
+		}
+	}
+
+	// If Keyvault has softdelete enabled, we will need to purge the secret in addition to deleting it
+	_, err = k.KeyVaultClient.PurgeDeletedSecret(ctx, vaultBaseURL, secretName)
+	for err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if azerr.Type == errhelp.NotSupported { // Keyvault not softdelete enabled; ignore error
+			return nil
+		}
+		if azerr.Type == errhelp.RequestConflictError { // keyvault is still deleting and so purge encounters a "conflict"; purge again
+			time.Sleep(2 * time.Second)
+			_, err = k.KeyVaultClient.PurgeDeletedSecret(ctx, vaultBaseURL, secretName)
+		} else {
+			return err
+		}
+	}
 	return err
 }
 
