@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"net/http"
 
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	pkghelpers "github.com/Azure/azure-service-operator/pkg/helpers"
@@ -65,7 +67,7 @@ func (manager *MockKeyVaultManager) CreateVault(ctx context.Context, instance *v
 }
 
 // CreateVaultWithAccessPolicies creates a new key vault
-func (manager *MockKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
+func (manager *MockKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string, sku azurev1alpha1.KeyVaultSku) (keyvault.Vault, error) {
 	v := keyvault.Vault{
 		Response:   helpers.GetRestResponse(http.StatusOK),
 		Properties: &keyvault.VaultProperties{},

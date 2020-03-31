@@ -9,6 +9,9 @@ spec:
   resourceGroup: resourcegroup-azure-operators
   location: westus
   enableSoftDelete: false
+  # possible values for sku.Name are "Standard" or "Premium"  
+  sku:
+    name: premium
   networkPolicies: 
     bypass: AzureServices # AzureServices or None
     defaultAction: Allow # Allow or Deny

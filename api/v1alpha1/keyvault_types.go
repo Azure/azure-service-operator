@@ -39,7 +39,7 @@ type AccessPolicyEntry struct {
 	Permissions *Permissions `json:"permissions,omitempty"`
 }
 
-// Sku the SKU of the Key Vault
+// KeyVaultSku the SKU of the Key Vault
 type KeyVaultSku struct {
 	// Name - The SKU name. Required for account creation; optional for update.
 	// Possible values include: 'Premium', `Standard`

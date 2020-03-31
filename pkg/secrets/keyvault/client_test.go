@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -56,6 +57,10 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		resourcegroupName = "t-kvtest-rg" + helpers.RandomString(10)
 		resourcegroupLocation = config.DefaultLocation()
 
+		sku := v1alpha1.KeyVaultSku{
+			Name: "Standard",
+		}
+
 		// Create a resource group
 		log.Println("Creating resource group with name " + resourcegroupName + " in location " + resourcegroupLocation)
 		_, err = resourceGroupManager.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
@@ -68,7 +73,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 		).Should(BeTrue())
 
 		// Create a keyvault
-		_, err = kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, resourcegroupName, keyVaultName, resourcegroupLocation, userID)
+		_, err = kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, resourcegroupName, keyVaultName, resourcegroupLocation, userID, sku)
 		//Expect(err).NotTo(HaveOccurred())
 
 	})

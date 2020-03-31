@@ -194,9 +194,12 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	eventhubName := GenerateTestResourceNameWithRandom("ev", 10)
 	keyVaultNameForSecrets := helpers.FillWithRandom(GenerateTestResourceName("ev-kv"), 24)
 	userID := config.ClientID()
+	sku := v1alpha1.KeyVaultSku{
+		Name: "Standard",
+	}
 
 	// Create KeyVault with access policies
-	_, err := kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, rgName, keyVaultNameForSecrets, rgLocation, userID)
+	_, err := kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, rgName, keyVaultNameForSecrets, rgLocation, userID, sku)
 
 	_, err = kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
 	assert.Equal(nil, err, "wait for keyvault to be available")

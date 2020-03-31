@@ -303,8 +303,8 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	return future.Result(vaultsClient)
 }
 
-// CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
-func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
+//CreateVaultWithAccessPolicies CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
+func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string, sku azurev1alpha1.KeyVaultSku) (keyvault.Vault, error) {
 	vaultsClient, id, err := InstantiateVault(ctx, vaultName, false)
 	if err != nil {
 		return keyvault.Vault{}, err
@@ -333,14 +333,16 @@ func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context
 
 	}
 
+	keyVaultSku := keyvault.Sku{
+		Family: to.StringPtr("A"),
+		Name:   keyvault.SkuName(sku.Name),
+	}
+
 	params := keyvault.VaultCreateOrUpdateParameters{
 		Properties: &keyvault.VaultProperties{
 			TenantID:       &id,
 			AccessPolicies: &apList,
-			Sku: &keyvault.Sku{
-				Family: to.StringPtr("A"),
-				Name:   keyvault.Standard,
-			},
+			Sku:            &keyVaultSku,
 		},
 		Location: to.StringPtr(location),
 	}

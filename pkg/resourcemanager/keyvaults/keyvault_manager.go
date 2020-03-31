@@ -19,7 +19,7 @@ type KeyVaultManager interface {
 	CreateVault(ctx context.Context, instance *azurev1alpha1.KeyVault, sku azurev1alpha1.KeyVaultSku, tags map[string]*string) (keyvault.Vault, error)
 
 	// CreateVault and grant access to the specific user ID
-	CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, userID string) (keyvault.Vault, error)
+	CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, userID string, sku azurev1alpha1.KeyVaultSku) (keyvault.Vault, error)
 
 	// DeleteVault removes the resource group named by env var
 	DeleteVault(ctx context.Context, groupName string, vaultName string) (result autorest.Response, err error)
