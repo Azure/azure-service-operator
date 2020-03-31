@@ -301,7 +301,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 }
 
 //CreateVaultWithAccessPolicies CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
-func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string, sku azurev1alpha1.KeyVaultSku) (keyvault.Vault, error) {
+func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
 	vaultsClient, id, err := InstantiateVault(ctx, vaultName, false)
 	if err != nil {
 		return keyvault.Vault{}, err
