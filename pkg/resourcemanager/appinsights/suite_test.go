@@ -5,12 +5,14 @@ package appinsights
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"log"
 	"testing"
 	"time"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+
 	"context"
+
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	. "github.com/onsi/ginkgo"
