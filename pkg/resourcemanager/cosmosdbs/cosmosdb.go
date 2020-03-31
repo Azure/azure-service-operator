@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -110,6 +111,27 @@ func (*AzureCosmosDBManager) GetCosmosDB(
 		return &result, errhelp.NewAzureErrorAzureError(err)
 	}
 	return &result, nil
+}
+
+// CheckNameExistsCosmosDB checks if the global account name already exists
+func (*AzureCosmosDBManager) CheckNameExistsCosmosDB(
+	ctx context.Context,
+	accountName string) (bool, *errhelp.AzureError) {
+	cosmosDBClient := getCosmosDBClient()
+
+	response, err := cosmosDBClient.CheckNameExists(ctx, accountName)
+	if err != nil {
+		return false, errhelp.NewAzureErrorAzureError(err)
+	}
+
+	switch response.StatusCode {
+	case http.StatusNotFound:
+		return false, nil
+	case http.StatusOK:
+		return true, nil
+	default:
+		return false, errhelp.NewAzureErrorAzureError(fmt.Errorf("unhandled status code for CheckNameExists"))
+	}
 }
 
 // DeleteCosmosDB removes the resource group named by env var

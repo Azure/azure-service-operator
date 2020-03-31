@@ -59,12 +59,27 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 			//TODO: how should we handle unknown states?
 			return true, nil
 		}
-	} else if azerr.Code == 404 {
-		// resource not found, need to create it
+	} else if azerr.Type == errhelp.ResourceNotFound {
+		exists, azerr := m.CheckNameExistsCosmosDB(ctx, accountName)
+		if azerr != nil {
+			return unexpectedError(&instance.Status, azerr.Original)
+		}
+		if exists {
+			// get request returned resource not found and the name already exists
+			// so it must exist in a different resource group, user must fix it
+			return nameAlreadyExists(&instance.Status)
+		}
 		instance.Status.State = "Creating"
+	} else if azerr.Type == errhelp.ResourceGroupNotFoundErrorCode {
+		return waitingForParent(&instance.Status, groupName)
 	}
 
 	// create the database
+	instance.Status.Provisioning = true
+	instance.Status.Provisioned = false
+	instance.Status.ResourceId = ""
+	instance.Status.SpecHash = ""
+	instance.Status.Message = ""
 	db, azerr = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
 
 	// everything is in a created/updated state
@@ -75,10 +90,11 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 
 	switch azerr.Type {
-	case errhelp.ResourceGroupNotFoundErrorCode:
-		return waitingForParent(&instance.Status)
 	case errhelp.AsyncOpIncompleteError:
 		return creatingOrUpdating(&instance.Status)
+	case errhelp.InvalidResourceLocation:
+		instance.Status.Provisioning = false
+		return true, fmt.Errorf(azerr.Reason)
 	default:
 		return unexpectedError(&instance.Status, err)
 	}
@@ -91,21 +107,21 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	name := instance.ObjectMeta.Name
+	accountName := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	resp, azerr := m.DeleteCosmosDB(ctx, groupName, name)
-	if azerr != nil {
-		instance.Status.Message = azerr.Error()
-
-		//TODO: figure out edge cases
-		fmt.Printf("Status = %s\n", resp.Status)
-
-		// couldn't delete resource in azure
-		return true, err
+	exists, _ := m.CheckNameExistsCosmosDB(ctx, accountName)
+	if !exists {
+		return false, nil
 	}
 
-	// already deleted,
+	resp, azerr := m.DeleteCosmosDB(ctx, groupName, accountName)
+	if azerr != nil {
+		// couldn't delete resource in azure
+		return true, azerr.Original
+	}
+
+	// no content
 	if resp.StatusCode == 204 {
 		return false, nil
 	}
@@ -157,10 +173,10 @@ func success(status *v1alpha1.ASOStatus) (bool, error) {
 	return true, nil
 }
 
-func waitingForParent(status *v1alpha1.ASOStatus) (bool, error) {
+func waitingForParent(status *v1alpha1.ASOStatus, groupName string) (bool, error) {
 	status.Provisioned = false
 	status.Provisioning = false
-	status.Message = "Waiting for resource group to be available"
+	status.Message = fmt.Sprintf("Waiting for resource group '%s' to be available", groupName)
 	status.State = "Waiting"
 	return false, nil
 }
@@ -185,6 +201,13 @@ func unexpectedError(status *v1alpha1.ASOStatus, err error) (bool, error) {
 	status.Provisioning = false
 	status.Message = "Unexpected error occurred during resource request"
 	status.State = "Failed"
-	status.FailedProvisioning = true
 	return false, err
+}
+
+func nameAlreadyExists(status *v1alpha1.ASOStatus) (bool, error) {
+	status.Provisioned = false
+	status.Provisioning = false
+	status.Message = "cosmosdb name already exists"
+	status.State = "Failed"
+	return true, fmt.Errorf("cosmosdb name already exists")
 }
