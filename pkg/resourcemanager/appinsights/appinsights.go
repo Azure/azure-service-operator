@@ -218,7 +218,6 @@ func (m *Manager) DeleteAppInsights(
 	componentsClient, err := getComponentsClient()
 	if err != nil {
 		return autorest.Response{Response: &http.Response{StatusCode: 500}}, err
-
 	}
 
 	result, err := componentsClient.Get(ctx, resourceGroupName, resourceName)
