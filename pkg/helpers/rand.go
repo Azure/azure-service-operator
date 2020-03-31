@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 // copied from github.com/Azure/open-service-broker-azure/
 package helpers
 

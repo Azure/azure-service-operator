@@ -11,7 +11,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/go-logr/logr"
 
 	"github.com/Azure/go-autorest/autorest"
 
@@ -28,7 +27,6 @@ import (
 )
 
 type azureEventHubNamespaceManager struct {
-	Log logr.Logger
 }
 
 func getNamespacesClient() eventhub.NamespacesClient {
@@ -39,10 +37,8 @@ func getNamespacesClient() eventhub.NamespacesClient {
 	return nsClient
 }
 
-func NewEventHubNamespaceClient(log logr.Logger) *azureEventHubNamespaceManager {
-	return &azureEventHubNamespaceManager{
-		Log: log,
-	}
+func NewEventHubNamespaceClient() *azureEventHubNamespaceManager {
+	return &azureEventHubNamespaceManager{}
 }
 
 // DeleteNamespace deletes an existing namespace. This operation also removes all associated resources under the namespace.
