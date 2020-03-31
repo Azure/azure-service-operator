@@ -14,7 +14,7 @@ import (
 type MySQLServerSpec struct {
 	Location               string             `json:"location"`
 	ResourceGroup          string             `json:"resourceGroup,omitempty"`
-	Sku                    PSQLSku            `json:"sku,omitempty"`
+	Sku                    AzureDBsSQLSku     `json:"sku,omitempty"`
 	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
 	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
 	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
@@ -43,4 +43,26 @@ type MySQLServerList struct {
 
 func init() {
 	SchemeBuilder.Register(&MySQLServer{}, &MySQLServerList{})
+}
+
+func NewDefaultMySQLServer(name, resourceGroup, location string) *MySQLServer {
+	return &MySQLServer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: "default",
+		},
+		Spec: MySQLServerSpec{
+			Location:      location,
+			ResourceGroup: resourceGroup,
+			Sku: AzureDBsSQLSku{
+				Name:     "B_Gen5_2",
+				Tier:     SkuTier("Basic"),
+				Family:   "Gen5",
+				Size:     "51200",
+				Capacity: 2,
+			},
+			ServerVersion:  ServerVersion("8.0"),
+			SSLEnforcement: SslEnforcementEnumEnabled,
+		},
+	}
 }

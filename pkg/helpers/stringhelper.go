@@ -20,6 +20,7 @@ import (
 const (
 	passwordLength  = 16
 	passwordChars   = lowerAlphaChars + upperAlphaChars + numberChars + specialChars
+	usernameChars   = lowerAlphaChars + upperAlphaChars + numberChars
 	lowerAlphaChars = "abcdefghijklmnopqrstuvwxyz"
 	upperAlphaChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	numberChars     = "0123456789"
@@ -90,16 +91,20 @@ func IsBeingDeleted(o metav1.Object) bool {
 }
 
 // GenerateRandomUsername - helper function to generate random username for sql server
-func GenerateRandomUsername(n int, numOfDigits int) (string, error) {
+func GenerateRandomUsername(n int) string {
 
-	// Generate a username that is n characters long, with n/2 digits and 0 symbols (not allowed),
-	// allowing only lower case letters (upper case not allowed), and disallowing repeat characters.
-	res, err := password.Generate(n, numOfDigits, 0, true, false)
-	if err != nil {
-		return "", err
+	b := make([]byte, n)
+
+	for i := 0; i < n; i++ {
+		b[i] = usernameChars[seededRand.Intn(len(usernameChars))]
 	}
-
-	return res, nil
+	// For good measure, shuffle the elements of the entire []byte so that
+	// the 0 character isn't predicatably lowercase, etc...
+	for i := range b {
+		j := seededRand.Intn(len(b))
+		b[i], b[j] = b[j], b[i]
+	}
+	return string(b)
 }
 
 // GenerateRandomPassword - helper function to generate random password for sql server
