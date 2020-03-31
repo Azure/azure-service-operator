@@ -6,7 +6,7 @@ package appinsights
 import (
 	"context"
 	"fmt"
-	"log"
+	"net/http"
 
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
@@ -81,9 +81,12 @@ func (m *Manager) CreateAppInsights(
 	kind string,
 	applicationType string,
 	location string,
-	resourceName string) (insights.ApplicationInsightsComponent, error) {
+	resourceName string) (*insights.ApplicationInsightsComponent, error) {
 
-	componentsClient := getComponentsClient()
+	componentsClient, err := getComponentsClient()
+	if err != nil {
+		return nil, err
+	}
 
 	// submit the ARM request
 	result, err := componentsClient.CreateOrUpdate(
@@ -100,7 +103,7 @@ func (m *Manager) CreateAppInsights(
 			},
 		},
 	)
-	return result, err
+	return &result, err
 }
 
 // Ensure checks the desired state of the operator
@@ -212,7 +215,10 @@ func (m *Manager) DeleteAppInsights(
 	resourceGroupName string,
 	resourceName string) (autorest.Response, error) {
 
-	componentsClient := getComponentsClient()
+	componentsClient, err := getComponentsClient()
+	if err != nil {
+		return autorest.Response{Response: &http.Response{StatusCode: 500}}, err
+	}
 
 	result, err := componentsClient.Get(ctx, resourceGroupName, resourceName)
 	if err == nil {
@@ -227,19 +233,21 @@ func (m *Manager) GetAppInsights(
 	resourceGroupName string,
 	resourceName string) (insights.ApplicationInsightsComponent, error) {
 
-	componentsClient := getComponentsClient()
+	componentsClient, err := getComponentsClient()
+	if err != nil {
+		return insights.ApplicationInsightsComponent{}, err
+	}
 	return componentsClient.Get(ctx, resourceGroupName, resourceName)
 }
 
-func getComponentsClient() insights.ComponentsClient {
+func getComponentsClient() (insights.ComponentsClient, error) {
 	insightsClient := insights.NewComponentsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		log.Fatalf("failed to initialize authorizer %v\n", err)
+		insightsClient = insights.ComponentsClient{}
+	} else {
+		insightsClient.Authorizer = a
+		insightsClient.AddToUserAgent(config.UserAgent())
 	}
-	insightsClient.Authorizer = a
-	insightsClient.AddToUserAgent(config.UserAgent())
-
-	return insightsClient
+	return insightsClient, err
 }
