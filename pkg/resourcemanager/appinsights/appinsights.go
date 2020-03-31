@@ -6,6 +6,7 @@ package appinsights
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
@@ -214,7 +215,11 @@ func (m *Manager) DeleteAppInsights(
 	resourceGroupName string,
 	resourceName string) (autorest.Response, error) {
 
-	componentsClient, _ := getComponentsClient()
+	componentsClient, err := getComponentsClient()
+	if err != nil {
+		return autorest.Response{Response: &http.Response{StatusCode: 500}}, err
+
+	}
 
 	result, err := componentsClient.Get(ctx, resourceGroupName, resourceName)
 	if err == nil {
