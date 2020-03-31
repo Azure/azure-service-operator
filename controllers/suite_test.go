@@ -171,7 +171,6 @@ func setup() error {
 		scheme.Scheme,
 	)
 	redisCacheManager := resourcemanagerrediscaches.NewAzureRedisCacheManager(
-		ctrl.Log.WithName("rediscachemanager").WithName("RedisCache"),
 		secretClient,
 		scheme.Scheme,
 	)
