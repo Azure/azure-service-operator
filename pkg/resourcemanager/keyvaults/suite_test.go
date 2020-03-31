@@ -69,7 +69,6 @@ var _ = BeforeSuite(func() {
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
 		keyvaultManager: &azureKeyVaultManager{
-			Log:    zaplogger,
 			Scheme: scheme.Scheme,
 		},
 		ResourceGroupManager: resourceGroupManager,

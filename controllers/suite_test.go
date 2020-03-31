@@ -153,7 +153,7 @@ func setup() error {
 	storageManagers = resourcemanagerstorages.AzureStorageManagers
 	storageAccountManager := resourcemanagerstorageaccount.New()
 	blobContainerManager := resourcemanagerblobcontainer.New()
-	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(ctrl.Log.WithName("controllers").WithName("KeyVault"), k8sManager.GetScheme())
+	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(k8sManager.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvaults.KeyvaultKeyClient{
 		KeyvaultClient: keyVaultManager,
 	}

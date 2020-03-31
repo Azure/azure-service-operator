@@ -123,7 +123,7 @@ func main() {
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient()
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient()
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
-	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(ctrl.Log.WithName("keyvaultmanager").WithName("KeyVault"), mgr.GetScheme())
+	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(mgr.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
 		KeyvaultClient: keyVaultManager,
 	}
