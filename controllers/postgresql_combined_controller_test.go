@@ -44,7 +44,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 		Spec: azurev1alpha1.PostgreSQLServerSpec{
 			Location:      rgLocation,
 			ResourceGroup: rgName,
-			Sku: azurev1alpha1.PSQLSku{
+			Sku: azurev1alpha1.AzureDBsSQLSku{
 				Name:     "B_Gen5_2",
 				Tier:     azurev1alpha1.SkuTier("Basic"),
 				Family:   "Gen5",
