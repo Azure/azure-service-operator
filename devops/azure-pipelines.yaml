@@ -100,6 +100,12 @@ steps:
 #   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
+    make validate-copyright-headers
+  continueOnError: 'false'
+  displayName: 'Validate Copyright Headers'
+  workingDirectory: '$(MODULE_PATH)'
+
+- script: |
     set -e
     GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
     kind create cluster
@@ -136,7 +142,7 @@ steps:
     REQUEUE_AFTER: $(REQUEUE_AFTER)
     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
     BUILD_ID: $(Build.BuildId)
-  workingDirectory: '$(MODULE_PATH)'      
+  workingDirectory: '$(MODULE_PATH)'
 
 - task: AzureCLI@2
   displayName: 'Clean up Azure Resources'
