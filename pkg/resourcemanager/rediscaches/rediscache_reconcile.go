@@ -93,7 +93,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		} else {
 
 			// serious error occured, end reconcilliation and mark it as failed
-			instance.Status.Message = fmt.Sprintf("Error occurred creating the RedisCache: %s", err)
+			instance.Status.Message = fmt.Sprintf("Error occurred creating the RedisCache: %s", errhelp.StripErrorIDs(err))
 			instance.Status.Provisioned = false
 			instance.Status.Provisioning = false
 			instance.Status.FailedProvisioning = true
