@@ -116,22 +116,14 @@ func (_ *azureEventHubNamespaceManager) CreateNamespace(ctx context.Context, res
 		namespaceSku.Capacity = &sku.Capacity
 	}
 
-	switch strings.ToLower(sku.Name) {
-	case "basic":
+	namespaceSku.Name = eventhub.Standard
+	if strings.ToLower(sku.Name) == "basic" {
 		namespaceSku.Name = eventhub.Basic
-	case "standard":
-		namespaceSku.Name = eventhub.Standard
-	default:
-		namespaceSku.Name = eventhub.Standard
 	}
 
-	switch strings.ToLower(sku.Tier) {
-	case "basic":
+	namespaceSku.Tier = eventhub.SkuTierStandard
+	if strings.ToLower(sku.Tier) == "basic" {
 		namespaceSku.Tier = eventhub.SkuTierBasic
-	case "standard":
-		namespaceSku.Tier = eventhub.SkuTierStandard
-	default:
-		namespaceSku.Tier = eventhub.SkuTierStandard
 	}
 
 	namespaceProperties := eventhub.EHNamespaceProperties{}
