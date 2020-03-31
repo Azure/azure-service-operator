@@ -6,7 +6,6 @@ package cosmosdbs
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -15,15 +14,17 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
-func getCosmosDBClient() documentdb.DatabaseAccountsClient {
+func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
 	cosmosDBClient := documentdb.NewDatabaseAccountsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		log.Fatalf("failed to initialize authorizer: %v\n", err)
+		cosmosDBClient = documentdb.DatabaseAccountsClient{}
+	} else {
+		cosmosDBClient.Authorizer = a
+		cosmosDBClient.AddToUserAgent(config.UserAgent())
 	}
-	cosmosDBClient.Authorizer = a
-	cosmosDBClient.AddToUserAgent(config.UserAgent())
-	return cosmosDBClient
+
+	return cosmosDBClient, err
 }
 
 // CreateCosmosDB creates a new CosmosDB
@@ -33,7 +34,10 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 	kind azurev1alpha1.CosmosDBKind,
 	dbType azurev1alpha1.CosmosDBDatabaseAccountOfferType,
 	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
-	cosmosDBClient := getCosmosDBClient()
+	cosmosDBClient, err := getCosmosDBClient()
+	if err != nil {
+		return nil, err
+	}
 
 	dbKind := documentdb.DatabaseAccountKind(kind)
 	sDBType := string(dbType)
@@ -91,7 +95,14 @@ func CreateCosmosDB(ctx context.Context, groupName string,
 }
 
 // DeleteCosmosDB removes the resource group named by env var
-func DeleteCosmosDB(ctx context.Context, groupName string, cosmosDBName string) (result documentdb.DatabaseAccountsDeleteFuture, err error) {
-	cosmosDBClient := getCosmosDBClient()
-	return cosmosDBClient.Delete(ctx, groupName, cosmosDBName)
+func DeleteCosmosDB(ctx context.Context, groupName string, cosmosDBName string) (result *documentdb.DatabaseAccountsDeleteFuture, err error) {
+	cosmosDBClient, err := getCosmosDBClient()
+	if err != nil {
+		return nil, err
+	}
+	future, err := cosmosDBClient.Delete(ctx, groupName, cosmosDBName)
+	if err != nil {
+		return nil, err
+	}
+	return &future, nil
 }
