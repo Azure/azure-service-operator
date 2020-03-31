@@ -33,25 +33,16 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		return false, err
 	}
 
-	redisName := instance.ObjectMeta.Name
+	redisName := instance.Name
 	groupName := instance.Spec.ResourceGroupName
 	name := instance.ObjectMeta.Name
-	location := instance.Spec.Location
-	sku := instance.Spec.Properties.Sku
-	enableNonSSLPort := instance.Spec.Properties.EnableNonSslPort
-
-	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		value := v
-		labels[k] = &value
-	}
 
 	if len(instance.Spec.SecretName) == 0 {
 		instance.Spec.SecretName = redisName
 	}
 
 	instance.Status.Provisioning = true
+	instance.Status.FailedProvisioning = false
 
 	newRc, err := rc.GetRedisCache(ctx, groupName, name)
 	if err == nil {
@@ -74,23 +65,38 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 	}
 	instance.Status.Message = fmt.Sprintf("RedisCache Get error %s", err.Error())
 
-	_, err = rc.CreateRedisCache(ctx, groupName, name, location, sku, enableNonSSLPort, labels)
+	_, err = rc.CreateRedisCache(ctx, *instance)
 	if err != nil {
-		instance.Status.Message = err.Error()
+		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
+		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		catch := []string{
+		unrecoverable := []string{
+			errhelp.RequestConflictError,
+			errhelp.BadRequest,
+		}
+		if helpers.ContainsString(unrecoverable, azerr.Type) || azerr.Code == http.StatusBadRequest {
+			return true, nil
+		}
+
+		catchNotProvisioning := []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AlreadyExists,
 			errhelp.NotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
-			errhelp.BadRequest,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
+		if helpers.ContainsString(catchNotProvisioning, azerr.Type) {
 			return false, nil
 		}
+
+		catchProvisioning := []string{
+			errhelp.AsyncOpIncompleteError,
+		}
+		if helpers.ContainsString(catchProvisioning, azerr.Type) {
+			instance.Status.Provisioning = true
+			return false, nil
+		}
+
 		return false, err
 	}
 
