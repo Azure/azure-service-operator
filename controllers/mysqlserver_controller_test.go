@@ -46,20 +46,3 @@ func TestMySQLServerControllerBadLocation(t *testing.T) {
 	EnsureInstanceWithResult(ctx, t, tc, mySQLServerInstance, errhelp.InvalidResourceLocation, false)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)
 }
-
-func TestMySQLServerControllerHappyPath(t *testing.T) {
-	t.Parallel()
-	defer PanicRecover(t)
-	ctx := context.Background()
-
-	// Add any setup steps that needs to be executed before each test
-	rgLocation := "eastus2"
-	rgName := tc.resourceGroupName
-	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
-
-	// Create the mySQLServer object and expect the Reconcile to be created
-	mySQLServerInstance := azurev1alpha1.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
-
-	EnsureInstance(ctx, t, tc, mySQLServerInstance)
-	EnsureDelete(ctx, t, tc, mySQLServerInstance)
-}
