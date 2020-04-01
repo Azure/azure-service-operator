@@ -1,5 +1,5 @@
 # Image URL to use all building/pushing image targets
-
+IMG ?= controller:latest
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
@@ -8,7 +8,6 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-IMG ?= controller:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
@@ -17,7 +16,7 @@ BUILD_ID ?= $(shell git rev-parse --short HEAD)
 # best to keep the prefix as short as possible to not exceed naming limits for things like keyvault (24 chars)
 TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
 
-# Some parts of the test suite use Go Build Tags to ignore certain tests. Default to all tests but allow the user to pass custom tags.
+# Go compiler builds tags: some parts of the test suite use these to selectively compile tests.
 BUILD_TAGS ?= all
 
 all: manager
@@ -34,34 +33,19 @@ generate-test-certs:
 	mkdir -p /tmp/k8s-webhook-server/serving-certs
 	mv tls.* /tmp/k8s-webhook-server/serving-certs/
 
-# Run API unittests
-api-test: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/...  2>&1 | tee testlogs.txt
-	go-junit-report < testlogs.txt  > report.xml
-	go tool cover -html=coverage.txt -o cover.html
-
-# Run tests
-test: generate fmt vet manifests 
-	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 \
-	go test -tags "$(BUILD_TAGS)" -parallel 3 -v -coverprofile=coverage.txt -covermode count \
-	./api/... \
+# Run Controller tests against the configured cluster
+test-integration-controllers: generate fmt vet manifests
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=coverage-managers.txt -covermode count -parallel 4 -timeout 45m \
 	./controllers/... \
-	-timeout 10m 2>&1 | tee testlogs.txt
-	go-junit-report < testlogs.txt > report.xml
-	go tool cover -html=coverage.txt -o cover.html
+	2>&1 | tee testlogs.txt
+	go-junit-report < testlogs.txt > report-controllers.xml
+	go tool cover -html=coverage.txt -o cover-controllers.html
 
-# Run tests with existing cluster
-test-existing-controllers: generate fmt vet manifests
-	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 go test -tags "$(BUILD_TAGS)" -parallel 4 -v ./controllers/... -timeout 45m
-
-unit-tests:
-	go test ./pkg/resourcemanager/keyvaults/unittest/
-
-
-# Run tests with existing cluster
-test-existing-managers: generate fmt vet manifests
+# Run Resource Manager tests against the configured cluster
+test-integration-managers: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 \
-	go test -v -coverprofile=coverage-existing.txt -covermode count \
+	go test -v -coverprofile=coverage-managers.txt -covermode count  -parallel 4 -timeout 45m \
 	./api/... \
 	./pkg/resourcemanager/eventhubs/...  \
 	./pkg/resourcemanager/resourcegroups/...  \
@@ -71,7 +55,20 @@ test-existing-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/... \
 	./pkg/resourcemanager/vnet/... \
-	./pkg/resourcemanager/apim/apimgmt...
+	./pkg/resourcemanager/apim/apimgmt... \
+	2>&1 | tee testlogs.txt
+	go-junit-report < testlogs.txt > report-managers.xml
+	go tool cover -html=coverage-managers.txt -o cover-managers.html
+
+# Run all available tests. Note that Controllers are not unit-testable.
+test-unit: generate fmt vet manifests 
+	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=coverage-unit.txt -covermode count -parallel 4 -timeout 10m \
+	./api/... \
+	./pkg/resourcemanager/keyvaults/unittest/ \
+	2>&1 | tee testlogs.txt
+	go-junit-report < testlogs.txt > report-unit.xml
+	go tool cover -html=coverage.txt -o cover-unit.html
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
 test-cleanup-azure-resources: 	
