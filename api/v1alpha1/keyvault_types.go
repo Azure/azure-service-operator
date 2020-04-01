@@ -14,6 +14,7 @@ type KeyVaultSpec struct {
 	EnableSoftDelete bool                 `json:"enableSoftDelete,omitempty"`
 	NetworkPolicies  *NetworkRuleSet      `json:"networkPolicies,omitempty"`
 	AccessPolicies   *[]AccessPolicyEntry `json:"accessPolicies,omitempty"`
+	Sku              KeyVaultSku          `json:"sku,omitempty"`
 }
 
 type NetworkRuleSet struct {
@@ -36,6 +37,13 @@ type AccessPolicyEntry struct {
 	ApplicationID string `json:"applicationID,omitempty"`
 	// Permissions - Permissions the identity has for keys, secrets, and certificates.
 	Permissions *Permissions `json:"permissions,omitempty"`
+}
+
+// KeyVaultSku the SKU of the Key Vault
+type KeyVaultSku struct {
+	// Name - The SKU name. Required for account creation; optional for update.
+	// Possible values include: 'Premium', `Standard`
+	Name string `json:"name,omitempty"`
 }
 
 type Permissions struct {
