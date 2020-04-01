@@ -107,7 +107,7 @@ func main() {
 
 	apimManager := resourceapimanagement.NewManager(ctrl.Log.WithName("controllers").WithName("APIManagement"))
 	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager()
-	vnetManager := vnet.NewAzureVNetManager(ctrl.Log.WithName("controllers").WithName("VirtualNetwork"))
+	vnetManager := vnet.NewAzureVNetManager()
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 
 	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager(
