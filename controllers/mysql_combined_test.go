@@ -27,7 +27,7 @@ func TestMySQLHappyPath(t *testing.T) {
 	// Create the mySQLServer object and expect the Reconcile to be created
 	mySQLServerInstance := azurev1alpha1.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
 
-	EnsureInstance(ctx, t, tc, mySQLServerInstance)
+	RequireInstance(ctx, t, tc, mySQLServerInstance)
 
 	mySQLDBName := GenerateTestResourceNameWithRandom("mysql-db", 10)
 
