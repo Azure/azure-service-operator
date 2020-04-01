@@ -73,7 +73,7 @@ var _ = BeforeSuite(func() {
 		AddressSpace:          "10.0.0.0/8",
 		SubnetName:            "test-subnet-" + helpers.RandomString(5),
 		SubnetAddressPrefix:   "10.1.0.0/16",
-		VirtualNetworkManager: NewAzureVNetManager(zaplogger),
+		VirtualNetworkManager: NewAzureVNetManager(),
 		ResourceGroupManager:  resourceGroupManager,
 		timeout:               20 * time.Minute,
 		retryInterval:         3 * time.Second,

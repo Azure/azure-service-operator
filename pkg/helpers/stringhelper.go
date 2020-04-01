@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/rand"
+	"regexp"
 	"strings"
 	"time"
 	"unicode"
@@ -145,4 +146,11 @@ func Hash256(i interface{}) string {
 	inBytes, _ := json.Marshal(i)
 	h.Write(inBytes)
 	return fmt.Sprintf("%x", h.Sum(nil))
+}
+
+// ReplaceAny replaces any instance of the strings passes in the chars slice
+// replacing a backslash is problematic so it will require 4 eg []string{"\\\\"}
+func ReplaceAny(s string, chars []string) string {
+	reg := regexp.MustCompile(fmt.Sprintf(`(%s)`, strings.Join(chars, "|")))
+	return reg.ReplaceAllString(s, ".")
 }

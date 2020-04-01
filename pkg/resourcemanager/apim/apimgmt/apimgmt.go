@@ -7,10 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
-	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -20,24 +18,18 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimshared"
-	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
 // Manager represents an API Management type
 type Manager struct {
-	Telemetry telemetry.TelemetryClient
 	APIClient apimanagement.APIClient
 }
 
 // NewManager returns an API Manager type
-func NewManager(log logr.Logger) *Manager {
+func NewManager() *Manager {
 	return &Manager{
-		Telemetry: telemetry.InitializeTelemetryDefault(
-			"APIMgmtAPI",
-			ctrl.Log.WithName("controllers").WithName("APIMgmtAPI"),
-		),
 		APIClient: apimshared.GetAPIMClient(),
 	}
 }
@@ -186,7 +178,6 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 
 	_, err = m.DeleteAPI(ctx, i.Spec.ResourceGroup, i.Spec.APIService, i.Spec.APIId, i.Spec.Properties.APIRevision, true)
 	if err != nil {
-		m.Telemetry.LogInfo("Error deleting API", err.Error())
 		i.Status.Message = err.Error()
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
