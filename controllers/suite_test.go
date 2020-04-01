@@ -158,7 +158,7 @@ func setup() error {
 		KeyvaultClient: keyVaultManager,
 	}
 
-	virtualNetworkManager := resourcemanagervnet.NewAzureVNetManager(ctrl.Log.WithName("virtualnetwork").WithName("VirtualNetwork"))
+	virtualNetworkManager := resourcemanagervnet.NewAzureVNetManager()
 
 	eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
 	psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(secretClient, k8sManager.GetScheme())
