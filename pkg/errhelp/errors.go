@@ -62,7 +62,7 @@ func NewAzureError(err error) error {
 		Original: err,
 	}
 
-	if strings.ContainsAny(err.Error(), QuotaExceeded) {
+	if strings.Contains(err.Error(), QuotaExceeded) {
 		ae.Reason = "Quota exceeded"
 		ae.Type = QuotaExceeded
 		return &ae
