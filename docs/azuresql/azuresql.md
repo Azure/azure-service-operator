@@ -12,14 +12,6 @@ The Azure SQL operator suite consists of the following operators.
 5. Azure SQL failover group - Deploys a failover group on a specified Azure SQL server given the secondary server and the databases to failover
 6. Azure SQL User - Creates an user on the specified Azure SQL database and stores the username/password as secrets
 
-## Deploying SQL Resources
-
-First, you need to have the Azure Service Operator deployed in your cluster.
-
-You can follow the steps from the [project root](../../README.md) to deploy a release or build a [development version locally](/docs/development.md).
-
-You can use the YAML files in the `config/samples` folder to create the resources.
-
 ### Azure SQL server
 
 Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqlserver.yaml) for the Azure SQL server.
@@ -150,30 +142,11 @@ The default secret name prefix in Key Vault is `azuresqluser-<serverName>-<azure
 Additionally, some client libraries support connecting directly to Key Vault to retrieve secrets. Users can set the `keyVaultSecretFormats` parameter so that explicit connection strings for their desired formats are added to the Key Vault. Each secret will be named after the secret prefix followed by the format name, for example: `azuresqluser-<serverName>-<azureSqlDatabaseName>-adonet`.
 Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqluser.yaml) for creating a database user
 
-
 The `name` is used to generate the username on the database. The exact name is not used but rather a UUID is appended to this to make it unique. `server` and `dbname` qualify the database on which you want to create the user on. `adminsecret` is the name of the secret where the username and password will be stored. `roles` specify the security roles that this user should have on the specified database.
 
-## View and Troubleshoot SQL Resources
+## Deploy, view and delete resources
 
-You can view your created Azure SQL resources using the steps [here](viewresources.md)
-
-## Delete a SQL Resource
-
-To delete an existing resource from Kubernetes and Azure, use the following command.
-
-```shell
-kubectl delete <Kind> <instancename>
-```
-
-For instance, deleting the above SqlServer instance would look like this.
-
-```shell
-kubectl delete AzureSqlServer sqlserver-sample
-```
-
-The following message should appear:
-
-`azuresqlserver.azure.microsoft.com sqlserver-sample deleted.`
+You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
 
 ## Demo
 
