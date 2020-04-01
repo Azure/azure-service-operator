@@ -38,6 +38,9 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
+	// convert kube labels to expected tag format
+	tags := helpers.LabelsToTags(instance.GetLabels())
+
 	// Check to see if secret already exists for admin username/password
 	// create or update the secret
 	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
@@ -136,8 +139,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// create the sql server
 	instance.Status.Provisioning = true
-
-	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, labels, azureSQLServerProperties, false); err != nil {
+	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, tags, azureSQLServerProperties, false); err != nil {
 
 		instance.Status.Message = err.Error()
 

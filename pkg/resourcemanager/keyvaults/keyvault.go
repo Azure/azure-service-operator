@@ -6,6 +6,7 @@ package keyvaults
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
@@ -247,7 +248,7 @@ func InstantiateVault(ctx context.Context, vaultName string, containsUpdate bool
 }
 
 // CreateVault creates a new key vault
-func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, tags map[string]*string) (keyvault.Vault, error) {
+func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, sku azurev1alpha1.KeyVaultSku, tags map[string]*string) (keyvault.Vault, error) {
 	vaultName := instance.Name
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
@@ -278,14 +279,20 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 		networkAcls = keyvault.NetworkRuleSet{}
 	}
 
+	keyVaultSku := keyvault.Sku{
+		Family: to.StringPtr("A"),
+		Name:   keyvault.Standard,
+	}
+
+	if strings.ToLower(sku.Name) == "premium" {
+		keyVaultSku.Name = keyvault.Premium
+	}
+
 	params := keyvault.VaultCreateOrUpdateParameters{
 		Properties: &keyvault.VaultProperties{
-			TenantID:       &id,
-			AccessPolicies: &accessPolicies,
-			Sku: &keyvault.Sku{
-				Family: to.StringPtr("A"),
-				Name:   keyvault.Standard,
-			},
+			TenantID:         &id,
+			AccessPolicies:   &accessPolicies,
+			Sku:              &keyVaultSku,
 			NetworkAcls:      &networkAcls,
 			EnableSoftDelete: &enableSoftDelete,
 		},
@@ -298,7 +305,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	return future.Result(vaultsClient)
 }
 
-// CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
+//CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user
 func (k *azureKeyVaultManager) CreateVaultWithAccessPolicies(ctx context.Context, groupName string, vaultName string, location string, clientID string) (keyvault.Vault, error) {
 	vaultsClient, id, err := InstantiateVault(ctx, vaultName, false)
 	if err != nil {
@@ -406,6 +413,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 	keyvault, err = k.CreateVault(
 		ctx,
 		instance,
+		instance.Spec.Sku,
 		labels,
 	)
 

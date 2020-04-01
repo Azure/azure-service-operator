@@ -42,11 +42,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	dbEdition := instance.Spec.Edition
 
 	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		value := v
-		labels[k] = &value
-	}
+	labels := helpers.LabelsToTags(instance.GetLabels())
 
 	azureSQLDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
