@@ -105,7 +105,7 @@ func main() {
 		secretClient = keyvaultSecrets.New(keyvaultName)
 	}
 
-	apimManager := resourceapimanagement.NewManager(ctrl.Log.WithName("controllers").WithName("APIManagement"))
+	apimManager := resourceapimanagement.NewManager()
 	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager()
 	vnetManager := vnet.NewAzureVNetManager()
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
@@ -115,7 +115,6 @@ func main() {
 		scheme,
 	)
 	appInsightsManager := resourcemanagerappinsights.NewManager(
-		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
 		secretClient,
 		scheme,
 	)
