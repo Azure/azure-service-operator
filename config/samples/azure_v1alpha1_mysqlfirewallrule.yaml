@@ -1,0 +1,9 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: MySQLFirewallRule
+metadata:
+  name: mysqlfirewallrule-sample
+spec:
+  resourceGroup: resourcegroup-azure-operaotr
+  server: mysqlserver-sample
+  startIpAddress: 0.0.0.0
+  endIpAddress: 0.0.0.0

@@ -31,6 +31,7 @@ import (
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
+	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
@@ -114,6 +115,7 @@ func setup() error {
 	}
 
 	var k8sManager ctrl.Manager
+
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
@@ -516,6 +518,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("MySQLDatabase-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&MySQLFirewallRuleReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqlFirewallManager.NewMySQLFirewallRuleClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLFirewallRule-controller"),
 			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)

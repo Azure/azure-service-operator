@@ -25,6 +25,7 @@ import (
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
+	mysqlfirewall "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
@@ -574,6 +575,21 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MySQLDatabase")
+		os.Exit(1)
+	}
+	if err = (&controllers.MySQLFirewallRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: mysqlfirewall.NewMySQLFirewallRuleClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
+			),
+			Recorder: mgr.GetEventRecorderFor("MySQLFirewallRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLFirewallRule")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
