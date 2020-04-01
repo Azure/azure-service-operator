@@ -143,14 +143,11 @@ func setup() error {
 	var sqlVNetRuleManager resourcemanagersqlvnetrule.SqlVNetRuleManager
 
 	appInsightsManager = resourcemanagerappinsights.NewManager(
-		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
 		secretClient,
 		scheme.Scheme,
 	)
-	apiMgmtManager = resourcemanagerapimgmt.NewManager(
-		ctrl.Log.WithName("appinsightsmanager").WithName("ApiMgmt"),
-	)
 	cosmosDbManager = resourcemanagercosmosdb.NewAzureCosmosDBManager()
+	apiMgmtManager = resourcemanagerapimgmt.NewManager()
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 	storageManagers = resourcemanagerstorages.AzureStorageManagers
@@ -161,7 +158,7 @@ func setup() error {
 		KeyvaultClient: keyVaultManager,
 	}
 
-	virtualNetworkManager := resourcemanagervnet.NewAzureVNetManager(ctrl.Log.WithName("virtualnetwork").WithName("VirtualNetwork"))
+	virtualNetworkManager := resourcemanagervnet.NewAzureVNetManager()
 
 	eventhubClient = resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
 	psqlServerManager = resourcemanagerpsqlserver.NewPSQLServerClient(secretClient, k8sManager.GetScheme())
