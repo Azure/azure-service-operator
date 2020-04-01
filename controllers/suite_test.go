@@ -30,6 +30,7 @@ import (
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
@@ -113,7 +114,6 @@ func setup() error {
 	}
 
 	var k8sManager ctrl.Manager
-
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
@@ -500,6 +500,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("MySQLServer"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("MySQLServer-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&MySQLDatabaseReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqlDatabaseManager.NewMySQLDatabaseClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLDatabase",
+				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLDatabase-controller"),
 			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)

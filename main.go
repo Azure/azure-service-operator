@@ -24,6 +24,7 @@ import (
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
@@ -558,6 +559,21 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MySQLServer")
+		os.Exit(1)
+	}
+	if err = (&controllers.MySQLDatabaseReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: mysqldatabase.NewMySQLDatabaseClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLDatabase",
+				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
+			),
+			Recorder: mgr.GetEventRecorderFor("MySQLDatabase-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLDatabase")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

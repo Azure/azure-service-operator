@@ -7,7 +7,7 @@ import (
 	"context"
 	"fmt"
 
-	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
+	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -19,36 +19,36 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-type PSQLDatabaseClient struct {
+type MySQLDatabaseClient struct {
 }
 
-func NewPSQLDatabaseClient() *PSQLDatabaseClient {
-	return &PSQLDatabaseClient{}
+func NewMySQLDatabaseClient() *MySQLDatabaseClient {
+	return &MySQLDatabaseClient{}
 }
 
-func getPSQLDatabasesClient() psql.DatabasesClient {
-	databasesClient := psql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+func getMySQLDatabasesClient() mysql.DatabasesClient {
+	databasesClient := mysql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	databasesClient.Authorizer = a
 	databasesClient.AddToUserAgent(config.UserAgent())
 	return databasesClient
 }
 
-func getPSQLCheckNameAvailabilityClient() psql.CheckNameAvailabilityClient {
-	nameavailabilityClient := psql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+func getMySQLCheckNameAvailabilityClient() mysql.CheckNameAvailabilityClient {
+	nameavailabilityClient := mysql.NewCheckNameAvailabilityClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	nameavailabilityClient.Authorizer = a
 	nameavailabilityClient.AddToUserAgent(config.UserAgent())
 	return nameavailabilityClient
 }
 
-func (p *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, databasename string) (bool, error) {
+func (m *MySQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, databasename string) (bool, error) {
 
-	client := getPSQLCheckNameAvailabilityClient()
+	client := getMySQLCheckNameAvailabilityClient()
 
 	resourceType := "database"
 
-	nameAvailabilityRequest := psql.NameAvailabilityRequest{
+	nameAvailabilityRequest := mysql.NameAvailabilityRequest{
 		Name: &databasename,
 		Type: &resourceType,
 	}
@@ -59,27 +59,27 @@ func (p *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, 
 	return false, err
 
 }
-func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (m *MySQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
-	instance, err := p.convert(obj)
+	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	client := getPSQLDatabasesClient()
+	client := getMySQLDatabasesClient()
 
 	instance.Status.Provisioning = true
 	// Check if this database already exists. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
 
-	_, err = p.GetDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
+	_, err = m.GetDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		instance.Status.Message = resourcemanager.SuccessMsg
 		return true, nil
 	}
-	future, err := p.CreateDatabaseIfValid(
+	future, err := m.CreateDatabaseIfValid(
 		ctx,
 		instance.Name,
 		instance.Spec.Server,
@@ -155,14 +155,14 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 	return true, nil
 }
 
-func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (m *MySQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
-	instance, err := p.convert(obj)
+	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	status, err := p.DeleteDatabase(ctx, instance.Name, instance.Spec.Server, instance.Spec.ResourceGroup)
+	status, err := m.DeleteDatabase(ctx, instance.Name, instance.Spec.Server, instance.Spec.ResourceGroup)
 	if err != nil {
 		if !errhelp.IsAsynchronousOperationNotComplete(err) {
 			return true, err
@@ -178,9 +178,9 @@ func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object, opt
 	return true, nil
 }
 
-func (p *PSQLDatabaseClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (m *MySQLDatabaseClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
-	instance, err := p.convert(obj)
+	instance, err := m.convert(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -203,33 +203,34 @@ func (p *PSQLDatabaseClient) GetParents(obj runtime.Object) ([]resourcemanager.K
 	}, nil
 }
 
-func (g *PSQLDatabaseClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
-	instance, err := g.convert(obj)
+func (m *MySQLDatabaseClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+
+	instance, err := m.convert(obj)
 	if err != nil {
 		return nil, err
 	}
 	return &instance.Status, nil
 }
 
-func (p *PSQLDatabaseClient) convert(obj runtime.Object) (*v1alpha1.PostgreSQLDatabase, error) {
-	local, ok := obj.(*v1alpha1.PostgreSQLDatabase)
+func (m *MySQLDatabaseClient) convert(obj runtime.Object) (*v1alpha1.MySQLDatabase, error) {
+	local, ok := obj.(*v1alpha1.MySQLDatabase)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
 }
 
-func (p *PSQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, databasename string, servername string, resourcegroup string) (future psql.DatabasesCreateOrUpdateFuture, err error) {
+func (m *MySQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, databasename string, servername string, resourcegroup string) (future mysql.DatabasesCreateOrUpdateFuture, err error) {
 
-	client := getPSQLDatabasesClient()
+	client := getMySQLDatabasesClient()
 
 	// Check if name is valid if this is the first create call
-	valid, err := p.CheckDatabaseNameAvailability(ctx, databasename)
+	valid, err := m.CheckDatabaseNameAvailability(ctx, databasename)
 	if valid == false {
 		return future, err
 	}
 
-	dbParameters := psql.Database{}
+	dbParameters := mysql.Database{}
 
 	future, err = client.CreateOrUpdate(
 		ctx,
@@ -242,9 +243,9 @@ func (p *PSQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, database
 	return future, err
 }
 
-func (p *PSQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename string, servername string, resourcegroup string) (status string, err error) {
+func (m *MySQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename string, servername string, resourcegroup string) (status string, err error) {
 
-	client := getPSQLDatabasesClient()
+	client := getMySQLDatabasesClient()
 
 	_, err = client.Get(ctx, resourcegroup, servername, databasename)
 	if err == nil { // db present, so go ahead and delete
@@ -256,9 +257,9 @@ func (p *PSQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename st
 
 }
 
-func (p *PSQLDatabaseClient) GetDatabase(ctx context.Context, resourcegroup string, servername string, databasename string) (db psql.Database, err error) {
+func (m *MySQLDatabaseClient) GetDatabase(ctx context.Context, resourcegroup string, servername string, databasename string) (db mysql.Database, err error) {
 
-	client := getPSQLDatabasesClient()
+	client := getMySQLDatabasesClient()
 
 	return client.Get(ctx, resourcegroup, servername, databasename)
 }
