@@ -95,7 +95,10 @@ func GenerateRandomUsername(n int) string {
 
 	b := make([]byte, n)
 
-	for i := 0; i < n; i++ {
+	// ensure first char is alpha
+	b[0] = lowerAlphaChars[seededRand.Intn(len(lowerAlphaChars))]
+
+	for i := 1; i < n; i++ {
 		b[i] = usernameChars[seededRand.Intn(len(usernameChars))]
 	}
 	// For good measure, shuffle the elements of the entire []byte so that
@@ -105,6 +108,7 @@ func GenerateRandomUsername(n int) string {
 		b[i], b[j] = b[j], b[i]
 	}
 	return string(b)
+
 }
 
 // GenerateRandomPassword - helper function to generate random password for sql server
