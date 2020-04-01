@@ -16,22 +16,19 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 // AzureRedisCacheManager creates a new RedisCacheManager
 type AzureRedisCacheManager struct {
-	Log          logr.Logger
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
 // NewAzureRedisCacheManager creates a new RedisCacheManager
-func NewAzureRedisCacheManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureRedisCacheManager {
+func NewAzureRedisCacheManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureRedisCacheManager {
 	return &AzureRedisCacheManager{
-		Log:          log,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
