@@ -141,13 +141,10 @@ func setup() error {
 	var sqlVNetRuleManager resourcemanagersqlvnetrule.SqlVNetRuleManager
 
 	appInsightsManager = resourcemanagerappinsights.NewManager(
-		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
 		secretClient,
 		scheme.Scheme,
 	)
-	apiMgmtManager = resourcemanagerapimgmt.NewManager(
-		ctrl.Log.WithName("appinsightsmanager").WithName("ApiMgmt"),
-	)
+	apiMgmtManager = resourcemanagerapimgmt.NewManager()
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 	storageManagers = resourcemanagerstorages.AzureStorageManagers
