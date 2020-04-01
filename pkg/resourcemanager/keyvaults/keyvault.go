@@ -6,6 +6,7 @@ package keyvaults
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
@@ -280,7 +281,11 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 
 	keyVaultSku := keyvault.Sku{
 		Family: to.StringPtr("A"),
-		Name:   keyvault.SkuName(sku.Name),
+		Name:   keyvault.Standard,
+	}
+
+	if strings.ToLower(sku.Name) == "premium" {
+		keyVaultSku.Name = keyvault.Premium
 	}
 
 	params := keyvault.VaultCreateOrUpdateParameters{
@@ -375,8 +380,6 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return true, err
 	}
 
-	sku := instance.Spec.Sku
-
 	// hash the spec and set if new
 	hash := helpers.Hash256(instance.Spec)
 	if instance.Status.SpecHash == "" {
@@ -410,7 +413,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 	keyvault, err = k.CreateVault(
 		ctx,
 		instance,
-		*sku,
+		instance.Spec.Sku,
 		labels,
 	)
 
