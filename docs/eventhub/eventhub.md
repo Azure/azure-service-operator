@@ -20,10 +20,6 @@ You can use the YAML files in the `config/samples` folder to create the resource
 
 To view your created Eventhub resources, refer to the steps [here](viewresources.md)
 
-## Help
-
-1. If the secret for the Eventhub in k8s gets deleted accidentally, the reconcile for the parent eventhub is triggered and secret gets created again.
-2. If EventhubNamespace and Eventhub are deleted in Azure, then we need to delete the objects in k8s for the resources to be recreated. Reason being, if we apply the same manifest k8s does it recognise it as a change and the reconcile is not triggered.
 
 ## How would you use the Eventhub Operator from a real application
 
