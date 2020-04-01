@@ -61,7 +61,7 @@ var _ = BeforeSuite(func() {
 	tc = TestContext{
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
-		APIManager:            NewManager(zaplogger),
+		APIManager:            NewManager(),
 		ResourceGroupManager:  resourceGroupManager,
 		timeout:               20 * time.Minute,
 		retryInterval:         3 * time.Second,
