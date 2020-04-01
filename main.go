@@ -116,7 +116,6 @@ func main() {
 		scheme,
 	)
 	appInsightsManager := resourcemanagerappinsights.NewManager(
-		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
 		secretClient,
 		scheme,
 	)

@@ -141,7 +141,6 @@ func setup() error {
 	var sqlVNetRuleManager resourcemanagersqlvnetrule.SqlVNetRuleManager
 
 	appInsightsManager = resourcemanagerappinsights.NewManager(
-		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
 		secretClient,
 		scheme.Scheme,
 	)

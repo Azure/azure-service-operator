@@ -19,22 +19,19 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
 // Manager manages Azure Application Insights services
 type Manager struct {
-	Log          logr.Logger
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
 // NewManager creates a new AppInsights Manager
-func NewManager(log logr.Logger, secretClient secrets.SecretClient, scheme *runtime.Scheme) *Manager {
+func NewManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *Manager {
 	return &Manager{
-		Log:          log,
 		SecretClient: secretClient,
 		Scheme:       scheme,
 	}
@@ -191,14 +188,11 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 
 	response, err := m.DeleteAppInsights(ctx, i.Spec.ResourceGroup, i.Name)
 	if err != nil {
-		m.Log.Info("Delete", "AppInsights Delete call returned", err.Error())
 		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			m.Log.Info("Error from delete call")
 			return true, err
 		}
 	}
 	i.Status.State = response.Status
-	m.Log.Info("Delete", "Status", response)
 
 	if err == nil {
 		if response.Status != "InProgress" {
