@@ -44,6 +44,25 @@ func TestMySQLHappyPath(t *testing.T) {
 	}
 
 	EnsureInstance(ctx, t, tc, mySQLDBInstance)
+
+	ruleName := GenerateTestResourceNameWithRandom("mysql-fw", 10)
+
+	ruleInstance := &azurev1alpha1.MySQLFirewallRule{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      ruleName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.MySQLFirewallRuleSpec{
+			Server:         mySQLServerName,
+			ResourceGroup:  rgName,
+			StartIPAddress: "0.0.0.0",
+			EndIPAddress:   "0.0.0.0",
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, ruleInstance)
+
+	EnsureDelete(ctx, t, tc, ruleInstance)
 	EnsureDelete(ctx, t, tc, mySQLDBInstance)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)
 }
