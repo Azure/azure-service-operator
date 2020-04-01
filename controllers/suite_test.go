@@ -144,9 +144,7 @@ func setup() error {
 		secretClient,
 		scheme.Scheme,
 	)
-	apiMgmtManager = resourcemanagerapimgmt.NewManager(
-		ctrl.Log.WithName("appinsightsmanager").WithName("ApiMgmt"),
-	)
+	apiMgmtManager = resourcemanagerapimgmt.NewManager()
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 	storageManagers = resourcemanagerstorages.AzureStorageManagers
