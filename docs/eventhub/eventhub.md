@@ -10,20 +10,23 @@ The Eventhub operator can be used to provision the following resources.
 
 3. Consumer groups - Deploys a consumer group given the Eventhub, Eventhub namespace and Resource Group.
 
-## Deploying resources
+### Eventhub - Deployment output
 
-You can follow the steps [here](/docs/development.md) to either run the operator locally or in a real Kubernetes cluster.
+The Eventhub operator deploys an Eventhub in the specified namespace according to the Spec.
 
-You can use the YAML files in the `config/samples` folder to create the resources.
+As an output of deployment, the operator stores a JSON formatted secret with the following fields. For more details on where the secrets are stored, look [here](/docs/secrets.md)
 
-## View and Troubleshoot resource provisioning
+- `primaryConnectionString`
+- `secondaryConnectionString`
+- `primaryKey`
+- `secondaryKey`
+- `sharedaccessKey`
+- `eventhubNamespace`
+- `eventhubName`
 
-To view your created Eventhub resources, refer to the steps [here](viewresources.md)
+## Deploy, view and delete resources
 
-## Help
-
-1. If the secret for the Eventhub in k8s gets deleted accidentally, the reconcile for the parent eventhub is triggered and secret gets created again.
-2. If EventhubNamespace and Eventhub are deleted in Azure, then we need to delete the objects in k8s for the resources to be recreated. Reason being, if we apply the same manifest k8s does it recognise it as a change and the reconcile is not triggered.
+You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
 
 ## How would you use the Eventhub Operator from a real application
 
