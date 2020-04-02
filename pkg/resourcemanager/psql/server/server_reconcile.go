@@ -98,8 +98,6 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		instance.Status.Provisioning = false
-
 		catchInProgress := []string{
 			errhelp.AsyncOpIncompleteError,
 			errhelp.AlreadyExists,
