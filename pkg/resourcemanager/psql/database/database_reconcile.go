@@ -55,6 +55,7 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
 		}
 
 		// assertion that a 404 error implies that the Postgres server hasn't been provisioned yet

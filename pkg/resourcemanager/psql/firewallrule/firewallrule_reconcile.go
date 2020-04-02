@@ -54,6 +54,7 @@ func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object,
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
 		}
 
 		// assertion that a 404 error implies that the Postgres server hasn't been provisioned yet
