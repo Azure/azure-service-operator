@@ -133,6 +133,15 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 	groupName := instance.Spec.ResourceGroup
 	_, err = sa.DeleteStorage(ctx, groupName, name)
 	if err != nil {
+		catch := []string{
+			errhelp.ValidationError,
+		}
+		err = errhelp.NewAzureError(err)
+		if azerr, ok := err.(*errhelp.AzureError); ok {
+			if helpers.ContainsString(catch, azerr.Type) {
+				return false, nil
+			}
+		}
 		return true, err
 	}
 
