@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
@@ -96,6 +97,10 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 	if err != nil {
 		return result, err
 	}
+
+	// give the operator a moment to resolve quota errors
+	// consider storing future.PollingURL() and checking async op status on the next reconciliation
+	time.Sleep(200 * time.Millisecond)
 
 	return future.Result(serversClient)
 }

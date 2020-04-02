@@ -113,6 +113,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 		if err != nil {
+
 			azerr := errhelp.NewAzureErrorAzureError(err)
 			// @Todo: ResourceNotFound should be handled if the time since the last PUT is unreasonable
 			if azerr.Type != errhelp.ResourceNotFound {
@@ -172,14 +173,12 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Provisioning = false
 			instance.Status.RequestedAt = nil
 			return true, nil
-		case errhelp.LocationNotAvailableForResourceType:
-			// Subscription does not support the requested service in the requested region
-			instance.Status.Message = fmt.Sprintf("%s is an invalid location for an Azure SQL Server based on your subscription", instance.Spec.Location)
-			instance.Status.Provisioning = false
-			instance.Status.Provisioned = false
-			return true, nil
-		case errhelp.RequestDisallowedByPolicy:
-			instance.Status.Message = "Unable to provision Azure SQL Server due to Azure Policy restrictions contact your policy administrators for further assistance"
+		case errhelp.LocationNotAvailableForResourceType,
+			errhelp.RequestDisallowedByPolicy,
+			errhelp.RegionDoesNotAllowProvisioning,
+			errhelp.QuotaExceeded:
+
+			instance.Status.Message = "Unable to provision Azure SQL Server due to error: " + errhelp.StripErrorIDs(err)
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = false
 			return true, nil
