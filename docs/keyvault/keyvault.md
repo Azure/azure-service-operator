@@ -4,8 +4,8 @@
 
 The Azure Key Vault operator suite consists of the following operators:
 
--  KeyVault - Deploys an Azure Key Vault given the location and resource group
--  KeyVaultKey - Deploys an Azure Key Vault key given the location and resource group
+- KeyVault - Deploys an Azure Key Vault given the location and resource group
+- KeyVaultKey - Deploys an Azure Key Vault key given the location and resource group
 
 ### KeyVault
 
