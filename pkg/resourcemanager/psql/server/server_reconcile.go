@@ -66,10 +66,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 	}
 
 	// setup variables for create call
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		labels[k] = &v
-	}
+	labels := helpers.LabelsToTags(instance.GetLabels())
 	adminlogin := string(secret["username"])
 	adminpassword := string(secret["password"])
 	skuInfo := psql.Sku{

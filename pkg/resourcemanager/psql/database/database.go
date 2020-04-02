@@ -48,7 +48,7 @@ func (p *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, 
 		return false, err
 	}
 
-	resourceType := "database"
+	resourceType := "Microsoft.DBforPostgreSQL/servers/databases"
 
 	nameAvailabilityRequest := psql.NameAvailabilityRequest{
 		Name: &databasename,
