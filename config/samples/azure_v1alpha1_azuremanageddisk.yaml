@@ -1,0 +1,9 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureManagedDisk
+metadata:
+  name: managed-disks-sample
+spec:
+  location: westus
+  resourceGroup: resourcegroup-azure-operators
+  createOption: "Empty"
+  diskSizeGB: 512

@@ -71,6 +71,7 @@ test-existing-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/... \
 	./pkg/resourcemanager/vnet/... \
+	./pkg/resourcemanager/manageddisks/... \
 	./pkg/resourcemanager/apim/apimgmt... \
 	./pkg/secrets/...
 

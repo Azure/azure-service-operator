@@ -24,6 +24,7 @@ import (
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	managedDisks "github.com/Azure/azure-service-operator/pkg/resourcemanager/manageddisks"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
@@ -108,6 +109,7 @@ func main() {
 	apimManager := resourceapimanagement.NewManager()
 	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager()
 	vnetManager := vnet.NewAzureVNetManager()
+	managedDiskManager := managedDisks.NewAzureManagedDiskManager(ctrl.Log.WithName("controllers").WithName("ManagedDisks"))
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 
 	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager(
@@ -541,6 +543,21 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.AzureManagedDiskReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: managedDiskManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"ManagedDisk",
+				ctrl.Log.WithName("controllers").WithName("ManagedDisk"),
+			),
+			Recorder: mgr.GetEventRecorderFor("ManagedDisk-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "ManagedDisk")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
