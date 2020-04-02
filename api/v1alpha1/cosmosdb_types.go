@@ -60,20 +60,6 @@ type CosmosDBLocation struct {
 }
 */
 
-// CosmosDBOutput struct the output of cosmos database provisioning
-type CosmosDBOutput struct {
-	CosmosDBName     string `json:"cosmosDBName,omitempty"`
-	PrimaryMasterKey string `json:"primaryMasterKey,omitempty"`
-	//SecondaryMasterKey         string `json:"secondaryMasterKey,omitempty"`
-	//PrimaryReadonlyMasterKey   string `json:"primaryReadonlyMasterKey,omitempty"`
-	//SecondaryReadonlyMasterKey string `json:"secondaryReadonlyMasterKey,omitempty"`
-}
-
-// CosmosDBAdditionalResources holds the additional resources
-type CosmosDBAdditionalResources struct {
-	Secrets []string `json:"secrets,omitempty"`
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
@@ -82,10 +68,8 @@ type CosmosDB struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec                CosmosDBSpec                `json:"spec,omitempty"`
-	Status              ASOStatus                   `json:"status,omitempty"`
-	Output              CosmosDBOutput              `json:"output,omitempty"`
-	AdditionalResources CosmosDBAdditionalResources `json:"additionalResources,omitempty"`
+	Spec   CosmosDBSpec `json:"spec,omitempty"`
+	Status ASOStatus    `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

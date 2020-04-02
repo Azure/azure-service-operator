@@ -7,10 +7,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
-
-const cosmosDBFinalizerName = "cosmosdb.finalizers.azure.com"
 
 // CosmosDBReconciler reconciles a CosmosDB object
 type CosmosDBReconciler struct {
@@ -28,6 +25,6 @@ func (r *CosmosDBReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 // SetupWithManager sets up the controller functions
 func (r *CosmosDBReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.CosmosDB{}).
+		For(&v1alpha1.CosmosDB{}).
 		Complete(r)
 }

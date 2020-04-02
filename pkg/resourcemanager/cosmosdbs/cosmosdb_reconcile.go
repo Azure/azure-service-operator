@@ -110,23 +110,58 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 	accountName := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 
-	exists, _ := m.CheckNameExistsCosmosDB(ctx, accountName)
-	if !exists {
+	// if the resource is in a failed state it was never created or could never be verified
+	// so we skip attempting to delete the resrouce from Azure
+	if instance.Status.FailedProvisioning {
 		return false, nil
 	}
 
-	resp, azerr := m.DeleteCosmosDB(ctx, groupName, accountName)
+	notFoundErrors := []string{
+		errhelp.NotFoundErrorCode,              // happens on first request after deletion succeeds
+		errhelp.ResourceNotFound,               // happens on subsequent requests after deletion succeeds
+		errhelp.ResourceGroupNotFoundErrorCode, // database doesn't exist in this resource group but the name exists globally
+	}
+
+	// fetch the latest to inspect provisioning state
+	cosmosDB, azerr := m.GetCosmosDB(ctx, groupName, accountName)
 	if azerr != nil {
-		// couldn't delete resource in azure
+		// deletion finished
+		if helpers.ContainsString(notFoundErrors, azerr.Type) {
+			return false, nil
+		}
+
+		//TODO: are there other errors that need handling here?
+		instance.Status.Message = azerr.Error()
 		return true, azerr.Original
 	}
 
-	// no content
-	if resp.StatusCode == 204 {
-		return false, nil
+	instance.Status.State = *cosmosDB.ProvisioningState
+
+	// already deleting the resource, try again later
+	if instance.Status.State == "Deleting" {
+		return true, nil
 	}
 
-	// deleted successfully
+	// try to delete the cosmosdb instance
+	_, azerr = m.DeleteCosmosDB(ctx, groupName, accountName)
+	if azerr != nil {
+		// this is likely to happen on first try due to not waiting for the future to complete
+		if azerr.Type == errhelp.AsyncOpIncompleteError {
+			instance.Status.Message = "Deletion request submitted successfully"
+			return true, nil
+		}
+
+		// already deleted
+		if helpers.ContainsString(notFoundErrors, azerr.Type) {
+			return false, nil
+		}
+
+		// unhandled error
+		instance.Status.Message = azerr.Error()
+		return false, azerr.Original
+	}
+
+	// second delete calls succeed immediately
 	return false, nil
 }
 
@@ -168,7 +203,7 @@ func (m *AzureCosmosDBManager) convert(obj runtime.Object) (*v1alpha1.CosmosDB, 
 func success(status *v1alpha1.ASOStatus) (bool, error) {
 	status.Provisioned = true
 	status.Provisioning = false
-	status.Message = "Resource successfully provisioned"
+	status.Message = resourcemanager.SuccessMsg
 	status.State = "Succeeded"
 	return true, nil
 }

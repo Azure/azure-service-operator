@@ -251,7 +251,7 @@ func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance ru
 	assert.Eventually(func() bool {
 		err = tc.k8sClient.Get(ctx, names, instance)
 		return apierrors.IsNotFound(err)
-	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to be gone from k8s", typeOf))
+	}, tc.timeout, tc.retry, fmt.Sprintf("wait for %s to be gone from k8s", typeOf))
 
 }
 
