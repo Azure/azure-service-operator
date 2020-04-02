@@ -58,7 +58,7 @@ func (p *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, serv
 		return false, err
 	}
 
-	resourceType := "server"
+	resourceType := "Microsoft.DBforPostgreSQL/servers"
 
 	nameAvailabilityRequest := psql.NameAvailabilityRequest{
 		Name: &servername,
