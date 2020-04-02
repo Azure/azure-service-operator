@@ -98,7 +98,7 @@ kubectl delete <Kind> <instancename>
 For instance, deleting a AzureSqlServer instance would look like this.
 
 ```
-kubectl delete AzureSqlServer sqlserver-sample
+kubectl delete azuresqlserver sqlserver-sample
 ```
 
 The following message should appear:

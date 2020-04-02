@@ -9,14 +9,14 @@ The Azure Key Vault operator suite consists of the following operators:
 
 ### KeyVault
 
-You can find a sample YAML for KeyVault [here](/config/samples/azure_v1alpha1_keyvault.yaml)
+You can find a sample YAML for KeyVault [here](/config/samples/azure_v1alpha1_keyvault_simple.yaml)
 
 The value for Kind, `KeyVault` is the Custom Resource Definition (CRD) name.
 `Name` is the name of the KeyVault resource that will be created.
 
 The values under `spec` provide the values for a location where you want to create the Key Vault in, and the Resource Group in which you want to create it under.
 
-You can also configure `Access Policies` and `Network policies` for the KeyVault as part of the Spec.
+You can also configure `Access Policies` and `Network policies` for the KeyVault as part of the Spec. A sample YAML with these settings can be found [here](/config/samples/azure_v1alpha1_keyvault.yaml)
 
 #### Access Policies
 
