@@ -164,5 +164,80 @@ var _ = Describe("Keyvault Secrets Client", func() {
 			})
 		})
 
+		It("should create and delete secrets in Keyvault with Flatten enabled", func() {
+			secretName := "kvsecret" + strconv.FormatInt(GinkgoRandomSeed(), 10)
+
+			var err error
+
+			data := map[string][]byte{
+				"test":  []byte("data"),
+				"sweet": []byte("potato"),
+			}
+
+			client := New(keyVaultName)
+
+			key := types.NamespacedName{Name: secretName, Namespace: "default"}
+
+			Context("creating flattened secret with KeyVault client", func() {
+				err = client.Create(ctx, key, data, secrets.Flatten(true))
+				Expect(err).To(BeNil())
+			})
+
+			Context("ensuring flattened secrets exist using keyvault client", func() {
+				// Look for each originally passed secret item in the keyvault
+				for testKey, testValue := range data {
+					returnedValue, err := client.Get(
+						ctx,
+						types.NamespacedName{Namespace: "default", Name: secretName + "-" + testKey},
+					)
+
+					Expect(err).To(BeNil())
+
+					expectedReturnSecretKey := "default-" + secretName + "-" + testKey
+
+					Expect(testValue).To(Equal(returnedValue[expectedReturnSecretKey]))
+				}
+			})
+
+			datanew := map[string][]byte{
+				"french": []byte("fries"),
+				"hot":    []byte("dogs"),
+			}
+
+			Context("upserting the flattened secret to make sure it can be overwritten", func() {
+				err = client.Upsert(ctx, key, datanew, secrets.Flatten(true))
+				Expect(err).To(BeNil())
+			})
+
+			Context("ensuring updated flattened secret exists using keyvault client", func() {
+				// Look for each originally passed secret item in the keyvault
+				for testKey, testValue := range datanew {
+					returnedValue, err := client.Get(
+						ctx,
+						types.NamespacedName{Namespace: "default", Name: secretName + "-" + testKey},
+					)
+
+					Expect(err).To(BeNil())
+
+					expectedReturnSecretKey := "default-" + secretName + "-" + testKey
+
+					Expect(testValue).To(Equal(returnedValue[expectedReturnSecretKey]))
+				}
+			})
+
+			Context("delete flattened secrets and ensure they're gone", func() {
+				for testKey, _ := range datanew {
+					err := client.Delete(
+						ctx,
+						types.NamespacedName{Namespace: "default", Name: secretName + "-" + testKey},
+					)
+
+					Expect(err).To(BeNil())
+
+					_, err = client.Get(ctx, key)
+					Expect(err).ToNot(BeNil())
+				}
+			})
+		})
 	})
 })
