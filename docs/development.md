@@ -268,6 +268,8 @@ go build -o bin/manager main.go
 
     This is the service specific piece that differs from one Azure service to another, and the crux of the service provisioning/deletion logic used by the controller.
 
+    **Note** Please make sure that you make all creation and deletion calls to Azure are asynchronous.
+
     a. The guidance is to add a folder under `pkg/resourcemanager` for the new resource, like for instance, `pkg/resourcemanager/newresource`
 
     b. Use subfolders under this folder if you have subresources. For instance, for PostgreSQL we have separate sub folders for `server`, `database` and `firewallrule`
