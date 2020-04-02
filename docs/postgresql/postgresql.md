@@ -75,6 +75,8 @@ This secret contains the following fields.
 - `password` : Password for the server admin
 - `fullyqualifiedusername` : Fully qualified user name that is required by some apps such as <username>@<postgresqlserver>
 
+For more information on where and how secrets are stored, look [here](/docs/secrets.md)
+
 ### PostgreSQL Database
 
 Here is the sample YAML for PostgreSQL database
@@ -95,26 +97,6 @@ The `server` indicates the PostgreSQL server on which you want to configure the 
 
 *Note*: When the `startIpAddress` and `endIpAddress` are 0.0.0.0, it is a special case that adds a firewall rule to allow all Azure services to access the SQL server.
 
-## View and Troubleshoot PostgreSQL Resources
+## Deploy, view and delete resources
 
-You can view your created PostgreSQL resources using the steps [here](viewresources.md)
-
-## Delete a PostgreSQL Resource
-
-To delete an existing resource from Kubernetes and Azure, use the following command.
-
-```shell
-kubectl delete <Kind> <instancename>
-```
-
-For instance, deleting the above PostgreSqlServer instance would look like this.
-
-```shell
-kubectl delete PostgreSqlServer postgresqlserver-sample
-```
-
-The following message should appear:
-
-```shell
-postgresqlserver.azure.microsoft.com postgresqlserver-sample deleted.
-```
+You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
