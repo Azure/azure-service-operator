@@ -107,8 +107,16 @@ Then, open a web browser and navigate to the [Metrics Endpoint](http://127.0.0.1
 
 If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you can quickly have your environment set up and ready to go, with everything you need to get started.
 
-1. Open this project in VSCode.
-2. Inside the folder `.devcontainer`, create a file called `.env` and using the following template, copy your environment variable details.
+1. Clone the repository into the following folder `~/go/src/github.com/Azure`.
+2. Make sure the environment variable `GO111MODULE` is set to `on`.
+
+    ```
+    export GO111MODULE=on
+    ```
+
+3. Install test certificates using `make generate-test-certs`.
+4. Open this folder `~/go/src/github.com/Azure` in VSCode.
+5. Inside the folder `.devcontainer`, create a file called `.env` and using the following template, copy your environment variable details.
 
     ```txt
     AZURE_CLIENT_ID=
@@ -120,18 +128,15 @@ If you're using VSCode with [Remote - Containers](https://marketplace.visualstud
     AZURE_TENANT_ID=
     ```
 
-3. Open the Command Pallet (`Command+Shift+P` on MacOS or `CTRL+Shift+P` on Windows), type `Remote-Containers: Open Folder in Container...`, select the ```Azure-service-operator``` folder and hit enter.
+6. Open the Command Pallet (`Command+Shift+P` on MacOS or `CTRL+Shift+P` on Windows), type `Remote-Containers: Open Folder in Container...`, select the ```Azure-service-operator``` folder and hit enter.
+7. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
+8. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment via the terminal inside VSCode.
 
-4. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
+**Note**: after the DevContainer has finished building, the Kind cluster will start initializing and installing the Azure Service Operator in the background. This will take some time before it is available.
 
-5. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment via the terminal inside VSCode.
-
-**Note**: after the DevContainer has finished building, the kind cluster will start initialising and installing the Azure Service Operator in the background. This will take some time before it is available.
-
-To see when the kind cluster is ready, use `docker ps -a` to list your running containers, look for `IMAGE` with the name `azure-service-operator_devcontainer_docker-in-docker...`. Using that image's `CONTAINER ID`, use `docker logs -f CONTAINER ID` to view the logs from the container setting up your cluster.
-
-6. Use `kubectl apply` with the sample YAML files to create custom resources for testing.
-For eg., use  `kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yaml` from the terminal to create a SQL server using the operator. 
+To see when the Kind cluster is ready, use `docker ps -a` to list your running containers, look for `IMAGE` with the name `azure-service-operator_devcontainer_docker-in-docker...`. Using that image's `CONTAINER ID`, use `docker logs -f CONTAINER ID` to view the logs from the container setting up your cluster.
+9. Use `kubectl apply` with the sample YAML files to create custom resources for testing.
+For eg., use  `kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yaml` from the terminal to create a SQL server using the operator.
 `kubectl describe SqlServer` would show the events that indicate if the resource is created or being created.
 
 ## Step-by-Step for developing a new operator using the generic controller
@@ -140,7 +145,7 @@ This project utilizes a generic async controller that separates out the Kubernet
 
 1. Clone the repository to your computer. Run `go mod download` to download dependencies. This may take several minutes.
 2. Ensure you have `Kubebuilder` installed on your computer.
-3. From the root folder of the cloned repository, run the following command
+3. From the root folder of the cloned repository, run the following command:
 
 ```
 kubebuilder create api --group azure --version v1alpha1 --kind <AzureNewType>
@@ -267,11 +272,12 @@ go build -o bin/manager main.go
 
     b. Use subfolders under this folder if you have subresources. For instance, for PostgreSQL we have separate sub folders for `server`, `database` and `firewallrule`
 
-    c. Add two files under this folder
+    c. Add these files under this folder
         azurenewtype_manager.go
-        azurenewtype_client.go
+        azurenewtype_reconcile.go
+        azurenewtype.go
 
-    d. The azurenewtype_manager.go file would implement the ARMClient as follows,and in addition have any other functions you need for Create, Delete, and Get of the resource.
+    d. The `azurenewtype_manager.go` file would implement the interface that includes the ARMClient as follows, and in addition have any other functions you need for Create, Delete, and Get of the resource.
 
     ```go
     type AzureNewTypeManager interface {
@@ -283,34 +289,34 @@ go build -o bin/manager main.go
 
     ```
 
-    e. The `azurenewtype_client.go` file defines a struct that implements the `AzureNewTypeManager` interface.
-       - This struct would have the following functions attached to it from the ARMClient interface - `Ensure`, `Delete`, `GetParents`.
+    The `azurenewtype.go` file defines a struct that implements the `AzureNewTypeManager` interface. It has the definitions of the Create, Delete and Get functions included in the interface in the `azurenewtype_manager.go`
+
+    Here is an example of what this struct looks like.
+
+    **Note** Don't add a logger to this struct. Return all errors from this file to the controller so we can log it there.
+
+    ```go
+        type AzureNewTypeClient struct {}
+
+        func NewAzureNewTypeClient() *AzureNewTypeClient {
+            return &AzureNewTypeClient{}
+        }
+    ```
+
+    e. The `azurenewtype_reconcile.go` file implements the  following functions in the ARMClient interface: 
+       -  `Ensure`, `Delete`, `GetParents`, `GetStatus`
        - It would also have a `convert` function to convert the runtime object into the appropriate type
-       - It would also have the other functions defined in the `AzureNewTypeManager` interface
 
     Some key points to note:
     (i) The Ensure and Delete functions return as the first return value, a bool which indicates if the resource was found in Azure. So Ensure() if successful would return `true` and Delete() if successful would return `false`
-    (ii) On successful provisioning in `Ensure()`, set instance.Status.Message to `successfully provisioned` to be consistent across all controllers. (There is a constant called `SuccessMsg` in the `resourcemanager` package that you can use for this to be consistent)
-    (ii) The GetParents() function returns the Azure Resource Manager (ARM) hierarchy of the resource. The order here matters - the immediate hierarchical resource should be returned first. For instance, for an Azure SQL database, the first parent should be Azure SQL server followed by the Resource Group.
 
-    An example is shown below:
+    (ii) On successful provisioning in `Ensure()`, 
+    - set instance.Status.Message to the constant `SuccessMsg` in the `resourcemanager` package to be consistent across all controllers.
+    - set instance.Status.ResourceID to the full Azure Resource ID of the resource
+    - set instance.Status.Provisioned to `true` and instance.Status.Provisioning to `false`
 
     ```go
-        type AzureNewTypeClient struct {
-            Telemetry telemetry.Telemetry
-        }
-
-        func NewAzureNewTypeClient(log logr.Logger) *AzureNewTypeClient {
-            return &AzureNewTypeClient{
-                Telemetry: telemetry.InitializeTelemetryDefault(
-                    "NewType",
-                    log,
-                ),
-            }
-        }
-        ...
-        ...
-        func (p *AzureNewTypeClient) Ensure(ctx context.Context, obj runtime.Object) (found bool, err error) {
+    func (p *AzureNewTypeClient) Ensure(ctx context.Context, obj runtime.Object) (found bool, err error) {
             instance, err := p.convert(obj)
             if err != nil {
                 return true, err
@@ -331,7 +337,13 @@ go build -o bin/manager main.go
             // successful return
             return false, nil
         }
+    ```
 
+    (ii) The `GetParents()` function returns the Azure Resource Manager (ARM) hierarchy of the resource. The order here matters - the immediate hierarchical resource should be returned first. For instance, for an Azure SQL database, the first parent should be Azure SQL server followed by the Resource Group.
+
+    An example is shown below:
+
+    ```go
         func (p *AzureNewTypeClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
             instance, err := p.convert(obj)
@@ -351,8 +363,11 @@ go build -o bin/manager main.go
                 },
             }, nil
         }
+    ```
 
-        // GetStatus is a boilerplate function... just use this function body (make sure to alter what struct you attach the function to)
+    (iii) The `GetStatus()` is a boilerplate function, use the below function and alter to use the struct you attach the function to.
+
+    ```go
         func (p *AzureNewTypeClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
             instance, err := g.convert(obj)
             if err != nil {
@@ -360,7 +375,11 @@ go build -o bin/manager main.go
             }
             return &instance.Status, nil
         }
+    ```
 
+    (iv) The `convert()` function looks like the below, use the correct type based on the controller you are implementing.
+  
+    ```go
         func (p *AzureNewTypeClient) convert(obj runtime.Object) (*v1alpha1.AzureNewType, error) {
             local, ok := obj.(*v1alpha1.AzureNewType)
             if !ok {
@@ -368,25 +387,16 @@ go build -o bin/manager main.go
             }
             return local, nil
         }
-
-        // Add other Create, Delete, Get methods for the resource as needed
-
-        ```
+    ```
 
 9. *Tests*
 
     Add the following tests for your new operator:
     (i) Unit test for the new type: You will add this as a file named `azurenewtype_types_test.go` under `api/v1alpha`. Refer to the existing tests in the repository to author this for your new type.
-    (ii) Functional tests for the resource manager: These will be test files under `pkg/resourcemanager/newresource`. You can refer to the tests under `pkg/resourcemanage/psql/server` as reference for writing these. These tests help validate the resource creation and deletion in Azure.
-    Make sure to add this folder with the tests to the `make test-existing` target in the `Makefile`
-    *Tip*: You can run `go test` in this folder to test the functions before testing with the controller end-to-end.
-    (iii) Controller tests: This will be a file named `azurenewresourcetype_controller_test.go` under the `controllers` folder. Refer to the other controller tests in the repo for how to write this test. This test validates the new controller to make sure the resource is created and deleted in Kubernetes effectively.
 
-10. *Mocks for the controller test*
+    (ii) Controller tests: This will be a file named `azurenewresourcetype_controller_test.go` under the `controllers` folder. Refer to the other controller tests in the repo for how to write this test. This test validates the new controller to make sure the resource is created and deleted in Kubernetes effectively.
 
-    In order to run the Controller tests (9.(iii) above) without having to communicate with Azure, you will generate a mock of the `AzureNewResourceTypeManager` in `pkg/resourcemanager/mocks`. You can refer to the mocks under `pkg/resourcemanager/mock/psql` for how to write this mock.
-
-11. *Instantiating the reconciler*
+10. *Instantiating the reconciler*
 
     The last step to tie everything together is to ensure that your new controller's reconciler is instantiated in both the `main.go` and the `suite_test.go` (under `controllers` folder) files.
 
@@ -428,14 +438,15 @@ go build -o bin/manager main.go
     Expect(err).ToNot(HaveOccurred())
     ```
 
-12. Install the new CRD and generate the manifests needed using the following commands. This is required in order to generate canonical resource definitions (manifests as errors about a DeepCopyObject() method missing).
+11. Install the new CRD and generate the manifests needed using the following commands. This is required in order to generate canonical resource definitions (manifests as errors about a DeepCopyObject() method missing).
 
     ```
+    make generate
     make manifests
     make install
     ```
 
-    Run tests using `make test` and deploy using `make deploy`
+    Run controller tests using `make test-existing-controllers` and deploy using `make deploy`
 
     If you make changes to the operator and want to update the deployment without recreating the cluster (when testing locally), you can use the `make update` to update your Azure Operator pod. If you need to rebuild the docker image without cache, use `make ARGS="--no-cache" update`
 

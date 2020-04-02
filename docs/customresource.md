@@ -10,6 +10,11 @@ You can use the YAML files in the `config/samples` folder to create the resource
 kubectl apply -f <YAML file>
 ```
 
+### Tags in Azure
+
+When deploying resources using the YAML files, you can specify as labels any tags you want to add to the resource in Azure.
+If the labels contain characters that are not allowed as tags in Azure (<,>,\,/,%,?), those characters will be replaced by a period(.) and added as Azure tags.
+
 ## View and Troubleshoot Custom Resource
 
 To view your created custom resource, run the following command:
