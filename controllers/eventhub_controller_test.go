@@ -13,8 +13,6 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 
@@ -192,13 +190,10 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	rgLocation := tc.resourceGroupLocation
 	ehnName := tc.eventhubNamespaceName
 	eventhubName := GenerateTestResourceNameWithRandom("ev", 10)
-	keyVaultNameForSecrets := helpers.FillWithRandom(GenerateTestResourceName("ev-kv"), 24)
-	userID := config.ClientID()
+	keyVaultNameForSecrets := tc.keyvaultName
 
-	// Create KeyVault with access policies
-	_, err := kvhelper.AzureKeyVaultManager.CreateVaultWithAccessPolicies(ctx, rgName, keyVaultNameForSecrets, rgLocation, userID)
-
-	_, err = kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
+	// Instantiate a KV client for the Keyvault that was created during test suite setup
+	_, err := kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
 	assert.Equal(nil, err, "wait for keyvault to be available")
 
 	// Create the EventHub object and expect the Reconcile to be created

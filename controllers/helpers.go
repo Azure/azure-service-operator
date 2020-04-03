@@ -52,6 +52,7 @@ type TestContext struct {
 	namespaceLocation       string
 	storageAccountName      string
 	blobContainerName       string
+	keyvaultName            string
 	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
 	redisCacheManager       resourcemanagerrediscaches.RedisCacheManager
 	eventHubManagers        resourcemanagereventhub.EventHubManagers

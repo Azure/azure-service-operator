@@ -336,8 +336,15 @@ func (k *KeyvaultSecretClient) Get(ctx context.Context, key types.NamespacedName
 
 	stringSecret := *result.Value
 
-	// Convert the data from json string to map and return
-	json.Unmarshal([]byte(stringSecret), &data)
+	// Convert the data from json string to map
+	jsonErr := json.Unmarshal([]byte(stringSecret), &data)
+
+	// If Unmarshal fails on the input data, the secret likely not a json string so we return the string value directly rather than unmarshaling
+	if jsonErr != nil {
+		data = map[string][]byte{
+			secretName: []byte(stringSecret),
+		}
+	}
 
 	return data, err
 }
