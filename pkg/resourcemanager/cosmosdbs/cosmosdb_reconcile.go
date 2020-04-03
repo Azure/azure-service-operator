@@ -67,7 +67,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 				instance.Status.Provisioning = false
 				instance.Status.Message = "CosmosDB name already exists"
 				instance.Status.State = "Failed"
-				return true, fmt.Errorf("cosmosdb name already exists")
+				return true, nil
 			}
 		} else {
 			instance.Status.Provisioning = false
@@ -105,7 +105,8 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	case errhelp.InvalidResourceLocation:
 		instance.Status.Provisioning = false
-		return true, fmt.Errorf(azerr.Reason)
+                 instance.Status.Message = azerr.Reason
+		return true, nil
 
 	}
 	return false, nil
