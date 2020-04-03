@@ -38,7 +38,7 @@ func (m *MySQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context,
 
 	client := getMySQLCheckNameAvailabilityClient()
 
-	resourceType := "database"
+	resourceType := "Microsoft.DBforMySQL/servers/databases"
 
 	nameAvailabilityRequest := mysql.NameAvailabilityRequest{
 		Name: &databasename,

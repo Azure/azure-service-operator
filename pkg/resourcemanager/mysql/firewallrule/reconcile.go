@@ -150,7 +150,7 @@ func (m *MySQLFirewallRuleClient) GetParents(obj runtime.Object) ([]resourcemana
 				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
-			Target: &azurev1alpha1.PostgreSQLServer{},
+			Target: &azurev1alpha1.MySQLServer{},
 		},
 		{
 			Key: types.NamespacedName{

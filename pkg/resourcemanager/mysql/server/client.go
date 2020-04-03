@@ -45,7 +45,7 @@ func (m *MySQLServerClient) CheckServerNameAvailability(ctx context.Context, ser
 
 	client := getMySQLCheckNameAvailabilityClient()
 
-	resourceType := "server"
+	resourceType := "Microsoft.DBforMySQL/servers"
 
 	nameAvailabilityRequest := mysql.NameAvailabilityRequest{
 		Name: &servername,

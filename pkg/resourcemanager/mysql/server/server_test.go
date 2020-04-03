@@ -15,7 +15,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("PSQL server", func() {
+var _ = Describe("MySQL server", func() {
 
 	var rgName string
 	var location string
@@ -39,11 +39,11 @@ var _ = Describe("PSQL server", func() {
 	// test Kubernetes API server, which isn't the goal here.
 
 	Context("Create and Delete", func() {
-		It("should create and delete PSQL server in azure", func() {
+		It("should create and delete MySQL server in azure", func() {
 
 			defer GinkgoRecover()
 
-			mysqlServer = "t-dev-psql-srv-" + helpers.RandomString(10)
+			mysqlServer = "t-dev-mysql-srv-" + helpers.RandomString(10)
 
 			mySQLSku := mysql.Sku{
 				Name:     to.StringPtr("B_Gen5_2"),

@@ -91,7 +91,7 @@ func (m *MySQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, op
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
 			case errhelp.SubscriptionDoesNotHaveServer:
-				instance.Status.Message = fmt.Sprintf("The PostgreSQL Server %s has not been provisioned yet. ", instance.Spec.Server)
+				instance.Status.Message = fmt.Sprintf("The MySQL Server %s has not been provisioned yet. ", instance.Spec.Server)
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil
@@ -148,7 +148,7 @@ func (m *MySQLDatabaseClient) GetParents(obj runtime.Object) ([]resourcemanager.
 				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
-			Target: &azurev1alpha1.PostgreSQLServer{},
+			Target: &azurev1alpha1.MySQLServer{},
 		},
 		{
 			Key: types.NamespacedName{

@@ -38,7 +38,7 @@ var ctx context.Context
 func TestAPIs(t *testing.T) {
 	t.Parallel()
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "PSQL server Suite")
+	RunSpecs(t, "MySQL server Suite")
 }
 
 var _ = BeforeSuite(func() {
