@@ -11,6 +11,7 @@ require (
 	github.com/Azure/go-autorest/autorest/date v0.1.0
 	github.com/Azure/go-autorest/autorest/to v0.2.0
 	github.com/Azure/go-autorest/autorest/validation v0.1.0
+	github.com/Azure/go-autorest/tracing v0.1.0
 	github.com/denisenkom/go-mssqldb v0.0.0-20200206145737-bbfc9a55622e
 	github.com/go-logr/logr v0.1.0
 	github.com/gobuffalo/envy v1.7.0
