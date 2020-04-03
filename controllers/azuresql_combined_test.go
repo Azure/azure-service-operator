@@ -274,39 +274,6 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 
 			t.Log(kvSqlUser2.Status)
 		})
-
-		t.Run("deploy sql action and roll user credentials", func(t *testing.T) {
-			t.Parallel()
-			keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName
-			keyName := kvSqlUser2.ObjectMeta.Name + "-adonet"
-			key := types.NamespacedName{Name: keyName, Namespace: keyNamespace}
-
-			keyVaultName := tc.keyvaultName
-			keyVaultSecretClient := kvsecrets.New(keyVaultName)
-			var oldSecret, _ = keyVaultSecretClient.Get(ctx, key)
-
-			sqlAction := &azurev1alpha1.AzureSqlAction{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "roll-user-creds",
-					Namespace: "default",
-				},
-				Spec: azurev1alpha1.AzureSqlActionSpec{
-					ResourceGroup:      rgName,
-					ServerName:         sqlServerName,
-					ActionName:         "rollusercreds",
-					DbName:             sqlDatabaseName,
-					DbUser:             kvSqlUser1.Name,
-					UserSecretKeyVault: keyVaultName,
-				},
-			}
-
-			EnsureInstance(ctx, t, tc, sqlAction)
-
-			var newSecret, _ = keyVaultSecretClient.Get(ctx, key)
-
-			assert.NotEqual(oldSecret["password"], newSecret["password"], "password should have been updated")
-			assert.Equal(oldSecret["username"], newSecret["username"], "usernames should be the same")
-		})
 	})
 
 	t.Run("deploy sql action and roll user credentials", func(t *testing.T) {
