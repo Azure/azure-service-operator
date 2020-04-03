@@ -14,13 +14,13 @@ import (
 type PostgreSQLServerSpec struct {
 	Location               string             `json:"location"`
 	ResourceGroup          string             `json:"resourceGroup,omitempty"`
-	Sku                    PSQLSku            `json:"sku,omitempty"`
+	Sku                    AzureDBsSQLSku     `json:"sku,omitempty"`
 	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
 	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
 	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
-type PSQLSku struct {
+type AzureDBsSQLSku struct {
 	// Name - The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
 	Name string `json:"name,omitempty"`
 	// Tier - The tier of the particular SKU, e.g. Basic. Possible values include: 'Basic', 'GeneralPurpose', 'MemoryOptimized'

@@ -71,3 +71,12 @@ resources:
 - group: azure
   version: v1alpha1
   kind: AzureSQLVNetRule
+- group: azure
+  version: v1alpha1
+  kind: MySQLServer
+- group: azure
+  version: v1alpha1
+  kind: MySQLDatabase
+- group: azure
+  version: v1alpha1
+  kind: MySQLFirewallRule
