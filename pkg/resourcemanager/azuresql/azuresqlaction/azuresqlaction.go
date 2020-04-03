@@ -57,8 +57,6 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 		},
 	}
 
-	dbUserCustomNamespace := "azuresqluser-" + serverName + "-" + dbName
-
 	DBSecret := azuresqluserManager.GetOrPrepareSecret(ctx, instance, userSecretClient)
 	// reset user from secret in case it was loaded
 	userExists, err := azuresqluserManager.UserExists(ctx, db, string(DBSecret["username"]))
@@ -78,7 +76,8 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 		return fmt.Errorf("error updating user credentials: %v", err)
 	}
 
-	key := types.NamespacedName{Namespace: dbUserCustomNamespace, Name: dbUser}
+	secretKey = azuresqluser.GetNamespacedName(instance, userSecretClient)
+	key := types.NamespacedName{Namespace: secretKey.Namespace, Name: dbUser}
 	err = userSecretClient.Upsert(
 		ctx,
 		key,
