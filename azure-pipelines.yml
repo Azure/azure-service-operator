@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- azdo-pipeline
+- azdo-pipelines
 
 resources:
 - repo: self
