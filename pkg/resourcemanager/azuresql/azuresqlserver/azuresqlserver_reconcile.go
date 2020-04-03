@@ -91,22 +91,11 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		AdministratorLoginPassword: to.StringPtr(string(secret["password"])),
 	}
 
-	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		value := v
-		labels[k] = &value
-	}
-
 	// set a spec hash if one hasn't been set
 	hash := helpers.Hash256(instance.Spec)
-	if instance.Status.SpecHash == hash && instance.Status.Provisioned {
+	if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
 		instance.Status.RequestedAt = nil
 		return true, nil
-	}
-
-	if instance.Status.SpecHash == "" {
-		instance.Status.SpecHash = hash
 	}
 
 	if instance.Status.Provisioning {
@@ -115,6 +104,22 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		if err != nil {
 
 			azerr := errhelp.NewAzureErrorAzureError(err)
+
+			// handle failures in the async operation
+			if instance.Status.PollingURL != "" {
+				pClient := NewPollClient()
+				res, err := pClient.Get(ctx, instance.Status.PollingURL)
+				if err != nil {
+					return false, err
+				}
+
+				if res.Status == "Failed" {
+					instance.Status.Message = res.Error.Error()
+					instance.Status.Provisioning = false
+					return true, nil
+				}
+			}
+
 			// @Todo: ResourceNotFound should be handled if the time since the last PUT is unreasonable
 			if azerr.Type != errhelp.ResourceNotFound {
 				return false, err
@@ -131,6 +136,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			instance.Status.ResourceId = *serv.ID
+			instance.Status.SpecHash = hash
 			return true, nil
 		}
 
@@ -140,7 +146,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, tags, azureSQLServerProperties, false); err != nil {
+	if pollURL, _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, tags, azureSQLServerProperties, false); err != nil {
 
 		instance.Status.Message = err.Error()
 
@@ -152,6 +158,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			// the first successful call to create the server should result in this type of error
 			// we save the credentials here
 			instance.Status.Message = "Resource request successfully submitted to Azure"
+			instance.Status.PollingURL = pollURL
 			return false, nil
 		case errhelp.AlreadyExists:
 			// SQL Server names are globally unique so if a server with this name exists we

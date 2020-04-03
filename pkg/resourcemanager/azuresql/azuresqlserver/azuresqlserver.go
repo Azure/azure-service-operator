@@ -7,7 +7,6 @@ import (
 	"context"
 	"errors"
 	"net/http"
-	"time"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
@@ -70,16 +69,18 @@ func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (result sql.Server, err error) {
+func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (pollingURL string, result sql.Server, err error) {
 	serversClient := azuresqlshared.GetGoServersClient()
 	serverProp := azuresqlshared.SQLServerPropertiesToServer(properties)
 
 	if forceUpdate == false {
 		checkNameResult, _ := CheckNameAvailability(ctx, serverName)
 		if checkNameResult.Reason == sql.AlreadyExists {
-			return result, errors.New("AlreadyExists")
+			err = errors.New("AlreadyExists")
+			return
 		} else if checkNameResult.Reason == sql.Invalid {
-			return result, errors.New("InvalidServerName")
+			err = errors.New("InvalidServerName")
+			return
 		}
 	}
 
@@ -95,14 +96,32 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 		})
 
 	if err != nil {
-		return result, err
+		return "", result, err
 	}
 
 	// give the operator a moment to resolve quota errors
 	// consider storing future.PollingURL() and checking async op status on the next reconciliation
-	time.Sleep(200 * time.Millisecond)
+	//time.Sleep(200 * time.Millisecond)
 
-	return future.Result(serversClient)
+	// pclient := NewPollClient()
+	// u := future.PollingURL()
+	// log.Println()
+	// log.Println()
+	// log.Println()
+	// res, err := pclient.Get(ctx, u)
+	// if err != nil {
+	// 	log.Println()
+	// 	log.Println(err)
+	// 	log.Println()
+	// } else {
+	// 	log.Println(res)
+	// 	log.Println(res.Status)
+	// 	log.Println()
+	// }
+
+	result, err = future.Result(serversClient)
+
+	return future.PollingURL(), result, err
 }
 
 func CheckNameAvailability(ctx context.Context, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {
