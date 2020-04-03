@@ -62,7 +62,7 @@ stages:
        workingDirectory: '$(System.DefaultWorkingDirectory)'
       displayName: Get controller-gen
     - script: make generate
-
+      displayName: Generate controllers
     # - task: Go@0
     #   inputs:
     #     customCommand: controller-gen crd:trivialVersions=true rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
