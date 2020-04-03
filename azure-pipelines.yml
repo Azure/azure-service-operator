@@ -61,10 +61,14 @@ stages:
        arguments: sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
        workingDirectory: '$(System.DefaultWorkingDirectory)'
       displayName: Get controller-gen
-    - script: |
-        controller-gen crd:trivialVersions=true rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
-        controller-gen object:headerFile=./hack/boilerplate.go.txt paths=./api/...
-      displayName: Generate manifests and CRDs
+    - task: Go@0
+      inputs:
+        customCommand: controller-gen crd:trivialVersions=true rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+      displayName: Generate manifests
+    - task: Go@0
+      inputs:
+        customCommand: controller-gen object:headerFile=./hack/boilerplate.go.txt paths=./api/...
+      displayName: Generate CRDs
     - task: Go@0
       inputs:
         command: 'test'
