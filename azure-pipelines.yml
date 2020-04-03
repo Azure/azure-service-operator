@@ -28,6 +28,25 @@ variables:
   k8sNamespaceForPR: '$(system.pullRequest.sourceBranch)'
 
 stages:
+- stage: Prerequisites
+  displayName: Install Prerequisites
+  jobs:
+  - job:
+    steps:
+    - script: |
+        os=$(go env GOOS)
+        arch=$(go env GOARCH)
+        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C /tmp/    
+        export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
+        export PATH=$PATH:/usr/local/kubebuilder/bin
+      displayName: Install kubebuilder
+    - script: |
+        go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
+        CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
+        CRD_OPTIONS ?= "crd:trivialVersions=true"
+        $(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+        $(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
+      displayName: Generate CRD Manifests
 - stage: BinaryBuild
   displayName: Build Binary
   jobs:
