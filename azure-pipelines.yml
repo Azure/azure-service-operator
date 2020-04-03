@@ -42,7 +42,7 @@ stages:
       displayName: Install kubebuilder
     - script: |
         go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
-        CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
+        CONTROLLER_GEN=$(go env GOPATH)/bin/controller-gen
         CRD_OPTIONS ?= "crd:trivialVersions=true"
         $(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
         $(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
