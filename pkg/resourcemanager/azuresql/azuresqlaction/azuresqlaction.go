@@ -59,7 +59,7 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 
 	dbUserCustomNamespace := "azuresqluser-" + serverName + "-" + dbName
 
-	DBSecret := azuresqluserManager.GetOrPrepareSecret(ctx, instance, userSecretClient, dbUserCustomNamespace)
+	DBSecret := azuresqluserManager.GetOrPrepareSecret(ctx, instance, userSecretClient)
 	// reset user from secret in case it was loaded
 	userExists, err := azuresqluserManager.UserExists(ctx, db, string(DBSecret["username"]))
 	if err != nil {
