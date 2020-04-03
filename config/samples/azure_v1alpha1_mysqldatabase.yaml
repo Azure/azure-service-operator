@@ -3,5 +3,5 @@ kind: MySQLDatabase
 metadata:
   name: mysqldatabase-sample
 spec:
-  resourceGroup: resourcegroup-azure-operator
+  resourceGroup: resourcegroup-azure-operators
   server: mysqlserver-sample

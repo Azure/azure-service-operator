@@ -3,7 +3,7 @@ kind: MySQLFirewallRule
 metadata:
   name: mysqlfirewallrule-sample
 spec:
-  resourceGroup: resourcegroup-azure-operaotr
+  resourceGroup: resourcegroup-azure-operators
   server: mysqlserver-sample
   startIpAddress: 0.0.0.0
   endIpAddress: 0.0.0.0

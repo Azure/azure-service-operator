@@ -4,7 +4,7 @@ metadata:
   name: mysqlserver-sample
 spec:  
   location: eastus2
-  resourceGroup: resourcegroup-azure-operatpr
+  resourceGroup: resourcegroup-azure-operators
   serverVersion: "8.0"
   sslEnforcement: Enabled
   sku:
