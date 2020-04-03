@@ -42,9 +42,7 @@ stages:
       displayName: Install kubebuilder
     - script: |
         go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
-        $(go env GOPATH)/bin/controller-gen crd:trivialVersions=true rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
-        $(go env GOPATH)/bin/controller-gen object:headerFile=./hack/boilerplate.go.txt paths=./api/...
-      displayName: Generate CRD Manifests
+      displayName: Install controller-gen
 - stage: BinaryBuild
   displayName: Build Binary
   jobs:
@@ -53,19 +51,27 @@ stages:
     - task: GoTool@0
       inputs:
         version: '1.13.7'
+      displayName: Get Go 1.13.7
     - task: Go@0
       inputs:
          command: 'get'
          arguments: '-d'
          workingDirectory: '$(System.DefaultWorkingDirectory)'
+      displayName: Get Go dependencies
+    - script: |
+        $(go env GOPATH)/bin/controller-gen crd:trivialVersions=true rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+        $(go env GOPATH)/bin/controller-gen object:headerFile=./hack/boilerplate.go.txt paths=./api/...
+      displayName: Generate manifests and CRDs
     - task: Go@0
       inputs:
         command: 'test'
         arguments: '-v -tags "$(Build.BuildId)" -coverprofile=coverage-unit.txt -covermode count -parallel 4 -timeout 10m'
+      displayName: Run unit tests
     - task: Go@0
       inputs:
         command: 'build'
         workingDirectory: '$(System.DefaultWorkingDirectory)'
+      displayName: Compile binary
     - task: CopyFiles@2
       inputs:
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
