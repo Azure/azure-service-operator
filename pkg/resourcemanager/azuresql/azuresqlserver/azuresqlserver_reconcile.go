@@ -317,11 +317,7 @@ func NewSecret(serverName string) (map[string][]byte, error) {
 
 	secret := map[string][]byte{}
 
-	randomUsername, err := helpers.GenerateRandomUsername(usernameLength, (usernameLength / 2))
-	if err != nil {
-		return secret, err
-	}
-
+	randomUsername := helpers.GenerateRandomUsername(usernameLength)
 	randomPassword := helpers.NewPassword()
 
 	secret["username"] = []byte(randomUsername)
