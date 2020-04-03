@@ -61,10 +61,8 @@ var _ = BeforeSuite(func() {
 	tc = TestContext{
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
-		RedisCacheManager: &AzureRedisCacheManager{
-			Log: zaplogger,
-		},
-		ResourceGroupManager: resourceGroupManager,
+		RedisCacheManager:     &AzureRedisCacheManager{},
+		ResourceGroupManager:  resourceGroupManager,
 	}
 })
 

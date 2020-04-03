@@ -150,7 +150,7 @@ steps:
   env:
     BUILD_ID: $(Build.BuildId)
   inputs:
-    azureSubscription: 'Az Internal Consumption'
+    azureSubscription: 'CSE AmWest Sub - ASO'
     scriptType: bash
     scriptLocation: inlineScript
     workingDirectory: '$(MODULE_PATH)'

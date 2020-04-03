@@ -112,7 +112,6 @@ func main() {
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 
 	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager(
-		ctrl.Log.WithName("rediscachemanager").WithName("RedisCache"),
 		secretClient,
 		scheme,
 	)

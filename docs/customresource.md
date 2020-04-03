@@ -1,8 +1,25 @@
-## View and Troubleshoot Custom Resources
+# Deploy, View and Delete Resources
+
+## Deploy Custom Resource
+
+You can follow the steps [here](/docs/development.md) to run the operator locally or follow the steps [here](/docs/deploy.md) to deploy to a real Kubernetes cluster.
+
+You can use the YAML files in the `config/samples` folder to create the resources using the following command.
+
+```
+kubectl apply -f <YAML file>
+```
+
+### Tags in Azure
+
+When deploying resources using the YAML files, you can specify as labels any tags you want to add to the resource in Azure.
+If the labels contain characters that are not allowed as tags in Azure (<,>,\,/,%,?), those characters will be replaced by a period(.) and added as Azure tags.
+
+## View and Troubleshoot Custom Resource
 
 To view your created custom resource, run the following command:
 
-```shell
+```
 kubectl get <CRD>
 ```
 
@@ -10,30 +27,30 @@ where CRD is the Custom Resource Definition name or `Kind` for the resource.
 
 For instance, you can get the Azure SQL servers provisioned using the command
 
-```shell
+```
 kubectl get AzureSqlServer
 ```
 
 You should see the AzureSqlServer instances as below
 
-```shell
+```
 NAME                  AGE
 sqlserver-sample      1h
 ```
 
 If you want to see more details about a particular resource instance such as the `Status` or `Events`, you can use the below command
 
-```shell
+```
 kubectl describe <Kind> <instance name>
 ```
 
 For instance, the below command is used to get more details about the `sqlserver-sample` instance
 
-```shell
+```
 kubectl describe AzureSqlServer sqlserver-sample
 ```
 
-```shell
+```
 Name:         sqlserver-sample234
 Namespace:    default
 Labels:       <none>
@@ -69,6 +86,24 @@ Events:
 The `Status` section gives you the current state of the resource, it's `State` and if it is `Provisioned`. It also provides a more detailed `Message`
 
 The `Events` have a chronological record of what occurred through the process of provisioning the resource.
+
+## Delete Resource
+
+To delete an existing resource from Kubernetes and Azure, use the following command.
+
+```
+kubectl delete <Kind> <instancename>
+```
+
+For instance, deleting a AzureSqlServer instance would look like this.
+
+```
+kubectl delete azuresqlserver sqlserver-sample
+```
+
+The following message should appear:
+
+`azuresqlserver.azure.microsoft.com sqlserver-sample deleted.`
 
 ## Delete Kubernetes instances without deleting Azure resources
 
