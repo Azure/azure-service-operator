@@ -98,6 +98,10 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return true, nil
 	}
 
+	if instance.Status.SpecHash == "" {
+		instance.Status.SpecHash = hash
+	}
+
 	if instance.Status.Provisioning {
 
 		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
