@@ -105,7 +105,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	case errhelp.InvalidResourceLocation:
 		instance.Status.Provisioning = false
-                 instance.Status.Message = azerr.Reason
+		instance.Status.Message = azerr.Reason
 		return true, nil
 
 	}
