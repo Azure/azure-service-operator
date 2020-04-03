@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package azuresqlserver
+package pollclient
 
 import (
 	"context"
 	"net/http"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
@@ -15,25 +14,41 @@ import (
 	"github.com/Azure/go-autorest/tracing"
 )
 
-const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+const fqdn = "github.com/Azure/azure-service-operator/pollingclient"
 
-// PollClient inherits from the sql sdk baseclient and has the methods needed to handle the polling url
-type PollClient struct {
-	sql.BaseClient
+// BaseClient was modeled off some of the other Baseclients in the go sdk and contains an autorest client
+type BaseClient struct {
+	autorest.Client
+	BaseURI        string
+	SubscriptionID string
 }
 
-// NewPollClient returns a client using hte env values
+// PollClient inherits from the autorest client and has the methods needed to handle GETs to the polling url
+type PollClient struct {
+	BaseClient
+}
+
+// NewPollClient returns a client using hte env values from config
 func NewPollClient() PollClient {
 	return NewPollClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 }
 
 // NewPollClientWithBaseURI returns a paramterized client
 func NewPollClientWithBaseURI(baseURI string, subscriptionID string) PollClient {
-	c := PollClient{sql.NewWithBaseURI(baseURI, subscriptionID)}
+	c := PollClient{NewWithBaseURI(baseURI, subscriptionID)}
 	a, _ := iam.GetResourceManagementAuthorizer()
 	c.Authorizer = a
 	c.AddToUserAgent(config.UserAgent())
 	return c
+}
+
+// NewWithBaseURI creates an instance of the BaseClient client.
+func NewWithBaseURI(baseURI string, subscriptionID string) BaseClient {
+	return BaseClient{
+		Client:         autorest.NewClientWithUserAgent(config.UserAgent()),
+		BaseURI:        baseURI,
+		SubscriptionID: subscriptionID,
+	}
 }
 
 // PollRespons models the expected response from the poll url

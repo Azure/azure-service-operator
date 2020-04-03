@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -106,12 +107,11 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 		if err != nil {
-
 			azerr := errhelp.NewAzureErrorAzureError(err)
 
 			// handle failures in the async operation
 			if instance.Status.PollingURL != "" {
-				pClient := NewPollClient()
+				pClient := pollclient.NewPollClient()
 				res, err := pClient.Get(ctx, instance.Status.PollingURL)
 				if err != nil {
 					return false, err
