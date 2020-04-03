@@ -99,7 +99,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 			// Determine userSecretclient based on Spec. If Keyvault name isn't specified, fall back to
 			// global secret client
-			if len(instance.Spec.ServerSecretKeyVault) == 0 {
+			if len(instance.Spec.UserSecretKeyVault) == 0 {
 				userSecretClient = s.SecretClient
 			} else {
 				userSecretClient = keyvaultsecretlib.New(instance.Spec.UserSecretKeyVault)

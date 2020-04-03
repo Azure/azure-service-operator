@@ -309,6 +309,46 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		})
 	})
 
+	t.Run("deploy sql action and roll user credentials", func(t *testing.T) {
+		keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName
+		key := types.NamespacedName{Name: kvSqlUser1.ObjectMeta.Name, Namespace: keyNamespace}
+
+		keyVaultName := tc.keyvaultName
+		keyVaultSecretClient := kvsecrets.New(keyVaultName)
+		var oldSecret, _ = keyVaultSecretClient.Get(ctx, key)
+
+		sqlActionName := GenerateTestResourceNameWithRandom("azuresqlaction-dev", 10)
+		sqlActionInstance := &azurev1alpha1.AzureSqlAction{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      sqlActionName,
+				Namespace: "default",
+			},
+			Spec: azurev1alpha1.AzureSqlActionSpec{
+				ResourceGroup:      rgName,
+				ServerName:         sqlServerName,
+				ActionName:         "rollusercreds",
+				DbName:             sqlDatabaseName,
+				DbUser:             kvSqlUser1.ObjectMeta.Name,
+				UserSecretKeyVault: keyVaultName,
+			},
+		}
+
+		err := tc.k8sClient.Create(ctx, sqlActionInstance)
+		assert.Equal(nil, err, "create sqlaction in k8s")
+
+		sqlActionInstanceNamespacedName := types.NamespacedName{Name: sqlActionName, Namespace: "default"}
+
+		assert.Eventually(func() bool {
+			_ = tc.k8sClient.Get(ctx, sqlActionInstanceNamespacedName, sqlActionInstance)
+			return sqlActionInstance.Status.Provisioned
+		}, tc.timeout, tc.retry, "wait for sql action to be submitted")
+
+		var newSecret, _ = keyVaultSecretClient.Get(ctx, key)
+
+		assert.NotEqual(oldSecret["password"], newSecret["password"], "password should have been updated")
+		assert.Equal(oldSecret["username"], newSecret["username"], "usernames should be the same")
+	})
+
 	var sqlFailoverGroupInstance *azurev1alpha1.AzureSqlFailoverGroup
 	sqlFailoverGroupName := GenerateTestResourceNameWithRandom("sqlfog-dev", 10)
 
