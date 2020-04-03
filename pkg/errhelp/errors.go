@@ -49,6 +49,7 @@ const (
 	NotSupported                        = "NotSupported"
 	SecretNotFound                      = "SecretNotFound"
 	RequestDisallowedByPolicy           = "RequestDisallowedByPolicy"
+	ServiceBusy                         = "ServiceBusy"
 )
 
 func NewAzureError(err error) error {
