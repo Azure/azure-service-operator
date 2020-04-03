@@ -18,13 +18,15 @@ import (
 )
 
 const (
-	passwordLength  = 16
-	passwordChars   = lowerAlphaChars + upperAlphaChars + numberChars + specialChars
-	usernameChars   = lowerAlphaChars + upperAlphaChars + numberChars
+	passwordLength = 16
+
 	lowerAlphaChars = "abcdefghijklmnopqrstuvwxyz"
 	upperAlphaChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	numberChars     = "0123456789"
 	specialChars    = "!@#$%^&*"
+	passwordChars   = lowerAlphaChars + upperAlphaChars + numberChars + specialChars
+	usernameChars   = lowerAlphaChars + upperAlphaChars + numberChars
+	allCaseAlpha    = lowerAlphaChars + upperAlphaChars
 )
 
 var seededRand = NewSeeded()
@@ -96,19 +98,13 @@ func GenerateRandomUsername(n int) string {
 	b := make([]byte, n)
 
 	// ensure first char is alpha
-	b[0] = lowerAlphaChars[seededRand.Intn(len(lowerAlphaChars))]
+	b[0] = allCaseAlpha[seededRand.Intn(len(allCaseAlpha))]
 
 	for i := 1; i < n; i++ {
 		b[i] = usernameChars[seededRand.Intn(len(usernameChars))]
 	}
-	// For good measure, shuffle the elements of the entire []byte so that
-	// the 0 character isn't predicatably lowercase, etc...
-	for i := range b {
-		j := seededRand.Intn(len(b))
-		b[i], b[j] = b[j], b[i]
-	}
-	return string(b)
 
+	return string(b)
 }
 
 // GenerateRandomPassword - helper function to generate random password for sql server
