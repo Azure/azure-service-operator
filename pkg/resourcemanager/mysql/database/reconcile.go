@@ -29,11 +29,12 @@ func (m *MySQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, op
 	// Check if this database already exists. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
 
-	_, err = m.GetDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
+	db, err := m.GetDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		instance.Status.Message = resourcemanager.SuccessMsg
+		instance.Status.ResourceId = *db.ID
 		return true, nil
 	}
 	future, err := m.CreateDatabaseIfValid(

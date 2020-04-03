@@ -62,6 +62,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			instance.Status.Message = resourcemanager.SuccessMsg
+			instance.Status.ResourceId = *server.ID
 			return true, nil
 		}
 		return false, nil
