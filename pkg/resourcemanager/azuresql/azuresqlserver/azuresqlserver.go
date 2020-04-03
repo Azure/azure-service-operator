@@ -99,26 +99,6 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 		return "", result, err
 	}
 
-	// give the operator a moment to resolve quota errors
-	// consider storing future.PollingURL() and checking async op status on the next reconciliation
-	//time.Sleep(200 * time.Millisecond)
-
-	// pclient := NewPollClient()
-	// u := future.PollingURL()
-	// log.Println()
-	// log.Println()
-	// log.Println()
-	// res, err := pclient.Get(ctx, u)
-	// if err != nil {
-	// 	log.Println()
-	// 	log.Println(err)
-	// 	log.Println()
-	// } else {
-	// 	log.Println(res)
-	// 	log.Println(res.Status)
-	// 	log.Println()
-	// }
-
 	result, err = future.Result(serversClient)
 
 	return future.PollingURL(), result, err
