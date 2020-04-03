@@ -28,11 +28,12 @@ variables:
   k8sNamespaceForPR: '$(system.pullRequest.sourceBranch)'
 
 stages:
+
 - stage: Build
   displayName: Build stage
   jobs:  
   - job: Build
-    displayName: Build
+    displayName: Docker Build
     pool:
       vmImage: $(vmImageName)
     steps:
