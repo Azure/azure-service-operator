@@ -9,3 +9,6 @@ spec:
   resourceGroup: resourcegroup-azure-operators
   location: westus
   enableSoftDelete: false
+  # Optional: possible values for sku.Name are "Standard" or "Premium". Default is "Standard"  
+  #sku:
+  #  name: standard

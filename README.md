@@ -32,8 +32,17 @@ This project maintains [releases of the Azure Service Operator](https://github.c
 1. [Resource Group](/docs/resourcegroup/resourcegroup.md)
 2. [EventHub](/docs/eventhub/eventhub.md)
 3. [Azure SQL](/docs/azuresql/azuresql.md)
+4. [Azure Keyvault](/docs/keyvault/keyvault.md)
+5. [Azure Rediscache](/docs/rediscache/rediscache.md)
+6. [Storage Account](/docs/storage/storageaccount.md)
+7. [Blob container](/docs/storage/blobcontainer.md)
+8. [Azure Database for PostgreSQL](/docs/postgresql/postgresql.md)
+9. [Virtual Network](/docs/virtualnetwork/virtualnetwork.md)
+10.[Application Insights](/docs/appinsights/appinsights.md)
+11.[API Management](/docs/apimgmt/apimgmt.md)
+12.[Cosmos DB](/docs/cosmosdb/cosmosdb.md)
 
-For more information on troubleshooting resources, refer to [this](/docs/viewresources.md) link
+For more information on deploying, troubleshooting & deleting resources, refer to [this](/docs/customresource.md) link
 
 ## Building the operators
 
