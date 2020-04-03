@@ -40,9 +40,6 @@ stages:
         export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
         export PATH=$PATH:/usr/local/kubebuilder/bin
       displayName: Install kubebuilder
-    - script: |
-        go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
-      displayName: Install controller-gen
 - stage: BinaryBuild
   displayName: Build Binary
   jobs:
@@ -58,9 +55,15 @@ stages:
          arguments: '-d'
          workingDirectory: '$(System.DefaultWorkingDirectory)'
       displayName: Get Go dependencies
+    - task: Go@0
+      inputs:
+       command: 'get'
+       arguments: sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
+       workingDirectory: '$(System.DefaultWorkingDirectory)'
+      displayName: Get controller-gen
     - script: |
-        $(go env GOPATH)/bin/controller-gen crd:trivialVersions=true rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
-        $(go env GOPATH)/bin/controller-gen object:headerFile=./hack/boilerplate.go.txt paths=./api/...
+        controller-gen crd:trivialVersions=true rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+        controller-gen object:headerFile=./hack/boilerplate.go.txt paths=./api/...
       displayName: Generate manifests and CRDs
     - task: Go@0
       inputs:
