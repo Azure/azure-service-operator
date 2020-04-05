@@ -41,7 +41,9 @@ const (
 	NotFoundErrorCode                   = "NotFound"
 	NoSuchHost                          = "no such host"
 	ParentNotFoundErrorCode             = "ParentResourceNotFound"
+	QuotaExceeded                       = "QuotaExceeded"
 	ResourceGroupNotFoundErrorCode      = "ResourceGroupNotFound"
+	RegionDoesNotAllowProvisioning      = "RegionDoesNotAllowProvisioning"
 	ResourceNotFound                    = "ResourceNotFound"
 	RequestConflictError                = "Conflict"
 	ValidationError                     = "ValidationError"
@@ -49,6 +51,7 @@ const (
 	NotSupported                        = "NotSupported"
 	SecretNotFound                      = "SecretNotFound"
 	RequestDisallowedByPolicy           = "RequestDisallowedByPolicy"
+	ServiceBusy                         = "ServiceBusy"
 )
 
 func NewAzureError(err error) error {

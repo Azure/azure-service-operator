@@ -60,11 +60,16 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 				},
 			}
 
+			sku := v1alpha1.KeyVaultSku{
+				Name: "Standard",
+			}
+
 			// Create Key Vault instance
 			Eventually(func() bool {
 				_, err := keyVaultManager.CreateVault(
 					ctx,
 					&kv,
+					sku,
 					tags,
 				)
 				if err != nil {

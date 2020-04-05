@@ -15,7 +15,7 @@ func LabelsToTags(in map[string]string) map[string]*string {
 		newK := k
 		value := v
 		if strings.ContainsAny(k, "<>%/?\\") {
-			newK = ReplaceAny(k, []string{"<", ">", "%", "/", "\\\\", "?"})
+			newK = ReplaceAny(k, []string{"<", ">", "%", "/", "\\\\", "\\?"})
 		}
 		out[newK] = &value
 	}

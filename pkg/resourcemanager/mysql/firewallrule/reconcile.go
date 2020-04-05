@@ -7,47 +7,28 @@ import (
 	"context"
 	"fmt"
 
-	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-type PSQLFirewallRuleClient struct {
-}
-
-func NewPSQLFirewallRuleClient() *PSQLFirewallRuleClient {
-	return &PSQLFirewallRuleClient{}
-}
-
-func getPSQLFirewallRulesClient() psql.FirewallRulesClient {
-	firewallRulesClient := psql.NewFirewallRulesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
-	firewallRulesClient.Authorizer = a
-	firewallRulesClient.AddToUserAgent(config.UserAgent())
-	return firewallRulesClient
-}
-
-func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
-	instance, err := p.convert(obj)
+func (m *MySQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	client := getPSQLFirewallRulesClient()
+	client := getMySQLFirewallRulesClient()
 
 	instance.Status.Provisioning = true
 	// Check if this server already exists and its state if it does. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
 
-	firewallrule, err := p.GetFirewallRule(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
+	firewallrule, err := m.GetFirewallRule(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
@@ -55,7 +36,7 @@ func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object,
 		return true, nil
 	}
 
-	future, err := p.CreateFirewallRule(
+	future, err := m.CreateFirewallRule(
 		ctx,
 		instance.Spec.ResourceGroup,
 		instance.Spec.Server,
@@ -133,13 +114,13 @@ func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object,
 	return true, nil
 }
 
-func (p *PSQLFirewallRuleClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
-	instance, err := p.convert(obj)
+func (m *MySQLFirewallRuleClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
-	status, err := p.DeleteFirewallRule(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
+	status, err := m.DeleteFirewallRule(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
 	if err != nil {
 		if !errhelp.IsAsynchronousOperationNotComplete(err) {
 			return true, err
@@ -156,9 +137,9 @@ func (p *PSQLFirewallRuleClient) Delete(ctx context.Context, obj runtime.Object,
 	return true, nil
 }
 
-func (p *PSQLFirewallRuleClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (m *MySQLFirewallRuleClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
-	instance, err := p.convert(obj)
+	instance, err := m.convert(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -169,7 +150,7 @@ func (p *PSQLFirewallRuleClient) GetParents(obj runtime.Object) ([]resourcemanag
 				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
-			Target: &azurev1alpha1.PostgreSQLServer{},
+			Target: &azurev1alpha1.MySQLServer{},
 		},
 		{
 			Key: types.NamespacedName{
@@ -181,60 +162,18 @@ func (p *PSQLFirewallRuleClient) GetParents(obj runtime.Object) ([]resourcemanag
 	}, nil
 }
 
-func (g *PSQLFirewallRuleClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
-	instance, err := g.convert(obj)
+func (m *MySQLFirewallRuleClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := m.convert(obj)
 	if err != nil {
 		return nil, err
 	}
 	return &instance.Status, nil
 }
 
-func (p *PSQLFirewallRuleClient) convert(obj runtime.Object) (*v1alpha1.PostgreSQLFirewallRule, error) {
-	local, ok := obj.(*v1alpha1.PostgreSQLFirewallRule)
+func (m *MySQLFirewallRuleClient) convert(obj runtime.Object) (*v1alpha1.MySQLFirewallRule, error) {
+	local, ok := obj.(*v1alpha1.MySQLFirewallRule)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
-}
-
-func (p *PSQLFirewallRuleClient) CreateFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string, startip string, endip string) (future psql.FirewallRulesCreateOrUpdateFuture, err error) {
-
-	client := getPSQLFirewallRulesClient()
-
-	firewallRuleProperties := psql.FirewallRuleProperties{
-		StartIPAddress: to.StringPtr(startip),
-		EndIPAddress:   to.StringPtr(endip),
-	}
-
-	future, err = client.CreateOrUpdate(
-		ctx,
-		resourcegroup,
-		servername,
-		firewallrulename,
-		psql.FirewallRule{
-			FirewallRuleProperties: &firewallRuleProperties,
-		},
-	)
-	return future, err
-}
-
-func (p *PSQLFirewallRuleClient) DeleteFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string) (status string, err error) {
-
-	client := getPSQLFirewallRulesClient()
-
-	_, err = client.Get(ctx, resourcegroup, servername, firewallrulename)
-	if err == nil { // FW rule present, so go ahead and delete
-		future, err := client.Delete(ctx, resourcegroup, servername, firewallrulename)
-		return future.Status(), err
-	}
-	// FW rule not present so return success anyway
-	return "Firewall Rule not present", nil
-
-}
-
-func (p *PSQLFirewallRuleClient) GetFirewallRule(ctx context.Context, resourcegroup string, servername string, firewallrulename string) (firewall psql.FirewallRule, err error) {
-
-	client := getPSQLFirewallRulesClient()
-
-	return client.Get(ctx, resourcegroup, servername, firewallrulename)
 }

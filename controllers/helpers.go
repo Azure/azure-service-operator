@@ -17,6 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -52,6 +53,7 @@ type TestContext struct {
 	namespaceLocation       string
 	storageAccountName      string
 	blobContainerName       string
+	keyvaultName            string
 	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
 	redisCacheManager       resourcemanagerrediscaches.RedisCacheManager
 	eventHubManagers        resourcemanagereventhub.EventHubManagers
@@ -252,6 +254,36 @@ func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance ru
 		err = tc.k8sClient.Get(ctx, names, instance)
 		return apierrors.IsNotFound(err)
 	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to be gone from k8s", typeOf))
+
+}
+
+func RequireInstance(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
+	RequireInstanceWithResult(ctx, t, tc, instance, successMsg, true)
+}
+
+func RequireInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, message string, provisioned bool) {
+	require := require.New(t)
+	typeOf := fmt.Sprintf("%T", instance)
+
+	err := tc.k8sClient.Create(ctx, instance)
+	require.Equal(nil, err, fmt.Sprintf("create %s in k8s", typeOf))
+
+	res, err := meta.Accessor(instance)
+	require.Equal(nil, err, "not a metav1 object")
+
+	names := types.NamespacedName{Name: res.GetName(), Namespace: res.GetNamespace()}
+
+	// Wait for first sql server to resolve
+	require.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, names, instance)
+		return HasFinalizer(res, finalizerName)
+	}, tc.timeoutFast, tc.retry, "error waiting for %s to have finalizer", typeOf)
+
+	require.Eventually(func() bool {
+		_ = tc.k8sClient.Get(ctx, names, instance)
+		statused := ConvertToStatus(instance)
+		return strings.Contains(statused.Status.Message, message) && statused.Status.Provisioned == provisioned
+	}, tc.timeout, tc.retry, "wait for %s to provision", typeOf)
 
 }
 

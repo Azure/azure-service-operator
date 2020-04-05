@@ -221,11 +221,11 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		DBSecret[SecretUsernameKey] = []byte(user)
 	}
 
-	// publish user secret
+	// Publishing the user secret:
 	// We do this first so if the keyvault does not have right permissions we will not proceed to creating the user
 
 	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
-	// In keyvault we have some creative freedom to allow more flexibility
+	// In keyvault we have to avoid collisions with other secrets so we create a custom namespace with the user's parameters
 	key = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 	var dbUserCustomNamespace string
 
@@ -536,12 +536,12 @@ func (s *AzureSqlUserManager) convert(obj runtime.Object) (*v1alpha1.AzureSQLUse
 func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) (bool, error) {
 	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
 	// In keyvault we have some creative freedom to allow more flexibility
-	DBSecret := s.GetOrPrepareSecret(ctx, instance, s.SecretClient)
+	DBSecret := s.GetOrPrepareSecret(ctx, instance, secretClient)
 	secretKey := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 
 	var dbUserCustomNamespace string
 
-	keyVaultEnabled := reflect.TypeOf(s.SecretClient).Elem().Name() == "KeyvaultSecretClient"
+	keyVaultEnabled := reflect.TypeOf(secretClient).Elem().Name() == "KeyvaultSecretClient"
 
 	if keyVaultEnabled {
 		// For a keyvault secret store, check for supplied namespace parameters
@@ -555,7 +555,7 @@ func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 	}
 
 	// delete standard user secret
-	err := s.SecretClient.Delete(
+	err := secretClient.Delete(
 		ctx,
 		secretKey,
 	)
@@ -580,10 +580,16 @@ func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 		}
 
 		for _, formatName := range customFormatNames {
-			err = s.SecretClient.Delete(
+			key := types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name + "-" + formatName}
+
+			err = secretClient.Delete(
 				ctx,
-				types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name + "-" + formatName},
+				key,
 			)
+			if err != nil {
+				instance.Status.Message = "failed to delete secret, err: " + err.Error()
+				return false, err
+			}
 		}
 	}
 

@@ -30,6 +30,9 @@ import (
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
+	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
+	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
@@ -74,6 +77,8 @@ func setup() error {
 	storageAccountName := GenerateAlphaNumTestResourceName("saprime")
 	blobContainerName := GenerateTestResourceName("blob-prime")
 	containerAccessLevel := s.PublicAccessContainer
+
+	keyvaultName := GenerateAlphaNumTestResourceName("kv-prime")
 
 	var timeout time.Duration
 
@@ -141,13 +146,10 @@ func setup() error {
 	var sqlVNetRuleManager resourcemanagersqlvnetrule.SqlVNetRuleManager
 
 	appInsightsManager = resourcemanagerappinsights.NewManager(
-		ctrl.Log.WithName("appinsightsmanager").WithName("AppInsights"),
 		secretClient,
 		scheme.Scheme,
 	)
-	apiMgmtManager = resourcemanagerapimgmt.NewManager(
-		ctrl.Log.WithName("appinsightsmanager").WithName("ApiMgmt"),
-	)
+	apiMgmtManager = resourcemanagerapimgmt.NewManager()
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
 	storageManagers = resourcemanagerstorages.AzureStorageManagers
@@ -171,7 +173,6 @@ func setup() error {
 		scheme.Scheme,
 	)
 	redisCacheManager := resourcemanagerrediscaches.NewAzureRedisCacheManager(
-		ctrl.Log.WithName("rediscachemanager").WithName("RedisCache"),
 		secretClient,
 		scheme.Scheme,
 	)
@@ -189,7 +190,7 @@ func setup() error {
 	)
 	sqlActionManager = resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme.Scheme)
 
-	timeout = time.Second * 720
+	timeout = time.Second * 780
 
 	err = (&KeyVaultReconciler{
 		Reconciler: &AsyncReconciler{
@@ -489,6 +490,57 @@ func setup() error {
 		return err
 	}
 
+	err = (&MySQLServerReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: mysqlServerManager.NewMySQLServerClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLServer",
+				ctrl.Log.WithName("controllers").WithName("MySQLServer"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLServer-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&MySQLDatabaseReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqlDatabaseManager.NewMySQLDatabaseClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLDatabase",
+				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLDatabase-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&MySQLFirewallRuleReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqlFirewallManager.NewMySQLFirewallRuleClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLFirewallRule-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
 	err = (&PostgreSQLServerReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
@@ -591,6 +643,7 @@ func setup() error {
 		namespaceLocation:       namespaceLocation,
 		storageAccountName:      storageAccountName,
 		blobContainerName:       blobContainerName,
+		keyvaultName:            keyvaultName,
 		eventHubManagers:        eventHubManagers,
 		eventhubClient:          eventhubClient,
 		resourceGroupManager:    resourceGroupManager,
@@ -653,6 +706,12 @@ func setup() error {
 	}
 
 	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
+	if err != nil {
+		return err
+	}
+
+	log.Println("Creating KV:", keyvaultName)
+	_, err = resourcemanagerkeyvaults.AzureKeyVaultManager.CreateVaultWithAccessPolicies(context.Background(), resourceGroupName, keyvaultName, resourcegroupLocation, resourcemanagerconfig.ClientID())
 	if err != nil {
 		return err
 	}
