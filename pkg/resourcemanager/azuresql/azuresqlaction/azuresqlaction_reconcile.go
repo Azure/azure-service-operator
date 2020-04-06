@@ -27,7 +27,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 	if err != nil {
 		return false, err
 	}
-	var key types.NamespacedName
+	var adminKey types.NamespacedName
 	var adminSecretClient secrets.SecretClient
 	var userSecretClient secrets.SecretClient
 	serverName := instance.Spec.ServerName
@@ -38,9 +38,9 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 			// Determine the secret key based on the spec
 			if len(instance.Spec.ServerAdminSecretName) == 0 {
-				key = types.NamespacedName{Name: instance.Spec.ServerName, Namespace: instance.Namespace}
+				adminKey = types.NamespacedName{Name: instance.Spec.ServerName, Namespace: instance.Namespace}
 			} else {
-				key = types.NamespacedName{Name: instance.Spec.ServerAdminSecretName}
+				adminKey = types.NamespacedName{Name: instance.Spec.ServerAdminSecretName}
 			}
 
 			// Determine secretclient based on Spec. If Keyvault name isn't specified, fall back to
@@ -56,7 +56,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			}
 
 			// Roll SQL server's admin password
-			err := s.UpdateAdminPassword(ctx, groupName, serverName, key, adminSecretClient)
+			err := s.UpdateAdminPassword(ctx, groupName, serverName, adminKey, adminSecretClient)
 			if err != nil {
 				instance.Status.Message = err.Error()
 				catch := []string{
@@ -78,11 +78,11 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 	} else if strings.ToLower(instance.Spec.ActionName) == "rollusercreds" {
 		if !instance.Status.Provisioned {
 
-			// Determine the secret key based on the spec
+			// Determine the admin secret key based on the spec
 			if len(instance.Spec.ServerAdminSecretName) == 0 {
-				key = types.NamespacedName{Name: instance.Spec.ServerName, Namespace: instance.Namespace}
+				adminKey = types.NamespacedName{Name: instance.Spec.ServerName, Namespace: instance.Namespace}
 			} else {
-				key = types.NamespacedName{Name: instance.Spec.ServerAdminSecretName}
+				adminKey = types.NamespacedName{Name: instance.Spec.ServerAdminSecretName}
 			}
 
 			// Determine secretclient based on Spec. If Keyvault name isn't specified, fall back to
@@ -109,7 +109,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 				}
 			}
 
-			err := s.UpdateUserPassword(ctx, groupName, serverName, instance.Spec.DbUser, instance.Spec.DbName, key, adminSecretClient, userSecretClient)
+			err := s.UpdateUserPassword(ctx, groupName, serverName, instance.Spec.DbUser, instance.Spec.DbName, adminKey, adminSecretClient, userSecretClient)
 			if err != nil {
 				instance.Status.Message = err.Error()
 				return true, nil // unrecoverable error

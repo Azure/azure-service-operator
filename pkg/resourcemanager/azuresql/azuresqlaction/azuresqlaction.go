@@ -34,8 +34,8 @@ func NewAzureSqlActionManager(secretClient secrets.SecretClient, scheme *runtime
 }
 
 func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupName string, serverName string, dbUser string, dbName string,
-	secretKey types.NamespacedName, secretClient secrets.SecretClient, userSecretClient secrets.SecretClient) error {
-	data, err := secretClient.Get(ctx, secretKey)
+	adminSecretKey types.NamespacedName, adminSecretClient secrets.SecretClient, userSecretClient secrets.SecretClient) error {
+	data, err := adminSecretClient.Get(ctx, adminSecretKey)
 	if err != nil {
 		return err
 	}
@@ -49,7 +49,7 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 	instance := &azurev1alpha1.AzureSQLUser{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      dbUser,
-			Namespace: secretKey.Namespace,
+			Namespace: adminSecretKey.Namespace,
 		},
 		Spec: azurev1alpha1.AzureSQLUserSpec{
 			Server: serverName,
@@ -76,7 +76,7 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 		return fmt.Errorf("error updating user credentials: %v", err)
 	}
 
-	secretKey = azuresqluser.GetNamespacedName(instance, userSecretClient)
+	secretKey := azuresqluser.GetNamespacedName(instance, userSecretClient)
 	key := types.NamespacedName{Namespace: secretKey.Namespace, Name: dbUser}
 	err = userSecretClient.Upsert(
 		ctx,

@@ -95,7 +95,7 @@ func (m *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string]
 	newUser := string(secret[SecretUsernameKey])
 	newPassword := string(secret[SecretPasswordKey])
 
-	// make an effort to prevent sql injectino
+	// make an effort to prevent sql injection
 	if err := findBadChars(newUser); err != nil {
 		return "", fmt.Errorf("Problem found with username: %v", err)
 	}
@@ -121,7 +121,7 @@ func (m *AzureSqlUserManager) UpdateUser(ctx context.Context, secret map[string]
 	user := string(secret[SecretUsernameKey])
 	newPassword := helpers.NewPassword()
 
-	// make an effort to prevent sql injectino
+	// make an effort to prevent sql injection
 	if err := findBadChars(user); err != nil {
 		return fmt.Errorf("Problem found with username: %v", err)
 	}
