@@ -22,6 +22,7 @@ import (
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
@@ -166,9 +167,16 @@ func main() {
 		os.Exit(1)
 	}
 	err = (&controllers.CosmosDBReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("CosmosDB"),
-		Recorder: mgr.GetEventRecorderFor("CosmosDB-controller"),
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: resourcemanagercosmosdb.NewAzureCosmosDBManager(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"CosmosDB",
+				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
+			),
+			Recorder: mgr.GetEventRecorderFor("CosmosDB-controller"),
+			Scheme:   scheme,
+		},
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
