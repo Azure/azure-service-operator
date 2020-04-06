@@ -151,7 +151,7 @@ stages:
             inputs:
               action: 'deploy'
               kubernetesServiceConnection: 'skulavik-k8s'
-              namespace: 'aso-dev'
+              namespace: 'azureoperator-system'
               manifests: '$(bake.manifestsBundle)'
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
               imagePullSecrets: '$(imagePullSecret)'
