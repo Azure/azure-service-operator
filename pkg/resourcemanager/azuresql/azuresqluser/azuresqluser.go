@@ -162,6 +162,11 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
+	requestedUsername := instance.Spec.Username
+	if len(requestedUsername) == 0 {
+		requestedUsername = instance.Name
+	}
+
 	if !instance.Status.Provisioned {
 		options := &resourcemanager.Options{}
 		for _, opt := range opts {
@@ -240,7 +245,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 		// reset user from secret in case it was loaded
 		user := string(DBSecret[SecretUsernameKey])
 		if user == "" {
-			user = fmt.Sprintf("%s-%s", instance.Name, uuid.New())
+			user = fmt.Sprintf("%s-%s", requestedUsername, uuid.New())
 			DBSecret[SecretUsernameKey] = []byte(user)
 		}
 
