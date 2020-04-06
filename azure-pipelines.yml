@@ -133,3 +133,21 @@ stages:
               secretType: 'dockerRegistry'
               secretName: '$(imagePullSecret)'
               dockerRegistryEndpoint: '$(dockerRegistryServiceConnection)'
+          - task: KubernetesManifest@0
+            displayName: Bake manifests
+            name: bake
+            inputs:
+              action: bake
+              helmChart: $(Pipeline.Workspace)/charts/azure-service-operator-0.1.0.tgz
+              overrides: |
+                image.repository:$(containerRegistry)/$(imageRepository)
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(bake.manifestsBundle)
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
