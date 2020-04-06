@@ -89,10 +89,10 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         artifactName: drop
-- stage: Build
-  displayName: Docker build stage
+- stage: DockerBuild
+  displayName: Docker build
   jobs:  
-  - job: Build
+  - job: DockerBuild
     displayName: Docker Build
     pool:
       vmImage: $(vmImageName)
@@ -106,6 +106,31 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-          
     - upload: charts
       artifact: charts
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+
+  jobs:
+  - deployment: Deploy
+    condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
+    displayName: Deploy
+    pool:
+      vmImage: $(vmImageName)
+    environment: 'jskulavikazureserviceoperator-1296.aso-dev'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: 'createSecret'
+              kubernetesServiceConnection: 'skulavik-k8s'
+              namespace: 'aso-dev'
+              secretType: 'dockerRegistry'
+              secretName: '$(imagePullSecret)'
+              dockerRegistryEndpoint: '$(dockerRegistryServiceConnection)'
+
