@@ -110,7 +110,7 @@ stages:
       artifact: charts
 
 - stage: Deploy
-  displayName: Deploy stage
+  displayName: Deploy
   dependsOn: DockerBuild
 
   jobs:
@@ -147,12 +147,11 @@ stages:
               overrides: |
                 image.repository:$(containerRegistry)/$(imageRepository)
           - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
+            displayName: Deploy to Kubernetes
             inputs:
-              action: deploy
-              manifests: |
-                $(bake.manifestsBundle)
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
+              action: 'deploy'
+              kubernetesServiceConnection: 'skulavik-k8s'
+              namespace: 'aso-dev'
+              manifests: '$(bake.manifestsBundle)'
+              containers: '$(containerRegistry)/$(imageRepository):$(tag)'
+              imagePullSecrets: '$(imagePullSecret)'
