@@ -39,6 +39,9 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	dbName := instance.Name
+	if len(instance.Spec.DbName) > 0 {
+		dbName = instance.Spec.DbName
+	}
 	dbEdition := instance.Spec.Edition
 
 	// convert kube labels to expected tag format
