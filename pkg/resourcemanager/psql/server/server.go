@@ -160,7 +160,6 @@ func (p *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azu
 	name := instance.Name
 
 	usernameLength := 8
-	passwordLength := 16
 
 	secret := map[string][]byte{}
 
@@ -169,15 +168,8 @@ func (p *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azu
 		return stored, nil
 	}
 
-	randomUsername, err := helpers.GenerateRandomUsername(usernameLength, 0)
-	if err != nil {
-		return secret, err
-	}
-
-	randomPassword, err := helpers.GenerateRandomPassword(passwordLength)
-	if err != nil {
-		return secret, err
-	}
+	randomUsername := helpers.GenerateRandomUsername(usernameLength)
+	randomPassword := helpers.NewPassword()
 
 	secret["username"] = []byte(randomUsername)
 	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
