@@ -21,9 +21,11 @@ aad-pod-identity:
   azureIdentityBinding:
     name: aso-identity-binding
     selector: aso_manager_binding
+    namespace: azureoperator-system
   azureIdentity:
     enabled: True
     name: aso-identity
+    namespace: azureoperator-system
     type: 0
 
     # Update values for Managed Identity 

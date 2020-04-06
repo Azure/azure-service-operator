@@ -18,6 +18,8 @@ type AzureSqlDatabaseSpec struct {
 	ResourceGroup string    `json:"resourcegroup,omitempty"`
 	Server        string    `json:"server"`
 	Edition       DBEdition `json:"edition"`
+	// optional
+	DbName string `json:"dbName,omitempty"`
 }
 
 // +kubebuilder:object:root=true

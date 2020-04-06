@@ -15,6 +15,7 @@ type ASOStatus struct {
 	State              string       `json:"state,omitempty"`
 	Message            string       `json:"message,omitempty"`
 	ResourceId         string       `json:"resourceId,omitempty"`
+	PollingURL         string       `json:"pollingUrl,omitempty"`
 	SpecHash           string       `json:"specHash,omitempty"`
 	ContainsUpdate     bool         `json:"containsUpdate,omitempty"`
 	RequestedAt        *metav1.Time `json:"requested,omitempty"`
