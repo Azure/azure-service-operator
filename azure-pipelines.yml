@@ -124,6 +124,10 @@ stages:
       runOnce:
         deploy:
           steps:
+          - task: helm@1
+            inputs:
+              subCommand: 'package'
+              arguments: '--dependency-update $(Pipeline.Workspace)/charts/azure-service-operator'
           - task: KubernetesManifest@0
             displayName: Create imagePullSecret
             inputs:
