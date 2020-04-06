@@ -142,7 +142,8 @@ stages:
             name: bake
             inputs:
               action: bake
-              helmChart: $(Pipeline.Workspace)/azure-service-operator-0.1.0.tgz 
+              # helmChart: $(Pipeline.Workspace)/azure-service-operator-0.1.0.tgz
+              helmChart: /home/vsts/work/1/s/azure-service-operator-0.1.0.tgz
               overrides: |
                 image.repository:$(containerRegistry)/$(imageRepository)
           - task: KubernetesManifest@0
