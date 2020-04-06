@@ -33,6 +33,7 @@ func (m *MySQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		instance.Status.State = firewallrule.Status
+		instance.Status.Message = resourcemanager.SuccessMsg
 		return true, nil
 	}
 
