@@ -115,7 +115,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'jskulavikazureserviceoperator-1296.azureoperator-system'
+    environment: 'jskulavikazureserviceoperator-1296.aso-dev'
     strategy:
       runOnce:
         deploy:
