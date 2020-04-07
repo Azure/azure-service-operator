@@ -85,6 +85,21 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         artifactName: drop
+
+- stage: Install
+  displayName: Install CRDs
+  dependsOn: DockerBuild
+  jobs:
+  - job: Install
+    steps:
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'skulavik-k8s'
+        command: 'apply'
+        arguments: '-f $(Pipeline.Workspace)/config/crd/bases'
+        checkLatest: true
+
 - stage: DockerBuild
   displayName: Docker build
   jobs:  
@@ -104,20 +119,6 @@ stages:
           $(tag)
     - upload: charts
       artifact: charts
-
-- stage: Install
-  displayName: Install CRDs
-  dependsOn: DockerBuild
-  jobs:
-  - job: Install
-    steps:
-    - task: Kubernetes@1
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'skulavik-k8s'
-        command: 'apply'
-        arguments: '-f config/crd/bases'
-        checkLatest: true
 
 - stage: Deploy
   displayName: Deploy
