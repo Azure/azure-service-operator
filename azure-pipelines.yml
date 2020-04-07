@@ -79,14 +79,15 @@ stages:
   jobs:
   - job: Install
     steps:
+    - bash: pwd && ls -al
     - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'skulavik-k8s'
         command: 'apply'
-        arguments: '-f /config/crd/bases'
+        arguments: '-f config/crd/bases'
         checkLatest: true
-    - bash: pwd && ls -al   
+    
 - stage: DockerBuild
   displayName: Docker build
   jobs:  
