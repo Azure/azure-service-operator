@@ -11,12 +11,15 @@ import (
 )
 
 // GetGoDbClient retrieves a DatabasesClient
-func GetGoDbClient() sql.DatabasesClient {
+func GetGoDbClient() (sql.DatabasesClient, error) {
 	dbClient := sql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		return sql.DatabasesClient{}, err
+	}
 	dbClient.Authorizer = a
 	dbClient.AddToUserAgent(config.UserAgent())
-	return dbClient
+	return dbClient, nil
 }
 
 // GetGoServersClient retrieves a ServersClient
