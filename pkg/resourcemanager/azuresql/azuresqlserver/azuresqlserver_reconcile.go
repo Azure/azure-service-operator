@@ -137,6 +137,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
+		instance.Status.FailedProvisioning = false
 		instance.Status.ResourceId = *serv.ID
 		instance.Status.SpecHash = hash
 		instance.Status.PollingURL = ""
