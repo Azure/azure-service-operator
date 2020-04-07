@@ -105,15 +105,15 @@ The `server` indicates the SQL server on which you want to configure the new SQL
 
 ### SQL Action
 
-The SQL Action operator is used to trigger an action on the SQL server. Right now, the supported actions are `rollcreds`, which rolls the password for the SQL server to a new one, and `rollusercreds`, which rolls the password for the SQL Database User.
+The SQL Action operator is used to trigger an action on the SQL server. Right now, the supported actions are `rolladmincreds`, which rolls the password for the SQL server to a new one, and `rollusercreds`, which rolls the password for the SQL Database User.
 
-The `name` is a name for the action that we want to trigger. The type of action is determined by the value of `actionname` in the spec which is `rollcreds` or `rollusercreds` if you want to roll the password (Note: This action name should be exact for the password to be rolled). The `resourcegroup` and `servername` identify the SQL server on which the action should be triggered on.
+The `name` is a name for the action that we want to trigger. The type of action is determined by the value of `actionname` in the spec which is `rolladmincreds` or `rollusercreds` if you want to roll the password (Note: This action name should be exact for the password to be rolled). The `resourcegroup` and `servername` identify the SQL server on which the action should be triggered on.
 
 Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqlaction.yaml) for rolling the admin or user password of the SQL server
 
 Once you apply this, the kube or Key Vault secret with the same name as the SQL server is updated with the rolled password.
 
-#### rollcreds
+#### rolladmincreds
 
 This action will roll the password for the SQL Server. 
 

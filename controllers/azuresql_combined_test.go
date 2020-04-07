@@ -152,7 +152,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	var kvSqlUser1 *azurev1alpha1.AzureSQLUser
 	var kvSqlUser2 *azurev1alpha1.AzureSQLUser
 
-	// run sub tests that require 2 servers or have to be run after rollcreds test ------------------
+	// run sub tests that require 2 servers or have to be run after rolladmincreds test ------------------
 	t.Run("group2", func(t *testing.T) {
 
 		t.Run("set up user in first db", func(t *testing.T) {
