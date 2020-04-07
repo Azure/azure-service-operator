@@ -87,7 +87,7 @@ stages:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'skulavik-k8s'
         command: 'apply'
-        arguments: '-f config/crd/bases'
+        arguments: '-f $(Pipeline.Workspace)/config/crd/bases'
         checkLatest: true
         workingDirectory: '$(Pipeline.Workspace)'
 
