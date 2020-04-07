@@ -89,6 +89,7 @@ stages:
         command: 'apply'
         arguments: '-f config/crd/bases'
         checkLatest: true
+        workingDirectory: '$(Pipeline.Workspace)'
 
 - stage: DockerBuild
   displayName: Docker build
