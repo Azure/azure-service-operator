@@ -82,12 +82,12 @@ stages:
   jobs:
   - job: Install
     steps:
-    - task: Kubernetes@1
+    - task: Kubernetes@1    
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'skulavik-k8s'
         command: 'apply'
-        arguments: '-f $(System.DefaultWorkingDirectory)/config/crd/bases'
+        arguments: '-f config/crd/bases'
         checkLatest: true
 
 - stage: DockerBuild
