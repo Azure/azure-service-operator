@@ -103,50 +103,44 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		instance.Status.SpecHash = hash
 	}
 
-	if instance.Status.Provisioning {
+	serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
+	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
-		if err != nil {
-			azerr := errhelp.NewAzureErrorAzureError(err)
-
-			// handle failures in the async operation
-			if instance.Status.PollingURL != "" {
-				pClient := pollclient.NewPollClient()
-				res, err := pClient.Get(ctx, instance.Status.PollingURL)
-				if err != nil {
-					return false, err
-				}
-
-				if res.Status == "Failed" {
-					instance.Status.Message = res.Error.Error()
-					instance.Status.Provisioning = false
-					return true, nil
-				}
-			}
-
-			// @Todo: ResourceNotFound should be handled if the time since the last PUT is unreasonable
-			if azerr.Type != errhelp.ResourceNotFound {
+		// handle failures in the async operation
+		if instance.Status.PollingURL != "" {
+			pClient := pollclient.NewPollClient()
+			res, err := pClient.Get(ctx, instance.Status.PollingURL)
+			if err != nil {
 				return false, err
 			}
 
-			// the first minute or so after a PUT to create a server will result in failed GETs
-			instance.Status.State = "NotReady"
-		} else {
-			instance.Status.State = *serv.State
+			if res.Status == "Failed" {
+				instance.Status.Message = res.Error.Error()
+				instance.Status.Provisioning = false
+				return true, nil
+			}
 		}
 
-		if instance.Status.State == "Ready" {
-			instance.Status.Message = resourcemanager.SuccessMsg
-			instance.Status.Provisioned = true
-			instance.Status.Provisioning = false
-			instance.Status.ResourceId = *serv.ID
-			instance.Status.SpecHash = hash
-			instance.Status.PollingURL = ""
-			return true, nil
+		// @Todo: ResourceNotFound should be handled if the time since the last PUT is unreasonable
+		if azerr.Type != errhelp.ResourceNotFound {
+			return false, err
 		}
 
-		// server not done provisioning
-		return false, nil
+		// the first minute or so after a PUT to create a server will result in failed GETs
+		instance.Status.State = "NotReady"
+	} else {
+		instance.Status.State = *serv.State
+	}
+
+	if instance.Status.State == "Ready" {
+		instance.Status.Message = resourcemanager.SuccessMsg
+		instance.Status.Provisioned = true
+		instance.Status.Provisioning = false
+		instance.Status.ResourceId = *serv.ID
+		instance.Status.SpecHash = hash
+		instance.Status.PollingURL = ""
+		return true, nil
 	}
 
 	// create the sql server
