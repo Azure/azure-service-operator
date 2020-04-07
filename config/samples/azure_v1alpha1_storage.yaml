@@ -1,12 +1,24 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: Storage
 metadata:
-  name: storagesample1908ayzkj
+  name: storagesamplehong222
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
   sku:
     name: Standard_RAGRS
   kind: StorageV2
-  accessTier: Hot
-  supportsHttpsTrafficOnly: true
+  properties:
+    accessTier: Hot
+    supportsHttpsTrafficOnly: true
+
+# Optional: networkRule is only supported on "Standard" tier namespace
+    networkRule:
+     bypass: AzureServices
+     defaultAction: Allow
+     virtualNetworkRules: 
+       - subnetID: /subscriptions/08daa385-27fa-477a-b556-a9ead8b270d9/resourceGroups/resourcegroup-azure-operator/providers/Microsoft.Network/virtualNetworks/virtualnetwork-sample/subnets/test1  
+#      ipRules:
+#        - ipMask: 10.0.0.0/24
+#        - ipMask: 2.2.0.0/24
+

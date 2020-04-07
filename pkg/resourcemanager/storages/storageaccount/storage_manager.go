@@ -7,6 +7,7 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/go-autorest/autorest"
@@ -18,7 +19,8 @@ func New() *azureStorageManager {
 }
 
 type StorageManager interface {
-	CreateStorage(ctx context.Context, groupName string,
+	CreateStorage(ctx context.Context, instance *v1alpha1.Storage,
+		groupName string,
 		storageAccountName string,
 		location string,
 		sku azurev1alpha1.StorageSku,
