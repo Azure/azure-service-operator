@@ -105,10 +105,23 @@ stages:
     - upload: charts
       artifact: charts
 
+- stage: Install
+  displayName: Install CRDs
+  dependsOn: DockerBuild
+  jobs:
+  - job: Install
+    steps:
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'skulavik-k8s'
+        command: 'apply'
+        arguments: '-f config/crd/bases'
+        checkLatest: true
+
 - stage: Deploy
   displayName: Deploy
-  dependsOn: DockerBuild
-
+  dependsOn: Install
   jobs:
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
