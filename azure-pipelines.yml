@@ -79,11 +79,16 @@ stages:
   jobs:
   - job: Install
     steps:
-    - task: kubectlapply@3
+    - task: Kubernetes@1
       inputs:
-        k8sService: 'skulavik-k8s'
-        yamlfile: 'config/crd/bases'
-    
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'skulavik-k8s'
+        namespace: 'azureoperator-system'
+        command: 'apply'
+        arguments: '-f config/crd/bases'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
+        checkLatest: true
 - stage: DockerBuild
   displayName: Docker build
   jobs:  
