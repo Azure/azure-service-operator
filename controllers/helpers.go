@@ -244,7 +244,8 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 		}
 
 		statused := ConvertToStatus(instance)
-		if statused.Status.FailedProvisioning {
+		// if we expect this resource to end up with provisioned == true then failedProvisioning == true is unrecoverable
+		if provisioned == true && statused.Status.FailedProvisioning {
 			return helpers.NewStop(fmt.Errorf("Failed provisioning: %s", statused.Status.Message))
 		}
 		if !strings.Contains(statused.Status.Message, message) || statused.Status.Provisioned != provisioned {
