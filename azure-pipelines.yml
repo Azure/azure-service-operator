@@ -82,7 +82,7 @@ stages:
   jobs:
   - job: Install
     steps:
-    - task: Kubernetes@1    
+    - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'skulavik-k8s'
