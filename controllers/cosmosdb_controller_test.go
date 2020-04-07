@@ -28,7 +28,7 @@ func TestCosmosDBHappyPath(t *testing.T) {
 			Namespace: cosmosDBNamespace,
 		},
 		Spec: v1alpha1.CosmosDBSpec{
-			Location:      tc.resourceGroupLocation,
+			Location:      "westus",
 			ResourceGroup: tc.resourceGroupName,
 			Kind:          v1alpha1.CosmosDBKindGlobalDocumentDB,
 			Properties: v1alpha1.CosmosDBProperties{
