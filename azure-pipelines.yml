@@ -19,9 +19,6 @@ variables:
   
   # Azure Service connection
   azureConnection: 'bca5fcbc-7592-4188-92fb-eedf3ac4a8b1'
-  
-  # Name of the new namespace being created to deploy the PR changes.
-  k8sNamespaceForPR: '$(system.pullRequest.sourceBranch)'
 
 stages:
 - stage: Prerequisites
@@ -87,10 +84,9 @@ stages:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'skulavik-k8s'
         command: 'apply'
-        arguments: '-f $(Pipeline.Workspace)/config/crd/bases'
+        arguments: '-f /config/crd/bases'
         checkLatest: true
-        workingDirectory: '$(Pipeline.Workspace)'
-
+    - bash: pwd && ls -al   
 - stage: DockerBuild
   displayName: Docker build
   jobs:  
