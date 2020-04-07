@@ -16,3 +16,6 @@ spec:
   # dbUser: sqluser-sample
   ## Optionally specify the keyvault for the user credentials secret
   # userSecretKeyVault: asoSecretKeyVault
+  ## Optionally specify the secretname and keyvault for the admin credentials secret
+  # serverAdminSecretName: sqlserver-sample-777-secret
+  # serverSecretKeyVault: asoSecretKeyVault

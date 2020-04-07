@@ -131,6 +131,8 @@ Required parameters:
 
 Optional parameters:
   * `userSecretKeyVault` - specify a Key Vault to store the user secret credentials in. If there is no Key Vault specified, it will default to the global secret client. 
+  * `serverSecretKeyVault` - specify a Key Vault to store the admin secret credentials in. If there is no Key Vault specified, it will default to the global secret client.
+  * `serverAdminSecretName` - specify a secret name for the admin secret. If there is no secret name specified, it will fallback to the default name.
 
 ### SQL failover group
 
