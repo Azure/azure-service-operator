@@ -49,6 +49,12 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 				instance.Status.Provisioned = true
 				return true, nil
 			}
+
+			if instance.Status.State == "Failed" {
+				instance.Status.Message = "Failed to provision CosmosDB"
+				instance.Status.Provisioning = false
+				return true, nil
+			}
 		} else if azerr.Type == errhelp.ResourceGroupNotFoundErrorCode {
 			instance.Status.Provisioning = false
 			instance.Status.Message = fmt.Sprintf("Waiting for resource group '%s' to be available", instance.Spec.ResourceGroup)
