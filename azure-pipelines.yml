@@ -147,7 +147,7 @@ stages:
               overrides: |
                 image.repository:$(containerRegistry)/$(imageRepository)
           - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes
+            displayName: Add Kubernetes Attributes
             inputs:
               action: 'deploy'
               kubernetesServiceConnection: 'skulavik-k8s'
@@ -155,15 +155,3 @@ stages:
               manifests: '$(bake.manifestsBundle)'
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
               imagePullSecrets: '$(imagePullSecret)'
-          - task: HelmDeploy@0
-            inputs:
-              connectionType: 'Azure Resource Manager'
-              azureSubscription: 'tpark-seusher-jaskulav (d2d51f36-8155-4276-bca3-038818d7a7d8)'
-              azureResourceGroup: 'skulavik-rg'
-              kubernetesCluster: 'skulavik-k8s'
-              namespace: 'azureoperator-system'
-              command: 'install'
-              chartType: 'FilePath'
-              chartPath: '$(Pipeline.Workspace)/charts/azure-service-operator'
-              updateDependency: true
-          
