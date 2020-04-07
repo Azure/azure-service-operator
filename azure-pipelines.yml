@@ -1,7 +1,3 @@
-# Deploy to Kubernetes - Review app with Azure DevSpaces
-# Build and push image to Azure Container Registry; Deploy to Azure Kuberentes Services and setup Review App with Azure DevSpaces
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - azdo-pipelines
 
@@ -119,7 +115,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'jskulavikazureserviceoperator-1296.aso-dev'
+    environment: 'jskulavikazureserviceoperator-1296.azureoperator-system'
     strategy:
       runOnce:
         deploy:
@@ -133,7 +129,7 @@ stages:
             inputs:
               action: 'createSecret'
               kubernetesServiceConnection: 'skulavik-k8s'
-              namespace: 'aso-dev'
+              namespace: 'azureoperator-system'
               secretType: 'dockerRegistry'
               secretName: '$(imagePullSecret)'
               dockerRegistryEndpoint: '$(dockerRegistryServiceConnection)'
