@@ -85,7 +85,7 @@ stages:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'skulavik-k8s'
         command: 'apply'
-        arguments: '-f config/crd/bases'
+        arguments: '-f /home/vsts/work/1/s/config/crd/bases'
         checkLatest: true
     
 - stage: DockerBuild
