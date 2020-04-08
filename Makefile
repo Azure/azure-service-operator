@@ -41,7 +41,7 @@ test-integration-controllers: generate fmt vet manifests
 	2>&1 | go-junit-report > reports/integration-controllers-report.xml
 	gocov convert reports/coverage-controllers.txt > reports/coverage-controllers.json
 	gocov-xml < reports/coverage-controllers.json > reports/coverage-controllers.xml
-	gocov-html < reports/coverage-controllers.json > reports/index.html
+	go tool cover -html=reports/coverage-controllers.txt -o reports/coverage-controllers.html
 
 # Run Resource Manager tests against the configured cluster
 test-integration-managers: generate fmt vet manifests
