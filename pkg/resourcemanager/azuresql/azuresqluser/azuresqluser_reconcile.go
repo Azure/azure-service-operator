@@ -93,9 +93,12 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, adminUser, adminPassword)
 	if err != nil {
-		instance.Status.Message = err.Error()
+		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
-			return false, nil
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = false
+			instance.Status.FailedProvisioning = true
+			return true, nil
 		}
 		return false, err
 	}
