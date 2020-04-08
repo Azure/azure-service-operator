@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
 	model "github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -54,11 +55,7 @@ func (r *AzureRedisCacheManager) CreateRedisCache(
 	props := instance.Spec.Properties
 
 	// convert kube labels to expected tag format
-	tags := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		value := v
-		tags[k] = &value
-	}
+	tags := helpers.LabelsToTags(instance.GetLabels())
 
 	redisClient, err := getRedisCacheClient()
 	if err != nil {
