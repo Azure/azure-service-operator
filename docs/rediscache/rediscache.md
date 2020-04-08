@@ -5,19 +5,19 @@ This operator will deploy an Azure Cache for Redis into a resource group and loc
 Learn more about Azure Cache for Redis [here](https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-overview).
 
 A Redis Cache is comprised of the following fields:
-* Location
-* ResourceGroupName
-* Properties
- * SKU
-    * RedisCacheSku
-    * RedisCacheSkuFamily
-    * Capacity
- * EnableNonSslPort
- * SubnetID
- * StaticIP
- * Configuration
-* SecretName
-* KeyVaultToStoreSecrets
+- Location
+- ResourceGroupName
+- Properties
+    - SKU
+        - RedisCacheSku
+        - RedisCacheSkuFamily
+        - Capacity
+    - EnableNonSslPort
+    - SubnetID
+    - StaticIP
+    - Configuration
+- SecretName
+- KeyVaultToStoreSecrets
 
 ### Required Fields
 
