@@ -46,7 +46,7 @@ test-integration-controllers: generate fmt vet manifests
 # Run Resource Manager tests against the configured cluster
 test-integration-managers: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 \
-	go test -v -coverprofile=coverage/coverage-managers.txt -covermode count  -parallel 4 -timeout 45m \
+	go test -v -coverprofile=coverage/coverage-managers.txt -covermode count  -parallel 4 -timeout 10m \
 	./api/... \
 	./pkg/resourcemanager/eventhubs/...  \
 	./pkg/resourcemanager/resourcegroups/...  \
