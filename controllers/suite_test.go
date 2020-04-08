@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"runtime/debug"
@@ -731,8 +732,16 @@ func setup() error {
 
 	log.Println("Creating KV:", keyvaultName)
 	_, err = resourcemanagerkeyvaults.AzureKeyVaultManager.CreateVaultWithAccessPolicies(context.Background(), resourceGroupName, keyvaultName, resourcegroupLocation, resourcemanagerconfig.ClientID())
-	if err != nil {
-		return err
+	// Key Vault needs to be in "Suceeded" state
+	finish = time.Now().Add(tc.timeout)
+	for {
+		if finish.Before(time.Now()) {
+			return fmt.Errorf("time out waiting for keyvault")
+		}
+		result, _ := tc.keyVaultManager.GetVault(context.Background(), resourceGroupName, keyvaultName)
+		if result.Response.StatusCode == http.StatusOK {
+			break
+		}
 	}
 
 	log.Println(fmt.Sprintf("finished common controller test setup"))
