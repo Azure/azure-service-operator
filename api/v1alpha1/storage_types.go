@@ -31,6 +31,8 @@ type StorageSpec struct {
 	DataLakeEnabled *bool `json:"dataLakeEnabled,omitempty"`
 
 	NetworkRule *StorageNetworkRuleSet `json:"networkRule,omitempty"`
+
+	//Properties StorageAccountProperties `json:"properties,omitempty"`
 }
 
 // Sku the SKU of the storage account.

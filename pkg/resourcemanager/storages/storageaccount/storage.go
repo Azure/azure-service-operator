@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"log"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -21,8 +22,8 @@ type azureStorageManager struct{}
 
 // ParseNetworkPolicy - helper function to parse network policies from Kubernetes spec
 func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.NetworkRuleSet {
-	var bypass storage.Bypass
 
+	bypass := storage.AzureServices
 	switch ruleSet.Bypass {
 	case "AzureServices":
 		bypass = storage.AzureServices
@@ -32,26 +33,19 @@ func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.Network
 		bypass = storage.Logging
 	case "Metrics":
 		bypass = storage.Metrics
-	default:
-		bypass = storage.AzureServices
 	}
 
-	var defaultAction storage.DefaultAction
-	switch ruleSet.DefaultAction {
-	case "Allow":
+	defaultAction := storage.DefaultActionDeny
+	if strings.ToLower(ruleSet.DefaultAction) == "allow" {
 		defaultAction = storage.DefaultActionAllow
-	case "Deny":
-		defaultAction = storage.DefaultActionDeny
-	default:
-		defaultAction = storage.DefaultActionDeny
 	}
 
 	var ipInstances []storage.IPRule
-	if ruleSet.IPRule != nil {
-		for _, i := range *ruleSet.IPRule {
-			subnetID := i.IPAddressOrRange
+	if ruleSet.IPRules != nil {
+		for _, i := range *ruleSet.IPRules {
+			ipmask := i.IPAddressOrRange
 			ipInstances = append(ipInstances, storage.IPRule{
-				IPAddressOrRange: subnetID,
+				IPAddressOrRange: ipmask,
 				Action:           storage.Allow,
 			})
 		}
@@ -60,9 +54,9 @@ func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.Network
 	var vnetInstances []storage.VirtualNetworkRule
 	if ruleSet.VirtualNetworkRules != nil {
 		for _, i := range *ruleSet.VirtualNetworkRules {
-			ventID := i.VirtualNetworkResourceID
+			vnetID := i.SubnetId
 			vnetInstances = append(vnetInstances, storage.VirtualNetworkRule{
-				VirtualNetworkResourceID: ventID,
+				VirtualNetworkResourceID: vnetID,
 				Action:                   storage.Allow,
 			})
 		}
@@ -88,7 +82,7 @@ func getStoragesClient() storage.AccountsClient {
 }
 
 // CreateStorage creates a new storage account
-func (_ *azureStorageManager) CreateStorage(ctx context.Context, instance *v1alpha1.Storage,
+func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 	groupName string,
 	storageAccountName string,
 	location string,
@@ -96,7 +90,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, instance *v1alp
 	kind azurev1alpha1.StorageKind,
 	tags map[string]*string,
 	accessTier azurev1alpha1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (result storage.Account, err error) {
+	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *storage.NetworkRuleSet) (result storage.Account, err error) {
 
 	storagesClient := getStoragesClient()
 
@@ -122,13 +116,6 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, instance *v1alp
 	sKind := storage.Kind(kind)
 	sAccessTier := storage.AccessTier(accessTier)
 
-	var networkAcls storage.NetworkRuleSet
-	if instance.Spec.NetworkRule != nil {
-		networkAcls = ParseNetworkPolicy(instance.Spec.NetworkRule)
-	} else {
-		networkAcls = storage.NetworkRuleSet{}
-	}
-
 	params := storage.AccountCreateParameters{
 		Location: to.StringPtr(location),
 		Sku:      &sSku,
@@ -139,7 +126,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, instance *v1alp
 			AccessTier:             sAccessTier,
 			EnableHTTPSTrafficOnly: enableHTTPsTrafficOnly,
 			IsHnsEnabled:           dataLakeEnabled,
-			NetworkRuleSet:         &networkAcls,
+			NetworkRuleSet:         networkRule,
 		},
 	}
 
