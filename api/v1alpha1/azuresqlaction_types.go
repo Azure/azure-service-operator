@@ -19,6 +19,9 @@ type AzureSqlActionSpec struct {
 	ServerName            string `json:"serverName"`
 	ServerAdminSecretName string `json:"serverAdminSecretName,omitempty"`
 	ServerSecretKeyVault  string `json:"serverSecretKeyVault,omitempty"`
+	UserSecretKeyVault    string `json:"userSecretKeyVault,omitempty"`
+	DbUser                string `json:"dbUser,omitempty"`
+	DbName                string `json:"dbName,omitempty"`
 }
 
 // +kubebuilder:object:root=true
