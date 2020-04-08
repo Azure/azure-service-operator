@@ -50,7 +50,7 @@ func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName 
 	kind azurev1alpha1.StorageKind,
 	tags map[string]*string,
 	accessTier azurev1alpha1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (result storage.Account, err error) {
+	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *azurev1alpha1.NetworkRuleSet) (result storage.Account, err error) {
 	s := storageResource{
 		resourceGroupName:  groupName,
 		storageAccountName: storageAccountName,

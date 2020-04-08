@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -33,6 +34,11 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	enableHTTPSTrafficOnly := instance.Spec.EnableHTTPSTrafficOnly
 	dataLakeEnabled := instance.Spec.DataLakeEnabled
 
+	networkAcls := storage.NetworkRuleSet{}
+
+	if instance.Spec.NetworkRule != nil {
+		networkAcls = ParseNetworkPolicy(instance.Spec.NetworkRule)
+	}
 	// convert kube labels to expected tag format
 	labels := map[string]*string{}
 	for k, v := range instance.GetLabels() {
@@ -67,7 +73,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
 
-	_, err = sa.CreateStorage(ctx, instance, groupName, name, location, sku, kind, labels, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled)
+	_, err = sa.CreateStorage(ctx, groupName, name, location, sku, kind, labels, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled, &networkAcls)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)

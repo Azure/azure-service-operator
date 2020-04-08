@@ -7,7 +7,6 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/go-autorest/autorest"
@@ -19,7 +18,7 @@ func New() *azureStorageManager {
 }
 
 type StorageManager interface {
-	CreateStorage(ctx context.Context, instance *v1alpha1.Storage,
+	CreateStorage(ctx context.Context,
 		groupName string,
 		storageAccountName string,
 		location string,
@@ -27,7 +26,7 @@ type StorageManager interface {
 		kind azurev1alpha1.StorageKind,
 		tags map[string]*string,
 		accessTier azurev1alpha1.StorageAccessTier,
-		enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (result storage.Account, err error)
+		enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *storage.NetworkRuleSet) (result storage.Account, err error)
 
 	// Get gets the description of the specified storage account.
 	// Parameters:
