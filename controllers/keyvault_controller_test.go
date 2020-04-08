@@ -30,7 +30,7 @@ func TestKeyvaultControllerHappyPath(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := GenerateTestResourceNameWithRandom("kv", 10)
+	keyVaultName := GenerateTestResourceNameWithRandom("kv", 6)
 	const poll = time.Second * 10
 
 	keyVaultLocation := tc.resourceGroupLocation
@@ -72,7 +72,7 @@ func TestKeyvaultControllerWithAccessPolicies(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := GenerateTestResourceNameWithRandom("kv", 10)
+	keyVaultName := GenerateTestResourceNameWithRandom("kv", 6)
 	const poll = time.Second * 10
 	keyVaultLocation := tc.resourceGroupLocation
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
@@ -150,7 +150,7 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
-	keyVaultName := GenerateTestResourceNameWithRandom("kv", 10)
+	keyVaultName := GenerateTestResourceNameWithRandom("kv", 6)
 	const poll = time.Second * 10
 	keyVaultLocation := tc.resourceGroupLocation
 	limitedPermissions := []string{"backup"}
@@ -346,7 +346,7 @@ func TestKeyvaultControllerWithVirtualNetworkRulesAndUpdate(t *testing.T) {
 	ctx := context.Background()
 	assert := assert.New(t)
 
-	keyVaultName := GenerateTestResourceNameWithRandom("kv", 10)
+	keyVaultName := GenerateTestResourceNameWithRandom("kv", 6)
 	const poll = time.Second * 10
 	keyVaultLocation := tc.resourceGroupLocation
 	accessPolicies := []azurev1alpha1.AccessPolicyEntry{
