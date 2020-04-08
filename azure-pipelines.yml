@@ -86,7 +86,7 @@ stages:
         namespace: 'azureoperator-system'
         command: 'login'
         checkLatest: true
-    - script: kubectl apply -f config/crd/bases
+    - script: make install
 - stage: DockerBuild
   displayName: Docker build
   jobs:  
