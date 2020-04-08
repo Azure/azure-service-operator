@@ -9,8 +9,8 @@ A Redis Cache is comprised of the following fields:
 - ResourceGroupName
 - Properties
     - SKU
-        - RedisCacheSku
-        - RedisCacheSkuFamily
+        - Name
+        - Family
         - Capacity
     - EnableNonSslPort
     - SubnetID
@@ -23,8 +23,8 @@ A Redis Cache is comprised of the following fields:
 
 A Redis Cache needs the following fields to deploy, along with a location and resource group.
 
-* `Properties.SKU.RedisCacheSku` Select a SKU, where the options are: _Basic_, _Standard_, and _Premium_.
-* `Properties.SKU.RedisCacheSkuFamily` Select a SKU Family, where the options are: _C_, _P_. If you selected a _Premium_ SKU, then the corresponding SKU Family is _P_.
+* `Properties.SKU.Name` Select a SKU, where the options are: _Basic_, _Standard_, and _Premium_.
+* `Properties.SKU.Family` Select a SKU Family, where the options are: _C_, _P_. If you selected a _Premium_ SKU, then the corresponding SKU Family is _P_.
 * `Properties.SKU.Capacity` Set the desired capacity 
 * `EnableNonSslPort` defaults to True
 
