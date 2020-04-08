@@ -387,11 +387,8 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 
 	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		value := v
-		labels[k] = &value
-	}
+	labels := helpers.LabelsToTags(instance.GetLabels())
+
 	instance.Status.Provisioning = true
 
 	// Check if this KeyVault already exists and its state if it does.
