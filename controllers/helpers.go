@@ -223,7 +223,7 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 
 	names := types.NamespacedName{Name: res.GetName(), Namespace: res.GetNamespace()}
 
-	// Wait for first sql server to resolve
+	// Wait for finalizer
 	err = helpers.Retry(tc.timeoutFast, tc.retry, func() error {
 		err := tc.k8sClient.Get(ctx, names, instance)
 		if err != nil {
@@ -237,6 +237,7 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 	})
 	assert.Nil(err, "error waiting for %s to have finalizer", typeOf)
 
+	// wait for provisioned and message to be as expected
 	err = helpers.Retry(tc.timeout, tc.retry, func() error {
 		err := tc.k8sClient.Get(ctx, names, instance)
 		if err != nil {
@@ -245,7 +246,7 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 
 		statused := ConvertToStatus(instance)
 		// if we expect this resource to end up with provisioned == true then failedProvisioning == true is unrecoverable
-		if provisioned == true && statused.Status.FailedProvisioning {
+		if provisioned && statused.Status.FailedProvisioning {
 			return helpers.NewStop(fmt.Errorf("Failed provisioning: %s", statused.Status.Message))
 		}
 		if !strings.Contains(statused.Status.Message, message) || statused.Status.Provisioned != provisioned {
@@ -305,7 +306,7 @@ func RequireInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext
 
 	names := types.NamespacedName{Name: res.GetName(), Namespace: res.GetNamespace()}
 
-	// Wait for first sql server to resolve
+	// Wait for finalizer
 	err = helpers.Retry(tc.timeoutFast, tc.retry, func() error {
 		err := tc.k8sClient.Get(ctx, names, instance)
 		if err != nil {
@@ -319,6 +320,7 @@ func RequireInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext
 	})
 	require.Nil(err, "error waiting for %s to have finalizer", typeOf)
 
+	// wait for provisioned state and message to be as expected
 	err = helpers.Retry(tc.timeout, tc.retry, func() error {
 		err := tc.k8sClient.Get(ctx, names, instance)
 		if err != nil {
@@ -326,7 +328,7 @@ func RequireInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext
 		}
 
 		statused := ConvertToStatus(instance)
-		if statused.Status.FailedProvisioning {
+		if provisioned && statused.Status.FailedProvisioning {
 			return helpers.NewStop(fmt.Errorf("Failed provisioning: %s", statused.Status.Message))
 		}
 		if !strings.Contains(statused.Status.Message, message) || statused.Status.Provisioned != provisioned {
