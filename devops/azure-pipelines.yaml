@@ -240,5 +240,5 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: $(Pipeline.Workspace)/reports
+    pathtoPublish: '$(MODULE_PATH)/reports'
     artifactName: reports
