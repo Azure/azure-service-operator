@@ -23,7 +23,7 @@ func TestStorageControllerHappyPath(t *testing.T) {
 	StorageAccountName := GenerateAlphaNumTestResourceName("sadev")
 
 	// Create the ResourceGroup object and expect the Reconcile to be created
-	saInstance := &azurev1alpha1.Storage{
+	saInstance := &azurev1alpha1.StorageAccount{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      StorageAccountName,
 			Namespace: "default",

@@ -62,8 +62,8 @@ type StorageAccessTier string
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// Storage is the Schema for the storages API
-type Storage struct {
+// StorageAccount is the Schema for the storages API
+type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
@@ -93,13 +93,13 @@ type StorageAdditionalResources struct {
 type StorageList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Storage `json:"items"`
+	Items           []StorageAccount `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Storage{}, &StorageList{})
+	SchemeBuilder.Register(&StorageAccount{}, &StorageList{})
 }
-
-func (storage *Storage) IsSubmitted() bool {
+i
+func (storage *StorageAccount) IsSubmitted() bool {
 	return storage.Status.Provisioning || storage.Status.Provisioned
 }

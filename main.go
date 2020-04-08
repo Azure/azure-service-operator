@@ -150,15 +150,15 @@ func main() {
 	)
 	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
 
-	err = (&controllers.StorageReconciler{
+	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
 			AzureClient: storageaccountManager.New(),
 			Telemetry: telemetry.InitializeTelemetryDefault(
-				"Storage",
-				ctrl.Log.WithName("controllers").WithName("Storage"),
+				"StorageAccount",
+				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
 			),
-			Recorder: mgr.GetEventRecorderFor("Storage-controller"),
+			Recorder: mgr.GetEventRecorderFor("StorageAccount-controller"),
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr)

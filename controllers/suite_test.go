@@ -609,15 +609,15 @@ func setup() error {
 		return err
 	}
 
-	err = (&StorageReconciler{
+	err = (&StorageAccountReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: storageAccountManager,
 			Telemetry: telemetry.InitializeTelemetryDefault(
-				"Storage",
-				ctrl.Log.WithName("controllers").WithName("Storage"),
+				"StorageAccount",
+				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("Storage-controller"),
+			Recorder: k8sManager.GetEventRecorderFor("StorageAccount-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)

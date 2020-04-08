@@ -11,8 +11,8 @@ import (
 
 const storageFinalizerName = "storage.finalizers.azure.com"
 
-// StorageReconciler reconciles a Storage object
-type StorageReconciler struct {
+// StorageAccountReconciler reconciles a Storage Account object
+type StorageAccountReconciler struct {
 	Reconciler *AsyncReconciler
 }
 
@@ -20,13 +20,13 @@ type StorageReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=storages/status,verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
-func (r *StorageReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.Storage{})
+func (r *StorageAccountReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+	return r.Reconciler.Reconcile(req, &azurev1alpha1.StorageAccount{})
 }
 
 // SetupWithManager sets up the controller functions
-func (r *StorageReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *StorageAccountReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.Storage{}).
+		For(&azurev1alpha1.StorageAccount{}).
 		Complete(r)
 }
