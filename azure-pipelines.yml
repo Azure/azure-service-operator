@@ -84,11 +84,9 @@ stages:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'skulavik-k8s'
         namespace: 'azureoperator-system'
-        command: 'apply'
-        arguments: '-f config/crd/bases'
-        secretType: 'dockerRegistry'
-        containerRegistryType: 'Azure Container Registry'
+        command: 'login'
         checkLatest: true
+    - script: kubectl apply -f config/crd/bases
 - stage: DockerBuild
   displayName: Docker build
   jobs:  
