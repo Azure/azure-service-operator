@@ -4,11 +4,18 @@ metadata:
   name: azuresqlaction-sample
 spec:
   resourceGroup: resourcegroup-azure-operators
-  actionName: rolladmincreds
   serverName: sqlserver-sample-777
+  
+  # actionName: rolladmincreds
+  ## Optionally specify the secretname and keyvault for the admin credentials secret
+  # serverAdminSecretName: sqlserver-sample-777-secret
+  # serverSecretKeyVault: asoSecretKeyVault
 
-  # Optionally specify the secretname and keyvault where the admin credentials secret
-  # of the SQL server is stored. If not specified we fallback to the global secret
-  # client and the default name for the secret
-  #serverAdminSecretName: sqlserver-sample-777-secret
-  #serverSecretKeyVault: asoSecretKeyVault
+  # actionName: rollusercreds
+  # dbName: azuresqldatabase-sample
+  # dbUser: sqluser-sample
+  ## Optionally specify the keyvault for the user credentials secret
+  # userSecretKeyVault: asoSecretKeyVault
+  ## Optionally specify the secretname and keyvault for the admin credentials secret
+  # serverAdminSecretName: sqlserver-sample-777-secret
+  # serverSecretKeyVault: asoSecretKeyVault
