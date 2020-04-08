@@ -8,64 +8,20 @@ The Postgre SQL operator suite consists of the following operators.
 2. Postgre SQL database - Deploys a database under the given `Azure Database for PostgreSQL server`
 3. Postgre SQL firewall rule - Deploys a firewall rule to allow access to the `Azure Database for PostgreSQL server` from the specified IP range
 
-## Deploying PostgreSQL Resources
-
-Follow the steps [here](/docs/development.md) or [here](/docs/deploy.md) to either run the operator locally or in a real Kubernetes cluster.
-
-Use the YAML files in the `config/samples` folder as a guide for creating new resources.
-
 ### PostgreSQL server
 
-For instance, this is the sample YAML for the PostgreSQL server.
-
-[PostgreSQL server YAML](/config/samples/azure_v1alpha1_postgresqlserver.yaml)
+Here is a [sample YAML](/config/samples/azure_v1alpha1_postgresqlserver.yaml) for the PostgreSQL server.
 
 The value for kind, `PostgreSQLServer` is the Custom Resource Definition (CRD) name.
 `postgresqlserver-sample` is the name of the PostgreSQL server resource that will be created.
 
 The values under `spec` provide the values for the location where you want to create the PostgreSQL server at and the Resource group in which you want to create it under. It also contains other values that are required to create the server like the `serverVersion`, `sslEnforcement` and the `sku` information.
 
-Once you've updated the YAML with the settings you need, and you have the operator running, you can create a Custom PostgreSQL server resource using the command.
+If `sslEnforcement` is enabled, applications can connect to the PostgreSQL server using SSL. If you would like to connect using the full SSL verification enabled (sslmode=verify-full) that validates the server certificate, you would need the root certificate installed on your client. [This link](https://docs.microsoft.com/en-us/azure/postgresql/concepts-ssl-connection-security) documents the root certificate to use.
 
-```shell
-kubectl apply -f config/samples/azure_v1alpha1_postgresqlserver.yaml
-```
+**Note** The root certificate documented in the above link (`https://www.digicert.com/CACerts/BaltimoreCyberTrustRoot.crt.pem`) only applies to instances on Azure Public Cloud. If you are deploying Azure Database for PostgreSQL instances on Azure China Cloud, you should use this one - `https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem`
 
-Along with creating the PostgreSQL server, this operator also generates the admin username and password for the PostgreSQL server and stores it in a kube secret or keyvault (based on what is specified) with the same name as the PostgreSQL server.
-
-You can retrieve this secret using the following command for the sample YAML
-
-```shell
-kubectl get secret postgresqlserver-sample -o yaml
-```
-
-This would show you the details of the secret. `username` and `password` in the `data` section are the base64 encoded admin credentials to the PostgreSQL server.
-
-```shell
-apiVersion: v1alpha1
-data:
-  fullyqualifiedservername: c3Fsc2VydmVyLXNhbXBsZS04ODguZGF0YWJhc2Uud2luZG93cy5uZXQ=
-  fullyqualifiedusername: aGFzMTUzMnVAc3Fsc2VydmVyLXNhbXBsZS04ODg=
-  password: XTdpMmQqNsd7YlpFdEApMw==
-  postgresqlservername: c3Fsc2VyfmVyLXNhbXBsZS04ODg=
-  username: aGFzMTFzMnU=
-kind: Secret
-metadata:
-  creationTimestamp: "2019-10-09T21:02:02Z"
-  name: sqlserver-sample-888
-  namespace: default
-  ownerReferences:
-  - apiVersion: azure.microsoft.com/v1
-    blockOwnerDeletion: true
-    controller: true
-    kind: PostgreSqlServer
-    name: sqlserver-sample-888
-    uid: 08fdbf42-ead8-11e9-91e0-025000000001
-  resourceVersion: "131163"
-  selfLink: /api/v1/namespaces/default/secrets/postgresqlserver-sample
-  uid: 0aeb2429-ead8-11e9-91e0-025000000001
-type: Opaque
-```
+Along with creating the PostgreSQL server, this operator also generates the admin username and password for the PostgreSQL server and stores it in a kube secret or keyvault (based on what is specified) with the same name as the PostgreSQL server.=
 
 This secret contains the following fields.
 
@@ -79,23 +35,19 @@ For more information on where and how secrets are stored, look [here](/docs/secr
 
 ### PostgreSQL Database
 
-Here is the sample YAML for PostgreSQL database
-
-[PostgreSQL database YAML](/config/samples/azure_v1alpha1_postgresqldatabase.yaml)
+Here is a [sample YAML](/config/samples/azure_v1alpha1_postgresqldatabase.yaml) for PostgreSQL database
 
 Update the `resourcegroup` to where you want to provision the PostgreSQL database. `server` is the name of the PostgreSQL server where you want to create the database in.
 
-### PostgreSQL firewall
+### PostgreSQL firewall rule
 
-The PostgreSQL firewall operator allows you to add a firewall rule to the PostgreSQL server.
+The PostgreSQL firewall rule operator allows you to add a firewall rule to the PostgreSQL server.
 
-Here is the sample YAML for PostgreSQL firewall rule
-
-[PostgreSQL firewall rule YAML](/config/samples/azure_v1alpha1_postgresqlfirewallrule.yaml)
+Here is a [sample YAML](/config/samples/azure_v1alpha1_postgresqlfirewallrule.yaml) for PostgreSQL firewall rule
 
 The `server` indicates the PostgreSQL server on which you want to configure the new PostgreSQL firewall rule on and `resourceGroup` is the resource group of the PostgreSQL server. The `startIpAddress` and `endIpAddress` indicate the IP range of sources to allow access to the SQL server.
 
-*Note*: When the `startIpAddress` and `endIpAddress` are 0.0.0.0, it is a special case that adds a firewall rule to allow all Azure services to access the SQL server.
+*Note*: When the `startIpAddress` and `endIpAddress` are 0.0.0.0, it denotes a special case that adds a firewall rule to allow all Azure services to access the SQL server.
 
 ## Deploy, view and delete resources
 
