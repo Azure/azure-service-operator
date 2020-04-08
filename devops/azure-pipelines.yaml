@@ -130,6 +130,7 @@ steps:
     kubectl get pods --namespace cert-manager
     echo "all the pods should be running"
     make deploy
+    mkdir reports
     make test-integration-controllers
   continueOnError: 'false'
   displayName: 'Set kind cluster and Run int tests'
