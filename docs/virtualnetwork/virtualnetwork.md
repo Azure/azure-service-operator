@@ -9,12 +9,11 @@ A virtual network is comprised of the following fields:
 * Location
 * ResourceGroup
 * Address Space
-* Subnets[]
+* Subnets
   * SubnetName
   * SubnetAddressPrefix
 
-
-## Deploying Virtual Network Resources
+## Deploy
 
 Follow the steps [here](/docs/development.md) or [here](/docs/deploy.md) to either run the operator locally or in a real Kubernetes cluster.
 
