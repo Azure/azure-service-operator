@@ -99,7 +99,7 @@ type StorageList struct {
 func init() {
 	SchemeBuilder.Register(&StorageAccount{}, &StorageList{})
 }
-i
+
 func (storage *StorageAccount) IsSubmitted() bool {
 	return storage.Status.Provisioning || storage.Status.Provisioned
 }

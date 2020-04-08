@@ -163,7 +163,7 @@ func main() {
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Storage")
+		setupLog.Error(err, "unable to create controller", "controller", "StorageAccount")
 		os.Exit(1)
 	}
 	err = (&controllers.CosmosDBReconciler{
