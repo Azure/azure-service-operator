@@ -260,7 +260,7 @@ func getCaptureDescriptionPtr(captureDescription azurev1alpha1.CaptureDescriptio
 	// add capture details
 	var capturePtr *eventhub.CaptureDescription
 
-	storage := captureDescription.Destination.StorageAccount
+	storage := captureDescription.Destination.EventHubStorageAccount
 	storageAccountResourceID := fmt.Sprintf(storageAccountResourceFmt, config.SubscriptionID(), storage.ResourceGroup, storage.AccountName)
 
 	if captureDescription.Enabled {

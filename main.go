@@ -35,7 +35,7 @@ import (
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
-	stoageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
+	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
@@ -153,7 +153,7 @@ func main() {
 	err = (&controllers.StorageReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: stoageaccountManager.New(),
+			AzureClient: storageaccountManager.New(),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"Storage",
 				ctrl.Log.WithName("controllers").WithName("Storage"),
