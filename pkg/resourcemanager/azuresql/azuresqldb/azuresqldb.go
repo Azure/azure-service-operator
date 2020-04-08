@@ -88,7 +88,7 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 	dbClient, err := azuresqlshared.GetGoDbClient()
 	if err != nil {
 		return &http.Response{
-			StatusCode: 500,
+			StatusCode: 0,
 		}, err
 	}
 
