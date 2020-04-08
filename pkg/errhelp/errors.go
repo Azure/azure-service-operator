@@ -52,6 +52,7 @@ const (
 	SecretNotFound                      = "SecretNotFound"
 	RequestDisallowedByPolicy           = "RequestDisallowedByPolicy"
 	ServiceBusy                         = "ServiceBusy"
+	NameNotAvailable                    = "NameNotAvailable"
 )
 
 func NewAzureError(err error) error {
