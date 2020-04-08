@@ -335,6 +335,12 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 
 	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
 	if err != nil {
+		instance.Status.Message = errhelp.StripErrorIDs(err)
+		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
+
+			// there is nothing much we can do here, and since we dont want to cycle forever, just exit
+			return false, nil
+		}
 		return false, err
 	}
 
