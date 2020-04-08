@@ -39,9 +39,9 @@ test-integration-controllers: generate fmt vet manifests
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/coverage-controllers.txt -covermode count -parallel 4 -timeout 45m \
 	./controllers/... \
 	2>&1 | go-junit-report > reports/integration-controllers-report.xml
-    gocov convert reports/coverage-controllers.txt > reports/coverage-controllers.json
-    gocov-xml < reports/coverage-controllers.json > reports/coverage-controllers.xml
-    gocov-html < reports/coverage-controllers.json > reports/index.html
+	gocov convert reports/coverage-controllers.txt > reports/coverage-controllers.json
+	gocov-xml < reports/coverage-controllers.json > reports/coverage-controllers.xml
+	gocov-html < reports/coverage-controllers.json > reports/index.html
 
 # Run Resource Manager tests against the configured cluster
 test-integration-managers: generate fmt vet manifests
