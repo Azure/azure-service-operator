@@ -49,7 +49,7 @@ var _ = Describe("AzureSqlAction", func() {
 				Spec: AzureSqlActionSpec{
 					ResourceGroup: "foo-action",
 					ServerName:    "sqlsrvsample",
-					ActionName:    "rollcreds",
+					ActionName:    "rolladmincreds",
 				}}
 
 			By("creating an API obj")

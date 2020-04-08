@@ -105,13 +105,34 @@ The `server` indicates the SQL server on which you want to configure the new SQL
 
 ### SQL Action
 
-The SQL Action operator is used to trigger an action on the SQL server. Right now, the only action supported is `rollcreds` which rolls the password for the SQL server to a new one.
+The SQL Action operator is used to trigger an action on the SQL server. Right now, the supported actions are `rolladmincreds`, which rolls the password for the SQL server to a new one, and `rollusercreds`, which rolls the password for the SQL Database User.
 
-Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqlaction.yaml) for rolling the admin password of the SQL server
+The `name` is a name for the action that we want to trigger. The type of action is determined by the value of `actionname` in the spec which is `rolladmincreds` or `rollusercreds` if you want to roll the password (Note: This action name should be exact for the password to be rolled). The `resourcegroup` and `servername` identify the SQL server on which the action should be triggered on.
 
-The `name` is a name for the action that we want to trigger. The type of action is determined by the value of `actionname` in the spec which is `rollcreds` if you want to roll the password (Note: This action name should be exactly `rollcreds` for the password to be rolled). The `resourcegroup` and `servername` identify the SQL server on which the action should be triggered on.
+Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqlaction.yaml) for rolling the admin or user password of the SQL server
 
-Once you apply this, the kube secret with the same name as the SQL server is updated with the rolled password.
+Once you apply this, the kube or Key Vault secret with the same name as the SQL server is updated with the rolled password.
+
+#### rolladmincreds
+
+This action will roll the password for the SQL Server. 
+
+Optional parameters:
+  * `serverSecretKeyVault` - specify a Key Vault to store the admin secret credentials in. If there is no Key Vault specified, it will default to the global secret client.
+  * `serverAdminSecretName` - specify a secret name for the admin secret. If there is no secret name specified, it will fallback to the default name.
+
+#### rollusercreds
+
+This action will roll the password for the SQL Database User. 
+
+Required parameters:
+  * `dbName` - name of the database
+  * `dbUser` - name of the user
+
+Optional parameters:
+  * `userSecretKeyVault` - specify a Key Vault to store the user secret credentials in. If there is no Key Vault specified, it will default to the global secret client. 
+  * `serverSecretKeyVault` - specify a Key Vault to store the admin secret credentials in. If there is no Key Vault specified, it will default to the global secret client.
+  * `serverAdminSecretName` - specify a secret name for the admin secret. If there is no secret name specified, it will fallback to the default name.
 
 ### SQL failover group
 
