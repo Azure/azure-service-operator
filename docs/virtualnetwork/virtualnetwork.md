@@ -1,20 +1,33 @@
 # Virtual Network Operator
 
-This operator will deploy an Azure Virtual Network to a resource group and location, in the address space provided. Users are able to add subnets to their virtual network.
+This operator deploys an Azure Virtual Network into a specified resource group at the specified location, in the address space provided. Users are able to add subnets to their virtual network.
 
 Learn more about Azure Virtual Networks [here](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview).
 
-A virtual network is comprised of the following fields:
+Here is a [sample YAML](/config/samples/azure_v1alpha1_virtualnetwork.yaml) to provision a Virtual Network.
+
+The spec is comprised of the following fields:
 
 * Location
 * ResourceGroup
-* Address Space
+* AddressSpace
 * Subnets
   * SubnetName
   * SubnetAddressPrefix
 
-## Deploy
+### Required Fields
 
-Follow the steps [here](/docs/development.md) or [here](/docs/deploy.md) to either run the operator locally or in a real Kubernetes cluster.
+A Virtual Network needs the following fields to deploy, along with a location and resource group.
 
-You can find a sample Virtual Network YAML [here](/config/samples/azure_v1alpha1_virtualnetwork.yaml).
+* `AddressSpace` specify an address space for your virtual network
+
+### Optional Fields
+
+You are able to specify a single or multiple subnets for your virtual network.
+
+* `Subnets.SubnetName` specify a name for your subnet
+* `Subnets.SubnetAddressPrefix` specify an address space for your subnet
+
+## Deploy, view and delete resources
+
+You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
