@@ -1,6 +1,6 @@
 # Virtual Network Operator
 
-This operator deploys an Azure Virtual Network into a specified resource group at the specified location, in the address space provided. Users are able to add subnets to their virtual network.
+This operator deploys an Azure Virtual Network into a specified resource group at the specified location, in the address space provided. Users are also able to add subnets to their virtual network through the operator.
 
 Learn more about Azure Virtual Networks [here](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview).
 
