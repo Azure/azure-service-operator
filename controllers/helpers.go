@@ -223,17 +223,50 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 
 	names := types.NamespacedName{Name: res.GetName(), Namespace: res.GetNamespace()}
 
-	// Wait for first sql server to resolve
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, names, instance)
-		return HasFinalizer(res, finalizerName)
-	}, tc.timeoutFast, tc.retry, "error waiting for %s to have finalizer", typeOf)
+	// Wait for finalizer
+	err = helpers.Retry(tc.timeoutFast, tc.retry, func() error {
+		err := tc.k8sClient.Get(ctx, names, instance)
+		if err != nil {
+			return err
+		}
 
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, names, instance)
+		if !HasFinalizer(res, finalizerName) {
+			return fmt.Errorf("resource '%s' (%s) does not have finalizer '%s'", names.Name, typeOf, finalizerName)
+		}
+		return nil
+	})
+	assert.Nil(err, "error waiting for %s to have finalizer", typeOf)
+
+	// wait for provisioned and message to be as expected
+	err = helpers.Retry(tc.timeout, tc.retry, func() error {
+		err := tc.k8sClient.Get(ctx, names, instance)
+		if err != nil {
+			return err
+		}
+
 		statused := ConvertToStatus(instance)
-		return strings.Contains(statused.Status.Message, message) && statused.Status.Provisioned == provisioned
-	}, tc.timeout, tc.retry, "wait for %s to provision", typeOf)
+		// if we expect this resource to end up with provisioned == true then failedProvisioning == true is unrecoverable
+		if provisioned && statused.Status.FailedProvisioning {
+			return helpers.NewStop(fmt.Errorf("Failed provisioning: %s", statused.Status.Message))
+		}
+		if !strings.Contains(statused.Status.Message, message) || statused.Status.Provisioned != provisioned {
+			return fmt.Errorf(
+				`Expected: 
+					Status.Message to contain %s
+					Status.Provisioned to be %t
+				Actual:
+					Message: '%s'
+					Provisioned: %t
+				`,
+				message,
+				provisioned,
+				statused.Status.Message,
+				statused.Status.Provisioned,
+			)
+		}
+		return nil
+	})
+	assert.Nil(err, "wait for %s to provision", typeOf)
 
 }
 
@@ -273,17 +306,49 @@ func RequireInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext
 
 	names := types.NamespacedName{Name: res.GetName(), Namespace: res.GetNamespace()}
 
-	// Wait for first sql server to resolve
-	require.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, names, instance)
-		return HasFinalizer(res, finalizerName)
-	}, tc.timeoutFast, tc.retry, "error waiting for %s to have finalizer", typeOf)
+	// Wait for finalizer
+	err = helpers.Retry(tc.timeoutFast, tc.retry, func() error {
+		err := tc.k8sClient.Get(ctx, names, instance)
+		if err != nil {
+			return err
+		}
 
-	require.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, names, instance)
+		if !HasFinalizer(res, finalizerName) {
+			return fmt.Errorf("resource '%s' (%s) does not have finalizer '%s'", names.Name, typeOf, finalizerName)
+		}
+		return nil
+	})
+	require.Nil(err, "error waiting for %s to have finalizer", typeOf)
+
+	// wait for provisioned state and message to be as expected
+	err = helpers.Retry(tc.timeout, tc.retry, func() error {
+		err := tc.k8sClient.Get(ctx, names, instance)
+		if err != nil {
+			return err
+		}
+
 		statused := ConvertToStatus(instance)
-		return strings.Contains(statused.Status.Message, message) && statused.Status.Provisioned == provisioned
-	}, tc.timeout, tc.retry, "wait for %s to provision", typeOf)
+		if provisioned && statused.Status.FailedProvisioning {
+			return helpers.NewStop(fmt.Errorf("Failed provisioning: %s", statused.Status.Message))
+		}
+		if !strings.Contains(statused.Status.Message, message) || statused.Status.Provisioned != provisioned {
+			return fmt.Errorf(
+				`Expected: 
+					Status.Message to contain %s
+					Status.Provisioned to be %t
+				Actual:
+					Message: '%s'
+					Provisioned: %t
+				`,
+				message,
+				provisioned,
+				statused.Status.Message,
+				statused.Status.Provisioned,
+			)
+		}
+		return nil
+	})
+	require.Nil(err, "wait for %s to provision", typeOf)
 
 }
 

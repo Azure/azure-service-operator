@@ -34,7 +34,10 @@ func (_ *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName str
 
 // GetDB retrieves a database
 func (_ *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
-	dbClient := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient()
+	if err != nil {
+		return sql.Database{}, err
+	}
 
 	return dbClient.Get(
 		ctx,
@@ -65,7 +68,11 @@ func (sdk *AzureSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName st
 		return result, nil
 	}
 
-	dbClient := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient()
+	if err != nil {
+		return result, err
+	}
+
 	result, err = dbClient.Delete(
 		ctx,
 		resourceGroupName,
@@ -78,7 +85,13 @@ func (sdk *AzureSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName st
 
 // CreateOrUpdateDB creates or updates a DB in Azure
 func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLDatabaseProperties) (*http.Response, error) {
-	dbClient := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient()
+	if err != nil {
+		return &http.Response{
+			StatusCode: 0,
+		}, err
+	}
+
 	dbProp := azuresqlshared.SQLDatabasePropertiesToDatabase(properties)
 
 	future, err := dbClient.CreateOrUpdate(
