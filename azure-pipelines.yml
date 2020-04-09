@@ -114,6 +114,7 @@ stages:
     displayName: Deploy CRDs
     pool:
       vmImage: $(vmImageName)
+    environment: 'jskulavikazureserviceoperator-1296.aso-dev'
     strategy:
       runOnce:
         deploy:
