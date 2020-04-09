@@ -110,12 +110,16 @@ stages:
   displayName: Bake and deploy CRDs
   jobs:
   - job:
-    displayName: Bake Helm charts
+    displayName: Package, bake, and deploy to AKS
     steps:
+    - task: helm@1
+      displayName: Package Helm charts
+      inputs:
+        subCommand: 'package'
+        arguments: '--dependency-update $(Pipeline.Workspace)/charts/azure-service-operator'
     - task: KubernetesManifest@0
       inputs:
         action: 'bake'
         namespace: 'azureoperator-system'
         helmChart: '/home/vsts/work/1/s/azure-service-operator-0.1.0.tgz'
-        releaseName: 'aso-$(tag)'
         overrides: 'image.repository:$(containerRegistry)/$(imageRepository)'
