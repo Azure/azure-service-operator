@@ -12,7 +12,7 @@ variables:
   containerRegistry: 'skulavik.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'aso-k8s-ips'
+  imagePullSecret: 'skulavik7b16-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -74,7 +74,7 @@ stages:
         artifactName: drop
 
 - stage: Install
-  displayName: Login to k8s cluster
+  displayName: Login to cluster
   dependsOn: BinaryBuild
   jobs:
   - job: Install
