@@ -81,6 +81,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
+			errhelp.NameNotAvailable,
 		}
 
 		// handle the error
