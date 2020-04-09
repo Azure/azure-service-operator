@@ -112,6 +112,7 @@ stages:
   - job:
     displayName: Package, bake, and deploy to AKS
     steps:
+    - script: pwd && ls -al charts/
     - task: helm@1
       displayName: Package Helm charts
       inputs:
