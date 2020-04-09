@@ -42,7 +42,10 @@ func (f *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGr
 
 // GetDB retrieves a database
 func (f *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
-	dbClient := azuresqlshared.GetGoDbClient()
+	dbClient, err := azuresqlshared.GetGoDbClient()
+	if err != nil {
+		return sql.Database{}, err
+	}
 
 	return dbClient.Get(
 		ctx,
