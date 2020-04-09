@@ -112,12 +112,11 @@ stages:
   - job:
     displayName: Package, bake, and deploy to AKS
     steps:
-    - script: pwd && ls -al charts/
     - task: helm@1
       displayName: Package Helm charts
       inputs:
         subCommand: 'package'
-        arguments: '--dependency-update $(Pipeline.Workspace)/charts/azure-service-operator'
+        arguments: '--dependency-update /home/vsts/work/1/s/charts/azure-service-operator'
     - task: KubernetesManifest@0
       displayName: Bake manifests
       name: bake
