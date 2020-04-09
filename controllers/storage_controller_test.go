@@ -7,22 +7,23 @@ package controllers
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	config "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 )
 
-func TestStorageControllerHappyPath(t *testing.T) {
+func TestStorageControllerHappyPathWithoutNetworkRule(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-
 	StorageAccountName := GenerateAlphaNumTestResourceName("sadev")
-
 	// Create the ResourceGroup object and expect the Reconcile to be created
 	saInstance := &azurev1alpha1.Storage{
 		ObjectMeta: metav1.ObjectMeta{
@@ -40,25 +41,47 @@ func TestStorageControllerHappyPath(t *testing.T) {
 			EnableHTTPSTrafficOnly: to.BoolPtr(true),
 		},
 	}
-
 	// create rg
 	EnsureInstance(ctx, t, tc, saInstance)
-
 	// delete rg
 	EnsureDelete(ctx, t, tc, saInstance)
 }
-
 func TestStorageControllerHappyPathWithNetworkRule(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
+	assert := assert.New(t)
+	var err error
 
-	StorageAccountName := GenerateAlphaNumTestResourceName("cndev")
+	StorageAccountName := GenerateTestResourceNameWithRandom("storage", 10)
 
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
-	VNetName := GenerateTestResourceNameWithRandom("vnet", 10)
-	subnetName := "subnet-test"
+	VNetName := GenerateTestResourceNameWithRandom("svnet", 10)
+	subnetName := "subnet-storage-test"
+
+	// Create a VNET as prereq for the test
+
+	VNetSubNetInstance := azurev1alpha1.VNetSubnets{
+		SubnetName:          subnetName,
+		SubnetAddressPrefix: "110.1.0.0/16",
+	}
+
+	// Create a VNET
+	VNetInstance := &azurev1alpha1.VirtualNetwork{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      VNetName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.VirtualNetworkSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+			AddressSpace:  "110.0.0.0/8",
+			Subnets:       []azurev1alpha1.VNetSubnets{VNetSubNetInstance},
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, VNetInstance)
 
 	subnetID := "/subscriptions/" + config.SubscriptionID() + "/resourceGroups/" + rgName + "/providers/Microsoft.Network/virtualNetworks/" + VNetName + "/subnets/" + subnetName
 	vnetRules := []azurev1alpha1.VirtualNetworkRule{
@@ -77,7 +100,7 @@ func TestStorageControllerHappyPathWithNetworkRule(t *testing.T) {
 		},
 	}
 
-	// Create the ResourceGroup object and expect the Reconcile to be created
+	// Create the storage account object and expect the Reconcile to be created
 	cnInstance := &azurev1alpha1.Storage{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      StorageAccountName,
@@ -101,9 +124,15 @@ func TestStorageControllerHappyPathWithNetworkRule(t *testing.T) {
 		},
 	}
 
-	// create rg
-	EnsureInstance(ctx, t, tc, cnInstance)
+	err = tc.k8sClient.Create(ctx, cnInstance)
+	assert.Equal(nil, err, "create StorageAccount  in k8s")
 
-	// delete rg
-	EnsureDelete(ctx, t, tc, cnInstance)
+	storageAccountNamespacedName := types.NamespacedName{Name: StorageAccountName, Namespace: "default"}
+
+	// Wait for the APIMgmtAPI instance to be written to k8s
+	assert.Eventually(func() bool {
+		err = tc.k8sClient.Get(ctx, storageAccountNamespacedName, cnInstance)
+		return strings.Contains(cnInstance.Status.Message, successMsg)
+	}, tc.timeout, tc.retry, "awaiting storageAccount instance creation")
+
 }
