@@ -705,9 +705,9 @@ func setup() error {
 
 	log.Println("Creating SA:", storageAccountName)
 	// Create the Storage Account and Container
-	_, _ = storageAccountManager.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
+	_, _ = storageAccountManager.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageAccountSku{
 		Name: "Standard_LRS",
-	}, "Storage", map[string]*string{}, "", nil, nil)
+	}, "StorageAccount", map[string]*string{}, "", nil, nil)
 
 	// Storage account needs to be in "Suceeded" state
 	// for container create to succeed

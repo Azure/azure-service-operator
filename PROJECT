@@ -7,6 +7,9 @@ resources:
   kind: Storage
 - group: azure
   version: v1alpha1
+  kind: StorageAccount
+- group: azure
+  version: v1alpha1
   kind: CosmosDB
 - group: azure
   version: v1alpha1

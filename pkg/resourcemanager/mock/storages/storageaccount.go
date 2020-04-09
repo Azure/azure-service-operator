@@ -46,10 +46,10 @@ func (srs *StorageResources) Find(predicate func(storageResource) bool) {
 func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName string,
 	storageAccountName string,
 	location string,
-	sku azurev1alpha1.StorageSku,
-	kind azurev1alpha1.StorageKind,
+	sku azurev1alpha1.StorageAccountSku,
+	kind azurev1alpha1.StorageAccountKind,
 	tags map[string]*string,
-	accessTier azurev1alpha1.StorageAccessTier,
+	accessTier azurev1alpha1.StorageAccountAccessTier,
 	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (result storage.Account, err error) {
 	s := storageResource{
 		resourceGroupName:  groupName,

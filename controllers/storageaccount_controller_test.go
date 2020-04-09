@@ -28,10 +28,10 @@ func TestStorageControllerHappyPath(t *testing.T) {
 			Name:      StorageAccountName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.StorageSpec{
+		Spec: azurev1alpha1.StorageAccountSpec{
 			Location:      tc.resourceGroupLocation,
 			ResourceGroup: tc.resourceGroupName,
-			Sku: azurev1alpha1.StorageSku{
+			Sku: azurev1alpha1.StorageAccountSku{
 				Name: "Standard_RAGRS",
 			},
 			Kind:                   "StorageV2",
