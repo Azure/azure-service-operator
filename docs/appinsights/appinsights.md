@@ -13,6 +13,12 @@ An Application Insights instance needs the following fields to deploy, along wit
 * `Kind` specify the kind of application this component refers to, possible values are: 'web', 'ios', 'other', 'store', 'java', 'phone'
 * `ApplicationType` specify the types of application being monitored, possible values are: 'web', 'other'
 
+### Secrets
+
+After creating an Application Insights instance, the operator stores a JSON formatted secret with the following fields. This secret is stored as a Kubernetes Secret, with the same name as your Application Insights instance.
+
+* `instrumentationKey`
+
 ## Deploy, view and delete resources
 
 You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
