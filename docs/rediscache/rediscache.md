@@ -1,6 +1,6 @@
 # Redis Cache Operator
 
-This operator will deploy an Azure Cache for Redis into a resource group and location.
+This operator deploys an Azure Cache for Redis into a specified resource group at the specified location.
 
 Learn more about Azure Cache for Redis [here](https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-overview).
 
