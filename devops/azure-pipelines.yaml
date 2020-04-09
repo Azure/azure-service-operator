@@ -148,12 +148,17 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testRunner: JUnit
-    testResultsFiles: $(Pipeline.Workspace)/**/reports/*-report.xml
+    testResultsFiles: $(MODULE_PATH)/reports/*-report.xml
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura 
-    summaryFileLocation: $(Pipeline.Workspace)/**/reports/coverage-controllers.xml
+    summaryFileLocation: $(MODULE_PATH)/reports/coverage-controllers.xml
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(MODULE_PATH)/reports'
+    artifactName: reports
 
 - task: AzureCLI@2
   displayName: 'Clean up Azure Resources'
@@ -237,8 +242,3 @@ steps:
   inputs:
     pathtoPublish: $(Build.ArtifactStagingDirectory)
     artifactName: drop
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathtoPublish: '$(MODULE_PATH)/reports'
-    artifactName: reports
