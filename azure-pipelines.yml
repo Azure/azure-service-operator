@@ -112,11 +112,13 @@ stages:
   - job:
     displayName: Package, bake, and deploy to AKS
     steps:
-    - task: helm@1
-      displayName: Package Helm charts
+    - task: HelmInstaller@1
+      displayName: Install latest Helm
       inputs:
-        subCommand: 'package'
-        arguments: '--dependency-update /home/vsts/work/1/s/charts/azure-service-operator'
+        helmVersionToInstall: 'latest'
+    - script: |
+       helm package charts/azure-service-operator -d ./charts
+       helm repo index charts
     - task: KubernetesManifest@0
       displayName: Bake manifests
       name: bake
