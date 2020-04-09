@@ -8,7 +8,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '78b80566-6bc2-4d70-b159-dd4b84e59497'
-  imageRepository: 'az-service-operator'
+  imageRepository: 'jskulavikaso'
   containerRegistry: 'skulavik.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
