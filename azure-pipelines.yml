@@ -106,47 +106,16 @@ stages:
     - upload: charts
       artifact: charts
 
-- stage: Deploy
-  displayName: Deploy
-  dependsOn: DockerBuild
+- stage: BakeAndDeploy
+  displayName: Bake and deploy CRDs
   jobs:
-  - deployment: Deploy
-    displayName: Deploy CRDs
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'jskulavikazureserviceoperator-1296.aso-dev'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: helm@1
-            displayName: Package Helm charts
-            inputs:
-              subCommand: 'package'
-              arguments: '--dependency-update $(Pipeline.Workspace)/charts/azure-service-operator'
-          # - task: KubernetesManifest@0
-          #   displayName: Create imagePullSecret
-          #   inputs:
-          #     action: 'createSecret'
-          #     kubernetesServiceConnection: 'skulavik-k8s'
-          #     namespace: 'azureoperator-system'
-          #     secretType: 'dockerRegistry'
-          #     secretName: '$(imagePullSecret)'
-          #     dockerRegistryEndpoint: 'Skulavik ACR'
-          # - task: KubernetesManifest@0
-          #   displayName: Bake manifests
-          #   name: bake
-          #   inputs:
-          #     action: bake
-          #     helmChart: /home/vsts/work/1/s/azure-service-operator-0.1.0.tgz
-          #     overrides: |
-          #       image.repository:$(containerRegistry)/$(imageRepository)
-          # - task: KubernetesManifest@0
-          #   displayName: Add Kubernetes Attributes
-          #   inputs:
-          #     action: 'deploy'
-          #     kubernetesServiceConnection: 'skulavik-k8s'
-          #     namespace: 'azureoperator-system'
-          #     manifests: '$(bake.manifestsBundle)'
-          #     containers: '$(containerRegistry)/$(imageRepository):$(tag)'
-          #     imagePullSecrets: '$(imagePullSecret)'
+  - job:
+    displayName: Bake Helm charts
+    steps:
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'bake'
+        namespace: 'azureoperator-system'
+        helmChart: '/home/vsts/work/1/s/azure-service-operator-0.1.0.tgz'
+        releaseName: 'aso-$(tag)'
+        overrides: 'image.repository:$(containerRegistry)/$(imageRepository)'
