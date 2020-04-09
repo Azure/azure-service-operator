@@ -12,12 +12,16 @@ import (
 
 // MySQLServerSpec defines the desired state of MySQLServer
 type MySQLServerSpec struct {
-	Location               string             `json:"location"`
-	ResourceGroup          string             `json:"resourceGroup,omitempty"`
-	Sku                    AzureDBsSQLSku     `json:"sku,omitempty"`
-	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
-	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
-	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
+	Location                 string             `json:"location"`
+	ResourceGroup            string             `json:"resourceGroup,omitempty"`
+	Sku                      AzureDBsSQLSku     `json:"sku,omitempty"`
+	ServerVersion            ServerVersion      `json:"serverVersion,omitempty"`
+	SSLEnforcement           SslEnforcementEnum `json:"sslEnforcement,omitempty"`
+	MinimalTLSVersion        string             `json:"minimalTLSVersion,omitempty"`
+	InfrastructureEncryption string             `json:"infrastructureEncryption,omitempty"`
+	CreateMode               string             `json:"createMode,omitempty"`
+	ReplicaProperties        ReplicaProperties  `json:"replicaProperties, omitempty"`
+	KeyVaultToStoreSecrets   string             `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -39,6 +43,10 @@ type MySQLServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MySQLServer `json:"items"`
+}
+
+type ReplicaProperties struct {
+	SourceServerId string `json:"sourceServerId,omitempty"`
 }
 
 func init() {
