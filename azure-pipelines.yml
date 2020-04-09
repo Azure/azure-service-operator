@@ -111,11 +111,9 @@ stages:
   dependsOn: DockerBuild
   jobs:
   - deployment: Deploy
-    condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy CRDs
     pool:
       vmImage: $(vmImageName)
-    environment: 'jskulavikazureserviceoperator-1296.aso-dev'
     strategy:
       runOnce:
         deploy:
