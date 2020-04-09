@@ -9,8 +9,6 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
-const storageFinalizerName = "storage.finalizers.azure.com"
-
 // StorageAccountReconciler reconciles a Storage Account object
 type StorageAccountReconciler struct {
 	Reconciler *AsyncReconciler
