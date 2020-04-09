@@ -118,11 +118,13 @@ stages:
         subCommand: 'package'
         arguments: '--dependency-update $(Pipeline.Workspace)/charts/azure-service-operator'
     - task: KubernetesManifest@0
+      displayName: Bake manifests
+      name: bake
       inputs:
-        action: 'bake'
-        namespace: 'azureoperator-system'
-        helmChart: '/home/vsts/work/1/s/azure-service-operator-0.1.0.tgz'
-        overrides: 'image.repository:$(containerRegistry)/$(imageRepository)'
+        action: bake
+        helmChart: $(Pipeline.Workspace)/azure-service-operator-0.1.0.tgz
+        overrides: |
+          image.repository:$(containerRegistry)/$(imageRepository)
     - task: KubernetesManifest@0
       displayName: Deploy CRDs
       inputs:
