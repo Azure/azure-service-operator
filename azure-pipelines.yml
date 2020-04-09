@@ -7,7 +7,6 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '78b80566-6bc2-4d70-b159-dd4b84e59497'
   imageRepository: 'jskulavikaso'
   containerRegistry: 'skulavik.azurecr.io'
   dockerfilePath: '**/Dockerfile'
@@ -97,58 +96,41 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build and push Docker image
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+        containerRegistry: 'Skulavik ACR'
+        repository: '$(imageRepository)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
     - upload: charts
       artifact: charts
 
-- stage: Deploy
-  displayName: Deploy
-  dependsOn: DockerBuild
+- stage: BakeAndDeploy
+  displayName: Bake and deploy CRDs
   jobs:
-  - deployment: Deploy
-    condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
-    displayName: Deploy CRDs
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'jskulavikazureserviceoperator-1296.aso-dev'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: helm@1
-            inputs:
-              subCommand: 'package'
-              arguments: '--dependency-update $(Pipeline.Workspace)/charts/azure-service-operator'
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: 'createSecret'
-              kubernetesServiceConnection: 'skulavik-k8s'
-              namespace: 'azureoperator-system'
-              secretType: 'dockerRegistry'
-              secretName: '$(imagePullSecret)'
-              dockerRegistryEndpoint: '$(dockerRegistryServiceConnection)'
-          - task: KubernetesManifest@0
-            displayName: Bake manifests
-            name: bake
-            inputs:
-              action: bake
-              helmChart: /home/vsts/work/1/s/azure-service-operator-0.1.0.tgz
-              overrides: |
-                image.repository:$(containerRegistry)/$(imageRepository)
-          - task: KubernetesManifest@0
-            displayName: Add Kubernetes Attributes
-            inputs:
-              action: 'deploy'
-              kubernetesServiceConnection: 'skulavik-k8s'
-              namespace: 'azureoperator-system'
-              manifests: '$(bake.manifestsBundle)'
-              containers: '$(containerRegistry)/$(imageRepository):$(tag)'
-              imagePullSecrets: '$(imagePullSecret)'
+  - job:
+    displayName: Package, bake, and deploy to AKS
+    steps:
+    - task: HelmInstaller@1
+      displayName: Install latest Helm
+      inputs:
+        helmVersionToInstall: 'latest'
+    - script: |
+       helm package charts/azure-service-operator -d ./charts
+       helm repo index charts
+    - task: KubernetesManifest@0
+      displayName: Bake manifests
+      name: bake
+      inputs:
+        action: bake
+        helmChart: $(Pipeline.Workspace)/azure-service-operator-0.1.0.tgz
+        overrides: |
+          image.repository:$(containerRegistry)/$(imageRepository)
+    - task: KubernetesManifest@0
+      displayName: Deploy CRDs
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'skulavik-k8s'
+        namespace: 'azureoperator-system'
+        manifests: '$(bake.manifestsBundle)'
