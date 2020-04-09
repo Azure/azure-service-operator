@@ -8,6 +8,7 @@ import (
 	"errors"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -135,6 +136,8 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 	if err != nil {
 		return result, err
 	}
+
+	time.Sleep(2 * time.Second)
 
 	return future.Result(storagesClient)
 

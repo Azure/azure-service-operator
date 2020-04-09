@@ -7,16 +7,13 @@ package controllers
 
 import (
 	"context"
-	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	config "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestStorageControllerHappyPathWithoutNetworkRule(t *testing.T) {
@@ -50,10 +47,8 @@ func TestStorageControllerHappyPathWithNetworkRule(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
-	var err error
 
-	StorageAccountName := GenerateTestResourceNameWithRandom("storage", 10)
+	StorageAccountName := GenerateAlphaNumTestResourceName("sanet")
 
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
@@ -124,15 +119,10 @@ func TestStorageControllerHappyPathWithNetworkRule(t *testing.T) {
 		},
 	}
 
-	err = tc.k8sClient.Create(ctx, cnInstance)
-	assert.Equal(nil, err, "create StorageAccount  in k8s")
+	EnsureInstance(ctx, t, tc, cnInstance)
 
-	storageAccountNamespacedName := types.NamespacedName{Name: StorageAccountName, Namespace: "default"}
+	// Delete instance
 
-	// Wait for the APIMgmtAPI instance to be written to k8s
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, storageAccountNamespacedName, cnInstance)
-		return strings.Contains(cnInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "awaiting storageAccount instance creation")
+	EnsureDelete(ctx, t, tc, cnInstance)
 
 }

@@ -76,6 +76,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	_, err = sa.CreateStorage(ctx, groupName, name, location, sku, kind, labels, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled, &networkAcls)
 	if err != nil {
 		instance.Status.Message = err.Error()
+		fmt.Println(err.Error())
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		instance.Status.Provisioning = false
 
@@ -118,8 +119,10 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 		stop := []string{
 			errhelp.AccountNameInvalid,
+			errhelp.NetworkAclsValidationFailure,
 		}
 		if helpers.ContainsString(stop, azerr.Type) {
+			instance.Status.Provisioning = false
 			return true, nil
 		}
 
