@@ -21,7 +21,7 @@ If `sslEnforcement` is enabled, applications can connect to the PostgreSQL serve
 
 **Note** The root certificate documented in the above link (`https://www.digicert.com/CACerts/BaltimoreCyberTrustRoot.crt.pem`) only applies to instances on Azure Public Cloud. If you are deploying Azure Database for PostgreSQL instances on Azure China Cloud, you should use this one - `https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem`
 
-Along with creating the PostgreSQL server, this operator also generates the admin username and password for the PostgreSQL server and stores it in a kube secret or keyvault (based on what is specified) with the same name as the PostgreSQL server.=
+Along with creating the PostgreSQL server, this operator also generates the admin username and password for the PostgreSQL server and stores it in a kube secret or keyvault (based on what is specified) with the same name as the PostgreSQL server.
 
 This secret contains the following fields.
 
