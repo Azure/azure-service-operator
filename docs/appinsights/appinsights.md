@@ -1,6 +1,6 @@
 # App Insights Operator
 
-This operator deploys an Application Insights Operator into a specified resource group at the specified location.
+This operator deploys an Application Insights instance into a specified resource group at the specified location.
 
 Learn more about Application Insights [here](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview).
 
