@@ -101,7 +101,9 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	}
 
 	// early exit if hashes match and this server has been provisioned / failed provisioning
-	if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
+	if !specHashWasEmpty &&
+		instance.Status.SpecHash == hash &&
+		(instance.Status.Provisioned || instance.Status.FailedProvisioning) {
 		instance.Status.RequestedAt = nil
 		return true, nil
 	}
