@@ -1,0 +1,10 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: MySQLServer
+metadata:
+  name: mysqlserver-replica
+spec:  
+  location: eastus2
+  createMode: Replica # Possible values include: Default, Replica, PointInTimeRestore (not implemented), GeoRestore (not implemented)
+  replicaProperties:
+    sourceServerId: /subscriptions/{SUBID}/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.DBforMySQL/servers/mysqlserver-sample
+

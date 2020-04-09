@@ -7,9 +7,13 @@ spec:
   resourceGroup: resourcegroup-azure-operators
   serverVersion: "8.0"
   sslEnforcement: Enabled
+  minimalTLSVersion: TLS10 # Possible values include: 'TLS10', 'TLS11', 'TLS12', 'Disabled'
+  infrastructureEncryption: Enabled # Possible values include: Enabled, Disabled
+  createMode: Default # Possible values include: Default, Replica, PointInTimeRestore (not implemented), GeoRestore (not implemented)
   sku:
     name: B_Gen5_2
     tier: Basic
     family: Gen5
     size: "51200"
     capacity: 2
+
