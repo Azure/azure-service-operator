@@ -4,6 +4,8 @@ This operator deploys an Azure Cache for Redis into a specified resource group a
 
 Learn more about Azure Cache for Redis [here](https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-overview).
 
+Here is a [sample YAML](/config/samples/azure_v1alpha1_rediscache.yaml) to provision an Azure Cache for Redis.
+
 The spec is comprised of the following fields:
 - Location
 - ResourceGroupName
@@ -36,8 +38,13 @@ A Redis Cache needs the following fields to deploy, along with a location and re
 * `Properties.StaticIP` specify a statis IP for the Redis Cache
 * `Properties.Configuration` provide a configuration to the Redis Cache
 
-## Deploy
+### Secrets
 
-Follow the steps [here](/docs/development.md) or [here](/docs/deploy.md) to either run the operator locally or in a real Kubernetes cluster.
+After creating an Azure Cache for Redis instance, the operator stores a JSON formatted secret with the following fields. For more details on where the secrets are stored, look [here](/docs/secrets.md).
 
-You can find a sample Redis Cache YAML [here](/config/samples/azure_v1alpha1_rediscache.yaml).
+* `primaryKey`
+* `secondaryKey`
+
+## Deploy, view and delete resources
+
+You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
