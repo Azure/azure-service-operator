@@ -49,7 +49,7 @@ type StorageAccountSkuName string
 // Only one of the following kinds may be specified.
 // If none of the following kinds is specified, the default one
 // is StorageV2.
-// +kubebuilder:validation:Enum=BlobStorage;BlockBlobStorage;FileStorage;Storage;StorageV2
+// +kubebuilder:validation:Enum=BlobStorage;BlockBlobStorage;FileStorage;StorageAccount;StorageV2
 type StorageAccountKind string
 
 // StorageAccountAccessTier enumerates the values for access tier.

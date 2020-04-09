@@ -16,8 +16,8 @@ type StorageAccountReconciler struct {
 	Reconciler *AsyncReconciler
 }
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=storages,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=storages/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=storageaccounts,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=storageaccounts/status,verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *StorageAccountReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
