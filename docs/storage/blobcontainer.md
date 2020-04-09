@@ -4,6 +4,10 @@ This operator deploys a Blob Container into a specified resource group at the sp
 
 Learn more about Azure Blob Storage [here](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction).
 
+Here is a [sample YAML](/config/samples/azure_v1alpha1_blobcontainer.yaml) to provision a Blob Container.
+
+### Required Fields 
+
 A Blob Container needs the following fields to deploy, along with a location and resource group.
 
 * `AccountName` specify the account name of the Storage Account to add the Blob Container to
