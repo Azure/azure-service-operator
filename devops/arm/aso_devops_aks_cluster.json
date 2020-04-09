@@ -1,0 +1,368 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the Managed Cluster resource."
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "The location of AKS resource."
+            }
+        },
+        "dnsPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Optional DNS prefix to use with hosted Kubernetes API server FQDN."
+            }
+        },
+        "osDiskSizeGB": {
+            "type": "int",
+            "defaultValue": 0,
+            "metadata": {
+                "description": "Disk size (in GiB) to provision for each of the agent pool nodes. This value ranges from 0 to 1023. Specifying 0 will apply the default disk size for that agentVMSize."
+            },
+            "minValue": 0,
+            "maxValue": 1023
+        },
+        "kubernetesVersion": {
+            "type": "string",
+            "defaultValue": "1.7.7",
+            "metadata": {
+                "description": "The version of Kubernetes."
+            }
+        },
+        "networkPlugin": {
+            "type": "string",
+            "allowedValues": [
+                "azure",
+                "kubenet"
+            ],
+            "metadata": {
+                "description": "Network plugin used for building Kubernetes network."
+            }
+        },
+        "maxPods": {
+            "type": "int",
+            "defaultValue": 30,
+            "metadata": {
+                "description": "Maximum number of pods that can run on a node."
+            }
+        },
+        "enableRBAC": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Boolean flag to turn on and off of RBAC."
+            }
+        },
+        "vmssNodePool": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Boolean flag to turn on and off of VM scale sets"
+            }
+        },
+        "windowsProfile": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Boolean flag to turn on and off of VM scale sets"
+            }
+        },
+        "enablePrivateCluster": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Enable private network access to the Kubernetes cluster."
+            }
+        },
+        "enableHttpApplicationRouting": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Boolean flag to turn on and off of http application routing."
+            }
+        },
+        "acrName": {
+            "type": "string",
+            "metadata": {
+                "description": "Specify the name of the Azure Container Registry."
+            }
+        },
+        "acrResourceGroup": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the resource group the container registry is associated with."
+            }
+        },
+        "guidValue": {
+            "type": "string",
+            "metadata": {
+                "description": "The unique id used in the role assignment of the kubernetes service to the container registry service. It is recommended to use the default value."
+            },
+            "defaultValue": "[newGuid()]"
+        },
+        "vnetSubnetID": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource ID of virtual network subnet used for nodes and/or pods IP assignment."
+            }
+        },
+        "serviceCidr": {
+            "type": "string",
+            "metadata": {
+                "description": "A CIDR notation IP range from which to assign service cluster IPs."
+            }
+        },
+        "dnsServiceIP": {
+            "type": "string",
+            "metadata": {
+                "description": "Containers DNS server IP address."
+            }
+        },
+        "dockerBridgeCidr": {
+            "type": "string",
+            "metadata": {
+                "description": "A CIDR notation IP for Docker bridge."
+            }
+        },
+        "aciVnetSubnetName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of virtual network subnet used for the ACI Connector."
+            }
+        },
+        "aciConnectorLinuxEnabled": {
+            "type": "bool",
+            "metadata": {
+                "description": "Enables the Linux ACI Connector."
+            }
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2020-03-01",
+            "dependsOn": [
+                "Microsoft.Network/virtualNetworks/resourcegroup-azure-operators-vnet"
+            ],
+            "type": "Microsoft.ContainerService/managedClusters",
+            "location": "[parameters('location')]",
+            "name": "[parameters('resourceName')]",
+            "properties": {
+                "kubernetesVersion": "[parameters('kubernetesVersion')]",
+                "enableRBAC": "[parameters('enableRBAC')]",
+                "dnsPrefix": "[parameters('dnsPrefix')]",
+                "agentPoolProfiles": [
+                    {
+                        "name": "agentpool",
+                        "osDiskSizeGB": "[parameters('osDiskSizeGB')]",
+                        "count": 3,
+                        "vmSize": "Standard_DS2_v2",
+                        "osType": "Linux",
+                        "storageProfile": "ManagedDisks",
+                        "type": "AvailabilitySet",
+                        "mode": "System",
+                        "vnetSubnetID": "[parameters('vnetSubnetID')]"
+                    }
+                ],
+                "networkProfile": {
+                    "loadBalancerSku": "standard",
+                    "networkPlugin": "[parameters('networkPlugin')]",
+                    "serviceCidr": "[parameters('serviceCidr')]",
+                    "dnsServiceIP": "[parameters('dnsServiceIP')]",
+                    "dockerBridgeCidr": "[parameters('dockerBridgeCidr')]"
+                },
+                "apiServerAccessProfile": {
+                    "enablePrivateCluster": "[parameters('enablePrivateCluster')]"
+                },
+                "addonProfiles": {
+                    "httpApplicationRouting": {
+                        "enabled": "[parameters('enableHttpApplicationRouting')]"
+                    },
+                    "aciConnectorLinux": {
+                        "enabled": "[parameters('aciConnectorLinuxEnabled')]",
+                        "config": {
+                            "SubnetName": "[parameters('aciVnetSubnetName')]"
+                        }
+                    }
+                }
+            },
+            "tags": {},
+            "identity": {
+                "type": "SystemAssigned"
+            }
+        },
+        {
+            "name": "ConnectAKStoACR-38523789-a898-47bd-b023-c4e0e39c4038",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "resourceGroup": "[parameters('acrResourceGroup')]",
+            "dependsOn": [
+                "[concat('Microsoft.ContainerService/managedClusters/', parameters('resourceName'))]",
+                "[concat('Microsoft.Resources/deployments/', 'AcrDeployment-38523789-a898-47bd-b023-c4e0e39c4039')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "apiVersion": "2018-09-01-preview",
+                            "type": "Microsoft.ContainerRegistry/registries/providers/roleAssignments",
+                            "name": "[concat(parameters('acrName'), '/Microsoft.Authorization/', parameters('guidValue'))]",
+                            "properties": {
+                                "principalId": "[reference(parameters('resourceName'), '2020-03-01').identityProfile.kubeletidentity.objectId]",
+                                "principalType": "ServicePrincipal",
+                                "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+                                "scope": "[resourceId(parameters('acrResourceGroup'),'Microsoft.ContainerRegistry/registries/', parameters('acrName'))]"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "AcrDeployment-38523789-a898-47bd-b023-c4e0e39c4039",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "subscriptionId": "d2d51f36-8155-4276-bca3-038818d7a7d8",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "type": "Microsoft.ContainerRegistry/registries",
+                            "apiVersion": "2019-05-01",
+                            "name": "asoazdo",
+                            "location": "westus2",
+                            "sku": {
+                                "name": "Standard"
+                            },
+                            "properties": {
+                                "adminUserEnabled": true
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "apiVersion": "2019-09-01",
+            "name": "resourcegroup-azure-operators-vnet",
+            "type": "Microsoft.Network/virtualNetworks",
+            "location": "westus2",
+            "properties": {
+                "subnets": [
+                    {
+                        "name": "default",
+                        "id": "/subscriptions/d2d51f36-8155-4276-bca3-038818d7a7d8/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.Network/virtualNetworks/resourcegroup-azure-operators-vnet/subnets/default",
+                        "properties": {
+                            "addressPrefix": "10.240.0.0/16"
+                        }
+                    },
+                    {
+                        "name": "virtual-node-aci",
+                        "id": "/subscriptions/d2d51f36-8155-4276-bca3-038818d7a7d8/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.Network/virtualNetworks/resourcegroup-azure-operators-vnet/subnets/virtual-node-aci",
+                        "properties": {
+                            "addressPrefix": "10.241.0.0/16",
+                            "delegations": [
+                                {
+                                    "name": "aciDelegation",
+                                    "properties": {
+                                        "serviceName": "Microsoft.ContainerInstance/containerGroups",
+                                        "actions": [
+                                            "Microsoft.Network/virtualNetworks/subnets/action"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/8"
+                    ]
+                }
+            },
+            "tags": {}
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "ClusterSubnetRoleAssignmentDeployment-20200409130811",
+            "apiVersion": "2017-05-10",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "subscriptionId": "d2d51f36-8155-4276-bca3-038818d7a7d8",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Network/virtualNetworks/subnets/providers/roleAssignments",
+                            "apiVersion": "2017-05-01",
+                            "name": "resourcegroup-azure-operators-vnet/default/Microsoft.Authorization/b58e3459-808c-47ad-91db-1535a69757e5",
+                            "properties": {
+                                "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '4d97b98b-1d4f-4787-a291-c67834d212e7')]",
+                                "principalId": "[reference(parameters('resourceName')).identityProfile.kubeletidentity.objectId]",
+                                "scope": "/subscriptions/d2d51f36-8155-4276-bca3-038818d7a7d8/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.Network/virtualNetworks/resourcegroup-azure-operators-vnet/subnets/default"
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "Microsoft.Network/virtualNetworks/resourcegroup-azure-operators-vnet"
+            ]
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "AciSubnetRoleAssignmentDeployment-20200409130811",
+            "apiVersion": "2017-05-10",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "subscriptionId": "d2d51f36-8155-4276-bca3-038818d7a7d8",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Network/virtualNetworks/subnets/providers/roleAssignments",
+                            "apiVersion": "2017-05-01",
+                            "name": "resourcegroup-azure-operators-vnet/virtual-node-aci/Microsoft.Authorization/f72471a4-f38b-4f3c-bd5b-c96615295cf9",
+                            "properties": {
+                                "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '4d97b98b-1d4f-4787-a291-c67834d212e7')]",
+                                "principalId": "[reference(parameters('resourceName')).addonProfiles.aciConnectorLinux.identity.objectId]",
+                                "scope": "/subscriptions/d2d51f36-8155-4276-bca3-038818d7a7d8/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.Network/virtualNetworks/resourcegroup-azure-operators-vnet/subnets/virtual-node-aci"
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "Microsoft.Network/virtualNetworks/resourcegroup-azure-operators-vnet"
+            ]
+        }
+    ],
+    "outputs": {
+        "controlPlaneFQDN": {
+            "type": "string",
+            "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', parameters('resourceName'))).fqdn]"
+        }
+    }
+}

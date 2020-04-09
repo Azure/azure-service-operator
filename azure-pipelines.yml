@@ -8,11 +8,11 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '78b80566-6bc2-4d70-b159-dd4b84e59497'
-  imageRepository: 'jskulavikaso'
+  imageRepository: 'az-service-operator'
   containerRegistry: 'skulavik.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'skulavik7b16-auth'
+  imagePullSecret: 'aso-k8s-ips'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -86,6 +86,7 @@ stages:
         namespace: 'azureoperator-system'
         command: 'login'
         checkLatest: true
+      # Install ASO controllers
     - script: make install
 - stage: DockerBuild
   displayName: Docker build
@@ -139,7 +140,6 @@ stages:
             name: bake
             inputs:
               action: bake
-              # helmChart: $(Pipeline.Workspace)/azure-service-operator-0.1.0.tgz
               helmChart: /home/vsts/work/1/s/azure-service-operator-0.1.0.tgz
               overrides: |
                 image.repository:$(containerRegistry)/$(imageRepository)
