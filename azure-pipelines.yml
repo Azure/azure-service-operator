@@ -132,7 +132,7 @@ stages:
               namespace: 'azureoperator-system'
               secretType: 'dockerRegistry'
               secretName: '$(imagePullSecret)'
-              dockerRegistryEndpoint: '$(dockerRegistryServiceConnection)'
+              dockerRegistryEndpoint: 'Skulavik ACR'
           - task: KubernetesManifest@0
             displayName: Bake manifests
             name: bake
