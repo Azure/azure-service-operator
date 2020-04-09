@@ -69,12 +69,16 @@ func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Obj
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
+			isReconcilationDone := false
 			switch azerr.Type {
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
+			case errhelp.PublicIPIdleTimeoutIsOutOfRange:
+				instance.Status.Provisioning = false
+				isReconcilationDone = true
 			}
 			// reconciliation is not done but error is acceptable
-			return false, nil
+			return isReconcilationDone, nil
 		}
 		// reconciliation not done and we don't know what happened
 		return false, err
