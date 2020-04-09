@@ -30,7 +30,7 @@ A Redis Cache needs the following fields to deploy, along with a location and re
 
 ### Optional Fields
 
-* `SecretName` specify the name of the secret. If none is given, it will fall back to a default name.
+* `SecretName` specify the name of the secret. If none is given, it will fall back to the name of the redis cache.
 * `KeyVaultToStoreSecrets` specify a Key Vault to store primary and secondary credentials in. If none is given, it will default to storing credentials as a Kube Secret.
 * `Properties.SubnetID` specify a subnet ID to place the Redis Cache in
 * `Properties.StaticIP` specify a statis IP for the Redis Cache
