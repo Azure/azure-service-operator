@@ -89,10 +89,10 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 // Get gets the description of the specified storage account.
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
-// accountName - the name of the storage account
-func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName string, accountName string) (result storage.Account, err error) {
+// storageAccountName - the name of the storage account
+func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName string, storageAccountName string) (result storage.Account, err error) {
 	storagesClient := getStoragesClient()
-	return storagesClient.GetProperties(ctx, resourceGroupName, accountName, "")
+	return storagesClient.GetProperties(ctx, resourceGroupName, storageAccountName, "")
 }
 
 // DeleteStorage removes the resource group named by env var
