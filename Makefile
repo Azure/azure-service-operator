@@ -40,7 +40,8 @@ test-integration-controllers: generate fmt vet manifests
 	./controllers/... \
 	2>&1 | tee reports/integration-controllers-output.txt
 	go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
-	gocov-xml < reports/integration-controllers-output.txt > reports/integration-controllers-coverage.xml
+	gocov convert reports/integration-controllers-coverage-ouput.txt > reports/integration-controllers-coverage-ouput.json
+	gocov-xml < reports/integration-controllers-coverage-ouput.json > reports/integration-controllers-coverage.xml
 	go tool cover -html=reports/integration-controllers-coverage-ouput.txt -o reports/integration-controllers-coverage.html
 
 # Run Resource Manager tests against the configured cluster
