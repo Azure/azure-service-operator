@@ -4,7 +4,7 @@ This operator deploys an Azure Cache for Redis into a specified resource group a
 
 Learn more about Azure Cache for Redis [here](https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-overview).
 
-A Redis Cache is comprised of the following fields:
+The spec is comprised of the following fields:
 - Location
 - ResourceGroupName
 - Properties
