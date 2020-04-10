@@ -1,0 +1,228 @@
+trigger:
+  branches:
+    include:
+    - master
+
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+variables:
+  MAJOR_VERSION: 0
+  MINOR_VERSION: 0
+  PATCH_VERSION: $(Build.BuildId)
+  GOROOT: '/usr/local/go1.13' # Go installation path
+  GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
+  GOBIN:  '$(GOPATH)/bin' # Go binaries path
+  MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
+  IMAGE_NAME: 'candidate/k8s/azure-service-operator'
+  KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+  # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Service Connection
+  # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
+  # AZURE_TENANT_ID:        - set this value in Azure Devops variables
+  # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
+  # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
+  # REQUEUE_AFTER:          - set this value in Azure Devops variables
+ 
+steps:
+
+- checkout: self  # self represents the repo where the initial Pipelines YAML file was found
+  lfs: "true"
+
+- script: |
+    set -x
+    ls -l /usr/local/go*
+    mkdir -p '$(GOBIN)'
+    mkdir -p '$(GOPATH)/pkg'
+    mkdir -p '$(MODULE_PATH)'
+    shopt -s extglob
+    mv !(GOPATH) '$(MODULE_PATH)'
+    echo '##vso[task.prependpath]$(GOBIN)'
+    echo '##vso[task.prependpath]$(GOROOT)/bin'
+    go version
+    go env 
+  displayName: 'Set up the Go workspace'
+  env:
+    GO111MODULE: on
+
+- script: |
+    set -x
+    mkdir -p $(MODULE_PATH)/bin
+    os=$(go env GOOS)
+    arch=$(go env GOARCH)
+    # download kubebuilder
+    curl -sL https://go.kubebuilder.io/dl/2.0.0-alpha.4/${os}/${arch} | tar -xz -C $(MODULE_PATH)/bin
+    mv $(MODULE_PATH)/bin/kubebuilder_2.0.0-alpha.4_${os}_${arch}/bin/* $(MODULE_PATH)/bin
+    # download kustomize
+    curl -o $(MODULE_PATH)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+    # set permission
+    chmod a+x $(MODULE_PATH)/bin/*
+    # export PATH
+    export PATH=$PATH:$(MODULE_PATH)/bin
+    echo '##vso[task.prependpath]$(MODULE_PATH)/bin'
+    #which kustomize
+    which kustomize
+    #kustomize version
+    kustomize  version
+    go mod download
+    go get -u github.com/jstemmer/go-junit-report
+    go get github.com/axw/gocov/gocov
+    go get github.com/AlekSi/gocov-xml
+    go get -u gopkg.in/matm/v1/gocov-html
+    go get golang.org/x/tools/cmd/cover
+  displayName: 'Install kubebuilder, kustomize and set environment'
+  env:
+    GO111MODULE: on
+    KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+  workingDirectory: '$(MODULE_PATH)'
+
+# - script: |
+#     go mod download
+#     go get -u github.com/jstemmer/go-junit-report
+#     go get github.com/axw/gocov/gocov
+#     go get github.com/AlekSi/gocov-xml
+#     go get -u gopkg.in/matm/v1/gocov-html
+#     go get golang.org/x/tools/cmd/cover
+#     go get github.com/onsi/ginkgo/ginkgo
+#     make test
+#     gocov convert coverage.txt > coverage.json
+#     gocov-xml < coverage.json > coverage.xml
+#     mkdir coverage
+#   continueOnError: 'false'
+#   displayName: 'Run unit/mocked tests'
+#   env:
+#     GO111MODULE: on
+#     KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+#     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+#     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+#     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+#     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+#     REQUEUE_AFTER: $(REQUEUE_AFTER)
+#   workingDirectory: '$(MODULE_PATH)'
+
+- script: |
+    make validate-copyright-headers
+  continueOnError: 'false'
+  displayName: 'Validate Copyright Headers'
+  workingDirectory: '$(MODULE_PATH)'
+
+- script: |
+    set -e
+    GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
+    kind create cluster
+    export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
+    kubectl cluster-info
+    kubectl create namespace cert-manager
+    kubectl label namespace cert-manager cert-manager.io/disable-validation=true
+    kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+    kubectl create namespace azureoperator-system 
+    kubectl --namespace azureoperator-system \
+      create secret generic azureoperatorsettings \
+      --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
+      --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
+      --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
+      --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+    #create image and load it into cluster
+    IMG="docker.io/controllertest:1" make docker-build
+    kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+    make install
+    kubectl get namespaces
+    kubectl -n cert-manager rollout status deployment.v1.apps/cert-manager
+    kubectl get pods --namespace cert-manager
+    echo "all the pods should be running"
+    make deploy
+    make test-existing-controllers
+  continueOnError: 'false'
+  displayName: 'Set kind cluster and Run int tests'
+  env:
+    GO111MODULE: on
+    AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    REQUEUE_AFTER: $(REQUEUE_AFTER)
+    KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+    BUILD_ID: $(Build.BuildId)
+  workingDirectory: '$(MODULE_PATH)'
+
+- task: AzureCLI@2
+  displayName: 'Clean up Azure Resources'
+  condition: always()
+  env:
+    BUILD_ID: $(Build.BuildId)
+  inputs:
+    azureSubscription: 'CSE AmWest Sub - ASO'
+    scriptType: bash
+    scriptLocation: inlineScript
+    workingDirectory: '$(MODULE_PATH)'
+    inlineScript: |
+      make test-cleanup-azure-resources
+
+# - task: PublishTestResults@2
+#   displayName: 'test cluster'
+#   inputs:    
+#     testRunner: JUnit
+#     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report.xml
+#     failTaskOnFailedTests: 'true'
+#     failOnStandardError: 'true'
+
+# - task: PublishTestResults@2
+#   displayName: 'existing cluster'
+#   inputs:    
+#     testRunner: JUnit
+#     testResultsFiles: $(System.DefaultWorkingDirectory)/**/report-existing.xml
+#     failTaskOnFailedTests: 'true'
+#     failOnStandardError: 'true'
+
+# - task: PublishCodeCoverageResults@1
+#   inputs:
+#     codeCoverageTool: Cobertura 
+#     summaryFileLocation: $(System.DefaultWorkingDirectory)/**/coverage.xml
+#     reportDirectory: $(System.DefaultWorkingDirectory)/**/coverage
+#     failIfCoverageEmpty: 'true'
+#     failOnStandardError: 'true'
+
+- script: docker build -t $(IMAGE_NAME) .  # add options to this command to meet your needs
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: 'Docker build'
+  workingDirectory: '$(MODULE_PATH)'
+
+- task: Docker@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Login to ACR
+  inputs:
+    command: login
+    containerRegistry: $(CONTAINER_REGISTRY)
+
+- task: Docker@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Build and Push Docker Image $(IMAGE_NAME)
+  inputs:
+    command: buildAndPush
+    containerRegistry: $(CONTAINER_REGISTRY)
+    repository: $(IMAGE_NAME)
+    Dockerfile: "$(MODULE_PATH)/Dockerfile"    
+    buildContext: $(MODULE_PATH)
+    tags: |
+      latest
+      $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+
+
+- script: |
+    echo "updating kustomize image patch file for manager resource"
+    echo $(IMAGE_NAME)
+    IMG="$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
+    echo $(IMG)
+    sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
+    kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
+    set -x
+    echo $IMG > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
+  continueOnError: 'false'
+  displayName: 'Prepare manifests for publish'
+  workingDirectory: '$(MODULE_PATH)'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+
+- task: PublishBuildArtifacts@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    pathtoPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: drop
