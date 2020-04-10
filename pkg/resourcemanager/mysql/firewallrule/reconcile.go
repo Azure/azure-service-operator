@@ -29,6 +29,11 @@ func (m *MySQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object
 	// to overcome the issue with the lack of idempotence of the Create call
 
 	firewallrule, err := m.GetFirewallRule(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
+	if firewallrule.StatusCode == 404 {
+		instance.Status.Message = fmt.Sprintf("Waiting for MySQL server %s to provision", instance.Spec.Server)
+		instance.Status.Provisioning = false
+		return false, nil
+	}
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
