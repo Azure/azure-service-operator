@@ -12,6 +12,7 @@ ENV KUBECONFIG "./config"
 
 WORKDIR /
 
-COPY /home/.kube/config .
+COPY $KUBECONFIG .
+COPY manager .
 
 ENTRYPOINT ["/manager"]
