@@ -5,7 +5,6 @@ resources:
 - repo: self
 
 variables:
-
   # Container registry service connection established during pipeline creation
   imageRepository: 'jskulavikaso'
   containerRegistry: 'skulavik.azurecr.io'
@@ -71,6 +70,42 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         artifactName: drop
+
+- stage: Test
+  displayName: Controller and Manager testing
+  jobs:
+  - job:
+    displayName: Test controllers
+    steps:
+    - bash: make test-existing-controllers
+      env:
+        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
+        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+  - job:
+    displayName: Test managers
+    steps:
+    - bash: make test-existing-managers
+      env:
+        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
+        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+
+- stage: AzResouceCleanup
+  displayName: Clean up test resources
+  jobs:
+  - job: ResourceCleanup
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(AZURE_SUBSCRIPTION_ID)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'make test-cleanup-azure-resources'
 
 - stage: Install
   displayName: Login to cluster
