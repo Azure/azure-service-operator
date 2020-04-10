@@ -44,8 +44,9 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 			instance.Status.Provisioning = false
 			return false, nil
 		}
+
+		instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Get error %s", err.Error())
 	}
-	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Get error %s", err.Error())
 
 	_, err = fw.CreateOrUpdateSQLFirewallRule(ctx, groupName, server, ruleName, startIP, endIP)
 	if err != nil {
