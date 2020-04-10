@@ -6,7 +6,6 @@ package azuresqlvnetrule
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -44,9 +43,11 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 		return false, nil
 	}
 	instance.Status.Message = fmt.Sprintf("AzureSqlVNetRule Get error %s", err.Error())
-
-	// this error occurs when Get fails due to the server not being provisioned yet
-	if vnetrule.StatusCode == 404 && strings.Contains(err.Error(), "cannot unmarshal array into Go struct field") {
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	catch := []string{
+		errhelp.ResourceNotFound,
+	}
+	if helpers.ContainsString(catch, azerr.Type) {
 		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
 		instance.Status.Provisioning = false
 		return false, nil

@@ -6,7 +6,6 @@ package azuresqlfirewallrule
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -38,9 +37,11 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		return true, nil
 	}
 	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Get error %s", err.Error())
-
-	// this error occurs when Get fails due to the server not being provisioned yet
-	if fwr.StatusCode == 404 && strings.Contains(err.Error(), "cannot unmarshal array into Go struct field") {
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	catch := []string{
+		errhelp.ResourceNotFound,
+	}
+	if helpers.ContainsString(catch, azerr.Type) {
 		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
 		instance.Status.Provisioning = false
 		return false, nil
