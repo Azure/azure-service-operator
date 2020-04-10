@@ -5,7 +5,6 @@ resources:
 - repo: self
 
 variables:
-  # Container registry service connection established during pipeline creation
   imageRepository: 'jskulavikaso'
   containerRegistry: 'skulavik.azurecr.io'
   dockerfilePath: '**/Dockerfile'
@@ -20,6 +19,20 @@ variables:
 
 # 
 stages:
+- stage: TargetAKS
+  jobs:
+  - job:
+    steps:
+    # Get the kubeconfig for the AKS cluster we using
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'skulavik-k8s'
+        namespace: 'azureoperator-system'
+        command: 'login'
+        checkLatest: true
+    - bash: kubectl cluster-info
+
 - stage: Prerequisites
   displayName: Install Prerequisites
   jobs:
@@ -73,29 +86,29 @@ stages:
         artifactName: drop
 
 # TODO:  These tests are still a WIP, uncomment once complete
-- stage: IntegrationTest
-  displayName: Test controllers
-  jobs:
-  - job:
-    displayName: Test controllers
-    steps:
-    - bash: make test-integration-controllers
-      env:
-        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
-        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-  - job:
-    displayName: Test managers
-    steps:
-    - bash: make test-integration-managers
-      env:
-        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
-        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+# - stage: IntegrationTest
+#   displayName: Test controllers
+#   jobs:
+#   - job:
+#     displayName: Test controllers
+#     steps:
+#     - bash: make test-integration-controllers
+#       env:
+#         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+#         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+#         AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+#         AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
+#         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+#   - job:
+#     displayName: Test managers
+#     steps:
+#     - bash: make test-integration-managers
+#       env:
+#         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+#         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+#         AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+#         AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
+#         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
 
 # Clean up the resources we created during integration testing
 - stage: AzResouceCleanup
@@ -116,14 +129,6 @@ stages:
   jobs:
   - job: Install
     steps:
-    # Get the kubeconfig for the AKS cluster we using
-    - task: Kubernetes@1
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'skulavik-k8s'
-        namespace: 'azureoperator-system'
-        command: 'login'
-        checkLatest: true
       # Install the CRDs
     - script: make install
 - stage: DockerBuild
