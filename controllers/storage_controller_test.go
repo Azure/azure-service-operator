@@ -10,9 +10,6 @@ import (
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	config "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/go-autorest/autorest/to"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
