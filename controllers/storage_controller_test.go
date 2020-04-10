@@ -124,6 +124,7 @@ func TestStorageControllerFailurePathWithNetworkRule(t *testing.T) {
 	EnsureInstanceWithResult(ctx, t, tc, cnInstance, errhelp.NetworkAclsValidationFailure, false)
 
 	// Delete instance
+
 	EnsureDelete(ctx, t, tc, cnInstance)
 
 }
