@@ -32,6 +32,7 @@ const (
 	InvalidRequestFormat                = "InvalidRequestFormat"
 	InvalidResourceLocation             = "InvalidResourceLocation"
 	InvalidServerName                   = "InvalidServerName"
+	InvalidResourceReference            = "InvalidResourceReference"
 	KeyNotFound                         = "KeyNotFound"
 	LocationNotAvailableForResourceType = "LocationNotAvailableForResourceType"
 	ProvisioningDisabled                = "ProvisioningDisabled"
@@ -54,6 +55,7 @@ const (
 	ServiceBusy                         = "ServiceBusy"
 	NameNotAvailable                    = "NameNotAvailable"
 	NetworkAclsValidationFailure        = "NetworkAclsValidationFailure"
+	PublicIPIdleTimeoutIsOutOfRange     = "PublicIPIdleTimeoutIsOutOfRange"
 )
 
 func NewAzureError(err error) error {

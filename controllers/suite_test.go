@@ -35,6 +35,8 @@ import (
 	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
+	resourcemanagernic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
+	resourcemanagerpip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
@@ -472,6 +474,44 @@ func setup() error {
 			),
 			Recorder: k8sManager.GetEventRecorderFor("VirtualNetwork-controller"),
 			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzurePublicIPAddressReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: resourcemanagerpip.NewAzurePublicIPAddressClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"PublicIPAddress",
+				ctrl.Log.WithName("controllers").WithName("PublicIPAddress"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("PublicIPAddress-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureNetworkInterfaceReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: resourcemanagernic.NewAzureNetworkInterfaceClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"NetworkInterface",
+				ctrl.Log.WithName("controllers").WithName("NetworkInterface"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("NetworkInterface-controller"),
+			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
