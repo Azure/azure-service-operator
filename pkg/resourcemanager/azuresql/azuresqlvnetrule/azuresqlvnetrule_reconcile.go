@@ -32,6 +32,11 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 	ignoreendpoint := instance.Spec.IgnoreMissingServiceEndpoint
 
 	vnetrule, err := vr.GetSQLVNetRule(ctx, groupName, server, ruleName)
+	if vnetrule.StatusCode == 404 {
+		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", instance.Spec.Server)
+		instance.Status.Provisioning = false
+		return false, nil
+	}
 	if err == nil {
 		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == sql.Ready {
 			instance.Status.Provisioning = false

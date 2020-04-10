@@ -56,6 +56,11 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	instance.Status.Provisioned = false
 
 	dbGet, err := db.GetDB(ctx, groupName, server, dbName)
+	if dbGet.StatusCode == 404 {
+		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
+		instance.Status.Provisioning = false
+		return false, nil
+	}
 	if err == nil {
 
 		// db exists, we have successfully provisioned everything

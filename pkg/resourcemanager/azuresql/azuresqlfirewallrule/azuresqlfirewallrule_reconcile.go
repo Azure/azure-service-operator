@@ -29,6 +29,11 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 	endIP := instance.Spec.EndIPAddress
 
 	fwr, err := fw.GetSQLFirewallRule(ctx, groupName, server, ruleName)
+	if fwr.StatusCode == 404 {
+		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
+		instance.Status.Provisioning = false
+		return false, nil
+	}
 	if err == nil {
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
