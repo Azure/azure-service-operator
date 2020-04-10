@@ -59,13 +59,6 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	dbGet, err := db.GetDB(ctx, groupName, server, dbName)
 	if err == nil {
 
-		// this error occurs when Get fails due to the server not being provisioned yet
-		if dbGet.StatusCode == 404 && strings.Contains(err.Error(), "cannot unmarshal array into Go struct field") {
-			instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
-			instance.Status.Provisioning = false
-			return false, nil
-		}
-
 		// db exists, we have successfully provisioned everything
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
@@ -73,18 +66,25 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *dbGet.ID
 		return true, nil
-	} else {
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		ignore := []string{
-			errhelp.NotFoundErrorCode,
-			errhelp.ResourceNotFound,
-			errhelp.ResourceGroupNotFoundErrorCode,
-		}
-		if !helpers.ContainsString(ignore, azerr.Type) {
-			instance.Status.Message = err.Error()
-			instance.Status.Provisioning = false
-			return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
-		}
+	}
+
+	// this error occurs when Get fails due to the server not being provisioned yet
+	if dbGet.StatusCode == 404 && strings.Contains(err.Error(), "cannot unmarshal array into Go struct field") {
+		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
+		instance.Status.Provisioning = false
+		return false, nil
+	}
+
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	ignore := []string{
+		errhelp.NotFoundErrorCode,
+		errhelp.ResourceNotFound,
+		errhelp.ResourceGroupNotFoundErrorCode,
+	}
+	if !helpers.ContainsString(ignore, azerr.Type) {
+		instance.Status.Message = err.Error()
+		instance.Status.Provisioning = false
+		return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
 	}
 
 	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSQLDatabaseProperties)
