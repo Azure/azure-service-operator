@@ -64,6 +64,12 @@ resources:
   kind: VirtualNetwork
 - group: azure
   version: v1alpha1
+  kind: AzurePublicIPAddress
+- group: azure
+  version: v1alpha1
+  kind: AzureNetworkInterface
+- group: azure
+  version: v1alpha1
   kind: AppInsights
 - group: azure
   version: v1alpha1
@@ -80,3 +86,4 @@ resources:
 - group: azure
   version: v1alpha1
   kind: MySQLFirewallRule
+
