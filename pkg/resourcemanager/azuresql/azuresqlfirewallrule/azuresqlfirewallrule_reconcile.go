@@ -36,16 +36,14 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *fwr.ID
 		return true, nil
-	} else {
+	}
+	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Get error %s", err.Error())
 
-		// this error occurs when Get fails due to the server not being provisioned yet
-		if fwr.StatusCode == 404 && strings.Contains(err.Error(), "cannot unmarshal array into Go struct field") {
-			instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
-			instance.Status.Provisioning = false
-			return false, nil
-		}
-
-		instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Get error %s", err.Error())
+	// this error occurs when Get fails due to the server not being provisioned yet
+	if fwr.StatusCode == 404 && strings.Contains(err.Error(), "cannot unmarshal array into Go struct field") {
+		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
+		instance.Status.Provisioning = false
+		return false, nil
 	}
 
 	_, err = fw.CreateOrUpdateSQLFirewallRule(ctx, groupName, server, ruleName, startIP, endIP)
