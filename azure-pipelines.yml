@@ -71,8 +71,8 @@ stages:
       inputs:
         artifactName: drop
 
-- stage: Test
-  displayName: Controller and Manager testing
+- stage: IntegrationTest
+  displayName: Test controllers
   jobs:
   - job:
     displayName: Test controllers
