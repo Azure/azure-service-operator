@@ -77,7 +77,7 @@ stages:
   - job:
     displayName: Test controllers
     steps:
-    - bash: make test-existing-controllers
+    - bash: make test-integration-controllers
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
@@ -87,7 +87,7 @@ stages:
   - job:
     displayName: Test managers
     steps:
-    - bash: make test-existing-managers
+    - bash: make test-integration-managers
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
