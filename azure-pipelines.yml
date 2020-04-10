@@ -17,31 +17,7 @@ variables:
   # Azure Service connection
   azureConnection: 'bca5fcbc-7592-4188-92fb-eedf3ac4a8b1'
 
-# 
 stages:
-- stage: TargetAKS
-  jobs:
-  - job:
-    steps:
-    # Get the kubeconfig for the AKS cluster we using
-    - task: Kubernetes@1
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'skulavik-k8s'
-        namespace: 'azureoperator-system'
-        command: 'login'
-        checkLatest: true
-    - bash: echo $KUBECONFIG && ls -al ~/.kube
-
-# - stage: Install
-#   displayName: Login to cluster
-#   dependsOn: BinaryBuild
-#   jobs:
-#   - job: Install
-#     steps:
-#       # Install the CRDs
-#     - script: make install
-
 - stage: Prerequisites
   displayName: Install Prerequisites
   jobs:
@@ -94,24 +70,43 @@ stages:
       inputs:
         artifactName: drop
 
-- stage: DockerBuild
-  displayName: Docker build
-  jobs:  
-  - job: DockerBuild
-    displayName: Docker Build
-    pool:
-      vmImage: $(vmImageName)
+- stage: TargetAKS
+  jobs:
+  - job:
     steps:
+    # Get the kubeconfig for the AKS cluster we using
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'skulavik-k8s'
+        namespace: 'azureoperator-system'
+        command: 'login'
+        checkLatest: true
+
+    - bash: echo $KUBECONFIG
+
     - task: Docker@2
       displayName: Build and push Docker image
+      env:
+        $KUBECONFIG: $KUBECONFIG
       inputs:
         containerRegistry: 'Skulavik ACR'
         repository: '$(imageRepository)'
         command: 'buildAndPush'
         Dockerfile: '**/devops/Dockerfile'
         tags: '$(tag)'
-    - upload: charts
+    - publish: charts
       artifact: charts
+
+
+# - stage: Install
+#   displayName: Login to cluster
+#   dependsOn: BinaryBuild
+#   jobs:
+#   - job: Install
+#     steps:
+#       # Install the CRDs
+#     - script: make install
 
 - stage: BakeAndDeploy
   displayName: Bake and deploy CRDs
