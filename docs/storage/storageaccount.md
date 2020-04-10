@@ -30,10 +30,6 @@ A Storage Account needs the following fields to deploy, along with a location an
 
 * `DataLakeEnabled` Enable a hierarchical namespace in your storage account, which requires the Storage Account `Kind` to be set to 'StorageV2'. Read more about Data Lake Storage hierarchical namespaces [here](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-namespace).
 
-### Secrets
-
-
-
 ## Deploy, view and delete resources
 
 You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
