@@ -44,7 +44,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	sqlServerInstance2 := azurev1alpha1.NewAzureSQLServer(sqlServerNamespacedName2, rgName, rgLocation2)
 
 	// create and wait
-	EnsureInstance(ctx, t, tc, sqlServerInstance)
+	RequireInstance(ctx, t, tc, sqlServerInstance)
 
 	//verify secret exists in k8s for server 1 ---------------------------------
 	secret := &v1.Secret{}
