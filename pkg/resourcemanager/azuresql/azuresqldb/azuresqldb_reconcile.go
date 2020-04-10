@@ -6,6 +6,7 @@ package azuresqldb
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -56,12 +57,14 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	instance.Status.Provisioned = false
 
 	dbGet, err := db.GetDB(ctx, groupName, server, dbName)
-	if dbGet.StatusCode == 404 {
-		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
-		instance.Status.Provisioning = false
-		return false, nil
-	}
 	if err == nil {
+
+		// this error occurs when Get fails due to the server not being provisioned yet
+		if dbGet.StatusCode == 404 && strings.Contains(err.Error(), "cannot unmarshal array into Go struct field") {
+			instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
+			instance.Status.Provisioning = false
+			return false, nil
+		}
 
 		// db exists, we have successfully provisioned everything
 		instance.Status.Provisioning = false

@@ -76,13 +76,15 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 	adminPassword := string(adminSecret[SecretPasswordKey])
 
 	dbGet, err := s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
-	if dbGet.StatusCode == 404 {
-		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", instance.Spec.Server)
-		instance.Status.Provisioning = false
-		return false, nil
-	}
 	if err != nil {
 		instance.Status.Message = err.Error()
+
+		// this error occurs when Get fails due to the server not being provisioned yet
+		if dbGet.StatusCode == 404 && strings.Contains(err.Error(), "cannot unmarshal array into Go struct field") {
+			instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", instance.Spec.Server)
+			instance.Status.Provisioning = false
+			return false, nil
+		}
 
 		catch := []string{
 			errhelp.ResourceNotFound,

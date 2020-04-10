@@ -25,11 +25,6 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 	}
 
 	getDB, err := p.GetDatabase(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
-	if getDB.StatusCode == 404 {
-		instance.Status.Message = fmt.Sprintf("Waiting for Postgres server %s to provision", instance.Spec.Server)
-		instance.Status.Provisioning = false
-		return false, nil
-	}
 	if err == nil {
 
 		// succeeded! so end reconcilliation successfully

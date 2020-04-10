@@ -45,11 +45,6 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 	}
 
 	resp, err := fg.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
-	if resp.StatusCode == 404 {
-		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", serverName)
-		instance.Status.Provisioning = false
-		return false, nil
-	}
 	if err == nil {
 
 		if *resp.ReplicationState == "SEEDING" {

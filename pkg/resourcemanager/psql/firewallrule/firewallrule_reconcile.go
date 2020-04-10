@@ -24,11 +24,6 @@ func (p *PSQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object,
 	}
 
 	getRule, err := p.GetFirewallRule(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
-	if getRule.StatusCode == 404 {
-		instance.Status.Message = fmt.Sprintf("Waiting for Postgres server %s to provision", instance.Spec.Server)
-		instance.Status.Provisioning = false
-		return false, nil
-	}
 	if err == nil {
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *getRule.ID
