@@ -12,6 +12,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	config "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/go-autorest/autorest/to"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -43,7 +44,7 @@ func TestStorageControllerHappyPathWithoutNetworkRule(t *testing.T) {
 	// delete rg
 	EnsureDelete(ctx, t, tc, saInstance)
 }
-func TestStorageControllerHappyPathWithNetworkRule(t *testing.T) {
+func TestStorageControllerFailurePathWithNetworkRule(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
@@ -75,7 +76,7 @@ func TestStorageControllerHappyPathWithNetworkRule(t *testing.T) {
 			Subnets:       []azurev1alpha1.VNetSubnets{VNetSubNetInstance},
 		},
 	}
-
+	//Create VNet
 	EnsureInstance(ctx, t, tc, VNetInstance)
 
 	subnetID := "/subscriptions/" + config.SubscriptionID() + "/resourceGroups/" + rgName + "/providers/Microsoft.Network/virtualNetworks/" + VNetName + "/subnets/" + subnetName
@@ -119,10 +120,10 @@ func TestStorageControllerHappyPathWithNetworkRule(t *testing.T) {
 		},
 	}
 
-	EnsureInstance(ctx, t, tc, cnInstance)
+	//Due to the service endpoint cannot be automatically created, can only verify the failure result
+	EnsureInstanceWithResult(ctx, t, tc, cnInstance, errhelp.NetworkAclsValidationFailure, false)
 
 	// Delete instance
-
 	EnsureDelete(ctx, t, tc, cnInstance)
 
 }

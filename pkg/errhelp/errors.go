@@ -53,6 +53,7 @@ const (
 	RequestDisallowedByPolicy           = "RequestDisallowedByPolicy"
 	ServiceBusy                         = "ServiceBusy"
 	NameNotAvailable                    = "NameNotAvailable"
+	NetworkAclsValidationFailure        = "NetworkAclsValidationFailure"
 )
 
 func NewAzureError(err error) error {

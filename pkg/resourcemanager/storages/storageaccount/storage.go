@@ -8,7 +8,6 @@ import (
 	"errors"
 	"log"
 	"strings"
-	"time"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -91,7 +90,7 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 	kind azurev1alpha1.StorageKind,
 	tags map[string]*string,
 	accessTier azurev1alpha1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *storage.NetworkRuleSet) (result storage.Account, err error) {
+	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *storage.NetworkRuleSet) (pollingURL string, result storage.Account, err error) {
 
 	storagesClient := getStoragesClient()
 
@@ -100,16 +99,19 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 	checkAccountParams := storage.AccountCheckNameAvailabilityParameters{Name: &storageAccountName, Type: &storageType}
 	checkNameResult, err := storagesClient.CheckNameAvailability(ctx, checkAccountParams)
 	if err != nil {
-		return result, err
+		return "", result, err
 	}
 	if dataLakeEnabled == to.BoolPtr(true) && kind != "StorageV2" {
-		return result, errors.New("unable to create datalake enabled storage account")
+		err = errors.New("unable to create datalake enabled storage account")
+		return
 	}
 	if *checkNameResult.NameAvailable == false {
 		if checkNameResult.Reason == storage.AccountNameInvalid {
-			return result, errors.New("AccountNameInvalid")
+			err = errors.New("AccountNameInvalid")
+			return
 		} else if checkNameResult.Reason == storage.AlreadyExists {
-			return result, errors.New("AlreadyExists")
+			err = errors.New("AlreadyExists")
+			return
 		}
 	}
 
@@ -134,12 +136,12 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 	//log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
 	future, err := storagesClient.Create(ctx, groupName, storageAccountName, params)
 	if err != nil {
-		return result, err
+		return "", result, err
 	}
 
-	time.Sleep(2 * time.Second)
+	result, err = future.Result(storagesClient)
 
-	return future.Result(storagesClient)
+	return future.PollingURL(), result, err
 
 }
 
