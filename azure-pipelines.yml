@@ -31,7 +31,16 @@ stages:
         namespace: 'azureoperator-system'
         command: 'login'
         checkLatest: true
-    - bash: kubectl cluster-info
+    - bash: echo $KUBECONFIG && ls -al ~/.kube
+
+# - stage: Install
+#   displayName: Login to cluster
+#   dependsOn: BinaryBuild
+#   jobs:
+#   - job: Install
+#     steps:
+#       # Install the CRDs
+#     - script: make install
 
 - stage: Prerequisites
   displayName: Install Prerequisites
@@ -85,6 +94,54 @@ stages:
       inputs:
         artifactName: drop
 
+- stage: DockerBuild
+  displayName: Docker build
+  jobs:  
+  - job: DockerBuild
+    displayName: Docker Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push Docker image
+      inputs:
+        containerRegistry: 'Skulavik ACR'
+        repository: '$(imageRepository)'
+        command: 'buildAndPush'
+        Dockerfile: '**/devops/Dockerfile'
+        tags: '$(tag)'
+    - upload: charts
+      artifact: charts
+
+- stage: BakeAndDeploy
+  displayName: Bake and deploy CRDs
+  jobs:
+  - job:
+    displayName: Package, bake, and deploy to AKS
+    steps:
+    - task: HelmInstaller@1
+      displayName: Install latest Helm
+      inputs:
+        helmVersionToInstall: 'latest'
+    - script: |
+       helm package charts/azure-service-operator -d ./charts
+       helm repo index charts
+    - task: KubernetesManifest@0
+      displayName: Bake manifests
+      name: bake
+      inputs:
+        action: bake
+        helmChart: charts/azure-service-operator-0.1.0.tgz
+        overrides: |
+          image.repository:$(containerRegistry)/$(imageRepository)
+    - task: KubernetesManifest@0
+      displayName: Deploy CRDs
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'skulavik-k8s'
+        namespace: 'azureoperator-system'
+        manifests: '$(bake.manifestsBundle)'
+
 # TODO:  These tests are still a WIP, uncomment once complete
 # - stage: IntegrationTest
 #   displayName: Test controllers
@@ -122,59 +179,3 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: 'make test-cleanup-azure-resources'
-
-- stage: Install
-  displayName: Login to cluster
-  dependsOn: BinaryBuild
-  jobs:
-  - job: Install
-    steps:
-      # Install the CRDs
-    - script: make install
-- stage: DockerBuild
-  displayName: Docker build
-  jobs:  
-  - job: DockerBuild
-    displayName: Docker Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push Docker image
-      inputs:
-        containerRegistry: 'Skulavik ACR'
-        repository: '$(imageRepository)'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
-    - upload: charts
-      artifact: charts
-
-- stage: BakeAndDeploy
-  displayName: Bake and deploy CRDs
-  jobs:
-  - job:
-    displayName: Package, bake, and deploy to AKS
-    steps:
-    - task: HelmInstaller@1
-      displayName: Install latest Helm
-      inputs:
-        helmVersionToInstall: 'latest'
-    - script: |
-       helm package charts/azure-service-operator -d ./charts
-       helm repo index charts
-    - task: KubernetesManifest@0
-      displayName: Bake manifests
-      name: bake
-      inputs:
-        action: bake
-        helmChart: charts/azure-service-operator-0.1.0.tgz
-        overrides: |
-          image.repository:$(containerRegistry)/$(imageRepository)
-    - task: KubernetesManifest@0
-      displayName: Deploy CRDs
-      inputs:
-        action: 'deploy'
-        kubernetesServiceConnection: 'skulavik-k8s'
-        namespace: 'azureoperator-system'
-        manifests: '$(bake.manifestsBundle)'
