@@ -68,40 +68,35 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	}
 	azerr := errhelp.NewAzureErrorAzureError(err)
 	catch := []string{
-		errhelp.ResourceNotFound,
+		errhelp.ParentNotFoundErrorCode,
+		errhelp.ResourceGroupNotFoundErrorCode,
 	}
 	if helpers.ContainsString(catch, azerr.Type) {
 		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
 		instance.Status.Provisioning = false
 		return false, nil
 	}
-	ignore := []string{
-		errhelp.NotFoundErrorCode,
-		errhelp.ResourceGroupNotFoundErrorCode,
-	}
-	if !helpers.ContainsString(ignore, azerr.Type) {
-		instance.Status.Message = err.Error()
-		instance.Status.Provisioning = false
-		return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
-	}
 
 	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSQLDatabaseProperties)
 	if err != nil {
-		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		// resource request has been sent to ARM
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
+			instance.Status.Message = "Reconcilliation not complete"
 			instance.Status.Provisioning = true
 			return false, nil
 		}
 
-		// the errors that can arise during reconcilliation where we simply requeue
+		// the errors that can arise when the Azure SQL server hasn't been provisioned yet
 		catch := []string{
-			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.Failed,
+			errhelp.ResourceNotFound,
 			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Message = fmt.Sprintf("Waiting for SQL Server %s to provision", server)
 			instance.Status.Provisioning = false
 			return false, nil
 		}
@@ -113,7 +108,9 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			return false, nil
 		}
 
-		return true, fmt.Errorf("AzureSqlDb CreateOrUpdate error %v", err)
+		errorStripped := errhelp.StripErrorIDs(err)
+		instance.Status.Message = errorStripped
+		return true, fmt.Errorf("AzureSqlDb CreateOrUpdate error %s", errorStripped)
 	}
 
 	return false, nil

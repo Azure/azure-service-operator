@@ -42,21 +42,21 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 		}
 		return false, nil
 	}
-	instance.Status.Message = fmt.Sprintf("AzureSqlVNetRule Get error %s", err.Error())
 	azerr := errhelp.NewAzureErrorAzureError(err)
 	catch := []string{
-		errhelp.ResourceNotFound,
+		errhelp.ParentNotFoundErrorCode,
+		errhelp.ResourceGroupNotFoundErrorCode,
 	}
 	if helpers.ContainsString(catch, azerr.Type) {
 		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
 		instance.Status.Provisioning = false
 		return false, nil
 	}
+	instance.Status.Message = fmt.Sprintf("AzureSqlVNetRule Get error %s", err.Error())
 
 	instance.Status.Provisioning = true
 	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
 	if err != nil {
-		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
@@ -65,16 +65,19 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 			return false, nil
 		}
 
-		ignorableErrors := []string{
-			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.ParentNotFoundErrorCode,
+		// errors occur when the server hasn't provisioned yet
+		catch := []string{
 			errhelp.ResourceNotFound,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
 		}
-		if helpers.ContainsString(ignorableErrors, azerr.Type) {
+		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
 			instance.Status.Provisioning = false
 			return false, nil
 		}
 
+		instance.Status.Message = errhelp.StripErrorIDs(err)
 		return false, err
 	}
 

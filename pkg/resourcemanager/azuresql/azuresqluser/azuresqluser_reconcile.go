@@ -77,26 +77,20 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
-		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		catch := []string{
 			errhelp.ResourceNotFound,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
-			instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", instance.Spec.Server)
+			instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s and DB %s to provision", instance.Spec.Server, instance.Spec.DbName)
 			instance.Status.Provisioning = false
 			return false, nil
 		}
 
-		ignore := []string{
-			errhelp.ParentNotFoundErrorCode,
-			errhelp.ResourceGroupNotFoundErrorCode,
-		}
-		if helpers.ContainsString(ignore, azerr.Type) {
-			return false, nil
-		}
-
+		instance.Status.Message = errhelp.StripErrorIDs(err)
 		return false, err
 	}
 

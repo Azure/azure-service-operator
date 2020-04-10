@@ -55,6 +55,7 @@ const (
 	ServiceBusy                         = "ServiceBusy"
 	NameNotAvailable                    = "NameNotAvailable"
 	PublicIPIdleTimeoutIsOutOfRange     = "PublicIPIdleTimeoutIsOutOfRange"
+	Failed                              = "Failed"
 )
 
 func NewAzureError(err error) error {

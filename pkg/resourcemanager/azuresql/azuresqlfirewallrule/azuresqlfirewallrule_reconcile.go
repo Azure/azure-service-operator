@@ -39,7 +39,8 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Get error %s", err.Error())
 	azerr := errhelp.NewAzureErrorAzureError(err)
 	catch := []string{
-		errhelp.ResourceNotFound,
+		errhelp.ParentNotFoundErrorCode,
+		errhelp.ResourceGroupNotFoundErrorCode,
 	}
 	if helpers.ContainsString(catch, azerr.Type) {
 		instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
@@ -49,18 +50,31 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 
 	_, err = fw.CreateOrUpdateSQLFirewallRule(ctx, groupName, server, ruleName, startIP, endIP)
 	if err != nil {
-		instance.Status.Message = err.Error()
-		catch := []string{
-			errhelp.AsyncOpIncompleteError,
-			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.ParentNotFoundErrorCode,
-			errhelp.AlreadyExists,
-			errhelp.ResourceNotFound,
-		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
+
+		// the errors that can arise during reconcilliation where we simply requeue
+		ignore := []string{
+			errhelp.AsyncOpIncompleteError,
+			errhelp.AlreadyExists,
+		}
+		if helpers.ContainsString(ignore, azerr.Type) {
+			instance.Status.Message = "Reconcilliation not complete"
 			return false, nil
 		}
+
+		// errors occur when the server hasn't provisioned yet
+		catch := []string{
+			errhelp.ResourceNotFound,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
+		}
+		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Message = fmt.Sprintf("Waiting for Azure SQL server %s to provision", server)
+			instance.Status.Provisioning = false
+			return false, nil
+		}
+
+		instance.Status.Message = errhelp.StripErrorIDs(err)
 		return false, err
 	}
 	return false, nil
