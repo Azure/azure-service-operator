@@ -94,16 +94,26 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// set a spec hash if one hasn't been set
 	hash := helpers.Hash256(instance.Spec)
-	if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
+	specHashWasEmpty := false
+	if instance.Status.SpecHash == "" {
+		instance.Status.SpecHash = hash
+		specHashWasEmpty = true
+	}
+
+	// early exit if hashes match and this server has been provisioned / failed provisioning
+	if !specHashWasEmpty &&
+		instance.Status.SpecHash == hash &&
+		(instance.Status.Provisioned || instance.Status.FailedProvisioning) {
 		instance.Status.RequestedAt = nil
 		return true, nil
 	}
 
-	if instance.Status.SpecHash == "" {
-		instance.Status.SpecHash = hash
-	}
-
-	if instance.Status.Provisioning {
+	// if we've already started provisioning then try to get the server,
+	// 	or if the hash wasnt empty and the Spec Hash matches the calculated hash
+	// 	this indicates that we've already issued and update and its worth
+	// 	checking to see if the server is there
+	if instance.Status.Provisioning ||
+		(!specHashWasEmpty && instance.Status.SpecHash == hash) {
 
 		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 		if err != nil {
@@ -139,6 +149,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
+			instance.Status.FailedProvisioning = false
 			instance.Status.ResourceId = *serv.ID
 			instance.Status.SpecHash = hash
 			instance.Status.PollingURL = ""
