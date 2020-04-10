@@ -17,7 +17,7 @@ BUILD_ID ?= $(shell git rev-parse --short HEAD)
 TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
 
 # Go compiler builds tags: some parts of the test suite use these to selectively compile tests.
-BUILD_TAGS ?= keyvault
+BUILD_TAGS ?= all
 
 all: manager
 
