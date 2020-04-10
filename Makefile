@@ -17,7 +17,7 @@ BUILD_ID ?= $(shell git rev-parse --short HEAD)
 TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
 
 # Go compiler builds tags: some parts of the test suite use these to selectively compile tests.
-BUILD_TAGS ?= all
+BUILD_TAGS ?= keyvault
 
 all: manager
 
@@ -36,7 +36,7 @@ generate-test-certs:
 # Run Controller tests against the configured cluster
 test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
-	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-ouput.txt -coverpkg=all -covermode count -parallel 4 -timeout 45m \
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-ouput.txt -coverpkg=./... -covermode count -parallel 4 -timeout 5m \
 	./controllers/... \
 	2>&1 | tee reports/integration-controllers-output.txt
 	go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
