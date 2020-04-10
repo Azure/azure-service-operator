@@ -18,6 +18,7 @@ variables:
   # Azure Service connection
   azureConnection: 'bca5fcbc-7592-4188-92fb-eedf3ac4a8b1'
 
+# 
 stages:
 - stage: Prerequisites
   displayName: Install Prerequisites
@@ -71,6 +72,7 @@ stages:
       inputs:
         artifactName: drop
 
+# TODO:  These tests are still a WIP, uncomment once complete
 - stage: IntegrationTest
   displayName: Test controllers
   jobs:
@@ -95,6 +97,7 @@ stages:
         AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
 
+# Clean up the resources we created during integration testing
 - stage: AzResouceCleanup
   displayName: Clean up test resources
   jobs:
@@ -113,6 +116,7 @@ stages:
   jobs:
   - job: Install
     steps:
+    # Get the kubeconfig for the AKS cluster we using
     - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
@@ -120,7 +124,7 @@ stages:
         namespace: 'azureoperator-system'
         command: 'login'
         checkLatest: true
-      # Install ASO controllers
+      # Install the CRDs
     - script: make install
 - stage: DockerBuild
   displayName: Docker build
