@@ -153,7 +153,7 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura 
-    summaryFileLocation: $(MODULE_PATH)/reports/coverage-controllers.xml
+    summaryFileLocation: $(MODULE_PATH)/reports/integration-controllers-coverage.xml
 
 - task: PublishBuildArtifacts@1
   inputs:
