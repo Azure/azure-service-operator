@@ -10,7 +10,7 @@ LABEL maintainer="Microsoft"
 # ENV AZURE_OPERATOR_KEYVAULT "${AZURE_OPERATOR_KEYVAULT}"
 # ENV KUBECONFIG "./config"
 
-RUN echo $AZURE_CLIENT_ID
+RUN echo $TEST
 # RUN az login --service-principal -u '${AZURE_CLIENT_ID}' -p '{AZURE_CLIENT_SECRET}' --tenant '{AZURE_TENANT_ID}'
 # RUN az keyvault secret download --file ./config 
 
