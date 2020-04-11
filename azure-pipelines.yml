@@ -95,16 +95,16 @@ stages:
       env:
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
 
-    # - task: Docker@2
-    #   displayName: Build and push Docker image
-    #   inputs:
-    #     containerRegistry: 'Skulavik ACR'
-    #     repository: '$(imageRepository)'
-    #     command: 'buildAndPush'
-    #     Dockerfile: '**/devops/Dockerfile'
-    #     tags: '$(tag)'
-    # - publish: charts
-    #   artifact: charts
+    - task: Docker@2
+      displayName: Build and push Docker image
+      inputs:
+        containerRegistry: 'Skulavik ACR'
+        repository: '$(imageRepository)'
+        command: 'buildAndPush'
+        Dockerfile: outdock2
+        tags: '$(tag)'
+    - publish: charts
+      artifact: charts
 
 
 # - stage: Install
