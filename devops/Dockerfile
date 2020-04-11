@@ -10,4 +10,4 @@ WORKDIR /
 
 COPY . .
 
-ENTRYPOINT ["/azure-service-operator"]
+# ENTRYPOINT ["/azure-service-operator"]
