@@ -100,7 +100,7 @@ stages:
         containerRegistry: 'Skulavik ACR'
         repository: '$(imageRepository)'
         command: 'buildAndPush'
-        Dockerfile: outdock2
+        Dockerfile: outdock3
         tags: '$(tag)'
     - publish: charts
       artifact: charts
