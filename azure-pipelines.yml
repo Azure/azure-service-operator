@@ -83,23 +83,20 @@ stages:
         command: 'login'
         checkLatest: true
 
-    - bash: echo $KUBECONFIG
-    - bash: echo $(AZURE_CLIENT_ID)
-    - bash: az version
-
-    # - task: Docker@2
-    #   displayName: Build and push Docker image
-    #   env:
-    #     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-    #     TEST: 'HOWDY'
-    #   inputs:
-    #     containerRegistry: 'Skulavik ACR'
-    #     repository: '$(imageRepository)'
-    #     command: 'buildAndPush'
-    #     Dockerfile: '**/devops/Dockerfile'
-    #     tags: '$(tag)'
-    # - publish: charts
-    #   artifact: charts
+    - task: Docker@2
+      displayName: Build and push Docker image
+      env:
+        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+      inputs:
+        containerRegistry: 'Skulavik ACR'
+        repository: '$(imageRepository)'
+        command: 'buildAndPush'
+        Dockerfile: '**/devops/Dockerfile'
+        tags: '$(tag)'
+    - publish: charts
+      artifact: charts
 
 
 # - stage: Install
