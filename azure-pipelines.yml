@@ -89,6 +89,7 @@ stages:
       displayName: Build and push Docker image
       env:
         $AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        $TEST: 'HOWDY'
       inputs:
         containerRegistry: 'Skulavik ACR'
         repository: '$(imageRepository)'
