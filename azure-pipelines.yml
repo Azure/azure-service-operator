@@ -90,7 +90,7 @@ stages:
     - bash: |
         echo $AZURE_CLIENT_SECRET
         
-        sed 's/AZURE_CLIENT_SECRET/mysecret/' devops/Dockerfile > outdock
+        sed 's/AZURE_CLIENT_SECRET/'$AZURE_CLIENT_ID'/' devops/Dockerfile > outdock
         
         cat outdock
 
