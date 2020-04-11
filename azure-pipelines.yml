@@ -91,9 +91,9 @@ stages:
         echo $AZURE_CLIENT_SECRET
         
         sed 's/AZURE_CLIENT_ID/'$AZURE_CLIENT_ID'/' devops/Dockerfile > outdock
-        sed 's/AZURE_TENANT_ID/'$AZURE_TENANT_ID'/' outdock > outdock
+        sed 's/AZURE_TENANT_ID/'$AZURE_TENANT_ID'/' outdock > outdock1
         
-        cat outdock
+        cat outdock1
 
     # - task: Docker@2
     #   displayName: Build and push Docker image
