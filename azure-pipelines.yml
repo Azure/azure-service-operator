@@ -10,10 +10,6 @@ variables:
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'skulavik7b16-auth'
-  env:
-    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -88,6 +84,10 @@ stages:
         command: 'login'
         checkLatest: true
 
+      env:
+        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
     - bash: |
         sed 's/AZURE_CLIENT_ID/${AZURE_CLIENT_ID}/' devops/Dockerfile > outdock
         sed 's/AZURE_CLIENT_SECRET/${AZURE_CLIENT_SECRET}/' devops/Dockerfile > outdock
