@@ -86,7 +86,7 @@ stages:
 
     - bash: |
         sed 's/AZURE_CLIENT_ID/'$AZURE_CLIENT_ID'/' devops/Dockerfile > outdock
-        sed 's/AZURE_CLIENT_SECRET/'$(AZURE_CLIENT_SECRET)'/' outdock > outdock1
+        sed 's/AZURE_CLIENT_SECRET/'${AZURE_CLIENT_SECRET}'/' outdock > outdock1
         sed 's/AZURE_TENANT_ID/'$AZURE_TENANT_ID'/' outdock1 > outdock2        
         cat outdock2
       env:
