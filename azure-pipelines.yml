@@ -89,7 +89,7 @@ stages:
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
     - bash: |
-        sed 's/AZURE_CLIENT_ID/$AZURE_CLIENT_ID/' devops/Dockerfile > outdock
+        sed 's@AZURE_CLIENT_ID@'${AZURE_CLIENT_ID}'@g' devops/Dockerfile > outdock
         sed 's/AZURE_CLIENT_SECRET/${AZURE_CLIENT_SECRET}/' devops/Dockerfile > outdock
         sed 's/AZURE_CLIENT_SECRET/${AZURE_TENANT_ID}/' devops/Dockerfile > outdock
         cat outdock
