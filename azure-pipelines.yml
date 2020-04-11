@@ -83,10 +83,7 @@ stages:
         namespace: 'azureoperator-system'
         command: 'login'
         checkLatest: true
-    
-    
-      env:
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+
     - bash: |
         echo $AZURE_CLIENT_SECRET
         
@@ -95,6 +92,8 @@ stages:
         sed 's/AZURE_TENANT_ID/'$AZURE_TENANT_ID'/' outdock1 > outdock2
         
         cat outdock2
+      env:
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
 
     # - task: Docker@2
     #   displayName: Build and push Docker image
