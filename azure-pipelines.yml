@@ -18,57 +18,57 @@ variables:
   azureConnection: 'bca5fcbc-7592-4188-92fb-eedf3ac4a8b1'
 
 stages:
-- stage: Prerequisites
-  displayName: Install Prerequisites
-  jobs:
-  - job:
-    steps:
-    - script: |
-        os=$(go env GOOS)
-        arch=$(go env GOARCH)
-        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C /tmp/    
-        export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
-        export PATH=$PATH:/usr/local/kubebuilder/bin
-      displayName: Install kubebuilder
-- stage: BinaryBuild
-  displayName: Build Binary
-  jobs:
-  - job:
-    steps:
-    - task: GoTool@0
-      inputs:
-        version: '1.13.7'
-      displayName: Get Go 1.13.7
-    - task: Go@0
-      inputs:
-         command: 'get'
-         arguments: '-d'
-         workingDirectory: '$(System.DefaultWorkingDirectory)'
-      displayName: Get Go dependencies
-    - task: Go@0
-      inputs:
-       command: 'get'
-       arguments: sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
-       workingDirectory: '$(System.DefaultWorkingDirectory)'
-      displayName: Get controller-gen
-    - script: make generate
-      displayName: Generate controllers
-    - task: Go@0
-      inputs:
-        command: 'test'
-        arguments: '-v -tags "$(Build.BuildId)" -coverprofile=coverage-unit.txt -covermode count -parallel 4 -timeout 10m'
-      displayName: Run unit tests
-    - task: Go@0
-      inputs:
-        command: 'build'
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
-      displayName: Compile manager binary
-    - task: CopyFiles@2
-      inputs:
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        artifactName: drop
+# - stage: Prerequisites
+#   displayName: Install Prerequisites
+#   jobs:
+#   - job:
+#     steps:
+#     - script: |
+#         os=$(go env GOOS)
+#         arch=$(go env GOARCH)
+#         curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C /tmp/    
+#         export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
+#         export PATH=$PATH:/usr/local/kubebuilder/bin
+#       displayName: Install kubebuilder
+# - stage: BinaryBuild
+#   displayName: Build Binary
+#   jobs:
+#   - job:
+#     steps:
+#     - task: GoTool@0
+#       inputs:
+#         version: '1.13.7'
+#       displayName: Get Go 1.13.7
+#     - task: Go@0
+#       inputs:
+#          command: 'get'
+#          arguments: '-d'
+#          workingDirectory: '$(System.DefaultWorkingDirectory)'
+#       displayName: Get Go dependencies
+#     - task: Go@0
+#       inputs:
+#        command: 'get'
+#        arguments: sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
+#        workingDirectory: '$(System.DefaultWorkingDirectory)'
+#       displayName: Get controller-gen
+#     - script: make generate
+#       displayName: Generate controllers
+#     - task: Go@0
+#       inputs:
+#         command: 'test'
+#         arguments: '-v -tags "$(Build.BuildId)" -coverprofile=coverage-unit.txt -covermode count -parallel 4 -timeout 10m'
+#       displayName: Run unit tests
+#     - task: Go@0
+#       inputs:
+#         command: 'build'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)'
+#       displayName: Compile manager binary
+#     - task: CopyFiles@2
+#       inputs:
+#         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+#     - task: PublishBuildArtifacts@1
+#       inputs:
+#         artifactName: drop
 
 - stage: TargetAKS
   jobs:
@@ -84,7 +84,7 @@ stages:
         checkLatest: true
 
     - bash: echo $KUBECONFIG
-    - bash: docker build - < devops/Dockerfile -t $(tag)
+    - bash: docker build - < devops/Dockerfile -t aso-devops
 
     # - task: Docker@2
     #   displayName: Build and push Docker image
