@@ -83,14 +83,13 @@ stages:
         command: 'login'
         checkLatest: true
         
-      env:
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-    - script: |
-        
-        docker build - < cat <<EOF
-          FROM mcr.microsoft.com/azure-cli
 
-        EOF
+    - script: |
+        Dockerfile=$(cat <<EOF
+          FROM mcr.microsoft.com/azure-cli
+        EOF)
+        
+        docker build - < Dockerfile
 
     # - task: Docker@2
     #   displayName: Build and push Docker image
