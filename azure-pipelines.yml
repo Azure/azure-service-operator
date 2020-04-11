@@ -10,6 +10,10 @@ variables:
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'skulavik7b16-auth'
+  env:
+    AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    AZURE_TENANT_ID: $(AZURE_TENANT_ID)
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -18,6 +22,11 @@ variables:
   azureConnection: 'bca5fcbc-7592-4188-92fb-eedf3ac4a8b1'
 
 stages:
+ - bash: |
+    sed 's/AZURE_CLIENT_ID/${AZURE_CLIENT_ID}/' devops/Dockerfile > outdock
+    sed 's/AZURE_CLIENT_SECRET/${AZURE_CLIENT_SECRET}/' devops/Dockerfile > outdock
+    sed 's/AZURE_CLIENT_SECRET/${AZURE_TENANT_ID}/' devops/Dockerfile > outdock
+    cat outdock
 # - stage: Prerequisites
 #   displayName: Install Prerequisites
 #   jobs:
@@ -85,10 +94,6 @@ stages:
 
     - task: Docker@2
       displayName: Build and push Docker image
-      env:
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
       inputs:
         containerRegistry: 'Skulavik ACR'
         repository: '$(imageRepository)'
