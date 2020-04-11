@@ -102,7 +102,7 @@ stages:
         repository: '$(imageRepository)'
         command: 'buildAndPush'
         Dockerfile: outdock3
-        buildContext: '$(System.DefaultWorkingDirectory)' #'$(Build.ArtifactStagingDirectory)'
+        buildContext: '$(Build.ArtifactStagingDirectory)' #'$(System.DefaultWorkingDirectory)'
         tags: '$(tag)'
 
 - stage: BakeAndDeploy
