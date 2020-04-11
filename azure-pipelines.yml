@@ -84,7 +84,6 @@ stages:
         checkLatest: true
 
     - bash: echo $KUBECONFIG
-    - bash: docker build - < devops/Dockerfile -t 
 
     - task: Docker@2
       displayName: Build and push Docker image
