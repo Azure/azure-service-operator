@@ -8,7 +8,6 @@ RUN az aks get-credentials -n aso-azdo-aks -g resourcegroup-azure-operators --ad
 
 WORKDIR /
 
-RUN pwd && ls -als
-COPY azure-service-operator .
+COPY . .
 
 ENTRYPOINT ["/azure-service-operator"]
