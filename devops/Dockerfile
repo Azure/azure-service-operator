@@ -16,6 +16,6 @@ RUN echo $AZURE_CLIENT_ID
 
 WORKDIR /
 
-COPY manager .
+# COPY manager .
 
-ENTRYPOINT ["/manager"]
+# ENTRYPOINT ["/manager"]
