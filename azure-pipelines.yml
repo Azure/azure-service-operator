@@ -82,21 +82,28 @@ stages:
         namespace: 'azureoperator-system'
         command: 'login'
         checkLatest: true
+        
+    - bash: |
+        az login --service-principal -u $(AZURE_CLIENT_ID) -p $(AZURE_CLIENT_SECRET) --tenant $(AZURE_TENANT_ID)
+        docker build - < cat <<EOF
+          FROM mcr.microsoft.com/azure-cli
+          
+        EOF
 
-    - task: Docker@2
-      displayName: Build and push Docker image
-      env:
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-      inputs:
-        containerRegistry: 'Skulavik ACR'
-        repository: '$(imageRepository)'
-        command: 'buildAndPush'
-        Dockerfile: '**/devops/Dockerfile'
-        tags: '$(tag)'
-    - publish: charts
-      artifact: charts
+    # - task: Docker@2
+    #   displayName: Build and push Docker image
+    #   env:
+    #     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    #     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    #     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+    #   inputs:
+    #     containerRegistry: 'Skulavik ACR'
+    #     repository: '$(imageRepository)'
+    #     command: 'buildAndPush'
+    #     Dockerfile: '**/devops/Dockerfile'
+    #     tags: '$(tag)'
+    # - publish: charts
+    #   artifact: charts
 
 
 # - stage: Install
