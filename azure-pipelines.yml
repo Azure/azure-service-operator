@@ -87,7 +87,8 @@ stages:
     - bash: |
         Dockerfile=$(cat <<EOF
           FROM mcr.microsoft.com/azure-cli
-        EOF)
+        EOF
+        )
         
         echo Dockerfile
         # docker build - < Dockerfile
