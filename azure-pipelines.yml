@@ -103,10 +103,6 @@ stages:
         Dockerfile: outdock3
         buildContext: $(Build.ArtifactStagingDirectory)
         tags: '$(tag)'
-    - publish: charts
-      artifact: charts
-
-
 
 - stage: BakeAndDeploy
   displayName: Bake and deploy CRDs
