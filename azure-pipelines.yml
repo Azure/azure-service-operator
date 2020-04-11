@@ -95,15 +95,14 @@ stages:
       env:
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
 
-    - bash: echo $(Build.ArtifactStagingDirectory)
     - task: Docker@2
       displayName: Build and push Docker image
-      inputs:
+        inputs:
         containerRegistry: 'Skulavik ACR'
         repository: '$(imageRepository)'
         command: 'buildAndPush'
         Dockerfile: outdock3
-        buildContext: '$(Build.ArtifactStagingDirectory)'
+        buildContext: '$(System.DefaultWorkingDirectory)' #'$(Build.ArtifactStagingDirectory)'
         tags: '$(tag)'
 
 - stage: BakeAndDeploy
