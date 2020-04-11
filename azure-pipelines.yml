@@ -84,20 +84,20 @@ stages:
         checkLatest: true
 
     - bash: echo $KUBECONFIG
-    - bash: docker build - < devops/Dockerfile -t aso-devops
+    - bash: docker build - < devops/Dockerfile -t 
 
-    # - task: Docker@2
-    #   displayName: Build and push Docker image
-    #   env:
-    #     $KUBECONFIG: $KUBECONFIG
-    #   inputs:
-    #     containerRegistry: 'Skulavik ACR'
-    #     repository: '$(imageRepository)'
-    #     command: 'buildAndPush'
-    #     Dockerfile: '**/devops/Dockerfile'
-    #     tags: '$(tag)'
-    # - publish: charts
-    #   artifact: charts
+    - task: Docker@2
+      displayName: Build and push Docker image
+      env:
+        $AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+      inputs:
+        containerRegistry: 'Skulavik ACR'
+        repository: '$(imageRepository)'
+        command: 'buildAndPush'
+        Dockerfile: '**/devops/Dockerfile'
+        tags: '$(tag)'
+    - publish: charts
+      artifact: charts
 
 
 # - stage: Install
