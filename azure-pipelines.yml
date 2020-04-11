@@ -101,19 +101,12 @@ stages:
         repository: '$(imageRepository)'
         command: 'buildAndPush'
         Dockerfile: outdock3
+        buildContext: $(Build.ArtifactStagingDirectory)
         tags: '$(tag)'
     - publish: charts
       artifact: charts
 
 
-# - stage: Install
-#   displayName: Login to cluster
-#   dependsOn: BinaryBuild
-#   jobs:
-#   - job: Install
-#     steps:
-#       # Install the CRDs
-#     - script: make install
 
 - stage: BakeAndDeploy
   displayName: Bake and deploy CRDs
