@@ -84,12 +84,13 @@ stages:
         checkLatest: true
         
 
-    - script: |
+    - bash: |
         Dockerfile=$(cat <<EOF
           FROM mcr.microsoft.com/azure-cli
         EOF)
         
-        docker build - < Dockerfile
+        echo Dockerfile
+        # docker build - < Dockerfile
 
     # - task: Docker@2
     #   displayName: Build and push Docker image
