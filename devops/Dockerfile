@@ -10,7 +10,6 @@ RUN az aks get-credentials -n aso-azdo-aks -g resourcegroup-azure-operators --ad
 
 WORKDIR /
 
-# COPY ./secret .
-# COPY manager .
+COPY manager .
 
 ENTRYPOINT ["/manager"]
