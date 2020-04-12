@@ -66,7 +66,7 @@ stages:
         buildContext: '$(System.DefaultWorkingDirectory)'
         tags: '$(tag)'
 
-- stage: BakeAndDeploy  
+- stage: Deploy
   jobs:
   - job:
     displayName: Deploy charts
@@ -94,7 +94,7 @@ stages:
         namespace: 'azureoperator-system'
         manifests: '$(bake.manifestsBundle)'
 
-- stage: IntegrationTest
+- stage: Integration Test
   jobs:
   - job:
     displayName: Test controllers
@@ -133,8 +133,7 @@ stages:
         AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
 
-# Clean up the resources we created during integration testing
-- stage: AzResouceCleanup
+- stage: Clean Azure Resources
   displayName: Clean up test resources
   jobs:
   - job: ResourceCleanup
