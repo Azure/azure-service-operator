@@ -66,8 +66,7 @@ stages:
         buildContext: '$(System.DefaultWorkingDirectory)'
         tags: '$(tag)'
 
-- stage: BakeAndDeploy
-  displayName: Bake and deploy CRDs
+- stage: BakeAndDeploy  
   jobs:
   - job:
     dependsOn: InstallControllers
