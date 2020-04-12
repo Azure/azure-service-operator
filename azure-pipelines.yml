@@ -18,11 +18,10 @@ variables:
   azureConnection: 'bca5fcbc-7592-4188-92fb-eedf3ac4a8b1'
 
 stages:
-- stage: TargetAKS
+- stage: Build
   jobs:
   - job:
     steps:
-
     - task: GoTool@0
       displayName: Get Go 1.13.7
       inputs:
@@ -57,14 +56,6 @@ stages:
       displayName: Setup container environment
       env:
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-
-    - bash: |
-        os=$(go env GOOS)
-        arch=$(go env GOARCH)
-        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C /tmp/    
-        export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
-        export PATH=$PATH:/usr/local/kubebuilder/bin
-      displayName: Install kubebuilder
 
     - task: Docker@2
       displayName: Build and push Docker image

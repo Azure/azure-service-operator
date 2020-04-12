@@ -11,4 +11,5 @@ WORKDIR /
 COPY . ./
 
 RUN ls -als
-# ENTRYPOINT ["/azure-service-operator"]
+
+ENTRYPOINT ["/manager"]
