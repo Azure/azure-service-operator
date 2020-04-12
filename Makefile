@@ -83,7 +83,7 @@ test-cleanup-azure-resources:
 
 # Build manager binary
 manager: generate fmt vet
-	go build -o bin/manager main.go
+	go build -o manager main.go
 
 # Run against the configured Kubernetes cluster in ~/.kube/config
 run: generate fmt vet
