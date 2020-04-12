@@ -72,7 +72,12 @@ stages:
 - stage: BakeAndDeploy
   displayName: Bake and deploy CRDs
   jobs:
+  - job: InstallControllers
+    displayName: Install CRDs
+    steps:
+    - bash: make install
   - job:
+    dependsOn: InstallControllers
     displayName: Package, bake, and deploy to AKS
     steps:
     - task: HelmInstaller@1
