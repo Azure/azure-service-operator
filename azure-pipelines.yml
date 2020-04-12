@@ -19,35 +19,18 @@ variables:
 
 stages:
 
-- stage: Prerequisites
-  displayName: Install Prerequisites
-  jobs:
-  - job:
-    steps:
-    - script: |
-        os=$(go env GOOS)
-        arch=$(go env GOARCH)
-        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C /tmp/    
-        export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
-        export PATH=$PATH:/usr/local/kubebuilder/bin
-      displayName: Install kubebuilder
-- stage: BinaryBuild
-  displayName: Build Binary
-  jobs:
-  - job:
-    steps:
-    - task: GoTool@0
-      inputs:
-        version: '1.13.7'
-      displayName: Get Go 1.13.7
-    - task: Go@0
-      inputs:
-         command: 'get'
-         arguments: '-d'
-         workingDirectory: '$(System.DefaultWorkingDirectory)'
-      displayName: Get Go dependencies
+# - stage: Prerequisites
+#   displayName: Install Prerequisites
+#   jobs:
+#   - job:
+#     steps:
     
-    - bash: make manager
+# - stage: BinaryBuild
+#   displayName: Build Binary
+#   jobs:
+#   - job:
+#     steps:
+    - 
     # - task: Go@0
     #   inputs:
     #    command: 'get'
@@ -98,6 +81,28 @@ stages:
       displayName: Setup container environment
       env:
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+
+    - bash: |
+        os=$(go env GOOS)
+        arch=$(go env GOARCH)
+        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C /tmp/    
+        export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
+        export PATH=$PATH:/usr/local/kubebuilder/bin
+      displayName: Install kubebuilder
+
+    - task: GoTool@0
+      inputs:
+        version: '1.13.7'
+        displayName: Get Go 1.13.7
+
+    - task: Go@0
+      inputs:
+        command: 'get'
+        arguments: '-d'
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        displayName: Get Go dependencies
+      
+      - bash: make manager
 
     - task: Docker@2
       displayName: Build and push Docker image
