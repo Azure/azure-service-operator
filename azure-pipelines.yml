@@ -92,10 +92,10 @@ stages:
         namespace: 'azureoperator-system'
         manifests: '$(bake.manifestsBundle)'
 
-- stage: Test
+- stage: IntegrationTest
   jobs:
   - job:
-    displayName: Test controllers
+    displayName: Integration Test
     steps:
     - task: Kubernetes@1
       displayName: Fetch kubeconfig
@@ -105,7 +105,9 @@ stages:
         namespace: 'azureoperator-system'
         command: 'login'
         checkLatest: true
+
     - bash: make test-integration-controllers
+      displayName: Test controllers
       continueOnError: true
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
@@ -113,18 +115,9 @@ stages:
         AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
         AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-  - job:
-    displayName: Test managers
-    steps:
-    - task: Kubernetes@1
-      displayName: Fetch kubeconfig
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'ASO-AKS'
-        namespace: 'azureoperator-system'
-        command: 'login'
-        checkLatest: true
+
     - bash: make test-integration-managers
+      displayName: Test managers
       continueOnError: true
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
