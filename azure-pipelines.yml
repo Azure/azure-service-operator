@@ -39,6 +39,7 @@ stages:
       
     # Get the kubeconfig for the AKS cluster we using
     - task: Kubernetes@1
+      displayName: Fetch kubeconfig
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'skulavik-k8s'
@@ -97,30 +98,29 @@ stages:
         namespace: 'azureoperator-system'
         manifests: '$(bake.manifestsBundle)'
 
-# TODO:  These tests are still a WIP, uncomment once complete
-# - stage: IntegrationTest
-#   displayName: Test controllers
-#   jobs:
-#   - job:
-#     displayName: Test controllers
-#     steps:
-#     - bash: make test-integration-controllers
-#       env:
-#         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-#         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-#         AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-#         AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
-#         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-#   - job:
-#     displayName: Test managers
-#     steps:
-#     - bash: make test-integration-managers
-#       env:
-#         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-#         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-#         AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-#         AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
-#         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+- stage: IntegrationTest
+  displayName: Test controllers
+  jobs:
+  - job:
+    displayName: Test controllers
+    steps:
+    - bash: make test-integration-controllers
+      env:
+        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
+        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+  - job:
+    displayName: Test managers
+    steps:
+    - bash: make test-integration-managers
+      env:
+        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
+        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
 
 # Clean up the resources we created during integration testing
 - stage: AzResouceCleanup
