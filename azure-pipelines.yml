@@ -42,7 +42,7 @@ stages:
       displayName: Fetch kubeconfig
       inputs:
         connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'skulavik-k8s'
+        kubernetesServiceEndpoint: 'ASO-AKS'
         namespace: 'azureoperator-system'
         command: 'login'
         checkLatest: true
@@ -94,13 +94,22 @@ stages:
       displayName: Deploy CRDs
       inputs:
         action: 'deploy'
-        kubernetesServiceConnection: 'skulavik-k8s'
+        kubernetesServiceConnection: 'ASO-AKS'
         namespace: 'azureoperator-system'
         manifests: '$(bake.manifestsBundle)'
 
 - stage: IntegrationTest
-  displayName: Test controllers
   jobs:
+  - job:
+    steps:
+    - task: Kubernetes@1
+      displayName: Fetch kubeconfig
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'ASO-AKS'
+        namespace: 'azureoperator-system'
+        command: 'login'
+        checkLatest: true
   - job:
     displayName: Test controllers
     steps:
