@@ -134,7 +134,6 @@ stages:
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
 
 - stage: Clean
-  displayName: Clean Azure resources
   jobs:
   - job: ResourceCleanup
     continueOnError: true
