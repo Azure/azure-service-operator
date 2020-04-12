@@ -52,8 +52,6 @@ stages:
         sed 's/\[AZURE_TENANT_ID\]/'$AZURE_TENANT_ID'/' outdock1 > outdock2
         sed 's/\[AZURE_SUBSCRIPTION_ID\]/'$AZURE_SUBSCRIPTION_ID'/' outdock2 > outdock3
         sed 's/\[AZURE_OPERATOR_KEYVAULT\]/'$AZURE_OPERATOR_KEYVAULT'/' outdock3 > outdock4
-        
-        cat outdock4
       displayName: Setup container environment
       env:
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
@@ -71,24 +69,9 @@ stages:
 - stage: BakeAndDeploy
   displayName: Bake and deploy CRDs
   jobs:
-
-  - job: InstallControllers
-    displayName: Install CRDs
-    steps:
-    - task: Kubernetes@1
-      displayName: Fetch kubeconfig
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'ASO-AKS'
-        namespace: 'azureoperator-system'
-        command: 'login'
-        checkLatest: true
-        
-    - bash: make install
-
   - job:
     dependsOn: InstallControllers
-    displayName: Package, bake, and deploy to AKS
+    displayName: Deploy charts
     steps:
     - task: HelmInstaller@1
       displayName: Install latest Helm
