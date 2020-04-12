@@ -31,6 +31,14 @@ stages:
         command: 'get'
         arguments: '-d'
         workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+    - bash: |
+        os=$(go env GOOS)
+        arch=$(go env GOARCH)
+        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C /tmp/    
+        export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
+        export PATH=$PATH:/usr/local/kubebuilder/bin
+      displayName: Install kubebuilder
       
     - bash: make manager
       displayName: Build manager binary
@@ -66,6 +74,18 @@ stages:
 
 - stage: Deploy
   jobs:
+  - job: InstallControllers
+    displayName: Install Controllers
+    steps:
+    - task: Kubernetes@1
+      displayName: Fetch kubeconfig
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'ASO-AKS'
+        namespace: 'azureoperator-system'
+        command: 'login'
+        checkLatest: true
+    - bash: make install
   - job:
     displayName: Deploy charts
     steps:
@@ -85,17 +105,16 @@ stages:
         overrides: |
           image.repository:$(containerRegistry)/$(imageRepository)
     - task: KubernetesManifest@0
-      displayName: Deploy CRDs
+      displayName: Helm deploy
       inputs:
         action: 'deploy'
         kubernetesServiceConnection: 'ASO-AKS'
         namespace: 'azureoperator-system'
         manifests: '$(bake.manifestsBundle)'
 
-- stage: IntegrationTest
+- stage: Test
   jobs:
   - job:
-    displayName: Integration Test
     steps:
     - task: Kubernetes@1
       displayName: Fetch kubeconfig
