@@ -64,12 +64,12 @@ stages:
         command: 'build'
         workingDirectory: '$(System.DefaultWorkingDirectory)'
       displayName: Compile manager binary
-    - task: CopyFiles@2
-      inputs:
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        artifactName: drop
+    # - task: CopyFiles@2
+    #   inputs:
+    #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    # - task: PublishBuildArtifacts@1
+    #   inputs:
+    #     artifactName: drop
 
 - stage: TargetAKS
   jobs:
@@ -102,7 +102,7 @@ stages:
         repository: '$(imageRepository)'
         command: 'buildAndPush'
         Dockerfile: outdock3
-        buildContext: '$(Build.ArtifactStagingDirectory)' #'$(System.DefaultWorkingDirectory)'
+        buildContext: '$(System.DefaultWorkingDirectory)'
         tags: '$(tag)'
 
 - stage: BakeAndDeploy
