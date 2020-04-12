@@ -94,7 +94,7 @@ stages:
         namespace: 'azureoperator-system'
         manifests: '$(bake.manifestsBundle)'
 
-- stage: Integration Test
+- stage: Test
   jobs:
   - job:
     displayName: Test controllers
@@ -108,6 +108,7 @@ stages:
         command: 'login'
         checkLatest: true
     - bash: make test-integration-controllers
+      continueOnError: true
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
@@ -126,6 +127,7 @@ stages:
         command: 'login'
         checkLatest: true
     - bash: make test-integration-managers
+      continueOnError: true
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
@@ -133,10 +135,11 @@ stages:
         AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
 
-- stage: Clean Azure Resources
-  displayName: Clean up test resources
+- stage: Clean
+  displayName: Clean Azure resources
   jobs:
   - job: ResourceCleanup
+    continueOnError: true
     steps:
     - task: AzureCLI@2
       inputs:
