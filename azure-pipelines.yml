@@ -64,9 +64,10 @@ stages:
         command: 'build'
         workingDirectory: '$(System.DefaultWorkingDirectory)'
       displayName: Compile manager binary
-    # - task: CopyFiles@2
-    #   inputs:
-    #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    
+    - task: CopyFiles@2
+      inputs:
+        TargetFolder: '$(System.DefaultWorkingDirectory)'
     # - task: PublishBuildArtifacts@1
     #   inputs:
     #     artifactName: drop
