@@ -37,7 +37,6 @@ stages:
     - bash: make manager
       displayName: Build manager binary
       
-    # Get the kubeconfig for the AKS cluster we using
     - task: Kubernetes@1
       displayName: Fetch kubeconfig
       inputs:
@@ -72,6 +71,15 @@ stages:
 - stage: BakeAndDeploy
   displayName: Bake and deploy CRDs
   jobs:
+  - job: Fetch kubeconfig
+  - task: Kubernetes@1
+    displayName: Fetch kubeconfig
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceEndpoint: 'ASO-AKS'
+      namespace: 'azureoperator-system'
+      command: 'login'
+      checkLatest: true
   - job: InstallControllers
     displayName: Install CRDs
     steps:
