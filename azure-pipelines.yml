@@ -22,6 +22,22 @@ stages:
   jobs:
   - job:
     steps:
+
+    - task: GoTool@0
+      displayName: Get Go 1.13.7
+      inputs:
+        version: '1.13.7'
+
+    - task: Go@0
+      displayName: Get Go dependencies
+      inputs:
+        command: 'get'
+        arguments: '-d'
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
+      
+    - bash: make manager
+      displayName: Build manager binary
+      
     # Get the kubeconfig for the AKS cluster we using
     - task: Kubernetes@1
       inputs:
@@ -49,20 +65,6 @@ stages:
         export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
         export PATH=$PATH:/usr/local/kubebuilder/bin
       displayName: Install kubebuilder
-
-    - task: GoTool@0
-      inputs:
-        version: '1.13.7'
-        displayName: Get Go 1.13.7
-
-    - task: Go@0
-      inputs:
-        command: 'get'
-        arguments: '-d'
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
-        displayName: Get Go dependencies
-      
-      - bash: make manager
 
     - task: Docker@2
       displayName: Build and push Docker image
