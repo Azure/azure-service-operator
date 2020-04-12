@@ -5,11 +5,9 @@ resources:
 - repo: self
 
 variables:
-  imageRepository: 'jskulavikaso'
-  containerRegistry: 'skulavik.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
+  imageRepository: 'manager'
+  containerRegistry: 'asoazdo.azurecr.io'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'skulavik7b16-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -59,10 +57,10 @@ stages:
     - task: Docker@2
       displayName: Build and push Docker image
       inputs:
-        containerRegistry: 'Skulavik ACR'
+        containerRegistry: 'ASO-ACR'
         repository: '$(imageRepository)'
         command: 'buildAndPush'
-        Dockerfile: outdock4
+        Dockerfile: 'outdock4'
         buildContext: '$(System.DefaultWorkingDirectory)'
         tags: '$(tag)'
 
