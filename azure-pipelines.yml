@@ -69,7 +69,6 @@ stages:
 - stage: BakeAndDeploy  
   jobs:
   - job:
-    dependsOn: InstallControllers
     displayName: Deploy charts
     steps:
     - task: HelmInstaller@1
