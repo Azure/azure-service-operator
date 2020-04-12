@@ -116,6 +116,7 @@ stages:
 - stage: IntegrationTest
   jobs:
   - job:
+    displayName: Test controllers
     steps:
     - task: Kubernetes@1
       displayName: Fetch kubeconfig
@@ -125,9 +126,6 @@ stages:
         namespace: 'azureoperator-system'
         command: 'login'
         checkLatest: true
-  - job:
-    displayName: Test controllers
-    steps:
     - bash: make test-integration-controllers
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
@@ -138,6 +136,14 @@ stages:
   - job:
     displayName: Test managers
     steps:
+    - task: Kubernetes@1
+      displayName: Fetch kubeconfig
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'ASO-AKS'
+        namespace: 'azureoperator-system'
+        command: 'login'
+        checkLatest: true
     - bash: make test-integration-managers
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
