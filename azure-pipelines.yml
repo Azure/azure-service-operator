@@ -54,10 +54,19 @@ stages:
       
       # Inject envars from pipeline variables
     - bash: |
-        echo $AZURE_SP_SECRET
+        echo $AZURE_CLIENT_SECRET\n \
+        $AZURE_TENANT_ID\n \
+        $AZURE_SUBSCRIPTION_ID\n \
+        $AZURE_OPERATOR_KEYVAULT\n
+
+
         sed 's/\[AZURE_CLIENT_ID\]/'$AZURE_CLIENT_ID'/' devops/Dockerfile > outdock
-        sed 's/\[AZURE_CLIENT_SECRET\]/'$AZURE_CLIENT_SECRET'/' outdock > outdock1
-        cat outdock1
+
+        sed 's/\[AZURE_TENANT_ID\]/'$AZURE_TENANT_ID'/' outdock > outdock2
+        sed 's/\[AZURE_SUBSCRIPTION_ID\]/'$AZURE_SUBSCRIPTION_ID'/' outdock2 > outdock3
+        sed 's/\[AZURE_OPERATOR_KEYVAULT\]/'$AZURE_OPERATOR_KEYVAULT'/' outdock3 > outdock4
+        
+        cat outdock4
       env:
         AZURE_CLIENT_SECRET: $(AZURE_SP_SECRET)
 
@@ -67,7 +76,7 @@ stages:
         containerRegistry: 'ASO-ACR'
         repository: '$(imageRepository)'
         command: 'buildAndPush'
-        Dockerfile: 'outdock4'
+        Dockerfile: 'outdockx'
         buildContext: '$(System.DefaultWorkingDirectory)'
         tags: '$(tag)'
 
