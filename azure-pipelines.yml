@@ -58,9 +58,9 @@ stages:
         sed 's/\[AZURE_TENANT_ID\]/'$AZURE_TENANT_ID'/' outdock1 > outdock2
         sed 's/\[AZURE_SUBSCRIPTION_ID\]/'$AZURE_SUBSCRIPTION_ID'/' outdock2 > outdock3
         sed 's/\[AZURE_OPERATOR_KEYVAULT\]/'$AZURE_OPERATOR_KEYVAULT'/' outdock3 > outdock4
-        cat outdock4
       env:
         AZURE_CLIENT_SECRET: $(AZURE_SP_SECRET)
+      displayName: Set container variables
 
     - task: Docker@2
       displayName: Build and push Docker image
