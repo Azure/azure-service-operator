@@ -69,7 +69,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	instance.Status.Message = fmt.Sprintf("AzureSqlDb Get error %s", err.Error())
 	azerr := errhelp.NewAzureErrorAzureError(err)
 	requeuErrors := []string{
-		errhelp.ResourceNotFound,
+		errhelp.ParentNotFoundErrorCode,
 		errhelp.ResourceGroupNotFoundErrorCode,
 	}
 	if helpers.ContainsString(requeuErrors, azerr.Type) {
