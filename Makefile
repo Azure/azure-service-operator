@@ -56,8 +56,7 @@ test-integration-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/database/... \
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/... \
-	./pkg/resourcemanager/vnet/... \
-	./pkg/resourcemanager/apim/apimgmt... \
+	./pkg/resourcemanager/vnet/...
 	2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt > report-managers.xml
 	go tool cover -html=coverage-managers.txt -o cover-managers.html
