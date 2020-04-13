@@ -54,6 +54,7 @@ stages:
       
       # Inject envars from pipeline variables
     - bash: |
+        echo $AZURE_CLIENT_SECRET
         sed 's/\[AZURE_CLIENT_ID\]/'$AZURE_CLIENT_ID'/' devops/Dockerfile > outdock
         sed 's/\[AZURE_CLIENT_SECRET\]/'$AZURE_CLIENT_SECRET'/' outdock > outdock1
         cat outdock1
