@@ -28,6 +28,8 @@ import (
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlfirewall "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
+	nic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
+	pip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
@@ -598,6 +600,44 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MySQLFirewallRule")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.AzurePublicIPAddressReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client: mgr.GetClient(),
+			AzureClient: pip.NewAzurePublicIPAddressClient(
+				secretClient,
+				mgr.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"PublicIPAddress",
+				ctrl.Log.WithName("controllers").WithName("PublicIPAddress"),
+			),
+			Recorder: mgr.GetEventRecorderFor("PublicIPAddress-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "PublicIPAddress")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.AzureNetworkInterfaceReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client: mgr.GetClient(),
+			AzureClient: nic.NewAzureNetworkInterfaceClient(
+				secretClient,
+				mgr.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"NetworkInterface",
+				ctrl.Log.WithName("controllers").WithName("NetworkInterface"),
+			),
+			Recorder: mgr.GetEventRecorderFor("NetworkInterface-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "NetworkInterface")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

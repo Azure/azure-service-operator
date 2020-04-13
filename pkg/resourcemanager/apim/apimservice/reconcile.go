@@ -57,6 +57,9 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 		errhelp.InvalidParameters,
 	}
 
+	instance.Status.Provisioned = false
+	instance.Status.Provisioning = true
+
 	// STEP 1:
 	// 	does it already exist? if not, then provision
 	exists, activated, resourceID, _ := g.APIMgmtSvcStatus(ctx, resourceGroupName, resourceName)
@@ -70,17 +73,14 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 
 		// if available, create the service
 		if available {
-			g.Telemetry.LogTrace("APIM reconcile", "Step 1: creating APIM service")
 			location := instance.Spec.Location
 			publisherName := instance.Spec.PublisherName
 			publisherEmail := instance.Spec.PublisherEmail
 			_, err := g.CreateAPIMgmtSvc(ctx, tier, location, resourceGroupName, resourceName, publisherName, publisherEmail)
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = true
 			if err != nil {
+				instance.Status.Provisioning = false
 				azerr := errhelp.NewAzureErrorAzureError(err)
 				if helpers.ContainsString(catch, azerr.Type) {
-					g.Telemetry.LogError("API Mgmt Svc creation error, requeueing", err)
 					instance.Status.Message = "API Mgmt Svc encountered a caught error, requeueing..."
 					return false, nil
 				}
@@ -92,20 +92,17 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 		}
 
 		// name wasnt available, log error and stop reconciling
-		g.Telemetry.LogError("could not create API Mgmt Service due to bad resource name", fmt.Errorf("bad API Mgmt Service name"))
 		instance.Status.Message = "API Mgmt Svc is ending reconciliation due to bad name"
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = false
+		instance.Status.FailedProvisioning = true
 		return true, nil
 	}
 
 	// STEP 2:
 	// 	still in the proccess of provisioning
 	if !activated {
-		g.Telemetry.LogTrace("APIM reconcile", "Step 2: waiting on activation of APIM service")
 		instance.Status.Message = "API Mgmt Svc is waiting for activation / updating to complete, requeueing..."
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
 		return false, nil
 	}
 
@@ -114,7 +111,6 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	appInsightsResourceGroup := instance.Spec.AppInsightsResourceGroup
 	appInsightsName := instance.Spec.AppInsightsName
 	if appInsightsResourceGroup != "" && appInsightsName != "" {
-		g.Telemetry.LogTrace("APIM reconcile", "Step 3: assigning App Insights for APIM service")
 		err = g.SetAppInsightsForAPIMgmtSvc(
 			ctx,
 			resourceGroupName,
@@ -122,19 +118,16 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			appInsightsResourceGroup,
 			appInsightsName,
 		)
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
 		if err != nil {
 			azerr := errhelp.NewAzureErrorAzureError(err)
 			if helpers.ContainsString(catch, azerr.Type) {
-				g.Telemetry.LogError("App Insights error, requeueing", err)
 				instance.Status.Message = "API Mgmt Svc encountered a caught error, requeueing..."
 				return false, nil
 			} else if helpers.ContainsString(fatalErr, azerr.Type) {
-				g.Telemetry.LogError("Fatal error assigning App Insights", err)
-				instance.Status.Message = "API Mgmt Svc encountered a trapped error, ending reconciliation"
+				instance.Status.Message = fmt.Sprintf("API Mgmt Svc encountered a trapped error, ending reconciliation: %s", err.Error())
 				instance.Status.Provisioned = false
 				instance.Status.Provisioning = false
+				instance.Status.FailedProvisioning = true
 				return true, nil
 			}
 			instance.Status.Message = "API Mgmt Svc encountered an unknown error, requeueing..."
@@ -145,7 +138,6 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 	// STEP 4:
 	// 	need to update with a vnet?
 	if vnetType != "" && !strings.EqualFold(vnetType, "none") {
-		g.Telemetry.LogTrace("APIM reconcile", "Step 4: assignning VNet for APIM service")
 		vnetResourceGroup := instance.Spec.VnetResourceGroup
 		vnetName := instance.Spec.VnetName
 		subnetName := instance.Spec.VnetSubnetName
@@ -158,19 +150,16 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			vnetName,
 			subnetName,
 		)
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
 		if err != nil {
 			azerr := errhelp.NewAzureErrorAzureError(err)
 			if !helpers.ContainsString(catch, azerr.Type) {
-				g.Telemetry.LogError("VNet update error, requeueing", err)
 				instance.Status.Message = "API Mgmt Svc encountered a caught error, requeueing..."
 				return false, nil
 			} else if helpers.ContainsString(fatalErr, azerr.Type) {
-				g.Telemetry.LogError("Fatal error occured with assigning a VNet", err)
-				instance.Status.Message = "API Mgmt Svc encountered a trapped error, ending reconciliation"
+				instance.Status.Message = fmt.Sprintf("API Mgmt Svc encountered a trapped error, ending reconciliation: %s", err.Error())
 				instance.Status.Provisioned = false
 				instance.Status.Provisioning = false
+				instance.Status.FailedProvisioning = true
 				return true, nil
 			}
 			instance.Status.Message = "API Mgmt Svc encountered an unknown error, requeueing..."
@@ -184,10 +173,10 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 
 	// STEP 5:
 	// 	everything is now completed!
-	g.Telemetry.LogTrace("APIM reconcile", "Step 5: completed reconcilliation successfully")
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false
+	instance.Status.FailedProvisioning = false
 	instance.Status.ResourceId = *resourceID
 	return true, nil
 }
@@ -253,6 +242,7 @@ func (g *AzureAPIMgmtServiceManager) convert(obj runtime.Object) (*azurev1alpha1
 	return local, nil
 }
 
+// GetStatus retrieves the status object
 func (g *AzureAPIMgmtServiceManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
 	instance, err := g.convert(obj)
 	if err != nil {
