@@ -390,6 +390,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 	labels := helpers.LabelsToTags(instance.GetLabels())
 
 	instance.Status.Provisioning = true
+	instance.Status.FailedProvisioning = false
 
 	// Check if this KeyVault already exists and its state if it does.
 
