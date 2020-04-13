@@ -15,7 +15,7 @@ spec:
         archiveNameFormat: "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"
         blobContainer: "capturecontainer"
         name: "EventHubArchive.AzureBlockBlob"
-        eventHubStorageAccount:
+        storageAccount:
           resourceGroup: "my-resource-group"
           accountName: "storageaccountauv1"
       enabled: true
