@@ -65,18 +65,16 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *dbGet.ID
 		return true, nil
-	} else {
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		ignore := []string{
-			errhelp.NotFoundErrorCode,
-			errhelp.ResourceNotFound,
-			errhelp.ResourceGroupNotFoundErrorCode,
-		}
-		if !helpers.ContainsString(ignore, azerr.Type) {
-			instance.Status.Message = err.Error()
-			instance.Status.Provisioning = false
-			return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
-		}
+	}
+	instance.Status.Message = fmt.Sprintf("AzureSqlDb Get error %s", err.Error())
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	requeuErrors := []string{
+		errhelp.ResourceNotFound,
+		errhelp.ResourceGroupNotFoundErrorCode,
+	}
+	if !helpers.ContainsString(requeuErrors, azerr.Type) {
+		instance.Status.Provisioning = false
+		return false, nil
 	}
 
 	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSQLDatabaseProperties)

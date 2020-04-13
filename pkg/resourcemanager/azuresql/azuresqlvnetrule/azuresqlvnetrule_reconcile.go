@@ -43,6 +43,15 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 		return false, nil
 	}
 	instance.Status.Message = fmt.Sprintf("AzureSqlVNetRule Get error %s", err.Error())
+	requeuErrors := []string{
+		errhelp.ResourceGroupNotFoundErrorCode,
+		errhelp.ParentNotFoundErrorCode,
+	}
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	if helpers.ContainsString(requeuErrors, azerr.Type) {
+		instance.Status.Provisioning = false
+		return false, nil
+	}
 
 	instance.Status.Provisioning = true
 	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
