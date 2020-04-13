@@ -1,0 +1,3 @@
+# Reports
+
+The makefile testing targets in this project will save their report outputs to this directory when run.
