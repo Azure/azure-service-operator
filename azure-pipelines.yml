@@ -51,8 +51,15 @@ stages:
         namespace: 'azureoperator-system'
         command: 'login'
         checkLatest: true
-
+      
+      # Inject envars from pipeline variables
     - bash: |
+        echo $AZURE_CLIENT_ID \
+        $AZURE_CLIENT_SECRET \
+        $AZURE_TENANT_ID \
+        $AZURE_SUBSCRIPTION_ID \
+        $AZURE_OPERATOR_KEYVAULT
+
         sed 's/\[AZURE_CLIENT_ID\]/'$AZURE_CLIENT_ID'/' devops/Dockerfile > dockerfile
         sed 's/\[AZURE_CLIENT_SECRET\]/'$AZURE_CLIENT_SECRET'/' dockerfile > dockerfile1
         sed 's/\[AZURE_TENANT_ID\]/'$AZURE_TENANT_ID'/' dockerfile1 > dockerfile2
