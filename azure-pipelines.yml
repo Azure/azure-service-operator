@@ -152,7 +152,7 @@ stages:
     steps:
     - task: AzureCLI@2
       inputs:
-        azureSubscription: 'tpark-seusher-jaskulav(d2d51f36-8155-4276-bca3-038818d7a7d8)'
+        azureSubscription: 'tpark-seusher-jaskulav-ARMConnection'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: 'make test-cleanup-azure-resources'
