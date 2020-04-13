@@ -20,44 +20,44 @@ stages:
   jobs:
   - job:
     steps:
-    - task: GoTool@0
-      displayName: Get Go 1.13.7
-      inputs:
-        version: '1.13.7'
+    # - task: GoTool@0
+    #   displayName: Get Go 1.13.7
+    #   inputs:
+    #     version: '1.13.7'
 
-    - task: Go@0
-      displayName: Get Go dependencies
-      inputs:
-        command: 'get'
-        arguments: '-d'
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+    # - task: Go@0
+    #   displayName: Get Go dependencies
+    #   inputs:
+    #     command: 'get'
+    #     arguments: '-d'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)'
 
-    - bash: |
-        os=$(go env GOOS)
-        arch=$(go env GOARCH)
-        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C /tmp/    
-        export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
-        export PATH=$PATH:/usr/local/kubebuilder/bin
-      displayName: Install kubebuilder
+    # - bash: |
+    #     os=$(go env GOOS)
+    #     arch=$(go env GOARCH)
+    #     curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C /tmp/    
+    #     export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
+    #     export PATH=$PATH:/usr/local/kubebuilder/bin
+    #   displayName: Install kubebuilder
       
-    - bash: make manager
-      displayName: Build manager binary
+    # - bash: make manager
+    #   displayName: Build manager binary
       
-    - task: Kubernetes@1
-      displayName: Fetch kubeconfig
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'ASO-AKS'
-        namespace: 'azureoperator-system'
-        command: 'login'
-        checkLatest: true
+    # - task: Kubernetes@1
+    #   displayName: Fetch kubeconfig
+    #   inputs:
+    #     connectionType: 'Kubernetes Service Connection'
+    #     kubernetesServiceEndpoint: 'ASO-AKS'
+    #     namespace: 'azureoperator-system'
+    #     command: 'login'
+    #     checkLatest: true
       
       # Inject envars from pipeline variables
     - bash: |
         sed 's/\[AZURE_CLIENT_ID\]/'$AZURE_CLIENT_ID'/' devops/Dockerfile > outdock
-        
+        sed 's/\[AZURE_CLIENT_SECRET\]/'$AZURE_CLIENT_SECRET'/' outdock > outdock1
 
-        cat outdock
+        cat outdock1
       displayName: Setup container environment
       env:
         AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
