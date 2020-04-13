@@ -35,8 +35,8 @@ func TestAPIMgmtController(t *testing.T) {
 		},
 		Spec: azurev1alpha1.APIMgmtSpec{
 			Location:      rgLocation,
-			ResourceGroup: "AzureOperatorsTest",
-			APIService:    "AzureOperatorsTestAPIM",
+			ResourceGroup: "resourcegroup-azure-operators",
+			APIService:    "aso-test-apimgmt",
 			APIId:         "apiId0",
 			Properties: azurev1alpha1.APIProperties{
 				IsCurrent:             true,
