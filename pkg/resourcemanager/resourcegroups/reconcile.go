@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -28,21 +29,29 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 
 	group, err := g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
 	if err != nil {
-		instance.Status.Provisioned = false
 		instance.Status.Message = err.Error()
+		azerr := errhelp.NewAzureErrorAzureError(err)
+
+		// this happens when op isnt complete, just requeue
+		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
+			return false, nil
+		}
+
+		instance.Status.Provisioning = false
 
 		// handle special cases that won't work without a change to spec
 		if group.StatusCode == http.StatusBadRequest {
-			instance.Status.Provisioning = false
+			instance.Status.Provisioned = false
+			instance.Status.FailedProvisioning = true
 			return true, nil
 		}
 
 		return false, fmt.Errorf("ResourceGroup create error %v", err)
-
 	}
 
 	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false
+	instance.Status.FailedProvisioning = false
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.ResourceId = *group.ID
 
