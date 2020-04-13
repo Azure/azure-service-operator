@@ -53,9 +53,10 @@ stages:
     #     checkLatest: true
 
     - bash: |
+        echo $AZCS
         sed 's/\[AZURE_CLIENT_ID\]/'$AZURE_CLIENT_ID'/' devops/Dockerfile > outdock
-        sed 's/\[AZURE_CLIENT_SECRET\]/'$AZCS'/' outdock > outdock1
-        sed 's/\[AZURE_TENANT_ID\]/'$AZURE_TENANT_ID'/' outdock1 > outdock2
+        
+        sed 's/\[AZURE_TENANT_ID\]/'$AZURE_TENANT_ID'/' outdock > outdock2
         sed 's/\[AZURE_SUBSCRIPTION_ID\]/'$AZURE_SUBSCRIPTION_ID'/' outdock2 > outdock3
         sed 's/\[AZURE_OPERATOR_KEYVAULT\]/'$AZURE_OPERATOR_KEYVAULT'/' outdock3 > outdock4
         cat outdock4
