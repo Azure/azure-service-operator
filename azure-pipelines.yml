@@ -12,6 +12,8 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
+
+
 stages:
 - stage: Build
   jobs:
@@ -23,19 +25,25 @@ stages:
         version: '1.13.7'
 
     - task: Go@0
-      displayName: Get Go dependencies
+      displayName: Go Get
       inputs:
         command: 'get'
         arguments: '-d'
         workingDirectory: '$(System.DefaultWorkingDirectory)'
 
     - bash: |
+        set -x
+        go env
         os=$(go env GOOS)
         arch=$(go env GOARCH)
-        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C /tmp/    
-        export KUBEBUILDER_ASSETS=/tmp/kubebuilder_2.3.1_${os}_${arch}
+        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
+        mv $(go env GOPATH)/bin/kubebuilder_2.3.1_${os}_${arch} /usr/local/kubebuilder
+
         export PATH=$PATH:/usr/local/kubebuilder/bin
-      displayName: Install kubebuilder
+        echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
+
+        make install-test-dependencies
+      displayName: Install kubebuilder and test dependencies
       
     - bash: make manager
       displayName: Build manager binary
@@ -74,7 +82,7 @@ stages:
 - stage: Deploy
   jobs:
   - job: InstallControllers
-    displayName: Install Controllers
+    displayName: Install CRD's
     steps:
     - task: Kubernetes@1
       displayName: Fetch kubeconfig
@@ -114,6 +122,7 @@ stages:
 - stage: Test
   jobs:
   - job:
+    displayName: Run integration tests
     steps:
     - task: Kubernetes@1
       displayName: Fetch kubeconfig
@@ -125,9 +134,25 @@ stages:
         checkLatest: true
 
     - bash: |
+        set -x
+        go env
+        os=$(go env GOOS)
+        arch=$(go env GOARCH)
+        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
+        mv $(go env GOPATH)/bin/kubebuilder_2.3.1_${os}_${arch} /usr/local/kubebuilder
+
+        export PATH=$PATH:/usr/local/kubebuilder/bin
+        echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
+
+        make install-test-dependencies
+      displayName: Install kubebuilder and test dependencies
+
+    - bash: |
+        export PATH=$PATH:$(go env GOPATH)/bin
+
+        make install-test-dependencies
         make test-integration-controllers
-        make test-integration-managers
-      displayName: Test controllers & managers
+      displayName: Test Controllers
       continueOnError: true
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
@@ -135,8 +160,49 @@ stages:
         AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
         AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
         AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+        BUILD_ID: $(Build.BuildId)
 
-- stage: Clean
+    # The manager tests have been disabled as their addition casues the build pipeline to time out on a single hosted node
+    # It can be re-enabled once tests are run in parallel or more than 1 hour of execution time is permitted for the suite
+    # - bash: |
+    #     export PATH=$PATH:$(go env GOPATH)/bin
+    #     make install-test-dependencies
+
+    #     make test-integration-managers
+    #   displayName: Test Managers
+    #   continueOnError: true
+    #   env:
+    #     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+    #     AZURE_CLIENT_SECRET: $(AZURE_SP_SECRET)
+    #     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+    #     AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
+    #     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+    #     BUILD_ID: $(Build.BuildId)
+
+    - bash: |
+        export PATH=$PATH:$(go env GOPATH)/bin
+
+        make test-process-coverage
+      displayName: Render Coverage Reports
+      continueOnError: true
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: JUnit
+        testResultsFiles: $(System.DefaultWorkingDirectory)/reports/*-report.xml
+      
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: Cobertura 
+        summaryFileLocation: $(System.DefaultWorkingDirectory)/reports/merged-coverage.xml
+    
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: '$(System.DefaultWorkingDirectory)/reports'
+        artifactName: reports
+
+- stage: Cleanup
   jobs:
   - job: ResourceCleanup
     continueOnError: true

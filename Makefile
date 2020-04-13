@@ -36,18 +36,15 @@ generate-test-certs:
 # Run Controller tests against the configured cluster
 test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
-	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-ouput.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
 	./controllers/... \
 	2>&1 | tee reports/integration-controllers-output.txt
 	go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
-	gocov convert reports/integration-controllers-coverage-ouput.txt > reports/integration-controllers-coverage-ouput.json
-	gocov-xml < reports/integration-controllers-coverage-ouput.json > reports/integration-controllers-coverage.xml
-	go tool cover -html=reports/integration-controllers-coverage-ouput.txt -o reports/integration-controllers-coverage.html
 
 # Run Resource Manager tests against the configured cluster
 test-integration-managers: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 \
-	go test -v -coverprofile=coverage/coverage-managers.txt -covermode count  -parallel 4 -timeout 45m \
+	go test -v -coverprofile=reports/integration-managers-coverage-ouput.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
 	./api/... \
 	./pkg/resourcemanager/eventhubs/...  \
 	./pkg/resourcemanager/resourcegroups/...  \
@@ -57,9 +54,8 @@ test-integration-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/... \
 	./pkg/resourcemanager/vnet/...
-	2>&1 | tee testlogs.txt
-	go-junit-report < testlogs.txt > report-managers.xml
-	go tool cover -html=coverage-managers.txt -o cover-managers.html
+	2>&1 | tee reports/integration-managers-output.txt
+	go-junit-report < reports/integration-managers-output.txt > reports/integration-managers-report.xml
 
 # Run all available tests. Note that Controllers are not unit-testable.
 test-unit: generate fmt vet manifests 
@@ -71,6 +67,13 @@ test-unit: generate fmt vet manifests
 	2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt > report-unit.xml
 	go tool cover -html=coverage/coverage.txt -o cover-unit.html
+
+# Merge all the available test coverage results and publish a single report
+test-process-coverage:
+	find reports -name "*-coverage-output.txt" -type f -print | xargs gocovmerge > reports/merged-coverage-output.txt
+	gocov convert reports/merged-coverage-output.txt > reports/merged-coverage-output.json
+	gocov-xml < reports/merged-coverage-output.json > reports/merged-coverage.xml
+	go tool cover -html=reports/merged-coverage-output.txt -o reports/merged-coverage.html
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
 test-cleanup-azure-resources: 	
@@ -185,9 +188,8 @@ endif
 install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
-install-test-dependency:
-	go get -u github.com/jstemmer/go-junit-report \
+install-test-dependencies:
+	go get github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
-	&& go get github.com/onsi/ginkgo/ginkgo \
-	&& go get golang.org/x/tools/cmd/cover
+	&& go get github.com/wadey/gocovmerge
