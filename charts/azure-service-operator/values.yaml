@@ -17,28 +17,15 @@ azureUseMI: False
 image:
   repository: mcr.microsoft.com/k8s/azure-service-operator:0.0.13046
 
-<<<<<<< HEAD
-# aad-pod-identity:
-#   azureIdentityBinding:
-#     name: aso-identity-binding
-#     selector: aso_manager_binding
-#   azureIdentity:
-#     enabled: True
-#     name: aso-identity
-#     type: 0
-=======
 aad-pod-identity:
   azureIdentityBinding:
     name: aso-identity-binding
     selector: aso_manager_binding
-    namespace: azureoperator-system
   azureIdentity:
     enabled: True
     name: aso-identity
-    namespace: azureoperator-system
     type: 0
->>>>>>> 2c99f3d7557359a28359b8154b1a9c129c3103c2
 
-#     # Update values for Managed Identity 
-#     resourceID: ""
-#     clientID: ""
+    # Update values for Managed Identity 
+    resourceID: ""
+    clientID: ""
