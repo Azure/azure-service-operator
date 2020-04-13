@@ -54,8 +54,8 @@ type Destination struct {
 	// Name - Name for capture destination
 	// +kubebuilder:validation:Enum=EventHubArchive.AzureBlockBlob;EventHubArchive.AzureDataLake
 	Name string `json:"name,omitempty"`
-	// EventHubStorageAccount - Details of the storage account
-	EventHubStorageAccount EventHubStorageAccount `json:"eventHubStorageAccount,omitempty"`
+	// StorageAccount - Details of the storage account
+	StorageAccount EventHubStorageAccount `json:"storageAccount,omitempty"`
 }
 
 //CaptureDescription defines the properties required for eventhub capture
