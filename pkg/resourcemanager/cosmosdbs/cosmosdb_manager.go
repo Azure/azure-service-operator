@@ -10,12 +10,13 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 )
 
 // NewAzureCosmosDBManager creates a new cosmos db client
-func NewAzureCosmosDBManager() *AzureCosmosDBManager {
-	return &AzureCosmosDBManager{}
+func NewAzureCosmosDBManager(secretClient secrets.SecretClient) *AzureCosmosDBManager {
+	return &AzureCosmosDBManager{secretClient}
 }
 
 // CosmosDBManager client functions
@@ -31,6 +32,9 @@ type CosmosDBManager interface {
 
 	// CheckNameExistsCosmosDB check if the account name already exists globally
 	CheckNameExistsCosmosDB(ctx context.Context, accountName string) (bool, *errhelp.AzureError)
+
+	// ListKeys lists the read & write keys for a database account
+	ListKeys(ctx context.Context, groupName string, accountName string) (*documentdb.DatabaseAccountListKeysResult, error)
 
 	resourcemanager.ARMClient
 }

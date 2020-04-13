@@ -18,6 +18,15 @@ import (
 
 // Ensure ensures that cosmosdb is provisioned as specified
 func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		m.SecretClient = options.SecretClient
+	}
+
 	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
@@ -44,6 +53,12 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 			}
 
 			if instance.Status.State == "Succeeded" {
+				// provisioning is complete, update the secrets
+				if err = m.createOrUpdateAccountKeysSecret(ctx, instance); err != nil {
+					instance.Status.Message = err.Error()
+					return false, err
+				}
+
 				instance.Status.Message = resourcemanager.SuccessMsg
 				instance.Status.Provisioning = false
 				instance.Status.Provisioned = true
@@ -120,6 +135,15 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 // Delete drops cosmosdb
 func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		m.SecretClient = options.SecretClient
+	}
+
 	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
@@ -160,8 +184,14 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 		return true, nil
 	}
 
-	// try to delete the cosmosdb instance
+	// create must succeed before delete succeeds
+	if instance.Status.State == "Creating" {
+		return true, nil
+	}
+
+	// try to delete the cosmosdb instance & secrets
 	_, azerr = m.DeleteCosmosDB(ctx, groupName, accountName)
+	m.deleteAccountKeysSecret(ctx, instance)
 	if azerr != nil {
 		// this is likely to happen on first try due to not waiting for the future to complete
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
@@ -216,4 +246,32 @@ func (m *AzureCosmosDBManager) convert(obj runtime.Object) (*v1alpha1.CosmosDB, 
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return db, nil
+}
+
+func (m *AzureCosmosDBManager) createOrUpdateAccountKeysSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
+	result, err := m.ListKeys(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
+	if err != nil {
+		return err
+	}
+
+	secretKey := types.NamespacedName{
+		Name:      instance.Name,
+		Namespace: instance.Namespace,
+	}
+	secretData := map[string][]byte{
+		"primaryConnectionString":    []byte(*result.PrimaryMasterKey),
+		"secondaryConnectionString":  []byte(*result.SecondaryMasterKey),
+		"primaryReadonlyMasterKey":   []byte(*result.PrimaryReadonlyMasterKey),
+		"secondaryReadonlyMasterKey": []byte(*result.SecondaryReadonlyMasterKey),
+	}
+
+	return m.SecretClient.Upsert(ctx, secretKey, secretData)
+}
+
+func (m *AzureCosmosDBManager) deleteAccountKeysSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
+	secretKey := types.NamespacedName{
+		Name:      instance.Name,
+		Namespace: instance.Namespace,
+	}
+	return m.SecretClient.Delete(ctx, secretKey)
 }

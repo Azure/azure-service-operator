@@ -13,12 +13,15 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
 // AzureCosmosDBManager is the struct which contains helper functions for resource groups
-type AzureCosmosDBManager struct{}
+type AzureCosmosDBManager struct {
+	SecretClient secrets.SecretClient
+}
 
 func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
 	cosmosDBClient := documentdb.NewDatabaseAccountsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
@@ -163,4 +166,22 @@ func (*AzureCosmosDBManager) DeleteCosmosDB(
 		return nil, errhelp.NewAzureErrorAzureError(err)
 	}
 	return &ar, nil
+}
+
+// ListKeys lists the read & write keys for a database account
+func (*AzureCosmosDBManager) ListKeys(
+	ctx context.Context,
+	groupName string,
+	accountName string) (*documentdb.DatabaseAccountListKeysResult, error) {
+	client, err := getCosmosDBClient()
+	if err != nil {
+		return nil, errhelp.NewAzureErrorAzureError(err)
+	}
+
+	result, err := client.ListKeys(ctx, groupName, accountName)
+	if err != nil {
+		return nil, errhelp.NewAzureErrorAzureError(err)
+	}
+
+	return &result, nil
 }

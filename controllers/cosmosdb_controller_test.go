@@ -10,22 +10,26 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/stretchr/testify/assert"
 
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestCosmosDBHappyPath(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
+	assert := assert.New(t)
 
-	cosmosDBAccountName := GenerateTestResourceNameWithRandom("cosmosdb", 8)
-	cosmosDBNamespace := "default"
+	name := GenerateTestResourceNameWithRandom("cosmosdb", 8)
+	namespace := "default"
 
 	dbInstance := &v1alpha1.CosmosDB{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      cosmosDBAccountName,
-			Namespace: cosmosDBNamespace,
+			Name:      name,
+			Namespace: namespace,
 		},
 		Spec: v1alpha1.CosmosDBSpec{
 			Location:      "westus",
@@ -37,8 +41,21 @@ func TestCosmosDBHappyPath(t *testing.T) {
 		},
 	}
 
+	key := types.NamespacedName{Name: name, Namespace: namespace}
+	secret := &v1.Secret{}
+
 	EnsureInstance(ctx, t, tc, dbInstance)
 
+	assert.Eventually(func() bool {
+		err := tc.k8sClient.Get(ctx, key, secret)
+		return err == nil && secret.ObjectMeta.Name == name && secret.ObjectMeta.Namespace == namespace
+	}, tc.timeoutFast, tc.retry, "wait for cosmosdb to have secret")
+
 	EnsureDelete(ctx, t, tc, dbInstance)
+
+	assert.Eventually(func() bool {
+		err := tc.k8sClient.Get(ctx, key, secret)
+		return err != nil
+	}, tc.timeoutFast, tc.retry, "wait for cosmosdb to delete secret")
 
 }
