@@ -32,6 +32,7 @@ const (
 	InvalidRequestFormat                = "InvalidRequestFormat"
 	InvalidResourceLocation             = "InvalidResourceLocation"
 	InvalidServerName                   = "InvalidServerName"
+	InvalidResourceReference            = "InvalidResourceReference"
 	KeyNotFound                         = "KeyNotFound"
 	LocationNotAvailableForResourceType = "LocationNotAvailableForResourceType"
 	ProvisioningDisabled                = "ProvisioningDisabled"
@@ -41,7 +42,9 @@ const (
 	NotFoundErrorCode                   = "NotFound"
 	NoSuchHost                          = "no such host"
 	ParentNotFoundErrorCode             = "ParentResourceNotFound"
+	QuotaExceeded                       = "QuotaExceeded"
 	ResourceGroupNotFoundErrorCode      = "ResourceGroupNotFound"
+	RegionDoesNotAllowProvisioning      = "RegionDoesNotAllowProvisioning"
 	ResourceNotFound                    = "ResourceNotFound"
 	RequestConflictError                = "Conflict"
 	ValidationError                     = "ValidationError"
@@ -50,6 +53,8 @@ const (
 	SecretNotFound                      = "SecretNotFound"
 	RequestDisallowedByPolicy           = "RequestDisallowedByPolicy"
 	ServiceBusy                         = "ServiceBusy"
+	NameNotAvailable                    = "NameNotAvailable"
+	PublicIPIdleTimeoutIsOutOfRange     = "PublicIPIdleTimeoutIsOutOfRange"
 )
 
 func NewAzureError(err error) error {

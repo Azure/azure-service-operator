@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"runtime/debug"
@@ -28,8 +29,14 @@ import (
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
+	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
+	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
+	resourcemanagernic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
+	resourcemanagerpip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
@@ -125,6 +132,7 @@ func setup() error {
 
 	var appInsightsManager resourcemanagerappinsights.ApplicationInsightsManager
 	var apiMgmtManager resourcemanagerapimgmt.APIManager
+	var cosmosDbManager resourcemanagercosmosdb.CosmosDBManager
 	var resourceGroupManager resourcegroupsresourcemanager.ResourceGroupManager
 	var eventHubManagers resourcemanagereventhub.EventHubManagers
 	var storageManagers resourcemanagerstorages.StorageManagers
@@ -146,6 +154,7 @@ func setup() error {
 		secretClient,
 		scheme.Scheme,
 	)
+	cosmosDbManager = resourcemanagercosmosdb.NewAzureCosmosDBManager()
 	apiMgmtManager = resourcemanagerapimgmt.NewManager()
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
@@ -246,6 +255,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("ApiMgmt"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("ApiMgmt-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&CosmosDBReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: cosmosDbManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"CosmosDB",
+				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("CosmosDB-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
@@ -455,6 +480,44 @@ func setup() error {
 		return err
 	}
 
+	err = (&AzurePublicIPAddressReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: resourcemanagerpip.NewAzurePublicIPAddressClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"PublicIPAddress",
+				ctrl.Log.WithName("controllers").WithName("PublicIPAddress"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("PublicIPAddress-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureNetworkInterfaceReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: resourcemanagernic.NewAzureNetworkInterfaceClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"NetworkInterface",
+				ctrl.Log.WithName("controllers").WithName("NetworkInterface"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("NetworkInterface-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
 	err = (&AzureSqlActionReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
@@ -480,6 +543,57 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("BlobContainer"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("BlobContainer-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&MySQLServerReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: mysqlServerManager.NewMySQLServerClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLServer",
+				ctrl.Log.WithName("controllers").WithName("MySQLServer"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLServer-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&MySQLDatabaseReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqlDatabaseManager.NewMySQLDatabaseClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLDatabase",
+				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLDatabase-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&MySQLFirewallRuleReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqlFirewallManager.NewMySQLFirewallRuleClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLFirewallRule-controller"),
 			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)
@@ -658,8 +772,16 @@ func setup() error {
 
 	log.Println("Creating KV:", keyvaultName)
 	_, err = resourcemanagerkeyvaults.AzureKeyVaultManager.CreateVaultWithAccessPolicies(context.Background(), resourceGroupName, keyvaultName, resourcegroupLocation, resourcemanagerconfig.ClientID())
-	if err != nil {
-		return err
+	// Key Vault needs to be in "Suceeded" state
+	finish = time.Now().Add(tc.timeout)
+	for {
+		if finish.Before(time.Now()) {
+			return fmt.Errorf("time out waiting for keyvault")
+		}
+		result, _ := tc.keyVaultManager.GetVault(context.Background(), resourceGroupName, keyvaultName)
+		if result.Response.StatusCode == http.StatusOK {
+			break
+		}
 	}
 
 	log.Println(fmt.Sprintf("finished common controller test setup"))

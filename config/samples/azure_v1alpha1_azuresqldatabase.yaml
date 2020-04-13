@@ -10,3 +10,6 @@ spec:
   resourcegroup: resourcegroup-azure-operators
   server:  sqlserver-sample-777
   edition: 0
+  # Optional
+  # override metadata.name for database name
+  # dbName: myDatabase

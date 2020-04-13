@@ -54,6 +54,19 @@ func TestLabelsToTags(t *testing.T) {
 			},
 		},
 		{
+			Name: "question mark labels",
+			In: map[string]string{
+				"age?date":  "null",
+				"type?kind": "null",
+				"fun??zone": "null",
+			},
+			Out: map[string]*string{
+				"age.date":  to.StringPtr("null"),
+				"type.kind": to.StringPtr("null"),
+				"fun..zone": to.StringPtr("null"),
+			},
+		},
+		{
 			Name: "percent labels",
 			In: map[string]string{
 				"age%date": "null",

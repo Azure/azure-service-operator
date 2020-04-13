@@ -56,6 +56,7 @@ test-integration-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/database/... \
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/... \
+<<<<<<< HEAD
 	./pkg/resourcemanager/vnet/...
 	2>&1 | tee testlogs.txt
 	go-junit-report < testlogs.txt > report-managers.xml
@@ -66,6 +67,12 @@ test-unit: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=coverage-unit.txt -covermode count -parallel 4 -timeout 10m \
 	./api/... \
+=======
+	./pkg/resourcemanager/vnet/... \
+	./pkg/resourcemanager/pip/... \
+	./pkg/resourcemanager/nic/... \
+	./pkg/resourcemanager/apim/apimgmt... \
+>>>>>>> 2c99f3d7557359a28359b8154b1a9c129c3103c2
 	./pkg/secrets/...
 	./pkg/resourcemanager/keyvaults/unittest/ \
 	2>&1 | tee testlogs.txt
