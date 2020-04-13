@@ -62,6 +62,7 @@ resources:
 #- patches/webhook_in_mysqlservers.yaml
 #- patches/webhook_in_mysqldatabases.yaml
 #- patches/webhook_in_mysqlfirewallrules.yaml
+#- patches/webhook_in_storageaccounts.yaml
 #- patches/webhook_in_azurepublicipaddresses.yaml
 #- patches/webhook_in_azurenetworkinterfaces.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
@@ -92,6 +93,7 @@ resources:
 #- patches/cainjection_in_mysqlservers.yaml
 #- patches/cainjection_in_mysqldatabases.yaml
 #- patches/cainjection_in_mysqlfirewallrules.yaml
+#- patches/cainjection_in_storageaccounts.yaml
 #- patches/cainjection_in_azurepublicipaddresses.yaml
 #- patches/cainjection_in_azurenetworkinterfaces.yaml
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch
