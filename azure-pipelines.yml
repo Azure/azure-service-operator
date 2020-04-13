@@ -67,7 +67,7 @@ stages:
         containerRegistry: 'ASO-ACR'
         repository: '$(imageRepository)'
         command: 'buildAndPush'
-        Dockerfile: 'outdockx'
+        Dockerfile: 'outdock4'
         buildContext: '$(System.DefaultWorkingDirectory)'
         tags: '$(tag)'
 
