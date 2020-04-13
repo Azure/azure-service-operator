@@ -6,6 +6,7 @@ package azuresqldb
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -94,6 +95,13 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			errhelp.ParentNotFoundErrorCode,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Provisioning = false
+			return false, nil
+		}
+
+		// if the database is busy, requeue
+		errorString := err.Error()
+		if strings.Contains(errorString, "Try again later") {
 			instance.Status.Provisioning = false
 			return false, nil
 		}
