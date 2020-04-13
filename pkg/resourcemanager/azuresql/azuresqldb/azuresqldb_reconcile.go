@@ -72,7 +72,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		errhelp.ResourceNotFound,
 		errhelp.ResourceGroupNotFoundErrorCode,
 	}
-	if !helpers.ContainsString(requeuErrors, azerr.Type) {
+	if helpers.ContainsString(requeuErrors, azerr.Type) {
 		instance.Status.Provisioning = false
 		return false, nil
 	}
