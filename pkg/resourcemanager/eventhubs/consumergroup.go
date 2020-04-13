@@ -6,6 +6,7 @@ package eventhubs
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -105,15 +106,19 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 	newCg, err := cg.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		instance.Status.Provisioning = false
+		azerr := errhelp.NewAzureErrorAzureError(err)
 
+		// this happens when op isnt complete, just requeue
+		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
+			return false, nil
+		}
+
+		instance.Status.Provisioning = false
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 		}
-
-		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// reconciliation is not done but error is acceptable
 			return false, nil

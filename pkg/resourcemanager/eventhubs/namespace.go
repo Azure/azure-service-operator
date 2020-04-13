@@ -326,24 +326,19 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 	newNs, err := ns.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation, eventHubNSSku, eventHubNSProperties)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		catch := []string{
-			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
-		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
+
 		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			// resource creation request sent to Azure
 			instance.Status.SpecHash = hash
 		}
 
-		if helpers.ContainsString(catch, azerr.Type) || strings.Contains(err.Error(), "validation failed") {
+		instance.Status.Provisioning = false
+		if strings.Contains(azerr.Type, errhelp.ResourceGroupNotFoundErrorCode) || strings.Contains(err.Error(), "validation failed") {
 			return false, nil
 		}
 
-		instance.Status.Provisioning = false
-
 		return false, fmt.Errorf("EventhubNamespace create error %v", err)
-
 	}
 
 	// write information back to instance
