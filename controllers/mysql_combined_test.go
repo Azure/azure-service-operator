@@ -7,8 +7,10 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -28,6 +30,12 @@ func TestMySQLHappyPath(t *testing.T) {
 	mySQLServerInstance := azurev1alpha1.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
 
 	RequireInstance(ctx, t, tc, mySQLServerInstance)
+
+	// Create a mySQL replica
+	fullSourceServerId := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.DBforMySQL/servers/%s", config.Subscription(), rgName, mySQLServerName)
+	mySQLReplicaInstance := azurev1alpha1.NewReplicaMySQLServer(mySQLServerName, rgName, rgLocation, fullSourceServerId)
+
+	EnsureInstance(ctx, t, tc, mySQLReplicaInstance)
 
 	mySQLDBName := GenerateTestResourceNameWithRandom("mysql-db", 10)
 
@@ -65,4 +73,5 @@ func TestMySQLHappyPath(t *testing.T) {
 	EnsureDelete(ctx, t, tc, ruleInstance)
 	EnsureDelete(ctx, t, tc, mySQLDBInstance)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)
+	EnsureDelete(ctx, t, tc, mySQLReplicaInstance)
 }
