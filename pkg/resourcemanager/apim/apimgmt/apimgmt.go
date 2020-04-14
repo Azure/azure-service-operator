@@ -106,6 +106,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 	if err != nil {
 		instance.Status.Message = err.Error()
 		// If there is no parent APIM service, we cannot proceed
+		instance.Status.Provisioning = false
 		return false, nil
 	}
 
@@ -160,10 +161,14 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 	}
 
 	if contract.StatusCode == 200 {
+		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
+		instance.Status.FailedProvisioning = false
 		instance.Status.Message = resourcemanager.SuccessMsg
 	} else {
+		instance.Status.Provisioning = false
 		instance.Status.Provisioned = false
+		instance.Status.FailedProvisioning = true
 	}
 
 	return true, nil
