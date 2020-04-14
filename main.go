@@ -37,7 +37,7 @@ import (
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
-	stoageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
+	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
@@ -152,20 +152,20 @@ func main() {
 	)
 	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
 
-	err = (&controllers.StorageReconciler{
+	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: stoageaccountManager.New(),
+			AzureClient: storageaccountManager.New(),
 			Telemetry: telemetry.InitializeTelemetryDefault(
-				"Storage",
-				ctrl.Log.WithName("controllers").WithName("Storage"),
+				"StorageAccount",
+				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
 			),
-			Recorder: mgr.GetEventRecorderFor("Storage-controller"),
+			Recorder: mgr.GetEventRecorderFor("StorageAccount-controller"),
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Storage")
+		setupLog.Error(err, "unable to create controller", "controller", "StorageAccount")
 		os.Exit(1)
 	}
 	err = (&controllers.CosmosDBReconciler{

@@ -5,4 +5,4 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: $(NAMESPACE)/$(CERTIFICATENAME)
-  name: storages.azure.microsoft.com
+  name: storageaccounts.azure.microsoft.com

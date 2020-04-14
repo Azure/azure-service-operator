@@ -33,7 +33,8 @@ type EventhubAuthorizationRule struct {
 	Rights []string `json:"rights,omitempty"`
 }
 
-type StorageAccount struct {
+//EventHubStorageAccount contains details of the eventhub storage account
+type EventHubStorageAccount struct {
 	// ResourceGroup - Name of the storage account resource group
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	ResourceGroup string `json:"resourceGroup,omitempty"`
@@ -54,7 +55,7 @@ type Destination struct {
 	// +kubebuilder:validation:Enum=EventHubArchive.AzureBlockBlob;EventHubArchive.AzureDataLake
 	Name string `json:"name,omitempty"`
 	// StorageAccount - Details of the storage account
-	StorageAccount StorageAccount `json:"storageAccount,omitempty"`
+	StorageAccount EventHubStorageAccount `json:"storageAccount,omitempty"`
 }
 
 //CaptureDescription defines the properties required for eventhub capture
