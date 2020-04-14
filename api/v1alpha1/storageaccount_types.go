@@ -10,8 +10,8 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// StorageSpec defines the desired state of Storage
-type StorageSpec struct {
+// StorageAccountSpec defines the desired state of Storage
+type StorageAccountSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
@@ -20,60 +20,61 @@ type StorageSpec struct {
 	Location      string `json:"location,omitempty"`
 	ResourceGroup string `json:"resourceGroup"`
 
-	Sku StorageSku `json:"sku,omitempty"`
+	Sku StorageAccountSku `json:"sku,omitempty"`
 
-	Kind StorageKind `json:"kind,omitempty"`
+	Kind StorageAccountKind `json:"kind,omitempty"`
 
-	AccessTier StorageAccessTier `json:"accessTier,omitempty"`
+	AccessTier StorageAccountAccessTier `json:"accessTier,omitempty"`
 
 	EnableHTTPSTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 
 	DataLakeEnabled *bool `json:"dataLakeEnabled,omitempty"`
 }
 
-// Sku the SKU of the storage account.
-type StorageSku struct {
+// StorageAccountSku the SKU of the storage account.
+type StorageAccountSku struct {
 	// Name - The SKU name. Required for account creation; optional for update.
 	// Possible values include: 'StandardLRS', 'StandardGRS', 'StandardRAGRS', 'StandardZRS', 'PremiumLRS', 'PremiumZRS', 'StandardGZRS', 'StandardRAGZRS'
-	Name StorageSkuName `json:"name,omitempty"`
+	Name StorageAccountSkuName `json:"name,omitempty"`
 }
 
-// StorageSkuName enumerates the values for sku name.
+// StorageAccountSkuName enumerates the values for sku name.
 // Only one of the following sku names may be specified.
 // If none of the following sku names is specified, the default one
 // is StorageV2.
 // +kubebuilder:validation:Enum=Premium_LRS;Premium_ZRS;Standard_GRS;Standard_GZRS;Standard_LRS;Standard_RAGRS;Standard_RAGZRS;Standard_ZRS
-type StorageSkuName string
+type StorageAccountSkuName string
 
-// StorageKind enumerates the values for kind.
+// StorageAccountKind enumerates the values for kind.
 // Only one of the following kinds may be specified.
 // If none of the following kinds is specified, the default one
 // is StorageV2.
-// +kubebuilder:validation:Enum=BlobStorage;BlockBlobStorage;FileStorage;Storage;StorageV2
-type StorageKind string
+// +kubebuilder:validation:Enum=BlobStorage;BlockBlobStorage;FileStorage;StorageAccount;StorageV2
+type StorageAccountKind string
 
-// AccessTier enumerates the values for access tier.
+// StorageAccountAccessTier enumerates the values for access tier.
 // Only one of the following access tiers may be specified.
 // If none of the following access tiers is specified, the default one
 // is Hot.
 // +kubebuilder:validation:Enum=Cool;Hot
-type StorageAccessTier string
+type StorageAccountAccessTier string
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// Storage is the Schema for the storages API
-type Storage struct {
+// StorageAccount is the Schema for the storages API
+type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec                StorageSpec                `json:"spec,omitempty"`
-	Status              ASOStatus                  `json:"status,omitempty"`
-	Output              StorageOutput              `json:"output,omitempty"`
-	AdditionalResources StorageAdditionalResources `json:"additionalResources,omitempty"`
+	Spec                StorageAccountSpec                `json:"spec,omitempty"`
+	Status              ASOStatus                         `json:"status,omitempty"`
+	Output              StorageAccountOutput              `json:"output,omitempty"`
+	AdditionalResources StorageAccountAdditionalResources `json:"additionalResources,omitempty"`
 }
 
-type StorageOutput struct {
+// StorageAccountOutput is the object that contains the output from creating a Storage Account object
+type StorageAccountOutput struct {
 	StorageAccountName string `json:"storageAccountName,omitempty"`
 	Key1               string `json:"key1,omitempty"`
 	Key2               string `json:"key2,omitempty"`
@@ -81,25 +82,25 @@ type StorageOutput struct {
 	ConnectionString2  string `json:"connectionString2,omitempty"`
 }
 
-// StorageAdditionalResources holds the additional resources
-type StorageAdditionalResources struct {
+// StorageAccountAdditionalResources holds the additional resources
+type StorageAccountAdditionalResources struct {
 	Secrets []string `json:"secrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// StorageList contains a list of Storage
-type StorageList struct {
+// StorageAccountList contains a list of Storage
+type StorageAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Storage `json:"items"`
+	Items           []StorageAccount `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Storage{}, &StorageList{})
+	SchemeBuilder.Register(&StorageAccount{}, &StorageAccountList{})
 }
 
-func (storage *Storage) IsSubmitted() bool {
-	return storage.Status.Provisioning || storage.Status.Provisioned
+func (storageAccount *StorageAccount) IsSubmitted() bool {
+	return storageAccount.Status.Provisioning || storageAccount.Status.Provisioned
 }

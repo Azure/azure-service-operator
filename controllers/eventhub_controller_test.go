@@ -267,7 +267,7 @@ func TestEventHubControllerCreateAndDeleteCapture(t *testing.T) {
 						ArchiveNameFormat: "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
 						BlobContainer:     bcName,
 						Name:              "EventHubArchive.AzureBlockBlob",
-						StorageAccount: azurev1alpha1.StorageAccount{
+						StorageAccount: azurev1alpha1.EventHubStorageAccount{
 							ResourceGroup: rgName,
 							AccountName:   saName,
 						},

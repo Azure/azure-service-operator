@@ -15,7 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-// Ensure creates an AzureSqlDb
+// Ensure creates a storage account
 func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := sa.convert(obj)
@@ -122,7 +122,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	return false, nil
 }
 
-// Delete drops a AzureSqlDb
+// Delete drops a storage account
 func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := sa.convert(obj)
 	if err != nil {
@@ -154,7 +154,7 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 	return true, nil
 }
 
-// GetParents returns the parents of AzureSqlDatabase
+// GetParents returns the parents of a storage account
 func (sa *azureStorageManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	instance, err := sa.convert(obj)
 	if err != nil {
@@ -180,8 +180,8 @@ func (g *azureStorageManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOS
 	return &instance.Status, nil
 }
 
-func (sa *azureStorageManager) convert(obj runtime.Object) (*azurev1alpha1.Storage, error) {
-	local, ok := obj.(*azurev1alpha1.Storage)
+func (sa *azureStorageManager) convert(obj runtime.Object) (*azurev1alpha1.StorageAccount, error) {
+	local, ok := obj.(*azurev1alpha1.StorageAccount)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
