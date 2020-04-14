@@ -125,7 +125,7 @@ stages:
     - bash: |
         make test-integration-controllers
         make test-integration-managers
-      displayName: Test controllers
+      displayName: Test controllers & managers
       continueOnError: true
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
