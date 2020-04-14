@@ -331,6 +331,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			// resource creation request sent to Azure
 			instance.Status.SpecHash = hash
+			return false, nil
 		}
 
 		instance.Status.Provisioning = false
