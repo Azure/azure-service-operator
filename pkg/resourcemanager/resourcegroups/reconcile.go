@@ -41,7 +41,6 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 
 		// handle special cases that won't work without a change to spec
 		if group.StatusCode == http.StatusBadRequest {
-			instance.Status.Provisioned = false
 			instance.Status.FailedProvisioning = true
 			return true, nil
 		}
