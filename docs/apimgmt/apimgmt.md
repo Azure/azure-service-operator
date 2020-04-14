@@ -34,14 +34,14 @@ The spec consists of the following fields:
 * `apiService` The name of the API Management service to managed
 * `apiId` Specify an ID for the API
 * `properties`
-    `isCurrent` Indicate if this API revision is the current revision
-    `isOnline` Indicate if this API is accessible via the gateway
-    `displayName` Display name for the API
-    `description` Description of the API 
-    `apiVersionDescription` Description of the API Version
-    `path` Path for the API
-    `protocols` Protocols for the service. Possible values are: 'http' or 'https'
-    `subscriptionRequired` Specify whether an API or Product subscription is required for accessing the API
+   *  `isCurrent` Indicate if this API revision is the current revision
+   *  `isOnline` Indicate if this API is accessible via the gateway
+   *  `displayName` Display name for the API
+   *  `description` Description of the API 
+   *  `apiVersionDescription` Description of the API Version
+   *  `path` Path for the API
+   *  `protocols` Protocols for the service. Possible values are: 'http' or 'https'
+   *  `subscriptionRequired` Specify whether an API or Product subscription is required for accessing the API
 
 ## Deploy, view and delete resources
 
