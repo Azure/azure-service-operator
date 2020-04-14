@@ -649,15 +649,15 @@ func setup() error {
 		return err
 	}
 
-	err = (&StorageReconciler{
+	err = (&StorageAccountReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
 			AzureClient: storageAccountManager,
 			Telemetry: telemetry.InitializeTelemetryDefault(
-				"Storage",
-				ctrl.Log.WithName("controllers").WithName("Storage"),
+				"StorageAccount",
+				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("Storage-controller"),
+			Recorder: k8sManager.GetEventRecorderFor("StorageAccount-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
@@ -745,7 +745,7 @@ func setup() error {
 
 	log.Println("Creating SA:", storageAccountName)
 	// Create the Storage Account and Container
-	_, _ = storageAccountManager.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageSku{
+	_, _ = storageAccountManager.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageAccountSku{
 		Name: "Standard_LRS",
 	}, "Storage", map[string]*string{}, "", nil, nil)
 
