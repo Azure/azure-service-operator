@@ -42,7 +42,8 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return true, nil
 	} else if instance.Status.Provisioning {
 		// get the instance and update status
-		db, azerr := m.GetCosmosDB(ctx, instance.Spec.ResourceGroup, instance.Name)
+		db, err := m.GetCosmosDB(ctx, instance.Spec.ResourceGroup, instance.Name)
+		azerr := errhelp.NewAzureErrorAzureError(err)
 		if azerr == nil {
 			instance.Status.ResourceId = *db.ID
 			instance.Status.State = *db.ProvisioningState
@@ -106,10 +107,10 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	kind := instance.Spec.Kind
 	dbType := instance.Spec.Properties.DatabaseAccountOfferType
 
-	db, azerr := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
+	db, err := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
 
 	// everything is in a created/updated state
-	if azerr == nil {
+	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
 		instance.Status.Message = resourcemanager.SuccessMsg
@@ -118,7 +119,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return true, nil
 	}
 
-	switch azerr.Type {
+	switch azerr := errhelp.NewAzureErrorAzureError(err); azerr.Type {
 
 	case errhelp.AsyncOpIncompleteError:
 		instance.Status.Message = "Resource request successfully submitted to Azure"
@@ -165,8 +166,10 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 	}
 
 	// fetch the latest to inspect provisioning state
-	cosmosDB, azerr := m.GetCosmosDB(ctx, groupName, accountName)
-	if azerr != nil {
+	cosmosDB, err := m.GetCosmosDB(ctx, groupName, accountName)
+	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
+
 		// deletion finished
 		if helpers.ContainsString(notFoundErrors, azerr.Type) {
 			return false, nil
@@ -190,9 +193,11 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 	}
 
 	// try to delete the cosmosdb instance & secrets
-	_, azerr = m.DeleteCosmosDB(ctx, groupName, accountName)
+	_, err = m.DeleteCosmosDB(ctx, groupName, accountName)
 	m.deleteAccountKeysSecret(ctx, instance)
-	if azerr != nil {
+	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
+
 		// this is likely to happen on first try due to not waiting for the future to complete
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
 			instance.Status.Message = "Deletion request submitted successfully"
