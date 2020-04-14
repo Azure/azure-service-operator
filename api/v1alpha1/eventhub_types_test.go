@@ -86,7 +86,7 @@ var _ = Describe("Eventhub", func() {
 					ArchiveNameFormat: "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
 					BlobContainer:     "foo-blob-container",
 					Name:              "EventHubArchive.AzureBlockBlob",
-					StorageAccount: StorageAccount{
+					StorageAccount: EventHubStorageAccount{
 						ResourceGroup: "foo-resource-group",
 						AccountName:   "fooaccountname",
 					},
