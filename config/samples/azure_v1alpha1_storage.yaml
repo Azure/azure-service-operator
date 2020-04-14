@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: Storage
 metadata:
-  name: storagesamplegfdsa
+  name: storagesample
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
@@ -19,4 +19,3 @@ spec:
     ipRules: #could be an ip range or a ip address
       - ipAddressOrRange: 2.2.0.0/24
       - ipAddressOrRange: 2.2.2.1
-
