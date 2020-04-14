@@ -6,6 +6,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -33,6 +34,19 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
+	}
+
+	createmode := "Default"
+	if len(instance.Spec.CreateMode) != 0 {
+		createmode = instance.Spec.CreateMode
+	}
+
+	// If a replica is requested, return error if source server is not specified
+	if strings.EqualFold(createmode, "replica") {
+		if len(instance.Spec.ReplicaProperties.SourceServerId) == 0 {
+			instance.Status.Message = "Replica requested but source server unspecified"
+			return true, nil
+		}
 	}
 
 	// Check to see if secret exists and if yes retrieve the admin login and password
@@ -219,23 +233,43 @@ func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretN
 // GetOrPrepareSecret gets tje admin credentials if they are stored or generates some if not
 func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.MySQLServer) (map[string][]byte, error) {
 	name := instance.Name
+	createmode := instance.Spec.CreateMode
+
+	// If createmode == default, then this is a new server creation, so generate username/password
+	// If createmode == replica, then get the credentials from the source server secret and use that
 
 	secret := map[string][]byte{}
+	var key types.NamespacedName
+	var err error
+	if strings.EqualFold(createmode, "default") { // new Mysql server creation
 
-	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
-	if stored, err := m.SecretClient.Get(ctx, key); err == nil {
-		return stored, nil
+		key = types.NamespacedName{Name: name, Namespace: instance.Namespace}
+		if stored, err := m.SecretClient.Get(ctx, key); err == nil {
+			return stored, nil
+		}
+
+		randomUsername := helpers.GenerateRandomUsername(10)
+		randomPassword := helpers.NewPassword()
+
+		secret["username"] = []byte(randomUsername)
+		secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
+		secret["password"] = []byte(randomPassword)
+		secret["mySqlServerName"] = []byte(name)
+		// TODO: The below may not be right for non Azure public cloud.
+		secret["fullyQualifiedServerName"] = []byte(name + ".mysql.database.azure.com")
+		return secret, nil
 	}
-
-	randomUsername := helpers.GenerateRandomUsername(10)
-	randomPassword := helpers.NewPassword()
-
-	secret["username"] = []byte(randomUsername)
-	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
-	secret["password"] = []byte(randomPassword)
-	secret["postgreSqlServerName"] = []byte(name)
-	// TODO: The below may not be right for non Azure public cloud.
-	secret["fullyQualifiedServerName"] = []byte(name + ".mysql.database.azure.com")
-
-	return secret, nil
+	// replica creation
+	sourceServerId := instance.Spec.ReplicaProperties.SourceServerId
+	if len(sourceServerId) != 0 {
+		//Parse to get source server name
+		sourceServerIdSplit := strings.Split(sourceServerId, "/")
+		sourceserver := sourceServerIdSplit[len(sourceServerIdSplit)-1]
+		key = types.NamespacedName{Name: sourceserver, Namespace: instance.Namespace}
+		if stored, err := m.SecretClient.Get(ctx, key); err == nil {
+			return stored, nil
+		}
+		// secret for source server does not exist, return error
+	}
+	return secret, err
 }

@@ -71,6 +71,24 @@ func NewDefaultMySQLServer(name, resourceGroup, location string) *MySQLServer {
 			},
 			ServerVersion:  ServerVersion("8.0"),
 			SSLEnforcement: SslEnforcementEnumEnabled,
+			CreateMode:     "Default",
+		},
+	}
+}
+
+func NewReplicaMySQLServer(name, resourceGroup, location string, sourceserverid string) *MySQLServer {
+	return &MySQLServer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: "default",
+		},
+		Spec: MySQLServerSpec{
+			Location:      location,
+			ResourceGroup: resourceGroup,
+			CreateMode:    "Replica",
+			ReplicaProperties: ReplicaProperties{
+				SourceServerId: sourceserverid,
+			},
 		},
 	}
 }
