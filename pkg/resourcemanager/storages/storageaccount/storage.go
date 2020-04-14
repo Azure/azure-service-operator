@@ -36,7 +36,7 @@ func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.Network
 	}
 
 	defaultAction := storage.DefaultActionDeny
-	if strings.ToLower(ruleSet.DefaultAction) == "allow" {
+	if strings.EqualFold(ruleSet.DefaultAction, "allow") {
 		defaultAction = storage.DefaultActionAllow
 	}
 
