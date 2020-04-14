@@ -48,7 +48,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - storages
+  - storageaccounts
   verbs:
   - create
   - delete
@@ -60,7 +60,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - storages/status
+  - storageaccounts/status
   verbs:
   - get
   - patch
