@@ -37,19 +37,35 @@ func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
 // CreateOrUpdateCosmosDB creates a new CosmosDB
 func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	ctx context.Context,
-	groupName string,
-	cosmosDBName string,
-	location string,
-	kind v1alpha1.CosmosDBKind,
-	dbType v1alpha1.CosmosDBDatabaseAccountOfferType,
+	accountName string,
+	spec v1alpha1.CosmosDBSpec,
 	tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError) {
 	cosmosDBClient, err := getCosmosDBClient()
 	if err != nil {
 		return nil, errhelp.NewAzureErrorAzureError(err)
 	}
 
-	dbKind := documentdb.DatabaseAccountKind(kind)
-	sDBType := string(dbType)
+	groupName := spec.ResourceGroup
+	kind := documentdb.DatabaseAccountKind(spec.Kind)
+	primaryLocation := spec.Location
+
+	// set optional defaults
+	var accountOfferType *string
+	if spec.Properties.DatabaseAccountOfferType == "" {
+		accountOfferType = to.StringPtr(string(v1alpha1.CosmosDBDatabaseAccountOfferTypeStandard))
+	} else {
+		accountOfferType = to.StringPtr(string(spec.Properties.DatabaseAccountOfferType))
+	}
+
+	// capabilities are used to enable different API types
+	var capabilities *[]documentdb.Capability
+
+	// when MongoDBVersion is set to 3.6 we need to add the 'EnableMongo' capability, otherwise default to 3.2 behavior
+	if kind == documentdb.MongoDB && spec.Properties.MongoDBVersion == "3.6" {
+		capabilities = &[]documentdb.Capability{
+			{Name: to.StringPtr("EnableMongo")},
+		}
+	}
 
 	/*
 	*   Current state of Locations and CosmosDB properties:
@@ -65,29 +81,30 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	*   is created in.
 	 */
 	locationObj := documentdb.Location{
-		ID:               to.StringPtr(fmt.Sprintf("%s-%s", cosmosDBName, location)),
+		ID:               to.StringPtr(fmt.Sprintf("%s-%s", accountName, primaryLocation)),
 		FailoverPriority: to.Int32Ptr(0),
-		LocationName:     to.StringPtr(location),
+		LocationName:     to.StringPtr(primaryLocation),
 	}
-	locationsArray := []documentdb.Location{
+	locations := &[]documentdb.Location{
 		locationObj,
 	}
+
 	createUpdateParams := documentdb.DatabaseAccountCreateUpdateParameters{
-		Location: to.StringPtr(location),
+		Location: to.StringPtr(primaryLocation),
 		Tags:     tags,
-		Name:     &cosmosDBName,
-		Kind:     dbKind,
+		Name:     to.StringPtr(accountName),
+		Kind:     kind,
 		Type:     to.StringPtr("Microsoft.DocumentDb/databaseAccounts"),
-		ID:       &cosmosDBName,
 		DatabaseAccountCreateUpdateProperties: &documentdb.DatabaseAccountCreateUpdateProperties{
-			DatabaseAccountOfferType:      &sDBType,
+			DatabaseAccountOfferType:      accountOfferType,
 			EnableMultipleWriteLocations:  to.BoolPtr(false),
 			IsVirtualNetworkFilterEnabled: to.BoolPtr(false),
-			Locations:                     &locationsArray,
+			Locations:                     locations,
+			Capabilities:                  capabilities,
 		},
 	}
 	createUpdateFuture, err := cosmosDBClient.CreateOrUpdate(
-		ctx, groupName, cosmosDBName, createUpdateParams)
+		ctx, groupName, accountName, createUpdateParams)
 
 	if err != nil {
 		// initial create request failed, wrap error

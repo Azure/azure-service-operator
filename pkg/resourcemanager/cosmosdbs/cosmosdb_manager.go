@@ -21,7 +21,7 @@ func NewAzureCosmosDBManager() *AzureCosmosDBManager {
 // CosmosDBManager client functions
 type CosmosDBManager interface {
 	// CreateOrUpdateCosmosDB creates a new cosmos database account
-	CreateOrUpdateCosmosDB(ctx context.Context, groupName string, cosmosDBName string, location string, kind v1alpha1.CosmosDBKind, dbType v1alpha1.CosmosDBDatabaseAccountOfferType, tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError)
+	CreateOrUpdateCosmosDB(ctx context.Context, accountName string, spec v1alpha1.CosmosDBSpec, tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError)
 
 	// GetCosmosDB gets a cosmos database account
 	GetCosmosDB(ctx context.Context, groupName string, cosmosDBName string) (*documentdb.DatabaseAccount, *errhelp.AzureError)

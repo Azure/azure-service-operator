@@ -85,13 +85,8 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	instance.Status.Provisioning = true
 
 	tags := helpers.LabelsToTags(instance.GetLabels())
-	accountName := instance.ObjectMeta.Name
-	groupName := instance.Spec.ResourceGroup
-	location := instance.Spec.Location
-	kind := instance.Spec.Kind
-	dbType := instance.Spec.Properties.DatabaseAccountOfferType
 
-	db, azerr := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
+	db, azerr := m.CreateOrUpdateCosmosDB(ctx, instance.Name, instance.Spec, tags)
 
 	// everything is in a created/updated state
 	if azerr == nil {

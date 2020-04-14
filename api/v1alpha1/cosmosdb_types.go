@@ -41,7 +41,7 @@ const (
 type CosmosDBProperties struct {
 	// CosmosDBDatabaseAccountOfferType - The offer type for the Cosmos DB database account.
 	DatabaseAccountOfferType CosmosDBDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
-	//Locations                []CosmosDBLocation               `json:"locations,omitempty"`
+	MongoDBVersion           string                           `json:"mongoDBVersion,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Standard
