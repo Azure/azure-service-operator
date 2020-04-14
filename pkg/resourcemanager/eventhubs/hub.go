@@ -228,61 +228,54 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	hub, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
-		// let the user know what happened
-
 		instance.Status.Message = err.Error()
-		instance.Status.Provisioning = false
+		azerr := errhelp.NewAzureErrorAzureError(err)
+
+		// this happens when op isnt complete, just requeue
+		if azerr.Type == errhelp.AsyncOpIncompleteError {
+			return false, nil
+		}
+
 		// errors we expect might happen that we are ok with waiting for
+		instance.Status.Provisioning = false
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
 			errhelp.BadRequest,
 		}
-
-		azerr := errhelp.NewAzureErrorAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
-			// most of these error technically mean the resource is actually not provisioning
-
-			switch azerr.Type {
-			case errhelp.AsyncOpIncompleteError:
-				instance.Status.Provisioning = true
-			case errhelp.BadRequest:
+			if strings.Contains(azerr.Type, errhelp.BadRequest) {
 				// can't put the error for this one in Message as the tracking id changes every time caussing extra reconciles
 				if strings.Contains(azerr.Reason, "Storage Account") && strings.Contains(azerr.Reason, "was not found") {
 					instance.Status.Message = "Storage Account was not found"
 				}
 			}
-			// reconciliation is not done but error is acceptable
 			return false, nil
 		}
+
 		// reconciliation not done and we don't know what happened
 		return false, err
-
 	}
 
 	err = e.createOrUpdateAccessPolicyEventHub(resourcegroup, eventhubNamespace, eventhubName, instance)
 	if err != nil {
 		instance.Status.Message = err.Error()
-
 		return false, err
 	}
 
 	err = e.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
 	if err != nil {
 		instance.Status.Message = err.Error()
-
 		return false, err
 	}
 
-	// write information back to instance
+	// reconciliation done and everything looks ok
 	instance.Status.State = string(hub.Status)
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 	instance.Status.ResourceId = *hub.ID
-	// reconciliation done and everything looks ok
 	return true, nil
 }
 
