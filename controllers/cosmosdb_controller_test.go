@@ -12,7 +12,6 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/stretchr/testify/assert"
 
-	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -42,19 +41,18 @@ func TestCosmosDBHappyPath(t *testing.T) {
 	}
 
 	key := types.NamespacedName{Name: name, Namespace: namespace}
-	secret := &v1.Secret{}
 
 	EnsureInstance(ctx, t, tc, dbInstance)
 
 	assert.Eventually(func() bool {
-		err := tc.k8sClient.Get(ctx, key, secret)
-		return err == nil && secret.ObjectMeta.Name == name && secret.ObjectMeta.Namespace == namespace
+		secret, err := tc.secretClient.Get(ctx, key)
+		return err == nil && len(secret) > 0
 	}, tc.timeoutFast, tc.retry, "wait for cosmosdb to have secret")
 
 	EnsureDelete(ctx, t, tc, dbInstance)
 
 	assert.Eventually(func() bool {
-		err := tc.k8sClient.Get(ctx, key, secret)
+		_, err := tc.secretClient.Get(ctx, key)
 		return err != nil
 	}, tc.timeoutFast, tc.retry, "wait for cosmosdb to delete secret")
 
