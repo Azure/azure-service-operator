@@ -46,10 +46,10 @@ func (srs *StorageResources) Find(predicate func(storageResource) bool) {
 func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName string,
 	storageAccountName string,
 	location string,
-	sku azurev1alpha1.StorageSku,
-	kind azurev1alpha1.StorageKind,
+	sku azurev1alpha1.StorageAccountSku,
+	kind azurev1alpha1.StorageAccountKind,
 	tags map[string]*string,
-	accessTier azurev1alpha1.StorageAccessTier,
+	accessTier azurev1alpha1.StorageAccountAccessTier,
 	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (result storage.Account, err error) {
 	s := storageResource{
 		resourceGroupName:  groupName,
@@ -70,12 +70,12 @@ func (manager *mockStorageManager) CreateStorage(ctx context.Context, groupName 
 }
 
 // Get gets the description of the specified storage account.
-func (manager *mockStorageManager) GetStorage(ctx context.Context, resourceGroupName string, accountName string) (storage.Account, error) {
+func (manager *mockStorageManager) GetStorage(ctx context.Context, resourceGroupName string, storageAccountName string) (storage.Account, error) {
 	groups := manager.storageResource
 
 	index, group := findStorage(groups, func(g storageResource) bool {
 		return g.resourceGroupName == resourceGroupName &&
-			g.storageAccountName == accountName
+			g.storageAccountName == storageAccountName
 	})
 
 	if index == -1 {
@@ -86,12 +86,12 @@ func (manager *mockStorageManager) GetStorage(ctx context.Context, resourceGroup
 }
 
 // removes the storage account
-func (manager *mockStorageManager) DeleteStorage(ctx context.Context, resourceGroupName string, accountName string) (autorest.Response, error) {
+func (manager *mockStorageManager) DeleteStorage(ctx context.Context, resourceGroupName string, storageAccountName string) (autorest.Response, error) {
 	groups := manager.storageResource
 
 	index, _ := findStorage(groups, func(g storageResource) bool {
 		return g.resourceGroupName == resourceGroupName &&
-			g.storageAccountName == accountName
+			g.storageAccountName == storageAccountName
 	})
 
 	if index == -1 {
