@@ -6,14 +6,11 @@ resources:
 
 variables:
   imageRepository: 'manager'
-  containerRegistry: 'asoazdo.azurecr.io'
+  containerRegistry: '$(REGISTRY)'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  
-  # Azure Service connection
-  azureConnection: 'bca5fcbc-7592-4188-92fb-eedf3ac4a8b1'
 
 stages:
 - stage: Build
@@ -125,18 +122,10 @@ stages:
         command: 'login'
         checkLatest: true
 
-    - bash: make test-integration-controllers
+    - bash: |
+        make test-integration-controllers
+        make test-integration-managers
       displayName: Test controllers
-      continueOnError: true
-      env:
-        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_SP_SECRET)
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
-        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-
-    - bash: make test-integration-managers
-      displayName: Test managers
       continueOnError: true
       env:
         AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
