@@ -4,7 +4,9 @@ metadata:
   name: mysqlserver-replica
 spec:  
   location: eastus2
+  resourceGroup: resourcegroup-azure-operators
   createMode: Replica # Possible values include: Default, Replica, PointInTimeRestore (not implemented), GeoRestore (not implemented)
   replicaProperties:
+    # sourceServer tier should be "GeneralPurpose" or higher for replica support
     sourceServerId: /subscriptions/{SUBID}/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.DBforMySQL/servers/mysqlserver-sample
 
