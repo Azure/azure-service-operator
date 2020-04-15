@@ -40,6 +40,12 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
+	// Update secret with the fully qualified server name
+	err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
+	if err != nil {
+		return false, err
+	}
+
 	// if an error occurs thats ok as it means that it doesn't exist yet
 	getServer, err := p.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
@@ -48,17 +54,14 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		// succeeded! so end reconcilliation successfully
 		if getServer.UserVisibleState == "Ready" {
 
-			// Update secret with the fully qualified server name
-			err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance, *getServer.FullyQualifiedDomainName)
-			if err != nil {
-				instance.Status.Message = "Could not save secrets"
-				return true, nil
-			}
+			// Update the secret with fully qualified server name. Ignore error as we have the admin creds which is critical.
+			p.UpdateSecretWithFullServerName(ctx, instance.Name, secret, instance, *getServer.FullyQualifiedDomainName)
 
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.ResourceId = *getServer.ID
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
+			instance.Status.State = string(getServer.UserVisibleState)
 			return true, nil
 		}
 

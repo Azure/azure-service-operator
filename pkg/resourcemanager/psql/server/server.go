@@ -137,7 +137,28 @@ func (p *PSQLServerClient) GetServer(ctx context.Context, resourcegroup string, 
 	return client.Get(ctx, resourcegroup, servername)
 }
 
-func (p *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.PostgreSQLServer, fullservername string) error {
+func (p *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.PostgreSQLServer) error {
+	key := types.NamespacedName{
+		Name:      secretName,
+		Namespace: instance.Namespace,
+	}
+
+	data["fullyQualifiedServerName"] = []byte(fullservername)
+
+	err := p.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(p.Scheme),
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (p *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.PostgreSQLServer, fullservername string) error {
 	key := types.NamespacedName{
 		Name:      secretName,
 		Namespace: instance.Namespace,
