@@ -64,11 +64,6 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 	if err == nil {
 		instance.Status.State = string(server.UserVisibleState)
 		if server.UserVisibleState == mysql.ServerStateReady {
-			instance.Status.Provisioned = true
-			instance.Status.Provisioning = false
-			instance.Status.Message = resourcemanager.SuccessMsg
-			instance.Status.ResourceId = *server.ID
-			instance.Status.State = string(server.UserVisibleState)
 
 			// Update secret - we do this on success as we need the FQ name of the server
 			err = m.AddServerCredsToSecrets(ctx, instance.Name, secret, instance, *server.FullyQualifiedDomainName)
@@ -76,6 +71,11 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 				return false, err
 			}
 
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			instance.Status.Message = resourcemanager.SuccessMsg
+			instance.Status.ResourceId = *server.ID
+			instance.Status.State = string(server.UserVisibleState)
 			return true, nil
 		}
 		return false, nil
