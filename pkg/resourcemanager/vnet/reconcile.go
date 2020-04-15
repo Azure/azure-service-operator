@@ -91,7 +91,6 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 	instance.Status.Message = resourcemanager.SuccessMsg
-	instance.Status.ResourceId = "test"
 
 	return true, nil
 }

@@ -99,18 +99,5 @@ func (v *AzureVNetManager) VNetExists(ctx context.Context, resourceGroupName str
 		return vnetwork.VirtualNetwork{}, err
 	}
 
-	// result, err := client.Get(
-	// 	ctx,
-	// 	resourceGroupName,
-	// 	resourceName,
-	// 	"")
-	// if err != nil {
-	// 	return false, err
-	// } else if result.Name == nil {
-	// 	return false, nil
-	// }
-
-	//return true, nil
-
 	return client.Get(ctx, resourceGroupName, resourceName, "")
 }
