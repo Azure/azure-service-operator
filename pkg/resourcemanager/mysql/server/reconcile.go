@@ -68,7 +68,8 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			// Update secret - we do this on success as we need the FQ name of the server
 			err = m.AddServerCredsToSecrets(ctx, instance.Name, secret, instance, *server.FullyQualifiedDomainName)
 			if err != nil {
-				return false, err
+				instance.Status.Message = "Could not save secrets"
+				return true, nil
 			}
 
 			instance.Status.Provisioned = true
