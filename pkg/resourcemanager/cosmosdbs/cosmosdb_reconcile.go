@@ -97,33 +97,32 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
+		instance.Status.Message = err.Error()
 
 		switch azerr.Type {
 		case errhelp.AsyncOpIncompleteError:
 			instance.Status.State = "Creating"
 			instance.Status.Message = "Resource request successfully submitted to Azure"
-			return false, nil
+			instance.Status.SpecHash = hash
 		case errhelp.InvalidResourceLocation, errhelp.LocationNotAvailableForResourceType:
 			instance.Status.Provisioning = false
 			instance.Status.Message = azerr.Error()
 			return true, nil
 		case errhelp.ResourceGroupNotFoundErrorCode, errhelp.ParentNotFoundErrorCode:
 			instance.Status.Provisioning = false
-			instance.Status.Message = azerr.Error()
-			return false, nil
 		case errhelp.NotFoundErrorCode:
-			if nameExists, err := m.CheckNameExistsCosmosDB(ctx, accountName); err != nil {
+			nameExists, err := m.CheckNameExistsCosmosDB(ctx, accountName)
+			if err != nil {
 				instance.Status.Message = err.Error()
-				return false, err
-			} else if nameExists {
+			}
+			if nameExists {
 				instance.Status.Provisioning = false
 				instance.Status.Message = "CosmosDB Account name already exists"
 				return true, nil
 			}
-		default:
-			instance.Status.Message = azerr.Error()
-			return false, nil
 		}
+
+		return false, nil
 	}
 
 	instance.Status.SpecHash = hash
