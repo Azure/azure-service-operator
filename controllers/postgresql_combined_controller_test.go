@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all psql psqldatabase
+// +build all psql
 
 package controllers
 
