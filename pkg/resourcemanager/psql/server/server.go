@@ -137,11 +137,13 @@ func (p *PSQLServerClient) GetServer(ctx context.Context, resourcegroup string, 
 	return client.Get(ctx, resourcegroup, servername)
 }
 
-func (p *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.PostgreSQLServer) error {
+func (p *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.PostgreSQLServer, fullservername string) error {
 	key := types.NamespacedName{
 		Name:      secretName,
 		Namespace: instance.Namespace,
 	}
+
+	data["fullyQualifiedServerName"] = []byte(fullservername)
 
 	err := p.SecretClient.Upsert(ctx,
 		key,
@@ -175,8 +177,6 @@ func (p *PSQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azu
 	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
 	secret["password"] = []byte(randomPassword)
 	secret["postgreSqlServerName"] = []byte(name)
-	// TODO: The below may not be right for non Azure public cloud.
-	secret["fullyQualifiedServerName"] = []byte(name + ".postgres.database.azure.com")
 
 	return secret, nil
 }
