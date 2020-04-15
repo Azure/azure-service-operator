@@ -27,7 +27,7 @@ The spec consists of the following fields:
 
 ### API Management API
 
-The API Management API Operator manages your API Management service, and deploys an instance into a specified resource group at the specified location.
+The API Management API Operator creates an API with the specified properties in the specified API Management service.
 
 The spec consists of the following fields:
 
