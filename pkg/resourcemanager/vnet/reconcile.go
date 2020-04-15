@@ -29,17 +29,20 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	addressSpace := instance.Spec.AddressSpace
 	subnets := instance.Spec.Subnets
 
-	instance.Status.Provisioning = true
-	instance.Status.Provisioned = false
-
 	// check first to see if the VNet exists, if it does, dont create it and
 	// 	consider the reconcilliation successful
-	if exists, _ := g.VNetExists(ctx, resourceGroup, resourceName); exists {
+	vNet, err := g.VNetExists(ctx, resourceGroup, resourceName)
+	if err == nil {
+		// succeeded! end reconcilliation successfully
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
 		instance.Status.Message = resourcemanager.SuccessMsg
+		instance.Status.ResourceId = *vNet.ID
 		return true, nil
 	}
+
+	instance.Status.Provisioning = true
+	instance.Status.Provisioned = false
 
 	_, err = g.CreateVNet(
 		ctx,
@@ -85,10 +88,10 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	}
 
 	// success
-	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
 	instance.Status.Message = resourcemanager.SuccessMsg
+	instance.Status.ResourceId = "test"
 
 	return true, nil
 }

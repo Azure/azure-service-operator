@@ -32,7 +32,7 @@ type VNetManager interface {
 
 	VNetExists(ctx context.Context,
 		resourceGroupName string,
-		resourceName string) (bool, error)
+		resourceName string) (vnetwork.VirtualNetwork, error)
 
 	// also embed async client methods
 	resourcemanager.ARMClient

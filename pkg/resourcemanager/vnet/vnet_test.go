@@ -42,11 +42,11 @@ var _ = Describe("VNet", func() {
 			// Create vnet instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				exists, _ := vnetManager.VNetExists(ctx, rgName, vnetName)
-				if exists {
+				_, err := vnetManager.VNetExists(ctx, rgName, vnetName)
+				if err == nil {
 					return true
 				}
-				_, err := vnetManager.CreateVNet(ctx, location, rgName, vnetName, addressSpace, []azurev1alpha1.VNetSubnets{
+				_, err = vnetManager.CreateVNet(ctx, location, rgName, vnetName, addressSpace, []azurev1alpha1.VNetSubnets{
 					azurev1alpha1.VNetSubnets{
 						SubnetName:          subnetName,
 						SubnetAddressPrefix: subnetPrefix,
@@ -68,11 +68,11 @@ var _ = Describe("VNet", func() {
 			// Delete vnet instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				exists, _ := vnetManager.VNetExists(ctx, rgName, vnetName)
-				if !exists {
+				_, err := vnetManager.VNetExists(ctx, rgName, vnetName)
+				if err != nil {
 					return true
 				}
-				_, err := vnetManager.DeleteVNet(ctx, rgName, vnetName)
+				_, err = vnetManager.DeleteVNet(ctx, rgName, vnetName)
 				if err != nil {
 					fmt.Println(err.Error())
 					if !errhelp.IsAsynchronousOperationNotComplete(err) {
