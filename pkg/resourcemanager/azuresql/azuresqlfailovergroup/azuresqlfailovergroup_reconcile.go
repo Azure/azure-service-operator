@@ -58,6 +58,15 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		return true, nil
 	}
 	instance.Status.Message = fmt.Sprintf("AzureSqlFailoverGroup Get error %s", err.Error())
+	requeuErrors := []string{
+		errhelp.ResourceGroupNotFoundErrorCode,
+		errhelp.ParentNotFoundErrorCode,
+	}
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	if helpers.ContainsString(requeuErrors, azerr.Type) {
+		instance.Status.Provisioning = false
+		return false, nil
+	}
 
 	_, err = fg.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
 	if err != nil {
