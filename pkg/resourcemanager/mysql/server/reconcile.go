@@ -55,6 +55,11 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		return false, err
 	}
 
+	err = m.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
+	if err != nil {
+		return false, err
+	}
+
 	// convert kube labels to expected tag format
 	labels := helpers.LabelsToTags(instance.GetLabels())
 
@@ -65,12 +70,8 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		instance.Status.State = string(server.UserVisibleState)
 		if server.UserVisibleState == mysql.ServerStateReady {
 
-			// Update secret - we do this on success as we need the FQ name of the server
-			err = m.AddServerCredsToSecrets(ctx, instance.Name, secret, instance, *server.FullyQualifiedDomainName)
-			if err != nil {
-				instance.Status.Message = "Could not save secrets"
-				return true, nil
-			}
+			// Update secret with FQ name of the server. We ignore the error.
+			m.UpdateServerNameInSecret(ctx, instance.Name, secret, *server.FullyQualifiedDomainName, instance)
 
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
@@ -217,13 +218,32 @@ func (m *MySQLServerClient) convert(obj runtime.Object) (*v1alpha1.MySQLServer, 
 }
 
 // AddServerCredsToSecrets saves the server's admin credentials in the secret store
-func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.MySQLServer, fullservername string) error {
+func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.MySQLServer) error {
 	key := types.NamespacedName{
 		Name:      secretName,
 		Namespace: instance.Namespace,
 	}
 
-	// Update fullyQualifiedServerName from the created server
+	err := m.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(m.Scheme),
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// UpdateSecretWithFullServerName updates the secret with the fully qualified server name
+func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secretName string, data map[string][]byte, fullservername string, instance *azurev1alpha1.MySQLServer) error {
+	key := types.NamespacedName{
+		Name:      secretName,
+		Namespace: instance.Namespace,
+	}
+
 	data["fullyQualifiedServerName"] = []byte(fullservername)
 
 	err := m.SecretClient.Upsert(ctx,
