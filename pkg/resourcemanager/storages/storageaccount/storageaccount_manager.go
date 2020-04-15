@@ -25,7 +25,7 @@ type StorageManager interface {
 		sku azurev1alpha1.StorageAccountSku,
 		kind azurev1alpha1.StorageAccountKind,
 		tags map[string]*string,
-		accessTier azurev1alpha1.StorageAccessTier,
+		accessTier azurev1alpha1.StorageAccountAccessTier,
 		enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *storage.NetworkRuleSet) (pollingURL string, result storage.Account, err error)
 
 	// Get gets the description of the specified storage account.

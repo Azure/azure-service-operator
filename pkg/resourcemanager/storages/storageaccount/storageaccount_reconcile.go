@@ -58,7 +58,14 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 		if pollURL != "" {
 			pClient := pollclient.NewPollClient()
 			res, err := pClient.Get(ctx, pollURL)
+			azerr := errhelp.NewAzureErrorAzureError(err)
 			if err != nil {
+				if azerr.Type == errhelp.NetworkAclsValidationFailure {
+					instance.Status.Message = "Unable to provision Azure Storage Account due to error: " + errhelp.StripErrorIDs(err)
+					instance.Status.Provisioning = false
+					instance.Status.Provisioned = false
+					return true, nil
+				}
 				return false, err
 			}
 
