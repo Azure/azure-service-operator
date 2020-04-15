@@ -37,6 +37,7 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 	}
 
 	instance.Status.Provisioning = true
+	instance.Status.FailedProvisioning = false
 	resp, err := p.CreateDatabaseIfValid(
 		ctx,
 		instance.Name,
@@ -45,6 +46,8 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 	)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
+		instance.Status.Provisioning = false
+
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		catchInProgress := []string{
@@ -68,19 +71,18 @@ func (p *PSQLDatabaseClient) Ensure(ctx context.Context, obj runtime.Object, opt
 		// handle the errors
 		if helpers.ContainsString(catchInProgress, azerr.Type) {
 			instance.Status.Message = "Postgres database exists but may not be ready"
+			instance.Status.Provisioning = true
 			return false, nil
 		} else if helpers.ContainsString(catchKnownError, azerr.Type) {
-			instance.Status.Provisioning = false
 			return false, nil
-		} else {
-
-			// serious error occured, end reconcilliation and mark it as failed
-			instance.Status.Message = fmt.Sprintf("Error occurred creating the Postgres server: %s", errhelp.StripErrorIDs(err))
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = false
-			instance.Status.FailedProvisioning = true
-			return true, nil
 		}
+
+		// serious error occured, end reconcilliation and mark it as failed
+		instance.Status.Message = errhelp.StripErrorIDs(err)
+		instance.Status.Provisioned = false
+		instance.Status.FailedProvisioning = true
+		return true, nil
+
 	}
 
 	return false, nil
