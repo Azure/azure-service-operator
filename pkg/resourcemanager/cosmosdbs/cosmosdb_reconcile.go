@@ -33,72 +33,59 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 
 	hash := helpers.Hash256(instance.Spec)
-	if instance.Status.SpecHash != hash {
-		// need to push a create or update
-		instance.Status.SpecHash = hash
-	} else if instance.Status.Provisioned {
-		// provisioned and no changes needed
+
+	if instance.Status.SpecHash == hash && instance.Status.Provisioned {
 		instance.Status.RequestedAt = nil
 		return true, nil
-	} else if instance.Status.Provisioning {
-		// get the instance and update status
-		db, err := m.GetCosmosDB(ctx, instance.Spec.ResourceGroup, instance.Name)
+	}
+	instance.Status.Provisioned = false
+
+	// get the instance and update status
+	db, err := m.GetCosmosDB(ctx, instance.Spec.ResourceGroup, instance.Name)
+	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		if azerr == nil {
-			instance.Status.ResourceId = *db.ID
-			instance.Status.State = *db.ProvisioningState
 
-			if instance.Status.State == "Creating" {
-				instance.Status.Message = "Waiting for resource to finish creation"
-				return false, nil
-			}
-
-			if instance.Status.State == "Succeeded" {
-				// provisioning is complete, update the secrets
-				if err = m.createOrUpdateAccountKeysSecret(ctx, instance); err != nil {
-					instance.Status.Message = err.Error()
-					return false, err
-				}
-
-				instance.Status.Message = resourcemanager.SuccessMsg
-				instance.Status.Provisioning = false
-				instance.Status.Provisioned = true
-				return true, nil
-			}
-
-			if instance.Status.State == "Failed" {
-				instance.Status.Message = "Failed to provision CosmosDB"
-				instance.Status.Provisioning = false
-				return true, nil
-			}
-		} else if azerr.Type == errhelp.ResourceGroupNotFoundErrorCode {
+		switch azerr.Type {
+		case errhelp.ResourceGroupNotFoundErrorCode, errhelp.ParentNotFoundErrorCode:
 			instance.Status.Provisioning = false
-			instance.Status.Message = fmt.Sprintf("Waiting for resource group '%s' to be available", instance.Spec.ResourceGroup)
+			instance.Status.Message = azerr.Reason
 			instance.Status.State = "Waiting"
 			return false, nil
-		} else if azerr.Type == errhelp.ResourceNotFound {
-			exists, azerr := m.CheckNameExistsCosmosDB(ctx, instance.Name)
-			if azerr != nil {
-				instance.Status.Provisioning = false
-				instance.Status.Message = "Unexpected error occurred during resource request"
-				instance.Status.State = "Failed"
-				return false, err
-			} else if exists {
-				// get request returned resource not found and the name already exists
-				// so it must exist in a different resource group, user must fix it
-				instance.Status.Provisioning = false
-				instance.Status.Message = "CosmosDB name already exists"
-				instance.Status.State = "Failed"
-				return true, nil
-			}
-		} else {
-			instance.Status.Provisioning = false
-			instance.Status.Message = azerr.Error()
-			return false, azerr.Original
+		case errhelp.ResourceNotFound:
+			//NO-OP, try to create
+		default:
+			instance.Status.Message = fmt.Sprintf("Unhandled error after Get %v", azerr.Reason)
 		}
+
+	} else {
+		instance.Status.ResourceId = *db.ID
+		instance.Status.State = *db.ProvisioningState
 	}
 
-	instance.Status.Provisioning = true
+	if instance.Status.State == "Creating" {
+		// avoid multiple CreateOrUpdate requests while resource is already creating
+		return false, nil
+	}
+
+	if instance.Status.State == "Succeeded" && instance.Status.SpecHash == hash {
+		// provisioning is complete, update the secrets
+		if err = m.createOrUpdateAccountKeysSecret(ctx, instance); err != nil {
+			instance.Status.Message = err.Error()
+			return false, err
+		}
+
+		instance.Status.Message = resourcemanager.SuccessMsg
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = true
+		return true, nil
+	}
+
+	if instance.Status.State == "Failed" {
+		instance.Status.Message = "Failed to provision CosmosDB"
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = false
+		return true, nil
+	}
 
 	tags := helpers.LabelsToTags(instance.GetLabels())
 	accountName := instance.ObjectMeta.Name
@@ -107,30 +94,44 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	kind := instance.Spec.Kind
 	dbType := instance.Spec.Properties.DatabaseAccountOfferType
 
-	db, err := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
+	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
+	if err != nil {
+		azerr := errhelp.NewAzureErrorAzureError(err)
 
-	// everything is in a created/updated state
-	if err == nil {
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		instance.Status.Message = resourcemanager.SuccessMsg
-		instance.Status.State = "Succeeded"
-		instance.Status.ResourceId = *db.ID
-		return true, nil
+		switch azerr.Type {
+		case errhelp.AsyncOpIncompleteError:
+			instance.Status.State = "Creating"
+			instance.Status.Message = "Resource request successfully submitted to Azure"
+			return false, nil
+		case errhelp.InvalidResourceLocation, errhelp.LocationNotAvailableForResourceType:
+			instance.Status.Provisioning = false
+			instance.Status.Message = azerr.Reason
+			return true, nil
+		case errhelp.ResourceGroupNotFoundErrorCode, errhelp.ParentNotFoundErrorCode:
+			instance.Status.Provisioning = false
+			instance.Status.Message = azerr.Reason
+			return false, nil
+		case errhelp.NotFoundErrorCode:
+			if nameExists, err := m.CheckNameExistsCosmosDB(ctx, accountName); err != nil {
+				instance.Status.Message = err.Error()
+				return false, err
+			} else if nameExists {
+				instance.Status.Provisioning = false
+				instance.Status.Message = "CosmosDB Account name already exists"
+				return true, nil
+			}
+		default:
+			instance.Status.Message = azerr.Reason
+			return false, nil
+		}
 	}
 
-	switch azerr := errhelp.NewAzureErrorAzureError(err); azerr.Type {
-
-	case errhelp.AsyncOpIncompleteError:
-		instance.Status.Message = "Resource request successfully submitted to Azure"
-		instance.Status.State = "Creating"
-
-	case errhelp.InvalidResourceLocation:
-		instance.Status.Provisioning = false
-		instance.Status.Message = azerr.Reason
-		return true, nil
-
-	}
+	instance.Status.SpecHash = hash
+	instance.Status.ResourceId = *db.ID
+	instance.Status.State = *db.ProvisioningState
+	instance.Status.Provisioned = true
+	instance.Status.Provisioning = false
+	instance.Status.Message = resourcemanager.SuccessMsg
 	return false, nil
 }
 
@@ -150,51 +151,17 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	accountName := instance.ObjectMeta.Name
-	groupName := instance.Spec.ResourceGroup
-
 	// if the resource is in a failed state it was never created or could never be verified
 	// so we skip attempting to delete the resrouce from Azure
 	if instance.Status.FailedProvisioning {
 		return false, nil
 	}
 
-	notFoundErrors := []string{
-		errhelp.NotFoundErrorCode,              // happens on first request after deletion succeeds
-		errhelp.ResourceNotFound,               // happens on subsequent requests after deletion succeeds
-		errhelp.ResourceGroupNotFoundErrorCode, // database doesn't exist in this resource group but the name exists globally
-	}
-
-	// fetch the latest to inspect provisioning state
-	cosmosDB, err := m.GetCosmosDB(ctx, groupName, accountName)
-	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
-
-		// deletion finished
-		if helpers.ContainsString(notFoundErrors, azerr.Type) {
-			return false, nil
-		}
-
-		//TODO: are there other errors that need handling here?
-		instance.Status.Message = azerr.Error()
-		return true, azerr.Original
-	}
-
-	instance.Status.State = *cosmosDB.ProvisioningState
-
-	// already deleting the resource, try again later
-	if instance.Status.State == "Deleting" {
-		return true, nil
-	}
-
-	// create must succeed before delete succeeds
-	if instance.Status.State == "Creating" {
-		return true, nil
-	}
+	groupName := instance.Spec.ResourceGroup
+	accountName := instance.ObjectMeta.Name
 
 	// try to delete the cosmosdb instance & secrets
 	_, err = m.DeleteCosmosDB(ctx, groupName, accountName)
-	m.deleteAccountKeysSecret(ctx, instance)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
@@ -204,18 +171,21 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 			return true, nil
 		}
 
-		// already deleted
+		notFoundErrors := []string{
+			errhelp.NotFoundErrorCode,              // happens on first request after deletion succeeds
+			errhelp.ResourceNotFound,               // happens on subsequent requests after deletion succeeds
+			errhelp.ResourceGroupNotFoundErrorCode, // database doesn't exist in this resource group but the name exists globally
+		}
 		if helpers.ContainsString(notFoundErrors, azerr.Type) {
-			return false, nil
+			return false, m.deleteAccountKeysSecret(ctx, instance)
 		}
 
 		// unhandled error
-		instance.Status.Message = azerr.Error()
-		return false, azerr.Original
+		instance.Status.Message = azerr.Reason
+		return false, err
 	}
 
-	// second delete calls succeed immediately
-	return false, nil
+	return false, m.deleteAccountKeysSecret(ctx, instance)
 }
 
 // GetParents returns the parents of cosmosdb

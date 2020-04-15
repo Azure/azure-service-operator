@@ -30,9 +30,9 @@ func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
 		cosmosDBClient = documentdb.DatabaseAccountsClient{}
 	} else {
 		cosmosDBClient.Authorizer = a
-		cosmosDBClient.AddToUserAgent(config.UserAgent())
 	}
 
+	err = cosmosDBClient.AddToUserAgent(config.UserAgent())
 	return cosmosDBClient, err
 }
 
