@@ -77,7 +77,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("AzureSqlUser Get error %s", err.Error())
+		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
 
 		requeuErrors := []string{
