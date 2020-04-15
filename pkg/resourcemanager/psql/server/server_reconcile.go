@@ -51,7 +51,8 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			// Update secret with the fully qualified server name
 			err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance, *getServer.FullyQualifiedDomainName)
 			if err != nil {
-				return false, err
+				instance.Status.Message = "Could not save secrets"
+				return true, nil
 			}
 
 			instance.Status.Message = resourcemanager.SuccessMsg
