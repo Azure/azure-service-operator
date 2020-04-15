@@ -6,6 +6,7 @@ package cosmosdbs
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -45,16 +46,13 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
+		instance.Status.Message = err.Error()
+
 		switch azerr.Type {
 		case errhelp.ResourceGroupNotFoundErrorCode, errhelp.ParentNotFoundErrorCode:
 			instance.Status.Provisioning = false
-			instance.Status.Message = azerr.Error()
 			instance.Status.State = "Waiting"
 			return false, nil
-		case errhelp.ResourceNotFound:
-			//NO-OP, try to create
-		default:
-			instance.Status.Message = fmt.Sprintf("Unhandled error after Get %v", azerr.Error())
 		}
 
 	} else {
@@ -86,6 +84,8 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance.Status.Provisioned = false
 		return true, nil
 	}
+
+	instance.Status.Provisioning = true
 
 	tags := helpers.LabelsToTags(instance.GetLabels())
 	accountName := instance.ObjectMeta.Name
@@ -165,18 +165,19 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		// this is likely to happen on first try due to not waiting for the future to complete
-		if azerr.Type == errhelp.AsyncOpIncompleteError {
+		// request submitted or already in progress
+		if azerr.Type == errhelp.AsyncOpIncompleteError || (azerr.Type == errhelp.PreconditionFailed && strings.Contains(azerr.Reason, "operation in progress")) {
+			instance.Status.State = "Deleting"
 			instance.Status.Message = "Deletion request submitted successfully"
 			return true, nil
 		}
 
-		notFoundErrors := []string{
-			errhelp.NotFoundErrorCode,              // happens on first request after deletion succeeds
-			errhelp.ResourceNotFound,               // happens on subsequent requests after deletion succeeds
-			errhelp.ResourceGroupNotFoundErrorCode, // database doesn't exist in this resource group but the name exists globally
+		notFound := []string{
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+			errhelp.ResourceGroupNotFoundErrorCode,
 		}
-		if helpers.ContainsString(notFoundErrors, azerr.Type) {
+		if helpers.ContainsString(notFound, azerr.Type) {
 			return false, m.deleteAccountKeysSecret(ctx, instance)
 		}
 
