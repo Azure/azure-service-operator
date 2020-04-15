@@ -6,6 +6,7 @@ package azuresqldb
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -65,18 +66,16 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *dbGet.ID
 		return true, nil
-	} else {
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		ignore := []string{
-			errhelp.NotFoundErrorCode,
-			errhelp.ResourceNotFound,
-			errhelp.ResourceGroupNotFoundErrorCode,
-		}
-		if !helpers.ContainsString(ignore, azerr.Type) {
-			instance.Status.Message = err.Error()
-			instance.Status.Provisioning = false
-			return false, fmt.Errorf("AzureSqlDb GetDB error %v", err)
-		}
+	}
+	instance.Status.Message = fmt.Sprintf("AzureSqlDb Get error %s", err.Error())
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	requeuErrors := []string{
+		errhelp.ParentNotFoundErrorCode,
+		errhelp.ResourceGroupNotFoundErrorCode,
+	}
+	if helpers.ContainsString(requeuErrors, azerr.Type) {
+		instance.Status.Provisioning = false
+		return false, nil
 	}
 
 	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSQLDatabaseProperties)
@@ -96,6 +95,13 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			errhelp.ParentNotFoundErrorCode,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
+			instance.Status.Provisioning = false
+			return false, nil
+		}
+
+		// if the database is busy, requeue
+		errorString := err.Error()
+		if strings.Contains(errorString, "Try again later") {
 			instance.Status.Provisioning = false
 			return false, nil
 		}
