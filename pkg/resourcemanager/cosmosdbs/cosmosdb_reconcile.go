@@ -48,13 +48,13 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		switch azerr.Type {
 		case errhelp.ResourceGroupNotFoundErrorCode, errhelp.ParentNotFoundErrorCode:
 			instance.Status.Provisioning = false
-			instance.Status.Message = azerr.Reason
+			instance.Status.Message = azerr.Error()
 			instance.Status.State = "Waiting"
 			return false, nil
 		case errhelp.ResourceNotFound:
 			//NO-OP, try to create
 		default:
-			instance.Status.Message = fmt.Sprintf("Unhandled error after Get %v", azerr.Reason)
+			instance.Status.Message = fmt.Sprintf("Unhandled error after Get %v", azerr.Error())
 		}
 
 	} else {
@@ -105,11 +105,11 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 			return false, nil
 		case errhelp.InvalidResourceLocation, errhelp.LocationNotAvailableForResourceType:
 			instance.Status.Provisioning = false
-			instance.Status.Message = azerr.Reason
+			instance.Status.Message = azerr.Error()
 			return true, nil
 		case errhelp.ResourceGroupNotFoundErrorCode, errhelp.ParentNotFoundErrorCode:
 			instance.Status.Provisioning = false
-			instance.Status.Message = azerr.Reason
+			instance.Status.Message = azerr.Error()
 			return false, nil
 		case errhelp.NotFoundErrorCode:
 			if nameExists, err := m.CheckNameExistsCosmosDB(ctx, accountName); err != nil {
@@ -121,7 +121,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 				return true, nil
 			}
 		default:
-			instance.Status.Message = azerr.Reason
+			instance.Status.Message = azerr.Error()
 			return false, nil
 		}
 	}
@@ -181,7 +181,7 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 		}
 
 		// unhandled error
-		instance.Status.Message = azerr.Reason
+		instance.Status.Message = azerr.Error()
 		return false, err
 	}
 
