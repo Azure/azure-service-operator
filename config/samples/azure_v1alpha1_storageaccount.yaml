@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: StorageAccount
 metadata:
-  name: storagesample777
+  name: storageaccountsample777
 spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
