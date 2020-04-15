@@ -143,8 +143,6 @@ func (p *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretNa
 		Namespace: instance.Namespace,
 	}
 
-	data["fullyQualifiedServerName"] = []byte(fullservername)
-
 	err := p.SecretClient.Upsert(ctx,
 		key,
 		data,
