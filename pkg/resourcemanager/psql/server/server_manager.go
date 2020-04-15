@@ -39,7 +39,8 @@ type PostgreSQLServerManager interface {
 	AddServerCredsToSecrets(ctx context.Context,
 		secretName string,
 		data map[string][]byte,
-		instance *azurev1alpha1.PostgreSQLServer) error
+		instance *azurev1alpha1.PostgreSQLServer,
+		fullservername string) error
 
 	GetOrPrepareSecret(ctx context.Context,
 		instance *azurev1alpha1.PostgreSQLServer) (map[string][]byte, error)
