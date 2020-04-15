@@ -7,10 +7,8 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -25,6 +23,7 @@ func TestMySQLHappyPath(t *testing.T) {
 	rgLocation := "eastus2"
 	rgName := tc.resourceGroupName
 	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
+	mySQLReplicaName := GenerateTestResourceNameWithRandom("mysql-rep", 10)
 
 	// Create the mySQLServer object and expect the Reconcile to be created
 	mySQLServerInstance := azurev1alpha1.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
@@ -32,8 +31,7 @@ func TestMySQLHappyPath(t *testing.T) {
 	RequireInstance(ctx, t, tc, mySQLServerInstance)
 
 	// Create a mySQL replica
-	fullSourceServerId := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.DBforMySQL/servers/%s", config.Subscription(), rgName, mySQLServerName)
-	mySQLReplicaInstance := azurev1alpha1.NewReplicaMySQLServer(mySQLServerName, rgName, rgLocation, fullSourceServerId)
+	mySQLReplicaInstance := azurev1alpha1.NewReplicaMySQLServer(mySQLReplicaName, rgName, rgLocation, mySQLServerInstance.Status.ResourceId)
 
 	EnsureInstance(ctx, t, tc, mySQLReplicaInstance)
 
