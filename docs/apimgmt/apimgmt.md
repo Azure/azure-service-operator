@@ -8,7 +8,7 @@ Learn more about Azure API Management [here](https://docs.microsoft.com/en-us/az
 
 ### API Management Service
 
-The API Management Service deploys an API Management instance into a specified resource group at the specified location.
+The API Management Service deploys an API Management instance into a specified resource group at the specified location. It also provides the option to link to an Application Insights instance for logging, and to place the API Management instance in a specified Virtual Network.
 
 The spec consists of the following fields:
 
