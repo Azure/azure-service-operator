@@ -6,6 +6,7 @@ package azuresqlvnetrule
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -71,6 +72,13 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 			errhelp.ResourceNotFound,
 		}
 		if helpers.ContainsString(ignorableErrors, azerr.Type) {
+			instance.Status.Provisioning = false
+			return false, nil
+		}
+
+		// this happens when we try to create the VNet rule and the server doesnt exist yet
+		errorString := err.Error()
+		if strings.Contains(errorString, "does not have the server") {
 			instance.Status.Provisioning = false
 			return false, nil
 		}
