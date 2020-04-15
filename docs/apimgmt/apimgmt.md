@@ -31,7 +31,7 @@ The API Management API Operator manages your API Management service, and deploys
 
 The spec consists of the following fields:
 
-* `apiService` The name of the API Management service to managed
+* `apiService` The name of the API Management service to manage
 * `apiId` Specify an ID for the API
 * `properties`
    *  `isCurrent` Indicate if this API revision is the current revision
