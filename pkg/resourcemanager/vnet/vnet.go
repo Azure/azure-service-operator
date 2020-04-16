@@ -92,7 +92,7 @@ func (_ *AzureVNetManager) DeleteVNet(ctx context.Context, resourceGroupName str
 	return future.Result(client)
 }
 
-// GetVNet checks gets a VNet
+// GetVNet gets a VNet
 func (v *AzureVNetManager) GetVNet(ctx context.Context, resourceGroupName string, resourceName string) (vNet vnetwork.VirtualNetwork, err error) {
 	client, err := getVNetClient()
 	if err != nil {
