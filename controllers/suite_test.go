@@ -72,11 +72,11 @@ func setup() error {
 	}
 
 	resourceGroupName := GenerateTestResourceName("rg-prime")
-	resourcegroupLocation := "westus2"
+	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
 
 	eventhubNamespaceName := GenerateTestResourceName("evns-prime")
 	eventhubName := GenerateTestResourceName("ev-prime")
-	namespaceLocation := "westus2"
+	namespaceLocation := resourcemanagerconfig.DefaultLocation()
 
 	storageAccountName := GenerateAlphaNumTestResourceName("saprime")
 	blobContainerName := GenerateTestResourceName("blob-prime")
