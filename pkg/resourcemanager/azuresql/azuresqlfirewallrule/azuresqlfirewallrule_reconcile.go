@@ -37,6 +37,15 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		return true, nil
 	}
 	instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Get error %s", err.Error())
+	requeuErrors := []string{
+		errhelp.ResourceGroupNotFoundErrorCode,
+		errhelp.ParentNotFoundErrorCode,
+	}
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	if helpers.ContainsString(requeuErrors, azerr.Type) {
+		instance.Status.Provisioning = false
+		return false, nil
+	}
 
 	_, err = fw.CreateOrUpdateSQLFirewallRule(ctx, groupName, server, ruleName, startIP, endIP)
 	if err != nil {
