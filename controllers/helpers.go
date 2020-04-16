@@ -247,6 +247,15 @@ func EnsureInstanceWithResult(ctx context.Context, t *testing.T, tc TestContext,
 		statused := ConvertToStatus(instance)
 		// if we expect this resource to end up with provisioned == true then failedProvisioning == true is unrecoverable
 		if provisioned && statused.Status.FailedProvisioning {
+			if strings.Contains(statused.Status.Message, "already exists") || strings.Contains(statused.Status.Message, "AlreadyExists") {
+				t.Log("")
+				t.Log("-------")
+				t.Log("unexpected failed provisioning encountered")
+				t.Logf("%+v\n", statused.Status)
+				t.Logf("current time %v\n", time.Now())
+				t.Log("-------")
+				t.Log("")
+			}
 			return helpers.NewStop(fmt.Errorf("Failed provisioning: %s", statused.Status.Message))
 		}
 		if !strings.Contains(statused.Status.Message, message) || statused.Status.Provisioned != provisioned {
