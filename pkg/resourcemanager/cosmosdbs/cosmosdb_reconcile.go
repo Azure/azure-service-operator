@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -89,10 +90,13 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	groupName := instance.Spec.ResourceGroup
 	location := instance.Spec.Location
 	kind := instance.Spec.Kind
-	dbType := instance.Spec.Properties.DatabaseAccountOfferType
-	enableWriteLocations := instance.Spec.Properties.EnableMultipleWriteLocations
 
-	db, azerr := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, enableWriteLocations, tags)
+	cosmosDBProperties := azurev1alpha1.CosmosDBProperties{
+		DatabaseAccountOfferType:     instance.Spec.Properties.DatabaseAccountOfferType,
+		EnableMultipleWriteLocations: instance.Spec.Properties.EnableMultipleWriteLocations,
+	}
+
+	db, azerr := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, cosmosDBProperties, tags)
 
 	// everything is in a created/updated state
 	if azerr == nil {

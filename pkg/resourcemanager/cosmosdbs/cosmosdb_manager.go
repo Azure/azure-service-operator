@@ -8,6 +8,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/go-autorest/autorest"
@@ -21,7 +22,7 @@ func NewAzureCosmosDBManager() *AzureCosmosDBManager {
 // CosmosDBManager client functions
 type CosmosDBManager interface {
 	// CreateOrUpdateCosmosDB creates a new cosmos database account
-	CreateOrUpdateCosmosDB(ctx context.Context, groupName string, cosmosDBName string, location string, kind v1alpha1.CosmosDBKind, dbType v1alpha1.CosmosDBDatabaseAccountOfferType, enableWriteLocations v1alpha1.CosmosDBEnableMultipleWriteLocations, tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError)
+	CreateOrUpdateCosmosDB(ctx context.Context, groupName string, cosmosDBName string, location string, kind v1alpha1.CosmosDBKind, properties azurev1alpha1.CosmosDBProperties, tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError)
 
 	// GetCosmosDB gets a cosmos database account
 	GetCosmosDB(ctx context.Context, groupName string, cosmosDBName string) (*documentdb.DatabaseAccount, *errhelp.AzureError)

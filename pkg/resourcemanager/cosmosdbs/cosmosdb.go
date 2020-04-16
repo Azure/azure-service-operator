@@ -10,6 +10,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
@@ -41,8 +42,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	cosmosDBName string,
 	location string,
 	kind v1alpha1.CosmosDBKind,
-	dbType v1alpha1.CosmosDBDatabaseAccountOfferType,
-	enableWriteLocations v1alpha1.CosmosDBEnableMultipleWriteLocations,
+	properties azurev1alpha1.CosmosDBProperties,
 	tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError) {
 	cosmosDBClient, err := getCosmosDBClient()
 	if err != nil {
@@ -50,8 +50,8 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	}
 
 	dbKind := documentdb.DatabaseAccountKind(kind)
-	sDBType := string(dbType)
-	bWriteLocal := bool(enableWriteLocations)
+	sDBType := string(properties.DatabaseAccountOfferType)
+	bWriteLocal := bool(properties.EnableMultipleWriteLocations)
 	/*
 	*   Current state of Locations and CosmosDB properties:
 	*   Creating a Database account with CosmosDB requires
