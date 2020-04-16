@@ -87,12 +87,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, fmt.Errorf("Error creating VNet: %s, %s - %v", resourceGroup, resourceName, err)
 	}
 
-	// success
-	instance.Status.Provisioning = false
-	instance.Status.Provisioned = true
-	instance.Status.Message = resourcemanager.SuccessMsg
-
-	return true, nil
+	return false, nil
 }
 
 // Delete makes sure that the VNet has been deleted
