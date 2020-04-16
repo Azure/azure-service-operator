@@ -77,28 +77,44 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
-		instance.Status.Message = err.Error()
+		instance.Status.Message = errhelp.StripErrorIDs(err)
+		instance.Status.Provisioning = false
 
-		catch := []string{
+		requeuErrors := []string{
 			errhelp.ResourceNotFound,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
+		if helpers.ContainsString(requeuErrors, azerr.Type) {
 			return false, nil
 		}
-		return false, err
+
+		// if the database is busy, requeue
+		errorString := err.Error()
+		if strings.Contains(errorString, "Please retry the connection later") {
+			return false, nil
+		}
+
+		// if this is an unmarshall error - igmore and continue, otherwise report error and requeue
+		if !strings.Contains(errorString, "cannot unmarshal array into Go struct field serviceError2.details") {
+			return false, err
+		}
 	}
 
 	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
+		instance.Status.Provisioning = false
 
 		// catch firewall issue - keep cycling until it clears up
 		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = false
+			return false, nil
+		}
+
+		// if the database is busy, requeue
+		errorString := err.Error()
+		if strings.Contains(errorString, "Please retry the connection later") {
 			return false, nil
 		}
 
