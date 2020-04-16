@@ -90,8 +90,9 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	location := instance.Spec.Location
 	kind := instance.Spec.Kind
 	dbType := instance.Spec.Properties.DatabaseAccountOfferType
+	enableWriteLocations := instance.Spec.Properties.EnableMultipleWriteLocations
 
-	db, azerr := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
+	db, azerr := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, enableWriteLocations, tags)
 
 	// everything is in a created/updated state
 	if azerr == nil {

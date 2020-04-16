@@ -42,6 +42,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	location string,
 	kind v1alpha1.CosmosDBKind,
 	dbType v1alpha1.CosmosDBDatabaseAccountOfferType,
+	enableWriteLocations v1alpha1.CosmosDBEnableMultipleWriteLocations,
 	tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError) {
 	cosmosDBClient, err := getCosmosDBClient()
 	if err != nil {
@@ -50,7 +51,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 
 	dbKind := documentdb.DatabaseAccountKind(kind)
 	sDBType := string(dbType)
-
+	bWriteLocal := bool(enableWriteLocations)
 	/*
 	*   Current state of Locations and CosmosDB properties:
 	*   Creating a Database account with CosmosDB requires
@@ -81,7 +82,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 		ID:       &cosmosDBName,
 		DatabaseAccountCreateUpdateProperties: &documentdb.DatabaseAccountCreateUpdateProperties{
 			DatabaseAccountOfferType:      &sDBType,
-			EnableMultipleWriteLocations:  to.BoolPtr(false),
+			EnableMultipleWriteLocations:  &bWriteLocal,
 			IsVirtualNetworkFilterEnabled: to.BoolPtr(false),
 			Locations:                     &locationsArray,
 		},

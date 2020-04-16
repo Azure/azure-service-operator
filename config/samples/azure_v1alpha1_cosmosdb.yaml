@@ -1,10 +1,11 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: CosmosDB
 metadata:
-  name: cosmosdb-sample1908xyzkj
+  name: cosmosdb-sample-1
 spec:
   kind: GlobalDocumentDB
   location: westus
   resourceGroup: resourcegroup-azure-operators
   properties:
     databaseAccountOfferType: Standard
+    enableMultipleWriteLocations: false
