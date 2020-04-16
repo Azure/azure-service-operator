@@ -10,6 +10,8 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
+
 	"github.com/stretchr/testify/assert"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -84,10 +86,8 @@ func TestCosmosDBControllerNoResourceGroup(t *testing.T) {
 			},
 		},
 	}
-	//the expected error meessage to be shown
-	errMessage := "Waiting for resource group '" + resourceGroupName + "' to be available"
 
-	EnsureInstanceWithResult(ctx, t, tc, dbInstance1, errMessage, false)
+	EnsureInstanceWithResult(ctx, t, tc, dbInstance1, errhelp.ResourceGroupNotFoundErrorCode, false)
 	EnsureDelete(ctx, t, tc, dbInstance1)
 }
 
