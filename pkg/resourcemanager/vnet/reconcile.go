@@ -31,7 +31,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	// check first to see if the VNet exists, if it does, dont create it and
 	// 	consider the reconcilliation successful
-	vNet, err := g.VNetExists(ctx, resourceGroup, resourceName)
+	vNet, err := g.GetVNet(ctx, resourceGroup, resourceName)
 	if err == nil {
 		// succeeded! end reconcilliation successfully
 		instance.Status.Provisioning = false

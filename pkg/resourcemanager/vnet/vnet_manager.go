@@ -30,7 +30,7 @@ type VNetManager interface {
 		resourceGroupName string,
 		resourceName string) (autorest.Response, error)
 
-	VNetExists(ctx context.Context,
+	GetVNet(ctx context.Context,
 		resourceGroupName string,
 		resourceName string) (vnetwork.VirtualNetwork, error)
 

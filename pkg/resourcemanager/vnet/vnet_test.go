@@ -42,7 +42,7 @@ var _ = Describe("VNet", func() {
 			// Create vnet instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				_, err := vnetManager.VNetExists(ctx, rgName, vnetName)
+				_, err := vnetManager.GetVNet(ctx, rgName, vnetName)
 				if err == nil {
 					return true
 				}
@@ -68,7 +68,7 @@ var _ = Describe("VNet", func() {
 			// Delete vnet instance
 			Eventually(func() bool {
 				time.Sleep(3 * time.Second)
-				_, err := vnetManager.VNetExists(ctx, rgName, vnetName)
+				_, err := vnetManager.GetVNet(ctx, rgName, vnetName)
 				if err != nil {
 					return true
 				}
