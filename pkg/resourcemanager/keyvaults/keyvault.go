@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	auth "github.com/Azure/azure-sdk-for-go/services/graphrbac/1.6/graphrbac"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
@@ -21,6 +22,7 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 	uuid "github.com/satori/go.uuid"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -447,6 +449,14 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		}
 		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
 			// Unrecoverable error, so stop reconcilation
+			switch azerr.Type {
+			case errhelp.AlreadyExists:
+				timeNow := metav1.NewTime(time.Now())
+				if timeNow.Sub(instance.Status.RequestedAt.Time) < (30 * time.Second) {
+					return false, nil
+				}
+
+			}
 			instance.Status.Message = "Reconcilation hit unrecoverable error " + err.Error()
 			return true, nil
 		}
