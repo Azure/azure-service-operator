@@ -6,6 +6,7 @@ package cosmosdbs
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -226,6 +227,15 @@ func (m *AzureCosmosDBManager) convert(obj runtime.Object) (*v1alpha1.CosmosDB, 
 func (m *AzureCosmosDBManager) createOrUpdateAccountKeysSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
 	result, err := m.ListKeys(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
 	if err != nil {
+		//TODO: remove before completing pull request
+		log.Printf(
+			`Failed to list CosmosDB Account Keys:
+				Status: %v
+				Error: %v
+			`,
+			instance.Status,
+			err,
+		)
 		return err
 	}
 
@@ -240,7 +250,21 @@ func (m *AzureCosmosDBManager) createOrUpdateAccountKeysSecret(ctx context.Conte
 		"secondaryReadonlyMasterKey": []byte(*result.SecondaryReadonlyMasterKey),
 	}
 
-	return m.SecretClient.Upsert(ctx, secretKey, secretData)
+	err = m.SecretClient.Upsert(ctx, secretKey, secretData)
+	if err != nil {
+		//TODO: remove before completing pull request
+		log.Printf(
+			`Failed to upsert CosmosDB Account Keys:
+				Status: %v
+				Error: %v
+			`,
+			instance.Status,
+			err,
+		)
+		return err
+	}
+
+	return nil
 }
 
 func (m *AzureCosmosDBManager) deleteAccountKeysSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
