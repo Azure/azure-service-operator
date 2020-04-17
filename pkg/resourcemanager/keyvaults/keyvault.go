@@ -453,6 +453,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 			case errhelp.AlreadyExists:
 				timeNow := metav1.NewTime(time.Now())
 				if timeNow.Sub(instance.Status.RequestedAt.Time) < (30 * time.Second) {
+					instance.Status.Provisioning = true
 					return false, nil
 				}
 
