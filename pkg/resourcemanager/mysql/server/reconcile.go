@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -65,11 +66,40 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 
 	// Check if this server already exists and its state if it does. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
+	hash := ""
 	server, err := m.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
-	if err == nil {
-		instance.Status.State = string(server.UserVisibleState)
-		if server.UserVisibleState == mysql.ServerStateReady {
+	if err != nil {
+		// handle failures in the async operation
+		if instance.Status.PollingURL != "" {
+			pClient := pollclient.NewPollClient()
+			res, err := pClient.Get(ctx, instance.Status.PollingURL)
+			if err != nil {
+				instance.Status.Provisioning = false
+				return false, err
+			}
 
+			if res.Status == "Failed" {
+				instance.Status.Provisioning = false
+				instance.Status.RequestedAt = nil
+				ignore := []string{
+					errhelp.SubscriptionDoesNotHaveServer,
+					errhelp.ServiceBusy,
+				}
+				if !helpers.ContainsString(ignore, res.Error.Code) {
+					instance.Status.Message = res.Error.Error()
+					return true, nil
+				}
+			}
+		}
+	} else {
+		instance.Status.State = string(server.UserVisibleState)
+
+		hash = helpers.Hash256(instance.Spec)
+		if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
+			instance.Status.RequestedAt = nil
+			return true, nil
+		}
+		if server.UserVisibleState == mysql.ServerStateReady {
 			// Update secret with FQ name of the server. We ignore the error.
 			m.UpdateServerNameInSecret(ctx, instance.Name, secret, *server.FullyQualifiedDomainName, instance)
 
@@ -78,9 +108,9 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.ResourceId = *server.ID
 			instance.Status.State = string(server.UserVisibleState)
+			instance.Status.SpecHash = hash
 			return true, nil
 		}
-		return false, nil
 	}
 
 	// if the create has been sent with no error we need to wait before calling it again
@@ -99,7 +129,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		Family:   to.StringPtr(instance.Spec.Sku.Family),
 	}
 
-	server, err = m.CreateServerIfValid(
+	pollURL, server, err := m.CreateServerIfValid(
 		ctx,
 		instance.Name,
 		instance.Spec.ResourceGroup,
@@ -119,20 +149,35 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		instance.Status.Provisioning = false
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		switch azerr.Type {
-		case errhelp.ResourceGroupNotFoundErrorCode, errhelp.ParentNotFoundErrorCode:
-			// errors we expect might happen that we are ok with waiting for
+		catchRequeue := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.AsyncOpIncompleteError,
+			errhelp.SubscriptionDoesNotHaveServer,
+			errhelp.ServiceBusy,
+		}
+		catchUnrecoverable := []string{
+			errhelp.ProvisioningDisabled,
+			errhelp.LocationNotAvailableForResourceType,
+			errhelp.InvalidRequestContent,
+			errhelp.InternalServerError,
+		}
+
+		// handle the errors
+		if helpers.ContainsString(catchRequeue, azerr.Type) {
+			if azerr.Type == errhelp.AsyncOpIncompleteError {
+				instance.Status.Provisioning = true
+				instance.Status.PollingURL = pollURL
+			}
 			return false, nil
-		case errhelp.ProvisioningDisabled, errhelp.LocationNotAvailableForResourceType, errhelp.InvalidRequestContent, errhelp.InternalServerError:
+		}
+
+		if helpers.ContainsString(catchUnrecoverable, azerr.Type) {
 			// Unrecoverable error, so stop reconcilation
 			instance.Status.Message = "Reconcilation hit unrecoverable error: " + errhelp.StripErrorIDs(err)
 			return true, nil
-		case errhelp.AsyncOpIncompleteError:
-			// Creation in progress
-			instance.Status.Provisioning = true
-			instance.Status.Message = "Server request submitted to Azure"
-			return false, nil
 		}
+
 		// reconciliation not done and we don't know what happened
 		return false, err
 	}
@@ -272,13 +317,12 @@ func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *az
 	var Username string
 	var Password string
 
-	// See if secret already exists and return if it does
-	key = types.NamespacedName{Name: name, Namespace: instance.Namespace}
-	if stored, err := m.SecretClient.Get(ctx, key); err == nil {
-		return stored, nil
-	}
-
 	if strings.EqualFold(createmode, "default") { // new Mysql server creation
+		// See if secret already exists and return if it does
+		key = types.NamespacedName{Name: name, Namespace: instance.Namespace}
+		if stored, err := m.SecretClient.Get(ctx, key); err == nil {
+			return stored, nil
+		}
 		// Generate random username password if secret does not exist already
 		Username = helpers.GenerateRandomUsername(10)
 		Password = helpers.NewPassword()

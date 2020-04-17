@@ -61,14 +61,14 @@ func (m *MySQLServerClient) CheckServerNameAvailability(ctx context.Context, ser
 
 }
 
-func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion mysql.ServerVersion, sslenforcement mysql.SslEnforcementEnum, skuInfo mysql.Sku, adminlogin string, adminpassword string, createmode string, sourceserver string) (server mysql.Server, err error) {
+func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion mysql.ServerVersion, sslenforcement mysql.SslEnforcementEnum, skuInfo mysql.Sku, adminlogin string, adminpassword string, createmode string, sourceserver string) (pollingURL string, server mysql.Server, err error) {
 
 	client := getMySQLServersClient()
 
 	// Check if name is valid if this is the first create call
 	valid, err := m.CheckServerNameAvailability(ctx, servername)
 	if !valid {
-		return server, err
+		return "", server, err
 	}
 	var result mysql.ServersCreateFuture
 	if strings.EqualFold(createmode, "replica") {
@@ -108,7 +108,8 @@ func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, servername 
 		)
 	}
 
-	return result.Result(client)
+	res, err := result.Result(client)
+	return result.PollingURL(), res, err
 
 }
 
