@@ -12,11 +12,11 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
 
-type MySQLVNetRuleManager struct {
+type MySQLVNetRuleClient struct {
 }
 
-func NewMySQLVNetRuleManager() *MySQLVNetRuleManager {
-	return &MySQLVNetRuleManager{}
+func NewMySQLVNetRuleClient() *MySQLVNetRuleClient {
+	return &MySQLVNetRuleClient{}
 }
 
 func getMySQLVNetRulesClient() mysql.VirtualNetworkRulesClient {
@@ -37,7 +37,7 @@ func GetGoNetworkSubnetClient() network.SubnetsClient {
 }
 
 // GetSQLVNetRule returns a VNet rule
-func (vr *MySQLVNetRuleManager) GetSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (result mysql.VirtualNetworkRule, err error) {
+func (vr *MySQLVNetRuleClient) GetSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (result mysql.VirtualNetworkRule, err error) {
 	VNetRulesClient := getMySQLVNetRulesClient()
 
 	return VNetRulesClient.Get(
@@ -49,7 +49,7 @@ func (vr *MySQLVNetRuleManager) GetSQLVNetRule(ctx context.Context, resourceGrou
 }
 
 // DeleteSQLVNetRule deletes a VNet rule
-func (vr *MySQLVNetRuleManager) DeleteSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (err error) {
+func (vr *MySQLVNetRuleClient) DeleteSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (err error) {
 
 	// check to see if the rule exists, if it doesn't then short-circuit
 	_, err = vr.GetSQLVNetRule(ctx, resourceGroupName, serverName, ruleName)
@@ -70,7 +70,7 @@ func (vr *MySQLVNetRuleManager) DeleteSQLVNetRule(ctx context.Context, resourceG
 
 // CreateOrUpdateSQLVNetRule creates or updates a VNet rule
 // based on code from: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#VirtualNetworkRulesClient.CreateOrUpdate
-func (vr *MySQLVNetRuleManager) CreateOrUpdateSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, VNetRG string, VNetName string, SubnetName string, IgnoreServiceEndpoint bool) (vnr mysql.VirtualNetworkRule, err error) {
+func (vr *MySQLVNetRuleClient) CreateOrUpdateSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, VNetRG string, VNetName string, SubnetName string, IgnoreServiceEndpoint bool) (vnr mysql.VirtualNetworkRule, err error) {
 
 	VNetRulesClient := getMySQLVNetRulesClient()
 	SubnetClient := GetGoNetworkSubnetClient()

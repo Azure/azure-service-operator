@@ -18,7 +18,7 @@ import (
 )
 
 // Ensure creates a sqlvnetrule
-func (vr *MySQLVNetRuleManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (vr *MySQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := vr.convert(obj)
 	if err != nil {
 		return false, err
@@ -90,7 +90,7 @@ func (vr *MySQLVNetRuleManager) Ensure(ctx context.Context, obj runtime.Object, 
 }
 
 // Delete drops a sqlvnetrule
-func (vr *MySQLVNetRuleManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+func (vr *MySQLVNetRuleClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := vr.convert(obj)
 	if err != nil {
 		return false, err
@@ -130,7 +130,7 @@ func (vr *MySQLVNetRuleManager) Delete(ctx context.Context, obj runtime.Object, 
 }
 
 // GetParents returns the parents of sqlvnetrule
-func (vr *MySQLVNetRuleManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+func (vr *MySQLVNetRuleClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	instance, err := vr.convert(obj)
 	if err != nil {
 		return nil, err
@@ -154,7 +154,7 @@ func (vr *MySQLVNetRuleManager) GetParents(obj runtime.Object) ([]resourcemanage
 	}, nil
 }
 
-func (vr *MySQLVNetRuleManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+func (vr *MySQLVNetRuleClient) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
 	instance, err := vr.convert(obj)
 	if err != nil {
 		return nil, err
@@ -162,7 +162,7 @@ func (vr *MySQLVNetRuleManager) GetStatus(obj runtime.Object) (*azurev1alpha1.AS
 	return &instance.Status, nil
 }
 
-func (vr *MySQLVNetRuleManager) convert(obj runtime.Object) (*azurev1alpha1.MySQLVNetRule, error) {
+func (vr *MySQLVNetRuleClient) convert(obj runtime.Object) (*azurev1alpha1.MySQLVNetRule, error) {
 	local, ok := obj.(*azurev1alpha1.MySQLVNetRule)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
