@@ -49,11 +49,24 @@ func TestCosmosDBHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		secret, err := tc.secretClient.Get(ctx, key)
-		if err != nil {
-			log.Printf("CosmosDB Get Secret Failed: %v\n", err)
-		}
-		if len(secret) <= 0 {
-			log.Printf("CosmosDB Length Secret Failed: %v\n", secret)
+		cond := err == nil && len(secret) > 0
+		if !cond {
+			//TODO: remove before completing pull request
+			tc.k8sClient.Get(ctx, key, dbInstance)
+			log.Printf(
+				`----- COSMOSDB -----
+					Secret:    %v
+					Assertion: %v
+					Error:     %v
+					Secret:    %v
+					Status:    %v
+				`,
+				key,
+				cond,
+				err,
+				secret,
+				dbInstance.Status,
+			)
 		}
 		return err == nil && len(secret) > 0
 	}, tc.timeoutFast, tc.retry, "wait for cosmosdb to have secret")

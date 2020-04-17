@@ -264,6 +264,8 @@ func (m *AzureCosmosDBManager) createOrUpdateAccountKeysSecret(ctx context.Conte
 		return err
 	}
 
+	//TODO: remove before completing pull request
+	log.Printf("Successfully upserted CosmosDB Account Keys: %v\n", secretKey)
 	return nil
 }
 
