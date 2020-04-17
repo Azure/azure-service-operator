@@ -36,7 +36,8 @@ The spec consists of the following fields:
 * `properties`
    * `apiRevision` Describes the Revision of the Api. If no value is provided, default revision 1 is created
    * `apiRevisionDescription` Description of the Api Revision.
-   * `apiVersionSet` APIVersionSetContractDetails an API Version Set contains the common configuration for a set of API versions.
+   * `apiVersionSet`  API Version Set contains the common configuration for a set of API versions.
+   * `apiVersion`  Indicates the Version identifier of the API if the API is versioned
       * `id` Identifier for existing API Version Set. Omit this value to create a new Version Set.
       * `name` The display Name of the API Version Set.
       * `description` Description of API Version Set.
