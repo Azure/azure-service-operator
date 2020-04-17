@@ -640,6 +640,13 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "NetworkInterface")
 		os.Exit(1)
 	}
+	if err = (&controllers.MySQLVNetRuleReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLVNetRule")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

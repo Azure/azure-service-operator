@@ -120,6 +120,11 @@ func setup() error {
 
 	var k8sManager ctrl.Manager
 
+	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	if err != nil {
+		return err
+	}
+
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme: scheme.Scheme,
