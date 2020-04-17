@@ -34,14 +34,14 @@ The spec consists of the following fields:
 * `apiService` The name of the API Management service to manage
 * `apiId` Specify an ID for the API
 * `properties`
-   * `apiRevision` Describes the Revision of the Api. If no value is provided, default revision 1 is created
-   * `apiRevisionDescription` Description of the Api Revision.
-   * `apiVersionSet`  API Version Set contains the common configuration for a set of API versions.
+   * `apiRevision` Describes the Revision of the API. If no value is provided, default revision 1 is created
+   * `apiRevisionDescription` Description of the API Revision
    * `apiVersion`  Indicates the Version identifier of the API if the API is versioned
+   * `apiVersionDescription` Description of the API Version
+   * `apiVersionSet`  API Version Set contains the common configuration for a set of API versions
       * `id` Identifier for existing API Version Set. Omit this value to create a new Version Set.
       * `name` The display Name of the API Version Set.
       * `description` Description of API Version Set.
-   * `apiVersionDescription` Description of the API Version
    * `apiVersionSetID` A resource identifier for the related ApiVersionSet
    * `description` Description of the API 
    * `displayName` Display name for the API. Must be 1 to 300 characters long
