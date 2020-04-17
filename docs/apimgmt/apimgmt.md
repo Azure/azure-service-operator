@@ -10,6 +10,8 @@ Learn more about Azure API Management [here](https://docs.microsoft.com/en-us/az
 
 The API Management Service deploys an API Management instance into a specified resource group at the specified location. It also provides the option to link to an Application Insights instance for logging, and to place the API Management instance in a specified Virtual Network.
 
+Here is a [sample YAML](/config/samples/azure_v1alpha1_apimservice.yaml) to provision an API Management Service.
+
 The spec consists of the following fields:
 
 #### Required Fields
@@ -28,6 +30,8 @@ The spec consists of the following fields:
 ### API Management API
 
 The API Management API Operator creates an API with the specified properties in the specified API Management service.
+
+Here is a [sample YAML](/config/samples/azure_v1alpha1_apimgmtapi.yaml) to provision an API Management API.
 
 The spec consists of the following fields:
 
