@@ -23,7 +23,7 @@ type NetworkInterfaceManager interface {
 		resourceName string,
 		resourceGroupName string) (string, error)
 
-	GetNetwork(ctx context.Context,
+	GetNetworkInterface(ctx context.Context,
 		resourceGroupName string,
 		resourceName string) (network.Interface, error)
 
