@@ -66,17 +66,22 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return false, nil
 	}
 
-	if instance.Status.State == "Succeeded" && instance.Status.SpecHash == hash {
+	if instance.Status.State == "Succeeded" {
+		log.Println("Hit Get success path")
+
 		// provisioning is complete, update the secrets
 		if err = m.createOrUpdateAccountKeysSecret(ctx, instance); err != nil {
 			instance.Status.Message = err.Error()
 			return false, err
 		}
 
-		instance.Status.Message = resourcemanager.SuccessMsg
-		instance.Status.Provisioning = false
-		instance.Status.Provisioned = true
-		return true, nil
+		if instance.Status.SpecHash == hash {
+			log.Println("Hit Get + SpecHash success path")
+			instance.Status.Message = resourcemanager.SuccessMsg
+			instance.Status.Provisioning = false
+			instance.Status.Provisioned = true
+			return true, nil
+		}
 	}
 
 	if instance.Status.State == "Failed" {
@@ -105,6 +110,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 			instance.Status.State = "Creating"
 			instance.Status.Message = "Resource request successfully submitted to Azure"
 			instance.Status.SpecHash = hash
+			return false, nil
 		case errhelp.InvalidResourceLocation, errhelp.LocationNotAvailableForResourceType:
 			instance.Status.Provisioning = false
 			instance.Status.Message = azerr.Error()
@@ -123,9 +129,16 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 			}
 		}
 
-		return false, nil
+		log.Printf("Hit unhandled error case: %v\n", err)
+		return false, err
 	}
 
+	if err = m.createOrUpdateAccountKeysSecret(ctx, instance); err != nil {
+		instance.Status.Message = err.Error()
+		return false, err
+	}
+
+	log.Println("Hit terminal success case.")
 	instance.Status.SpecHash = hash
 	instance.Status.ResourceId = *db.ID
 	instance.Status.State = *db.ProvisioningState
