@@ -5,9 +5,9 @@ package nic
 
 import (
 	"context"
-	"strings"
 
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -34,32 +34,11 @@ func getNetworkInterfaceClient() vnetwork.InterfacesClient {
 	return nicClient
 }
 
-func MakeResourceId(subscriptionId string, resourceGroupName string, provider string, resourceType string, resourceName string, subResourceType string, subResourceName string) string {
-	// Sample 1: /subscriptions/88fd8cb2-8248-499e-9a2d-4929a4b0133c/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.Network/publicIPAddresses/azurepublicipaddress-sample-3
-	// Sample 2: /subscriptions/88fd8cb2-8248-499e-9a2d-4929a4b0133c/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.Network/virtualNetworks/vnet-sample-hpf-1/subnets/test2
-	segments := []string{
-		"subscriptions",
-		subscriptionId,
-		"resourceGroups",
-		resourceGroupName,
-		"providers",
-		provider,
-		resourceType,
-		resourceName,
-		subResourceType,
-		subResourceName,
-	}
-
-	result := "/" + strings.Join(segments, "/")
-
-	return result
-}
-
 func (m *AzureNetworkInterfaceClient) CreateNetworkInterface(ctx context.Context, location string, resourceGroupName string, resourceName string, vnetName string, subnetName string, publicIPAddressName string) (future vnetwork.InterfacesCreateOrUpdateFuture, err error) {
 
 	client := getNetworkInterfaceClient()
 
-	subnetIDInput := MakeResourceId(
+	subnetIDInput := helpers.MakeResourceID(
 		client.SubscriptionID,
 		resourceGroupName,
 		"Microsoft.Network",
@@ -69,7 +48,7 @@ func (m *AzureNetworkInterfaceClient) CreateNetworkInterface(ctx context.Context
 		subnetName,
 	)
 
-	publicIPAddressIDInput := MakeResourceId(
+	publicIPAddressIDInput := helpers.MakeResourceID(
 		client.SubscriptionID,
 		resourceGroupName,
 		"Microsoft.Network",
