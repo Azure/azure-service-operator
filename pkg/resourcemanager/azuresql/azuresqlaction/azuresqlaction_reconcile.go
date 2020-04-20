@@ -67,11 +67,17 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 				if helpers.ContainsString(catch, azerr.Type) {
 					return false, nil //requeue until server/RG ready
 				}
-				return true, nil // unrecoverable error
+
+				// unrecoverable error
+				instance.Status.Provisioned = false
+				instance.Status.Provisioning = false
+				instance.Status.FailedProvisioning = true
+				return true, nil
 			}
 
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
+			instance.Status.FailedProvisioning = false
 			instance.Status.Message = resourcemanager.SuccessMsg
 		}
 
@@ -111,16 +117,32 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 			err := s.UpdateUserPassword(ctx, groupName, serverName, instance.Spec.DbUser, instance.Spec.DbName, adminKey, adminSecretClient, userSecretClient)
 			if err != nil {
-				instance.Status.Message = err.Error()
-				return true, nil // unrecoverable error
+				instance.Status.Message = errhelp.StripErrorIDs(err)
+
+				// catch firewall issue - keep cycling until it clears up
+				if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
+					instance.Status.Provisioned = false
+					instance.Status.Provisioning = false
+					return false, nil
+				}
+
+				// unrecoverable error
+				instance.Status.Provisioned = false
+				instance.Status.Provisioning = false
+				instance.Status.FailedProvisioning = true
+				return true, nil
 			}
 
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
+			instance.Status.FailedProvisioning = false
 			instance.Status.Message = resourcemanager.SuccessMsg
 		}
 	} else {
 		instance.Status.Message = "Unrecognized action"
+		instance.Status.Provisioned = false
+		instance.Status.Provisioning = false
+		instance.Status.FailedProvisioning = true
 	}
 
 	return true, nil
