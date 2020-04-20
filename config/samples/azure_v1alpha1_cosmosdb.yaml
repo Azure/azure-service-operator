@@ -9,3 +9,10 @@ spec:
   properties:
     databaseAccountOfferType: Standard
     enableMultipleWriteLocations: false
+    # optionally set the mongoDBVersion to "3.2" or "3.6", if omitted the default is "3.2"
+    # NOTE: kind must be set to MongoDB for this to take effect
+    #mongoDBVersion: "3.6"
+
+    # Use the field below to optionally specify a different keyvault 
+  # to store the connectiong string secrets in
+  #keyVaultToStoreSecrets: asoSecretKeyVault
