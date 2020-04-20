@@ -59,6 +59,8 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 		capabilities = []documentdb.Capability{
 			{Name: to.StringPtr("EnableMongo")},
 		}
+	} else {
+		capabilities = make([]documentdb.Capability, 0)
 	}
 
 	/*
