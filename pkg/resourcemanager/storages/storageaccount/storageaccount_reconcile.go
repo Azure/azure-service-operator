@@ -42,11 +42,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 		networkAcls = ParseNetworkPolicy(instance.Spec.NetworkRule)
 	}
 	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		value := v
-		labels[k] = &value
-	}
+	labels := helpers.LabelsToTags(instance.GetLabels())
 
 	hash := ""
 	stor, err := sa.GetStorage(ctx, groupName, name)
@@ -132,6 +128,8 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 					instance.Status.Message = "Storage Account Already exists somewhere else"
 					return true, nil
 				}
+
+				instance.Status.Message = "Storage Account already exists and should be available shortly"
 				instance.Status.Provisioning = true
 			}
 
