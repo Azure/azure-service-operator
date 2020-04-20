@@ -57,7 +57,7 @@ const (
 	PublicIPIdleTimeoutIsOutOfRange     = "PublicIPIdleTimeoutIsOutOfRange"
 	InvalidRequestContent               = "InvalidRequestContent"
 	InternalServerError                 = "InternalServerError"
-	NetworkAclsValidationFailure = "NetworkAclsValidationFailure"
+	NetworkAclsValidationFailure        = "NetworkAclsValidationFailure"
 )
 
 func NewAzureError(err error) error {

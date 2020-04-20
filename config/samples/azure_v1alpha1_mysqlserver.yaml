@@ -11,9 +11,9 @@ spec:
   infrastructureEncryption: Enabled # Possible values include: Enabled, Disabled
   createMode: Default # Possible values include: Default, Replica, PointInTimeRestore (not implemented), GeoRestore (not implemented)
   sku:
-    name: B_Gen5_2 # tier + family + cores eg. - B_Gen4_1, GP_Gen5_4
-    tier: Basic # possible values - 'Basic', 'GeneralPurpose', 'MemoryOptimized'
+    name: GP_Gen5_4 # tier + family + cores eg. - B_Gen4_1, GP_Gen5_4
+    tier: GeneralPurpose # possible values - 'Basic', 'GeneralPurpose', 'MemoryOptimized'
     family: Gen5 
     size: "51200"
-    capacity: 2
+    capacity: 4
 
