@@ -98,10 +98,10 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	cosmosDBProperties := v1alpha1.CosmosDBProperties{
 		DatabaseAccountOfferType:     instance.Spec.Properties.DatabaseAccountOfferType,
 		EnableMultipleWriteLocations: instance.Spec.Properties.EnableMultipleWriteLocations,
-    MongoDBVersion:               instance.Spec.Properties.MongoDBVersion,
+		MongoDBVersion:               instance.Spec.Properties.MongoDBVersion,
 	}
 
-	db, err := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, cosmosDBProperties, tags)
+	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, cosmosDBProperties, tags)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		instance.Status.Message = err.Error()
