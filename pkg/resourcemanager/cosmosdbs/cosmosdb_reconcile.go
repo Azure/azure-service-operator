@@ -6,7 +6,6 @@ package cosmosdbs
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -67,8 +66,6 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 
 	if instance.Status.State == "Succeeded" {
-		log.Println("Hit Get success path")
-
 		// provisioning is complete, update the secrets
 		if err = m.createOrUpdateAccountKeysSecret(ctx, instance); err != nil {
 			instance.Status.Message = err.Error()
@@ -76,7 +73,6 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		}
 
 		if instance.Status.SpecHash == hash {
-			log.Println("Hit Get + SpecHash success path")
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = true
@@ -129,7 +125,6 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 			}
 		}
 
-		log.Printf("Hit unhandled error case: %v\n", err)
 		return false, err
 	}
 
@@ -138,7 +133,6 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	log.Println("Hit terminal success case.")
 	instance.Status.SpecHash = hash
 	instance.Status.ResourceId = *db.ID
 	instance.Status.State = *db.ProvisioningState
@@ -240,15 +234,6 @@ func (m *AzureCosmosDBManager) convert(obj runtime.Object) (*v1alpha1.CosmosDB, 
 func (m *AzureCosmosDBManager) createOrUpdateAccountKeysSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
 	result, err := m.ListKeys(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
 	if err != nil {
-		//TODO: remove before completing pull request
-		log.Printf(
-			`Failed to list CosmosDB Account Keys:
-				Status: %v
-				Error: %v
-			`,
-			instance.Status,
-			err,
-		)
 		return err
 	}
 
@@ -265,20 +250,9 @@ func (m *AzureCosmosDBManager) createOrUpdateAccountKeysSecret(ctx context.Conte
 
 	err = m.SecretClient.Upsert(ctx, secretKey, secretData)
 	if err != nil {
-		//TODO: remove before completing pull request
-		log.Printf(
-			`Failed to upsert CosmosDB Account Keys:
-				Status: %v
-				Error: %v
-			`,
-			instance.Status,
-			err,
-		)
 		return err
 	}
 
-	//TODO: remove before completing pull request
-	log.Printf("Successfully upserted CosmosDB Account Keys: %v\n", secretKey)
 	return nil
 }
 

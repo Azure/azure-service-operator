@@ -7,7 +7,6 @@ package controllers
 
 import (
 	"context"
-	"log"
 	"testing"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -49,25 +48,6 @@ func TestCosmosDBHappyPath(t *testing.T) {
 
 	assert.Eventually(func() bool {
 		secret, err := tc.secretClient.Get(ctx, key)
-		cond := err == nil && len(secret) > 0
-		if !cond {
-			//TODO: remove before completing pull request
-			tc.k8sClient.Get(ctx, key, dbInstance)
-			log.Printf(
-				`----- COSMOSDB -----
-					Secret:    %v
-					Assertion: %v
-					Error:     %v
-					Secret:    %v
-					Status:    %v
-				`,
-				key,
-				cond,
-				err,
-				secret,
-				dbInstance.Status,
-			)
-		}
 		return err == nil && len(secret) > 0
 	}, tc.timeoutFast, tc.retry, "wait for cosmosdb to have secret")
 
