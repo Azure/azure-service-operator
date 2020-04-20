@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/to"
 )
 
 // AzureVNetManager is the struct that the manager functions hang off
@@ -41,15 +42,22 @@ func (_ *AzureVNetManager) CreateVNet(ctx context.Context, location string, reso
 
 	var subnetsToAdd []vnetwork.Subnet
 	for i := 0; i < len(subnets); i++ {
-		subnetsToAdd = append(
-			subnetsToAdd,
-			vnetwork.Subnet{
-				Name: &subnets[i].SubnetName,
-				SubnetPropertiesFormat: &vnetwork.SubnetPropertiesFormat{
-					AddressPrefix: &subnets[i].SubnetAddressPrefix,
-				},
+		eps := []vnetwork.ServiceEndpointPropertiesFormat{}
+		for _, ep := range subnets[i].ServiceEndpoints {
+			eps = append(eps, vnetwork.ServiceEndpointPropertiesFormat{
+				Service: to.StringPtr(ep),
+			})
+		}
+
+		s := vnetwork.Subnet{
+			Name: &subnets[i].SubnetName,
+			SubnetPropertiesFormat: &vnetwork.SubnetPropertiesFormat{
+				AddressPrefix:    &subnets[i].SubnetAddressPrefix,
+				ServiceEndpoints: &eps,
 			},
-		)
+		}
+
+		subnetsToAdd = append(subnetsToAdd, s)
 	}
 
 	future, err := client.CreateOrUpdate(
