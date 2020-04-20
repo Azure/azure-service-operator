@@ -14,8 +14,9 @@ import (
 type VNetSubnets struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	SubnetName          string `json:"subnetName"`
-	SubnetAddressPrefix string `json:"subnetAddressPrefix"`
+	SubnetName          string   `json:"subnetName"`
+	SubnetAddressPrefix string   `json:"subnetAddressPrefix"`
+	ServiceEndpoints    []string `json:"serviceEndpoints"`
 }
 
 // VirtualNetworkSpec defines the desired state of VirtualNetwork

@@ -43,6 +43,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
+	instance.Status.FailedProvisioning = false
 
 	_, err = g.CreateVNet(
 		ctx,
@@ -54,6 +55,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
+		instance.Status.Message = err.Error()
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
@@ -80,7 +82,6 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 			// Unrecoverable error, so stop reconcilation
 			instance.Status.Provisioning = false
-			instance.Status.Message = "Reconcilation hit unrecoverable error"
 			return true, nil
 		}
 		instance.Status.Provisioning = false
