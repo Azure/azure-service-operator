@@ -8,3 +8,10 @@ spec:
   resourceGroup: resourcegroup-azure-operators
   properties:
     databaseAccountOfferType: Standard
+#optional for network rule set
+#    isVirtualNetworkFilterEnabled: true
+#  virtualNetworkRules:
+#    - subnetId: /subscriptions/{subscription_id}/resourceGroups/{resourcegroup}/providers/Microsoft.Network/virtualNetworks/{vnet_name}/subnets/{subnet_name}
+#      ignoreMissingServiceEndpoint: false
+
+

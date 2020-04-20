@@ -42,6 +42,8 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	location string,
 	kind v1alpha1.CosmosDBKind,
 	dbType v1alpha1.CosmosDBDatabaseAccountOfferType,
+	vnetEnabled bool,
+	networkRule *[]v1alpha1.CosmosDBVirtualNetworkRule,
 	tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError) {
 	cosmosDBClient, err := getCosmosDBClient()
 	if err != nil {
@@ -72,6 +74,18 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	locationsArray := []documentdb.Location{
 		locationObj,
 	}
+
+	vNetRulesSet := []documentdb.VirtualNetworkRule{}
+	if networkRule != nil {
+		for _, i := range *networkRule {
+			subnetID := i.SubnetID
+			ignoreEndpoint := i.IgnoreMissingVNetServiceEndpoint
+			vNetRulesSet = append(vNetRulesSet, documentdb.VirtualNetworkRule{
+				ID:                               subnetID,
+				IgnoreMissingVNetServiceEndpoint: ignoreEndpoint,
+			})
+		}
+	}
 	createUpdateParams := documentdb.DatabaseAccountCreateUpdateParameters{
 		Location: to.StringPtr(location),
 		Tags:     tags,
@@ -82,8 +96,9 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 		DatabaseAccountCreateUpdateProperties: &documentdb.DatabaseAccountCreateUpdateProperties{
 			DatabaseAccountOfferType:      &sDBType,
 			EnableMultipleWriteLocations:  to.BoolPtr(false),
-			IsVirtualNetworkFilterEnabled: to.BoolPtr(false),
+			IsVirtualNetworkFilterEnabled: &vnetEnabled,
 			Locations:                     &locationsArray,
+			VirtualNetworkRules:           &vNetRulesSet,
 		},
 	}
 	createUpdateFuture, err := cosmosDBClient.CreateOrUpdate(

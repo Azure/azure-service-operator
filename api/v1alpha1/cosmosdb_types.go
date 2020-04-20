@@ -17,10 +17,11 @@ type CosmosDBSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location      string             `json:"location,omitempty"`
-	ResourceGroup string             `json:"resourceGroup"`
-	Kind          CosmosDBKind       `json:"kind,omitempty"`
-	Properties    CosmosDBProperties `json:"properties,omitempty"`
+	Location            string                        `json:"location,omitempty"`
+	ResourceGroup       string                        `json:"resourceGroup"`
+	Kind                CosmosDBKind                  `json:"kind,omitempty"`
+	Properties          CosmosDBProperties            `json:"properties,omitempty"`
+	VirtualNetworkRules *[]CosmosDBVirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
 }
 
 // CosmosDBKind enumerates the values for kind.
@@ -41,6 +42,8 @@ const (
 type CosmosDBProperties struct {
 	// CosmosDBDatabaseAccountOfferType - The offer type for the Cosmos DB database account.
 	DatabaseAccountOfferType CosmosDBDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
+	//IsVirtualNetworkFilterEnabled - Flag to indicate whether to enable/disable Virtual Network ACL rules.
+	IsVirtualNetworkFilterEnabled bool `json:"isVirtualNetworkFilterEnabled,omitempty"`
 	//Locations                []CosmosDBLocation               `json:"locations,omitempty"`
 }
 
@@ -80,6 +83,14 @@ type CosmosDBList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []CosmosDB `json:"items"`
+}
+
+//CosmosDBVirtualNetworkRule virtual Network ACL Rule object
+type CosmosDBVirtualNetworkRule struct {
+	// ID - Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
+	SubnetID *string `json:"subnetID,omitempty"`
+	// IgnoreMissingVNetServiceEndpoint - Create firewall rule before the virtual network has vnet service endpoint enabled.
+	IgnoreMissingVNetServiceEndpoint *bool `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 }
 
 func init() {

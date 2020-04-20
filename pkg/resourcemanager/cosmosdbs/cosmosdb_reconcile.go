@@ -90,8 +90,10 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	location := instance.Spec.Location
 	kind := instance.Spec.Kind
 	dbType := instance.Spec.Properties.DatabaseAccountOfferType
+	networkRule := instance.Spec.VirtualNetworkRules
+	vnetEnabled := instance.Spec.Properties.IsVirtualNetworkFilterEnabled
 
-	db, azerr := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
+	db, azerr := m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, vnetEnabled, networkRule, tags)
 
 	// everything is in a created/updated state
 	if azerr == nil {
