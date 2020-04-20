@@ -127,6 +127,9 @@ func main() {
 	)
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient()
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient()
+	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
+		secretClient,
+	)
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(mgr.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
@@ -172,7 +175,7 @@ func main() {
 	err = (&controllers.CosmosDBReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: resourcemanagercosmosdb.NewAzureCosmosDBManager(),
+			AzureClient: cosmosDBClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"CosmosDB",
 				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
