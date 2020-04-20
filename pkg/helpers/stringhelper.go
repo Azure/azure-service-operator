@@ -5,6 +5,7 @@ package helpers
 
 import (
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"math/rand"
@@ -158,4 +159,39 @@ func Hash256(i interface{}) string {
 func ReplaceAny(s string, chars []string) string {
 	reg := regexp.MustCompile(fmt.Sprintf(`(%s)`, strings.Join(chars, "|")))
 	return reg.ReplaceAllString(s, ".")
+}
+
+// MakeResourceID can be used to construct a resource ID using the input segments
+// Sample 1: /subscriptions/88fd8cb2-8248-499e-9a2d-4929a4b0133c/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.Network/publicIPAddresses/azurepublicipaddress-sample-3
+// Sample 2: /subscriptions/88fd8cb2-8248-499e-9a2d-4929a4b0133c/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.Network/virtualNetworks/vnet-sample-hpf-1/subnets/test2
+func MakeResourceID(subscriptionID string, resourceGroupName string, provider string, resourceType string, resourceName string, subResourceType string, subResourceName string) string {
+	segments := []string{
+		"subscriptions",
+		subscriptionID,
+		"resourceGroups",
+		resourceGroupName,
+		"providers",
+		provider,
+		resourceType,
+		resourceName,
+	}
+
+	if subResourceType != "" && subResourceName != "" {
+		segments = append(segments, subResourceType, subResourceName)
+	}
+
+	result := "/" + strings.Join(segments, "/")
+
+	return result
+}
+
+// FromBase64EncodedString can be used to decode a base64 encoded string into another string in the return.
+func FromBase64EncodedString(input string) string {
+	output, err := base64.StdEncoding.DecodeString(input)
+	if err != nil {
+		_ = fmt.Errorf("cannot decode input string '%s' with error '%s'", input, err)
+	}
+
+	decodedString := string(output)
+	return decodedString
 }

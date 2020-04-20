@@ -42,6 +42,7 @@ const (
 	NotFoundErrorCode                   = "NotFound"
 	NoSuchHost                          = "no such host"
 	ParentNotFoundErrorCode             = "ParentResourceNotFound"
+	PreconditionFailed                  = "PreconditionFailed"
 	QuotaExceeded                       = "QuotaExceeded"
 	ResourceGroupNotFoundErrorCode      = "ResourceGroupNotFound"
 	RegionDoesNotAllowProvisioning      = "RegionDoesNotAllowProvisioning"
@@ -54,7 +55,10 @@ const (
 	RequestDisallowedByPolicy           = "RequestDisallowedByPolicy"
 	ServiceBusy                         = "ServiceBusy"
 	NameNotAvailable                    = "NameNotAvailable"
-	PublicIPIdleTimeoutIsOutOfRange     = "PublicIPIdleTimeoutIsOutOfRange"
+
+	NetworkAclsValidationFailure = "NetworkAclsValidationFailure"
+
+	PublicIPIdleTimeoutIsOutOfRange = "PublicIPIdleTimeoutIsOutOfRange"
 )
 
 func NewAzureError(err error) error {
@@ -66,10 +70,12 @@ func NewAzureError(err error) error {
 		Original: err,
 	}
 
-	if det, ok := err.(autorest.DetailedError); ok {
+	switch v := err.(type) {
+	case autorest.DetailedError:
+		ae.Code = v.StatusCode.(int)
 
-		ae.Code = det.StatusCode.(int)
-		if e, ok := det.Original.(*azure.RequestError); ok {
+		switch e := v.Original.(type) {
+		case *azure.RequestError:
 			if e.ServiceError != nil {
 				kind = e.ServiceError.Code
 				reason = e.ServiceError.Message
@@ -77,7 +83,7 @@ func NewAzureError(err error) error {
 				kind = CannotParseError
 				reason = CannotParseError
 			}
-		} else if e, ok := det.Original.(azure.RequestError); ok {
+		case azure.RequestError:
 			if e.ServiceError != nil {
 				kind = e.ServiceError.Code
 				reason = e.ServiceError.Message
@@ -85,7 +91,7 @@ func NewAzureError(err error) error {
 				kind = CannotParseError
 				reason = CannotParseError
 			}
-		} else if e, ok := det.Original.(*azure.ServiceError); ok {
+		case *azure.ServiceError:
 			kind = e.Code
 			reason = e.Message
 			if e.Code == "Failed" && len(e.AdditionalInfo) == 1 {
@@ -93,36 +99,41 @@ func NewAzureError(err error) error {
 					kind = v.(string)
 				}
 			}
-		} else if _, ok := det.Original.(*errors.StatusError); ok {
+		case *errors.StatusError:
 			kind = "StatusError"
 			reason = "StatusError"
-		} else if _, ok := det.Original.(*json.UnmarshalTypeError); ok {
+		case *json.UnmarshalTypeError:
 			kind = NotFoundErrorCode
 			reason = NotFoundErrorCode
 		}
 
-	} else if _, ok := err.(azure.AsyncOpIncompleteError); ok {
+	case azure.AsyncOpIncompleteError:
 		kind = "AsyncOpIncomplete"
 		reason = "AsyncOpIncomplete"
-	} else if verr, ok := err.(validation.Error); ok {
+	case validation.Error:
 		kind = "ValidationError"
-		reason = verr.Message
-	} else if err.Error() == InvalidServerName {
-		kind = InvalidServerName
-		reason = InvalidServerName
-	} else if err.Error() == AlreadyExists {
-		kind = AlreadyExists
-		reason = AlreadyExists
-	} else if err.Error() == AccountNameInvalid {
-		kind = AccountNameInvalid
-		reason = AccountNameInvalid
-	} else if strings.Contains(err.Error(), InvalidAccessPolicy) {
-		kind = InvalidAccessPolicy
-		reason = InvalidAccessPolicy
-	} else if strings.Contains(err.Error(), LocationNotAvailableForResourceType) {
-		kind = LocationNotAvailableForResourceType
-		reason = LocationNotAvailableForResourceType
+		reason = v.Message
+	default:
+		switch e := err.Error(); e {
+		case InvalidServerName, AlreadyExists, AccountNameInvalid:
+			kind = e
+			reason = e
+		default:
+			contains := []string{
+				InvalidAccessPolicy,
+				LocationNotAvailableForResourceType,
+			}
+			for _, val := range contains {
+				if strings.Contains(e, val) {
+					kind = val
+					reason = val
+					break
+				}
+			}
+		}
+
 	}
+
 	ae.Reason = reason
 	ae.Type = kind
 
