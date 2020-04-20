@@ -95,8 +95,9 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	location := instance.Spec.Location
 	kind := instance.Spec.Kind
 	dbType := instance.Spec.Properties.DatabaseAccountOfferType
+	dbVersion := instance.Spec.Properties.MongoDBVersion
 
-	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, tags)
+	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, dbType, dbVersion, tags)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		instance.Status.Message = err.Error()

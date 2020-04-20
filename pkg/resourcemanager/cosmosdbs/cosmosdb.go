@@ -44,6 +44,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	location string,
 	kind v1alpha1.CosmosDBKind,
 	dbType v1alpha1.CosmosDBDatabaseAccountOfferType,
+	dbVersion string,
 	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
 	cosmosDBClient, err := getCosmosDBClient()
 	if err != nil {
@@ -52,6 +53,13 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 
 	dbKind := documentdb.DatabaseAccountKind(kind)
 	sDBType := string(dbType)
+
+	var capabilities []documentdb.Capability
+	if dbKind == documentdb.MongoDB && dbVersion == "3.6" {
+		capabilities = []documentdb.Capability{
+			{Name: to.StringPtr("EnableMongo")},
+		}
+	}
 
 	/*
 	*   Current state of Locations and CosmosDB properties:
@@ -86,6 +94,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 			EnableMultipleWriteLocations:  to.BoolPtr(false),
 			IsVirtualNetworkFilterEnabled: to.BoolPtr(false),
 			Locations:                     &locationsArray,
+			Capabilities:                  &capabilities,
 		},
 	}
 	createUpdateFuture, err := cosmosDBClient.CreateOrUpdate(
