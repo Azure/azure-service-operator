@@ -17,10 +17,11 @@ type CosmosDBSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location      string             `json:"location,omitempty"`
-	ResourceGroup string             `json:"resourceGroup"`
-	Kind          CosmosDBKind       `json:"kind,omitempty"`
-	Properties    CosmosDBProperties `json:"properties,omitempty"`
+	Location               string             `json:"location,omitempty"`
+	ResourceGroup          string             `json:"resourceGroup"`
+	Kind                   CosmosDBKind       `json:"kind,omitempty"`
+	Properties             CosmosDBProperties `json:"properties,omitempty"`
+	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // CosmosDBKind enumerates the values for kind.

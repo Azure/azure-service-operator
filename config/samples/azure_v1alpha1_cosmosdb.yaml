@@ -8,3 +8,7 @@ spec:
   resourceGroup: resourcegroup-azure-operators
   properties:
     databaseAccountOfferType: Standard
+
+  # Use the field below to optionally specify a different keyvault 
+  # to store the connectiong string secrets in
+  #keyVaultToStoreSecrets: asoSecretKeyVault
