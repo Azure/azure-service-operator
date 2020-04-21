@@ -8,29 +8,32 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 )
 
 // NewAzureCosmosDBManager creates a new cosmos db client
-func NewAzureCosmosDBManager() *AzureCosmosDBManager {
-	return &AzureCosmosDBManager{}
+func NewAzureCosmosDBManager(secretClient secrets.SecretClient) *AzureCosmosDBManager {
+	return &AzureCosmosDBManager{secretClient}
 }
 
 // CosmosDBManager client functions
 type CosmosDBManager interface {
 	// CreateOrUpdateCosmosDB creates a new cosmos database account
-	CreateOrUpdateCosmosDB(ctx context.Context, groupName string, cosmosDBName string, location string, kind v1alpha1.CosmosDBKind, dbType v1alpha1.CosmosDBDatabaseAccountOfferType, vnetEnabled bool, networkRule *[]v1alpha1.CosmosDBVirtualNetworkRule, tags map[string]*string) (*documentdb.DatabaseAccount, *errhelp.AzureError)
+	CreateOrUpdateCosmosDB(ctx context.Context, groupName string, cosmosDBName string, location string, kind v1alpha1.CosmosDBKind, networkRule *[]v1alpha1.CosmosDBVirtualNetworkRule, properties v1alpha1.CosmosDBProperties, tags map[string]*string) (*documentdb.DatabaseAccount, error)
 
 	// GetCosmosDB gets a cosmos database account
-	GetCosmosDB(ctx context.Context, groupName string, cosmosDBName string) (*documentdb.DatabaseAccount, *errhelp.AzureError)
+	GetCosmosDB(ctx context.Context, groupName string, cosmosDBName string) (*documentdb.DatabaseAccount, error)
 
 	// DeleteCosmosDB removes the cosmos database account
-	DeleteCosmosDB(ctx context.Context, groupName string, cosmosDBName string) (*autorest.Response, *errhelp.AzureError)
+	DeleteCosmosDB(ctx context.Context, groupName string, cosmosDBName string) (*autorest.Response, error)
 
 	// CheckNameExistsCosmosDB check if the account name already exists globally
-	CheckNameExistsCosmosDB(ctx context.Context, accountName string) (bool, *errhelp.AzureError)
+	CheckNameExistsCosmosDB(ctx context.Context, accountName string) (bool, error)
+
+	// ListKeys lists the read & write keys for a database account
+	ListKeys(ctx context.Context, groupName string, accountName string) (*documentdb.DatabaseAccountListKeysResult, error)
 
 	resourcemanager.ARMClient
 }

@@ -17,11 +17,12 @@ type CosmosDBSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location            string                        `json:"location,omitempty"`
-	ResourceGroup       string                        `json:"resourceGroup"`
-	Kind                CosmosDBKind                  `json:"kind,omitempty"`
-	Properties          CosmosDBProperties            `json:"properties,omitempty"`
-	VirtualNetworkRules *[]CosmosDBVirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
+	Location               string                        `json:"location,omitempty"`
+	ResourceGroup          string                        `json:"resourceGroup"`
+	Kind                   CosmosDBKind                  `json:"kind,omitempty"`
+	Properties             CosmosDBProperties            `json:"properties,omitempty"`
+	VirtualNetworkRules    *[]CosmosDBVirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
+	KeyVaultToStoreSecrets string                        `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // CosmosDBKind enumerates the values for kind.
@@ -40,11 +41,12 @@ const (
 
 // CosmosDBProperties the CosmosDBProperties of CosmosDB.
 type CosmosDBProperties struct {
-	// CosmosDBDatabaseAccountOfferType - The offer type for the Cosmos DB database account.
+	// DatabaseAccountOfferType - The offer type for the Cosmos DB database account.
 	DatabaseAccountOfferType CosmosDBDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
-	//IsVirtualNetworkFilterEnabled - Flag to indicate whether to enable/disable Virtual Network ACL rules.
+	// IsVirtualNetworkFilterEnabled - Flag to indicate whether to enable/disable Virtual Network ACL rules.
 	IsVirtualNetworkFilterEnabled bool `json:"isVirtualNetworkFilterEnabled,omitempty"`
-	//Locations                []CosmosDBLocation               `json:"locations,omitempty"`
+	EnableMultipleWriteLocations bool                             `json:"enableMultipleWriteLocations,omitempty"`
+	MongoDBVersion               string                           `json:"mongoDBVersion,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Standard
