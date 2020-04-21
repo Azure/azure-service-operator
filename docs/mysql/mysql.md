@@ -1,63 +1,59 @@
-# MySQL Operator
+# MySQL Operator
 
-The MySQL Suite is made up of the following operators:
-* MySQL Server
-* MySQL Database
-* MySQL Firewall Rule
-* MySQL Virtual Network Rule
+## Resources Supported
 
-Learn more about Azure Database for MySQL [here](https://docs.microsoft.com/en-us/azure/mysql/).
+The MySQL operator suite consists of the following operators.
 
-## MySQL Server
+1. MySQL server - Deploys an `Azure Database for MySQL server` given the Location, Resource group and other properties. This operator also helps creating read replicas for MySQL server.
+2. MySQL database - Deploys a database under the given `Azure Database for MySQL server`
+3. MySQL firewall rule - Deploys a firewall rule to allow access to the `Azure Database for MySQL server` from the specified IP range
 
-Create a MySQL Server in a specified resource group and location.
+### MySQL server
 
-Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlserver.yaml) to provision a MySQL Server.
+Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlserver.yaml) for the MySQL server.
 
-The spec is comprised of the following fields:
+The value for kind, `MySQLServer` is the Custom Resource Definition (CRD) name.
+`mysqlserver-sample` is the name of the MySQL server resource that will be created.
 
-* `sku`
-    * `name` The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
-    * `tier` The tier of the particular SKU. Possible values include: 'Basic', 'GeneralPurpose', 'MemoryOptimized'
-    * `family` The family of hardware.
-    * `size` The size code
-    * `capacity` The scale up/out capacity, representing server's compute units.
-* `serverVersion` The version of a server. Possible values include: "8.0", "5.7", "5.6"
-* `sslEnforcement` Enable ssl enforcement or not when connect to server
+The values under `spec` provide the values for the location where you want to create the server at and the Resource group in which you want to create it under. It also contains other values that are required to create the server like the `serverVersion`, `sslEnforcement` and the `sku` information.
 
-## MySQL Database
+Along with creating the MySQL server, this operator also generates the admin username and password for the MySQL server and stores it in a kube secret or keyvault (based on what is specified) with the same name as the MySQL server.
 
-Create a MySQL Database in a specified resource group and location for an existing MySQL Server.
+This secret contains the following fields.
 
-Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqldatabase.yaml) to provision a MySQL Server.
+- `fullyqualifiedservername` : Fully qualified name of the MySQL server such as mysqlserver.mysql.database.azure.com
+- `mysqlservername` : MySQL server name
+- `username` : Server admin
+- `password` : Password for the server admin
+- `fullyqualifiedusername` : Fully qualified user name that is required by some apps such as <username>@<mysqlserver>
 
-## MySQL Firewall Rule
+For more information on where and how secrets are stored, look [here](/docs/secrets.md)
 
-Create a MySQL Firewall Rule in a specified resource group and location for an existing MySQL Server.
+#### Read Replicas in Azure Database for MySQL
 
-Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlfirewallrule.yaml) to provision a Firewall Rule for your MySQL Server.
+The MySQL server operator can also be used to create Read Replicas given the `sourceserverid` and the `location`.
 
-The spec is comprised of the following fields:
+The replica inherits all other properties including the admin username and password from the source server.
 
-* `server` the name of the existing MySQL Server
-* `startIpAddress` starting IP Address Range 
-* `endIpAddress` ending IP Address Range
+The operator reads the admin username and password for the source server from its secret (if available) and creates a secret with the same fields as described above for the replica.
 
-When the `startIpAddress` and `endIpAddress` are '0.0.0.0', it is a special case that adds a firewall rule to allow all Azure services to access the MySQL server.
+For more information on read replicas, refer [here](https://docs.microsoft.com/en-us/azure/mysql/concepts-read-replicas)
 
-## MySQL Virtual Network Rule
+### MySQL Database
 
-Create a MySQL Database in a specified resource group and location. Requires a MySQL server to already be provisioned.
+Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqldatabase.yaml) for MySQL database
 
-Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlvnetrule.yaml) to provision a Virtual Network Rule for your MySQL Server.
+Update the `resourcegroup` to where you want to provision the MySQL database. `server` is the name of the MySQL server where you want to create the database in.
 
-The spec is comprised of the following fields:
+### MySQL firewall rule
 
-* `server` the name of the existing MySQL Server
-* `vNetResourceGroup` resource group of the Virtual Network
-* `vNetName` name of the virtual network
-* `subnetName` name of the subnet within the Virtual Network
-* `ignoreMissingServiceEndpoint` Create firewall rule before the virtual network has vnet service endpoint enabled.
+The MySQL firewall rule operator allows you to add a firewall rule to the MySQL server.
+
+Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlfirewallrule.yaml) for MySQL firewall rule
+
+The `server` indicates the MySQL server on which you want to configure the new MySQL firewall rule on and `resourceGroup` is the resource group of the MySQL server. The `startIpAddress` and `endIpAddress` indicate the IP range of sources to allow access to the server.
+
+*Note*: When the `startIpAddress` and `endIpAddress` are 0.0.0.0, it denotes a special case that adds a firewall rule to allow all Azure services to access the server.
 
 ## Deploy, view and delete resources
 
