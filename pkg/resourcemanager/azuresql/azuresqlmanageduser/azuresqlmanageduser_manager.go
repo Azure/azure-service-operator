@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package azuresqluser
+package azuresqlmanageduser
 
 import (
 	"context"
@@ -19,7 +19,8 @@ type SqlManagedUserManager interface {
 	//DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) (bool, error)
 	//GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) map[string][]byte
 
-	EnableUserAndRoles(ctx context.Context, MIUserClientId string, roles []string, db *sql.DB) (string, error)
+	EnableUser(ctx context.Context, MIName string, MIUserObjectId string, db *sql.DB) error
+	GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error
 	DropUser(ctx context.Context, db *sql.DB, user string) error
 	UserExists(ctx context.Context, db *sql.DB, username string) (bool, error)
 

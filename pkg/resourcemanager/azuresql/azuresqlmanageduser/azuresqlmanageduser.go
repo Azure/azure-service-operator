@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package azuresqluser
+package azuresqlmanageduser
 
 import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strings"
 
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+	uuid "github.com/satori/go.uuid"
 
 	"k8s.io/apimachinery/pkg/runtime"
 
@@ -55,7 +57,7 @@ func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupNam
 }
 
 // ConnectToSqlDb connects to the SQL db using the current identity of operator (should be MI)
-func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, drivername string, server string, database string, port int) (*sql.DB, error) {
+func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, drivername string, server string, database string, port int) (db *sql.DB, err error) {
 
 	fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
 	connString := fmt.Sprintf("server=%s;port=%d;database=%s;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30", fullServerAddress, port, database)
@@ -70,7 +72,7 @@ func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Con
 		return db, err
 	}
 
-	db := sql.OpenDB(connector)
+	db = sql.OpenDB(connector)
 	defer db.Close()
 
 	err = db.PingContext(ctx)
@@ -82,15 +84,41 @@ func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Con
 }
 
 // EnableUserAndRoles creates user with secret credentials
-func (s *AzureSqlManagedUserManager) EnableUserAndRoles(ctx context.Context, MIUserClientId string, roles []string, db *sql.DB) (string, error) {
+func (s *AzureSqlManagedUserManager) EnableUser(ctx context.Context, MIName string, MIUserObjectId string, db *sql.DB) error {
+	if err := findBadChars(MIName); err != nil {
+		return fmt.Errorf("Problem found with managed identity username: %v", err)
+	}
 
-	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
+	sid := convertToSid(MIUserObjectId)
+	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH DEFAULT_SCHEMA=[dbo], SID = '%s', TYPE = E;", MIName, sid)
 	_, err := db.ExecContext(ctx, tsql)
 
 	if err != nil {
-		return newUser, err
+		return err
 	}
-	return newUser, nil
+	return nil
+}
+
+// GrantUserRoles grants roles to a user for a given database
+func (s *AzureSqlManagedUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
+	var errorStrings []string
+	for _, role := range roles {
+		tsql := "sp_addrolemember @role, @user"
+
+		_, err := db.ExecContext(
+			ctx, tsql,
+			sql.Named("role", role),
+			sql.Named("user", user),
+		)
+		if err != nil {
+			errorStrings = append(errorStrings, err.Error())
+		}
+	}
+
+	if len(errorStrings) != 0 {
+		return fmt.Errorf(strings.Join(errorStrings, "\n"))
+	}
+	return nil
 }
 
 // UserExists checks if db contains user
@@ -125,4 +153,33 @@ func getMSITokenProvider() (func() (string, error), error) {
 		token := msi.OAuthToken()
 		return token, nil
 	}, nil
+}
+
+func convertToSid(msiObjectId string) string {
+	var byteguid string
+	guid, err := uuid.FromString(msiObjectId)
+	if err != nil {
+		return ""
+	}
+	for bytechar := range guid.Bytes() {
+		byteguid = byteguid + fmt.Sprintf("%02X", bytechar) // Format byte as two digit hexadecimal string, 0 after % says to pad with zeros
+	}
+	return "0x" + byteguid
+}
+
+func findBadChars(stack string) error {
+	badChars := []string{
+		"'",
+		"\"",
+		";",
+		"--",
+		"/*",
+	}
+
+	for _, s := range badChars {
+		if idx := strings.Index(stack, s); idx > -1 {
+			return fmt.Errorf("potentially dangerous character seqience found: '%s' at pos: %d", s, idx)
+		}
+	}
+	return nil
 }

@@ -3,5 +3,21 @@ kind: AzureSQLManagedUser
 metadata:
   name: azuresqlmanageduser-sample
 spec:
-  # Add fields here
-  foo: bar
+  server: sqlserver-sample-777
+  dbName: azuresqldatabase-sample
+  resourceGroup: resourcegroup-azure-operators
+    # valid db roles:
+  # db_owner, db_securityadmin, db_accessadmin, db_backupoperator, db_ddladmin, db_datawriter, db_datareader, db_denydatawriter, db_denydatareader
+  roles:
+    - "db_owner"
+  
+  # Use the field below to optionally specify the managed identity username 
+  # to give access to the specified database. When not specified, metadata.name 
+  # will be used
+  #managedIdentityName:
+  
+  managedIdentityObjectId:
+
+  # Use the field below to optionally specify a different keyvault 
+  # to store the secrets in
+  #keyVaultToStoreSecrets:

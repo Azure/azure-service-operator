@@ -25,6 +25,7 @@ import (
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlmanageduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlmanageduser"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
@@ -144,6 +145,7 @@ func setup() error {
 	var sqlFirewallRuleManager resourcemanagersqlfirewallrule.SqlFirewallRuleManager
 	var sqlFailoverGroupManager resourcemanagersqlfailovergroup.SqlFailoverGroupManager
 	var sqlUserManager resourcemanagersqluser.SqlUserManager
+	var sqlManagedUserManager resourcemanagersqlmanageduser.SqlManagedUserManager
 	var sqlActionManager resourcemanagersqlaction.SqlActionManager
 	var eventhubClient resourcemanagereventhub.EventHubManager
 	var psqlServerManager resourcemanagerpsqlserver.PostgreSQLServerManager
@@ -193,6 +195,10 @@ func setup() error {
 	)
 	consumerGroupClient = resourcemanagereventhub.NewConsumerGroupClient()
 	sqlUserManager = resourcemanagersqluser.NewAzureSqlUserManager(
+		secretClient,
+		scheme.Scheme,
+	)
+	sqlManagedUserManager = resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
 		secretClient,
 		scheme.Scheme,
 	)
@@ -459,6 +465,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureSQLManagedUserReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: sqlManagedUserManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSqlManagedUser",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlManagedUser"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlManagedUser-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)

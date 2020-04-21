@@ -14,12 +14,13 @@ import (
 type AzureSQLManagedUserSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Server                 string   `json:"server"`
-	DbName                 string   `json:"dbName"`
-	ResourceGroup          string   `json:"resourceGroup,omitempty"`
-	Roles                  []string `json:"roles"`
-	ManagedUserClientId    string   `json:"managedUserClientId"`
-	KeyVaultToStoreSecrets string   `json:"keyVaultToStoreSecrets,omitempty"`
+	Server                  string   `json:"server"`
+	DbName                  string   `json:"dbName"`
+	ResourceGroup           string   `json:"resourceGroup,omitempty"`
+	Roles                   []string `json:"roles"`
+	ManagedIdentityName     string   `json:"managedIdentityName,omitempty"`
+	ManagedIdentityObjectId string   `json:"managedIdentityObjectId"`
+	KeyVaultToStoreSecrets  string   `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
