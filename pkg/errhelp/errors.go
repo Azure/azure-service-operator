@@ -55,10 +55,10 @@ const (
 	RequestDisallowedByPolicy           = "RequestDisallowedByPolicy"
 	ServiceBusy                         = "ServiceBusy"
 	NameNotAvailable                    = "NameNotAvailable"
-
-	NetworkAclsValidationFailure = "NetworkAclsValidationFailure"
-
-	PublicIPIdleTimeoutIsOutOfRange = "PublicIPIdleTimeoutIsOutOfRange"
+	PublicIPIdleTimeoutIsOutOfRange     = "PublicIPIdleTimeoutIsOutOfRange"
+	InvalidRequestContent               = "InvalidRequestContent"
+	InternalServerError                 = "InternalServerError"
+	NetworkAclsValidationFailure        = "NetworkAclsValidationFailure"
 )
 
 func NewAzureError(err error) error {
