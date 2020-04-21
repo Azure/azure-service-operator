@@ -13,6 +13,12 @@ spec:
     # NOTE: kind must be set to MongoDB for this to take effect
     #mongoDBVersion: "3.6"
 
-    # Use the field below to optionally specify a different keyvault 
+#optional for network rule set
+#    isVirtualNetworkFilterEnabled: true
+#  virtualNetworkRules:
+#    - subnetId: /subscriptions/{subscription_id}/resourceGroups/{resourcegroup}/providers/Microsoft.Network/virtualNetworks/{vnet_name}/subnets/{subnet_name}
+#      ignoreMissingServiceEndpoint: false
+
+  # Use the field below to optionally specify a different keyvault 
   # to store the connectiong string secrets in
   #keyVaultToStoreSecrets: asoSecretKeyVault

@@ -94,14 +94,16 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	groupName := instance.Spec.ResourceGroup
 	location := instance.Spec.Location
 	kind := instance.Spec.Kind
+	networkRule := instance.Spec.VirtualNetworkRules
 
 	cosmosDBProperties := v1alpha1.CosmosDBProperties{
-		DatabaseAccountOfferType:     instance.Spec.Properties.DatabaseAccountOfferType,
-		EnableMultipleWriteLocations: instance.Spec.Properties.EnableMultipleWriteLocations,
-		MongoDBVersion:               instance.Spec.Properties.MongoDBVersion,
+		DatabaseAccountOfferType:      instance.Spec.Properties.DatabaseAccountOfferType,
+		EnableMultipleWriteLocations:  instance.Spec.Properties.EnableMultipleWriteLocations,
+		MongoDBVersion:                instance.Spec.Properties.MongoDBVersion,
+		IsVirtualNetworkFilterEnabled: instance.Spec.Properties.IsVirtualNetworkFilterEnabled,
 	}
 
-	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, cosmosDBProperties, tags)
+	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, networkRule, cosmosDBProperties, tags)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		instance.Status.Message = err.Error()
