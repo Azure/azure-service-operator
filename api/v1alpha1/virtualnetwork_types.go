@@ -16,7 +16,7 @@ type VNetSubnets struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	SubnetName          string   `json:"subnetName"`
 	SubnetAddressPrefix string   `json:"subnetAddressPrefix"`
-	ServiceEndpoints    []string `json:"serviceEndpoints"`
+	ServiceEndpoints    []string `json:"serviceEndpoints,omitempty"`
 }
 
 // VirtualNetworkSpec defines the desired state of VirtualNetwork
