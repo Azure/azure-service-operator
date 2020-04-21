@@ -278,7 +278,6 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	err = s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
 	if err != nil {
-		fmt.Println(err)
 		instance.Status.Message = "GrantUserRoles failed"
 		return false, fmt.Errorf("GrantUserRoles failed")
 	}

@@ -49,6 +49,7 @@ func StripErrorIDs(err error) string {
 	patterns := []string{
 		"RequestID=",
 		"CorrelationId:\\s",
+		"Tracking ID: ",
 	}
 	reg := regexp.MustCompile(fmt.Sprintf(`(%s)\S+`, strings.Join(patterns, "|")))
 	return reg.ReplaceAllString(err.Error(), "")
