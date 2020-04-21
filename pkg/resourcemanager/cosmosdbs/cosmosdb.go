@@ -43,8 +43,8 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	cosmosDBName string,
 	location string,
 	kind v1alpha1.CosmosDBKind,
-	dbType v1alpha1.CosmosDBDatabaseAccountOfferType,
-	dbVersion string,
+	networkRule *[]v1alpha1.CosmosDBVirtualNetworkRule,
+	properties v1alpha1.CosmosDBProperties,
 	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
 	cosmosDBClient, err := getCosmosDBClient()
 	if err != nil {
@@ -52,10 +52,12 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	}
 
 	dbKind := documentdb.DatabaseAccountKind(kind)
-	sDBType := string(dbType)
+	sDBType := string(properties.DatabaseAccountOfferType)
+	bWriteLocal := bool(properties.EnableMultipleWriteLocations)
+	vnetEnabled := bool(properties.IsVirtualNetworkFilterEnabled)
 
 	var capabilities []documentdb.Capability
-	if dbKind == documentdb.MongoDB && dbVersion == "3.6" {
+	if dbKind == documentdb.MongoDB && properties.MongoDBVersion == "3.6" {
 		capabilities = []documentdb.Capability{
 			{Name: to.StringPtr("EnableMongo")},
 		}
@@ -84,6 +86,18 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	locationsArray := []documentdb.Location{
 		locationObj,
 	}
+
+	vNetRulesSet := []documentdb.VirtualNetworkRule{}
+	if networkRule != nil {
+		for _, i := range *networkRule {
+			subnetID := i.SubnetID
+			ignoreEndpoint := i.IgnoreMissingVNetServiceEndpoint
+			vNetRulesSet = append(vNetRulesSet, documentdb.VirtualNetworkRule{
+				ID:                               subnetID,
+				IgnoreMissingVNetServiceEndpoint: ignoreEndpoint,
+			})
+		}
+	}
 	createUpdateParams := documentdb.DatabaseAccountCreateUpdateParameters{
 		Location: to.StringPtr(location),
 		Tags:     tags,
@@ -93,8 +107,9 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 		ID:       &cosmosDBName,
 		DatabaseAccountCreateUpdateProperties: &documentdb.DatabaseAccountCreateUpdateProperties{
 			DatabaseAccountOfferType:      &sDBType,
-			EnableMultipleWriteLocations:  to.BoolPtr(false),
-			IsVirtualNetworkFilterEnabled: to.BoolPtr(false),
+			IsVirtualNetworkFilterEnabled: &vnetEnabled,
+			VirtualNetworkRules:           &vNetRulesSet,
+			EnableMultipleWriteLocations:  &bWriteLocal,
 			Locations:                     &locationsArray,
 			Capabilities:                  &capabilities,
 		},
