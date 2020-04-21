@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -194,7 +195,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 				case "jdbc":
 					formattedSecrets["jdbc"] = []byte(fmt.Sprintf(
-						"jdbc:sqlserver://%v:1433;database=%v;user=%v@%v;password=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
+						"jdbc:sqlserver://%v:1433;database=%v;user=%v@%v;password=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
 						string(DBSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 						user,
@@ -203,7 +204,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 					))
 				case "jdbc-urlonly":
 					formattedSecrets["jdbc-urlonly"] = []byte(fmt.Sprintf(
-						"jdbc:sqlserver://%v:1433;database=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
+						"jdbc:sqlserver://%v:1433;database=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
 						string(DBSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 					))
