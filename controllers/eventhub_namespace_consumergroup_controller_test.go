@@ -91,11 +91,6 @@ func TestConsumerGroupEventHubAndNamespaceControllerHappy(t *testing.T) {
 
 	EnsureDelete(ctx, t, tc, consumerGroupInstance)
 
-	assert.Eventually(func() bool {
-		cg, _ := tc.consumerGroupClient.GetConsumerGroup(ctx, rgName, eventhubNamespaceName, eventhubName, azureConsumerGroupName)
-		return cg.Response.StatusCode != http.StatusOK
-	}, tc.timeout, tc.retry, "wait for consumergroup to be gone from azure")
-
 	// verify eventhub is deleted
 	EnsureDelete(ctx, t, tc, eventhubInstance)
 
