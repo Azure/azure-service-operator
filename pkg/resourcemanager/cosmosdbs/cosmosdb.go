@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -44,6 +45,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	location string,
 	kind v1alpha1.CosmosDBKind,
 	networkRule *[]v1alpha1.CosmosDBVirtualNetworkRule,
+	ipRules *[]string,
 	properties v1alpha1.CosmosDBProperties,
 	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
 	cosmosDBClient, err := getCosmosDBClient()
@@ -98,6 +100,12 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 			})
 		}
 	}
+
+	sIPRules := ""
+	if ipRules != nil {
+		sIPRules = strings.Join(*ipRules, ",")
+	}
+
 	createUpdateParams := documentdb.DatabaseAccountCreateUpdateParameters{
 		Location: to.StringPtr(location),
 		Tags:     tags,
@@ -112,6 +120,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 			EnableMultipleWriteLocations:  &bWriteLocal,
 			Locations:                     &locationsArray,
 			Capabilities:                  &capabilities,
+			IPRangeFilter:                 &sIPRules,
 		},
 	}
 	createUpdateFuture, err := cosmosDBClient.CreateOrUpdate(
