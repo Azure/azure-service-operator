@@ -153,7 +153,7 @@ func setup() error {
 		secretClient,
 		scheme.Scheme,
 	)
-	cosmosDbManager = resourcemanagercosmosdb.NewAzureCosmosDBManager()
+	cosmosDbManager = resourcemanagercosmosdb.NewAzureCosmosDBManager(secretClient)
 	apiMgmtManager = resourcemanagerapimgmt.NewManager()
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers

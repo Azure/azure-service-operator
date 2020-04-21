@@ -17,6 +17,8 @@ type MySQLServerSpec struct {
 	Sku                    AzureDBsSQLSku     `json:"sku,omitempty"`
 	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
 	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
+	CreateMode             string             `json:"createMode,omitempty"`
+	ReplicaProperties      ReplicaProperties  `json:"replicaProperties,omitempty"`
 	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
@@ -41,6 +43,10 @@ type MySQLServerList struct {
 	Items           []MySQLServer `json:"items"`
 }
 
+type ReplicaProperties struct {
+	SourceServerId string `json:"sourceServerId,omitempty"`
+}
+
 func init() {
 	SchemeBuilder.Register(&MySQLServer{}, &MySQLServerList{})
 }
@@ -55,14 +61,32 @@ func NewDefaultMySQLServer(name, resourceGroup, location string) *MySQLServer {
 			Location:      location,
 			ResourceGroup: resourceGroup,
 			Sku: AzureDBsSQLSku{
-				Name:     "B_Gen5_2",
-				Tier:     SkuTier("Basic"),
+				Name:     "GP_Gen5_4",
+				Tier:     SkuTier("GeneralPurpose"),
 				Family:   "Gen5",
 				Size:     "51200",
-				Capacity: 2,
+				Capacity: 4,
 			},
 			ServerVersion:  ServerVersion("8.0"),
 			SSLEnforcement: SslEnforcementEnumEnabled,
+			CreateMode:     "Default",
+		},
+	}
+}
+
+func NewReplicaMySQLServer(name, resourceGroup, location string, sourceserverid string) *MySQLServer {
+	return &MySQLServer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: "default",
+		},
+		Spec: MySQLServerSpec{
+			Location:      location,
+			ResourceGroup: resourceGroup,
+			CreateMode:    "Replica",
+			ReplicaProperties: ReplicaProperties{
+				SourceServerId: sourceserverid,
+			},
 		},
 	}
 }
