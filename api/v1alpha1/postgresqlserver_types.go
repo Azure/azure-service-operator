@@ -75,6 +75,8 @@ const (
 // +kubebuilder:subresource:status
 
 // PostgreSQLServer is the Schema for the postgresqlservers API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
