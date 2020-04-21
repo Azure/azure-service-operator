@@ -56,7 +56,7 @@ func NewDefaultMySQLServer(name, resourceGroup, location string) *MySQLServer {
 			ResourceGroup: resourceGroup,
 			Sku: AzureDBsSQLSku{
 				Name:     "B_Gen5_2",
-				Tier:     SkuTier("Basic"),
+				Tier:     SkuTier("GeneralPurpose"),
 				Family:   "Gen5",
 				Size:     "51200",
 				Capacity: 2,
