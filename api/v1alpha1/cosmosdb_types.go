@@ -17,11 +17,12 @@ type CosmosDBSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location               string             `json:"location,omitempty"`
-	ResourceGroup          string             `json:"resourceGroup"`
-	Kind                   CosmosDBKind       `json:"kind,omitempty"`
-	Properties             CosmosDBProperties `json:"properties,omitempty"`
-	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
+	Location               string                        `json:"location,omitempty"`
+	ResourceGroup          string                        `json:"resourceGroup"`
+	Kind                   CosmosDBKind                  `json:"kind,omitempty"`
+	Properties             CosmosDBProperties            `json:"properties,omitempty"`
+	VirtualNetworkRules    *[]CosmosDBVirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
+	KeyVaultToStoreSecrets string                        `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // CosmosDBKind enumerates the values for kind.
@@ -40,10 +41,12 @@ const (
 
 // CosmosDBProperties the CosmosDBProperties of CosmosDB.
 type CosmosDBProperties struct {
-	// CosmosDBDatabaseAccountOfferType - The offer type for the Cosmos DB database account.
+	// DatabaseAccountOfferType - The offer type for the Cosmos DB database account.
 	DatabaseAccountOfferType CosmosDBDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
-	//Locations                []CosmosDBLocation               `json:"locations,omitempty"`
-	MongoDBVersion string `json:"mongoDBVersion,omitempty"`
+	// IsVirtualNetworkFilterEnabled - Flag to indicate whether to enable/disable Virtual Network ACL rules.
+	IsVirtualNetworkFilterEnabled bool   `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	EnableMultipleWriteLocations  bool   `json:"enableMultipleWriteLocations,omitempty"`
+	MongoDBVersion                string `json:"mongoDBVersion,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Standard
@@ -66,6 +69,8 @@ type CosmosDBLocation struct {
 // +kubebuilder:subresource:status
 
 // CosmosDB is the Schema for the cosmosdbs API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type CosmosDB struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -82,6 +87,14 @@ type CosmosDBList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []CosmosDB `json:"items"`
+}
+
+//CosmosDBVirtualNetworkRule virtual Network ACL Rule object
+type CosmosDBVirtualNetworkRule struct {
+	// ID - Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
+	SubnetID *string `json:"subnetID,omitempty"`
+	// IgnoreMissingVNetServiceEndpoint - Create firewall rule before the virtual network has vnet service endpoint enabled.
+	IgnoreMissingVNetServiceEndpoint *bool `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 }
 
 func init() {

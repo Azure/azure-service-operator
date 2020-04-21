@@ -6,6 +6,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -13,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -35,37 +37,80 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		return true, err
 	}
 
+	createmode := "Default"
+	if len(instance.Spec.CreateMode) != 0 {
+		createmode = instance.Spec.CreateMode
+	}
+
+	// If a replica is requested, ensure that source server is specified
+	if strings.EqualFold(createmode, "replica") {
+		if len(instance.Spec.ReplicaProperties.SourceServerId) == 0 {
+			instance.Status.Message = "Replica requested but source server unspecified"
+			return true, nil
+		}
+	}
+
 	// Check to see if secret exists and if yes retrieve the admin login and password
 	secret, err := m.GetOrPrepareSecret(ctx, instance)
 	if err != nil {
 		return false, err
 	}
 
-	// Update secret
 	err = m.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
 	if err != nil {
 		return false, err
 	}
 
 	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		labels[k] = &v
-	}
+	labels := helpers.LabelsToTags(instance.GetLabels())
 
 	// Check if this server already exists and its state if it does. This is required
 	// to overcome the issue with the lack of idempotence of the Create call
+	hash := ""
 	server, err := m.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
-	if err == nil {
+	if err != nil {
+		// handle failures in the async operation
+		if instance.Status.PollingURL != "" {
+			pClient := pollclient.NewPollClient()
+			res, err := pClient.Get(ctx, instance.Status.PollingURL)
+			if err != nil {
+				instance.Status.Provisioning = false
+				return false, err
+			}
+
+			if res.Status == "Failed" {
+				instance.Status.Provisioning = false
+				instance.Status.RequestedAt = nil
+				ignore := []string{
+					errhelp.SubscriptionDoesNotHaveServer,
+					errhelp.ServiceBusy,
+				}
+				if !helpers.ContainsString(ignore, res.Error.Code) {
+					instance.Status.Message = res.Error.Error()
+					return true, nil
+				}
+			}
+		}
+	} else {
 		instance.Status.State = string(server.UserVisibleState)
+
+		hash = helpers.Hash256(instance.Spec)
+		if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
+			instance.Status.RequestedAt = nil
+			return true, nil
+		}
 		if server.UserVisibleState == mysql.ServerStateReady {
+			// Update secret with FQ name of the server. We ignore the error.
+			m.UpdateServerNameInSecret(ctx, instance.Name, secret, *server.FullyQualifiedDomainName, instance)
+
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.ResourceId = *server.ID
+			instance.Status.State = string(server.UserVisibleState)
+			instance.Status.SpecHash = hash
 			return true, nil
 		}
-		return false, nil
 	}
 
 	// if the create has been sent with no error we need to wait before calling it again
@@ -84,7 +129,7 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		Family:   to.StringPtr(instance.Spec.Sku.Family),
 	}
 
-	_, err = m.CreateServerIfValid(
+	pollURL, server, err := m.CreateServerIfValid(
 		ctx,
 		instance.Name,
 		instance.Spec.ResourceGroup,
@@ -95,20 +140,41 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		skuInfo,
 		adminlogin,
 		adminpassword,
+		createmode,
+		instance.Spec.ReplicaProperties.SourceServerId,
 	)
 	if err != nil {
 		// let the user know what happened
-		instance.Status.Message = err.Error()
+		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		switch azerr.Type {
-		case errhelp.ResourceGroupNotFoundErrorCode, errhelp.ParentNotFoundErrorCode:
-			// errors we expect might happen that we are ok with waiting for
+		catchRequeue := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.AsyncOpIncompleteError,
+			errhelp.SubscriptionDoesNotHaveServer,
+			errhelp.ServiceBusy,
+		}
+		catchUnrecoverable := []string{
+			errhelp.ProvisioningDisabled,
+			errhelp.LocationNotAvailableForResourceType,
+			errhelp.InvalidRequestContent,
+			errhelp.InternalServerError,
+		}
+
+		// handle the errors
+		if helpers.ContainsString(catchRequeue, azerr.Type) {
+			if azerr.Type == errhelp.AsyncOpIncompleteError {
+				instance.Status.Provisioning = true
+				instance.Status.PollingURL = pollURL
+			}
 			return false, nil
-		case errhelp.ProvisioningDisabled, errhelp.LocationNotAvailableForResourceType:
+		}
+
+		if helpers.ContainsString(catchUnrecoverable, azerr.Type) {
 			// Unrecoverable error, so stop reconcilation
-			instance.Status.Message = "Reconcilation hit unrecoverable error: " + err.Error()
+			instance.Status.Message = "Reconcilation hit unrecoverable error: " + errhelp.StripErrorIDs(err)
 			return true, nil
 		}
 
@@ -216,26 +282,70 @@ func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretN
 	return nil
 }
 
+// UpdateSecretWithFullServerName updates the secret with the fully qualified server name
+func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secretName string, data map[string][]byte, fullservername string, instance *azurev1alpha1.MySQLServer) error {
+	key := types.NamespacedName{
+		Name:      secretName,
+		Namespace: instance.Namespace,
+	}
+
+	data["fullyQualifiedServerName"] = []byte(fullservername)
+
+	err := m.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(m.Scheme),
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // GetOrPrepareSecret gets tje admin credentials if they are stored or generates some if not
 func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.MySQLServer) (map[string][]byte, error) {
 	name := instance.Name
+	createmode := instance.Spec.CreateMode
+
+	// If createmode == default, then this is a new server creation, so generate username/password
+	// If createmode == replica, then get the credentials from the source server secret and use that
 
 	secret := map[string][]byte{}
+	var key types.NamespacedName
+	var Username string
+	var Password string
 
-	key := types.NamespacedName{Name: name, Namespace: instance.Namespace}
-	if stored, err := m.SecretClient.Get(ctx, key); err == nil {
-		return stored, nil
+	if strings.EqualFold(createmode, "default") { // new Mysql server creation
+		// See if secret already exists and return if it does
+		key = types.NamespacedName{Name: name, Namespace: instance.Namespace}
+		if stored, err := m.SecretClient.Get(ctx, key); err == nil {
+			return stored, nil
+		}
+		// Generate random username password if secret does not exist already
+		Username = helpers.GenerateRandomUsername(10)
+		Password = helpers.NewPassword()
+	} else { // replica
+		sourceServerId := instance.Spec.ReplicaProperties.SourceServerId
+		if len(sourceServerId) != 0 {
+			// Parse to get source server name
+			sourceServerIdSplit := strings.Split(sourceServerId, "/")
+			sourceserver := sourceServerIdSplit[len(sourceServerIdSplit)-1]
+
+			// Get the username and password from the source server's secret
+			key = types.NamespacedName{Name: sourceserver, Namespace: instance.Namespace}
+			if sourcesecret, err := m.SecretClient.Get(ctx, key); err == nil {
+				Username = string(sourcesecret["username"])
+				Password = string(sourcesecret["password"])
+			}
+		}
 	}
 
-	randomUsername := helpers.GenerateRandomUsername(10)
-	randomPassword := helpers.NewPassword()
-
-	secret["username"] = []byte(randomUsername)
-	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, name))
-	secret["password"] = []byte(randomPassword)
-	secret["postgreSqlServerName"] = []byte(name)
-	// TODO: The below may not be right for non Azure public cloud.
-	secret["fullyQualifiedServerName"] = []byte(name + ".mysql.database.azure.com")
-
+	// Populate secret fields
+	secret["username"] = []byte(Username)
+	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", Username, name))
+	secret["password"] = []byte(Password)
+	secret["mySqlServerName"] = []byte(name)
 	return secret, nil
 }

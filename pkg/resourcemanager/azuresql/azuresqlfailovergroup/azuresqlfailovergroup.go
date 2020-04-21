@@ -9,6 +9,7 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -167,9 +168,9 @@ func (f *AzureSqlFailoverGroupManager) GetOrPrepareSecret(ctx context.Context, i
 	}
 
 	secret["azureSqlPrimaryServer"] = []byte(azuresqlprimaryserver)
-	secret["readWriteListenerEndpoint"] = []byte(failovergroupname + ".database.windows.net")
+	secret["readWriteListenerEndpoint"] = []byte(failovergroupname + "." + config.Environment().SQLDatabaseDNSSuffix)
 	secret["azureSqlSecondaryServer"] = []byte(azuresqlsecondaryserver)
-	secret["readOnlyListenerEndpoint"] = []byte(failovergroupname + ".secondary.database.windows.net")
+	secret["readOnlyListenerEndpoint"] = []byte(failovergroupname + ".secondary." + config.Environment().SQLDatabaseDNSSuffix)
 
 	return secret, nil
 }

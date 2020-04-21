@@ -23,11 +23,17 @@ func TestMySQLHappyPath(t *testing.T) {
 	rgLocation := "eastus2"
 	rgName := tc.resourceGroupName
 	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
+	mySQLReplicaName := GenerateTestResourceNameWithRandom("mysql-rep", 10)
 
 	// Create the mySQLServer object and expect the Reconcile to be created
 	mySQLServerInstance := azurev1alpha1.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
 
 	RequireInstance(ctx, t, tc, mySQLServerInstance)
+
+	// Create a mySQL replica
+	mySQLReplicaInstance := azurev1alpha1.NewReplicaMySQLServer(mySQLReplicaName, rgName, rgLocation, mySQLServerInstance.Status.ResourceId)
+
+	EnsureInstance(ctx, t, tc, mySQLReplicaInstance)
 
 	mySQLDBName := GenerateTestResourceNameWithRandom("mysql-db", 10)
 
@@ -65,4 +71,5 @@ func TestMySQLHappyPath(t *testing.T) {
 	EnsureDelete(ctx, t, tc, ruleInstance)
 	EnsureDelete(ctx, t, tc, mySQLDBInstance)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)
+	EnsureDelete(ctx, t, tc, mySQLReplicaInstance)
 }

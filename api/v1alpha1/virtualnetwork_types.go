@@ -33,6 +33,8 @@ type VirtualNetworkSpec struct {
 // +kubebuilder:subresource:status
 
 // VirtualNetwork is the Schema for the virtualnetworks API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
