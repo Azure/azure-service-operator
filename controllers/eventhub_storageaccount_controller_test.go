@@ -7,16 +7,15 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 
-	//"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
-	//kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
-	//kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
+	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

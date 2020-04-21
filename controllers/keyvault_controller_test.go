@@ -8,7 +8,6 @@ package controllers
 import (
 	"context"
 	"net/http"
-	"strings"
 	"testing"
 	"time"
 
@@ -19,7 +18,6 @@ import (
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 
 	"github.com/stretchr/testify/assert"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -236,7 +234,6 @@ func TestKeyvaultControllerInvalidName(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	keyVaultName := "k"
 
@@ -263,7 +260,6 @@ func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
 

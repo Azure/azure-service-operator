@@ -18,7 +18,6 @@ func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver-dev", 10)
 

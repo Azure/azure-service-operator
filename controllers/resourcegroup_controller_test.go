@@ -13,9 +13,7 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/stretchr/testify/assert"
 
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestResourceGroupControllerHappyPath(t *testing.T) {
@@ -25,8 +23,6 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 	assert := assert.New(t)
 
 	resourceGroupName := GenerateTestResourceNameWithRandom("rg-dev", 10)
-
-	var err error
 
 	// Create the ResourceGroup object and expect the Reconcile to be created
 	resourceGroupInstance := &azurev1alpha1.ResourceGroup{
@@ -41,8 +37,6 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 
 	// create rg
 	EnsureInstance(ctx, t, tc, resourceGroupInstance)
-
-	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 
 	// verify rg exists in azure
 	assert.Eventually(func() bool {
