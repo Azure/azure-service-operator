@@ -9,16 +9,22 @@ spec:
   properties:
     databaseAccountOfferType: Standard
     enableMultipleWriteLocations: false
+
     # optionally set the mongoDBVersion to "3.2" or "3.6", if omitted the default is "3.2"
     # NOTE: kind must be set to MongoDB for this to take effect
-    #mongoDBVersion: "3.6"
+    # mongoDBVersion: "3.6"
 
-#optional for network rule set
-#    isVirtualNetworkFilterEnabled: true
-#  virtualNetworkRules:
-#    - subnetId: /subscriptions/{subscription_id}/resourceGroups/{resourcegroup}/providers/Microsoft.Network/virtualNetworks/{vnet_name}/subnets/{subnet_name}
-#      ignoreMissingServiceEndpoint: false
+    # enable virtual network rules if configured below
+    # isVirtualNetworkFilterEnabled: true
 
-  # Use the field below to optionally specify a different keyvault 
-  # to store the connectiong string secrets in
-  #keyVaultToStoreSecrets: asoSecretKeyVault
+  # optionally restrict access to specific virtual networks
+  # virtualNetworkRules:
+  #   - subnetId: /subscriptions/{subscription_id}/resourceGroups/{resourcegroup}/providers/Microsoft.Network/virtualNetworks/{vnet_name}/subnets/{subnet_name}
+  #     ignoreMissingServiceEndpoint: false
+
+  # optionally configure different CIDR IP ranges for allowed-list, omitting allows all or falls back to vNetRules
+  # ipRules:
+  #   # the ips in this rule are needed to access your db from the portal
+  #   - 104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26
+  #   # add additional ips you would like to grant access
+  #   - 73.153.28.188
