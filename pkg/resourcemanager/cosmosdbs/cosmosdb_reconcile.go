@@ -60,7 +60,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance.Status.State = *db.ProvisioningState
 	}
 
-	if instance.Status.State == "Creating" {
+	if instance.Status.State == "Creating" || instance.Status.State == "Updating" {
 		// avoid multiple CreateOrUpdate requests while resource is already creating
 		return false, nil
 	}
@@ -95,6 +95,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	location := instance.Spec.Location
 	kind := instance.Spec.Kind
 	networkRule := instance.Spec.VirtualNetworkRules
+	ipRules := instance.Spec.IPRules
 
 	cosmosDBProperties := v1alpha1.CosmosDBProperties{
 		DatabaseAccountOfferType:      instance.Spec.Properties.DatabaseAccountOfferType,
@@ -103,7 +104,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		IsVirtualNetworkFilterEnabled: instance.Spec.Properties.IsVirtualNetworkFilterEnabled,
 	}
 
-	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, networkRule, cosmosDBProperties, tags)
+	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, networkRule, ipRules, cosmosDBProperties, tags)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		instance.Status.Message = err.Error()
