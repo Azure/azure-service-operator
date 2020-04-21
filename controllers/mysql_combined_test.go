@@ -63,10 +63,7 @@ func TestMySQLHappyPath(t *testing.T) {
 	EnsureInstance(ctx, t, tc, ruleInstance)
 
 	// Create VNet and VNetRules -----
-	t.Run("run subtest to test VNet Rule in primary server", func(t *testing.T) {
-		t.Parallel()
-		RunMySqlVNetRuleHappyPath(t, mySQLServerName, rgLocation)
-	})
+	RunMySqlVNetRuleHappyPath(t, mySQLServerName, rgLocation)
 
 	EnsureDelete(ctx, t, tc, ruleInstance)
 	EnsureDelete(ctx, t, tc, mySQLDBInstance)
