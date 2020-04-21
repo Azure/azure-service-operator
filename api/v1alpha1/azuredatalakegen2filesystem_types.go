@@ -22,6 +22,8 @@ type AzureDataLakeGen2FileSystemSpec struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // AzureDataLakeGen2FileSystem is the Schema for the azuredatalakegen2filesystems API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureDataLakeGen2FileSystem struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
