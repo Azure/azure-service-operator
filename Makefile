@@ -18,7 +18,7 @@ BUILD_ID ?= $(shell git rev-parse --short HEAD)
 TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
 
 # Some parts of the test suite use Go Build Tags to ignore certain tests. Default to all tests but allow the user to pass custom tags.
-BUILD_TAGS ?= all
+BUILD_TAGS ?= resourcegroup
 
 all: manager
 

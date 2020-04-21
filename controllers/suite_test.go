@@ -285,21 +285,21 @@ func setup() error {
 		return err
 	}
 
-	err = (&ResourceGroupReconciler{
-		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: resourceGroupManager,
-			Telemetry: telemetry.InitializeTelemetryDefault(
-				"ResourceGroup",
-				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
-			),
-			Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
-			Scheme:   scheme.Scheme,
-		},
-	}).SetupWithManager(k8sManager)
-	if err != nil {
-		return err
-	}
+	// err = (&ResourceGroupReconciler{
+	// 	Reconciler: &AsyncReconciler{
+	// 		Client:      k8sManager.GetClient(),
+	// 		AzureClient: resourceGroupManager,
+	// 		Telemetry: telemetry.InitializeTelemetryDefault(
+	// 			"ResourceGroup",
+	// 			ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
+	// 		),
+	// 		Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+	// 		Scheme:   scheme.Scheme,
+	// 	},
+	// }).SetupWithManager(k8sManager)
+	// if err != nil {
+	// 	return err
+	// }
 
 	err = (&RedisCacheReconciler{
 		Reconciler: &AsyncReconciler{
