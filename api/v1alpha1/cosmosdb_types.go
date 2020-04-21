@@ -41,9 +41,9 @@ const (
 // CosmosDBProperties the CosmosDBProperties of CosmosDB.
 type CosmosDBProperties struct {
 	// CosmosDBDatabaseAccountOfferType - The offer type for the Cosmos DB database account.
-	DatabaseAccountOfferType CosmosDBDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
-	//Locations                []CosmosDBLocation               `json:"locations,omitempty"`
-	MongoDBVersion string `json:"mongoDBVersion,omitempty"`
+	DatabaseAccountOfferType     CosmosDBDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
+	EnableMultipleWriteLocations bool                             `json:"enableMultipleWriteLocations,omitempty"`
+	MongoDBVersion               string                           `json:"mongoDBVersion,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Standard

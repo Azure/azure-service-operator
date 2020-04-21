@@ -1,13 +1,14 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: CosmosDB
 metadata:
-  name: cosmosdb-sample1908xyzkj
+  name: cosmosdb-sample-1
 spec:
   kind: GlobalDocumentDB
   location: westus
   resourceGroup: resourcegroup-azure-operators
   properties:
     databaseAccountOfferType: Standard
+    enableMultipleWriteLocations: false
     # optionally set the mongoDBVersion to "3.2" or "3.6", if omitted the default is "3.2"
     # NOTE: kind must be set to MongoDB for this to take effect
     #mongoDBVersion: "3.6"
