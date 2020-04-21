@@ -13,6 +13,7 @@ import (
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -65,7 +66,7 @@ func (s *AzureSqlUserManager) GetDB(ctx context.Context, resourceGroupName strin
 // ConnectToSqlDb connects to the SQL db using the given credentials
 func (s *AzureSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, database string, port int, user string, password string) (*sql.DB, error) {
 
-	fullServerAddress := fmt.Sprintf("%s.database.windows.net", server)
+	fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
 	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30", fullServerAddress, user, password, port, database)
 
 	db, err := sql.Open(drivername, connString)
@@ -231,7 +232,7 @@ func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *
 			"password":                 []byte(pw),
 			"azureSqlServerNamespace":  []byte(instance.Namespace),
 			"azureSqlServerName":       []byte(instance.Spec.Server),
-			"fullyQualifiedServerName": []byte(instance.Spec.Server + ".database.windows.net"),
+			"fullyQualifiedServerName": []byte(instance.Spec.Server + "." + config.Environment().SQLDatabaseDNSSuffix),
 			"azureSqlDatabaseName":     []byte(instance.Spec.DbName),
 		}
 	}
