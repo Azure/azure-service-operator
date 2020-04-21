@@ -23,7 +23,7 @@ type ResourceGroupSpec struct {
 // ResourceGroup is the Schema for the resourcegroups API
 // +kubebuilder:resource:shortName=rg,path=resourcegroups
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
-// +kubebuilder:printcolumn:name="Provisioning",type="string",JSONPath=".status.provisioning"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type ResourceGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

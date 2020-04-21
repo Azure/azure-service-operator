@@ -25,6 +25,8 @@ type AzureNetworkInterfaceSpec struct {
 // +kubebuilder:subresource:status
 
 // AzureNetworkInterface is the Schema for the azurenetworkinterfaces API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureNetworkInterface struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
