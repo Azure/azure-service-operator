@@ -42,6 +42,7 @@ const (
 	NotFoundErrorCode                   = "NotFound"
 	NoSuchHost                          = "no such host"
 	ParentNotFoundErrorCode             = "ParentResourceNotFound"
+	PreconditionFailed                  = "PreconditionFailed"
 	QuotaExceeded                       = "QuotaExceeded"
 	ResourceGroupNotFoundErrorCode      = "ResourceGroupNotFound"
 	RegionDoesNotAllowProvisioning      = "RegionDoesNotAllowProvisioning"
@@ -55,6 +56,9 @@ const (
 	ServiceBusy                         = "ServiceBusy"
 	NameNotAvailable                    = "NameNotAvailable"
 	PublicIPIdleTimeoutIsOutOfRange     = "PublicIPIdleTimeoutIsOutOfRange"
+	InvalidRequestContent               = "InvalidRequestContent"
+	InternalServerError                 = "InternalServerError"
+	NetworkAclsValidationFailure        = "NetworkAclsValidationFailure"
 )
 
 func NewAzureError(err error) error {

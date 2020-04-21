@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
@@ -335,7 +336,7 @@ func NewSecret(serverName string) (map[string][]byte, error) {
 	secret["fullyQualifiedUsername"] = []byte(fmt.Sprintf("%s@%s", randomUsername, serverName))
 	secret["password"] = []byte(randomPassword)
 	secret["azureSqlServerName"] = []byte(serverName)
-	secret["fullyQualifiedServerName"] = []byte(serverName + ".database.windows.net")
+	secret["fullyQualifiedServerName"] = []byte(serverName + "." + config.Environment().SQLDatabaseDNSSuffix)
 
 	return secret, nil
 }

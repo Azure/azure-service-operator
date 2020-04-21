@@ -11,7 +11,7 @@ import (
 )
 
 type MySQLServerManager interface {
-	CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion mysql.ServerVersion, sslenforcement mysql.SslEnforcementEnum, skuInfo mysql.Sku, adminlogin string, adminpassword string) (mysql.ServersCreateFuture, error)
+	CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion mysql.ServerVersion, sslenforcement mysql.SslEnforcementEnum, skuInfo mysql.Sku, adminlogin string, adminpassword string, createmode string, sourceserver string) (pollingURL string, server mysql.Server, err error)
 	DeleteServer(ctx context.Context, resourcegroup string, servername string) (string, error)
 	GetServer(ctx context.Context, resourcegroup string, servername string) (mysql.Server, error)
 

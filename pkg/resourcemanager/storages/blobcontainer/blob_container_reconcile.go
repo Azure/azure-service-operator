@@ -127,12 +127,20 @@ func (bc *AzureBlobContainerManager) GetParents(obj runtime.Object) ([]resourcem
 	return []resourcemanager.KubeParent{
 		{
 			Key: types.NamespacedName{
+				Name:      instance.Spec.AccountName,
+				Namespace: instance.Namespace,
+			},
+			Target: &azurev1alpha1.StorageAccount{},
+		},
+		{
+			Key: types.NamespacedName{
 				Name:      instance.Spec.ResourceGroup,
 				Namespace: instance.Namespace,
 			},
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+
 }
 
 func (bc *AzureBlobContainerManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
