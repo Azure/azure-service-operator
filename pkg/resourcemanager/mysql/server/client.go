@@ -5,11 +5,13 @@ package server
 
 import (
 	"context"
+	"strings"
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -59,34 +61,56 @@ func (m *MySQLServerClient) CheckServerNameAvailability(ctx context.Context, ser
 
 }
 
-func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion mysql.ServerVersion, sslenforcement mysql.SslEnforcementEnum, skuInfo mysql.Sku, adminlogin string, adminpassword string) (future mysql.ServersCreateFuture, err error) {
+func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion mysql.ServerVersion, sslenforcement mysql.SslEnforcementEnum, skuInfo mysql.Sku, adminlogin string, adminpassword string, createmode string, sourceserver string) (pollingURL string, server mysql.Server, err error) {
 
 	client := getMySQLServersClient()
 
 	// Check if name is valid if this is the first create call
 	valid, err := m.CheckServerNameAvailability(ctx, servername)
-	if valid == false {
-		return future, err
+	if !valid {
+		return "", server, err
+	}
+	var result mysql.ServersCreateFuture
+	if strings.EqualFold(createmode, "replica") {
+		result, _ = client.Create(
+			ctx,
+			resourcegroup,
+			servername,
+			mysql.ServerForCreate{
+				Location: &location,
+				Tags:     tags,
+				Properties: &mysql.ServerPropertiesForReplica{
+					SourceServerID: to.StringPtr(sourceserver),
+					CreateMode:     mysql.CreateModeReplica,
+				},
+			},
+		)
+
+	} else {
+
+		result, _ = client.Create(
+			ctx,
+			resourcegroup,
+			servername,
+			mysql.ServerForCreate{
+				Location: &location,
+				Tags:     tags,
+				Properties: &mysql.ServerPropertiesForDefaultCreate{
+					AdministratorLogin:         &adminlogin,
+					AdministratorLoginPassword: &adminpassword,
+					Version:                    serverversion,
+					SslEnforcement:             sslenforcement,
+					//StorageProfile: &mysql.StorageProfile{},
+					CreateMode: mysql.CreateModeServerPropertiesForCreate,
+				},
+				Sku: &skuInfo,
+			},
+		)
 	}
 
-	return client.Create(
-		ctx,
-		resourcegroup,
-		servername,
-		mysql.ServerForCreate{
-			Location: &location,
-			Tags:     tags,
-			Properties: &mysql.ServerPropertiesForDefaultCreate{
-				AdministratorLogin:         &adminlogin,
-				AdministratorLoginPassword: &adminpassword,
-				Version:                    serverversion,
-				SslEnforcement:             sslenforcement,
-				//StorageProfile: &mysql.StorageProfile{},
-				CreateMode: mysql.CreateModeServerPropertiesForCreate,
-			},
-			Sku: &skuInfo,
-		},
-	)
+	res, err := result.Result(client)
+	return result.PollingURL(), res, err
+
 }
 
 func (m *MySQLServerClient) DeleteServer(ctx context.Context, resourcegroup string, servername string) (status string, err error) {
