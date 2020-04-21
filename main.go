@@ -38,6 +38,7 @@ import (
 	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
+	vm "github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
@@ -126,6 +127,9 @@ func main() {
 	)
 	eventhubNamespaceClient := resourcemanagereventhub.NewEventHubNamespaceClient()
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient()
+	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
+		secretClient,
+	)
 	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(mgr.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
@@ -171,7 +175,7 @@ func main() {
 	err = (&controllers.CosmosDBReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: resourcemanagercosmosdb.NewAzureCosmosDBManager(),
+			AzureClient: cosmosDBClient,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"CosmosDB",
 				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
@@ -640,6 +644,26 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "NetworkInterface")
 		os.Exit(1)
 	}
+
+	if err = (&controllers.AzureVirtualMachineReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client: mgr.GetClient(),
+			AzureClient: vm.NewAzureVirtualMachineClient(
+				secretClient,
+				mgr.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VirtualMachine",
+				ctrl.Log.WithName("controllers").WithName("VirtualMachine"),
+			),
+			Recorder: mgr.GetEventRecorderFor("VirtualMachine-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "VirtualMachine")
+		os.Exit(1)
+	}
+
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

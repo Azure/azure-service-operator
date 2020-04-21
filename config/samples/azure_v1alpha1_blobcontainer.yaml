@@ -4,8 +4,8 @@ metadata:
   name: blobcontainer-sample
 spec:
   location: westus
-  resourcegroup: resourcegroup-sample
-  accountname: storageaccount-sample
+  resourcegroup: resourcegroup-azure-operators
+  accountname: storageaccountsample777
   # accessLevel - Specifies whether data in the container may be accessed publicly and the level of access.
   # Possible values include: 'Container', 'Blob', 'None'
   accesslevel: Container
