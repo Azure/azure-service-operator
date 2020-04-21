@@ -48,30 +48,9 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 		},
 	}
 
-	// Create the sqlUser
-	err = tc.k8sClient.Create(ctx, sqlUser)
-	assert.Equal(nil, err, "create db user in k8s")
+	EnsureInstanceWithResult(ctx, t, tc, sqlUser, "admin secret", false)
 
-	sqlUserNamespacedName := types.NamespacedName{Name: username, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-		return HasFinalizer(sqlUser, finalizerName)
-	}, tc.timeout, tc.retry, "wait for finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-		return strings.Contains(sqlUser.Status.Message, "admin secret")
-	}, tc.timeout, tc.retry, "wait for missing admin secret message")
-
-	err = tc.k8sClient.Delete(ctx, sqlUser)
-	assert.Equal(nil, err, "delete db user in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for user to be gone from k8s")
-
+	EnsureDelete(ctx, t, tc, sqlUser)
 }
 
 func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
@@ -120,28 +99,8 @@ func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
 		},
 	}
 
-	// Create the sqlUser
-	err = tc.k8sClient.Create(ctx, sqlUser)
-	assert.Equal(nil, err, "create db user in k8s")
+	EnsureInstanceWithResult(ctx, t, tc, sqlUser, errhelp.ResourceGroupNotFoundErrorCode, false)
 
-	sqlUserNamespacedName := types.NamespacedName{Name: username, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-		return HasFinalizer(sqlUser, finalizerName)
-	}, tc.timeout, tc.retry, "wait for finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-		return strings.Contains(sqlUser.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
-	}, tc.timeout, tc.retry, "wait for rg fail message")
-
-	err = tc.k8sClient.Delete(ctx, sqlUser)
-	assert.Equal(nil, err, "delete db user in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlUserNamespacedName, sqlUser)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for user to be gone from k8s")
+	EnsureDelete(ctx, t, tc, sqlUser)
 
 }

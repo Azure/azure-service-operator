@@ -45,36 +45,9 @@ func TestAzureSqlVNetRuleControllerNoResourceGroup(t *testing.T) {
 		},
 	}
 
-	err := tc.k8sClient.Create(ctx, sqlVNetRuleInstance)
-	assert.Equal(nil, err, "create sqlvnetrule in k8s")
+	EnsureInstanceWithResult(ctx, t, tc, sqlVNetRuleInstance, errhelp.ResourceGroupNotFoundErrorCode, false)
 
-	sqlVNETRuleNamespacedName := types.NamespacedName{Name: sqlVNetRuleName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlVNETRuleNamespacedName, sqlVNetRuleInstance)
-		if err == nil {
-			return HasFinalizer(sqlVNetRuleInstance, finalizerName)
-		} else {
-			return false
-		}
-	}, tc.timeout, tc.retry, "wait for sqlvnetrule to have finalizer")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlVNETRuleNamespacedName, sqlVNetRuleInstance)
-		if err == nil {
-			return strings.Contains(sqlVNetRuleInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
-		} else {
-			return false
-		}
-	}, tc.timeout, tc.retry, "wait for sqlvnetrule to have rg not found error")
-
-	err = tc.k8sClient.Delete(ctx, sqlVNetRuleInstance)
-	assert.Equal(nil, err, "delete sqlvnetrule in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlVNETRuleNamespacedName, sqlVNetRuleInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for sqlvnetrule to be gone from k8s")
+	EnsureDelete(ctx, t, tc, sqlVNetRuleInstance)
 }
 
 func RunAzureSqlVNetRuleHappyPath(t *testing.T, sqlServerName string, rgLocation string) {

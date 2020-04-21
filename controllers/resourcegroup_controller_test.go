@@ -45,22 +45,13 @@ func TestResourceGroupControllerHappyPath(t *testing.T) {
 	resourceGroupNamespacedName := types.NamespacedName{Name: resourceGroupName, Namespace: "default"}
 
 	// verify rg exists in azure
-
 	assert.Eventually(func() bool {
 		_, err := tc.resourceGroupManager.CheckExistence(ctx, resourceGroupName)
 		return err == nil
 	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to exist in azure")
 
 	// delete rg
-	err = tc.k8sClient.Delete(ctx, resourceGroupInstance)
-	assert.Equal(nil, err, "delete rg in k8s")
-
-	// verify rg is being deleted
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, resourceGroupNamespacedName, resourceGroupInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for resourceGroupInstance to be gone from k8s")
+	EnsureDelete(ctx, t, tc, resourceGroupInstance)
 
 	assert.Eventually(func() bool {
 		result, _ := tc.resourceGroupManager.CheckExistence(ctx, resourceGroupName)

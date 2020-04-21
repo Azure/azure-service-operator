@@ -7,16 +7,11 @@ package controllers
 
 import (
 	"context"
-	"strings"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
@@ -39,27 +34,7 @@ func TestAzureSqlServerControllerNoResourceGroup(t *testing.T) {
 		},
 	}
 
-	err := tc.k8sClient.Create(ctx, sqlServerInstance)
-	assert.Equal(nil, err, "create sql server in k8s")
+	EnsureInstanceWithResult(ctx, t, tc, sqlServerInstance, errhelp.ResourceGroupNotFoundErrorCode, false)
 
-	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return HasFinalizer(sqlServerInstance, finalizerName)
-	}, tc.timeout, tc.retry, "wait for finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return strings.Contains(sqlServerInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
-	}, tc.timeout, tc.retry, "wait for rg error")
-
-	err = tc.k8sClient.Delete(ctx, sqlServerInstance)
-	assert.Equal(nil, err, "delete sql server in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, sqlServerNamespacedName, sqlServerInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for server to be gone")
-
+	EnsureDelete(ctx, t, tc, sqlServerInstance)
 }
