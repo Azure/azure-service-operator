@@ -69,6 +69,13 @@ stages:
         buildContext: '$(System.DefaultWorkingDirectory)'
         tags: '$(tag)'
 
+- stage: PurgeCRDs
+  jobs:
+  - job: RemoveCRDs
+    displayName: Drop PurgeCRDs
+    steps:
+    - bash: kubectl get crd --no-headers | awk '{print $1}' | xargs -L 1 -I % sh -c '{ kubectl delete crd %; sleep 3; }'
+
 - stage: Deploy
   jobs:
   - job: InstallControllers
@@ -141,7 +148,7 @@ stages:
     steps:
     - task: AzureCLI@2
       inputs:
-        azureSubscription: 'tpark-seusher-jaskulav-ARMConnection'
+        azureSubscription: 'ASO-DevOps-Subscription'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: 'make test-cleanup-azure-resources'
