@@ -61,13 +61,11 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			instance.Status.ResourceId = *getServer.ID
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
-			instance.Status.State = string(getServer.UserVisibleState)
 			return true, nil
 		}
 
 		// the database exists but has not provisioned yet - so keep waiting
 		instance.Status.Message = "Postgres server exists but may not be ready"
-		instance.Status.State = string(getServer.UserVisibleState)
 		return false, nil
 	}
 
