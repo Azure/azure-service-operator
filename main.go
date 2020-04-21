@@ -130,7 +130,7 @@ func main() {
 	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
 		secretClient,
 	)
-	storageManagers := resourcemanagerstorage.AzureStorageManagers
+	storageManagers := resourcemanagerstorage.AzureStorageManagers(secretClient)
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(mgr.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
 		KeyvaultClient: keyVaultManager,
@@ -159,7 +159,7 @@ func main() {
 	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: storageaccountManager.New(),
+			AzureClient: storageaccountManager.New(secretClient),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),

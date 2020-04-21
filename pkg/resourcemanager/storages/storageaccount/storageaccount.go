@@ -15,13 +15,16 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
 const templateForConnectionString = "DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=%s"
 
-type azureStorageManager struct{}
+type azureStorageManager struct {
+	SecretClient secrets.SecretClient
+}
 
 // ParseNetworkPolicy - helper function to parse network policies from Kubernetes spec
 func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.NetworkRuleSet {
@@ -175,18 +178,18 @@ func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupNam
 	if err != nil {
 		return err
 	}
-	if keyResult == nil {
-		return fmt.Errorf("No result was returned from ListKeys")
-	}
 	if keyResult.Keys == nil {
 		return fmt.Errorf("No keys were returned from ListKeys")
 	}
 	keys := *keyResult.Keys
 
 	// build the connection string
-	connectionString := fmt.Sprintf(templateForConnectionString, account.Name, keys[0].Value, storageEndpointSuffix)
+	connectionStrings := []string{}
+	for _, key := range keys {
+		connectionStrings = append(connectionStrings, fmt.Sprintf(templateForConnectionString, accountName, *key.Value, storageEndpointSuffix))
+	}
 
-	// upsert
+	// TODO: upsert
 
 	return nil
 }

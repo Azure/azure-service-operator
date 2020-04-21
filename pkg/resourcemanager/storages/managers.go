@@ -6,6 +6,7 @@ package storages
 import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
 type StorageManagers struct {
@@ -14,8 +15,18 @@ type StorageManagers struct {
 	FileSystem     FileSystemManager
 }
 
-var AzureStorageManagers = StorageManagers{
-	StorageAccount: storageaccount.New(),
-	BlobContainer:  blobcontainer.New(),
+func AzureStorageManagers(secretClient secrets.SecretClient) StorageManagers {
+	return StorageManagers{
+		StorageAccount: storageaccount.New(secretClient),
+		BlobContainer:  blobcontainer.New(),
+		FileSystem: &azureFileSystemManager{
+			SecretClient: secretClient,
+		},
+	}
+}
+
+var EmptyAzureStorageManagers = StorageManagers{
+	StorageAccount: storageaccount.EmptyStorageManager(),
+	BlobContainer:  blobcontainer.EmptyBlobContainerManager(),
 	FileSystem:     &azureFileSystemManager{},
 }

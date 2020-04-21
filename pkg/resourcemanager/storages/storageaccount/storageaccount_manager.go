@@ -9,11 +9,18 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 )
 
 // New returns an instance of the Storage Account Client
-func New() *azureStorageManager {
+func New(secretClient secrets.SecretClient) *azureStorageManager {
+	return &azureStorageManager{
+		SecretClient: secretClient,
+	}
+}
+
+func EmptyStorageManager() *azureStorageManager {
 	return &azureStorageManager{}
 }
 
@@ -42,7 +49,7 @@ type StorageManager interface {
 
 	ListKeys(ctx context.Context, groupName string, storageAccountName string) (result storage.AccountListKeysResult, err error)
 
-	StoreSecrets(ctx context.Context, account storage.Account, storageEndpointSuffix string) error
+	StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, storageEndpointSuffix string) error
 
 	resourcemanager.ARMClient
 }
