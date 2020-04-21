@@ -65,6 +65,8 @@ type StorageAccountAccessTier string
 // +kubebuilder:subresource:status
 
 // StorageAccount is the Schema for the storages API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
