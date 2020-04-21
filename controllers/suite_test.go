@@ -15,7 +15,6 @@ import (
 	"testing"
 	"time"
 
-	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
 
@@ -73,14 +72,6 @@ func setup() error {
 
 	resourceGroupName := GenerateTestResourceName("rg-prime")
 	resourcegroupLocation := resourcemanagerconfig.DefaultLocation()
-
-	eventhubNamespaceName := GenerateTestResourceName("evns-prime")
-	eventhubName := GenerateTestResourceName("ev-prime")
-	namespaceLocation := resourcemanagerconfig.DefaultLocation()
-
-	storageAccountName := GenerateAlphaNumTestResourceName("saprime")
-	blobContainerName := GenerateTestResourceName("blob-prime")
-	containerAccessLevel := s.PublicAccessContainer
 
 	keyvaultName := GenerateAlphaNumTestResourceName("kv-prime")
 
@@ -684,25 +675,11 @@ func setup() error {
 		_, _ = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
 	}
 
-	log.Println("Creating EHNS:", eventhubNamespaceName)
-	eventHubNSManager := eventHubManagers.EventHubNamespace
-
-	// Create the Eventhub namespace resource
-	_, err = eventHubNSManager.CreateNamespaceAndWait(context.Background(), resourceGroupName, eventhubNamespaceName, namespaceLocation)
-	if err != nil {
-		return err
-	}
-
 	tc = TestContext{
 		k8sClient:               k8sClient,
 		secretClient:            secretClient,
 		resourceGroupName:       resourceGroupName,
 		resourceGroupLocation:   resourcegroupLocation,
-		eventhubNamespaceName:   eventhubNamespaceName,
-		eventhubName:            eventhubName,
-		namespaceLocation:       namespaceLocation,
-		storageAccountName:      storageAccountName,
-		blobContainerName:       blobContainerName,
 		keyvaultName:            keyvaultName,
 		eventHubManagers:        eventHubManagers,
 		eventhubClient:          eventhubClient,
@@ -721,59 +698,10 @@ func setup() error {
 		consumerGroupClient:     consumerGroupClient,
 	}
 
-	var pstate *string
-	finish := time.Now().Add(tc.timeout)
-	for {
-		if finish.Before(time.Now()) {
-			return fmt.Errorf("time out waiting for eventhub namespace")
-		}
-
-		namespace, _ := eventHubManagers.EventHubNamespace.GetNamespace(context.Background(), resourceGroupName, eventhubNamespaceName)
-		pstate = namespace.ProvisioningState
-		if pstate != nil && *pstate == "Succeeded" {
-			break
-		}
-		time.Sleep(tc.retry)
-	}
-
-	log.Println("Creating EH:", eventhubName)
-	// Create the Eventhub resource
-	_, err = eventHubManagers.EventHub.CreateHub(context.Background(), resourceGroupName, eventhubNamespaceName, eventhubName, int32(7), int32(2), nil)
-	if err != nil {
-		return err
-	}
-
-	log.Println("Creating SA:", storageAccountName)
-	// Create the Storage Account and Container
-	_, _, _ = storageAccountManager.CreateStorage(context.Background(), resourceGroupName, storageAccountName, resourcegroupLocation, azurev1alpha1.StorageAccountSku{
-		Name: "Standard_LRS",
-	}, "Storage", map[string]*string{}, "", nil, nil, nil)
-
-	// Storage account needs to be in "Suceeded" state
-	// for container create to succeed
-	finish = time.Now().Add(tc.timeout)
-	for {
-
-		if finish.Before(time.Now()) {
-			return fmt.Errorf("time out waiting for storage account")
-		}
-
-		result, _ := storageAccountManager.GetStorage(context.Background(), resourceGroupName, storageAccountName)
-		if result.ProvisioningState == s.Succeeded {
-			break
-		}
-		time.Sleep(tc.retry)
-	}
-
-	_, err = storageManagers.BlobContainer.CreateBlobContainer(context.Background(), resourceGroupName, storageAccountName, blobContainerName, containerAccessLevel)
-	if err != nil {
-		return err
-	}
-
 	log.Println("Creating KV:", keyvaultName)
 	_, err = resourcemanagerkeyvaults.AzureKeyVaultManager.CreateVaultWithAccessPolicies(context.Background(), resourceGroupName, keyvaultName, resourcegroupLocation, resourcemanagerconfig.ClientID())
 	// Key Vault needs to be in "Suceeded" state
-	finish = time.Now().Add(tc.timeout)
+	finish := time.Now().Add(tc.timeout)
 	for {
 		if finish.Before(time.Now()) {
 			return fmt.Errorf("time out waiting for keyvault")
