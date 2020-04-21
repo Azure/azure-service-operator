@@ -7,15 +7,18 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
+
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
-// Ensure creates an AzureSqlDb
+// Ensure creates a storage account
 func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := sa.convert(obj)
@@ -31,24 +34,48 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	accessTier := instance.Spec.AccessTier
 	enableHTTPSTrafficOnly := instance.Spec.EnableHTTPSTrafficOnly
 	dataLakeEnabled := instance.Spec.DataLakeEnabled
+	pollURL := instance.Status.PollingURL
 
-	// convert kube labels to expected tag format
-	labels := map[string]*string{}
-	for k, v := range instance.GetLabels() {
-		value := v
-		labels[k] = &value
+	networkAcls := storage.NetworkRuleSet{}
+
+	if instance.Spec.NetworkRule != nil {
+		networkAcls = ParseNetworkPolicy(instance.Spec.NetworkRule)
 	}
+	// convert kube labels to expected tag format
+	labels := helpers.LabelsToTags(instance.GetLabels())
 
 	hash := ""
 	stor, err := sa.GetStorage(ctx, groupName, name)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		instance.Status.State = "NotReady"
+
+		// handle failures in the async operation
+		if pollURL != "" {
+			pClient := pollclient.NewPollClient()
+			res, err := pClient.Get(ctx, pollURL)
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if err != nil {
+				if azerr.Type == errhelp.NetworkAclsValidationFailure {
+					instance.Status.Message = "Unable to provision Azure Storage Account due to error: " + errhelp.StripErrorIDs(err)
+					instance.Status.Provisioning = false
+					instance.Status.Provisioned = false
+					return true, nil
+				}
+				return false, err
+			}
+
+			if res.Status == "Failed" {
+				instance.Status.Message = res.Error.Error()
+				instance.Status.Provisioning = false
+				return true, nil
+			}
+		}
 	} else {
 		instance.Status.State = string(stor.ProvisioningState)
 
 		hash = helpers.Hash256(instance.Spec)
-		if instance.Status.SpecHash == hash && instance.Status.Provisioned {
+		if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
 			instance.Status.RequestedAt = nil
 			return true, nil
 		}
@@ -60,13 +87,14 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance.Status.Provisioning = false
 		instance.Status.SpecHash = hash
 		instance.Status.ResourceId = *stor.ID
+		instance.Status.PollingURL = ""
 		return true, nil
 	}
 
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
 
-	_, err = sa.CreateStorage(ctx, groupName, name, location, sku, kind, labels, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled)
+	pollURL, _, err = sa.CreateStorage(ctx, groupName, name, location, sku, kind, labels, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled, &networkAcls)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -100,19 +128,26 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 					instance.Status.Message = "Storage Account Already exists somewhere else"
 					return true, nil
 				}
+
+				instance.Status.Message = "Storage Account already exists and should be available shortly"
 				instance.Status.Provisioning = true
 			}
 
 			if azerr.Type == errhelp.AsyncOpIncompleteError {
 				instance.Status.Provisioning = true
+				instance.Status.PollingURL = pollURL
 			}
 			return false, nil
 		}
 
 		stop := []string{
 			errhelp.AccountNameInvalid,
+			errhelp.NetworkAclsValidationFailure,
 		}
 		if helpers.ContainsString(stop, azerr.Type) {
+			instance.Status.Message = "Unable to provision Azure Storage Account due to error: " + errhelp.StripErrorIDs(err)
+			instance.Status.Provisioning = false
+			instance.Status.Provisioned = false
 			return true, nil
 		}
 
@@ -122,7 +157,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	return false, nil
 }
 
-// Delete drops a AzureSqlDb
+// Delete drops a storage account
 func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := sa.convert(obj)
 	if err != nil {
@@ -154,7 +189,7 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 	return true, nil
 }
 
-// GetParents returns the parents of AzureSqlDatabase
+// GetParents returns the parents of a storage account
 func (sa *azureStorageManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	instance, err := sa.convert(obj)
 	if err != nil {
@@ -180,8 +215,8 @@ func (g *azureStorageManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOS
 	return &instance.Status, nil
 }
 
-func (sa *azureStorageManager) convert(obj runtime.Object) (*azurev1alpha1.Storage, error) {
-	local, ok := obj.(*azurev1alpha1.Storage)
+func (sa *azureStorageManager) convert(obj runtime.Object) (*azurev1alpha1.StorageAccount, error) {
+	local, ok := obj.(*azurev1alpha1.StorageAccount)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}

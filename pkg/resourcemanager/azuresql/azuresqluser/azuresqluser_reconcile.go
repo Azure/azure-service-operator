@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -77,28 +78,44 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
-		instance.Status.Message = err.Error()
+		instance.Status.Message = errhelp.StripErrorIDs(err)
+		instance.Status.Provisioning = false
 
-		catch := []string{
+		requeuErrors := []string{
 			errhelp.ResourceNotFound,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
+		if helpers.ContainsString(requeuErrors, azerr.Type) {
 			return false, nil
 		}
-		return false, err
+
+		// if the database is busy, requeue
+		errorString := err.Error()
+		if strings.Contains(errorString, "Please retry the connection later") {
+			return false, nil
+		}
+
+		// if this is an unmarshall error - igmore and continue, otherwise report error and requeue
+		if !strings.Contains(errorString, "cannot unmarshal array into Go struct field serviceError2.details") {
+			return false, err
+		}
 	}
 
 	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
+		instance.Status.Provisioning = false
 
 		// catch firewall issue - keep cycling until it clears up
 		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = false
+			return false, nil
+		}
+
+		// if the database is busy, requeue
+		errorString := err.Error()
+		if strings.Contains(errorString, "Please retry the connection later") {
 			return false, nil
 		}
 
@@ -178,7 +195,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 				case "jdbc":
 					formattedSecrets["jdbc"] = []byte(fmt.Sprintf(
-						"jdbc:sqlserver://%v:1433;database=%v;user=%v@%v;password=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
+						"jdbc:sqlserver://%v:1433;database=%v;user=%v@%v;password=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
 						string(DBSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 						user,
@@ -187,7 +204,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 					))
 				case "jdbc-urlonly":
 					formattedSecrets["jdbc-urlonly"] = []byte(fmt.Sprintf(
-						"jdbc:sqlserver://%v:1433;database=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
+						"jdbc:sqlserver://%v:1433;database=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
 						string(DBSecret["fullyQualifiedServerName"]),
 						instance.Spec.DbName,
 					))
@@ -261,7 +278,6 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 
 	err = s.GrantUserRoles(ctx, user, instance.Spec.Roles, db)
 	if err != nil {
-		fmt.Println(err)
 		instance.Status.Message = "GrantUserRoles failed"
 		return false, fmt.Errorf("GrantUserRoles failed")
 	}

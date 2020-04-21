@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all psql psqldatabase
+// +build all psql
 
 package controllers
 
@@ -10,24 +10,18 @@ import (
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/stretchr/testify/assert"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestPSQLDatabaseController(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	var rgName string
 	var rgLocation string
 	var postgreSQLServerName string
 	var postgreSQLServerInstance *azurev1alpha1.PostgreSQLServer
-	var postgreSQLServerNamespacedName types.NamespacedName
-	var err error
 
 	// Add any setup steps that needs to be executed before each test
 	rgName = tc.resourceGroupName
@@ -56,20 +50,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 		},
 	}
 
-	err = tc.k8sClient.Create(ctx, postgreSQLServerInstance)
-	assert.Equal(nil, err, "create postgreSQLServerInstance in k8s")
-
-	postgreSQLServerNamespacedName = types.NamespacedName{Name: postgreSQLServerName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, postgreSQLServerNamespacedName, postgreSQLServerInstance)
-		return HasFinalizer(postgreSQLServerInstance, finalizerName)
-	}, tc.timeout, tc.retry, "wait for postgreSQLserver to have finlizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, postgreSQLServerNamespacedName, postgreSQLServerInstance)
-		return postgreSQLServerInstance.Status.Provisioned
-	}, tc.timeout, tc.retry, "wait for postgreSQLserver to be provisioned")
+	EnsureInstance(ctx, t, tc, postgreSQLServerInstance)
 
 	postgreSQLDatabaseName := GenerateTestResourceNameWithRandom("psql-db", 10)
 
@@ -85,28 +66,9 @@ func TestPSQLDatabaseController(t *testing.T) {
 		},
 	}
 
-	err = tc.k8sClient.Create(ctx, postgreSQLDatabaseInstance)
-	assert.Equal(nil, err, "create postgreSQLDatabaseInstance in k8s")
+	EnsureInstance(ctx, t, tc, postgreSQLDatabaseInstance)
 
-	postgreSQLDatabaseNamespacedName := types.NamespacedName{Name: postgreSQLDatabaseName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, postgreSQLDatabaseNamespacedName, postgreSQLDatabaseInstance)
-		return HasFinalizer(postgreSQLDatabaseInstance, finalizerName)
-	}, tc.timeout, tc.retry, "wait for postgreSQLDBInstance to have finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, postgreSQLDatabaseNamespacedName, postgreSQLDatabaseInstance)
-		return postgreSQLDatabaseInstance.Status.Provisioned
-	}, tc.timeout, tc.retry, "wait for postgreSQLDBInstance to be provisioned")
-
-	err = tc.k8sClient.Delete(ctx, postgreSQLDatabaseInstance)
-	assert.Equal(nil, err, "delete postgreSQLDatabaseInstance in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, postgreSQLDatabaseNamespacedName, postgreSQLDatabaseInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for postgreSQLDBInstance to be gone from k8s")
+	EnsureDelete(ctx, t, tc, postgreSQLDatabaseInstance)
 
 	// Test firewall rule -------------------------------
 
@@ -126,36 +88,11 @@ func TestPSQLDatabaseController(t *testing.T) {
 		},
 	}
 
-	err = tc.k8sClient.Create(ctx, postgreSQLFirewallRuleInstance)
-	assert.Equal(nil, err, "create postgreSQLFirewallRuleInstance in k8s")
+	EnsureInstance(ctx, t, tc, postgreSQLFirewallRuleInstance)
 
-	postgreSQLFirewallRuleNamespacedName := types.NamespacedName{Name: postgreSQLFirewallRuleName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, postgreSQLFirewallRuleNamespacedName, postgreSQLFirewallRuleInstance)
-		return HasFinalizer(postgreSQLFirewallRuleInstance, finalizerName)
-	}, tc.timeout, tc.retry, "wait for postgreSQLFirewallRuleInstance to have finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, postgreSQLFirewallRuleNamespacedName, postgreSQLFirewallRuleInstance)
-		return postgreSQLFirewallRuleInstance.Status.Provisioned
-	}, tc.timeout, tc.retry, "wait for postgreSQLFirewallRuleInstance to be provisioned")
-
-	err = tc.k8sClient.Delete(ctx, postgreSQLFirewallRuleInstance)
-	assert.Equal(nil, err, "delete postgreSQLFirewallRuleInstance in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, postgreSQLFirewallRuleNamespacedName, postgreSQLFirewallRuleInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for postgreSQLFirewallRuleInstance to be gone from k8s")
+	EnsureDelete(ctx, t, tc, postgreSQLFirewallRuleInstance)
 
 	// Add any teardown steps that needs to be executed after each test
-	err = tc.k8sClient.Delete(ctx, postgreSQLServerInstance)
-	assert.Equal(nil, err, "delete postgreSQLServerInstance in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, postgreSQLServerNamespacedName, postgreSQLServerInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for postgreSQLServerInstance to be gone from k8s")
+	EnsureDelete(ctx, t, tc, postgreSQLServerInstance)
 
 }

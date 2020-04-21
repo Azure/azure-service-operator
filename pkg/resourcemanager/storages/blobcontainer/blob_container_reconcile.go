@@ -16,7 +16,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-// Ensure creates an AzureSqlDb
+// Ensure creates a blob container
 func (bc *AzureBlobContainerManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := bc.convert(obj)
@@ -81,7 +81,7 @@ func (bc *AzureBlobContainerManager) Ensure(ctx context.Context, obj runtime.Obj
 	return true, nil
 }
 
-// Delete drops a AzureSqlDb
+// Delete drops a blob container
 func (bc *AzureBlobContainerManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := bc.convert(obj)
 	if err != nil {
@@ -117,7 +117,7 @@ func (bc *AzureBlobContainerManager) Delete(ctx context.Context, obj runtime.Obj
 	return false, nil
 }
 
-// GetParents returns the parents of AzureSqlDatabase
+// GetParents returns the parents of a blob container
 func (bc *AzureBlobContainerManager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	instance, err := bc.convert(obj)
 	if err != nil {
@@ -127,12 +127,20 @@ func (bc *AzureBlobContainerManager) GetParents(obj runtime.Object) ([]resourcem
 	return []resourcemanager.KubeParent{
 		{
 			Key: types.NamespacedName{
+				Name:      instance.Spec.AccountName,
+				Namespace: instance.Namespace,
+			},
+			Target: &azurev1alpha1.StorageAccount{},
+		},
+		{
+			Key: types.NamespacedName{
 				Name:      instance.Spec.ResourceGroup,
 				Namespace: instance.Namespace,
 			},
 			Target: &azurev1alpha1.ResourceGroup{},
 		},
 	}, nil
+
 }
 
 func (bc *AzureBlobContainerManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {

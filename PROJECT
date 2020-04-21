@@ -4,7 +4,7 @@ repo: github.com/Azure/azure-service-operator
 resources:
 - group: azure
   version: v1alpha1
-  kind: Storage
+  kind: StorageAccount
 - group: azure
   version: v1alpha1
   kind: CosmosDB
@@ -86,4 +86,6 @@ resources:
 - group: azure
   version: v1alpha1
   kind: MySQLFirewallRule
-
+- group: azure
+  version: v1alpha1
+  kind: AzureVirtualMachine

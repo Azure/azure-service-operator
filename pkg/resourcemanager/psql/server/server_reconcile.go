@@ -39,7 +39,8 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 	if err != nil {
 		return false, err
 	}
-	// Update secret
+
+	// Update secret with the fully qualified server name
 	err = p.AddServerCredsToSecrets(ctx, instance.Name, secret, instance)
 	if err != nil {
 		return false, err
@@ -52,6 +53,10 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 		// succeeded! so end reconcilliation successfully
 		if getServer.UserVisibleState == "Ready" {
+
+			// Update the secret with fully qualified server name. Ignore error as we have the admin creds which is critical.
+			p.UpdateSecretWithFullServerName(ctx, instance.Name, secret, instance, *getServer.FullyQualifiedDomainName)
+
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.ResourceId = *getServer.ID
 			instance.Status.Provisioned = true
@@ -61,7 +66,6 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 		// the database exists but has not provisioned yet - so keep waiting
 		instance.Status.Message = "Postgres server exists but may not be ready"
-		instance.Status.State = string(getServer.UserVisibleState)
 		return false, nil
 	}
 
@@ -79,6 +83,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	// create the server
 	instance.Status.Provisioning = true
+	instance.Status.FailedProvisioning = false
 	_, err = p.CreateServerIfValid(
 		ctx,
 		instance.Name,
@@ -93,6 +98,8 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 	)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
+		instance.Status.Provisioning = false
+
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
 		catchInProgress := []string{
@@ -109,19 +116,18 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		// handle the errors
 		if helpers.ContainsString(catchInProgress, azerr.Type) {
 			instance.Status.Message = "Postgres server exists but may not be ready"
+			instance.Status.Provisioning = true
 			return false, nil
 		} else if helpers.ContainsString(catchKnownError, azerr.Type) {
-			instance.Status.Provisioning = false
 			return false, nil
-		} else {
-
-			// serious error occured, end reconcilliation and mark it as failed
-			instance.Status.Message = fmt.Sprintf("Error occurred creating the Postgres server: %s", errhelp.StripErrorIDs(err))
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = false
-			instance.Status.FailedProvisioning = true
-			return true, nil
 		}
+
+		// serious error occured, end reconcilliation and mark it as failed
+		instance.Status.Message = errhelp.StripErrorIDs(err)
+		instance.Status.Provisioned = false
+		instance.Status.FailedProvisioning = true
+		return true, nil
+
 	}
 
 	return false, nil

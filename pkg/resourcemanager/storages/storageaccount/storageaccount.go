@@ -7,8 +7,10 @@ import (
 	"context"
 	"errors"
 	"log"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
@@ -17,6 +19,56 @@ import (
 )
 
 type azureStorageManager struct{}
+
+// ParseNetworkPolicy - helper function to parse network policies from Kubernetes spec
+func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.NetworkRuleSet {
+
+	bypass := storage.AzureServices
+	switch ruleSet.Bypass {
+	case "AzureServices":
+		bypass = storage.AzureServices
+	case "None":
+		bypass = storage.None
+	case "Logging":
+		bypass = storage.Logging
+	case "Metrics":
+		bypass = storage.Metrics
+	}
+
+	defaultAction := storage.DefaultActionDeny
+	if strings.EqualFold(ruleSet.DefaultAction, "allow") {
+		defaultAction = storage.DefaultActionAllow
+	}
+
+	var ipInstances []storage.IPRule
+	if ruleSet.IPRules != nil {
+		for _, i := range *ruleSet.IPRules {
+			ipmask := i.IPAddressOrRange
+			ipInstances = append(ipInstances, storage.IPRule{
+				IPAddressOrRange: ipmask,
+				Action:           storage.Allow,
+			})
+		}
+	}
+
+	var vnetInstances []storage.VirtualNetworkRule
+	if ruleSet.VirtualNetworkRules != nil {
+		for _, i := range *ruleSet.VirtualNetworkRules {
+			vnetID := i.SubnetId
+			vnetInstances = append(vnetInstances, storage.VirtualNetworkRule{
+				VirtualNetworkResourceID: vnetID,
+				Action:                   storage.Allow,
+			})
+		}
+	}
+
+	return storage.NetworkRuleSet{
+		Bypass:              bypass,
+		DefaultAction:       defaultAction,
+		IPRules:             &ipInstances,
+		VirtualNetworkRules: &vnetInstances,
+	}
+}
 
 func getStoragesClient() storage.AccountsClient {
 	storagesClient := storage.NewAccountsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
@@ -30,14 +82,15 @@ func getStoragesClient() storage.AccountsClient {
 }
 
 // CreateStorage creates a new storage account
-func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName string,
+func (_ *azureStorageManager) CreateStorage(ctx context.Context,
+	groupName string,
 	storageAccountName string,
 	location string,
-	sku azurev1alpha1.StorageSku,
-	kind azurev1alpha1.StorageKind,
+	sku azurev1alpha1.StorageAccountSku,
+	kind azurev1alpha1.StorageAccountKind,
 	tags map[string]*string,
-	accessTier azurev1alpha1.StorageAccessTier,
-	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool) (result storage.Account, err error) {
+	accessTier azurev1alpha1.StorageAccountAccessTier,
+	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *storage.NetworkRuleSet) (pollingURL string, result storage.Account, err error) {
 
 	storagesClient := getStoragesClient()
 
@@ -46,16 +99,19 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 	checkAccountParams := storage.AccountCheckNameAvailabilityParameters{Name: &storageAccountName, Type: &storageType}
 	checkNameResult, err := storagesClient.CheckNameAvailability(ctx, checkAccountParams)
 	if err != nil {
-		return result, err
+		return "", result, err
 	}
 	if dataLakeEnabled == to.BoolPtr(true) && kind != "StorageV2" {
-		return result, errors.New("unable to create datalake enabled storage account")
+		err = errors.New("unable to create datalake enabled storage account")
+		return
 	}
 	if *checkNameResult.NameAvailable == false {
 		if checkNameResult.Reason == storage.AccountNameInvalid {
-			return result, errors.New("AccountNameInvalid")
+			err = errors.New("AccountNameInvalid")
+			return
 		} else if checkNameResult.Reason == storage.AlreadyExists {
-			return result, errors.New("AlreadyExists")
+			err = errors.New("AlreadyExists")
+			return
 		}
 	}
 
@@ -73,26 +129,29 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context, groupName strin
 			AccessTier:             sAccessTier,
 			EnableHTTPSTrafficOnly: enableHTTPsTrafficOnly,
 			IsHnsEnabled:           dataLakeEnabled,
+			NetworkRuleSet:         networkRule,
 		},
 	}
 
 	//log.Println(fmt.Sprintf("creating storage '%s' in resource group '%s' and location: %v", storageAccountName, groupName, location))
 	future, err := storagesClient.Create(ctx, groupName, storageAccountName, params)
 	if err != nil {
-		return result, err
+		return "", result, err
 	}
 
-	return future.Result(storagesClient)
+	result, err = future.Result(storagesClient)
+
+	return future.PollingURL(), result, err
 
 }
 
 // Get gets the description of the specified storage account.
 // Parameters:
 // resourceGroupName - name of the resource group within the azure subscription.
-// accountName - the name of the storage account
-func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName string, accountName string) (result storage.Account, err error) {
+// storageAccountName - the name of the storage account
+func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName string, storageAccountName string) (result storage.Account, err error) {
 	storagesClient := getStoragesClient()
-	return storagesClient.GetProperties(ctx, resourceGroupName, accountName, "")
+	return storagesClient.GetProperties(ctx, resourceGroupName, storageAccountName, "")
 }
 
 // DeleteStorage removes the resource group named by env var
