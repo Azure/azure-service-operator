@@ -89,3 +89,6 @@ resources:
 - group: azure
   version: v1alpha1
   kind: AzureVirtualMachine
+- group: azure
+  version: v1alpha1
+  kind: AzureSQLManagedUser

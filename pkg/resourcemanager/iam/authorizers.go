@@ -245,6 +245,21 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 	return a, err
 }
 
+// GetMSITokenForResource returns the MSI token for a resource (used in AzureSQLManagedUser)
+func GetMSITokenForResource(resource string) (*adal.ServicePrincipalToken, error) {
+	MIEndpoint, err := adal.GetMSIVMEndpoint()
+	if err != nil {
+		return nil, err
+	}
+
+	token, err := adal.NewServicePrincipalTokenFromMSI(MIEndpoint, resource)
+	if err != nil {
+		return nil, err
+	}
+
+	return token, err
+}
+
 // GetResourceManagementTokenHybrid retrieves auth token for hybrid environment
 func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience string) (adal.OAuthTokenProvider, error) {
 	var tokenProvider adal.OAuthTokenProvider
