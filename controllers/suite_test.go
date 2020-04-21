@@ -656,12 +656,12 @@ func setup() error {
 		return err
 	}
 
-	// go func() {
-	// 	err = k8sManager.Start(ctrl.SetupSignalHandler())
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// }()
+	go func() {
+		err = k8sManager.Start(ctrl.SetupSignalHandler())
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
 
 	k8sClient, err := client.New(cfg, client.Options{Scheme: scheme.Scheme})
 	if err != nil {
