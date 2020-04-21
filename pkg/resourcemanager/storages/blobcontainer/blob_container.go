@@ -5,8 +5,6 @@ package blobcontainer
 
 import (
 	"context"
-	"fmt"
-	"log"
 
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
@@ -68,8 +66,6 @@ func (bc *AzureBlobContainerManager) GetBlobContainer(ctx context.Context, resou
 // containerName - the name of the container
 func (bc *AzureBlobContainerManager) DeleteBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string) (result autorest.Response, err error) {
 	containerClient := getContainerClient()
-	log.Println(fmt.Sprintf("Deleting blob container '%s' for resource group: %s", containerName, accountName))
-
 	return containerClient.Delete(ctx,
 		resourceGroupName,
 		accountName,
