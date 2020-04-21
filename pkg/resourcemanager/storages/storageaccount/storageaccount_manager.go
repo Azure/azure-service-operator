@@ -42,5 +42,7 @@ type StorageManager interface {
 
 	ListKeys(ctx context.Context, groupName string, storageAccountName string) (result storage.AccountListKeysResult, err error)
 
+	StoreSecrets(ctx context.Context, account storage.Account, storageEndpointSuffix string) error
+
 	resourcemanager.ARMClient
 }

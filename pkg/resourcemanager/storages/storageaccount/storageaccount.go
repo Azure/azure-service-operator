@@ -4,6 +4,7 @@
 package storageaccount
 
 import (
+	"fmt"
 	"context"
 	"errors"
 	"log"
@@ -163,4 +164,15 @@ func (_ *azureStorageManager) DeleteStorage(ctx context.Context, groupName strin
 func (_ *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName string, accountName string) (result storage.AccountListKeysResult, err error) {
 	storagesClient := getStoragesClient()
 	return storagesClient.ListKeys(ctx, resourceGroupName, accountName, storage.Kerb)
+}
+
+func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, storageEndpointSuffix string) error {
+
+	// get the keys
+	keys, err := s.L
+
+	templateConnection := "DefaultEndpointsProtocol=https;AccountName=;AccountKey===;EndpointSuffix=<ENVIRONMENT_SPECIFIC_SUFFIX>"
+	connectionString := fmt.Sprintf(templateConnection, account.Name, account.)
+
+	return nil
 }
