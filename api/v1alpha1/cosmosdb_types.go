@@ -23,6 +23,7 @@ type CosmosDBSpec struct {
 	Properties             CosmosDBProperties            `json:"properties,omitempty"`
 	VirtualNetworkRules    *[]CosmosDBVirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
 	KeyVaultToStoreSecrets string                        `json:"keyVaultToStoreSecrets,omitempty"`
+	IPRules                *[]string                     `json:"ipRules,omitempty"`
 }
 
 // CosmosDBKind enumerates the values for kind.

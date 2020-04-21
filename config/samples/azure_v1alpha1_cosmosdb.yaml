@@ -8,7 +8,7 @@ spec:
   resourceGroup: resourcegroup-azure-operators
   properties:
     databaseAccountOfferType: Standard
-    enableMultipleWriteLocations: false
+    #enableMultipleWriteLocations: false
     # optionally set the mongoDBVersion to "3.2" or "3.6", if omitted the default is "3.2"
     # NOTE: kind must be set to MongoDB for this to take effect
     #mongoDBVersion: "3.6"
@@ -19,6 +19,11 @@ spec:
 #    - subnetId: /subscriptions/{subscription_id}/resourceGroups/{resourcegroup}/providers/Microsoft.Network/virtualNetworks/{vnet_name}/subnets/{subnet_name}
 #      ignoreMissingServiceEndpoint: false
 
-  # Use the field below to optionally specify a different keyvault 
-  # to store the connectiong string secrets in
-  #keyVaultToStoreSecrets: asoSecretKeyVault
+# optionally configure different CIDR IP ranges for allowed-list, omitting allows all or falls back to vNetRules
+#  ipRules:
+#    # these rules allow Azure Portal access
+#    - 104.42.195.92
+#    - 40.76.54.131
+#    - 52.176.6.30
+#    - 52.169.50.45
+#    - 52.187.184.26
