@@ -100,7 +100,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		DatabaseAccountOfferType:      instance.Spec.Properties.DatabaseAccountOfferType,
 		EnableMultipleWriteLocations:  instance.Spec.Properties.EnableMultipleWriteLocations,
 		MongoDBVersion:                instance.Spec.Properties.MongoDBVersion,
-    IsVirtualNetworkFilterEnabled: instance.Spec.Properties.IsVirtualNetworkFilterEnabled,
+		IsVirtualNetworkFilterEnabled: instance.Spec.Properties.IsVirtualNetworkFilterEnabled,
 	}
 
 	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, networkRule, cosmosDBProperties, tags)

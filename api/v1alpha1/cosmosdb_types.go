@@ -44,9 +44,9 @@ type CosmosDBProperties struct {
 	// DatabaseAccountOfferType - The offer type for the Cosmos DB database account.
 	DatabaseAccountOfferType CosmosDBDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
 	// IsVirtualNetworkFilterEnabled - Flag to indicate whether to enable/disable Virtual Network ACL rules.
-	IsVirtualNetworkFilterEnabled bool `json:"isVirtualNetworkFilterEnabled,omitempty"`
-	EnableMultipleWriteLocations bool                             `json:"enableMultipleWriteLocations,omitempty"`
-	MongoDBVersion               string                           `json:"mongoDBVersion,omitempty"`
+	IsVirtualNetworkFilterEnabled bool   `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	EnableMultipleWriteLocations  bool   `json:"enableMultipleWriteLocations,omitempty"`
+	MongoDBVersion                string `json:"mongoDBVersion,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Standard

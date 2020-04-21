@@ -54,7 +54,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	dbKind := documentdb.DatabaseAccountKind(kind)
 	sDBType := string(properties.DatabaseAccountOfferType)
 	bWriteLocal := bool(properties.EnableMultipleWriteLocations)
-  vnetEnabled := bool(properties.IsVirtualNetworkFilterEnabled)
+	vnetEnabled := bool(properties.IsVirtualNetworkFilterEnabled)
 
 	var capabilities []documentdb.Capability
 	if dbKind == documentdb.MongoDB && properties.MongoDBVersion == "3.6" {
@@ -110,6 +110,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 			IsVirtualNetworkFilterEnabled: &vnetEnabled,
 			VirtualNetworkRules:           &vNetRulesSet,
 			EnableMultipleWriteLocations:  &bWriteLocal,
+			Locations:                     &locationsArray,
 			Capabilities:                  &capabilities,
 		},
 	}
