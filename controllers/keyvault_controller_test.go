@@ -8,7 +8,6 @@ package controllers
 import (
 	"context"
 	"net/http"
-	"strings"
 	"testing"
 	"time"
 
@@ -19,7 +18,6 @@ import (
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 
 	"github.com/stretchr/testify/assert"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -236,7 +234,6 @@ func TestKeyvaultControllerInvalidName(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	keyVaultName := "k"
 
@@ -254,43 +251,15 @@ func TestKeyvaultControllerInvalidName(t *testing.T) {
 		},
 	}
 
-	// Create the Keyvault object and expect the Reconcile to be created
-	err := tc.k8sClient.Create(ctx, keyVaultInstance)
-	assert.Equal(nil, err, "create keyvault in k8s")
+	EnsureInstanceWithResult(ctx, t, tc, keyVaultInstance, errhelp.AccountNameInvalid, false)
 
-	// Prep query for get
-	keyVaultNamespacedName := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return HasFinalizer(keyVaultInstance, finalizerName)
-	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
-
-	// Verify you get the invalid name error
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return strings.Contains(keyVaultInstance.Status.Message, errhelp.AccountNameInvalid)
-	}, tc.timeout, tc.retry, "wait for invalid account name error")
-
-	// delete key vault
-	err = tc.k8sClient.Delete(ctx, keyVaultInstance)
-	assert.Equal(nil, err, "delete keyvault in k8s")
-
-	// verify key vault is gone from kubernetes
-
-	assert.Eventually(func() bool {
-		err := tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from k8s")
-
+	EnsureDelete(ctx, t, tc, keyVaultInstance)
 }
 
 func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	keyVaultName := helpers.FillWithRandom(GenerateTestResourceName("kv"), 24)
 
@@ -308,35 +277,9 @@ func TestKeyvaultControllerNoResourceGroup(t *testing.T) {
 		},
 	}
 
-	// Create the Keyvault object and expect the Reconcile to be created
-	err := tc.k8sClient.Create(ctx, keyVaultInstance)
-	assert.Equal(nil, err, "create keyvault in k8s")
+	EnsureInstanceWithResult(ctx, t, tc, keyVaultInstance, errhelp.ResourceGroupNotFoundErrorCode, false)
 
-	// Prep query for get
-	keyVaultNamespacedName := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return HasFinalizer(keyVaultInstance, finalizerName)
-	}, tc.timeout, tc.retry, "wait for keyvault to have finalizer")
-
-	// Verify you get the resource group not found error
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return strings.Contains(keyVaultInstance.Status.Message, errhelp.ResourceGroupNotFoundErrorCode)
-	}, tc.timeout, tc.retry, "wait for ResourceGroupNotFound error")
-
-	// delete key vault
-	err = tc.k8sClient.Delete(ctx, keyVaultInstance)
-	assert.Equal(nil, err, "delete keyvault in k8s")
-
-	// verify key vault is gone from kubernetes
-
-	assert.Eventually(func() bool {
-		err := tc.k8sClient.Get(ctx, keyVaultNamespacedName, keyVaultInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be gone from k8s")
+	EnsureDelete(ctx, t, tc, keyVaultInstance)
 
 }
 
