@@ -4,9 +4,9 @@
 package storageaccount
 
 import (
-	"fmt"
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"strings"
 
@@ -18,6 +18,8 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
+
+const templateForConnectionString = "DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=%s"
 
 type azureStorageManager struct{}
 
@@ -169,10 +171,22 @@ func (_ *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName st
 func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, storageEndpointSuffix string) error {
 
 	// get the keys
-	keys, err := s.L
+	keyResult, err := s.ListKeys(ctx, resourceGroupName, accountName)
+	if err != nil {
+		return err
+	}
+	if keyResult == nil {
+		return fmt.Errorf("No result was returned from ListKeys")
+	}
+	if keyResult.Keys == nil {
+		return fmt.Errorf("No keys were returned from ListKeys")
+	}
+	keys := *keyResult.Keys
 
-	templateConnection := "DefaultEndpointsProtocol=https;AccountName=;AccountKey===;EndpointSuffix=<ENVIRONMENT_SPECIFIC_SUFFIX>"
-	connectionString := fmt.Sprintf(templateConnection, account.Name, account.)
+	// build the connection string
+	connectionString := fmt.Sprintf(templateForConnectionString, account.Name, keys[0].Value, storageEndpointSuffix)
+
+	// upsert
 
 	return nil
 }
