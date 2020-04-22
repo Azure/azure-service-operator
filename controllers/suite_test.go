@@ -44,6 +44,7 @@ import (
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	resourcemanagerblobcontainer "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	resourcemanagerstorageaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
@@ -503,6 +504,25 @@ func setup() error {
 			),
 			Recorder: k8sManager.GetEventRecorderFor("NetworkInterface-controller"),
 			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureVirtualMachineReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: vm.NewAzureVirtualMachineClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VirtualMachine",
+				ctrl.Log.WithName("controllers").WithName("VirtualMachine"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("VirtualMachine-controller"),
+			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
