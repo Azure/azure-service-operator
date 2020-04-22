@@ -106,6 +106,7 @@ func (bc *AzureBlobContainerManager) Delete(ctx context.Context, obj runtime.Obj
 		catch = []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
