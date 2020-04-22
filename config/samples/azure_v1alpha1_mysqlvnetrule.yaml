@@ -1,0 +1,11 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: MySQLVNetRule
+metadata:
+  name: mysqlvnetrule-sample
+spec:
+  resourceGroup: resourcegroup-azure-operators
+  server: mysqlserver-sample
+  vNetResourceGroup: resourcegroup-vnet
+  vNetName: virtualnetwork-sample
+  subnetName: test1
+  ignoreMissingServiceEndpoint: true
