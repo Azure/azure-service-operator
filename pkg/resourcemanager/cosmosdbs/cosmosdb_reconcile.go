@@ -91,19 +91,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	tags := helpers.LabelsToTags(instance.GetLabels())
 	accountName := instance.ObjectMeta.Name
-	groupName := instance.Spec.ResourceGroup
-	location := instance.Spec.Location
-	kind := instance.Spec.Kind
-	networkRule := instance.Spec.VirtualNetworkRules
-
-	cosmosDBProperties := v1alpha1.CosmosDBProperties{
-		DatabaseAccountOfferType:      instance.Spec.Properties.DatabaseAccountOfferType,
-		EnableMultipleWriteLocations:  instance.Spec.Properties.EnableMultipleWriteLocations,
-		MongoDBVersion:                instance.Spec.Properties.MongoDBVersion,
-		IsVirtualNetworkFilterEnabled: instance.Spec.Properties.IsVirtualNetworkFilterEnabled,
-	}
-
-	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, networkRule, cosmosDBProperties, tags)
+	db, err = m.CreateOrUpdateCosmosDB(ctx, accountName, instance.Spec, tags)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		instance.Status.Message = err.Error()
@@ -163,12 +151,6 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
-	}
-
-	// if the resource is in a failed state it was never created or could never be verified
-	// so we skip attempting to delete the resrouce from Azure
-	if instance.Status.FailedProvisioning {
-		return false, nil
 	}
 
 	groupName := instance.Spec.ResourceGroup

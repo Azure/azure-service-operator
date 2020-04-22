@@ -23,6 +23,7 @@ type CosmosDBSpec struct {
 	Properties             CosmosDBProperties            `json:"properties,omitempty"`
 	VirtualNetworkRules    *[]CosmosDBVirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
 	KeyVaultToStoreSecrets string                        `json:"keyVaultToStoreSecrets,omitempty"`
+	Locations              *[]CosmosDBLocation           `json:"locations,omitempty"`
 }
 
 // CosmosDBKind enumerates the values for kind.
@@ -57,13 +58,12 @@ const (
 	CosmosDBDatabaseAccountOfferTypeStandard CosmosDBDatabaseAccountOfferType = "Standard"
 )
 
-/*
+// CosmosDBLocation defines one or more locations for geo-redundancy and high availability
 type CosmosDBLocation struct {
-	FailoverPriority int    `json:"failoverPriority,omitempty"`
 	LocationName     string `json:"locationName,omitempty"`
+	FailoverPriority int32  `json:"failoverPriority"`
 	IsZoneRedundant  bool   `json:"isZoneRedundant,omitempty"`
 }
-*/
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
