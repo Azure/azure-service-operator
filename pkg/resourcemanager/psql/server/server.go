@@ -6,13 +6,16 @@ package server
 import (
 	"context"
 	"fmt"
+	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -72,42 +75,67 @@ func (p *PSQLServerClient) CheckServerNameAvailability(ctx context.Context, serv
 
 }
 
-func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion psql.ServerVersion, sslenforcement psql.SslEnforcementEnum, skuInfo psql.Sku, adminlogin string, adminpassword string) (server psql.Server, err error) {
+func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
+	servername string,
+	resourcegroup string,
+	location string,
+	tags map[string]*string,
+	serverversion psql.ServerVersion,
+	sslenforcement psql.SslEnforcementEnum,
+	skuInfo psql.Sku, adminlogin string,
+	adminpassword string,
+	createmode string,
+	sourceserver string) (pollingURL string, server psql.Server, err error) {
 
 	client, err := getPSQLServersClient()
 	if err != nil {
-		return psql.Server{}, err
+		return "", psql.Server{}, err
 	}
 
 	// Check if name is valid if this is the first create call
 	valid, err := p.CheckServerNameAvailability(ctx, servername)
-	if valid == false {
-		return psql.Server{}, err
+	if !valid {
+		return "", psql.Server{}, err
 	}
 
-	future, err := client.Create(
-		ctx,
-		resourcegroup,
-		servername,
-		psql.ServerForCreate{
-			Location: &location,
-			Tags:     tags,
-			Properties: &psql.ServerPropertiesForDefaultCreate{
-				AdministratorLogin:         &adminlogin,
-				AdministratorLoginPassword: &adminpassword,
-				Version:                    serverversion,
-				SslEnforcement:             sslenforcement,
-				//StorageProfile: &psql.StorageProfile{},
-				CreateMode: psql.CreateModeServerPropertiesForCreate,
+	var result postgresql.ServersCreateFuture
+
+	if strings.EqualFold(createmode, string(postgresql.CreateModeReplica)) {
+		result, _ = client.Create(
+			ctx,
+			resourcegroup,
+			servername,
+			postgresql.ServerForCreate{
+				Location: &location,
+				Tags:     tags,
+				Properties: &postgresql.ServerPropertiesForReplica{
+					SourceServerID: to.StringPtr(sourceserver),
+					CreateMode:     postgresql.CreateModeReplica,
+				},
 			},
-			Sku: &skuInfo,
-		},
-	)
-	if err != nil {
-		return psql.Server{}, err
-	}
+		)
+	} else {
+		result, _ = client.Create(
+			ctx,
+			resourcegroup,
+			servername,
+			psql.ServerForCreate{
+				Location: &location,
+				Tags:     tags,
+				Properties: &psql.ServerPropertiesForDefaultCreate{
+					AdministratorLogin:         &adminlogin,
+					AdministratorLoginPassword: &adminpassword,
+					Version:                    serverversion,
+					SslEnforcement:             sslenforcement,
+					CreateMode:                 psql.CreateModeServerPropertiesForCreate,
+				},
+				Sku: &skuInfo,
+			},
+		)
 
-	return future.Result(client)
+	}
+	res, err := result.Result(client)
+	return result.PollingURL(), res, err
 }
 
 func (p *PSQLServerClient) DeleteServer(ctx context.Context, resourcegroup string, servername string) (status string, err error) {

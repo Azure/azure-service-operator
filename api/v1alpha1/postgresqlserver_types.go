@@ -12,12 +12,18 @@ import (
 
 // PostgreSQLServerSpec defines the desired state of PostgreSQLServer
 type PostgreSQLServerSpec struct {
-	Location               string             `json:"location"`
-	ResourceGroup          string             `json:"resourceGroup,omitempty"`
-	Sku                    AzureDBsSQLSku     `json:"sku,omitempty"`
-	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
-	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
-	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
+	Location               string                   `json:"location"`
+	ResourceGroup          string                   `json:"resourceGroup,omitempty"`
+	Sku                    AzureDBsSQLSku           `json:"sku,omitempty"`
+	ServerVersion          ServerVersion            `json:"serverVersion,omitempty"`
+	SSLEnforcement         SslEnforcementEnum       `json:"sslEnforcement,omitempty"`
+	KeyVaultToStoreSecrets string                   `json:"keyVaultToStoreSecrets,omitempty"`
+	CreateMode             string                   `json:"createMode,omitempty"`
+	ReplicaProperties      PgreSqlReplicaProperties `json:"replicaProperties,omitempty"`
+}
+
+type PgreSqlReplicaProperties struct {
+	SourceServerId string `json:"sourceServerId,omitempty"`
 }
 
 type AzureDBsSQLSku struct {
