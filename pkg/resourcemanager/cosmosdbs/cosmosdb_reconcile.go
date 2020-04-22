@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -40,6 +41,27 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return true, nil
 	}
 	instance.Status.Provisioned = false
+
+	if instance.Status.PollingURL != "" {
+		pollClient := pollclient.NewPollClient()
+		pollResponse, err := pollClient.Get(ctx, instance.Status.PollingURL)
+		if err != nil {
+			instance.Status.Provisioning = false
+			return false, err
+		}
+
+		// response is not ready yet
+		if pollResponse.Status == "Dequeued" {
+			return false, nil
+		}
+
+		if pollResponse.Status == "Failed" {
+			instance.Status.Provisioning = false
+			instance.Status.Message = pollResponse.Error.Error()
+			instance.Status.PollingURL = ""
+			return true, nil
+		}
+	}
 
 	// get the instance and update status
 	db, err := m.GetCosmosDB(ctx, instance.Spec.ResourceGroup, instance.Name)
@@ -91,7 +113,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	tags := helpers.LabelsToTags(instance.GetLabels())
 	accountName := instance.ObjectMeta.Name
-	db, err = m.CreateOrUpdateCosmosDB(ctx, accountName, instance.Spec, tags)
+	db, pollingUrl, err := m.CreateOrUpdateCosmosDB(ctx, accountName, instance.Spec, tags)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		instance.Status.Message = err.Error()
@@ -101,6 +123,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 			instance.Status.State = "Creating"
 			instance.Status.Message = "Resource request successfully submitted to Azure"
 			instance.Status.SpecHash = hash
+			instance.Status.PollingURL = pollingUrl
 			return false, nil
 		case errhelp.InvalidResourceLocation, errhelp.LocationNotAvailableForResourceType:
 			instance.Status.Provisioning = false
