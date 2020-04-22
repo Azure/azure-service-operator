@@ -83,7 +83,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		// Unrecoverable error, so stop reconcilation
 		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
 			instance.Status.FailedProvisioning = true
-			instance.Status.Message = "Reconcilation hit unrecoverable error"
+			instance.Status.Message = fmt.Sprintf("Reconcilation hit unrecoverable error: %s", errhelp.StripErrorIDs(err))
 			return true, nil
 		}
 
