@@ -34,7 +34,7 @@ func getVNetClient() (vnetwork.VirtualNetworksClient, error) {
 }
 
 // CreateVNet creates VNets
-func (_ *AzureVNetManager) CreateVNet(ctx context.Context, location string, resourceGroupName string, resourceName string, addressSpace string, subnets []azurev1alpha1.VNetSubnets) (vnetwork.VirtualNetwork, error) {
+func (*AzureVNetManager) CreateVNet(ctx context.Context, location string, resourceGroupName string, resourceName string, addressSpace string, subnets []azurev1alpha1.VNetSubnets) (vnetwork.VirtualNetwork, error) {
 	client, err := getVNetClient()
 	if err != nil {
 		return vnetwork.VirtualNetwork{}, err
@@ -75,14 +75,16 @@ func (_ *AzureVNetManager) CreateVNet(ctx context.Context, location string, reso
 		},
 	)
 	if err != nil {
-		return vnetwork.VirtualNetwork{}, err
+		return vnetwork.VirtualNetwork{
+			Response: autorest.Response{Response: future.Response()},
+		}, err
 	}
 
 	return future.Result(client)
 }
 
 // DeleteVNet deletes a VNet
-func (_ *AzureVNetManager) DeleteVNet(ctx context.Context, resourceGroupName string, resourceName string) (autorest.Response, error) {
+func (*AzureVNetManager) DeleteVNet(ctx context.Context, resourceGroupName string, resourceName string) (autorest.Response, error) {
 	client, err := getVNetClient()
 	if err != nil {
 		return autorest.Response{}, err
