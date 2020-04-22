@@ -141,7 +141,7 @@ stages:
     steps:
     - task: AzureCLI@2
       inputs:
-        azureSubscription: 'ASO-DevOps-Subscription'
+        azureSubscription: 'tpark-jananiv-azureserviceoperators(4ef44fef-c51d-4d7c-a6ff-8635c02848b1)'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: 'make test-cleanup-azure-resources'
