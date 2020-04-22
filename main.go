@@ -28,6 +28,7 @@ import (
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlfirewall "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
+	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
 	nic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
 	pip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
@@ -642,6 +643,22 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "NetworkInterface")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.MySQLVNetRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLVNetRule",
+				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
+			),
+			Recorder: mgr.GetEventRecorderFor("MySQLVNetRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLVNetRule")
 		os.Exit(1)
 	}
 

@@ -68,6 +68,9 @@ func TestMySQLHappyPath(t *testing.T) {
 
 	EnsureInstance(ctx, t, tc, ruleInstance)
 
+	// Create VNet and VNetRules -----
+	RunMySqlVNetRuleHappyPath(t, mySQLServerName, rgLocation)
+
 	EnsureDelete(ctx, t, tc, ruleInstance)
 	EnsureDelete(ctx, t, tc, mySQLDBInstance)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)
