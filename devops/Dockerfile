@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/azure-cli
 LABEL maintainer="Microsoft Corporation"
 
 # RUN az login --service-principal -u [AZURE_CLIENT_ID] -p=[AZURE_CLIENT_SECRET] --tenant [AZURE_TENANT_ID] && \
-RUN az login --identity -u 88cd557c-f616-489a-a397-0a651fd91edf --tenant [AZURE_TENANT_ID] && \
+RUN az login --identity && \
 az account set -s [AZURE_SUBSCRIPTION_ID] && \
 az aks get-credentials -n aso-azdo-aks -g resourcegroup-azure-operators --admin
 
