@@ -42,10 +42,10 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	ctx context.Context,
 	accountName string,
 	spec v1alpha1.CosmosDBSpec,
-	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
+	tags map[string]*string) (*documentdb.DatabaseAccount, string, error) {
 	cosmosDBClient, err := getCosmosDBClient()
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 
 	createUpdateParams := documentdb.DatabaseAccountCreateUpdateParameters{
@@ -65,18 +65,17 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	}
 	createUpdateFuture, err := cosmosDBClient.CreateOrUpdate(
 		ctx, spec.ResourceGroup, accountName, createUpdateParams)
-
 	if err != nil {
 		// initial create request failed, wrap error
-		return nil, err
+		return nil, "", err
 	}
 
 	result, err := createUpdateFuture.Result(cosmosDBClient)
 	if err != nil {
 		// there is no immediate result, wrap error
-		return &result, err
+		return &result, createUpdateFuture.PollingURL(), err
 	}
-	return &result, nil
+	return &result, createUpdateFuture.PollingURL(), nil
 }
 
 // GetCosmosDB gets the cosmos db account
