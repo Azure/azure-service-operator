@@ -23,6 +23,7 @@ type CosmosDBSpec struct {
 	Properties             CosmosDBProperties            `json:"properties,omitempty"`
 	VirtualNetworkRules    *[]CosmosDBVirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
 	KeyVaultToStoreSecrets string                        `json:"keyVaultToStoreSecrets,omitempty"`
+	IPRules                *[]string                     `json:"ipRules,omitempty"`
 	Locations              *[]CosmosDBLocation           `json:"locations,omitempty"`
 }
 
@@ -69,6 +70,8 @@ type CosmosDBLocation struct {
 // +kubebuilder:subresource:status
 
 // CosmosDB is the Schema for the cosmosdbs API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type CosmosDB struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

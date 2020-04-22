@@ -7,9 +7,11 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-// AzureSQLVNetRuleSpec defines the desired state of AzureSQLVNetRule
-type AzureSQLVNetRuleSpec struct {
+
+// MySQLVNetRuleSpec defines the desired state of MySQLVNetRule
+type MySQLVNetRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	ResourceGroup                string `json:"resourceGroup"`
@@ -21,27 +23,25 @@ type AzureSQLVNetRuleSpec struct {
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:subresource:status
-// AzureSQLVNetRule is the Schema for the azuresqlvnetrules API
-// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
-// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
-type AzureSQLVNetRule struct {
+
+// MySQLVNetRule is the Schema for the mysqlvnetrules API
+type MySQLVNetRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   AzureSQLVNetRuleSpec `json:"spec,omitempty"`
-	Status ASOStatus            `json:"status,omitempty"`
+	Spec   MySQLVNetRuleSpec `json:"spec,omitempty"`
+	Status ASOStatus         `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// AzureSQLVNetRuleList contains a list of AzureSQLVNetRule
-type AzureSQLVNetRuleList struct {
+// MySQLVNetRuleList contains a list of MySQLVNetRule
+type MySQLVNetRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []AzureSQLVNetRule `json:"items"`
+	Items           []MySQLVNetRule `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&AzureSQLVNetRule{}, &AzureSQLVNetRuleList{})
+	SchemeBuilder.Register(&MySQLVNetRule{}, &MySQLVNetRuleList{})
 }

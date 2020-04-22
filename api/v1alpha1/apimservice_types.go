@@ -31,6 +31,8 @@ type ApimServiceSpec struct {
 // +kubebuilder:subresource:status
 
 // ApimService is the Schema for the apimservices API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type ApimService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

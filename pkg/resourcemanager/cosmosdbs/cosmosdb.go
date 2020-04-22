@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -54,6 +55,7 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 		Kind:     documentdb.DatabaseAccountKind(spec.Kind),
 		DatabaseAccountCreateUpdateProperties: &documentdb.DatabaseAccountCreateUpdateProperties{
 			DatabaseAccountOfferType:      getAccountOfferType(spec),
+			IPRangeFilter:                 getIPRangeFilter(spec),
 			IsVirtualNetworkFilterEnabled: &spec.Properties.IsVirtualNetworkFilterEnabled,
 			VirtualNetworkRules:           getVirtualNetworkRules(spec),
 			EnableMultipleWriteLocations:  &spec.Properties.EnableMultipleWriteLocations,
@@ -211,4 +213,12 @@ func getCapabilities(spec v1alpha1.CosmosDBSpec) *[]documentdb.Capability {
 		}
 	}
 	return &capabilities
+}
+
+func getIPRangeFilter(spec v1alpha1.CosmosDBSpec) *string {
+	sIPRules := ""
+	if spec.IPRules != nil {
+		sIPRules = strings.Join(*spec.IPRules, ",")
+	}
+	return &sIPRules
 }

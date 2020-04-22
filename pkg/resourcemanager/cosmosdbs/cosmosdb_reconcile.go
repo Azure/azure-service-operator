@@ -82,7 +82,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance.Status.State = *db.ProvisioningState
 	}
 
-	if instance.Status.State == "Creating" {
+	if instance.Status.State == "Creating" || instance.Status.State == "Updating" {
 		// avoid multiple CreateOrUpdate requests while resource is already creating
 		return false, nil
 	}

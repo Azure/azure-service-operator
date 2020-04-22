@@ -43,16 +43,16 @@ import (
 )
 
 type TestContext struct {
-	k8sClient               client.Client
-	secretClient            secrets.SecretClient
-	resourceNamePrefix      string
-	resourceGroupName       string
-	resourceGroupLocation   string
-	eventhubNamespaceName   string
-	eventhubName            string
-	namespaceLocation       string
-	storageAccountName      string
-	blobContainerName       string
+	k8sClient             client.Client
+	secretClient          secrets.SecretClient
+	resourceNamePrefix    string
+	resourceGroupName     string
+	resourceGroupLocation string
+	//eventhubNamespaceName   string
+	//eventhubName            string
+	//namespaceLocation       string
+	//storageAccountName      string
+	//blobContainerName       string
 	keyvaultName            string
 	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
 	redisCacheManager       resourcemanagerrediscaches.RedisCacheManager
@@ -296,6 +296,47 @@ func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance ru
 		err = tc.k8sClient.Get(ctx, names, instance)
 		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry, fmt.Sprintf("wait for %s to be gone from k8s", typeOf))
+
+}
+
+func EnsureSecrets(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, secretclient secrets.SecretClient, secretname string, secretnamespace string) {
+	assert := assert.New(t)
+	typeOf := fmt.Sprintf("%T", instance)
+
+	key := types.NamespacedName{Name: secretname, Namespace: secretnamespace}
+
+	// Wait for secret
+	err := helpers.Retry(tc.timeoutFast, tc.retry, func() error {
+
+		_, err := secretclient.Get(ctx, key)
+		if err != nil {
+			return fmt.Errorf("secret with name %s does not exist", key.String())
+		}
+		return nil
+	})
+	assert.Nil(err, "error waiting for %s to have secret", typeOf)
+
+}
+func EnsureSecretsWithValue(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, secretclient secrets.SecretClient, secretname string, secretnamespace string, secretkey string, secretvalue string) {
+	assert := assert.New(t)
+	typeOf := fmt.Sprintf("%T", instance)
+
+	key := types.NamespacedName{Name: secretname, Namespace: secretnamespace}
+
+	// Wait for secret
+	err := helpers.Retry(tc.timeoutFast, tc.retry, func() error {
+
+		secrets, err := secretclient.Get(ctx, key)
+		if err != nil {
+			return err
+		}
+		if !strings.Contains(string(secrets[secretkey]), secretvalue) {
+			return fmt.Errorf("secret with key %s not equal to %s", secretname, secretvalue)
+		}
+
+		return nil
+	})
+	assert.Nil(err, "error waiting for %s to have correct secret", typeOf)
 
 }
 
