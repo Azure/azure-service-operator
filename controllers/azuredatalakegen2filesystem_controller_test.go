@@ -18,7 +18,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-func TestADLSFilesystemControllerNoResourceGroup(t *testing.T) {
+/*func TestADLSFilesystemControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	assert := assert.New(t)
@@ -67,7 +67,7 @@ func TestADLSFilesystemControllerNoResourceGroup(t *testing.T) {
 		return apierrors.IsNotFound(err)
 	}, tc.timeout, tc.retry, "wait for filesystem to be gone")
 
-}
+}*/
 
 func TestADLSFilesystemControllerNoStorageAccount(t *testing.T) {
 	t.Parallel()
