@@ -55,6 +55,14 @@ The `server` indicates the MySQL server on which you want to configure the new M
 
 *Note*: When the `startIpAddress` and `endIpAddress` are 0.0.0.0, it denotes a special case that adds a firewall rule to allow all Azure services to access the server.
 
+### MySQL virtual network rule
+
+The MySQL virtual network rule operator allows you to add virtual network rules to the MySQL server.
+
+The `server` indicates the MySQL server on which you want to configure the new MySQL virtual network rule on and `resourceGroup` is the resource group of the MySQL server. Provide the virtual network name and subnet name in the variables `vNetName` and `subnetName`, and `vNetResourceGroup` is the resource group the virtual network is located in. The `ignoreMissingServiceEndpoint` indicates whether or not to create virtual network rule before the virtual network has vnet service endpoint enabled.
+
+*Note*: When using MySQL Virtual Network Rules, the `Basic` SKU is not a valid op
+
 ## Deploy, view and delete resources
 
 You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
