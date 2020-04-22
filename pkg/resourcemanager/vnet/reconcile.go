@@ -6,6 +6,7 @@ package vnet
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -36,14 +37,13 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		// succeeded! end reconcilliation successfully
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
+		instance.Status.FailedProvisioning = false
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *vNet.ID
 		return true, nil
 	}
 
 	instance.Status.Provisioning = true
-	instance.Status.Provisioned = false
-
 	_, err = g.CreateVNet(
 		ctx,
 		location,
@@ -58,7 +58,6 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
 		}
 		catchUnrecoverableErrors := []string{
 			errhelp.NetcfgInvalidIPAddressPrefix,
@@ -67,23 +66,27 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.InvalidCIDRNotation,
 			errhelp.InvalidRequestFormat,
 		}
-		if helpers.ContainsString(catch, azerr.Type) {
-			switch azerr.Type {
-			case errhelp.AsyncOpIncompleteError:
-				instance.Status.Provisioning = true
-			}
 
-			// reconciliation is not done but error is acceptable
+		// everything ok - just requeue
+		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			return false, nil
 		}
-		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
 
-			// Unrecoverable error, so stop reconcilation
+		// reconciliation is not done but error is acceptable
+		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Provisioning = false
+			return false, nil
+		}
+
+		instance.Status.Provisioning = false
+
+		// Unrecoverable error, so stop reconcilation
+		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
+			instance.Status.FailedProvisioning = true
 			instance.Status.Message = "Reconcilation hit unrecoverable error"
 			return true, nil
 		}
-		instance.Status.Provisioning = false
+
 		return false, fmt.Errorf("Error creating VNet: %s, %s - %v", resourceGroup, resourceName, err)
 	}
 
