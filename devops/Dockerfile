@@ -2,10 +2,9 @@ FROM mcr.microsoft.com/azure-cli
 
 LABEL maintainer="Microsoft Corporation"
 
-# RUN az login --service-principal -u [AZURE_CLIENT_ID] -p=[AZURE_CLIENT_SECRET] --tenant [AZURE_TENANT_ID] && \
-RUN az login --identity && \
+RUN az login --service-principal -u [AZURE_CLIENT_ID] -p=[AZURE_CLIENT_SECRET] --tenant [AZURE_TENANT_ID] && \
 az account set -s [AZURE_SUBSCRIPTION_ID] && \
-az aks get-credentials -n aso-azdo-aks -g resourcegroup-azure-operators --admin
+az aks get-credentials -n [ASO-AZDO-AKS] -g [ASO-RESOURCEGROUP] --admin
 
 WORKDIR /
 
