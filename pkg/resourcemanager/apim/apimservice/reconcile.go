@@ -192,23 +192,27 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 	resourceGroupName := instance.Spec.ResourceGroup
 	resourceName := instance.ObjectMeta.Name
 
-	catch := []string{
-		errhelp.ResourceGroupNotFoundErrorCode,
-		errhelp.ParentNotFoundErrorCode,
-		errhelp.NotFoundErrorCode,
-	}
-	requeue := []string{
-		errhelp.AsyncOpIncompleteError,
-	}
-
 	_, err = g.DeleteAPIMgmtSvc(ctx, resourceGroupName, resourceName)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
+
+		alreadyDeletedErrors := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+		}
+		requeue := []string{
+			errhelp.AsyncOpIncompleteError,
+			errhelp.FailedDelete,
+		}
+
+		if helpers.ContainsString(alreadyDeletedErrors, azerr.Type) {
 			return false, nil
-		} else if helpers.ContainsString(requeue, azerr.Type) {
+		}
+		if helpers.ContainsString(requeue, azerr.Type) {
 			return true, nil
 		}
+
 		return true, fmt.Errorf("API Mgmt Svc delete error %v", err)
 	}
 
