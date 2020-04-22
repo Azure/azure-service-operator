@@ -17,18 +17,20 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type azureFileSystemManager struct {
 	SecretClient secrets.SecretClient
+	Scheme       *runtime.Scheme
 }
 
 func (f *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName string, filesystemName string, timeout *int32, xMsDate string, datalakeName string) (*autorest.Response, error) {
-	err := checkRGAndStorageAccount(ctx, groupName, datalakeName, f.SecretClient)
+	err := checkRGAndStorageAccount(ctx, groupName, datalakeName, f.SecretClient, f.Scheme)
 	if err != nil {
 		return nil, err
 	}
-	client := getFileSystemClient(ctx, groupName, datalakeName, f.SecretClient)
+	client := getFileSystemClient(ctx, groupName, datalakeName, f.SecretClient, f.Scheme)
 	// empty parameters are optional request headers (properties, requestid)
 	result, err := client.Create(ctx, filesystemName, "", "", timeout, xMsDate)
 	if err != nil {
@@ -41,12 +43,12 @@ func (f *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName
 func (f *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName string, filesystemName string, timeout *int32, xMsDate string, datalakeName string) (autorest.Response, error) {
 	response := autorest.Response{Response: &http.Response{StatusCode: http.StatusNotFound}}
 
-	err := checkRGAndStorageAccount(ctx, groupName, datalakeName, f.SecretClient)
+	err := checkRGAndStorageAccount(ctx, groupName, datalakeName, f.SecretClient, f.Scheme)
 	if err != nil {
 		return response, errors.New("unable to create filesystem")
 	}
 	response = autorest.Response{Response: &http.Response{StatusCode: http.StatusNotFound}}
-	client := getFileSystemClient(ctx, groupName, datalakeName, f.SecretClient)
+	client := getFileSystemClient(ctx, groupName, datalakeName, f.SecretClient, f.Scheme)
 
 	// empty parameters are optional request headers (continuation, maxresults, requestid)
 	list, err := client.List(ctx, filesystemName, "", nil, "", timeout, xMsDate)
@@ -62,20 +64,20 @@ func (f *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName st
 
 func (f *azureFileSystemManager) DeleteFileSystem(ctx context.Context, groupName string, filesystemName string, timeout *int32, xMsDate string, datalakeName string) (autorest.Response, error) {
 	response := autorest.Response{Response: &http.Response{StatusCode: http.StatusAccepted}}
-	err := checkRGAndStorageAccount(ctx, groupName, datalakeName, f.SecretClient)
+	err := checkRGAndStorageAccount(ctx, groupName, datalakeName, f.SecretClient, f.Scheme)
 	if err != nil {
 		return response, nil
 	}
-	client := getFileSystemClient(ctx, groupName, datalakeName, f.SecretClient)
+	client := getFileSystemClient(ctx, groupName, datalakeName, f.SecretClient, f.Scheme)
 	// empty parameters are optional request headers (ifmodifiedsince, ifunmodifiedsince, requestid)
 	return client.Delete(ctx, filesystemName, "", "", "", timeout, xMsDate)
 }
 
-func getFileSystemClient(ctx context.Context, groupName string, accountName string, secretClient secrets.SecretClient) storagedatalake.FilesystemClient {
+func getFileSystemClient(ctx context.Context, groupName string, accountName string, secretClient secrets.SecretClient, scheme *runtime.Scheme) storagedatalake.FilesystemClient {
 	xmsversion := "2019-02-02"
 	fsClient := storagedatalake.NewFilesystemClient(xmsversion, accountName)
 
-	accountKey, err := getAccountKey(ctx, groupName, accountName, secretClient)
+	accountKey, err := getAccountKey(ctx, groupName, accountName, secretClient, scheme)
 	if err != nil {
 		log.Printf("failed to get the account key for the authorizer: %v\n", err)
 	}
@@ -99,9 +101,9 @@ func getResourcesClient() resources.GroupsClient {
 	return resourcesClient
 }
 
-func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeName string, secretClient secrets.SecretClient) error {
+func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeName string, secretClient secrets.SecretClient, scheme *runtime.Scheme) error {
 	rgClient := getResourcesClient()
-	storagesClient := storageaccount.New(secretClient)
+	storagesClient := storageaccount.New(secretClient, scheme)
 
 	response, err := rgClient.CheckExistence(ctx, groupName)
 	if response.IsHTTPStatus(404) {
@@ -116,8 +118,8 @@ func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeNam
 	return err
 }
 
-func getAccountKey(ctx context.Context, groupName string, accountName string, secretClient secrets.SecretClient) (accountKey string, err error) {
-	adlsClient := storageaccount.New(secretClient)
+func getAccountKey(ctx context.Context, groupName string, accountName string, secretClient secrets.SecretClient, scheme *runtime.Scheme) (accountKey string, err error) {
+	adlsClient := storageaccount.New(secretClient, scheme)
 	keys, err := adlsClient.ListKeys(ctx, groupName, accountName)
 	if err != nil {
 		return "", err

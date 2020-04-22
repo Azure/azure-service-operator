@@ -7,16 +7,19 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // New returns an instance of the Storage Account Client
-func New(secretClient secrets.SecretClient) *azureStorageManager {
+func New(secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureStorageManager {
 	return &azureStorageManager{
 		SecretClient: secretClient,
+		Scheme:       scheme,
 	}
 }
 
@@ -33,7 +36,9 @@ type StorageManager interface {
 		kind azurev1alpha1.StorageAccountKind,
 		tags map[string]*string,
 		accessTier azurev1alpha1.StorageAccountAccessTier,
-		enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *storage.NetworkRuleSet) (pollingURL string, result storage.Account, err error)
+		enableHTTPsTrafficOnly *bool,
+		dataLakeEnabled *bool,
+		networkRule *storage.NetworkRuleSet) (pollingURL string, result storage.Account, err error)
 
 	// Get gets the description of the specified storage account.
 	// Parameters:
@@ -49,7 +54,10 @@ type StorageManager interface {
 
 	ListKeys(ctx context.Context, groupName string, storageAccountName string) (result storage.AccountListKeysResult, err error)
 
-	StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, storageEndpointSuffix string) error
+	StoreSecrets(ctx context.Context,
+		resourceGroupName string,
+		accountName string,
+		instance *v1alpha1.StorageAccount) error
 
 	resourcemanager.ARMClient
 }

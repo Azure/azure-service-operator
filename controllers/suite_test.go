@@ -149,8 +149,8 @@ func setup() error {
 	apiMgmtManager = resourcemanagerapimgmt.NewManager()
 	resourceGroupManager = resourcegroupsresourcemanager.NewAzureResourceGroupManager()
 	eventHubManagers = resourcemanagereventhub.AzureEventHubManagers
-	storageManagers = resourcemanagerstorages.AzureStorageManagers(secretClient)
-	storageAccountManager := resourcemanagerstorageaccount.New(secretClient)
+	storageManagers = resourcemanagerstorages.AzureStorageManagers(secretClient, scheme.Scheme)
+	storageAccountManager := resourcemanagerstorageaccount.New(secretClient, scheme.Scheme)
 	blobContainerManager := resourcemanagerblobcontainer.New()
 	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(k8sManager.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvaults.KeyvaultKeyClient{

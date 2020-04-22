@@ -82,6 +82,14 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 
 	if instance.Status.State == "Succeeded" {
+
+		// upsert
+		err = sa.StoreSecrets(ctx, groupName, name, instance)
+		if err != nil {
+			return false, err
+		}
+
+		// everything finished successfully!
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false

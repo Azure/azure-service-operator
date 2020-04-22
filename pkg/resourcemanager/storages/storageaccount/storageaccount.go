@@ -14,16 +14,20 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resourcemgrconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 const templateForConnectionString = "DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=%s"
 
 type azureStorageManager struct {
 	SecretClient secrets.SecretClient
+	Scheme       *runtime.Scheme
 }
 
 // ParseNetworkPolicy - helper function to parse network policies from Kubernetes spec
@@ -166,12 +170,14 @@ func (_ *azureStorageManager) DeleteStorage(ctx context.Context, groupName strin
 	return storagesClient.Delete(ctx, groupName, storageAccountName)
 }
 
+// ListKeys lists the keys
 func (_ *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName string, accountName string) (result storage.AccountListKeysResult, err error) {
 	storagesClient := getStoragesClient()
 	return storagesClient.ListKeys(ctx, resourceGroupName, accountName, storage.Kerb)
 }
 
-func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, storageEndpointSuffix string) error {
+// StoreSecrets upserts the secret information for this storage account
+func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, instance *v1alpha1.StorageAccount) error {
 
 	// get the keys
 	keyResult, err := s.ListKeys(ctx, resourceGroupName, accountName)
@@ -182,14 +188,26 @@ func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupNam
 		return fmt.Errorf("No keys were returned from ListKeys")
 	}
 	keys := *keyResult.Keys
+	storageEndpointSuffix := resourcemgrconfig.Environment().StorageEndpointSuffix
 
 	// build the connection string
-	connectionStrings := []string{}
-	for _, key := range keys {
-		connectionStrings = append(connectionStrings, fmt.Sprintf(templateForConnectionString, accountName, *key.Value, storageEndpointSuffix))
+	data := map[string][]byte{
+		"StorageAccountName": []byte(accountName),
+	}
+	for i, key := range keys {
+		data[fmt.Sprintf("ConnectionString%v", i)] = []byte(fmt.Sprintf(templateForConnectionString, accountName, *key.Value, storageEndpointSuffix))
+		data[fmt.Sprintf("Key%v", i)] = []byte(*key.Value)
 	}
 
-	// TODO: upsert
-
-	return nil
+	// upsert
+	key := types.NamespacedName{
+		Name:      fmt.Sprintf("StorageAccount-%s-%s", resourceGroupName, accountName),
+		Namespace: instance.Namespace,
+	}
+	return s.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(s.Scheme),
+	)
 }
