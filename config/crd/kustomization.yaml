@@ -33,6 +33,7 @@ resources:
 - bases/azure.microsoft.com_mysqlfirewallrules.yaml
 - bases/azure.microsoft.com_azurepublicipaddresses.yaml
 - bases/azure.microsoft.com_azurenetworkinterfaces.yaml
+- bases/azure.microsoft.com_mysqlvnetrules.yaml
 - bases/azure.microsoft.com_azurevirtualmachines.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
@@ -66,6 +67,7 @@ resources:
 #- patches/webhook_in_storageaccounts.yaml
 #- patches/webhook_in_azurepublicipaddresses.yaml
 #- patches/webhook_in_azurenetworkinterfaces.yaml
+#- patches/webhook_in_mysqlvnetrules.yaml
 #- patches/webhook_in_azurevirtualmachines.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
 
@@ -98,6 +100,7 @@ resources:
 #- patches/cainjection_in_storageaccounts.yaml
 #- patches/cainjection_in_azurepublicipaddresses.yaml
 #- patches/cainjection_in_azurenetworkinterfaces.yaml
+#- patches/cainjection_in_mysqlvnetrules.yaml
 #- patches/cainjection_in_azurevirtualmachines.yaml
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch
 
