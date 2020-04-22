@@ -51,22 +51,12 @@ func RunSQLActionHappy(t *testing.T, server string) {
 		},
 	}
 
-	err := tc.k8sClient.Create(ctx, sqlActionInstance)
-	assert.Equal(nil, err, "create sqlaction in k8s")
-
-	sqlActionInstanceNamespacedName := types.NamespacedName{Name: sqlActionName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, sqlActionInstanceNamespacedName, sqlActionInstance)
-		return sqlActionInstance.Status.Provisioned
-	}, tc.timeout, tc.retry, "wait for sql action to be submitted")
-
-	// TODO Check SQL Database credentials
+	EnsureInstance(ctx, t, tc, sqlActionInstance)
 
 	// makre sure credentials are not the same as previous
 	secretAfter := &v1.Secret{}
 	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: server, Namespace: "default"}, secretAfter)
+		err := tc.k8sClient.Get(ctx, types.NamespacedName{Name: server, Namespace: "default"}, secretAfter)
 		if err != nil {
 			return false
 		}
@@ -75,4 +65,6 @@ func RunSQLActionHappy(t *testing.T, server string) {
 
 	assert.Equal(secret.Data["username"], secretAfter.Data["username"], "username should still be the same")
 	assert.NotEqual(string(secret.Data["password"]), string(secretAfter.Data["password"]), "password should have changed")
+
+	EnsureDelete(ctx, t, tc, sqlActionInstance)
 }

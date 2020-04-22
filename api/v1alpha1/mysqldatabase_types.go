@@ -20,6 +20,8 @@ type MySQLDatabaseSpec struct {
 // +kubebuilder:subresource:status
 
 // MySQLDatabase is the Schema for the mysqldatabases API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type MySQLDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
