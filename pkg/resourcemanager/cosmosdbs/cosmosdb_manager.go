@@ -21,7 +21,7 @@ func NewAzureCosmosDBManager(secretClient secrets.SecretClient) *AzureCosmosDBMa
 // CosmosDBManager client functions
 type CosmosDBManager interface {
 	// CreateOrUpdateCosmosDB creates a new cosmos database account
-	CreateOrUpdateCosmosDB(ctx context.Context, groupName string, cosmosDBName string, location string, kind v1alpha1.CosmosDBKind, networkRule *[]v1alpha1.CosmosDBVirtualNetworkRule, ipRules *[]string, properties v1alpha1.CosmosDBProperties, tags map[string]*string) (*documentdb.DatabaseAccount, error)
+	CreateOrUpdateCosmosDB(ctx context.Context, cosmosDBName string, spec v1alpha1.CosmosDBSpec, tags map[string]*string) (*documentdb.DatabaseAccount, error)
 
 	// GetCosmosDB gets a cosmos database account
 	GetCosmosDB(ctx context.Context, groupName string, cosmosDBName string) (*documentdb.DatabaseAccount, error)

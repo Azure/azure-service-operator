@@ -40,94 +40,31 @@ func getCosmosDBClient() (documentdb.DatabaseAccountsClient, error) {
 // CreateOrUpdateCosmosDB creates a new CosmosDB
 func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	ctx context.Context,
-	groupName string,
-	cosmosDBName string,
-	location string,
-	kind v1alpha1.CosmosDBKind,
-	networkRule *[]v1alpha1.CosmosDBVirtualNetworkRule,
-	ipRules *[]string,
-	properties v1alpha1.CosmosDBProperties,
+	accountName string,
+	spec v1alpha1.CosmosDBSpec,
 	tags map[string]*string) (*documentdb.DatabaseAccount, error) {
 	cosmosDBClient, err := getCosmosDBClient()
 	if err != nil {
 		return nil, err
 	}
 
-	dbKind := documentdb.DatabaseAccountKind(kind)
-	sDBType := string(properties.DatabaseAccountOfferType)
-	bWriteLocal := bool(properties.EnableMultipleWriteLocations)
-	vnetEnabled := bool(properties.IsVirtualNetworkFilterEnabled)
-
-	var capabilities []documentdb.Capability
-	if properties.Capabilities != nil {
-		for _, i := range *properties.Capabilities {
-			name := i.Name
-			capabilities = append(capabilities, documentdb.Capability{
-				Name: name,
-			})
-		}
-	} else {
-		capabilities = make([]documentdb.Capability, 0)
-	}
-
-	/*
-	*   Current state of Locations and CosmosDB properties:
-	*   Creating a Database account with CosmosDB requires
-	*   that DatabaseAccountCreateUpdateProperties be sent over
-	*   and currently we are not reading most of these values in
-	*   as part of the Spec for CosmosDB.  We are currently
-	*   specifying a single Location as part of a location array
-	*   which matches the location set for the overall CosmosDB
-	*   instance.  This matches the general behavior of creating
-	*   a CosmosDB instance in the portal where the only
-	*   geo-relicated region is the sole region the CosmosDB
-	*   is created in.
-	 */
-	locationObj := documentdb.Location{
-		ID:               to.StringPtr(fmt.Sprintf("%s-%s", cosmosDBName, location)),
-		FailoverPriority: to.Int32Ptr(0),
-		LocationName:     to.StringPtr(location),
-	}
-	locationsArray := []documentdb.Location{
-		locationObj,
-	}
-
-	vNetRulesSet := []documentdb.VirtualNetworkRule{}
-	if networkRule != nil {
-		for _, i := range *networkRule {
-			subnetID := i.SubnetID
-			ignoreEndpoint := i.IgnoreMissingVNetServiceEndpoint
-			vNetRulesSet = append(vNetRulesSet, documentdb.VirtualNetworkRule{
-				ID:                               subnetID,
-				IgnoreMissingVNetServiceEndpoint: ignoreEndpoint,
-			})
-		}
-	}
-
-	sIPRules := ""
-	if ipRules != nil {
-		sIPRules = strings.Join(*ipRules, ",")
-	}
-
 	createUpdateParams := documentdb.DatabaseAccountCreateUpdateParameters{
-		Location: to.StringPtr(location),
+		Location: &spec.Location,
 		Tags:     tags,
-		Name:     &cosmosDBName,
-		Kind:     dbKind,
-		Type:     to.StringPtr("Microsoft.DocumentDb/databaseAccounts"),
-		ID:       &cosmosDBName,
+		Name:     &accountName,
+		Kind:     documentdb.DatabaseAccountKind(spec.Kind),
 		DatabaseAccountCreateUpdateProperties: &documentdb.DatabaseAccountCreateUpdateProperties{
-			DatabaseAccountOfferType:      &sDBType,
-			IsVirtualNetworkFilterEnabled: &vnetEnabled,
-			VirtualNetworkRules:           &vNetRulesSet,
-			EnableMultipleWriteLocations:  &bWriteLocal,
-			Locations:                     &locationsArray,
-			Capabilities:                  &capabilities,
-			IPRangeFilter:                 &sIPRules,
+			DatabaseAccountOfferType:      getAccountOfferType(spec),
+			IsVirtualNetworkFilterEnabled: &spec.Properties.IsVirtualNetworkFilterEnabled,
+			VirtualNetworkRules:           getVirtualNetworkRules(spec),
+			EnableMultipleWriteLocations:  &spec.Properties.EnableMultipleWriteLocations,
+			Locations:                     getLocations(spec),
+			Capabilities:                  getCapabilities(spec),
+			IPRangeFilter:                 getIPRangeFilter(spec),
 		},
 	}
 	createUpdateFuture, err := cosmosDBClient.CreateOrUpdate(
-		ctx, groupName, cosmosDBName, createUpdateParams)
+		ctx, spec.ResourceGroup, accountName, createUpdateParams)
 
 	if err != nil {
 		// initial create request failed, wrap error
@@ -221,4 +158,75 @@ func (*AzureCosmosDBManager) ListKeys(
 	}
 
 	return &result, nil
+}
+
+func getAccountOfferType(spec v1alpha1.CosmosDBSpec) *string {
+	kind := string(spec.Properties.DatabaseAccountOfferType)
+	if kind == "" {
+		kind = string(documentdb.Standard)
+	}
+	return &kind
+}
+
+func getLocations(spec v1alpha1.CosmosDBSpec) *[]documentdb.Location {
+	if spec.Locations == nil || len(*spec.Locations) <= 1 {
+		return &[]documentdb.Location{
+			{
+				LocationName:     to.StringPtr(spec.Location),
+				FailoverPriority: to.Int32Ptr(0),
+				IsZoneRedundant:  to.BoolPtr(false),
+			},
+		}
+	}
+
+	locations := make([]documentdb.Location, len(*spec.Locations))
+	for i, l := range *spec.Locations {
+		locations[i] = documentdb.Location{
+			LocationName:     to.StringPtr(l.LocationName),
+			FailoverPriority: to.Int32Ptr(l.FailoverPriority),
+			IsZoneRedundant:  to.BoolPtr(l.IsZoneRedundant),
+		}
+	}
+	return &locations
+}
+
+func getVirtualNetworkRules(spec v1alpha1.CosmosDBSpec) *[]documentdb.VirtualNetworkRule {
+	if spec.VirtualNetworkRules == nil {
+		return nil
+	}
+
+	vNetRules := make([]documentdb.VirtualNetworkRule, len(*spec.VirtualNetworkRules))
+	for i, r := range *spec.VirtualNetworkRules {
+		vNetRules[i] = documentdb.VirtualNetworkRule{
+			ID:                               r.SubnetID,
+			IgnoreMissingVNetServiceEndpoint: r.IgnoreMissingVNetServiceEndpoint,
+		}
+	}
+	return &vNetRules
+}
+
+func getCapabilities(spec v1alpha1.CosmosDBSpec) *[]documentdb.Capability {
+	capabilities := []documentdb.Capability{}
+	if spec.Kind == v1alpha1.CosmosDBKindMongoDB && spec.Properties.MongoDBVersion == "3.6" {
+		capabilities = []documentdb.Capability{
+			{Name: to.StringPtr("EnableMongo")},
+		}
+	}
+	if spec.Properties.Capabilities != nil {
+		for _, i := range *spec.Properties.Capabilities {
+			name := i.Name
+			capabilities = append(capabilities, documentdb.Capability{
+				Name: name,
+			})
+		}
+	}
+	return &capabilities
+}
+
+func getIPRangeFilter(spec v1alpha1.CosmosDBSpec) *string {
+	sIPRules := ""
+	if spec.IPRules != nil {
+		sIPRules = strings.Join(*spec.IPRules, ",")
+	}
+	return &sIPRules
 }
