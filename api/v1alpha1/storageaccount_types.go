@@ -51,7 +51,7 @@ type StorageAccountSkuName string
 // Only one of the following kinds may be specified.
 // If none of the following kinds is specified, the default one
 // is StorageV2.
-// +kubebuilder:validation:Enum=BlobStorage;BlockBlobStorage;FileStorage;StorageAccount;StorageV2
+// +kubebuilder:validation:Enum=BlobStorage;BlockBlobStorage;FileStorage;Storage;StorageV2
 type StorageAccountKind string
 
 // StorageAccountAccessTier enumerates the values for access tier.
@@ -65,6 +65,8 @@ type StorageAccountAccessTier string
 // +kubebuilder:subresource:status
 
 // StorageAccount is the Schema for the storages API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -90,7 +92,6 @@ type StorageAccountAdditionalResources struct {
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:subresource:status
 
 // StorageAccountList contains a list of Storage
 type StorageAccountList struct {

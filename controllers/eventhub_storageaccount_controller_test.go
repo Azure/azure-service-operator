@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all eventhub onlyeventhub
+// +build all eventhub storage blobcontainer
 
 package controllers
 
 import (
 	"context"
-	"strings"
 	"testing"
 
+	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
 	kvhelper "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
@@ -18,16 +19,12 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestEventHubControllerNoNamespace(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	// Add Tests for OpenAPI validation (or additonal CRD features) specified in
 	// your API definition.
@@ -53,96 +50,36 @@ func TestEventHubControllerNoNamespace(t *testing.T) {
 		},
 	}
 
-	err := tc.k8sClient.Create(ctx, eventhubInstance)
-	assert.Equal(nil, err, "create eventhub in k8s")
+	EnsureInstanceWithResult(ctx, t, tc, eventhubInstance, errhelp.ParentNotFoundErrorCode, false)
 
-	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return strings.Contains(eventhubInstance.Status.Message, errhelp.ParentNotFoundErrorCode)
-	}, tc.timeout, tc.retry, "wait for eventhub to provision")
-
-	err = tc.k8sClient.Delete(ctx, eventhubInstance)
-	assert.Equal(nil, err, "delete eventhub in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
-
-}
-
-func TestEventHubControllerCreateAndDelete(t *testing.T) {
-	t.Parallel()
-	defer PanicRecover(t)
-	ctx := context.Background()
-	assert := assert.New(t)
-
-	// Add any setup steps that needs to be executed before each test
-	rgName := tc.resourceGroupName
-	ehnName := tc.eventhubNamespaceName
-	eventhubName := GenerateTestResourceNameWithRandom("eh-cd", 10)
-
-	// Create the EventHub object and expect the Reconcile to be created
-	eventhubInstance := &azurev1alpha1.Eventhub{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      eventhubName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.EventhubSpec{
-			Location:      "westus",
-			Namespace:     ehnName,
-			ResourceGroup: rgName,
-			Properties: azurev1alpha1.EventhubProperties{
-				MessageRetentionInDays: 7,
-				PartitionCount:         2,
-			},
-			AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
-				Name:   "RootManageSharedAccessKey",
-				Rights: []string{"Listen"},
-			},
-		},
-	}
-
-	err := tc.k8sClient.Create(ctx, eventhubInstance)
-	assert.Equal(nil, err, "create eventhub in k8s")
-
-	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return eventhubInstance.HasFinalizer(finalizerName)
-	}, tc.timeout, tc.retry, "wait for eventhub to have finalizer")
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return strings.Contains(eventhubInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "wait for eventhub to provision")
-
-	err = tc.k8sClient.Delete(ctx, eventhubInstance)
-	assert.Equal(nil, err, "delete eventhub in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
-
+	EnsureDelete(ctx, t, tc, eventhubInstance)
 }
 
 func TestEventHubControllerCreateAndDeleteCustomSecret(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
-	var err error
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
-	ehnName := tc.eventhubNamespaceName
+	ehnName := GenerateTestResourceNameWithRandom("eh-ns", 10)
 	eventhubName := GenerateTestResourceNameWithRandom("eh-customsec", 10)
 	secretName := "secret-" + eventhubName
+
+	// Create EventhubNamespace instance as prereq
+	eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      ehnName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.EventhubNamespaceSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, eventhubNamespaceInstance)
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{
@@ -168,15 +105,11 @@ func TestEventHubControllerCreateAndDeleteCustomSecret(t *testing.T) {
 
 	EnsureInstance(ctx, t, tc, eventhubInstance)
 
-	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
+	EnsureSecretsWithValue(ctx, t, tc, eventhubInstance, tc.secretClient, secretName, eventhubInstance.Namespace, "eventhubName", eventhubName)
 
-	err = tc.k8sClient.Delete(ctx, eventhubInstance)
-	assert.Equal(nil, err, "delete eventhub in k8s")
+	EnsureDelete(ctx, t, tc, eventhubInstance)
 
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, eventhubNamespacedName, eventhubInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
+	EnsureDelete(ctx, t, tc, eventhubNamespaceInstance)
 
 }
 func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
@@ -188,13 +121,27 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
-	ehnName := tc.eventhubNamespaceName
+	ehnName := GenerateTestResourceNameWithRandom("eh-ns", 10)
 	eventhubName := GenerateTestResourceNameWithRandom("ev", 10)
 	keyVaultNameForSecrets := tc.keyvaultName
 
 	// Instantiate a KV client for the Keyvault that was created during test suite setup
 	_, err := kvhelper.AzureKeyVaultManager.GetVault(ctx, rgName, keyVaultNameForSecrets)
 	assert.Equal(nil, err, "wait for keyvault to be available")
+
+	// Create EventhubNamespace instance as prereq
+	eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      ehnName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.EventhubNamespaceSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, eventhubNamespaceInstance)
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{
@@ -219,35 +166,76 @@ func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 		},
 	}
 
-	eventhubNamespacedName := types.NamespacedName{Name: eventhubName, Namespace: "default"}
 	EnsureInstance(ctx, t, tc, eventhubInstance)
 
 	// Check that the secret is added to KeyVault
 	keyvaultSecretClient := kvsecrets.New(keyVaultNameForSecrets)
 
-	assert.Eventually(func() bool {
-		_, err = keyvaultSecretClient.Get(ctx, eventhubNamespacedName)
-		return err == nil
-	}, tc.timeout, tc.retry, "wait for secret to exist in keyvault")
+	EnsureSecrets(ctx, t, tc, eventhubInstance, keyvaultSecretClient, eventhubName, eventhubInstance.Namespace)
 
 	EnsureDelete(ctx, t, tc, eventhubInstance)
+	EnsureDelete(ctx, t, tc, eventhubNamespaceInstance)
 
 }
-
-func TestEventHubControllerCreateAndDeleteCapture(t *testing.T) {
+func TestEventHubCapture_StorageAccountAndBlob_Controllers(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
-	var err error
 
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	rgLocation := tc.resourceGroupLocation
-	ehnName := tc.eventhubNamespaceName
-	saName := tc.storageAccountName
-	bcName := tc.blobContainerName
+	ehnName := GenerateTestResourceNameWithRandom("eh-ns", 10)
+	saName := GenerateAlphaNumTestResourceName("ehsa")
+	bcName := GenerateTestResourceNameWithRandom("ehblob", 10)
 	eventHubName := GenerateTestResourceNameWithRandom("eh-capture", 10)
+	containerAccessLevel := s.PublicAccessContainer
+
+	// Create Eventhub namespace
+	eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      ehnName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.EventhubNamespaceSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+		},
+	}
+	EnsureInstance(ctx, t, tc, eventhubNamespaceInstance)
+
+	// Create Storage account
+	saInstance := &azurev1alpha1.StorageAccount{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      saName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.StorageAccountSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+			Sku: azurev1alpha1.StorageAccountSku{
+				Name: "Standard_LRS",
+			},
+			Kind: "Storage",
+		},
+	}
+	EnsureInstance(ctx, t, tc, saInstance)
+
+	// Create blob container
+	blobContainerInstance := &azurev1alpha1.BlobContainer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      bcName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.BlobContainerSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+			AccountName:   saName,
+			AccessLevel:   containerAccessLevel,
+		},
+	}
+	EnsureInstance(ctx, t, tc, blobContainerInstance)
 
 	// Create the EventHub object and expect the Reconcile to be created
 	eventhubInstance := &azurev1alpha1.Eventhub{
@@ -290,8 +278,6 @@ func TestEventHubControllerCreateAndDeleteCapture(t *testing.T) {
 
 	EnsureInstance(ctx, t, tc, eventhubInstance)
 
-	eventHubNamespacedName := types.NamespacedName{Name: eventHubName, Namespace: "default"}
-
 	assert.Eventually(func() bool {
 		hub, _ := tc.eventhubClient.GetHub(ctx, rgName, ehnName, eventHubName)
 		if hub.Properties == nil || hub.CaptureDescription == nil || hub.CaptureDescription.Enabled == nil {
@@ -300,12 +286,8 @@ func TestEventHubControllerCreateAndDeleteCapture(t *testing.T) {
 		return *hub.CaptureDescription.Enabled
 	}, tc.timeout, tc.retry, "wait for eventhub capture check")
 
-	err = tc.k8sClient.Delete(ctx, eventhubInstance)
-	assert.Equal(nil, err, "delete eventhub in k8s")
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, eventHubNamespacedName, eventhubInstance)
-		return apierrors.IsNotFound(err)
-	}, tc.timeout, tc.retry, "wait for eventHubInstance to be gone from k8s")
-
+	EnsureDelete(ctx, t, tc, eventhubInstance)
+	EnsureDelete(ctx, t, tc, eventhubNamespaceInstance)
+	EnsureDelete(ctx, t, tc, blobContainerInstance)
+	EnsureDelete(ctx, t, tc, saInstance)
 }

@@ -88,6 +88,9 @@ resources:
   kind: MySQLFirewallRule
 - group: azure
   version: v1alpha1
+  kind: MySQLVNetRule
+- group: azure
+  version: v1alpha1
   kind: AzureVirtualMachine
 - group: azure
   version: v1alpha1
