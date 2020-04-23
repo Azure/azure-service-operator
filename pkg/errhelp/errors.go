@@ -59,7 +59,6 @@ const (
 	InvalidRequestContent               = "InvalidRequestContent"
 	InternalServerError                 = "InternalServerError"
 	NetworkAclsValidationFailure        = "NetworkAclsValidationFailure"
-	FailedDelete                        = "FailedDelete"
 )
 
 func NewAzureError(err error) error {

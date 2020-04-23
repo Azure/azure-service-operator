@@ -203,10 +203,13 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 		}
 		requeue := []string{
 			errhelp.AsyncOpIncompleteError,
-			errhelp.FailedDelete,
 		}
 
 		if helpers.ContainsString(alreadyDeletedErrors, azerr.Type) {
+			return false, nil
+		}
+		if strings.Contains(err.Error(), "FailedDelete") {
+			instance.Status.Message = "Deletion is not complete"
 			return false, nil
 		}
 		if helpers.ContainsString(requeue, azerr.Type) {
