@@ -66,6 +66,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.NetcfgInvalidVirtualNetworkSite,
 			errhelp.InvalidCIDRNotation,
 			errhelp.InvalidRequestFormat,
+			errhelp.LocationNotAvailableForResourceType,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
 			switch azerr.Type {
@@ -80,7 +81,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 			// Unrecoverable error, so stop reconcilation
 			instance.Status.Provisioning = false
-			instance.Status.Message = "Reconcilation hit unrecoverable error"
+			instance.Status.Message = "Reconcilation hit unrecoverable error: " + errhelp.StripErrorIDs(err)
 			return true, nil
 		}
 		instance.Status.Provisioning = false
