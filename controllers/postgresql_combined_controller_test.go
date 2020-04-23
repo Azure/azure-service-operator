@@ -25,7 +25,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	// Add any setup steps that needs to be executed before each test
 	rgName = tc.resourceGroupName
-	rgLocation = "eastus2"
+	rgLocation = "eastus"
 
 	postgreSQLServerName = GenerateTestResourceNameWithRandom("psql-srv", 10)
 	postgreSQLServerReplicaName := GenerateTestResourceNameWithRandom("psql-rep", 10)
