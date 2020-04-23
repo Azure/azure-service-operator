@@ -6,6 +6,7 @@ package vnet
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -44,7 +45,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	}
 
 	instance.Status.Provisioning = true
-	_, err = g.CreateVNet(
+	result, err := g.CreateVNet(
 		ctx,
 		location,
 		resourceGroup,
@@ -72,6 +73,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.NetcfgInvalidVirtualNetworkSite,
 			errhelp.InvalidCIDRNotation,
 			errhelp.InvalidRequestFormat,
+			errhelp.InvalidAddressPrefixFormat,
 		}
 
 		// everything ok - just requeue
