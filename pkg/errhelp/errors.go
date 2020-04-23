@@ -60,6 +60,7 @@ const (
 	InternalServerError                            = "InternalServerError"
 	NetworkAclsValidationFailure                   = "NetworkAclsValidationFailure"
 	SubnetHasServiceEndpointWithInvalidServiceName = "SubnetHasServiceEndpointWithInvalidServiceName"
+	InvalidAddressPrefixFormat                     = "InvalidAddressPrefixFormat"
 )
 
 func NewAzureError(err error) error {
