@@ -351,16 +351,6 @@ func setup() error {
 		return err
 	}
 
-	err = (&AzureDataLakeGen2FileSystemReconciler{
-		Client:            k8sManager.GetClient(),
-		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
-		Recorder:          k8sManager.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
-		FileSystemManager: storageManagers.FileSystem,
-	}).SetupWithManager(k8sManager)
-	if err != nil {
-		return err
-	}
-
 	err = (&AzureSqlServerReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
