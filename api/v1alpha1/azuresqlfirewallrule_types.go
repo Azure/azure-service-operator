@@ -15,7 +15,7 @@ import (
 type AzureSqlFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ResourceGroup  string `json:"resourcegroup,omitempty"`
+	ResourceGroup  string `json:"resourceGroup,omitempty"`
 	Server         string `json:"server"`
 	StartIPAddress string `json:"startipaddress,omitempty"`
 	EndIPAddress   string `json:"endipaddress,omitempty"`

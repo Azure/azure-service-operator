@@ -13,7 +13,7 @@ import (
 type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Location                     string                          `json:"location"`
-	ResourceGroup                string                          `json:"resourcegroup,omitempty"`
+	ResourceGroup                string                          `json:"resourceGroup,omitempty"`
 	Server                       string                          `json:"server"`
 	FailoverPolicy               ReadWriteEndpointFailoverPolicy `json:"failoverpolicy"`
 	FailoverGracePeriod          int32                           `json:"failovergraceperiod"`

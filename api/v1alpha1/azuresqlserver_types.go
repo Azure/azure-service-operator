@@ -16,7 +16,7 @@ type AzureSqlServerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location               string `json:"location"`
-	ResourceGroup          string `json:"resourcegroup,omitempty"`
+	ResourceGroup          string `json:"resourceGroup,omitempty"`
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
 }
 

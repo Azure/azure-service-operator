@@ -3,7 +3,7 @@ kind: AzureSqlFirewallRule
 metadata:
   name: sqlf-allowazuresvcaccess
 spec:
-  resourcegroup: resourcegroup-azure-operators
+  resourceGroup: resourcegroup-azure-operators
   server:  sqlserver-sample-777
   
   # this IP range enables Azure Service access

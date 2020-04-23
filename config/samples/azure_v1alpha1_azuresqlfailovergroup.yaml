@@ -4,7 +4,7 @@ metadata:
   name: azuresqlfailovergroup-sample
 spec:
   location: eastus
-  resourcegroup: resourcegroup-azure-operators
+  resourceGroup: resourcegroup-azure-operators
   server: sqlserver-samplepri
   failoverpolicy: automatic
   failovergraceperiod: 30
