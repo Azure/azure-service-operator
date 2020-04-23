@@ -13,9 +13,9 @@ import (
 type StorageManagers struct {
 	StorageAccount storageaccount.StorageManager
 	BlobContainer  blobcontainer.BlobContainerManager
-	FileSystem     FileSystemManager
 }
 
+<<<<<<< HEAD
 func AzureStorageManagers(secretClient secrets.SecretClient, scheme *runtime.Scheme) StorageManagers {
 	return StorageManagers{
 		StorageAccount: storageaccount.New(secretClient, scheme),
@@ -31,4 +31,9 @@ var EmptyAzureStorageManagers = StorageManagers{
 	StorageAccount: storageaccount.EmptyStorageManager(),
 	BlobContainer:  blobcontainer.EmptyBlobContainerManager(),
 	FileSystem:     &azureFileSystemManager{},
+=======
+var AzureStorageManagers = StorageManagers{
+	StorageAccount: storageaccount.New(),
+	BlobContainer:  blobcontainer.New(),
+>>>>>>> 81d67f98519f5d0e8dba4aa13b157cd7b1e44a44
 }

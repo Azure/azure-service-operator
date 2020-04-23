@@ -36,7 +36,6 @@ import (
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	resourcemanagerrediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	vm "github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
@@ -131,7 +130,6 @@ func main() {
 	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
 		secretClient,
 	)
-	storageManagers := resourcemanagerstorage.AzureStorageManagers(secretClient, mgr.GetScheme())
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(mgr.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
 		KeyvaultClient: keyVaultManager,
@@ -418,16 +416,6 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
-		os.Exit(1)
-	}
-
-	if err = (&controllers.AzureDataLakeGen2FileSystemReconciler{
-		Client:            mgr.GetClient(),
-		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
-		Recorder:          mgr.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
-		FileSystemManager: storageManagers.FileSystem,
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureDataLakeGen2FileSystem")
 		os.Exit(1)
 	}
 
