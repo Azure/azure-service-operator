@@ -25,9 +25,10 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	// Add any setup steps that needs to be executed before each test
 	rgName = tc.resourceGroupName
-	rgLocation = tc.resourceGroupLocation
+	rgLocation = "eastus2"
 
 	postgreSQLServerName = GenerateTestResourceNameWithRandom("psql-srv", 10)
+	postgreSQLServerReplicaName := GenerateTestResourceNameWithRandom("psql-rep", 10)
 
 	// Create the PostgreSQLServer object and expect the Reconcile to be created
 	postgreSQLServerInstance = &azurev1alpha1.PostgreSQLServer{
@@ -38,12 +39,13 @@ func TestPSQLDatabaseController(t *testing.T) {
 		Spec: azurev1alpha1.PostgreSQLServerSpec{
 			Location:      rgLocation,
 			ResourceGroup: rgName,
+			CreateMode:    "Default",
 			Sku: azurev1alpha1.AzureDBsSQLSku{
-				Name:     "B_Gen5_2",
-				Tier:     azurev1alpha1.SkuTier("Basic"),
+				Name:     "GP_Gen5_4",
+				Tier:     azurev1alpha1.SkuTier("GeneralPurpose"),
 				Family:   "Gen5",
 				Size:     "51200",
-				Capacity: 2,
+				Capacity: 4,
 			},
 			ServerVersion:  azurev1alpha1.ServerVersion("10"),
 			SSLEnforcement: azurev1alpha1.SslEnforcementEnumEnabled,
@@ -51,6 +53,23 @@ func TestPSQLDatabaseController(t *testing.T) {
 	}
 
 	EnsureInstance(ctx, t, tc, postgreSQLServerInstance)
+
+	postgreSQLReplicaServerInstance := &azurev1alpha1.PostgreSQLServer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      postgreSQLServerReplicaName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.PostgreSQLServerSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+			CreateMode:    "Replica",
+			ReplicaProperties: azurev1alpha1.PgreSqlReplicaProperties{
+				SourceServerId: postgreSQLServerInstance.Status.ResourceId,
+			},
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, postgreSQLReplicaServerInstance)
 
 	postgreSQLDatabaseName := GenerateTestResourceNameWithRandom("psql-db", 10)
 
@@ -93,6 +112,8 @@ func TestPSQLDatabaseController(t *testing.T) {
 	EnsureDelete(ctx, t, tc, postgreSQLFirewallRuleInstance)
 
 	// Add any teardown steps that needs to be executed after each test
+	EnsureDelete(ctx, t, tc, postgreSQLReplicaServerInstance)
+
 	EnsureDelete(ctx, t, tc, postgreSQLServerInstance)
 
 }
