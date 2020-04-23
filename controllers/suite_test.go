@@ -35,6 +35,7 @@ import (
 	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
+	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
 	resourcemanagernic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
 	resourcemanagerpip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
@@ -629,6 +630,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("MySQLFirewallRule-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&MySQLVNetRuleReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLVNetRule",
+				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLVNetRule-controller"),
 			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)

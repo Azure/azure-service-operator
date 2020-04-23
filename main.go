@@ -666,6 +666,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "NetworkInterface")
 		os.Exit(1)
 	}
+
 	if err = (&controllers.MySQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
