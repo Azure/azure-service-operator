@@ -205,18 +205,20 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 			errhelp.AsyncOpIncompleteError,
 		}
 
+		// already deleted so exit successfully
 		if helpers.ContainsString(alreadyDeletedErrors, azerr.Type) {
 			return false, nil
 		}
-		if strings.Contains(err.Error(), "FailedDelete") {
-			instance.Status.Message = "Deletion is not complete"
-			return false, nil
-		}
-		if helpers.ContainsString(requeue, azerr.Type) {
+
+		// requeue the delete to try again
+		instance.Status.Message = "Deletion is not complete"
+		errorStr := err.Error()
+		if helpers.ContainsString(requeue, azerr.Type) ||
+			strings.Contains(errorStr, "FailedDelete") ||
+			strings.Contains(errorStr, "Failure sending request: StatusCode=0") {
 			return true, nil
 		}
-
-		return true, fmt.Errorf("API Mgmt Svc delete error %v", err)
+		return true, fmt.Errorf("API Mgmt Svc delete error: %v", err)
 	}
 
 	return false, nil
