@@ -59,12 +59,13 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 	vnetEnabled := bool(properties.IsVirtualNetworkFilterEnabled)
 
 	var capabilities []documentdb.Capability
-	if dbKind == documentdb.MongoDB && properties.MongoDBVersion == "3.6" {
-		capabilities = []documentdb.Capability{
-			{Name: to.StringPtr("EnableMongo")},
+	if properties.Capabilities != nil {
+		for _, i := range *properties.Capabilities {
+			name := i.Name
+			capabilities = append(capabilities, documentdb.Capability{
+				Name: name,
+			})
 		}
-	} else {
-		capabilities = make([]documentdb.Capability, 0)
 	}
 
 	/*
