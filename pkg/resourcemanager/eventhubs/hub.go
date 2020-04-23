@@ -31,12 +31,15 @@ type azureEventHubManager struct {
 	Scheme       *runtime.Scheme
 }
 
-func getHubsClient() eventhub.EventHubsClient {
+func getHubsClient() (eventhub.EventHubsClient, error) {
 	hubClient := eventhub.NewEventHubsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	auth, _ := iam.GetResourceManagementAuthorizer()
+	auth, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		return eventhub.EventHubsClient{}, err
+	}
 	hubClient.Authorizer = auth
 	hubClient.AddToUserAgent(config.UserAgent())
-	return hubClient
+	return hubClient, nil
 }
 
 func NewEventhubClient(secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureEventHubManager {
@@ -47,7 +50,15 @@ func NewEventhubClient(secretClient secrets.SecretClient, scheme *runtime.Scheme
 }
 
 func (_ *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (result autorest.Response, err error) {
-	hubClient := getHubsClient()
+	hubClient, err := getHubsClient()
+	if err != nil {
+		return autorest.Response{
+			Response: &http.Response{
+				StatusCode: 500,
+			},
+		}, err
+	}
+
 	return hubClient.Delete(ctx,
 		resourceGroupName,
 		namespaceName,
@@ -56,7 +67,10 @@ func (_ *azureEventHubManager) DeleteHub(ctx context.Context, resourceGroupName 
 }
 
 func (_ *azureEventHubManager) CreateHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, MessageRetentionInDays int32, PartitionCount int32, captureDescription *eventhub.CaptureDescription) (eventhub.Model, error) {
-	hubClient := getHubsClient()
+	hubClient, err := getHubsClient()
+	if err != nil {
+		return eventhub.Model{}, err
+	}
 
 	// MessageRetentionInDays - Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	if MessageRetentionInDays < 1 || MessageRetentionInDays > 7 {
@@ -86,17 +100,29 @@ func (_ *azureEventHubManager) CreateHub(ctx context.Context, resourceGroupName 
 }
 
 func (_ *azureEventHubManager) GetHub(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string) (eventhub.Model, error) {
-	hubClient := getHubsClient()
+	hubClient, err := getHubsClient()
+	if err != nil {
+		return eventhub.Model{}, err
+	}
+
 	return hubClient.Get(ctx, resourceGroupName, namespaceName, eventHubName)
 }
 
 func (_ *azureEventHubManager) CreateOrUpdateAuthorizationRule(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string, parameters eventhub.AuthorizationRule) (result eventhub.AuthorizationRule, err error) {
-	hubClient := getHubsClient()
+	hubClient, err := getHubsClient()
+	if err != nil {
+		return eventhub.AuthorizationRule{}, err
+	}
+
 	return hubClient.CreateOrUpdateAuthorizationRule(ctx, resourceGroupName, namespaceName, eventHubName, authorizationRuleName, parameters)
 }
 
 func (_ *azureEventHubManager) ListKeys(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, authorizationRuleName string) (result eventhub.AccessKeys, err error) {
-	hubClient := getHubsClient()
+	hubClient, err := getHubsClient()
+	if err != nil {
+		return eventhub.AccessKeys{}, err
+	}
+
 	return hubClient.ListKeys(ctx, resourceGroupName, namespaceName, eventHubName, authorizationRuleName)
 }
 
