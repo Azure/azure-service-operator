@@ -44,7 +44,11 @@ func (sdk *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceG
 		return result, nil
 	}
 
-	serversClient := azuresqlshared.GetGoServersClient()
+	serversClient, err := azuresqlshared.GetGoServersClient()
+	if err != nil {
+		return result, err
+	}
+
 	future, err := serversClient.Delete(
 		ctx,
 		resourceGroupName,
@@ -59,7 +63,10 @@ func (sdk *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceG
 
 // GetServer returns a SQL server
 func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient := azuresqlshared.GetGoServersClient()
+	serversClient, err := azuresqlshared.GetGoServersClient()
+	if err != nil {
+		return sql.Server{}, err
+	}
 
 	return serversClient.Get(
 		ctx,
@@ -70,7 +77,11 @@ func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
 func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (pollingURL string, result sql.Server, err error) {
-	serversClient := azuresqlshared.GetGoServersClient()
+	serversClient, err := azuresqlshared.GetGoServersClient()
+	if err != nil {
+		return "", sql.Server{}, err
+	}
+
 	serverProp := azuresqlshared.SQLServerPropertiesToServer(properties)
 
 	if forceUpdate == false {
@@ -105,7 +116,10 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 }
 
 func CheckNameAvailability(ctx context.Context, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {
-	serversClient := azuresqlshared.GetGoServersClient()
+	serversClient, err := azuresqlshared.GetGoServersClient()
+	if err != nil {
+		return sql.CheckNameAvailabilityResponse{}, err
+	}
 
 	response, err := serversClient.CheckNameAvailability(
 		ctx,
