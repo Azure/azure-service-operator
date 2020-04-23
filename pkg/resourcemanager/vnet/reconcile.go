@@ -6,6 +6,8 @@ package vnet
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -36,15 +38,14 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		// succeeded! end reconcilliation successfully
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
+		instance.Status.FailedProvisioning = false
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *vNet.ID
 		return true, nil
 	}
 
 	instance.Status.Provisioning = true
-	instance.Status.Provisioned = false
-
-	_, err = g.CreateVNet(
+	result, err := g.CreateVNet(
 		ctx,
 		location,
 		resourceGroup,
@@ -54,11 +55,17 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
+		instance.Status.Message = err.Error()
+
+		if result.Response.Response != nil && result.Response.Response.StatusCode == http.StatusBadRequest {
+			instance.Status.Provisioning = false
+			return true, nil
+		}
+
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
 		}
 		catchUnrecoverableErrors := []string{
 			errhelp.NetcfgInvalidIPAddressPrefix,
@@ -66,24 +73,29 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.NetcfgInvalidVirtualNetworkSite,
 			errhelp.InvalidCIDRNotation,
 			errhelp.InvalidRequestFormat,
+			errhelp.InvalidAddressPrefixFormat,
 		}
-		if helpers.ContainsString(catch, azerr.Type) {
-			switch azerr.Type {
-			case errhelp.AsyncOpIncompleteError:
-				instance.Status.Provisioning = true
-			}
 
-			// reconciliation is not done but error is acceptable
+		// everything ok - just requeue
+		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			return false, nil
 		}
-		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
 
-			// Unrecoverable error, so stop reconcilation
+		// reconciliation is not done but error is acceptable
+		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Provisioning = false
-			instance.Status.Message = "Reconcilation hit unrecoverable error"
+			return false, nil
+		}
+
+		instance.Status.Provisioning = false
+
+		// Unrecoverable error, so stop reconcilation
+		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
+			instance.Status.FailedProvisioning = true
+			instance.Status.Message = fmt.Sprintf("Reconcilation hit unrecoverable error: %s", errhelp.StripErrorIDs(err))
 			return true, nil
 		}
-		instance.Status.Provisioning = false
+
 		return false, fmt.Errorf("Error creating VNet: %s, %s - %v", resourceGroup, resourceName, err)
 	}
 
