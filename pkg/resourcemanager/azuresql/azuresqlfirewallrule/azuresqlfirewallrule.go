@@ -21,7 +21,10 @@ func NewAzureSqlFirewallRuleManager() *AzureSqlFirewallRuleManager {
 
 // GetServer returns a SQL server
 func (_ *AzureSqlFirewallRuleManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient := azuresqlshared.GetGoServersClient()
+	serversClient, err := azuresqlshared.GetGoServersClient()
+	if err != nil {
+		return sql.Server{}, err
+	}
 
 	return serversClient.Get(
 		ctx,
@@ -32,7 +35,10 @@ func (_ *AzureSqlFirewallRuleManager) GetServer(ctx context.Context, resourceGro
 
 // GetSQLFirewallRule returns a firewall rule
 func (_ *AzureSqlFirewallRuleManager) GetSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (result sql.FirewallRule, err error) {
-	firewallClient := azuresqlshared.GetGoFirewallClient()
+	firewallClient, err := azuresqlshared.GetGoFirewallClient()
+	if err != nil {
+		return sql.FirewallRule{}, err
+	}
 
 	return firewallClient.Get(
 		ctx,
@@ -57,7 +63,11 @@ func (sdk *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Contex
 		return nil
 	}
 
-	firewallClient := azuresqlshared.GetGoFirewallClient()
+	firewallClient, err := azuresqlshared.GetGoFirewallClient()
+	if err != nil {
+		return err
+	}
+
 	_, err = firewallClient.Delete(
 		ctx,
 		resourceGroupName,
@@ -79,7 +89,11 @@ func (sdk *AzureSqlFirewallRuleManager) CreateOrUpdateSQLFirewallRule(ctx contex
 		return false, err
 	}
 
-	firewallClient := azuresqlshared.GetGoFirewallClient()
+	firewallClient, err := azuresqlshared.GetGoFirewallClient()
+	if err != nil {
+		return false, err
+	}
+
 	_, err = firewallClient.CreateOrUpdate(
 		ctx,
 		resourceGroupName,

@@ -1,7 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: AzureDataLakeGen2FileSystem
-metadata:
-  name: adls-filesystem-sample
-spec:
-  storageAccountName: adlsaccountsample
-  resourceGroup: resourcegroup-azure-operators
