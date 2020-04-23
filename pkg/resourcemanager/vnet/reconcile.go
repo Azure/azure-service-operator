@@ -6,6 +6,7 @@ package vnet
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -43,8 +44,9 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
+	instance.Status.FailedProvisioning = false
 
-	_, err = g.CreateVNet(
+	result, err := g.CreateVNet(
 		ctx,
 		location,
 		resourceGroup,
@@ -54,6 +56,13 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
+		instance.Status.Message = err.Error()
+
+		if result.Response.Response != nil && result.Response.Response.StatusCode == http.StatusBadRequest {
+			instance.Status.Provisioning = false
+			return true, nil
+		}
+
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
@@ -80,7 +89,6 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 			// Unrecoverable error, so stop reconcilation
 			instance.Status.Provisioning = false
-			instance.Status.Message = "Reconcilation hit unrecoverable error"
 			return true, nil
 		}
 		instance.Status.Provisioning = false
