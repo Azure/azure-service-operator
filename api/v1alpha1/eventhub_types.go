@@ -114,10 +114,6 @@ func init() {
 	SchemeBuilder.Register(&Eventhub{}, &EventhubList{})
 }
 
-func (eventhub *Eventhub) IsBeingDeleted() bool {
-	return !eventhub.ObjectMeta.DeletionTimestamp.IsZero()
-}
-
 func (eventhub *Eventhub) IsSubmitted() bool {
 	return eventhub.Status.Provisioning || eventhub.Status.Provisioned
 }

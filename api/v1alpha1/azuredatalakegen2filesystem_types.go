@@ -64,8 +64,3 @@ func (fs *AzureDataLakeGen2FileSystem) IsSubmitted() bool {
 func (fs *AzureDataLakeGen2FileSystem) HasFinalizer(finalizerName string) bool {
 	return helpers.ContainsString(fs.ObjectMeta.Finalizers, finalizerName)
 }
-
-// IsBeingDeleted checks to see if the object is being deleted by checking the DeletionTimestamp
-func (fs *AzureDataLakeGen2FileSystem) IsBeingDeleted() bool {
-	return !fs.ObjectMeta.DeletionTimestamp.IsZero()
-}

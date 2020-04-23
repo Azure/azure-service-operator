@@ -52,21 +52,6 @@ func (r *AzureDataLakeGen2FileSystemReconciler) Reconcile(req ctrl.Request) (ctr
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	if helpers.IsBeingDeleted(&instance) {
-		if HasFinalizer(&instance, fileSystemFinalizerName) {
-			if err := r.deleteExternal(&instance); err != nil {
-				log.Info("Error", "Delete Storage failed with ", err)
-				return ctrl.Result{}, err
-			}
-
-			RemoveFinalizer(&instance, fileSystemFinalizerName)
-			if err := r.Update(context.Background(), &instance); err != nil {
-				return ctrl.Result{}, err
-			}
-		}
-		return ctrl.Result{}, nil
-	}
-
 	if !HasFinalizer(&instance, fileSystemFinalizerName) {
 		err := r.addFinalizer(&instance)
 		if err != nil {

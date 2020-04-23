@@ -158,11 +158,4 @@ func TestADLSFilesystemControllerNoStorageAccount(t *testing.T) {
 // 	err = tc.k8sClient.Delete(context.Background(), fileSystemInstance)
 // 	Expect(err).NotTo(HaveOccurred())
 
-// 	Eventually(func() bool {
-// 		err = tc.k8sClient.Get(context.Background(), fileSystemNamespacedName, fileSystemInstance)
-// 		//return apierrors.IsNotFound(err)
-// 		return fileSystemInstance.IsBeingDeleted()
-// 	}, tc.timeout, tc.retry,
-// 	).Should(BeTrue())
-
 // }
