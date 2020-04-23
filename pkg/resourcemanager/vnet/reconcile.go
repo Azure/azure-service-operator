@@ -54,6 +54,13 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
+		instance.Status.Message = err.Error()
+
+		if result.Response.Response != nil && result.Response.Response.StatusCode == http.StatusBadRequest {
+			instance.Status.Provisioning = false
+			return true, nil
+		}
+
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
