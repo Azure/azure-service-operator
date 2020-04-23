@@ -66,6 +66,8 @@ func (*AzureCosmosDBManager) CreateOrUpdateCosmosDB(
 				Name: name,
 			})
 		}
+	} else {
+		capabilities = make([]documentdb.Capability, 0)
 	}
 
 	/*

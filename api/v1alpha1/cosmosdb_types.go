@@ -53,8 +53,8 @@ type CosmosDBProperties struct {
 
 // Capability cosmos DB capability object
 type Capability struct {
-	// Name - Name of the Cosmos DB capability. Examples: "EnableCassandra", "EnableTable", "EnableGremlin", "EnableMongo"
 	//Name *CosmosCapability `json:"name,omitempty"`
+	// +kubebuilder:validation:Enum=EnableCassandra;EnableTable;EnableGremlin;EnableMongo;
 	Name *string `json:"name,omitempty"`
 }
 
