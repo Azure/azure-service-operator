@@ -74,6 +74,11 @@ If you are deploying into an already created namespace, be sure to set the follo
 createNamespace: False
 ```
 
+and specify the namespace name:
+```
+namespace: your-namespace
+```
+
 Finally, install the chart with your added values. The chart can be installed by using a values file or environment variables.
 ```
 helm upgrade --install aso azureserviceoperator/azure-service-operator -f values.yaml
@@ -103,6 +108,8 @@ The following table lists the configurable parameters of the azure-service-opera
 | `azureUseMI`  | Set to True if using Managed Identity for authentication | `False` |
 | `azureOperatorKeyvault`  | Set this value with the name of your Azure Key Vault resource if you prefer to store secrets in Key Vault rather than as Kubernetes secrets (default) | `` |
 | `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azure-service-operator:0.0.9150` |
-| `createNamespace`  | Set to True if you would like the namespace autocreated, otherwise False if you have an existing namespace | `True` |
+| `cloudEnvironment`  | Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud | `AzurePublicCloud` |
+| `createNamespace`  | Set to True if you would like the namespace autocreated, otherwise False if you have an existing namespace. If using an existing namespace, the `namespace` field must also be updated | `True` |
+| `namespace`  | Configure a custom namespace to deploy the operator into | `azureoperator-system` |
 | `aad-pod-identity.azureIdentity.resourceID`  | The resource ID for your managed identity | `` |
 | `aad-pod-identity.azureIdentity.clientID`  | The client ID for your managed identity | `` |

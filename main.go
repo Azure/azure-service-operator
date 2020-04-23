@@ -645,6 +645,21 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "NetworkInterface")
 		os.Exit(1)
 	}
+	if err = (&controllers.MySQLVNetRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLVNetRule",
+				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
+			),
+			Recorder: mgr.GetEventRecorderFor("MySQLVNetRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLVNetRule")
+		os.Exit(1)
+	}
 
 	if err = (&controllers.MySQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
