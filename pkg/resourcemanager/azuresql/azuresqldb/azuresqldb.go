@@ -23,7 +23,10 @@ func NewAzureSqlDbManager() *AzureSqlDbManager {
 
 // GetServer returns a SQL server
 func (_ *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient := azuresqlshared.GetGoServersClient()
+	serversClient, err := azuresqlshared.GetGoServersClient()
+	if err != nil {
+		return sql.Server{}, err
+	}
 
 	return serversClient.Get(
 		ctx,
