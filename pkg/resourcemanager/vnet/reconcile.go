@@ -66,6 +66,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.NetcfgInvalidVirtualNetworkSite,
 			errhelp.InvalidCIDRNotation,
 			errhelp.InvalidRequestFormat,
+			errhelp.InvalidAddressPrefixFormat,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
 			switch azerr.Type {

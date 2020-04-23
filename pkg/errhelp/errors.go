@@ -26,6 +26,7 @@ const (
 	FailoverGroupBusy                   = "FailoverGroupBusy"
 	Forbidden                           = "Forbidden"
 	InvalidAccessPolicy                 = "InvalidAccessPolicy"
+	InvalidAddressPrefixFormat          = "InvalidAddressPrefixFormat"
 	InvalidCIDRNotation                 = "InvalidCIDRNotation"
 	InvalidFailoverGroupRegion          = "InvalidFailoverGroupRegion"
 	InvalidParameters                   = "InvalidParameters"
