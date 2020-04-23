@@ -6,7 +6,6 @@ package storages
 import (
 	"context"
 	"errors"
-	"log"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2018-02-01/resources"
@@ -25,7 +24,12 @@ func (_ *azureFileSystemManager) CreateFileSystem(ctx context.Context, groupName
 	if err != nil {
 		return nil, err
 	}
-	client := getFileSystemClient(ctx, groupName, datalakeName)
+
+	client, err := getFileSystemClient(ctx, groupName, datalakeName)
+	if err != nil {
+		return nil, err
+	}
+
 	// empty parameters are optional request headers (properties, requestid)
 	result, err := client.Create(ctx, filesystemName, "", "", timeout, xMsDate)
 	if err != nil {
@@ -43,7 +47,11 @@ func (_ *azureFileSystemManager) GetFileSystem(ctx context.Context, groupName st
 		return response, errors.New("unable to create filesystem")
 	}
 	response = autorest.Response{Response: &http.Response{StatusCode: http.StatusNotFound}}
-	client := getFileSystemClient(ctx, groupName, datalakeName)
+
+	client, err := getFileSystemClient(ctx, groupName, datalakeName)
+	if err != nil {
+		return response, err
+	}
 
 	// empty parameters are optional request headers (continuation, maxresults, requestid)
 	list, err := client.List(ctx, filesystemName, "", nil, "", timeout, xMsDate)
@@ -63,41 +71,53 @@ func (_ *azureFileSystemManager) DeleteFileSystem(ctx context.Context, groupName
 	if err != nil {
 		return response, nil
 	}
-	client := getFileSystemClient(ctx, groupName, datalakeName)
+
+	client, err := getFileSystemClient(ctx, groupName, datalakeName)
+	if err != nil {
+		return response, err
+	}
+
 	// empty parameters are optional request headers (ifmodifiedsince, ifunmodifiedsince, requestid)
 	return client.Delete(ctx, filesystemName, "", "", "", timeout, xMsDate)
 }
 
-func getFileSystemClient(ctx context.Context, groupName string, accountName string) storagedatalake.FilesystemClient {
+func getFileSystemClient(ctx context.Context, groupName string, accountName string) (storagedatalake.FilesystemClient, error) {
 	xmsversion := "2019-02-02"
 	fsClient := storagedatalake.NewFilesystemClient(xmsversion, accountName)
 
 	accountKey, err := getAccountKey(ctx, groupName, accountName)
 	if err != nil {
-		log.Printf("failed to get the account key for the authorizer: %v\n", err)
+		return storagedatalake.FilesystemClient{}, err
 	}
 
 	a, err := iam.GetSharedKeyAuthorizer(accountName, accountKey)
-
 	if err != nil {
-		log.Printf("failed to initialize authorizer: %v\n", err)
+		return storagedatalake.FilesystemClient{}, err
 	}
+
 	fsClient.Authorizer = a
 	fsClient.AddToUserAgent(config.UserAgent())
 
-	return fsClient
+	return fsClient, nil
 }
 
-func getResourcesClient() resources.GroupsClient {
+func getResourcesClient() (resources.GroupsClient, error) {
 	resourcesClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer()
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		return resources.GroupsClient{}, err
+	}
 	resourcesClient.Authorizer = a
 	resourcesClient.AddToUserAgent(config.UserAgent())
-	return resourcesClient
+	return resourcesClient, nil
 }
 
 func checkRGAndStorageAccount(ctx context.Context, groupName string, datalakeName string) error {
-	rgClient := getResourcesClient()
+	rgClient, err := getResourcesClient()
+	if err != nil {
+		return err
+	}
+
 	storagesClient := storageaccount.New()
 
 	response, err := rgClient.CheckExistence(ctx, groupName)
