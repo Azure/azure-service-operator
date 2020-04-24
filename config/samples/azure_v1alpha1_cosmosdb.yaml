@@ -10,6 +10,13 @@ spec:
     databaseAccountOfferType: Standard
     enableMultipleWriteLocations: false
 
+    # Optionally set the capabilities name to the following options: (the default is SQL)
+    # "EnableCassandra", "EnableTable", "EnableGremlin", "EnableMongo"
+    # NOTE: If using "EnableMongo" kind must be set to MongoDB for this to take effect
+    #capabilities: 
+    # - name: "EnableCassandra"
+
+
     # optionally set the mongoDBVersion to "3.2" or "3.6", if omitted the default is "3.2"
     # NOTE: kind must be set to MongoDB for this to take effect
     # mongoDBVersion: "3.6"
