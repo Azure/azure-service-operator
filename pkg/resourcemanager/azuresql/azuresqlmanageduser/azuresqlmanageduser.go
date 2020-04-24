@@ -57,40 +57,40 @@ func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupNam
 }
 
 // ConnectToSqlDb connects to the SQL db using the current identity of operator (should be MI)
-func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, drivername string, server string, database string, port int) (db *sql.DB, err error) {
+func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, drivername string, server string, database string) (db *sql.DB, err error) {
 
 	fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
-	connString := fmt.Sprintf("server=%s;port=%d;database=%s;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30", fullServerAddress, port, database)
+	connString := fmt.Sprintf("Server=%s;Database=%s", fullServerAddress, database)
 
 	tokenProvider, err := getMSITokenProvider()
 	if err != nil {
-		return db, err
+		return db, fmt.Errorf("getMSITokenProvider failed: %v", err)
 	}
 
 	connector, err := mssql.NewAccessTokenConnector(connString, tokenProvider)
 	if err != nil {
-		return db, err
+		return db, fmt.Errorf("NewAccessTokenConnector failed: %v", err)
 	}
 
 	db = sql.OpenDB(connector)
-	defer db.Close()
 
 	err = db.PingContext(ctx)
 	if err != nil {
-		return db, err
+		return db, fmt.Errorf("PingContext failed: %v", err)
 	}
 
 	return db, err
 }
 
 // EnableUserAndRoles creates user with secret credentials
-func (s *AzureSqlManagedUserManager) EnableUser(ctx context.Context, MIName string, MIUserObjectId string, db *sql.DB) error {
+func (s *AzureSqlManagedUserManager) EnableUser(ctx context.Context, MIName string, MIUserClientId string, db *sql.DB) error {
 	if err := findBadChars(MIName); err != nil {
 		return fmt.Errorf("Problem found with managed identity username: %v", err)
 	}
 
-	sid := convertToSid(MIUserObjectId)
-	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH DEFAULT_SCHEMA=[dbo], SID = '%s', TYPE = E;", MIName, sid)
+	sid := convertToSid(MIUserClientId)
+
+	tsql := fmt.Sprintf("CREATE USER [%s] WITH DEFAULT_SCHEMA=[dbo], SID = %s, TYPE = E;", MIName, sid)
 	_, err := db.ExecContext(ctx, tsql)
 
 	if err != nil {
@@ -137,8 +137,11 @@ func (s *AzureSqlManagedUserManager) UserExists(ctx context.Context, db *sql.DB,
 
 // DropUser drops a user from db
 func (s *AzureSqlManagedUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
-	tsql := "DROP USER @user"
-	_, err := db.ExecContext(ctx, tsql, sql.Named("user", user))
+	if err := findBadChars(user); err != nil {
+		return fmt.Errorf("Problem found with managed identity username: %v", err)
+	}
+	tsql := fmt.Sprintf("DROP USER [%s]", user)
+	_, err := db.ExecContext(ctx, tsql)
 	return err
 }
 
@@ -149,20 +152,37 @@ func getMSITokenProvider() (func() (string, error), error) {
 	}
 
 	return func() (string, error) {
-		msi.EnsureFresh()
+		err = msi.EnsureFresh()
+		if err != nil {
+			return "", err
+		}
 		token := msi.OAuthToken()
 		return token, nil
 	}, nil
 }
 
-func convertToSid(msiObjectId string) string {
+func convertToSid(msiClientId string) string {
 	var byteguid string
-	guid, err := uuid.FromString(msiObjectId)
+	guid, err := uuid.FromString(msiClientId)
 	if err != nil {
 		return ""
 	}
-	for bytechar := range guid.Bytes() {
-		byteguid = byteguid + fmt.Sprintf("%02X", bytechar) // Format byte as two digit hexadecimal string, 0 after % says to pad with zeros
+	bytes := guid.Bytes()
+
+	// Encode first 3 sets of bytes in little endian format
+	for i := 3; i >= 0; i-- {
+		byteguid = byteguid + fmt.Sprintf("%02X", bytes[i])
+	}
+	for i := 5; i > 3; i-- {
+		byteguid = byteguid + fmt.Sprintf("%02X", bytes[i])
+	}
+	for i := 7; i > 5; i-- {
+		byteguid = byteguid + fmt.Sprintf("%02X", bytes[i])
+	}
+
+	// Encode last 2 sets of bytes in big endian format
+	for i := 8; i < len(bytes); i++ {
+		byteguid = byteguid + fmt.Sprintf("%02X", bytes[i])
 	}
 	return "0x" + byteguid
 }

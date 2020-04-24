@@ -16,7 +16,7 @@ spec:
   # will be used
   #managedIdentityName:
   
-  managedIdentityObjectId:
+  managedIdentityClientId:
 
   # Use the field below to optionally specify a different keyvault 
   # to store the secrets in

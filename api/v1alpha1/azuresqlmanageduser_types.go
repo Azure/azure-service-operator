@@ -19,7 +19,7 @@ type AzureSQLManagedUserSpec struct {
 	ResourceGroup           string   `json:"resourceGroup,omitempty"`
 	Roles                   []string `json:"roles"`
 	ManagedIdentityName     string   `json:"managedIdentityName,omitempty"`
-	ManagedIdentityObjectId string   `json:"managedIdentityObjectId"`
+	ManagedIdentityClientId string   `json:"managedIdentityClientId"`
 	KeyVaultToStoreSecrets  string   `json:"keyVaultToStoreSecrets,omitempty"`
 }
 

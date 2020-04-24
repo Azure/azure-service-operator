@@ -63,7 +63,7 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 		}
 	}
 
-	db, err := s.ConnectToSqlDbAsCurrentUser(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort)
+	db, err := s.ConnectToSqlDbAsCurrentUser(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
@@ -89,9 +89,12 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 	}
 
 	if !userExists {
-		err = s.EnableUser(ctx, requestedUsername, instance.Spec.ManagedIdentityObjectId, db)
+		err = s.EnableUser(ctx, requestedUsername, instance.Spec.ManagedIdentityClientId, db)
 		if err != nil {
 			instance.Status.Message = "failed enabling managed identity user, err: " + err.Error()
+			if strings.Contains(err.Error(), "The login already has an account under a different user name") {
+				return true, nil
+			}
 			return false, err
 		}
 	}
@@ -126,6 +129,44 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 	instance, err := s.convert(obj)
 	if err != nil {
 		return false, err
+	}
+
+	requestedUsername := instance.Spec.ManagedIdentityName
+	if len(requestedUsername) == 0 {
+		requestedUsername = instance.Name
+	}
+
+	db, err := s.ConnectToSqlDbAsCurrentUser(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName)
+	if err != nil {
+		instance.Status.Message = errhelp.StripErrorIDs(err)
+		instance.Status.Provisioning = false
+
+		// catch firewall issue - keep cycling until it clears up
+		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
+			return false, nil
+		}
+
+		// if the database is busy, requeue
+		errorString := err.Error()
+		if strings.Contains(errorString, "Please retry the connection later") {
+			return false, nil
+		}
+
+		return true, nil
+	}
+
+	userExists, err := s.UserExists(ctx, db, requestedUsername)
+	if err != nil {
+		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
+		return false, nil
+	}
+
+	if userExists {
+		err = s.DropUser(ctx, db, requestedUsername)
+		if err != nil {
+			instance.Status.Message = "failed dropping managed identity user, err: " + err.Error()
+			return false, err
+		}
 	}
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser succeeded")
