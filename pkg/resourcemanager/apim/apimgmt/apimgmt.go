@@ -6,6 +6,7 @@ package apimgmt
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -23,15 +24,11 @@ import (
 )
 
 // Manager represents an API Management type
-type Manager struct {
-	APIClient apimanagement.APIClient
-}
+type Manager struct{}
 
 // NewManager returns an API Manager type
 func NewManager() *Manager {
-	return &Manager{
-		APIClient: apimshared.GetAPIMClient(),
-	}
+	return &Manager{}
 }
 
 // CreateAPI creates an API within an API management service
@@ -69,28 +66,45 @@ func (m *Manager) CreateAPI(
 		return apimanagement.APIContract{}, err
 	}
 
+	apiClient, err := apimshared.GetAPIMClient()
+	if err != nil {
+		return apimanagement.APIContract{}, err
+	}
+
 	// Submit the ARM request
-	future, err := m.APIClient.CreateOrUpdate(ctx, resourceGroupName, *svc.Name, apiID, params, eTag)
+	future, err := apiClient.CreateOrUpdate(ctx, resourceGroupName, *svc.Name, apiID, params, eTag)
 
 	if err != nil {
 		return apimanagement.APIContract{}, err
 	}
 
-	return future.Result(m.APIClient)
+	return future.Result(apiClient)
 }
 
 // DeleteAPI deletes an API within an API management service
 func (m *Manager) DeleteAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiID string, eTag string, deleteRevisions bool) (autorest.Response, error) {
-	result, err := m.APIClient.Get(ctx, resourceGroupName, apiServiceName, apiID)
+	apiClient, err := apimshared.GetAPIMClient()
+	if err != nil {
+		return autorest.Response{
+			Response: &http.Response{
+				StatusCode: 500,
+			},
+		}, err
+	}
+	result, err := apiClient.Get(ctx, resourceGroupName, apiServiceName, apiID)
 	if err == nil {
-		return m.APIClient.Delete(ctx, resourceGroupName, apiServiceName, apiID, eTag, &deleteRevisions)
+		return apiClient.Delete(ctx, resourceGroupName, apiServiceName, apiID, eTag, &deleteRevisions)
 	}
 	return result.Response, err
 }
 
 // GetAPI fetches an API within an API management service
 func (m *Manager) GetAPI(ctx context.Context, resourceGroupName string, apiServiceName string, apiID string) (apimanagement.APIContract, error) {
-	contract, err := m.APIClient.Get(ctx, resourceGroupName, apiServiceName, apiID)
+	apiClient, err := apimshared.GetAPIMClient()
+	if err != nil {
+		return apimanagement.APIContract{}, err
+	}
+	contract, err := apiClient.Get(ctx, resourceGroupName, apiServiceName, apiID)
 	return contract, err
 }
 
