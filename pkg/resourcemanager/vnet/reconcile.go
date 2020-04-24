@@ -73,7 +73,9 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.NetcfgInvalidVirtualNetworkSite,
 			errhelp.InvalidCIDRNotation,
 			errhelp.InvalidRequestFormat,
+			errhelp.LocationNotAvailableForResourceType,
 			errhelp.InvalidAddressPrefixFormat,
+
 		}
 
 		// everything ok - just requeue
@@ -85,6 +87,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Provisioning = false
 			return false, nil
+
 		}
 
 		instance.Status.Provisioning = false
