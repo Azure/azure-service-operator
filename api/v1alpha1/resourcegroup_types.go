@@ -45,10 +45,6 @@ func init() {
 	SchemeBuilder.Register(&ResourceGroup{}, &ResourceGroupList{})
 }
 
-func (resourceGroup *ResourceGroup) IsBeingDeleted() bool {
-	return !resourceGroup.ObjectMeta.DeletionTimestamp.IsZero()
-}
-
 func (resourceGroup *ResourceGroup) IsSubmitted() bool {
 	return resourceGroup.Status.Provisioning || resourceGroup.Status.Provisioned
 
