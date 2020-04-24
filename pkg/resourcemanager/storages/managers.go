@@ -11,11 +11,9 @@ import (
 type StorageManagers struct {
 	StorageAccount storageaccount.StorageManager
 	BlobContainer  blobcontainer.BlobContainerManager
-	FileSystem     FileSystemManager
 }
 
 var AzureStorageManagers = StorageManagers{
 	StorageAccount: storageaccount.New(),
 	BlobContainer:  blobcontainer.New(),
-	FileSystem:     &azureFileSystemManager{},
 }

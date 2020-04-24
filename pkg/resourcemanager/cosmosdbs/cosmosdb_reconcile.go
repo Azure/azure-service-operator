@@ -102,6 +102,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		EnableMultipleWriteLocations:  instance.Spec.Properties.EnableMultipleWriteLocations,
 		MongoDBVersion:                instance.Spec.Properties.MongoDBVersion,
 		IsVirtualNetworkFilterEnabled: instance.Spec.Properties.IsVirtualNetworkFilterEnabled,
+		Capabilities:                  instance.Spec.Properties.Capabilities,
 	}
 
 	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, networkRule, ipRules, cosmosDBProperties, tags)
@@ -115,7 +116,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 			instance.Status.Message = "Resource request successfully submitted to Azure"
 			instance.Status.SpecHash = hash
 			return false, nil
-		case errhelp.InvalidResourceLocation, errhelp.LocationNotAvailableForResourceType:
+		case errhelp.InvalidResourceLocation, errhelp.LocationNotAvailableForResourceType, errhelp.BadRequest:
 			instance.Status.Provisioning = false
 			instance.Status.Message = azerr.Error()
 			return true, nil

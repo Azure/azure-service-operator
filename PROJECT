@@ -43,9 +43,6 @@ resources:
   kind: BlobContainer
 - group: azure
   version: v1alpha1
-  kind: AzureDataLakeGen2FileSystem
-- group: azure
-  version: v1alpha1
   kind: PostgreSQLServer
 - group: azure
   version: v1alpha1
