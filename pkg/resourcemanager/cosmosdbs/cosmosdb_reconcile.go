@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -89,7 +90,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	if instance.Status.State == "Succeeded" {
 		// provisioning is complete, update the secrets
-		if err = m.createOrUpdateAccountKeysSecret(ctx, instance); err != nil {
+		if err = m.createOrUpdateSecret(ctx, instance, db); err != nil {
 			instance.Status.Message = err.Error()
 			return false, err
 		}
@@ -146,7 +147,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	if err = m.createOrUpdateAccountKeysSecret(ctx, instance); err != nil {
+	if err = m.createOrUpdateSecret(ctx, instance, db); err != nil {
 		instance.Status.Message = err.Error()
 		return false, err
 	}
@@ -197,7 +198,7 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		if helpers.ContainsString(notFound, azerr.Type) {
-			return false, m.deleteAccountKeysSecret(ctx, instance)
+			return false, m.deleteSecret(ctx, instance)
 		}
 
 		// unhandled error
@@ -205,7 +206,7 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	return false, m.deleteAccountKeysSecret(ctx, instance)
+	return false, m.deleteSecret(ctx, instance)
 }
 
 // GetParents returns the parents of cosmosdb
@@ -243,7 +244,7 @@ func (m *AzureCosmosDBManager) convert(obj runtime.Object) (*v1alpha1.CosmosDB, 
 	return db, nil
 }
 
-func (m *AzureCosmosDBManager) createOrUpdateAccountKeysSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
+func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, instance *v1alpha1.CosmosDB, db *documentdb.DatabaseAccount) error {
 	result, err := m.ListKeys(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
 	if err != nil {
 		return err
@@ -254,21 +255,24 @@ func (m *AzureCosmosDBManager) createOrUpdateAccountKeysSecret(ctx context.Conte
 		Namespace: instance.Namespace,
 	}
 	secretData := map[string][]byte{
+		"primaryEndpoint":            []byte(*db.DocumentEndpoint),
 		"primaryConnectionString":    []byte(*result.PrimaryMasterKey),
 		"secondaryConnectionString":  []byte(*result.SecondaryMasterKey),
 		"primaryReadonlyMasterKey":   []byte(*result.PrimaryReadonlyMasterKey),
 		"secondaryReadonlyMasterKey": []byte(*result.SecondaryReadonlyMasterKey),
 	}
 
-	err = m.SecretClient.Upsert(ctx, secretKey, secretData)
-	if err != nil {
-		return err
+	if db.DatabaseAccountProperties.ReadLocations != nil {
+		for _, l := range *db.DatabaseAccountProperties.ReadLocations {
+			safeLocationName := helpers.RemoveNonAlphaNumeric(strings.ToLower(*l.LocationName))
+			secretData[safeLocationName+"Endpoint"] = []byte(*l.DocumentEndpoint)
+		}
 	}
 
-	return nil
+	return m.SecretClient.Upsert(ctx, secretKey, secretData)
 }
 
-func (m *AzureCosmosDBManager) deleteAccountKeysSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
+func (m *AzureCosmosDBManager) deleteSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
 	secretKey := types.NamespacedName{
 		Name:      instance.Name,
 		Namespace: instance.Namespace,
