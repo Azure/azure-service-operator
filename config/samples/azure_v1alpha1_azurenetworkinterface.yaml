@@ -1,10 +1,10 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: AzureNetworkInterface
 metadata:
-  name: azurenetworkinterface-sample18
+  name: nic-sample-01
 spec:
-  location: westus
+  location: SouthCentralUS
   resourceGroup: resourcegroup-azure-operators
-  vnetName: vnet-sample-hpf-1
-  subnetName: test2
-  publicIPAddressName: azurepublicipaddress-sample-7
+  vnetName: vnet-sample-01
+  subnetName: test1
+  publicIPAddressName: nic-pip-sample-01

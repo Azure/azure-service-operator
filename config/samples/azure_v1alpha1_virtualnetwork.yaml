@@ -1,9 +1,9 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: VirtualNetwork
 metadata:
-  name: virtualnetwork-sample
+  name: vnet-sample-01
 spec:
-  location: westus
+  location: SouthCentralUS
   resourceGroup: resourcegroup-azure-operators
   addressSpace: "10.0.0.0/8"
   subnets:

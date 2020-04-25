@@ -2,8 +2,6 @@
 
 This operator deploys an Azure Virtual Machine (VM) into a specified resource group at the specified location. Users can specify platform image, size, user name and public SSH key, etc. for the VM.
 
-Note that in the current version you can only create VM using Linux platform images.
-
 Learn more about Azure Virtual Machine [here](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines).
 
 Here is a [sample YAML](/config/samples/azure_v1alpha1_azurevirtualmachine.yaml) to provision a Virtual Machine.

@@ -25,6 +25,7 @@ import (
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlfirewall "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
@@ -40,6 +41,7 @@ import (
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	vm "github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
+	vmss "github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
@@ -686,6 +688,43 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.AzureLoadBalancerReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client: mgr.GetClient(),
+			AzureClient: loadbalancer.NewAzureLoadBalancerClient(
+				secretClient,
+				mgr.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"LoadBalancer",
+				ctrl.Log.WithName("controllers").WithName("LoadBalancer"),
+			),
+			Recorder: mgr.GetEventRecorderFor("LoadBalancer-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "LoadBalancer")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.AzureVMScaleSetReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client: mgr.GetClient(),
+			AzureClient: vmss.NewAzureVMScaleSetClient(
+				secretClient,
+				mgr.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VMScaleSet",
+				ctrl.Log.WithName("controllers").WithName("VMScaleSet"),
+			),
+			Recorder: mgr.GetEventRecorderFor("VMScaleSet-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "VMScaleSet")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
