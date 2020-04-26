@@ -75,7 +75,6 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.InvalidRequestFormat,
 			errhelp.LocationNotAvailableForResourceType,
 			errhelp.InvalidAddressPrefixFormat,
-
 		}
 
 		// everything ok - just requeue

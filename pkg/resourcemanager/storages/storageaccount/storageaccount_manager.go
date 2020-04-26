@@ -7,14 +7,20 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // New returns an instance of the Storage Account Client
-func New() *azureStorageManager {
-	return &azureStorageManager{}
+func New(secretClient secrets.SecretClient, scheme runtime.Scheme) *azureStorageManager {
+	return &azureStorageManager{
+		SecretClient: secretClient,
+		Scheme:       &scheme,
+	}
 }
 
 type StorageManager interface {
@@ -41,6 +47,11 @@ type StorageManager interface {
 	DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error)
 
 	ListKeys(ctx context.Context, groupName string, storageAccountName string) (result storage.AccountListKeysResult, err error)
+
+	StoreSecrets(ctx context.Context,
+		resourceGroupName string,
+		accountName string,
+		instance *v1alpha1.StorageAccount) error
 
 	resourcemanager.ARMClient
 }
