@@ -52,10 +52,6 @@ func init() {
 	SchemeBuilder.Register(&ConsumerGroup{}, &ConsumerGroupList{})
 }
 
-func (consumerGroup *ConsumerGroup) IsBeingDeleted() bool {
-	return !consumerGroup.ObjectMeta.DeletionTimestamp.IsZero()
-}
-
 func (consumerGroup *ConsumerGroup) IsSubmitted() bool {
 	return consumerGroup.Status.Provisioning || consumerGroup.Status.Provisioned
 
