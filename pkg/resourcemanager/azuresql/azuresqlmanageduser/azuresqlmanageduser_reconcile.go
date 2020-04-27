@@ -36,6 +36,10 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 		opt(options)
 	}
 
+	if options.SecretClient != nil {
+		s.SecretClient = options.SecretClient
+	}
+
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
@@ -111,6 +115,12 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 		return false, fmt.Errorf("GrantUserRoles failed")
 	}
 
+	err = s.UpdateSecret(ctx, instance, s.SecretClient)
+	if err != nil {
+		instance.Status.Message = "Updating secret failed"
+		return false, fmt.Errorf("Updating secret failed")
+	}
+
 	instance.Status.Provisioned = true
 	instance.Status.State = "Succeeded"
 	instance.Status.Message = resourcemanager.SuccessMsg
@@ -169,7 +179,10 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 		}
 	}
 
-	instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser succeeded")
+	// Best case deletion of secrets
+	s.DeleteSecrets(ctx, instance, s.SecretClient)
+
+	instance.Status.Message = fmt.Sprintf("Delete AzureSqlManagedUser succeeded")
 
 	return false, nil
 }

@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
@@ -17,6 +18,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	_ "github.com/denisenkom/go-mssqldb"
 	mssql "github.com/denisenkom/go-mssqldb"
@@ -82,7 +84,7 @@ func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Con
 	return db, err
 }
 
-// EnableUserAndRoles creates user with secret credentials
+// EnableUser creates user with secret credentials
 func (s *AzureSqlManagedUserManager) EnableUser(ctx context.Context, MIName string, MIUserClientId string, db *sql.DB) error {
 	if err := findBadChars(MIName); err != nil {
 		return fmt.Errorf("Problem found with managed identity username: %v", err)
@@ -143,6 +145,40 @@ func (s *AzureSqlManagedUserManager) DropUser(ctx context.Context, db *sql.DB, u
 	tsql := fmt.Sprintf("DROP USER [%s]", user)
 	_, err := db.ExecContext(ctx, tsql)
 	return err
+}
+
+// UpdateSecret gets or creates a secret
+func (s *AzureSqlManagedUserManager) UpdateSecret(ctx context.Context, instance *v1alpha1.AzureSQLManagedUser, secretClient secrets.SecretClient) error {
+
+	secretprefix := instance.Name
+	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+
+	if len(instance.Spec.ManagedIdentityName) != 0 { // If ManagedIdentityName is specified, use that as the name as is
+		secretprefix = instance.Spec.ManagedIdentityName
+		key = types.NamespacedName{Name: instance.Spec.ManagedIdentityName}
+	}
+	secret, err := secretClient.Get(ctx, key)
+	if err != nil {
+		secret = map[string][]byte{
+			secretprefix:             []byte(instance.Spec.ManagedIdentityClientId),
+			secretprefix + "-server": []byte(instance.Spec.Server),
+			secretprefix + "-dbName": []byte(instance.Spec.DbName),
+		}
+	}
+
+	err = secretClient.Upsert(ctx, key, secret)
+	return err
+}
+
+// DeleteSecret deletes a secret
+func (s *AzureSqlManagedUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLManagedUser, secretClient secrets.SecretClient) error {
+	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+
+	if len(instance.Spec.ManagedIdentityName) != 0 { // If ManagedIdentityName is specified, use that as the name as is
+		key = types.NamespacedName{Name: instance.Spec.ManagedIdentityName}
+	}
+
+	return secretClient.Delete(ctx, key)
 }
 
 func getMSITokenProvider() (func() (string, error), error) {
