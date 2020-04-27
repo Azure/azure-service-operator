@@ -59,7 +59,3 @@ func (bc *BlobContainer) IsProvisioned() bool {
 func (bc *BlobContainer) HasFinalizer(finalizerName string) bool {
 	return helpers.ContainsString(bc.ObjectMeta.Finalizers, finalizerName)
 }
-
-func (bc *BlobContainer) IsBeingDeleted() bool {
-	return !bc.ObjectMeta.DeletionTimestamp.IsZero()
-}
