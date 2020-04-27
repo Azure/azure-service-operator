@@ -15,7 +15,6 @@ import (
 	"unicode"
 
 	"github.com/sethvargo/go-password/password"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 const (
@@ -86,11 +85,6 @@ func randomStringWithCharset(length int, charset string) string {
 
 func RandomString(length int) string {
 	return randomStringWithCharset(length, lowerAlphaChars)
-}
-
-// IsBeingDeleted returns true if the current object is being deleted from the API server.
-func IsBeingDeleted(o metav1.Object) bool {
-	return !o.GetDeletionTimestamp().IsZero()
 }
 
 // GenerateRandomUsername - helper function to generate random username for sql server
