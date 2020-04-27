@@ -72,7 +72,7 @@ var _ = BeforeSuite(func() {
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
 		ResourceGroupManager:  resourceGroupManager,
-		StorageManagers:       AzureStorageManagers,
+		StorageManagers:       EmptyAzureStorageManagers,
 		timeout:               time.Second * 300,
 		retryInterval:         time.Second * 1,
 	}

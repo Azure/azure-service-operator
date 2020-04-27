@@ -22,7 +22,7 @@ var EmptyAzureStorageManagers = StorageManagers{
 
 func NewAzureStorageManagers(secretClient secrets.SecretClient, scheme *runtime.Scheme) StorageManagers {
 	return StorageManagers{
-		SecretClient: secretClient,
-		Scheme:       scheme,
+		StorageAccount: storageaccount.New(secretClient, scheme),
+		BlobContainer:  blobcontainer.New(),
 	}
 }

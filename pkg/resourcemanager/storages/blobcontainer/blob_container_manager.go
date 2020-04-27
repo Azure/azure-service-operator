@@ -16,6 +16,10 @@ func New() *AzureBlobContainerManager {
 	return &AzureBlobContainerManager{}
 }
 
+func EmptyBlobContainerManager() *AzureBlobContainerManager {
+	return &AzureBlobContainerManager{}
+}
+
 // BlobContainerManager exists in case we need it
 type BlobContainerManager interface {
 	CreateBlobContainer(ctx context.Context, resourceGroupName string, accountName string, containerName string, accessLevel s.PublicAccess) (*storage.BlobContainer, error)

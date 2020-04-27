@@ -16,11 +16,15 @@ import (
 )
 
 // New returns an instance of the Storage Account Client
-func New(secretClient secrets.SecretClient, scheme runtime.Scheme) *azureStorageManager {
+func New(secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureStorageManager {
 	return &azureStorageManager{
 		SecretClient: secretClient,
-		Scheme:       &scheme,
+		Scheme:       scheme,
 	}
+}
+
+func EmptyStorageManager() *azureStorageManager {
+	return &azureStorageManager{}
 }
 
 type StorageManager interface {
