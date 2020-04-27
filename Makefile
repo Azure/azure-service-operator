@@ -42,7 +42,7 @@ api-test: generate fmt vet manifests
 
 # Run tests
 test: generate fmt vet manifests 
-	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 \
+	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
 	go test -tags "$(BUILD_TAGS)" -parallel 3 -v -coverprofile=coverage.txt -covermode count \
 	./api/... \
 	./controllers/... \
@@ -60,7 +60,7 @@ unit-tests:
 
 # Run tests with existing cluster
 test-existing-managers: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 \
+	TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
 	go test -v -coverprofile=coverage-existing.txt -covermode count \
 	./api/... \
 	./pkg/resourcemanager/eventhubs/...  \
