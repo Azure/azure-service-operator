@@ -11,6 +11,7 @@ The Azure SQL operator suite consists of the following operators.
 4. Azure SQL Action - Allows you to roll the password for the specified SQL server
 5. Azure SQL failover group - Deploys a failover group on a specified Azure SQL server given the secondary server and the databases to failover
 6. Azure SQL User - Creates an user on the specified Azure SQL database and stores the username/password as secrets
+7. Azure SQL Managed User - Binds a specified Managed Identity as a user on the SQL database
 
 ### Azure SQL server
 
@@ -164,6 +165,20 @@ Additionally, some client libraries support connecting directly to Key Vault to 
 Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqluser.yaml) for creating a database user
 
 The `name` is used to generate the username on the database. The exact name is not used but rather a UUID is appended to this to make it unique. `server` and `dbname` qualify the database on which you want to create the user on. `adminsecret` is the name of the secret where the username and password will be stored. `roles` specify the security roles that this user should have on the specified database.
+
+### SQL Managed user
+
+The SQL Managed user operator is used to enable the specified managed identity as a database user on the specified database. It also grants the specified database roles to the user.
+
+**Pre-requisite: This operator requires that the operator is running as a Managed Identity user and that this Managed Identity user is configured as the AAD admin on the SQL server**
+
+The operator also stores the following secrets in addition to enabling Database access for the managed identity.
+
+- Secret named `<ManagedIdName>` with value `<ManagedIdentityClientId>`
+- Secret named `<ManagedIdName>-server` with value `Spec.Server`
+- Secret named `<ManagedIdName>-dbName` with value `Spec.DbName`
+
+*Note: If you are using Kube for storing secrets, there will be one secret with name `<ManagedIdName>` created with the above name-value in the secret map*
 
 ## Deploy, view and delete resources
 
