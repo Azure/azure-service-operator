@@ -148,7 +148,9 @@ Once you apply this, a secret with the same name as the SQL failovergroup is als
 
 The SQL user operator is used to create a user on the specified Azure SQL database. This user is more restrictive than the admin user created on the SQL server and is so recommended to use. The operator creates the user on the database by auto generating a strong password, and also stores the username and password as a secret (name can be specified in the YAML), so applications can use them.
 
-User credentials are persisted in the secret store that has been configured for the operator runtime. The default secret contains the following fields:
+User credentials are persisted in the secret store that has been configured for the operator runtime. You can explicitly set the SQL User key store by setting the `keyVaultToStoreSecrets` value in the User Spec.
+
+The default secret contains the following fields:
 
 - `azureSqlDatabaseName`
 - `azureSqlServerName`
@@ -157,13 +159,15 @@ User credentials are persisted in the secret store that has been configured for 
 - `username`
 - `password`
 
-When Key Vault is configured, each value is Base64 encoded and the set of secrets is persisted as a single JSON document in the Key Vault.
-The default secret name prefix in Key Vault is `azuresqluser-<serverName>-<azureSqlDatabaseName>`. Users can set the `keyVaultSecretPrefix` parameter to override this value.
+When using Kube secrets, the default secret will be stored under the namespace and name of the SQL User object,
 
-Additionally, some client libraries support connecting directly to Key Vault to retrieve secrets. Users can set the `keyVaultSecretFormats` parameter so that explicit connection strings for their desired formats are added to the Key Vault. Each secret will be named after the secret prefix followed by the format name, for example: `azuresqluser-<serverName>-<azureSqlDatabaseName>-adonet`.
-Here is a [sample YAML](/config/samples/azure_v1alpha1_azuresqluser.yaml) for creating a database user
+When Key Vault is configured, each secret value is Base64 encoded and the set of secrets is persisted as a single JSON document in the Key Vault.
+The default secret name for a SQL User in Key Vault is prefixed by `azuresqluser-<serverName>-<azureSqlDatabaseName>`. Users can set the `keyVaultSecretPrefix` parameter to override this value. Note that the SQL User name will always be appended to the secret name so the final name may be `azuresqluser-<serverName>-<azureSqlDatabaseName>-<azureSqlUserName>`
 
-The `name` is used to generate the username on the database. The exact name is not used but rather a UUID is appended to this to make it unique. `server` and `dbname` qualify the database on which you want to create the user on. `adminsecret` is the name of the secret where the username and password will be stored. `roles` specify the security roles that this user should have on the specified database.
+Some client libraries support connecting directly to Key Vault to retrieve secrets. Users can set the `keyVaultSecretFormats` parameter to request that connection strings for their desired formats are added to the Key Vault. Each secret will be named after the secret prefix followed by the format name, for example: `azuresqluser-<serverName>-<azureSqlDatabaseName>-<azureSqlUserName>-adonet`.
+The AzureSQLUser [sample YAML](/config/samples/azure_v1alpha1_azuresqluser.yaml) demonstrates the usage of these parameters.
+
+The `name` passed in the SQL User Spec is used to generate the username on the database. To ensure uniqueness on shared servers, a UUID is appended to the requested name to make the username in Azure SQL unique. `server` and `dbname` qualify the database on which you want to create the user on. `adminsecret` is the name of the secret where the username and password will be stored. `roles` specify the security roles that this user should have on the specified database.
 
 ## Deploy, view and delete resources
 

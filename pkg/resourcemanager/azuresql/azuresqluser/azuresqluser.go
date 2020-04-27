@@ -130,8 +130,8 @@ func (s *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string]
 	return newUser, nil
 }
 
-// UpdateUser - Updates user password
-func (s *AzureSqlUserManager) UpdateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) error {
+// RotateUserPassword - Generate and save a new password for the user
+func (s *AzureSqlUserManager) RotateUserPassword(ctx context.Context, secret map[string][]byte, db *sql.DB) error {
 	user := string(secret[SecretUsernameKey])
 	newPassword := helpers.NewPassword()
 
@@ -170,16 +170,132 @@ func (s *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user str
 	return err
 }
 
+// ReconcileCustomSecrets - Create or update any custom secret formats that were declared for the user based on the standard userSecret
+func (s *AzureSqlUserManager) ReconcileCustomSecrets(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient, userSecret map[string][]byte) error {
+
+	// Custom secret formats are only available through keyvault as they require separated secrets
+	keyVaultEnabled := reflect.TypeOf(secretClient).Elem().Name() == "KeyvaultSecretClient"
+	if !keyVaultEnabled {
+		return nil
+	}
+
+	userSecretNamespacedName := s.GetSecretNamespacedName(instance, secretClient)
+
+	// Instantiate a map of all possible formats and flip the bool to true for any that have been requested in the spec.
+	// Formats that were not requested will be explicitly deleted.
+	requestedFormats := map[string]bool{
+		"adonet":         false,
+		"adonet-urlonly": false,
+		"jdbc":           false,
+		"jdbc-urlonly":   false,
+		"odbc":           false,
+		"odbc-urlonly":   false,
+		"server":         false,
+		"database":       false,
+		"username":       false,
+		"password":       false,
+	}
+	for _, format := range instance.Spec.KeyVaultSecretFormats {
+		requestedFormats[format] = true
+	}
+
+	// Deleted items will be processed immediately but secrets that need to be added will be created in this array and persisted in one pass at the end
+	formattedSecrets := make(map[string][]byte)
+
+	for formatName, requested := range requestedFormats {
+		// Add the format to the output map if it has been requested otherwise call for its deletion from the secret store
+		if requested {
+			switch formatName {
+			case "adonet":
+				formattedSecrets["adonet"] = []byte(fmt.Sprintf(
+					"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False;User ID=%v;Password=%v;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+					string(userSecret["fullyQualifiedServerName"]),
+					instance.Spec.DbName,
+					string(userSecret[SecretUsernameKey]),
+					string(userSecret[SecretPasswordKey]),
+				))
+
+			case "adonet-urlonly":
+				formattedSecrets["adonet-urlonly"] = []byte(fmt.Sprintf(
+					"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout",
+					string(userSecret["fullyQualifiedServerName"]),
+					instance.Spec.DbName,
+				))
+
+			case "jdbc":
+				formattedSecrets["jdbc"] = []byte(fmt.Sprintf(
+					"jdbc:sqlserver://%v:1433;database=%v;user=%v@%v;password=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
+					string(userSecret["fullyQualifiedServerName"]),
+					instance.Spec.DbName,
+					string(userSecret[SecretUsernameKey]),
+					instance.Spec.Server,
+					string(userSecret[SecretPasswordKey]),
+				))
+			case "jdbc-urlonly":
+				formattedSecrets["jdbc-urlonly"] = []byte(fmt.Sprintf(
+					"jdbc:sqlserver://%v:1433;database=%v;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*."+config.Environment().SQLDatabaseDNSSuffix+";loginTimeout=30;",
+					string(userSecret["fullyQualifiedServerName"]),
+					instance.Spec.DbName,
+				))
+
+			case "odbc":
+				formattedSecrets["odbc"] = []byte(fmt.Sprintf(
+					"Server=tcp:%v,1433;Initial Catalog=%v;Persist Security Info=False;User ID=%v;Password=%v;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+					string(userSecret["fullyQualifiedServerName"]),
+					instance.Spec.DbName,
+					string(userSecret[SecretUsernameKey]),
+					string(userSecret[SecretPasswordKey]),
+				))
+			case "odbc-urlonly":
+				formattedSecrets["odbc-urlonly"] = []byte(fmt.Sprintf(
+					"Driver={ODBC Driver 13 for SQL Server};Server=tcp:%v,1433;Database=%v; Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;",
+					string(userSecret["fullyQualifiedServerName"]),
+					instance.Spec.DbName,
+				))
+			case "server":
+				formattedSecrets["server"] = userSecret["fullyQualifiedServerName"]
+
+			case "database":
+				formattedSecrets["database"] = []byte(instance.Spec.DbName)
+
+			case "username":
+				formattedSecrets["username"] = userSecret[SecretUsernameKey]
+
+			case "password":
+				formattedSecrets["password"] = userSecret[SecretPasswordKey]
+			}
+		} else {
+			// delete any formats that were not explicitly requested
+			_ = secretClient.Delete(
+				ctx,
+				types.NamespacedName{Namespace: userSecretNamespacedName.Namespace, Name: instance.Name + "-" + formatName},
+			)
+		}
+	}
+
+	err := secretClient.Upsert(
+		ctx,
+		types.NamespacedName{Namespace: userSecretNamespacedName.Namespace, Name: instance.Name},
+		formattedSecrets,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(s.Scheme),
+		secrets.Flatten(true),
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // DeleteSecrets deletes the secrets associated with a SQLUser
 func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) (bool, error) {
-	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
-	// In keyvault we have some creative freedom to allow more flexibility
-	secretKey := GetNamespacedName(instance, secretClient)
+	userSecretNamespacedName := s.GetSecretNamespacedName(instance, secretClient)
 
 	// delete standard user secret
 	err := secretClient.Delete(
 		ctx,
-		secretKey,
+		userSecretNamespacedName,
 	)
 	if err != nil {
 		instance.Status.Message = "failed to delete secret, err: " + err.Error()
@@ -203,11 +319,11 @@ func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 		}
 
 		for _, formatName := range customFormatNames {
-			key := types.NamespacedName{Namespace: secretKey.Namespace, Name: instance.Name + "-" + formatName}
+			formatKey := types.NamespacedName{Namespace: userSecretNamespacedName.Namespace, Name: instance.Name + "-" + formatName}
 
 			err = secretClient.Delete(
 				ctx,
-				key,
+				formatKey,
 			)
 			if err != nil {
 				instance.Status.Message = "failed to delete secret, err: " + err.Error()
@@ -221,7 +337,7 @@ func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 
 // GetOrPrepareSecret gets or creates a secret
 func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) map[string][]byte {
-	key := GetNamespacedName(instance, secretClient)
+	key := s.GetSecretNamespacedName(instance, secretClient)
 
 	secret, err := secretClient.Get(ctx, key)
 	if err != nil {
@@ -239,13 +355,14 @@ func (s *AzureSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *
 	return secret
 }
 
-// GetNamespacedName gets the namespaced-name
-func GetNamespacedName(instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) types.NamespacedName {
+// GetSecretNamespacedName - Generate a more unique namespacednames for keys being stored in KeyVault
+// Kube ties the default namespacedname to the unique resource object to prevent collisions but KeyVault requires more specificity in the name
+func (s *AzureSqlUserManager) GetSecretNamespacedName(instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) types.NamespacedName {
 	var namespacedName types.NamespacedName
 	keyVaultEnabled := reflect.TypeOf(secretClient).Elem().Name() == "KeyvaultSecretClient"
 
 	if keyVaultEnabled {
-		// For a keyvault secret store, check for supplied namespace parameters
+		// Generate a custom namespacedname based on the sql server, database, and username
 		var dbUserCustomNamespace string
 		if instance.Spec.KeyVaultSecretPrefix != "" {
 			dbUserCustomNamespace = instance.Spec.KeyVaultSecretPrefix
@@ -255,6 +372,7 @@ func GetNamespacedName(instance *v1alpha1.AzureSQLUser, secretClient secrets.Sec
 
 		namespacedName = types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name}
 	} else {
+		// If we're not using keyvault, Kube secrets can uniquely identify user objects just from the name and namespace.
 		namespacedName = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 	}
 

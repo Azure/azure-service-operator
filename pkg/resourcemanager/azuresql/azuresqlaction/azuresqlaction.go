@@ -71,12 +71,12 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 	password := helpers.NewPassword()
 	DBSecret["password"] = []byte(password)
 
-	err = azuresqluserManager.UpdateUser(ctx, DBSecret, db)
+	err = azuresqluserManager.RotateUserPassword(ctx, DBSecret, db)
 	if err != nil {
 		return fmt.Errorf("error updating user credentials: %v", err)
 	}
 
-	secretKey := azuresqluser.GetNamespacedName(instance, userSecretClient)
+	secretKey := azuresqluserManager.GetSecretNamespacedName(instance, userSecretClient)
 	key := types.NamespacedName{Namespace: secretKey.Namespace, Name: dbUser}
 	err = userSecretClient.Upsert(
 		ctx,

@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
@@ -48,6 +49,11 @@ var _ = Describe("Kube Secrets Client", func() {
 			Context("creating secret with secret client", func() {
 				err = client.Create(ctx, key, data)
 				Expect(err).To(BeNil())
+			})
+
+			Context("creating secret with secret and flatten enabled", func() {
+				err = client.Create(ctx, key, data, secrets.Flatten(true))
+				Expect(err).ToNot(BeNil())
 			})
 
 			secret := &v1.Secret{}

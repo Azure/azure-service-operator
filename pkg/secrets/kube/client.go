@@ -31,6 +31,10 @@ func (k *KubeSecretClient) Create(ctx context.Context, key types.NamespacedName,
 		opt(options)
 	}
 
+	if options.Flatten {
+		return fmt.Errorf("kube secret client does not support flattened secrets")
+	}
+
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      key.Name,

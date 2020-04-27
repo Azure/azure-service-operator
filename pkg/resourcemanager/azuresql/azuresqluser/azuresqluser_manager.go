@@ -8,6 +8,7 @@ import (
 	"database/sql"
 
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -23,6 +24,7 @@ type SqlUserManager interface {
 	DropUser(ctx context.Context, db *sql.DB, user string) error
 	DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) (bool, error)
 	GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) map[string][]byte
+	GetSecretNamespacedName(instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) types.NamespacedName
 
 	// also embed methods from AsyncClient
 	resourcemanager.ARMClient
