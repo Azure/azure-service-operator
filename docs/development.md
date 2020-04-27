@@ -452,6 +452,19 @@ go build -o bin/manager main.go
 
     If you make changes to the operator and want to update the deployment without recreating the cluster (when testing locally), you can use the `make update` to update your Azure Operator pod. If you need to rebuild the docker image without cache, use `make ARGS="--no-cache" update`
 
+12. Update the Helm Chart to include the new CRD.
+    Run:
+    ```
+    make helm-chart-manifests
+    make delete-helm-gen-manifests
+    ```
+
+    This will generate the manifests into the Helm Chart directory, and repackage them into a new Helm Chart tar.gz file. Add the newly modified files to the PR, which should be the following:
+    ```
+    charts/azure-service-operator-0.1.0.tgz
+    charts/index.yaml
+    ```
+
 **Notes:**
 
 - Run `make manifests` if you find the property you add doesn't work.
