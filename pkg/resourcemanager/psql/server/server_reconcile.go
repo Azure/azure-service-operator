@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/postgresql/mgmt/postgresql"
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -37,13 +36,13 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return true, err
 	}
 
-	createmode := string(postgresql.CreateModeDefault)
+	createmode := string(psql.CreateModeDefault)
 	if len(instance.Spec.CreateMode) != 0 {
 		createmode = instance.Spec.CreateMode
 	}
 
 	// If a replica is requested, ensure that source server is specified
-	if strings.EqualFold(createmode, string(postgresql.CreateModeReplica)) {
+	if strings.EqualFold(createmode, string(psql.CreateModeReplica)) {
 		if len(instance.Spec.ReplicaProperties.SourceServerId) == 0 {
 			instance.Status.Message = "Replica requested but source server unspecified"
 			return true, nil

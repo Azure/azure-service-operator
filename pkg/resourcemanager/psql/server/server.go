@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -98,19 +97,19 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 		return "", psql.Server{}, err
 	}
 
-	var result postgresql.ServersCreateFuture
+	var result pqsl.ServersCreateFuture
 
-	if strings.EqualFold(createmode, string(postgresql.CreateModeReplica)) {
+	if strings.EqualFold(createmode, string(psql.CreateModeReplica)) {
 		result, err = client.Create(
 			ctx,
 			resourcegroup,
 			servername,
-			postgresql.ServerForCreate{
+			psql.ServerForCreate{
 				Location: &location,
 				Tags:     tags,
-				Properties: &postgresql.ServerPropertiesForReplica{
+				Properties: &psql.ServerPropertiesForReplica{
 					SourceServerID: to.StringPtr(sourceserver),
-					CreateMode:     postgresql.CreateModeReplica,
+					CreateMode:     psql.CreateModeReplica,
 				},
 			},
 		)
@@ -136,13 +135,9 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 	}
 
 	if err != nil {
-		fmt.Println(err.Error())
 		return "", psql.Server{}, err
 	}
 	res, err := result.Result(client)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
 	return result.PollingURL(), res, err
 }
 
