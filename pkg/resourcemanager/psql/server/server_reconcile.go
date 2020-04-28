@@ -161,6 +161,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 			errhelp.ServiceBusy,
+			errhelp.InternalServerError,
 		}
 
 		// handle the errors
@@ -171,7 +172,9 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			instance.Status.Message = "Postgres server exists but may not be ready"
 			instance.Status.Provisioning = true
 			return false, nil
-		} else if helpers.ContainsString(catchKnownError, azerr.Type) {
+		}
+
+		if helpers.ContainsString(catchKnownError, azerr.Type) {
 			return false, nil
 		}
 

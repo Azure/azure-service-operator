@@ -101,7 +101,7 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 	var result postgresql.ServersCreateFuture
 
 	if strings.EqualFold(createmode, string(postgresql.CreateModeReplica)) {
-		result, _ = client.Create(
+		result, err = client.Create(
 			ctx,
 			resourcegroup,
 			servername,
@@ -115,7 +115,7 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 			},
 		)
 	} else {
-		result, _ = client.Create(
+		result, err = client.Create(
 			ctx,
 			resourcegroup,
 			servername,
@@ -134,7 +134,15 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 		)
 
 	}
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return "", psql.Server{}, err
+	}
 	res, err := result.Result(client)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 	return result.PollingURL(), res, err
 }
 
