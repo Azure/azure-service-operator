@@ -5,6 +5,7 @@ kind: CustomResourceDefinition
 metadata:
   name: azuresqlservers.azure.microsoft.com
 spec:
+  preserveUnknownFields: false
   conversion:
     strategy: Webhook
     webhookClientConfig:
