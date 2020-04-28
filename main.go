@@ -34,6 +34,7 @@ import (
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
+	psqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/vnetrule"
 	resourcemanagerrediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
@@ -666,6 +667,22 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "VirtualMachine")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.PostgreSQLVNetRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: psqlvnetrule.NewPostgreSQLVNetRuleClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"PostgreSQLVNetRule",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLVNetRule"),
+			),
+			Recorder: mgr.GetEventRecorderFor("PostgreSQLVNetRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLVNetRule")
 		os.Exit(1)
 	}
 
