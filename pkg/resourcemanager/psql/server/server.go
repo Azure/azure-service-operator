@@ -97,7 +97,7 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 		return "", psql.Server{}, err
 	}
 
-	var result pqsl.ServersCreateFuture
+	var result psql.ServersCreateFuture
 
 	if strings.EqualFold(createmode, string(psql.CreateModeReplica)) {
 		result, err = client.Create(
