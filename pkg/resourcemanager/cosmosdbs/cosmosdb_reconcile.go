@@ -199,7 +199,8 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		if helpers.ContainsString(notFound, azerr.Type) {
-			return false, m.deleteSecret(ctx, instance)
+			_ = m.deleteSecret(ctx, instance)
+			return false, nil
 		}
 
 		// unhandled error
@@ -207,7 +208,8 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	return false, m.deleteSecret(ctx, instance)
+	_ = m.deleteSecret(ctx, instance)
+	return false, nil
 }
 
 // GetParents returns the parents of cosmosdb

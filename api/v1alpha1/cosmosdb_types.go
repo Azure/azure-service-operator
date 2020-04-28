@@ -69,7 +69,7 @@ const (
 
 // CosmosDBLocation defines one or more locations for geo-redundancy and high availability
 type CosmosDBLocation struct {
-	LocationName     string `json:"locationName,omitempty"`
+	LocationName     string `json:"locationName"`
 	FailoverPriority int32  `json:"failoverPriority"`
 	IsZoneRedundant  bool   `json:"isZoneRedundant,omitempty"`
 }
