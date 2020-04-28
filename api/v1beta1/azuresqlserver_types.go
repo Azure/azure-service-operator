@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package v1alpha1
+package v1beta1
 
 import (
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -16,23 +17,20 @@ type AzureSqlServerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location               string `json:"location"`
-	ResourceGroup          string `json:"resourcegroup,omitempty"`
+	ResourceGroup          string `json:"resourceGroup,omitempty"`
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 
 // AzureSqlServer is the Schema for the azuresqlservers API
-// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
-// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   AzureSqlServerSpec `json:"spec,omitempty"`
-	Status ASOStatus          `json:"status,omitempty"`
+	Status v1alpha1.ASOStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
