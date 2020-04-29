@@ -126,6 +126,7 @@ steps:
     # kind load docker-image docker.io/controllertest:1 --loglevel "trace"
     make install
     kubectl get namespaces
+    cat go.mod
     # kubectl -n cert-manager rollout status deployment.v1.apps/cert-manager
     # kubectl get pods --namespace cert-manager
     # echo "all the pods should be running"
