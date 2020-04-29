@@ -1,16 +1,18 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: CosmosDB
 metadata:
-  name: cosmosdb-sample-1
+  name: cosmosdb-sample-2
+  labels:
+    CosmosAccountType: Production
 spec:
   kind: GlobalDocumentDB
-  location: westus
+  location: eastus
   resourceGroup: resourcegroup-azure-operators
   properties:
     databaseAccountOfferType: Standard
 
-    # optionally turn on multi-region writes
-    # enableMultipleWriteLocations: true
+    # turn on multi-region writes for production
+    enableMultipleWriteLocations: true
 
     # Optionally set the capabilities name to the following options: (the default is SQL)
     # "EnableCassandra", "EnableTable", "EnableGremlin", "EnableMongo"
@@ -31,16 +33,16 @@ spec:
   #     ignoreMissingServiceEndpoint: false
 
   # optionally configure different CIDR IP ranges for allowed-list, omitting allows all or falls back to vNetRules
-  # ipRules:
-  #   # the ips in this rule are needed to access your db from the portal
-  #   - 104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26
+  ipRules:
+    # the ips in this rule are needed to access your db from the portal
+    - 104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26
   #   # add additional ips you would like to grant access
   #   - 1.2.3.4
 
-  # optionally configure multiple regions and availability zone redundancy
-  # locations:
-  #   - locationName: eastus
-  #     failoverPriority: 0
-  #     isZoneRedundant: true
-  #   - locationName: westus
-  #     failoverPriority: 1
+  # configure multiple regions and availability zone redundancy
+  locations:
+    - locationName: eastus
+      failoverPriority: 0
+      isZoneRedundant: true
+    - locationName: westus
+      failoverPriority: 1
