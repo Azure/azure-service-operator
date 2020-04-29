@@ -127,6 +127,8 @@ steps:
     make install
     kubectl get namespaces
     cat go.mod
+    git status
+    git checkout -- go.mod
     # kubectl -n cert-manager rollout status deployment.v1.apps/cert-manager
     # kubectl get pods --namespace cert-manager
     # echo "all the pods should be running"
