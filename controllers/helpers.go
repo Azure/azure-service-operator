@@ -6,6 +6,7 @@ package controllers
 import (
 	"context"
 	"encoding/json"
+	"log"
 
 	"fmt"
 	"strings"
@@ -307,7 +308,7 @@ func EnsureSecrets(ctx context.Context, t *testing.T, tc TestContext, instance r
 
 	// Wait for secret
 	err := helpers.Retry(tc.timeoutFast, tc.retry, func() error {
-
+		log.Println("Iteration " + string(index))
 		_, err := secretclient.Get(ctx, key)
 		if err != nil {
 			return fmt.Errorf("secret with name %s does not exist", key.String())
@@ -323,14 +324,19 @@ func EnsureSecretsWithValue(ctx context.Context, t *testing.T, tc TestContext, i
 
 	key := types.NamespacedName{Name: secretname, Namespace: secretnamespace}
 
+	index := 1
 	// Wait for secret
 	err := helpers.Retry(tc.timeoutFast, tc.retry, func() error {
-
+		fmt.Println("Iteration " + string(index))
 		secrets, err := secretclient.Get(ctx, key)
 		if err != nil {
+			log.Println("secret does not exist")
+			index = index + 1
 			return err
 		}
 		if !strings.Contains(string(secrets[secretkey]), secretvalue) {
+			log.Println("secret value does not match")
+			index = index + 1
 			return fmt.Errorf("secret with key %s not equal to %s", secretname, secretvalue)
 		}
 
