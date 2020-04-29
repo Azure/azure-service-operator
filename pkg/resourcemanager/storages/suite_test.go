@@ -35,7 +35,6 @@ type TestContext struct {
 	ResourceGroupName     string
 	ResourceGroupLocation string
 	ResourceGroupManager  resourcegroupsresourcemanager.ResourceGroupManager
-	StorageManagers       StorageManagers
 	timeout               time.Duration
 	retryInterval         time.Duration
 }
@@ -72,7 +71,6 @@ var _ = BeforeSuite(func() {
 		ResourceGroupName:     resourceGroupName,
 		ResourceGroupLocation: resourceGroupLocation,
 		ResourceGroupManager:  resourceGroupManager,
-		StorageManagers:       EmptyAzureStorageManagers,
 		timeout:               time.Second * 300,
 		retryInterval:         time.Second * 1,
 	}

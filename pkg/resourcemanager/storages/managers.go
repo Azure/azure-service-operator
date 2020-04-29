@@ -15,11 +15,6 @@ type StorageManagers struct {
 	BlobContainer  blobcontainer.BlobContainerManager
 }
 
-var EmptyAzureStorageManagers = StorageManagers{
-	StorageAccount: storageaccount.EmptyStorageManager(),
-	BlobContainer:  blobcontainer.EmptyBlobContainerManager(),
-}
-
 func NewAzureStorageManagers(secretClient secrets.SecretClient, scheme *runtime.Scheme) StorageManagers {
 	return StorageManagers{
 		StorageAccount: storageaccount.New(secretClient, scheme),
