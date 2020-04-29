@@ -28,7 +28,6 @@ func TestPSQLDatabaseController(t *testing.T) {
 	rgLocation = tc.resourceGroupLocation
 
 	postgreSQLServerName = GenerateTestResourceNameWithRandom("psql-srv", 10)
-	postgreSQLServerReplicaName := GenerateTestResourceNameWithRandom("psql-rep", 10)
 
 	// Create the PostgreSQLServer object and expect the Reconcile to be created
 	postgreSQLServerInstance = &azurev1alpha1.PostgreSQLServer{
@@ -93,26 +92,6 @@ func TestPSQLDatabaseController(t *testing.T) {
 	EnsureInstance(ctx, t, tc, postgreSQLFirewallRuleInstance)
 
 	EnsureDelete(ctx, t, tc, postgreSQLFirewallRuleInstance)
-
-	postgreSQLReplicaServerInstance := &azurev1alpha1.PostgreSQLServer{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      postgreSQLServerReplicaName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.PostgreSQLServerSpec{
-			Location:      rgLocation,
-			ResourceGroup: rgName,
-			CreateMode:    "Replica",
-			ReplicaProperties: azurev1alpha1.ReplicaProperties{
-				SourceServerId: postgreSQLServerInstance.Status.ResourceId,
-			},
-		},
-	}
-
-	EnsureInstance(ctx, t, tc, postgreSQLReplicaServerInstance)
-
-	// Add any teardown steps that needs to be executed after each test
-	EnsureDelete(ctx, t, tc, postgreSQLReplicaServerInstance)
 
 	EnsureDelete(ctx, t, tc, postgreSQLServerInstance)
 
