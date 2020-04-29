@@ -104,4 +104,7 @@ resources:
 - group: azure
   kind: AzureSqlDatabase
   version: v1beta1
+- group: azure
+  kind: AzureSqlFirewallRule
+  version: v1beta1
 version: "2"
