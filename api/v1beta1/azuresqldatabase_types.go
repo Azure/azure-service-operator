@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package v1alpha1
+package v1beta1
 
 import (
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -14,17 +15,16 @@ import (
 type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string    `json:"location"`
-	ResourceGroup string    `json:"resourcegroup,omitempty"`
-	Server        string    `json:"server"`
-	Edition       DBEdition `json:"edition"`
+	Location      string             `json:"location"`
+	ResourceGroup string             `json:"resourceGroup,omitempty"`
+	Server        string             `json:"server"`
+	Edition       v1alpha1.DBEdition `json:"edition"`
 	// optional
 	DbName string `json:"dbName,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
@@ -34,7 +34,7 @@ type AzureSqlDatabase struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   AzureSqlDatabaseSpec `json:"spec,omitempty"`
-	Status ASOStatus            `json:"status,omitempty"`
+	Status v1alpha1.ASOStatus   `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -45,40 +45,6 @@ type AzureSqlDatabaseList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []AzureSqlDatabase `json:"items"`
 }
-
-// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
-type DBEdition byte
-
-const (
-	// Basic ...
-	SQLEditionBasic DBEdition = 0
-	// Business ...
-	SQLEditionBusiness DBEdition = 1
-	// BusinessCritical ...
-	SQLEditionBusinessCritical DBEdition = 2
-	// DataWarehouse ...
-	SQLEditionDataWarehouse DBEdition = 3
-	// Free ...
-	SQLEditionFree DBEdition = 4
-	// GeneralPurpose ...
-	SQLEditionGeneralPurpose DBEdition = 5
-	// Hyperscale ...
-	SQLEditionHyperscale DBEdition = 6
-	// Premium ...
-	SQLEditionPremium DBEdition = 7
-	// PremiumRS ...
-	SQLEditionPremiumRS DBEdition = 8
-	// Standard ...
-	SQLEditionStandard DBEdition = 9
-	// Stretch ...
-	SQLEditionStretch DBEdition = 10
-	// System ...
-	SQLEditionSystem DBEdition = 11
-	// System2 ...
-	SQLEditionSystem2 DBEdition = 12
-	// Web ...
-	SQLEditionWeb DBEdition = 13
-)
 
 func init() {
 	SchemeBuilder.Register(&AzureSqlDatabase{}, &AzureSqlDatabaseList{})

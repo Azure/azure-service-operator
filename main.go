@@ -736,6 +736,10 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlServer")
 		os.Exit(1)
 	}
+	if err = (&azurev1alpha1.AzureSqlDatabase{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlDatabase")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
