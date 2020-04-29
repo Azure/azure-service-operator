@@ -13,6 +13,10 @@ func (src *AzureSqlServer) ConvertTo(dstRaw conversion.Hub) error {
 
 	// Spec
 	dst.Spec.ResourceGroup = src.Spec.ResourceGroup
+	dst.Spec.Location = src.Spec.Location
+
+	// Status
+	dst.Status = src.Status
 
 	return nil
 }
@@ -25,6 +29,10 @@ func (dst *AzureSqlServer) ConvertFrom(srcRaw conversion.Hub) error {
 
 	// Spec
 	dst.Spec.ResourceGroup = src.Spec.ResourceGroup
+	dst.Spec.Location = src.Spec.Location
+
+	// Status
+	dst.Status = src.Status
 
 	return nil
 
