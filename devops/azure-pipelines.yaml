@@ -71,6 +71,7 @@ steps:
     go get -u gopkg.in/matm/v1/gocov-html
     go get golang.org/x/tools/cmd/cover
     cat go.mod
+    pwd
   displayName: 'Install kubebuilder, kustomize and set environment'
   env:
     GO111MODULE: on
@@ -108,6 +109,7 @@ steps:
   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
+    cat go.mod
     set -e
     GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
     kind create cluster
@@ -129,6 +131,7 @@ steps:
     make install
     kubectl get namespaces
     cat go.mod
+    pwd
     # kubectl -n cert-manager rollout status deployment.v1.apps/cert-manager
     # kubectl get pods --namespace cert-manager
     # echo "all the pods should be running"
