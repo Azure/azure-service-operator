@@ -51,8 +51,8 @@ resources:
   version: v1alpha1
   kind: PostgreSQLVNetRule
 - group: azure
+  kind: PostgreSQLVNetRule
   version: v1alpha1
-  kind: APIMgmtAPI
 - group: azure
   kind: APIMgmtAPI
   version: v1alpha1
@@ -100,5 +100,8 @@ resources:
   kind: AzureVMScaleSet
 - group: azure
   kind: AzureSqlServer
+  version: v1beta1
+- group: azure
+  kind: AzureSqlDatabase
   version: v1beta1
 version: "2"
