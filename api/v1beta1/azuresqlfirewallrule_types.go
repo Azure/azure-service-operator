@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package v1alpha1
+package v1beta1
 
 import (
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -15,7 +16,7 @@ import (
 type AzureSqlFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ResourceGroup  string `json:"resourcegroup,omitempty"`
+	ResourceGroup  string `json:"resourceGroup,omitempty"`
 	Server         string `json:"server"`
 	StartIPAddress string `json:"startipaddress,omitempty"`
 	EndIPAddress   string `json:"endipaddress,omitempty"`
@@ -23,7 +24,6 @@ type AzureSqlFirewallRuleSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 
 // AzureSqlFirewallRule is the Schema for the azuresqlfirewallrules API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
@@ -33,7 +33,7 @@ type AzureSqlFirewallRule struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   AzureSqlFirewallRuleSpec `json:"spec,omitempty"`
-	Status ASOStatus                `json:"status,omitempty"`
+	Status v1alpha1.ASOStatus       `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
