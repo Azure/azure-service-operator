@@ -25,6 +25,8 @@ type MySQLVNetRuleSpec struct {
 // +kubebuilder:object:root=true
 
 // MySQLVNetRule is the Schema for the mysqlvnetrules API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type MySQLVNetRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
