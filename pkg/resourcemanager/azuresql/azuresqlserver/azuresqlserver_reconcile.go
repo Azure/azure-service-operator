@@ -204,11 +204,13 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		case errhelp.LocationNotAvailableForResourceType,
 			errhelp.RequestDisallowedByPolicy,
 			errhelp.RegionDoesNotAllowProvisioning,
+			errhelp.InvalidResourceLocation,
 			errhelp.QuotaExceeded:
 
 			instance.Status.Message = "Unable to provision Azure SQL Server due to error: " + errhelp.StripErrorIDs(err)
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = false
+			instance.Status.FailedProvisioning = true
 			return true, nil
 		}
 

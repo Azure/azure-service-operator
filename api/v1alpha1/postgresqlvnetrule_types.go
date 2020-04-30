@@ -10,8 +10,8 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// MySQLVNetRuleSpec defines the desired state of MySQLVNetRule
-type MySQLVNetRuleSpec struct {
+// PotgreSQLVNetRuleSpec defines the desired state of PostgreSQLVNetRule
+type PostgreSQLVNetRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	ResourceGroup                string `json:"resourceGroup"`
@@ -24,26 +24,26 @@ type MySQLVNetRuleSpec struct {
 
 // +kubebuilder:object:root=true
 
-// MySQLVNetRule is the Schema for the mysqlvnetrules API
+// PostgreSQLVNetRule is the Schema for the PostgreSQLVNetRules API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
-type MySQLVNetRule struct {
+type PostgreSQLVNetRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   MySQLVNetRuleSpec `json:"spec,omitempty"`
-	Status ASOStatus         `json:"status,omitempty"`
+	Spec   PostgreSQLVNetRuleSpec `json:"spec,omitempty"`
+	Status ASOStatus              `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// MySQLVNetRuleList contains a list of MySQLVNetRule
-type MySQLVNetRuleList struct {
+// PostgreSQLVNetRuleList contains a list of PostgreSQLVNetRule
+type PostgreSQLVNetRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []MySQLVNetRule `json:"items"`
+	Items           []PostgreSQLVNetRule `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&MySQLVNetRule{}, &MySQLVNetRuleList{})
+	SchemeBuilder.Register(&PostgreSQLVNetRule{}, &PostgreSQLVNetRuleList{})
 }

@@ -23,6 +23,7 @@ type CosmosDBSpec struct {
 	Properties             CosmosDBProperties            `json:"properties,omitempty"`
 	VirtualNetworkRules    *[]CosmosDBVirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
 	KeyVaultToStoreSecrets string                        `json:"keyVaultToStoreSecrets,omitempty"`
+	Locations              *[]CosmosDBLocation           `json:"locations,omitempty"`
 	IPRules                *[]string                     `json:"ipRules,omitempty"`
 }
 
@@ -45,9 +46,17 @@ type CosmosDBProperties struct {
 	// DatabaseAccountOfferType - The offer type for the Cosmos DB database account.
 	DatabaseAccountOfferType CosmosDBDatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
 	// IsVirtualNetworkFilterEnabled - Flag to indicate whether to enable/disable Virtual Network ACL rules.
-	IsVirtualNetworkFilterEnabled bool   `json:"isVirtualNetworkFilterEnabled,omitempty"`
-	EnableMultipleWriteLocations  bool   `json:"enableMultipleWriteLocations,omitempty"`
-	MongoDBVersion                string `json:"mongoDBVersion,omitempty"`
+	IsVirtualNetworkFilterEnabled bool          `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	EnableMultipleWriteLocations  bool          `json:"enableMultipleWriteLocations,omitempty"`
+	MongoDBVersion                string        `json:"mongoDBVersion,omitempty"`
+	Capabilities                  *[]Capability `json:"capabilities,omitempty"`
+}
+
+// Capability cosmos DB capability object
+type Capability struct {
+	//Name *CosmosCapability `json:"name,omitempty"`
+	// +kubebuilder:validation:Enum=EnableCassandra;EnableTable;EnableGremlin;EnableMongo;
+	Name *string `json:"name,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Standard
@@ -58,13 +67,12 @@ const (
 	CosmosDBDatabaseAccountOfferTypeStandard CosmosDBDatabaseAccountOfferType = "Standard"
 )
 
-/*
+// CosmosDBLocation defines one or more locations for geo-redundancy and high availability
 type CosmosDBLocation struct {
-	FailoverPriority int    `json:"failoverPriority,omitempty"`
-	LocationName     string `json:"locationName,omitempty"`
+	LocationName     string `json:"locationName"`
+	FailoverPriority int32  `json:"failoverPriority"`
 	IsZoneRedundant  bool   `json:"isZoneRedundant,omitempty"`
 }
-*/
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status

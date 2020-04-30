@@ -3,16 +3,16 @@ kind: PostgreSQLServer
 metadata:
   name: postgresqlserver-sample
 spec:
-  location: westus2
+  location: eastus
   resourceGroup: resourcegroup-azure-operators
   serverVersion: "10"
   sslEnforcement: Enabled
   sku:
-    name: B_Gen5_2
-    tier: Basic
+    name: GP_Gen5_4 # tier + family + cores eg. - B_Gen4_1, GP_Gen5_4
+    tier: GeneralPurpose # possible values - 'Basic', 'GeneralPurpose', 'MemoryOptimized'
     family: Gen5
     size: "51200"
-    capacity: 2
+    capacity: 4
   # Use the field below to optionally specify a different keyvault 
   # to store the server admin credential secrets in
   #keyVaultToStoreSecrets: asoSecretKeyVault

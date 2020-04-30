@@ -42,7 +42,7 @@ api-test: generate fmt vet manifests
 
 # Run tests
 test: generate fmt vet manifests 
-	TEST_USE_EXISTING_CLUSTER=false TEST_CONTROLLER_WITH_MOCKS=true REQUEUE_AFTER=20 \
+	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
 	go test -tags "$(BUILD_TAGS)" -parallel 3 -v -coverprofile=coverage.txt -covermode count \
 	./api/... \
 	./controllers/... \
@@ -60,7 +60,7 @@ unit-tests:
 
 # Run tests with existing cluster
 test-existing-managers: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 \
+	TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
 	go test -v -coverprofile=coverage-existing.txt -covermode count \
 	./api/... \
 	./pkg/resourcemanager/eventhubs/...  \
@@ -121,11 +121,16 @@ validate-copyright-headers:
 
 # Generate manifests for helm and package them up
 helm-chart-manifests: manifests
-	kustomize build ./config/default -o ./charts/azure-service-operator/templates
-	rm charts/azure-service-operator/templates/~g_v1_namespace_azureoperator-system.yaml
-	sed -i '' -e 's@controller:latest@{{ .Values.image.repository }}@' ./charts/azure-service-operator/templates/apps_v1_deployment_azureoperator-controller-manager.yaml
+	mkdir charts/azure-service-operator/templates/generated
+	kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
+	rm charts/azure-service-operator/templates/generated/~g_v1_namespace_azureoperator-system.yaml
+	sed -i '' -e 's@controller:latest@{{ .Values.image.repository }}@' ./charts/azure-service-operator/templates/generated/apps_v1_deployment_azureoperator-controller-manager.yaml
+	find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' -e 's@namespace: azureoperator-system@namespace: {{ .Values.namespace }}@' {} \;
 	helm package ./charts/azure-service-operator -d ./charts
 	helm repo index ./charts
+
+delete-helm-gen-manifests:
+	rm -rf charts/azure-service-operator/templates/generated/
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen

@@ -8,7 +8,8 @@ import (
 	"fmt"
 	"strings"
 
-	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -17,8 +18,8 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-// Ensure creates a sqlvnetrule
-func (vr *MySQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+// Ensure creates a postgresqlvnetrule
+func (vr *PostgreSQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := vr.convert(obj)
 	if err != nil {
 		return false, err
@@ -32,9 +33,9 @@ func (vr *MySQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Object, o
 	subnetName := instance.Spec.SubnetName
 	ignoreendpoint := instance.Spec.IgnoreMissingServiceEndpoint
 
-	vnetrule, err := vr.GetSQLVNetRule(ctx, groupName, server, ruleName)
+	vnetrule, err := vr.GetPostgreSQLVNetRule(ctx, groupName, server, ruleName)
 	if err == nil {
-		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == mysql.Ready {
+		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == psql.Ready {
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = true
 			instance.Status.Message = resourcemanager.SuccessMsg
@@ -43,7 +44,7 @@ func (vr *MySQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Object, o
 		}
 		return false, nil
 	}
-	instance.Status.Message = fmt.Sprintf("MySQLVNetRule Get error %s", err.Error())
+	instance.Status.Message = fmt.Sprintf("PostgreSQLVNetRule Get error %s", err.Error())
 	requeuErrors := []string{
 		errhelp.ResourceGroupNotFoundErrorCode,
 		errhelp.ParentNotFoundErrorCode,
@@ -55,7 +56,7 @@ func (vr *MySQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 
 	instance.Status.Provisioning = true
-	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
+	_, err = vr.CreateOrUpdatePostgreSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -73,12 +74,12 @@ func (vr *MySQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Object, o
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceNotFound,
+			errhelp.FeatureNotSupportedForEdition,
 		}
 		if helpers.ContainsString(ignorableErrors, azerr.Type) {
 			instance.Status.Provisioning = false
 			return false, nil
 		}
-
 		if helpers.ContainsString(fatalErr, azerr.Type) {
 			instance.Status.Message = azerr.Error()
 			instance.Status.Provisioning = false
@@ -100,8 +101,8 @@ func (vr *MySQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Object, o
 	return false, nil // We requeue so the success can be caught in the Get() path
 }
 
-// Delete drops a sqlvnetrule
-func (vr *MySQLVNetRuleClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+// Delete Vnetrules
+func (vr *PostgreSQLVNetRuleClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := vr.convert(obj)
 	if err != nil {
 		return false, err
@@ -111,7 +112,7 @@ func (vr *MySQLVNetRuleClient) Delete(ctx context.Context, obj runtime.Object, o
 	server := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
 
-	err = vr.DeleteSQLVNetRule(ctx, groupName, server, ruleName)
+	err = vr.DeletePostgreSQLVNetRule(ctx, groupName, server, ruleName)
 	if err != nil {
 		instance.Status.Message = err.Error()
 
@@ -140,8 +141,8 @@ func (vr *MySQLVNetRuleClient) Delete(ctx context.Context, obj runtime.Object, o
 	return false, nil
 }
 
-// GetParents returns the parents of sqlvnetrule
-func (vr *MySQLVNetRuleClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
+// GetParents returns the parent of postgresqlvnetrule
+func (vr *PostgreSQLVNetRuleClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 	instance, err := vr.convert(obj)
 	if err != nil {
 		return nil, err
@@ -153,7 +154,7 @@ func (vr *MySQLVNetRuleClient) GetParents(obj runtime.Object) ([]resourcemanager
 				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
-			Target: &azurev1alpha1.MySQLServer{},
+			Target: &azurev1alpha1.PostgreSQLServer{},
 		},
 		{
 			Key: types.NamespacedName{
@@ -165,7 +166,7 @@ func (vr *MySQLVNetRuleClient) GetParents(obj runtime.Object) ([]resourcemanager
 	}, nil
 }
 
-func (vr *MySQLVNetRuleClient) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
+func (vr *PostgreSQLVNetRuleClient) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOStatus, error) {
 	instance, err := vr.convert(obj)
 	if err != nil {
 		return nil, err
@@ -173,8 +174,8 @@ func (vr *MySQLVNetRuleClient) GetStatus(obj runtime.Object) (*azurev1alpha1.ASO
 	return &instance.Status, nil
 }
 
-func (vr *MySQLVNetRuleClient) convert(obj runtime.Object) (*azurev1alpha1.MySQLVNetRule, error) {
-	local, ok := obj.(*azurev1alpha1.MySQLVNetRule)
+func (vr *PostgreSQLVNetRuleClient) convert(obj runtime.Object) (*azurev1alpha1.PostgreSQLVNetRule, error) {
+	local, ok := obj.(*azurev1alpha1.PostgreSQLVNetRule)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
