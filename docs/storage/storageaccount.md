@@ -35,6 +35,6 @@ A Storage Account needs the following fields to deploy, along with a location an
 You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
 
 ## Secrets
-After creating an Azure Cache for Redis instance, the operator stores a JSON formatted secret with the following fields. For more details on where the secrets are stored, look [here](/docs/secrets.md).
+After creating a storage account, the operator stores a JSON formatted secret with the following fields. For more details on where the secrets are stored, look [here](/docs/secrets.md).
 * `key1` (depending on the number of keys, there could be up to keyn)
 * `connectionString1` (depending on the number of keys, there could be up to connectionStringn)

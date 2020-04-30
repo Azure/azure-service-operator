@@ -23,10 +23,6 @@ func New(secretClient secrets.SecretClient, scheme *runtime.Scheme) *azureStorag
 	}
 }
 
-func EmptyStorageManager() *azureStorageManager {
-	return &azureStorageManager{}
-}
-
 type StorageManager interface {
 	CreateStorage(ctx context.Context,
 		groupName string,

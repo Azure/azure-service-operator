@@ -174,6 +174,12 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
+	key := types.NamespacedName{
+		Name: fmt.Sprintf("storageaccount-%s-%s",
+			instance.Spec.ResourceGroup,
+			instance.Name),
+		Namespace: instance.Namespace,
+	}
 
 	_, err = sa.DeleteStorage(ctx, groupName, name)
 	if err != nil {
@@ -185,6 +191,8 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 		err = errhelp.NewAzureError(err)
 		if azerr, ok := err.(*errhelp.AzureError); ok {
 			if helpers.ContainsString(catch, azerr.Type) {
+				// Best case deletion of secrets
+				sa.SecretClient.Delete(ctx, key)
 				return false, nil
 			}
 		}
@@ -194,6 +202,8 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 	_, err = sa.GetStorage(ctx, groupName, name)
 	if err != nil {
 		if errhelp.IsStatusCode404(err) {
+			// Best case deletion of secrets
+			sa.SecretClient.Delete(ctx, key)
 			return false, nil
 		}
 	}
