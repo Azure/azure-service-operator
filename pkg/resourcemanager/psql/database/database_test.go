@@ -53,7 +53,7 @@ var _ = Describe("PSQL database", func() {
 			if err == nil {
 				return true
 			}
-			_, err = PSQLServerManager.CreateServerIfValid(
+			_, _, err = PSQLServerManager.CreateServerIfValid(
 				ctx,
 				psqlServer,
 				rgName,
@@ -64,6 +64,8 @@ var _ = Describe("PSQL database", func() {
 				pSQLSku,
 				"adm1nus3r",
 				"m@#terU$3r",
+				"",
+				"",
 			)
 			if err != nil {
 				fmt.Println(err.Error())

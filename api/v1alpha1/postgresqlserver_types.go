@@ -18,6 +18,8 @@ type PostgreSQLServerSpec struct {
 	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
 	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
 	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
+	CreateMode             string             `json:"createMode,omitempty"`
+	ReplicaProperties      ReplicaProperties  `json:"replicaProperties,omitempty"`
 }
 
 type AzureDBsSQLSku struct {
