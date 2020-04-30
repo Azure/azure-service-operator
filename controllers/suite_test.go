@@ -406,8 +406,11 @@ func setup() error {
 
 	err = (&AzureSQLManagedUserReconciler{
 		Reconciler: &AsyncReconciler{
-			Client:      k8sManager.GetClient(),
-			AzureClient: sqlManagedUserManager,
+			Client: k8sManager.GetClient(),
+			AzureClient: resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
+				secretClient,
+				scheme.Scheme,
+			),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlManagedUser",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlManagedUser"),
