@@ -1,0 +1,16 @@
+{
+    "$comment": "Here we check that if 'additionalProperties' is set and there are no other fields, then the overall type will be a map type not a struct",
+
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "tags": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "number"
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "$comment": "Here we check that if 'additionalProperties' is explicitly set to 'false' (and there are no other fields) the generated struct will be empty",
+
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "tags": {
+            "type": "object",
+            "additionalProperties": false
+        }
+    }
+}

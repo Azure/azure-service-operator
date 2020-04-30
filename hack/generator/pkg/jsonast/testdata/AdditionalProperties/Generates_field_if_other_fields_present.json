@@ -1,0 +1,21 @@
+{
+    "$comment": "Here we check that if other properties are present, then 'additionalProperties' will be generated as a field",
+
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "tags": {
+            "type": "object",
+            "properties": {
+                "otherField": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": {
+                "type": "number"
+            }
+        }
+    }
+}
