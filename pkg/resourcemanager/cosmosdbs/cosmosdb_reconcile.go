@@ -259,8 +259,8 @@ func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, instanc
 	}
 	secretData := map[string][]byte{
 		"primaryEndpoint":            []byte(*db.DocumentEndpoint),
-		"primaryConnectionString":    []byte(*result.PrimaryMasterKey),
-		"secondaryConnectionString":  []byte(*result.SecondaryMasterKey),
+		"primaryMasterKey":           []byte(*result.PrimaryMasterKey),
+		"secondaryMasterKey":         []byte(*result.SecondaryMasterKey),
 		"primaryReadonlyMasterKey":   []byte(*result.PrimaryReadonlyMasterKey),
 		"secondaryReadonlyMasterKey": []byte(*result.SecondaryReadonlyMasterKey),
 	}
