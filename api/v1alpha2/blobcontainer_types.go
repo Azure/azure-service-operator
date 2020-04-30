@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package v1alpha1
+package v1alpha2
 
 import (
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -17,14 +18,13 @@ type BlobContainerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location      string         `json:"location"`
-	ResourceGroup string         `json:"resourcegroup,omitempty"`
+	ResourceGroup string         `json:"resourceGroup,omitempty"`
 	AccountName   string         `json:"accountname,omitempty"`
 	AccessLevel   s.PublicAccess `json:"accesslevel,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 
 // BlobContainer is the Schema for the blobcontainers API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
@@ -33,8 +33,8 @@ type BlobContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   BlobContainerSpec `json:"spec,omitempty"`
-	Status ASOStatus         `json:"status,omitempty"`
+	Spec   BlobContainerSpec  `json:"spec,omitempty"`
+	Status v1alpha1.ASOStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
