@@ -67,6 +67,9 @@ func (vr *PostgreSQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Obje
 			return false, nil
 		}
 
+		fatalErr := []string{
+			errhelp.VirtualNetworkRuleBadRequest,
+		}
 		ignorableErrors := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
@@ -76,6 +79,13 @@ func (vr *PostgreSQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Obje
 		if helpers.ContainsString(ignorableErrors, azerr.Type) {
 			instance.Status.Provisioning = false
 			return false, nil
+		}
+		if helpers.ContainsString(fatalErr, azerr.Type) {
+			instance.Status.Message = azerr.Error()
+			instance.Status.Provisioning = false
+			instance.Status.Provisioned = false
+			instance.Status.FailedProvisioning = true
+			return true, nil
 		}
 
 		// this happens when we try to create the VNet rule and the server doesnt exist yet
