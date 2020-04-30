@@ -18,6 +18,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha2 "github.com/Azure/azure-service-operator/api/v1alpha2"
 	azurev1beta1 "github.com/Azure/azure-service-operator/api/v1beta1"
 	resourceapimanagement "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	apimservice "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
@@ -72,6 +73,7 @@ func init() {
 	_ = kscheme.AddToScheme(scheme)
 	_ = azurev1alpha1.AddToScheme(scheme)
 	_ = azurev1beta1.AddToScheme(scheme)
+	_ = azurev1alpha2.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -746,6 +748,10 @@ func main() {
 	}
 	if err = (&azurev1alpha1.AzureSqlFailoverGroup{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlFailoverGroup")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.BlobContainer{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "BlobContainer")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

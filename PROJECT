@@ -110,4 +110,7 @@ resources:
 - group: azure
   kind: AzureSqlFailoverGroup
   version: v1beta1
+- group: azure
+  kind: BlobContainer
+  version: v1alpha2
 version: "2"
