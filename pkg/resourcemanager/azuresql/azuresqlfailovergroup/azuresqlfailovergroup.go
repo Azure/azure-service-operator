@@ -32,7 +32,10 @@ func NewAzureSqlFailoverGroupManager(secretClient secrets.SecretClient, scheme *
 
 // GetServer returns a SQL server
 func (f *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient := azuresqlshared.GetGoServersClient()
+	serversClient, err := azuresqlshared.GetGoServersClient()
+	if err != nil {
+		return sql.Server{}, err
+	}
 
 	return serversClient.Get(
 		ctx,
@@ -59,7 +62,10 @@ func (f *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupN
 
 // GetFailoverGroup retrieves a failover group
 func (f *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error) {
-	failoverGroupsClient := azuresqlshared.GetGoFailoverGroupsClient()
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient()
+	if err != nil {
+		return sql.FailoverGroup{}, err
+	}
 
 	return failoverGroupsClient.Get(
 		ctx,
@@ -71,12 +77,12 @@ func (f *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, res
 
 // DeleteFailoverGroup deletes a failover group
 func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string) (result autorest.Response, err error) {
-
 	result = autorest.Response{
 		Response: &http.Response{
 			StatusCode: 200,
 		},
 	}
+
 	// check to see if the server exists, if it doesn't then short-circuit
 	_, err = sdk.GetServer(ctx, resourceGroupName, serverName)
 	if err != nil {
@@ -87,7 +93,12 @@ func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context
 	if err != nil {
 		return result, nil
 	}
-	failoverGroupsClient := azuresqlshared.GetGoFailoverGroupsClient()
+
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient()
+	if err != nil {
+		return result, err
+	}
+
 	future, err := failoverGroupsClient.Delete(
 		ctx,
 		resourceGroupName,
@@ -103,7 +114,10 @@ func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context
 
 // CreateOrUpdateFailoverGroup creates a failover group
 func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties azuresqlshared.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
-	failoverGroupsClient := azuresqlshared.GetGoFailoverGroupsClient()
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient()
+	if err != nil {
+		return sql.FailoverGroupsCreateOrUpdateFuture{}, err
+	}
 
 	// Construct a PartnerInfo object from the server name
 	// Get resource ID from the servername to use

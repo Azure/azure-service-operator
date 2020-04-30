@@ -89,7 +89,3 @@ func (s *AzureSqlDatabase) IsSubmitted() bool {
 func (s *AzureSqlDatabase) HasFinalizer(finalizerName string) bool {
 	return helpers.ContainsString(s.ObjectMeta.Finalizers, finalizerName)
 }
-
-func (s *AzureSqlDatabase) IsBeingDeleted() bool {
-	return !s.ObjectMeta.DeletionTimestamp.IsZero()
-}

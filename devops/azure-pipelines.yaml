@@ -111,25 +111,25 @@ steps:
     kind create cluster
     export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
     kubectl cluster-info
-    kubectl create namespace cert-manager
-    kubectl label namespace cert-manager cert-manager.io/disable-validation=true
-    kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
-    kubectl create namespace azureoperator-system 
-    kubectl --namespace azureoperator-system \
-      create secret generic azureoperatorsettings \
-      --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
-      --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
-      --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
-      --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+    # kubectl create namespace cert-manager
+    # kubectl label namespace cert-manager cert-manager.io/disable-validation=true
+    # kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+    # kubectl create namespace azureoperator-system 
+    # kubectl --namespace azureoperator-system \
+    #   create secret generic azureoperatorsettings \
+    #   --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
+    #   --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
+    #   --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
+    #   --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
     #create image and load it into cluster
-    IMG="docker.io/controllertest:1" make -f Makefile.legacy docker-build
-    kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+    # IMG="docker.io/controllertest:1" make docker-build
+    # kind load docker-image docker.io/controllertest:1 --loglevel "trace"
     make -f Makefile.legacy install
     kubectl get namespaces
-    kubectl -n cert-manager rollout status deployment.v1.apps/cert-manager
-    kubectl get pods --namespace cert-manager
-    echo "all the pods should be running"
-    make -f Makefile.legacy deploy
+    # kubectl -n cert-manager rollout status deployment.v1.apps/cert-manager
+    # kubectl get pods --namespace cert-manager
+    # echo "all the pods should be running"
+    #make deploy
     make -f Makefile.legacy test-existing-controllers
   continueOnError: 'false'
   displayName: 'Set kind cluster and Run int tests'
