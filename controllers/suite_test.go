@@ -624,7 +624,7 @@ func setup() error {
 	err = (&StorageAccountReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerstorageaccount.New(),
+			AzureClient: resourcemanagerstorageaccount.New(secretClient, k8sManager.GetScheme()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
