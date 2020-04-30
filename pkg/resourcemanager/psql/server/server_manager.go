@@ -26,7 +26,8 @@ type PostgreSQLServerManager interface {
 		sslenforcement psql.SslEnforcementEnum,
 		skuInfo psql.Sku,
 		adminlogin string,
-		adminpassword string) (psql.Server, error)
+		adminpassword string,
+		createmode string, sourceserver string) (string, psql.Server, error)
 
 	DeleteServer(ctx context.Context,
 		resourcegroup string,

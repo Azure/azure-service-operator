@@ -50,3 +50,34 @@ func TestPSQLServerControllerNoResourceGroup(t *testing.T) {
 	EnsureDelete(ctx, t, tc, postgreSQLServerInstance)
 
 }
+
+func TestPSQLServerControllerReplicaNoSourceServer(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+
+	// Add any setup steps that needs to be executed before each test
+	rgName := tc.resourceGroupName
+	rgLocation := tc.resourceGroupLocation
+
+	postgreSQLServerReplicaName := GenerateTestResourceNameWithRandom("psql-rep", 10)
+
+	// Create the PostgreSQL Replica Server object and expect the Reconcile to be created
+
+	postgreSQLServerReplicaInstance := &azurev1alpha1.PostgreSQLServer{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      postgreSQLServerReplicaName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.PostgreSQLServerSpec{
+			Location:      rgLocation,
+			ResourceGroup: rgName,
+			CreateMode:    "Replica",
+		},
+	}
+
+	errMessage := "Replica requested but source server unspecified"
+	EnsureInstanceWithResult(ctx, t, tc, postgreSQLServerReplicaInstance, errMessage, false)
+	EnsureDelete(ctx, t, tc, postgreSQLServerReplicaInstance)
+
+}
