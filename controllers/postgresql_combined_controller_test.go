@@ -38,12 +38,13 @@ func TestPSQLDatabaseController(t *testing.T) {
 		Spec: azurev1alpha1.PostgreSQLServerSpec{
 			Location:      rgLocation,
 			ResourceGroup: rgName,
+			CreateMode:    "Default",
 			Sku: azurev1alpha1.AzureDBsSQLSku{
-				Name:     "B_Gen5_2",
-				Tier:     azurev1alpha1.SkuTier("Basic"),
+				Name:     "GP_Gen5_4",
+				Tier:     azurev1alpha1.SkuTier("GeneralPurpose"),
 				Family:   "Gen5",
 				Size:     "51200",
-				Capacity: 2,
+				Capacity: 4,
 			},
 			ServerVersion:  azurev1alpha1.ServerVersion("10"),
 			SSLEnforcement: azurev1alpha1.SslEnforcementEnumEnabled,
@@ -92,7 +93,6 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	EnsureDelete(ctx, t, tc, postgreSQLFirewallRuleInstance)
 
-	// Add any teardown steps that needs to be executed after each test
 	EnsureDelete(ctx, t, tc, postgreSQLServerInstance)
 
 }

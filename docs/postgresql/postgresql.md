@@ -33,6 +33,14 @@ This secret contains the following fields.
 
 For more information on where and how secrets are stored, look [here](/docs/secrets.md)
 
+##### Read Replicas in Azure Database for PostgreSQL
+
+The PostgreSQL server operator can also be used to create Read Replicas given the `sourceserverid`.
+
+The replica inherits the admin account from the master server. All user accounts on the master server are replicated to the read replicas. 
+
+For more information on read replicas, refer [here](https://docs.microsoft.com/en-us/azure/postgresql/concepts-read-replicas)
+
 ### PostgreSQL Database
 
 Here is a [sample YAML](/config/samples/azure_v1alpha1_postgresqldatabase.yaml) for PostgreSQL database
