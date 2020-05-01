@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all azurevirtualmachine
+// +build all azurevmscaleset
 
 package controllers
 
@@ -14,7 +14,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func TestVirtualMachineControllerNoResourceGroup(t *testing.T) {
+func TestVMScaleSetControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
@@ -22,36 +22,46 @@ func TestVirtualMachineControllerNoResourceGroup(t *testing.T) {
 	rgName := GenerateTestResourceNameWithRandom("rg", 10)
 	vmName := GenerateTestResourceNameWithRandom("vm", 10)
 	vmSize := "Standard_DS1_v2"
+	capacity := 2
 	osType := azurev1alpha1.OSType("Linux")
 	adminUserName := GenerateTestResourceNameWithRandom("u", 10)
 	sshPublicKeyData := GenerateTestResourceNameWithRandom("ssh", 10)
-	nicName := GenerateTestResourceNameWithRandom("nic", 10)
 	platformImageUrn := "Canonical:UbuntuServer:16.04-LTS:latest"
+	vnetName := GenerateTestResourceNameWithRandom("vn", 10)
+	subnetName := "test"
+	lbName := GenerateTestResourceNameWithRandom("lb", 10)
+	beName := GenerateTestResourceNameWithRandom("be", 10)
+	natName := GenerateTestResourceNameWithRandom("nat", 10)
 
-	// Create a VM
-	vmInstance := &azurev1alpha1.AzureVirtualMachine{
+	// Create a VMSS
+	vmssInstance := &azurev1alpha1.AzureVMScaleSet{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      vmName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.AzureVirtualMachineSpec{
-			Location:             tc.resourceGroupLocation,
-			ResourceGroup:        rgName,
-			VMSize:               vmSize,
-			OSType:               osType,
-			AdminUserName:        adminUserName,
-			SSHPublicKeyData:     sshPublicKeyData,
-			NetworkInterfaceName: nicName,
-			PlatformImageURN:     platformImageUrn,
+		Spec: azurev1alpha1.AzureVMScaleSetSpec{
+			Location:               tc.resourceGroupLocation,
+			ResourceGroup:          rgName,
+			VMSize:                 vmSize,
+			Capacity:               capacity,
+			OSType:                 osType,
+			AdminUserName:          adminUserName,
+			SSHPublicKeyData:       sshPublicKeyData,
+			PlatformImageURN:       platformImageUrn,
+			VirtualNetworkName:     vnetName,
+			SubnetName:             subnetName,
+			LoadBalancerName:       lbName,
+			BackendAddressPoolName: beName,
+			InboundNatPoolName:     natName,
 		},
 	}
 
-	EnsureInstanceWithResult(ctx, t, tc, vmInstance, errhelp.ResourceGroupNotFoundErrorCode, false)
+	EnsureInstanceWithResult(ctx, t, tc, vmssInstance, errhelp.ResourceGroupNotFoundErrorCode, false)
 
-	EnsureDelete(ctx, t, tc, vmInstance)
+	EnsureDelete(ctx, t, tc, vmssInstance)
 }
 
-func TestVirtualMachineHappyPathWithNicPipVNetAndSubnet(t *testing.T) {
+func TestVMScaleSetHappyPathWithLbPipVNetAndSubnet(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
@@ -101,55 +111,68 @@ func TestVirtualMachineHappyPathWithNicPipVNetAndSubnet(t *testing.T) {
 
 	EnsureInstance(ctx, t, tc, pipInstance)
 
-	// Create a NIC
-	nicName := GenerateTestResourceNameWithRandom("nic", 10)
-	nicInstance := &azurev1alpha1.AzureNetworkInterface{
+	// Create a Load Balancer
+	lbName := GenerateTestResourceNameWithRandom("lb", 10)
+	bpName := "test"
+	natName := "test"
+	portRangeStart := 100
+	portRangeEnd := 200
+	backendPort := 300
+	lbInstance := &azurev1alpha1.AzureLoadBalancer{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      nicName,
+			Name:      lbName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.AzureNetworkInterfaceSpec{
-			Location:            tc.resourceGroupLocation,
-			ResourceGroup:       tc.resourceGroupName,
-			VNetName:            vnetName,
-			SubnetName:          subnetName,
-			PublicIPAddressName: pipName,
+		Spec: azurev1alpha1.AzureLoadBalancerSpec{
+			Location:               tc.resourceGroupLocation,
+			ResourceGroup:          tc.resourceGroupName,
+			PublicIPAddressName:    pipName,
+			BackendAddressPoolName: bpName,
+			InboundNatPoolName:     natName,
+			FrontendPortRangeStart: portRangeStart,
+			FrontendPortRangeEnd:   portRangeEnd,
+			BackendPort:            backendPort,
 		},
 	}
 
-	EnsureInstance(ctx, t, tc, nicInstance)
+	EnsureInstance(ctx, t, tc, lbInstance)
 
-	// Create a VM
+	// Create a VMSS
 	vmName := GenerateTestResourceNameWithRandom("vm", 10)
 	vmSize := "Standard_DS1_v2"
+	capacity := 3
 	osType := azurev1alpha1.OSType("Linux")
 	vmImageUrn := "Canonical:UbuntuServer:16.04-LTS:latest"
 	userName := "azureuser"
-
 	sshPublicKeyData := GenerateRandomSshPublicKeyString()
 
-	vmInstance := &azurev1alpha1.AzureVirtualMachine{
+	vmssInstance := &azurev1alpha1.AzureVMScaleSet{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      vmName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.AzureVirtualMachineSpec{
-			Location:             tc.resourceGroupLocation,
-			ResourceGroup:        tc.resourceGroupName,
-			VMSize:               vmSize,
-			OSType:               osType,
-			AdminUserName:        userName,
-			SSHPublicKeyData:     sshPublicKeyData,
-			NetworkInterfaceName: nicName,
-			PlatformImageURN:     vmImageUrn,
+		Spec: azurev1alpha1.AzureVMScaleSetSpec{
+			Location:               tc.resourceGroupLocation,
+			ResourceGroup:          tc.resourceGroupName,
+			VMSize:                 vmSize,
+			Capacity:               capacity,
+			OSType:                 osType,
+			AdminUserName:          userName,
+			SSHPublicKeyData:       sshPublicKeyData,
+			PlatformImageURN:       vmImageUrn,
+			VirtualNetworkName:     vnetName,
+			SubnetName:             subnetName,
+			LoadBalancerName:       lbName,
+			BackendAddressPoolName: bpName,
+			InboundNatPoolName:     natName,
 		},
 	}
 
-	EnsureInstance(ctx, t, tc, vmInstance)
+	EnsureInstance(ctx, t, tc, vmssInstance)
 
-	EnsureDelete(ctx, t, tc, vmInstance)
+	EnsureDelete(ctx, t, tc, vmssInstance)
 
-	EnsureDelete(ctx, t, tc, nicInstance)
+	EnsureDelete(ctx, t, tc, lbInstance)
 
 	EnsureDelete(ctx, t, tc, pipInstance)
 

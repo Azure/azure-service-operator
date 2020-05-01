@@ -1,9 +1,9 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: AzurePublicIPAddress
 metadata:
-  name: azurepublicipaddress-sample11
+  name: lb-pip-sample-01
 spec:
-  location: westus
+  location: SouthCentralUS
   resourceGroup: resourcegroup-azure-operators
   publicIPAllocationMethod: "Static"
   idleTimeoutInMinutes: 10
