@@ -55,63 +55,63 @@ func TestEventHubControllerNoNamespace(t *testing.T) {
 	EnsureDelete(ctx, t, tc, eventhubInstance)
 }
 
-func TestEventHubControllerCreateAndDeleteCustomSecret(t *testing.T) {
-	t.Parallel()
-	defer PanicRecover(t)
-	ctx := context.Background()
+// func TestEventHubControllerCreateAndDeleteCustomSecret(t *testing.T) {
+// 	t.Parallel()
+// 	defer PanicRecover(t)
+// 	ctx := context.Background()
 
-	// Add any setup steps that needs to be executed before each test
-	rgName := tc.resourceGroupName
-	rgLocation := tc.resourceGroupLocation
-	ehnName := GenerateTestResourceNameWithRandom("eh-ns", 10)
-	eventhubName := GenerateTestResourceNameWithRandom("eh-customsec", 10)
-	secretName := "secret-" + eventhubName
+// 	// Add any setup steps that needs to be executed before each test
+// 	rgName := tc.resourceGroupName
+// 	rgLocation := tc.resourceGroupLocation
+// 	ehnName := GenerateTestResourceNameWithRandom("eh-ns", 10)
+// 	eventhubName := GenerateTestResourceNameWithRandom("eh-customsec", 10)
+// 	secretName := "secret-" + eventhubName
 
-	// Create EventhubNamespace instance as prereq
-	eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      ehnName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.EventhubNamespaceSpec{
-			Location:      rgLocation,
-			ResourceGroup: rgName,
-		},
-	}
+// 	// Create EventhubNamespace instance as prereq
+// 	eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{
+// 		ObjectMeta: metav1.ObjectMeta{
+// 			Name:      ehnName,
+// 			Namespace: "default",
+// 		},
+// 		Spec: azurev1alpha1.EventhubNamespaceSpec{
+// 			Location:      rgLocation,
+// 			ResourceGroup: rgName,
+// 		},
+// 	}
 
-	EnsureInstance(ctx, t, tc, eventhubNamespaceInstance)
+// 	EnsureInstance(ctx, t, tc, eventhubNamespaceInstance)
 
-	// Create the EventHub object and expect the Reconcile to be created
-	eventhubInstance := &azurev1alpha1.Eventhub{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      eventhubName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.EventhubSpec{
-			Location:      rgLocation,
-			Namespace:     ehnName,
-			ResourceGroup: rgName,
-			Properties: azurev1alpha1.EventhubProperties{
-				MessageRetentionInDays: 7,
-				PartitionCount:         2,
-			},
-			AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
-				Name:   "RootManageSharedAccessKey",
-				Rights: []string{"Listen"},
-			},
-			SecretName: secretName,
-		},
-	}
+// 	// Create the EventHub object and expect the Reconcile to be created
+// 	eventhubInstance := &azurev1alpha1.Eventhub{
+// 		ObjectMeta: metav1.ObjectMeta{
+// 			Name:      eventhubName,
+// 			Namespace: "default",
+// 		},
+// 		Spec: azurev1alpha1.EventhubSpec{
+// 			Location:      rgLocation,
+// 			Namespace:     ehnName,
+// 			ResourceGroup: rgName,
+// 			Properties: azurev1alpha1.EventhubProperties{
+// 				MessageRetentionInDays: 7,
+// 				PartitionCount:         2,
+// 			},
+// 			AuthorizationRule: azurev1alpha1.EventhubAuthorizationRule{
+// 				Name:   "RootManageSharedAccessKey",
+// 				Rights: []string{"Listen"},
+// 			},
+// 			SecretName: secretName,
+// 		},
+// 	}
 
-	EnsureInstance(ctx, t, tc, eventhubInstance)
+// 	EnsureInstance(ctx, t, tc, eventhubInstance)
 
-	EnsureSecretsWithValue(ctx, t, tc, eventhubInstance, tc.secretClient, secretName, eventhubInstance.Namespace, "eventhubName", eventhubName)
+// 	EnsureSecretsWithValue(ctx, t, tc, eventhubInstance, tc.secretClient, secretName, eventhubInstance.Namespace, "eventhubName", eventhubName)
 
-	EnsureDelete(ctx, t, tc, eventhubInstance)
+// 	EnsureDelete(ctx, t, tc, eventhubInstance)
 
-	EnsureDelete(ctx, t, tc, eventhubNamespaceInstance)
+// 	EnsureDelete(ctx, t, tc, eventhubNamespaceInstance)
+// }
 
-}
 func TestEventHubControllerCreateAndDeleteCustomKeyVault(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)

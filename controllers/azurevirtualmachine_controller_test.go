@@ -7,22 +7,12 @@ package controllers
 
 import (
 	"context"
-	"crypto/rand"
-	"crypto/rsa"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	"golang.org/x/crypto/ssh"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
-
-func generateRandomSshPublicKeyString() string {
-	privateKey, _ := rsa.GenerateKey(rand.Reader, 2048)
-	publicRsaKey, _ := ssh.NewPublicKey(&privateKey.PublicKey)
-	sshPublicKeyData := string(ssh.MarshalAuthorizedKey(publicRsaKey))
-	return sshPublicKeyData
-}
 
 func TestVirtualMachineControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
@@ -136,7 +126,7 @@ func TestVirtualMachineHappyPathWithNicPipVNetAndSubnet(t *testing.T) {
 	vmImageUrn := "Canonical:UbuntuServer:16.04-LTS:latest"
 	userName := "azureuser"
 
-	sshPublicKeyData := generateRandomSshPublicKeyString()
+	sshPublicKeyData := GenerateRandomSshPublicKeyString()
 
 	vmInstance := &azurev1alpha1.AzureVirtualMachine{
 		ObjectMeta: metav1.ObjectMeta{

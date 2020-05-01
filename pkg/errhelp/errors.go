@@ -61,6 +61,8 @@ const (
 	NetworkAclsValidationFailure                   = "NetworkAclsValidationFailure"
 	SubnetHasServiceEndpointWithInvalidServiceName = "SubnetHasServiceEndpointWithInvalidServiceName"
 	InvalidAddressPrefixFormat                     = "InvalidAddressPrefixFormat"
+	FeatureNotSupportedForEdition                  = "FeatureNotSupportedForEdition"
+	VirtualNetworkRuleBadRequest                   = "VirtualNetworkRuleBadRequest"
 )
 
 func NewAzureError(err error) error {

@@ -1,11 +1,16 @@
 apiVersion: v1
 entries:
   azure-service-operator:
-  - apiVersion: v1
+  - apiVersion: v2
     appVersion: 0.1.0
-    created: "2020-03-09T14:47:12.306231-05:00"
+    created: "2020-04-23T11:50:42.794582-07:00"
+    dependencies:
+    - condition: azureUseMI
+      name: aad-pod-identity
+      repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
+      version: 1.5.5
     description: Deploy components and dependencies of azure-service-operator
-    digest: 4fbc8ed33b694e9a239b4b5c3e0903a23c731f1fd2d5e8a040488f780487bf87
+    digest: 6aaf972ecdc1aad3c0e9b4c414d8b39cc33c40f17ef8b8985b3c8acfac80bc72
     home: https://github.com/Azure/azure-service-operator
     name: azure-service-operator
     sources:
@@ -13,4 +18,4 @@ entries:
     urls:
     - azure-service-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2020-03-09T14:47:12.302559-05:00"
+generated: "2020-04-23T11:50:42.791883-07:00"

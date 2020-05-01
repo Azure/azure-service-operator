@@ -52,6 +52,9 @@ resources:
   kind: PostgreSQLFirewallRule
 - group: azure
   version: v1alpha1
+  kind: PostgreSQLVNetRule
+- group: azure
+  version: v1alpha1
   kind: APIMgmtAPI
 - group: azure
   version: v1alpha1
@@ -89,3 +92,9 @@ resources:
 - group: azure
   version: v1alpha1
   kind: AzureVirtualMachine
+- group: azure
+  version: v1alpha1
+  kind: AzureLoadBalancer
+- group: azure
+  version: v1alpha1
+  kind: AzureVMScaleSet
