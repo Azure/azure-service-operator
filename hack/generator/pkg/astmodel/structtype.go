@@ -5,7 +5,10 @@
 
 package astmodel
 
-import "go/ast"
+import (
+	"go/ast"
+	"sort"
+)
 
 // StructType represents an (unnamed) struct type
 type StructType struct {
@@ -26,8 +29,14 @@ func (structType *StructType) Fields() []*FieldDefinition {
 // AsType implements Type for StructType
 func (structType *StructType) AsType() ast.Expr {
 
-	fieldDefinitions := make([]*ast.Field, len(structType.fields))
-	for i, f := range structType.fields {
+	// Copy the slice of fields and sort it
+	fields := structType.Fields()
+	sort.Slice(fields, func(i int, j int) bool {
+		return fields[i].fieldName < fields[j].fieldName
+	})
+
+	fieldDefinitions := make([]*ast.Field, len(fields))
+	for i, f := range fields {
 		fieldDefinitions[i] = f.AsField()
 	}
 

@@ -176,7 +176,8 @@ func (scanner *SchemaScanner) ToNodes(ctx context.Context, schema *gojsonschema.
 	}
 
 	// TODO: make safer:
-	root := astmodel.NewStructDefinition(rootStructName, rootStructVersion, nodes.(*astmodel.StructType).Fields()...)
+	structName := scanner.idFactory.CreateIdentifier(rootStructName)
+	root := astmodel.NewStructDefinition(structName, rootStructVersion, nodes.(*astmodel.StructType).Fields()...)
 	description := "Generated from: " + url.String()
 	root = root.WithDescription(&description)
 
@@ -302,7 +303,6 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 		if err != nil {
 			return nil, err
 		}
-
 		additionalPropsField := astmodel.NewFieldDefinition("additionalProperties", "additionalProperties", astmodel.NewStringMap(additionalPropsType))
 		fields = append(fields, additionalPropsField)
 	}
@@ -338,15 +338,16 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 		return nil, err
 	}
 
+	structName := scanner.idFactory.CreateIdentifier(name)
 	if schemaType == Object {
 		// see if we already generated a struct for this ref
 		// TODO: base this on URL?
-		if definition, ok := scanner.FindStruct(name, version); ok {
+		if definition, ok := scanner.FindStruct(structName, version); ok {
 			return &definition.StructReference, nil
 		}
 
 		// Add a placeholder to avoid recursive calls
-		sd := astmodel.NewStructDefinition(name, version)
+		sd := astmodel.NewStructDefinition(structName, version)
 		scanner.AddStruct(sd)
 	}
 
@@ -362,7 +363,7 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 
 		description := "Generated from: " + url.String()
 
-		sd := astmodel.NewStructDefinition(name, version, std.Fields()...).WithDescription(&description)
+		sd := astmodel.NewStructDefinition(structName, version, std.Fields()...).WithDescription(&description)
 
 		// this will overwrite placeholder added above
 		scanner.AddStruct(sd)
