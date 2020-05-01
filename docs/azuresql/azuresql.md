@@ -172,13 +172,15 @@ The SQL Managed user operator is used to enable the specified managed identity a
 
 **Pre-requisite: This operator requires that the operator is running as a Managed Identity user and that this Managed Identity user is configured as the AAD admin on the SQL server**
 
-The operator also stores the following secrets in addition to enabling Database access for the managed identity.
+The operator also stores the following secrets (if using Keyvault) in addition to enabling Database access for the managed identity.
 
-- Secret named `<ManagedIdName>` with value `<ManagedIdentityClientId>`
-- Secret named `<ManagedIdName>-server` with value `Spec.Server`
-- Secret named `<ManagedIdName>-dbName` with value `Spec.DbName`
+- Secret named `<KeyVaultSecretPrefix>-clientid` with value `<ManagedIdentityClientId>`
+- Secret named `<KeyVaultSecretPrefix>-server` with value `Spec.Server`
+- Secret named `<KeyVaultSecretPrefix>-dbName` with value `Spec.DbName`
 
-*Note: If you are using Kube for storing secrets, there will be one secret with name `<ManagedIdName>` created with the above name-value in the secret map*
+*Note* If `KeyVaultSecretPrefix` is not specified `instance.Namespace` is used appended with `instance.Name`
+
+If you are using Kube for storing secrets, there will be one secret with name `<instance.Name>` created with the above name-value in the secret map
 
 ## Deploy, view and delete resources
 
