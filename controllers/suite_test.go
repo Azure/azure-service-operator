@@ -32,6 +32,7 @@ import (
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
 	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
@@ -46,6 +47,7 @@ import (
 	resourcemanagerblobcontainer "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	resourcemanagerstorageaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
@@ -494,6 +496,44 @@ func setup() error {
 		return err
 	}
 
+	err = (&AzureLoadBalancerReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: loadbalancer.NewAzureLoadBalancerClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"LoadBalancer",
+				ctrl.Log.WithName("controllers").WithName("LoadBalancer"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("LoadBalancer-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureVMScaleSetReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: vmss.NewAzureVMScaleSetClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VMScaleSet",
+				ctrl.Log.WithName("controllers").WithName("VMScaleSet"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("VMScaleSet-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
 	err = (&AzureSqlActionReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
@@ -644,7 +684,7 @@ func setup() error {
 	err = (&StorageAccountReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerstorageaccount.New(),
+			AzureClient: resourcemanagerstorageaccount.New(secretClient, k8sManager.GetScheme()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
