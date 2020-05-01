@@ -18,6 +18,9 @@ spec:
   
   managedIdentityClientId:
 
+  # Optionally specify the secret prefix to use when using keyvault
+  #keyVaultSecretPrefix: managed-id
+
   # Use the field below to optionally specify a different keyvault 
   # to store the secrets in
   #keyVaultToStoreSecrets:

@@ -117,7 +117,7 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 
 	err = s.UpdateSecret(ctx, instance, s.SecretClient)
 	if err != nil {
-		instance.Status.Message = "Updating secret failed"
+		instance.Status.Message = "Updating secret failed " + err.Error()
 		return false, fmt.Errorf("Updating secret failed")
 	}
 

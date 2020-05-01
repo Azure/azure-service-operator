@@ -151,34 +151,60 @@ func (s *AzureSqlManagedUserManager) DropUser(ctx context.Context, db *sql.DB, u
 func (s *AzureSqlManagedUserManager) UpdateSecret(ctx context.Context, instance *v1alpha1.AzureSQLManagedUser, secretClient secrets.SecretClient) error {
 
 	secretprefix := instance.Name
-	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	secretnamespace := instance.Namespace
 
-	if len(instance.Spec.ManagedIdentityName) != 0 { // If ManagedIdentityName is specified, use that as the name as is
-		secretprefix = instance.Spec.ManagedIdentityName
-		key = types.NamespacedName{Name: instance.Spec.ManagedIdentityName}
+	if len(instance.Spec.KeyVaultSecretPrefix) != 0 { // If KeyVaultSecretPrefix is specified, use that for secrets
+		secretprefix = instance.Spec.KeyVaultSecretPrefix
+		secretnamespace = ""
 	}
-	secret, err := secretClient.Get(ctx, key)
+
+	secret := map[string][]byte{
+		"clientid": []byte(instance.Spec.ManagedIdentityClientId),
+		"server":   []byte(instance.Spec.Server),
+		"dbName":   []byte(instance.Spec.DbName),
+	}
+
+	key := types.NamespacedName{Name: secretprefix, Namespace: secretnamespace}
+	// We store the different secret fields as different secrets
+	instance.Status.FlattenedSecrets = true
+	err := secretClient.Upsert(ctx, key, secret, secrets.Flatten(true))
 	if err != nil {
-		secret = map[string][]byte{
-			secretprefix:             []byte(instance.Spec.ManagedIdentityClientId),
-			secretprefix + "-server": []byte(instance.Spec.Server),
-			secretprefix + "-dbName": []byte(instance.Spec.DbName),
+		if strings.Contains(err.Error(), "FlattenedSecretsNotSupported") { // kube client does not support Flatten
+			err = secretClient.Upsert(ctx, key, secret)
+			if err != nil {
+				return fmt.Errorf("Upsert into KubeClient without flatten failed")
+			}
+			instance.Status.FlattenedSecrets = false
 		}
 	}
-
-	err = secretClient.Upsert(ctx, key, secret)
 	return err
 }
 
 // DeleteSecret deletes a secret
 func (s *AzureSqlManagedUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLManagedUser, secretClient secrets.SecretClient) error {
-	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
+	secretprefix := instance.Name
+	secretnamespace := instance.Namespace
 
-	if len(instance.Spec.ManagedIdentityName) != 0 { // If ManagedIdentityName is specified, use that as the name as is
-		key = types.NamespacedName{Name: instance.Spec.ManagedIdentityName}
+	if len(instance.Spec.KeyVaultSecretPrefix) != 0 { // If KeyVaultSecretPrefix is specified, use that for secrets
+		secretprefix = instance.Spec.KeyVaultSecretPrefix
+		secretnamespace = ""
 	}
 
-	return secretClient.Delete(ctx, key)
+	suffixes := []string{"clientid", "server", "dbName"}
+	if instance.Status.FlattenedSecrets == false {
+		key := types.NamespacedName{Name: secretprefix, Namespace: secretnamespace}
+		return secretClient.Delete(ctx, key)
+	} else {
+		// Delete the secrets one by one
+		for _, suffix := range suffixes {
+			key := types.NamespacedName{Name: secretprefix + "-" + suffix, Namespace: secretnamespace}
+			err := secretClient.Delete(ctx, key)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
 
 func getMSITokenProvider() (func() (string, error), error) {
