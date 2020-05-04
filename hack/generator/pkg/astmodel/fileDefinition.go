@@ -6,8 +6,10 @@
 package astmodel
 
 import (
+	"bytes"
 	"go/ast"
 	"go/format"
+	"go/parser"
 	"go/token"
 	"os"
 )
@@ -50,21 +52,28 @@ func (file FileDefinition) AsAst() ast.Node {
 
 // SaveTo writes this generated file to disk
 func (file FileDefinition) SaveTo(filePath string) error {
+	original := file.AsAst()
+
+	// Write generated source into a memory buffer
+	fset := token.NewFileSet()
+	var buffer bytes.Buffer
+	err := format.Node(&buffer, token.NewFileSet(), original)
+	if err != nil {
+		return err
+	}
+
+	// Parse it out of the buffer again so we can "go fmt" it
+	toFormat, err := parser.ParseFile(fset, filePath, &buffer, parser.ParseComments)
+	if err != nil {
+		return err
+	}
+
+	// Write it to a file
 	f, err := os.Create(filePath)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
-	if err != nil {
-		return err
-	}
 
-	content := file.AsAst()
-
-	err = format.Node(f, token.NewFileSet(), content)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return format.Node(f, fset, toFormat)
 }
