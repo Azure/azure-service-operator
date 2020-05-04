@@ -16,7 +16,7 @@ type AzureSqlFailoverGroupSpec struct {
 	Location                     string                                   `json:"location"`
 	ResourceGroup                string                                   `json:"resourcegroup,omitempty"`
 	Server                       string                                   `json:"server"`
-	FailoverPolicy               v1alpha1.ReadWriteEndpointFailoverPolicy `json:"failoverpolicy"`
+	FailoverPolicy               v1alpha1.ReadWriteEndpointFailoverPolicy `json:"failoverPolicy"`
 	FailoverGracePeriod          int32                                    `json:"failovergraceperiod"`
 	SecondaryServer              string                                   `json:"secondaryserver"`
 	SecondaryServerResourceGroup string                                   `json:"secondaryserverresourcegroup"`
