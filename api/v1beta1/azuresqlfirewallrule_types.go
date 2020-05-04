@@ -18,7 +18,7 @@ type AzureSqlFirewallRuleSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	ResourceGroup  string `json:"resourceGroup,omitempty"`
 	Server         string `json:"server"`
-	StartIPAddress string `json:"startipaddress,omitempty"`
+	StartIPAddress string `json:"startIpAddress,omitempty"`
 	EndIPAddress   string `json:"endipaddress,omitempty"`
 }
 
