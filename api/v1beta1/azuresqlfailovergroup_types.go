@@ -19,7 +19,7 @@ type AzureSqlFailoverGroupSpec struct {
 	FailoverPolicy               v1alpha1.ReadWriteEndpointFailoverPolicy `json:"failoverPolicy"`
 	FailoverGracePeriod          int32                                    `json:"failoverGracePeriod"`
 	SecondaryServer              string                                   `json:"secondaryServer"`
-	SecondaryServerResourceGroup string                                   `json:"secondaryserverresourcegroup"`
+	SecondaryServerResourceGroup string                                   `json:"secondaryServerResourceGroup"`
 	DatabaseList                 []string                                 `json:"databaselist"`
 	KeyVaultToStoreSecrets       string                                   `json:"keyVaultToStoreSecrets,omitempty"`
 }
