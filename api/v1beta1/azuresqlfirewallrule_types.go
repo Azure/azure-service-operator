@@ -19,7 +19,7 @@ type AzureSqlFirewallRuleSpec struct {
 	ResourceGroup  string `json:"resourceGroup,omitempty"`
 	Server         string `json:"server"`
 	StartIPAddress string `json:"startIpAddress,omitempty"`
-	EndIPAddress   string `json:"endipaddress,omitempty"`
+	EndIPAddress   string `json:"endIpAddress,omitempty"`
 }
 
 // +kubebuilder:object:root=true
