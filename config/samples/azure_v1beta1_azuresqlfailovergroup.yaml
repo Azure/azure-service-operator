@@ -6,7 +6,7 @@ spec:
   location: eastus
   resourceGroup: resourcegroup-azure-operators
   server: sqlserver-samplepri
-  failoverpolicy: automatic
+  failoverPolicy: automatic
   failovergraceperiod: 30
   secondaryserver: sqlserver-samplesec
   secondaryserverresourcegroup: resourcegroup-azure-operators
