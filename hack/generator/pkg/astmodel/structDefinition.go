@@ -98,11 +98,6 @@ func (definition *StructDefinition) FieldCount() int {
 	return len(definition.fields)
 }
 
-// AsAst generates an AST node representing this field definition
-func (definition *StructDefinition) AsAst() ast.Node {
-	return definition.AsDeclaration()
-}
-
 func (definition *StructDefinition) RequiredImports() []PackageReference {
 	var result []PackageReference
 	for _, field := range definition.fields {
@@ -114,8 +109,12 @@ func (definition *StructDefinition) RequiredImports() []PackageReference {
 	return result
 }
 
+func (definition *StructDefinition) FileNameHint() string {
+	return definition.Name()
+}
+
 // AsDeclaration generates an AST node representing this struct definition
-func (definition *StructDefinition) AsDeclaration() *ast.GenDecl {
+func (definition *StructDefinition) AsDeclaration() ast.Decl {
 
 	identifier := ast.NewIdent(definition.name)
 

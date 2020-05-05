@@ -19,9 +19,6 @@ type FieldDefinition struct {
 	description string
 }
 
-// FieldDefinition must implement Definition
-var _ Definition = (*FieldDefinition)(nil)
-
 // NewFieldDefinition is a factory method for creating a new FieldDefinition
 // name is the name for the new field (mandatory)
 // fieldType is the type for the new field (mandatory)
@@ -67,13 +64,8 @@ func (field *FieldDefinition) WithDescription(description *string) *FieldDefinit
 	return &result
 }
 
-// AsAst generates an AST node representing this field definition
-func (field FieldDefinition) AsAst() ast.Node {
-	return field.AsField()
-}
-
 // AsField generates an AST field node representing this field definition
-func (field FieldDefinition) AsField() *ast.Field {
+func (field *FieldDefinition) AsField() *ast.Field {
 
 	// TODO: add field tags for api hints / json binding
 	result := &ast.Field{

@@ -16,23 +16,16 @@ import (
 
 // FileDefinition is the content of a file we're generating
 type FileDefinition struct {
-	// Name for the package
+	// the package this file is in
 	PackageReference
-
-	// Structs to include in this file
-	structs []*StructDefinition
+	// definitions to include in this file
+	definitions []Definition
 }
 
-// FileDefinition must implement Definition
-var _ Definition = &FileDefinition{}
-
-// NewFileDefinition creates a file definition containing specified structs
-func NewFileDefinition(structs ...*StructDefinition) *FileDefinition {
-	// TODO: check that all structs are from same package
-	return &FileDefinition{
-		PackageReference: structs[0].PackageReference,
-		structs:          structs,
-	}
+// NewFileDefinition creates a file definition containing specified definitions
+func NewFileDefinition(packageRef PackageReference, definitions ...Definition) *FileDefinition {
+	// TODO: check that all definitions are from same package
+	return &FileDefinition{packageRef, definitions}
 }
 
 // AsAst generates an AST node representing this file
@@ -40,7 +33,7 @@ func (file *FileDefinition) AsAst() ast.Node {
 
 	// Create import header:
 	var requiredImports = make(map[PackageReference]bool) // fake set type
-	for _, s := range file.structs {
+	for _, s := range file.definitions {
 		for _, requiredImport := range s.RequiredImports() {
 			// no need to import the current package
 			if requiredImport != file.PackageReference {
@@ -67,8 +60,8 @@ func (file *FileDefinition) AsAst() ast.Node {
 		decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: importSpecs})
 	}
 
-	// Emit all structs:
-	for _, s := range file.structs {
+	// Emit all definitions:
+	for _, s := range file.definitions {
 		decls = append(decls, s.AsDeclaration())
 	}
 

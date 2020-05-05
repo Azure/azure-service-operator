@@ -38,7 +38,7 @@ func runGoldenTest(t *testing.T, path string) {
 	nodes, err := scanner.ToNodes(context.TODO(), schema.Root())
 
 	buf := &bytes.Buffer{}
-	format.Node(buf, token.NewFileSet(), nodes.AsAst())
+	format.Node(buf, token.NewFileSet(), nodes.AsDeclaration())
 
 	g.Assert(t, testName, buf.Bytes())
 }

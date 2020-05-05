@@ -79,7 +79,7 @@ func NewGenCommand() (*cobra.Command, error) {
 			log.Printf("INF Checkpoint\n")
 
 			// group definitions by package
-			packages := make(map[astmodel.PackageReference][]*astmodel.StructDefinition)
+			packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 			for _, def := range scanner.Structs {
 
 				shouldExport, reason := configuration.ShouldExport(def)
@@ -95,15 +95,21 @@ func NewGenCommand() (*cobra.Command, error) {
 				case jsonast.Export:
 					log.Printf("Exporting struct %s/%s %s", def.PackagePath(), def.Name(), motivation)
 
-					packages[def.PackageReference] = append(packages[def.PackageReference], def)
+					if pkg, ok := packages[def.PackageReference]; ok {
+						pkg.AddDefinition(def)
+					} else {
+						pkg = astmodel.NewPackageDefinition(def.PackageReference)
+						pkg.AddDefinition(def)
+						packages[def.PackageReference] = pkg
+					}
 				}
 			}
 
 			// emit each package
-			for p, packageDefs := range packages {
+			for _, pkg := range packages {
 
 				// create directory if not already there
-				outputDir := filepath.Join(rootOutputDir, p.PackagePath())
+				outputDir := filepath.Join(rootOutputDir, pkg.PackagePath())
 				if _, err := os.Stat(outputDir); os.IsNotExist(err) {
 					log.Printf("Creating directory '%s'\n", outputDir)
 					err = os.MkdirAll(outputDir, 0700)
@@ -112,13 +118,7 @@ func NewGenCommand() (*cobra.Command, error) {
 					}
 				}
 
-				// emit each definition
-				for _, def := range packageDefs {
-					genFile := astmodel.NewFileDefinition(def)
-					outputFile := filepath.Join(outputDir, def.Name()+"_types.go")
-					log.Printf("Writing '%s'\n", outputFile)
-					genFile.SaveTo(outputFile)
-				}
+				pkg.EmitDefinitions(outputDir)
 			}
 
 			log.Printf("Completed writing %v resources\n", len(scanner.Structs))

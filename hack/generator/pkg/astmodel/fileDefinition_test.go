@@ -15,10 +15,10 @@ func Test_NewFileDefinition_GivenValues_InitializesFields(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	person := NewTestStruct("Person", "fullName", "knownAs", "familyName")
-	file := NewFileDefinition(&person)
+	file := NewFileDefinition(person.PackageReference, &person)
 
 	g.Expect(file.PackageReference).To(Equal(person.PackageReference))
-	g.Expect(file.structs).To(HaveLen(1))
+	g.Expect(file.definitions).To(HaveLen(1))
 }
 
 func NewTestStruct(name string, fields ...string) StructDefinition {
