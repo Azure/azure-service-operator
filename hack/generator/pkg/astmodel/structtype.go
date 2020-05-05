@@ -26,6 +26,9 @@ func (structType *StructType) Fields() []*FieldDefinition {
 	return append(structType.fields[:0:0], structType.fields...)
 }
 
+// assert that we implemented Type correctly
+var _ Type = (*StructType)(nil)
+
 // AsType implements Type for StructType
 func (structType *StructType) AsType() ast.Expr {
 
@@ -45,4 +48,13 @@ func (structType *StructType) AsType() ast.Expr {
 			List: fieldDefinitions,
 		},
 	}
+}
+
+func (structType *StructType) RequiredImports() []PackageReference {
+	var result []PackageReference
+	for _, field := range structType.fields {
+		result = append(result, field.FieldType().RequiredImports()...)
+	}
+
+	return result
 }
