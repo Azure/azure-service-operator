@@ -8,4 +8,4 @@ spec:
   
   # this IP range enables Azure Service access
   startIpAddress: 0.0.0.0
-  endipaddress: 0.0.0.0
+  endIpAddress: 0.0.0.0
