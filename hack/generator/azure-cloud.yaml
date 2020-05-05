@@ -1,0 +1,8 @@
+schemaurl: https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json
+typefilters:
+  - action: include
+    version: 2020-*
+    because: all 2020 API versions are included
+  - action: exclude
+    version: '*preview'
+    because: preview SDK versions are excluded by default
