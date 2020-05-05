@@ -20,7 +20,7 @@ type BlobContainerSpec struct {
 	Location      string         `json:"location"`
 	ResourceGroup string         `json:"resourceGroup,omitempty"`
 	AccountName   string         `json:"accountName,omitempty"`
-	AccessLevel   s.PublicAccess `json:"accesslevel,omitempty"`
+	AccessLevel   s.PublicAccess `json:"accessLevel,omitempty"`
 }
 
 // +kubebuilder:object:root=true
