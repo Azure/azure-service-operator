@@ -9,7 +9,7 @@ spec:
   failoverPolicy: automatic
   failoverGracePeriod: 30
   secondaryServer: sqlserver-samplesec
-  secondaryserverresourcegroup: resourcegroup-azure-operators
+  secondaryServerResourceGroup: resourcegroup-azure-operators
   databaselist:
     - "azuresqldatabase-sample"
     - "azuresqldatabase-sample2"
