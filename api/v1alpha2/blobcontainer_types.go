@@ -19,7 +19,7 @@ type BlobContainerSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Location      string         `json:"location"`
 	ResourceGroup string         `json:"resourceGroup,omitempty"`
-	AccountName   string         `json:"accountname,omitempty"`
+	AccountName   string         `json:"accountName,omitempty"`
 	AccessLevel   s.PublicAccess `json:"accesslevel,omitempty"`
 }
 
