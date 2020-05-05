@@ -8,7 +8,7 @@ spec:
   server: sqlserver-samplepri
   failoverPolicy: automatic
   failoverGracePeriod: 30
-  secondaryserver: sqlserver-samplesec
+  secondaryServer: sqlserver-samplesec
   secondaryserverresourcegroup: resourcegroup-azure-operators
   databaselist:
     - "azuresqldatabase-sample"
