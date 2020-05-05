@@ -8,6 +8,7 @@ package astmodel
 import (
 	"fmt"
 	"go/ast"
+	"go/token"
 )
 
 // FieldDefinition encapsulates the definition of a field
@@ -78,13 +79,17 @@ func (field FieldDefinition) AsField() *ast.Field {
 	result := &ast.Field{
 		Names: []*ast.Ident{ast.NewIdent(field.fieldName)},
 		Type:  field.FieldType().AsType(),
+		Tag: &ast.BasicLit{
+			Kind:  token.STRING,
+			Value: fmt.Sprintf("`json:%q`", field.jsonName),
+		},
 	}
 
 	if field.description != "" {
 		result.Doc = &ast.CommentGroup{
 			List: []*ast.Comment{
 				{
-					Text: fmt.Sprintf("\n/*\t%s: %s */", field.fieldName, field.description),
+					Text: fmt.Sprintf("\n/* %s: %s */", field.fieldName, field.description),
 				},
 			},
 		}

@@ -2,6 +2,6 @@ type
 /* Generated from: https://test.test/schemas/2020-01-01/test.json */
 Test struct {
 	Tags struct {
-		OtherField string
-	}
+		OtherField string `json:"otherField"`
+	} `json:"tags"`
 }

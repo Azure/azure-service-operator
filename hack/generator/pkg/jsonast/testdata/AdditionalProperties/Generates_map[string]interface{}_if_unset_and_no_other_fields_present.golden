@@ -1,5 +1,5 @@
 type
 /* Generated from: https://test.test/schemas/2020-01-01/test.json */
 Test struct {
-	Tags map[string]interface{}
+	Tags map[string]interface{} `json:"tags"`
 }
