@@ -38,7 +38,7 @@ type (
 
 	// A SchemaScanner is used to scan a JSON Schema extracting and collecting type definitions
 	SchemaScanner struct {
-		Structs      map[string]*astmodel.StructDefinition
+		Structs      map[astmodel.StructReference]*astmodel.StructDefinition
 		TypeHandlers map[SchemaType]TypeHandler
 		Filters      []string
 		idFactory    astmodel.IdentifierFactory
@@ -46,16 +46,14 @@ type (
 )
 
 // FindStruct looks to see if we have seen the specified struct before, returning its definition if we have.
-func (scanner *SchemaScanner) FindStruct(name string, version string) (*astmodel.StructDefinition, bool) {
-	key := name + "/" + version
-	result, ok := scanner.Structs[key]
+func (scanner *SchemaScanner) FindStruct(ref astmodel.StructReference) (*astmodel.StructDefinition, bool) {
+	result, ok := scanner.Structs[ref]
 	return result, ok
 }
 
 // AddStruct makes a record of the specified struct so that FindStruct() can return it when it is needed again.
 func (scanner *SchemaScanner) AddStruct(structDefinition *astmodel.StructDefinition) {
-	key := structDefinition.Name() + "/" + structDefinition.Version()
-	scanner.Structs[key] = structDefinition
+	scanner.Structs[structDefinition.StructReference] = structDefinition
 }
 
 // Definitions for different kinds of JSON schema
@@ -86,7 +84,7 @@ func (use *UnknownSchemaError) Error() string {
 // NewSchemaScanner constructs a new scanner, ready for use
 func NewSchemaScanner(idFactory astmodel.IdentifierFactory) *SchemaScanner {
 	return &SchemaScanner{
-		Structs:      make(map[string]*astmodel.StructDefinition),
+		Structs:      make(map[astmodel.StructReference]*astmodel.StructDefinition),
 		TypeHandlers: DefaultTypeHandlers(),
 		idFactory:    idFactory,
 	}
@@ -165,6 +163,12 @@ func (scanner *SchemaScanner) ToNodes(ctx context.Context, schema *gojsonschema.
 	}
 
 	rootStructName := *schema.Title
+
+	rootStructGroup, err := groupOf(url)
+	if err != nil {
+		return nil, fmt.Errorf("Unable to extract group for schema: %w", err)
+	}
+
 	rootStructVersion, err := versionOf(url)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to extract version for schema: %w", err)
@@ -175,9 +179,13 @@ func (scanner *SchemaScanner) ToNodes(ctx context.Context, schema *gojsonschema.
 		return nil, err
 	}
 
+	rootStructRef := astmodel.NewStructReference(
+		scanner.idFactory.CreateIdentifier(rootStructName),
+		scanner.idFactory.CreateGroupName(rootStructGroup),
+		scanner.idFactory.CreatePackageNameFromVersion(rootStructVersion))
+
 	// TODO: make safer:
-	structName := scanner.idFactory.CreateIdentifier(rootStructName)
-	root := astmodel.NewStructDefinition(structName, rootStructVersion, nodes.(*astmodel.StructType).Fields()...)
+	root := astmodel.NewStructDefinition(rootStructRef, nodes.(*astmodel.StructType).Fields()...)
 	description := "Generated from: " + url.String()
 	root = root.WithDescription(&description)
 
@@ -333,21 +341,31 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 		return nil, err
 	}
 
+	group, err := groupOf(url)
+	if err != nil {
+		return nil, err
+	}
+
 	version, err := versionOf(url)
 	if err != nil {
 		return nil, err
 	}
 
-	structName := scanner.idFactory.CreateIdentifier(name)
+	// produce a usable struct name:
+	structReference := astmodel.NewStructReference(
+		scanner.idFactory.CreateIdentifier(name),
+		scanner.idFactory.CreateGroupName(group),
+		scanner.idFactory.CreatePackageNameFromVersion(version))
+
 	if schemaType == Object {
 		// see if we already generated a struct for this ref
 		// TODO: base this on URL?
-		if definition, ok := scanner.FindStruct(structName, version); ok {
+		if definition, ok := scanner.FindStruct(structReference); ok {
 			return &definition.StructReference, nil
 		}
 
 		// Add a placeholder to avoid recursive calls
-		sd := astmodel.NewStructDefinition(structName, version)
+		sd := astmodel.NewStructDefinition(structReference)
 		scanner.AddStruct(sd)
 	}
 
@@ -363,7 +381,7 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 
 		description := "Generated from: " + url.String()
 
-		sd := astmodel.NewStructDefinition(structName, version, std.Fields()...).WithDescription(&description)
+		sd := astmodel.NewStructDefinition(structReference, std.Fields()...).WithDescription(&description)
 
 		// this will overwrite placeholder added above
 		scanner.AddStruct(sd)
@@ -554,28 +572,34 @@ func asComment(text *string) string {
 	return "// " + *text
 }
 
+func isURLPathSeparator(c rune) bool {
+	return c == '/'
+}
+
 // Extract the name of an object from the supplied schema URL
 func objectTypeOf(url *url.URL) (string, error) {
-	isPathSeparator := func(c rune) bool {
-		return c == '/'
-	}
-
-	fragmentParts := strings.FieldsFunc(url.Fragment, isPathSeparator)
+	fragmentParts := strings.FieldsFunc(url.Fragment, isURLPathSeparator)
 
 	return fragmentParts[len(fragmentParts)-1], nil
 }
 
-// Extract the name of an object from the supplied schema URL
-func versionOf(url *url.URL) (string, error) {
-	isPathSeparator := func(c rune) bool {
-		return c == '/'
+// Extract the 'group' (here filename) of an object from the supplied schemaURL
+func groupOf(url *url.URL) (string, error) {
+	pathParts := strings.FieldsFunc(url.Path, isURLPathSeparator)
+
+	file := pathParts[len(pathParts)-1]
+	if !strings.HasSuffix(file, ".json") {
+		return "", fmt.Errorf("Unexpected URL format (doesn't point to .json file)")
 	}
 
-	pathParts := strings.FieldsFunc(url.Path, isPathSeparator)
-	versionRegex, err := regexp.Compile("\\d\\d\\d\\d-\\d\\d-\\d\\d")
-	if err != nil {
-		return "", fmt.Errorf("Invalid Regex format %w", err)
-	}
+	return strings.TrimSuffix(file, ".json"), nil
+}
+
+var versionRegex = regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}")
+
+// Extract the name of an object from the supplied schema URL
+func versionOf(url *url.URL) (string, error) {
+	pathParts := strings.FieldsFunc(url.Path, isURLPathSeparator)
 
 	for _, p := range pathParts {
 		if versionRegex.MatchString(p) {

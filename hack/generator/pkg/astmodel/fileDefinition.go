@@ -17,7 +17,7 @@ import (
 // FileDefinition is the content of a file we're generating
 type FileDefinition struct {
 	// Name for the package
-	packageName string
+	PackageReference
 
 	// Structs to include in this file
 	structs []*StructDefinition
@@ -27,15 +27,16 @@ type FileDefinition struct {
 var _ Definition = &FileDefinition{}
 
 // NewFileDefinition creates a file definition containing specified structs
-func NewFileDefinition(packageName string, structs ...*StructDefinition) *FileDefinition {
+func NewFileDefinition(structs ...*StructDefinition) *FileDefinition {
+	// TODO: check that all structs are from same package
 	return &FileDefinition{
-		packageName: packageName,
-		structs:     structs,
+		PackageReference: structs[0].PackageReference,
+		structs:          structs,
 	}
 }
 
 // AsAst generates an AST node representing this file
-func (file FileDefinition) AsAst() ast.Node {
+func (file *FileDefinition) AsAst() ast.Node {
 
 	var decls []ast.Decl
 	for _, s := range file.structs {
@@ -43,7 +44,7 @@ func (file FileDefinition) AsAst() ast.Node {
 	}
 
 	result := &ast.File{
-		Name:  ast.NewIdent(file.packageName),
+		Name:  ast.NewIdent(file.PackageName()),
 		Decls: decls,
 	}
 

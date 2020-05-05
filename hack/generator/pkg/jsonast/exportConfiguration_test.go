@@ -15,9 +15,9 @@ import (
 
 func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
-	person := astmodel.NewStructDefinition("person", "2020-01-01")
-	post := astmodel.NewStructDefinition("post", "2019-01-01")
-	student := astmodel.NewStructDefinition("student", "2019-01-01")
+	person := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01"))
+	post := astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01"))
+	student := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01"))
 
 	filter := TypeFilter{Action: IncludeType, Version: "2019*"}
 	config := NewExportConfiguration(&filter)
@@ -29,10 +29,10 @@ func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
 
 func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
-	person := astmodel.NewStructDefinition("person", "2020-01-01")
-	post := astmodel.NewStructDefinition("post", "2019-01-01")
-	student := astmodel.NewStructDefinition("student", "2019-01-01")
-	address := astmodel.NewStructDefinition("address", "2020-01-01")
+	person := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01"))
+	post := astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01"))
+	student := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01"))
+	address := astmodel.NewStructDefinition(astmodel.NewStructReference("address", "group", "2020-01-01"))
 
 	versionFilter := TypeFilter{
 		Action:  IncludeType,
@@ -51,13 +51,13 @@ func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
 func Test_WithMultipleFilters_GivesPrecedenceToEarlierFilters(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	person2019 := astmodel.NewStructDefinition("person", "2019-01-01")
-	student2019 := astmodel.NewStructDefinition("student", "2019-01-01")
+	person2019 := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2019-01-01"))
+	student2019 := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01"))
 
-	person2020 := astmodel.NewStructDefinition("person", "2020-01-01")
-	professor2020 := astmodel.NewStructDefinition("professor", "2020-01-01")
-	tutor2020 := astmodel.NewStructDefinition("tutor", "2020-01-01")
-	student2020 := astmodel.NewStructDefinition("student", "2020-01-01")
+	person2020 := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01"))
+	professor2020 := astmodel.NewStructDefinition(astmodel.NewStructReference("professor", "group", "2020-01-01"))
+	tutor2020 := astmodel.NewStructDefinition(astmodel.NewStructReference("tutor", "group", "2020-01-01"))
+	student2020 := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2020-01-01"))
 
 	alwaysExportPerson := TypeFilter{
 		Action: IncludeType,

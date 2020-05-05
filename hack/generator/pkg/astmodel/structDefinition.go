@@ -8,13 +8,37 @@ package astmodel
 import (
 	"go/ast"
 	"go/token"
+	"path/filepath"
 )
+
+// Package refernece indicates which package
+// a struct belongs to.
+type PackageReference struct {
+	groupName   string
+	packageName string
+}
+
+func (pr *PackageReference) PackagePath() string {
+	return filepath.Join(pr.GroupName(), pr.PackageName())
+}
+
+func (pr *PackageReference) GroupName() string {
+	return pr.groupName
+}
+
+func (pr *PackageReference) PackageName() string {
+	return pr.packageName
+}
 
 // StructReference is the (versioned) name of a struct
 // that can be used as a type
 type StructReference struct {
-	name    string
-	version string
+	PackageReference
+	name string
+}
+
+func NewStructReference(name string, group string, version string) StructReference {
+	return StructReference{PackageReference{group, version}, name}
 }
 
 // AsType implements Type for StructReference
@@ -35,9 +59,9 @@ type StructDefinition struct {
 var _ Definition = &StructDefinition{}
 
 // NewStructDefinition is a factory method for creating a new StructDefinition
-func NewStructDefinition(name string, version string, fields ...*FieldDefinition) *StructDefinition {
+func NewStructDefinition(ref StructReference, fields ...*FieldDefinition) *StructDefinition {
 	return &StructDefinition{
-		StructReference: StructReference{name, version},
+		StructReference: ref,
 		StructType:      StructType{fields},
 	}
 }
@@ -56,11 +80,6 @@ func (definition *StructDefinition) WithDescription(description *string) *Struct
 // Name returns the name of the struct
 func (definition *StructDefinition) Name() string {
 	return definition.name
-}
-
-// Version returns the version of this struct
-func (definition *StructDefinition) Version() string {
-	return definition.version
 }
 
 // Field provides indexed access to our fields

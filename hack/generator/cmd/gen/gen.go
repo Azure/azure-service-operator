@@ -7,11 +7,10 @@ package gen
 
 import (
 	"context"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
-	"unicode"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -53,6 +52,8 @@ func NewGenCommand() (*cobra.Command, error) {
 
 			root := schema.Root()
 
+			rootOutputDir := "apis" // TODO: command-line argument
+
 			idfactory := astmodel.NewIdentifierFactory()
 			scanner := jsonast.NewSchemaScanner(idfactory)
 			scanner.AddFilters(viper.GetStringSlice("resources"))
@@ -63,13 +64,13 @@ func NewGenCommand() (*cobra.Command, error) {
 				return err
 			}
 
-			err = os.RemoveAll("resources")
+			err = os.RemoveAll(rootOutputDir)
 			if err != nil {
 				log.Printf("Error: %v\n", err)
 				return err
 			}
 
-			err = os.Mkdir("resources", 0700)
+			err = os.Mkdir(rootOutputDir, 0700)
 			if err != nil {
 				log.Printf("Error %v\n", err)
 				return err
@@ -77,19 +78,46 @@ func NewGenCommand() (*cobra.Command, error) {
 
 			log.Printf("INF Checkpoint\n")
 
-			for _, st := range scanner.Structs {
-				shouldExport, reason := configuration.ShouldExport(st)
+			// group definitions by package
+			packages := make(map[astmodel.PackageReference][]*astmodel.StructDefinition)
+			for _, def := range scanner.Structs {
+
+				shouldExport, reason := configuration.ShouldExport(def)
 				var motivation string
 				if reason != "" {
 					motivation = "because " + reason
 				}
+
 				switch shouldExport {
 				case jsonast.Skip:
-					log.Printf("Skipping struct %s/%s %s", st.Version(), st.Name(), motivation)
+					log.Printf("Skipping struct %s/%s %s", def.PackagePath(), def.Name(), motivation)
 
 				case jsonast.Export:
-					log.Printf("Exporting struct %s/%s %s", st.Version(), st.Name(), motivation)
-					exportType(st)
+					log.Printf("Exporting struct %s/%s %s", def.PackagePath(), def.Name(), motivation)
+
+					packages[def.PackageReference] = append(packages[def.PackageReference], def)
+				}
+			}
+
+			// emit each package
+			for p, packageDefs := range packages {
+
+				// create directory if not already there
+				outputDir := filepath.Join(rootOutputDir, p.PackagePath())
+				if _, err := os.Stat(outputDir); os.IsNotExist(err) {
+					log.Printf("Creating directory '%s'\n", outputDir)
+					err = os.MkdirAll(outputDir, 0700)
+					if err != nil {
+						log.Fatalf("Unable to create directory '%s'", outputDir)
+					}
+				}
+
+				// emit each definition
+				for _, def := range packageDefs {
+					genFile := astmodel.NewFileDefinition(def)
+					outputFile := filepath.Join(outputDir, def.Name()+"_types.go")
+					log.Printf("Writing '%s'\n", outputFile)
+					genFile.SaveTo(outputFile)
 				}
 			}
 
@@ -115,22 +143,6 @@ func loadSchema(source string) (*gojsonschema.Schema, error) {
 	}
 
 	return schema, nil
-}
-
-func createNamespace(base string, version string) string {
-	var builder []rune
-
-	for _, r := range base {
-		builder = append(builder, rune(r))
-	}
-
-	for _, r := range version {
-		if unicode.IsLetter(r) || unicode.IsNumber(r) {
-			builder = append(builder, rune(r))
-		}
-	}
-
-	return string(builder)
 }
 
 func loadConfiguration(configurationFile string) (*jsonast.ExportConfiguration, error) {
@@ -173,18 +185,4 @@ func writeSampleConfig(configFile string) error {
 	ioutil.WriteFile(configFile, data, os.FileMode(0644))
 
 	return nil
-}
-
-func exportType(st *astmodel.StructDefinition) {
-	ns := createNamespace("api", st.Version())
-	dirName := fmt.Sprintf("resources/%v", ns)
-	fileName := fmt.Sprintf("%v/%v.go", dirName, st.Name())
-
-	if _, err := os.Stat(dirName); os.IsNotExist(err) {
-		log.Printf("Creating folder '%s'\n", dirName)
-		os.Mkdir(dirName, 0700)
-	}
-
-	genFile := astmodel.NewFileDefinition(ns, st)
-	genFile.SaveTo(fileName)
 }

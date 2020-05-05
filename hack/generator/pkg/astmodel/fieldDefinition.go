@@ -19,7 +19,7 @@ type FieldDefinition struct {
 }
 
 // FieldDefinition must implement Definition
-var _ Definition = &FieldDefinition{}
+var _ Definition = (*FieldDefinition)(nil)
 
 // NewFieldDefinition is a factory method for creating a new FieldDefinition
 // name is the name for the new field (mandatory)

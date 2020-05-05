@@ -14,11 +14,10 @@ import (
 func Test_NewFileDefinition_GivenValues_InitializesFields(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	packageName := "demo"
 	person := NewTestStruct("Person", "fullName", "knownAs", "familyName")
-	file := NewFileDefinition(packageName, &person)
+	file := NewFileDefinition(&person)
 
-	g.Expect(file.packageName).To(Equal(packageName))
+	g.Expect(file.PackageReference).To(Equal(person.PackageReference))
 	g.Expect(file.structs).To(HaveLen(1))
 }
 
@@ -28,7 +27,8 @@ func NewTestStruct(name string, fields ...string) StructDefinition {
 		fs = append(fs, NewFieldDefinition(n, n, StringType))
 	}
 
-	definition := NewStructDefinition(name, "2020-01-01", fs...)
+	ref := NewStructReference(name, "group", "2020-01-01")
+	definition := NewStructDefinition(ref, fs...)
 
 	return *definition
 }

@@ -40,9 +40,9 @@ type TypeFilter struct {
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
 func (filter *TypeFilter) AppliesToType(definition *astmodel.StructDefinition) bool {
-	// TODO: Add schema once it's added to StructDefinition
+	// TODO: also allow filtering on package group name
 	result := filter.nameMatches(definition.Name()) &&
-		filter.versionMatches(definition.Version())
+		filter.versionMatches(definition.StructReference.PackageReference.PackageName())
 
 	return result
 }
