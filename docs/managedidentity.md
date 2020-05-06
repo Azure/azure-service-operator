@@ -57,7 +57,7 @@ Perform these steps to use Managed Identity instead of Service Principal authent
         namespace: azureoperator-system
     spec:
         type: 0
-        ResourceID: /subscriptions/<subid>/resourcegroups/<resourcegroup>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<name>
+        resourceID: /subscriptions/<subid>/resourcegroups/<resourcegroup>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<name>
         ClientID: <Managed Identity clientId>
     ```
 
@@ -68,6 +68,6 @@ Perform these steps to use Managed Identity instead of Service Principal authent
         name: aso-identity-binding
         namespace: azureoperator-system
     spec:
-        AzureIdentity: <a-idname>
-        Selector: aso_manager_binding
+        azureIdentity: <a-idname>
+        selector: aso_manager_binding
     ```
