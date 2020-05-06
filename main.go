@@ -679,7 +679,6 @@ func main() {
 		os.Exit(1)
 	}
 
-<<<<<<< HEAD
 	if err = (&controllers.PostgreSQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
