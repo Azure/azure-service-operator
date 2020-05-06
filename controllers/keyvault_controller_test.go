@@ -148,18 +148,9 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 	defer PanicRecover(t)
 	ctx := context.Background()
 	assert := assert.New(t)
+
 	keyVaultName := GenerateTestResourceNameWithRandom("kv", 6)
 	const poll = time.Second * 10
-	keyVaultLocation := tc.resourceGroupLocation
-	limitedPermissions := []string{"backup"}
-
-	accessPolicies := azurev1alpha1.AccessPolicyEntry{
-		TenantID: config.TenantID(),
-		ClientID: config.ClientID(),
-		Permissions: &azurev1alpha1.Permissions{
-			Secrets: &limitedPermissions,
-		},
-	}
 
 	// Declare KeyVault object
 	keyVaultInstance := &azurev1alpha1.KeyVault{
@@ -168,9 +159,17 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.KeyVaultSpec{
-			Location:       keyVaultLocation,
-			ResourceGroup:  tc.resourceGroupName,
-			AccessPolicies: &[]azurev1alpha1.AccessPolicyEntry{accessPolicies},
+			Location:      tc.resourceGroupLocation,
+			ResourceGroup: tc.resourceGroupName,
+			AccessPolicies: &[]azurev1alpha1.AccessPolicyEntry{
+				{
+					TenantID: config.TenantID(),
+					ClientID: config.ClientID(),
+					Permissions: &azurev1alpha1.Permissions{
+						Secrets: &[]string{"backup"},
+					},
+				},
+			},
 		},
 	}
 
@@ -184,42 +183,45 @@ func TestKeyvaultControllerWithLimitedAccessPoliciesAndUpdate(t *testing.T) {
 	//Add code to set secret and get secret from this keyvault using secretclient
 
 	keyvaultSecretClient := kvsecrets.New(keyVaultName)
-	secretName := "test-key"
-	key := types.NamespacedName{Name: secretName, Namespace: "default"}
+	key := types.NamespacedName{Name: "test-key", Namespace: "default"}
 	datanew := map[string][]byte{
 		"test1": []byte("test2"),
 		"test2": []byte("test3"),
 	}
+
 	err := keyvaultSecretClient.Upsert(ctx, key, datanew)
-	assert.NotEqual(nil, err, "expect secret to not be inserted into keyvault")
+	assert.NotEqual(nil, err, "should not be able to insert secrets")
 
 	_, err = keyvaultSecretClient.Get(ctx, key)
 	assert.NotEqual(nil, err, "should not be able to get secrets")
 
-	updatedPermissions := []string{"get", "list", "set"}
-	accessPolicies.Permissions.Secrets = &updatedPermissions
-
 	names := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
 
-	retInstance := &azurev1alpha1.KeyVault{}
-	err = tc.k8sClient.Get(ctx, names, retInstance)
+	err = tc.k8sClient.Get(ctx, names, keyVaultInstance)
 	assert.Equal(nil, err, "get keyvault in k8s")
-	originalHash := retInstance.Status.SpecHash
-	retInstance.Spec.AccessPolicies = &[]azurev1alpha1.AccessPolicyEntry{accessPolicies}
 
-	err = tc.k8sClient.Update(ctx, retInstance)
+	originalHash := keyVaultInstance.Status.SpecHash
+	updatedPermissions := []string{"get", "list", "set"}
+	l := *keyVaultInstance.Spec.AccessPolicies
+	l[0].Permissions.Secrets = &updatedPermissions
+
+	err = tc.k8sClient.Update(ctx, keyVaultInstance)
 	assert.Equal(nil, err, "updating keyvault in k8s")
 
 	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, names, retInstance)
-		return originalHash != retInstance.Status.SpecHash
+		_ = tc.k8sClient.Get(ctx, names, keyVaultInstance)
+		return originalHash != keyVaultInstance.Status.SpecHash
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be updated")
 
-	err = keyvaultSecretClient.Upsert(ctx, key, datanew)
-	assert.Equal(nil, err, "expect secret to be inserted into keyvault after update")
+	assert.Eventually(func() bool {
+		err := keyvaultSecretClient.Upsert(ctx, key, datanew)
+		return err == nil
+	}, tc.timeoutFast, tc.retry, "secret should get inserted")
 
-	_, err = keyvaultSecretClient.Get(ctx, key)
-	assert.Equal(nil, err, "should be able to get secrets after update")
+	assert.Eventually(func() bool {
+		_, err = keyvaultSecretClient.Get(ctx, key)
+		return err == nil
+	}, tc.timeoutFast, tc.retry, "should now be able to get secret")
 
 	EnsureDelete(ctx, t, tc, keyVaultInstance)
 
@@ -334,34 +336,37 @@ func TestKeyvaultControllerWithVirtualNetworkRulesAndUpdate(t *testing.T) {
 		"test1": []byte("test2"),
 		"test2": []byte("test3"),
 	}
-	err := keyvaultSecretClient.Upsert(ctx, key, datanew)
-	assert.Equal(nil, err, "expect secret to be inserted into keyvault")
+	assert.Eventually(func() bool {
+		err := keyvaultSecretClient.Upsert(ctx, key, datanew)
+		return err == nil
+	}, tc.timeoutFast, tc.retry, "wait for secret to be inserted into keyvault")
 
-	_, err = keyvaultSecretClient.Get(ctx, key)
+	_, err := keyvaultSecretClient.Get(ctx, key)
 	assert.Equal(nil, err, "checking if secret is present in keyvault")
 
 	names := types.NamespacedName{Name: keyVaultName, Namespace: "default"}
-	retInstance := &azurev1alpha1.KeyVault{}
-	err = tc.k8sClient.Get(ctx, names, retInstance)
-
+	err = tc.k8sClient.Get(ctx, names, keyVaultInstance)
 	assert.Equal(nil, err, "get keyvault in k8s")
-	originalHash := retInstance.Status.SpecHash
+
+	originalHash := keyVaultInstance.Status.SpecHash
 	networkPolicy := azurev1alpha1.NetworkRuleSet{
 		Bypass:        "None",
 		DefaultAction: "Deny",
 	}
-	retInstance.Spec.NetworkPolicies = &networkPolicy
+	keyVaultInstance.Spec.NetworkPolicies = &networkPolicy
 
-	err = tc.k8sClient.Update(ctx, retInstance)
+	err = tc.k8sClient.Update(ctx, keyVaultInstance)
 	assert.Equal(nil, err, "updating keyvault in k8s")
 
 	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, names, retInstance)
-		return originalHash != retInstance.Status.SpecHash
+		_ = tc.k8sClient.Get(ctx, names, keyVaultInstance)
+		return originalHash != keyVaultInstance.Status.SpecHash
 	}, tc.timeout, tc.retry, "wait for keyVaultInstance to be updated")
 
-	_, err = keyvaultSecretClient.Get(ctx, key)
-	assert.NotEqual(nil, err, "should not be able to get secrets after updating network rules")
+	assert.Eventually(func() bool {
+		_, err = keyvaultSecretClient.Get(ctx, key)
+		return err != nil
+	}, tc.timeoutFast, tc.retry, "wait for secret to be inaccessible")
 
 	EnsureDelete(ctx, t, tc, keyVaultInstance)
 

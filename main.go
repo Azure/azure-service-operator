@@ -7,10 +7,19 @@ import (
 	"flag"
 	"os"
 
-	"github.com/Azure/azure-service-operator/controllers"
 	"k8s.io/apimachinery/pkg/runtime"
 
+	"github.com/Azure/azure-service-operator/controllers"
+
+	kscheme "k8s.io/client-go/kubernetes/scheme"
+	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha2 "github.com/Azure/azure-service-operator/api/v1alpha2"
+	azurev1beta1 "github.com/Azure/azure-service-operator/api/v1beta1"
 	resourceapimanagement "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	apimservice "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
@@ -47,10 +56,6 @@ import (
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-	kscheme "k8s.io/client-go/kubernetes/scheme"
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -67,6 +72,8 @@ func init() {
 
 	_ = kscheme.AddToScheme(scheme)
 	_ = azurev1alpha1.AddToScheme(scheme)
+	_ = azurev1beta1.AddToScheme(scheme)
+	_ = azurev1alpha2.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -723,6 +730,27 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "VMScaleSet")
+		os.Exit(1)
+	}
+
+	if err = (&v1alpha1.AzureSqlServer{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlServer")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.AzureSqlDatabase{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlDatabase")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.AzureSqlFirewallRule{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlFirewallRule")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.AzureSqlFailoverGroup{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlFailoverGroup")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.BlobContainer{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "BlobContainer")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
