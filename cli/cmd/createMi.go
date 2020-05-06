@@ -111,7 +111,7 @@ metadata:
   namespace: azureoperator-system
 spec:
   type: 0
-  ResourceID: /subscriptions/{{ .Subscription }}/resourcegroups/{{ .ResourceGroup }}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{{ .ManagedIdentity }}
+  resourceID: /subscriptions/{{ .Subscription }}/resourcegroups/{{ .ResourceGroup }}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{{ .ManagedIdentity }}
   ClientID: {{ .ManagedIdentityClientID }}
 ---
 apiVersion: "aadpodidentity.k8s.io/v1"
