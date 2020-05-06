@@ -80,7 +80,7 @@ func NewGenCommand() (*cobra.Command, error) {
 
 			// group definitions by package
 			packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-			for _, def := range scanner.Structs {
+			for _, def := range scanner.Definitions {
 
 				shouldExport, reason := configuration.ShouldExport(def)
 				var motivation string
@@ -88,19 +88,22 @@ func NewGenCommand() (*cobra.Command, error) {
 					motivation = "because " + reason
 				}
 
+				defRef := def.Reference()
+
 				switch shouldExport {
 				case jsonast.Skip:
-					log.Printf("Skipping struct %s/%s %s", def.PackagePath(), def.Name(), motivation)
+					log.Printf("Skipping struct %s/%s %s", defRef.PackagePath(), defRef.Name(), motivation)
 
 				case jsonast.Export:
-					log.Printf("Exporting struct %s/%s %s", def.PackagePath(), def.Name(), motivation)
+					log.Printf("Exporting struct %s/%s %s", defRef.PackagePath(), defRef.Name(), motivation)
 
-					if pkg, ok := packages[def.PackageReference]; ok {
+					pkgRef := defRef.PackageReference
+					if pkg, ok := packages[pkgRef]; ok {
 						pkg.AddDefinition(def)
 					} else {
-						pkg = astmodel.NewPackageDefinition(def.PackageReference)
+						pkg = astmodel.NewPackageDefinition(pkgRef)
 						pkg.AddDefinition(def)
-						packages[def.PackageReference] = pkg
+						packages[pkgRef] = pkg
 					}
 				}
 			}
@@ -121,7 +124,7 @@ func NewGenCommand() (*cobra.Command, error) {
 				pkg.EmitDefinitions(outputDir)
 			}
 
-			log.Printf("Completed writing %v resources\n", len(scanner.Structs))
+			log.Printf("Completed writing %v resources\n", len(scanner.Definitions))
 
 			return nil
 		}),

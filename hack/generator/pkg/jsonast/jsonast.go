@@ -38,22 +38,22 @@ type (
 
 	// A SchemaScanner is used to scan a JSON Schema extracting and collecting type definitions
 	SchemaScanner struct {
-		Structs      map[astmodel.StructReference]*astmodel.StructDefinition
+		Definitions  map[astmodel.DefinitionName]astmodel.Definition
 		TypeHandlers map[SchemaType]TypeHandler
 		Filters      []string
 		idFactory    astmodel.IdentifierFactory
 	}
 )
 
-// FindStruct looks to see if we have seen the specified struct before, returning its definition if we have.
-func (scanner *SchemaScanner) FindStruct(ref astmodel.StructReference) (*astmodel.StructDefinition, bool) {
-	result, ok := scanner.Structs[ref]
+// FindDefinition looks to see if we have seen the specified definiton before, returning its definition if we have.
+func (scanner *SchemaScanner) FindDefinition(ref astmodel.DefinitionName) (astmodel.Definition, bool) {
+	result, ok := scanner.Definitions[ref]
 	return result, ok
 }
 
 // AddStruct makes a record of the specified struct so that FindStruct() can return it when it is needed again.
-func (scanner *SchemaScanner) AddStruct(structDefinition *astmodel.StructDefinition) {
-	scanner.Structs[structDefinition.StructReference] = structDefinition
+func (scanner *SchemaScanner) AddDefinition(def astmodel.Definition) {
+	scanner.Definitions[*def.Reference()] = def
 }
 
 // Definitions for different kinds of JSON schema
@@ -84,7 +84,7 @@ func (use *UnknownSchemaError) Error() string {
 // NewSchemaScanner constructs a new scanner, ready for use
 func NewSchemaScanner(idFactory astmodel.IdentifierFactory) *SchemaScanner {
 	return &SchemaScanner{
-		Structs:      make(map[astmodel.StructReference]*astmodel.StructDefinition),
+		Definitions:  make(map[astmodel.DefinitionName]astmodel.Definition),
 		TypeHandlers: DefaultTypeHandlers(),
 		idFactory:    idFactory,
 	}
@@ -182,14 +182,15 @@ func (scanner *SchemaScanner) ToNodes(ctx context.Context, schema *gojsonschema.
 	rootStructRef := astmodel.NewStructReference(
 		scanner.idFactory.CreateIdentifier(rootStructName),
 		scanner.idFactory.CreateGroupName(rootStructGroup),
-		scanner.idFactory.CreatePackageNameFromVersion(rootStructVersion))
+		scanner.idFactory.CreatePackageNameFromVersion(rootStructVersion),
+		false)
 
 	// TODO: make safer:
 	root := astmodel.NewStructDefinition(rootStructRef, nodes.(*astmodel.StructType).Fields()...)
 	description := "Generated from: " + url.String()
 	root = root.WithDescription(&description)
 
-	scanner.AddStruct(root)
+	scanner.AddDefinition(root)
 
 	return root, nil
 }
@@ -351,22 +352,25 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 		return nil, err
 	}
 
+	isResource := isResource(url)
+
 	// produce a usable struct name:
 	structReference := astmodel.NewStructReference(
 		scanner.idFactory.CreateIdentifier(name),
 		scanner.idFactory.CreateGroupName(group),
-		scanner.idFactory.CreatePackageNameFromVersion(version))
+		scanner.idFactory.CreatePackageNameFromVersion(version),
+		isResource)
 
 	if schemaType == Object {
 		// see if we already generated a struct for this ref
 		// TODO: base this on URL?
-		if definition, ok := scanner.FindStruct(structReference); ok {
-			return &definition.StructReference, nil
+		if definition, ok := scanner.FindDefinition(structReference.DefinitionName); ok {
+			return definition.Reference(), nil
 		}
 
 		// Add a placeholder to avoid recursive calls
 		sd := astmodel.NewStructDefinition(structReference)
-		scanner.AddStruct(sd)
+		scanner.AddDefinition(sd)
 	}
 
 	result, err := scanner.RunHandler(ctx, schemaType, schema.RefSchema)
@@ -377,15 +381,15 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 	// if we got back a struct type, give it a name
 	// (i.e. emit it as a "type X struct {}")
 	// and return that instead
-	if std, ok := result.(*astmodel.StructType); ok {
+	if structType, ok := result.(*astmodel.StructType); ok {
 
 		description := "Generated from: " + url.String()
 
-		sd := astmodel.NewStructDefinition(structReference, std.Fields()...).WithDescription(&description)
+		sd := astmodel.NewStructDefinition(structReference, structType.Fields()...).WithDescription(&description)
 
 		// this will overwrite placeholder added above
-		scanner.AddStruct(sd)
-		return &sd.StructReference, nil
+		scanner.AddDefinition(sd)
+		return sd.Reference(), nil
 	}
 
 	return result, err
@@ -415,7 +419,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 			fields = append(fields, s.Fields()...)
 
 		case *astmodel.StructReference:
-			// if it's a reference to a struct type, embed it inside:
+			// if it's a reference to a defined struct, embed it inside:
 			s := d.(*astmodel.StructReference)
 			fields = append(fields, astmodel.NewEmbeddedStructDefinition(s))
 
@@ -593,6 +597,18 @@ func groupOf(url *url.URL) (string, error) {
 	}
 
 	return strings.TrimSuffix(file, ".json"), nil
+}
+
+func isResource(url *url.URL) bool {
+	fragmentParts := strings.FieldsFunc(url.Fragment, isURLPathSeparator)
+
+	for _, fragmentPart := range fragmentParts {
+		if fragmentPart == "resourceDefinitions" {
+			return true
+		}
+	}
+
+	return false
 }
 
 var versionRegex = regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}")

@@ -39,10 +39,10 @@ type TypeFilter struct {
 }
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
-func (filter *TypeFilter) AppliesToType(definition *astmodel.StructDefinition) bool {
+func (filter *TypeFilter) AppliesToType(definition astmodel.Definition) bool {
 	// TODO: also allow filtering on package group name
-	result := filter.nameMatches(definition.Name()) &&
-		filter.versionMatches(definition.StructReference.PackageReference.PackageName())
+	result := filter.nameMatches(definition.Reference().Name()) &&
+		filter.versionMatches(definition.Reference().PackageName())
 
 	return result
 }

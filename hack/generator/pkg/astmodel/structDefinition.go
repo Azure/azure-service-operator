@@ -8,49 +8,21 @@ package astmodel
 import (
 	"go/ast"
 	"go/token"
-	"path/filepath"
 )
-
-// Package refernece indicates which package
-// a struct belongs to.
-type PackageReference struct {
-	groupName   string
-	packageName string
-}
-
-func (pr *PackageReference) PackagePath() string {
-	return filepath.Join(pr.GroupName(), pr.PackageName())
-}
-
-func (pr *PackageReference) GroupName() string {
-	return pr.groupName
-}
-
-func (pr *PackageReference) PackageName() string {
-	return pr.packageName
-}
 
 // StructReference is the (versioned) name of a struct
 // that can be used as a type
 type StructReference struct {
-	PackageReference
-	name string
+	DefinitionName
+	isResource bool // this might seem like a strange place to have this, but it affects how the struct is referenced
 }
 
-func NewStructReference(name string, group string, version string) StructReference {
-	return StructReference{PackageReference{group, version}, name}
+func NewStructReference(name string, group string, version string, isResource bool) StructReference {
+	return StructReference{DefinitionName{PackageReference{group, version}, name}, isResource}
 }
 
-// assert that we implemented Type correctly
-var _ Type = (*StructReference)(nil)
-
-// AsType implements Type for StructReference
-func (sr *StructReference) AsType() ast.Expr {
-	return ast.NewIdent(sr.name)
-}
-
-func (sr *StructReference) RequiredImports() []PackageReference {
-	return []PackageReference{sr.PackageReference}
+func (sr *StructReference) IsResource() bool {
+	return sr.isResource
 }
 
 // StructDefinition encapsulates the definition of a struct
@@ -62,14 +34,19 @@ type StructDefinition struct {
 }
 
 // StructDefinition must implement Definition
-var _ Definition = &StructDefinition{}
+var _ Definition = (*StructDefinition)(nil)
+
+func (definition *StructDefinition) Reference() *DefinitionName {
+	return &definition.DefinitionName
+}
+
+func (definition *StructDefinition) Type() Type {
+	return &definition.StructType
+}
 
 // NewStructDefinition is a factory method for creating a new StructDefinition
 func NewStructDefinition(ref StructReference, fields ...*FieldDefinition) *StructDefinition {
-	return &StructDefinition{
-		StructReference: ref,
-		StructType:      StructType{fields},
-	}
+	return &StructDefinition{ref, StructType{fields}, ""}
 }
 
 // WithDescription adds a description (doc-comment) to the struct
@@ -114,9 +91,16 @@ func (definition *StructDefinition) FileNameHint() string {
 }
 
 // AsDeclaration generates an AST node representing this struct definition
-func (definition *StructDefinition) AsDeclaration() ast.Decl {
+func (definition *StructDefinition) AsDeclarations() []ast.Decl {
 
-	identifier := ast.NewIdent(definition.name)
+	var identifier *ast.Ident
+	if definition.IsResource() {
+		// if it's a resource then this is the Spec type and we will generate
+		// the non-spec type later:
+		identifier = ast.NewIdent(definition.name + "Spec")
+	} else {
+		identifier = ast.NewIdent(definition.name)
+	}
 
 	typeSpecification := &ast.TypeSpec{
 		Name: identifier,
@@ -125,18 +109,74 @@ func (definition *StructDefinition) AsDeclaration() ast.Decl {
 
 	declaration := &ast.GenDecl{
 		Tok: token.TYPE,
+		Doc: &ast.CommentGroup{},
 		Specs: []ast.Spec{
 			typeSpecification,
 		},
 	}
 
 	if definition.description != "" {
-		declaration.Doc = &ast.CommentGroup{
-			List: []*ast.Comment{
-				{Text: "\n/* " + definition.description + " */"},
-			},
-		}
+		declaration.Doc.List = append(declaration.Doc.List,
+			&ast.Comment{Text: "\n/* " + definition.description + " */"})
 	}
 
-	return declaration
+	declarations := []ast.Decl{declaration}
+
+	if definition.IsResource() {
+		resourceIdentifier := ast.NewIdent(definition.name)
+
+		/*
+			start off with:
+				metav1.TypeMeta   `json:",inline"`
+				metav1.ObjectMeta `json:"metadata,omitempty"`
+
+			then the Spec field
+		*/
+		resourceTypeSpec := &ast.TypeSpec{
+			Name: resourceIdentifier,
+			Type: &ast.StructType{
+				Fields: &ast.FieldList{
+					List: []*ast.Field{
+						typeMetaField,
+						objectMetaField,
+						defineField("Spec", identifier.Name, "`json:\"spec,omitempty\"`"),
+					},
+				},
+			},
+		}
+
+		resourceDeclaration := &ast.GenDecl{
+			Tok:   token.TYPE,
+			Specs: []ast.Spec{resourceTypeSpec},
+			Doc: &ast.CommentGroup{
+				List: []*ast.Comment{
+					{
+						Text: "// +kubebuilder:object:root=true\n",
+					},
+				},
+			},
+		}
+
+		declarations = append(declarations, resourceDeclaration)
+	}
+
+	return declarations
 }
+
+func defineField(fieldName string, typeName string, tag string) *ast.Field {
+
+	result := &ast.Field{
+		Type: ast.NewIdent(typeName),
+		Tag:  &ast.BasicLit{Kind: token.STRING, Value: tag},
+	}
+
+	if fieldName != "" {
+		result.Names = []*ast.Ident{ast.NewIdent(fieldName)}
+	}
+
+	return result
+}
+
+// TODO: metav1 import should be added via RequiredImports?
+var typeMetaField = defineField("", "metav1.TypeMeta", "`json:\",inline\"`")
+var objectMetaField = defineField("", "metav1.ObjectMeta", "`json:\"metadata,omitempty\"`")

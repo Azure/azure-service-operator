@@ -14,12 +14,17 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+// Shared test values:
+var person2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01", false))
+var post2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01", false))
+var student2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01", false))
+
 func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	person := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01"))
-	post := astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01"))
-	student := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01"))
+	person := person2020
+	post := post2019
+	student := student2019
 	filter := jsonast.TypeFilter{Name: "p*"}
 
 	// Name starts with "p" should be selected
@@ -33,9 +38,9 @@ func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
 func Test_FilterByVersion_CorrectlySelectsStructs(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	person := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01"))
-	post := astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01"))
-	student := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01"))
+	person := person2020
+	post := post2019
+	student := student2019
 	filter := jsonast.TypeFilter{Version: "2019-*"}
 
 	// Version from 2019 should be selected
@@ -49,9 +54,9 @@ func Test_FilterByVersion_CorrectlySelectsStructs(t *testing.T) {
 func Test_FilterByMultipleConditions_CorrectlySelectsStructs(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	person := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01"))
-	post := astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01"))
-	student := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01"))
+	person := person2020
+	post := post2019
+	student := student2019
 	filter := jsonast.TypeFilter{Name: "p*", Version: "2019-*"}
 
 	// Version not selected by filter

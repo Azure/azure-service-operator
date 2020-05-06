@@ -27,7 +27,7 @@ func NewTestStruct(name string, fields ...string) StructDefinition {
 		fs = append(fs, NewFieldDefinition(n, n, StringType))
 	}
 
-	ref := NewStructReference(name, "group", "2020-01-01")
+	ref := NewStructReference(name, "group", "2020-01-01", false)
 	definition := NewStructDefinition(ref, fs...)
 
 	return *definition

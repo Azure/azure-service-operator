@@ -13,11 +13,22 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+// Shared test values:
+var person2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2019-01-01", false))
+var post2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01", false))
+var student2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01", false))
+
+var address2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("address", "group", "2020-01-01", false))
+var person2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01", false))
+var professor2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("professor", "group", "2020-01-01", false))
+var student2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2020-01-01", false))
+var tutor2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("tutor", "group", "2020-01-01", false))
+
 func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
-	person := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01"))
-	post := astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01"))
-	student := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01"))
+	person := person2020
+	post := post2019
+	student := student2019
 
 	filter := TypeFilter{Action: IncludeType, Version: "2019*"}
 	config := NewExportConfiguration(&filter)
@@ -29,10 +40,10 @@ func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
 
 func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
-	person := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01"))
-	post := astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01"))
-	student := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01"))
-	address := astmodel.NewStructDefinition(astmodel.NewStructReference("address", "group", "2020-01-01"))
+	person := person2020
+	post := post2019
+	student := student2019
+	address := address2020
 
 	versionFilter := TypeFilter{
 		Action:  IncludeType,
@@ -50,14 +61,6 @@ func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
 
 func Test_WithMultipleFilters_GivesPrecedenceToEarlierFilters(t *testing.T) {
 	g := NewGomegaWithT(t)
-
-	person2019 := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2019-01-01"))
-	student2019 := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01"))
-
-	person2020 := astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01"))
-	professor2020 := astmodel.NewStructDefinition(astmodel.NewStructReference("professor", "group", "2020-01-01"))
-	tutor2020 := astmodel.NewStructDefinition(astmodel.NewStructReference("tutor", "group", "2020-01-01"))
-	student2020 := astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2020-01-01"))
 
 	alwaysExportPerson := TypeFilter{
 		Action: IncludeType,

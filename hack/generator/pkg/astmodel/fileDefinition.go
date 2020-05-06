@@ -28,13 +28,22 @@ func NewFileDefinition(packageRef PackageReference, definitions ...Definition) *
 	return &FileDefinition{packageRef, definitions}
 }
 
-// AsAst generates an AST node representing this file
-func (file *FileDefinition) AsAst() ast.Node {
+func (file *FileDefinition) generateImportSpecs() []ast.Spec {
 
-	// Create import header:
+	metav1 := ast.NewIdent("metav1")
+	importSpecs := []ast.Spec{
+		&ast.ImportSpec{
+			Name: metav1,
+			Path: &ast.BasicLit{
+				Kind:  token.STRING,
+				Value: "\"k8s.io/apimachinery/pkg/apis/meta/v1\"",
+			},
+		},
+	}
+
 	var requiredImports = make(map[PackageReference]bool) // fake set type
 	for _, s := range file.definitions {
-		for _, requiredImport := range s.RequiredImports() {
+		for _, requiredImport := range s.Type().RequiredImports() {
 			// no need to import the current package
 			if requiredImport != file.PackageReference {
 				requiredImports[requiredImport] = true
@@ -42,27 +51,60 @@ func (file *FileDefinition) AsAst() ast.Node {
 		}
 	}
 
-	var decls []ast.Decl
-	if len(requiredImports) > 0 {
-		var importSpecs []ast.Spec
-
-		for requiredImport, _ := range requiredImports {
-			importSpecs = append(importSpecs, &ast.ImportSpec{
-				Name: nil,
-				Path: &ast.BasicLit{
-					Kind: token.STRING,
-					// TODO: this will need adjusting in future:
-					Value: "\"github.com/Azure/k8s-infra/hack/generator/apis/" + requiredImport.PackagePath() + "\"",
-				},
-			})
-		}
-
-		decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: importSpecs})
+	for requiredImport := range requiredImports {
+		importSpecs = append(importSpecs, &ast.ImportSpec{
+			Name: nil,
+			Path: &ast.BasicLit{
+				Kind: token.STRING,
+				// TODO: this will need adjusting in future:
+				Value: "\"github.com/Azure/k8s-infra/hack/generator/apis/" + requiredImport.PackagePath() + "\"",
+			},
+		})
 	}
+
+	return importSpecs
+}
+
+// AsAst generates an AST node representing this file
+func (file *FileDefinition) AsAst() ast.Node {
+
+	var decls []ast.Decl
+
+	// Create import header:
+	decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs()})
 
 	// Emit all definitions:
 	for _, s := range file.definitions {
-		decls = append(decls, s.AsDeclaration())
+		decls = append(decls, s.AsDeclarations()...)
+	}
+
+	// Emit struct registration for each resource:
+	var exprs []ast.Expr
+	for _, defn := range file.definitions {
+		if structDefn, ok := defn.(*StructDefinition); ok && structDefn.IsResource() {
+			exprs = append(exprs, &ast.UnaryExpr{
+				Op: token.AND,
+				X:  &ast.CompositeLit{Type: structDefn.StructReference.AsType()},
+			})
+		}
+	}
+
+	if len(exprs) > 0 {
+		decls = append(decls,
+			&ast.FuncDecl{
+				Type: &ast.FuncType{Params: &ast.FieldList{}},
+				Name: ast.NewIdent("init"),
+				Body: &ast.BlockStmt{
+					List: []ast.Stmt{
+						&ast.ExprStmt{
+							X: &ast.CallExpr{
+								Fun:  ast.NewIdent("SchemeBuilder.Register"), // HACK
+								Args: exprs,
+							},
+						},
+					},
+				},
+			})
 	}
 
 	result := &ast.File{
