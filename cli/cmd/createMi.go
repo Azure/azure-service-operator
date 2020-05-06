@@ -80,7 +80,7 @@ Creates a new MI, assigns necessary roles, displays helpful follow-up commands.`
 				out, err := RunCommand(rendered.String())
 				fmt.Println(string(out))
 				if err != nil {
-					if strings.Contains(string(out), "No matches in graph database") || strings.Contains(string(out), "does not exist in the directory") {
+					if strings.Contains(string(out), "No matches in graph database") || strings.Contains(string(out), "does not exist in the directory") || strings.Contains(string(out), "Cannot find user or service principal in graph database"){
 						time.Sleep(10 * time.Second)
 						continue
 					}
