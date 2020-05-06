@@ -58,3 +58,17 @@ func (structType *StructType) RequiredImports() []PackageReference {
 
 	return result
 }
+
+func (structType *StructType) References(t Type) bool {
+	if structType == t {
+		return true
+	}
+
+	for _, field := range structType.fields {
+		if field.FieldType().References(t) {
+			return true
+		}
+	}
+
+	return false
+}

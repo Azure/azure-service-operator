@@ -34,4 +34,9 @@ type Type interface {
 
 	// AsType renders the current instance as a Go abstract syntax tree
 	AsType() ast.Expr
+
+	// Does this Type include any direct references to the given Type?
+	// "Direct" means we don't walk into any StructReferences (nor could we with these arguments),
+	// but we do walk into included StructTypes.
+	References(t Type) bool
 }

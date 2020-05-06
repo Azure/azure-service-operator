@@ -43,3 +43,7 @@ func (prim *PrimitiveType) AsType() ast.Expr {
 func (prim *PrimitiveType) RequiredImports() []PackageReference {
 	return nil
 }
+
+func (prim *PrimitiveType) References(t Type) bool {
+	return prim == t
+}

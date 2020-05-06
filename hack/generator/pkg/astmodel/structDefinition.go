@@ -60,11 +60,6 @@ func (definition *StructDefinition) WithDescription(description *string) *Struct
 	return &result
 }
 
-// Name returns the name of the struct
-func (definition *StructDefinition) Name() string {
-	return definition.name
-}
-
 // Field provides indexed access to our fields
 func (definition *StructDefinition) Field(index int) FieldDefinition {
 	return *definition.fields[index]

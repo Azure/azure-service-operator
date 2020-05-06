@@ -32,3 +32,7 @@ func (array *ArrayType) AsType() ast.Expr {
 func (array *ArrayType) RequiredImports() []PackageReference {
 	return array.element.RequiredImports()
 }
+
+func (array *ArrayType) References(t Type) bool {
+	return array == t || array.element.References(t)
+}

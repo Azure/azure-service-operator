@@ -42,3 +42,7 @@ func (m *MapType) RequiredImports() []PackageReference {
 	result = append(result, m.value.RequiredImports()...)
 	return result
 }
+
+func (m *MapType) References(t Type) bool {
+	return m == t || m.key.References(t) || m.value.References(t)
+}
