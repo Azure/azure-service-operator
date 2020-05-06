@@ -120,7 +120,7 @@ metadata:
   name: aso-identity-binding
   namespace: azureoperator-system
 spec:
-  AzureIdentity: {{ .ManagedIdentity }}
+  azureIdentity: {{ .ManagedIdentity }}
   Selector: aso_manager_binding
 `
 
