@@ -121,7 +121,7 @@ metadata:
   namespace: azureoperator-system
 spec:
   azureIdentity: {{ .ManagedIdentity }}
-  Selector: aso_manager_binding
+  selector: aso_manager_binding
 `
 
 		fmt.Println("cat <<EOF | kubectl apply -f -")
