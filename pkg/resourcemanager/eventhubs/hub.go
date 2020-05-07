@@ -296,7 +296,8 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 			instance.Status.State = string(hub.Status)
 			instance.Status.Message = "The configured secret name was already owned by another eventhub"
 			instance.Status.Provisioning = false
-			instance.Status.Provisioned = true
+			instance.Status.Provisioned = false
+			instance.Status.FailedProvisioning = true
 			instance.Status.ResourceId = *hub.ID
 			return true, nil
 		}
@@ -310,6 +311,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
+	instance.Status.FailedProvisioning = false
 	instance.Status.ResourceId = *hub.ID
 	return true, nil
 }
