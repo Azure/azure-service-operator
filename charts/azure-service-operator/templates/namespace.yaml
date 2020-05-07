@@ -1,6 +1,8 @@
-{{- if .Values.createNamespace }}apiVersion: v1
+{{- if .Values.createNamespace }}
+apiVersion: v1
 kind: Namespace
 metadata:
   labels:
     control-plane: controller-manager
-  name: {{ .Values.namespace }}{{- end }}
+  name: {{ .Values.namespace }}
+{{- end }}
