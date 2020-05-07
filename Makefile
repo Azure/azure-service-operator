@@ -120,6 +120,7 @@ validate-copyright-headers:
 	@./scripts/validate-copyright-headers.sh
 
 # Generate manifests for helm and package them up
+# Note: If running on a non Mac OS, replace 'sed -i '' -e ..' to 'sed -i -e ..'
 helm-chart-manifests: manifests
 	# create directory for generated files
 	mkdir charts/azure-service-operator/templates/generated
@@ -128,7 +129,7 @@ helm-chart-manifests: manifests
 	# remove namespace, as we need to wrap it in a conditional since Helm 3 does not autocreate them
 	rm charts/azure-service-operator/templates/generated/*_namespace_*
 	# replace hard coded ASO image with Helm templating
-	sed -i '' -e 's@controller:latest@{{ .Values.image.repository }}@' ./charts/azure-service-operator/templates/generated/apps_v1_deployment_azureoperator-controller-manager.yaml
+	sed -i '' -e 's/controller:latest/{{ .Values.image.repository }}/' ./charts/azure-service-operator/templates/generated/*_deployment_*
 	# replace hard coded namespace with Helm templating
 	find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' -e 's/namespace: azureoperator-system/namespace: {{ .Values.namespace }}/' {} \;
 	# wrap CRDs in Helm conditional syntax
@@ -139,8 +140,6 @@ helm-chart-manifests: manifests
 	helm package ./charts/azure-service-operator -d ./charts
 	# update Chart.yaml for Helm Repository
 	helm repo index ./charts
-
-delete-helm-gen-manifests:
 	# remove directory containing generated manifests for Helm Chart
 	rm -rf charts/azure-service-operator/templates/generated/
 
