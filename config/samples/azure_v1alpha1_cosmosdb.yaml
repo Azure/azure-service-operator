@@ -3,9 +3,11 @@ kind: CosmosDB
 metadata:
   name: cosmosdb-sample-1
 spec:
+  # possible values are 'GlobalDocumentDB', 'MongoDB'. 
   kind: GlobalDocumentDB
   location: westus
   resourceGroup: resourcegroup-azure-operators
+  # Start of properties
   properties:
     databaseAccountOfferType: Standard
 
@@ -23,19 +25,20 @@ spec:
     # mongoDBVersion: "3.6"
 
     # enable virtual network rules if configured below
-    # isVirtualNetworkFilterEnabled: true
+    isVirtualNetworkFilterEnabled: true
+  # End of properties
 
   # optionally restrict access to specific virtual networks
-  # virtualNetworkRules:
-  #   - subnetId: /subscriptions/{subscription_id}/resourceGroups/{resourcegroup}/providers/Microsoft.Network/virtualNetworks/{vnet_name}/subnets/{subnet_name}
-  #     ignoreMissingServiceEndpoint: false
+  virtualNetworkRules:
+    - subnetID: /subscriptions/{subscriptionID}/resourceGroups/{resourcegroupID}/providers/Microsoft.Network/virtualNetworks/{vnetID}/subnets/{subnetID}
+      ignoreMissingVNetServiceEndpoint: true
 
   # optionally configure different CIDR IP ranges for allowed-list, omitting allows all or falls back to vNetRules
-  # ipRules:
+  ipRules:
   #   # the ips in this rule are needed to access your db from the portal
-  #   - 104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26
+    - 104.42.195.92
   #   # add additional ips you would like to grant access
-  #   - 1.2.3.4
+    - 1.2.3.4
 
   # optionally configure multiple regions and availability zone redundancy
   # locations:
