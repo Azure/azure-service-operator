@@ -10,6 +10,9 @@ createNamespace: True
 # Optional, Custom Namespace 
 namespace: azureoperator-system
 
+# Optional, whether or not to install CRDs along with the Helm Chart
+installCRD: True
+
 # Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
 cloudEnvironment: AzurePublicCloud
 
