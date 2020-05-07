@@ -140,10 +140,8 @@ helm-chart-manifests: manifests
 	# update Chart.yaml for Helm Repository
 	helm repo index ./charts
 
-testing-claudia:
-	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec sed -i '' -e '/name:/s/$$/-test/' {} \;
-
 delete-helm-gen-manifests:
+	# removed directory of generated manifests for Helm Chart
 	rm -rf charts/azure-service-operator/templates/generated/
 
 # Generate manifests e.g. CRD, RBAC etc.
