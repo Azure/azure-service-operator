@@ -170,7 +170,7 @@ helm-chart-manifests: manifests
 	helm repo index ./charts
 
 delete-helm-gen-manifests:
-	# removed directory of generated manifests for Helm Chart
+	# remove directory containing generated manifests for Helm Chart
 	rm -rf charts/azure-service-operator/templates/generated/
 
 # Generate manifests e.g. CRD, RBAC etc.
