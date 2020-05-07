@@ -45,6 +45,12 @@ spec:
                 name: azureoperatorsettings
                 key: AZURE_OPERATOR_KEYVAULT
                 optional: true
+          - name: AZURE_CLOUD_ENV
+            valueFrom:
+              secretKeyRef:
+                key: AZURE_CLOUD_ENV
+                name: azureoperatorsettings
+                optional: true
           #requeue after time in seconds"
           - name: REQUEUE_AFTER
             value: "30"
