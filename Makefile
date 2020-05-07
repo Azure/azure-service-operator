@@ -83,9 +83,22 @@ test-cleanup-azure-resources:
 	    az group delete --name $$rgname --no-wait --yes; \
     done
 
+# Build the docker image
+docker-build:
+	docker build . -t ${IMG} ${ARGS}
+	@echo "updating kustomize image patch file for manager resource"
+	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
+
+# Push the docker image
+docker-push:
+	docker push ${IMG}
+
+# Build and Push the docker image
+build-and-push: docker-build docker-push
+
 # Build manager binary
 manager: generate fmt vet
-	go build -o manager main.go
+	go build -o bin/manager main.go
 
 # Run against the configured Kubernetes cluster in ~/.kube/config
 run: generate fmt vet
@@ -164,6 +177,62 @@ install-bindata:
 generate-template:
 	go-bindata -pkg template -prefix pkg/template/assets/ -o pkg/template/templates.go pkg/template/assets/
 
+create-kindcluster:
+ifeq (,$(shell kind get clusters))
+	@echo "no kind cluster"
+else
+	@echo "kind cluster is running, deleteing the current cluster"
+	kind delete cluster
+endif
+	@echo "creating kind cluster"
+	kind create cluster
+
+set-kindcluster: install-kind
+ifeq (${shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
+	@echo "kubeconfig-path points to kind path"
+else
+	@echo "please run below command in your shell and then re-run make set-kindcluster"
+	@echo  "\e[31mexport KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")\e[0m"
+	@exit 111
+endif
+	make create-kindcluster
+
+	@echo "getting value of KUBECONFIG"
+	@echo ${KUBECONFIG}
+	@echo "getting value of kind kubeconfig-path"
+
+	kubectl cluster-info
+	kubectl create namespace azureoperator-system
+	kubectl --namespace azureoperator-system \
+		create secret generic azureoperatorsettings \
+		--from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
+		--from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
+		--from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
+		--from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
+
+	make install-cert-manager
+
+	#create image and load it into cluster
+	make install
+	IMG="docker.io/controllertest:1" make docker-build
+	kind load docker-image docker.io/controllertest:1 --loglevel "trace"
+
+	kubectl get namespaces
+	kubectl get pods --namespace cert-manager
+	@echo "Waiting for cert-manager to be ready"
+	kubectl wait pod -n cert-manager --for condition=ready --timeout=60s --all
+	@echo "all the pods should be running"
+	make deploy
+	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
+
+install-kind:
+ifeq (,$(shell which kind))
+	@echo "installing kind"
+	GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
+else
+	@echo "kind has been installed"
+endif
+
 install-kubebuilder:
 ifeq (,$(shell which kubebuilder))
 	@echo "installing kubebuilder"
@@ -189,6 +258,12 @@ ifeq (,$(shell which kustomize))
 else
 	@echo "kustomize has been installed"
 endif
+
+install-cert-manager:
+	kubectl create namespace cert-manager
+	kubectl label namespace cert-manager cert-manager.io/disable-validation=true
+	kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+
 
 install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
