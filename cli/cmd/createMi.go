@@ -112,7 +112,7 @@ metadata:
 spec:
   type: 0
   resourceID: /subscriptions/{{ .Subscription }}/resourcegroups/{{ .ResourceGroup }}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{{ .ManagedIdentity }}
-  ClientID: {{ .ManagedIdentityClientID }}
+  clientID: {{ .ManagedIdentityClientID }}
 ---
 apiVersion: "aadpodidentity.k8s.io/v1"
 kind: AzureIdentityBinding
