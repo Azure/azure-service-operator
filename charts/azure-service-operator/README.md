@@ -110,6 +110,7 @@ The following table lists the configurable parameters of the azure-service-opera
 | `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azure-service-operator:0.0.20258` |
 | `cloudEnvironment`  | Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud | `AzurePublicCloud` |
 | `createNamespace`  | Set to True if you would like the namespace autocreated, otherwise False if you have an existing namespace. If using an existing namespace, the `namespace` field must also be updated | `True` |
+| `installCRD`  | Flag that will install CRD definitions along with Helm Chart install. Set to false if CRDs already exist on the cluster | `True` |
 | `namespace`  | Configure a custom namespace to deploy the operator into | `azureoperator-system` |
 | `aad-pod-identity.azureIdentity.resourceID`  | The resource ID for your managed identity | `` |
 | `aad-pod-identity.azureIdentity.clientID`  | The client ID for your managed identity | `` |
