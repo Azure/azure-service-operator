@@ -121,13 +121,27 @@ validate-copyright-headers:
 
 # Generate manifests for helm and package them up
 helm-chart-manifests: manifests
+	# create directory for generated files
 	mkdir charts/azure-service-operator/templates/generated
+	# generate files using kustomize
 	kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
-	rm charts/azure-service-operator/templates/generated/~g_v1_namespace_azureoperator-system.yaml
+	# remove namespace, as we need to wrap it in a conditional since Helm 3 does not autocreate them
+	rm charts/azure-service-operator/templates/generated/*_namespace_*
+	# replace hard coded ASO image with Helm templating
 	sed -i '' -e 's@controller:latest@{{ .Values.image.repository }}@' ./charts/azure-service-operator/templates/generated/apps_v1_deployment_azureoperator-controller-manager.yaml
-	find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' -e 's@namespace: azureoperator-system@namespace: {{ .Values.namespace }}@' {} \;
+	# replace hard coded namespace with Helm templating
+	find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' -e 's/namespace: azureoperator-system/namespace: {{ .Values.namespace }}/' {} \;
+	# wrap CRDs in Helm conditional syntax
+	find ./charts/azure-service-operator/templates/generated/ -name *customresourcedefinition* -exec bash -c '(echo "{{- if .Values.installCRD }}"; cat {}) > tmp.yaml && mv tmp.yaml {} && echo "{{- end }}" >> {}' _ {} \;
+	# create unique names so each instance of the operator has its own role binding 
+	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec sed -i '' -e '/name: azure/s/$$/-{{ .Values.namespace }}/' {} \;
+	# package the necessary files into a tar file
 	helm package ./charts/azure-service-operator -d ./charts
+	# update Chart.yaml for Helm Repository
 	helm repo index ./charts
+
+testing-claudia:
+	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec sed -i '' -e '/name:/s/$$/-test/' {} \;
 
 delete-helm-gen-manifests:
 	rm -rf charts/azure-service-operator/templates/generated/

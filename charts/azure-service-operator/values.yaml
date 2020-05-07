@@ -10,6 +10,9 @@ createNamespace: True
 # Optional, Custom Namespace 
 namespace: azureoperator-system
 
+# Optional, whether or not to install CRDs along with the Helm Chart
+installCRD: True
+
 # Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
 cloudEnvironment: AzurePublicCloud
 
@@ -21,7 +24,7 @@ azureClientSecret: ""
 azureUseMI: False
 
 image:
-  repository: mcr.microsoft.com/k8s/azure-service-operator:0.0.20258
+  repository: mcr.microsoft.com/k8s/azure-service-operator:0.0.21437
 
 aad-pod-identity:
   azureIdentityBinding:
