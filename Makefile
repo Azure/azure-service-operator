@@ -9,7 +9,7 @@ GOBIN=$(shell go env GOBIN)
 endif
 
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
-CRD_OPTIONS ?= "crd:trivialVersions=true"
+CRD_OPTIONS ?= "crd"
 
 BUILD_ID ?= $(shell git rev-parse --short HEAD)
 
@@ -163,7 +163,7 @@ generate: manifests
 # download controller-gen if necessary
 controller-gen:
 ifeq (, $(shell which controller-gen))
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
+	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.5
 CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 else
 CONTROLLER_GEN=$(shell which controller-gen)
