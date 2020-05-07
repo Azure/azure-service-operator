@@ -58,7 +58,7 @@ Perform these steps to use Managed Identity instead of Service Principal authent
     spec:
         type: 0
         resourceID: /subscriptions/<subid>/resourcegroups/<resourcegroup>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<name>
-        ClientID: <Managed Identity clientId>
+        clientID: <Managed Identity clientId>
     ```
 
     ```yaml
