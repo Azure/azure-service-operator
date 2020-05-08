@@ -94,6 +94,9 @@ resources:
   version: v1alpha1
 - group: azure
   version: v1alpha1
+  kind: AzureSQLManagedUser
+- group: azure
+  version: v1alpha1
   kind: AzureLoadBalancer
 - group: azure
   version: v1alpha1
