@@ -58,19 +58,13 @@ stages:
         checkLatest: true
 
     - task: Docker@2
-      displayName: Build Docker image
-      inputs:
-        command: 'build'
-        Dockerfile: 'devops/Dockerfile'
-        tags: '$(tag)'
-        arguments: '--build-arg AZURE_CLIENT_ID=$(AZURE_CLIENT_ID) --build-arg AZURE_CLIENT_SECRET=$(AZURE_SP_SECRET) --build-arg AZURE_TENANT_ID=$(AZURE_TENANT_ID) --build-arg AZURE_SUBSCRIPTION_ID=$(AZURE_SUBSCRIPTION_ID) --build-arg CLUSTERNAME=$(CLUSTERNAME) --build-arg RESOURCEGROUP=$(RESOURCEGROUP)'
-    
-    - task: Docker@2
-      displayName: Push Docker image
+      displayName: Build and push Docker image
       inputs:
         containerRegistry: 'ASO-ACR'
         repository: '$(imageRepository)'
-        command: 'push'
+        command: 'buildAndPush'
+        Dockerfile: 'devops/Dockerfile'
+        buildContext: '$(System.DefaultWorkingDirectory)'
         tags: '$(tag)'
         
 - stage: Deploy
