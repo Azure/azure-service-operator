@@ -9,9 +9,9 @@ ARG AZURE_SUBSCRIPTION_ID
 ARG CLUSTERNAME
 ARG RESOURCEGROUP
 
-RUN az login --service-principal -u '$AZURE_CLIENT_ID' -p='$AZURE_CLIENT_SECRET' --tenant '$AZURE_TENANT_ID' && \
-az account set -s '$AZURE_SUBSCRIPTION_ID' && \
-az aks get-credentials -n '$CLUSTERNAME' -g '$RESOURCEGROUP' --admin
+#RUN az login --service-principal -u '$AZURE_CLIENT_ID' -p='$AZURE_CLIENT_SECRET' --tenant '$AZURE_TENANT_ID' && \
+#az account set -s '$AZURE_SUBSCRIPTION_ID' && \
+#az aks get-credentials -n '$CLUSTERNAME' -g '$RESOURCEGROUP' --admin
 
 WORKDIR /
 
