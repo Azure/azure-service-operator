@@ -24,6 +24,7 @@ import (
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlmanageduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlmanageduser"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
@@ -396,6 +397,25 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureSQLManagedUserReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
+				secretClient,
+				scheme.Scheme,
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSqlManagedUser",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlManagedUser"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlManagedUser-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
