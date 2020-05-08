@@ -73,9 +73,8 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 				key.String(),
 				fmt.Sprintf("%s-%s", key.Namespace, key.Name),
 			)
-				return false, nil
+			return false, nil
 		}
-		
 
 		secret, err = NewSecret(instance.Name)
 		if err != nil {
