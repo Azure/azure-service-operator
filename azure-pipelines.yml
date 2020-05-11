@@ -65,7 +65,6 @@ stages:
       inputs:
         command: 'get'
         arguments: '-d'
-        workingDirectory: '$(GOBIN)'
 
     - task: Bash@3
       displayName: Install kubebuilder and test dependencies
