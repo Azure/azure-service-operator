@@ -10,6 +10,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	"github.com/Azure/go-autorest/autorest/azure/auth"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -57,7 +58,9 @@ import (
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
+
 	// +kubebuilder:scaffold:imports
+	"net/http"
 )
 
 var (
@@ -781,4 +784,20 @@ func main() {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
+
+	//Response to AKS liveness check
+	http.HandleFunc("/healthz", HealthCheck)
+}
+
+// HealthCheck function is to check the availability of the service operator pod
+func HealthCheck(w http.ResponseWriter, req *http.Request) {
+
+	_, err := auth.NewAuthorizerFromEnvironment()
+	if err != nil {
+		w.WriteHeader(500)
+	} else {
+		w.WriteHeader(200)
+		w.Write([]byte("ok"))
+	}
+
 }
