@@ -4,6 +4,9 @@ trigger:
 resources:
 - repo: self
 
+pool:
+  vmImage: 'Ubuntu 16.04'
+
 variables:
   imageRepository: 'manager'
   containerRegistry: '$(CONTAINER_REGISTRY)'
@@ -26,10 +29,6 @@ variables:
   # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
   # OPERATOR_NAMESPACE      - set this value in Azure Devops variables
   # REQUEUE_AFTER:          - set this value in Azure Devops variables
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
 
 
 stages:
