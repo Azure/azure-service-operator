@@ -37,7 +37,7 @@ stages:
   jobs:
   - job:
     steps:
-    - script: |
+    - bash: |
         set -x
         mkdir -p '$(GOBIN)'
         mkdir -p '$(GOPATH)/pkg'
