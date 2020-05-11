@@ -37,15 +37,18 @@ stages:
   jobs:
   - job:
     steps:
-    - bash: |
-        set -x
-        mkdir -p '$(GOBIN)'
-        mkdir -p '$(GOPATH)/pkg'
-        mkdir -p '$(MODULE_PATH)'
-        shopt -s extglob
-        mv !(GOPATH) '$(MODULE_PATH)'
-        go version
-        go env 
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          set -x
+          mkdir -p '$(GOBIN)'
+          mkdir -p '$(GOPATH)/pkg'
+          mkdir -p '$(MODULE_PATH)'
+          shopt -s extglob
+          mv !(GOPATH) '$(MODULE_PATH)'
+          go version
+          go env 
       displayName: 'Set up the Go workspace'
       env:
         GO111MODULE: on
