@@ -65,7 +65,7 @@ stages:
       inputs:
         command: 'get'
         arguments: '-d'
-        workingDirectory: '$(GOPATH)'
+        workingDirectory: '$(GOBIN)'
 
     - task: Bash@3
       displayName: Install kubebuilder and test dependencies
@@ -81,7 +81,7 @@ stages:
           export PATH=$PATH:/usr/local/kubebuilder/bin
           echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
           make install-test-dependencies
-        workingDirectory: '$(GOPATH)'
+        workingDirectory: '$(GOBIN)'
     
     - task: Bash@3
       inputs:
