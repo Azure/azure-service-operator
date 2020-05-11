@@ -69,7 +69,11 @@ var _ = Describe("PSQL server", func() {
 			)
 			if err != nil {
 				fmt.Println(err.Error())
-				if !errhelp.IsAsynchronousOperationNotComplete(err) {
+				ignore := []string{
+					errhelp.AsyncOpIncompleteError,
+				}
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if !helpers.ContainsString(ignore, azerr.Type) {
 					fmt.Println("error occured")
 					return false
 				}
@@ -92,7 +96,11 @@ var _ = Describe("PSQL server", func() {
 			_, err = PSQLServerManager.DeleteServer(ctx, psqlServer, rgName)
 			if err != nil {
 				fmt.Println(err.Error())
-				if !errhelp.IsAsynchronousOperationNotComplete(err) {
+				ignore := []string{
+					errhelp.AsyncOpIncompleteError,
+				}
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if !helpers.ContainsString(ignore, azerr.Type) {
 					fmt.Println("error occured")
 					return false
 				}
@@ -124,7 +132,11 @@ var _ = Describe("PSQL server", func() {
 				_, err = PSQLFirewallRuleManager.CreateFirewallRule(ctx, rgName, psqlServer, psqlFirewallRule, "0.0.0.0", "0.0.0.0")
 				if err != nil {
 					fmt.Println(err.Error())
-					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+					ignore := []string{
+						errhelp.AsyncOpIncompleteError,
+					}
+					azerr := errhelp.NewAzureErrorAzureError(err)
+					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
 					}
@@ -145,7 +157,11 @@ var _ = Describe("PSQL server", func() {
 				_, err = PSQLFirewallRuleManager.DeleteFirewallRule(ctx, rgName, psqlServer, psqlFirewallRule)
 				if err != nil {
 					fmt.Println(err.Error())
-					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+					ignore := []string{
+						errhelp.AsyncOpIncompleteError,
+					}
+					azerr := errhelp.NewAzureErrorAzureError(err)
+					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
 					}

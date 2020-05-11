@@ -74,8 +74,11 @@ var _ = AfterSuite(func() {
 	By("tearing down the test environment")
 	// delete the resource group and contained resources
 	_, err := tc.ResourceGroupManager.DeleteGroup(ctx, tc.ResourceGroupName)
-	if !errhelp.IsAsynchronousOperationNotComplete(err) {
-
+	ignore := []string{
+		errhelp.AsyncOpIncompleteError,
+	}
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	if !helpers.ContainsString(ignore, azerr.Type) {
 		return
 	}
 
@@ -85,7 +88,11 @@ var _ = AfterSuite(func() {
 		if err == nil {
 
 		} else {
-			if errhelp.IsGroupNotFound(err) {
+			catch := []string{
+				errhelp.ResourceGroupNotFoundErrorCode,
+			}
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if helpers.ContainsString(catch, azerr.Type) {
 				break
 			} else {
 				return

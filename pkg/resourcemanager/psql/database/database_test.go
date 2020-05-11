@@ -69,7 +69,11 @@ var _ = Describe("PSQL database", func() {
 			)
 			if err != nil {
 				fmt.Println(err.Error())
-				if !errhelp.IsAsynchronousOperationNotComplete(err) {
+				ignore := []string{
+					errhelp.AsyncOpIncompleteError,
+				}
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if !helpers.ContainsString(ignore, azerr.Type) {
 					fmt.Println("error occured")
 					return false
 				}
@@ -92,7 +96,11 @@ var _ = Describe("PSQL database", func() {
 			_, err = PSQLServerManager.DeleteServer(ctx, psqlServer, rgName)
 			if err != nil {
 				fmt.Println(err.Error())
-				if !errhelp.IsAsynchronousOperationNotComplete(err) {
+				ignore := []string{
+					errhelp.AsyncOpIncompleteError,
+				}
+				azerr := errhelp.NewAzureErrorAzureError(err)
+				if !helpers.ContainsString(ignore, azerr.Type) {
 					fmt.Println("error occured")
 					return false
 				}
@@ -124,7 +132,11 @@ var _ = Describe("PSQL database", func() {
 				_, err = PSQLDatabaseManager.CreateDatabaseIfValid(ctx, psqlDatabase, psqlServer, rgName)
 				if err != nil {
 					fmt.Println(err.Error())
-					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+					ignore := []string{
+						errhelp.AsyncOpIncompleteError,
+					}
+					azerr := errhelp.NewAzureErrorAzureError(err)
+					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
 					}
@@ -145,7 +157,11 @@ var _ = Describe("PSQL database", func() {
 				_, err = PSQLDatabaseManager.DeleteDatabase(ctx, psqlDatabase, psqlServer, rgName)
 				if err != nil {
 					fmt.Println(err.Error())
-					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+					ignore := []string{
+						errhelp.AsyncOpIncompleteError,
+					}
+					azerr := errhelp.NewAzureErrorAzureError(err)
+					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
 					}
