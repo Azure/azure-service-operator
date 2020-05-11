@@ -67,20 +67,21 @@ stages:
         arguments: '-d'
         workingDirectory: '$(GOPATH)'
 
-    - bash: |
-        set -x
-        go env
-        os=$(go env GOOS)
-        arch=$(go env GOARCH)
-        curl -sL https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
-        mv $(go env GOPATH)/bin/kubebuilder_2.3.1_${os}_${arch} /usr/local/kubebuilder
-
-        export PATH=$PATH:/usr/local/kubebuilder/bin
-        echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
-
-        make install-test-dependencies
-      workingDirectory: '$(GOPATH)'
+    - task: Bash@3
       displayName: Install kubebuilder and test dependencies
+      inputs:
+        targetType: 'inline'
+        script: |
+          set -x
+          go env
+          os=$(go env GOOS)
+          arch=$(go env GOARCH)
+          curl -sL https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
+          mv $(go env GOPATH)/bin/kubebuilder_2.3.1_${os}_${arch} /usr/local/kubebuilder
+          export PATH=$PATH:/usr/local/kubebuilder/bin
+          echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
+          make install-test-dependencies
+        workingDirectory: '$(GOPATH)'
     
     - task: Bash@3
       inputs:
