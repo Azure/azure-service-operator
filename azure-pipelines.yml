@@ -6,8 +6,26 @@ resources:
 
 variables:
   imageRepository: 'manager'
-  containerRegistry: '$(REGISTRY)'
+  containerRegistry: '$(CONTAINER_REGISTRY)'
   tag: '$(Build.BuildId)'
+  MAJOR_VERSION: 0
+  MINOR_VERSION: 0
+  PATCH_VERSION: $(Build.BuildId)
+  GOROOT: '/usr/local/go1.13' # Go installation path
+  GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
+  GOBIN:  '$(GOPATH)/bin' # Go binaries path
+  MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
+  IMAGE_NAME: 'candidate/k8s/azure-service-operator'
+  KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+  # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Service Connection
+  # ACR_NAME                - set this value in Azure Devops variables - Name of ACR
+  # ACR_SUBSCRIPTION        - set this value in Azure Devops variables - Subscription where we have ACR
+  # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
+  # AZURE_TENANT_ID:        - set this value in Azure Devops variables
+  # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
+  # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
+  # OPERATOR_NAMESPACE      - set this value in Azure Devops variables
+  # REQUEUE_AFTER:          - set this value in Azure Devops variables
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -15,74 +33,135 @@ variables:
 
 
 stages:
-- stage: Build
+- stage: Build and Validate files
   jobs:
   - job:
     steps:
+    - script: |
+        set -x
+        mkdir -p '$(GOBIN)'
+        mkdir -p '$(GOPATH)/pkg'
+        mkdir -p '$(MODULE_PATH)'
+        shopt -s extglob
+        mv !(GOPATH) '$(MODULE_PATH)'
+        go version
+        go env 
+      displayName: 'Set up the Go workspace'
+      env:
+        GO111MODULE: on
+
     - task: GoTool@0
       displayName: Get Go 1.13.7
       inputs:
         version: '1.13.7'
+        goPath: '$(GOPATH)'
+        goBin: '$(GOBIN)'
 
     - task: Go@0
       displayName: Go Get
       inputs:
         command: 'get'
         arguments: '-d'
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        workingDirectory: '$(GOPATH)'
 
     - bash: |
         set -x
         go env
         os=$(go env GOOS)
         arch=$(go env GOARCH)
-        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
+        curl -sL https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
         mv $(go env GOPATH)/bin/kubebuilder_2.3.1_${os}_${arch} /usr/local/kubebuilder
 
         export PATH=$PATH:/usr/local/kubebuilder/bin
         echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
 
         make install-test-dependencies
-      workingDirectory: '$(System.DefaultWorkingDirectory)'
+      workingDirectory: '$(GOPATH)'
       displayName: Install kubebuilder and test dependencies
       
-    - bash: make manager
-      workingDirectory: '$(System.DefaultWorkingDirectory)'
-      displayName: Build manager binary
-      
-    - task: Kubernetes@1
-      displayName: Fetch kubeconfig
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'ASO-AKS'
-        namespace: 'azureoperator-system'
-        command: 'login'
-        checkLatest: true
+    - script: make validate-copyright-headers
+      continueOnError: 'false'
+      displayName: 'Validate Copyright Headers'
+      workingDirectory: '$(MODULE_PATH)'
 
-    - task: Docker@2
-      displayName: Build and push Docker image
+- stage: Test
+  jobs:
+  - job:
+    displayName: Run integration tests & publish reports
+    steps:
+    - script: |
+        set -e
+        export PATH=$PATH:$(go env GOPATH)/bin
+        GO111MODULE="on" go get sigs.k8s.io/kind@v0.7.0
+        kind create cluster
+        export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
+        kubectl cluster-info
+        make install
+        kubectl get namespaces
+        make install-test-dependencies
+        make test-integration-controllers
+      displayName: 'Run tests on a Kind Cluster'
+      env:
+        GO111MODULE: on
+        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+        REQUEUE_AFTER: $(REQUEUE_AFTER)
+        KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
+        BUILD_ID: $(Build.BuildId)
+      workingDirectory: '$(MODULE_PATH)'
+
+    - bash: |
+        export PATH=$PATH:$(go env GOPATH)/bin
+
+        make test-process-coverage
+      displayName: Render Coverage Reports
+      continueOnError: true
+      workingDirectory: '$(MODULE_PATH)'
+
+    - task: PublishTestResults@2
       inputs:
-        containerRegistry: 'ASO-ACR'
-        repository: '$(imageRepository)'
-        command: 'buildAndPush'
-        Dockerfile: 'devops/Dockerfile'
-        buildContext: '$(System.DefaultWorkingDirectory)'
-        tags: '$(tag)'
+        testRunner: JUnit
+        testResultsFiles: $(MODULE_PATH)/reports/*-report.xml
+      
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: Cobertura 
+        summaryFileLocation: $(MODULE_PATH)/reports/merged-coverage.xml
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish test reports'
+      inputs:
+        pathtoPublish: '$(MODULE_PATH)/reports'
+        artifactName: reports
+    
+    - task: AzureCLI@2
+      displayName: 'Cleanup Azure Resources'
+      inputs:
+        azureSubscription: 'tpark-jananiv-azureserviceoperators(4ef44fef-c51d-4d7c-a6ff-8635c02848b1)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'make test-cleanup-azure-resources'
         
 - stage: Deploy
   jobs:
-  - job: InstallControllers
-    displayName: Install CRD's
+  - job: SetupCluster
+    displayName: Install CRDs
     steps:
     - task: Kubernetes@1
       displayName: Fetch kubeconfig
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'ASO-AKS'
-        namespace: 'azureoperator-system'
+        namespace: $(OPERATOR_NAMESPACE)
         command: 'login'
         checkLatest: true
-    - bash: make install
+    - script: |
+        kubectl create namespace cert-manager
+        kubectl label namespace cert-manager cert-manager.io/disable-validation=true
+        kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+      displayName: 'Install Cert Manager'
   - job:
     displayName: Deploy charts
     steps:
@@ -98,99 +177,17 @@ stages:
       name: bake
       inputs:
         action: bake
+        namespace: 'default'
         helmChart: charts/azure-service-operator-0.1.0.tgz
         overrides: |
-          image.repository:$(containerRegistry)/$(imageRepository)
+          image.repository:$(containerRegistry)/$(IMAGE_NAME)
     - task: KubernetesManifest@0
       displayName: Helm deploy
       inputs:
         action: 'deploy'
         kubernetesServiceConnection: 'ASO-AKS'
-        namespace: 'azureoperator-system'
+        namespace: $(OPERATOR_NAMESPACE)
         manifests: '$(bake.manifestsBundle)'
-
-- stage: Test
-  jobs:
-  - job:
-    displayName: Run integration tests
-    steps:
-    - task: Kubernetes@1
-      displayName: Fetch kubeconfig
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'ASO-AKS'
-        namespace: 'azureoperator-system'
-        command: 'login'
-        checkLatest: true
-
-    - bash: |
-        set -x
-        go env
-        os=$(go env GOOS)
-        arch=$(go env GOARCH)
-        curl -L https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
-        mv $(go env GOPATH)/bin/kubebuilder_2.3.1_${os}_${arch} /usr/local/kubebuilder
-
-        export PATH=$PATH:/usr/local/kubebuilder/bin
-        echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
-
-        make install-test-dependencies
-      displayName: Install kubebuilder and test dependencies
-
-    - bash: |
-        export PATH=$PATH:$(go env GOPATH)/bin
-
-        make install-test-dependencies
-        make test-integration-controllers
-      displayName: Test Controllers
-      continueOnError: true
-      env:
-        AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-        AZURE_CLIENT_SECRET: $(AZURE_SP_SECRET)
-        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-        AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
-        AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-        BUILD_ID: $(Build.BuildId)
-
-    # The manager tests have been disabled as their addition casues the build pipeline to time out on a single hosted node
-    # It can be re-enabled once tests are run in parallel or more than 1 hour of execution time is permitted for the suite
-    # - bash: |
-    #     export PATH=$PATH:$(go env GOPATH)/bin
-    #     make install-test-dependencies
-
-    #     make test-integration-managers
-    #   displayName: Test Managers
-    #   continueOnError: true
-    #   env:
-    #     AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-    #     AZURE_CLIENT_SECRET: $(AZURE_SP_SECRET)
-    #     AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-    #     AZURE_OPERATOR_KEYVAULT: $(AZURE_OPERATOR_KEYVAULT)
-    #     AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-    #     BUILD_ID: $(Build.BuildId)
-
-    - bash: |
-        export PATH=$PATH:$(go env GOPATH)/bin
-
-        make test-process-coverage
-      displayName: Render Coverage Reports
-      continueOnError: true
-      workingDirectory: '$(System.DefaultWorkingDirectory)'
-
-    - task: PublishTestResults@2
-      inputs:
-        testRunner: JUnit
-        testResultsFiles: $(System.DefaultWorkingDirectory)/reports/*-report.xml
-      
-    - task: PublishCodeCoverageResults@1
-      inputs:
-        codeCoverageTool: Cobertura 
-        summaryFileLocation: $(System.DefaultWorkingDirectory)/reports/merged-coverage.xml
-    
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathtoPublish: '$(System.DefaultWorkingDirectory)/reports'
-        artifactName: reports
 
 - stage: Cleanup
   jobs:
