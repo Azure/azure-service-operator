@@ -35,6 +35,7 @@ stages:
 - stage: Build and Validate files
   jobs:
   - job:
+    displayName: Build and Validate files
     steps:
     - task: Bash@3
       inputs:
