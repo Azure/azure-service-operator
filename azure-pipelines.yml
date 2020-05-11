@@ -32,7 +32,7 @@ variables:
 
 
 stages:
-- stage: Build and Validate files
+- stage: Build
   jobs:
   - job:
     displayName: Build and Validate files
