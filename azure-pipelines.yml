@@ -81,12 +81,14 @@ stages:
         make install-test-dependencies
       workingDirectory: '$(GOPATH)'
       displayName: Install kubebuilder and test dependencies
-      
-    - script: make validate-copyright-headers
-      continueOnError: 'false'
+    
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: 'make validate-copyright-headers'
+        workingDirectory: '$(MODULE_PATH)'
       displayName: 'Validate Copyright Headers'
-      workingDirectory: '$(MODULE_PATH)'
-
+      
 - stage: Test
   jobs:
   - job:
