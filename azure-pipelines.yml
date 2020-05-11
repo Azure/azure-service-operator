@@ -43,9 +43,11 @@ stages:
         echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
 
         make install-test-dependencies
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
       displayName: Install kubebuilder and test dependencies
       
     - bash: make manager
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
       displayName: Build manager binary
       
     - task: Kubernetes@1
