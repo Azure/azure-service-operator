@@ -6,7 +6,7 @@ WORKDIR /
 
 #COPY . ./
 
-COPY /manager .
+COPY /bin/manager .
 
 ENV REQUEUE_AFTER "30"
 
