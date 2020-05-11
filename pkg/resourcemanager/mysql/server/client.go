@@ -70,43 +70,41 @@ func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, servername 
 	if !valid {
 		return "", server, err
 	}
+
 	var result mysql.ServersCreateFuture
+	var serverProperties mysql.BasicServerPropertiesForCreate
+	var skuData *mysql.Sku
+
 	if strings.EqualFold(createmode, "replica") {
-		result, _ = client.Create(
-			ctx,
-			resourcegroup,
-			servername,
-			mysql.ServerForCreate{
-				Location: &location,
-				Tags:     tags,
-				Properties: &mysql.ServerPropertiesForReplica{
-					SourceServerID: to.StringPtr(sourceserver),
-					CreateMode:     mysql.CreateModeReplica,
-				},
-			},
-		)
+		serverProperties = &mysql.ServerPropertiesForReplica{
+			SourceServerID: to.StringPtr(sourceserver),
+			CreateMode:     mysql.CreateModeReplica,
+		}
 
 	} else {
+		serverProperties = &mysql.ServerPropertiesForDefaultCreate{
+			AdministratorLogin:         &adminlogin,
+			AdministratorLoginPassword: &adminpassword,
+			Version:                    serverversion,
+			SslEnforcement:             sslenforcement,
+			//StorageProfile: &mysql.StorageProfile{},
+			CreateMode: mysql.CreateModeServerPropertiesForCreate,
+		}
+		skuData = &skuInfo
 
-		result, _ = client.Create(
-			ctx,
-			resourcegroup,
-			servername,
-			mysql.ServerForCreate{
-				Location: &location,
-				Tags:     tags,
-				Properties: &mysql.ServerPropertiesForDefaultCreate{
-					AdministratorLogin:         &adminlogin,
-					AdministratorLoginPassword: &adminpassword,
-					Version:                    serverversion,
-					SslEnforcement:             sslenforcement,
-					//StorageProfile: &mysql.StorageProfile{},
-					CreateMode: mysql.CreateModeServerPropertiesForCreate,
-				},
-				Sku: &skuInfo,
-			},
-		)
 	}
+
+	result, _ = client.Create(
+		ctx,
+		resourcegroup,
+		servername,
+		mysql.ServerForCreate{
+			Location:   &location,
+			Tags:       tags,
+			Properties: serverProperties,
+			Sku:        skuData,
+		},
+	)
 
 	res, err := result.Result(client)
 	return result.PollingURL(), res, err
