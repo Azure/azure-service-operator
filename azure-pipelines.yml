@@ -15,9 +15,9 @@ variables:
   MINOR_VERSION: 0
   PATCH_VERSION: $(Build.BuildId)
   GOROOT: '/usr/local/go1.13' # Go installation path
-  GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
-  GOBIN:  '$(GOPATH)/bin' # Go binaries path
-  MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
+  #GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
+  #GOBIN:  '$(GOPATH)/bin' # Go binaries path
+  MODULE_PATH: '$(System.DefaultWorkingDirectory)/src/$(Build.Repository.Name)' # Path to the module's code
   IMAGE_NAME: 'candidate/k8s/azure-service-operator'
   KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Service Connection
@@ -39,22 +39,7 @@ stages:
   - job:
     displayName: Build and Validate files
     steps:
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          set -x
-          mkdir -p '$(GOBIN)'
-          mkdir -p '$(GOPATH)/pkg'
-          mkdir -p '$(MODULE_PATH)'
-          shopt -s extglob
-          mv !(GOPATH) '$(MODULE_PATH)'
-          go version
-          go env 
-      displayName: 'Set up the Go workspace'
-      env:
-        GO111MODULE: on
-
+    
     - task: GoTool@0
       displayName: Get Go 1.13.7
       inputs:
