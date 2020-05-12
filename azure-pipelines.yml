@@ -87,8 +87,8 @@ steps:
       export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
       kubectl cluster-info
       make install
-      kubectl get namespaces
-      ls
+      # Remove after
+      export BUILD_TAGS=resourcegroup
       make test-integration-controllers
     displayName: Run tests on a Kind Cluster
     env:
@@ -98,7 +98,7 @@ steps:
       AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
       AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
       REQUEUE_AFTER: $(REQUEUE_AFTER)
-      KUBEBUILDER_ASSETS: $(System.DefaultWorkingDirectory)/bin
+      KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
       BUILD_ID: $(Build.BuildId)
     workingDirectory: '$(System.DefaultWorkingDirectory)'
 
@@ -134,6 +134,10 @@ steps:
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: 'make test-cleanup-azure-resources'
+
+  - script: docker build -t $(IMAGE_NAME) .
+    displayName: Docker build
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
 
   - task: Kubernetes@1
     displayName: Deploy to AKS - Fetch kubeconfig
@@ -195,20 +199,15 @@ steps:
   ## TODO: Add a Health check task to ensure operator deployed to AKS works
   ## TODO: Delete Helm deployment 
 
-  - script: docker build -t $(IMAGE_NAME) .
-    condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Docker build
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
-
   - task: Docker@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Login to ACR
     inputs:
       command: login
       containerRegistry: $(CONTAINER_REGISTRY)
 
   - task: Docker@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Build and Push Docker Image $(IMAGE_NAME)
     inputs:
       command: buildAndPush
@@ -225,7 +224,7 @@ steps:
       echo $(IMAGE_NAME)
       IMG="$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
       echo $(IMG)
-      sed -i -e 's@IMAGE_URL@'${IMG}'@g' ./config/default/manager_image_patch.yaml
+      sed -i -e 's@controller:latest@'${IMG}'@g' ./config/default/manager_image_patch.yaml
       kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
       set -x
       echo $IMG > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
@@ -233,10 +232,10 @@ steps:
     continueOnError: 'false'
     displayName: Package artifacts (image, setup.yaml and helm charts) for release
     workingDirectory: '$(MODULE_PATH)'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
 
   - task: PublishBuildArtifacts@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       pathtoPublish: $(Build.ArtifactStagingDirectory)
       artifactName: drop
