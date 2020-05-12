@@ -4,8 +4,6 @@ trigger:
 resources:
 - repo: self
 
-pool:
-  vmImage: 'Ubuntu 16.04'
 
 variables:
   imageRepository: 'manager'
@@ -29,7 +27,9 @@ variables:
   # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
   # OPERATOR_NAMESPACE      - set this value in Azure Devops variables
   # REQUEUE_AFTER:          - set this value in Azure Devops variables
-
+  
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
 
 stages:
 - stage: Build
@@ -61,7 +61,7 @@ stages:
         goBin: '$(GOBIN)'
 
     - task: Go@0
-      displayName: Go Get
+      displayName: Get Go dependencies
       inputs:
         command: 'get'
         arguments: '-d'
