@@ -37,9 +37,9 @@ generate-test-certs:
 test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
-	./controllers/... \
-	2>&1 | tee reports/integration-controllers-output.txt
-	go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
+	./controllers/... 
+	#2>&1 | tee reports/integration-controllers-output.txt
+	#go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
 
 # Run Resource Manager tests against the configured cluster
 test-integration-managers: generate fmt vet manifests
