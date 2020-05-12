@@ -1,15 +1,5 @@
 resources:
 - certificate.yaml
 
-# the following config is for teaching kustomize how to do var substitution
-vars:
-- name: NAMESPACE # namespace of the service and the certificate CR
-  objref:
-    kind: Service
-    version: v1
-    name: webhook-service
-  fieldref:
-    fieldpath: metadata.namespace
-
 configurations:
 - kustomizeconfig.yaml

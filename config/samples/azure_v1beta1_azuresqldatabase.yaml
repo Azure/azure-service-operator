@@ -1,0 +1,12 @@
+apiVersion: azure.microsoft.com/v1beta1
+kind: AzureSqlDatabase
+metadata:
+  name:  azuresqldatabase-sample
+  labels: # Provide tags to add to AzureSqlDatabase as labels
+    tag1: value1
+    tag2: value2
+spec:
+  location: westus
+  resourceGroup: resourcegroup-azure-operators
+  server:  sqlserver-sample-777
+  edition: 0

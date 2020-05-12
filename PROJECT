@@ -1,100 +1,119 @@
-version: "2"
 domain: microsoft.com
 repo: github.com/Azure/azure-service-operator
 resources:
 - group: azure
-  version: v1alpha1
   kind: StorageAccount
-- group: azure
   version: v1alpha1
+- group: azure
   kind: CosmosDB
-- group: azure
   version: v1alpha1
+- group: azure
   kind: RedisCache
-- group: azure
   version: v1alpha1
+- group: azure
   kind: Eventhub
-- group: azure
   version: v1alpha1
+- group: azure
   kind: ResourceGroup
-- group: azure
   version: v1alpha1
+- group: azure
   kind: EventhubNamespace
-- group: azure
   version: v1alpha1
+- group: azure
   kind: AzureSqlServer
-- group: azure
   version: v1alpha1
+- group: azure
   kind: AzureSqlDatabase
-- group: azure
   version: v1alpha1
+- group: azure
   kind: AzureSqlFirewallRule
-- group: azure
   version: v1alpha1
+- group: azure
   kind: KeyVault
-- group: azure
   version: v1alpha1
+- group: azure
   kind: ConsumerGroup
-- group: azure
   version: v1alpha1
+- group: azure
   kind: AzureSqlAction
-- group: azure
   version: v1alpha1
+- group: azure
   kind: BlobContainer
-- group: azure
   version: v1alpha1
+- group: azure
   kind: PostgreSQLServer
-- group: azure
   version: v1alpha1
+- group: azure
   kind: PostgreSQLDatabase
-- group: azure
   version: v1alpha1
-  kind: PostgreSQLFirewallRule
 - group: azure
+  kind: PostgreSQLFirewallRule
   version: v1alpha1
   kind: PostgreSQLVNetRule
 - group: azure
+  kind: PostgreSQLVNetRule
   version: v1alpha1
+- group: azure
   kind: APIMgmtAPI
-- group: azure
   version: v1alpha1
+- group: azure
   kind: ApimService
-- group: azure
   version: v1alpha1
+- group: azure
   kind: VirtualNetwork
-- group: azure
   version: v1alpha1
+- group: azure
   kind: AzurePublicIPAddress
-- group: azure
   version: v1alpha1
+- group: azure
   kind: AzureNetworkInterface
-- group: azure
   version: v1alpha1
+- group: azure
   kind: AppInsights
-- group: azure
   version: v1alpha1
+- group: azure
   kind: KeyVaultKey
-- group: azure
   version: v1alpha1
+- group: azure
   kind: AzureSQLVNetRule
-- group: azure
   version: v1alpha1
+- group: azure
   kind: MySQLServer
-- group: azure
   version: v1alpha1
+- group: azure
   kind: MySQLDatabase
-- group: azure
   version: v1alpha1
+- group: azure
   kind: MySQLFirewallRule
-- group: azure
   version: v1alpha1
+- group: azure
   kind: MySQLVNetRule
+  version: v1alpha1
+- group: azure
+  kind: AzureVirtualMachine
+  version: v1alpha1
 - group: azure
   version: v1alpha1
-  kind: AzureVirtualMachine
+  kind: AzureSQLManagedUser
 - group: azure
   version: v1alpha1
   kind: AzureLoadBalancer
 - group: azure
   version: v1alpha1
   kind: AzureVMScaleSet
+- group: azure
+  kind: AzureSqlServer
+  version: v1beta1
+- group: azure
+  kind: AzureSqlDatabase
+  version: v1beta1
+- group: azure
+  kind: AzureSqlFirewallRule
+  version: v1beta1
+- group: azure
+  kind: AzureSqlFailoverGroup
+  version: v1beta1
+- group: azure
+  kind: BlobContainer
+  version: v1alpha2
+version: "2"
