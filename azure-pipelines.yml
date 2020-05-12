@@ -66,7 +66,7 @@ stages:
           export PATH=$PATH:/usr/local/kubebuilder/bin
           echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
           make install-test-dependencies
-        workingDirectory: '$(GOBIN)'
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
     
     - task: Bash@3
       inputs:
