@@ -161,6 +161,15 @@ steps:
     displayName: Deploy to AKS - Install latest Helm
     inputs:
       helmVersionToInstall: 'latest'
+  
+  - task: Bash@3
+    displayName: Replace image repository in values.yaml
+    inputs:
+      targetType: 'inline'
+      script: |
+        IMG="$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
+        echo $(IMG)
+        sed -i -e 's/azure-service-operator:latest/azure-service-operator:$(IMG)/' charts/azure-service-operator/values.yaml
 
   - script: |
       helm package charts/azure-service-operator -d ./charts
