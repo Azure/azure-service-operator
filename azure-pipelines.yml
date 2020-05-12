@@ -66,6 +66,7 @@ steps:
         # set permission
         chmod a+x $(go env GOPATH)/bin/*
         export PATH=$PATH:$(go env GOPATH)/bin
+        export PATH=$PATH:$(go env GOPATH)/bin/kustomize
         echo '##vso[task.prependpath]$(go env GOPATH)/bin'
         which kustomize
         kustomize  version
@@ -162,19 +163,32 @@ steps:
     inputs:
       helmVersionToInstall: 'latest'
   
-  - task: Bash@3
-    displayName: Replace image repository in values.yaml
-    inputs:
-      targetType: 'inline'
-      script: |
-        IMG="$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
-        echo $(IMG)
-        sed -i -e 's/azure-service-operator:latest/azure-service-operator:$(IMG)/' charts/azure-service-operator/values.yaml
-
   - script: |
-      helm package charts/azure-service-operator -d ./charts
-      helm repo index charts
-    displayName: Deploy to AKS - Helm package
+      # Replace image repository in values.yaml to the official image in ACR
+      img="$MajorVersion.$MinorVersion.$PatchVersion"
+      echo $img
+      sed -i -e 's@azure-service-operator:latest@azure-service-operator:'${img}'@' charts/azure-service-operator/values.yaml
+      # create directory for generated files
+      mkdir charts/azure-service-operator/templates/generated
+      # generate files using kustomize
+      kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
+      # remove namespace, as we need to wrap it in a conditional since Helm 3 does not autocreate them
+      rm charts/azure-service-operator/templates/generated/*_namespace_*
+      # replace hard coded ASO image with Helm templating
+      sed -i -e 's/controller:latest/{{ .Values.image.repository }}/' ./charts/azure-service-operator/templates/generated/*_deployment_*
+      # replace hard coded namespace with Helm templating
+      find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i -e 's/namespace: azureoperator-system/namespace: {{ .Values.namespace }}/' {} \;
+      # wrap CRDs in Helm conditional syntax
+      find ./charts/azure-service-operator/templates/generated/ -name *customresourcedefinition* -exec bash -c '(echo "{{- if .Values.installCRD }}"; cat {}) > tmp.yaml && mv tmp.yaml {} && echo "{{- end }}" >> {}' _ {} \;
+      # create unique names so each instance of the operator has its own role binding
+      find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec sed -i -e '/name: azure/s/$$/-{{ .Values.namespace }}/' {} \;
+      # package the necessary files into a tar file
+      helm package ./charts/azure-service-operator -d ./charts
+      # update Chart.yaml for Helm Repository
+      helm repo index ./charts
+      # remove directory containing generated manifests for Helm Chart
+      rm -rf charts/azure-service-operator/templates/generated/
+    displayName: Deploy to AKS - Helm generate and package charts
 
   - task: KubernetesManifest@0
     displayName: Deploy to AKS - Bake Helm manifests
@@ -185,28 +199,32 @@ steps:
       helmChart: charts/azure-service-operator-0.1.0.tgz
       overrides: |
         image.repository:$(containerRegistry)/$(IMAGE_NAME)
+        namespace: $(OPERATOR_NAMESPACE)
+        azureTenantID: $(AZURE_TENANT_ID)
+        azureSubscriptionID: $(AZURE_SUBSCRIPTION_ID)
 
-  - task: KubernetesManifest@0
-    displayName: Deploy to AKS - Helm deploy
-    inputs:
-      action: 'deploy'
-      kubernetesServiceConnection: 'ASO-AKS'
-      namespace: $(OPERATOR_NAMESPACE)
-      manifests: '$(bake.manifestsBundle)'
 
- # - task: HelmDeploy@0
+ # - task: KubernetesManifest@0
+ #   displayName: Deploy to AKS - Helm deploy
  #   inputs:
- #     connectionType: 'Kubernetes Service Connection'
+ #     action: 'deploy'
  #     kubernetesServiceConnection: 'ASO-AKS'
- #     namespace: '$(OPERATOR_NAMESPACE)'
- #     command: 'upgrade'
- #     chartType: 'FilePath'
- #     chartPath: 'charts/azure-service-operator-0.1.0.tgz'
- #     releaseName: 'aso'
- #     overrideValues: 'azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID), azureTenantID=$(AZURE_TENANT_ID), azureClientID=$(AZURE_CLIENT_ID), azureClientSecret=$(AZURE_CLIENT_SECRET), namespace=$(OPERATOR_NAMESPACE)'
- #     recreate: true
- #     force: true
- #     arguments: '--install'
+ #     namespace: $(OPERATOR_NAMESPACE)
+ #     manifests: '$(bake.manifestsBundle)'
+
+  - task: HelmDeploy@0
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceConnection: 'ASO-AKS'
+      namespace: '$(OPERATOR_NAMESPACE)'
+      command: 'upgrade'
+      chartType: 'FilePath'
+      chartPath: 'charts/azure-service-operator-0.1.0.tgz'
+      releaseName: 'aso'
+      overrideValues: 'azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID), azureTenantID=$(AZURE_TENANT_ID), azureClientID=$(AZURE_CLIENT_ID), azureClientSecret=$(AZURE_CLIENT_SECRET), namespace=$(OPERATOR_NAMESPACE)'
+      recreate: true
+      force: true
+      arguments: '--install'
   
   ## TODO: Add a Health check task to ensure operator deployed to AKS works
   ## TODO: Delete Helm deployment 
