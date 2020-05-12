@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -319,11 +320,12 @@ func (g *AzureSqlServerManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStat
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := v1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (s *AzureSqlServerManager) convert(obj runtime.Object) (*v1alpha1.AzureSqlServer, error) {
-	local, ok := obj.(*v1alpha1.AzureSqlServer)
+func (s *AzureSqlServerManager) convert(obj runtime.Object) (*v1beta1.AzureSqlServer, error) {
+	local, ok := obj.(*v1beta1.AzureSqlServer)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}

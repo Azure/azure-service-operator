@@ -7,6 +7,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 )
 
 // AzureSqlServerReconciler reconciles an AzureSqlServer object
@@ -23,6 +24,6 @@ func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, err
 
 func (r *AzureSqlServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.AzureSqlServer{}).
+		For(&v1beta1.AzureSqlServer{}).
 		Complete(r)
 }
