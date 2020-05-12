@@ -713,6 +713,7 @@ func setup() error {
 	log.Println(resourcemanagerconfig.SubscriptionID())
 	log.Println(resourcemanagerconfig.ClientID())
 	log.Println(resourcemanagerconfig.ClientSecret())
+	log.Println("Tenant ID is")
 	log.Println(resourcemanagerconfig.TenantID())
 	// Create the ResourceGroup resource
 	result, _ := resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
