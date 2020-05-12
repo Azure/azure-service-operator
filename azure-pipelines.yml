@@ -57,8 +57,6 @@ stages:
       displayName: Get Go 1.13.7
       inputs:
         version: '1.13.7'
-        goPath: '$(GOPATH)'
-        goBin: '$(GOBIN)'
 
     - task: Go@0
       displayName: Get Go dependencies
