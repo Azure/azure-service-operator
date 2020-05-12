@@ -4,6 +4,8 @@ trigger:
 resources:
 - repo: self
 
+pool:
+   vmImage: 'ubuntu-latest'
 
 variables:
   imageRepository: 'manager'
