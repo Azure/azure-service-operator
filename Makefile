@@ -2,12 +2,12 @@ SHELL := /bin/bash
 .DEFAULT_GOAL:=build
 
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
-REGISTRY ?= devigned
-IMG ?= k8s-infra-contoller-dev:$(timestamp)
+REGISTRY ?= localhost:5000/fake
+CONFIG_REGISTRY = kind-registry:5000/fake/k8s-infra-controller:latest
+IMG ?= k8s-infra-contoller:$(timestamp)
 CRD_OPTIONS ?= "crd:crdVersions=v1"
 
 KIND_CLUSTER_NAME ?= k8sinfra
-KIND_CLUSTER_TOUCH := .$(KIND_CLUSTER_NAME).cluster
 KIND_KUBECONFIG := $(HOME)/.kube/kind-$(KIND_CLUSTER_NAME)
 TLS_CERT_PATH := pki/certs/tls.crt
 
@@ -41,7 +41,7 @@ help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 ## --------------------------------------
-## Testing
+## Testing / Toooling
 ## --------------------------------------
 .PHONY: test test-int test-covers
 test test-int test-cover: export TEST_ASSET_KUBECTL = $(ROOT_DIR)/$(KUBECTL)
@@ -64,29 +64,20 @@ test-cover: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) generate lint manifests ## Run 
 $(KUBECTL) $(KUBE_APISERVER) $(ETCD) $(KUBEBUILDER): ## Install test asset kubectl, kube-apiserver, etcd
 	. ./scripts/fetch_ext_bins.sh && fetch_tools
 
-$(CFSSL): ## Install cfssl tool
-	cd $(TOOLS_DIR); go build -tags=tools -o bin/cfssl github.com/cloudflare/cfssl/cmd/cfssl
-
-$(CFSSLJSON): ## Install cfssljson tool
-	cd $(TOOLS_DIR); go build -tags=tools -o bin/cfssljson github.com/cloudflare/cfssl/cmd/cfssljson
-
-$(MKBUNDLE): ## Install mkbundle tool
-	cd $(TOOLS_DIR); go build -tags=tools -o bin/mkbundle github.com/cloudflare/cfssl/cmd/mkbundle
-
 $(KIND): ## Install kind tool
-	cd $(TOOLS_DIR); GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) go get -tags=tools sigs.k8s.io/kind@v0.7.0
+	GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) ./scripts/go_install.sh sigs.k8s.io/kind@v0.8.1
 
 $(KUSTOMIZE): ## Install kustomize
-	cd $(TOOLS_DIR); GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) go get -tags=tools sigs.k8s.io/kustomize/kustomize/v3
+	GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) ./scripts/go_install.sh sigs.k8s.io/kustomize/kustomize/v3@v3.5.4
 
-$(CONTROLLER_GEN): $(TOOLS_DIR)/go.mod ## Build controller-gen from tools folder.
-	cd $(TOOLS_DIR); go build -tags=tools -o bin/controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen
+$(CONTROLLER_GEN): ## Build controller-gen from tools folder.
+	GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) ./scripts/go_install.sh sigs.k8s.io/controller-tools/cmd/controller-gen@v0.3.0
 
-$(CONVERSION_GEN): $(TOOLS_DIR)/go.mod ## Build conversion-gen from tools folder.
-	cd $(TOOLS_DIR); go build -tags=tools -o bin/conversion-gen k8s.io/code-generator/cmd/conversion-gen
+$(CONVERSION_GEN): ## Build conversion-gen from tools folder.
+	GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) ./scripts/go_install.sh k8s.io/code-generator/cmd/conversion-gen@v0.18.2
 
-$(GOLANGCI_LINT): $(TOOLS_DIR)/go.mod ## Build golangci-lint from tools folder.
-	cd $(TOOLS_DIR); go build -tags=tools -o bin/golangci-lint github.com/golangci/golangci-lint/cmd/golangci-lint
+$(GOLANGCI_LINT): ## Build golangci-lint from tools folder.
+	GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) ./scripts/go_install.sh github.com/golangci/golangci-lint/cmd/golangci-lint@v1.26.0
 
 ## --------------------------------------
 ## Linting
@@ -100,54 +91,13 @@ lint: $(GOLANGCI_LINT) ## Lint codebase
 lint-full: $(GOLANGCI_LINT) ## Run slower linters to detect possible issues
 	$(GOLANGCI_LINT) run -v --fast=false --timeout 5m
 
+## --------------------------------------
+## Build
+## --------------------------------------
+
 .PHONY: build
 build: fmt ## Build manager binary
 	go build -o bin/manager main.go
-
-$(TLS_CERT_PATH): $(CFSSL) $(CFSSLJSON) $(MKBUNDLE) ## Generate local certificates so the webhooks will run
-	./scripts/gen-certs.sh
-
-.PHONY: run
-run: $(KIND) $(KIND_CLUSTER_TOUCH)
-run: export KUBECONFIG = $(KIND_KUBECONFIG)
-run: export ENVIRONMENT = development
-run: $(TLS_CERT_PATH) generate fmt manifests install ## Run a development cluster using kind
-	go run ./main.go
-
-$(KIND_CLUSTER_TOUCH): $(KIND) $(KUBECTL)
-	$(KIND) create cluster --name=$(KIND_CLUSTER_NAME) --kubeconfig=$(KIND_KUBECONFIG) --image=kindest/node:v1.16.4
-	touch $(KIND_CLUSTER_TOUCH)
-
-.PHONY: apply-certs-and-secrets
-apply-certs-and-secrets: $(KUBECTL)
-	./scripts/apply_cert_and_secrets.sh
-
-.PHONY: kind-reset
-kind-reset: $(KIND) ## Destroys the "k8sinfra" kind cluster.
-	$(KIND) delete cluster --name=$(KIND_CLUSTER_NAME) || true
-	rm -f $(KIND_CLUSTER_TOUCH)
-
-.PHONY: install
-install: manifests $(KUBECTL) $(KUSTOMIZE) ## Install CRDs into a cluster
-	$(KUSTOMIZE) build config/crd | $(KUBECTL) apply -f -
-
-.PHONY: uninstall
-uninstall: manifests $(KUBECTL) $(KUSTOMIZE) ## Uninstall CRDs from a cluster
-	$(KUSTOMIZE) build config/crd | $(KUBECTL) delete -f -
-
-.PHONY: deploy
-deploy: manifests $(KUBECTL) $(KUSTOMIZE) docker-build docker-push ## Deploy controller in the configured Kubernetes cluster in ~/.kube/config
-	cd config/manager && $(ROOT_DIR)/$(TOOLS_BIN_DIR)/kustomize edit set image controller=$(REGISTRY)/${IMG}
-	$(KUSTOMIZE) build config/default | $(KUBECTL) apply -f -
-
-.PHONY: deploy-kind
-deploy-kind: $(KIND) $(KIND_CLUSTER_TOUCH)
-deploy-kind: export KUBECONFIG = $(KIND_KUBECONFIG)
-deploy-kind: apply-certs-and-secrets deploy
-
-.PHONY: manifests
-manifests: $(CONTROLLER_GEN) ## Generate manifests e.g. CRD, RBAC etc.
-	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 
 .PHONY: fmt
 fmt: ## Run go fmt against code
@@ -158,8 +108,21 @@ vet: ## Run go vet against code
 	go vet ./...
 
 .PHONY: header-check
-header-check:
+header-check: ## Runs header checks on all files to verify boilerplate
 	./scripts/verify_boilerplate.sh
+
+.PHONY: modules
+modules: ## Runs go mod to ensure tidy.
+	go mod tidy
+	cd $(TOOLS_DIR); go mod tidy
+
+## --------------------------------------
+## Generate
+## --------------------------------------
+
+.PHONY: manifests
+manifests: $(CONTROLLER_GEN) ## Generate manifests e.g. CRD, RBAC etc.
+	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 
 .PHONY: generate
 generate: $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
@@ -170,6 +133,58 @@ generate: $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
     		--output-file-base=zz_generated.conversion \
     		--output-base=$(ROOT_DIR) \
     		--go-header-file=./hack/boilerplate.go.txt
+
+## --------------------------------------
+## Development
+## --------------------------------------
+
+.PHONY: tilt-up
+tilt-up: kind-create .env ## start tilt and build kind cluster if needed
+	tilt up
+
+.PHONY: kind-reset
+kind-reset: $(KIND) ## Destroys the "k8sinfra" kind cluster.
+	$(KIND) delete cluster --name=$(KIND_CLUSTER_NAME) || true
+
+.PHONY: kind-create
+kind-create: $(KIND) ## Destroys the "k8sinfra" kind cluster.
+	./scripts/kind-with-registry.sh
+
+.PHONY: run
+run: $(KIND) kind-create
+run: export KUBECONFIG = $(KIND_KUBECONFIG)
+run: export ENVIRONMENT = development
+run: $(TLS_CERT_PATH) generate fmt manifests install ## Run a development cluster using kind
+	go run ./main.go
+
+$(KIND_CLUSTER_TOUCH): $(KIND) $(KUBECTL)
+	$(KIND) create cluster --name=$(KIND_CLUSTER_NAME) --kubeconfig=$(KIND_KUBECONFIG) --image=kindest/node:v1.17.4
+	touch $(KIND_CLUSTER_TOUCH)
+
+.PHONY: apply-certs-and-secrets
+apply-certs-and-secrets: $(KUBECTL) ## Apply certificate manager and manager secrets into cluster
+	./scripts/apply_cert_and_secrets.sh
+
+.PHONY: deploy-kind
+deploy-kind: $(KIND) kind-create
+deploy-kind: export KUBECONFIG = $(KIND_KUBECONFIG)
+deploy-kind: apply-certs-and-secrets deploy ## Deploy manager and secrets into kind cluster
+
+.PHONY: install
+install: manifests $(KUBECTL) $(KUSTOMIZE) ## Install CRDs into a cluster
+	$(KUSTOMIZE) build config/crd | $(KUBECTL) apply -f -
+
+.PHONY: uninstall
+uninstall: manifests $(KUBECTL) $(KUSTOMIZE) ## Uninstall CRDs from a cluster
+	$(KUSTOMIZE) build config/crd | $(KUBECTL) delete -f -
+
+## --------------------------------------
+## Deploy / Release
+## --------------------------------------
+
+.PHONY: deploy
+deploy: manifests $(KUBECTL) $(KUSTOMIZE) docker-build docker-push ## Deploy controller in the configured Kubernetes cluster in ~/.kube/config
+	$(KUSTOMIZE) build config/default | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" | $(KUBECTL) apply -f -
 
 .PHONY: docker-build
 docker-build: test ## Build the docker image
@@ -182,8 +197,7 @@ docker-push: ## Push the docker image
 .PHONY: dist
 dist:
 	mkdir -p dist
-	cd config/manager && $(ROOT_DIR)/$(TOOLS_BIN_DIR)/kustomize edit set image controller=$(REGISTRY)/${IMG}
-	$(KUSTOMIZE) build config/default > dist/release.yaml
+	$(KUSTOMIZE) build config/default | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" | > dist/release.yaml
 
 .PHONY: release
 release: dist docker-build docker-push $(KUSTOMIZE) ## Build, push, generate dist for release

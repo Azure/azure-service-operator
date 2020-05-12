@@ -1,8 +1,7 @@
 resources:
 - manager.yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-images:
-- name: controller
-  newName: devigned/k8s-infra-contoller-dev
-  newTag: 20200322-194343
+
+patchesStrategicMerge:
+  - manager_auth_proxy_patch.yaml
+  - manager_image_patch.yaml
+  - manager_pull_policy.yaml

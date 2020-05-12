@@ -1,7 +1,11 @@
-./hack
-./bin
-.devcontainer
-.github
-./config
-./pki
-./scripts
+# Ignore everything
+**
+
+# Allow only these
+!/apis/**
+!/controllers/**
+!/internal/**
+!/pkg/**
+!/main.go
+!/go.mod
+!/go.sum

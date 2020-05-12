@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+
 set -o errexit
 set -o nounset
 set -o pipefail
