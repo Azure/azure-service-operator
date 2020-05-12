@@ -234,7 +234,7 @@ steps:
       cp charts/azure-service-operator-0.1.0.tgz $(Build.ArtifactStagingDirectory)
     continueOnError: 'false'
     displayName: Package artifacts (image, setup.yaml and helm charts) for release
-    workingDirectory: '$(MODULE_PATH)'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
 
   - task: PublishBuildArtifacts@1
