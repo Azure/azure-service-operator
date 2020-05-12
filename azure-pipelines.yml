@@ -222,7 +222,6 @@ steps:
       chartPath: 'charts/azure-service-operator-0.1.0.tgz'
       releaseName: 'aso'
       overrideValues: 'azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID), azureTenantID=$(AZURE_TENANT_ID), azureClientID=$(AZURE_CLIENT_ID), azureClientSecret=$(AZURE_CLIENT_SECRET), namespace=$(OPERATOR_NAMESPACE)'
-      recreate: true
       force: true
       arguments: '--install'
   
