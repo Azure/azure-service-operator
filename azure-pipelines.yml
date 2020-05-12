@@ -69,6 +69,7 @@ steps:
         echo '##vso[task.prependpath]$(go env GOPATH)/bin'
         which kustomize
         kustomize  version
+        go mod download
         make install-test-dependencies
       workingDirectory: '$(System.DefaultWorkingDirectory)'
     
