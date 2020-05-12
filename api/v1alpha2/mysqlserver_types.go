@@ -1,30 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package v1alpha1
+package v1alpha2
 
 import (
+	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+type StorageProfile struct {
+	// BackupRetentionDays - Backup retention days for the server.
+	BackupRetentionDays *int32 `json:"backupRetentionDays,omitempty"`
+	// GeoRedundantBackup - Enable Geo-redundant or not for server backup. Possible values include: 'Enabled', 'Disabled'
+	GeoRedundantBackup mysql.GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	// StorageMB - Max storage allowed for a server.
+	StorageMB *int32 `json:"storageMB,omitempty"`
+	// StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'StorageAutogrowEnabled', 'StorageAutogrowDisabled'
+	StorageAutogrow mysql.StorageAutogrow `json:"storageAutogrow,omitempty"`
+}
+
 // MySQLServerSpec defines the desired state of MySQLServer
 type MySQLServerSpec struct {
-	Location               string             `json:"location"`
-	ResourceGroup          string             `json:"resourceGroup,omitempty"`
-	Sku                    AzureDBsSQLSku     `json:"sku,omitempty"`
-	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
-	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
-	CreateMode             string             `json:"createMode,omitempty"`
-	ReplicaProperties      ReplicaProperties  `json:"replicaProperties,omitempty"`
-	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
+	Location               string                      `json:"location"`
+	ResourceGroup          string                      `json:"resourceGroup,omitempty"`
+	Sku                    v1alpha1.AzureDBsSQLSku     `json:"sku,omitempty"`
+	ServerVersion          v1alpha1.ServerVersion      `json:"serverVersion,omitempty"`
+	SSLEnforcement         v1alpha1.SslEnforcementEnum `json:"sslEnforcement,omitempty"`
+	CreateMode             string                      `json:"createMode,omitempty"`
+	ReplicaProperties      v1alpha1.ReplicaProperties  `json:"replicaProperties,omitempty"`
+	StorageProfile         *StorageProfile             `json:"storageProfile,omitempty"`
+	KeyVaultToStoreSecrets string                      `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 
 // MySQLServer is the Schema for the mysqlservers API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
@@ -33,8 +46,8 @@ type MySQLServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   MySQLServerSpec `json:"spec,omitempty"`
-	Status ASOStatus       `json:"status,omitempty"`
+	Spec   MySQLServerSpec    `json:"spec,omitempty"`
+	Status v1alpha1.ASOStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -44,10 +57,6 @@ type MySQLServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MySQLServer `json:"items"`
-}
-
-type ReplicaProperties struct {
-	SourceServerId string `json:"sourceServerId,omitempty"`
 }
 
 func init() {
@@ -63,15 +72,15 @@ func NewDefaultMySQLServer(name, resourceGroup, location string) *MySQLServer {
 		Spec: MySQLServerSpec{
 			Location:      location,
 			ResourceGroup: resourceGroup,
-			Sku: AzureDBsSQLSku{
+			Sku: v1alpha1.AzureDBsSQLSku{
 				Name:     "GP_Gen5_4",
-				Tier:     SkuTier("GeneralPurpose"),
+				Tier:     v1alpha1.SkuTier("GeneralPurpose"),
 				Family:   "Gen5",
 				Size:     "51200",
 				Capacity: 4,
 			},
-			ServerVersion:  ServerVersion("8.0"),
-			SSLEnforcement: SslEnforcementEnumEnabled,
+			ServerVersion:  v1alpha1.ServerVersion("8.0"),
+			SSLEnforcement: v1alpha1.SslEnforcementEnumEnabled,
 			CreateMode:     "Default",
 		},
 	}
@@ -87,7 +96,7 @@ func NewReplicaMySQLServer(name, resourceGroup, location string, sourceserverid 
 			Location:      location,
 			ResourceGroup: resourceGroup,
 			CreateMode:    "Replica",
-			ReplicaProperties: ReplicaProperties{
+			ReplicaProperties: v1alpha1.ReplicaProperties{
 				SourceServerId: sourceserverid,
 			},
 		},

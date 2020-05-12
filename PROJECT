@@ -47,9 +47,8 @@ resources:
   kind: PostgreSQLDatabase
   version: v1alpha1
 - group: azure
-  kind: PostgreSQLFirewallRule
-  version: v1alpha1
   kind: PostgreSQLVNetRule
+  version: v1alpha1
 - group: azure
   kind: PostgreSQLVNetRule
   version: v1alpha1
@@ -93,14 +92,14 @@ resources:
   kind: AzureVirtualMachine
   version: v1alpha1
 - group: azure
-  version: v1alpha1
   kind: AzureSQLManagedUser
-- group: azure
   version: v1alpha1
+- group: azure
   kind: AzureLoadBalancer
-- group: azure
   version: v1alpha1
+- group: azure
   kind: AzureVMScaleSet
+  version: v1alpha1
 - group: azure
   kind: AzureSqlServer
   version: v1beta1
@@ -115,5 +114,8 @@ resources:
   version: v1beta1
 - group: azure
   kind: BlobContainer
+  version: v1alpha2
+- group: azure
+  kind: MySQLServer
   version: v1alpha2
 version: "2"
