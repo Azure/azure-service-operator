@@ -72,7 +72,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: 'make validate-copyright-headers'
-        workingDirectory: '$(MODULE_PATH)'
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
       displayName: 'Validate Copyright Headers'
       
 - stage: Test
@@ -101,7 +101,7 @@ stages:
         REQUEUE_AFTER: $(REQUEUE_AFTER)
         KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
         BUILD_ID: $(Build.BuildId)
-      workingDirectory: '$(MODULE_PATH)'
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
 
     - bash: |
         export PATH=$PATH:$(go env GOPATH)/bin
@@ -109,22 +109,22 @@ stages:
         make test-process-coverage
       displayName: Render Coverage Reports
       continueOnError: true
-      workingDirectory: '$(MODULE_PATH)'
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
 
     - task: PublishTestResults@2
       inputs:
         testRunner: JUnit
-        testResultsFiles: $(MODULE_PATH)/reports/*-report.xml
+        testResultsFiles: $(System.DefaultWorkingDirectory)/reports/*-report.xml
       
     - task: PublishCodeCoverageResults@1
       inputs:
         codeCoverageTool: Cobertura 
-        summaryFileLocation: $(MODULE_PATH)/reports/merged-coverage.xml
+        summaryFileLocation: $(System.DefaultWorkingDirectory)/reports/merged-coverage.xml
     
     - task: PublishBuildArtifacts@1
       displayName: 'Publish test reports'
       inputs:
-        pathtoPublish: '$(MODULE_PATH)/reports'
+        pathtoPublish: '$(System.DefaultWorkingDirectory)/reports'
         artifactName: reports
     
     - task: AzureCLI@2
