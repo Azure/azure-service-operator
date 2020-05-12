@@ -5,12 +5,62 @@ package v1alpha2
 
 import (
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
+
+type AzureDBsSQLSku struct {
+	// Name - The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
+	Name string `json:"name,omitempty"`
+	// Tier - The tier of the particular SKU, e.g. Basic. Possible values include: 'Basic', 'GeneralPurpose', 'MemoryOptimized'
+	Tier SkuTier `json:"tier,omitempty"`
+	// Capacity - The scale up/out capacity, representing server's compute units.
+	Capacity int32 `json:"capacity,omitempty"`
+	// Size - The size code, to be interpreted by resource as appropriate.
+	Size string `json:"size,omitempty"`
+	// Family - The family of hardware.
+	Family string `json:"family,omitempty"`
+}
+
+// ServerVersion enumerates the values for server version.
+type ServerVersion string
+
+const (
+	// NineFullStopFive ...
+	NineFullStopFive ServerVersion = "9.5"
+	// NineFullStopSix ...
+	NineFullStopSix ServerVersion = "9.6"
+	// OneOne ...
+	OneOne ServerVersion = "11"
+	// OneZero ...
+	OneZero ServerVersion = "10"
+	// OneZeroFullStopTwo ...
+	OneZeroFullStopTwo ServerVersion = "10.2"
+	// OneZeroFullStopZero ...
+	OneZeroFullStopZero ServerVersion = "10.0"
+)
+
+type SkuTier string
+
+const (
+	// Basic ...
+	PSQLBasic SkuTier = "Basic"
+	// GeneralPurpose ...
+	PSQLGeneralPurpose SkuTier = "GeneralPurpose"
+	// MemoryOptimized ...
+	PSQLMemoryOptimized SkuTier = "MemoryOptimized"
+)
+
+type SslEnforcementEnum string
+
+const (
+	// SslEnforcementEnumDisabled ...
+	SslEnforcementEnumDisabled SslEnforcementEnum = "Disabled"
+	// SslEnforcementEnumEnabled ...
+	SslEnforcementEnumEnabled SslEnforcementEnum = "Enabled"
+)
 
 type StorageProfile struct {
 	// BackupRetentionDays - Backup retention days for the server.
@@ -23,21 +73,26 @@ type StorageProfile struct {
 	StorageAutogrow mysql.StorageAutogrow `json:"storageAutogrow,omitempty"`
 }
 
+type ReplicaProperties struct {
+	SourceServerId string `json:"sourceServerId,omitempty"`
+}
+
 // MySQLServerSpec defines the desired state of MySQLServer
 type MySQLServerSpec struct {
-	Location               string                      `json:"location"`
-	ResourceGroup          string                      `json:"resourceGroup,omitempty"`
-	Sku                    v1alpha1.AzureDBsSQLSku     `json:"sku,omitempty"`
-	ServerVersion          v1alpha1.ServerVersion      `json:"serverVersion,omitempty"`
-	SSLEnforcement         v1alpha1.SslEnforcementEnum `json:"sslEnforcement,omitempty"`
-	CreateMode             string                      `json:"createMode,omitempty"`
-	ReplicaProperties      v1alpha1.ReplicaProperties  `json:"replicaProperties,omitempty"`
-	StorageProfile         *StorageProfile             `json:"storageProfile,omitempty"`
-	KeyVaultToStoreSecrets string                      `json:"keyVaultToStoreSecrets,omitempty"`
+	Location               string             `json:"location"`
+	ResourceGroup          string             `json:"resourceGroup,omitempty"`
+	Sku                    AzureDBsSQLSku     `json:"sku,omitempty"`
+	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
+	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
+	CreateMode             string             `json:"createMode,omitempty"`
+	ReplicaProperties      ReplicaProperties  `json:"replicaProperties,omitempty"`
+	StorageProfile         *StorageProfile    `json:"storageProfile,omitempty"`
+	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // MySQLServer is the Schema for the mysqlservers API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
@@ -46,8 +101,8 @@ type MySQLServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   MySQLServerSpec    `json:"spec,omitempty"`
-	Status v1alpha1.ASOStatus `json:"status,omitempty"`
+	Spec   MySQLServerSpec `json:"spec,omitempty"`
+	Status ASOStatus       `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -72,15 +127,15 @@ func NewDefaultMySQLServer(name, resourceGroup, location string) *MySQLServer {
 		Spec: MySQLServerSpec{
 			Location:      location,
 			ResourceGroup: resourceGroup,
-			Sku: v1alpha1.AzureDBsSQLSku{
+			Sku: AzureDBsSQLSku{
 				Name:     "GP_Gen5_4",
-				Tier:     v1alpha1.SkuTier("GeneralPurpose"),
+				Tier:     SkuTier("GeneralPurpose"),
 				Family:   "Gen5",
 				Size:     "51200",
 				Capacity: 4,
 			},
-			ServerVersion:  v1alpha1.ServerVersion("8.0"),
-			SSLEnforcement: v1alpha1.SslEnforcementEnumEnabled,
+			ServerVersion:  ServerVersion("8.0"),
+			SSLEnforcement: SslEnforcementEnumEnabled,
 			CreateMode:     "Default",
 		},
 	}
@@ -96,7 +151,7 @@ func NewReplicaMySQLServer(name, resourceGroup, location string, sourceserverid 
 			Location:      location,
 			ResourceGroup: resourceGroup,
 			CreateMode:    "Replica",
-			ReplicaProperties: v1alpha1.ReplicaProperties{
+			ReplicaProperties: ReplicaProperties{
 				SourceServerId: sourceserverid,
 			},
 		},
