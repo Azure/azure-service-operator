@@ -65,6 +65,7 @@ stages:
       inputs:
         command: 'get'
         arguments: '-d'
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
 
     - task: Bash@3
       displayName: Install kubebuilder and test dependencies
