@@ -90,6 +90,8 @@ steps:
       make install
       # Remove after
       export BUILD_TAGS=resourcegroup
+      echo $(AZURE_TENANT_ID)
+      export AZURE_TENANT_ID=$(AZURE_TENANT_ID)
       make test-integration-controllers
     displayName: Run tests on a Kind Cluster
     env:
