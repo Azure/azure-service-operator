@@ -19,10 +19,8 @@ variables:
   #GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(System.DefaultWorkingDirectory)/src/$(Build.Repository.Name)' # Path to the module's code
   IMAGE_NAME: 'candidate/k8s/azure-service-operator'
-  KUBEBUILDER_ASSETS: $(MODULE_PATH)/bin
-  # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Service Connection
-  # ACR_NAME                - set this value in Azure Devops variables - Name of ACR
-  # ACR_SUBSCRIPTION        - set this value in Azure Devops variables - Subscription where we have ACR
+  KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
+  # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Release ACR Service Connection
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
   # AZURE_TENANT_ID:        - set this value in Azure Devops variables
   # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
@@ -55,6 +53,7 @@ steps:
       targetType: 'inline'
       script: |
         set -x
+        mkdir -p $(go env GOPATH)/bin
         go env
         os=$(go env GOOS)
         arch=$(go env GOARCH)
@@ -63,11 +62,11 @@ steps:
         export PATH=$PATH:/usr/local/kubebuilder/bin
         echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
         # download kustomize
-        curl -o $(System.DefaultWorkingDirectory)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+        curl -o $(go env GOPATH)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
         # set permission
-        chmod a+x $(System.DefaultWorkingDirectory)/bin/*
-        export PATH=$PATH:$(System.DefaultWorkingDirectory)/bin
-        echo '##vso[task.prependpath]$(System.DefaultWorkingDirectory)/bin'
+        chmod a+x $(go env GOPATH)/bin/*
+        export PATH=$PATH:$(go env GOPATH)/bin
+        echo '##vso[task.prependpath]$(go env GOPATH)/bin'
         which kustomize
         kustomize  version
         make install-test-dependencies
@@ -89,7 +88,6 @@ steps:
       kubectl cluster-info
       make install
       kubectl get namespaces
-      make install-test-dependencies
       make test-integration-controllers
     displayName: Run tests on a Kind Cluster
     env:
