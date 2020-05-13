@@ -91,9 +91,11 @@ func init() {
 
 func main() {
 	var metricsAddr string
+	var healthAddr string
 	var enableLeaderElection bool
 	var secretClient secrets.SecretClient
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
+	flag.StringVar(&healthAddr, "health-addr", ":8081", "The address the health endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
 
@@ -102,10 +104,13 @@ func main() {
 	ctrl.SetLogger(zap.Logger(true))
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
-		Scheme:             scheme,
-		MetricsBindAddress: metricsAddr,
-		LeaderElection:     enableLeaderElection,
+		Scheme:                 scheme,
+		MetricsBindAddress:     metricsAddr,
+		HealthProbeBindAddress: healthAddr,
+		LeaderElection:         enableLeaderElection,
+		LivenessEndpointName:   "/azurehealthz",
 	})
+
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
@@ -173,6 +178,18 @@ func main() {
 		scheme,
 	)
 	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
+
+	var AzureHealthCheck healthz.Checker = func(_ *http.Request) error {
+		_, err := auth.NewAuthorizerFromEnvironment()
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+	if err := mgr.AddHealthzCheck("azurehealthz", AzureHealthCheck); err != nil {
+		setupLog.Error(err, "problem running health check to azure autorizer")
+	}
 
 	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
@@ -784,18 +801,6 @@ func main() {
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
-	}
-
-	var AzureHealthCheck healthz.Checker = func(_ *http.Request) error {
-		_, err := auth.NewAuthorizerFromEnvironment()
-		if err != nil {
-			return err
-		}
-
-		return nil
-	}
-	if err := mgr.AddHealthzCheck("azurehealthz", AzureHealthCheck); err != nil {
-		setupLog.Error(err, "problem running health check to azure autorizer")
 	}
 
 }
