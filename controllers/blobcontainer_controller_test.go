@@ -12,6 +12,8 @@ import (
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/go-autorest/autorest/to"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
@@ -36,15 +38,15 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	resourceGroupName := GenerateTestResourceNameWithRandom("rg", 10)
 
 	// Create Storage account
-	saInstance := &v1alpha2.StorageAccount{
+	saInstance := &v1alpha1.StorageAccount{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      saName,
 			Namespace: "default",
 		},
-		Spec: v1alpha2.StorageAccountSpec{
+		Spec: v1alpha1.StorageAccountSpec{
 			Location:      tc.resourceGroupLocation,
 			ResourceGroup: tc.resourceGroupName,
-			Sku: v1alpha2.StorageAccountSku{
+			Sku: v1alpha1.StorageAccountSku{
 				Name: "Standard_RAGRS",
 			},
 			Kind:                   "StorageV2",
