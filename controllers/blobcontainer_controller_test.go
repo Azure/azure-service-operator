@@ -12,7 +12,6 @@ import (
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/go-autorest/autorest/to"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 
@@ -37,15 +36,15 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	resourceGroupName := GenerateTestResourceNameWithRandom("rg", 10)
 
 	// Create Storage account
-	saInstance := &azurev1alpha1.StorageAccount{
+	saInstance := &v1alpha2.StorageAccount{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      saName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.StorageAccountSpec{
+		Spec: v1alpha2.StorageAccountSpec{
 			Location:      tc.resourceGroupLocation,
 			ResourceGroup: tc.resourceGroupName,
-			Sku: azurev1alpha1.StorageAccountSku{
+			Sku: v1alpha2.StorageAccountSku{
 				Name: "Standard_RAGRS",
 			},
 			Kind:                   "StorageV2",
@@ -55,12 +54,12 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	}
 	EnsureInstance(ctx, t, tc, saInstance)
 
-	blobContainerInstance := &azurev1alpha1.BlobContainer{
+	blobContainerInstance := &v1alpha2.BlobContainer{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      blobContainerName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.BlobContainerSpec{
+		Spec: v1alpha2.BlobContainerSpec{
 			Location:      rgLocation,
 			ResourceGroup: resourceGroupName,
 			AccountName:   saName,
@@ -89,12 +88,12 @@ func TestTestBlobContainerControllerNoStorageAccount(t *testing.T) {
 	blobContainerName := GenerateTestResourceNameWithRandom("bc", 10)
 	storageAccountName := helpers.FillWithRandom(GenerateAlphaNumTestResourceName("sa"), 24)
 
-	blobContainerInstance := &azurev1alpha1.BlobContainer{
+	blobContainerInstance := &v1alpha2.BlobContainer{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      blobContainerName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.BlobContainerSpec{
+		Spec: v1alpha2.BlobContainerSpec{
 			Location:      rgLocation,
 			ResourceGroup: rgName,
 			AccountName:   storageAccountName,

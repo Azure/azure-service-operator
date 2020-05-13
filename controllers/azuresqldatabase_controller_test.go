@@ -9,8 +9,7 @@ import (
 	"context"
 	"testing"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -26,12 +25,12 @@ func TestAzureSqlDatabaseControllerNoResourceGroup(t *testing.T) {
 	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase-dev", 10)
 
 	// Create the SqlDatabase object and expect the Reconcile to be created
-	sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
+	sqlDatabaseInstance := &v1beta1.AzureSqlDatabase{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      sqlDatabaseName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.AzureSqlDatabaseSpec{
+		Spec: v1beta1.AzureSqlDatabaseSpec{
 			Location:      rgLocation,
 			ResourceGroup: GenerateTestResourceNameWithRandom("rg-test-srv", 10),
 			Server:        sqlServerName,
@@ -55,12 +54,12 @@ func TestAzureSqlDatabaseControllerNoServer(t *testing.T) {
 	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase-dev", 10)
 
 	// Create the SqlDatabase object and expect the Reconcile to be created
-	sqlDatabaseInstance := &azurev1alpha1.AzureSqlDatabase{
+	sqlDatabaseInstance := &v1beta1.AzureSqlDatabase{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      sqlDatabaseName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.AzureSqlDatabaseSpec{
+		Spec: v1beta1.AzureSqlDatabaseSpec{
 			Location:      rgLocation,
 			ResourceGroup: rgName,
 			Server:        sqlServerName,
