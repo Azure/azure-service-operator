@@ -225,7 +225,7 @@ steps:
             --set azureClientSecret=$(AZURE_CLIENT_SECRET) \
             --set azureUseMI=false \
             --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
-            --set createNamespace=true \
+            --set createNamespace=false \
             --set namespace=$(OPERATOR_NAMESPACE)
       failOnStderr: true
  
