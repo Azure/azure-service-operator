@@ -50,7 +50,7 @@ resources:
   kind: PostgreSQLVNetRule
   version: v1alpha1
 - group: azure
-  kind: PostgreSQLVNetRule
+  kind: PostgreSQLFirewallRule
   version: v1alpha1
 - group: azure
   kind: APIMgmtAPI
