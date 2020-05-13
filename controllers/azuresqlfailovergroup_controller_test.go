@@ -9,8 +9,7 @@ import (
 	"context"
 	"testing"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -35,12 +34,12 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 	sqlFailoverGroupName := GenerateTestResourceNameWithRandom("sqlfog-dev", 10)
 
 	// Create the SqlFailoverGroup object and expect the Reconcile to be created
-	sqlFailoverGroupInstance := &azurev1alpha1.AzureSqlFailoverGroup{
+	sqlFailoverGroupInstance := &v1beta1.AzureSqlFailoverGroup{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      sqlFailoverGroupName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.AzureSqlFailoverGroupSpec{
+		Spec: v1beta1.AzureSqlFailoverGroupSpec{
 			Location:                     rgLocation1,
 			ResourceGroup:                GenerateTestResourceNameWithRandom("rg-fake", 10),
 			Server:                       sqlServerOneName,
