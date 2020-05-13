@@ -15,6 +15,7 @@ import (
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
+	healthz "sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -785,19 +786,16 @@ func main() {
 		os.Exit(1)
 	}
 
-	//Response to AKS liveness check
-	http.HandleFunc("/healthz", HealthCheck)
-}
+	var AzureHealthCheck healthz.Checker = func(_ *http.Request) error {
+		_, err := auth.NewAuthorizerFromEnvironment()
+		if err != nil {
+			return err
+		}
 
-// HealthCheck function is to check the availability of the service operator pod
-func HealthCheck(w http.ResponseWriter, req *http.Request) {
-
-	_, err := auth.NewAuthorizerFromEnvironment()
-	if err != nil {
-		w.WriteHeader(500)
-	} else {
-		w.WriteHeader(200)
-		w.Write([]byte("ok"))
+		return nil
+	}
+	if err := mgr.AddHealthzCheck("azurehealthz", AzureHealthCheck); err != nil {
+		setupLog.Error(err, "problem running health check to azure autorizer")
 	}
 
 }
