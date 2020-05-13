@@ -190,18 +190,18 @@ steps:
       rm -rf charts/azure-service-operator/templates/generated/
     displayName: Deploy to AKS - Helm generate and package charts
 
-  - task: KubernetesManifest@0
-    displayName: Deploy to AKS - Bake Helm manifests
-    name: bake
-    inputs:
-      action: bake
-      namespace: 'default'
-      helmChart: charts/azure-service-operator-0.1.0.tgz
-      overrides: |
-        image.repository:$(containerRegistry)/$(IMAGE_NAME)
-        namespace: $(OPERATOR_NAMESPACE)
-        azureTenantID: $(AZURE_TENANT_ID)
-        azureSubscriptionID: $(AZURE_SUBSCRIPTION_ID)
+ # - task: KubernetesManifest@0
+ #   displayName: Deploy to AKS - Bake Helm manifests
+ #   name: bake
+ #   inputs:
+ #     action: bake
+ #     namespace: 'default'
+ #     helmChart: charts/azure-service-operator-0.1.0.tgz
+ #     overrides: |
+ #       image.repository:$(containerRegistry)/$(IMAGE_NAME)
+ #       namespace: $(OPERATOR_NAMESPACE)
+ #       azureTenantID: $(AZURE_TENANT_ID)
+ #       azureSubscriptionID: $(AZURE_SUBSCRIPTION_ID)
 
 
  # - task: KubernetesManifest@0
@@ -212,15 +212,32 @@ steps:
  #     namespace: $(OPERATOR_NAMESPACE)
  #     manifests: '$(bake.manifestsBundle)'
 
-  - task: HelmDeploy@0
-    inputs:
-      connectionType: 'Kubernetes Service Connection'
-      kubernetesServiceConnection: 'ASO-AKS'
-      command: 'upgrade'
-      chartType: 'FilePath'
-      chartPath: 'charts/azure-service-operator-0.1.0.tgz'
-      releaseName: 'aso'
-      overrideValues: 'azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID), azureTenantID=$(AZURE_TENANT_ID), azureClientID=$(AZURE_CLIENT_ID), azureClientSecret=$(AZURE_CLIENT_SECRET), namespace=$(OPERATOR_NAMESPACE)'
+
+- task: Bash@3
+  displayName: Deploy to AKS - Helm Deploy
+  inputs:
+    targetType: 'inline'
+    script: |
+      helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz \
+          --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
+          --set azureTenantID=$(AZURE_TENANT_ID) \
+          --set azureClientID=$(AZURE_CLIENT_ID) \
+          --set azureClientSecret=$(AZURE_CLIENT_SECRET) \
+          --set azureUseMI=false \
+          --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
+          --set createNamespace=true \
+          --set namespace=$(OPERATTOR_NAMESPACE)
+    failOnStderr: true
+ 
+ # - task: HelmDeploy@0
+ #   inputs:
+ #     connectionType: 'Kubernetes Service Connection'
+ #     kubernetesServiceConnection: 'ASO-AKS'
+ #     command: 'upgrade'
+ #     chartType: 'FilePath'
+ #     chartPath: 'charts/azure-service-operator-0.1.0.tgz'
+ #     releaseName: 'aso'
+ #     overrideValues: 'azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID), azureTenantID=$(AZURE_TENANT_ID), azureClientID=$(AZURE_CLIENT_ID), azureClientSecret=$(AZURE_CLIENT_SECRET), namespace=$(OPERATOR_NAMESPACE)'
       
   ## TODO: Add a Health check task to ensure operator deployed to AKS works
   ## TODO: Delete Helm deployment 
