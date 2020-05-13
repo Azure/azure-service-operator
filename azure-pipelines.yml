@@ -171,7 +171,8 @@ steps:
       # create directory for generated files
       mkdir charts/azure-service-operator/templates/generated
       # generate files using kustomize
-      kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
+      which kustomize
+      $(go env GOPATH)/bin/kustomize/kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
       # remove namespace, as we need to wrap it in a conditional since Helm 3 does not autocreate them
       rm charts/azure-service-operator/templates/generated/*_namespace_*
       # replace hard coded ASO image with Helm templating
@@ -265,12 +266,13 @@ steps:
   - script: |
       echo "updating kustomize image patch file for manager resource"
       echo $IMAGE_NAME
-      IMG="$IMAGE_NAME:$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
-      echo $IMG
-      sed -i -e 's@controller:latest@'${IMG}'@g' ./config/default/manager_image_patch.yaml
+      img="$IMAGE_NAME:$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
+      echo $img
+      sed -i -e 's@controller:latest@'${img}'@g' ./config/default/manager_image_patch.yaml
+      which kustomize
       $(go env GOPATH)/bin/kustomize/kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
       set -x
-      echo $IMG > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
+      echo $img > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
       cp charts/azure-service-operator-0.1.0.tgz $(Build.ArtifactStagingDirectory)
     continueOnError: 'false'
     displayName: Package artifacts (image, setup.yaml and helm charts) for release
