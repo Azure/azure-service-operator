@@ -118,6 +118,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	// 	or if the hash wasnt empty and the Spec Hash matches the calculated hash
 	// 	this indicates that we've already issued and update and its worth
 	// 	checking to see if the server is there
+
 	if instance.Status.Provisioning ||
 		(!specHashWasEmpty && instance.Status.SpecHash == hash) {
 
@@ -138,6 +139,10 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 					instance.Status.Provisioning = false
 					return true, nil
 				}
+			}
+
+			if azerr.Type == errhelp.ResourceGroupNotFoundErrorCode {
+				return false, nil
 			}
 
 			// @Todo: ResourceNotFound should be handled if the time since the last PUT is unreasonable
