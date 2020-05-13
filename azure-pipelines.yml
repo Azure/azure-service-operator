@@ -218,6 +218,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
+        kubectl delete namespace $(OPERATOR_NAMESPACE)
         helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz \
             --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
             --set azureTenantID=$(AZURE_TENANT_ID) \
