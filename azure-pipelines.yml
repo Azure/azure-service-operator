@@ -165,7 +165,7 @@ steps:
   
   - script: |
       # Replace image repository in values.yaml to the official image in ACR
-      img="$MajorVersion.$MinorVersion.$PatchVersion"
+      img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
       echo $img
       sed -i -e 's@azure-service-operator:latest@azure-service-operator:'${img}'@' charts/azure-service-operator/values.yaml
       # create directory for generated files
@@ -264,11 +264,11 @@ steps:
 
   - script: |
       echo "updating kustomize image patch file for manager resource"
-      echo $(IMAGE_NAME)
-      IMG="$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
-      echo $(IMG)
+      echo $IMAGE_NAME
+      IMG="$IMAGE_NAME:$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
+      echo $IMG
       sed -i -e 's@controller:latest@'${IMG}'@g' ./config/default/manager_image_patch.yaml
-      kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
+      $(go env GOPATH)/bin/kustomize/kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
       set -x
       echo $IMG > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
       cp charts/azure-service-operator-0.1.0.tgz $(Build.ArtifactStagingDirectory)
