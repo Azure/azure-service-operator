@@ -23,7 +23,9 @@ type AzureSqlServerSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-
+// +kubebuilder:resource:shortName=asqls,path=azuresqlserver
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 // AzureSqlServer is the Schema for the azuresqlservers API
 type AzureSqlServer struct {
 	metav1.TypeMeta   `json:",inline"`
