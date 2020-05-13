@@ -17,6 +17,7 @@ func (src *AzureSqlServer) ConvertTo(dstRaw conversion.Hub) error {
 	// Spec
 	dst.Spec.ResourceGroup = src.Spec.ResourceGroup
 	dst.Spec.Location = src.Spec.Location
+	dst.Spec.KeyVaultToStoreSecrets = src.Spec.KeyVaultToStoreSecrets
 
 	// Status
 	dst.Status = v1beta1.ASOStatus(src.Status)
@@ -33,6 +34,7 @@ func (dst *AzureSqlServer) ConvertFrom(srcRaw conversion.Hub) error {
 	// Spec
 	dst.Spec.ResourceGroup = src.Spec.ResourceGroup
 	dst.Spec.Location = src.Spec.Location
+	dst.Spec.KeyVaultToStoreSecrets = src.Spec.KeyVaultToStoreSecrets
 
 	// Status
 	dst.Status = ASOStatus(src.Status)
