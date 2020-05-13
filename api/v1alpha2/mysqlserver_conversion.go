@@ -3,4 +3,4 @@
 
 package v1alpha2
 
-func (*BlobContainer) Hub() {}
+func (*MySQLServer) Hub() {}
