@@ -213,21 +213,21 @@ steps:
  #     manifests: '$(bake.manifestsBundle)'
 
 
-- task: Bash@3
-  displayName: Deploy to AKS - Helm Deploy
-  inputs:
-    targetType: 'inline'
-    script: |
-      helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz \
-          --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
-          --set azureTenantID=$(AZURE_TENANT_ID) \
-          --set azureClientID=$(AZURE_CLIENT_ID) \
-          --set azureClientSecret=$(AZURE_CLIENT_SECRET) \
-          --set azureUseMI=false \
-          --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
-          --set createNamespace=true \
-          --set namespace=$(OPERATTOR_NAMESPACE)
-    failOnStderr: true
+  - task: Bash@3
+    displayName: Deploy to AKS - Helm Deploy
+    inputs:
+      targetType: 'inline'
+      script: |
+        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz \
+            --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
+            --set azureTenantID=$(AZURE_TENANT_ID) \
+            --set azureClientID=$(AZURE_CLIENT_ID) \
+            --set azureClientSecret=$(AZURE_CLIENT_SECRET) \
+            --set azureUseMI=false \
+            --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
+            --set createNamespace=true \
+            --set namespace=$(OPERATTOR_NAMESPACE)
+      failOnStderr: true
  
  # - task: HelmDeploy@0
  #   inputs:
