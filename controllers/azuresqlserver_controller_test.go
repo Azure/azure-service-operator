@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all azuresqlserver
+// +build all azuresqlserver asql
 
 package controllers
 
