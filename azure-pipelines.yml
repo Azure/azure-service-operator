@@ -216,7 +216,6 @@ steps:
     inputs:
       connectionType: 'Kubernetes Service Connection'
       kubernetesServiceConnection: 'ASO-AKS'
-      namespace: '$(OPERATOR_NAMESPACE)'
       command: 'upgrade'
       chartType: 'FilePath'
       chartPath: 'charts/azure-service-operator-0.1.0.tgz'
