@@ -149,7 +149,6 @@ validate-cainjection-files:
 	@./scripts/validate-cainjection-files.sh
 
 # Generate manifests for helm and package them up
-# Note: If running on a non Mac OS, replace 'sed -i '' -e ..' to 'sed -i -e ..'
 helm-chart-manifests: manifests
 	# create directory for generated files
 	mkdir charts/azure-service-operator/templates/generated
@@ -158,13 +157,13 @@ helm-chart-manifests: manifests
 	# remove namespace, as we need to wrap it in a conditional since Helm 3 does not autocreate them
 	rm charts/azure-service-operator/templates/generated/*_namespace_*
 	# replace hard coded ASO image with Helm templating
-	sed -i '' -e 's/controller:latest/{{ .Values.image.repository }}/' ./charts/azure-service-operator/templates/generated/*_deployment_*
+	perl -pi -e s,controller:latest,"{{ .Values.image.repository }}",g ./charts/azure-service-operator/templates/generated/*_deployment_*
 	# replace hard coded namespace with Helm templating
-	find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' -e 's/namespace: azureoperator-system/namespace: {{ .Values.namespace }}/' {} \;
+	find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,"{{ .Values.namespace }}",g {} \;
 	# wrap CRDs in Helm conditional syntax
 	find ./charts/azure-service-operator/templates/generated/ -name *customresourcedefinition* -exec bash -c '(echo "{{- if .Values.installCRD }}"; cat {}) > tmp.yaml && mv tmp.yaml {} && echo "{{- end }}" >> {}' _ {} \;
 	# create unique names so each instance of the operator has its own role binding 
-	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec sed -i '' -e '/name: azure/s/$$/-{{ .Values.namespace }}/' {} \;
+	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec perl -pi -e 's/$$/-{{ .Values.namespace }}/ if /name: azure/' {} \;
 	# package the necessary files into a tar file
 	helm package ./charts/azure-service-operator -d ./charts
 	# update Chart.yaml for Helm Repository
