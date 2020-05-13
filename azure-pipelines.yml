@@ -226,9 +226,8 @@ steps:
             --set azureClientSecret=$(AZURE_CLIENT_SECRET) \
             --set azureUseMI=false \
             --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
-            --set createNamespace=false \
+            --set createNamespace=true \
             --set namespace=$(OPERATOR_NAMESPACE)
-      failOnStderr: true
  
  # - task: HelmDeploy@0
  #   inputs:
