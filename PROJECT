@@ -118,4 +118,7 @@ resources:
 - group: azure
   kind: MySQLServer
   version: v1alpha2
+- group: azure
+  kind: AzureVirtualMachineExtension
+  version: v1alpha1
 version: "2"
