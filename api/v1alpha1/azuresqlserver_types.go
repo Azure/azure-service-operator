@@ -22,7 +22,6 @@ type AzureSqlServerSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 
 // AzureSqlServer is the Schema for the azuresqlservers API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"

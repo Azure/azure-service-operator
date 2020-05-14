@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -55,23 +56,25 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 		// Assure that the requested name is available and assume the secret exists
 		checkNameResult, err := CheckNameAvailability(ctx, instance.Name)
-		if err == nil {
-			if *checkNameResult.Available != true {
-				instance.Status.Provisioning = false
-				if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err != nil {
-					instance.Status.Message = "SQL server already exists somewhere else"
-					return true, nil
-				}
 
-				instance.Status.Message = fmt.Sprintf(
-					`SQL server already exists and the credentials could not be found. 
-				If using kube secrets a secret should exist at '%s' for keyvault it should be '%s'`,
-					key.String(),
-					fmt.Sprintf("%s-%s", key.Namespace, key.Name),
-				)
-
-				return false, nil
+		if err != nil {
+			instance.Status.Provisioning = false
+			return false, err
+		}
+		if *checkNameResult.Available != true {
+			instance.Status.Provisioning = false
+			if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err != nil {
+				instance.Status.Message = "SQL server already exists somewhere else"
+				return true, nil
 			}
+
+			instance.Status.Message = fmt.Sprintf(
+				`SQL server already exists and the credentials could not be found. 
+			If using kube secrets a secret should exist at '%s' for keyvault it should be '%s'`,
+				key.String(),
+				fmt.Sprintf("%s-%s", key.Namespace, key.Name),
+			)
+			return false, nil
 		}
 
 		secret, err = NewSecret(instance.Name)
@@ -115,6 +118,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	// 	or if the hash wasnt empty and the Spec Hash matches the calculated hash
 	// 	this indicates that we've already issued and update and its worth
 	// 	checking to see if the server is there
+
 	if instance.Status.Provisioning ||
 		(!specHashWasEmpty && instance.Status.SpecHash == hash) {
 
@@ -135,6 +139,10 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 					instance.Status.Provisioning = false
 					return true, nil
 				}
+			}
+
+			if azerr.Type == errhelp.ResourceGroupNotFoundErrorCode {
+				return false, nil
 			}
 
 			// @Todo: ResourceNotFound should be handled if the time since the last PUT is unreasonable
@@ -317,11 +325,12 @@ func (g *AzureSqlServerManager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStat
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := v1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (s *AzureSqlServerManager) convert(obj runtime.Object) (*v1alpha1.AzureSqlServer, error) {
-	local, ok := obj.(*v1alpha1.AzureSqlServer)
+func (s *AzureSqlServerManager) convert(obj runtime.Object) (*v1beta1.AzureSqlServer, error) {
+	local, ok := obj.(*v1beta1.AzureSqlServer)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
