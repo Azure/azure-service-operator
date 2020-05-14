@@ -145,6 +145,23 @@ steps:
     displayName: Docker build
     workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+  - task: Docker@2
+    displayName: Login to temporary pipeline ACR
+    inputs:
+      command: login
+      containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
+
+  - task: Docker@2
+    displayName: Build and Push Docker Image to temporary ACR for validation
+    inputs:
+      command: buildAndPush
+      containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
+      repository: $(IMAGE_NAME)
+      Dockerfile: "$(System.DefaultWorkingDirectory)/Dockerfile"    
+      buildContext: $(System.DefaultWorkingDirectory)
+      tags: |
+        $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+
   - task: Kubernetes@1
     displayName: Deploy to AKS - Fetch kubeconfig
     inputs:
@@ -232,6 +249,7 @@ steps:
             --set createNamespace=true \
             --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/4ef44fef-c51d-4d7c-a6ff-8635c02848b1/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-devops-mi" \
             --set aad-pod-identity.azureIdentity.clientID="88cd557c-f616-489a-a397-0a651fd91edf" \
+            --set image.repository:$(PIPELINE_CONTAINER_REGISTRY)/$(IMAGE_NAME) \
             --set namespace=$(OPERATOR_NAMESPACE)
         kubectl get namespace
         kubectl get pods -n $(OPERATOR_NAMESPACE)
@@ -251,7 +269,7 @@ steps:
 
   - task: Docker@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Login to ACR
+    displayName: Login to release ACR
     inputs:
       command: login
       containerRegistry: $(CONTAINER_REGISTRY)
