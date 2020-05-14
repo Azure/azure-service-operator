@@ -3,7 +3,10 @@
 
 package v1alpha2
 
-import "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+import (
+	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
+)
 
 type AzureDBsSQLSku struct {
 	// Name - The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
@@ -56,7 +59,7 @@ const (
 	SslEnforcementEnumEnabled SslEnforcementEnum = "Enabled"
 )
 
-type StorageProfile struct {
+type MySQLStorageProfile struct {
 	// BackupRetentionDays - Backup retention days for the server.
 	BackupRetentionDays *int32 `json:"backupRetentionDays,omitempty"`
 	// GeoRedundantBackup - Enable Geo-redundant or not for server backup. Possible values include: 'Enabled', 'Disabled'
@@ -65,6 +68,17 @@ type StorageProfile struct {
 	StorageMB *int32 `json:"storageMB,omitempty"`
 	// StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'StorageAutogrowEnabled', 'StorageAutogrowDisabled'
 	StorageAutogrow mysql.StorageAutogrow `json:"storageAutogrow,omitempty"`
+}
+
+type PSQLStorageProfile struct {
+	// BackupRetentionDays - Backup retention days for the server.
+	BackupRetentionDays *int32 `json:"backupRetentionDays,omitempty"`
+	// GeoRedundantBackup - Enable Geo-redundant or not for server backup. Possible values include: 'Enabled', 'Disabled'
+	GeoRedundantBackup psql.GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	// StorageMB - Max storage allowed for a server.
+	StorageMB *int32 `json:"storageMB,omitempty"`
+	// StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'StorageAutogrowEnabled', 'StorageAutogrowDisabled'
+	StorageAutogrow psql.StorageAutogrow `json:"storageAutogrow,omitempty"`
 }
 
 type ReplicaProperties struct {

@@ -12,15 +12,15 @@ import (
 
 // MySQLServerSpec defines the desired state of MySQLServer
 type MySQLServerSpec struct {
-	Location               string             `json:"location"`
-	ResourceGroup          string             `json:"resourceGroup,omitempty"`
-	Sku                    AzureDBsSQLSku     `json:"sku,omitempty"`
-	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
-	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
-	CreateMode             string             `json:"createMode,omitempty"`
-	ReplicaProperties      ReplicaProperties  `json:"replicaProperties,omitempty"`
-	StorageProfile         *StorageProfile    `json:"storageProfile,omitempty"`
-	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
+	Location               string               `json:"location"`
+	ResourceGroup          string               `json:"resourceGroup,omitempty"`
+	Sku                    AzureDBsSQLSku       `json:"sku,omitempty"`
+	ServerVersion          ServerVersion        `json:"serverVersion,omitempty"`
+	SSLEnforcement         SslEnforcementEnum   `json:"sslEnforcement,omitempty"`
+	CreateMode             string               `json:"createMode,omitempty"`
+	ReplicaProperties      ReplicaProperties    `json:"replicaProperties,omitempty"`
+	StorageProfile         *MySQLStorageProfile `json:"storageProfile,omitempty"`
+	KeyVaultToStoreSecrets string               `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
