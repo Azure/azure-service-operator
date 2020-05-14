@@ -54,6 +54,7 @@ steps:
       script: |
         set -x
         mkdir -p $(go env GOPATH)/bin
+        mkfir -p /usr/local/kubebuilder
         go env
         os=$(go env GOOS)
         arch=$(go env GOARCH)
@@ -70,6 +71,7 @@ steps:
         echo '##vso[task.prependpath]$(go env GOPATH)/bin'
         which kustomize
         kustomize  version
+        cp $(go env GOPATH)/bin/kustomize kustomize
         go mod download
         make install-test-dependencies
       workingDirectory: '$(System.DefaultWorkingDirectory)'
