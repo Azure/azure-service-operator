@@ -49,6 +49,7 @@ func (bc *AzureBlobContainerManager) Ensure(ctx context.Context, obj runtime.Obj
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
+			errhelp.StorageAccountIsNotProvisioned,
 		}
 		if helpers.ContainsString(catchIgnorable, azerr.Type) {
 			instance.Status.Provisioning = false
