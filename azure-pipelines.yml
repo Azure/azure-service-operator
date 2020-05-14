@@ -115,11 +115,11 @@ steps:
     continueOnError: true
     workingDirectory: '$(System.DefaultWorkingDirectory)'
 
-  - task: PublishTestResults@2
-    displayName: Publish test results
-    inputs:
-      testRunner: JUnit
-      testResultsFiles: $(System.DefaultWorkingDirectory)/reports/*-report.xml
+#  - task: PublishTestResults@2
+#    displayName: Publish test results
+#    inputs:
+#      testRunner: JUnit
+#      testResultsFiles: $(System.DefaultWorkingDirectory)/reports/*-report.xml
     
   - task: PublishCodeCoverageResults@1
     displayName: Publish Codecoverage results
@@ -248,14 +248,14 @@ steps:
   ## TODO: Delete Helm deployment 
 
   - task: Docker@2
-    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Login to ACR
     inputs:
       command: login
       containerRegistry: $(CONTAINER_REGISTRY)
 
   - task: Docker@2
-    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Build and Push Docker Image $(IMAGE_NAME)
     inputs:
       command: buildAndPush
@@ -281,10 +281,10 @@ steps:
     continueOnError: 'false'
     displayName: Package artifacts (image, setup.yaml and helm charts) for release
     workingDirectory: '$(System.DefaultWorkingDirectory)'
-    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
 
   - task: PublishBuildArtifacts@1
-    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       pathtoPublish: $(Build.ArtifactStagingDirectory)
       artifactName: drop
