@@ -4,6 +4,7 @@
 package v1alpha2
 
 import (
+	"github.com/Azure/go-autorest/autorest/to"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -86,6 +87,12 @@ func NewReplicaMySQLServer(name, resourceGroup, location string, sourceserverid 
 			CreateMode:    "Replica",
 			ReplicaProperties: ReplicaProperties{
 				SourceServerId: sourceserverid,
+			},
+			StorageProfile: &MySQLStorageProfile{
+				BackupRetentionDays: to.Int32Ptr(10),
+				GeoRedundantBackup:  "Disabled",
+				StorageMB:           to.Int32Ptr(5120),
+				StorageAutogrow:     "Disabled",
 			},
 		},
 	}

@@ -11,6 +11,7 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/go-autorest/autorest/to"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -49,6 +50,12 @@ func TestPSQLDatabaseController(t *testing.T) {
 			},
 			ServerVersion:  v1alpha2.ServerVersion("10"),
 			SSLEnforcement: v1alpha2.SslEnforcementEnumEnabled,
+			StorageProfile: v1alpha2.PostgreSQLStorageProfile{
+				BackupRetentionDays: to.Int32Ptr(10),
+				GeoRedundantBackup:  "Disabled",
+				StorageMB:           to.Int32Ptr(5120),
+				StorageAutogrow:     "Disabled",
+			},
 		},
 	}
 
