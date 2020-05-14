@@ -11,6 +11,7 @@ import (
 
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
@@ -223,12 +224,12 @@ func TestEventHubCapture_StorageAccountAndBlob_Controllers(t *testing.T) {
 	EnsureInstance(ctx, t, tc, saInstance)
 
 	// Create blob container
-	blobContainerInstance := &azurev1alpha1.BlobContainer{
+	blobContainerInstance := &v1alpha2.BlobContainer{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      bcName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.BlobContainerSpec{
+		Spec: v1alpha2.BlobContainerSpec{
 			Location:      rgLocation,
 			ResourceGroup: rgName,
 			AccountName:   saName,
