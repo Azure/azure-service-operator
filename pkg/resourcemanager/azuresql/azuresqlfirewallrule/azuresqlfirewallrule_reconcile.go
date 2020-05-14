@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -123,11 +124,12 @@ func (g *AzureSqlFirewallRuleManager) GetStatus(obj runtime.Object) (*azurev1alp
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := azurev1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (fw *AzureSqlFirewallRuleManager) convert(obj runtime.Object) (*azurev1alpha1.AzureSqlFirewallRule, error) {
-	local, ok := obj.(*azurev1alpha1.AzureSqlFirewallRule)
+func (fw *AzureSqlFirewallRuleManager) convert(obj runtime.Object) (*v1beta1.AzureSqlFirewallRule, error) {
+	local, ok := obj.(*v1beta1.AzureSqlFirewallRule)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
