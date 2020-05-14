@@ -231,6 +231,8 @@ steps:
             --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
             --set createNamespace=true \
             --set namespace=$(OPERATOR_NAMESPACE)
+        kubectl get namespace
+        kubectl get pods -n $(OPERATOR_NAMESPACE)
  
  # - task: HelmDeploy@0
  #   inputs:
