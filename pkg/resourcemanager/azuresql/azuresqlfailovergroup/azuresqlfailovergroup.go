@@ -7,7 +7,7 @@ import (
 	"context"
 	"net/http"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -168,7 +168,7 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 		failoverGroup)
 }
 
-func (f *AzureSqlFailoverGroupManager) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.AzureSqlFailoverGroup) (map[string][]byte, error) {
+func (f *AzureSqlFailoverGroupManager) GetOrPrepareSecret(ctx context.Context, instance *v1beta1.AzureSqlFailoverGroup) (map[string][]byte, error) {
 	failovergroupname := instance.ObjectMeta.Name
 	azuresqlprimaryserver := instance.Spec.Server
 	azuresqlsecondaryserver := instance.Spec.SecondaryServer

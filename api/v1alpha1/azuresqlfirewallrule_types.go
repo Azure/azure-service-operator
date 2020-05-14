@@ -23,7 +23,6 @@ type AzureSqlFirewallRuleSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 
 // AzureSqlFirewallRule is the Schema for the azuresqlfirewallrules API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
