@@ -1,97 +1,97 @@
+version: "2"
 domain: microsoft.com
 repo: github.com/Azure/azure-service-operator
 resources:
 - group: azure
+  version: v1alpha1
   kind: StorageAccount
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: CosmosDB
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: RedisCache
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: Eventhub
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: ResourceGroup
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: EventhubNamespace
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: AzureSqlServer
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: AzureSqlDatabase
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: AzureSqlFirewallRule
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: KeyVault
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: ConsumerGroup
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: AzureSqlAction
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: BlobContainer
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: PostgreSQLServer
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: PostgreSQLDatabase
-  version: v1alpha1
 - group: azure
-  kind: PostgreSQLFirewallRule
   version: v1alpha1
   kind: PostgreSQLVNetRule
 - group: azure
-  kind: PostgreSQLVNetRule
   version: v1alpha1
+  kind: PostgreSQLVNetRule
 - group: azure
+  version: v1alpha1
   kind: APIMgmtAPI
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: ApimService
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: VirtualNetwork
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: AzurePublicIPAddress
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: AzureNetworkInterface
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: AppInsights
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: KeyVaultKey
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: AzureSQLVNetRule
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: MySQLServer
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: MySQLDatabase
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: MySQLFirewallRule
-  version: v1alpha1
 - group: azure
+  version: v1alpha1
   kind: MySQLVNetRule
-  version: v1alpha1
 - group: azure
-  kind: AzureVirtualMachine
   version: v1alpha1
+  kind: AzureVirtualMachine
 - group: azure
   version: v1alpha1
   kind: AzureSQLManagedUser
@@ -102,18 +102,20 @@ resources:
   version: v1alpha1
   kind: AzureVMScaleSet
 - group: azure
+  version: v1beta1
   kind: AzureSqlServer
-  version: v1beta1
 - group: azure
+  version: v1beta1
   kind: AzureSqlDatabase
-  version: v1beta1
 - group: azure
+  version: v1beta1
   kind: AzureSqlFirewallRule
-  version: v1beta1
 - group: azure
+  version: v1beta1
   kind: AzureSqlFailoverGroup
-  version: v1beta1
 - group: azure
-  kind: BlobContainer
   version: v1alpha2
-version: "2"
+  kind: BlobContainer
+- group: azure
+  version: v1alpha1
+  kind: AzureDisk

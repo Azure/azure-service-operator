@@ -1,0 +1,9 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureDisk
+metadata:
+  name: azuredisk-crd-sample
+spec:
+  location: WestUS
+  resourceGroup: resourcegroup-azure-operators
+  createOption: Empty
+  diskSizeGB: 20

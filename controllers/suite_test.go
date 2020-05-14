@@ -30,6 +30,7 @@ import (
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
+	resourcemanagerdisk "github.com/Azure/azure-service-operator/pkg/resourcemanager/disk"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
@@ -690,6 +691,25 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("StorageAccount-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureDiskReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: resourcemanagerdisk.NewAzureDiskClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"Disk",
+				ctrl.Log.WithName("controllers").WithName("Disk"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("Disk-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
