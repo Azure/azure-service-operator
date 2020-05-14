@@ -108,7 +108,7 @@ func main() {
 		MetricsBindAddress:     metricsAddr,
 		HealthProbeBindAddress: healthAddr,
 		LeaderElection:         enableLeaderElection,
-		LivenessEndpointName:   "/azurehealthz",
+		LivenessEndpointName:   "/sohealthz",
 	})
 
 	if err != nil {
