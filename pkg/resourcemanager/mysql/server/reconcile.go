@@ -11,6 +11,8 @@ import (
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	azurev1alpha2 "github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -250,12 +252,13 @@ func (m *MySQLServerClient) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, 
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := v1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
 // convert concerts a runtime.Object to a MySQLServer object
-func (m *MySQLServerClient) convert(obj runtime.Object) (*v1alpha1.MySQLServer, error) {
-	local, ok := obj.(*v1alpha1.MySQLServer)
+func (m *MySQLServerClient) convert(obj runtime.Object) (*v1alpha2.MySQLServer, error) {
+	local, ok := obj.(*v1alpha2.MySQLServer)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
@@ -263,7 +266,7 @@ func (m *MySQLServerClient) convert(obj runtime.Object) (*v1alpha1.MySQLServer, 
 }
 
 // AddServerCredsToSecrets saves the server's admin credentials in the secret store
-func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha1.MySQLServer) error {
+func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretName string, data map[string][]byte, instance *azurev1alpha2.MySQLServer) error {
 	key := types.NamespacedName{
 		Name:      secretName,
 		Namespace: instance.Namespace,
@@ -283,7 +286,7 @@ func (m *MySQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretN
 }
 
 // UpdateSecretWithFullServerName updates the secret with the fully qualified server name
-func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secretName string, data map[string][]byte, fullservername string, instance *azurev1alpha1.MySQLServer) error {
+func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secretName string, data map[string][]byte, fullservername string, instance *azurev1alpha2.MySQLServer) error {
 	key := types.NamespacedName{
 		Name:      secretName,
 		Namespace: instance.Namespace,
@@ -305,7 +308,7 @@ func (m *MySQLServerClient) UpdateServerNameInSecret(ctx context.Context, secret
 }
 
 // GetOrPrepareSecret gets tje admin credentials if they are stored or generates some if not
-func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha1.MySQLServer) (map[string][]byte, error) {
+func (m *MySQLServerClient) GetOrPrepareSecret(ctx context.Context, instance *azurev1alpha2.MySQLServer) (map[string][]byte, error) {
 	name := instance.Name
 	createmode := instance.Spec.CreateMode
 

@@ -12,6 +12,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 )
 
 func TestMySQLHappyPath(t *testing.T) {
@@ -26,12 +27,12 @@ func TestMySQLHappyPath(t *testing.T) {
 	mySQLReplicaName := GenerateTestResourceNameWithRandom("mysql-rep", 10)
 
 	// Create the mySQLServer object and expect the Reconcile to be created
-	mySQLServerInstance := azurev1alpha1.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
+	mySQLServerInstance := v1alpha2.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
 
 	RequireInstance(ctx, t, tc, mySQLServerInstance)
 
 	// Create a mySQL replica
-	mySQLReplicaInstance := azurev1alpha1.NewReplicaMySQLServer(mySQLReplicaName, rgName, rgLocation, mySQLServerInstance.Status.ResourceId)
+	mySQLReplicaInstance := v1alpha2.NewReplicaMySQLServer(mySQLReplicaName, rgName, rgLocation, mySQLServerInstance.Status.ResourceId)
 
 	EnsureInstance(ctx, t, tc, mySQLReplicaInstance)
 
