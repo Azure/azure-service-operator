@@ -107,12 +107,34 @@ func (file *FileDefinition) AsAst() ast.Node {
 			})
 	}
 
+	header, headerLen := createComments(
+		"Copyright (c) Microsoft Corporation.",
+		"Licensed under the MIT license.",
+		"This is a generated file. Please do not make manual changes.")
+
+	// We set Package (the offset of the package keyword) so that it follows the header comments
 	result := &ast.File{
-		Name:  ast.NewIdent(file.PackageName()),
-		Decls: decls,
+		Doc:     &ast.CommentGroup{header},
+		Name:    ast.NewIdent(file.PackageName()),
+		Decls:   decls,
+		Package: token.Pos(headerLen),
 	}
 
 	return result
+}
+
+// createComments converts a series of strings into a series of comments,
+// returning both the comments and their text length
+func createComments(lines ...string) ([]*ast.Comment, int) {
+	var result []*ast.Comment
+	length := 0
+	for _, l := range lines {
+		line := &ast.Comment{Text: "// " + l + "\n"}
+		length += len(line.Text)
+		result = append(result, line)
+	}
+
+	return result, length
 }
 
 // SaveTo writes this generated file to disk
@@ -121,8 +143,10 @@ func (file FileDefinition) SaveTo(filePath string) error {
 
 	// Write generated source into a memory buffer
 	fset := token.NewFileSet()
+	fset.AddFile(filePath, 1, 102400)
+
 	var buffer bytes.Buffer
-	err := format.Node(&buffer, token.NewFileSet(), original)
+	err := format.Node(&buffer, fset, original)
 	if err != nil {
 		return err
 	}
