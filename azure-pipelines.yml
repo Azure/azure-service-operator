@@ -53,7 +53,7 @@ steps:
       targetType: 'inline'
       script: |
         set -x
-        mkdir -p $(go env GOPATH)/bin
+        #mkdir -p $(go env GOPATH)/bin
         go env
         os=$(go env GOOS)
         arch=$(go env GOARCH)
@@ -62,11 +62,10 @@ steps:
         export PATH=$PATH:/usr/local/kubebuilder/bin
         echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
         # download kustomize
-        curl -o $(System.DefaultWorkingDirectory) -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+        curl -o $(System.DefaultWorkingDirectory)\kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
         # set permission
-        chmod a+x $(go env GOPATH)/bin/*
+        chmod a+x $(System.DefaultWorkingDirectory)/kustomize
         export PATH=$PATH:$(go env GOPATH)/bin
-        export PATH=$PATH:$(go env GOPATH)/bin/kustomize
         echo '##vso[task.prependpath]$(go env GOPATH)/bin'
         which kustomize
         kustomize  version
