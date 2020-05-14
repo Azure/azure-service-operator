@@ -45,7 +45,7 @@ test-integration-controllers: generate fmt vet manifests
 test-integration-managers: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 \
 	go test -v -coverprofile=reports/integration-managers-coverage-ouput.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
-	./api/... \
+  ./api/... \
 	./pkg/resourcemanager/eventhubs/...  \
 	./pkg/resourcemanager/resourcegroups/...  \
 	./pkg/resourcemanager/storages/... \
