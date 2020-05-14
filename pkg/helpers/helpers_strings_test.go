@@ -4,7 +4,6 @@
 package helpers
 
 import (
-	"strings"
 	"testing"
 	"unicode"
 )
@@ -93,11 +92,11 @@ func TestNewPasswordGenerateRule(t *testing.T) {
 	for _, p := range testPassword {
 
 		switch {
-		case strings.Contains(lowerAlphaChars, string(p)):
+		case unicode.IsLower(p):
 			testOutput1++
-		case strings.Contains(upperAlphaChars, string(p)):
+		case unicode.IsUpper(p):
 			testOutput2++
-		case strings.Contains(numberChars, string(p)):
+		case unicode.IsNumber(p):
 			testOutput3++
 
 		}
