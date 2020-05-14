@@ -26,6 +26,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: make release
         env:
+          REGISTRY: azk8sinfra
           IMG: k8s-infra-controller:${{ env.RELEASE_VERSION }}
         run: |
           make release
@@ -42,9 +43,10 @@ jobs:
           body: |
             This controller requires cert-manager and can be installed with `kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.13.0/cert-manager.yaml`.
 
-            Install Azure specific secrets to the cluster with the following:
+            Apply k8s-infra controller and Azure Identity / Subscription secret
             ``` bash
-            kubectl create namespace k8s-infra-system || true
+            kubectl apply namespace k8s-infra-system
+
             cat <<EOF | kubectl apply -f -
             apiVersion: v1
             kind: Secret
@@ -58,9 +60,11 @@ jobs:
               client-id: $(echo "${AZURE_CLIENT_ID}" | tr -d '\n' | base64 | tr -d '\n')
               client-secret: $(echo "${AZURE_CLIENT_SECRET}" | tr -d '\n' | base64 | tr -d '\n')
             EOF
+
+            kubectl apply -f https://github.com/Azure/k8s-infra/releases/download/${{ env.RELEASE_VERSION }}/manifest.yaml
             ```
 
-            The image for this release is `devigned/k8s-infra-controller:${{ env.RELEASE_VERSION }}`.
+            The image for this release is `azk8sinfra/k8s-infra-controller:${{ env.RELEASE_VERSION }}`.
       - name: upload manifest
         id: manifest
         uses: actions/upload-release-asset@v1
