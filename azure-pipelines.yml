@@ -241,7 +241,7 @@ steps:
         kubectl delete namespace $(OPERATOR_NAMESPACE)
         imagename="$(PIPELINE_CONTAINER_REGISTRY_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
         echo $imagename
-        helm upgrade aso charts/azure-service-operator-0.1.0.tgz \
+        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz \
             --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
             --set azureTenantID=$(AZURE_TENANT_ID) \
             --set azureClientID=$(AZURE_CLIENT_ID) \
@@ -251,7 +251,7 @@ steps:
             --set createNamespace=true \
             --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/4ef44fef-c51d-4d7c-a6ff-8635c02848b1/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-devops-mi" \
             --set aad-pod-identity.azureIdentity.clientID="88cd557c-f616-489a-a397-0a651fd91edf" \
-            --set image.repository:$imagename \
+            --set image.repository=$imagename \
             --set namespace=$(OPERATOR_NAMESPACE)
         kubectl get namespace
         kubectl get pods -n $(OPERATOR_NAMESPACE)
