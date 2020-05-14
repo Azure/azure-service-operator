@@ -15,6 +15,8 @@ import (
 	"testing"
 	"time"
 
+	kscheme "k8s.io/client-go/kubernetes/scheme"
+
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
 
@@ -24,6 +26,7 @@ import (
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlmanageduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlmanageduser"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
@@ -51,6 +54,8 @@ import (
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"k8s.io/client-go/kubernetes/scheme"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -107,7 +112,19 @@ func setup() error {
 		return fmt.Errorf("rest config nil")
 	}
 
+	err = kscheme.AddToScheme(scheme.Scheme)
+	if err != nil {
+		return err
+	}
 	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	if err != nil {
+		return err
+	}
+	err = v1alpha2.AddToScheme(scheme.Scheme)
+	if err != nil {
+		return err
+	}
+	err = v1beta1.AddToScheme(scheme.Scheme)
 	if err != nil {
 		return err
 	}
@@ -396,6 +413,25 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureSQLManagedUserReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
+				secretClient,
+				scheme.Scheme,
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSqlManagedUser",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlManagedUser"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlManagedUser-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)

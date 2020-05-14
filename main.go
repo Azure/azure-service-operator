@@ -27,6 +27,7 @@ import (
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlmanageduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlmanageduser"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
@@ -160,6 +161,10 @@ func main() {
 	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient()
 	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient()
 	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(
+		secretClient,
+		scheme,
+	)
+	sqlManagedUserManager := resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
 		secretClient,
 		scheme,
 	)
@@ -394,6 +399,22 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.AzureSQLManagedUserReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlManagedUserManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSQLManagedUser",
+				ctrl.Log.WithName("controllers").WithName("AzureSQLManagedUser"),
+			),
+			Recorder: mgr.GetEventRecorderFor("AzureSQLManagedUser-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLManagedUser")
 		os.Exit(1)
 	}
 
@@ -751,6 +772,11 @@ func main() {
 	}
 	if err = (&azurev1alpha1.BlobContainer{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "BlobContainer")
+		os.Exit(1)
+	}
+
+	if err = (&azurev1alpha1.MySQLServer{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLServer")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder
