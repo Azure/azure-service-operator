@@ -28,9 +28,9 @@
     
     "remoteEnv": {
       "GO111MODULE": "on",
-      "AZURE_CLIENT_ID": "462dd9fb-3c3b-4f08-b97d-32c722e1277d",
-      "AZURE_CLIENT_SECRET": "669804bd-a1fc-4f6f-843f-9473bb44eea0",
-      "AZURE_SUBSCRIPTION_ID": "7060bca0-7a3c-44bd-b54c-4bb1e9facfac",
-      "AZURE_TENANT_ID": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+      "AZURE_CLIENT_ID": "",
+      "AZURE_CLIENT_SECRET": "",
+      "AZURE_SUBSCRIPTION_ID": "",
+      "AZURE_TENANT_ID": ""
     },
 }
