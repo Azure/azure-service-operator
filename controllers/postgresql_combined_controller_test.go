@@ -50,7 +50,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 			},
 			ServerVersion:  v1alpha2.ServerVersion("10"),
 			SSLEnforcement: v1alpha2.SslEnforcementEnumEnabled,
-			StorageProfile: v1alpha2.PSQLStorageProfile{
+			StorageProfile: &v1alpha2.PSQLStorageProfile{
 				BackupRetentionDays: to.Int32Ptr(10),
 				GeoRedundantBackup:  "Disabled",
 				StorageMB:           to.Int32Ptr(5120),
