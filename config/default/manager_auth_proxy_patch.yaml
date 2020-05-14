@@ -22,12 +22,4 @@ spec:
       - name: manager
         args:
         - "--metrics-addr=127.0.0.1:8080"
-        - "--health-addr=127.0.0.1:8081"
-        livenessProbe:
-          httpGet:
-            path: /sohealthz
-            port: 8081
-          initialDelaySeconds: 30
-          periodSeconds: 3
-        # - "--enable-leader-election"
-        
+        # - "--enable-leader-election
