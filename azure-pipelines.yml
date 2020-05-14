@@ -62,9 +62,9 @@ steps:
         export PATH=$PATH:/usr/local/kubebuilder/bin
         echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
         # download kustomize
-        curl -o $(System.DefaultWorkingDirectory)/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+        curl -o kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
         # set permission
-        chmod a+x $(System.DefaultWorkingDirectory)/kustomize
+        chmod a+x kustomize
         export PATH=$PATH:$(go env GOPATH)/bin
         echo '##vso[task.prependpath]$(go env GOPATH)/bin'
         which kustomize
