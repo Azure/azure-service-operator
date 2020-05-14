@@ -1,10 +1,10 @@
 apiVersion: azure.microsoft.com/v1alpha2
 kind: MySQLServer
 metadata:
-  name: mysqlserver-verztest2
+  name: mysqlserver-sample
 spec:  
   location: eastus2
-  resourceGroup: resourcegroup-mysqlverz
+  resourceGroup: resourcegroup-azure-operators
   serverVersion: "8.0"
   sslEnforcement: Enabled
   minimalTLSVersion: TLS10 # Possible values include: 'TLS10', 'TLS11', 'TLS12', 'Disabled'
@@ -17,9 +17,9 @@ spec:
     size: "51200"
     capacity: 4
   # Optional Backup Retention Config
-  storageProfile:
-    backupRetentionDays: 10
-    geoRedundantBackup: Disabled # or Enabled
-    storageMB: 200 # max storage
-    storageAutogrow: Disabled # or Enabled
+  # storageProfile:
+  #   backupRetentionDays: 10
+  #   geoRedundantBackup: Enabled # Disabled or Enabled
+  #   storageMB: 6144 # max storage - minimum of 5120 MB and additional increments of 1024 MB up to maximum of 16777216 MB
+  #   storageAutogrow: Enabled # Disabled or Enabled
     
