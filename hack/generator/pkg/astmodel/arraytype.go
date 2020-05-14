@@ -29,10 +29,12 @@ func (array *ArrayType) AsType() ast.Expr {
 	}
 }
 
+// RequiredImports returns a list of packages required by this
 func (array *ArrayType) RequiredImports() []PackageReference {
 	return array.element.RequiredImports()
 }
 
+// References this type has to the given type
 func (array *ArrayType) References(t Type) bool {
 	return array == t || array.element.References(t)
 }

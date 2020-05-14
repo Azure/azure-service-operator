@@ -40,10 +40,12 @@ func (prim *PrimitiveType) AsType() ast.Expr {
 	return ast.NewIdent(prim.name)
 }
 
+// RequiredImports returns a list of package required by this
 func (prim *PrimitiveType) RequiredImports() []PackageReference {
 	return nil
 }
 
+// References this type has to the given type
 func (prim *PrimitiveType) References(t Type) bool {
 	return prim == t
 }

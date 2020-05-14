@@ -50,6 +50,7 @@ func (structType *StructType) AsType() ast.Expr {
 	}
 }
 
+// RequiredImports returns a list of packages required by this
 func (structType *StructType) RequiredImports() []PackageReference {
 	var result []PackageReference
 	for _, field := range structType.fields {
@@ -59,6 +60,7 @@ func (structType *StructType) RequiredImports() []PackageReference {
 	return result
 }
 
+// References this type has to the given type
 func (structType *StructType) References(t Type) bool {
 	if structType == t {
 		return true

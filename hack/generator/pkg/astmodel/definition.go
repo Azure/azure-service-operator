@@ -7,6 +7,7 @@ package astmodel
 
 import "go/ast"
 
+// HasImports describes an entity that has required imports
 type HasImports interface {
 	// RequiredImports returns a list of packages required by this
 	RequiredImports() []PackageReference
@@ -35,6 +36,7 @@ type Type interface {
 	// AsType renders the current instance as a Go abstract syntax tree
 	AsType() ast.Expr
 
+	// References this type has to the given type
 	// Does this Type include any direct references to the given Type?
 	// "Direct" means we don't walk into any StructReferences (nor could we with these arguments),
 	// but we do walk into included StructTypes.

@@ -51,7 +51,7 @@ func (scanner *SchemaScanner) FindDefinition(ref astmodel.DefinitionName) (astmo
 	return result, ok
 }
 
-// AddStruct makes a record of the specified struct so that FindStruct() can return it when it is needed again.
+// AddDefinition makes a record of the specified struct so that FindStruct() can return it when it is needed again.
 func (scanner *SchemaScanner) AddDefinition(def astmodel.Definition) {
 	scanner.Definitions[*def.Reference()] = def
 }

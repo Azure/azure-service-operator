@@ -1,32 +1,32 @@
-APP				= k8sinfra
-PACKAGE  		= github.com/Azure/k8s-infra/hack/generator
-DATE    		?= $(shell date +%FT%T%z)
-VERSION 		?= $(shell git rev-list -1 HEAD)
-SHORT_VERSION 	?= $(shell git rev-parse --short HEAD)
-GOBIN      		?= $(HOME)/go/bin
-GOFMT   		= gofmt
-GO      		= go
-PKGS     		= $(or $(PKG),$(shell $(GO) list ./... | grep -vE "^$(PACKAGE)/templates/"))
-TOOLS_DIR		= ../tools
-TOOLSBIN		= $(TOOLS_DIR)/bin
-GOLINT			= $(TOOLSBIN)/golint
-GOX				= $(TOOLSBIN)/gox
+APP             = k8sinfra-gen
+PACKAGE         = github.com/Azure/k8s-infra/hack/generator
+DATE            ?= $(shell date +%FT%T%z)
+VERSION         ?= $(shell git rev-list -1 HEAD)
+SHORT_VERSION   ?= $(shell git rev-parse --short HEAD)
+GOBIN           ?= $(HOME)/go/bin
+GOFMT           = gofmt
+GO              = go
+PKGS            = $(or $(PKG),$(shell $(GO) list ./... | grep -vE "^$(PACKAGE)/templates/"))
+ROOT_DIR        :=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+TOOLS_DIR       = $(abspath $(ROOT_DIR)/../tools)
+TOOLS_BIN       = $(TOOLS_DIR)/bin
+GOLINT          = $(TOOLS_BIN)/golint
+GOX             = $(TOOLS_BIN)/gox
+GO_INSTALL      = $(abspath $(ROOT_DIR)/../../scripts/go_install.sh)
 
 V = 0
 Q = $(if $(filter 1,$V),,@)
 
 .PHONY: all
-all: install-tools fmt lint vet tidy build
+all: build
 
-install-tools: $(GOLINT) $(GOX); $(info $(M) installing tools…)
+$(GOLINT): ## Build golint
+	GOBIN=$(TOOLS_BIN) $(GO_INSTALL) golang.org/x/lint/golint
 
-$(GOLINT): $(TOOLS_DIR)/go.mod ## Build golint
-	cd $(TOOLS_DIR); go build -tags=tools -o bin/golint golang.org/x/lint/golint
+$(GOX): ## Build gox
+	GOBIN=$(TOOLS_BIN) $(GO_INSTALL)  github.com/mitchellh/gox@v1.0.1
 
-$(GOX): $(TOOLS_DIR)/go.mod ## Build gox
-	cd $(TOOLS_DIR); go build -tags=tools -o bin/gox github.com/mitchellh/gox
-
-build: lint tidy ; $(info $(M) buiding ./bin/$(APP))
+build: tidy fmt vet lint ; $(info $(M) buiding ./bin/$(APP))
 	$Q $(GO)  build -ldflags "-X $(PACKAGE)/cmd.GitCommit=$(VERSION)" -o ./bin/$(APP)
 
 .PHONY: lint
@@ -58,14 +58,14 @@ test: ; $(info $(M) running go test…)
 .PHONY: test-cover
 test-cover: ; $(info $(M) running go test…)
 	$(Q) $(GO) test -tags=noexit -race -covermode atomic -coverprofile=profile.cov ./...
-	$(Q) $(TOOLSBIN)/goveralls -coverprofile=profile.cov -service=github
+	$(Q) $(TOOLS_BIN)/goveralls -coverprofile=profile.cov -service=github
 
 .PHONY: gox
 gox: install-tools
-	$(Q) $(TOOLSBIN)/gox -osarch="darwin/amd64 windows/amd64 linux/amd64" -ldflags "-X $(PACKAGE)/cmd.GitCommit=$(VERSION)" -output "./bin/$(SHORT_VERSION)/{{.Dir}}_{{.OS}}_{{.Arch}}"
+	$(Q) $(TOOLS_BIN)/gox -osarch="darwin/amd64 windows/amd64 linux/amd64" -ldflags "-X $(PACKAGE)/cmd.GitCommit=$(VERSION)" -output "./bin/$(SHORT_VERSION)/{{.Dir}}_{{.OS}}_{{.Arch}}"
 	$(Q) tar -czvf ./bin/$(SHORT_VERSION)/$(APP)_darwin_amd64.tar.gz -C ./bin/$(SHORT_VERSION)/ $(APP)_darwin_amd64
 	$(Q) tar -czvf ./bin/$(SHORT_VERSION)/$(APP)_linux_amd64.tar.gz -C ./bin/$(SHORT_VERSION)/ $(APP)_linux_amd64
 	$(Q) tar -czvf ./bin/$(SHORT_VERSION)/$(APP)_windows_amd64.tar.gz -C ./bin/$(SHORT_VERSION)/ $(APP)_windows_amd64.exe
 
 .PHONY: ci
-ci: install-tools fmt lint vet tidy build test-cover
+ci: build test

@@ -36,6 +36,7 @@ func (m *MapType) AsType() ast.Expr {
 	}
 }
 
+// RequiredImports returns a list of packages required by this
 func (m *MapType) RequiredImports() []PackageReference {
 	var result []PackageReference
 	result = append(result, m.key.RequiredImports()...)
@@ -43,6 +44,7 @@ func (m *MapType) RequiredImports() []PackageReference {
 	return result
 }
 
+// References this type has to the given type
 func (m *MapType) References(t Type) bool {
 	return m == t || m.key.References(t) || m.value.References(t)
 }
