@@ -55,7 +55,9 @@ test-existing-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 go test -tags "$(BUILD_TAGS)" -parallel 4 -v ./controllers/... -timeout 45m
 
 unit-tests:
-	go test ./pkg/resourcemanager/keyvaults/unittest/
+	go test -v \
+	./pkg/resourcemanager/keyvaults/unittest/ \
+	./pkg/helpers/
 
 
 # Run tests with existing cluster

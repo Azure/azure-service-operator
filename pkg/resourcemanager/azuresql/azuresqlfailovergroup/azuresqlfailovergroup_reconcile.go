@@ -7,7 +7,9 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -37,7 +39,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 	serverName := instance.Spec.Server
 	failoverGroupName := instance.ObjectMeta.Name
 	sqlFailoverGroupProperties := azuresqlshared.SQLFailoverGroupProperties{
-		FailoverPolicy:               instance.Spec.FailoverPolicy,
+		FailoverPolicy:               v1alpha1.ReadWriteEndpointFailoverPolicy(instance.Spec.FailoverPolicy),
 		FailoverGracePeriod:          instance.Spec.FailoverGracePeriod,
 		SecondaryServer:              instance.Spec.SecondaryServer,
 		SecondaryServerResourceGroup: instance.Spec.SecondaryServerResourceGroup,
@@ -203,11 +205,13 @@ func (g *AzureSqlFailoverGroupManager) GetStatus(obj runtime.Object) (*azurev1al
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := azurev1alpha1.ASOStatus(instance.Status)
+
+	return &st, nil
 }
 
-func (fg *AzureSqlFailoverGroupManager) convert(obj runtime.Object) (*azurev1alpha1.AzureSqlFailoverGroup, error) {
-	local, ok := obj.(*azurev1alpha1.AzureSqlFailoverGroup)
+func (fg *AzureSqlFailoverGroupManager) convert(obj runtime.Object) (*v1beta1.AzureSqlFailoverGroup, error) {
+	local, ok := obj.(*v1beta1.AzureSqlFailoverGroup)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
