@@ -15,6 +15,8 @@ import (
 	"testing"
 	"time"
 
+	kscheme "k8s.io/client-go/kubernetes/scheme"
+
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
 
@@ -52,6 +54,8 @@ import (
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"k8s.io/client-go/kubernetes/scheme"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -108,7 +112,19 @@ func setup() error {
 		return fmt.Errorf("rest config nil")
 	}
 
+	err = kscheme.AddToScheme(scheme.Scheme)
+	if err != nil {
+		return err
+	}
 	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	if err != nil {
+		return err
+	}
+	err = v1alpha2.AddToScheme(scheme.Scheme)
+	if err != nil {
+		return err
+	}
+	err = v1beta1.AddToScheme(scheme.Scheme)
 	if err != nil {
 		return err
 	}

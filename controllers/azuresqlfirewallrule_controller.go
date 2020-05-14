@@ -6,7 +6,7 @@ package controllers
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 )
 
 // AzureSqlFirewallRuleReconciler reconciles a AzureSqlFirewallRule object
@@ -19,12 +19,12 @@ type AzureSqlFirewallRuleReconciler struct {
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *AzureSqlFirewallRuleReconciler) Reconcile(req ctrl.Request) (result ctrl.Result, err error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureSqlFirewallRule{})
+	return r.Reconciler.Reconcile(req, &v1beta1.AzureSqlFirewallRule{})
 }
 
 // SetupWithManager function sets up the functions with the controller
 func (r *AzureSqlFirewallRuleReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.AzureSqlFirewallRule{}).
+		For(&v1beta1.AzureSqlFirewallRule{}).
 		Complete(r)
 }
