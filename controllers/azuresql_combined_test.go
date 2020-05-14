@@ -11,6 +11,7 @@ import (
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/stretchr/testify/assert"
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
@@ -38,10 +39,10 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	sqlServerNamespacedName2 := types.NamespacedName{Name: sqlServerTwoName, Namespace: "default"}
 
 	// Create the SqlServer object and expect the Reconcile to be created
-	sqlServerInstance := azurev1alpha1.NewAzureSQLServer(sqlServerNamespacedName, rgName, rgLocation)
+	sqlServerInstance := v1beta1.NewAzureSQLServer(sqlServerNamespacedName, rgName, rgLocation)
 
 	// Send request for 2nd server (failovergroup test) before waiting on first server
-	sqlServerInstance2 := azurev1alpha1.NewAzureSQLServer(sqlServerNamespacedName2, rgName, rgLocation2)
+	sqlServerInstance2 := v1beta1.NewAzureSQLServer(sqlServerNamespacedName2, rgName, rgLocation2)
 
 	// create and wait
 	RequireInstance(ctx, t, tc, sqlServerInstance)
@@ -60,7 +61,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	}, tc.timeoutFast, tc.retry, "wait for server to have secret")
 
 	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase", 10)
-	var sqlDatabaseInstance *azurev1alpha1.AzureSqlDatabase
+	var sqlDatabaseInstance *v1beta1.AzureSqlDatabase
 
 	sqlFirewallRuleNamespacedNameLocal := types.NamespacedName{
 		Name:      GenerateTestResourceNameWithRandom("sqlfwr-local", 10),
@@ -71,8 +72,8 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		Namespace: "default",
 	}
 
-	var sqlFirewallRuleInstanceLocal *azurev1alpha1.AzureSqlFirewallRule
-	var sqlFirewallRuleInstanceRemote *azurev1alpha1.AzureSqlFirewallRule
+	var sqlFirewallRuleInstanceLocal *v1beta1.AzureSqlFirewallRule
+	var sqlFirewallRuleInstanceRemote *v1beta1.AzureSqlFirewallRule
 
 	// run sub tests that require 1 sql server ----------------------------------
 	t.Run("group1", func(t *testing.T) {
@@ -92,12 +93,12 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			t.Parallel()
 
 			// Create the SqlDatabase object and expect the Reconcile to be created
-			sqlDatabaseInstance = &azurev1alpha1.AzureSqlDatabase{
+			sqlDatabaseInstance = &v1beta1.AzureSqlDatabase{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      sqlDatabaseName,
 					Namespace: "default",
 				},
-				Spec: azurev1alpha1.AzureSqlDatabaseSpec{
+				Spec: v1beta1.AzureSqlDatabaseSpec{
 					Location:      rgLocation,
 					ResourceGroup: rgName,
 					Server:        sqlServerName,
@@ -114,7 +115,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			t.Parallel()
 
 			// Create the SqlFirewallRule object and expect the Reconcile to be created
-			sqlFirewallRuleInstanceLocal = azurev1alpha1.NewAzureSQLFirewallRule(
+			sqlFirewallRuleInstanceLocal = v1beta1.NewAzureSQLFirewallRule(
 				sqlFirewallRuleNamespacedNameLocal,
 				rgName,
 				sqlServerName,
@@ -129,7 +130,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			t.Parallel()
 
 			// Create the SqlFirewallRule object and expect the Reconcile to be created
-			sqlFirewallRuleInstanceRemote = azurev1alpha1.NewAzureSQLFirewallRule(
+			sqlFirewallRuleInstanceRemote = v1beta1.NewAzureSQLFirewallRule(
 				sqlFirewallRuleNamespacedNameRemote,
 				rgName,
 				sqlServerName,
@@ -316,7 +317,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		assert.Equal(oldSecret["username"], newSecret["username"], "usernames should be the same")
 	})
 
-	var sqlFailoverGroupInstance *azurev1alpha1.AzureSqlFailoverGroup
+	var sqlFailoverGroupInstance *v1beta1.AzureSqlFailoverGroup
 	sqlFailoverGroupName := GenerateTestResourceNameWithRandom("sqlfog-dev", 10)
 
 	sqlFailoverGroupNamespacedName := types.NamespacedName{Name: sqlFailoverGroupName, Namespace: "default"}
@@ -372,12 +373,12 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			t.Parallel()
 
 			// Create the SqlFailoverGroup object and expect the Reconcile to be created
-			sqlFailoverGroupInstance = &azurev1alpha1.AzureSqlFailoverGroup{
+			sqlFailoverGroupInstance = &v1beta1.AzureSqlFailoverGroup{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      sqlFailoverGroupNamespacedName.Name,
 					Namespace: sqlFailoverGroupNamespacedName.Namespace,
 				},
-				Spec: azurev1alpha1.AzureSqlFailoverGroupSpec{
+				Spec: v1beta1.AzureSqlFailoverGroupSpec{
 					Location:                     rgLocation,
 					ResourceGroup:                rgName,
 					Server:                       sqlServerName,
