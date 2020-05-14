@@ -227,9 +227,11 @@ steps:
             --set azureTenantID=$(AZURE_TENANT_ID) \
             --set azureClientID=$(AZURE_CLIENT_ID) \
             --set azureClientSecret=$(AZURE_CLIENT_SECRET) \
-            --set azureUseMI=false \
+            --set azureUseMI=true \
             --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
             --set createNamespace=true \
+            --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/4ef44fef-c51d-4d7c-a6ff-8635c02848b1/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-devops-mi" \
+            --set aad-pod-identity.azureIdentity.clientID="88cd557c-f616-489a-a397-0a651fd91edf" \
             --set namespace=$(OPERATOR_NAMESPACE)
         kubectl get namespace
         kubectl get pods -n $(OPERATOR_NAMESPACE)
