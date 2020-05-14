@@ -4,6 +4,64 @@
 
 > This project is experimental. Expect the API to change. It is not recommended for production environments.
 
+Azure Service Operator helps you provision Azure resources from within Kubernetes.
+
+## Overview
+
+The Azure Operator comprises of:
+
+- The Custom Resource Definitions (CRDs) for each of the Azure services that the Kubernetes user can provision
+- The Kubernetes controller that watches for requests to create Custom Resources for these CRDs and creates them
+
+The project was built using [Kubebuilder](https://book.kubebuilder.io/).
+
+For more details on the control flow of the Azure Service operator, refer to the link below
+
+[Azure Service Operator control flow](/docs/controlflow.md)
+
+## Azure Services supported
+
+1. [Resource Group](/docs/resourcegroup/resourcegroup.md)
+2. [EventHub](/docs/eventhub/eventhub.md)
+3. [Azure SQL](/docs/azuresql/azuresql.md)
+4. [Azure Database for PostgreSQL](/docs/postgresql/postgresql.md)
+5. [Azure Database for MySQL](/docs/mysql/mysql.md)
+6. [Azure Keyvault](/docs/keyvault/keyvault.md)
+7. [Azure Rediscache](/docs/rediscache/rediscache.md)
+8. [Storage Account](/docs/storage/storageaccount.md)
+9. [Blob container](/docs/storage/blobcontainer.md)
+10. [Virtual Network](/docs/virtualnetwork/virtualnetwork.md)
+11. [Application Insights](/docs/appinsights/appinsights.md)
+12. [API Management](/docs/apimgmt/apimgmt.md)
+13. [Cosmos DB](/docs/cosmosdb/cosmosdb.md)
+
+## Getting started
+
+This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](./charts/azure-service-operator).
+
+For detailed instructions on getting started, refer [here]().
+
+Please see the [FAQ][] for answers to commonly asked questions about the Azure Service Operator
+
+## Contributing
+
+The [contribution guide][contribution-guide] covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide][developer-guide] will help you onboard as a developer.
+
+## Support
+
+Azure Service Operator is an open source project that is [**not** covered by the Microsoft Azure support policy](https://support.microsoft.com/en-us/help/2941892/support-for-linux-and-open-source-technology-in-azure). [Please search open issues here](https://github.com/Azure/azure-service-operator/issues), and if your issue isn't already represented please [open a new one](https://github.com/Azure/azure-service-operator/issues/new/choose). The Azure Service Operator project maintainers will respond to the best of their abilities.
+
+## Code of conduct
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+[contribution-guide]: docs/community/README.md
+[developer-guide]: docs/community/developer-guide.md
+[docs]: docs/README.md
+[FAQ]: docs/faq.md
+
+------
+
 ## Introduction
 
 An Operator is an application-specific controller that extends the Kubernetes API to create, configure, and manage instances of complex stateful applications on behalf of a Kubernetes user. It builds upon the basic Kubernetes resource and controller concepts but includes domain or application-specific knowledge to automate common tasks.
