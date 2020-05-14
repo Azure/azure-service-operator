@@ -1,0 +1,15 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureVirtualMachineExtension
+metadata:
+  name: hpfvmext20a
+spec:
+  location: SouthCentralUS
+  resourceGroup: resourcegroup-azure-operators
+  vmName: hpfvm20
+  autoUpgradeMinorVersion: true
+  forceUpdateTag: Test2
+  publisher: Microsoft.Azure.Extensions
+  typeName: CustomScript
+  typeHandlerVersion: "2.1"
+  settings: "{\"commandToExecute\":\"echo 'hello, world'\"}"
+  protectedSettings: "{}"
