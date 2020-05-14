@@ -22,7 +22,7 @@ func TestPSQLDatabaseController(t *testing.T) {
 	var rgName string
 	var rgLocation string
 	var postgreSQLServerName string
-	var postgreSQLServerInstance *azurev1alpha1.PostgreSQLServer
+	var postgreSQLServerInstance *v1alpha2.PostgreSQLServer
 
 	// Add any setup steps that needs to be executed before each test
 	rgName = tc.resourceGroupName
