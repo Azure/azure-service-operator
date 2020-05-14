@@ -62,11 +62,10 @@ steps:
         export PATH=$PATH:/usr/local/kubebuilder/bin
         echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
         # download kustomize
-        curl -o kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
-        ls kustomize
-        ls
+        curl -o $(go env GOPATH)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
         # set permission
-        chmod a+x kustomize
+        chmod a+x $(go env GOPATH)/bin/*
+        chmod a+x $(go env GOPATH)/bin/kustomize
         export PATH=$PATH:$(go env GOPATH)/bin
         echo '##vso[task.prependpath]$(go env GOPATH)/bin'
         which kustomize
@@ -172,6 +171,7 @@ steps:
       # create directory for generated files
       mkdir charts/azure-service-operator/templates/generated
       # generate files using kustomize
+      cp $(go env GOPATH)/bin/kustomize kustomize
       which kustomize
       kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
       # remove namespace, as we need to wrap it in a conditional since Helm 3 does not autocreate them
@@ -270,6 +270,7 @@ steps:
       img="$IMAGE_NAME:$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
       echo $img
       sed -i -e 's@controller:latest@'${img}'@g' ./config/default/manager_image_patch.yaml
+      cp $(go env GOPATH)/bin/kustomize kustomize
       which kustomize
       kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
       set -x
