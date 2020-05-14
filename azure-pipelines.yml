@@ -53,8 +53,8 @@ steps:
       targetType: 'inline'
       script: |
         set -x
-        mkdir -p $(go env GOPATH)/bin
-        mkfir -p /usr/local/kubebuilder
+        mkdir -p $(System.DefaultWorkingDirectory)/bin
+        mkdir -p /usr/local/kubebuilder
         go env
         os=$(go env GOOS)
         arch=$(go env GOARCH)
@@ -63,15 +63,15 @@ steps:
         export PATH=$PATH:/usr/local/kubebuilder/bin
         echo '##vso[task.prependpath]/usr/local/kubebuilder/bin'
         # download kustomize
-        curl -o $(go env GOPATH)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+        curl -o $(System.DefaultWorkingDirectory)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
         # set permission
-        chmod a+x $(go env GOPATH)/bin/*
-        chmod a+x $(go env GOPATH)/bin/kustomize
-        export PATH=$PATH:$(go env GOPATH)/bin
-        echo '##vso[task.prependpath]$(go env GOPATH)/bin'
+        chmod a+x $(System.DefaultWorkingDirectory)/bin/*
+        chmod a+x $(System.DefaultWorkingDirectory)/bin/kustomize
+        export PATH=$PATH:$(System.DefaultWorkingDirectory)/bin
+        echo '##vso[task.prependpath]$(System.DefaultWorkingDirectory)/bin'
         which kustomize
         kustomize  version
-        cp $(go env GOPATH)/bin/kustomize kustomize
+        cp $(System.DefaultWorkingDirectory)/bin/kustomize $(System.DefaultWorkingDirectory)/kustomize
         go mod download
         make install-test-dependencies
       workingDirectory: '$(System.DefaultWorkingDirectory)'
