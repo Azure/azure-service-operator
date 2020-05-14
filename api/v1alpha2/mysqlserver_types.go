@@ -71,6 +71,12 @@ func NewDefaultMySQLServer(name, resourceGroup, location string) *MySQLServer {
 			ServerVersion:  ServerVersion("8.0"),
 			SSLEnforcement: SslEnforcementEnumEnabled,
 			CreateMode:     "Default",
+			StorageProfile: &MySQLStorageProfile{
+				BackupRetentionDays: to.Int32Ptr(10),
+				GeoRedundantBackup:  "Disabled",
+				StorageMB:           to.Int32Ptr(5120),
+				StorageAutogrow:     "Disabled",
+			},
 		},
 	}
 }
@@ -87,12 +93,6 @@ func NewReplicaMySQLServer(name, resourceGroup, location string, sourceserverid 
 			CreateMode:    "Replica",
 			ReplicaProperties: ReplicaProperties{
 				SourceServerId: sourceserverid,
-			},
-			StorageProfile: &MySQLStorageProfile{
-				BackupRetentionDays: to.Int32Ptr(10),
-				GeoRedundantBackup:  "Disabled",
-				StorageMB:           to.Int32Ptr(5120),
-				StorageAutogrow:     "Disabled",
 			},
 		},
 	}
