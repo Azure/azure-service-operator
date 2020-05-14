@@ -1,4 +1,3 @@
-// If you want to run as a non-root user in the container, see .devcontainer/docker-compose.yml.
 {
     "name": "ASO",
 	  "dockerFile": "Dockerfile",
@@ -7,14 +6,17 @@
     "settings": {
       "terminal.integrated.shell.linux": "/bin/bash",
       "go.gopath": "/go",
-      "go.useLanguageServer": true
+      "go.useLanguageServer": true,
     },
     
     "mounts": [
       "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
-      "source=${env:HOME}${env:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind"
+      // Comment the next line to avoid syncing your kubeconfig
+      "source=${env:HOME}${env:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind",
       // Uncomment the next line to also sync certs in your .minikube folder
-      // "source=${env:HOME}${env:USERPROFILE}/.minikube,target=/usr/local/share/minikube-localhost,type=bind"
+      // "source=${env:HOME}${env:USERPROFILE}/.minikube,target=/usr/local/share/minikube-localhost,type=bind",
+      // Comment the next line to avoid syncing azure cli config
+      "source=${env:HOME}${env:USERPROFILE}/.azure,target=/usr/local/share/azure-localhost,type=bind",
     ],
     
     "extensions": [
@@ -25,15 +27,10 @@
     ],
     
     "remoteEnv": {
-      "SYNC_LOCALHOST_KUBECONFIG": "true",
+      "GO111MODULE": "on",
       "AZURE_CLIENT_ID": "462dd9fb-3c3b-4f08-b97d-32c722e1277d",
       "AZURE_CLIENT_SECRET": "669804bd-a1fc-4f6f-843f-9473bb44eea0",
       "AZURE_SUBSCRIPTION_ID": "7060bca0-7a3c-44bd-b54c-4bb1e9facfac",
       "AZURE_TENANT_ID": "72f988bf-86f1-41af-91ab-2d7cd011db47"
     },
-    
-    "overrideCommand": false,
-
-    // Cannot run as non-root user because the manager binds to port 443
-    // "remoteUser": "vscode"
 }
