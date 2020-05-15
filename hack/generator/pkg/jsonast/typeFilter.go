@@ -25,9 +25,9 @@ const (
 // A TypeFilter is used to control which types should be exported by the generator
 type TypeFilter struct {
 	Action TypeFilterAction
-	// Schema is a wildcard matching specifier for which types are selected by this filter
-	Schema      string `yaml:",omitempty"`
-	schemaRegex *regexp.Regexp
+	// Group is a wildcard matching specifier for which groups are selected by this filter
+	Group      string `yaml:",omitempty"`
+	groupRegex *regexp.Regexp
 	// Version is a wildcard matching specifier for which types are selected by this filter
 	Version      string `yaml:",omitempty"`
 	versionRegex *regexp.Regexp
@@ -40,15 +40,15 @@ type TypeFilter struct {
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
 func (filter *TypeFilter) AppliesToType(definition astmodel.Definition) bool {
-	// TODO: also allow filtering on package group name
-	result := filter.nameMatches(definition.Reference().Name()) &&
-		filter.versionMatches(definition.Reference().PackageName())
+	result := filter.groupMatches(definition.Reference().GroupName()) &&
+		filter.versionMatches(definition.Reference().PackageName()) &&
+		filter.nameMatches(definition.Reference().Name())
 
 	return result
 }
 
-func (filter *TypeFilter) schemaMatches(schema string) bool {
-	return filter.matches(filter.Schema, &filter.schemaRegex, schema)
+func (filter *TypeFilter) groupMatches(schema string) bool {
+	return filter.matches(filter.Group, &filter.groupRegex, schema)
 }
 
 func (filter *TypeFilter) versionMatches(version string) bool {

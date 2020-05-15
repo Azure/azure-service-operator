@@ -15,56 +15,63 @@ import (
 )
 
 // Shared test values:
-var person2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01", false))
-var post2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01", false))
-var student2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01", false))
+var person2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("person", "party", "2020-01-01", false))
+var post2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("post", "thing", "2019-01-01", false))
+var student2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("student", "role", "2019-01-01", false))
+var tutor2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("tutor", "role", "2019-01-01", false))
 
-func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
+func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	person := person2020
-	post := post2019
-	student := student2019
-	filter := jsonast.TypeFilter{Name: "p*"}
+	filter := jsonast.TypeFilter{Group:"role"}
 
-	// Name starts with "p" should be selected
-	g.Expect(filter.AppliesToType(person)).To(BeTrue())
-	g.Expect(filter.AppliesToType(post)).To(BeTrue())
+	// Roles should be selected
+	g.Expect(filter.AppliesToType(student2019)).To(BeTrue())
+	g.Expect(filter.AppliesToType(tutor2019)).To(BeTrue())
 
-	// Name does not start with "p" should not be selected
-	g.Expect(filter.AppliesToType(student)).To(BeFalse())
+	// Party and Plays should not be selected
+	g.Expect(filter.AppliesToType(person2020)).To(BeFalse())
+	g.Expect(filter.AppliesToType(post2019)).To(BeFalse())
 }
 
 func Test_FilterByVersion_CorrectlySelectsStructs(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	person := person2020
-	post := post2019
-	student := student2019
 	filter := jsonast.TypeFilter{Version: "2019-*"}
 
 	// Version from 2019 should be selected
-	g.Expect(filter.AppliesToType(post)).To(BeTrue())
-	g.Expect(filter.AppliesToType(student)).To(BeTrue())
+	g.Expect(filter.AppliesToType(post2019)).To(BeTrue())
+	g.Expect(filter.AppliesToType(student2019)).To(BeTrue())
 
 	// Version not from 2019 should not be selected
-	g.Expect(filter.AppliesToType(person)).To(BeFalse())
+	g.Expect(filter.AppliesToType(person2020)).To(BeFalse())
 }
+
+func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	filter := jsonast.TypeFilter{Name: "p*"}
+
+	// Name starts with "p" should be selected
+	g.Expect(filter.AppliesToType(person2020)).To(BeTrue())
+	g.Expect(filter.AppliesToType(post2019)).To(BeTrue())
+
+	// Name does not start with "p" should not be selected
+	g.Expect(filter.AppliesToType(student2019)).To(BeFalse())
+}
+
 
 func Test_FilterByMultipleConditions_CorrectlySelectsStructs(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	person := person2020
-	post := post2019
-	student := student2019
 	filter := jsonast.TypeFilter{Name: "p*", Version: "2019-*"}
 
 	// Version not selected by filter
-	g.Expect(filter.AppliesToType(person)).To(BeFalse())
+	g.Expect(filter.AppliesToType(person2020)).To(BeFalse())
 
 	// Both name and version selected by filter
-	g.Expect(filter.AppliesToType(post)).To(BeTrue())
+	g.Expect(filter.AppliesToType(post2019)).To(BeTrue())
 
 	// Name not selected by filter
-	g.Expect(filter.AppliesToType(student)).To(BeFalse())
+	g.Expect(filter.AppliesToType(student2019)).To(BeFalse())
 }
