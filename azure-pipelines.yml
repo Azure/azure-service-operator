@@ -93,6 +93,7 @@ steps:
       make install
       make test-integration-controllers
     displayName: Run tests on a Kind Cluster
+    continueOnError: 'false'
     env:
       GO111MODULE: on
       AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
