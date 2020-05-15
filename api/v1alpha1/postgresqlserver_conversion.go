@@ -8,8 +8,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
-func (src *MySQLServer) ConvertTo(dstRaw conversion.Hub) error {
-	dst := dstRaw.(*v1alpha2.MySQLServer)
+func (src *PostgreSQLServer) ConvertTo(dstRaw conversion.Hub) error {
+	dst := dstRaw.(*v1alpha2.PostgreSQLServer)
 
 	// ObjectMeta
 	dst.ObjectMeta = src.ObjectMeta
@@ -40,8 +40,8 @@ func (src *MySQLServer) ConvertTo(dstRaw conversion.Hub) error {
 	return nil
 }
 
-func (dst *MySQLServer) ConvertFrom(srcRaw conversion.Hub) error {
-	src := srcRaw.(*v1alpha2.MySQLServer)
+func (dst *PostgreSQLServer) ConvertFrom(srcRaw conversion.Hub) error {
+	src := srcRaw.(*v1alpha2.PostgreSQLServer)
 
 	// ObjectMeta
 	dst.ObjectMeta = src.ObjectMeta
