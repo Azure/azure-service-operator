@@ -55,7 +55,7 @@ patches:
 - patches/webhook_in_azuresqlfailovergroups.yaml
 - patches/webhook_in_blobcontainers.yaml
 #- patches/webhook_in_appinsights.yaml
-#- patches/webhook_in_postgresqlservers.yaml
+- patches/webhook_in_postgresqlservers.yaml
 #- patches/webhook_in_postgresqldatabases.yaml
 #- patches/webhook_in_postgresqlfirewallrules.yaml
 #- patches/webhook_in_postgresqlvnetrules.yaml
@@ -64,7 +64,7 @@ patches:
 #- patches/webhook_in_virtualnetworks.yaml
 #- patches/webhook_in_keyvaultkeys.yaml
 #- patches/webhook_in_azuresqlvnetrules.yaml
-#- patches/webhook_in_mysqlservers.yaml
+- patches/webhook_in_mysqlservers.yaml
 #- patches/webhook_in_mysqldatabases.yaml
 #- patches/webhook_in_mysqlfirewallrules.yaml
 #- patches/webhook_in_storageaccounts.yaml
@@ -91,7 +91,7 @@ patches:
 - patches/cainjection_in_azuresqlfailovergroups.yaml
 - patches/cainjection_in_blobcontainers.yaml
 #- patches/cainjection_in_appinsights.yaml
-#- patches/cainjection_in_postgresqlservers.yaml
+- patches/cainjection_in_postgresqlservers.yaml
 #- patches/cainjection_in_postgresqldatabases.yaml
 #- patches/cainjection_in_postgresqlfirewallrules.yaml
 #- patches/cainjection_in_postgresqlvnetrules.yaml
@@ -100,7 +100,7 @@ patches:
 #- patches/cainjection_in_virtualnetworks.yaml
 #- patches/cainjection_in_keyvaultkeys.yaml
 #- patches/cainjection_in_azuresqlvnetrules.yaml
-#- patches/cainjection_in_mysqlservers.yaml
+- patches/cainjection_in_mysqlservers.yaml
 #- patches/cainjection_in_mysqldatabases.yaml
 #- patches/cainjection_in_mysqlfirewallrules.yaml
 #- patches/cainjection_in_storageaccounts.yaml
