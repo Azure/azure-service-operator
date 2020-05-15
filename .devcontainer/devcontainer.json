@@ -3,7 +3,6 @@
     "dockerFile": "Dockerfile",
 
     "runArgs": [
-      "--env-file=${localWorkspaceFolder}/.env",
       "--cap-add=SYS_PTRACE",
       "--security-opt", "seccomp=unconfined",
     ],
