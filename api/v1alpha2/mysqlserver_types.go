@@ -4,90 +4,24 @@
 package v1alpha2
 
 import (
-	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	"github.com/Azure/go-autorest/autorest/to"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-type AzureDBsSQLSku struct {
-	// Name - The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
-	Name string `json:"name,omitempty"`
-	// Tier - The tier of the particular SKU, e.g. Basic. Possible values include: 'Basic', 'GeneralPurpose', 'MemoryOptimized'
-	Tier SkuTier `json:"tier,omitempty"`
-	// Capacity - The scale up/out capacity, representing server's compute units.
-	Capacity int32 `json:"capacity,omitempty"`
-	// Size - The size code, to be interpreted by resource as appropriate.
-	Size string `json:"size,omitempty"`
-	// Family - The family of hardware.
-	Family string `json:"family,omitempty"`
-}
-
-// ServerVersion enumerates the values for server version.
-type ServerVersion string
-
-const (
-	// NineFullStopFive ...
-	NineFullStopFive ServerVersion = "9.5"
-	// NineFullStopSix ...
-	NineFullStopSix ServerVersion = "9.6"
-	// OneOne ...
-	OneOne ServerVersion = "11"
-	// OneZero ...
-	OneZero ServerVersion = "10"
-	// OneZeroFullStopTwo ...
-	OneZeroFullStopTwo ServerVersion = "10.2"
-	// OneZeroFullStopZero ...
-	OneZeroFullStopZero ServerVersion = "10.0"
-)
-
-type SkuTier string
-
-const (
-	// Basic ...
-	PSQLBasic SkuTier = "Basic"
-	// GeneralPurpose ...
-	PSQLGeneralPurpose SkuTier = "GeneralPurpose"
-	// MemoryOptimized ...
-	PSQLMemoryOptimized SkuTier = "MemoryOptimized"
-)
-
-type SslEnforcementEnum string
-
-const (
-	// SslEnforcementEnumDisabled ...
-	SslEnforcementEnumDisabled SslEnforcementEnum = "Disabled"
-	// SslEnforcementEnumEnabled ...
-	SslEnforcementEnumEnabled SslEnforcementEnum = "Enabled"
-)
-
-type StorageProfile struct {
-	// BackupRetentionDays - Backup retention days for the server.
-	BackupRetentionDays *int32 `json:"backupRetentionDays,omitempty"`
-	// GeoRedundantBackup - Enable Geo-redundant or not for server backup. Possible values include: 'Enabled', 'Disabled'
-	GeoRedundantBackup mysql.GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
-	// StorageMB - Max storage allowed for a server.
-	StorageMB *int32 `json:"storageMB,omitempty"`
-	// StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'StorageAutogrowEnabled', 'StorageAutogrowDisabled'
-	StorageAutogrow mysql.StorageAutogrow `json:"storageAutogrow,omitempty"`
-}
-
-type ReplicaProperties struct {
-	SourceServerId string `json:"sourceServerId,omitempty"`
-}
-
 // MySQLServerSpec defines the desired state of MySQLServer
 type MySQLServerSpec struct {
-	Location               string             `json:"location"`
-	ResourceGroup          string             `json:"resourceGroup,omitempty"`
-	Sku                    AzureDBsSQLSku     `json:"sku,omitempty"`
-	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
-	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
-	CreateMode             string             `json:"createMode,omitempty"`
-	ReplicaProperties      ReplicaProperties  `json:"replicaProperties,omitempty"`
-	StorageProfile         *StorageProfile    `json:"storageProfile,omitempty"`
-	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
+	Location               string               `json:"location"`
+	ResourceGroup          string               `json:"resourceGroup,omitempty"`
+	Sku                    AzureDBsSQLSku       `json:"sku,omitempty"`
+	ServerVersion          ServerVersion        `json:"serverVersion,omitempty"`
+	SSLEnforcement         SslEnforcementEnum   `json:"sslEnforcement,omitempty"`
+	CreateMode             string               `json:"createMode,omitempty"`
+	ReplicaProperties      ReplicaProperties    `json:"replicaProperties,omitempty"`
+	StorageProfile         *MySQLStorageProfile `json:"storageProfile,omitempty"`
+	KeyVaultToStoreSecrets string               `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -137,6 +71,12 @@ func NewDefaultMySQLServer(name, resourceGroup, location string) *MySQLServer {
 			ServerVersion:  ServerVersion("8.0"),
 			SSLEnforcement: SslEnforcementEnumEnabled,
 			CreateMode:     "Default",
+			StorageProfile: &MySQLStorageProfile{
+				BackupRetentionDays: to.Int32Ptr(10),
+				GeoRedundantBackup:  "Disabled",
+				StorageMB:           to.Int32Ptr(5120),
+				StorageAutogrow:     "Disabled",
+			},
 		},
 	}
 }
