@@ -12,7 +12,7 @@ variables:
   containerRegistry: '$(CONTAINER_REGISTRY)'
   tag: '$(Build.BuildId)'
   MAJOR_VERSION: 0
-  MINOR_VERSION: 0
+  MINOR_VERSION: 1
   PATCH_VERSION: $(Build.BuildId)
   GOROOT: '/usr/local/go1.13' # Go installation path
   #GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
