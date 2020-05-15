@@ -113,7 +113,8 @@ steps:
     kubectl cluster-info
     make install
     kubectl get namespaces
-    make test-existing-controllers
+    #make test-existing-controllers
+    make test-integration-controllers
   continueOnError: 'false'
   displayName: 'Set kind cluster and Run int tests'
   env:
