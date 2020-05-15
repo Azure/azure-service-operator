@@ -22,6 +22,7 @@ type AppInsightsSpec struct {
 // +kubebuilder:subresource:status
 
 // AppInsights is the Schema for the appinsights API
+// +kubebuilder:resource:shortName=ai,path=appinsights
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AppInsights struct {
