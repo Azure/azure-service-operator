@@ -31,6 +31,7 @@ type ApimServiceSpec struct {
 // +kubebuilder:subresource:status
 
 // ApimService is the Schema for the apimservices API
+// +kubebuilder:resource:shortName=apims,path=apimservice
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type ApimService struct {

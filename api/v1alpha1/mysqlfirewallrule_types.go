@@ -22,6 +22,7 @@ type MySQLFirewallRuleSpec struct {
 // +kubebuilder:subresource:status
 
 // MySQLFirewallRule is the Schema for the mysqlfirewallrules API
+// +kubebuilder:resource:shortName=mysqlfwr,path=mysqlfirewallrule
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type MySQLFirewallRule struct {

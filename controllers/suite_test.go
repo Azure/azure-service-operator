@@ -729,7 +729,10 @@ func setup() error {
 	// Create the ResourceGroup resource
 	result, _ := resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
 	if result.Response.StatusCode != 204 {
-		_, _ = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+		_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+		if err != nil {
+			return fmt.Errorf("ResourceGroup creation failed")
+		}
 	}
 
 	tc = TestContext{

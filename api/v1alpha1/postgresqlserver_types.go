@@ -77,6 +77,7 @@ const (
 // +kubebuilder:subresource:status
 
 // PostgreSQLServer is the Schema for the postgresqlservers API
+// +kubebuilder:resource:shortName=psqls,path=postgresqlserver
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLServer struct {
