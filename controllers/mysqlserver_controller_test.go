@@ -9,7 +9,7 @@ import (
 	"context"
 	"testing"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 )
 
@@ -24,7 +24,7 @@ func TestMySQLServerControllerNoResourceGroup(t *testing.T) {
 	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
 
 	// Create the mySQLServer object and expect the Reconcile to be created
-	mySQLServerInstance := azurev1alpha1.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
+	mySQLServerInstance := v1alpha2.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
 
 	EnsureInstanceWithResult(ctx, t, tc, mySQLServerInstance, errhelp.ResourceGroupNotFoundErrorCode, false)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)
@@ -41,7 +41,7 @@ func TestMySQLServerControllerBadLocation(t *testing.T) {
 	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
 
 	// Create the mySQLServer object and expect the Reconcile to be created
-	mySQLServerInstance := azurev1alpha1.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
+	mySQLServerInstance := v1alpha2.NewDefaultMySQLServer(mySQLServerName, rgName, rgLocation)
 
 	EnsureInstanceWithResult(ctx, t, tc, mySQLServerInstance, errhelp.InvalidResourceLocation, false)
 	EnsureDelete(ctx, t, tc, mySQLServerInstance)

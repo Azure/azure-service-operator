@@ -4,9 +4,8 @@
 package controllers
 
 import (
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	ctrl "sigs.k8s.io/controller-runtime"
-
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
 // AzureSqlFailoverGroupReconciler reconciles a AzureSqlFailoverGroup object
@@ -19,11 +18,11 @@ type AzureSqlFailoverGroupReconciler struct {
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *AzureSqlFailoverGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureSqlFailoverGroup{})
+	return r.Reconciler.Reconcile(req, &v1beta1.AzureSqlFailoverGroup{})
 }
 
 func (r *AzureSqlFailoverGroupReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&azurev1alpha1.AzureSqlFailoverGroup{}).
+		For(&v1beta1.AzureSqlFailoverGroup{}).
 		Complete(r)
 }

@@ -8,7 +8,9 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -50,7 +52,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 	azureSQLDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
-		Edition:      dbEdition,
+		Edition:      v1alpha1.DBEdition(dbEdition),
 	}
 
 	instance.Status.Provisioning = true
@@ -164,11 +166,12 @@ func (g *AzureSqlDbManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOSta
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := azurev1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (*AzureSqlDbManager) convert(obj runtime.Object) (*azurev1alpha1.AzureSqlDatabase, error) {
-	local, ok := obj.(*azurev1alpha1.AzureSqlDatabase)
+func (*AzureSqlDbManager) convert(obj runtime.Object) (*v1beta1.AzureSqlDatabase, error) {
+	local, ok := obj.(*v1beta1.AzureSqlDatabase)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}

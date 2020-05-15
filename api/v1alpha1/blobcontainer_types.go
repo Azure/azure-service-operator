@@ -24,9 +24,9 @@ type BlobContainerSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 
 // BlobContainer is the Schema for the blobcontainers API
+// +kubebuilder:resource:shortName=bc,path=blobcontainer
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type BlobContainer struct {
