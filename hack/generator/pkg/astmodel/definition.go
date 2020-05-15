@@ -27,6 +27,9 @@ type Definition interface {
 
 	// Type: What is the type associated to this definition?
 	Type() Type
+
+	// Tidy cleans up the definition prior to code generation
+	Tidy()
 }
 
 // Type represents something that is a Go type
@@ -41,4 +44,7 @@ type Type interface {
 	// "Direct" means we don't walk into any StructReferences (nor could we with these arguments),
 	// but we do walk into included StructTypes.
 	References(t Type) bool
+
+	// Equals returns true if the passed type is the same as this one, false otherwise
+	Equals(t Type) bool
 }

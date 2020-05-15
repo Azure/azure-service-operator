@@ -254,7 +254,7 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsc
 		return fields[0].FieldType(), nil
 	}
 
-	structDefinition := astmodel.NewStructType(fields)
+	structDefinition := astmodel.NewStructType(fields...)
 	return structDefinition, nil
 }
 
@@ -428,7 +428,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		}
 	}
 
-	result := astmodel.NewStructType(fields)
+	result := astmodel.NewStructType(fields...)
 	return result, nil
 }
 

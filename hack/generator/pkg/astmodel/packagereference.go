@@ -28,3 +28,8 @@ func (pr *PackageReference) GroupName() string {
 func (pr *PackageReference) PackageName() string {
 	return pr.packageName
 }
+
+// Equals returns true if the passed package reference references the same package, false otherwise
+func (pr *PackageReference) Equals(ref *PackageReference) bool {
+	return pr.groupName == ref.groupName && pr.packageName == pr.packageName
+}

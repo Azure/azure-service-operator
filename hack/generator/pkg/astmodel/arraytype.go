@@ -38,3 +38,16 @@ func (array *ArrayType) RequiredImports() []PackageReference {
 func (array *ArrayType) References(t Type) bool {
 	return array == t || array.element.References(t)
 }
+
+// Equals returns true if the passed type is an array type with the same kind of elements, false otherwise
+func (array *ArrayType) Equals(t Type) bool {
+	if array == t {
+		return true
+	}
+
+	if et, ok := t.(*ArrayType); ok {
+		return array.element.Equals(et.element)
+	}
+
+	return false
+}

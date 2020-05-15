@@ -49,3 +49,12 @@ func (prim *PrimitiveType) RequiredImports() []PackageReference {
 func (prim *PrimitiveType) References(t Type) bool {
 	return prim == t
 }
+
+// Equals returns true if the passed type is another primitive type the same name, false otherwise
+func (prim *PrimitiveType) Equals(t Type) bool {
+	if p, ok := t.(*PrimitiveType);ok {
+		return prim.name == p.name
+	}
+
+	return false
+}

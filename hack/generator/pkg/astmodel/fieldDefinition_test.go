@@ -53,3 +53,46 @@ func Test_FieldDefinitionAsAst_GivenValidField_ReturnsNonNilResult(t *testing.T)
 
 	g.Expect(node).NotTo(BeNil())
 }
+
+func TestFieldDefinition_Equals_WhenGivenFieldDefinition_ReturnsExpectedResult(t *testing.T) {
+
+	strField := createStringField("FullName", "Full Legal Name")
+	otherStrField := createStringField("FullName", "Full Legal Name")
+
+	intField := createIntField("Age", "Age at last birthday")
+
+	differentName := createStringField("Name", "Full Legal Name")
+	differentType := createIntField("FullName", "Full Legal Name")
+	differentDescription := createIntField("FullName", "The whole thing")
+
+	cases := []struct {
+		name string
+		thisField *FieldDefinition
+		otherField *FieldDefinition
+		expected  bool
+	}{
+		// Expect equal to self
+		{"Equal to self", strField, strField, true},
+		{"Equal to self", intField, intField, true},
+		// Expect equal to same
+		{"Equal to same", strField, otherStrField, true},
+		{"Equal to same",otherStrField, strField, true},
+		// Expect not-equal when properties are different
+		{"Not-equal if names are different",strField, differentName, false},
+		{"Not-equal if types are different",strField, differentType, false},
+		{"Not-equal if descriptions are different",strField, differentDescription, false},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			areEqual := c.thisField.Equals(c.otherField)
+
+			g.Expect(areEqual).To(Equal(c.expected))
+		})
+	}
+}
+

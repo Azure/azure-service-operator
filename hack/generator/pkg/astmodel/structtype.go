@@ -16,7 +16,7 @@ type StructType struct {
 }
 
 // NewStructType is a factory method for creating a new StructTypeDefinition
-func NewStructType(fields []*FieldDefinition) *StructType {
+func NewStructType(fields ...*FieldDefinition) *StructType {
 	return &StructType{fields}
 }
 
@@ -62,7 +62,7 @@ func (structType *StructType) RequiredImports() []PackageReference {
 
 // References this type has to the given type
 func (structType *StructType) References(t Type) bool {
-	if structType == t {
+	if structType.Equals(t) {
 		return true
 	}
 
@@ -70,6 +70,44 @@ func (structType *StructType) References(t Type) bool {
 		if field.FieldType().References(t) {
 			return true
 		}
+	}
+
+	return false
+}
+
+// Equals returns true if the passed type is a struct type with the same fields, false otherwise
+// The order of the fields is not relevant
+func (structType *StructType) Equals(t Type) bool {
+	if structType == t {
+		return true
+	}
+
+	if st, ok := t.(*StructType); ok {
+		if len(structType.fields) != len(st.fields) {
+			// Different number of fields, not equal
+			return false
+		}
+
+		ourFields := make(map[string]*FieldDefinition)
+		for _, f := range structType.fields {
+			ourFields[f.fieldName] = f
+		}
+
+		for _, f := range st.fields {
+			ourfield, ok := ourFields[f.fieldName]
+			if !ok {
+				// Didn't find the field, not equal
+				return false
+			}
+
+			if !ourfield.Equals(f) {
+				// Different field, even though same name; not-equal
+				return false
+			}
+		}
+
+		// All fields match, equal
+		return true
 	}
 
 	return false
