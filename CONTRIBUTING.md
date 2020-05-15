@@ -45,3 +45,17 @@ The issue lifecycle is mainly driven by the core maintainers, but is good inform
 1. If you haven't already done so, sign a Contributor License Agreement (see details above).
 2. Fork the desired repo, develop and test your code changes.
 3. Submit a pull request.
+
+## Reporting Security Issues
+
+Microsoft takes the security of our software products and services seriously, which includes all source code repositories managed through our GitHub organizations, including this one.
+
+If you believe you have found a security vulnerability in this repository that meets Microsoft's [Microsoft's definition of a security vulnerability](https://docs.microsoft.com/en-us/previous-versions/tn-archive/cc751383(v=technet.10)), please report it to us as described below.
+
+**Please do not report security vulnerabilities through public GitHub issues.**
+
+Instead, please report them to the Microsoft Security Response Center (MSRC) at [https://msrc.microsoft.com/create-report](https://msrc.microsoft.com/create-report).
+
+We prefer all communications to be in English.
+
+Microsoft follows the principle of [Coordinated Vulnerability Disclosure](https://www.microsoft.com/en-us/msrc/cvd).

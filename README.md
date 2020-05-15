@@ -17,31 +17,31 @@ The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
 For more details on the control flow of the Azure Service operator, refer to the link below
 
-[Azure Service Operator control flow](/docs/controlflow.md)
+[Azure Service Operator control flow](/docs/design/controlflow.md)
 
 ## Azure Services supported
 
-1. [Resource Group](/docs/resourcegroup/resourcegroup.md)
-2. [EventHub](/docs/eventhub/eventhub.md)
-3. [Azure SQL](/docs/azuresql/azuresql.md)
-4. [Azure Database for PostgreSQL](/docs/postgresql/postgresql.md)
-5. [Azure Database for MySQL](/docs/mysql/mysql.md)
-6. [Azure Keyvault](/docs/keyvault/keyvault.md)
-7. [Azure Rediscache](/docs/rediscache/rediscache.md)
-8. [Storage Account](/docs/storage/storageaccount.md)
-9. [Blob container](/docs/storage/blobcontainer.md)
-10. [Virtual Network](/docs/virtualnetwork/virtualnetwork.md)
-11. [Application Insights](/docs/appinsights/appinsights.md)
-12. [API Management](/docs/apimgmt/apimgmt.md)
-13. [Cosmos DB](/docs/cosmosdb/cosmosdb.md)
+1. [Resource Group](/docs/services/resourcegroup/resourcegroup.md)
+2. [EventHub](/docs/services/eventhub/eventhub.md)
+3. [Azure SQL](/docs/services/azuresql/azuresql.md)
+4. [Azure Database for PostgreSQL](/docs/services/postgresql/postgresql.md)
+5. [Azure Database for MySQL](/docs/services/mysql/mysql.md)
+6. [Azure Keyvault](/docs/services/keyvault/keyvault.md)
+7. [Azure Rediscache](/docs/services/rediscache/rediscache.md)
+8. [Storage Account](/docs/services/storage/storageaccount.md)
+9. [Blob container](/docs/services/storage/blobcontainer.md)
+10. [Virtual Network](/docs/services/virtualnetwork/virtualnetwork.md)
+11. [Application Insights](/docs/services/appinsights/appinsights.md)
+12. [API Management](/docs/services/apimgmt/apimgmt.md)
+13. [Cosmos DB](/docs/services/cosmosdb/cosmosdb.md)
 
 ## Getting started
 
-This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](./charts/azure-service-operator).
+This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](/charts/azure-service-operator).
 
-For detailed instructions on getting started, refer [here]().
+For detailed instructions on getting started, refer [here](docs/howto/contents.md).
 
-Please see the [FAQ][] for answers to commonly asked questions about the Azure Service Operator
+Please see the [FAQ][docs/faq.md] for answers to commonly asked questions about the Azure Service Operator
 
 ## Contributing
 
@@ -55,70 +55,6 @@ Azure Service Operator is an open source project that is [**not** covered by the
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-[contribution-guide]: docs/community/README.md
-[developer-guide]: docs/community/developer-guide.md
-[docs]: docs/README.md
+[contribution-guide]: CONTRIBUTING.md
+[developer-guide]: docs/howto/contents.md
 [FAQ]: docs/faq.md
-
-------
-
-## Introduction
-
-An Operator is an application-specific controller that extends the Kubernetes API to create, configure, and manage instances of complex stateful applications on behalf of a Kubernetes user. It builds upon the basic Kubernetes resource and controller concepts but includes domain or application-specific knowledge to automate common tasks.
-
-(For more details about operators, we recommend [Introducing Operators: Putting Operational Knowledge into Software](https://coreos.com/blog/introducing-operators.html)).
-
-This repository contains the resources and code to provision and deprovision different Azure services using a Kubernetes operator.
-
-The Azure Operator comprises of:
-
-- The Custom Resource Definitions (CRDs) for each of the Azure services that the Kubernetes user can provision
-- The Kubernetes controller that watches for requests to create Custom Resources for these CRDs and creates them
-
-The project was built using [Kubebuilder](https://book.kubebuilder.io/).
-
-For more details on the control flow of the Azure Service operator, refer to the link below
-
-[Azure Service Operator control flow](/docs/controlflow.md)
-
-## Install the operator
-
-This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](./charts/azure-service-operator).
-
-## Azure Services supported
-
-1. [Resource Group](/docs/resourcegroup/resourcegroup.md)
-2. [EventHub](/docs/eventhub/eventhub.md)
-3. [Azure SQL](/docs/azuresql/azuresql.md)
-4. [Azure Database for PostgreSQL](/docs/postgresql/postgresql.md)
-5. [Azure Database for MySQL](/docs/mysql/mysql.md)
-6. [Azure Keyvault](/docs/keyvault/keyvault.md)
-7. [Azure Rediscache](/docs/rediscache/rediscache.md)
-8. [Storage Account](/docs/storage/storageaccount.md)
-9. [Blob container](/docs/storage/blobcontainer.md)
-10. [Virtual Network](/docs/virtualnetwork/virtualnetwork.md)
-11. [Application Insights](/docs/appinsights/appinsights.md)
-12. [API Management](/docs/apimgmt/apimgmt.md)
-13. [Cosmos DB](/docs/cosmosdb/cosmosdb.md)
-
-For more information on deploying, troubleshooting & deleting resources, refer to [this](/docs/customresource.md) link
-
-## Building the operators
-
-You can also build, test, and run the operator from source by [following these instructions](/docs/contents.md).
-
-## Contributing
-
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
-
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-For more specific information on the GIT workflow and guidelines to follow, check [here](docs/contributionguidelines.md).
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
