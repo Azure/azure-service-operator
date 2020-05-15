@@ -18,7 +18,7 @@ variables:
   #GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   #GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(System.DefaultWorkingDirectory)/src/$(Build.Repository.Name)' # Path to the module's code
-  IMAGE_NAME: 'candidate/k8s/azure-service-operator'
+  IMAGE_NAME: 'candidate/k8s/azureserviceoperator'
   KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Release ACR Service Connection
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
@@ -186,7 +186,7 @@ steps:
       # Replace image repository in values.yaml to the official image in ACR
       img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
       echo $img
-      sed -i -e 's@azure-service-operator:latest@azure-service-operator:'${img}'@' charts/azure-service-operator/values.yaml
+      sed -i -e 's@azure-service-operator:latest@azureserviceoperator:'${img}'@' charts/azure-service-operator/values.yaml
       # create directory for generated files
       mkdir charts/azure-service-operator/templates/generated
       # generate files using kustomize
