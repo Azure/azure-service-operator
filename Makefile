@@ -54,8 +54,8 @@ test-integration-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/... \
 	./pkg/resourcemanager/vnet/...
-	2>&1 | tee reports/integration-managers-output.txt
-	go-junit-report < reports/integration-managers-output.txt > reports/integration-managers-report.xml
+	#2>&1 | tee reports/integration-managers-output.txt
+	#go-junit-report < reports/integration-managers-output.txt > reports/integration-managers-report.xml
 
 # Run all available tests. Note that Controllers are not unit-testable.
 test-unit: generate fmt vet manifests 
@@ -64,8 +64,8 @@ test-unit: generate fmt vet manifests
 	./api/... \
 	./pkg/secrets/...
 	./pkg/resourcemanager/keyvaults/unittest/ \
-	2>&1 | tee testlogs.txt
-	go-junit-report < testlogs.txt > report-unit.xml
+	#2>&1 | tee testlogs.txt
+	#go-junit-report < testlogs.txt > report-unit.xml
 	go tool cover -html=coverage/coverage.txt -o cover-unit.html
 
 # Merge all the available test coverage results and publish a single report
