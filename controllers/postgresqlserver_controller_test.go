@@ -9,7 +9,7 @@ import (
 	"context"
 	"testing"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -27,23 +27,23 @@ func TestPSQLServerControllerNoResourceGroup(t *testing.T) {
 	postgreSQLServerName := GenerateTestResourceNameWithRandom("psql-srv", 10)
 
 	// Create the PostgreSQLServer object and expect the Reconcile to be created
-	postgreSQLServerInstance := &azurev1alpha1.PostgreSQLServer{
+	postgreSQLServerInstance := &v1alpha2.PostgreSQLServer{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      postgreSQLServerName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.PostgreSQLServerSpec{
+		Spec: v1alpha2.PostgreSQLServerSpec{
 			Location:      rgLocation,
 			ResourceGroup: rgName,
-			Sku: azurev1alpha1.AzureDBsSQLSku{
+			Sku: v1alpha2.AzureDBsSQLSku{
 				Name:     "B_Gen5_2",
-				Tier:     azurev1alpha1.SkuTier("Basic"),
+				Tier:     v1alpha2.SkuTier("Basic"),
 				Family:   "Gen5",
 				Size:     "51200",
 				Capacity: 2,
 			},
-			ServerVersion:  azurev1alpha1.ServerVersion("10"),
-			SSLEnforcement: azurev1alpha1.SslEnforcementEnumEnabled,
+			ServerVersion:  v1alpha2.ServerVersion("10"),
+			SSLEnforcement: v1alpha2.SslEnforcementEnumEnabled,
 		},
 	}
 	EnsureInstanceWithResult(ctx, t, tc, postgreSQLServerInstance, errhelp.ResourceGroupNotFoundErrorCode, false)
@@ -64,12 +64,12 @@ func TestPSQLServerControllerReplicaNoSourceServer(t *testing.T) {
 
 	// Create the PostgreSQL Replica Server object and expect the Reconcile to be created
 
-	postgreSQLServerReplicaInstance := &azurev1alpha1.PostgreSQLServer{
+	postgreSQLServerReplicaInstance := &v1alpha2.PostgreSQLServer{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      postgreSQLServerReplicaName,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.PostgreSQLServerSpec{
+		Spec: v1alpha2.PostgreSQLServerSpec{
 			Location:      rgLocation,
 			ResourceGroup: rgName,
 			CreateMode:    "Replica",
