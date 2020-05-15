@@ -774,6 +774,15 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "BlobContainer")
 		os.Exit(1)
 	}
+
+	if err = (&azurev1alpha1.MySQLServer{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLServer")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.PostgreSQLServer{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "PostgreSQLServer")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

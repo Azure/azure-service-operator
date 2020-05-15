@@ -1,4 +1,4 @@
-apiVersion: azure.microsoft.com/v1alpha1
+apiVersion: azure.microsoft.com/v1alpha2
 kind: MySQLServer
 metadata:
   name: mysqlserver-sample
@@ -14,4 +14,10 @@ spec:
     family: Gen5 
     size: "51200"
     capacity: 4
-
+  # Optional Backup Retention Config
+  # storageProfile:
+  #   backupRetentionDays: 10
+  #   geoRedundantBackup: Enabled # Disabled or Enabled
+  #   storageMB: 5120 # max storage - minimum of 5120 MB and additional increments of 1024 MB up to maximum of 16777216 MB
+  #   storageAutogrow: Enabled # Disabled or Enabled
+    

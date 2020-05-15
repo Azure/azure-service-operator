@@ -4,28 +4,29 @@
 package v1beta1
 
 import (
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
+type ReadWriteEndpointFailoverPolicy string
 
 // AzureSqlFailoverGroupSpec defines the desired state of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
-	Location                     string                                   `json:"location"`
-	ResourceGroup                string                                   `json:"resourceGroup,omitempty"`
-	Server                       string                                   `json:"server"`
-	FailoverPolicy               v1alpha1.ReadWriteEndpointFailoverPolicy `json:"failoverPolicy"`
-	FailoverGracePeriod          int32                                    `json:"failoverGracePeriod"`
-	SecondaryServer              string                                   `json:"secondaryServer"`
-	SecondaryServerResourceGroup string                                   `json:"secondaryServerResourceGroup"`
-	DatabaseList                 []string                                 `json:"databaseList"`
-	KeyVaultToStoreSecrets       string                                   `json:"keyVaultToStoreSecrets,omitempty"`
+	Location                     string                          `json:"location"`
+	ResourceGroup                string                          `json:"resourceGroup,omitempty"`
+	Server                       string                          `json:"server"`
+	FailoverPolicy               ReadWriteEndpointFailoverPolicy `json:"failoverPolicy"`
+	FailoverGracePeriod          int32                           `json:"failoverGracePeriod"`
+	SecondaryServer              string                          `json:"secondaryServer"`
+	SecondaryServerResourceGroup string                          `json:"secondaryServerResourceGroup"`
+	DatabaseList                 []string                        `json:"databaseList"`
+	KeyVaultToStoreSecrets       string                          `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AzureSqlFailoverGroup is the Schema for the azuresqlfailovergroups API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
@@ -35,7 +36,7 @@ type AzureSqlFailoverGroup struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   AzureSqlFailoverGroupSpec `json:"spec,omitempty"`
-	Status v1alpha1.ASOStatus        `json:"status,omitempty"`
+	Status ASOStatus                 `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
