@@ -10,7 +10,7 @@
     export GO111MODULE=on
     ```
 
-3. Build the image and push it to docker hub.
+3. Log into Docker Hub and then Build the image and push it to Docker Hub.
 
     ```shell
     docker login

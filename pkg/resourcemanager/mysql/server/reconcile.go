@@ -133,17 +133,12 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 
 	pollURL, server, err := m.CreateServerIfValid(
 		ctx,
-		instance.Name,
-		instance.Spec.ResourceGroup,
-		instance.Spec.Location,
+		*instance,
 		labels,
-		mysql.ServerVersion(instance.Spec.ServerVersion),
-		mysql.SslEnforcementEnum(instance.Spec.SSLEnforcement),
 		skuInfo,
 		adminlogin,
 		adminpassword,
 		createmode,
-		instance.Spec.ReplicaProperties.SourceServerId,
 	)
 	if err != nil {
 		// let the user know what happened
