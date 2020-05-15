@@ -1,6 +1,7 @@
 {
     "name": "ASO",
-	  "dockerFile": "Dockerfile",
+    "dockerFile": "Dockerfile",
+
     "runArgs": [
       "--env-file=${localWorkspaceFolder}/.env",
       "--cap-add=SYS_PTRACE",
@@ -11,6 +12,28 @@
       "terminal.integrated.shell.linux": "/bin/bash",
       "go.gopath": "/go",
       "go.useLanguageServer": true,
+      "[go]": {
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+              "source.organizeImports": true,
+          },
+          // Optional: Disable snippets, as they conflict with completion ranking.
+          "editor.snippetSuggestions": "none",
+      },
+      "[go.mod]": {
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+              "source.organizeImports": true,
+          },
+      },
+      "gopls": {
+          // Add parameter placeholders when completing a function.
+          "usePlaceholders": true,
+  
+          // If true, enable additional analyses with staticcheck.
+          // Warning: This will significantly increase memory usage.
+          "staticcheck": false,
+      }
     },
     
     "mounts": [
