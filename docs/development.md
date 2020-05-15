@@ -108,15 +108,21 @@ Then, open a web browser and navigate to the [Metrics Endpoint](http://127.0.0.1
 If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you can quickly have your environment set up and ready to go, with everything you need to get started.
 
 1. Clone the repository and open the folder in VS Code. (will refer to the folder as PROJECT_DIR)
-2. Open the file $PROJECT_DIR/.devcontainer/devcontainer.json
-3. In the "remoteEnv" property replace AZURE_* variable values with values from your environment.
-4. Click on the green button in the lower left-hand corner and select "Remote-Containers: Reopen in Container" from the drop-down
-6. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
-7. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment via the terminal inside VSCode.
-8. Install test certificates using `make generate-test-certs`.
-9. Install CRDs using `make install`.
-10. Run the project using `make run`.
-11. In another terminal, use `kubectl apply` with the sample YAML files to create custom resources for testing.
+2. Create a new file at $PROJECT_DIR/.env with the following variables set for your environment:
+```
+AZURE_TENANT_ID=
+AZURE_SUBSCRIPTION_ID=
+AZURE_CLIENT_ID=
+AZURE_CLIENT_SECRET=
+```
+
+3. Click on the green button in the lower left-hand corner and select "Remote-Containers: Reopen in Container" from the drop-down
+4. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
+5. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment via the terminal inside VSCode.
+6. Install test certificates using `make generate-test-certs`.
+7. Install CRDs using `make install`.
+8. Run the project using `make run`.
+9. In another terminal, use `kubectl apply` with the sample YAML files to create custom resources for testing.
 For eg., use  `kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yaml` from the terminal to create a SQL server using the operator.
 `kubectl describe SqlServer` would show the events that indicate if the resource is created or being created.
 
