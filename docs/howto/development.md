@@ -2,6 +2,8 @@
 
 ## Running the operator locally
 
+***Note: Using this method you can only install resources having the the latest version of a CRD, as there are no conversion webhooks running to convert other versions. This is the reason you need to setup test certificates using the steps below too. Use this method only to try out the operator to get familiar.***
+
 1. Clone the repository into the following folder `<GOPATH>/src/github.com/Azure`.
 
 2. Make sure the environment variable `GO111MODULE` is set to `on`.
@@ -10,7 +12,15 @@
     export GO111MODULE=on
     ```
 
-3. Make sure all environment variables have been set.
+3. Make sure all the below environment variables have been set appropriately. The possible values for `AZURE_CLOUD_ENV` are AzurePubliCloud (default if unspecified), AzureChinaCloud, AzureUSGovernmentCloud, AzureGermanCloud.
+
+    ```bash
+    export AZURE_TENANT_ID=xxxx
+    export AZURE_SUBSCRIPTION_ID=xxxx
+    export AZURE_CLIENT_ID=xxxx
+    export AZURE_CLIENT_SECRET=xxxx
+    export AZURE_CLOUD_ENV=AzurePublicCloud
+    ```
 
 4. Install test certificates using `make generate-test-certs`.
 
@@ -65,7 +75,7 @@
 
     Look for the listed directory given in the *problem running manager* log entry, above that directory is: "/var/folders/1_/d50yhxgd357cfl0yjdclppfc0000gn/T/". Next, run the following command `cp -r /tmp/k8s-webhook-server /var/folders/1_/d50yhxgd357cfl0yjdclppfc0000gn/T/`.
 
-    Please note, copying the generated certificates into the this folder only needs to be done the first time (or when the local Kubernetes cluster is cleared). You do not need to do this step every time.
+    Please note, copying the generated certificates into the this folder only needs to be done only once (or when the machine is rebooted or the local Kubernetes cluster is cleared). You do not need to do this step every time.
 
 7. Run the operator locally using
    ```make run```
@@ -107,7 +117,7 @@
     2019-09-24T12:18:10.626-0600	INFO	controller-runtime.controller	Starting workers	{"controller": "eventhubnamespace", "worker count": 1}
    ```
 
-8. Open a new terminal window. Trigger the creation of a custom resource using      kubectl and the sample YAML file provided.
+8. Open a new terminal window. Trigger the creation of a custom resource using  kubectl and the sample YAML file provided.
    For instance, you would use the following command to create a SQL server:
 
    ```shell
@@ -115,7 +125,7 @@
    azuresqlserver.azure.microsoft.com/sqlserver-sample created
    ```
 
-9. You should see logs on the other terminal from the operator when this custom     resource is being created.
+9. You should see logs on the other terminal from the operator when this custom resource is being created.
 
     ```
     2019-09-24T12:27:12.450-0600	DEBUG	controller-runtime.manager.events	Normal	{"object": {"kind":"AzureSqlServer","namespace":"default","name":"sqlserver-sample1","uid":"ed3774af-def8-11e9-90c4-025000000001","apiVersion":"azure.microsoft.com/v1alpha1","resourceVersion":"194427"}, "reason": "Updated", "message": "finalizer azuresqlserver.finalizers.azure.com added"}
