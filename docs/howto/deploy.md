@@ -14,16 +14,16 @@ The easiest way to deploy the Azure Service Operator is to use Helm charts. Foll
     export GO111MODULE=on
     ```
 
-3. Log into Docker Hub and then build the image and push it to Docker Hub.
+3. Log in to your container registry, set the IMG env var, and then build and push the image.
 
     ```shell
     docker login
-    IMG=<dockerhubusername>/<imagename>:<tag> make build-and-push
+    IMG=<container_registry>/<username>/<image_name>:<tag> make build-and-push
     ```
 
 ### Deploy the operator
 
-**Note** You should already have a Kubernetes cluster prerequisites [here](prereqs.md) for information on creating a Kubernetes cluster.
+**Note** You should already have a Kubernetes cluster. See prerequisites [here](prereqs.md) for information on creating a Kubernetes cluster.
 
 1. Set up the Cluster
 

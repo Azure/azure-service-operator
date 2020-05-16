@@ -12,6 +12,12 @@ kubectl label namespace cert-manager cert-manager.io/disable-validation=true
 kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
 ```
 
+You can use the below command to check if the cert manager pods are ready. The cert manager pods should be running before proceeding to the next step.
+
+```
+kubectl rollout status -n cert-manager deploy/cert-manager-webhook
+```
+
 #### Helm
 
 Install the latest (3.x+) [Helm](https://helm.sh/docs/intro/install/) on your machine.

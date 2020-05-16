@@ -2,9 +2,9 @@
 
 [![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
 
-> This project is experimental. Expect the API to change. It is not recommended for production environments.
+> This project is experimental. The API is expected to change (while adhering to semantic versioning). It is not recommended for production environments.
 
-Azure Service Operator helps you provision Azure resources from within Kubernetes.
+The Azure Service Operator helps you provision Azure resources and connect your applications to them from within Kubernetes.
 
 ## Overview
 
@@ -21,25 +21,27 @@ For more details on the control flow of the Azure Service operator, refer to the
 
 ## Azure Services supported
 
-1. [Resource Group](/docs/services/resourcegroup/resourcegroup.md)
-2. [EventHub](/docs/services/eventhub/eventhub.md)
-3. [Azure SQL](/docs/services/azuresql/azuresql.md)
-4. [Azure Database for PostgreSQL](/docs/services/postgresql/postgresql.md)
-5. [Azure Database for MySQL](/docs/services/mysql/mysql.md)
-6. [Azure Keyvault](/docs/services/keyvault/keyvault.md)
-7. [Azure Rediscache](/docs/services/rediscache/rediscache.md)
-8. [Storage Account](/docs/services/storage/storageaccount.md)
-9. [Blob container](/docs/services/storage/blobcontainer.md)
-10. [Virtual Network](/docs/services/virtualnetwork/virtualnetwork.md)
-11. [Application Insights](/docs/services/appinsights/appinsights.md)
-12. [API Management](/docs/services/apimgmt/apimgmt.md)
-13. [Cosmos DB](/docs/services/cosmosdb/cosmosdb.md)
+- [Resource Group](/docs/services/resourcegroup/resourcegroup.md)
+- [EventHub](/docs/services/eventhub/eventhub.md)
+- [Azure SQL](/docs/services/azuresql/azuresql.md)
+- [Azure Database for PostgreSQL](/docs/services/postgresql/postgresql.md)
+- [Azure Database for MySQL](/docs/services/mysql/mysql.md)
+- [Azure Keyvault](/docs/services/keyvault/keyvault.md)
+- [Azure Rediscache](/docs/services/rediscache/rediscache.md)
+- [Storage Account](/docs/services/storage/storageaccount.md)
+- [Blob container](/docs/services/storage/blobcontainer.md)
+- [Virtual Network](/docs/services/virtualnetwork/virtualnetwork.md)
+- [Application Insights](/docs/services/appinsights/appinsights.md)
+- [API Management](/docs/services/apimgmt/apimgmt.md)
+- [Cosmos DB](/docs/services/cosmosdb/cosmosdb.md)
+- [Virtual Machine](/docs/services/virtualmachine/virtualmachine.md)
+- [Virtual Machine Scale Set](/docs/services/vmscaleset/vmscaleset.md)
 
 ## Getting started
 
 This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](/charts/azure-service-operator).
 
-For detailed instructions on getting started, refer [here](docs/howto/contents.md).
+For detailed instructions on getting started, go [here](docs/howto/contents.md).
 
 Please see the [FAQ][docs/faq.md] for answers to commonly asked questions about the Azure Service Operator
 

@@ -9,7 +9,7 @@ This project utilizes a generic async controller that separates out the Kubernet
 ```
 kubebuilder create api --group azure --version v1alpha1 --kind <AzureNewType>
 
-kubebuilder create api --group azure --version v1alpha1 --kind AzureSQLServer
+# e.g. kubebuilder create api --group azure --version v1alpha1 --kind AzureSQLServer
 ```
 
 4. When you run this command, you will be prompted with two questions. Answer yes to both of these.
@@ -78,10 +78,15 @@ go build -o bin/manager main.go
     You can refer to the other types in this repo as examples to do this.
 
     c. Add the Kubebuilder directive to indicate that you want to treat `Status` as a subresource of the CRD. This allows for more efficient updates and the generic controller assumes that this is enabled for all the types.
+    Also add the Kubebuilder directives to designate short names for the CRD and to add additional columns to the output of `kubectl get`.
 
     ```go
     // +kubebuilder:object:root=true
     // +kubebuilder:subresource:status   <--- This is the line we need to add
+
+    // +kubebuilder:resource:shortName=[shortnamehere],path=[crdpath]
+    // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+    // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 
     // AzureNewType is the Schema for the azurenewtypes API
     type AzureNewType struct {
@@ -164,7 +169,7 @@ go build -o bin/manager main.go
         }
     ```
 
-    e. The `azurenewtype_reconcile.go` file implements the  following functions in the ARMClient interface: 
+    e. The `azurenewtype_reconcile.go` file implements the  following functions in the `ARMClient` interface:
        -  `Ensure`, `Delete`, `GetParents`, `GetStatus`
        - It would also have a `convert` function to convert the runtime object into the appropriate type
 
@@ -172,9 +177,9 @@ go build -o bin/manager main.go
     (i) The Ensure and Delete functions return as the first return value, a bool which indicates if the resource was found in Azure. So Ensure() if successful would return `true` and Delete() if successful would return `false`
 
     (ii) On successful provisioning in `Ensure()`, 
-    - set instance.Status.Message to the constant `SuccessMsg` in the `resourcemanager` package to be consistent across all controllers.
-    - set instance.Status.ResourceID to the full Azure Resource ID of the resource
-    - set instance.Status.Provisioned to `true` and instance.Status.Provisioning to `false`
+    - set `instance.Status.Message` to the constant `SuccessMsg` in the `resourcemanager` package to be consistent across all controllers.
+    - set `instance.Status.ResourceID` to the full Azure Resource ID of the resource
+    - set `instance.Status.Provisioned` to `true` and `instance.Status.Provisioning` to `false`
 
     ```go
     func (p *AzureNewTypeClient) Ensure(ctx context.Context, obj runtime.Object) (found bool, err error) {
