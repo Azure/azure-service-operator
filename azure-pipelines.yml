@@ -1,5 +1,8 @@
 trigger:
-- azdo-pipelines
+  branches:
+    include:
+    - master
+    - pipeline-updates
 
 resources:
 - repo: self
