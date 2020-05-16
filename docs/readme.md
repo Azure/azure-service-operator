@@ -2,4 +2,5 @@
 
 Table of contents for different documentation topics.
 
-1) [Development: getting started developing in k8s-infra](./development.md)
+- [Development: getting started developing in k8s-infra](./development.md)
+  - [Manual Resource Creation](./manual_resource_creation.md)

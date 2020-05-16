@@ -17,3 +17,4 @@ func (*Route) Hub()                           {}
 func (*RouteTable) Hub()                      {}
 func (*SecurityRule) Hub()                    {}
 func (*VirtualNetwork) Hub()                  {}
+func (*Subnet) Hub()                          {}

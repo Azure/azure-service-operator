@@ -10,6 +10,8 @@ import (
 	"testing"
 
 	"github.com/onsi/gomega"
+
+	v1 "github.com/Azure/k8s-infra/apis/core/v1"
 )
 
 func TestVirtualNetwork_Marshalling(t *testing.T) {
@@ -24,15 +26,9 @@ func TestVirtualNetwork_Marshalling(t *testing.T) {
 						"10.0.0.0/16",
 					},
 				},
-				Subnets: []SubnetSpec{
+				SubnetRefs: []v1.KnownTypeReference{
 					{
 						Name: "test-1",
-						Properties: SubnetProperties{
-							AddressPrefixes: []string{
-								"10.0.0.0/28",
-								"10.0.1.0/28",
-							},
-						},
 					},
 				},
 				EnableVMProtection: false,
@@ -47,6 +43,6 @@ func TestVirtualNetwork_Marshalling(t *testing.T) {
 	g.Expect(js).ToNot(gomega.ContainSubstring("bgpCommunities"))
 	g.Expect(js).ToNot(gomega.ContainSubstring("dhcpOptions"))
 	g.Expect(js).ToNot(gomega.ContainSubstring("enableVMProtection"))
-	g.Expect(js).To(gomega.ContainSubstring("subnets"))
+	g.Expect(js).To(gomega.ContainSubstring("subnetRefs"))
 	g.Expect(js).To(gomega.ContainSubstring("addressSpace"))
 }

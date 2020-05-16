@@ -92,6 +92,8 @@ spec:
                       type: object
                     type: array
                 type: object
+            required:
+            - apiVersion
             type: object
           status:
             description: BackendAddressPoolStatus defines the observed state of BackendAddressPool

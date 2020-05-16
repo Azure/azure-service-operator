@@ -58,6 +58,8 @@ spec:
                     - Udp
                     type: string
                 type: object
+            required:
+            - apiVersion
             type: object
           status:
             description: InboundNatRuleStatus defines the observed state of InboundNatRule

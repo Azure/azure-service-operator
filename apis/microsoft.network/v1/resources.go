@@ -68,3 +68,7 @@ func (*NetworkSecurityGroup) ResourceType() string {
 func (*SecurityRule) ResourceType() string {
 	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
+
+func (*Subnet) ResourceType() string {
+	return "Microsoft.Network/virtualNetworks/subnets"
+}

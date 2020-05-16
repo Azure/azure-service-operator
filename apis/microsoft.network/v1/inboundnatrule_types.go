@@ -23,7 +23,7 @@ type (
 	// InboundNatRuleSpec defines the desired state of InboundNatRule
 	InboundNatRuleSpec struct {
 		// +k8s:conversion-gen=false
-		APIVersion string `json:"apiVersion,omitempty"`
+		APIVersion string `json:"apiVersion"`
 
 		// Properties of the Virtual Network
 		Properties *InboundNatRuleSpecProperties `json:"properties,omitempty"`

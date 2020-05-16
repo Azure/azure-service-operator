@@ -6,20 +6,20 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
-  name: routes.microsoft.network.infra.azure.com
+  name: subnets.microsoft.network.infra.azure.com
 spec:
   group: microsoft.network.infra.azure.com
   names:
-    kind: Route
-    listKind: RouteList
-    plural: routes
-    singular: route
+    kind: Subnet
+    listKind: SubnetList
+    plural: subnets
+    singular: subnet
   scope: Namespaced
   versions:
   - name: v1
     schema:
       openAPIV3Schema:
-        description: Route is the Schema for the routes API
+        description: Subnet is the Schema for the subnets API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -34,7 +34,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: RouteSpec defines the desired state of Route
+            description: SubnetSpec is a subnet in a Virtual Network
             properties:
               apiVersion:
                 type: string
@@ -42,23 +42,20 @@ spec:
                 description: Properties of the subnet
                 properties:
                   addressPrefix:
+                    description: AddressPrefix for the subnet, eg. 10.0.0.0/24
                     type: string
-                  nextHopIpAddress:
-                    type: string
-                  nextHopType:
-                    enum:
-                    - Internet
-                    - None
-                    - VirtualAppliance
-                    - VirtualNetworkGateway
-                    - VnetLocal
-                    type: string
+                  addressPrefixes:
+                    description: AddressPrefixes are a list of address prefixes for
+                      a subnet
+                    items:
+                      type: string
+                    type: array
                 type: object
             required:
             - apiVersion
             type: object
           status:
-            description: RouteStatus defines the observed state of Route
+            description: SubnetStatus defines the observed state of Subnet
             properties:
               deploymentId:
                 type: string
@@ -75,7 +72,7 @@ spec:
   - name: v20191101
     schema:
       openAPIV3Schema:
-        description: Route is the Schema for the routes API
+        description: Subnet is the Schema for the subnets API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -90,27 +87,24 @@ spec:
           metadata:
             type: object
           spec:
-            description: RouteSpec defines the desired state of Route
+            description: SubnetSpec is a subnet in a Virtual Network
             properties:
               properties:
                 description: Properties of the subnet
                 properties:
                   addressPrefix:
+                    description: AddressPrefix for the subnet, eg. 10.0.0.0/24
                     type: string
-                  nextHopIpAddress:
-                    type: string
-                  nextHopType:
-                    enum:
-                    - Internet
-                    - None
-                    - VirtualAppliance
-                    - VirtualNetworkGateway
-                    - VnetLocal
-                    type: string
+                  addressPrefixes:
+                    description: AddressPrefixes are a list of address prefixes for
+                      a subnet
+                    items:
+                      type: string
+                    type: array
                 type: object
             type: object
           status:
-            description: RouteStatus defines the observed state of Route
+            description: SubnetStatus defines the observed state of Subnet
             properties:
               id:
                 type: string

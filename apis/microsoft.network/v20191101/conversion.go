@@ -248,6 +248,27 @@ func (dst *SecurityRule) ConvertFrom(srcRaw conversion.Hub) error {
 	return nil
 }
 
+func (src *Subnet) ConvertTo(dstRaw conversion.Hub) error {
+	dst := dstRaw.(*v1.Subnet)
+
+	if err := Convert_v20191101_Subnet_To_v1_Subnet(src, dst, nil); err != nil {
+		return err
+	}
+
+	dst.Spec.APIVersion = apiVersion
+	return nil
+}
+
+func (dst *Subnet) ConvertFrom(srcRaw conversion.Hub) error {
+	src := srcRaw.(*v1.Subnet)
+
+	if err := Convert_v1_Subnet_To_v20191101_Subnet(src, dst, nil); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (src *VirtualNetwork) ConvertTo(dstRaw conversion.Hub) error {
 	dst := dstRaw.(*v1.VirtualNetwork)
 

@@ -22,7 +22,7 @@ type (
 	// LoadBalancerSpec defines the desired state of LoadBalancer
 	LoadBalancerSpec struct {
 		// +k8s:conversion-gen=false
-		APIVersion string `json:"apiVersion,omitempty"`
+		APIVersion string `json:"apiVersion"`
 		// ResourceGroupRef is the Azure Resource Group the VirtualNetwork resides within
 		// +kubebuilder:validation:Required
 		ResourceGroupRef *azcorev1.KnownTypeReference `json:"resourceGroupRef" group:"microsoft.resources.infra.azure.com" kind:"ResourceGroup"`

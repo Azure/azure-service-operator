@@ -30,6 +30,7 @@ rules:
   - routes
   - routetables
   - securityrules
+  - subnets
   - virtualnetworks
   verbs:
   - create
@@ -53,6 +54,7 @@ rules:
   - routes/status
   - routetables/status
   - securityrules/status
+  - subnets/status
   - virtualnetworks/status
   verbs:
   - get

@@ -62,16 +62,17 @@ var (
 		new(microsoftnetworkv1.RouteTable),
 		new(microsoftnetworkv1.SecurityRule),
 		new(microsoftnetworkv1.VirtualNetwork),
+		new(microsoftnetworkv1.Subnet),
 	}
 )
 
-type (
-	// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
-	// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
-	// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups/status,verbs=get;update;patch
-	// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=backendaddresspools;frontendipconfigurations;inboundnatrules;loadbalancers;loadbalancingrules;networkinterfaceipconfigurations;networksecuritygroups;outboundrules;routes;routetables;securityrules;virtualnetworks,verbs=get;list;watch;create;update;patch;delete
-	// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=backendaddresspools/status;frontendipconfigurations/status;inboundnatrules/status;loadbalancers/status;loadbalancingrules/status;networkinterfaceipconfigurations/status;networksecuritygroups/status;outboundrules/status;routes/status;routetables/status;securityrules/status;virtualnetworks/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
+// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=backendaddresspools;frontendipconfigurations;inboundnatrules;loadbalancers;loadbalancingrules;networkinterfaceipconfigurations;networksecuritygroups;outboundrules;routes;routetables;securityrules;subnets;virtualnetworks,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=backendaddresspools/status;frontendipconfigurations/status;inboundnatrules/status;loadbalancers/status;loadbalancingrules/status;networkinterfaceipconfigurations/status;networksecuritygroups/status;outboundrules/status;routes/status;routetables/status;securityrules/status;subnets/status;virtualnetworks/status,verbs=get;update;patch
 
+type (
 	// GenericReconciler reconciles a Resourcer object
 	GenericReconciler struct {
 		Client     client.Client

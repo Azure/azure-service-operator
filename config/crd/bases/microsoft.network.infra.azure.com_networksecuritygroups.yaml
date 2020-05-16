@@ -82,6 +82,7 @@ spec:
                 description: Tags are user defined key value pairs
                 type: object
             required:
+            - apiVersion
             - location
             - resourceGroupRef
             type: object

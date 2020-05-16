@@ -239,6 +239,25 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
+      path: /mutate-microsoft-network-infra-azure-com-v1-subnet
+  failurePolicy: Fail
+  matchPolicy: Equivalent
+  name: default.subnet.infra.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.infra.azure.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - subnets
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
       path: /mutate-microsoft-resources-infra-azure-com-v1-resourcegroup
   failurePolicy: Fail
   matchPolicy: Equivalent
@@ -489,6 +508,25 @@ webhooks:
     - UPDATE
     resources:
     - virtualnetworks
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-microsoft-network-infra-azure-com-v1-subnet
+  failurePolicy: Fail
+  matchPolicy: Equivalent
+  name: validation.subnet.infra.azure.com
+  rules:
+  - apiGroups:
+    - microsoft.network.infra.azure.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - subnets
 - clientConfig:
     caBundle: Cg==
     service:

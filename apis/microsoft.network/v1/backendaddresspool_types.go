@@ -20,7 +20,7 @@ type (
 
 	BackendAddressPoolSpec struct {
 		// +k8s:conversion-gen=false
-		APIVersion string `json:"apiVersion,omitempty"`
+		APIVersion string `json:"apiVersion"`
 
 		Properties *BackendAddressPoolSpecProperties `json:"properties,omitempty"`
 	}

@@ -76,14 +76,6 @@ func TestAzureTemplateClient_ApplyVirtualNetwork(t *testing.T) {
 				"10.0.0.0/16",
 			},
 		},
-		Subnets: []microsoftnetworkv1.SubnetSpec{
-			{
-				Name: "test-1",
-				Properties: microsoftnetworkv1.SubnetProperties{
-					AddressPrefix: "10.0.0.0/28",
-				},
-			},
-		},
 		EnableVMProtection: false,
 	}
 

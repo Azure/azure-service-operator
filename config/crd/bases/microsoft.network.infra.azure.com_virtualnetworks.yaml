@@ -81,31 +81,22 @@ spec:
                     description: EnableVMProtection indicates if VM protection is
                       enabled for all the subnets in the virtual network
                     type: boolean
-                  subnets:
+                  subnetRefs:
                     description: Subnets is a list of subnets in the VNET
                     items:
-                      description: 'SubnetSpec is a subnet in a Virtual Network TODO:
-                        (dj) I think this should probably be a slice of corev1.ObjectReference'
+                      description: KnownTypeReference is a reference to an object
+                        which the type and version is already known
                       properties:
-                        id:
-                          description: ID of the subnet resource
-                          type: string
                         name:
-                          description: Name of the subnet
+                          description: Name is the name of resource being referenced
                           type: string
-                        properties:
-                          description: Properties of the subnet
-                          properties:
-                            addressPrefix:
-                              description: AddressPrefix for the subnet, eg. 10.0.0.0/24
-                              type: string
-                            addressPrefixes:
-                              description: AddressPrefixes are a list of address prefixes
-                                for a subnet
-                              items:
-                                type: string
-                              type: array
-                          type: object
+                        namespace:
+                          description: Namespace is the namespace of resource being
+                            referenced.
+                          type: string
+                      required:
+                      - name
+                      - namespace
                       type: object
                     type: array
                 type: object
@@ -128,6 +119,7 @@ spec:
                   type: string
                 type: object
             required:
+            - apiVersion
             - resourceGroupRef
             type: object
           status:
@@ -209,31 +201,22 @@ spec:
                     description: EnableVMProtection indicates if VM protection is
                       enabled for all the subnets in the virtual network
                     type: boolean
-                  subnets:
+                  subnetRefs:
                     description: Subnets is a list of subnets in the VNET
                     items:
-                      description: 'SubnetSpec is a subnet in a Virtual Network TODO:
-                        (dj) I think this should probably be a slice of corev1.ObjectReference'
+                      description: KnownTypeReference is a reference to an object
+                        which the type and version is already known
                       properties:
-                        id:
-                          description: ID of the subnet resource
-                          type: string
                         name:
-                          description: Name of the subnet
+                          description: Name is the name of resource being referenced
                           type: string
-                        properties:
-                          description: Properties of the subnet
-                          properties:
-                            addressPrefix:
-                              description: AddressPrefix for the subnet, eg. 10.0.0.0/24
-                              type: string
-                            addressPrefixes:
-                              description: AddressPrefixes are a list of address prefixes
-                                for a subnet
-                              items:
-                                type: string
-                              type: array
-                          type: object
+                        namespace:
+                          description: Namespace is the namespace of resource being
+                            referenced.
+                          type: string
+                      required:
+                      - name
+                      - namespace
                       type: object
                     type: array
                 type: object

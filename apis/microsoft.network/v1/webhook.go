@@ -543,3 +543,37 @@ func (r *VirtualNetwork) ValidateDelete() error {
 	// TODO(user): fill in your validation logic upon object deletion.
 	return nil
 }
+
+// log is for logging in this package.
+var subnetlog = logf.Log.WithName("subnet-resource")
+
+// +kubebuilder:webhook:path=/mutate-microsoft-network-infra-azure-com-v1-subnet,mutating=true,matchPolicy=Equivalent,failurePolicy=fail,groups=microsoft.network.infra.azure.com,resources=subnets,verbs=create;update,versions=v1,name=default.subnet.infra.azure.com
+
+var _ webhook.Defaulter = &Subnet{}
+
+// Default implements webhook.Defaulter so a webhook will be registered for the type
+func (r *Subnet) Default() {
+	subnetlog.Info("default", "name", r.Name)
+}
+
+// +kubebuilder:webhook:verbs=create;update,path=/validate-microsoft-network-infra-azure-com-v1-subnet,mutating=false,matchPolicy=Equivalent,failurePolicy=fail,groups=microsoft.network.infra.azure.com,resources=subnets,versions=v1,name=validation.subnet.infra.azure.com
+
+var _ webhook.Validator = &Subnet{}
+
+// ValidateCreate implements webhook.Validator so a webhook will be registered for the type
+func (r *Subnet) ValidateCreate() error {
+	subnetlog.Info("validate create", "name", r.Name)
+	return nil
+}
+
+// ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
+func (r *Subnet) ValidateUpdate(old runtime.Object) error {
+	subnetlog.Info("validate update", "name", r.Name)
+	return nil
+}
+
+// ValidateDelete implements webhook.Validator so a webhook will be registered for the type
+func (r *Subnet) ValidateDelete() error {
+	subnetlog.Info("validate delete", "name", r.Name)
+	return nil
+}

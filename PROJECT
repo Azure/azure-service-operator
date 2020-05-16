@@ -83,4 +83,10 @@ resources:
 - group: microsoft.network
   kind: InboundNatRule
   version: v1
+- group: microsoft.network
+  kind: Subnet
+  version: v1
+- group: microsoft.network
+  kind: Subnet
+  version: v20191101
 version: "2"

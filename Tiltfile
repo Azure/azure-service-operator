@@ -105,7 +105,7 @@ def k8s_infra():
         yaml = yaml.replace("${" + substitution + "}", value)
 
     for k in keys:
-        b64_secret = str(local(b64_cmd.format(k)))
+        b64_secret = str(local(b64_cmd.format(k), quiet=True))
         if not b64_secret:
             fail("missing env var {}".format(k))
         yaml = yaml.replace("${" + k + "_B64}", b64_secret)

@@ -9,9 +9,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 type (
 	// RouteSpecProperties are the resource specific properties
 	RouteSpecProperties struct {
@@ -24,7 +21,7 @@ type (
 	// RouteSpec defines the desired state of Route
 	RouteSpec struct {
 		// +k8s:conversion-gen=false
-		APIVersion string `json:"apiVersion,omitempty"`
+		APIVersion string `json:"apiVersion"`
 
 		// Properties of the subnet
 		Properties *RouteSpecProperties `json:"properties,omitempty"`

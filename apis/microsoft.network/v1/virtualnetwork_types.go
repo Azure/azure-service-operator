@@ -33,28 +33,6 @@ type (
 		VirtualNetworkCommunity string `json:"virtualNetworkCommunity,omitempty"`
 	}
 
-	// SubnetProperties are the properties of the subnet
-	SubnetProperties struct {
-		// AddressPrefix for the subnet, eg. 10.0.0.0/24
-		AddressPrefix string `json:"addressPrefix,omitempty"`
-
-		// AddressPrefixes are a list of address prefixes for a subnet
-		AddressPrefixes []string `json:"addressPrefixes,omitempty"`
-	}
-
-	// SubnetSpec is a subnet in a Virtual Network
-	// TODO: (dj) I think this should probably be a slice of corev1.ObjectReference
-	SubnetSpec struct {
-		// ID of the subnet resource
-		ID string `json:"id,omitempty"`
-
-		// Name of the subnet
-		Name string `json:"name,omitempty"`
-
-		// Properties of the subnet
-		Properties SubnetProperties `json:"properties,omitempty"`
-	}
-
 	// VirtualNetworkSpecProperties are the property bodies to be applied
 	VirtualNetworkSpecProperties struct {
 		// AddressSpace contains an array of IP address ranges that can be used by subnets
@@ -70,7 +48,7 @@ type (
 
 		// Subnets is a list of subnets in the VNET
 		// +optional
-		Subnets []SubnetSpec `json:"subnets,omitempty"`
+		SubnetRefs []azcorev1.KnownTypeReference `json:"subnetRefs,omitempty" group:"microsoft.network.infra.azure.com" kind:"Subnet" owned:"true"`
 
 		// EnableVMProtection indicates if VM protection is enabled for all the subnets in the virtual network
 		// +optional
@@ -80,7 +58,7 @@ type (
 	// VirtualNetworkSpec defines the desired state of VirtualNetwork
 	VirtualNetworkSpec struct {
 		// +k8s:conversion-gen=false
-		APIVersion string `json:"apiVersion,omitempty"`
+		APIVersion string `json:"apiVersion"`
 
 		// ResourceGroupRef is the Azure Resource Group the VirtualNetwork resides within
 		ResourceGroupRef *azcorev1.KnownTypeReference `json:"resourceGroupRef" group:"microsoft.resources.infra.azure.com" kind:"ResourceGroup"`

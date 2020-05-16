@@ -90,6 +90,8 @@ spec:
                       type: string
                     type: array
                 type: object
+            required:
+            - apiVersion
             type: object
           status:
             description: FrontendIPConfigurationStatus defines the observed state

@@ -194,21 +194,29 @@ var _ = Describe("GenericReconciler", func() {
 				Name:      randomName,
 			}
 
+			subnet := microsoftnetworkv1.Subnet{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "subnet1",
+				},
+				Spec: microsoftnetworkv1.SubnetSpec{
+					Properties: microsoftnetworkv1.SubnetProperties{
+						AddressPrefixes: []string{
+							"10.0.0.0/28",
+							"10.1.0.0/28",
+						},
+					},
+				},
+			}
+
 			vnetSpecProps := microsoftnetworkv1.VirtualNetworkSpecProperties{
 				AddressSpace: &microsoftnetworkv1.AddressSpaceSpec{
 					AddressPrefixes: []string{
 						"10.0.0.0/16",
 					},
 				},
-				Subnets: []microsoftnetworkv1.SubnetSpec{
+				SubnetRefs: []azcorev1.KnownTypeReference{
 					{
-						Name: "subnet1",
-						Properties: microsoftnetworkv1.SubnetProperties{
-							AddressPrefixes: []string{
-								"10.0.0.0/28",
-								"10.1.0.0/28",
-							},
-						},
+						Name: subnet.Name,
 					},
 				},
 			}

@@ -125,7 +125,7 @@ manifests: $(CONTROLLER_GEN) ## Generate manifests e.g. CRD, RBAC etc.
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 
 .PHONY: generate
-generate: $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
+generate: manifests $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths="./..."
 
 	$(CONVERSION_GEN) \
