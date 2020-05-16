@@ -241,6 +241,7 @@ steps:
         kubectl delete namespace $(OPERATOR_NAMESPACE)
         imagename="$(PIPELINE_CONTAINER_REGISTRY_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
         echo $imagename
+        make install
         helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz \
             --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
             --set azureTenantID=$(AZURE_TENANT_ID) \
@@ -255,6 +256,8 @@ steps:
             --set namespace=$(OPERATOR_NAMESPACE)
         kubectl get namespace
         kubectl get pods -n $(OPERATOR_NAMESPACE)
+        kubectl describe pods -n $(OPERATOR_NAMESPACE)
+        kubectl logs -n azureoperator-system deployment/azureoperator-controller-manager -c manager
  
  # - task: HelmDeploy@0
  #   inputs:
