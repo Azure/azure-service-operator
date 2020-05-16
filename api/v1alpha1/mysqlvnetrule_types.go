@@ -25,6 +25,7 @@ type MySQLVNetRuleSpec struct {
 // +kubebuilder:object:root=true
 
 // MySQLVNetRule is the Schema for the mysqlvnetrules API
+// +kubebuilder:resource:shortName=mysqlvn,path=mysqlvnetrule
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type MySQLVNetRule struct {
