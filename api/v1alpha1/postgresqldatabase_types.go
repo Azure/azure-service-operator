@@ -22,6 +22,7 @@ type PostgreSQLDatabaseSpec struct {
 // +kubebuilder:subresource:status
 
 // PostgreSQLDatabase is the Schema for the postgresqldatabases API
+// +kubebuilder:resource:shortName=psqldb,path=postgresqldatabase
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLDatabase struct {
