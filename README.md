@@ -39,7 +39,7 @@ For more details on the control flow of the Azure Service operator, refer to the
 
 This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](/charts/azure-service-operator).
 
-For detailed instructions on getting started, refer [here](docs/howto/contents.md).
+For detailed instructions on getting started, go [here](docs/howto/contents.md).
 
 Please see the [FAQ][docs/faq.md] for answers to commonly asked questions about the Azure Service Operator
 
