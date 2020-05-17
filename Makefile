@@ -186,7 +186,7 @@ deploy: manifests $(KUBECTL) $(KUSTOMIZE) docker-build docker-push ## Deploy con
 	$(KUSTOMIZE) build config/default | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" | $(KUBECTL) apply -f -
 
 .PHONY: docker-build
-docker-build: test ## Build the docker image
+docker-build: ## Build the docker image
 	docker build . -t $(REGISTRY)/${IMG}
 
 .PHONY: docker-push
@@ -194,9 +194,9 @@ docker-push: ## Push the docker image
 	docker push $(REGISTRY)/${IMG}
 
 .PHONY: dist
-dist:
+dist: $(KUSTOMIZE)
 	mkdir -p dist
 	$(KUSTOMIZE) build config/default | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" | > dist/release.yaml
 
 .PHONY: release
-release: dist docker-build docker-push $(KUSTOMIZE) ## Build, push, generate dist for release
+release: dist docker-build docker-push ## Build, push, generate dist for release
