@@ -196,8 +196,7 @@ docker-push: ## Push the docker image
 .PHONY: dist
 dist: $(KUSTOMIZE)
 	mkdir -p dist
-	$(KUSTOMIZE) build config/default > ./dist/release.yaml
-	sed -i '' "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" ./dist/release.yaml # ran into issues with GH action closing stdout
+	$(KUSTOMIZE) build config/default | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" > dist/release.yaml
 
 .PHONY: release
 release: dist docker-build docker-push ## Build, push, generate dist for release
