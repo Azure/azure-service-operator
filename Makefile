@@ -96,7 +96,7 @@ lint-full: $(GOLANGCI_LINT) ## Run slower linters to detect possible issues
 ## --------------------------------------
 
 .PHONY: build
-build: fmt ## Build manager binary
+build: fmt vet lint ## Build manager binary
 	go build -o bin/manager main.go
 
 .PHONY: fmt
@@ -111,10 +111,9 @@ vet: ## Run go vet against code
 header-check: ## Runs header checks on all files to verify boilerplate
 	./scripts/verify_boilerplate.sh
 
-.PHONY: modules
-modules: ## Runs go mod to ensure tidy.
+.PHONY: tidy
+tidy: ## Runs go mod to ensure tidy.
 	go mod tidy
-	cd $(TOOLS_DIR); go mod tidy
 
 ## --------------------------------------
 ## Generate
