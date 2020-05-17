@@ -17,6 +17,7 @@ type FieldDefinition struct {
 	fieldType   Type
 	jsonName    string
 	description string
+	validations []Validation
 }
 
 // NewFieldDefinition is a factory method for creating a new FieldDefinition
@@ -64,11 +65,30 @@ func (field *FieldDefinition) WithDescription(description *string) *FieldDefinit
 	return &result
 }
 
+// WithValidation adds the given validation to the field's set of validations
+func (field *FieldDefinition) WithValidation(validation Validation) *FieldDefinition {
+	result := *field
+	result.validations = append(result.validations, validation)
+	return &result
+}
+
+// MakeRequired returns a new FieldDefinition that is marked as required
+func (field *FieldDefinition) MakeRequired() *FieldDefinition {
+	return field.WithValidation(ValidateRequired())
+}
+
+// MakeOptional returns a new FieldDefinition that has an optional value
+func (field *FieldDefinition) MakeOptional() *FieldDefinition {
+	result := *field
+	result.fieldType = NewOptionalType(result.fieldType)
+	return &result
+}
+
 // AsField generates an AST field node representing this field definition
 func (field *FieldDefinition) AsField() *ast.Field {
 
-	// TODO: add field tags for api hints / json binding
 	result := &ast.Field{
+		Doc:   &ast.CommentGroup{},
 		Names: []*ast.Ident{ast.NewIdent(field.fieldName)},
 		Type:  field.FieldType().AsType(),
 		Tag: &ast.BasicLit{
@@ -77,14 +97,27 @@ func (field *FieldDefinition) AsField() *ast.Field {
 		},
 	}
 
-	if field.description != "" {
-		result.Doc = &ast.CommentGroup{
-			List: []*ast.Comment{
-				{
-					Text: fmt.Sprintf("\n/* %s: %s */", field.fieldName, field.description),
-				},
-			},
+	addDocComment := func(comment string) {
+		newLine := ""
+		if result.Doc.List == nil {
+			// if first comment, add a newline
+			newLine = "\n"
 		}
+
+		result.Doc.List = append(result.Doc.List, &ast.Comment{
+			Text: newLine + comment,
+		})
+	}
+
+	// generate validation comments:
+	for _, validation := range field.validations {
+		// these are not doc comments but they must go here to be emitted before the field
+		addDocComment(GenerateKubebuilderComment(validation))
+	}
+
+	// generate doc comment:
+	if field.description != "" {
+		addDocComment(fmt.Sprintf("/* %s: %s */", field.fieldName, field.description))
 	}
 
 	return result

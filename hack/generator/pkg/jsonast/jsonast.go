@@ -258,41 +258,66 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsc
 	return structDefinition, nil
 }
 
+func generateFieldDefinition(ctx context.Context, scanner *SchemaScanner, prop *gojsonschema.SubSchema) (*astmodel.FieldDefinition, error) {
+	fieldName := scanner.idFactory.CreateIdentifier(prop.Property)
+
+	schemaType, err := getSubSchemaType(prop)
+	if _, ok := err.(*UnknownSchemaError); ok {
+		// if we don't know the type, we still need to provide the property, we will just provide open interface
+		field := astmodel.NewFieldDefinition(fieldName, prop.Property, astmodel.AnyType)
+		return field, nil
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	propType, err := scanner.RunHandler(ctx, schemaType, prop)
+	if _, ok := err.(*UnknownSchemaError); ok {
+		// if we don't know the type, we still need to provide the property, we will just provide open interface
+		field := astmodel.NewFieldDefinition(fieldName, prop.Property, astmodel.AnyType)
+		return field, nil
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	field := astmodel.NewFieldDefinition(fieldName, prop.Property, propType)
+	return field, nil
+}
+
 func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) ([]*astmodel.FieldDefinition, error) {
 	ctx, span := tab.StartSpan(ctx, "getFields")
 	defer span.End()
 
 	var fields []*astmodel.FieldDefinition
 	for _, prop := range schema.PropertiesChildren {
-		schemaType, err := getSubSchemaType(prop)
-		if _, ok := err.(*UnknownSchemaError); ok {
-			// if we don't know the type, we still need to provide the property, we will just provide open interface
-			fieldName := scanner.idFactory.CreateIdentifier(prop.Property)
-			field := astmodel.NewFieldDefinition(fieldName, prop.Property, astmodel.AnyType).WithDescription(schema.Description)
-			fields = append(fields, field)
-			continue
-		}
 
+		fieldDefinition, err := generateFieldDefinition(ctx, scanner, prop)
 		if err != nil {
 			return nil, err
 		}
 
-		propType, err := scanner.RunHandler(ctx, schemaType, prop)
-		if _, ok := err.(*UnknownSchemaError); ok {
-			// if we don't know the type, we still need to provide the property, we will just provide open interface
-			fieldName := scanner.idFactory.CreateIdentifier(prop.Property)
-			field := astmodel.NewFieldDefinition(fieldName, prop.Property, astmodel.AnyType).WithDescription(schema.Description)
-			fields = append(fields, field)
-			continue
+		// add documentation
+		fieldDefinition = fieldDefinition.WithDescription(prop.Description)
+
+		// add validations
+		isRequired := false
+		for _, required := range schema.Required {
+			if prop.Property == required {
+				isRequired = true
+				break
+			}
 		}
 
-		if err != nil {
-			return nil, err
+		if isRequired {
+			fieldDefinition = fieldDefinition.MakeRequired()
+		} else {
+			fieldDefinition = fieldDefinition.MakeOptional()
 		}
 
-		fieldName := scanner.idFactory.CreateIdentifier(prop.Property)
-		field := astmodel.NewFieldDefinition(fieldName, prop.Property, propType).WithDescription(prop.Description)
-		fields = append(fields, field)
+		fields = append(fields, fieldDefinition)
 	}
 
 	// see: https://json-schema.org/understanding-json-schema/reference/object.html#properties

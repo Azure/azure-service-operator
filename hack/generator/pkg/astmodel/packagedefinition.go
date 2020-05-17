@@ -184,6 +184,8 @@ Licensed under the MIT license.
 
 // Package {{.PackageName}} contains API Schema definitions for the {{.GroupName}} {{.PackageName}} API group
 // +kubebuilder:object:generate=true
+// All object properties are optional by default, this will be overridden when needed:
+// +kubebuilder:validation:Optional
 // +groupName={{.GroupName}}.infra.azure.com
 package {{.PackageName}}
 

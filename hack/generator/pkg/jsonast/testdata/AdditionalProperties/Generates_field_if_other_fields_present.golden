@@ -1,8 +1,8 @@
 type
 /* Generated from: https://test.test/schemas/2020-01-01/test.json */
 Test struct {
-	Tags struct {
-		OtherField           string             `json:"otherField"`
+	Tags *struct {
+		OtherField           *string            `json:"otherField"`
 		additionalProperties map[string]float64 `json:"additionalProperties"`
 	} `json:"tags"`
 }
