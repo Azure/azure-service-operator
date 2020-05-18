@@ -29,40 +29,54 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
         docker-ce-cli \
         azure-cli \
+        zsh \
+    #
+    # Install ZSH shell
+    && wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
     #
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Go development tools
-RUN GO111MODULE=on go get -v \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    #
+    # Install Go development tools
+    && GO111MODULE=on go get -v \
         golang.org/x/tools/gopls@latest \
         golang.org/x/lint/golint@latest \
         github.com/go-delve/delve/cmd/dlv@latest \
+        2>&1 \
+    #
+    # Install Go test dependencies
+    && GO111MODULE=on go get -v \
+        github.com/jstemmer/go-junit-report@latest \
+        github.com/axw/gocov/gocov@latest \
+        github.com/AlekSi/gocov-xml \
+        github.com/wadey/gocovmerge \
         2>&1
 
 # Copy shares from localhost into container when new shells are created
 RUN echo '\n\
-        if [ -d "/usr/local/share/kube-localhost" ]; then\n\
-            mkdir -p $HOME/.kube\n\
-            cp -r /usr/local/share/kube-localhost/* $HOME/.kube\n\
-            chown -R $(id -u) $HOME/.kube\n\
-            sed -i -e "s/localhost/host.docker.internal/g" $HOME/.kube/config\n\
-        \n\
-            if [ -d "/usr/local/share/minikube-localhost" ]; then\n\
-                mkdir -p $HOME/.minikube\n\
-                cp -r /usr/local/share/minikube-localhost/ca.crt $HOME/.minikube\n\
-                cp -r /usr/local/share/minikube-localhost/client.crt $HOME/.minikube\n\
-                cp -r /usr/local/share/minikube-localhost/client.key $HOME/.minikube\n\
-                chown -R $(id -u) $HOME/.minikube\n\
-                sed -i -r "s|(\s*certificate-authority:\s).*|\\1$HOME\/.minikube\/ca.crt|g" $HOME/.kube/config\n\
-                sed -i -r "s|(\s*client-certificate:\s).*|\\1$HOME\/.minikube\/client.crt|g" $HOME/.kube/config\n\
-                sed -i -r "s|(\s*client-key:\s).*|\\1$HOME\/.minikube\/client.key|g" $HOME/.kube/config\n\
-            fi\n\
-        fi\n\
-        if [ -d "/usr/local/share/azure-localhost" ]; then\n\
-            mkdir -p $HOME/.azure\n\
-            cp -r /usr/local/share/azure-localhost/* $HOME/.azure\n\
-            chown -R $(id -u) $HOME/.azure\n\
-        fi' | tee -a /root/.bashrc /root/.zshrc /home/${USERNAME}/.bashrc >> /home/${USERNAME}/.zshrc
+if [ -d "/usr/local/share/kube-localhost" ]; then\n\
+    mkdir -p $HOME/.kube\n\
+    cp -r /usr/local/share/kube-localhost/* $HOME/.kube\n\
+    chown -R $(id -u) $HOME/.kube\n\
+    sed -i -e "s/localhost/host.docker.internal/g" $HOME/.kube/config\n\
+\n\
+    if [ -d "/usr/local/share/minikube-localhost" ]; then\n\
+        mkdir -p $HOME/.minikube\n\
+        cp -r /usr/local/share/minikube-localhost/ca.crt $HOME/.minikube\n\
+        cp -r /usr/local/share/minikube-localhost/client.crt $HOME/.minikube\n\
+        cp -r /usr/local/share/minikube-localhost/client.key $HOME/.minikube\n\
+        chown -R $(id -u) $HOME/.minikube\n\
+        sed -i -r "s|(\s*certificate-authority:\s).*|\\1$HOME\/.minikube\/ca.crt|g" $HOME/.kube/config\n\
+        sed -i -r "s|(\s*client-certificate:\s).*|\\1$HOME\/.minikube\/client.crt|g" $HOME/.kube/config\n\
+        sed -i -r "s|(\s*client-key:\s).*|\\1$HOME\/.minikube\/client.key|g" $HOME/.kube/config\n\
+    fi\n\
+fi\n\
+if [ -d "/usr/local/share/azure-localhost" ]; then\n\
+    mkdir -p $HOME/.azure\n\
+    cp -r /usr/local/share/azure-localhost/* $HOME/.azure\n\
+    chown -R $(id -u) $HOME/.azure\n\
+fi' | tee -a /root/.bashrc /root/.zshrc /home/${USERNAME}/.bashrc >> /home/${USERNAME}/.zshrc
