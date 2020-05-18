@@ -43,7 +43,10 @@ Do you want to quickly deploy the latest version of Azure Service Operator on yo
 
 1. Make sure `kubectl` is configured to connect to the Kubernetes cluster you want to deploy Azure Service Operators to.
 For an AKS cluster, you can use the below command:
-`az aks get-credentials -g <AKSClusterResourceGroup> -n <AKSClusterName>`
+
+```
+az aks get-credentials -g <AKSClusterResourceGroup> -n <AKSClusterName>
+```
 
 2. Install cert-manager on the cluster using the following commands.
 
@@ -55,35 +58,26 @@ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/relea
 
 Wait for the cert-manager deployment to be complete. Use the below command to check for this.
 
-`kubectl rollout status -n cert-manager deploy/cert-manager-webhook`
+```
+kubectl rollout status -n cert-manager deploy/cert-manager-webhook
+```
 
 3. Download the latest Helm chart for Azure Service Operators locally to your machine. Run the following commands.
 
-```shell
-➜  ~ export HELM_EXPERIMENTAL_OCI=1
-➜  ~ mkdir install-aso
-➜  ~ cd install-aso
+```
+mkdir install-aso
+cd install-aso
+export HELM_EXPERIMENTAL_OCI=1
 ```
 
 Pull and export the helm chart.
 
-```shell
-➜  install-aso helm chart pull mcr.microsoft.com/k8s/asohelmchart:latest
-latest: Pulling from mcr.microsoft.com/k8s/asohelmchart
-ref:     mcr.microsoft.com/k8s/asohelmchart:latest
-digest:  3cb00eccc97ea52eb484f1bcc1e6f95db0772359500599b2c1b0fd7a897be064
-size:    25.4 KiB
-name:    azure-service-operator
-version: 0.1.0
-Status: Downloaded newer chart for mcr.microsoft.com/k8s/asohelmchart:latest
+```
+helm chart pull mcr.microsoft.com/k8s/asohelmchart:latest
+```
 
-➜  install-aso helm chart export mcr.microsoft.com/k8s/asohelmchart:latest --destination .
-ref:     mcr.microsoft.com/k8s/asohelmchart:latest
-digest:  3cb00eccc97ea52eb484f1bcc1e6f95db0772359500599b2c1b0fd7a897be064
-size:    25.4 KiB
-name:    azure-service-operator
-version: 0.1.0
-Exported chart to azure-service-operator/
+```
+helm chart export mcr.microsoft.com/k8s/asohelmchart:latest --destination .
 ```
 
 4. Install the Azure Service Operator on your cluster using the following helm install command.
