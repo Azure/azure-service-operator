@@ -7,8 +7,6 @@ spec:
   resourceGroup: resourcegroup-azure-operators
   serverVersion: "8.0"
   sslEnforcement: Enabled
-  minimalTLSVersion: TLS10 # Possible values include: 'TLS10', 'TLS11', 'TLS12', 'Disabled'
-  infrastructureEncryption: Enabled # Possible values include: Enabled, Disabled
   createMode: Default # Possible values include: Default, Replica, PointInTimeRestore (not implemented), GeoRestore (not implemented)
   sku:
     name: GP_Gen5_4 # tier + family + cores eg. - B_Gen4_1, GP_Gen5_4

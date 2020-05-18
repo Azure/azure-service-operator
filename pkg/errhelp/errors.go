@@ -42,6 +42,7 @@ const (
 	NotFoundErrorCode                              = "NotFound"
 	NoSuchHost                                     = "no such host"
 	ParentNotFoundErrorCode                        = "ParentResourceNotFound"
+	StorageAccountIsNotProvisioned                 = "StorageAccountIsNotProvisioned"
 	PreconditionFailed                             = "PreconditionFailed"
 	QuotaExceeded                                  = "QuotaExceeded"
 	ResourceGroupNotFoundErrorCode                 = "ResourceGroupNotFound"
