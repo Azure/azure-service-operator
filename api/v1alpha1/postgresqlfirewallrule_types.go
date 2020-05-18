@@ -24,7 +24,6 @@ type PostgreSQLFirewallRuleSpec struct {
 // +kubebuilder:subresource:status
 
 // PostgreSQLFirewallRule is the Schema for the postgresqlfirewallrules API
-// +kubebuilder:resource:shortName=psqlfwr,path=postgresqlfirewallrule
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLFirewallRule struct {
