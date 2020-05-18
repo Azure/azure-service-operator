@@ -1,7 +1,0 @@
-apiVersion: cert-manager.io/v1alpha2
-kind: Issuer
-metadata:
-  name: azureoperator-selfsigned-issuer
-  namespace: {{ .Values.namespace }}
-spec:
-  selfSigned: {}
