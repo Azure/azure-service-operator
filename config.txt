@@ -1,5 +1,0 @@
-[req]
-distinguished_name = req_distinguished_name
-[req_distinguished_name]
-[SAN]
-subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local
