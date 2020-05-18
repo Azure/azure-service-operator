@@ -65,7 +65,7 @@ type StorageAccountAccessTier string
 // +kubebuilder:subresource:status
 
 // StorageAccount is the Schema for the storages API
-// +kubebuilder:resource:shortName=sa,path=storage
+// +kubebuilder:resource:shortName=sa,path=storageaccounts
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type StorageAccount struct {
