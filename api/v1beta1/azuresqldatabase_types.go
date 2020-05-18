@@ -4,29 +4,32 @@
 package v1beta1
 
 import (
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+type DBEdition byte
+
 // AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
 type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string             `json:"location"`
-	ResourceGroup string             `json:"resourceGroup,omitempty"`
-	Server        string             `json:"server"`
-	Edition       v1alpha1.DBEdition `json:"edition"`
+	Location      string    `json:"location"`
+	ResourceGroup string    `json:"resourceGroup,omitempty"`
+	Server        string    `json:"server"`
+	Edition       DBEdition `json:"edition"`
 	// optional
 	DbName string `json:"dbName,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
+// +kubebuilder:resource:shortName=asqldb,path=azuresqldatabase
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlDatabase struct {
@@ -34,7 +37,7 @@ type AzureSqlDatabase struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   AzureSqlDatabaseSpec `json:"spec,omitempty"`
-	Status v1alpha1.ASOStatus   `json:"status,omitempty"`
+	Status ASOStatus            `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

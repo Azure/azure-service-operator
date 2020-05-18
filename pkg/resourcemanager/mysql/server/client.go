@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -61,52 +62,55 @@ func (m *MySQLServerClient) CheckServerNameAvailability(ctx context.Context, ser
 
 }
 
-func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, servername string, resourcegroup string, location string, tags map[string]*string, serverversion mysql.ServerVersion, sslenforcement mysql.SslEnforcementEnum, skuInfo mysql.Sku, adminlogin string, adminpassword string, createmode string, sourceserver string) (pollingURL string, server mysql.Server, err error) {
+func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, instance v1alpha2.MySQLServer, tags map[string]*string, skuInfo mysql.Sku, adminlogin string, adminpassword string, createmode string) (pollingURL string, server mysql.Server, err error) {
 
 	client := getMySQLServersClient()
 
 	// Check if name is valid if this is the first create call
-	valid, err := m.CheckServerNameAvailability(ctx, servername)
+	valid, err := m.CheckServerNameAvailability(ctx, instance.Name)
 	if !valid {
 		return "", server, err
 	}
+
 	var result mysql.ServersCreateFuture
+	var serverProperties mysql.BasicServerPropertiesForCreate
+	var skuData *mysql.Sku
+	var storageProfile *mysql.StorageProfile
+	if instance.Spec.StorageProfile != nil {
+		obj := mysql.StorageProfile(*instance.Spec.StorageProfile)
+		storageProfile = &obj
+	}
+
 	if strings.EqualFold(createmode, "replica") {
-		result, _ = client.Create(
-			ctx,
-			resourcegroup,
-			servername,
-			mysql.ServerForCreate{
-				Location: &location,
-				Tags:     tags,
-				Properties: &mysql.ServerPropertiesForReplica{
-					SourceServerID: to.StringPtr(sourceserver),
-					CreateMode:     mysql.CreateModeReplica,
-				},
-			},
-		)
+		serverProperties = &mysql.ServerPropertiesForReplica{
+			SourceServerID: to.StringPtr(instance.Spec.ReplicaProperties.SourceServerId),
+			CreateMode:     mysql.CreateModeReplica,
+			StorageProfile: storageProfile,
+		}
 
 	} else {
-
-		result, _ = client.Create(
-			ctx,
-			resourcegroup,
-			servername,
-			mysql.ServerForCreate{
-				Location: &location,
-				Tags:     tags,
-				Properties: &mysql.ServerPropertiesForDefaultCreate{
-					AdministratorLogin:         &adminlogin,
-					AdministratorLoginPassword: &adminpassword,
-					Version:                    serverversion,
-					SslEnforcement:             sslenforcement,
-					//StorageProfile: &mysql.StorageProfile{},
-					CreateMode: mysql.CreateModeServerPropertiesForCreate,
-				},
-				Sku: &skuInfo,
-			},
-		)
+		serverProperties = &mysql.ServerPropertiesForDefaultCreate{
+			AdministratorLogin:         &adminlogin,
+			AdministratorLoginPassword: &adminpassword,
+			Version:                    mysql.ServerVersion(instance.Spec.ServerVersion),
+			SslEnforcement:             mysql.SslEnforcementEnum(instance.Spec.SSLEnforcement),
+			CreateMode:                 mysql.CreateModeServerPropertiesForCreate,
+			StorageProfile:             storageProfile,
+		}
+		skuData = &skuInfo
 	}
+
+	result, _ = client.Create(
+		ctx,
+		instance.Spec.ResourceGroup,
+		instance.Name,
+		mysql.ServerForCreate{
+			Location:   &instance.Spec.Location,
+			Tags:       tags,
+			Properties: serverProperties,
+			Sku:        skuData,
+		},
+	)
 
 	res, err := result.Result(client)
 	return result.PollingURL(), res, err

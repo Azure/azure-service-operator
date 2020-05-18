@@ -4,7 +4,6 @@
 package v1beta1
 
 import (
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -23,14 +22,18 @@ type AzureSqlServerSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AzureSqlServer is the Schema for the azuresqlservers API
+// +kubebuilder:resource:shortName=asqls,path=azuresqlserver
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   AzureSqlServerSpec `json:"spec,omitempty"`
-	Status v1alpha1.ASOStatus `json:"status,omitempty"`
+	Status ASOStatus          `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

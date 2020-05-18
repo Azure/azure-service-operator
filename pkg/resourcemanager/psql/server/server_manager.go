@@ -7,7 +7,7 @@ import (
 	"context"
 
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 )
 
@@ -18,16 +18,12 @@ type PostgreSQLServerManager interface {
 		servername string) (bool, error)
 
 	CreateServerIfValid(ctx context.Context,
-		servername string,
-		resourcegroup string,
-		location string,
+		instance v1alpha2.PostgreSQLServer,
 		tags map[string]*string,
-		serverversion psql.ServerVersion,
-		sslenforcement psql.SslEnforcementEnum,
 		skuInfo psql.Sku,
 		adminlogin string,
 		adminpassword string,
-		createmode string, sourceserver string) (string, psql.Server, error)
+		createmode string) (string, psql.Server, error)
 
 	DeleteServer(ctx context.Context,
 		resourcegroup string,
@@ -40,10 +36,10 @@ type PostgreSQLServerManager interface {
 	AddServerCredsToSecrets(ctx context.Context,
 		secretName string,
 		data map[string][]byte,
-		instance *azurev1alpha1.PostgreSQLServer) error
+		instance *v1alpha2.PostgreSQLServer) error
 
 	GetOrPrepareSecret(ctx context.Context,
-		instance *azurev1alpha1.PostgreSQLServer) (map[string][]byte, error)
+		instance *v1alpha2.PostgreSQLServer) (map[string][]byte, error)
 
 	// also embed async client methods
 	resourcemanager.ARMClient
