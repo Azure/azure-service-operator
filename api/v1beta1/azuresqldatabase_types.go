@@ -29,7 +29,6 @@ type AzureSqlDatabaseSpec struct {
 // +kubebuilder:storageversion
 
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
-// +kubebuilder:resource:shortName=asqldb,path=azuresqldatabase
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlDatabase struct {

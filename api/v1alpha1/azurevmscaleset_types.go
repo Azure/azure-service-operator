@@ -33,7 +33,6 @@ type AzureVMScaleSetSpec struct {
 // +kubebuilder:subresource:status
 
 // AzureVMScaleSet is the Schema for the azurevmscalesets API
-// +kubebuilder:resource:shortName=vmss,path=azurevmscaleset
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureVMScaleSet struct {
