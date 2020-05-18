@@ -9,7 +9,7 @@
     ],
     
     "settings": {
-      "terminal.integrated.shell.linux": "/bin/bash",
+      "terminal.integrated.shell.linux": "/bin/zsh",
       "go.gopath": "/go",
       "go.useLanguageServer": true,
       "[go]": {
