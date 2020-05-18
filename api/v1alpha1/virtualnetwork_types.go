@@ -33,7 +33,6 @@ type VirtualNetworkSpec struct {
 // +kubebuilder:subresource:status
 
 // VirtualNetwork is the Schema for the virtualnetworks API
-// +kubebuilder:resource:shortName=vn,path=virtualnetworks
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type VirtualNetwork struct {

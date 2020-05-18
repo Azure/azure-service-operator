@@ -25,7 +25,6 @@ type ConsumerGroupSpec struct {
 // +kubebuilder:subresource:status
 
 // ConsumerGroup is the Schema for the consumergroups API
-// +kubebuilder:resource:shortName=cg,path=consumergroup
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type ConsumerGroup struct {

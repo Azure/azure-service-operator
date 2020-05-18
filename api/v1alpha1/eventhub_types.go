@@ -91,7 +91,6 @@ type EventhubProperties struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // Eventhub is the Schema for the eventhubs API
-// +kubebuilder:resource:shortName=eh,path=eventhub
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type Eventhub struct {
