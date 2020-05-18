@@ -106,7 +106,7 @@ This project maintains [releases of the Azure Service Operator](https://github.c
 
 For detailed instructions on getting started, go [here](docs/howto/contents.md).
 
-Please see the [FAQ][docs/faq.md] for answers to commonly asked questions about the Azure Service Operator
+Please see the [FAQ](docs/faq.md) for answers to commonly asked questions about the Azure Service Operator
 
 ## Contributing
 
