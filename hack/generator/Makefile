@@ -18,7 +18,7 @@ V = 0
 Q = $(if $(filter 1,$V),,@)
 
 .PHONY: all
-all: build
+all: build test
 
 $(GOLINT): ## Build golint
 	GOBIN=$(TOOLS_BIN) $(GO_INSTALL) golang.org/x/lint/golint
@@ -68,4 +68,4 @@ gox: install-tools
 	$(Q) tar -czvf ./bin/$(SHORT_VERSION)/$(APP)_windows_amd64.tar.gz -C ./bin/$(SHORT_VERSION)/ $(APP)_windows_amd64.exe
 
 .PHONY: ci
-ci: build test
+ci: all
