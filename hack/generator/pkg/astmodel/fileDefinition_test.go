@@ -24,7 +24,7 @@ func Test_NewFileDefinition_GivenValues_InitializesFields(t *testing.T) {
 func NewTestStruct(name string, fields ...string) StructDefinition {
 	var fs []*FieldDefinition
 	for _, n := range fields {
-		fs = append(fs, NewFieldDefinition(n, n, StringType))
+		fs = append(fs, NewFieldDefinition(FieldName(n), n, StringType))
 	}
 
 	ref := NewStructReference(name, "group", "2020-01-01", false)

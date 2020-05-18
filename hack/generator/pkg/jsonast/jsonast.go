@@ -216,17 +216,28 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsche
 	ctx, span := tab.StartSpan(ctx, "enumHandler")
 	defer span.End()
 
-	// if there is an underlying primitive type, return that
+	// Default to a string base type
+	baseType := astmodel.StringType
 	for _, t := range []SchemaType{Bool, Int, Number, String} {
 		if schema.Types.Contains(string(t)) {
-			return getPrimitiveType(t)
+			bt, err := getPrimitiveType(t)
+			if err != nil {
+				return nil, err
+			}
+
+			baseType = bt
 		}
 	}
 
-	// assume string
-	return astmodel.StringType, nil
+	var values []astmodel.EnumValue
+	for _, v := range schema.Enum {
+		id := scanner.idFactory.CreateIdentifier(v)
+		values = append(values, astmodel.EnumValue{Identifier: id, Value: v})
+	}
 
-	//TODO Create an Enum field that captures the permitted options too
+	enumType := astmodel.NewEnumType(baseType, values)
+
+	return enumType, nil
 }
 
 func fixedTypeHandler(typeToReturn astmodel.Type, handlerName string) TypeHandler {
@@ -259,7 +270,7 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsc
 }
 
 func generateFieldDefinition(ctx context.Context, scanner *SchemaScanner, prop *gojsonschema.SubSchema) (*astmodel.FieldDefinition, error) {
-	fieldName := scanner.idFactory.CreateIdentifier(prop.Property)
+	fieldName := scanner.idFactory.CreateFieldName(prop.Property)
 
 	schemaType, err := getSubSchemaType(prop)
 	if _, ok := err.(*UnknownSchemaError); ok {
@@ -337,7 +348,8 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 		if err != nil {
 			return nil, err
 		}
-		additionalPropsField := astmodel.NewFieldDefinition("additionalProperties", "additionalProperties", astmodel.NewStringMap(additionalPropsType))
+
+		additionalPropsField := astmodel.NewFieldDefinition(astmodel.FieldName("additionalProperties"), "additionalProperties", astmodel.NewStringMap(additionalPropsType))
 		fields = append(fields, additionalPropsField)
 	}
 
@@ -353,8 +365,6 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 	if url.Fragment == expressionFragment {
 		return nil, nil
 	}
-
-	log.Printf("INF $ref to %s\n", url)
 
 	schemaType, err := getSubSchemaType(schema.RefSchema)
 	if err != nil {
@@ -414,6 +424,13 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 
 		// this will overwrite placeholder added above
 		scanner.AddDefinition(sd)
+
+		// Add any further definitions related to this
+		relatedDefinitions := sd.RelatedDefinitions(structReference.PackageReference, structReference.Name(), scanner.idFactory)
+		for _, d := range relatedDefinitions {
+			scanner.AddDefinition(d)
+		}
+
 		return sd.Reference(), nil
 	}
 

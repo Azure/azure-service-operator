@@ -61,3 +61,20 @@ func (m *MapType) Equals(t Type) bool {
 
 	return false
 }
+
+// RelatedDefinitions implements the HasRelatedDefinitions interface for MapType
+func (m *MapType) RelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
+	var result []Definition
+
+	if df, ok := m.key.(HasRelatedDefinitions); ok {
+		defns := df.RelatedDefinitions(ref, namehint, idFactory)
+		result = append(result, defns...)
+	}
+
+	if df, ok := m.value.(HasRelatedDefinitions); ok {
+		defns := df.RelatedDefinitions(ref, namehint, idFactory)
+		result = append(result, defns...)
+	}
+
+	return result
+}

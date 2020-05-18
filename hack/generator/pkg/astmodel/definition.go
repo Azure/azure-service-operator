@@ -32,6 +32,11 @@ type Definition interface {
 	Tidy()
 }
 
+// A HasRelatedDefinitions is capable of creating additional definitions
+type HasRelatedDefinitions interface {
+	RelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition
+}
+
 // Type represents something that is a Go type
 type Type interface {
 	HasImports

@@ -14,7 +14,7 @@ import (
 func Test_NewFieldDefinition_GivenValues_InitializesFields(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	fieldName := "FullName"
+	fieldName := FieldName("FullName")
 	fieldtype := StringType
 	jsonName := "family-name"
 

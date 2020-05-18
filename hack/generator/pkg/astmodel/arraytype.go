@@ -51,3 +51,15 @@ func (array *ArrayType) Equals(t Type) bool {
 
 	return false
 }
+
+// RelatedDefinitions implements the HasRelatedDefinitions interface for ArrayType
+func (array *ArrayType) RelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
+	var result []Definition
+
+	if df, ok := array.element.(HasRelatedDefinitions); ok {
+		defns := df.RelatedDefinitions(ref, namehint, idFactory)
+		result = append(result, defns...)
+	}
+
+	return result
+}

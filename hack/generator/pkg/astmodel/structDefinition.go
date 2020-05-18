@@ -37,8 +37,11 @@ type StructDefinition struct {
 	description string
 }
 
-// StructDefinition must implement Definition
+// Ensure StructDefinition implements Definition interface correctly
 var _ Definition = (*StructDefinition)(nil)
+
+// Ensure StructDefinition implements the HasRelatedDefinitions interface correctly
+var _ HasRelatedDefinitions = (*StructDefinition)(nil)
 
 // Reference provides the definition name
 func (definition *StructDefinition) Reference() *DefinitionName {

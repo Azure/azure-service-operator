@@ -14,9 +14,6 @@ type PrimitiveType struct {
 	name string
 }
 
-// Enum represents an enumeration of predefined values
-var Enum = &PrimitiveType{"ENUM"} // TODO
-
 // IntType represents a Go integer type
 var IntType = &PrimitiveType{"int"}
 

@@ -92,10 +92,10 @@ func NewGenCommand() (*cobra.Command, error) {
 
 				switch shouldExport {
 				case jsonast.Skip:
-					log.Printf("Skipping struct %s/%s %s", defRef.PackagePath(), defRef.Name(), motivation)
+					log.Printf("Skipping %s/%s %s", defRef.PackagePath(), defRef.Name(), motivation)
 
 				case jsonast.Export:
-					log.Printf("Exporting struct %s/%s %s", defRef.PackagePath(), defRef.Name(), motivation)
+					log.Printf("Will export %s/%s %s", defRef.PackagePath(), defRef.Name(), motivation)
 
 					pkgRef := defRef.PackageReference
 					if pkg, ok := packages[pkgRef]; ok {
@@ -114,7 +114,7 @@ func NewGenCommand() (*cobra.Command, error) {
 				// create directory if not already there
 				outputDir := filepath.Join(rootOutputDir, pkg.PackagePath())
 				if _, err := os.Stat(outputDir); os.IsNotExist(err) {
-					log.Printf("Creating directory '%s'\n", outputDir)
+					//log.Printf("Creating directory '%s'\n", outputDir)
 					err = os.MkdirAll(outputDir, 0700)
 					if err != nil {
 						log.Fatalf("Unable to create directory '%s'", outputDir)
