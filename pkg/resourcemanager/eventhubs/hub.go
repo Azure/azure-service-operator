@@ -155,17 +155,12 @@ func (e *azureEventHubManager) createEventhubSecrets(ctx context.Context, secret
 		Namespace: instance.Namespace,
 	}
 
-	err := e.SecretClient.Upsert(ctx,
+	return e.SecretClient.Upsert(ctx,
 		key,
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(e.Scheme),
 	)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func (e *azureEventHubManager) deleteEventhubSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.Eventhub) error {
@@ -292,6 +287,21 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	err = e.listAccessKeysAndCreateSecrets(resourcegroup, eventhubNamespace, eventhubName, secretName, instance.Spec.AuthorizationRule.Name, instance)
 	if err != nil {
+
+		// catch secret existing and fail reconciliation
+		errorStr := err.Error()
+		if strings.Contains(errorStr, "is already owned by another") {
+
+			// marking the reconciliation as successful BUT the status message explains the issue
+			instance.Status.State = string(hub.Status)
+			instance.Status.Message = "The configured secret name was already owned by another eventhub"
+			instance.Status.Provisioning = false
+			instance.Status.Provisioned = false
+			instance.Status.FailedProvisioning = true
+			instance.Status.ResourceId = *hub.ID
+			return true, nil
+		}
+
 		instance.Status.Message = err.Error()
 		return false, err
 	}
@@ -301,6 +311,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 	instance.Status.Message = resourcemanager.SuccessMsg
 	instance.Status.Provisioning = false
 	instance.Status.Provisioned = true
+	instance.Status.FailedProvisioning = false
 	instance.Status.ResourceId = *hub.ID
 	return true, nil
 }
