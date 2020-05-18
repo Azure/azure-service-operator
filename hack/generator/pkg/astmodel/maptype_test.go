@@ -20,7 +20,7 @@ func TestMapType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 	otherType := NewArrayType(StringType)
 
 	cases := []struct {
-		name string
+		name      string
 		thisType  Type
 		otherType Type
 		expected  bool
@@ -30,16 +30,16 @@ func TestMapType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 		{"Equal to self", strToBool, strToBool, true},
 		// Expect equal to same
 		{"Equal to same", strToStr, otherStrToStr, true},
-		{"Equal to same",otherStrToStr, strToStr, true},
+		{"Equal to same", otherStrToStr, strToStr, true},
 		// Expect not-equal when different key types
-		{"Not-equal if keys are different",intToBool, strToBool, false},
-		{"Not-equal if keys are different",strToBool, intToBool, false},
+		{"Not-equal if keys are different", intToBool, strToBool, false},
+		{"Not-equal if keys are different", strToBool, intToBool, false},
 		// Expect not-equal when different value types
-		{"Not-equal if values are different",strToStr, strToBool, false},
-		{"Not-equal if values are different",strToBool, strToStr, false},
+		{"Not-equal if values are different", strToStr, strToBool, false},
+		{"Not-equal if values are different", strToBool, strToStr, false},
 		// Expect not-equal when completely different type
-		{"Not-equal if values are different",strToStr, otherType, false},
-		{"Not-equal if values are different",otherType, strToStr, false},
+		{"Not-equal if values are different", strToStr, otherType, false},
+		{"Not-equal if values are different", otherType, strToStr, false},
 	}
 
 	for _, c := range cases {

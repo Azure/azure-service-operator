@@ -66,21 +66,21 @@ func TestFieldDefinition_Equals_WhenGivenFieldDefinition_ReturnsExpectedResult(t
 	differentDescription := createIntField("FullName", "The whole thing")
 
 	cases := []struct {
-		name string
-		thisField *FieldDefinition
+		name       string
+		thisField  *FieldDefinition
 		otherField *FieldDefinition
-		expected  bool
+		expected   bool
 	}{
 		// Expect equal to self
 		{"Equal to self", strField, strField, true},
 		{"Equal to self", intField, intField, true},
 		// Expect equal to same
 		{"Equal to same", strField, otherStrField, true},
-		{"Equal to same",otherStrField, strField, true},
+		{"Equal to same", otherStrField, strField, true},
 		// Expect not-equal when properties are different
-		{"Not-equal if names are different",strField, differentName, false},
-		{"Not-equal if types are different",strField, differentType, false},
-		{"Not-equal if descriptions are different",strField, differentDescription, false},
+		{"Not-equal if names are different", strField, differentName, false},
+		{"Not-equal if types are different", strField, differentType, false},
+		{"Not-equal if descriptions are different", strField, differentDescription, false},
 	}
 
 	for _, c := range cases {
@@ -95,4 +95,3 @@ func TestFieldDefinition_Equals_WhenGivenFieldDefinition_ReturnsExpectedResult(t
 		})
 	}
 }
-

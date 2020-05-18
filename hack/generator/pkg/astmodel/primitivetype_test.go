@@ -15,7 +15,7 @@ func TestPrimitiveType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) 
 	otherType := NewArrayType(IntType)
 
 	cases := []struct {
-		name string
+		name      string
 		thisType  Type
 		otherType Type
 		expected  bool

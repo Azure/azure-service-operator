@@ -32,7 +32,7 @@ func NewFileDefinition(packageRef PackageReference, definitions ...Definition) *
 
 // Tidy the contents of this file prior to creating the AST
 func (file *FileDefinition) Tidy() {
-	sort.Slice(file.definitions, func (left int, right int) bool {
+	sort.Slice(file.definitions, func(left int, right int) bool {
 		return file.definitions[left].FileNameHint() < file.definitions[right].FileNameHint()
 	})
 

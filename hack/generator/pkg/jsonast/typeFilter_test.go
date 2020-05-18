@@ -23,7 +23,7 @@ var tutor2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("tutor"
 func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	filter := jsonast.TypeFilter{Group:"role"}
+	filter := jsonast.TypeFilter{Group: "role"}
 
 	// Roles should be selected
 	g.Expect(filter.AppliesToType(student2019)).To(BeTrue())
@@ -59,7 +59,6 @@ func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
 	// Name does not start with "p" should not be selected
 	g.Expect(filter.AppliesToType(student2019)).To(BeFalse())
 }
-
 
 func Test_FilterByMultipleConditions_CorrectlySelectsStructs(t *testing.T) {
 	g := NewGomegaWithT(t)
