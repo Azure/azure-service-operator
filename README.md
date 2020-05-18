@@ -39,6 +39,8 @@ For more details on the control flow of the Azure Service operator, refer to the
 
 ## Quick start
 
+[![asciicast](https://asciinema.org/a/14.png)](https://asciinema.org/a/ST78qOYXcG6s53VsHF1TkfeiQ)
+
 Do you want to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and get exploring? Follow these steps.
 
 1. Make sure `kubectl` is configured to connect to the Kubernetes cluster you want to deploy Azure Service Operators to.
