@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"unicode"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -248,7 +249,12 @@ func (m *AzureCosmosDBManager) convert(obj runtime.Object) (*v1alpha1.CosmosDB, 
 }
 
 func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, instance *v1alpha1.CosmosDB, db *documentdb.DatabaseAccount) error {
-	result, err := m.ListKeys(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
+	connStrResult, err := m.ListConnectionStrings(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
+	if err != nil {
+		return err
+	}
+
+	keysResult, err := m.ListKeys(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
 	if err != nil {
 		return err
 	}
@@ -259,12 +265,23 @@ func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, instanc
 	}
 	secretData := map[string][]byte{
 		"primaryEndpoint":            []byte(*db.DocumentEndpoint),
-		"primaryMasterKey":           []byte(*result.PrimaryMasterKey),
-		"secondaryMasterKey":         []byte(*result.SecondaryMasterKey),
-		"primaryReadonlyMasterKey":   []byte(*result.PrimaryReadonlyMasterKey),
-		"secondaryReadonlyMasterKey": []byte(*result.SecondaryReadonlyMasterKey),
+		"primaryMasterKey":           []byte(*keysResult.PrimaryMasterKey),
+		"secondaryMasterKey":         []byte(*keysResult.SecondaryMasterKey),
+		"primaryReadonlyMasterKey":   []byte(*keysResult.PrimaryReadonlyMasterKey),
+		"secondaryReadonlyMasterKey": []byte(*keysResult.SecondaryReadonlyMasterKey),
 	}
 
+	// set all available connection strings in the secret
+	if connStrResult.ConnectionStrings != nil {
+		for _, cs := range *connStrResult.ConnectionStrings {
+			// force the first character to lowercase to enforce consistency
+			key := []rune(helpers.RemoveNonAlphaNumeric(*cs.Description))
+			key[0] = unicode.ToLower(rune(key[0]))
+			secretData[string(key)] = []byte(*cs.ConnectionString)
+		}
+	}
+
+	// set each location's endpoint in the secret
 	if db.DatabaseAccountProperties.ReadLocations != nil {
 		for _, l := range *db.DatabaseAccountProperties.ReadLocations {
 			safeLocationName := helpers.RemoveNonAlphaNumeric(strings.ToLower(*l.LocationName))

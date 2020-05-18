@@ -20,6 +20,9 @@ TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
 # Some parts of the test suite use Go Build Tags to ignore certain tests. Default to all tests but allow the user to pass custom tags.
 BUILD_TAGS ?= all
 
+# Temp directory variable, set by environment on macOS and set to default for everything else
+TMPDIR ?= /tmp/
+
 all: manager
 
 # Generate test certs for development
@@ -30,9 +33,9 @@ generate-test-certs:
 	echo "[SAN]" >> config.txt
 	echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> config.txt
 	openssl req -x509 -days 730 -out tls.crt -keyout tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config config.txt -nodes
-	rm -rf /tmp/k8s-webhook-server
-	mkdir -p /tmp/k8s-webhook-server/serving-certs
-	mv tls.* /tmp/k8s-webhook-server/serving-certs/
+	rm -rf $(TMPDIR)/k8s-webhook-server
+	mkdir -p $(TMPDIR)/k8s-webhook-server/serving-certs
+	mv tls.* $(TMPDIR)/k8s-webhook-server/serving-certs/
 
 # Run API unittests
 api-test: generate fmt vet manifests
@@ -246,10 +249,10 @@ install-kubebuilder:
 ifeq (,$(shell which kubebuilder))
 	@echo "installing kubebuilder"
 	# download kubebuilder and extract it to tmp
-	curl -sL https://go.kubebuilder.io/dl/2.0.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C /tmp/
+	curl -sL https://go.kubebuilder.io/dl/2.0.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C $(TMPDIR)
 	# move to a long-term location and put it on your path
 	# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
-	mv /tmp/kubebuilder_2.0.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
+	mv $(TMPDIR)/kubebuilder_2.0.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
 	export PATH=$$PATH:/usr/local/kubebuilder/bin
 else
 	@echo "kubebuilder has been installed"
