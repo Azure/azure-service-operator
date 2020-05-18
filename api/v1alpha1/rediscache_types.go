@@ -63,7 +63,6 @@ const (
 // +kubebuilder:subresource:status
 
 // RedisCache is the Schema for the rediscaches API
-// +kubebuilder:resource:shortName=rc,path=rediscache
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type RedisCache struct {

@@ -31,7 +31,6 @@ type AzureSQLUserSpec struct {
 // +kubebuilder:subresource:status
 
 // AzureSQLUser is the Schema for the sqlusers API
-// +kubebuilder:resource:shortName=asqlu,path=azuresqluser
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSQLUser struct {

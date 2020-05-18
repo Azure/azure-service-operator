@@ -26,7 +26,6 @@ type AzurePublicIPAddressSpec struct {
 // +kubebuilder:subresource:status
 
 // AzurePublicIPAddress is the Schema for the azurepublicipaddresses API
-// +kubebuilder:resource:shortName=pipa,path=azurepublicipaddress
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzurePublicIPAddress struct {
