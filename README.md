@@ -100,8 +100,9 @@ helm install aso ./azure-service-operator \
     --set image.repository="mcr.microsoft.com/k8s/azure-service-operator:latest"
 ```
 
-5. 
+Now you can see the Azure service operator pods running in your cluster.
 
+`kubectl get pods -n azureoperator-system`
 
 ## Getting started
 
