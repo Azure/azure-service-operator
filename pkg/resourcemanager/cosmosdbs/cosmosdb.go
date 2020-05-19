@@ -159,6 +159,24 @@ func (*AzureCosmosDBManager) ListKeys(
 	return &result, nil
 }
 
+// ListConnectionStrings lists the connection strings for a database account
+func (*AzureCosmosDBManager) ListConnectionStrings(
+	ctx context.Context,
+	groupName string,
+	accountName string) (*documentdb.DatabaseAccountListConnectionStringsResult, error) {
+	client, err := getCosmosDBClient()
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := client.ListConnectionStrings(ctx, groupName, accountName)
+	if err != nil {
+		return nil, err
+	}
+
+	return &result, nil
+}
+
 func getAccountOfferType(spec v1alpha1.CosmosDBSpec) *string {
 	kind := string(spec.Properties.DatabaseAccountOfferType)
 	if kind == "" {

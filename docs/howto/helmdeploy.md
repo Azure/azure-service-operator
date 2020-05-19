@@ -6,7 +6,7 @@
 
 This Helm chart contains certificates that depend on [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) to be installed. Install cert-manager prior to installing chart:
 
-```
+```console
 kubectl create namespace cert-manager
 kubectl label namespace cert-manager cert-manager.io/disable-validation=true
 kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
@@ -14,7 +14,7 @@ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/relea
 
 You can use the below command to check if the cert manager pods are ready. The cert manager pods should be running before proceeding to the next step.
 
-```
+```console
 kubectl rollout status -n cert-manager deploy/cert-manager-webhook
 ```
 

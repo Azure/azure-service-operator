@@ -6,7 +6,7 @@
 
 2. The user then uses the Helm chart to deploy the operator.
 
-3. The Helm chart uses the image from the public Container Registry.
+3. The Helm chart uses the images from the public Container Registry.
 
 4. It deploys dependencies like [aad-pod-identity](https://github.com/Azure/aad-pod-identity) in addition to the Azure Service Operator.
 
@@ -22,7 +22,7 @@
 
 2. The application is deployed using its manifest, however the deployment does not succeed yet as it is waiting for the Azure Service that it depends on. The application references a secret that provides the information required to consume the Azure service, and the secret does not exist yet.
 
-3. The Azure Service Operator that watches the CRDs corresponding to the Azure services recognizes the request for a custom resource.
+3. The Azure Service Operator that watches the custom resource definitions (CRDs) corresponding to the Azure services recognizes the request for a custom resource.
 
 4. The Azure Service Operator updates the Kubernetes instance for the requested resource with the correct Status and events.
 

@@ -49,6 +49,6 @@ If you're not familiar with how ResourceGroup works, spend some time reviewing `
 5. From your console panel, click the `DEBUG CONSOLE` tab and verify the debugger is running. You should see something like this: INSERT IMAGE
 6. Now click on the `TERMINAL` tab and enter `kubectl apply -f config/samples/azure_v1alpha1_resourcegroup.yaml`.
 
-If you've done everything right you should see your breakpoint hit.
+If you've done everything right, you should see your breakpoint hit.
 
 Happy debugging!

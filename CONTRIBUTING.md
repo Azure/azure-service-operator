@@ -16,7 +16,7 @@ signed the CLA can be accepted into the repository.
 
 ## Support Channels
 
-This is an open source project and as such no formal support is available. However, like all good open source projects we do offer "best effort" support through github issues.
+This is an open source project and as such no formal support is available. However, like all good open source projects, we do offer "best effort" support through GitHub issues.
 
 GitHub issues can be filed here - https://github.com/Azure/azure-service-operator/issues
 
