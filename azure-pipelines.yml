@@ -307,10 +307,10 @@ steps:
       echo $versiontag
       echo $latesttag
       echo $(AZURE_CLIENT_SECRET)|helm registry login $(CONTAINER_REGISTRY) --username $(AZURE_CLIENT_ID) --password-stdin
-      helm chart save . $(CONTAINER_REGISTRY)/$(ASO_HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
-      helm chart save . $(CONTAINER_REGISTRY)/$(ASO_HELM_CHART_NAME):latest
-      helm chart push $(CONTAINER_REGISTRY)/$(ASO_HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
-      helm chart push $(CONTAINER_REGISTRY)/$(ASO_HELM_CHART_NAME):latest
+      helm chart save . $versiontag
+      helm chart save . $latesttag
+      helm chart push $versiontag
+      helm chart push $latesttag
     continueOnError: 'true'
     displayName: Push Helm chart to MCR repo
     workingDirectory: '$(System.DefaultWorkingDirectory)'
