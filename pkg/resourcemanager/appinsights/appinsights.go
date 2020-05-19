@@ -188,9 +188,22 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 
 	response, err := m.DeleteAppInsights(ctx, i.Spec.ResourceGroup, i.Name)
 	if err != nil {
-		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			return true, err
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
 		}
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
+			return false, nil
+		}
+		return true, err
 	}
 	i.Status.State = response.Status
 
