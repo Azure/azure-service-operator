@@ -260,7 +260,8 @@ steps:
         kubectl get namespace
         kubectl get pods -n $(OPERATOR_NAMESPACE)
         kubectl describe pods -n $(OPERATOR_NAMESPACE)
-        kubectl logs -n azureoperator-system deployment/azureoperator-controller-manager -c manager
+        kubectl rollout status deployment/azureoperator-controller-manager -n $(OPERATOR_NAMESPACE) --timeout 120s
+        kubectl logs -n $(OPERATOR_NAMESPACE) deployment/azureoperator-controller-manager -c manager
  
  # - task: HelmDeploy@0
  #   inputs:
