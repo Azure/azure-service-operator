@@ -131,27 +131,30 @@ validate-copyright-headers:
 	@./scripts/validate-copyright-headers.sh
 
 # Generate manifests for helm and package them up
-helm-chart-manifests: manifests
+helm-chart-manifests: generate
+	# remove generated files
+	rm -rf charts/azure-service-operator/templates/generated/
+	rm -rf charts/azure-service-operator/crds
 	# create directory for generated files
 	mkdir charts/azure-service-operator/templates/generated
+	mkdir charts/azure-service-operator/crds
 	# generate files using kustomize
 	kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
-	# remove namespace, as we need to wrap it in a conditional since Helm 3 does not autocreate them
+	# move CRD definitions to crd folder
+	find ./charts/azure-service-operator/templates/generated/*_customresourcedefinition_* -exec mv '{}' ./charts/azure-service-operator/crds \;
+	# remove namespace and webhooks, as we need to wrap them in Helm conditional syntax
 	rm charts/azure-service-operator/templates/generated/*_namespace_*
+	rm charts/azure-service-operator/templates/generated/*-webhook-service*
 	# replace hard coded ASO image with Helm templating
 	perl -pi -e s,controller:latest,"{{ .Values.image.repository }}",g ./charts/azure-service-operator/templates/generated/*_deployment_*
 	# replace hard coded namespace with Helm templating
 	find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,"{{ .Values.namespace }}",g {} \;
-	# wrap CRDs in Helm conditional syntax
-	find ./charts/azure-service-operator/templates/generated/ -name *customresourcedefinition* -exec bash -c '(echo "{{- if .Values.installCRD }}"; cat {}) > tmp.yaml && mv tmp.yaml {} && echo "{{- end }}" >> {}' _ {} \;
 	# create unique names so each instance of the operator has its own role binding 
 	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec perl -pi -e 's/$$/-{{ .Values.namespace }}/ if /name: azure/' {} \;
 	# package the necessary files into a tar file
 	helm package ./charts/azure-service-operator -d ./charts
 	# update Chart.yaml for Helm Repository
 	helm repo index ./charts
-	# remove directory containing generated manifests for Helm Chart
-	rm -rf charts/azure-service-operator/templates/generated/
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen

@@ -1,8 +1,8 @@
-{{- if .Values.createNamespace }}
+{{- if and ( .Values.createNamespace ) ( not .Values.multipleInstances )}}
 apiVersion: v1
 kind: Namespace
 metadata:
   labels:
     control-plane: controller-manager
-  name: {{ .Values.namespace }}
-{{- end }}
+  name: azureoperator-system
+{{- end}}
