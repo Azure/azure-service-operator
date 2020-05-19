@@ -7,6 +7,7 @@ package controllers
 
 import (
 	"context"
+	"os"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -22,6 +23,18 @@ func TestAPIMgmtController(t *testing.T) {
 	// rgName := tc.resourceGroupName
 	rgLocation := "southcentralus"
 	apiMgmtName := "t-apimgmt-test" + helpers.RandomString(10)
+	rgName := "AzureOperatorsTest"
+	apimServiceName := "AzureOperatorsTestAPIM"
+
+	// Read the pre-created APIM service name and RG name from Environment variable if it exists
+	rgFromEnv := os.Getenv("TEST_APIM_RG")
+	if len(rgFromEnv) != 0 {
+		rgName = rgFromEnv
+	}
+	nameFromEnv := os.Getenv("TEST_APIM_NAME")
+	if len(nameFromEnv) != 0 {
+		apimServiceName = nameFromEnv
+	}
 
 	// Create an instance of Azure APIMgmnt
 	apiMgmtInstance := &azurev1alpha1.APIMgmtAPI{
@@ -31,8 +44,8 @@ func TestAPIMgmtController(t *testing.T) {
 		},
 		Spec: azurev1alpha1.APIMgmtSpec{
 			Location:      rgLocation,
-			ResourceGroup: "AzureOperatorsTest",
-			APIService:    "AzureOperatorsTestAPIM",
+			ResourceGroup: rgName,
+			APIService:    apimServiceName,
 			APIId:         "apiId0",
 			Properties: azurev1alpha1.APIProperties{
 				IsCurrent:             true,

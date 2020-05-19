@@ -1,5 +1,8 @@
 trigger:
-- azdo-pipelines
+  branches:
+    include:
+    - master
+    - pipeline-updates
 
 resources:
 - repo: self
@@ -18,7 +21,8 @@ variables:
   #GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   #GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(System.DefaultWorkingDirectory)/src/$(Build.Repository.Name)' # Path to the module's code
-  IMAGE_NAME: 'candidate/k8s/azure-service-operator'
+  IMAGE_NAME: 'candidate/k8s/azureserviceoperator'
+  ASO_HELM_CHART_NAME: 'candidate/k8s/asohelmchart'
   KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Release ACR Service Connection
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
@@ -91,8 +95,11 @@ steps:
       export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
       kubectl cluster-info
       make install
+      export TEST_APIM_RG=$(TEST_APIM_RG)
+      export TEST_APIM_NAME=$(TEST_APIM_NAME)
       make test-integration-controllers
     displayName: Run tests on a Kind Cluster
+    continueOnError: 'false'
     env:
       GO111MODULE: on
       AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
@@ -131,8 +138,9 @@ steps:
   
   - task: AzureCLI@2
     displayName: Test - Cleanup Azure Resources
+    condition: always()
     inputs:
-      azureSubscription: 'tpark-jananiv-azureserviceoperators(4ef44fef-c51d-4d7c-a6ff-8635c02848b1)'
+      azureSubscription: 'ASO Subscription'
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: 'make test-cleanup-azure-resources'
@@ -182,7 +190,7 @@ steps:
       # Replace image repository in values.yaml to the official image in ACR
       img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
       echo $img
-      sed -i -e 's@azure-service-operator:latest@azure-service-operator:'${img}'@' charts/azure-service-operator/values.yaml
+      sed -i -e 's@azure-service-operator:latest@azureserviceoperator:'${img}'@' charts/azure-service-operator/values.yaml
       # create directory for generated files
       mkdir charts/azure-service-operator/templates/generated
       # generate files using kustomize
@@ -203,7 +211,7 @@ steps:
       # update Chart.yaml for Helm Repository
       helm repo index ./charts
       # remove directory containing generated manifests for Helm Chart
-      rm -rf charts/azure-service-operator/templates/generated/
+      #rm -rf charts/azure-service-operator/templates/generated/
     displayName: Deploy to AKS - Helm generate and package charts
 
  # - task: KubernetesManifest@0
@@ -237,6 +245,7 @@ steps:
         kubectl delete namespace $(OPERATOR_NAMESPACE)
         imagename="$(PIPELINE_CONTAINER_REGISTRY_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
         echo $imagename
+        make install
         helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz \
             --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
             --set azureTenantID=$(AZURE_TENANT_ID) \
@@ -251,6 +260,9 @@ steps:
             --set namespace=$(OPERATOR_NAMESPACE)
         kubectl get namespace
         kubectl get pods -n $(OPERATOR_NAMESPACE)
+        kubectl describe pods -n $(OPERATOR_NAMESPACE)
+        kubectl rollout status deployment/azureoperator-controller-manager -n $(OPERATOR_NAMESPACE) --timeout 120s
+        kubectl logs -n $(OPERATOR_NAMESPACE) deployment/azureoperator-controller-manager -c manager
  
  # - task: HelmDeploy@0
  #   inputs:
@@ -284,6 +296,23 @@ steps:
       tags: |
         latest
         $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+  
+  - script: |
+      export HELM_EXPERIMENTAL_OCI=1
+      cd charts/azure-service-operator
+      versiontag="$(CONTAINER_REGISTRY_NAME)/$(ASO_HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
+      latesttag="$(CONTAINER_REGISTRY_NAME)/$(ASO_HELM_CHART_NAME):latest"
+      echo $versiontag
+      echo $latesttag
+      echo $(AZURE_CLIENT_SECRET)|helm registry login $(CONTAINER_REGISTRY_NAME) --username $(AZURE_CLIENT_ID) --password-stdin
+      helm chart save . $versiontag
+      helm chart save . $latesttag
+      helm chart push $versiontag
+      helm chart push $latesttag
+    continueOnError: 'true'
+    displayName: Push Helm chart to MCR repo
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   - script: |
       echo "updating kustomize image patch file for manager resource"
