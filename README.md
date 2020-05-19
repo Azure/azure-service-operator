@@ -37,6 +37,69 @@ For more details on the control flow of the Azure Service operator, refer to the
 - [Virtual Machine](/docs/services/virtualmachine/virtualmachine.md)
 - [Virtual Machine Scale Set](/docs/services/vmscaleset/vmscaleset.md)
 
+## Quick start
+
+![Deploying ASO](/docs/images/asodeploy.gif)
+
+Do you want to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and get exploring? Follow these steps.
+
+1. Make sure `kubectl` is configured to connect to the Kubernetes cluster you want to deploy Azure Service Operators to.
+For an AKS cluster, you can use the below command:
+
+```
+az aks get-credentials -g <AKSClusterResourceGroup> -n <AKSClusterName>
+```
+
+2. Install cert-manager on the cluster using the following commands.
+
+```
+kubectl create namespace cert-manager
+kubectl label namespace cert-manager cert-manager.io/disable-validation=true
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+```
+
+Wait for the cert-manager deployment to be complete. Use the below command to check for this.
+
+```
+kubectl rollout status -n cert-manager deploy/cert-manager-webhook
+```
+
+3. Download the latest Helm chart for Azure Service Operators locally to your machine. Run the following commands.
+
+```
+mkdir install-aso
+cd install-aso
+export HELM_EXPERIMENTAL_OCI=1
+```
+
+Pull and export the helm chart.
+
+```
+helm chart pull mcr.microsoft.com/k8s/asohelmchart:latest
+```
+
+```
+helm chart export mcr.microsoft.com/k8s/asohelmchart:latest --destination .
+```
+
+4. Install the Azure Service Operator on your cluster using the following helm install command.
+
+The ServicePrincipal you pass to the command below should have access to create resources in your subscription.
+
+```
+helm install aso ./azure-service-operator \
+    --set azureSubscriptionID=<AzureSubscriptionID> \
+    --set azureTenantID=<AzureTenantID> \
+    --set azureClientID=<ServicePrincipalClientId> \
+    --set azureClientSecret=<ServicePrincipalClientSecret> \
+    --set createNamespace=true \
+    --set image.repository="mcr.microsoft.com/k8s/azure-service-operator:latest"
+```
+
+Now you can see the Azure service operator pods running in your cluster.
+
+`kubectl get pods -n azureoperator-system`
+
 ## Getting started
 
 This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](/charts/azure-service-operator).
