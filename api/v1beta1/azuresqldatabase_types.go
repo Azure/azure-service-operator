@@ -21,7 +21,8 @@ type AzureSqlDatabaseSpec struct {
 	Server        string    `json:"server"`
 	Edition       DBEdition `json:"edition"`
 	// optional
-	DbName string `json:"dbName,omitempty"`
+	DbName            string `json:"dbName,omitempty"`
+	LongTermRetention string `json:"longTermRetention,omitempty"`
 }
 
 // +kubebuilder:object:root=true
