@@ -43,8 +43,9 @@ func (prim *PrimitiveType) RequiredImports() []PackageReference {
 }
 
 // References this type has to the given type
-func (prim *PrimitiveType) References(t Type) bool {
-	return prim == t
+func (prim *PrimitiveType) References(d *DefinitionName) bool {
+	// Primitive types dont have references
+	return false
 }
 
 // Equals returns true if the passed type is another primitive type the same name, false otherwise

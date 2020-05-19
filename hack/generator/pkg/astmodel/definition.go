@@ -13,6 +13,13 @@ type HasImports interface {
 	RequiredImports() []PackageReference
 }
 
+// ReferenceChecker is used to check for references to a specific definition
+type ReferenceChecker interface {
+	// References determines if this type has a direct reference to the given definition name
+	// For example, a struct references its field
+	References(d *DefinitionName) bool
+}
+
 // Definition represents models that can render into Go code
 type Definition interface {
 	// FileNameHint returns what a file that contains this definition (if any) should be called
@@ -40,15 +47,10 @@ type HasRelatedDefinitions interface {
 // Type represents something that is a Go type
 type Type interface {
 	HasImports
+	ReferenceChecker
 
 	// AsType renders the current instance as a Go abstract syntax tree
 	AsType() ast.Expr
-
-	// References this type has to the given type
-	// Does this Type include any direct references to the given Type?
-	// "Direct" means we don't walk into any StructReferences (nor could we with these arguments),
-	// but we do walk into included StructTypes.
-	References(t Type) bool
 
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type) bool

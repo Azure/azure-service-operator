@@ -41,8 +41,8 @@ func (enum *EnumType) AsType() ast.Expr {
 }
 
 // References indicates whether this Type includes any direct references to the given Type?
-func (enum *EnumType) References(t Type) bool {
-	return enum.DefinitionName.References(t)
+func (enum *EnumType) References(d *DefinitionName) bool {
+	return enum.DefinitionName.References(d)
 }
 
 // RelatedDefinitions implements the HasRelatedDefinitions interface for EnumType

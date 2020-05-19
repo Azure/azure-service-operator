@@ -35,8 +35,8 @@ func (array *ArrayType) RequiredImports() []PackageReference {
 }
 
 // References this type has to the given type
-func (array *ArrayType) References(t Type) bool {
-	return array == t || array.element.References(t)
+func (array *ArrayType) References(d *DefinitionName) bool {
+	return array.element.References(d)
 }
 
 // Equals returns true if the passed type is an array type with the same kind of elements, false otherwise

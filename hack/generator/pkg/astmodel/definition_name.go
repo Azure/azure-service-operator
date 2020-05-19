@@ -33,8 +33,8 @@ func (dn *DefinitionName) AsType() ast.Expr {
 }
 
 // References indicates whether this Type includes any direct references to the given Type?
-func (dn *DefinitionName) References(t Type) bool {
-	return dn.Equals(t)
+func (dn *DefinitionName) References(d *DefinitionName) bool {
+	return dn.Equals(d)
 }
 
 // RequiredImports returns all the imports required for this definition

@@ -35,8 +35,8 @@ func (optional *OptionalType) RequiredImports() []PackageReference {
 }
 
 // References is true if it is this type or the 'element' type references it
-func (optional *OptionalType) References(t Type) bool {
-	return optional.Equals(t) || optional.element.References(t)
+func (optional *OptionalType) References(d *DefinitionName) bool {
+	return optional.element.References(d)
 }
 
 // Equals returns true if this type is equal to the other type
