@@ -43,7 +43,11 @@ var _ = Describe("App Insights", func() {
 				_, err = AppInsightsManager.CreateAppInsights(ctx, rgName, "web", "other", location, appinsightsInstance)
 				if err != nil {
 					fmt.Println(err.Error())
-					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+					ignore := []string{
+						errhelp.AsyncOpIncompleteError,
+					}
+					azerr := errhelp.NewAzureErrorAzureError(err)
+					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
 					}
@@ -64,7 +68,11 @@ var _ = Describe("App Insights", func() {
 				_, err = AppInsightsManager.DeleteAppInsights(ctx, psqlServer, appinsightsInstance)
 				if err != nil {
 					fmt.Println(err.Error())
-					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+					ignore := []string{
+						errhelp.AsyncOpIncompleteError,
+					}
+					azerr := errhelp.NewAzureErrorAzureError(err)
+					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
 					}
