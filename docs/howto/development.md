@@ -1,8 +1,9 @@
-# Building Operator from source
+# Building the Azure Service Operator from source
 
 ## Running the operator locally
 
-***Note: Using this method you can only install resources having the the latest version of a CRD, as there are no conversion webhooks running to convert other versions. This is the reason you need to setup test certificates using the steps below too. Use this method only to try out the operator to get familiar.***
+> [!NOTE]
+> Using this method you can only install resources having the the latest version of a CRD, as there are no conversion webhooks running to convert other versions. This is the reason you need to setup test certificates using the steps below too. Use this method only to try out the operator to get familiar.
 
 1. Clone the repository into the following folder `<GOPATH>/src/github.com/Azure`.
 
@@ -192,4 +193,4 @@ For eg., use  `kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yam
 
 ## Want to contribute a new operator?
 
-If you are ready to contribute a new operator to the Azure Service Operators project, please follow the step-by-step guide [here](newoperatorguide.md)
+If you are ready to contribute a new operator to the Azure Service Operators project, please follow the step-by-step guide [here](newoperatorguide.md).
