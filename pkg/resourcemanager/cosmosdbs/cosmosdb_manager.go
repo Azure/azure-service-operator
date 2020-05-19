@@ -35,5 +35,8 @@ type CosmosDBManager interface {
 	// ListKeys lists the read & write keys for a database account
 	ListKeys(ctx context.Context, groupName string, accountName string) (*documentdb.DatabaseAccountListKeysResult, error)
 
+	// ListConnectionStrings lists the connection strings for a database account
+	ListConnectionStrings(ctx context.Context, groupName string, accountName string) (*documentdb.DatabaseAccountListConnectionStringsResult, error)
+
 	resourcemanager.ARMClient
 }
