@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"unicode"
 
 	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -274,10 +273,7 @@ func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, instanc
 	// set all available connection strings in the secret
 	if connStrResult.ConnectionStrings != nil {
 		for _, cs := range *connStrResult.ConnectionStrings {
-			// force the first character to lowercase to enforce consistency
-			key := []rune(helpers.RemoveNonAlphaNumeric(*cs.Description))
-			key[0] = unicode.ToLower(rune(key[0]))
-			secretData[string(key)] = []byte(*cs.ConnectionString)
+			secretData[helpers.RemoveNonAlphaNumeric(*cs.Description)] = []byte(*cs.ConnectionString)
 		}
 	}
 
