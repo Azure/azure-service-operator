@@ -87,10 +87,10 @@ Do you want to quickly deploy the latest version of Azure Service Operator on yo
 
     ```console
     helm install aso ./azure-service-operator \
-        --set azureSubscriptionID=<AzureSubscriptionID> \
-        --set azureTenantID=<AzureTenantID> \
-        --set azureClientID=<ServicePrincipalClientId> \
-        --set azureClientSecret=<ServicePrincipalClientSecret> \
+        --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+        --set azureTenantID=$AZURE_TENANT_ID \
+        --set azureClientID=$AZURE_CLIENT_ID \
+        --set azureClientSecret=$AZURE_CLIENT_SECRET \
         --set createNamespace=true \
         --set image.repository="mcr.microsoft.com/k8s/azure-service-operator:latest"
     ```
