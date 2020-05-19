@@ -39,7 +39,7 @@ For more details on the control flow of the Azure Service operator, refer to the
 
 ## Quick start
 
-![Deploying ASO](/docs/images/aso_deploy.svg)
+![Deploying ASO](/docs/images/asodeploy.gif)
 
 Do you want to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and get exploring? Follow these steps.
 
