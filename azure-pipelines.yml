@@ -22,7 +22,7 @@ variables:
   #GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(System.DefaultWorkingDirectory)/src/$(Build.Repository.Name)' # Path to the module's code
   IMAGE_NAME: 'candidate/k8s/azureserviceoperator'
-  HELM_CHART_NAME: 'candidate/k8s/asohelmchart'
+  ASO_HELM_CHART_NAME: 'candidate/k8s/asohelmchart'
   KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Release ACR Service Connection
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
@@ -301,10 +301,16 @@ steps:
   - script: |
       export HELM_EXPERIMENTAL_OCI=1
       cd charts/azure-service-operator
-      helm chart save . $(CONTAINER_REGISTRY)/$(HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
-      helm chart save . $(CONTAINER_REGISTRY)/$(HELM_CHART_NAME):latest
-      helm chart push $(CONTAINER_REGISTRY)/$(HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
-      helm chart push $(CONTAINER_REGISTRY)/$(HELM_CHART_NAME):latest
+      ls
+      versiontag="$(CONTAINER_REGISTRY)/$(ASO_HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
+      latesttag="$(CONTAINER_REGISTRY)/$(ASO_HELM_CHART_NAME):latest"
+      echo $versiontag
+      echo $latesttag
+      echo $(AZURE_CLIENT_SECRET)|helm registry login $(CONTAINER_REGISTRY) --username $(AZURE_CLIENT_ID) --password-stdin
+      helm chart save . $(CONTAINER_REGISTRY)/$(ASO_HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+      helm chart save . $(CONTAINER_REGISTRY)/$(ASO_HELM_CHART_NAME):latest
+      helm chart push $(CONTAINER_REGISTRY)/$(ASO_HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+      helm chart push $(CONTAINER_REGISTRY)/$(ASO_HELM_CHART_NAME):latest
     continueOnError: 'true'
     displayName: Push Helm chart to MCR repo
     workingDirectory: '$(System.DefaultWorkingDirectory)'
