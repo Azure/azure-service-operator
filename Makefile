@@ -43,22 +43,25 @@ help:  ## Display this help
 ## --------------------------------------
 ## Testing / Toooling
 ## --------------------------------------
-.PHONY: test test-int test-covers
-test test-int test-cover: export TEST_ASSET_KUBECTL = $(ROOT_DIR)/$(KUBECTL)
-test test-int test-cover: export TEST_ASSET_KUBE_APISERVER = $(ROOT_DIR)/$(KUBE_APISERVER)
-test test-int test-cover: export TEST_ASSET_ETCD = $(ROOT_DIR)/$(ETCD)
+.PHONY: test test-int test-cover test-cover-int
+test test-int test-cover test-cover-int: export TEST_ASSET_KUBECTL = $(ROOT_DIR)/$(KUBECTL)
+test test-int test-cover test-cover-int: export TEST_ASSET_KUBE_APISERVER = $(ROOT_DIR)/$(KUBE_APISERVER)
+test test-int test-cover test-cover-int: export TEST_ASSET_ETCD = $(ROOT_DIR)/$(ETCD)
 
-test: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) fmt lint header-check manifests ## Run tests
+test: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) lint header-check ## Run tests
 	go test -v ./...
 
-test-int: .env $(KUBECTL) $(KUBE_APISERVER) $(ETCD) fmt generate lint manifests ## Run integration tests
+test-int: .env $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run integration tests
 	# MUST be executed as single command, or env vars will not propagate to test execution
 	. .env && go test -v ./... -tags integration
 
 .env: ## create a service principal and save the identity to .env for use in integration tests (requries jq and az)
 	./scripts/create_testing_creds.sh
 
-test-cover: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) generate lint manifests ## Run tests w/ code coverage (./cover.out)
+test-cover: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run tests w/ code coverage (./cover.out)
+	go test ./... -coverprofile cover.out
+
+test-cover-int: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run tests w/ code coverage (./cover.out)
 	go test ./... -tags integration -coverprofile cover.out
 
 $(KUBECTL) $(KUBE_APISERVER) $(ETCD) $(KUBEBUILDER): ## Install test asset kubectl, kube-apiserver, etcd
