@@ -22,6 +22,7 @@ variables:
   #GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(System.DefaultWorkingDirectory)/src/$(Build.Repository.Name)' # Path to the module's code
   IMAGE_NAME: 'candidate/k8s/azureserviceoperator'
+  HELM_CHART_NAME: 'candidate/k8s/asohelmchart'
   KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
   # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Release ACR Service Connection
   # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
@@ -96,6 +97,7 @@ steps:
       make install
       export TEST_APIM_RG=$(TEST_APIM_RG)
       export TEST_APIM_NAME=$(TEST_APIM_NAME)
+      export BUILD_TAGS=resourcegroup
       make test-integration-controllers
     displayName: Run tests on a Kind Cluster
     continueOnError: 'false'
@@ -210,7 +212,7 @@ steps:
       # update Chart.yaml for Helm Repository
       helm repo index ./charts
       # remove directory containing generated manifests for Helm Chart
-      rm -rf charts/azure-service-operator/templates/generated/
+      #rm -rf charts/azure-service-operator/templates/generated/
     displayName: Deploy to AKS - Helm generate and package charts
 
  # - task: KubernetesManifest@0
@@ -295,6 +297,18 @@ steps:
       tags: |
         latest
         $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+  
+  - script: |
+      export HELM_EXPERIMENTAL_OCI=1
+      cd charts/azure-service-operator
+      helm chart save . $(CONTAINER_REGISTRY)/$(HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+      helm chart save . $(CONTAINER_REGISTRY)/$(HELM_CHART_NAME):latest
+      helm chart push $(CONTAINER_REGISTRY)/$(HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+      helm chart push $(CONTAINER_REGISTRY)/$(HELM_CHART_NAME):latest
+    continueOnError: 'true'
+    displayName: Push Helm chart to MCR repo
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
   - script: |
       echo "updating kustomize image patch file for manager resource"
