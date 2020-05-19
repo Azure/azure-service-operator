@@ -98,15 +98,27 @@ func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object, opt
 
 	status, err := p.DeleteDatabase(ctx, instance.Name, instance.Spec.Server, instance.Spec.ResourceGroup)
 	if err != nil {
-		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			return true, err
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
 		}
-	}
-
-	if err == nil {
-		if status != "InProgress" {
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
 			return false, nil
 		}
+		return true, err
+	}
+	instance.Status.State = status
+
+	if status != "InProgress" {
+		return false, nil
 	}
 
 	return true, nil
