@@ -13,6 +13,7 @@ TOOLS_BIN       = $(TOOLS_DIR)/bin
 GOLINT          = $(TOOLS_BIN)/golint
 GOX             = $(TOOLS_BIN)/gox
 GO_INSTALL      = $(abspath $(ROOT_DIR)/../../scripts/go_install.sh)
+GCOV2LCOV       = $(TOOLS_BIN)/gcov2lcov
 
 V = 0
 Q = $(if $(filter 1,$V),,@)
@@ -25,6 +26,9 @@ $(GOLINT): ## Build golint
 
 $(GOX): ## Build gox
 	GOBIN=$(TOOLS_BIN) $(GO_INSTALL)  github.com/mitchellh/gox@v1.0.1
+
+$(GCOV2LCOV): ## Build gcov2lcov
+	GOBIN=$(TOOLS_BIN) $(GO_INSTALL) github.com/jandelgado/gcov2lcov@v1.0.2
 
 build: tidy fmt vet lint ; $(info $(M) buiding ./bin/$(APP))
 	$Q $(GO)  build -ldflags "-X $(PACKAGE)/cmd.GitCommit=$(VERSION)" -o ./bin/$(APP)
@@ -56,9 +60,9 @@ test: ; $(info $(M) running go test…)
 	$(Q) $(GO) test ./... -tags=noexit
 
 .PHONY: test-cover
-test-cover: ; $(info $(M) running go test…)
-	$(Q) $(GO) test -tags=noexit -race -covermode atomic -coverprofile=profile.cov ./...
-	$(Q) $(TOOLS_BIN)/goveralls -coverprofile=profile.cov -service=github
+test-cover: $(GCOV2LCOV) ; $(info $(M) running go test…)
+	$(Q) $(GO) test -tags=noexit -race -covermode atomic -coverprofile=cover.out ./...
+	$(Q) $(GCOV2LCOV) -infile cover.out -outfile coverage.lcov
 
 .PHONY: gox
 gox: install-tools
@@ -68,4 +72,4 @@ gox: install-tools
 	$(Q) tar -czvf ./bin/$(SHORT_VERSION)/$(APP)_windows_amd64.tar.gz -C ./bin/$(SHORT_VERSION)/ $(APP)_windows_amd64.exe
 
 .PHONY: ci
-ci: all
+ci: build test-cover

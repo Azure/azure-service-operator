@@ -36,7 +36,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Make test generator
-        run: make -C hack/generator/ ci
+        run: make -C ./hack/generator ci
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: ./hack/generator/coverage.lcov
+          flag-name: generator
+          parallel: true
   test-controller:
     strategy:
       matrix:
@@ -62,12 +69,23 @@ jobs:
         run: make test-cover
         if: ${{ env.AZURE_TENANT_ID == '' }}
       - name: Convert coverage to lcov
-        uses: jandelgado/gcov2lcov-action@v1.0.0
+        uses: jandelgado/gcov2lcov-action@v1.0.2
         with:
           infile: cover.out
           outfile: coverage.lcov
       - name: Coveralls
-        uses: coverallsapp/github-action@v1.0.1
+        uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.github_token }}
           path-to-lcov: coverage.lcov
+          flag-name: controller
+          parallel: true
+  coveralls-complete:
+    needs: [test-controller, test-generator]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls
+        uses: coverallsapp/github-action@v1.1.1
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
