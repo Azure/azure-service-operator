@@ -7,11 +7,11 @@ azureOperatorKeyvault: ""
 # Set to False if you do not need the namespace autocreated
 createNamespace: True
 
+# If installing multiple instances of ASO, set this to True
+multipleInstances: False
+
 # Optional, Custom Namespace 
 namespace: azureoperator-system
-
-# Optional, whether or not to install CRDs along with the Helm Chart
-installCRD: True
 
 # Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
 cloudEnvironment: AzurePublicCloud
