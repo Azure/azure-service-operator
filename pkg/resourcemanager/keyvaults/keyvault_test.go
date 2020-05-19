@@ -74,7 +74,11 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 				)
 				if err != nil {
 					fmt.Println(err.Error())
-					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+					ignore := []string{
+						errhelp.AsyncOpIncompleteError,
+					}
+					azerr := errhelp.NewAzureErrorAzureError(err)
+					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
 					}
@@ -97,7 +101,11 @@ var _ = Describe("KeyVault Resource Manager test", func() {
 				_, err := keyVaultManager.DeleteVault(ctx, rgName, keyvaultName)
 				if err != nil {
 					fmt.Println(err.Error())
-					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+					ignore := []string{
+						errhelp.AsyncOpIncompleteError,
+					}
+					azerr := errhelp.NewAzureErrorAzureError(err)
+					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
 					}
