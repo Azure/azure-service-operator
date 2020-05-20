@@ -47,7 +47,7 @@ func TestRedisCacheFirewallRuleControllerNoResourceGroup(t *testing.T) {
 	EnsureDelete(ctx, t, tc, redisCacheFirewallRuleInstance)
 }
 
-func TestRedisCacheFirewallRuleNoServer(t *testing.T) {
+func TestRedisCacheFirewallRuleNoRedisCache(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
