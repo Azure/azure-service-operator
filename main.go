@@ -10,10 +10,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/controllers"
+	"github.com/Azure/go-autorest/autorest/azure/auth"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
+	healthz "sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -57,7 +59,9 @@ import (
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
+
 	// +kubebuilder:scaffold:imports
+	"net/http"
 )
 
 var (
@@ -87,9 +91,11 @@ func init() {
 
 func main() {
 	var metricsAddr string
+	var healthAddr string
 	var enableLeaderElection bool
 	var secretClient secrets.SecretClient
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
+	flag.StringVar(&healthAddr, "health-addr", ":8081", "The address the health endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
 
@@ -98,10 +104,13 @@ func main() {
 	ctrl.SetLogger(zap.Logger(true))
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
-		Scheme:             scheme,
-		MetricsBindAddress: metricsAddr,
-		LeaderElection:     enableLeaderElection,
+		Scheme:                 scheme,
+		MetricsBindAddress:     metricsAddr,
+		HealthProbeBindAddress: healthAddr,
+		LeaderElection:         enableLeaderElection,
+		LivenessEndpointName:   "/healthz",
 	})
+
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
@@ -169,6 +178,18 @@ func main() {
 		scheme,
 	)
 	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
+
+	var AzureHealthCheck healthz.Checker = func(_ *http.Request) error {
+		_, err := auth.NewAuthorizerFromEnvironment()
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+	if err := mgr.AddHealthzCheck("azurehealthz", AzureHealthCheck); err != nil {
+		setupLog.Error(err, "problem running health check to azure autorizer")
+	}
 
 	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
@@ -790,4 +811,5 @@ func main() {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
+
 }
