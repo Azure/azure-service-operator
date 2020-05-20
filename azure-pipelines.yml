@@ -18,19 +18,10 @@ variables:
   MINOR_VERSION: 1
   PATCH_VERSION: $(Build.BuildId)
   GOROOT: '/usr/local/go1.13' # Go installation path
-  #GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
-  #GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(System.DefaultWorkingDirectory)/src/$(Build.Repository.Name)' # Path to the module's code
   IMAGE_NAME: 'candidate/k8s/azureserviceoperator'
   ASO_HELM_CHART_NAME: 'candidate/k8s/asohelmchart'
   KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
-  # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Release ACR Service Connection
-  # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
-  # AZURE_TENANT_ID:        - set this value in Azure Devops variables
-  # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
-  # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
-  # OPERATOR_NAMESPACE      - set this value in Azure Devops variables
-  # REQUEUE_AFTER:          - set this value in Azure Devops variables
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -117,12 +108,6 @@ steps:
     displayName: Render Coverage Reports
     continueOnError: true
     workingDirectory: '$(System.DefaultWorkingDirectory)'
-
-#  - task: PublishTestResults@2
-#    displayName: Publish test results
-#    inputs:
-#      testRunner: JUnit
-#      testResultsFiles: $(System.DefaultWorkingDirectory)/reports/*-report.xml
     
   - task: PublishCodeCoverageResults@1
     displayName: Publish Codecoverage results
@@ -214,29 +199,6 @@ steps:
       #rm -rf charts/azure-service-operator/templates/generated/
     displayName: Deploy to AKS - Helm generate and package charts
 
- # - task: KubernetesManifest@0
- #   displayName: Deploy to AKS - Bake Helm manifests
- #   name: bake
- #   inputs:
- #     action: bake
- #     namespace: 'default'
- #     helmChart: charts/azure-service-operator-0.1.0.tgz
- #     overrides: |
- #       image.repository:$(containerRegistry)/$(IMAGE_NAME)
- #       namespace: $(OPERATOR_NAMESPACE)
- #       azureTenantID: $(AZURE_TENANT_ID)
- #       azureSubscriptionID: $(AZURE_SUBSCRIPTION_ID)
-
-
- # - task: KubernetesManifest@0
- #   displayName: Deploy to AKS - Helm deploy
- #   inputs:
- #     action: 'deploy'
- #     kubernetesServiceConnection: 'ASO-AKS'
- #     namespace: $(OPERATOR_NAMESPACE)
- #     manifests: '$(bake.manifestsBundle)'
-
-
   - task: Bash@3
     displayName: Deploy to AKS - Helm Deploy
     inputs:
@@ -254,8 +216,8 @@ steps:
             --set azureUseMI=true \
             --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
             --set createNamespace=true \
-            --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/4ef44fef-c51d-4d7c-a6ff-8635c02848b1/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-devops-mi" \
-            --set aad-pod-identity.azureIdentity.clientID="88cd557c-f616-489a-a397-0a651fd91edf" \
+            --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$(ASO-DEVOPS-MI)" \
+            --set aad-pod-identity.azureIdentity.clientID=$(POD-IDENTITY-CLIENTID) \
             --set image.repository=$imagename \
             --set namespace=$(OPERATOR_NAMESPACE)
         kubectl get namespace
@@ -264,18 +226,7 @@ steps:
         kubectl rollout status deployment/azureoperator-controller-manager -n $(OPERATOR_NAMESPACE) --timeout 120s
         kubectl logs -n $(OPERATOR_NAMESPACE) deployment/azureoperator-controller-manager -c manager
  
- # - task: HelmDeploy@0
- #   inputs:
- #     connectionType: 'Kubernetes Service Connection'
- #     kubernetesServiceConnection: 'ASO-AKS'
- #     command: 'upgrade'
- #     chartType: 'FilePath'
- #     chartPath: 'charts/azure-service-operator-0.1.0.tgz'
- #     releaseName: 'aso'
- #     overrideValues: 'azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID), azureTenantID=$(AZURE_TENANT_ID), azureClientID=$(AZURE_CLIENT_ID), azureClientSecret=$(AZURE_CLIENT_SECRET), namespace=$(OPERATOR_NAMESPACE)'
-      
   ## TODO: Add a Health check task to ensure operator deployed to AKS works
-  ## TODO: Delete Helm deployment 
 
   - task: Docker@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
