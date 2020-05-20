@@ -130,3 +130,8 @@ func (field *FieldDefinition) AsField() *ast.Field {
 func (field *FieldDefinition) Equals(f *FieldDefinition) bool {
 	return field == f || (field.fieldName == f.fieldName && field.fieldType.Equals(f.fieldType))
 }
+
+// CreateRelatedDefinitions returns a set of definitions related to this one
+func (field *FieldDefinition) CreateRelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
+	return field.fieldType.CreateRelatedDefinitions(ref, namehint, idFactory)
+}

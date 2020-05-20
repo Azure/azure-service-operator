@@ -425,8 +425,8 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 		// this will overwrite placeholder added above
 		scanner.AddDefinition(sd)
 
-		// Add any further definitions related to this
-		relatedDefinitions := sd.RelatedDefinitions(structReference.PackageReference, structReference.Name(), scanner.idFactory)
+		// Add any further definitions needed to make this one complete (e.g. enumerations & methods)
+		relatedDefinitions := sd.CreateRelatedDefinitions(structReference.PackageReference, structReference.Name(), scanner.idFactory)
 		for _, d := range relatedDefinitions {
 			scanner.AddDefinition(d)
 		}

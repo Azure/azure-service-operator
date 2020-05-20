@@ -56,3 +56,7 @@ func (prim *PrimitiveType) Equals(t Type) bool {
 
 	return false
 }
+// CreateRelatedDefinitions states that primitive types don't have any related definitions
+func (prim *PrimitiveType) CreateRelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
+	return nil
+}

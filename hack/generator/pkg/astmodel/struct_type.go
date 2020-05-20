@@ -15,11 +15,9 @@ type StructType struct {
 	fields []*FieldDefinition
 }
 
+
 // Ensure StructType implements the Type interface correctly
 var _ Type = (*StructType)(nil)
-
-// Ensure StructType implements the HasRelatedDefinitions interface correctly
-var _ HasRelatedDefinitions = (*StructType)(nil)
 
 // NewStructType is a factory method for creating a new StructTypeDefinition
 func NewStructType(fields ...*FieldDefinition) *StructType {
@@ -112,15 +110,13 @@ func (structType *StructType) Equals(t Type) bool {
 	return false
 }
 
-// RelatedDefinitions implements the HasRelatedDefinitions interface for StructType
-func (structType *StructType) RelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
+// CreateRelatedDefinitions implements the HasRelatedDefinitions interface for StructType
+func (structType *StructType) CreateRelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
 	var result []Definition
 	for _, f := range structType.fields {
-		if df, ok := f.fieldType.(HasRelatedDefinitions); ok {
-			nh := namehint + "." + string(f.fieldName)
-			defns := df.RelatedDefinitions(ref, nh, idFactory)
-			result = append(result, defns...)
-		}
+		nh := namehint + "." + string(f.fieldName)
+		defns := f.CreateRelatedDefinitions(ref, nh, idFactory)
+		result = append(result, defns...)
 	}
 
 	return result

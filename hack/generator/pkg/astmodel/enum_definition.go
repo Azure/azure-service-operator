@@ -13,10 +13,16 @@ import (
 
 // EnumDefinition generates the full definition of an enumeration
 type EnumDefinition struct {
-	EnumType
+	DefinitionName
+	baseType *EnumType
 }
 
 var _ Definition = (*EnumDefinition)(nil)
+
+// NewEnumDefinition is a factory method for creating new Enum Definitions
+func NewEnumDefinition(name DefinitionName, t *EnumType) *EnumDefinition {
+	return &EnumDefinition{DefinitionName: name, baseType: t}
+}
 
 // FileNameHint returns a desired name for this enum if it goes into a standalone file
 func (enum *EnumDefinition) FileNameHint() string {
@@ -30,13 +36,13 @@ func (enum *EnumDefinition) Reference() *DefinitionName {
 
 // Type returns the underlying EnumerationType for this enum
 func (enum *EnumDefinition) Type() Type {
-	return &enum.EnumType
+	return enum.baseType
 }
 
 // AsDeclarations generates the Go code representing this definition
 func (enum *EnumDefinition) AsDeclarations() []ast.Decl {
 	var specs []ast.Spec
-	for _, v := range enum.Options {
+	for _, v := range enum.baseType.Options {
 		s := enum.createValueDeclaration(v)
 		specs = append(specs, s)
 	}
@@ -56,8 +62,8 @@ func (enum *EnumDefinition) AsDeclarations() []ast.Decl {
 
 // Tidy does cleanup to ensure deterministic code generation
 func (enum *EnumDefinition) Tidy() {
-	sort.Slice(enum.Options, func(left int, right int) bool {
-		return enum.Options[left].Identifier < enum.Options[right].Identifier
+	sort.Slice(enum.baseType.Options, func(left int, right int) bool {
+		return enum.baseType.Options[left].Identifier < enum.baseType.Options[right].Identifier
 	})
 }
 
@@ -67,7 +73,7 @@ func (enum *EnumDefinition) createBaseDeclaration() ast.Decl {
 
 	typeSpecification := &ast.TypeSpec{
 		Name: identifier,
-		Type: enum.BaseType.AsType(),
+		Type: enum.baseType.BaseType.AsType(),
 	}
 
 	declaration := &ast.GenDecl{
@@ -103,4 +109,9 @@ func (enum *EnumDefinition) createValueDeclaration(value EnumValue) ast.Spec {
 	}
 
 	return valueSpec
+}
+
+// CreateRelatedDefinitions returns a set of definitions related to this one
+func (enum *EnumDefinition) CreateRelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
+	return enum.baseType.CreateRelatedDefinitions(ref, namehint, idFactory)
 }
