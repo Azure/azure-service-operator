@@ -47,7 +47,7 @@ RUN apt-get update \
         golang.org/x/lint/golint \
         github.com/alecthomas/gometalinter \
         honnef.co/go/tools/... \
-        #github.com/golangci/golangci-lint/cmd/golangci-lint \
+        github.com/golangci/golangci-lint/cmd/golangci-lint \
         github.com/mgechev/revive \
         github.com/derekparker/delve/cmd/dlv 2>&1 \
     #
@@ -93,7 +93,7 @@ COPY ./Makefile ./
 RUN make install-kind
 RUN make install-kubebuilder
 RUN make install-kustomize
-# RUN make install-test-dependency
+RUN make install-test-dependencies
 
 # Set the default shell to bash instead of sh
 ENV SHELL /bin/bash
