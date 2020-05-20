@@ -10,7 +10,6 @@ import (
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/stretchr/testify/assert"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -19,7 +18,6 @@ func TestRedisCacheFirewallRuleHappyPath(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	var rgName string
 	var redisCache string
