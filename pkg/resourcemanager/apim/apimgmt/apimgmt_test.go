@@ -10,6 +10,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2019-01-01/apimanagement"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -69,7 +70,11 @@ var _ = Describe("API Management", func() {
 					APIETag)
 				if err != nil {
 					fmt.Println(err.Error())
-					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+					ignore := []string{
+						errhelp.AsyncOpIncompleteError,
+					}
+					azerr := errhelp.NewAzureErrorAzureError(err)
+					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
 					}
@@ -90,7 +95,11 @@ var _ = Describe("API Management", func() {
 				_, err = APIManager.DeleteAPI(ctx, tc.ResourceGroupName, APIServiceName, *contract.ID, *contract.APIRevision, true)
 				if err != nil {
 					fmt.Println(err.Error())
-					if !errhelp.IsAsynchronousOperationNotComplete(err) {
+					ignore := []string{
+						errhelp.AsyncOpIncompleteError,
+					}
+					azerr := errhelp.NewAzureErrorAzureError(err)
+					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
 					}

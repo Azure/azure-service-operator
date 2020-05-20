@@ -6,19 +6,29 @@ package storageaccount
 import (
 	"context"
 	"errors"
-	"log"
+	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	resourcemgrconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 )
 
-type azureStorageManager struct{}
+const templateForConnectionString = "DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=%s"
+
+type azureStorageManager struct {
+	SecretClient secrets.SecretClient
+	Scheme       *runtime.Scheme
+}
 
 // ParseNetworkPolicy - helper function to parse network policies from Kubernetes spec
 func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.NetworkRuleSet {
@@ -70,15 +80,15 @@ func ParseNetworkPolicy(ruleSet *v1alpha1.StorageNetworkRuleSet) storage.Network
 	}
 }
 
-func getStoragesClient() storage.AccountsClient {
+func getStoragesClient() (storage.AccountsClient, error) {
 	storagesClient := storage.NewAccountsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		log.Printf("failed to initialize authorizer: %v\n", err)
+		return storage.AccountsClient{}, err
 	}
 	storagesClient.Authorizer = a
 	storagesClient.AddToUserAgent(config.UserAgent())
-	return storagesClient
+	return storagesClient, nil
 }
 
 // CreateStorage creates a new storage account
@@ -92,7 +102,10 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 	accessTier azurev1alpha1.StorageAccountAccessTier,
 	enableHTTPsTrafficOnly *bool, dataLakeEnabled *bool, networkRule *storage.NetworkRuleSet) (pollingURL string, result storage.Account, err error) {
 
-	storagesClient := getStoragesClient()
+	storagesClient, err := getStoragesClient()
+	if err != nil {
+		return "", storage.Account{}, err
+	}
 
 	//Check if name is available
 	storageType := "Microsoft.Storage/storageAccounts"
@@ -150,17 +163,69 @@ func (_ *azureStorageManager) CreateStorage(ctx context.Context,
 // resourceGroupName - name of the resource group within the azure subscription.
 // storageAccountName - the name of the storage account
 func (_ *azureStorageManager) GetStorage(ctx context.Context, resourceGroupName string, storageAccountName string) (result storage.Account, err error) {
-	storagesClient := getStoragesClient()
+	storagesClient, err := getStoragesClient()
+	if err != nil {
+		return storage.Account{}, err
+	}
+
 	return storagesClient.GetProperties(ctx, resourceGroupName, storageAccountName, "")
 }
 
 // DeleteStorage removes the resource group named by env var
 func (_ *azureStorageManager) DeleteStorage(ctx context.Context, groupName string, storageAccountName string) (result autorest.Response, err error) {
-	storagesClient := getStoragesClient()
+	storagesClient, err := getStoragesClient()
+	if err != nil {
+		return autorest.Response{
+			Response: &http.Response{
+				StatusCode: 500,
+			},
+		}, err
+	}
+
 	return storagesClient.Delete(ctx, groupName, storageAccountName)
 }
 
 func (_ *azureStorageManager) ListKeys(ctx context.Context, resourceGroupName string, accountName string) (result storage.AccountListKeysResult, err error) {
-	storagesClient := getStoragesClient()
+	storagesClient, err := getStoragesClient()
+	if err != nil {
+		return storage.AccountListKeysResult{}, err
+	}
+
 	return storagesClient.ListKeys(ctx, resourceGroupName, accountName, storage.Kerb)
+}
+
+// StoreSecrets upserts the secret information for this storage account
+func (s *azureStorageManager) StoreSecrets(ctx context.Context, resourceGroupName string, accountName string, instance *v1alpha1.StorageAccount) error {
+
+	// get the keys
+	keyResult, err := s.ListKeys(ctx, resourceGroupName, accountName)
+	if err != nil {
+		return err
+	}
+	if keyResult.Keys == nil {
+		return fmt.Errorf("No keys were returned from ListKeys")
+	}
+	keys := *keyResult.Keys
+	storageEndpointSuffix := resourcemgrconfig.Environment().StorageEndpointSuffix
+
+	// build the connection string
+	data := map[string][]byte{
+		"StorageAccountName": []byte(accountName),
+	}
+	for i, key := range keys {
+		data[fmt.Sprintf("connectionString%v", i)] = []byte(fmt.Sprintf(templateForConnectionString, accountName, *key.Value, storageEndpointSuffix))
+		data[fmt.Sprintf("key%v", i)] = []byte(*key.Value)
+	}
+
+	// upsert
+	key := types.NamespacedName{
+		Name:      fmt.Sprintf("storageaccount-%s-%s", resourceGroupName, accountName),
+		Namespace: instance.Namespace,
+	}
+	return s.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(s.Scheme),
+	)
 }

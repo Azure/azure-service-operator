@@ -8,10 +8,12 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/services/cosmos-db/mgmt/2015-04-08/documentdb"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -41,6 +43,28 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 	instance.Status.Provisioned = false
 
+	if instance.Status.PollingURL != "" {
+		pollClient := pollclient.NewPollClient()
+		pollResponse, err := pollClient.Get(ctx, instance.Status.PollingURL)
+		if err != nil {
+			instance.Status.Provisioning = false
+			return false, err
+		}
+
+		// response is not ready yet
+		if pollResponse.Status == "Dequeued" {
+			return false, nil
+		}
+
+		instance.Status.PollingURL = ""
+
+		if pollResponse.Status == "Failed" {
+			instance.Status.Provisioning = false
+			instance.Status.Message = pollResponse.Error.Error()
+			return true, nil
+		}
+	}
+
 	// get the instance and update status
 	db, err := m.GetCosmosDB(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err != nil {
@@ -60,14 +84,14 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance.Status.State = *db.ProvisioningState
 	}
 
-	if instance.Status.State == "Creating" {
+	if instance.Status.State == "Creating" || instance.Status.State == "Updating" {
 		// avoid multiple CreateOrUpdate requests while resource is already creating
 		return false, nil
 	}
 
 	if instance.Status.State == "Succeeded" {
 		// provisioning is complete, update the secrets
-		if err = m.createOrUpdateAccountKeysSecret(ctx, instance); err != nil {
+		if err = m.createOrUpdateSecret(ctx, instance, db); err != nil {
 			instance.Status.Message = err.Error()
 			return false, err
 		}
@@ -91,19 +115,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	tags := helpers.LabelsToTags(instance.GetLabels())
 	accountName := instance.ObjectMeta.Name
-	groupName := instance.Spec.ResourceGroup
-	location := instance.Spec.Location
-	kind := instance.Spec.Kind
-	networkRule := instance.Spec.VirtualNetworkRules
-
-	cosmosDBProperties := v1alpha1.CosmosDBProperties{
-		DatabaseAccountOfferType:      instance.Spec.Properties.DatabaseAccountOfferType,
-		EnableMultipleWriteLocations:  instance.Spec.Properties.EnableMultipleWriteLocations,
-		MongoDBVersion:                instance.Spec.Properties.MongoDBVersion,
-		IsVirtualNetworkFilterEnabled: instance.Spec.Properties.IsVirtualNetworkFilterEnabled,
-	}
-
-	db, err = m.CreateOrUpdateCosmosDB(ctx, groupName, accountName, location, kind, networkRule, cosmosDBProperties, tags)
+	db, pollingUrl, err := m.CreateOrUpdateCosmosDB(ctx, accountName, instance.Spec, tags)
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)
 		instance.Status.Message = err.Error()
@@ -113,8 +125,9 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 			instance.Status.State = "Creating"
 			instance.Status.Message = "Resource request successfully submitted to Azure"
 			instance.Status.SpecHash = hash
+			instance.Status.PollingURL = pollingUrl
 			return false, nil
-		case errhelp.InvalidResourceLocation, errhelp.LocationNotAvailableForResourceType:
+		case errhelp.InvalidResourceLocation, errhelp.LocationNotAvailableForResourceType, errhelp.BadRequest:
 			instance.Status.Provisioning = false
 			instance.Status.Message = azerr.Error()
 			return true, nil
@@ -135,7 +148,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	if err = m.createOrUpdateAccountKeysSecret(ctx, instance); err != nil {
+	if err = m.createOrUpdateSecret(ctx, instance, db); err != nil {
 		instance.Status.Message = err.Error()
 		return false, err
 	}
@@ -165,12 +178,6 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	// if the resource is in a failed state it was never created or could never be verified
-	// so we skip attempting to delete the resrouce from Azure
-	if instance.Status.FailedProvisioning {
-		return false, nil
-	}
-
 	groupName := instance.Spec.ResourceGroup
 	accountName := instance.ObjectMeta.Name
 
@@ -192,7 +199,8 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		if helpers.ContainsString(notFound, azerr.Type) {
-			return false, m.deleteAccountKeysSecret(ctx, instance)
+			_ = m.deleteSecret(ctx, instance)
+			return false, nil
 		}
 
 		// unhandled error
@@ -200,7 +208,8 @@ func (m *AzureCosmosDBManager) Delete(ctx context.Context, obj runtime.Object, o
 		return false, err
 	}
 
-	return false, m.deleteAccountKeysSecret(ctx, instance)
+	_ = m.deleteSecret(ctx, instance)
+	return false, nil
 }
 
 // GetParents returns the parents of cosmosdb
@@ -238,8 +247,13 @@ func (m *AzureCosmosDBManager) convert(obj runtime.Object) (*v1alpha1.CosmosDB, 
 	return db, nil
 }
 
-func (m *AzureCosmosDBManager) createOrUpdateAccountKeysSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
-	result, err := m.ListKeys(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
+func (m *AzureCosmosDBManager) createOrUpdateSecret(ctx context.Context, instance *v1alpha1.CosmosDB, db *documentdb.DatabaseAccount) error {
+	connStrResult, err := m.ListConnectionStrings(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
+	if err != nil {
+		return err
+	}
+
+	keysResult, err := m.ListKeys(ctx, instance.Spec.ResourceGroup, instance.ObjectMeta.Name)
 	if err != nil {
 		return err
 	}
@@ -249,21 +263,32 @@ func (m *AzureCosmosDBManager) createOrUpdateAccountKeysSecret(ctx context.Conte
 		Namespace: instance.Namespace,
 	}
 	secretData := map[string][]byte{
-		"primaryConnectionString":    []byte(*result.PrimaryMasterKey),
-		"secondaryConnectionString":  []byte(*result.SecondaryMasterKey),
-		"primaryReadonlyMasterKey":   []byte(*result.PrimaryReadonlyMasterKey),
-		"secondaryReadonlyMasterKey": []byte(*result.SecondaryReadonlyMasterKey),
+		"primaryEndpoint":            []byte(*db.DocumentEndpoint),
+		"primaryMasterKey":           []byte(*keysResult.PrimaryMasterKey),
+		"secondaryMasterKey":         []byte(*keysResult.SecondaryMasterKey),
+		"primaryReadonlyMasterKey":   []byte(*keysResult.PrimaryReadonlyMasterKey),
+		"secondaryReadonlyMasterKey": []byte(*keysResult.SecondaryReadonlyMasterKey),
 	}
 
-	err = m.SecretClient.Upsert(ctx, secretKey, secretData)
-	if err != nil {
-		return err
+	// set all available connection strings in the secret
+	if connStrResult.ConnectionStrings != nil {
+		for _, cs := range *connStrResult.ConnectionStrings {
+			secretData[helpers.RemoveNonAlphaNumeric(*cs.Description)] = []byte(*cs.ConnectionString)
+		}
 	}
 
-	return nil
+	// set each location's endpoint in the secret
+	if db.DatabaseAccountProperties.ReadLocations != nil {
+		for _, l := range *db.DatabaseAccountProperties.ReadLocations {
+			safeLocationName := helpers.RemoveNonAlphaNumeric(strings.ToLower(*l.LocationName))
+			secretData[safeLocationName+"Endpoint"] = []byte(*l.DocumentEndpoint)
+		}
+	}
+
+	return m.SecretClient.Upsert(ctx, secretKey, secretData)
 }
 
-func (m *AzureCosmosDBManager) deleteAccountKeysSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
+func (m *AzureCosmosDBManager) deleteSecret(ctx context.Context, instance *v1alpha1.CosmosDB) error {
 	secretKey := types.NamespacedName{
 		Name:      instance.Name,
 		Namespace: instance.Namespace,

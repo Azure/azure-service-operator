@@ -61,42 +61,11 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 	}
 
 	// create rc
-	//EnsureInstance(ctx, t, tc, redisCacheInstance)
+	EnsureInstance(ctx, t, tc, redisCacheInstance)
 
-	err = tc.k8sClient.Create(ctx, redisCacheInstance)
-	assert.Equal(nil, err, "create redis cache in k8s")
-
-	names := types.NamespacedName{Name: redisCacheInstance.GetName(), Namespace: redisCacheInstance.GetNamespace()}
-
-	// Wait for first sql server to resolve
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, names, redisCacheInstance)
-		return HasFinalizer(redisCacheInstance, finalizerName)
-	}, tc.timeoutFast, tc.retry, fmt.Sprintf("wait for %s to have finalizer", "rediscache"))
-
-	assert.Eventually(func() bool {
-		_ = tc.k8sClient.Get(ctx, names, redisCacheInstance)
-		return strings.Contains(redisCacheInstance.Status.Message, successMsg) && redisCacheInstance.Status.Provisioned == true
-	}, longRunningTimeout, tc.retry, fmt.Sprintf("wait for %s to provision", "rediscache"))
-
-	//verify secret exists in k8s for rc
-	secret := &v1.Secret{}
-	assert.Eventually(func() bool {
-		log.Println("get secret")
-		err = tc.k8sClient.Get(ctx, types.NamespacedName{Name: redisCacheInstance.Name, Namespace: redisCacheInstance.Namespace}, secret)
-		if err == nil {
-			return true
-		}
-		return false
-	}, 45*time.Second, tc.retry, "wait for rc to have secret")
+	// verify secret exists in secretclient
+	EnsureSecrets(ctx, t, tc, redisCacheInstance, tc.SecretClient, redisCacheInstance.Name, redisCacheInstance.Namespace)
 
 	// delete rc
-	err = tc.k8sClient.Delete(ctx, redisCacheInstance)
-	assert.Equal(nil, err, fmt.Sprintf("delete %s in k8s", "rediscache"))
-
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, names, redisCacheInstance)
-		return apierrors.IsNotFound(err)
-	}, longRunningTimeout, tc.retry, fmt.Sprintf("wait for %s to be gone from k8s", "rediscache"))
-
+	EnsureDelete(ctx, t, tc, redisCacheInstance)
 }

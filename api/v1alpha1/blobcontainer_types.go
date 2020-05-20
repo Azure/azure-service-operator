@@ -24,7 +24,10 @@ type BlobContainerSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+
 // BlobContainer is the Schema for the blobcontainers API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type BlobContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -56,8 +59,4 @@ func (bc *BlobContainer) IsProvisioned() bool {
 
 func (bc *BlobContainer) HasFinalizer(finalizerName string) bool {
 	return helpers.ContainsString(bc.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (bc *BlobContainer) IsBeingDeleted() bool {
-	return !bc.ObjectMeta.DeletionTimestamp.IsZero()
 }

@@ -1,0 +1,6 @@
+dependencies:
+- name: aad-pod-identity
+  repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
+  version: 1.5.5
+digest: sha256:db38bea05230aea212e9ab0f056a1defa73d540bbff2962e807b2fd860dddf3d
+generated: "2020-04-22T10:23:15.164357-07:00"

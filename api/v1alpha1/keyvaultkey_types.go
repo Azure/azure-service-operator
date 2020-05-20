@@ -27,6 +27,8 @@ type KeyVaultKeySpec struct {
 // +kubebuilder:subresource:status
 
 // KeyVaultKey is the Schema for the keyvaultkeys API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type KeyVaultKey struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

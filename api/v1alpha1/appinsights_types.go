@@ -22,6 +22,8 @@ type AppInsightsSpec struct {
 // +kubebuilder:subresource:status
 
 // AppInsights is the Schema for the appinsights API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AppInsights struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

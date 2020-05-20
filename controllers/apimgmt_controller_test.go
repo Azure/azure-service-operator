@@ -7,25 +7,34 @@ package controllers
 
 import (
 	"context"
-	"strings"
+	"os"
 	"testing"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestAPIMgmtController(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
-	assert := assert.New(t)
 
 	// rgName := tc.resourceGroupName
 	rgLocation := "southcentralus"
 	apiMgmtName := "t-apimgmt-test" + helpers.RandomString(10)
+	rgName := "AzureOperatorsTest"
+	apimServiceName := "AzureOperatorsTestAPIM"
+
+	// Read the pre-created APIM service name and RG name from Environment variable if it exists
+	rgFromEnv := os.Getenv("TEST_APIM_RG")
+	if len(rgFromEnv) != 0 {
+		rgName = rgFromEnv
+	}
+	nameFromEnv := os.Getenv("TEST_APIM_NAME")
+	if len(nameFromEnv) != 0 {
+		apimServiceName = nameFromEnv
+	}
 
 	// Create an instance of Azure APIMgmnt
 	apiMgmtInstance := &azurev1alpha1.APIMgmtAPI{
@@ -35,8 +44,8 @@ func TestAPIMgmtController(t *testing.T) {
 		},
 		Spec: azurev1alpha1.APIMgmtSpec{
 			Location:      rgLocation,
-			ResourceGroup: "resourcegroup-azure-operators",
-			APIService:    "aso-test-apimgmt",
+			ResourceGroup: rgName,
+			APIService:    apimServiceName,
 			APIId:         "apiId0",
 			Properties: azurev1alpha1.APIProperties{
 				IsCurrent:             true,
@@ -50,25 +59,7 @@ func TestAPIMgmtController(t *testing.T) {
 			},
 		},
 	}
+	EnsureInstance(ctx, t, tc, apiMgmtInstance)
 
-	err := tc.k8sClient.Create(ctx, apiMgmtInstance)
-	assert.Equal(nil, err, "create APIMgmtAPI record in k8s")
-
-	APIMgmtNamespacedName := types.NamespacedName{Name: apiMgmtName, Namespace: "default"}
-
-	// Wait for the APIMgmtAPI instance to be written to k8s
-	assert.Eventually(func() bool {
-		err = tc.k8sClient.Get(ctx, APIMgmtNamespacedName, apiMgmtInstance)
-		return strings.Contains(apiMgmtInstance.Status.Message, successMsg)
-	}, tc.timeout, tc.retry, "awaiting APIMgmt instance creation")
-
-	// Delete the service
-	err = tc.k8sClient.Delete(ctx, apiMgmtInstance)
-	assert.Equal(nil, err, "deleting APIMgmt in k8s")
-
-	// Wait for the APIMgmtAPI instance to be deleted
-	assert.Eventually(func() bool {
-		err := tc.k8sClient.Get(ctx, APIMgmtNamespacedName, apiMgmtInstance)
-		return err != nil
-	}, tc.timeout, tc.retry, "awaiting APIMgmtInstance deletion")
+	EnsureDelete(ctx, t, tc, apiMgmtInstance)
 }

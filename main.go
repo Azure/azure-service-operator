@@ -7,10 +7,21 @@ import (
 	"flag"
 	"os"
 
-	"github.com/Azure/azure-service-operator/controllers"
 	"k8s.io/apimachinery/pkg/runtime"
 
+	"github.com/Azure/azure-service-operator/controllers"
+	"github.com/Azure/go-autorest/autorest/azure/auth"
+
+	kscheme "k8s.io/client-go/kubernetes/scheme"
+	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
+	ctrl "sigs.k8s.io/controller-runtime"
+	healthz "sigs.k8s.io/controller-runtime/pkg/healthz"
+	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	azurev1alpha2 "github.com/Azure/azure-service-operator/api/v1alpha2"
+	azurev1beta1 "github.com/Azure/azure-service-operator/api/v1beta1"
 	resourceapimanagement "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	apimservice "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimservice"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
@@ -18,6 +29,7 @@ import (
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlmanageduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlmanageduser"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
@@ -25,30 +37,31 @@ import (
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlfirewall "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
 	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
+	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
 	nic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
 	pip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
+	psqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/vnetrule"
 	resourcemanagerrediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
-	resourcemanagerstorage "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	vm "github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
+	vmss "github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-	kscheme "k8s.io/client-go/kubernetes/scheme"
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
 	// +kubebuilder:scaffold:imports
+	"net/http"
 )
 
 var (
@@ -64,6 +77,8 @@ func init() {
 
 	_ = kscheme.AddToScheme(scheme)
 	_ = azurev1alpha1.AddToScheme(scheme)
+	_ = azurev1beta1.AddToScheme(scheme)
+	_ = azurev1alpha2.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -76,9 +91,11 @@ func init() {
 
 func main() {
 	var metricsAddr string
+	var healthAddr string
 	var enableLeaderElection bool
 	var secretClient secrets.SecretClient
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
+	flag.StringVar(&healthAddr, "health-addr", ":8081", "The address the health endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
 
@@ -87,10 +104,13 @@ func main() {
 	ctrl.SetLogger(zap.Logger(true))
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
-		Scheme:             scheme,
-		MetricsBindAddress: metricsAddr,
-		LeaderElection:     enableLeaderElection,
+		Scheme:                 scheme,
+		MetricsBindAddress:     metricsAddr,
+		HealthProbeBindAddress: healthAddr,
+		LeaderElection:         enableLeaderElection,
+		LivenessEndpointName:   "/healthz",
 	})
+
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
@@ -130,7 +150,6 @@ func main() {
 	cosmosDBClient := resourcemanagercosmosdb.NewAzureCosmosDBManager(
 		secretClient,
 	)
-	storageManagers := resourcemanagerstorage.AzureStorageManagers
 	keyVaultManager := resourcemanagerkeyvault.NewAzureKeyVaultManager(mgr.GetScheme())
 	keyVaultKeyManager := &resourcemanagerkeyvault.KeyvaultKeyClient{
 		KeyvaultClient: keyVaultManager,
@@ -154,12 +173,28 @@ func main() {
 		secretClient,
 		scheme,
 	)
+	sqlManagedUserManager := resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
+		secretClient,
+		scheme,
+	)
 	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
+
+	var AzureHealthCheck healthz.Checker = func(_ *http.Request) error {
+		_, err := auth.NewAuthorizerFromEnvironment()
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+	if err := mgr.AddHealthzCheck("azurehealthz", AzureHealthCheck); err != nil {
+		setupLog.Error(err, "problem running health check to azure autorizer")
+	}
 
 	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: storageaccountManager.New(),
+			AzureClient: storageaccountManager.New(secretClient, scheme),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
@@ -388,6 +423,22 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.AzureSQLManagedUserReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: sqlManagedUserManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSQLManagedUser",
+				ctrl.Log.WithName("controllers").WithName("AzureSQLManagedUser"),
+			),
+			Recorder: mgr.GetEventRecorderFor("AzureSQLManagedUser-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLManagedUser")
+		os.Exit(1)
+	}
+
 	if err = (&controllers.AzureSqlFailoverGroupReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -417,16 +468,6 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
-		os.Exit(1)
-	}
-
-	if err = (&controllers.AzureDataLakeGen2FileSystemReconciler{
-		Client:            mgr.GetClient(),
-		Log:               ctrl.Log.WithName("controllers").WithName("AzureDataLakeGen2FileSystem"),
-		Recorder:          mgr.GetEventRecorderFor("AzureDataLakeGen2FileSystem-controller"),
-		FileSystemManager: storageManagers.FileSystem,
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "AzureDataLakeGen2FileSystem")
 		os.Exit(1)
 	}
 
@@ -645,6 +686,22 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.MySQLVNetRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: mysqlvnetrule.NewMySQLVNetRuleClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLVNetRule",
+				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
+			),
+			Recorder: mgr.GetEventRecorderFor("MySQLVNetRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLVNetRule")
+		os.Exit(1)
+	}
+
 	if err = (&controllers.AzureVirtualMachineReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client: mgr.GetClient(),
@@ -664,6 +721,89 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.PostgreSQLVNetRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: psqlvnetrule.NewPostgreSQLVNetRuleClient(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"PostgreSQLVNetRule",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLVNetRule"),
+			),
+			Recorder: mgr.GetEventRecorderFor("PostgreSQLVNetRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLVNetRule")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.AzureLoadBalancerReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client: mgr.GetClient(),
+			AzureClient: loadbalancer.NewAzureLoadBalancerClient(
+				secretClient,
+				mgr.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"LoadBalancer",
+				ctrl.Log.WithName("controllers").WithName("LoadBalancer"),
+			),
+			Recorder: mgr.GetEventRecorderFor("LoadBalancer-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "LoadBalancer")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.AzureVMScaleSetReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client: mgr.GetClient(),
+			AzureClient: vmss.NewAzureVMScaleSetClient(
+				secretClient,
+				mgr.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VMScaleSet",
+				ctrl.Log.WithName("controllers").WithName("VMScaleSet"),
+			),
+			Recorder: mgr.GetEventRecorderFor("VMScaleSet-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "VMScaleSet")
+		os.Exit(1)
+	}
+
+	if err = (&v1alpha1.AzureSqlServer{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlServer")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.AzureSqlDatabase{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlDatabase")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.AzureSqlFirewallRule{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlFirewallRule")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.AzureSqlFailoverGroup{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlFailoverGroup")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.BlobContainer{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "BlobContainer")
+		os.Exit(1)
+	}
+
+	if err = (&azurev1alpha1.MySQLServer{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "MySQLServer")
+		os.Exit(1)
+	}
+	if err = (&azurev1alpha1.PostgreSQLServer{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "PostgreSQLServer")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
@@ -671,4 +811,5 @@ func main() {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
+
 }

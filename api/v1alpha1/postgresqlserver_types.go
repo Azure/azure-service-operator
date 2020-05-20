@@ -18,6 +18,8 @@ type PostgreSQLServerSpec struct {
 	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
 	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
 	KeyVaultToStoreSecrets string             `json:"keyVaultToStoreSecrets,omitempty"`
+	CreateMode             string             `json:"createMode,omitempty"`
+	ReplicaProperties      ReplicaProperties  `json:"replicaProperties,omitempty"`
 }
 
 type AzureDBsSQLSku struct {
@@ -75,6 +77,8 @@ const (
 // +kubebuilder:subresource:status
 
 // PostgreSQLServer is the Schema for the postgresqlservers API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

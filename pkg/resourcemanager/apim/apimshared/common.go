@@ -184,16 +184,15 @@ func GetAppInstanceIDByName(ctx context.Context, resourceGroup string, resourceN
 }
 
 // GetAPIMClient returns a pointer to an API Management client
-func GetAPIMClient() apim.APIClient {
+func GetAPIMClient() (apim.APIClient, error) {
 	apimClient := apim.NewAPIClient(config.SubscriptionID())
 
 	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		return apim.APIClient{}, err
+	}
 	apimClient.Authorizer = a
 	apimClient.AddToUserAgent(config.UserAgent())
 
-	if err != nil {
-		panic(err)
-	}
-
-	return apimClient
+	return apimClient, nil
 }

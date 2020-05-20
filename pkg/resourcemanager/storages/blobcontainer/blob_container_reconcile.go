@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -49,6 +50,7 @@ func (bc *AzureBlobContainerManager) Ensure(ctx context.Context, obj runtime.Obj
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
+			errhelp.StorageAccountIsNotProvisioned,
 		}
 		if helpers.ContainsString(catchIgnorable, azerr.Type) {
 			instance.Status.Provisioning = false
@@ -106,6 +108,7 @@ func (bc *AzureBlobContainerManager) Delete(ctx context.Context, obj runtime.Obj
 		catch = []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
@@ -148,11 +151,12 @@ func (bc *AzureBlobContainerManager) GetStatus(obj runtime.Object) (*azurev1alph
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := azurev1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (bc *AzureBlobContainerManager) convert(obj runtime.Object) (*azurev1alpha1.BlobContainer, error) {
-	local, ok := obj.(*azurev1alpha1.BlobContainer)
+func (bc *AzureBlobContainerManager) convert(obj runtime.Object) (*v1alpha2.BlobContainer, error) {
+	local, ok := obj.(*v1alpha2.BlobContainer)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}

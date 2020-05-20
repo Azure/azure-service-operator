@@ -57,6 +57,8 @@ type Permissions struct {
 // +kubebuilder:subresource:status
 
 // KeyVault is the Schema for the keyvaults API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type KeyVault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

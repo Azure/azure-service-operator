@@ -82,6 +82,14 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	}
 
 	if instance.Status.State == "Succeeded" {
+
+		// upsert
+		err = sa.StoreSecrets(ctx, groupName, name, instance)
+		if err != nil {
+			return false, err
+		}
+
+		// everything finished successfully!
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
@@ -166,14 +174,25 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
+	key := types.NamespacedName{
+		Name: fmt.Sprintf("storageaccount-%s-%s",
+			instance.Spec.ResourceGroup,
+			instance.Name),
+		Namespace: instance.Namespace,
+	}
+
 	_, err = sa.DeleteStorage(ctx, groupName, name)
 	if err != nil {
 		catch := []string{
 			errhelp.ValidationError,
+			errhelp.ResourceGroupNotFoundErrorCode,
 		}
+
 		err = errhelp.NewAzureError(err)
 		if azerr, ok := err.(*errhelp.AzureError); ok {
 			if helpers.ContainsString(catch, azerr.Type) {
+				// Best case deletion of secrets
+				sa.SecretClient.Delete(ctx, key)
 				return false, nil
 			}
 		}
@@ -182,9 +201,22 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 
 	_, err = sa.GetStorage(ctx, groupName, name)
 	if err != nil {
-		if errhelp.IsStatusCode404(err) {
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
+		}
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
 			return false, nil
 		}
+		return true, err
 	}
 	return true, nil
 }

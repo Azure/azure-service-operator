@@ -5,6 +5,8 @@ package controllers
 
 import (
 	"context"
+	"crypto/rand"
+	"crypto/rsa"
 	"encoding/json"
 
 	"fmt"
@@ -18,6 +20,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/crypto/ssh"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -43,16 +46,16 @@ import (
 )
 
 type TestContext struct {
-	k8sClient               client.Client
-	secretClient            secrets.SecretClient
-	resourceNamePrefix      string
-	resourceGroupName       string
-	resourceGroupLocation   string
-	eventhubNamespaceName   string
-	eventhubName            string
-	namespaceLocation       string
-	storageAccountName      string
-	blobContainerName       string
+	k8sClient             client.Client
+	secretClient          secrets.SecretClient
+	resourceNamePrefix    string
+	resourceGroupName     string
+	resourceGroupLocation string
+	//eventhubNamespaceName   string
+	//eventhubName            string
+	//namespaceLocation       string
+	//storageAccountName      string
+	//blobContainerName       string
 	keyvaultName            string
 	resourceGroupManager    resourcegroupsresourcemanager.ResourceGroupManager
 	redisCacheManager       resourcemanagerrediscaches.RedisCacheManager
@@ -299,6 +302,47 @@ func EnsureDelete(ctx context.Context, t *testing.T, tc TestContext, instance ru
 
 }
 
+func EnsureSecrets(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, secretclient secrets.SecretClient, secretname string, secretnamespace string) {
+	assert := assert.New(t)
+	typeOf := fmt.Sprintf("%T", instance)
+
+	key := types.NamespacedName{Name: secretname, Namespace: secretnamespace}
+
+	// Wait for secret
+	err := helpers.Retry(tc.timeoutFast, tc.retry, func() error {
+
+		_, err := secretclient.Get(ctx, key)
+		if err != nil {
+			return fmt.Errorf("secret with name %s does not exist", key.String())
+		}
+		return nil
+	})
+	assert.Nil(err, "error waiting for %s to have secret", typeOf)
+
+}
+func EnsureSecretsWithValue(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object, secretclient secrets.SecretClient, secretname string, secretnamespace string, secretkey string, secretvalue string) {
+	assert := assert.New(t)
+	typeOf := fmt.Sprintf("%T", instance)
+
+	key := types.NamespacedName{Name: secretname, Namespace: secretnamespace}
+
+	// Wait for secret
+	err := helpers.Retry(tc.timeoutFast, tc.retry, func() error {
+
+		secrets, err := secretclient.Get(ctx, key)
+		if err != nil {
+			return err
+		}
+		if !strings.Contains(string(secrets[secretkey]), secretvalue) {
+			return fmt.Errorf("secret with key %s not equal to %s", secretname, secretvalue)
+		}
+
+		return nil
+	})
+	assert.Nil(err, "error waiting for %s to have correct secret", typeOf)
+
+}
+
 func RequireInstance(ctx context.Context, t *testing.T, tc TestContext, instance runtime.Object) {
 	RequireInstanceWithResult(ctx, t, tc, instance, successMsg, true)
 }
@@ -391,4 +435,12 @@ func GenerateAlphaNumTestResourceName(id string) string {
 // GenerateAlphaNumTestResourceNameWithRandom returns an alpha-numeric resource name with a random string appended
 func GenerateAlphaNumTestResourceNameWithRandom(id string, rc int) string {
 	return helpers.RemoveNonAlphaNumeric(GenerateTestResourceName(id) + helpers.RandomString(rc))
+}
+
+// GenerateRandomSshPublicKeyString returns a random string of SSH public key data
+func GenerateRandomSshPublicKeyString() string {
+	privateKey, _ := rsa.GenerateKey(rand.Reader, 2048)
+	publicRsaKey, _ := ssh.NewPublicKey(&privateKey.PublicKey)
+	sshPublicKeyData := string(ssh.MarshalAuthorizedKey(publicRsaKey))
+	return sshPublicKeyData
 }

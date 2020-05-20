@@ -31,6 +31,10 @@ func (k *KubeSecretClient) Create(ctx context.Context, key types.NamespacedName,
 		opt(options)
 	}
 
+	if options.Flatten {
+		return fmt.Errorf("FlattenedSecretsNotSupported")
+	}
+
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      key.Name,
@@ -60,6 +64,10 @@ func (k *KubeSecretClient) Upsert(ctx context.Context, key types.NamespacedName,
 	options := &secrets.Options{}
 	for _, opt := range opts {
 		opt(options)
+	}
+
+	if options.Flatten {
+		return fmt.Errorf("FlattenedSecretsNotSupported")
 	}
 
 	secret := &v1.Secret{

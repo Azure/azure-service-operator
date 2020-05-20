@@ -67,3 +67,60 @@ func TestDecodingFromBase64EncodedString(t *testing.T) {
 		t.Errorf("Test output string '%s' is not as expected: '%s'.", testOutput2, expectedOutput2)
 	}
 }
+
+func TestNewPasswordLengthCheck(t *testing.T) {
+	expectedOutput := passwordLength
+	testOutput := len(NewPassword())
+
+	if testOutput != expectedOutput {
+		t.Errorf("Test output password length %d is not as expected: %d. ", testOutput, expectedOutput)
+	}
+}
+
+func TestNewPasswordGenerateRule(t *testing.T) {
+	// To verify the generated password must contain at least one caracter from
+	// upperAlpha, lowerAlpha and number
+	expectedOutput1 := 1
+	expectedOutput2 := 1
+	expectedOutput3 := 1
+
+	testOutput1 := 0
+	testOutput2 := 0
+	testOutput3 := 0
+	testPassword := NewPassword()
+
+	for _, p := range testPassword {
+
+		switch {
+		case unicode.IsLower(p):
+			testOutput1++
+		case unicode.IsUpper(p):
+			testOutput2++
+		case unicode.IsNumber(p):
+			testOutput3++
+
+		}
+	}
+
+	if testOutput1 < expectedOutput1 {
+		t.Errorf("Test password '%s' doesnot contain any lower alphabet! ", testPassword)
+	}
+
+	if testOutput2 < expectedOutput2 {
+		t.Errorf("Test password '%s' doesnot contain any upper alphabet! ", testPassword)
+	}
+
+	if testOutput3 < expectedOutput3 {
+		t.Errorf("Test password '%s' doesnot contain any number! ", testPassword)
+	}
+
+}
+
+func TestNewPasswordCheckRandom(t *testing.T) {
+	testPassword1 := NewPassword()
+	testPassword2 := NewPassword()
+
+	if testPassword1 == testPassword2 {
+		t.Errorf("The two random passwords '%s' and '%s' are the same!", testPassword1, testPassword2)
+	}
+}

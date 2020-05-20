@@ -24,7 +24,10 @@ type AzureSqlDatabaseSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -86,8 +89,4 @@ func (s *AzureSqlDatabase) IsSubmitted() bool {
 
 func (s *AzureSqlDatabase) HasFinalizer(finalizerName string) bool {
 	return helpers.ContainsString(s.ObjectMeta.Finalizers, finalizerName)
-}
-
-func (s *AzureSqlDatabase) IsBeingDeleted() bool {
-	return !s.ObjectMeta.DeletionTimestamp.IsZero()
 }

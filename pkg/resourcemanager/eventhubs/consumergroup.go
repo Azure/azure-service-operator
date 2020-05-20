@@ -6,6 +6,7 @@ package eventhubs
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -28,12 +29,15 @@ func NewConsumerGroupClient() *azureConsumerGroupManager {
 	return &azureConsumerGroupManager{}
 }
 
-func getConsumerGroupsClient() eventhub.ConsumerGroupsClient {
+func getConsumerGroupsClient() (eventhub.ConsumerGroupsClient, error) {
 	consumerGroupClient := eventhub.NewConsumerGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	auth, _ := iam.GetResourceManagementAuthorizer()
+	auth, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		return eventhub.ConsumerGroupsClient{}, err
+	}
 	consumerGroupClient.Authorizer = auth
 	consumerGroupClient.AddToUserAgent(config.UserAgent())
-	return consumerGroupClient
+	return consumerGroupClient, nil
 }
 
 // CreateConsumerGroup creates an Event Hub Consumer Group
@@ -44,7 +48,10 @@ func getConsumerGroupsClient() eventhub.ConsumerGroupsClient {
 // consumerGroupName - the consumer group name
 // parameters - parameters supplied to create or update a consumer group resource.
 func (_ *azureConsumerGroupManager) CreateConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
-	consumerGroupClient := getConsumerGroupsClient()
+	consumerGroupClient, err := getConsumerGroupsClient()
+	if err != nil {
+		return eventhub.ConsumerGroup{}, err
+	}
 
 	parameters := eventhub.ConsumerGroup{}
 	return consumerGroupClient.CreateOrUpdate(
@@ -65,7 +72,15 @@ func (_ *azureConsumerGroupManager) CreateConsumerGroup(ctx context.Context, res
 // eventHubName - the Event Hub name
 // consumerGroupName - the consumer group name
 func (_ *azureConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (result autorest.Response, err error) {
-	consumerGroupClient := getConsumerGroupsClient()
+	consumerGroupClient, err := getConsumerGroupsClient()
+	if err != nil {
+		return autorest.Response{
+			Response: &http.Response{
+				StatusCode: 500,
+			},
+		}, err
+	}
+
 	return consumerGroupClient.Delete(
 		ctx,
 		resourceGroupName,
@@ -73,12 +88,15 @@ func (_ *azureConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, res
 		eventHubName,
 		consumerGroupName,
 	)
-
 }
 
 //GetConsumerGroup gets consumer group description for the specified Consumer Group.
 func (_ *azureConsumerGroupManager) GetConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
-	consumerGroupClient := getConsumerGroupsClient()
+	consumerGroupClient, err := getConsumerGroupsClient()
+	if err != nil {
+		return eventhub.ConsumerGroup{}, err
+	}
+
 	return consumerGroupClient.Get(ctx, resourceGroupName, namespaceName, eventHubName, consumerGroupName)
 }
 

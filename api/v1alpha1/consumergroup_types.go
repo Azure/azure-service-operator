@@ -25,6 +25,8 @@ type ConsumerGroupSpec struct {
 // +kubebuilder:subresource:status
 
 // ConsumerGroup is the Schema for the consumergroups API
+// +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type ConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,10 +50,6 @@ func init() {
 
 func init() {
 	SchemeBuilder.Register(&ConsumerGroup{}, &ConsumerGroupList{})
-}
-
-func (consumerGroup *ConsumerGroup) IsBeingDeleted() bool {
-	return !consumerGroup.ObjectMeta.DeletionTimestamp.IsZero()
 }
 
 func (consumerGroup *ConsumerGroup) IsSubmitted() bool {

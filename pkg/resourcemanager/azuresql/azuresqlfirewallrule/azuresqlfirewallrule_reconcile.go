@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -79,15 +80,23 @@ func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.O
 
 	err = fw.DeleteSQLFirewallRule(ctx, groupName, server, ruleName)
 	if err != nil {
-		if errhelp.IsStatusCode204(err) {
-			// firewall does not exist
-			return true, nil
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
 		}
-		if errhelp.IsStatusCode404(err) {
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
 			return false, nil
 		}
 		instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Delete failed with %s", err.Error())
-		return false, err
+		return true, err
 	}
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule succeeded")
 	return false, nil
@@ -123,11 +132,12 @@ func (g *AzureSqlFirewallRuleManager) GetStatus(obj runtime.Object) (*azurev1alp
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := azurev1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (fw *AzureSqlFirewallRuleManager) convert(obj runtime.Object) (*azurev1alpha1.AzureSqlFirewallRule, error) {
-	local, ok := obj.(*azurev1alpha1.AzureSqlFirewallRule)
+func (fw *AzureSqlFirewallRuleManager) convert(obj runtime.Object) (*v1beta1.AzureSqlFirewallRule, error) {
+	local, ok := obj.(*v1beta1.AzureSqlFirewallRule)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}

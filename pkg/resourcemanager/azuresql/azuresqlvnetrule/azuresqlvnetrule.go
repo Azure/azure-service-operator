@@ -19,7 +19,10 @@ func NewAzureSqlVNetRuleManager() *AzureSqlVNetRuleManager {
 
 // GetSQLVNetRule returns a VNet rule
 func (vr *AzureSqlVNetRuleManager) GetSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (result sql.VirtualNetworkRule, err error) {
-	VNetRulesClient := azuresqlshared.GetGoVNetRulesClient()
+	VNetRulesClient, err := azuresqlshared.GetGoVNetRulesClient()
+	if err != nil {
+		return sql.VirtualNetworkRule{}, err
+	}
 
 	return VNetRulesClient.Get(
 		ctx,
@@ -38,7 +41,11 @@ func (vr *AzureSqlVNetRuleManager) DeleteSQLVNetRule(ctx context.Context, resour
 		return nil
 	}
 
-	VNetRulesClient := azuresqlshared.GetGoVNetRulesClient()
+	VNetRulesClient, err := azuresqlshared.GetGoVNetRulesClient()
+	if err != nil {
+		return err
+	}
+
 	_, err = VNetRulesClient.Delete(
 		ctx,
 		resourceGroupName,
@@ -53,8 +60,15 @@ func (vr *AzureSqlVNetRuleManager) DeleteSQLVNetRule(ctx context.Context, resour
 // based on code from: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#VirtualNetworkRulesClient.CreateOrUpdate
 func (vr *AzureSqlVNetRuleManager) CreateOrUpdateSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, VNetRG string, VNetName string, SubnetName string, IgnoreServiceEndpoint bool) (vnr sql.VirtualNetworkRule, err error) {
 
-	VNetRulesClient := azuresqlshared.GetGoVNetRulesClient()
-	SubnetClient := azuresqlshared.GetGoNetworkSubnetClient()
+	VNetRulesClient, err := azuresqlshared.GetGoVNetRulesClient()
+	if err != nil {
+		return sql.VirtualNetworkRule{}, err
+	}
+
+	SubnetClient, err := azuresqlshared.GetGoNetworkSubnetClient()
+	if err != nil {
+		return sql.VirtualNetworkRule{}, err
+	}
 
 	// Get ARM Resource ID of Subnet based on the VNET name, Subnet name and Subnet Address Prefix
 	subnet, err := SubnetClient.Get(ctx, VNetRG, VNetName, SubnetName, "")

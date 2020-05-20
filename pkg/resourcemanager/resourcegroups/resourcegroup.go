@@ -5,6 +5,7 @@ package resourcegroups
 
 import (
 	"context"
+	"net/http"
 	"strings"
 	"sync"
 
@@ -20,33 +21,36 @@ import (
 // AzureResourceGroupManager is the struct which contains helper functions for resource groups
 type AzureResourceGroupManager struct{}
 
-func getGroupsClient() resources.GroupsClient {
+func getGroupsClient() (resources.GroupsClient, error) {
 	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		return resources.GroupsClient{}
+		return resources.GroupsClient{}, err
 	}
 	groupsClient.Authorizer = a
 	groupsClient.AddToUserAgent(config.UserAgent())
-	return groupsClient
+	return groupsClient, nil
 }
 
-func getGroupsClientWithAuthFile() resources.GroupsClient {
+func getGroupsClientWithAuthFile() (resources.GroupsClient, error) {
 	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	// requires env var AZURE_AUTH_LOCATION set to output of
 	// `az ad sp create-for-rbac --sdk-auth`
 	a, err := auth.NewAuthorizerFromFile(config.BaseURI())
 	if err != nil {
-		return resources.GroupsClient{}
+		return resources.GroupsClient{}, err
 	}
 	groupsClient.Authorizer = a
 	groupsClient.AddToUserAgent(config.UserAgent())
-	return groupsClient
+	return groupsClient, nil
 }
 
 // CreateGroup creates a new resource group named by env var
 func (_ *AzureResourceGroupManager) CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
-	groupsClient := getGroupsClient()
+	groupsClient, err := getGroupsClient()
+	if err != nil {
+		return resources.Group{}, err
+	}
 
 	return groupsClient.CreateOrUpdate(
 		ctx,
@@ -59,7 +63,11 @@ func (_ *AzureResourceGroupManager) CreateGroup(ctx context.Context, groupName s
 // CreateGroupWithAuthFile creates a new resource group. The client authorizer
 // is set up based on an auth file created using the Azure CLI.
 func CreateGroupWithAuthFile(ctx context.Context, groupName string, location string) (resources.Group, error) {
-	groupsClient := getGroupsClientWithAuthFile()
+	groupsClient, err := getGroupsClientWithAuthFile()
+	if err != nil {
+		return resources.Group{}, err
+	}
+
 	return groupsClient.CreateOrUpdate(
 		ctx,
 		groupName,
@@ -70,7 +78,14 @@ func CreateGroupWithAuthFile(ctx context.Context, groupName string, location str
 
 // DeleteGroup removes the resource group named by env var
 func (_ *AzureResourceGroupManager) DeleteGroup(ctx context.Context, groupName string) (result autorest.Response, err error) {
-	var client = getGroupsClient()
+	client, err := getGroupsClient()
+	if err != nil {
+		return autorest.Response{
+			Response: &http.Response{
+				StatusCode: 500,
+			},
+		}, err
+	}
 
 	future, err := client.Delete(ctx, groupName)
 	if err != nil {
@@ -85,19 +100,31 @@ func (_ *AzureResourceGroupManager) DeleteGroupAsync(ctx context.Context, groupN
 }
 
 func deleteGroupAsync(ctx context.Context, groupName string) (result resources.GroupsDeleteFuture, err error) {
-	groupsClient := getGroupsClient()
+	groupsClient, err := getGroupsClient()
+	if err != nil {
+		return resources.GroupsDeleteFuture{}, err
+	}
+
 	return groupsClient.Delete(ctx, groupName)
 }
 
 // ListGroups gets an interator that gets all resource groups in the subscription
 func ListGroups(ctx context.Context) (resources.GroupListResultIterator, error) {
-	groupsClient := getGroupsClient()
+	groupsClient, err := getGroupsClient()
+	if err != nil {
+		return resources.GroupListResultIterator{}, err
+	}
+
 	return groupsClient.ListComplete(ctx, "", nil)
 }
 
 // GetGroup gets info on the resource group in use
 func GetGroup(ctx context.Context, groupName string) (resources.Group, error) {
-	groupsClient := getGroupsClient()
+	groupsClient, err := getGroupsClient()
+	if err != nil {
+		return resources.Group{}, err
+	}
+
 	return groupsClient.Get(ctx, groupName)
 }
 
@@ -126,7 +153,12 @@ func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []
 	for i, f := range futures {
 		wg.Add(1)
 		go func(ctx context.Context, future resources.GroupsDeleteFuture, rg string) {
-			err := future.WaitForCompletionRef(ctx, getGroupsClient().Client)
+			client, err := getGroupsClient()
+			if err != nil {
+				return
+			}
+
+			err = future.WaitForCompletionRef(ctx, client.Client)
 			if err != nil {
 				return
 			}
@@ -137,7 +169,15 @@ func WaitForDeleteCompletion(ctx context.Context, wg *sync.WaitGroup, futures []
 
 // CheckExistence checks whether a resource exists
 func (_ *AzureResourceGroupManager) CheckExistence(ctx context.Context, resourceGroupName string) (result autorest.Response, err error) {
-	groupsClient := getGroupsClient()
+	groupsClient, err := getGroupsClient()
+	if err != nil {
+		return autorest.Response{
+			Response: &http.Response{
+				StatusCode: 500,
+			},
+		}, err
+	}
+
 	result, _ = groupsClient.CheckExistence(ctx, resourceGroupName)
 	return
 }

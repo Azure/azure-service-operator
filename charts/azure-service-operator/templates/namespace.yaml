@@ -4,5 +4,5 @@ kind: Namespace
 metadata:
   labels:
     control-plane: controller-manager
-  name: azureoperator-system
+  name: {{ .Values.namespace }}
 {{- end }}
