@@ -13,7 +13,7 @@ import (
 const PSqlServerPort = 5432
 
 // DriverName is driver name for db connection
-const PDriverName = "psqlserver"
+const PDriverName = "postgres"
 
 // SecretUsernameKey is the username key in secret
 const PSecretUsernameKey = "username"

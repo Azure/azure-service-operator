@@ -10,36 +10,38 @@ import (
 	"reflect"
 	"strings"
 
-	psql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
+	psdatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
 
-	_ "github.com/denisenkom/go-mssqldb"
+	_ "github.com/lib/pq" //the pg lib
 	"k8s.io/apimachinery/pkg/types"
 )
 
 // PSqlServerPort is the default server port for sql server
 const PSqlServerPort = 5432
 
-// DriverName is driver name for db connection
-const DriverName = "sqlserver"
+// PDriverName is driver name for psqldb connection
+const PDriverName = "postgres"
 
-// SecretUsernameKey is the username key in secret
-const SecretUsernameKey = "username"
+// PSecretUsernameKey is the username key in secret
+const PSecretUsernameKey = "username"
 
-// SecretPasswordKey is the password key in secret
-const SecretPasswordKey = "password"
+// PSecretPasswordKey is the password key in secret
+const PSecretPasswordKey = "password"
 
+//PostgreSqlUserManager for psqluser manager
 type PostgreSqlUserManager struct {
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
+//NewPostgreSqlUserManager creates a new PostgreSqlUserManager
 func NewPostgreSqlUserManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *PostgreSqlUserManager {
 	return &PostgreSqlUserManager{
 		SecretClient: secretClient,
@@ -48,8 +50,8 @@ func NewPostgreSqlUserManager(secretClient secrets.SecretClient, scheme *runtime
 }
 
 // GetDB retrieves a database
-func (s *PostgreSqlUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (psql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient()
+func (s *PostgreSqlUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (db psql.Database, err error) {
+	dbClient, err := psdatabase.GetPSQLDatabasesClient()
 	if err != nil {
 		return psql.Database{}, err
 	}
@@ -59,15 +61,16 @@ func (s *PostgreSqlUserManager) GetDB(ctx context.Context, resourceGroupName str
 		resourceGroupName,
 		serverName,
 		databaseName,
-		"serviceTierAdvisors, transparentDataEncryption",
 	)
 }
 
 // ConnectToSqlDb connects to the SQL db using the given credentials
 func (s *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, database string, port int, user string, password string) (*sql.DB, error) {
 
-	fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
-	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30", fullServerAddress, user, password, port, database)
+	//fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
+	fullServerAddress := fmt.Sprintf("%s."+"postgres.database.azure.com", server)
+
+	connString := fmt.Sprintf("host=%s user=%s password=%s port=%d dbname=%s sslmode=require connect_timeout=30", fullServerAddress, user, password, port, database)
 
 	db, err := sql.Open(drivername, connString)
 	if err != nil {
@@ -106,8 +109,8 @@ func (s *PostgreSqlUserManager) GrantUserRoles(ctx context.Context, user string,
 
 // CreateUser creates user with secret credentials
 func (s *PostgreSqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
-	newUser := string(secret[SecretUsernameKey])
-	newPassword := string(secret[SecretPasswordKey])
+	newUser := string(secret[PSecretUsernameKey])
+	newPassword := string(secret[PSecretPasswordKey])
 
 	// make an effort to prevent sql injection
 	if err := findBadChars(newUser); err != nil {
@@ -132,7 +135,7 @@ func (s *PostgreSqlUserManager) CreateUser(ctx context.Context, secret map[strin
 
 // UpdateUser - Updates user password
 func (s *PostgreSqlUserManager) UpdateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) error {
-	user := string(secret[SecretUsernameKey])
+	user := string(secret[PSecretUsernameKey])
 	newPassword := helpers.NewPassword()
 
 	// make an effort to prevent sql injection
