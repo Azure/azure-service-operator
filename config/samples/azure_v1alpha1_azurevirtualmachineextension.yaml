@@ -1,11 +1,11 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: AzureVirtualMachineExtension
 metadata:
-  name: hpfvmext20a
+  name: vmext20a
 spec:
   location: SouthCentralUS
   resourceGroup: resourcegroup-azure-operators
-  vmName: hpfvm20
+  vmName: vm20
   autoUpgradeMinorVersion: true
   forceUpdateTag: Test2
   publisher: Microsoft.Azure.Extensions
