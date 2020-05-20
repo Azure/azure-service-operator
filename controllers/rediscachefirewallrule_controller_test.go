@@ -25,9 +25,9 @@ func TestRedisCacheFirewallRuleHappyPath(t *testing.T) {
 	var redisCache string
 	var redisCacheFirewallRule string
 
-	rgName := tc.ResourceGroupName
-	redisCache := GenerateTestResourceNameWithRandom("redisache", 10)
-	redisCacheFirewallRule := GenerateTestResourceNameWithRandom("rediscachefirewallrule", 10)
+	rgName = tc.resourceGroupName
+	redisCache = GenerateTestResourceNameWithRandom("redisache", 10)
+	redisCacheFirewallRule = GenerateTestResourceNameWithRandom("rediscachefirewallrule", 10)
 
 	redisCacheFirewallRuleInstance := &azurev1alpha1.RedisCacheFirewallRule{
 		ObjectMeta: metav1.ObjectMeta{
@@ -36,7 +36,7 @@ func TestRedisCacheFirewallRuleHappyPath(t *testing.T) {
 		},
 		Spec: azurev1alpha1.RedisCacheFirewallRuleSpec{
 			ResourceGroupName: rgName,
-			RedisCache:        redisCache,
+			CacheName:         redisCache,
 			Properties: azurev1alpha1.RedisCacheFirewallRuleProperties{
 				StartIP: "0.0.0.0",
 				EndIP:   "0.0.0.0",
