@@ -20,7 +20,7 @@ import (
 	"github.com/google/uuid"
 	"k8s.io/apimachinery/pkg/runtime"
 
-	_ "github.com/denisenkom/go-mssqldb"
+	_ "github.com/lib/pq"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -73,8 +73,8 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, nil
 	}
 
-	adminUser := string(adminSecret[SecretUsernameKey])
-	adminPassword := string(adminSecret[SecretPasswordKey])
+	adminUser := string(adminSecret[PSecretUsernameKey])
+	adminPassword := string(adminSecret[PSecretPasswordKey])
 
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
@@ -103,7 +103,7 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		}
 	}
 
-	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
+	db, err := s.ConnectToSqlDb(ctx, PDriverName, instance.Spec.Server, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
@@ -129,10 +129,10 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 	// create or get new user secret
 	DBSecret := s.GetOrPrepareSecret(ctx, instance, sqlUserSecretClient)
 	// reset user from secret in case it was loaded
-	user := string(DBSecret[SecretUsernameKey])
+	user := string(DBSecret[PSecretUsernameKey])
 	if user == "" {
 		user = fmt.Sprintf("%s-%s", requestedUsername, uuid.New())
-		DBSecret[SecretUsernameKey] = []byte(user)
+		DBSecret[PSecretUsernameKey] = []byte(user)
 	}
 
 	// Publishing the user secret:
@@ -256,7 +256,7 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		}
 	}
 
-	userExists, err := s.UserExists(ctx, db, string(DBSecret[SecretUsernameKey]))
+	userExists, err := s.UserExists(ctx, db, string(DBSecret[PSecretUsernameKey]))
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("failed checking for user, err: %v", err)
 		return false, nil
@@ -348,10 +348,10 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	var user = string(adminSecret[SecretUsernameKey])
-	var password = string(adminSecret[SecretPasswordKey])
+	var user = string(adminSecret[PSecretUsernameKey])
+	var password = string(adminSecret[PSecretPasswordKey])
 
-	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, PSqlServerPort, user, password)
+	db, err := s.ConnectToSqlDb(ctx, PDriverName, instance.Spec.Server, instance.Spec.DbName, PSqlServerPort, user, password)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
