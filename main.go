@@ -46,6 +46,7 @@ import (
 	pip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
+	psqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/psqluser"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	psqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/vnetrule"
 	resourcemanagerrediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
@@ -169,6 +170,10 @@ func main() {
 	psqlserverclient := psqlserver.NewPSQLServerClient(secretClient, mgr.GetScheme())
 	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient()
 	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient()
+	psqlusermanager := psqluser.NewPostgreSqlUserManager(
+		secretClient,
+		scheme,
+	)
 	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(
 		secretClient,
 		scheme,
@@ -532,6 +537,22 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLFirewallRule")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.PostgreSQLUserReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: psqlusermanager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"PSQLUser",
+				ctrl.Log.WithName("controllers").WithName("PSQLUser"),
+			),
+			Recorder: mgr.GetEventRecorderFor("PSQLUser-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "PSQLUser")
 		os.Exit(1)
 	}
 
