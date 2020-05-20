@@ -38,7 +38,7 @@ func (fw *AzureRedisCacheFirewallRuleManager) Ensure(ctx context.Context, obj ru
 
 	_, err = fw.CreateRedisCacheFirewallRule(ctx, *instance)
 	if err != nil {
-		instance.Status.Message = errhelp.StripErrorIDs(err)
+		instance.Status.Message = err.Error()
 		instance.Status.Provisioning = false
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
