@@ -15,7 +15,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func TestRedisCacheFirewallRuleHappyPath(t *testing.T) {
+func TestRedisCacheFirewallRuleControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
@@ -24,7 +24,7 @@ func TestRedisCacheFirewallRuleHappyPath(t *testing.T) {
 	var redisCache string
 	var redisCacheFirewallRule string
 
-	rgName = tc.resourceGroupName
+	rgName = GenerateTestResourceNameWithRandom("rcfwr-rg", 10)
 	redisCache = GenerateTestResourceNameWithRandom("rediscache", 10)
 	redisCacheFirewallRule = GenerateTestResourceNameWithRandom("rediscachefirewallrule", 10)
 
