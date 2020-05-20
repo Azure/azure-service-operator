@@ -41,10 +41,17 @@ func (m *AzureVirtualMachineExtensionClient) CreateVirtualMachineExtension(ctx c
 	client := getVirtualMachineExtensionClient()
 
 	var extensionSettings map[string]*string
-	json.Unmarshal([]byte(settings), &extensionSettings)
+
+	err = json.Unmarshal([]byte(settings), &extensionSettings)
+	if err != nil {
+		return future, err
+	}
 
 	var extensionProtectedSettings map[string]*string
-	json.Unmarshal([]byte(protectedSettings), &extensionProtectedSettings)
+	err = json.Unmarshal([]byte(protectedSettings), &extensionProtectedSettings)
+	if err != nil {
+		return future, err
+	}
 
 	future, err = client.CreateOrUpdate(
 		ctx,
