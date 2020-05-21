@@ -17,10 +17,9 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
-	"github.com/google/uuid"
-	"k8s.io/apimachinery/pkg/runtime"
 
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" //pglib
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -73,7 +72,7 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, nil
 	}
 
-	adminUser := string(adminSecret[PSecretUsernameKey])
+	adminUser := string(adminSecret[PSecretUsernameKey]) + "@" + string(instance.Spec.Server)
 	adminPassword := string(adminSecret[PSecretPasswordKey])
 
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
@@ -131,7 +130,7 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 	// reset user from secret in case it was loaded
 	user := string(DBSecret[PSecretUsernameKey])
 	if user == "" {
-		user = fmt.Sprintf("%s-%s", requestedUsername, uuid.New())
+		user = fmt.Sprintf(requestedUsername)
 		DBSecret[PSecretUsernameKey] = []byte(user)
 	}
 
@@ -305,6 +304,7 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 	adminSecretClient := s.SecretClient
 
 	adminsecretName := instance.Spec.AdminSecret
+
 	if len(instance.Spec.AdminSecret) == 0 {
 		adminsecretName = instance.Spec.Server
 	}
@@ -348,7 +348,7 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	var user = string(adminSecret[PSecretUsernameKey])
+	user := string(adminSecret[PSecretUsernameKey]) + "@" + string(instance.Spec.Server)
 	var password = string(adminSecret[PSecretPasswordKey])
 
 	db, err := s.ConnectToSqlDb(ctx, PDriverName, instance.Spec.Server, instance.Spec.DbName, PSqlServerPort, user, password)
@@ -373,14 +373,14 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	err = s.DropUser(ctx, db, user)
 	if err != nil {
-		instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser failed with %s", err.Error())
+		instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser failed with %s", err.Error())
 		return false, err
 	}
 
 	// Once the user has been dropped, also delete their secrets.
 	s.DeleteSecrets(ctx, instance, sqlUserSecretClient)
 
-	instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser succeeded")
+	instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser succeeded")
 
 	return true, nil
 }

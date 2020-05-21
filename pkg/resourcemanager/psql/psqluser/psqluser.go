@@ -89,13 +89,9 @@ func (s *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername s
 func (s *PostgreSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
 	var errorStrings []string
 	for _, role := range roles {
-		tsql := "sp_addrolemember @role, @user"
+		tsql := fmt.Sprintf("GRANT %s TO %q", role, user)
 
-		_, err := db.ExecContext(
-			ctx, tsql,
-			sql.Named("role", role),
-			sql.Named("user", user),
-		)
+		_, err := db.ExecContext(ctx, tsql)
 		if err != nil {
 			errorStrings = append(errorStrings, err.Error())
 		}
@@ -120,7 +116,7 @@ func (s *PostgreSqlUserManager) CreateUser(ctx context.Context, secret map[strin
 		return "", fmt.Errorf("Problem found with password: %v", err)
 	}
 
-	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD='%s'", newUser, newPassword)
+	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s'", newUser, newPassword)
 	_, err := db.ExecContext(ctx, tsql)
 
 	// TODO: Have db lib do string interpolation
@@ -146,7 +142,7 @@ func (s *PostgreSqlUserManager) UpdateUser(ctx context.Context, secret map[strin
 		return fmt.Errorf("Problem found with password: %v", err)
 	}
 
-	tsql := fmt.Sprintf("ALTER USER \"%s\" WITH PASSWORD='%s'", user, newPassword)
+	tsql := fmt.Sprintf("ALTER USER '%s' WITH PASSWORD '%s'", user, newPassword)
 	_, err := db.ExecContext(ctx, tsql)
 
 	return err
@@ -154,22 +150,21 @@ func (s *PostgreSqlUserManager) UpdateUser(ctx context.Context, secret map[strin
 
 // UserExists checks if db contains user
 func (s *PostgreSqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
-	res, err := db.ExecContext(
-		ctx,
-		"SELECT * FROM sysusers WHERE NAME=@user",
-		sql.Named("user", username),
-	)
+
+	tsql := fmt.Sprintf("SELECT * FROM pg_user WHERE usename = '%s'", username)
+	res, err := db.ExecContext(ctx, tsql)
 	if err != nil {
 		return false, err
 	}
 	rows, err := res.RowsAffected()
 	return rows > 0, err
+
 }
 
 // DropUser drops a user from db
 func (s *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
-	tsql := "DROP USER @user"
-	_, err := db.ExecContext(ctx, tsql, sql.Named("user", user))
+	tsql := fmt.Sprintf("DROP USER '%s'", user)
+	_, err := db.ExecContext(ctx, tsql)
 	return err
 }
 
