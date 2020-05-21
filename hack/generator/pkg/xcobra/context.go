@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"syscall"
 
 	"github.com/devigned/tab"
 	"github.com/spf13/cobra"
@@ -39,7 +40,7 @@ func RunWithCtx(run func(ctx context.Context, cmd *cobra.Command, args []string)
 
 	// Wait for a signal to quit:
 	signalChan := make(chan os.Signal, 1)
-	signal.Notify(signalChan, os.Interrupt, os.Kill)
+	signal.Notify(signalChan, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
 		<-signalChan

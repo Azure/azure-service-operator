@@ -33,7 +33,10 @@ func NewGenCommand() (*cobra.Command, error) {
 			configuration, err := loadConfiguration("azure-cloud.yaml")
 			if err != nil {
 				log.Printf("Error loading configuration: %v\n", err)
-				writeSampleConfig("public-cloud-sample.yaml")
+				err2 := writeSampleConfig("public-cloud-sample.yaml")
+				if err2 != nil {
+					log.Printf("Failed to write sample configuration file, err: %v\n", err2)
+				}
 				return err
 			}
 
@@ -121,7 +124,10 @@ func NewGenCommand() (*cobra.Command, error) {
 					}
 				}
 
-				pkg.EmitDefinitions(outputDir)
+				err = pkg.EmitDefinitions(outputDir)
+				if err != nil {
+					log.Fatalf("Unable to emit definitions '%v'", err)
+				}
 			}
 
 			log.Printf("Completed writing %v resources\n", len(scanner.Definitions))
@@ -185,7 +191,10 @@ func writeSampleConfig(configFile string) error {
 		return err
 	}
 
-	ioutil.WriteFile(configFile, data, os.FileMode(0644))
+	err = ioutil.WriteFile(configFile, data, os.FileMode(0644))
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

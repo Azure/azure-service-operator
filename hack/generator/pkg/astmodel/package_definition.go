@@ -7,13 +7,14 @@ package astmodel
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"path/filepath"
 	"text/template"
 )
 
-// PackageDefinition is the definiton of a package
+// PackageDefinition is the definition of a package
 type PackageDefinition struct {
 	PackageReference
 
@@ -31,7 +32,7 @@ func (pkgDef *PackageDefinition) AddDefinition(def Definition) {
 }
 
 // EmitDefinitions emits the PackageDefinition to an output directory
-func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string) {
+func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string) error {
 
 	resources, otherDefinitions := partitionDefinitions(pkgDef.definitions)
 
@@ -42,17 +43,31 @@ func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string) {
 	}
 
 	allocateTypesToFiles(otherDefinitions, filesToGenerate)
-	emitFiles(filesToGenerate, outputDir)
-	emitGroupVersionFile(pkgDef, outputDir)
+	err := emitFiles(filesToGenerate, outputDir)
+	if err != nil {
+		return err
+	}
+
+	err = emitGroupVersionFile(pkgDef, outputDir)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func emitFiles(filesToGenerate map[string][]Definition, outputDir string) {
+func emitFiles(filesToGenerate map[string][]Definition, outputDir string) error {
 	for fileName, defs := range filesToGenerate {
 		genFile := NewFileDefinition(defs[0].Reference().PackageReference, defs...)
 		outputFile := filepath.Join(outputDir, fileName+"_types.go")
 		log.Printf("Writing '%s'\n", outputFile)
-		genFile.SaveTo(outputFile)
+		err := genFile.SaveTo(outputFile)
+		if err != nil {
+			return fmt.Errorf("error saving definitions to file '%v'(%w)", outputFile, err)
+		}
 	}
+
+	return nil
 }
 
 func anyReferences(defs []Definition, defName *DefinitionName) bool {
@@ -206,11 +221,19 @@ var (
 	localSchemeBuilder = SchemeBuilder.SchemeBuilder
 )`))
 
-func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) {
+func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) error {
 	buf := &bytes.Buffer{}
-	groupVersionFileTemplate.Execute(buf, pkgDef)
+	err := groupVersionFileTemplate.Execute(buf, pkgDef)
+	if err != nil {
+		return err
+	}
 
 	gvFile := filepath.Join(outputDir, "groupversion_info.go")
-	// TODO[dj]: handle this error
-	ioutil.WriteFile(gvFile, buf.Bytes(), 0700)
+
+	err = ioutil.WriteFile(gvFile, buf.Bytes(), 0700)
+	if err != nil {
+		return fmt.Errorf("error writing group version file '%v'(%w)", gvFile, err)
+	}
+
+	return nil
 }

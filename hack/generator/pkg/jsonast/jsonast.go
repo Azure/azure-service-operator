@@ -213,7 +213,7 @@ func DefaultTypeHandlers() map[SchemaType]TypeHandler {
 }
 
 func enumHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
-	ctx, span := tab.StartSpan(ctx, "enumHandler")
+	_, span := tab.StartSpan(ctx, "enumHandler")
 	defer span.End()
 
 	// Default to a string base type
@@ -242,7 +242,7 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsche
 
 func fixedTypeHandler(typeToReturn astmodel.Type, handlerName string) TypeHandler {
 	return func(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
-		ctx, span := tab.StartSpan(ctx, handlerName+"Handler")
+		_, span := tab.StartSpan(ctx, handlerName+"Handler")
 		defer span.End()
 
 		return typeToReturn, nil
@@ -454,15 +454,13 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		}
 
 		// unpack the contents of what we got from subhandlers:
-		switch d.(type) {
+		switch s := d.(type) {
 		case *astmodel.StructType:
 			// if it's a struct type get all its fields:
-			s := d.(*astmodel.StructType)
 			fields = append(fields, s.Fields()...)
 
 		case *astmodel.StructReference:
 			// if it's a reference to a defined struct, embed it inside:
-			s := d.(*astmodel.StructReference)
 			fields = append(fields, astmodel.NewEmbeddedStructDefinition(s))
 
 		default:
@@ -601,23 +599,6 @@ func getPrimitiveType(name SchemaType) (*astmodel.PrimitiveType, error) {
 	}
 }
 
-func isPrimitiveType(name SchemaType) bool {
-	switch name {
-	case String, Int, Number, Bool:
-		return true
-	default:
-		return false
-	}
-}
-
-func asComment(text *string) string {
-	if text == nil {
-		return ""
-	}
-
-	return "// " + *text
-}
-
 func isURLPathSeparator(c rune) bool {
 	return c == '/'
 }
@@ -653,7 +634,7 @@ func isResource(url *url.URL) bool {
 	return false
 }
 
-var versionRegex = regexp.MustCompile("\\d{4}-\\d{2}-\\d{2}")
+var versionRegex = regexp.MustCompile(`\d{4}-\d{2}-\d{2}`)
 
 // Extract the name of an object from the supplied schema URL
 func versionOf(url *url.URL) (string, error) {

@@ -78,9 +78,7 @@ func (definition *StructDefinition) FieldCount() int {
 func (definition *StructDefinition) RequiredImports() []PackageReference {
 	var result []PackageReference
 	for _, field := range definition.StructType.fields {
-		for _, requiredImport := range field.FieldType().RequiredImports() {
-			result = append(result, requiredImport)
-		}
+		result = append(result, field.FieldType().RequiredImports()...)
 	}
 
 	return result

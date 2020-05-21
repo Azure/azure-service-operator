@@ -3,17 +3,8 @@ PACKAGE         = github.com/Azure/k8s-infra/hack/generator
 DATE            ?= $(shell date +%FT%T%z)
 VERSION         ?= $(shell git rev-list -1 HEAD)
 SHORT_VERSION   ?= $(shell git rev-parse --short HEAD)
-GOBIN           ?= $(HOME)/go/bin
-GOFMT           = gofmt
-GO              = go
-PKGS            = $(or $(PKG),$(shell $(GO) list ./... | grep -vE "^$(PACKAGE)/templates/"))
-ROOT_DIR        :=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-TOOLS_DIR       = $(abspath $(ROOT_DIR)/../tools)
-TOOLS_BIN       = $(TOOLS_DIR)/bin
-GOLINT          = $(TOOLS_BIN)/golint
-GOX             = $(TOOLS_BIN)/gox
-GO_INSTALL      = $(abspath $(ROOT_DIR)/../../scripts/go_install.sh)
-GCOV2LCOV       = $(TOOLS_BIN)/gcov2lcov
+
+include ../../tools.mk
 
 V = 0
 Q = $(if $(filter 1,$V),,@)
@@ -21,21 +12,17 @@ Q = $(if $(filter 1,$V),,@)
 .PHONY: all
 all: build test
 
-$(GOLINT): ## Build golint
-	GOBIN=$(TOOLS_BIN) $(GO_INSTALL) golang.org/x/lint/golint
-
-$(GOX): ## Build gox
-	GOBIN=$(TOOLS_BIN) $(GO_INSTALL)  github.com/mitchellh/gox@v1.0.1
-
-$(GCOV2LCOV): ## Build gcov2lcov
-	GOBIN=$(TOOLS_BIN) $(GO_INSTALL) github.com/jandelgado/gcov2lcov@v1.0.2
-
 build: tidy fmt vet lint ; $(info $(M) buiding ./bin/$(APP))
 	$Q $(GO)  build -ldflags "-X $(PACKAGE)/cmd.GitCommit=$(VERSION)" -o ./bin/$(APP)
 
 .PHONY: lint
-lint: $(GOLINT) ; $(info $(M) running golint…) @ ## Run golint
-	$(Q) $(GOLINT) -set_exit_status `go list ./... | grep -v /internal/`
+lint: $(GOLANGCI_LINT) ; $(info $(M) running golangci configured linters…) ## Lint codebase
+	$(Q) $(GOLANGCI_LINT) run -v --timeout 5m
+
+.PHONY: lint-full
+lint-full: $(GOLANGCI_LINT) ; $(info $(M) running golangci configured linters…) ## Run slower linters to detect possible issues
+	$(Q) $(GOLANGCI_LINT) run -v --fast=false --timeout 5m
+
 
 .PHONY: fmt
 fmt: ; $(info $(M) running gofmt…) @ ## Run gofmt on all source files

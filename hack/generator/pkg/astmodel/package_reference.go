@@ -31,5 +31,5 @@ func (pr *PackageReference) PackageName() string {
 
 // Equals returns true if the passed package reference references the same package, false otherwise
 func (pr *PackageReference) Equals(ref *PackageReference) bool {
-	return pr.groupName == ref.groupName && pr.packageName == pr.packageName
+	return pr.groupName == ref.groupName && pr.packageName == ref.packageName
 }

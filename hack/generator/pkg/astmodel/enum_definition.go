@@ -60,8 +60,7 @@ func (enum *EnumDefinition) AsDeclarations() []ast.Decl {
 }
 
 func (enum *EnumDefinition) createBaseDeclaration() ast.Decl {
-	var identifier *ast.Ident
-	identifier = ast.NewIdent(enum.name)
+	identifier := ast.NewIdent(enum.name)
 
 	typeSpecification := &ast.TypeSpec{
 		Name: identifier,
@@ -81,8 +80,7 @@ func (enum *EnumDefinition) createBaseDeclaration() ast.Decl {
 
 func (enum *EnumDefinition) createValueDeclaration(value EnumValue) ast.Spec {
 
-	var enumIdentifier *ast.Ident
-	enumIdentifier = ast.NewIdent(enum.name)
+	enumIdentifier := ast.NewIdent(enum.name)
 
 	valueIdentifier := ast.NewIdent(enum.Name() + value.Identifier)
 	valueLiteral := ast.BasicLit{

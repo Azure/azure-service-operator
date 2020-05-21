@@ -11,31 +11,8 @@ KIND_CLUSTER_NAME ?= k8sinfra
 KIND_KUBECONFIG := $(HOME)/.kube/kind-$(KIND_CLUSTER_NAME)
 TLS_CERT_PATH := pki/certs/tls.crt
 
-# Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
-ifeq (,$(shell go env GOBIN))
-GOBIN=$(shell go env GOPATH)/bin
-else
-GOBIN=$(shell go env GOBIN)
-endif
-
-# Directories.
-ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-TOOLS_DIR := hack/tools
-TOOLS_BIN_DIR := $(TOOLS_DIR)/bin
-
-# Binaries.
-GOLANGCI_LINT := $(TOOLS_BIN_DIR)/golangci-lint
-CONTROLLER_GEN := $(TOOLS_BIN_DIR)/controller-gen
-CONVERSION_GEN := $(TOOLS_BIN_DIR)/conversion-gen
-KUBECTL=$(TOOLS_BIN_DIR)/kubectl
-KUBE_APISERVER=$(TOOLS_BIN_DIR)/kube-apiserver
-ETCD=$(TOOLS_BIN_DIR)/etcd
-KUBEBUILDER=$(TOOLS_BIN_DIR)/kubebuilder
-CFSSL=$(TOOLS_BIN_DIR)/cfssl
-CFSSLJSON=$(TOOLS_BIN_DIR)/cfssljson
-MKBUNDLE=$(TOOLS_BIN_DIR)/mkbundle
-KIND=$(TOOLS_BIN_DIR)/kind
-KUSTOMIZE=$(TOOLS_BIN_DIR)/kustomize
+# Include common variables and targets
+include tools.mk
 
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
@@ -44,43 +21,29 @@ help:  ## Display this help
 ## Testing / Toooling
 ## --------------------------------------
 .PHONY: test test-int test-cover test-cover-int
-test test-int test-cover test-cover-int: export TEST_ASSET_KUBECTL = $(ROOT_DIR)/$(KUBECTL)
-test test-int test-cover test-cover-int: export TEST_ASSET_KUBE_APISERVER = $(ROOT_DIR)/$(KUBE_APISERVER)
-test test-int test-cover test-cover-int: export TEST_ASSET_ETCD = $(ROOT_DIR)/$(ETCD)
+test test-int test-cover test-cover-int: export TEST_ASSET_KUBECTL = $(KUBECTL)
+test test-int test-cover test-cover-int: export TEST_ASSET_KUBE_APISERVER = $(KUBE_APISERVER)
+test test-int test-cover test-cover-int: export TEST_ASSET_ETCD = $(ETCD)
 
 test: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) lint header-check ## Run tests
-	go test -v ./...
+	$(GO) test -v ./...
 
 test-int: .env $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run integration tests
 	# MUST be executed as single command, or env vars will not propagate to test execution
-	. .env && go test -v ./... -tags integration
+	. .env && $(GO) test -v ./... -tags integration
 
 .env: ## create a service principal and save the identity to .env for use in integration tests (requries jq and az)
 	./scripts/create_testing_creds.sh
 
 test-cover: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run tests w/ code coverage (./cover.out)
-	go test ./... -coverprofile cover.out
+	$(GO) test ./... -coverprofile cover.out
 
 test-cover-int: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run tests w/ code coverage (./cover.out)
-	go test ./... -tags integration -coverprofile cover.out
+	$(GO) test ./... -tags integration -coverprofile cover.out
 
 $(KUBECTL) $(KUBE_APISERVER) $(ETCD) $(KUBEBUILDER): ## Install test asset kubectl, kube-apiserver, etcd
 	. ./scripts/fetch_ext_bins.sh && fetch_tools
 
-$(KIND): ## Install kind tool
-	GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) ./scripts/go_install.sh sigs.k8s.io/kind@v0.8.1
-
-$(KUSTOMIZE): ## Install kustomize
-	GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) ./scripts/go_install.sh sigs.k8s.io/kustomize/kustomize/v3@v3.5.4
-
-$(CONTROLLER_GEN): ## Build controller-gen from tools folder.
-	GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) ./scripts/go_install.sh sigs.k8s.io/controller-tools/cmd/controller-gen@v0.3.0
-
-$(CONVERSION_GEN): ## Build conversion-gen from tools folder.
-	GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) ./scripts/go_install.sh k8s.io/code-generator/cmd/conversion-gen@v0.18.2
-
-$(GOLANGCI_LINT): ## Build golangci-lint from tools folder.
-	GOBIN=$(ROOT_DIR)/$(TOOLS_BIN_DIR) ./scripts/go_install.sh github.com/golangci/golangci-lint/cmd/golangci-lint@v1.26.0
 
 ## --------------------------------------
 ## Linting
@@ -88,11 +51,11 @@ $(GOLANGCI_LINT): ## Build golangci-lint from tools folder.
 
 .PHONY: lint
 lint: $(GOLANGCI_LINT) ## Lint codebase
-	$(GOLANGCI_LINT) run -v --timeout 5m
+	$(GOLANGCI_LINT) run -v
 
 .PHONY: lint-full
 lint-full: $(GOLANGCI_LINT) ## Run slower linters to detect possible issues
-	$(GOLANGCI_LINT) run -v --fast=false --timeout 5m
+	$(GOLANGCI_LINT) run -v --fast=false
 
 ## --------------------------------------
 ## Build
@@ -100,15 +63,15 @@ lint-full: $(GOLANGCI_LINT) ## Run slower linters to detect possible issues
 
 .PHONY: build
 build: fmt vet lint ## Build manager binary
-	go build -o bin/manager main.go
+	$(GO) build -o bin/manager main.go
 
 .PHONY: fmt
 fmt: ## Run go fmt against code
-	go fmt ./...
+	$(GO) fmt ./...
 
 .PHONY: vet
 vet: ## Run go vet against code
-	go vet ./...
+	$(GO) vet ./...
 
 .PHONY: header-check
 header-check: ## Runs header checks on all files to verify boilerplate
@@ -116,7 +79,7 @@ header-check: ## Runs header checks on all files to verify boilerplate
 
 .PHONY: tidy
 tidy: ## Runs go mod to ensure tidy.
-	go mod tidy
+	$(GO) mod tidy
 
 ## --------------------------------------
 ## Generate
@@ -157,7 +120,7 @@ run: $(KIND) kind-create
 run: export KUBECONFIG = $(KIND_KUBECONFIG)
 run: export ENVIRONMENT = development
 run: $(TLS_CERT_PATH) generate fmt manifests install ## Run a development cluster using kind
-	go run ./main.go
+	$(GO) run ./main.go
 
 $(KIND_CLUSTER_TOUCH): $(KIND) $(KUBECTL)
 	$(KIND) create cluster --name=$(KIND_CLUSTER_NAME) --kubeconfig=$(KIND_KUBECONFIG) --image=kindest/node:v1.17.4

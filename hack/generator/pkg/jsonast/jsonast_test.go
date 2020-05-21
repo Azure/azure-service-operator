@@ -34,11 +34,18 @@ func runGoldenTest(t *testing.T, path string) {
 	loader := gojsonschema.NewSchemaLoader()
 	schema, err := loader.Compile(gojsonschema.NewBytesLoader(inputFile))
 
+	if err != nil {
+		t.Fatal(fmt.Errorf("could not compile input: %w", err))
+	}
+
 	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory())
 	nodes, err := scanner.ToNodes(context.TODO(), schema.Root())
+	if err != nil {
+		t.Fatal(fmt.Errorf("could not produce nodes from scanner: %w", err))
+	}
 
 	buf := &bytes.Buffer{}
-	format.Node(buf, token.NewFileSet(), nodes.AsDeclarations())
+	_ = format.Node(buf, token.NewFileSet(), nodes.AsDeclarations())
 
 	g.Assert(t, testName, buf.Bytes())
 }
