@@ -51,7 +51,6 @@ func emitFiles(filesToGenerate map[string][]Definition, outputDir string) {
 		genFile := NewFileDefinition(defs[0].Reference().PackageReference, defs...)
 		outputFile := filepath.Join(outputDir, fileName+"_types.go")
 		log.Printf("Writing '%s'\n", outputFile)
-		genFile.Tidy()
 		genFile.SaveTo(outputFile)
 	}
 }
@@ -72,7 +71,7 @@ func partitionDefinitions(definitions []Definition) (resourceStructs []*StructDe
 	var notResources []Definition
 
 	for _, def := range definitions {
-		if structDef, ok := def.(*StructDefinition); ok && structDef.IsResource() {
+		if structDef, ok := def.(*StructDefinition); ok && structDef.StructReference.IsResource() {
 			resources = append(resources, structDef)
 		} else {
 			notResources = append(notResources, def)

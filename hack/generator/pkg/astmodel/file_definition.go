@@ -27,18 +27,11 @@ type FileDefinition struct {
 // NewFileDefinition creates a file definition containing specified definitions
 func NewFileDefinition(packageRef PackageReference, definitions ...Definition) *FileDefinition {
 	// TODO: check that all definitions are from same package
-	return &FileDefinition{packageRef, definitions}
-}
-
-// Tidy the contents of this file prior to creating the AST
-func (file *FileDefinition) Tidy() {
-	sort.Slice(file.definitions, func(left int, right int) bool {
-		return file.definitions[left].FileNameHint() < file.definitions[right].FileNameHint()
+	sort.Slice(definitions, func(left int, right int) bool {
+		return definitions[left].FileNameHint() < definitions[right].FileNameHint()
 	})
 
-	for _, d := range file.definitions {
-		d.Tidy()
-	}
+	return &FileDefinition{packageRef, definitions}
 }
 
 func (file *FileDefinition) generateImportSpecs() []ast.Spec {
@@ -94,7 +87,7 @@ func (file *FileDefinition) AsAst() ast.Node {
 	// Emit struct registration for each resource:
 	var exprs []ast.Expr
 	for _, defn := range file.definitions {
-		if structDefn, ok := defn.(*StructDefinition); ok && structDefn.IsResource() {
+		if structDefn, ok := defn.(*StructDefinition); ok && structDefn.StructReference.IsResource() {
 			exprs = append(exprs, &ast.UnaryExpr{
 				Op: token.AND,
 				X:  &ast.CompositeLit{Type: structDefn.StructReference.AsType()},

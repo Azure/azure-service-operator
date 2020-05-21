@@ -15,12 +15,15 @@ type StructType struct {
 	fields []*FieldDefinition
 }
 
-
 // Ensure StructType implements the Type interface correctly
 var _ Type = (*StructType)(nil)
 
 // NewStructType is a factory method for creating a new StructTypeDefinition
 func NewStructType(fields ...*FieldDefinition) *StructType {
+	sort.Slice(fields, func(left int, right int) bool {
+		return fields[left].fieldName < fields[right].fieldName
+	})
+
 	return &StructType{fields}
 }
 

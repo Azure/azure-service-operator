@@ -24,10 +24,10 @@ func Test_NewStructDefinition_GivenValues_InitializesFields(t *testing.T) {
 	ref := NewStructReference(name, group, version, false)
 	definition := NewStructDefinition(ref, fullNameField, familyNameField, knownAsField)
 
-	g.Expect(definition.name).To(Equal(name))
-	g.Expect(definition.groupName).To(Equal(group))
-	g.Expect(definition.packageName).To(Equal(version))
-	g.Expect(definition.fields).To(HaveLen(3))
+	g.Expect(definition.StructReference.name).To(Equal(name))
+	g.Expect(definition.StructReference.groupName).To(Equal(group))
+	g.Expect(definition.StructReference.packageName).To(Equal(version))
+	g.Expect(definition.StructType.fields).To(HaveLen(3))
 }
 
 func Test_StructDefinitionAsAst_GivenValidStruct_ReturnsNonNilResult(t *testing.T) {
