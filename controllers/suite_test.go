@@ -49,6 +49,7 @@ import (
 	resourcemanagerblobcontainer "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	resourcemanagerstorageaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmext"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -505,6 +506,25 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("VirtualMachine"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("VirtualMachine-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureVirtualMachineExtensionReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: vmext.NewAzureVirtualMachineExtensionClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VirtualMachineExtension",
+				ctrl.Log.WithName("controllers").WithName("VirtualMachineExtension"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("VirtualMachineExtension-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
