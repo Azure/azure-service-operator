@@ -5,7 +5,6 @@ package server
 
 import (
 	"context"
-	"strings"
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
@@ -62,7 +61,7 @@ func (m *MySQLServerClient) CheckServerNameAvailability(ctx context.Context, ser
 
 }
 
-func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, instance v1alpha2.MySQLServer, tags map[string]*string, skuInfo mysql.Sku, adminlogin string, adminpassword string, createmode string) (pollingURL string, server mysql.Server, err error) {
+func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, instance v1alpha2.MySQLServer, tags map[string]*string, skuInfo mysql.Sku, adminlogin string, adminpassword string, createmode mysql.CreateMode, hash string) (pollingURL string, server mysql.Server, err error) {
 
 	client := getMySQLServersClient()
 
@@ -72,7 +71,6 @@ func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, instance v1
 		return "", server, err
 	}
 
-	var result mysql.ServersCreateFuture
 	var serverProperties mysql.BasicServerPropertiesForCreate
 	var skuData *mysql.Sku
 	var storageProfile *mysql.StorageProfile
@@ -81,7 +79,7 @@ func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, instance v1
 		storageProfile = &obj
 	}
 
-	if strings.EqualFold(createmode, "replica") {
+	if createmode == mysql.CreateModeReplica {
 		serverProperties = &mysql.ServerPropertiesForReplica{
 			SourceServerID: to.StringPtr(instance.Spec.ReplicaProperties.SourceServerId),
 			CreateMode:     mysql.CreateModeReplica,
@@ -100,20 +98,49 @@ func (m *MySQLServerClient) CreateServerIfValid(ctx context.Context, instance v1
 		skuData = &skuInfo
 	}
 
-	result, _ = client.Create(
-		ctx,
-		instance.Spec.ResourceGroup,
-		instance.Name,
-		mysql.ServerForCreate{
-			Location:   &instance.Spec.Location,
-			Tags:       tags,
-			Properties: serverProperties,
-			Sku:        skuData,
-		},
-	)
+	if hash != instance.Status.SpecHash && instance.Status.SpecHash != "" {
+		res, err := client.Update(
+			ctx,
+			instance.Spec.ResourceGroup,
+			instance.Name,
+			mysql.ServerUpdateParameters{
+				Tags: tags,
+				Sku:  skuData,
+				ServerUpdateParametersProperties: &mysql.ServerUpdateParametersProperties{
+					StorageProfile: storageProfile,
+					Version:        mysql.ServerVersion(instance.Spec.ServerVersion),
+					SslEnforcement: mysql.SslEnforcementEnum(instance.Spec.SSLEnforcement),
+				},
+			},
+		)
+		if err != nil {
+			return "", mysql.Server{}, err
+		}
 
-	res, err := result.Result(client)
-	return result.PollingURL(), res, err
+		pollingURL = res.PollingURL()
+		server, err = res.Result(client)
+
+	} else {
+		res, err := client.Create(
+			ctx,
+			instance.Spec.ResourceGroup,
+			instance.Name,
+			mysql.ServerForCreate{
+				Location:   &instance.Spec.Location,
+				Tags:       tags,
+				Properties: serverProperties,
+				Sku:        skuData,
+			},
+		)
+		if err != nil {
+			return "", mysql.Server{}, err
+		}
+
+		pollingURL = res.PollingURL()
+		server, err = res.Result(client)
+	}
+
+	return pollingURL, server, err
 
 }
 
