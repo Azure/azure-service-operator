@@ -186,7 +186,7 @@ func (scanner *SchemaScanner) ToNodes(ctx context.Context, schema *gojsonschema.
 		false)
 
 	// TODO: make safer:
-	root := astmodel.NewStructDefinition(rootStructRef, nodes.(*astmodel.StructType).Fields()...)
+	root := astmodel.NewStructDefinition(rootStructRef, nodes.(*astmodel.StructType))
 	description := "Generated from: " + url.String()
 	root = root.WithDescription(&description)
 
@@ -404,7 +404,7 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 		}
 
 		// Add a placeholder to avoid recursive calls
-		sd := astmodel.NewStructDefinition(structReference)
+		sd := astmodel.NewStructDefinition(structReference, astmodel.NewStructType())
 		scanner.AddDefinition(sd)
 	}
 
@@ -420,13 +420,13 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 
 		description := "Generated from: " + url.String()
 
-		sd := astmodel.NewStructDefinition(structReference, structType.Fields()...).WithDescription(&description)
+		sd := astmodel.NewStructDefinition(structReference, structType).WithDescription(&description)
 
 		// this will overwrite placeholder added above
 		scanner.AddDefinition(sd)
 
-		// Add any further definitions needed to make this one complete (e.g. enumerations & methods)
-		relatedDefinitions := sd.CreateRelatedDefinitions(structReference.PackageReference, structReference.Name(), scanner.idFactory)
+		// Add any further definitions related to this
+		relatedDefinitions := sd.StructType.CreateRelatedDefinitions(structReference.PackageReference, structReference.Name(), scanner.idFactory)
 		for _, d := range relatedDefinitions {
 			scanner.AddDefinition(d)
 		}

@@ -14,15 +14,15 @@ import (
 )
 
 // Shared test values:
-var person2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2019-01-01", false))
-var post2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01", false))
-var student2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01", false))
+var person2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2019-01-01", false), astmodel.EmptyStructType)
+var post2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("post", "group", "2019-01-01", false), astmodel.EmptyStructType)
+var student2019 = astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2019-01-01", false), astmodel.EmptyStructType)
 
-var address2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("address", "group", "2020-01-01", false))
-var person2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01", false))
-var professor2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("professor", "group", "2020-01-01", false))
-var student2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2020-01-01", false))
-var tutor2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("tutor", "group", "2020-01-01", false))
+var address2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("address", "group", "2020-01-01", false), astmodel.EmptyStructType)
+var person2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("person", "group", "2020-01-01", false), astmodel.EmptyStructType)
+var professor2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("professor", "group", "2020-01-01", false), astmodel.EmptyStructType)
+var student2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("student", "group", "2020-01-01", false), astmodel.EmptyStructType)
+var tutor2020 = astmodel.NewStructDefinition(astmodel.NewStructReference("tutor", "group", "2020-01-01", false), astmodel.EmptyStructType)
 
 func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
 	g := NewGomegaWithT(t)

@@ -19,7 +19,13 @@ type StructReference struct {
 
 // NewStructReference creates a new StructReference
 func NewStructReference(name string, group string, version string, isResource bool) *StructReference {
-	return &StructReference{DefinitionName{PackageReference{group, version}, name}, isResource}
+	return &StructReference{
+		DefinitionName{
+			PackageReference: NewLocalPackageReference(group, version),
+			name:             name,
+		},
+		isResource,
+	}
 }
 
 // IsResource indicates that the struct is an Azure resource
@@ -49,8 +55,8 @@ func (definition *StructDefinition) Type() Type {
 }
 
 // NewStructDefinition is a factory method for creating a new StructDefinition
-func NewStructDefinition(ref *StructReference, fields ...*FieldDefinition) *StructDefinition {
-	return &StructDefinition{ref, NewStructType(fields...), ""}
+func NewStructDefinition(ref *StructReference, structType *StructType) *StructDefinition {
+	return &StructDefinition{ref, structType, ""}
 }
 
 // WithDescription adds a description (doc-comment) to the struct
@@ -72,16 +78,6 @@ func (definition *StructDefinition) Field(index int) FieldDefinition {
 // FieldCount indicates how many fields are contained
 func (definition *StructDefinition) FieldCount() int {
 	return len(definition.StructType.fields)
-}
-
-// RequiredImports returns a list of package required by this
-func (definition *StructDefinition) RequiredImports() []PackageReference {
-	var result []PackageReference
-	for _, field := range definition.StructType.fields {
-		result = append(result, field.FieldType().RequiredImports()...)
-	}
-
-	return result
 }
 
 // FileNameHint is a hint of what to name the file
@@ -158,7 +154,20 @@ func (definition *StructDefinition) AsDeclarations() []ast.Decl {
 		declarations = append(declarations, resourceDeclaration)
 	}
 
+	// Append the methods
+	declarations = append(declarations, definition.generateMethodDecls()...)
+
 	return declarations
+}
+
+func (definition *StructDefinition) generateMethodDecls() []ast.Decl {
+	var result []ast.Decl
+	for methodName, function := range definition.StructType.functions {
+		funcDef := function.AsFunc(definition.StructReference, methodName)
+		result = append(result, funcDef)
+	}
+
+	return result
 }
 
 func defineField(fieldName string, typeName string, tag string) *ast.Field {

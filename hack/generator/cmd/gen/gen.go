@@ -101,10 +101,14 @@ func NewGenCommand() (*cobra.Command, error) {
 					log.Printf("Will export %s/%s %s", defRef.PackagePath(), defRef.Name(), motivation)
 
 					pkgRef := defRef.PackageReference
+					groupName, pkgName, err := pkgRef.GroupAndPackage()
+					if err != nil {
+						return err
+					}
 					if pkg, ok := packages[pkgRef]; ok {
 						pkg.AddDefinition(def)
 					} else {
-						pkg = astmodel.NewPackageDefinition(pkgRef)
+						pkg = astmodel.NewPackageDefinition(groupName, pkgName)
 						pkg.AddDefinition(def)
 						packages[pkgRef] = pkg
 					}
@@ -115,7 +119,7 @@ func NewGenCommand() (*cobra.Command, error) {
 			for _, pkg := range packages {
 
 				// create directory if not already there
-				outputDir := filepath.Join(rootOutputDir, pkg.PackagePath())
+				outputDir := filepath.Join(rootOutputDir, pkg.GroupName, pkg.PackageName)
 				if _, err := os.Stat(outputDir); os.IsNotExist(err) {
 					//log.Printf("Creating directory '%s'\n", outputDir)
 					err = os.MkdirAll(outputDir, 0700)

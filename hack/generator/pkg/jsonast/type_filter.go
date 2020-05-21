@@ -6,6 +6,7 @@
 package jsonast
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 
@@ -40,8 +41,14 @@ type TypeFilter struct {
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
 func (filter *TypeFilter) AppliesToType(definition astmodel.Definition) bool {
-	result := filter.groupMatches(definition.Reference().GroupName()) &&
-		filter.versionMatches(definition.Reference().PackageName()) &&
+	groupName, packageName, err := definition.Reference().GroupAndPackage()
+	if err != nil {
+		// TODO: Should this func return an error rather than panic?
+		panic(fmt.Sprintf("%v", err))
+	}
+
+	result := filter.groupMatches(groupName) &&
+		filter.versionMatches(packageName) &&
 		filter.nameMatches(definition.Reference().Name())
 
 	return result

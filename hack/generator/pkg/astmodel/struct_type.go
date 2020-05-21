@@ -12,8 +12,12 @@ import (
 
 // StructType represents an (unnamed) struct type
 type StructType struct {
-	fields []*FieldDefinition
+	fields    []*FieldDefinition
+	functions map[string]Function
 }
+
+// EmptyStructType is an empty struct
+var EmptyStructType = NewStructType()
 
 // Ensure StructType implements the Type interface correctly
 var _ Type = (*StructType)(nil)
@@ -24,7 +28,7 @@ func NewStructType(fields ...*FieldDefinition) *StructType {
 		return fields[left].fieldName < fields[right].fieldName
 	})
 
-	return &StructType{fields}
+	return &StructType{fields, make(map[string]Function)}
 }
 
 // Fields returns all our field definitions
@@ -61,6 +65,10 @@ func (structType *StructType) RequiredImports() []PackageReference {
 		result = append(result, field.FieldType().RequiredImports()...)
 	}
 
+	for _, function := range structType.functions {
+		result = append(result, function.RequiredImports()...)
+	}
+
 	return result
 }
 
@@ -71,6 +79,8 @@ func (structType *StructType) References(d *DefinitionName) bool {
 			return true
 		}
 	}
+
+	// For now, not considering functions in references on purpose
 
 	return false
 }
@@ -106,6 +116,24 @@ func (structType *StructType) Equals(t Type) bool {
 			}
 		}
 
+		if len(structType.functions) != len(st.functions) {
+			// Different number of functions, not equal
+			return false
+		}
+
+		for functionName, function := range st.functions {
+			ourFunction, ok := structType.functions[functionName]
+			if !ok {
+				// Didn't find the func, not equal
+				return false
+			}
+
+			if !ourFunction.Equals(function) {
+				// Different function, even though same name; not-equal
+				return false
+			}
+		}
+
 		// All fields match, equal
 		return true
 	}
@@ -120,6 +148,25 @@ func (structType *StructType) CreateRelatedDefinitions(ref PackageReference, nam
 		nh := namehint + "." + string(f.fieldName)
 		defns := f.CreateRelatedDefinitions(ref, nh, idFactory)
 		result = append(result, defns...)
+	}
+
+	return result
+}
+
+// WithFunction creates a new StructType with a function (method) attached to it
+func (structType *StructType) WithFunction(name string, function Function) *StructType {
+	// Create a copy of structType to preserve immutability
+	result := structType.copy()
+	result.functions[name] = function
+
+	return result
+}
+
+func (structType *StructType) copy() *StructType {
+	result := NewStructType(structType.fields...)
+
+	for key, value := range structType.functions {
+		result.functions[key] = value
 	}
 
 	return result

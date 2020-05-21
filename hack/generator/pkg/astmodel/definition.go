@@ -41,7 +41,7 @@ type Definition interface {
 	// DefinitionName: How do you refer to this definition?
 	Reference() *DefinitionName
 
-	// Type: What is the type associated to this definition?
+	// Type returns the type associated with this definition
 	Type() Type
 }
 
