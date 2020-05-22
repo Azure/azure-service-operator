@@ -8,21 +8,20 @@ package codegen
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 
 	"k8s.io/klog/v2"
 )
 
 type CodeGenerator struct {
 	configuration *Configuration
-	idFactory     astmodel.IdentifierFactory
-	scanner       *jsonast.SchemaScanner
 }
 
 func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
@@ -36,14 +35,7 @@ func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
 		return nil, fmt.Errorf("configuration loaded from '%v' is invalid (%w)", configurationFile, err)
 	}
 
-	idFactory := astmodel.NewIdentifierFactory()
-	scanner := jsonast.NewSchemaScanner(idFactory)
-
-	result := &CodeGenerator{
-		configuration: config,
-		idFactory:     idFactory,
-		scanner:       scanner,
-	}
+	result := &CodeGenerator{configuration: config}
 
 	return result, nil
 }
@@ -62,14 +54,15 @@ func (generator *CodeGenerator) Generate(ctx context.Context, outputFolder strin
 		return fmt.Errorf("error cleaning output folder '%v' (%w)", generator.configuration.SchemaURL, err)
 	}
 
+	scanner := jsonast.NewSchemaScanner(astmodel.NewIdentifierFactory())
+
 	klog.V(0).Infof("Walking JSON schema")
-	_, err = generator.scanner.ToNodes(ctx, schema.Root())
+	defs, err := scanner.GenerateDefinitions(ctx, schema.Root())
 	if err != nil {
 		return fmt.Errorf("failed to walk JSON schema (%w)", err)
 	}
-	
-	// group definitions by package
-	packages, err := generator.CreatePackages()
+
+	packages, err := generator.CreatePackagesForDefinitions(defs)
 	if err != nil {
 		return fmt.Errorf("failed to assign generated definitions to packages (%w)", err)
 	}
@@ -105,9 +98,9 @@ func (generator *CodeGenerator) Generate(ctx context.Context, outputFolder strin
 	return nil
 }
 
-func (generator *CodeGenerator) CreatePackages() (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
+func (generator *CodeGenerator) CreatePackagesForDefinitions(definitions []astmodel.Definition) ([]*astmodel.PackageDefinition, error) {
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-	for _, def := range generator.scanner.Definitions {
+	for _, def := range definitions {
 
 		shouldExport, reason := generator.configuration.ShouldExport(def)
 		defRef := def.Reference()
@@ -137,8 +130,13 @@ func (generator *CodeGenerator) CreatePackages() (map[astmodel.PackageReference]
 			}
 		}
 	}
-	
-	return packages, nil
+
+	var pkgs []*astmodel.PackageDefinition
+	for _, pkg := range packages {
+		pkgs = append(pkgs, pkg)
+	}
+
+	return pkgs, nil
 }
 
 func loadConfiguration(configurationFile string) (*Configuration, error) {

@@ -67,7 +67,7 @@ func emitFiles(filesToGenerate map[string][]Definition, outputDir string) error 
 		genFile := NewFileDefinition(defs[0].Reference().PackageReference, defs...)
 		outputFile := filepath.Join(outputDir, fileName+"_types.go")
 		klog.V(5).Infof("Writing '%s'\n", outputFile)
-		err := genFile.SaveTo(outputFile)
+		err := genFile.SaveToFile(outputFile)
 		if err != nil {
 			return fmt.Errorf("error saving definitions to file '%v'(%w)", outputFile, err)
 		}

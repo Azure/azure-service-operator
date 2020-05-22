@@ -38,7 +38,7 @@ type (
 
 	// A SchemaScanner is used to scan a JSON Schema extracting and collecting type definitions
 	SchemaScanner struct {
-		Definitions  map[astmodel.DefinitionName]astmodel.Definition
+		definitions  map[astmodel.DefinitionName]astmodel.Definition
 		TypeHandlers map[SchemaType]TypeHandler
 		Filters      []string
 		idFactory    astmodel.IdentifierFactory
@@ -47,13 +47,13 @@ type (
 
 // FindDefinition looks to see if we have seen the specified definiton before, returning its definition if we have.
 func (scanner *SchemaScanner) FindDefinition(ref astmodel.DefinitionName) (astmodel.Definition, bool) {
-	result, ok := scanner.Definitions[ref]
+	result, ok := scanner.definitions[ref]
 	return result, ok
 }
 
 // AddDefinition makes a record of the specified struct so that FindStruct() can return it when it is needed again.
 func (scanner *SchemaScanner) AddDefinition(def astmodel.Definition) {
-	scanner.Definitions[*def.Reference()] = def
+	scanner.definitions[*def.Reference()] = def
 }
 
 // Definitions for different kinds of JSON schema
@@ -84,7 +84,7 @@ func (use *UnknownSchemaError) Error() string {
 // NewSchemaScanner constructs a new scanner, ready for use
 func NewSchemaScanner(idFactory astmodel.IdentifierFactory) *SchemaScanner {
 	return &SchemaScanner{
-		Definitions:  make(map[astmodel.DefinitionName]astmodel.Definition),
+		definitions:  make(map[astmodel.DefinitionName]astmodel.Definition),
 		TypeHandlers: DefaultTypeHandlers(),
 		idFactory:    idFactory,
 	}
@@ -141,7 +141,7 @@ func (scanner *SchemaScanner) AddFilters(filters []string) {
 // 							- ARM specific resources. I'm not 100% sure why...
 //
 // 		allOf acts like composition which composites each schema from the child oneOf with the base reference from allOf.
-func (scanner *SchemaScanner) ToNodes(ctx context.Context, schema *gojsonschema.SubSchema, opts ...BuilderOption) (astmodel.Definition, error) {
+func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema *gojsonschema.SubSchema, opts ...BuilderOption) ([]astmodel.Definition, error) {
 	ctx, span := tab.StartSpan(ctx, "ToNodes")
 	defer span.End()
 
@@ -192,7 +192,13 @@ func (scanner *SchemaScanner) ToNodes(ctx context.Context, schema *gojsonschema.
 
 	scanner.AddDefinition(root)
 
-	return root, nil
+	// produce the results
+	var defs []astmodel.Definition
+	for _, def := range scanner.definitions {
+		defs = append(defs, def)
+	}
+
+	return defs, nil
 }
 
 // DefaultTypeHandlers will create a default map of JSONType to AST transformers

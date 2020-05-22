@@ -7,6 +7,7 @@ package gen
 
 import (
 	"context"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/codegen"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/xcobra"
 	"github.com/spf13/cobra"
