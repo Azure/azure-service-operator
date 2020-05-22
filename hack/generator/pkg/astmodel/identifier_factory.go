@@ -6,7 +6,6 @@
 package astmodel
 
 import (
-	"log"
 	"regexp"
 	"strings"
 	"unicode"
@@ -73,7 +72,6 @@ func (factory *identifierFactory) CreateGroupName(group string) string {
 }
 
 func (factory *identifierFactory) CreateEnumIdentifier(namehint string) string {
-	log.Printf("Creating enum identifier from %s", namehint)
 	return factory.CreateIdentifier(namehint)
 }
 

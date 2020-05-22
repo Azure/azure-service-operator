@@ -7,10 +7,9 @@ package cmd
 
 import (
 	"fmt"
-	"log"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/k8s-infra/hack/generator/cmd/gen"
 )
@@ -19,11 +18,11 @@ import (
 func Execute() {
 	cmd, err := newRootCommand()
 	if err != nil {
-		log.Fatalf("fatal error: commands failed to build! %v\n", err)
+		klog.Fatalf("fatal error: commands failed to build! %v\n", err)
 	}
 
 	if err := cmd.Execute(); err != nil {
-		log.Fatalln(err)
+		klog.Fatalln(err)
 	}
 }
 
@@ -33,6 +32,8 @@ func newRootCommand() (*cobra.Command, error) {
 		Short:            "k8sinfra provides a cmdline interface for generating k8s-infra types from Azure deployment template schema",
 		TraverseChildren: true,
 	}
+
+	rootCmd.Flags().SortFlags = false
 
 	var cfgFile string
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (defaults are ./config.yaml, $HOME/.k8sinfra/config.yaml, /etc/k8sinfra/config.yaml)")

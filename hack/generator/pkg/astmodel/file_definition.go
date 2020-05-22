@@ -11,7 +11,7 @@ import (
 	"go/format"
 	"go/parser"
 	"go/token"
-	"log"
+	"k8s.io/klog/v2"
 	"os"
 	"sort"
 )
@@ -162,7 +162,7 @@ func (file FileDefinition) SaveTo(filePath string) error {
 	var toFormat ast.Node
 	toFormat, err = parser.ParseFile(fset, filePath, &buffer, parser.ParseComments)
 	if err != nil {
-		log.Printf("Failed to reformat code (%s); keeping code as is.", err)
+		klog.Errorf("Failed to reformat code (%s); keeping code as is.", err)
 		toFormat = original
 	}
 

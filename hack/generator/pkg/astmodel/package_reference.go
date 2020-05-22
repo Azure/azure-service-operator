@@ -7,7 +7,6 @@ package astmodel
 
 import (
 	"fmt"
-	"path/filepath"
 	"strings"
 )
 
@@ -23,9 +22,8 @@ type PackageReference struct {
 
 // NewLocalPackageReference Creates a new local package reference from a group and package name
 func NewLocalPackageReference(groupName string, packageName string) PackageReference {
-	return PackageReference{
-		packagePath: filepath.Join(localPathPrefix, groupName, packageName),
-	}
+	url := localPathPrefix + groupName + "/" + packageName
+	return PackageReference{packagePath: url}
 }
 
 func (pr *PackageReference) isLocalPackage() bool {

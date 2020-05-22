@@ -44,7 +44,6 @@ type Definition interface {
 	// Type returns the type associated with this definition
 	Type() Type
 }
-
 // Type represents something that is a Go type
 type Type interface {
 	HasImports

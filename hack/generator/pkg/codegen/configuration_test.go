@@ -3,9 +3,10 @@
  * Licensed under the MIT license.
  */
 
-package jsonast
+package codegen
 
 import (
+	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 	"testing"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
@@ -30,8 +31,8 @@ func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
 	post := post2019
 	student := student2019
 
-	filter := TypeFilter{Action: IncludeType, Version: "2019*"}
-	config := NewExportConfiguration(&filter)
+	filter := jsonast.TypeFilter{Action: jsonast.IncludeType, Version: "2019*"}
+	config := NewConfiguration(&filter)
 
 	g.Expect(config.ShouldExport(person)).To(Equal(Export))
 	g.Expect(config.ShouldExport(post)).To(Equal(Export))
@@ -45,13 +46,13 @@ func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
 	student := student2019
 	address := address2020
 
-	versionFilter := TypeFilter{
-		Action:  IncludeType,
+	versionFilter := jsonast.TypeFilter{
+		Action:  jsonast.IncludeType,
 		Version: "2019*"}
-	nameFilter := TypeFilter{
-		Action: IncludeType,
+	nameFilter := jsonast.TypeFilter{
+		Action: jsonast.IncludeType,
 		Name:   "*ss"}
-	config := NewExportConfiguration(&versionFilter, &nameFilter)
+	config := NewConfiguration(&versionFilter, &nameFilter)
 
 	g.Expect(config.ShouldExport(person)).To(Equal(Export))
 	g.Expect(config.ShouldExport(post)).To(Equal(Export))
@@ -62,13 +63,13 @@ func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
 func Test_WithMultipleFilters_GivesPrecedenceToEarlierFilters(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	alwaysExportPerson := TypeFilter{
-		Action: IncludeType,
+	alwaysExportPerson := jsonast.TypeFilter{
+		Action: jsonast.IncludeType,
 		Name:   "person"}
-	exclude2019 := TypeFilter{
-		Action:  ExcludeType,
+	exclude2019 := jsonast.TypeFilter{
+		Action:  jsonast.ExcludeType,
 		Version: "2019-01-01"}
-	config := NewExportConfiguration(&alwaysExportPerson, &exclude2019)
+	config := NewConfiguration(&alwaysExportPerson, &exclude2019)
 
 	g.Expect(config.ShouldExport(person2019)).To(Equal(Export))
 	g.Expect(config.ShouldExport(student2019)).To(Equal(Skip))

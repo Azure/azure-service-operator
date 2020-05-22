@@ -8,7 +8,7 @@ package jsonast
 import (
 	"context"
 	"fmt"
-	"log"
+	"k8s.io/klog/v2"
 	"net/url"
 	"regexp"
 	"strings"
@@ -464,7 +464,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 			fields = append(fields, astmodel.NewEmbeddedStructDefinition(s))
 
 		default:
-			log.Printf("Unhandled type in allOf: %T\n", d)
+			klog.Errorf("Unhandled type in allOf: %#v\n", d)
 		}
 	}
 
@@ -534,7 +534,7 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 
 	if len(schema.ItemsChildren) == 0 {
 		// there is no type to the elements, so we must assume interface{}
-		log.Printf("WRN Interface assumption unproven\n")
+		klog.Warning("Interface assumption unproven\n")
 
 		return astmodel.NewArrayType(astmodel.AnyType), nil
 	}

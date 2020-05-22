@@ -9,9 +9,10 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"path/filepath"
 	"text/template"
+
+	"k8s.io/klog/v2"
 )
 
 // PackageDefinition is the definition of a package
@@ -33,8 +34,7 @@ func (pkgDef *PackageDefinition) AddDefinition(def Definition) {
 }
 
 // EmitDefinitions emits the PackageDefinition to an output directory
-func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string) error {
-
+func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string) (int, error) {
 	resources, otherDefinitions := partitionDefinitions(pkgDef.definitions)
 
 	// initialize with 1 resource per file
@@ -46,22 +46,27 @@ func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string) error {
 	allocateTypesToFiles(otherDefinitions, filesToGenerate)
 	err := emitFiles(filesToGenerate, outputDir)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
 	err = emitGroupVersionFile(pkgDef, outputDir)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	return nil
+	return len(filesToGenerate), nil
+}
+
+// DefinitionCount returns the count of definitions that have been sorted into this package
+func (pkgDef *PackageDefinition) DefinitionCount() int {
+	return len(pkgDef.definitions)
 }
 
 func emitFiles(filesToGenerate map[string][]Definition, outputDir string) error {
 	for fileName, defs := range filesToGenerate {
 		genFile := NewFileDefinition(defs[0].Reference().PackageReference, defs...)
 		outputFile := filepath.Join(outputDir, fileName+"_types.go")
-		log.Printf("Writing '%s'\n", outputFile)
+		klog.V(5).Infof("Writing '%s'\n", outputFile)
 		err := genFile.SaveTo(outputFile)
 		if err != nil {
 			return fmt.Errorf("error saving definitions to file '%v'(%w)", outputFile, err)
