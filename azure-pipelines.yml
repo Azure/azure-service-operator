@@ -151,14 +151,34 @@ steps:
       tags: |
         $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
 
-  - task: Kubernetes@1
-    displayName: Deploy to AKS - Fetch kubeconfig
+#  - task: Kubernetes@1
+#    displayName: Deploy to AKS - Fetch kubeconfig
+#    inputs:
+#      connectionType: 'Kubernetes Service Connection'
+#      kubernetesServiceEndpoint: 'ASO-AKS'
+#      namespace: $(OPERATOR_NAMESPACE)
+#      command: 'login'
+#      checkLatest: true
+
+  
+  - task: AzureCLI@2
     inputs:
-      connectionType: 'Kubernetes Service Connection'
-      kubernetesServiceEndpoint: 'ASO-AKS'
-      namespace: $(OPERATOR_NAMESPACE)
-      command: 'login'
-      checkLatest: true
+      azureSubscription: 'ASO Subscription'
+      scriptType: 'batch'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az resource list --tag freeforpipeline=true --query '[].{Name:name}' -o table > clusters.txt
+        clustername=$(tail -n 1 clusters.txt)
+        if [ "$clustername" == "" ]
+        then
+        echo AKS clusters unavailable
+        exit 1  
+        fi
+        echo 'az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername)'
+        az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername
+      failOnStandardError: true
+      workingDirectory: $(System.DefaultWorkingDirectory)
+    displayName: Deploy to AKS - Find available AKS cluster and connect to it
 
   - script: |
       kubectl create namespace cert-manager
