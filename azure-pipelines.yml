@@ -137,19 +137,18 @@ steps:
   - task: Docker@2
     displayName: Login to temporary pipeline ACR
     inputs:
-      command: login
-      containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
+      containerRegistry: 'ASO Pipeline ACR'
+      command: 'login'
 
   - task: Docker@2
     displayName: Build and Push Docker Image to temporary ACR for validation
     inputs:
-      command: buildAndPush
-      containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
-      repository: $(IMAGE_NAME)
-      Dockerfile: "$(System.DefaultWorkingDirectory)/Dockerfile"    
-      buildContext: $(System.DefaultWorkingDirectory)
-      tags: |
-        $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+      containerRegistry: 'ASO Pipeline ACR'
+      repository: '$(IMAGE_NAME)'
+      command: 'buildAndPush'
+      Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
+      buildContext: '$(System.DefaultWorkingDirectory)'
+      tags: '$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)'
 
 #  - task: Kubernetes@1
 #    displayName: Deploy to AKS - Fetch kubeconfig
@@ -176,6 +175,8 @@ steps:
         fi
         echo 'az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername)'
         az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername
+        # Set tags to not available for the selected cluster
+
       failOnStandardError: true
       workingDirectory: $(System.DefaultWorkingDirectory)
     displayName: Deploy to AKS - Find available AKS cluster and connect to it
@@ -252,18 +253,18 @@ steps:
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Login to release ACR
     inputs:
-      command: login
-      containerRegistry: $(CONTAINER_REGISTRY)
+      containerRegistry: 'ASO Release ACR'
+      command: 'login'
 
   - task: Docker@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Build and Push Docker Image $(IMAGE_NAME)
     inputs:
-      command: buildAndPush
-      containerRegistry: $(CONTAINER_REGISTRY)
-      repository: $(IMAGE_NAME)
-      Dockerfile: "$(System.DefaultWorkingDirectory)/Dockerfile"    
-      buildContext: $(System.DefaultWorkingDirectory)
+      containerRegistry: 'ASO Release ACR'
+      repository: '$(IMAGE_NAME)'
+      command: 'buildAndPush'
+      Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
+      buildContext: '$(System.DefaultWorkingDirectory)'
       tags: |
         latest
         $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
