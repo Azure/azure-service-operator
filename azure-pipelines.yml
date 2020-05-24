@@ -174,7 +174,7 @@ steps:
         exit 1  
         fi
         echo $clustername
-        echo "##vso[task.setvariable variable=clustername]$clustername"
+        echo "##vso[task.setvariable variable=chosenclustername]$clustername"
         echo 'az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername'
         az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername
         # Set tags to not available for the selected cluster so it doesn't get used
@@ -257,9 +257,11 @@ steps:
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        echo $(clustername)
+        echo "Chosen AKS Cluster name"
+        echo $(chosenclustername)
         # Set tags to available for the selected cluster to put it back into the free pool
-        az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(clustername) --resource-type Microsoft.ContainerService/managedClusters
+        echo "Setting tags back to free"
+        az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
       workingDirectory: '$(System.DefaultWorkingDirectory)'
       failOnStandardError: true
     displayName: Deploy to AKS - Clean up deploument and release cluster back to free pool
