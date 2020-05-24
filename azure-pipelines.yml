@@ -163,7 +163,7 @@ steps:
   - task: AzureCLI@2
     inputs:
       azureSubscription: 'ASO Subscription'
-      scriptType: 'batch'
+      scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
         az resource list --tag freeforpipeline=true --query '[].{Name:name}' -o table > clusters.txt
@@ -176,9 +176,8 @@ steps:
         echo 'az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername)'
         az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername
         # Set tags to not available for the selected cluster
-
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
       failOnStandardError: true
-      workingDirectory: $(System.DefaultWorkingDirectory)
     displayName: Deploy to AKS - Find available AKS cluster and connect to it
 
   - script: |
