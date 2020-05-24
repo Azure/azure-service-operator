@@ -173,9 +173,12 @@ steps:
         echo AKS clusters unavailable
         exit 1  
         fi
-        echo 'az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername)'
+        echo $clustername
+        echo "##vso[task.setvariable variable=clustername]$clustername"
+        echo 'az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername'
         az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername
-        # Set tags to not available for the selected cluster
+        # Set tags to not available for the selected cluster so it doesn't get used
+        az resource tag --tags 'freeforpipeline=false' -g $(AKS_CLUSTER_RG) -n $clustername --resource-type Microsoft.ContainerService/managedClusters
       workingDirectory: '$(System.DefaultWorkingDirectory)'
       failOnStandardError: true
     displayName: Deploy to AKS - Find available AKS cluster and connect to it
@@ -247,6 +250,18 @@ steps:
         kubectl logs -n $(OPERATOR_NAMESPACE) deployment/azureoperator-controller-manager -c manager
  
   ## TODO: Add a Health check task to ensure operator deployed to AKS works
+  
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'ASO Subscription'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        # Set tags to available for the selected cluster to put it back into the free pool
+        az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $clustername --resource-type Microsoft.ContainerService/managedClusters
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
+      failOnStandardError: true
+    displayName: Deploy to AKS - Clean up deploument and release cluster back to free pool
 
   - task: Docker@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
