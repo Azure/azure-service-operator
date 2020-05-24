@@ -257,8 +257,9 @@ steps:
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
+        echo $(clustername)
         # Set tags to available for the selected cluster to put it back into the free pool
-        az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $clustername --resource-type Microsoft.ContainerService/managedClusters
+        az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(clustername) --resource-type Microsoft.ContainerService/managedClusters
       workingDirectory: '$(System.DefaultWorkingDirectory)'
       failOnStandardError: true
     displayName: Deploy to AKS - Clean up deploument and release cluster back to free pool
