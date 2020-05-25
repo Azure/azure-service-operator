@@ -43,7 +43,7 @@ func (prim *PrimitiveType) RequiredImports() []PackageReference {
 }
 
 // References this type has to the given type
-func (prim *PrimitiveType) References(d *DefinitionName) bool {
+func (prim *PrimitiveType) References(d *TypeName) bool {
 	// Primitive types dont have references
 	return false
 }
@@ -57,7 +57,13 @@ func (prim *PrimitiveType) Equals(t Type) bool {
 	return false
 }
 
-// CreateRelatedDefinitions states that primitive types don't have any related definitions
-func (prim *PrimitiveType) CreateRelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
-	return nil
+// CreateInternalDefinitions does nothing as there are no inner types
+func (prim *PrimitiveType) CreateInternalDefinitions(_ *TypeName, _ IdentifierFactory) (Type, []TypeDefiner) {
+	// a primitive type has no internal types that require definition
+	return prim, nil
+}
+
+// CreateDefinitions defines a named type for this primitive
+func (prim *PrimitiveType) CreateDefinitions(name *TypeName, _ IdentifierFactory, _ bool) (TypeDefiner, []TypeDefiner) {
+	return NewSimpleTypeDefiner(name, prim), nil
 }

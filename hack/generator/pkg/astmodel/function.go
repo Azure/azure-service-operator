@@ -11,11 +11,12 @@ import (
 
 // Function represents something that is an (unnamed) Go function
 type Function interface {
-	HasImports
-	ReferenceChecker
+	RequiredImports() []PackageReference
+
+	References(name *TypeName)
 
 	// AsFunc renders the current instance as a Go abstract syntax tree
-	AsFunc(receiver *StructReference, methodName string) *ast.FuncDecl
+	AsFunc(receiver *TypeName, methodName string) *ast.FuncDecl
 
 	// Equals determines if this Function is equal to another one
 	Equals(f Function) bool

@@ -88,6 +88,19 @@ func sanitizePackageName(input string) string {
 	return string(builder)
 }
 
+// transformToSnakeCase transforms a string LikeThis to a snake-case string like_this
+func transformToSnakeCase(input string) string {
+	words := sliceIntoWords(input)
+
+	// my kingdom for LINQ
+	var lowerWords []string
+	for _, word := range words {
+		lowerWords = append(lowerWords, strings.ToLower(word))
+	}
+
+	return strings.Join(lowerWords, "_")
+}
+
 func simplifyName(context string, name string) string {
 	contextWords := sliceIntoWords(context)
 	nameWords := sliceIntoWords(name)

@@ -44,7 +44,7 @@ func runGoldenTest(t *testing.T, path string) {
 
 	// put all definitions in one file, regardless
 	// the package reference isn't really used here
-	fileDef := astmodel.NewFileDefinition(defs[0].Reference().PackageReference, defs...)
+	fileDef := astmodel.NewFileDefinition(defs[0].Name().PackageReference, defs...)
 
 	buf := &bytes.Buffer{}
 	err = fileDef.SaveToWriter(path, buf)

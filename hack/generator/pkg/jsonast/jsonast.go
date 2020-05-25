@@ -8,10 +8,11 @@ package jsonast
 import (
 	"context"
 	"fmt"
-	"k8s.io/klog/v2"
 	"net/url"
 	"regexp"
 	"strings"
+
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/devigned/tab"
@@ -38,22 +39,32 @@ type (
 
 	// A SchemaScanner is used to scan a JSON Schema extracting and collecting type definitions
 	SchemaScanner struct {
-		definitions  map[astmodel.DefinitionName]astmodel.Definition
+		definitions  map[astmodel.TypeName]astmodel.TypeDefiner
 		TypeHandlers map[SchemaType]TypeHandler
 		Filters      []string
 		idFactory    astmodel.IdentifierFactory
 	}
 )
 
-// FindDefinition looks to see if we have seen the specified definiton before, returning its definition if we have.
-func (scanner *SchemaScanner) FindDefinition(ref astmodel.DefinitionName) (astmodel.Definition, bool) {
-	result, ok := scanner.definitions[ref]
+// findTypeDefinition looks to see if we have seen the specified definition before, returning its definition if we have.
+func (scanner *SchemaScanner) findTypeDefinition(name *astmodel.TypeName) (astmodel.TypeDefiner, bool) {
+	result, ok := scanner.definitions[*name]
 	return result, ok
 }
 
-// AddDefinition makes a record of the specified struct so that FindStruct() can return it when it is needed again.
-func (scanner *SchemaScanner) AddDefinition(def astmodel.Definition) {
-	scanner.definitions[*def.Reference()] = def
+// addTypeDefinition adds a type definition to emit later
+func (scanner *SchemaScanner) addTypeDefinition(def astmodel.TypeDefiner) {
+	scanner.definitions[*def.Name()] = def
+}
+
+// addEmptyTypeDefinition adds a placeholder definition; it should always be replaced later
+func (scanner *SchemaScanner) addEmptyTypeDefinition(name *astmodel.TypeName) {
+	scanner.definitions[*name] = nil
+}
+
+// removeTypeDefinition removes a type definition
+func (scanner *SchemaScanner) removeTypeDefinition(name *astmodel.TypeName) {
+	delete(scanner.definitions, *name)
 }
 
 // Definitions for different kinds of JSON schema
@@ -84,7 +95,7 @@ func (use *UnknownSchemaError) Error() string {
 // NewSchemaScanner constructs a new scanner, ready for use
 func NewSchemaScanner(idFactory astmodel.IdentifierFactory) *SchemaScanner {
 	return &SchemaScanner{
-		definitions:  make(map[astmodel.DefinitionName]astmodel.Definition),
+		definitions:  make(map[astmodel.TypeName]astmodel.TypeDefiner),
 		TypeHandlers: DefaultTypeHandlers(),
 		idFactory:    idFactory,
 	}
@@ -141,7 +152,7 @@ func (scanner *SchemaScanner) AddFilters(filters []string) {
 // 							- ARM specific resources. I'm not 100% sure why...
 //
 // 		allOf acts like composition which composites each schema from the child oneOf with the base reference from allOf.
-func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema *gojsonschema.SubSchema, opts ...BuilderOption) ([]astmodel.Definition, error) {
+func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema *gojsonschema.SubSchema, opts ...BuilderOption) ([]astmodel.TypeDefiner, error) {
 	ctx, span := tab.StartSpan(ctx, "ToNodes")
 	defer span.End()
 
@@ -151,49 +162,37 @@ func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema *g
 		}
 	}
 
-	schemaType, err := getSubSchemaType(schema)
-	if err != nil {
-		return nil, err
-	}
-
 	// get initial topic from ID and Title:
 	url := schema.ID.GetUrl()
 	if schema.Title == nil {
 		return nil, fmt.Errorf("Given schema has no Title")
 	}
 
-	rootStructName := *schema.Title
+	rootName := *schema.Title
 
-	rootStructGroup, err := groupOf(url)
+	rootGroup, err := groupOf(url)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to extract group for schema: %w", err)
 	}
 
-	rootStructVersion, err := versionOf(url)
+	rootVersion, err := versionOf(url)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to extract version for schema: %w", err)
 	}
 
-	nodes, err := scanner.RunHandler(ctx, schemaType, schema)
+	rootPackage := astmodel.NewLocalPackageReference(
+		scanner.idFactory.CreateGroupName(rootGroup),
+		scanner.idFactory.CreatePackageNameFromVersion(rootVersion))
+
+	rootTypeName := astmodel.NewTypeName(rootPackage, rootName)
+
+	_, err = generateDefinitionsFor(ctx, scanner, rootTypeName, false, url, schema)
 	if err != nil {
 		return nil, err
 	}
 
-	rootStructRef := astmodel.NewStructReference(
-		scanner.idFactory.CreateIdentifier(rootStructName),
-		scanner.idFactory.CreateGroupName(rootStructGroup),
-		scanner.idFactory.CreatePackageNameFromVersion(rootStructVersion),
-		false)
-
-	// TODO: make safer:
-	root := astmodel.NewStructDefinition(rootStructRef, nodes.(*astmodel.StructType))
-	description := "Generated from: " + url.String()
-	root = root.WithDescription(&description)
-
-	scanner.AddDefinition(root)
-
 	// produce the results
-	var defs []astmodel.Definition
+	var defs []astmodel.TypeDefiner
 	for _, def := range scanner.definitions {
 		defs = append(defs, def)
 	}
@@ -344,7 +343,7 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 		// only generate this field if there are no other fields:
 		if len(fields) == 0 {
 			// TODO: for JSON serialization this needs to be unpacked into "parent"
-			additionalPropsField := astmodel.NewFieldDefinition("additionalProperties", "additionalProperties", astmodel.NewStringMap(astmodel.AnyType))
+			additionalPropsField := astmodel.NewFieldDefinition("additionalProperties", "additionalProperties", astmodel.NewStringMapType(astmodel.AnyType))
 			fields = append(fields, additionalPropsField)
 		}
 	} else if schema.AdditionalProperties != false {
@@ -355,7 +354,7 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 			return nil, err
 		}
 
-		additionalPropsField := astmodel.NewFieldDefinition(astmodel.FieldName("additionalProperties"), "additionalProperties", astmodel.NewStringMap(additionalPropsType))
+		additionalPropsField := astmodel.NewFieldDefinition(astmodel.FieldName("additionalProperties"), "additionalProperties", astmodel.NewStringMapType(additionalPropsType))
 		fields = append(fields, additionalPropsField)
 	}
 
@@ -369,12 +368,8 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 	url := schema.Ref.GetUrl()
 
 	if url.Fragment == expressionFragment {
+		// skip expressions
 		return nil, nil
-	}
-
-	schemaType, err := getSubSchemaType(schema.RefSchema)
-	if err != nil {
-		return nil, err
 	}
 
 	// make a new topic based on the ref URL
@@ -395,52 +390,52 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 
 	isResource := isResource(url)
 
-	// produce a usable struct name:
-	structReference := astmodel.NewStructReference(
-		scanner.idFactory.CreateIdentifier(name),
-		scanner.idFactory.CreateGroupName(group),
-		scanner.idFactory.CreatePackageNameFromVersion(version),
-		isResource)
+	// produce a usable name:
+	typeName := astmodel.NewTypeName(
+		astmodel.NewLocalPackageReference(
+			scanner.idFactory.CreateGroupName(group),
+			scanner.idFactory.CreatePackageNameFromVersion(version)),
+		scanner.idFactory.CreateIdentifier(name))
 
-	if schemaType == Object {
-		// see if we already generated a struct for this ref
-		// TODO: base this on URL?
-		if definition, ok := scanner.FindDefinition(structReference.DefinitionName); ok {
-			return definition.Reference(), nil
-		}
+	return generateDefinitionsFor(ctx, scanner, typeName, isResource, url, schema.RefSchema)
+}
 
-		// Add a placeholder to avoid recursive calls
-		sd := astmodel.NewStructDefinition(structReference, astmodel.NewStructType())
-		scanner.AddDefinition(sd)
-	}
+func generateDefinitionsFor(ctx context.Context, scanner *SchemaScanner, typeName *astmodel.TypeName, isResource bool, url *url.URL, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
 
-	result, err := scanner.RunHandler(ctx, schemaType, schema.RefSchema)
+	schemaType, err := getSubSchemaType(schema)
 	if err != nil {
 		return nil, err
 	}
 
-	// if we got back a struct type, give it a name
-	// (i.e. emit it as a "type X struct {}")
-	// and return that instead
-	if structType, ok := result.(*astmodel.StructType); ok {
-
-		description := "Generated from: " + url.String()
-
-		sd := astmodel.NewStructDefinition(structReference, structType).WithDescription(&description)
-
-		// this will overwrite placeholder added above
-		scanner.AddDefinition(sd)
-
-		// Add any further definitions related to this
-		relatedDefinitions := sd.StructType.CreateRelatedDefinitions(structReference.PackageReference, structReference.Name(), scanner.idFactory)
-		for _, d := range relatedDefinitions {
-			scanner.AddDefinition(d)
-		}
-
-		return sd.Reference(), nil
+	// see if we already generated something for this ref
+	if _, ok := scanner.findTypeDefinition(typeName); ok {
+		return typeName, nil
 	}
 
-	return result, err
+	// Add a placeholder to avoid recursive calls
+	// we will overwrite this later
+	scanner.addEmptyTypeDefinition(typeName)
+
+	result, err := scanner.RunHandler(ctx, schemaType, schema)
+	if err != nil {
+		scanner.removeTypeDefinition(typeName) // we weren't able to generate it, remove placeholder
+		return nil, err
+	}
+
+	// Give the type a name:
+	definer, otherDefs := result.CreateDefinitions(typeName, scanner.idFactory, isResource)
+
+	description := "Generated from: " + url.String()
+	definer = definer.WithDescription(&description)
+
+	// register all definitions
+	scanner.addTypeDefinition(definer)
+	for _, otherDef := range otherDefs {
+		scanner.addTypeDefinition(otherDef)
+	}
+
+	// return the name of the primary type
+	return definer.Name(), nil
 }
 
 func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
@@ -465,7 +460,9 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 			// if it's a struct type get all its fields:
 			fields = append(fields, s.Fields()...)
 
-		case *astmodel.StructReference:
+		case *astmodel.TypeName:
+			// TODO: need to check if this is a reference to a struct type or not
+
 			// if it's a reference to a defined struct, embed it inside:
 			fields = append(fields, astmodel.NewEmbeddedStructDefinition(s))
 

@@ -7,6 +7,7 @@ package codegen
 
 import (
 	"errors"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
@@ -50,7 +51,7 @@ func (config *Configuration) Validate() error {
 
 // ShouldExport tests for whether a given struct should be exported
 // Returns a result indicating whether export should occur as well as a reason for logging
-func (config *Configuration) ShouldExport(definition astmodel.Definition) (result ShouldExportResult, because string) {
+func (config *Configuration) ShouldExport(definition astmodel.TypeDefiner) (result ShouldExportResult, because string) {
 	for _, f := range config.TypeFilters {
 		if f.AppliesToType(definition) {
 			if f.Action == jsonast.ExcludeType {

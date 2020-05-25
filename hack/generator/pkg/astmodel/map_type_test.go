@@ -13,10 +13,10 @@ import (
 
 func TestMapType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 
-	strToStr := NewMap(StringType, StringType)
-	strToBool := NewMap(StringType, BoolType)
-	intToBool := NewMap(IntType, BoolType)
-	otherStrToStr := NewMap(StringType, StringType)
+	strToStr := NewMapType(StringType, StringType)
+	strToBool := NewMapType(StringType, BoolType)
+	intToBool := NewMapType(IntType, BoolType)
+	otherStrToStr := NewMapType(StringType, StringType)
 	otherType := NewArrayType(StringType)
 
 	cases := []struct {

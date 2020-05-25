@@ -15,14 +15,14 @@ type MapType struct {
 	value Type
 }
 
-// NewMap creates a new map with the specified key and value types
-func NewMap(key Type, value Type) *MapType {
+// NewMapType creates a new map with the specified key and value types
+func NewMapType(key Type, value Type) *MapType {
 	return &MapType{key, value}
 }
 
-// NewStringMap creates a new map with string keys and the specified value type
-func NewStringMap(value Type) *MapType {
-	return NewMap(StringType, value)
+// NewStringMapType creates a new map with string keys and the specified value type
+func NewStringMapType(value Type) *MapType {
+	return NewMapType(StringType, value)
 }
 
 // assert that we implemented Type correctly
@@ -45,7 +45,7 @@ func (m *MapType) RequiredImports() []PackageReference {
 }
 
 // References this type has to the given type
-func (m *MapType) References(d *DefinitionName) bool {
+func (m *MapType) References(d *TypeName) bool {
 	return m.key.References(d) || m.value.References(d)
 }
 
@@ -62,12 +62,14 @@ func (m *MapType) Equals(t Type) bool {
 	return false
 }
 
-// CreateRelatedDefinitions returns any definitions required by our key or value types
-func (m *MapType) CreateRelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
-	result := m.key.CreateRelatedDefinitions(ref, namehint, idFactory)
+// CreateInternalDefinitions invokes CreateInCreateInternalDefinitions on both key and map types
+func (m *MapType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
+	newKeyType, keyOtherTypes := m.key.CreateInternalDefinitions(name, idFactory)
+	newValueType, valueOtherTypes := m.value.CreateInternalDefinitions(name, idFactory)
+	return NewMapType(newKeyType, newValueType), append(keyOtherTypes, valueOtherTypes...)
+}
 
-	otherDefinitions := m.value.CreateRelatedDefinitions(ref, namehint, idFactory)
-	result = append(result, otherDefinitions...)
-
-	return result
+// CreateDefinitions defines a named type for this MapType
+func (m *MapType) CreateDefinitions(name *TypeName, _ IdentifierFactory, _ bool) (TypeDefiner, []TypeDefiner) {
+	return NewSimpleTypeDefiner(name, m), nil
 }

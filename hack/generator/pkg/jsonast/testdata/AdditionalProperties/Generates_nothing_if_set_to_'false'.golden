@@ -5,8 +5,10 @@ package v20200101
 
 import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-/* Generated from: https://test.test/schemas/2020-01-01/test.json */
+/*Generated from: https://test.test/schemas/2020-01-01/test.json*/
 type Test struct {
-	Tags *struct {
-	} `json:"tags"`
+	Tags *TestTags `json:"tags"`
+}
+
+type TestTags struct {
 }

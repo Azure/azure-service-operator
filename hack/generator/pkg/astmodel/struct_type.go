@@ -73,7 +73,7 @@ func (structType *StructType) RequiredImports() []PackageReference {
 }
 
 // References this type has to the given type
-func (structType *StructType) References(d *DefinitionName) bool {
+func (structType *StructType) References(d *TypeName) bool {
 	for _, field := range structType.fields {
 		if field.FieldType().References(d) {
 			return true
@@ -141,16 +141,33 @@ func (structType *StructType) Equals(t Type) bool {
 	return false
 }
 
-// CreateRelatedDefinitions implements the HasRelatedDefinitions interface for StructType
-func (structType *StructType) CreateRelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
-	var result []Definition
-	for _, f := range structType.fields {
-		nh := namehint + "." + string(f.fieldName)
-		defns := f.CreateRelatedDefinitions(ref, nh, idFactory)
-		result = append(result, defns...)
+// CreateInternalDefinitions defines a named type for this struct and returns that type to be used in-place
+// of the anonymous struct type. This is needed for controller-gen to work correctly:
+func (structType *StructType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
+	// an internal struct must always be named:
+	definedStruct, otherTypes := structType.CreateDefinitions(name, idFactory, false /* internal structs are never resources */)
+	return definedStruct.Name(), append(otherTypes, definedStruct)
+}
+
+// CreateDefinitions defines a named type for this struct and invokes CreateInternalDefinitions for each field type
+// to instantiate any definitions required by internal types.
+func (structType *StructType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory, isResource bool) (TypeDefiner, []TypeDefiner) {
+
+	var otherTypes []TypeDefiner
+	var newFields []*FieldDefinition
+
+	for _, field := range structType.fields {
+
+		// create definitions for nested types
+		nestedName := name.Name() + string(field.fieldName)
+		nameHint := NewTypeName(name.PackageReference, nestedName)
+		newFieldType, moreTypes := field.fieldType.CreateInternalDefinitions(nameHint, idFactory)
+
+		otherTypes = append(otherTypes, moreTypes...)
+		newFields = append(newFields, field.WithType(newFieldType))
 	}
 
-	return result
+	return NewStructDefinition(name, NewStructType(newFields...), isResource), otherTypes
 }
 
 // WithFunction creates a new StructType with a function (method) attached to it

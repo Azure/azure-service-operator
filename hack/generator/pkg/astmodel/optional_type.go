@@ -35,7 +35,7 @@ func (optional *OptionalType) RequiredImports() []PackageReference {
 }
 
 // References is true if it is this type or the 'element' type references it
-func (optional *OptionalType) References(d *DefinitionName) bool {
+func (optional *OptionalType) References(d *TypeName) bool {
 	return optional.element.References(d)
 }
 
@@ -52,7 +52,13 @@ func (optional *OptionalType) Equals(t Type) bool {
 	return false
 }
 
-// CreateRelatedDefinitions returns any additional definitions that need to be created
-func (optional *OptionalType) CreateRelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
-	return optional.element.CreateRelatedDefinitions(ref, namehint, idFactory)
+// CreateInternalDefinitions invokes CreateInternalDefinitions on the inner type
+func (optional *OptionalType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
+	newElementType, otherTypes := optional.element.CreateInternalDefinitions(name, idFactory)
+	return NewOptionalType(newElementType), otherTypes
+}
+
+// CreateDefinitions defines a named type for this OptionalType
+func (optional *OptionalType) CreateDefinitions(name *TypeName, _ IdentifierFactory, _ bool) (TypeDefiner, []TypeDefiner) {
+	return NewSimpleTypeDefiner(name, optional), nil
 }

@@ -64,6 +64,34 @@ func Test_SliceIntoWords_GivenIdentifier_ReturnsExpectedSlice(t *testing.T) {
 	}
 }
 
+func Test_TransformToSnakeCase_ReturnsExpectedString(t *testing.T) {
+	cases := []struct {
+		string   string
+		expected string
+	}{
+		// Single name doesn't get split
+		{string: "Name", expected: "name"},
+		// Single Acronym doesn't get split
+		{string: "XML", expected: "xml"},
+		// Splits simple words
+		{string: "PascalCase", expected: "pascal_case"},
+		{string: "XmlDocument", expected: "xml_document"},
+		// Correctly splits all-caps acronyms
+		{string: "XMLDocument", expected: "xml_document"},
+		{string: "ResultAsXML", expected: "result_as_xml"},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.string, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			actual := transformToSnakeCase(c.string)
+			g.Expect(actual).To(Equal(c.expected))
+		})
+	}
+}
+
 func Test_SimplifyIdentifier_GivenContextAndName_ReturnsExpectedResult(t *testing.T) {
 	cases := []struct {
 		context    string

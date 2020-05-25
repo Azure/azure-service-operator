@@ -98,13 +98,13 @@ func (generator *CodeGenerator) Generate(ctx context.Context, outputFolder strin
 	return nil
 }
 
-func (generator *CodeGenerator) CreatePackagesForDefinitions(definitions []astmodel.Definition) ([]*astmodel.PackageDefinition, error) {
+func (generator *CodeGenerator) CreatePackagesForDefinitions(definitions []astmodel.TypeDefiner) ([]*astmodel.PackageDefinition, error) {
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
 
 		shouldExport, reason := generator.configuration.ShouldExport(def)
-		defRef := def.Reference()
-		groupName, pkgName, err := defRef.GroupAndPackage()
+		defName := def.Name()
+		groupName, pkgName, err := defName.GroupAndPackage()
 		if err != nil {
 			return nil, err
 		}
@@ -120,7 +120,7 @@ func (generator *CodeGenerator) CreatePackagesForDefinitions(definitions []astmo
 				klog.V(2).Infof("Exporting %s/%s because %s", groupName, pkgName, reason)
 			}
 
-			pkgRef := defRef.PackageReference
+			pkgRef := defName.PackageReference
 			if pkg, ok := packages[pkgRef]; ok {
 				pkg.AddDefinition(def)
 			} else {

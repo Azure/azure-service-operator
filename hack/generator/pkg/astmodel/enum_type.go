@@ -8,6 +8,8 @@ package astmodel
 import (
 	"go/ast"
 	"sort"
+
+	"k8s.io/klog/v2"
 )
 
 // EnumType represents a set of mutually exclusive predefined options
@@ -16,8 +18,6 @@ type EnumType struct {
 	BaseType *PrimitiveType
 	// Options is the set of all unique values
 	options []EnumValue
-	// canonicalName is our actual name, only available once generated, assigned by CreateRelatedDefinitions()
-	canonicalName DefinitionName
 }
 
 // EnumType must implement the Type interface correctly
@@ -34,20 +34,14 @@ func NewEnumType(baseType *PrimitiveType, options []EnumValue) *EnumType {
 
 // AsType implements Type for EnumType
 func (enum *EnumType) AsType() ast.Expr {
-	return ast.NewIdent(enum.canonicalName.name)
+	// this should "never" happen as we name all enums; warn about it if it does
+	klog.Warning("emitting unnamed enum, something’s awry")
+	return enum.BaseType.AsType()
 }
 
-// References indicates whether this Type includes any direct references to the given Type?
-func (enum *EnumType) References(d *DefinitionName) bool {
-	return enum.canonicalName.References(d)
-}
-
-// CreateRelatedDefinitions returns a definition for our enumeration, with a name based on the referencing property
-func (enum *EnumType) CreateRelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
-	identifier := idFactory.CreateEnumIdentifier(namehint)
-	enum.canonicalName = DefinitionName{PackageReference: ref, name: identifier}
-	definition := NewEnumDefinition(enum.canonicalName, enum)
-	return []Definition{definition}
+// References indicates whether this Type includes any direct references to the given Type
+func (enum *EnumType) References(tn *TypeName) bool {
+	return enum.BaseType.References(tn)
 }
 
 // Equals will return true if the supplied type has the same base type and options
@@ -80,7 +74,22 @@ func (enum *EnumType) RequiredImports() []PackageReference {
 	return nil
 }
 
-// Options returns all our options
+// CreateInternalDefinitions defines a named type for this enum and returns that type to be used in place
+// of this "raw" enum type
+func (enum *EnumType) CreateInternalDefinitions(nameHint *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
+	// an internal enum must always be named:
+	definedEnum, otherTypes := enum.CreateDefinitions(nameHint, idFactory, false)
+	return definedEnum.Name(), append(otherTypes, definedEnum)
+}
+
+// CreateDefinitions defines a named type for this "raw" enum type
+func (enum *EnumType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory, _ bool) (TypeDefiner, []TypeDefiner) {
+	identifier := idFactory.CreateEnumIdentifier(name.name)
+	canonicalName := NewTypeName(name.PackageReference, identifier)
+	return NewEnumDefinition(canonicalName, enum), nil
+}
+
+// Options returns all the enum options
 // A copy of the slice is returned to preserve immutability
 func (enum *EnumType) Options() []EnumValue {
 	return append(enum.options[:0:0], enum.options...)

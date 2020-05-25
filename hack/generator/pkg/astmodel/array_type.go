@@ -35,7 +35,7 @@ func (array *ArrayType) RequiredImports() []PackageReference {
 }
 
 // References this type has to the given type
-func (array *ArrayType) References(d *DefinitionName) bool {
+func (array *ArrayType) References(d *TypeName) bool {
 	return array.element.References(d)
 }
 
@@ -52,7 +52,13 @@ func (array *ArrayType) Equals(t Type) bool {
 	return false
 }
 
-// CreateRelatedDefinitions returns any additional definitions that need to be created
-func (array *ArrayType) CreateRelatedDefinitions(ref PackageReference, namehint string, idFactory IdentifierFactory) []Definition {
-	return array.element.CreateRelatedDefinitions(ref, namehint, idFactory)
+// CreateInternalDefinitions invokes CreateInternalDefinitions on the inner 'element' type
+func (array *ArrayType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
+	newElementType, otherTypes := array.element.CreateInternalDefinitions(name, idFactory)
+	return NewArrayType(newElementType), otherTypes
+}
+
+// CreateDefinitions defines a named type for this array type
+func (array *ArrayType) CreateDefinitions(name *TypeName, _ IdentifierFactory, _ bool) (TypeDefiner, []TypeDefiner) {
+	return NewSimpleTypeDefiner(name, array), nil
 }

@@ -40,8 +40,8 @@ type TypeFilter struct {
 }
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
-func (filter *TypeFilter) AppliesToType(definition astmodel.Definition) bool {
-	groupName, packageName, err := definition.Reference().GroupAndPackage()
+func (filter *TypeFilter) AppliesToType(definition astmodel.TypeDefiner) bool {
+	groupName, packageName, err := definition.Name().GroupAndPackage()
 	if err != nil {
 		// TODO: Should this func return an error rather than panic?
 		panic(fmt.Sprintf("%v", err))
@@ -49,7 +49,7 @@ func (filter *TypeFilter) AppliesToType(definition astmodel.Definition) bool {
 
 	result := filter.groupMatches(groupName) &&
 		filter.versionMatches(packageName) &&
-		filter.nameMatches(definition.Reference().Name())
+		filter.nameMatches(definition.Name().Name())
 
 	return result
 }

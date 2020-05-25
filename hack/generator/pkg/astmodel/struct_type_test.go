@@ -23,7 +23,7 @@ func TestStructType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 	reorderedType := NewStructType(knownAsField, familyNameField, fullNameField)
 	shorterType := NewStructType(knownAsField, fullNameField)
 	longerType := NewStructType(fullNameField, familyNameField, knownAsField, genderField)
-	mapType := NewMap(StringType, personType)
+	mapType := NewMapType(StringType, personType)
 
 	cases := []struct {
 		name      string
