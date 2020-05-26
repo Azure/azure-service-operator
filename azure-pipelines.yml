@@ -264,7 +264,7 @@ steps:
         az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
       workingDirectory: '$(System.DefaultWorkingDirectory)'
       failOnStandardError: true
-    displayName: Deploy to AKS - Clean up deploument and release cluster back to free pool
+    displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
 
   - task: Docker@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
