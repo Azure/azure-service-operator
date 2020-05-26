@@ -81,3 +81,15 @@ func GetGoNetworkSubnetClient() (network.SubnetsClient, error) {
 	SubnetsClient.AddToUserAgent(config.UserAgent())
 	return SubnetsClient, nil
 }
+
+// GetBackupLongTermRetentionPoliciesClient retrieves a Subnetclient
+func GetBackupLongTermRetentionPoliciesClient() (sql.BackupLongTermRetentionPoliciesClient, error) {
+	BackupClient := sql.NewBackupLongTermRetentionPoliciesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		return sql.BackupLongTermRetentionPoliciesClient{}, err
+	}
+	BackupClient.Authorizer = a
+	BackupClient.AddToUserAgent(config.UserAgent())
+	return BackupClient, nil
+}

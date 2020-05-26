@@ -5,7 +5,9 @@ package azuresqldb
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
@@ -107,6 +109,42 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 			DatabaseProperties: &dbProp,
 			Tags:               tags,
 		})
+
+	return future.Response(), err
+}
+
+// AddLongTermRetention enables / disables long term retention
+func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, enabledDisabled string) (*http.Response, error) {
+
+	var state sql.BackupLongTermRetentionPolicyState
+	if strings.EqualFold(enabledDisabled, "enabled") {
+		state = sql.Enabled
+	} else if strings.EqualFold(enabledDisabled, "disabled") {
+		state = sql.Disabled
+	} else {
+		return &http.Response{
+			StatusCode: 0,
+		}, fmt.Errorf("State for LongTermRetentionPolicy must be enabled or disabled (or empty)")
+	}
+
+	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient()
+	if err != nil {
+		return &http.Response{
+			StatusCode: 0,
+		}, err
+	}
+
+	future, err := longTermClient.CreateOrUpdate(
+		ctx,
+		resourceGroupName,
+		serverName,
+		databaseName,
+		sql.BackupLongTermRetentionPolicy{
+			BackupLongTermRetentionPolicyProperties: &sql.BackupLongTermRetentionPolicyProperties{
+				State: state,
+			},
+		},
+	)
 
 	return future.Response(), err
 }

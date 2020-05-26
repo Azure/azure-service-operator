@@ -36,5 +36,11 @@ type SqlDbManager interface {
 		resourceGroupName string,
 		serverName string) (result sql.Server, err error)
 
+	AddLongTermRetention(ctx context.Context,
+		resourceGroupName string,
+		serverName string,
+		databaseName string,
+		enabledDisabled string) (*http.Response, error)
+
 	resourcemanager.ARMClient
 }
