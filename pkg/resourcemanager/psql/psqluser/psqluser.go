@@ -64,7 +64,7 @@ func (s *PostgreSqlUserManager) GetDB(ctx context.Context, resourceGroupName str
 	)
 }
 
-// ConnectToSqlDb connects to the SQL db using the given credentials
+// ConnectToSqlDb connects to the PostgreSQL db using the given credentials
 func (s *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, database string, port int, user string, password string) (*sql.DB, error) {
 
 	psqldbdnssuffix := "database.azure.com"
@@ -72,11 +72,11 @@ func (s *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername s
 		psqldbdnssuffix = config.Environment().SQLDatabaseDNSSuffix
 	}
 	//the host or fullserveraddress should be:
-	//for public cloud <server>.mysql.database.azure.com
-	//for China cloud <server>.mysql.database.chinacloudapi.cn
-	//for German cloud <server>.mysql.database.cloudapi.de
-	//for US government <server>.mysql.database.usgovcloudapi.net
-	fullServerAddress := fmt.Sprintf("%s.mysql."+psqldbdnssuffix, server)
+	//for public cloud <server>.postgres.database.azure.com
+	//for China cloud <server>.postgres.database.chinacloudapi.cn
+	//for German cloud <server>.postgres.database.cloudapi.de
+	//for US government <server>.postgres.database.usgovcloudapi.net
+	fullServerAddress := fmt.Sprintf("%s.postgres."+psqldbdnssuffix, server)
 
 	connString := fmt.Sprintf("host=%s user=%s password=%s port=%d dbname=%s sslmode=require connect_timeout=30", fullServerAddress, user, password, port, database)
 
@@ -171,7 +171,7 @@ func (s *PostgreSqlUserManager) UserExists(ctx context.Context, db *sql.DB, user
 
 // DropUser drops a user from db
 func (s *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
-	tsql := fmt.Sprintf("DROP USER %s", user)
+	tsql := fmt.Sprintf("DROP USER IF EXISTS %q", user)
 	_, err := db.ExecContext(ctx, tsql)
 	return err
 }
