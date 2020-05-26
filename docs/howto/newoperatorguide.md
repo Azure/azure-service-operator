@@ -182,7 +182,7 @@ go build -o bin/manager main.go
     - set `instance.Status.Provisioned` to `true` and `instance.Status.Provisioning` to `false`
 
     ```go
-    func (p *AzureNewTypeClient) Ensure(ctx context.Context, obj runtime.Object) (found bool, err error) {
+    func (p *AzureNewTypeClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (found bool, err error) {
             instance, err := p.convert(obj)
             if err != nil {
                 return true, err
@@ -193,7 +193,7 @@ go build -o bin/manager main.go
             return true, nil
         }
 
-        func (p *AzureNewTypeClient) Delete(ctx context.Context, obj runtime.Object) (found bool, err error) {
+        func (p *AzureNewTypeClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (found bool, err error) {
             instance, err := p.convert(obj)
             if err != nil {
                 return true, err

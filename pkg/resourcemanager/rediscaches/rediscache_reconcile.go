@@ -47,7 +47,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 		// succeeded! so end reconcilliation successfully
 		if newRc.ProvisioningState == "Succeeded" {
-			err = rc.ListKeysAndCreateSecrets(groupName, redisName, instance.Spec.SecretName, instance)
+			err = rc.ListKeysAndCreateSecrets(ctx, groupName, redisName, instance.Spec.SecretName, instance)
 			if err != nil {
 				instance.Status.Message = err.Error()
 				return false, err
