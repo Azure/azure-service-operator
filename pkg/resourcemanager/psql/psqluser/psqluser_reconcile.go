@@ -349,7 +349,7 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 	}
 
 	user := string(adminSecret[PSecretUsernameKey]) + "@" + string(instance.Spec.Server)
-	var password = string(adminSecret[PSecretPasswordKey])
+	password := string(adminSecret[PSecretPasswordKey])
 
 	db, err := s.ConnectToSqlDb(ctx, PDriverName, instance.Spec.Server, instance.Spec.DbName, PSqlServerPort, user, password)
 	if err != nil {
@@ -362,7 +362,9 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	exists, err := s.UserExists(ctx, db, user)
+	requestedusername := instance.Spec.Username
+
+	exists, err := s.UserExists(ctx, db, requestedusername)
 	if err != nil {
 		return true, err
 	}
@@ -371,7 +373,7 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, nil
 	}
 
-	err = s.DropUser(ctx, db, user)
+	err = s.DropUser(ctx, db, requestedusername)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser failed with %s", err.Error())
 		return false, err
@@ -382,7 +384,7 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser succeeded")
 
-	return true, nil
+	return false, nil
 }
 
 // GetParents gets the parents of the user
