@@ -236,7 +236,7 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsche
 
 	var values []astmodel.EnumValue
 	for _, v := range schema.Enum {
-		id := scanner.idFactory.CreateIdentifier(v)
+		id := scanner.idFactory.CreateIdentifier(v, astmodel.Exported)
 		values = append(values, astmodel.EnumValue{Identifier: id, Value: v})
 	}
 
@@ -275,7 +275,7 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsc
 }
 
 func generateFieldDefinition(ctx context.Context, scanner *SchemaScanner, prop *gojsonschema.SubSchema) (*astmodel.FieldDefinition, error) {
-	fieldName := scanner.idFactory.CreateFieldName(prop.Property)
+	fieldName := scanner.idFactory.CreateFieldName(prop.Property, astmodel.Exported)
 
 	schemaType, err := getSubSchemaType(prop)
 	if _, ok := err.(*UnknownSchemaError); ok {
@@ -395,7 +395,7 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 		astmodel.NewLocalPackageReference(
 			scanner.idFactory.CreateGroupName(group),
 			scanner.idFactory.CreatePackageNameFromVersion(version)),
-		scanner.idFactory.CreateIdentifier(name))
+		scanner.idFactory.CreateIdentifier(name, astmodel.Exported))
 
 	return generateDefinitionsFor(ctx, scanner, typeName, isResource, url, schema.RefSchema)
 }
@@ -489,7 +489,7 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		}
 
 		if result != nil {
-			results = append(results, result)
+			results = appendIfUniqueType(results, result)
 		}
 	}
 
@@ -497,8 +497,74 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		return results[0], nil
 	}
 
-	// bail out, can't handle this yet:
-	return astmodel.AnyType, nil
+	// If there's more than one option, synthesize a type.
+	// Note that this is required because Kubernetes CRDs do not support OneOf the same way
+	// OpenAPI does, see https://github.com/Azure/k8s-infra/issues/71
+	var fields []*astmodel.FieldDefinition
+
+	for i, t := range results {
+		switch concreteType := t.(type) {
+		case *astmodel.TypeName:
+			// Just a sanity check that we've already scanned this definition
+			// TODO: Could remove this?
+			if _, ok := scanner.findTypeDefinition(concreteType); !ok {
+				return nil, fmt.Errorf("couldn't find struct for definition: %v", concreteType)
+			}
+			fieldName := scanner.idFactory.CreateFieldName(concreteType.Name(), astmodel.Exported)
+
+			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
+			// but we still need it for controller-gen
+			jsonName := scanner.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported)
+			field := astmodel.NewFieldDefinition(fieldName, jsonName, concreteType).MakeOptional()
+			fields = append(fields, field)
+		case *astmodel.EnumType:
+			// TODO: This name sucks but what alternative do we have?
+			name := fmt.Sprintf("enum%v", i)
+			fieldName := scanner.idFactory.CreateFieldName(name, astmodel.Exported)
+
+			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
+			// but we still need it for controller-gen
+			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
+			field := astmodel.NewFieldDefinition(fieldName, jsonName, concreteType).MakeOptional()
+			fields = append(fields, field)
+		case *astmodel.StructType:
+			// TODO: This name sucks but what alternative do we have?
+			name := fmt.Sprintf("object%v", i)
+			fieldName := scanner.idFactory.CreateFieldName(name, astmodel.Exported)
+
+			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
+			// but we still need it for controller-gen
+			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
+			field := astmodel.NewFieldDefinition(fieldName, jsonName, concreteType).MakeOptional()
+			fields = append(fields, field)
+		case *astmodel.PrimitiveType:
+			var primitiveTypeName string
+			if concreteType == astmodel.AnyType {
+				primitiveTypeName = "anything"
+			} else {
+				primitiveTypeName = concreteType.Name()
+			}
+
+			// TODO: This name sucks but what alternative do we have?
+			name := fmt.Sprintf("%v%v", primitiveTypeName, i)
+			fieldName := scanner.idFactory.CreateFieldName(name, astmodel.Exported)
+
+			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
+			// but we still need it for controller-gen
+			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
+			field := astmodel.NewFieldDefinition(fieldName, jsonName, concreteType).MakeOptional()
+			fields = append(fields, field)
+		default:
+			return nil, fmt.Errorf("unexpected oneOf member, type: %T", t)
+		}
+	}
+
+	structType := astmodel.NewStructType(fields...)
+	structType = structType.WithFunction(
+		"MarshalJSON",
+		astmodel.NewOneOfJSONMarshalFunction(structType, scanner.idFactory))
+
+	return structType, nil
 }
 
 func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
@@ -651,4 +717,20 @@ func versionOf(url *url.URL) (string, error) {
 
 	// No version found, that's fine
 	return "", nil
+}
+
+func appendIfUniqueType(slice []astmodel.Type, item astmodel.Type) []astmodel.Type {
+	found := false
+	for _, r := range slice {
+		if r.Equals(item) {
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		slice = append(slice, item)
+	}
+
+	return slice
 }

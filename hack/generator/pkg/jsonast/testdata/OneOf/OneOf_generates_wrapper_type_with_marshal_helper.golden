@@ -1,0 +1,47 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+// This is a generated file. Please do not make manual changes.
+package v20200101
+
+import (
+	"encoding/json"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
+
+/*Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar*/
+type Bar struct {
+	// +kubebuilder:validation:Required
+	Size int `json:"size"`
+}
+
+/*Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz*/
+type Baz struct {
+	// +kubebuilder:validation:Required
+	Enabled bool `json:"enabled"`
+}
+
+/*Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo*/
+type Foo struct {
+	Name *string `json:"name"`
+}
+
+/*Generated from: https://test.test/schemas/2020-01-01/test.json*/
+type Test struct {
+	Bar *Bar `json:"bar"`
+	Baz *Baz `json:"baz"`
+	Foo *Foo `json:"foo"`
+}
+
+// MarshalJSON defers JSON marshaling to the first non-nil property, because Test represents a discriminated union (JSON OneOf)
+func (test Test) MarshalJSON() ([]byte, error) {
+	if test.Bar != nil {
+		return json.Marshal(test.Bar)
+	}
+	if test.Baz != nil {
+		return json.Marshal(test.Baz)
+	}
+	if test.Foo != nil {
+		return json.Marshal(test.Foo)
+	}
+	return nil, nil
+}

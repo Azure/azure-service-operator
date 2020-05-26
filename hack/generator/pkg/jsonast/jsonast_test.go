@@ -26,7 +26,7 @@ func runGoldenTest(t *testing.T, path string) {
 	g := goldie.New(t)
 	inputFile, err := ioutil.ReadFile(path)
 	if err != nil {
-		t.Fatal(fmt.Errorf("Cannot read golden test input file: %w", err))
+		t.Fatal(fmt.Errorf("cannot read golden test input file: %w", err))
 	}
 
 	loader := gojsonschema.NewSchemaLoader()

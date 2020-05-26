@@ -104,7 +104,7 @@ func (generator *CodeGenerator) CreatePackagesForDefinitions(definitions []astmo
 
 		shouldExport, reason := generator.configuration.ShouldExport(def)
 		defName := def.Name()
-		groupName, pkgName, err := defName.GroupAndPackage()
+		groupName, pkgName, err := defName.PackageReference.GroupAndPackage()
 		if err != nil {
 			return nil, err
 		}

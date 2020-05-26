@@ -13,14 +13,22 @@ import (
 
 func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 	cases := []struct {
-		name     string
-		expected string
+		name       string
+		visibility Visibility
+		expected   string
 	}{
-		{"name", "Name"},
-		{"Name", "Name"},
-		{"$schema", "Schema"},
-		{"my_important_name", "MyImportantName"},
-		{"MediaServices_liveEvents_liveOutputs_childResource", "MediaServicesLiveEventsLiveOutputsChildResource"},
+		{"name", Exported, "Name"},
+		{"Name", Exported, "Name"},
+		{"$schema", Exported, "Schema"},
+		{"my_important_name", Exported, "MyImportantName"},
+		{"MediaServices_liveEvents_liveOutputs_childResource", Exported, "MediaServicesLiveEventsLiveOutputsChildResource"},
+		{"XMLDocument", Exported, "XMLDocument"},
+		{"name", NotExported, "name"},
+		{"Name", NotExported, "name"},
+		{"$schema", NotExported, "schema"},
+		{"my_important_name", NotExported, "myImportantName"},
+		{"MediaServices_liveEvents_liveOutputs_childResource", NotExported, "mediaServicesLiveEventsLiveOutputsChildResource"},
+		{"XMLDocument", NotExported, "xmlDocument"},
 	}
 
 	idfactory := NewIdentifierFactory()
@@ -30,7 +38,7 @@ func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
-			identifier := idfactory.CreateIdentifier(c.name)
+			identifier := idfactory.CreateIdentifier(c.name, c.visibility)
 			g.Expect(identifier).To(Equal(c.expected))
 		})
 	}
@@ -51,6 +59,9 @@ func Test_SliceIntoWords_GivenIdentifier_ReturnsExpectedSlice(t *testing.T) {
 		// Correctly splits all-caps acronyms
 		{identifier: "XMLDocument", expected: []string{"XML", "Document"}},
 		{identifier: "ResultAsXML", expected: []string{"Result", "As", "XML"}},
+		// Correctly splits strings that already have spaces
+		{identifier: "AlreadyHas spaces", expected: []string{"Already", "Has", "spaces"}},
+		{identifier: "AlreadyHas spaces    ", expected: []string{"Already", "Has", "spaces"}},
 	}
 
 	for _, c := range cases {
@@ -79,6 +90,9 @@ func Test_TransformToSnakeCase_ReturnsExpectedString(t *testing.T) {
 		// Correctly splits all-caps acronyms
 		{string: "XMLDocument", expected: "xml_document"},
 		{string: "ResultAsXML", expected: "result_as_xml"},
+		// Correctly transforms strings with spaces
+		{string: "AlreadyHas spaces", expected: "already_has_spaces"},
+		{string: "AlreadyHas spaces    ", expected: "already_has_spaces"},
 	}
 
 	for _, c := range cases {

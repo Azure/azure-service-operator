@@ -11,12 +11,20 @@ import (
 	"unicode"
 )
 
+// \W is all non-word characters (https://golang.org/pkg/regexp/syntax/)
 var filterRegex = regexp.MustCompile(`[\W_]`)
+
+type Visibility string
+
+const (
+	Exported    = Visibility("exported")
+	NotExported = Visibility("notexported")
+)
 
 // IdentifierFactory is a factory for creating Go identifiers from Json schema names
 type IdentifierFactory interface {
-	CreateIdentifier(name string) string
-	CreateFieldName(fieldName string) FieldName
+	CreateIdentifier(name string, visibility Visibility) string
+	CreateFieldName(fieldName string, visibility Visibility) FieldName
 	CreatePackageNameFromVersion(version string) string
 	CreateGroupName(name string) string
 	// CreateEnumIdentifier generates the canonical name for an enumeration
@@ -39,21 +47,37 @@ func NewIdentifierFactory() IdentifierFactory {
 }
 
 // CreateIdentifier returns a valid Go public identifier
-func (factory *identifierFactory) CreateIdentifier(name string) string {
+func (factory *identifierFactory) CreateIdentifier(name string, visibility Visibility) string {
 	if identifier, ok := factory.renames[name]; ok {
-		return identifier
+		// Just lowercase the first character according to visibility
+		r := []rune(identifier)
+		if visibility == NotExported {
+			r[0] = unicode.ToLower(r[0])
+		} else {
+			r[0] = unicode.ToUpper(r[0])
+		}
+		return string(r)
 	}
 
 	// replace with spaces so titlecasing works nicely
 	clean := filterRegex.ReplaceAllLiteralString(name, " ")
 
-	titled := strings.Title(clean)
-	result := strings.ReplaceAll(titled, " ", "")
+	cleanWords := sliceIntoWords(clean)
+	var caseCorrectedWords []string
+	for i, word := range cleanWords {
+		if visibility == NotExported && i == 0 {
+			caseCorrectedWords = append(caseCorrectedWords, strings.ToLower(word))
+		} else {
+			caseCorrectedWords = append(caseCorrectedWords, strings.Title(word))
+		}
+	}
+
+	result := strings.Join(caseCorrectedWords, "")
 	return result
 }
 
-func (factory *identifierFactory) CreateFieldName(fieldName string) FieldName {
-	id := factory.CreateIdentifier(fieldName)
+func (factory *identifierFactory) CreateFieldName(fieldName string, visibility Visibility) FieldName {
+	id := factory.CreateIdentifier(fieldName, visibility)
 	return FieldName(id)
 }
 
@@ -72,7 +96,7 @@ func (factory *identifierFactory) CreateGroupName(group string) string {
 }
 
 func (factory *identifierFactory) CreateEnumIdentifier(namehint string) string {
-	return factory.CreateIdentifier(namehint)
+	return factory.CreateIdentifier(namehint, Exported)
 }
 
 // sanitizePackageName removes all non-alphanum characters and converts to lower case
@@ -128,16 +152,23 @@ func simplifyName(context string, name string) string {
 }
 
 func sliceIntoWords(identifier string) []string {
+	// Trim any leading and trailing spaces to make our life easier later
+	identifier = strings.Trim(identifier, " ")
+
 	var result []string
 	chars := []rune(identifier)
 	lastStart := 0
 	for i := range chars {
 		preceedingLower := i > 0 && unicode.IsLower(chars[i-1])
 		succeedingLower := i+1 < len(chars) && unicode.IsLower(chars[i+1])
+		isSpace := unicode.IsSpace(chars[i])
 		foundUpper := unicode.IsUpper(chars[i])
 		if i > lastStart && foundUpper && (preceedingLower || succeedingLower) {
 			result = append(result, string(chars[lastStart:i]))
 			lastStart = i
+		} else if i > lastStart && isSpace {
+			result = append(result, string(chars[lastStart:i]))
+			lastStart = i + 1 // skip the space
 		}
 	}
 

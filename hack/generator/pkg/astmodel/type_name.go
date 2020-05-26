@@ -9,8 +9,8 @@ import "go/ast"
 
 // TypeName is a name associated with another Type (it also is usable as a Type)
 type TypeName struct {
-	PackageReference
-	name string
+	PackageReference PackageReference
+	name             string
 }
 
 // NewTypeName is a factory method for creating a TypeName

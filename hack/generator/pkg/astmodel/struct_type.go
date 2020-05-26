@@ -167,7 +167,12 @@ func (structType *StructType) CreateDefinitions(name *TypeName, idFactory Identi
 		newFields = append(newFields, field.WithType(newFieldType))
 	}
 
-	return NewStructDefinition(name, NewStructType(newFields...), isResource), otherTypes
+	newStructType := NewStructType(newFields...)
+	for functionName, function := range structType.functions {
+		newStructType.functions[functionName] = function
+	}
+
+	return NewStructDefinition(name, newStructType, isResource), otherTypes
 }
 
 // WithFunction creates a new StructType with a function (method) attached to it

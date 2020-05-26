@@ -17,11 +17,11 @@ build: tidy fmt vet lint ; $(info $(M) buiding ./bin/$(APP))
 
 .PHONY: lint
 lint: $(GOLANGCI_LINT) ; $(info $(M) running golangci configured linters…) ## Lint codebase
-	$(Q) $(GOLANGCI_LINT) run -v --timeout 5m
+	$(Q) $(GOLANGCI_LINT) run -v
 
 .PHONY: lint-full
 lint-full: $(GOLANGCI_LINT) ; $(info $(M) running golangci configured linters…) ## Run slower linters to detect possible issues
-	$(Q) $(GOLANGCI_LINT) run -v --fast=false --timeout 5m
+	$(Q) $(GOLANGCI_LINT) run -v --fast=false
 
 
 .PHONY: fmt
