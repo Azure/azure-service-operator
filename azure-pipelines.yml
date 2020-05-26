@@ -2,7 +2,6 @@ trigger:
   branches:
     include:
     - master
-    - pipeline-updates
 
 resources:
 - repo: self
