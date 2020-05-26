@@ -122,3 +122,6 @@ resources:
 - group: azure
   version: v1alpha1
   kind: RedisCacheAction
+- group: azure
+  kind: AzureVirtualMachineExtension
+  version: v1alpha1
