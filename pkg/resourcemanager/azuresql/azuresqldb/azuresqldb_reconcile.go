@@ -61,6 +61,14 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	dbGet, err := db.GetDB(ctx, groupName, server, dbName)
 	if err == nil {
 
+		// optionally set the long term retention policy
+		if instance.Spec.LongTermRetention != "" {
+			_, err = db.AddLongTermRetention(ctx, groupName, server, dbName, instance.Spec.LongTermRetention)
+			if err != nil {
+				return false, err
+			}
+		}
+
 		// db exists, we have successfully provisioned everything
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
