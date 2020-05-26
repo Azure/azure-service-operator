@@ -100,7 +100,30 @@ func (m *Manager) CreateAppInsights(
 			},
 		},
 	)
+
 	return &result, err
+}
+
+// StoreSecrets upserts the secret information for this app insight
+func (m *Manager) StoreSecrets(ctx context.Context, resourceGroupName string, appInsightsName string, instrumentationKey string, instance *v1alpha1.AppInsights) error {
+
+	// build the connection string
+	data := map[string][]byte{
+		"AppInsightsName": []byte(appInsightsName),
+	}
+	data["instrumentationKey"] = []byte(instrumentationKey)
+
+	// upsert
+	key := types.NamespacedName{
+		Name:      fmt.Sprintf("appinsights-%s-%s", resourceGroupName, appInsightsName),
+		Namespace: instance.Namespace,
+	}
+	return m.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(m.Scheme),
+	)
 }
 
 // Ensure checks the desired state of the operator
@@ -118,6 +141,21 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 		instance.Status.State = *comp.ProvisioningState
 
 		if *comp.ProvisioningState == "Succeeded" {
+
+			// upsert instrumentation key
+			if comp.ApplicationInsightsComponentProperties != nil {
+				properties := *comp.ApplicationInsightsComponentProperties
+				err = m.StoreSecrets(ctx,
+					instance.Spec.ResourceGroup,
+					instance.Name,
+					*properties.InstrumentationKey,
+					instance,
+				)
+				if err != nil {
+					return false, err
+				}
+			}
+
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
