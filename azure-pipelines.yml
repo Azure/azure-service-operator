@@ -80,6 +80,7 @@ steps:
   
   - script: |
       set -e
+      git --no-pager diff master --name-only | grep -v "^docs\/" | wc -l
       changevar=$(git --no-pager diff master --name-only | grep -v "^docs\/" | wc -l)
       echo $changevar
       if [ $changevar -eq 0 ]
