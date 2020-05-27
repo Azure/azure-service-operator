@@ -9,7 +9,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -20,57 +20,50 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 		opt(options)
 	}
 
-	actionInstance, err := m.convert(obj)
+	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
 	}
 
 	// never re-provision an action
-	if actionInstance.Status.Provisioned {
+	if instance.Status.Provisioned {
 		return true, nil
 	}
 
-	// get the RedisCache instance to see if it's done provisioning and set it as an owner
-	cacheInstance := &v1alpha1.RedisCache{}
-	cacheName := types.NamespacedName{Name: actionInstance.Spec.CacheName, Namespace: actionInstance.Namespace}
-	err = options.Client.Get(ctx, cacheName, cacheInstance)
-	if err != nil {
-		return false, err
-	}
+	rollAllKeys := instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollAllKeys
 
-	if cacheInstance.Status.FailedProvisioning || cacheInstance.Status.Provisioning {
-		actionInstance.Status.Message = "Waiting for parent RedisCache to finish provisioning"
-		return false, nil
-	}
-
-	rollAllKeys := actionInstance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollAllKeys
-
-	if rollAllKeys || actionInstance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollPrimaryKey {
-		if err = m.RegeneratePrimaryAccessKey(ctx, actionInstance.Spec.ResourceGroup, actionInstance.Spec.CacheName); err != nil {
-			actionInstance.Status.Provisioned = false
-			actionInstance.Status.FailedProvisioning = true
+	if rollAllKeys || instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollPrimaryKey {
+		if err = m.RegeneratePrimaryAccessKey(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName); err != nil {
 			return false, err
 		}
 	}
 
-	if rollAllKeys || actionInstance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollSecondaryKey {
-		if err = m.RegenerateSecondaryAccessKey(ctx, actionInstance.Spec.ResourceGroup, actionInstance.Spec.CacheName); err != nil {
-			actionInstance.Status.Provisioned = false
-			actionInstance.Status.FailedProvisioning = true
+	if rollAllKeys || instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollSecondaryKey {
+		if err = m.RegenerateSecondaryAccessKey(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName); err != nil {
 			return false, err
 		}
 	}
 
 	// regenerate the secret
-	if err = m.ListKeysAndCreateSecrets(ctx, actionInstance.Spec.ResourceGroup, actionInstance.Spec.CacheName, cacheInstance.Spec.SecretName, cacheInstance); err != nil {
-		actionInstance.Status.Provisioned = false
-		actionInstance.Status.FailedProvisioning = true
+	cacheInstance := &v1alpha1.RedisCache{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      instance.Spec.CacheName,
+			Namespace: instance.Namespace,
+		},
+		Spec: v1alpha1.RedisCacheSpec{
+			SecretName:        instance.Spec.SecretName,
+			ResourceGroupName: instance.Spec.ResourceGroup,
+		},
+	}
+	if err = m.ListKeysAndCreateSecrets(ctx, cacheInstance); err != nil {
+		instance.Status.Provisioned = false
+		instance.Status.FailedProvisioning = true
 		return false, err
 	}
 
 	// successful return
-	actionInstance.Status.Provisioned = true
-	actionInstance.Status.FailedProvisioning = false
+	instance.Status.Provisioned = true
+	instance.Status.FailedProvisioning = false
 	return true, nil
 }
 

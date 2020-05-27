@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 const (
@@ -19,7 +18,6 @@ const (
 
 // Options contains the inputs available for passing to Ensure optionally
 type Options struct {
-	Client       client.Client
 	SecretClient secrets.SecretClient
 }
 
@@ -30,13 +28,6 @@ type ConfigOption func(*Options)
 func WithSecretClient(secretClient secrets.SecretClient) ConfigOption {
 	return func(op *Options) {
 		op.SecretClient = secretClient
-	}
-}
-
-// WithClient can be used to pass in a k8s Client
-func WithClient(client client.Client) ConfigOption {
-	return func(op *Options) {
-		op.Client = client
 	}
 }
 

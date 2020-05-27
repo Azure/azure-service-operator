@@ -43,7 +43,12 @@ func (r *AzureRedisManager) ListKeys(ctx context.Context, resourceGroupName stri
 }
 
 // CreateSecrets creates a secret for a redis cache
-func (r *AzureRedisManager) CreateSecrets(ctx context.Context, secretName string, instance *v1alpha1.RedisCache, data map[string][]byte) error {
+func (r *AzureRedisManager) CreateSecrets(ctx context.Context, instance *v1alpha1.RedisCache, data map[string][]byte) error {
+	secretName := instance.Spec.SecretName
+	if secretName == "" {
+		secretName = instance.Name
+	}
+
 	key := types.NamespacedName{Name: secretName, Namespace: instance.Namespace}
 
 	err := r.SecretClient.Upsert(
@@ -61,11 +66,11 @@ func (r *AzureRedisManager) CreateSecrets(ctx context.Context, secretName string
 }
 
 // ListKeysAndCreateSecrets lists keys and creates secrets
-func (r *AzureRedisManager) ListKeysAndCreateSecrets(ctx context.Context, resourceGroupName string, redisCacheName string, secretName string, instance *v1alpha1.RedisCache) error {
+func (r *AzureRedisManager) ListKeysAndCreateSecrets(ctx context.Context, instance *v1alpha1.RedisCache) error {
 	var err error
 	var result redis.AccessKeys
 
-	result, err = r.ListKeys(ctx, resourceGroupName, redisCacheName)
+	result, err = r.ListKeys(ctx, instance.Spec.ResourceGroupName, instance.Name)
 	if err != nil {
 		return err
 	}
@@ -76,7 +81,6 @@ func (r *AzureRedisManager) ListKeysAndCreateSecrets(ctx context.Context, resour
 
 	err = r.CreateSecrets(
 		ctx,
-		secretName,
 		instance,
 		data,
 	)

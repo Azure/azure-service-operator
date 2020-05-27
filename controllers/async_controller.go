@@ -157,8 +157,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 
 	r.Telemetry.LogInfoByInstance("status", "reconciling object", req.String())
 
-	configOptions = append(configOptions, resourcemanager.WithClient(r.Client))
-
 	if len(KeyVaultName) != 0 { //KeyVault was specified in Spec, so use that for secrets
 		configOptions = append(configOptions, resourcemanager.WithSecretClient(keyvaultSecretClient))
 	}
