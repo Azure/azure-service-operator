@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all azureDisk
+// +build all azuredisk
 
 package controllers
 
