@@ -23,12 +23,16 @@ func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 		{"my_important_name", Exported, "MyImportantName"},
 		{"MediaServices_liveEvents_liveOutputs_childResource", Exported, "MediaServicesLiveEventsLiveOutputsChildResource"},
 		{"XMLDocument", Exported, "XMLDocument"},
+		{"this id has spaces", Exported, "ThisIdHasSpaces"},
+		{"this, id, has, spaces", Exported, "ThisIdHasSpaces"},
 		{"name", NotExported, "name"},
 		{"Name", NotExported, "name"},
 		{"$schema", NotExported, "schema"},
 		{"my_important_name", NotExported, "myImportantName"},
 		{"MediaServices_liveEvents_liveOutputs_childResource", NotExported, "mediaServicesLiveEventsLiveOutputsChildResource"},
 		{"XMLDocument", NotExported, "xmlDocument"},
+		{"this id has spaces", NotExported, "thisIdHasSpaces"},
+		{"this, id, has, spaces", NotExported, "thisIdHasSpaces"},
 	}
 
 	idfactory := NewIdentifierFactory()
@@ -61,7 +65,7 @@ func Test_SliceIntoWords_GivenIdentifier_ReturnsExpectedSlice(t *testing.T) {
 		{identifier: "ResultAsXML", expected: []string{"Result", "As", "XML"}},
 		// Correctly splits strings that already have spaces
 		{identifier: "AlreadyHas spaces", expected: []string{"Already", "Has", "spaces"}},
-		{identifier: "AlreadyHas spaces    ", expected: []string{"Already", "Has", "spaces"}},
+		{identifier: "Already   Has  spaces    ", expected: []string{"Already", "Has", "spaces"}},
 	}
 
 	for _, c := range cases {

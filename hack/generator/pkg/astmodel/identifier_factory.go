@@ -166,8 +166,13 @@ func sliceIntoWords(identifier string) []string {
 		if i > lastStart && foundUpper && (preceedingLower || succeedingLower) {
 			result = append(result, string(chars[lastStart:i]))
 			lastStart = i
-		} else if i > lastStart && isSpace {
-			result = append(result, string(chars[lastStart:i]))
+		} else if isSpace {
+			r := string(chars[lastStart:i])
+			r = strings.Trim(r, " ")
+			// If r is entirely spaces... just don't append anything
+			if len(r) != 0 {
+				result = append(result, r)
+			}
 			lastStart = i + 1 // skip the space
 		}
 	}
