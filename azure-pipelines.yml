@@ -10,18 +10,38 @@ pool:
    vmImage: 'ubuntu-latest'
 
 variables:
-  imageRepository: 'manager'
-  containerRegistry: '$(CONTAINER_REGISTRY)'
   tag: '$(Build.BuildId)'
   MAJOR_VERSION: 0
   MINOR_VERSION: 1
   PATCH_VERSION: $(Build.BuildId)
-  GOROOT: '/usr/local/go1.13' # Go installation path
-  MODULE_PATH: '$(System.DefaultWorkingDirectory)/src/$(Build.Repository.Name)' # Path to the module's code
   IMAGE_NAME: 'candidate/k8s/azureserviceoperator'
   ASO_HELM_CHART_NAME: 'candidate/k8s/asohelmchart'
   KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
-  
+
+  # Set these values in Azure Devops variables 
+
+  # AKS_CLUSTER_RG: Name of Resource group where AKS clusters used for testing are present
+  # OPERATOR_NAMESPACE: Namespace in AKS cluster that operator is deployed to (Default: azureoperator-system)
+  # ASO-DEVOPS-MI: Name of Managed Identity to use to deploy the Operator as in AKS
+  # POD-IDENTITY-CLIENTID: ClientID of Managed Identity to use to deploy the Operator as in AKS
+  # AZURE_OPERATOR_KEYVAULT: Keyvault passed to Operator deployment to use for secrets
+  # AZURE_CLIENT_ID: Client ID of Service Principal used to run integration tests on Kind Cluster, login to Helm registry ACR
+  # AZURE_CLIENT_SECRET: Secret for the above Client ID
+  # AZURE_SUBSCRIPTION_ID: Subscription ID that the pipeline runs against
+  # AZURE_TENANT_ID: Tenant ID that the pipeline runs against 
+
+  # Pipeline ACR - Temporary ACR used to hold the image until AKS deploy testing is done.
+  # Release ACR - Only after the deploy test succeeds, the image and helm chart are pushed to the release ACR. 
+  # The release pipeline exposes the images in Release ACR through mcr.microsoft.com
+
+  # CONTAINER_REGISTRY: Service Connection Name for Release ACR.
+  # CONTAINER_REGISTRY_NAME: Name of the Release ACR.
+  # PIPELINE_CONTAINER_REGISTRY: Service Connection Name for temporary ACR used in pipeline. 
+  # PIPELINE_CONTAINER_REGISTRY_NAME: Name of the temporary ACR used in the pipeline.
+
+  # TEST_APIM_NAME: Used in integration tests - Name of the APIM service that is pre-configured.
+  # TEST_APIM_RG: Used in integration tests - Name of the resource group the pre-configured APIM service is in.
+
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
@@ -136,28 +156,18 @@ steps:
   - task: Docker@2
     displayName: Login to temporary pipeline ACR
     inputs:
-      containerRegistry: 'ASO Pipeline ACR'
+      containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
       command: 'login'
 
   - task: Docker@2
     displayName: Build and Push Docker Image to temporary ACR for validation
     inputs:
-      containerRegistry: 'ASO Pipeline ACR'
+      containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
       repository: '$(IMAGE_NAME)'
       command: 'buildAndPush'
       Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
       buildContext: '$(System.DefaultWorkingDirectory)'
       tags: '$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)'
-
-#  - task: Kubernetes@1
-#    displayName: Deploy to AKS - Fetch kubeconfig
-#    inputs:
-#      connectionType: 'Kubernetes Service Connection'
-#      kubernetesServiceEndpoint: 'ASO-AKS'
-#      namespace: $(OPERATOR_NAMESPACE)
-#      command: 'login'
-#      checkLatest: true
-
   
   - task: AzureCLI@2
     inputs:
@@ -247,8 +257,6 @@ steps:
         kubectl describe pods -n $(OPERATOR_NAMESPACE)
         kubectl rollout status deployment/azureoperator-controller-manager -n $(OPERATOR_NAMESPACE) --timeout 120s
         kubectl logs -n $(OPERATOR_NAMESPACE) deployment/azureoperator-controller-manager -c manager
- 
-  ## TODO: Add a Health check task to ensure operator deployed to AKS works
   
   - task: AzureCLI@2
     inputs:
@@ -269,14 +277,14 @@ steps:
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Login to release ACR
     inputs:
-      containerRegistry: 'ASO Release ACR'
+      containerRegistry: $(CONTAINER_REGISTRY)
       command: 'login'
 
   - task: Docker@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Build and Push Docker Image $(IMAGE_NAME)
     inputs:
-      containerRegistry: 'ASO Release ACR'
+      containerRegistry: $(CONTAINER_REGISTRY)
       repository: '$(IMAGE_NAME)'
       command: 'buildAndPush'
       Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
