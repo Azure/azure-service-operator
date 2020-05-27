@@ -177,10 +177,9 @@ steps:
       inlineScript: |
         az resource list --tag freeforpipeline=true --query '[].{Name:name}' -o table > clusters.txt
         clustername=$(tail -n 1 clusters.txt)
-        if [ "$clustername" == "" ]
-        then
-        echo AKS clusters unavailable
-        exit 1  
+        if [ "$clustername" == "" ]; then
+          echo AKS clusters unavailable
+          exit 1
         fi
         echo $clustername
         echo "##vso[task.setvariable variable=chosenclustername]$clustername"
