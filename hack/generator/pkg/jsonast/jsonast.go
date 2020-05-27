@@ -128,7 +128,7 @@ func (scanner *SchemaScanner) AddFilters(filters []string) {
 	scanner.Filters = append(scanner.Filters, filters...)
 }
 
-// ToNodes takes in the resources section of the Azure deployment template schema and returns golang AST Packages
+// GenerateDefinitions takes in the resources section of the Azure deployment template schema and returns golang AST Packages
 //    containing the types described in the schema which match the {resource_type}/{version} filters provided.
 //
 // 		The schema we are working with is something like the following (in yaml for brevity):
@@ -153,7 +153,7 @@ func (scanner *SchemaScanner) AddFilters(filters []string) {
 //
 // 		allOf acts like composition which composites each schema from the child oneOf with the base reference from allOf.
 func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema *gojsonschema.SubSchema, opts ...BuilderOption) ([]astmodel.TypeDefiner, error) {
-	ctx, span := tab.StartSpan(ctx, "ToNodes")
+	ctx, span := tab.StartSpan(ctx, "GenerateDefinitions")
 	defer span.End()
 
 	for _, opt := range opts {
@@ -442,7 +442,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 	ctx, span := tab.StartSpan(ctx, "allOfHandler")
 	defer span.End()
 
-	var fields []*astmodel.FieldDefinition
+	var types []astmodel.Type
 	for _, all := range schema.AllOf {
 
 		d, err := scanner.RunHandlerForSchema(ctx, all)
@@ -450,24 +450,51 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 			return nil, err
 		}
 
-		if d == nil {
-			continue // ignore skipped types
+		if d != nil {
+			types = appendIfUniqueType(types, d)
 		}
+	}
 
-		// unpack the contents of what we got from subhandlers:
-		switch s := d.(type) {
+	if len(types) == 1 {
+		return types[0], nil
+	}
+
+	var handleType func(fields []*astmodel.FieldDefinition, st astmodel.Type) ([]*astmodel.FieldDefinition, error)
+	handleType = func(fields []*astmodel.FieldDefinition, st astmodel.Type) ([]*astmodel.FieldDefinition, error) {
+		switch concreteType := st.(type) {
 		case *astmodel.StructType:
 			// if it's a struct type get all its fields:
-			fields = append(fields, s.Fields()...)
+			fields = append(fields, concreteType.Fields()...)
 
 		case *astmodel.TypeName:
 			// TODO: need to check if this is a reference to a struct type or not
 
-			// if it's a reference to a defined struct, embed it inside:
-			fields = append(fields, astmodel.NewEmbeddedStructDefinition(s))
+			if def, ok := scanner.findTypeDefinition(concreteType); ok {
+				var err error
+				fields, err = handleType(fields, def.Type())
+				if err != nil {
+					return nil, err
+				}
+			} else {
+				return nil, fmt.Errorf("couldn't find definition for: %v", concreteType)
+			}
 
 		default:
-			klog.Errorf("Unhandled type in allOf: %#v\n", d)
+			klog.Errorf("Unhandled type in allOf: %#v\n", concreteType)
+		}
+
+		return fields, nil
+	}
+
+	// If there's more than one option, synthesize a type.
+	var fields []*astmodel.FieldDefinition
+
+	for _, d := range types {
+		// unpack the contents of what we got from subhandlers:
+		var err error
+		fields, err = handleType(fields, d)
+		if err != nil {
+			return nil, err
 		}
 	}
 
@@ -581,7 +608,7 @@ func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		}
 
 		if result != nil {
-			results = append(results, result)
+			results = appendIfUniqueType(results, result)
 		}
 	}
 
@@ -590,6 +617,7 @@ func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 	}
 
 	// return all possibilities...
+	klog.Errorf("Unhandled anyOf type: %v\n", schema.Ref.GetUrl())
 	return astmodel.AnyType, nil
 }
 
@@ -603,7 +631,7 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 
 	if len(schema.ItemsChildren) == 0 {
 		// there is no type to the elements, so we must assume interface{}
-		klog.Warning("Interface assumption unproven\n")
+		klog.Warningf("Interface assumption unproven for %v\n", schema.Ref.GetUrl())
 
 		return astmodel.NewArrayType(astmodel.AnyType), nil
 	}
