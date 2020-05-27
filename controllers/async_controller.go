@@ -176,7 +176,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 	// Implementations of Ensure() tend to set their outcomes in obj.Status
 	err = r.Status().Update(ctx, obj)
 	if err != nil {
-		r.Telemetry.LogInfoByInstance("status", "failed updating status", req.String())
+		r.Telemetry.LogInfoByInstance("status", "failed updating status : "+err.Error(), req.String())
 	}
 
 	final := multierror.Append(ensureErr, r.Update(ctx, obj))

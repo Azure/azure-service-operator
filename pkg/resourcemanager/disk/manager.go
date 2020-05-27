@@ -15,11 +15,6 @@ type DiskManager interface {
 		location string,
 		resourceGroupName string,
 		createOption string,
-		imageId string,
-		imageLun int,
-		sourceResourceId string,
-		sourceUri string,
-		storageAccountId string,
 		diskSizeGB int) (compute.Disk, error)
 
 	DeleteDisk(ctx context.Context,
