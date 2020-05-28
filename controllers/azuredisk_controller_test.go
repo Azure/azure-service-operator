@@ -43,6 +43,35 @@ func TestDiskControllerNoResourceGroup(t *testing.T) {
 	EnsureDelete(ctx, t, tc, diskInstance)
 }
 
+func TestDiskControllerUnsupportedCreateOption(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+
+	rgName := GenerateTestResourceNameWithRandom("rg", 10)
+	diskName := GenerateTestResourceNameWithRandom("vm", 10)
+	diskCreateOption := "FromImage" // Using option that is not supported.
+	var diskSize int32 = 10
+
+	// Create a VM
+	diskInstance := &azurev1alpha1.AzureDisk{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      diskName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.AzureDiskSpec{
+			Location:      tc.resourceGroupLocation,
+			ResourceGroup: rgName,
+			CreateOption:  diskCreateOption,
+			DiskSizeGB:    diskSize,
+		},
+	}
+
+	EnsureInstanceWithResult(ctx, t, tc, diskInstance, "The CreateOption is not yet supported by the operator. Only 'Empty' is supported.", false)
+
+	EnsureDelete(ctx, t, tc, diskInstance)
+}
+
 func TestDiskHappyPath(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)

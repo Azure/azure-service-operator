@@ -6,6 +6,7 @@ package disk
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -13,6 +14,11 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+)
+
+const (
+	// UnsupportedCreateOption : Error message if unsupported CreateOption is supplied.
+	UnsupportedCreateOption string = "The CreateOption is not yet supported by the operator. Only 'Empty' is supported."
 )
 
 func (g *AzureDiskClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
@@ -41,6 +47,15 @@ func (g *AzureDiskClient) Ensure(ctx context.Context, obj runtime.Object, opts .
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *item.ID
 		return true, nil
+	}
+
+	// TODO: Update this validation as support for new CreateOption types is added.
+	// Validate CreateOption. Currently only 'Empty' is supported.
+	if !strings.EqualFold(createOption, "Empty") {
+		instance.Status.Provisioned = false
+		instance.Status.Provisioning = false
+		instance.Status.Message = UnsupportedCreateOption
+		return false, nil
 	}
 
 	future, err := g.CreateDisk(

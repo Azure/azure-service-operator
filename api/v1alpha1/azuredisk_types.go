@@ -17,7 +17,7 @@ type AzureDiskSpec struct {
 	Location      string `json:"location"`
 	ResourceGroup string `json:"resourceGroup"`
 	CreateOption  string `json:"createOption"`
-	DiskSizeGB    int32  `json:"diskSizeGB,omitempty"`
+	DiskSizeGB    int32  `json:"diskSizeGB"`
 }
 
 // +kubebuilder:object:root=true

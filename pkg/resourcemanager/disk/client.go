@@ -5,8 +5,6 @@ package disk
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"strings"
 
 	compute "github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2018-10-01/compute"
@@ -49,15 +47,8 @@ func (m *AzureDiskClient) CreateDisk(ctx context.Context, location string, resou
 			CreationData: &compute.CreationData{
 				CreateOption: diskCreateOption,
 			},
+			DiskSizeGB: &diskSizeGB,
 		},
-	}
-
-	// Validate and assign disk size.
-	if diskSizeGB > 0 {
-		diskAPISpec.DiskSizeGB = &diskSizeGB
-	} else {
-		// TODO: Is there a better pattern to log?
-		log.Println(fmt.Sprintf("%s%d", "DiskSizeGB will not be added as the value is invalid or not supplied:", diskSizeGB))
 	}
 
 	future, err = client.CreateOrUpdate(
