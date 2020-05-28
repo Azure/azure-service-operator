@@ -6,6 +6,7 @@ package azuresqlshared
 import (
 	network "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	sql3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
@@ -83,11 +84,11 @@ func GetGoNetworkSubnetClient() (network.SubnetsClient, error) {
 }
 
 // GetBackupLongTermRetentionPoliciesClient retrieves a Subnetclient
-func GetBackupLongTermRetentionPoliciesClient() (sql.BackupLongTermRetentionPoliciesClient, error) {
-	BackupClient := sql.NewBackupLongTermRetentionPoliciesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+func GetBackupLongTermRetentionPoliciesClient() (sql3.BackupLongTermRetentionPoliciesClient, error) {
+	BackupClient := sql3.NewBackupLongTermRetentionPoliciesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
-		return sql.BackupLongTermRetentionPoliciesClient{}, err
+		return sql3.BackupLongTermRetentionPoliciesClient{}, err
 	}
 	BackupClient.Authorizer = a
 	BackupClient.AddToUserAgent(config.UserAgent())

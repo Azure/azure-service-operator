@@ -40,7 +40,10 @@ type SqlDbManager interface {
 		resourceGroupName string,
 		serverName string,
 		databaseName string,
-		enabledDisabled string) (*http.Response, error)
+		weeklyRetention string,
+		monthlyRetention string,
+		yearlyRetention string,
+		weekOfYear int32) (*http.Response, error)
 
 	resourcemanager.ARMClient
 }
