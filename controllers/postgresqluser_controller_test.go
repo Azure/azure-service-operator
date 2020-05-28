@@ -49,7 +49,7 @@ func TestPostgreSQLUserControllerNoAdminSecret(t *testing.T) {
 	EnsureDelete(ctx, t, tc, postgresqlUser)
 }
 
-func TestAzureSQLUserControllerNoResourceGroup(t *testing.T) {
+func TestPostgreSQLUserControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
