@@ -34,8 +34,8 @@ func TestRedisCacheFirewallRuleControllerNoResourceGroup(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.RedisCacheFirewallRuleSpec{
-			ResourceGroupName: rgName,
-			CacheName:         redisCache,
+			ResourceGroup: rgName,
+			CacheName:     redisCache,
 			Properties: azurev1alpha1.RedisCacheFirewallRuleProperties{
 				StartIP: "0.0.0.0",
 				EndIP:   "0.0.0.0",
@@ -56,7 +56,7 @@ func TestRedisCacheFirewallRuleNoRedisCache(t *testing.T) {
 	var redisCache string
 	var redisCacheFirewallRule string
 
-	rgName = tc.resourceGroupName
+	rgName = GenerateTestResourceNameWithRandom("rcfwr-rg", 10)
 	redisCache = GenerateTestResourceNameWithRandom("rediscache", 10)
 	redisCacheFirewallRule = GenerateTestResourceNameWithRandom("rediscachefirewallrule", 10)
 
@@ -66,8 +66,8 @@ func TestRedisCacheFirewallRuleNoRedisCache(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.RedisCacheFirewallRuleSpec{
-			ResourceGroupName: rgName,
-			CacheName:         redisCache,
+			ResourceGroup: rgName,
+			CacheName:     redisCache,
 			Properties: azurev1alpha1.RedisCacheFirewallRuleProperties{
 				StartIP: "0.0.0.0",
 				EndIP:   "0.0.0.0",

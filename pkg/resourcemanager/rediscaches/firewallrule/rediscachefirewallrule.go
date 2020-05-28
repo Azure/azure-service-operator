@@ -43,7 +43,7 @@ func (r *AzureRedisCacheFirewallRuleManager) CreateRedisCacheFirewallRule(ctx co
 		return redis.FirewallRule{}, err
 	}
 
-	resourceGroup := instance.Spec.resourceGroup
+	resourceGroup := instance.Spec.ResourceGroup
 	redisCacheName := instance.Spec.CacheName
 	firewallRuleName := instance.ObjectMeta.Name
 
