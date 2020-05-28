@@ -149,9 +149,22 @@ func (g *AzureDiskClient) Delete(ctx context.Context, obj runtime.Object, opts .
 		resourceGroup,
 	)
 	if err != nil {
-		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			return true, err
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
 		}
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
+			return false, nil
+		}
+		return true, err
 	}
 
 	if err == nil {
@@ -162,6 +175,7 @@ func (g *AzureDiskClient) Delete(ctx context.Context, obj runtime.Object, opts .
 
 	return true, nil
 }
+
 func (g *AzureDiskClient) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, error) {
 
 	instance, err := g.convert(obj)
