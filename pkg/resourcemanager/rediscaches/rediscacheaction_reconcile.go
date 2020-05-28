@@ -34,12 +34,14 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 
 	if rollAllKeys || instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollPrimaryKey {
 		if err = m.RegeneratePrimaryAccessKey(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName); err != nil {
+			instance.Status.Message = err.Error()
 			return false, err
 		}
 	}
 
 	if rollAllKeys || instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollSecondaryKey {
 		if err = m.RegenerateSecondaryAccessKey(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName); err != nil {
+			instance.Status.Message = err.Error()
 			return false, err
 		}
 	}
@@ -58,12 +60,14 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 	if err = m.ListKeysAndCreateSecrets(ctx, cacheInstance); err != nil {
 		instance.Status.Provisioned = false
 		instance.Status.FailedProvisioning = true
+		instance.Status.Message = err.Error()
 		return false, err
 	}
 
 	// successful return
 	instance.Status.Provisioned = true
 	instance.Status.FailedProvisioning = false
+	instance.Status.Message = resourcemanager.SuccessMsg
 	return true, nil
 }
 
