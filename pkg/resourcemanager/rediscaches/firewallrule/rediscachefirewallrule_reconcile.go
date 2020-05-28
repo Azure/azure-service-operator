@@ -122,16 +122,16 @@ func (fw *AzureRedisCacheFirewallRuleManager) GetParents(obj runtime.Object) ([]
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.ResourceGroup,
+				Name:      instance.Spec.CacheName,
 			},
-			Target: &v1alpha1.ResourceGroup{},
+			Target: &v1alpha1.RedisCache{},
 		},
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.CacheName,
+				Name:      instance.Spec.ResourceGroup,
 			},
-			Target: &v1alpha1.RedisCache{},
+			Target: &v1alpha1.ResourceGroup{},
 		},
 	}, nil
 }
