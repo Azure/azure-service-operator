@@ -134,11 +134,21 @@ func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object, opt
 
 	_, err = db.DeleteDB(ctx, groupName, server, dbName)
 	if err != nil {
-		if errhelp.IsStatusCode204(err) {
-			// Database does not exist
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
+		}
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
 			return false, nil
 		}
-
 		return true, fmt.Errorf("AzureSqlDb delete error %v", err)
 	}
 

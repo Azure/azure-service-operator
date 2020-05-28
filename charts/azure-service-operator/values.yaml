@@ -21,7 +21,7 @@ azureClientSecret: ""
 azureUseMI: False
 
 image:
-  repository: mcr.microsoft.com/k8s/azure-service-operator:0.0.20258
+  repository: mcr.microsoft.com/k8s/azure-service-operator:latest
 
 aad-pod-identity:
   azureIdentityBinding:

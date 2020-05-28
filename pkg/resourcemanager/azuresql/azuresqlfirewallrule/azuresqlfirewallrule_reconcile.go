@@ -80,15 +80,23 @@ func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.O
 
 	err = fw.DeleteSQLFirewallRule(ctx, groupName, server, ruleName)
 	if err != nil {
-		if errhelp.IsStatusCode204(err) {
-			// firewall does not exist
-			return true, nil
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
 		}
-		if errhelp.IsStatusCode404(err) {
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
 			return false, nil
 		}
 		instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Delete failed with %s", err.Error())
-		return false, err
+		return true, err
 	}
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule succeeded")
 	return false, nil

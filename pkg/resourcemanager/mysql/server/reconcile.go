@@ -39,13 +39,13 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		return true, err
 	}
 
-	createmode := "Default"
+	createmode := mysql.CreateModeDefault
 	if len(instance.Spec.CreateMode) != 0 {
-		createmode = instance.Spec.CreateMode
+		createmode = mysql.CreateMode(instance.Spec.CreateMode)
 	}
 
 	// If a replica is requested, ensure that source server is specified
-	if strings.EqualFold(createmode, "replica") {
+	if createmode == mysql.CreateModeReplica {
 		if len(instance.Spec.ReplicaProperties.SourceServerId) == 0 {
 			instance.Status.Message = "Replica requested but source server unspecified"
 			return true, nil
@@ -66,127 +66,132 @@ func (m *MySQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts
 	// convert kube labels to expected tag format
 	labels := helpers.LabelsToTags(instance.GetLabels())
 
-	// Check if this server already exists and its state if it does. This is required
-	// to overcome the issue with the lack of idempotence of the Create call
-	hash := ""
-	server, err := m.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
-	if err != nil {
-		// handle failures in the async operation
-		if instance.Status.PollingURL != "" {
-			pClient := pollclient.NewPollClient()
-			res, err := pClient.Get(ctx, instance.Status.PollingURL)
-			if err != nil {
-				instance.Status.Provisioning = false
-				return false, err
-			}
-
-			if res.Status == "Failed" {
-				instance.Status.Provisioning = false
-				instance.Status.RequestedAt = nil
-				ignore := []string{
-					errhelp.SubscriptionDoesNotHaveServer,
-					errhelp.ServiceBusy,
-				}
-				if !helpers.ContainsString(ignore, res.Error.Code) {
-					instance.Status.Message = res.Error.Error()
-					return true, nil
-				}
-			}
-		}
-	} else {
-		instance.Status.State = string(server.UserVisibleState)
-
-		hash = helpers.Hash256(instance.Spec)
-		if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
-			instance.Status.RequestedAt = nil
-			return true, nil
-		}
-		if server.UserVisibleState == mysql.ServerStateReady {
-			// Update secret with FQ name of the server. We ignore the error.
-			m.UpdateServerNameInSecret(ctx, instance.Name, secret, *server.FullyQualifiedDomainName, instance)
-
-			instance.Status.Provisioned = true
-			instance.Status.Provisioning = false
-			instance.Status.Message = resourcemanager.SuccessMsg
-			instance.Status.ResourceId = *server.ID
-			instance.Status.State = string(server.UserVisibleState)
-			instance.Status.SpecHash = hash
-			return true, nil
-		}
+	hash := helpers.Hash256(instance.Spec)
+	if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
+		instance.Status.RequestedAt = nil
+		return true, nil
+	} else if instance.Status.SpecHash != hash && !instance.Status.Provisioning {
+		instance.Status.Provisioned = false
 	}
 
-	// if the create has been sent with no error we need to wait before calling it again
-	// @todo set an appropriate time since create has been called to retry
 	if instance.Status.Provisioning {
-		return false, nil
-	}
 
-	adminlogin := string(secret["username"])
-	adminpassword := string(secret["password"])
-	skuInfo := mysql.Sku{
-		Name:     to.StringPtr(instance.Spec.Sku.Name),
-		Tier:     mysql.SkuTier(instance.Spec.Sku.Tier),
-		Capacity: to.Int32Ptr(instance.Spec.Sku.Capacity),
-		Size:     to.StringPtr(instance.Spec.Sku.Size),
-		Family:   to.StringPtr(instance.Spec.Sku.Family),
-	}
+		// Check if this server already exists and its state if it does. This is required
+		// to overcome the issue with the lack of idempotence of the Create call
+		server, err := m.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
+		if err != nil {
+			// handle failures in the async operation
+			if instance.Status.PollingURL != "" {
+				pClient := pollclient.NewPollClient()
+				res, err := pClient.Get(ctx, instance.Status.PollingURL)
+				if err != nil {
+					instance.Status.Provisioning = false
+					return false, err
+				}
 
-	pollURL, server, err := m.CreateServerIfValid(
-		ctx,
-		instance.Name,
-		instance.Spec.ResourceGroup,
-		instance.Spec.Location,
-		labels,
-		mysql.ServerVersion(instance.Spec.ServerVersion),
-		mysql.SslEnforcementEnum(instance.Spec.SSLEnforcement),
-		skuInfo,
-		adminlogin,
-		adminpassword,
-		createmode,
-		instance.Spec.ReplicaProperties.SourceServerId,
-	)
-	if err != nil {
-		// let the user know what happened
-		instance.Status.Message = errhelp.StripErrorIDs(err)
-		instance.Status.Provisioning = false
-		azerr := errhelp.NewAzureErrorAzureError(err)
-
-		catchRequeue := []string{
-			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.ParentNotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
-			errhelp.SubscriptionDoesNotHaveServer,
-			errhelp.ServiceBusy,
-		}
-		catchUnrecoverable := []string{
-			errhelp.ProvisioningDisabled,
-			errhelp.LocationNotAvailableForResourceType,
-			errhelp.InvalidRequestContent,
-			errhelp.InternalServerError,
-		}
-
-		// handle the errors
-		if helpers.ContainsString(catchRequeue, azerr.Type) {
-			if azerr.Type == errhelp.AsyncOpIncompleteError {
-				instance.Status.Provisioning = true
-				instance.Status.PollingURL = pollURL
+				if res.Status == "Failed" {
+					instance.Status.Provisioning = false
+					instance.Status.RequestedAt = nil
+					ignore := []string{
+						errhelp.SubscriptionDoesNotHaveServer,
+						errhelp.ServiceBusy,
+					}
+					if !helpers.ContainsString(ignore, res.Error.Code) {
+						instance.Status.Message = res.Error.Error()
+						return true, nil
+					}
+				}
 			}
-			return false, nil
+		} else {
+			instance.Status.State = string(server.UserVisibleState)
+
+			hash = helpers.Hash256(instance.Spec)
+			if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
+				instance.Status.RequestedAt = nil
+				return true, nil
+			}
+			if server.UserVisibleState == mysql.ServerStateReady {
+				// Update secret with FQ name of the server. We ignore the error.
+				m.UpdateServerNameInSecret(ctx, instance.Name, secret, *server.FullyQualifiedDomainName, instance)
+
+				instance.Status.Provisioned = true
+				instance.Status.Provisioning = false
+				instance.Status.Message = resourcemanager.SuccessMsg
+				instance.Status.ResourceId = *server.ID
+				instance.Status.State = string(server.UserVisibleState)
+				instance.Status.SpecHash = hash
+				return true, nil
+			}
 		}
 
-		if helpers.ContainsString(catchUnrecoverable, azerr.Type) {
-			// Unrecoverable error, so stop reconcilation
-			instance.Status.Message = "Reconcilation hit unrecoverable error: " + errhelp.StripErrorIDs(err)
-			return true, nil
-		}
-
-		// reconciliation not done and we don't know what happened
-		return false, err
 	}
 
-	instance.Status.Provisioning = true
-	instance.Status.Message = "Server request submitted to Azure"
+	if !instance.Status.Provisioning && !instance.Status.Provisioned {
+		instance.Status.Provisioning = true
+		instance.Status.FailedProvisioning = false
 
+		adminlogin := string(secret["username"])
+		adminpassword := string(secret["password"])
+		skuInfo := mysql.Sku{
+			Name:     to.StringPtr(instance.Spec.Sku.Name),
+			Tier:     mysql.SkuTier(instance.Spec.Sku.Tier),
+			Capacity: to.Int32Ptr(instance.Spec.Sku.Capacity),
+			Size:     to.StringPtr(instance.Spec.Sku.Size),
+			Family:   to.StringPtr(instance.Spec.Sku.Family),
+		}
+
+		pollURL, _, err := m.CreateServerIfValid(
+			ctx,
+			*instance,
+			labels,
+			skuInfo,
+			adminlogin,
+			adminpassword,
+			createmode,
+			hash,
+		)
+		if err != nil {
+			instance.Status.Message = errhelp.StripErrorIDs(err)
+			instance.Status.Provisioning = false
+
+			azerr := errhelp.NewAzureErrorAzureError(err)
+
+			catchInProgress := []string{
+				errhelp.AsyncOpIncompleteError,
+				errhelp.AlreadyExists,
+			}
+			catchKnownError := []string{
+				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.NotFoundErrorCode,
+				errhelp.ServiceBusy,
+				errhelp.InternalServerError,
+			}
+
+			// handle the errors
+			if helpers.ContainsString(catchInProgress, azerr.Type) {
+				if azerr.Type == errhelp.AsyncOpIncompleteError {
+					instance.Status.PollingURL = pollURL
+				}
+				instance.Status.Message = "Postgres server exists but may not be ready"
+				instance.Status.Provisioning = true
+				return false, nil
+			}
+
+			if helpers.ContainsString(catchKnownError, azerr.Type) {
+				return false, nil
+			}
+
+			// serious error occured, end reconcilliation and mark it as failed
+			instance.Status.Message = errhelp.StripErrorIDs(err)
+			instance.Status.Provisioned = false
+			instance.Status.FailedProvisioning = true
+			return true, nil
+
+		}
+
+		instance.Status.Message = "request submitted to Azure"
+	}
 	return false, nil
 }
 
@@ -209,9 +214,22 @@ func (m *MySQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts
 
 	status, err := m.DeleteServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err != nil {
-		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			return true, err
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
 		}
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
+			return false, nil
+		}
+		return true, err
 	}
 	instance.Status.State = status
 

@@ -32,7 +32,7 @@ func (src *MySQLServer) ConvertTo(dstRaw conversion.Hub) error {
 	dst.Spec.KeyVaultToStoreSecrets = src.Spec.KeyVaultToStoreSecrets
 
 	// New Spec
-	//dst.Spec.StorageProfile = nil
+	dst.Spec.StorageProfile = nil
 
 	// Status
 	dst.Status = v1alpha2.ASOStatus(src.Status)

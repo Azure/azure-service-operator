@@ -50,6 +50,7 @@ import (
 	resourcemanagerblobcontainer "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	resourcemanagerstorageaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmext"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -513,6 +514,25 @@ func setup() error {
 		return err
 	}
 
+	err = (&AzureVirtualMachineExtensionReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: vmext.NewAzureVirtualMachineExtensionClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VirtualMachineExtension",
+				ctrl.Log.WithName("controllers").WithName("VirtualMachineExtension"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("VirtualMachineExtension-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
 	err = (&AzureLoadBalancerReconciler{
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
@@ -749,7 +769,10 @@ func setup() error {
 	// Create the ResourceGroup resource
 	result, _ := resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
 	if result.Response.StatusCode != 204 {
-		_, _ = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+		_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+		if err != nil {
+			return fmt.Errorf("ResourceGroup creation failed")
+		}
 	}
 
 	tc = TestContext{
