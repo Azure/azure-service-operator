@@ -3,6 +3,7 @@ PACKAGE         = github.com/Azure/k8s-infra/hack/generator
 DATE            ?= $(shell date +%FT%T%z)
 VERSION         ?= $(shell git rev-list -1 HEAD)
 SHORT_VERSION   ?= $(shell git rev-parse --short HEAD)
+CRD_OPTIONS ?= "crd:crdVersions=v1"
 
 include ../../tools.mk
 
@@ -12,8 +13,13 @@ Q = $(if $(filter 1,$V),,@)
 .PHONY: all
 all: build test
 
+.PHONY: manifests
+manifests: $(CONTROLLER_GEN)
+	$(Q) $(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./apis/..." output:crd:artifacts:config=config/crd/bases
+
+.PHONY: build
 build: tidy fmt vet lint ; $(info $(M) buiding ./bin/$(APP))
-	$Q $(GO)  build -ldflags "-X $(PACKAGE)/cmd.GitCommit=$(VERSION)" -o ./bin/$(APP)
+	$(Q) $(GO)  build -ldflags "-X $(PACKAGE)/cmd.GitCommit=$(VERSION)" -o ./bin/$(APP)
 
 .PHONY: lint
 lint: $(GOLANGCI_LINT) ; $(info $(M) running golangci configured linters…) ## Lint codebase

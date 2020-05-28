@@ -506,10 +506,15 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 	ctx, span := tab.StartSpan(ctx, "oneOfHandler")
 	defer span.End()
 
+	return generateOneOfUnionType(ctx, schema.OneOf, scanner)
+}
+
+func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubSchema, scanner *SchemaScanner) (astmodel.Type, error) {
+
 	// make sure we visit everything before bailing out,
 	// to get all types generated even if we can't use them
 	var results []astmodel.Type
-	for _, one := range schema.OneOf {
+	for _, one := range subschemas {
 		result, err := scanner.RunHandlerForSchema(ctx, one)
 		if err != nil {
 			return nil, err
@@ -598,27 +603,9 @@ func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 	ctx, span := tab.StartSpan(ctx, "anyOfHandler")
 	defer span.End()
 
-	// again, make sure we walk everything first
-	// to generate types:
-	var results []astmodel.Type
-	for _, any := range schema.AnyOf {
-		result, err := scanner.RunHandlerForSchema(ctx, any)
-		if err != nil {
-			return nil, err
-		}
-
-		if result != nil {
-			results = appendIfUniqueType(results, result)
-		}
-	}
-
-	if len(results) == 1 {
-		return results[0], nil
-	}
-
-	// return all possibilities...
-	klog.Errorf("Unhandled anyOf type: %v\n", schema.Ref.GetUrl())
-	return astmodel.AnyType, nil
+	// See https://github.com/Azure/k8s-infra/issues/111 for details about why this is treated as oneOf
+	klog.Warningf("Handling anyOf type as if it were oneOf: %v\n", schema.Ref.GetUrl())
+	return generateOneOfUnionType(ctx, schema.AnyOf, scanner)
 }
 
 func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
