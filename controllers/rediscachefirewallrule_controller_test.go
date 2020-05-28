@@ -56,7 +56,7 @@ func TestRedisCacheFirewallRuleNoRedisCache(t *testing.T) {
 	var redisCache string
 	var redisCacheFirewallRule string
 
-	rgName = GenerateTestResourceNameWithRandom("rcfwr-rg", 10)
+	rgName = tc.resourceGroupName
 	redisCache = GenerateTestResourceNameWithRandom("rediscache", 10)
 	redisCacheFirewallRule = GenerateTestResourceNameWithRandom("rediscachefirewallrule", 10)
 

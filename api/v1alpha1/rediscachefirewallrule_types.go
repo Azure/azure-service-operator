@@ -16,14 +16,14 @@ type RedisCacheFirewallRuleSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	ResourceGroup string                           `json:"resourceGroup"`
-	CacheName     string                           `json:"redisCache,omitempty"`
-	Properties    RedisCacheFirewallRuleProperties `json:"properties,omitempty"`
+	CacheName     string                           `json:"redisCache"`
+	Properties    RedisCacheFirewallRuleProperties `json:"properties"`
 }
 
 // RedisCacheFirewallRuleProperties the parameters of the RedisCacheFirewallRule
 type RedisCacheFirewallRuleProperties struct {
-	StartIP string `json:"startIP,omitempty"`
-	EndIP   string `json:"endIP,omitempty"`
+	StartIP string `json:"startIP"`
+	EndIP   string `json:"endIP"`
 }
 
 // +kubebuilder:object:root=true
