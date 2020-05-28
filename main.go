@@ -55,6 +55,7 @@ import (
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	vm "github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
+	vmext "github.com/Azure/azure-service-operator/pkg/resourcemanager/vmext"
 	vmss "github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
@@ -738,6 +739,25 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "VirtualMachine")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.AzureVirtualMachineExtensionReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client: mgr.GetClient(),
+			AzureClient: vmext.NewAzureVirtualMachineExtensionClient(
+				secretClient,
+				mgr.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VirtualMachineExtension",
+				ctrl.Log.WithName("controllers").WithName("VirtualMachineExtension"),
+			),
+			Recorder: mgr.GetEventRecorderFor("VirtualMachineExtension-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "VirtualMachineExtension")
 		os.Exit(1)
 	}
 
