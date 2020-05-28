@@ -18,10 +18,10 @@ type RedisCacheFirewallRuleManager interface {
 	CreateRedisCacheFirewallRule(ctx context.Context, instance azurev1alpha1.RedisCacheFirewallRule) (result redis.FirewallRule, err error)
 
 	// Get gets a single firewall rule in a specified redis cache
-	Get(ctx context.Context, resourceGroupName string, redisCacheName string, firewallRuleName string) (err error)
+	Get(ctx context.Context, resourceGroup string, redisCacheName string, firewallRuleName string) (err error)
 
 	// DeleteRedisCacheFirewallRule deletes a server firewall rule
-	DeleteRedisCacheFirewallRule(ctx context.Context, resourceGroupName string, redisCacheName string, firewallRuleName string) (result autorest.Response, err error)
+	DeleteRedisCacheFirewallRule(ctx context.Context, resourceGroup string, redisCacheName string, firewallRuleName string) (result autorest.Response, err error)
 
 	// also embed async client methods
 	resourcemanager.ARMClient

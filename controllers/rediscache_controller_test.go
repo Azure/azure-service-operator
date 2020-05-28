@@ -7,20 +7,13 @@ package controllers
 
 import (
 	"context"
-	"fmt"
-	"log"
-	"strings"
 	"testing"
 	"time"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/stretchr/testify/assert"
 
-	v1 "k8s.io/api/core/v1"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 const longRunningTimeout = 25 * time.Minute
@@ -36,7 +29,7 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 	var redisCacheName string
 	var err error
 
-	rgName = tc.resourceGroupName
+	rgName = tc.resourceGroup
 	rgLocation = tc.resourceGroupLocation
 	redisCacheName = GenerateTestResourceNameWithRandom("rediscache", 10)
 
@@ -47,8 +40,8 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.RedisCacheSpec{
-			Location:          rgLocation,
-			ResourceGroupName: rgName,
+			Location:      rgLocation,
+			ResourceGroup: rgName,
 			Properties: azurev1alpha1.RedisCacheProperties{
 				Sku: azurev1alpha1.RedisCacheSku{
 					Name:     "Basic",

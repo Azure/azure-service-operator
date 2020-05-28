@@ -84,7 +84,7 @@ func (fw *AzureRedisCacheFirewallRuleManager) Delete(ctx context.Context, obj ru
 		return true, err
 	}
 
-	_, err = fw.DeleteRedisCacheFirewallRule(ctx, instance.Spec.ResourceGroupName, instance.Spec.CacheName, instance.ObjectMeta.Name)
+	_, err = fw.DeleteRedisCacheFirewallRule(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName, instance.ObjectMeta.Name)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)

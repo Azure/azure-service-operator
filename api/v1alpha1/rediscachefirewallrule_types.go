@@ -15,9 +15,9 @@ type RedisCacheFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	ResourceGroupName string                           `json:"resourceGroup"`
-	CacheName         string                           `json:"redisCache,omitempty"`
-	Properties        RedisCacheFirewallRuleProperties `json:"properties,omitempty"`
+	ResourceGroup string                           `json:"resourceGroup"`
+	CacheName     string                           `json:"redisCache,omitempty"`
+	Properties    RedisCacheFirewallRuleProperties `json:"properties,omitempty"`
 }
 
 // RedisCacheFirewallRuleProperties the parameters of the RedisCacheFirewallRule
