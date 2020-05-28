@@ -6,7 +6,6 @@ package server
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -37,13 +36,13 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return true, err
 	}
 
-	createmode := string(psql.CreateModeDefault)
+	createmode := psql.CreateModeDefault
 	if len(instance.Spec.CreateMode) != 0 {
-		createmode = instance.Spec.CreateMode
+		createmode = psql.CreateMode(instance.Spec.CreateMode)
 	}
 
 	// If a replica is requested, ensure that source server is specified
-	if strings.EqualFold(createmode, string(psql.CreateModeReplica)) {
+	if createmode == psql.CreateModeReplica {
 		if len(instance.Spec.ReplicaProperties.SourceServerId) == 0 {
 			instance.Status.Message = "Replica requested but source server unspecified"
 			return true, nil
@@ -62,122 +61,132 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	hash := ""
-	// if an error occurs thats ok as it means that it doesn't exist yet
-	getServer, err := p.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
-	if err == nil {
-		instance.Status.State = string(getServer.UserVisibleState)
-
-		hash = helpers.Hash256(instance.Spec)
-		if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
-			instance.Status.RequestedAt = nil
-			return true, nil
-		}
-
-		// succeeded! so end reconcilliation successfully
-		if getServer.UserVisibleState == psql.ServerStateReady {
-
-			// Update the secret with fully qualified server name. Ignore error as we have the admin creds which is critical.
-			p.UpdateSecretWithFullServerName(ctx, instance.Name, secret, instance, *getServer.FullyQualifiedDomainName)
-
-			instance.Status.Message = resourcemanager.SuccessMsg
-			instance.Status.ResourceId = *getServer.ID
-			instance.Status.Provisioned = true
-			instance.Status.Provisioning = false
-			instance.Status.FailedProvisioning = false
-			instance.Status.SpecHash = hash
-			return true, nil
-		}
-
-		// the database exists but has not provisioned yet - so keep waiting
-		instance.Status.Message = "Postgres server exists but may not be ready"
-		return false, nil
-	} else {
-		// handle failures in the async operation
-		if instance.Status.PollingURL != "" {
-			pClient := pollclient.NewPollClient()
-			res, err := pClient.Get(ctx, instance.Status.PollingURL)
-			if err != nil {
-				instance.Status.Provisioning = false
-				return false, err
-			}
-
-			if res.Status == "Failed" {
-				instance.Status.Provisioning = false
-				instance.Status.RequestedAt = nil
-				ignore := []string{
-					errhelp.SubscriptionDoesNotHaveServer,
-					errhelp.ServiceBusy,
-				}
-				if !helpers.ContainsString(ignore, res.Error.Code) {
-					instance.Status.Message = res.Error.Error()
-					return true, nil
-				}
-			}
-		}
-	}
-
-	// setup variables for create call
-	labels := helpers.LabelsToTags(instance.GetLabels())
-	adminlogin := string(secret["username"])
-	adminpassword := string(secret["password"])
-	skuInfo := psql.Sku{
-		Name:     to.StringPtr(instance.Spec.Sku.Name),
-		Tier:     psql.SkuTier(instance.Spec.Sku.Tier),
-		Capacity: to.Int32Ptr(instance.Spec.Sku.Capacity),
-		Size:     to.StringPtr(instance.Spec.Sku.Size),
-		Family:   to.StringPtr(instance.Spec.Sku.Family),
-	}
-
-	// create the server
-	instance.Status.Provisioning = true
-	instance.Status.FailedProvisioning = false
-	pollURL, _, err := p.CreateServerIfValid(
-		ctx,
-		*instance,
-		labels,
-		skuInfo,
-		adminlogin,
-		adminpassword,
-		createmode,
-	)
-	if err != nil {
-		instance.Status.Message = errhelp.StripErrorIDs(err)
-		instance.Status.Provisioning = false
-
-		azerr := errhelp.NewAzureErrorAzureError(err)
-
-		catchInProgress := []string{
-			errhelp.AsyncOpIncompleteError,
-			errhelp.AlreadyExists,
-		}
-		catchKnownError := []string{
-			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.ParentNotFoundErrorCode,
-			errhelp.NotFoundErrorCode,
-			errhelp.ServiceBusy,
-			errhelp.InternalServerError,
-		}
-
-		// handle the errors
-		if helpers.ContainsString(catchInProgress, azerr.Type) {
-			if azerr.Type == errhelp.AsyncOpIncompleteError {
-				instance.Status.PollingURL = pollURL
-			}
-			instance.Status.Message = "Postgres server exists but may not be ready"
-			instance.Status.Provisioning = true
-			return false, nil
-		}
-
-		if helpers.ContainsString(catchKnownError, azerr.Type) {
-			return false, nil
-		}
-
-		// serious error occured, end reconcilliation and mark it as failed
-		instance.Status.Message = errhelp.StripErrorIDs(err)
-		instance.Status.Provisioned = false
-		instance.Status.FailedProvisioning = true
+	hash := helpers.Hash256(instance.Spec)
+	if instance.Status.SpecHash == hash && (instance.Status.Provisioned || instance.Status.FailedProvisioning) {
+		instance.Status.RequestedAt = nil
 		return true, nil
+	} else if instance.Status.SpecHash != hash && !instance.Status.Provisioning {
+		instance.Status.Provisioned = false
+	}
+
+	if instance.Status.Provisioning {
+		// if an error occurs thats ok as it means that it doesn't exist yet
+		getServer, err := p.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
+		if err == nil {
+			instance.Status.State = string(getServer.UserVisibleState)
+
+			// succeeded! so end reconcilliation successfully
+			if getServer.UserVisibleState == psql.ServerStateReady {
+
+				// Update the secret with fully qualified server name. Ignore error as we have the admin creds which is critical.
+				p.UpdateSecretWithFullServerName(ctx, instance.Name, secret, instance, *getServer.FullyQualifiedDomainName)
+
+				instance.Status.Message = resourcemanager.SuccessMsg
+				instance.Status.ResourceId = *getServer.ID
+				instance.Status.Provisioned = true
+				instance.Status.Provisioning = false
+				instance.Status.FailedProvisioning = false
+				instance.Status.SpecHash = hash
+				return true, nil
+			}
+
+			// the database exists but has not provisioned yet - so keep waiting
+			instance.Status.Message = "Postgres server exists but may not be ready"
+			return false, nil
+		} else {
+			// handle failures in the async operation
+			if instance.Status.PollingURL != "" {
+				pClient := pollclient.NewPollClient()
+				res, err := pClient.Get(ctx, instance.Status.PollingURL)
+				if err != nil {
+					instance.Status.Provisioning = false
+					return false, err
+				}
+
+				if res.Status == "Failed" {
+					instance.Status.Provisioning = false
+					instance.Status.RequestedAt = nil
+					ignore := []string{
+						errhelp.SubscriptionDoesNotHaveServer,
+						errhelp.ServiceBusy,
+					}
+					if !helpers.ContainsString(ignore, res.Error.Code) {
+						instance.Status.Message = res.Error.Error()
+						return true, nil
+					}
+				}
+			}
+		}
+	}
+
+	if !instance.Status.Provisioning && !instance.Status.Provisioned {
+		instance.Status.Provisioning = true
+		instance.Status.FailedProvisioning = false
+
+		// setup variables for create call
+		labels := helpers.LabelsToTags(instance.GetLabels())
+		adminlogin := string(secret["username"])
+		adminpassword := string(secret["password"])
+		skuInfo := psql.Sku{
+			Name:     to.StringPtr(instance.Spec.Sku.Name),
+			Tier:     psql.SkuTier(instance.Spec.Sku.Tier),
+			Capacity: to.Int32Ptr(instance.Spec.Sku.Capacity),
+			Size:     to.StringPtr(instance.Spec.Sku.Size),
+			Family:   to.StringPtr(instance.Spec.Sku.Family),
+		}
+
+		// create the server
+		pollURL, _, err := p.CreateServerIfValid(
+			ctx,
+			*instance,
+			labels,
+			skuInfo,
+			adminlogin,
+			adminpassword,
+			createmode,
+			hash,
+		)
+		if err != nil {
+			instance.Status.Message = errhelp.StripErrorIDs(err)
+			instance.Status.Provisioning = false
+
+			azerr := errhelp.NewAzureErrorAzureError(err)
+
+			catchInProgress := []string{
+				errhelp.AsyncOpIncompleteError,
+				errhelp.AlreadyExists,
+			}
+			catchKnownError := []string{
+				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.NotFoundErrorCode,
+				errhelp.ServiceBusy,
+				errhelp.InternalServerError,
+			}
+
+			// handle the errors
+			if helpers.ContainsString(catchInProgress, azerr.Type) {
+				if azerr.Type == errhelp.AsyncOpIncompleteError {
+					instance.Status.PollingURL = pollURL
+				}
+				instance.Status.Message = "Postgres server exists but may not be ready"
+				instance.Status.Provisioning = true
+				return false, nil
+			}
+
+			if helpers.ContainsString(catchKnownError, azerr.Type) {
+				return false, nil
+			}
+
+			// serious error occured, end reconcilliation and mark it as failed
+			instance.Status.Message = errhelp.StripErrorIDs(err)
+			instance.Status.Provisioned = false
+			instance.Status.FailedProvisioning = true
+			return true, nil
+
+		}
+
+		instance.Status.Message = "request submitted to Azure"
 
 	}
 
