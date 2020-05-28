@@ -1,4 +1,4 @@
-# Virtual Machine Operator
+# Disk Operator
 
 This operator deploys an Azure Disk into a specified resource group at the specified location. Users can specify the disk CreateOption and the disk size. Currently the only CreateOption that we support is 'Empty'.
 
