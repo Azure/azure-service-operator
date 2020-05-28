@@ -20,7 +20,10 @@ func (src *AzureSqlDatabase) ConvertTo(dstRaw conversion.Hub) error {
 	dst.Spec.Server = src.Spec.Server
 	dst.Spec.Edition = v1beta1.DBEdition(src.Spec.Edition)
 	dst.Spec.DbName = src.Spec.DbName
-	dst.Spec.LongTermRetention = ""
+	dst.Spec.WeeklyRetention = ""
+	dst.Spec.MonthlyRetention = ""
+	dst.Spec.YearlyRetention = ""
+	dst.Spec.WeekOfYear = 0
 
 	// Status
 	dst.Status = v1beta1.ASOStatus(src.Status)

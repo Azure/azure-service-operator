@@ -7,9 +7,9 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	sql3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
 	"github.com/Azure/go-autorest/autorest"
@@ -114,18 +114,7 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 }
 
 // AddLongTermRetention enables / disables long term retention
-func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, enabledDisabled string) (*http.Response, error) {
-
-	var state sql.BackupLongTermRetentionPolicyState
-	if strings.EqualFold(enabledDisabled, "enabled") {
-		state = sql.Enabled
-	} else if strings.EqualFold(enabledDisabled, "disabled") {
-		state = sql.Disabled
-	} else {
-		return &http.Response{
-			StatusCode: 0,
-		}, fmt.Errorf("State for LongTermRetentionPolicy must be enabled or disabled (or empty)")
-	}
+func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, weeklyRetention string, monthlyRetention string, yearlyRetention string, weekOfYear int32) (*http.Response, error) {
 
 	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient()
 	if err != nil {
@@ -134,14 +123,47 @@ func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGr
 		}, err
 	}
 
+	// validate the input and exit if nothing needs to happen - this is ok!
+	if weeklyRetention == "" && monthlyRetention == "" && yearlyRetention == "" {
+		return &http.Response{
+			StatusCode: 200,
+		}, nil
+	}
+
+	// validate the pairing of yearly retention and week of year
+	if yearlyRetention != "" && (weekOfYear <= 0 || weekOfYear > 52) {
+		return &http.Response{
+			StatusCode: 500,
+		}, fmt.Errorf("weekOfYear must be greater than 0 and less or equal to 52 when yearlyRetention is used")
+	}
+
+	// create pointers so that we can pass nils if needed
+	pWeeklyRetention := &weeklyRetention
+	if weeklyRetention == "" {
+		pWeeklyRetention = nil
+	}
+	pMonthlyRetention := &monthlyRetention
+	if monthlyRetention == "" {
+		pMonthlyRetention = nil
+	}
+	pYearlyRetention := &yearlyRetention
+	pWeekOfYear := &weekOfYear
+	if yearlyRetention == "" {
+		pYearlyRetention = nil
+		pWeekOfYear = nil
+	}
+
 	future, err := longTermClient.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
 		serverName,
 		databaseName,
-		sql.BackupLongTermRetentionPolicy{
-			BackupLongTermRetentionPolicyProperties: &sql.BackupLongTermRetentionPolicyProperties{
-				State: state,
+		sql3.BackupLongTermRetentionPolicy{
+			LongTermRetentionPolicyProperties: &sql3.LongTermRetentionPolicyProperties{
+				WeeklyRetention:  pWeeklyRetention,
+				MonthlyRetention: pMonthlyRetention,
+				YearlyRetention:  pYearlyRetention,
+				WeekOfYear:       pWeekOfYear,
 			},
 		},
 	)
