@@ -23,7 +23,7 @@ func (fw *AzureRedisCacheFirewallRuleManager) Ensure(ctx context.Context, obj ru
 		return true, err
 	}
 
-	fwr, err := fw.Get(ctx, instance.Spec.ResourceGroupName, instance.Spec.CacheName, instance.ObjectMeta.Name)
+	fwr, err := fw.Get(ctx, instance.Spec.resourceGroup, instance.Spec.CacheName, instance.ObjectMeta.Name)
 	if err == nil {
 		instance.Status.Provisioned = true
 		instance.Status.Provisioning = false
@@ -122,7 +122,7 @@ func (fw *AzureRedisCacheFirewallRuleManager) GetParents(obj runtime.Object) ([]
 		{
 			Key: types.NamespacedName{
 				Namespace: instance.Namespace,
-				Name:      instance.Spec.ResourceGroupName,
+				Name:      instance.Spec.resourceGroup,
 			},
 			Target: &v1alpha1.ResourceGroup{},
 		},

@@ -43,7 +43,7 @@ func (r *AzureRedisCacheFirewallRuleManager) CreateRedisCacheFirewallRule(ctx co
 		return redis.FirewallRule{}, err
 	}
 
-	resourceGroupName := instance.Spec.ResourceGroupName
+	resourceGroup := instance.Spec.resourceGroup
 	redisCacheName := instance.Spec.CacheName
 	firewallRuleName := instance.ObjectMeta.Name
 
@@ -55,7 +55,7 @@ func (r *AzureRedisCacheFirewallRuleManager) CreateRedisCacheFirewallRule(ctx co
 	}
 	future, err := firewallRuleClient.CreateOrUpdate(
 		ctx,
-		resourceGroupName,
+		resourceGroup,
 		redisCacheName,
 		firewallRuleName,
 		firewallRuleParameters,
@@ -68,18 +68,18 @@ func (r *AzureRedisCacheFirewallRuleManager) CreateRedisCacheFirewallRule(ctx co
 }
 
 // Get gets a single firewall rule in a specified redis cache
-func (r *AzureRedisCacheFirewallRuleManager) Get(ctx context.Context, resourceGroupName string, redisCacheName string, firewallRuleName string) (result redis.FirewallRule, err error) {
+func (r *AzureRedisCacheFirewallRuleManager) Get(ctx context.Context, resourceGroup string, redisCacheName string, firewallRuleName string) (result redis.FirewallRule, err error) {
 
 	firewallRuleClient, err := getRedisCacheFirewallRuleClient()
 	if err != nil {
 		return redis.FirewallRule{}, err
 	}
 
-	return firewallRuleClient.Get(ctx, resourceGroupName, redisCacheName, firewallRuleName)
+	return firewallRuleClient.Get(ctx, resourceGroup, redisCacheName, firewallRuleName)
 }
 
 // DeleteRedisCacheFirewallRule deletes a redis firewall rule
-func (r *AzureRedisCacheFirewallRuleManager) DeleteRedisCacheFirewallRule(ctx context.Context, resourceGroupName string, redisCacheName string, firewallRuleName string) (result autorest.Response, err error) {
+func (r *AzureRedisCacheFirewallRuleManager) DeleteRedisCacheFirewallRule(ctx context.Context, resourceGroup string, redisCacheName string, firewallRuleName string) (result autorest.Response, err error) {
 	result = autorest.Response{
 		Response: &http.Response{
 			StatusCode: 200,
@@ -89,7 +89,7 @@ func (r *AzureRedisCacheFirewallRuleManager) DeleteRedisCacheFirewallRule(ctx co
 	if err != nil {
 		return result, err
 	}
-	future, err := firewallRuleClient.Delete(ctx, resourceGroupName, redisCacheName, firewallRuleName)
+	future, err := firewallRuleClient.Delete(ctx, resourceGroup, redisCacheName, firewallRuleName)
 	if err != nil {
 		return result, nil
 	}

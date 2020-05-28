@@ -26,12 +26,6 @@ type RedisCacheFirewallRuleProperties struct {
 	EndIP   string `json:"endIP,omitempty"`
 }
 
-// RedisCacheFirewallRuleStatus defines the observed state of RedisCacheFirewallRule
-type RedisCacheFirewallRuleStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-}
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
