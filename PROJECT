@@ -53,6 +53,9 @@ resources:
   kind: PostgreSQLFirewallRule
   version: v1alpha1
 - group: azure
+  kind: PostgreSQLUser
+  version: v1alpha1
+- group: azure
   kind: APIMgmtAPI
   version: v1alpha1
 - group: azure

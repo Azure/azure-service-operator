@@ -547,13 +547,13 @@ func main() {
 			AzureClient: psqlusermanager,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"PSQLUser",
-				ctrl.Log.WithName("controllers").WithName("PSQLUser"),
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLUser"),
 			),
-			Recorder: mgr.GetEventRecorderFor("PSQLUser-controller"),
+			Recorder: mgr.GetEventRecorderFor("PostgreSQLUser-controller"),
 			Scheme:   scheme,
 		},
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "PSQLUser")
+		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLUser")
 		os.Exit(1)
 	}
 

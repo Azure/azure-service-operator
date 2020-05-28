@@ -11,6 +11,7 @@ import (
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/go-autorest/autorest/to"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -61,6 +62,24 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	EnsureInstance(ctx, t, tc, postgreSQLServerInstance)
 
+	postgreSQLFirewallRuleName := GenerateTestResourceNameWithRandom("psql-fwrule", 10)
+
+	// Create the PostgreSQLFirewallRule object and expect the Reconcile to be created
+	postgreSQLFirewallRuleInstance := &azurev1alpha1.PostgreSQLFirewallRule{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      postgreSQLFirewallRuleName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.PostgreSQLFirewallRuleSpec{
+			ResourceGroup:  rgName,
+			Server:         postgreSQLServerName,
+			StartIPAddress: "0.0.0.0",
+			EndIPAddress:   "255.255.255.255",
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, postgreSQLFirewallRuleInstance)
+
 	postgreSQLDatabaseName := GenerateTestResourceNameWithRandom("psql-db", 10)
 
 	// Create the PostgreSQLDatabase object and expect the Reconcile to be created
@@ -77,27 +96,31 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	EnsureInstance(ctx, t, tc, postgreSQLDatabaseInstance)
 
-	EnsureDelete(ctx, t, tc, postgreSQLDatabaseInstance)
+	var postgresqlUser *azurev1alpha1.PostgreSQLUser
 
-	// Test firewall rule -------------------------------
+	// create a psql user and verify it provisions
+	pusername := "psql-test-user" + helpers.RandomString(10)
+	roles := []string{"azure_pg_admin"}
+	keyVaultSecretFormats := []string{"adonet"}
 
-	postgreSQLFirewallRuleName := GenerateTestResourceNameWithRandom("psql-fwrule", 10)
-
-	// Create the PostgreSQLFirewallRule object and expect the Reconcile to be created
-	postgreSQLFirewallRuleInstance := &azurev1alpha1.PostgreSQLFirewallRule{
+	postgresqlUser = &azurev1alpha1.PostgreSQLUser{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      postgreSQLFirewallRuleName,
+			Name:      pusername,
 			Namespace: "default",
 		},
-		Spec: azurev1alpha1.PostgreSQLFirewallRuleSpec{
-			ResourceGroup:  rgName,
-			Server:         postgreSQLServerName,
-			StartIPAddress: "0.0.0.0",
-			EndIPAddress:   "0.0.0.0",
+		Spec: azurev1alpha1.PostgreSQLUserSpec{
+			Server:                postgreSQLServerName,
+			DbName:                postgreSQLDatabaseName,
+			ResourceGroup:         rgName,
+			Roles:                 roles,
+			KeyVaultSecretFormats: keyVaultSecretFormats,
 		},
 	}
 
-	EnsureInstance(ctx, t, tc, postgreSQLFirewallRuleInstance)
+	EnsureInstance(ctx, t, tc, postgresqlUser)
+	EnsureDelete(ctx, t, tc, postgresqlUser)
+
+	EnsureDelete(ctx, t, tc, postgreSQLDatabaseInstance)
 
 	EnsureDelete(ctx, t, tc, postgreSQLFirewallRuleInstance)
 

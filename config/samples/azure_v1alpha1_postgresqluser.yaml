@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: PostgreSQLUser
 metadata:
-  name: psqluser-sample2
+  name: psqluser-sample
 spec:
   server: postgresqlserver-sample
   dbName: postgresqldatabase-sample
@@ -13,11 +13,11 @@ spec:
   roles:
     - "azure_pg_admin"
    # Specify a specific username for the user
-  username: hong
+  username: psqluser-sample
   # Specify adminSecret and adminSecretKeyVault if you want to 
   # read the PSQL server admin creds from a specific keyvault secret
-  adminSecret: default-postgresqlserver-sample
-  adminSecretKeyVault: asokeyvault
+  adminSecret: postgresqlserver-sample
+  # adminSecretKeyVault: asokeyvault
   
   # Use the field below to optionally specify a different keyvault 
   # to store the secrets in

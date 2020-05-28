@@ -312,7 +312,7 @@ go build -o bin/manager main.go
     make install
     ```
 
-    Run controller tests using `make test-existing-controllers` and deploy using `make deploy`
+    Run controller tests using `make test-integration-controllers` and deploy using `make deploy`
 
     If you make changes to the operator and want to update the deployment without recreating the cluster (when testing locally), you can use the `make update` to update your Azure Operator pod. If you need to rebuild the docker image without cache, use `make ARGS="--no-cache" update`
 

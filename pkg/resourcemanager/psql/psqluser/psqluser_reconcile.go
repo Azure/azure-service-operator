@@ -108,8 +108,9 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		instance.Status.Provisioning = false
 
 		// catch firewall issue - keep cycling until it clears up
-		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
-			return false, nil
+		if strings.Contains(err.Error(), "no pg_hba.conf entry for host") {
+			instance.Status.Message = errhelp.StripErrorIDs(err) + "\nThe IP address is not allowed to access the server. Modify the firewall rule to include the IP address."
+			return true, nil
 		}
 
 		// if the database is busy, requeue
@@ -285,7 +286,7 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 	instance.Status.State = "Succeeded"
 	instance.Status.Message = resourcemanager.SuccessMsg
 
-	return true, nil
+	return false, nil
 }
 
 // Delete deletes a user
@@ -354,10 +355,9 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 	db, err := s.ConnectToSqlDb(ctx, PDriverName, instance.Spec.Server, instance.Spec.DbName, PSqlServerPort, user, password)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
-		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
-
-			// there is nothing much we can do here - cycle forever
-			return true, err
+		if strings.Contains(err.Error(), "no pg_hba.conf entry for host") {
+			instance.Status.Message = errhelp.StripErrorIDs(err) + "\nThe IP address is not allowed to access the server. Modify the firewall rule to include the IP address."
+			return true, nil
 		}
 		return false, err
 	}

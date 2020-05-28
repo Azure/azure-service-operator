@@ -55,7 +55,7 @@ func init() {
 	SchemeBuilder.Register(&PostgreSQLUser{}, &PostgreSQLUserList{})
 }
 
-// IsSubmitted checks if sqluser is provisioning
+// IsSubmitted checks if psqluser is provisioning
 func (s *PostgreSQLUser) IsSubmitted() bool {
 	return s.Status.Provisioning || s.Status.Provisioned
 }

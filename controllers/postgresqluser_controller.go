@@ -12,26 +12,26 @@ import (
 // PSqlServerPort is the default server port for psql server
 const PSqlServerPort = 5432
 
-// DriverName is driver name for db connection
+// PDriverName is driver name for db connection
 const PDriverName = "postgres"
 
-// SecretUsernameKey is the username key in secret
+// PSecretUsernameKey is the username key in secret
 const PSecretUsernameKey = "username"
 
-// SecretPasswordKey is the password key in secret
+// PSecretPasswordKey is the password key in secret
 const PSecretPasswordKey = "password"
 
 // PSQLUserFinalizerName is the name of the finalizer
-const PSQLUserFinalizerName = "psqluser.finalizers.azure.com"
+const PSQLUserFinalizerName = "postgresqluser.finalizers.azure.com"
 
 // PostgreSQLUserReconciler reconciles a PSQLUser object
 type PostgreSQLUserReconciler struct {
 	Reconciler *AsyncReconciler
 }
 
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=PostgreSQLUsers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=PostgreSQLUsers/status,verbs=get;update;patch
-
+//Reconcile for postgresqluser
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqlusers,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqlusers/status,verbs=get;update;patch
 func (r *PostgreSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.PostgreSQLUser{})
 }
