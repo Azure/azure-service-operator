@@ -13,10 +13,10 @@ spec:
   roles:
     - "azure_pg_admin"
    # Specify a specific username for the user
-  username: psqluser-sample
+  # username: psqluser-sample
   # Specify adminSecret and adminSecretKeyVault if you want to 
   # read the PSQL server admin creds from a specific keyvault secret
-  adminSecret: postgresqlserver-sample
+  # adminSecret: postgresqlserver-sample
   # adminSecretKeyVault: asokeyvault
   
   # Use the field below to optionally specify a different keyvault 
