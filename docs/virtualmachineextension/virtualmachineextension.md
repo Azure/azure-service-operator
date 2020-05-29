@@ -37,4 +37,4 @@ A Virtual Machine Extension needs the following fields to deploy, along with a l
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.

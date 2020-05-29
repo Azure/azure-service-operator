@@ -47,4 +47,4 @@ After creating an Azure Cache for Redis instance, the operator stores a JSON for
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
