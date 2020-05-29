@@ -16,11 +16,6 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-const (
-	// UnsupportedCreateOption : Error message if unsupported CreateOption is supplied.
-	UnsupportedCreateOption string = "The CreateOption is not yet supported by the operator. Only 'Empty' is supported."
-)
-
 func (g *AzureDiskClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 
 	instance, err := g.convert(obj)
@@ -54,7 +49,7 @@ func (g *AzureDiskClient) Ensure(ctx context.Context, obj runtime.Object, opts .
 	if !strings.EqualFold(createOption, "Empty") {
 		instance.Status.Provisioned = false
 		instance.Status.Provisioning = false
-		instance.Status.Message = UnsupportedCreateOption
+		instance.Status.Message = errhelp.UnsupportedDiskCreateOption
 		return false, nil
 	}
 

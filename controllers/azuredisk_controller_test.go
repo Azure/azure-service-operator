@@ -67,7 +67,7 @@ func TestDiskControllerUnsupportedCreateOption(t *testing.T) {
 		},
 	}
 
-	EnsureInstanceWithResult(ctx, t, tc, diskInstance, "The CreateOption is not yet supported by the operator. Only 'Empty' is supported.", false)
+	EnsureInstanceWithResult(ctx, t, tc, diskInstance, errhelp.UnsupportedDiskCreateOption, false)
 
 	EnsureDelete(ctx, t, tc, diskInstance)
 }
