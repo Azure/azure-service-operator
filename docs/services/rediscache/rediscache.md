@@ -64,4 +64,4 @@ _Note:_ When the `startIP` and `endIP` are 0.0.0.0, it denotes a special case th
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
