@@ -119,6 +119,9 @@ resources:
   kind: MySQLServer
   version: v1alpha2
 - group: azure
+  kind: RedisCacheFirewallRule
+  version: v1alpha1
+- group: azure
   kind: AzureVirtualMachineExtension
   version: v1alpha1
 version: "2"
