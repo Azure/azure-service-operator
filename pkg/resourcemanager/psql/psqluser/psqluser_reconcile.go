@@ -110,7 +110,7 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		// catch firewall issue - keep cycling until it clears up
 		if strings.Contains(err.Error(), "no pg_hba.conf entry for host") {
 			instance.Status.Message = errhelp.StripErrorIDs(err) + "\nThe IP address is not allowed to access the server. Modify the firewall rule to include the IP address."
-			return true, nil
+			return false, nil
 		}
 
 		// if the database is busy, requeue
@@ -285,8 +285,8 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 	instance.Status.Provisioned = true
 	instance.Status.State = "Succeeded"
 	instance.Status.Message = resourcemanager.SuccessMsg
-
-	return false, nil
+	// reconcile done
+	return true, nil
 }
 
 // Delete deletes a user
@@ -356,9 +356,12 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "no pg_hba.conf entry for host") {
+			// The error indicates the client IP has no access to server.
 			instance.Status.Message = errhelp.StripErrorIDs(err) + "\nThe IP address is not allowed to access the server. Modify the firewall rule to include the IP address."
+			//Requeue the requests (return true) till the issue solves.
 			return true, nil
 		}
+		//stop the reconcile with unkown error
 		return false, err
 	}
 
@@ -366,16 +369,21 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	exists, err := s.UserExists(ctx, db, requestedusername)
 	if err != nil {
+		instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser failed with %s", err.Error())
 		return true, err
 	}
 	if !exists {
+
 		s.DeleteSecrets(ctx, instance, sqlUserSecretClient)
+		instance.Status.Message = fmt.Sprintf("The user %s doesn't exist", requestedusername)
+		//User doesn't exist. Stop the reconcile.
 		return false, nil
 	}
 
 	err = s.DropUser(ctx, db, requestedusername)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser failed with %s", err.Error())
+		//stop the reconcile with err
 		return false, err
 	}
 
@@ -384,6 +392,7 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 
 	instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser succeeded")
 
+	// no err, no requeue, reconcile will stop
 	return false, nil
 }
 
