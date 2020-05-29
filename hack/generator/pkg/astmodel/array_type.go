@@ -23,14 +23,14 @@ func NewArrayType(element Type) *ArrayType {
 var _ Type = (*ArrayType)(nil)
 
 // AsType renders the Go abstract syntax tree for an array type
-func (array *ArrayType) AsType() ast.Expr {
+func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 	return &ast.ArrayType{
-		Elt: array.element.AsType(),
+		Elt: array.element.AsType(codeGenerationContext),
 	}
 }
 
 // RequiredImports returns a list of packages required by this
-func (array *ArrayType) RequiredImports() []PackageReference {
+func (array *ArrayType) RequiredImports() []*PackageReference {
 	return array.element.RequiredImports()
 }
 

@@ -38,7 +38,7 @@ func (structType *StructType) Fields() []*FieldDefinition {
 }
 
 // AsType implements Type for StructType
-func (structType *StructType) AsType() ast.Expr {
+func (structType *StructType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 
 	// Copy the slice of fields and sort it
 	fields := structType.Fields()
@@ -48,7 +48,7 @@ func (structType *StructType) AsType() ast.Expr {
 
 	fieldDefinitions := make([]*ast.Field, len(fields))
 	for i, f := range fields {
-		fieldDefinitions[i] = f.AsField()
+		fieldDefinitions[i] = f.AsField(codeGenerationContext)
 	}
 
 	return &ast.StructType{
@@ -59,8 +59,8 @@ func (structType *StructType) AsType() ast.Expr {
 }
 
 // RequiredImports returns a list of packages required by this
-func (structType *StructType) RequiredImports() []PackageReference {
-	var result []PackageReference
+func (structType *StructType) RequiredImports() []*PackageReference {
+	var result []*PackageReference
 	for _, field := range structType.fields {
 		result = append(result, field.FieldType().RequiredImports()...)
 	}

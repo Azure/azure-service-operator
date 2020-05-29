@@ -21,7 +21,7 @@ func Test_NewStructDefinition_GivenValues_InitializesFields(t *testing.T) {
 	familyNameField := createStringField("familiyName", "Shared family name")
 	knownAsField := createStringField("knownAs", "Commonly known as")
 
-	ref := NewTypeName(NewLocalPackageReference(group, version), name)
+	ref := NewTypeName(*NewLocalPackageReference(group, version), name)
 	definition := NewStructDefinition(ref, NewStructType(fullNameField, familyNameField, knownAsField), false)
 
 	definitionGroup, definitionPackage, err := definition.Name().PackageReference.GroupAndPackage()
@@ -36,9 +36,9 @@ func Test_NewStructDefinition_GivenValues_InitializesFields(t *testing.T) {
 func Test_StructDefinitionAsAst_GivenValidStruct_ReturnsNonNilResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	ref := NewTypeName(NewLocalPackageReference("group", "2020-01-01"), "name")
+	ref := NewTypeName(*NewLocalPackageReference("group", "2020-01-01"), "name")
 	field := NewStructDefinition(ref, NewStructType(), false)
-	node := field.AsDeclarations()
+	node := field.AsDeclarations(nil)
 
 	g.Expect(node).NotTo(BeNil())
 }

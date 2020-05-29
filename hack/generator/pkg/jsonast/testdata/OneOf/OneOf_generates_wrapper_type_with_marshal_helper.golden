@@ -27,8 +27,11 @@ type Foo struct {
 
 /*Generated from: https://test.test/schemas/2020-01-01/test.json*/
 type Test struct {
+	/*Bar: mutually exclusive with all other properties*/
 	Bar *Bar `json:"bar"`
+	/*Baz: mutually exclusive with all other properties*/
 	Baz *Baz `json:"baz"`
+	/*Foo: mutually exclusive with all other properties*/
 	Foo *Foo `json:"foo"`
 }
 

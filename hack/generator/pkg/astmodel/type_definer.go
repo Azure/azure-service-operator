@@ -22,7 +22,7 @@ type TypeDefiner interface {
 	WithDescription(description *string) TypeDefiner
 
 	// AsDeclarations generates the actual Go declarations
-	AsDeclarations() []ast.Decl
+	AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl
 }
 
 // FileNameHint returns what a file that contains this definition (if any) should be called

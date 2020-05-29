@@ -38,7 +38,7 @@ func (std *SimpleTypeDefiner) WithDescription(desc *string) TypeDefiner {
 	return &result
 }
 
-func (std *SimpleTypeDefiner) AsDeclarations() []ast.Decl {
+func (std *SimpleTypeDefiner) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
 	var docComments *ast.CommentGroup
 	if std.description != nil {
 		docComments = &ast.CommentGroup{
@@ -57,7 +57,7 @@ func (std *SimpleTypeDefiner) AsDeclarations() []ast.Decl {
 			Specs: []ast.Spec{
 				&ast.TypeSpec{
 					Name: ast.NewIdent(std.name.name),
-					Type: std.theType.AsType(),
+					Type: std.theType.AsType(codeGenerationContext),
 				},
 			},
 		},

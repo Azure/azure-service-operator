@@ -33,10 +33,10 @@ func NewEnumType(baseType *PrimitiveType, options []EnumValue) *EnumType {
 }
 
 // AsType implements Type for EnumType
-func (enum *EnumType) AsType() ast.Expr {
+func (enum *EnumType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 	// this should "never" happen as we name all enums; warn about it if it does
-	klog.Warning("emitting unnamed enum, something’s awry")
-	return enum.BaseType.AsType()
+	klog.Warning("Emitting unnamed enum, something’s awry")
+	return enum.BaseType.AsType(codeGenerationContext)
 }
 
 // References indicates whether this Type includes any direct references to the given Type
@@ -70,7 +70,7 @@ func (enum *EnumType) Equals(t Type) bool {
 }
 
 // RequiredImports indicates that Enums never need additional imports
-func (enum *EnumType) RequiredImports() []PackageReference {
+func (enum *EnumType) RequiredImports() []*PackageReference {
 	return nil
 }
 

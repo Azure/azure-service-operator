@@ -64,7 +64,7 @@ func (pkgDef *PackageDefinition) DefinitionCount() int {
 
 func emitFiles(filesToGenerate map[string][]TypeDefiner, outputDir string) error {
 	for fileName, defs := range filesToGenerate {
-		genFile := NewFileDefinition(defs[0].Name().PackageReference, defs...)
+		genFile := NewFileDefinition(&defs[0].Name().PackageReference, defs...)
 		outputFile := filepath.Join(outputDir, fileName+"_types.go")
 		klog.V(5).Infof("Writing '%s'\n", outputFile)
 		err := genFile.SaveToFile(outputFile)

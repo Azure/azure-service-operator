@@ -21,9 +21,14 @@ type PackageReference struct {
 }
 
 // NewLocalPackageReference Creates a new local package reference from a group and package name
-func NewLocalPackageReference(groupName string, packageName string) PackageReference {
+func NewLocalPackageReference(groupName string, packageName string) *PackageReference {
 	url := localPathPrefix + groupName + "/" + packageName
-	return PackageReference{packagePath: url}
+	return &PackageReference{packagePath: url}
+}
+
+// NewPackageReference creates a new package reference from a path
+func NewPackageReference(packagePath string) *PackageReference {
+	return &PackageReference{packagePath: packagePath}
 }
 
 func (pr *PackageReference) isLocalPackage() bool {

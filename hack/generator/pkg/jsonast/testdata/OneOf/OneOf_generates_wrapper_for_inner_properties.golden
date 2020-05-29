@@ -27,7 +27,9 @@ type Test struct {
 }
 
 type TestProperties struct {
+	/*Bar: mutually exclusive with all other properties*/
 	Bar *Bar `json:"bar"`
+	/*Foo: mutually exclusive with all other properties*/
 	Foo *Foo `json:"foo"`
 }
 

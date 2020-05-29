@@ -12,7 +12,7 @@ import (
 // Type represents something that is a Go type
 type Type interface {
 	// RequiredImports returns a list of packages required by this type
-	RequiredImports() []PackageReference
+	RequiredImports() []*PackageReference
 
 	// References determines if this type has a direct reference to the given definition name
 	// For example an Array of Persons references a Person
@@ -20,7 +20,7 @@ type Type interface {
 
 	// AsType renders as a Go abstract syntax tree for a type
 	// (yes this says ast.Expr but that is what the Go 'ast' package uses for types)
-	AsType() ast.Expr
+	AsType(codeGenerationContext *CodeGenerationContext) ast.Expr
 
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type) bool

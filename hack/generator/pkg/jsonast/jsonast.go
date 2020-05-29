@@ -184,7 +184,7 @@ func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema *g
 		scanner.idFactory.CreateGroupName(rootGroup),
 		scanner.idFactory.CreatePackageNameFromVersion(rootVersion))
 
-	rootTypeName := astmodel.NewTypeName(rootPackage, rootName)
+	rootTypeName := astmodel.NewTypeName(*rootPackage, rootName)
 
 	_, err = generateDefinitionsFor(ctx, scanner, rootTypeName, false, url, schema)
 	if err != nil {
@@ -392,7 +392,7 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 
 	// produce a usable name:
 	typeName := astmodel.NewTypeName(
-		astmodel.NewLocalPackageReference(
+		*astmodel.NewLocalPackageReference(
 			scanner.idFactory.CreateGroupName(group),
 			scanner.idFactory.CreatePackageNameFromVersion(version)),
 		scanner.idFactory.CreateIdentifier(name, astmodel.Exported))
@@ -533,6 +533,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 	// Note that this is required because Kubernetes CRDs do not support OneOf the same way
 	// OpenAPI does, see https://github.com/Azure/k8s-infra/issues/71
 	var fields []*astmodel.FieldDefinition
+	fieldDescription := "mutually exclusive with all other properties"
 
 	for i, t := range results {
 		switch concreteType := t.(type) {
@@ -547,7 +548,8 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported)
-			field := astmodel.NewFieldDefinition(fieldName, jsonName, concreteType).MakeOptional()
+			field := astmodel.NewFieldDefinition(
+				fieldName, jsonName, concreteType).MakeOptional().WithDescription(&fieldDescription)
 			fields = append(fields, field)
 		case *astmodel.EnumType:
 			// TODO: This name sucks but what alternative do we have?
@@ -557,7 +559,8 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
-			field := astmodel.NewFieldDefinition(fieldName, jsonName, concreteType).MakeOptional()
+			field := astmodel.NewFieldDefinition(
+				fieldName, jsonName, concreteType).MakeOptional().WithDescription(&fieldDescription)
 			fields = append(fields, field)
 		case *astmodel.StructType:
 			// TODO: This name sucks but what alternative do we have?
@@ -567,7 +570,8 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
-			field := astmodel.NewFieldDefinition(fieldName, jsonName, concreteType).MakeOptional()
+			field := astmodel.NewFieldDefinition(
+				fieldName, jsonName, concreteType).MakeOptional().WithDescription(&fieldDescription)
 			fields = append(fields, field)
 		case *astmodel.PrimitiveType:
 			var primitiveTypeName string
@@ -584,7 +588,8 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
-			field := astmodel.NewFieldDefinition(fieldName, jsonName, concreteType).MakeOptional()
+			field := astmodel.NewFieldDefinition(
+				fieldName, jsonName, concreteType).MakeOptional().WithDescription(&fieldDescription)
 			fields = append(fields, field)
 		default:
 			return nil, fmt.Errorf("unexpected oneOf member, type: %T", t)

@@ -21,13 +21,13 @@ import (
 // FileDefinition is the content of a file we're generating
 type FileDefinition struct {
 	// the package this file is in
-	PackageReference
+	packageReference *PackageReference
 	// definitions to include in this file
 	definitions []TypeDefiner
 }
 
 // NewFileDefinition creates a file definition containing specified definitions
-func NewFileDefinition(packageRef PackageReference, definitions ...TypeDefiner) *FileDefinition {
+func NewFileDefinition(packageRef *PackageReference, definitions ...TypeDefiner) *FileDefinition {
 
 	sort.Slice(definitions, func(i, j int) bool {
 		return definitions[i].Name().name < definitions[j].Name().name
@@ -37,37 +37,51 @@ func NewFileDefinition(packageRef PackageReference, definitions ...TypeDefiner) 
 	return &FileDefinition{packageRef, definitions}
 }
 
-func (file *FileDefinition) generateImportSpecs() []ast.Spec {
+// generateImports products the definitive set of imports for use in this file and
+// disambiguates any conflicts
+func (file *FileDefinition) generateImports() map[PackageImport]struct{} {
 
-	metav1 := ast.NewIdent("metav1")
-	importSpecs := []ast.Spec{
-		&ast.ImportSpec{
-			Name: metav1,
-			Path: &ast.BasicLit{
-				Kind:  token.STRING,
-				Value: "\"k8s.io/apimachinery/pkg/apis/meta/v1\"",
-			},
-		},
-	}
+	metav1Import := NewPackageImport(
+		*NewPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")).WithName("metav1")
 
-	var requiredImports = make(map[PackageReference]bool) // fake set type
+	var requiredImports = make(map[PackageImport]struct{}) // fake set type
+	requiredImports[*metav1Import] = struct{}{}
+
 	for _, s := range file.definitions {
 		for _, requiredImport := range s.Type().RequiredImports() {
 			// no need to import the current package
-			if requiredImport != file.PackageReference {
-				requiredImports[requiredImport] = true
+			if !requiredImport.Equals(file.packageReference) {
+				newImport := NewPackageImport(*requiredImport)
+				requiredImports[*newImport] = struct{}{}
 			}
 		}
 	}
 
-	for requiredImport := range requiredImports {
-		importSpecs = append(importSpecs, &ast.ImportSpec{
-			Name: nil,
-			Path: &ast.BasicLit{
-				Kind:  token.STRING,
-				Value: "\"" + requiredImport.PackagePath() + "\"",
-			},
-		})
+	// TODO: Do something about conflicting imports
+
+	// Determine if there are any conflicting imports -- these are imports with the same "name"
+	// but a different package path
+	for imp := range requiredImports {
+		for otherImp := range requiredImports {
+			if !imp.Equals(&otherImp) && imp.PackageName() == otherImp.PackageName() {
+				klog.Warningf(
+					"File %v: import %v (named %v) and import %v (named %v) conflict",
+					file.packageReference.PackagePath(),
+					imp.PackageReference.PackagePath(),
+					imp.PackageName(),
+					otherImp.PackageReference.PackagePath(),
+					otherImp.PackageName())
+			}
+		}
+	}
+
+	return requiredImports
+}
+
+func (file *FileDefinition) generateImportSpecs(references map[PackageImport]struct{}) []ast.Spec {
+	var importSpecs []ast.Spec
+	for requiredImport := range references {
+		importSpecs = append(importSpecs, requiredImport.AsImportSpec())
 	}
 
 	return importSpecs
@@ -78,12 +92,18 @@ func (file *FileDefinition) AsAst() ast.Node {
 
 	var decls []ast.Decl
 
+	// Determine imports
+	packageReferences := file.generateImports()
+
+	// Create context from imports
+	codeGenContext := NewCodeGenerationContext(file.packageReference, packageReferences)
+
 	// Create import header:
-	decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs()})
+	decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs(packageReferences)})
 
 	// Emit all definitions:
 	for _, s := range file.definitions {
-		decls = append(decls, s.AsDeclarations()...)
+		decls = append(decls, s.AsDeclarations(codeGenContext)...)
 	}
 
 	// Emit struct registration for each resource:
@@ -92,7 +112,7 @@ func (file *FileDefinition) AsAst() ast.Node {
 		if structDefn, ok := defn.(*StructDefinition); ok && structDefn.IsResource() {
 			exprs = append(exprs, &ast.UnaryExpr{
 				Op: token.AND,
-				X:  &ast.CompositeLit{Type: structDefn.Name().AsType()},
+				X:  &ast.CompositeLit{Type: structDefn.Name().AsType(codeGenContext)},
 			})
 		}
 	}
@@ -125,7 +145,7 @@ func (file *FileDefinition) AsAst() ast.Node {
 		Doc: &ast.CommentGroup{
 			List: header,
 		},
-		Name:    ast.NewIdent(file.PackageName()),
+		Name:    ast.NewIdent(file.packageReference.PackageName()),
 		Decls:   decls,
 		Package: token.Pos(headerLen),
 	}

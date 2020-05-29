@@ -15,10 +15,10 @@ import (
 )
 
 // Shared test values:
-var person2020 = astmodel.NewStructDefinition(astmodel.NewTypeName(astmodel.NewLocalPackageReference("party", "2020-01-01"), "person"), astmodel.EmptyStructType, false)
-var post2019 = astmodel.NewStructDefinition(astmodel.NewTypeName(astmodel.NewLocalPackageReference("thing", "2019-01-01"), "post"), astmodel.EmptyStructType, false)
-var student2019 = astmodel.NewStructDefinition(astmodel.NewTypeName(astmodel.NewLocalPackageReference("role", "2019-01-01"), "student"), astmodel.EmptyStructType, false)
-var tutor2019 = astmodel.NewStructDefinition(astmodel.NewTypeName(astmodel.NewLocalPackageReference("role", "2019-01-01"), "tutor"), astmodel.EmptyStructType, false)
+var person2020 = astmodel.NewStructDefinition(astmodel.NewTypeName(*astmodel.NewLocalPackageReference("party", "2020-01-01"), "person"), astmodel.EmptyStructType, false)
+var post2019 = astmodel.NewStructDefinition(astmodel.NewTypeName(*astmodel.NewLocalPackageReference("thing", "2019-01-01"), "post"), astmodel.EmptyStructType, false)
+var student2019 = astmodel.NewStructDefinition(astmodel.NewTypeName(*astmodel.NewLocalPackageReference("role", "2019-01-01"), "student"), astmodel.EmptyStructType, false)
+var tutor2019 = astmodel.NewStructDefinition(astmodel.NewTypeName(*astmodel.NewLocalPackageReference("role", "2019-01-01"), "tutor"), astmodel.EmptyStructType, false)
 
 func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
 	g := NewGomegaWithT(t)

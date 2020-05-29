@@ -16,12 +16,12 @@ import (
 )
 
 // Shared test values:
-var package2019 = astmodel.NewLocalPackageReference("group", "2019-01-01")
+var package2019 = *astmodel.NewLocalPackageReference("group", "2019-01-01")
 var person2019 = astmodel.NewStructDefinition(astmodel.NewTypeName(package2019, "person"), astmodel.EmptyStructType, false)
 var post2019 = astmodel.NewStructDefinition(astmodel.NewTypeName(package2019, "post"), astmodel.EmptyStructType, false)
 var student2019 = astmodel.NewStructDefinition(astmodel.NewTypeName(package2019, "student"), astmodel.EmptyStructType, false)
 
-var package2020 = astmodel.NewLocalPackageReference("group", "2020-01-01")
+var package2020 = *astmodel.NewLocalPackageReference("group", "2020-01-01")
 var address2020 = astmodel.NewStructDefinition(astmodel.NewTypeName(package2020, "address"), astmodel.EmptyStructType, false)
 var person2020 = astmodel.NewStructDefinition(astmodel.NewTypeName(package2020, "person"), astmodel.EmptyStructType, false)
 var professor2020 = astmodel.NewStructDefinition(astmodel.NewTypeName(package2020, "professor"), astmodel.EmptyStructType, false)

@@ -23,14 +23,14 @@ func NewOptionalType(element Type) *OptionalType {
 var _ Type = (*OptionalType)(nil)
 
 // AsType renders the Go abstract syntax tree for an optional type
-func (optional *OptionalType) AsType() ast.Expr {
+func (optional *OptionalType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 	return &ast.StarExpr{
-		X: optional.element.AsType(),
+		X: optional.element.AsType(codeGenerationContext),
 	}
 }
 
 // RequiredImports returns the imports required by the 'element' type
-func (optional *OptionalType) RequiredImports() []PackageReference {
+func (optional *OptionalType) RequiredImports() []*PackageReference {
 	return optional.element.RequiredImports()
 }
 

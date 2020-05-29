@@ -6,3 +6,6 @@ typefilters:
   - action: exclude
     version: '*preview'
     because: preview SDK versions are excluded by default
+  - action: exclude
+    group: 'deploymenttemplate'
+    because: this is the "container" group that holds references to all of the other groups and as such doesn't make sense to generate

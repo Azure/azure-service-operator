@@ -13,8 +13,11 @@ type Foo int
 
 /*Generated from: https://test.test/schemas/2020-01-01/test.json*/
 type Test struct {
-	Bool1   *bool        `json:"bool1"`
-	Foo     *Foo         `json:"foo"`
+	/*Bool1: mutually exclusive with all other properties*/
+	Bool1 *bool `json:"bool1"`
+	/*Foo: mutually exclusive with all other properties*/
+	Foo *Foo `json:"foo"`
+	/*Object2: mutually exclusive with all other properties*/
 	Object2 *TestObject2 `json:"object2"`
 }
 

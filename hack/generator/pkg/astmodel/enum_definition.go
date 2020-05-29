@@ -41,7 +41,7 @@ func (enum *EnumDefinition) WithDescription(description *string) TypeDefiner {
 }
 
 // AsDeclarations generates the Go code representing this definition
-func (enum *EnumDefinition) AsDeclarations() []ast.Decl {
+func (enum *EnumDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
 	var specs []ast.Spec
 	for _, v := range enum.baseType.Options() {
 		s := enum.createValueDeclaration(v)
@@ -55,18 +55,18 @@ func (enum *EnumDefinition) AsDeclarations() []ast.Decl {
 	}
 
 	result := []ast.Decl{
-		enum.createBaseDeclaration(),
+		enum.createBaseDeclaration(codeGenerationContext),
 		declaration}
 
 	return result
 }
 
-func (enum *EnumDefinition) createBaseDeclaration() ast.Decl {
+func (enum *EnumDefinition) createBaseDeclaration(codeGenerationContext *CodeGenerationContext) ast.Decl {
 	identifier := ast.NewIdent(enum.typeName.name)
 
 	typeSpecification := &ast.TypeSpec{
 		Name: identifier,
-		Type: enum.baseType.BaseType.AsType(),
+		Type: enum.baseType.BaseType.AsType(codeGenerationContext),
 	}
 
 	declaration := &ast.GenDecl{

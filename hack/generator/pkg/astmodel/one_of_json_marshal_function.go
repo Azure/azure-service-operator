@@ -42,7 +42,11 @@ func (f *OneOfJSONMarshalFunction) References(name *TypeName) bool {
 }
 
 // AsFunc returns the function as a go ast
-func (f *OneOfJSONMarshalFunction) AsFunc(receiver *TypeName, methodName string) *ast.FuncDecl {
+func (f *OneOfJSONMarshalFunction) AsFunc(
+	codeGenerationContext *CodeGenerationContext,
+	receiver *TypeName,
+	methodName string) *ast.FuncDecl {
+
 	receiverName := f.idFactory.CreateIdentifier(receiver.name, NotExported)
 
 	header, _ := createComments(
@@ -59,7 +63,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(receiver *TypeName, methodName string)
 		Recv: &ast.FieldList{
 			List: []*ast.Field{
 				{
-					Type:  receiver.AsType(),
+					Type:  receiver.AsType(codeGenerationContext),
 					Names: []*ast.Ident{ast.NewIdent(receiverName)},
 				},
 			},
@@ -131,8 +135,8 @@ func (f *OneOfJSONMarshalFunction) AsFunc(receiver *TypeName, methodName string)
 }
 
 // RequiredImports returns a list of packages required by this
-func (f *OneOfJSONMarshalFunction) RequiredImports() []PackageReference {
-	return []PackageReference{
-		{"encoding/json"},
+func (f *OneOfJSONMarshalFunction) RequiredImports() []*PackageReference {
+	return []*PackageReference{
+		NewPackageReference("encoding/json"),
 	}
 }

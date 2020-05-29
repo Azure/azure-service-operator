@@ -59,7 +59,7 @@ func (definition *StructDefinition) FieldCount() int {
 }
 
 // AsDeclarations generates an AST node representing this struct definition
-func (definition *StructDefinition) AsDeclarations() []ast.Decl {
+func (definition *StructDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
 	var identifier *ast.Ident
 	if definition.IsResource() {
 		// if it's a resource then this is the Spec type and we will generate
@@ -71,7 +71,7 @@ func (definition *StructDefinition) AsDeclarations() []ast.Decl {
 
 	typeSpecification := &ast.TypeSpec{
 		Name: identifier,
-		Type: definition.StructType.AsType(),
+		Type: definition.StructType.AsType(codeGenerationContext),
 	}
 
 	declaration := &ast.GenDecl{
@@ -128,15 +128,15 @@ func (definition *StructDefinition) AsDeclarations() []ast.Decl {
 	}
 
 	// Append the methods
-	declarations = append(declarations, definition.generateMethodDecls()...)
+	declarations = append(declarations, definition.generateMethodDecls(codeGenerationContext)...)
 
 	return declarations
 }
 
-func (definition *StructDefinition) generateMethodDecls() []ast.Decl {
+func (definition *StructDefinition) generateMethodDecls(codeGenerationContext *CodeGenerationContext) []ast.Decl {
 	var result []ast.Decl
 	for methodName, function := range definition.StructType.functions {
-		funcDef := function.AsFunc(definition.Name(), methodName)
+		funcDef := function.AsFunc(codeGenerationContext, definition.Name(), methodName)
 		result = append(result, funcDef)
 	}
 
