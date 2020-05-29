@@ -90,7 +90,7 @@ func (k *KubeSecretClient) Upsert(ctx context.Context, key types.NamespacedName,
 			if options.Owner.GetUID() == "" {
 				ownerKey := types.NamespacedName{Name: options.Owner.GetName(), Namespace: options.Owner.GetNamespace()}
 				if err := k.KubeClient.Get(ctx, ownerKey, options.Owner); err != nil {
-					return err
+					return client.IgnoreNotFound(err)
 				}
 			}
 
