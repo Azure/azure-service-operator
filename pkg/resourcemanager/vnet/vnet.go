@@ -127,6 +127,9 @@ func (v *AzureVNetManager) GetAvailableIP(ctx context.Context, resourceGroup, vn
 		return "", err
 	}
 
+	if sub.SubnetPropertiesFormat == nil {
+		return "", fmt.Errorf("could not find subnet '%s'", subnet)
+	}
 	prefix := *sub.AddressPrefix
 	ip, _, err := net.ParseCIDR(prefix)
 	if err != nil {
