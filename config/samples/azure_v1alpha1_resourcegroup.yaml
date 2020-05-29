@@ -1,6 +1,6 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: ResourceGroup
 metadata:
-  name: resourcegroup-azure-operators
+  name: jupflueg-aso-rg
 spec:
-  location: "westus"
+  location: eastus

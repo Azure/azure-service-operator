@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-package rediscaches
+package actions
 
 import (
 	"context"
 
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	model "github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
@@ -15,13 +16,13 @@ import (
 
 // AzureRedisCacheActionManager creates a new RedisCacheManager
 type AzureRedisCacheActionManager struct {
-	AzureRedisManager
+	rediscaches.AzureRedisManager
 }
 
 // NewAzureRedisCacheActionManager creates a new RedisCacheManager
 func NewAzureRedisCacheActionManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureRedisCacheActionManager {
 	return &AzureRedisCacheActionManager{
-		AzureRedisManager{
+		rediscaches.AzureRedisManager{
 			SecretClient: secretClient,
 			Scheme:       scheme,
 		},
@@ -30,7 +31,7 @@ func NewAzureRedisCacheActionManager(secretClient secrets.SecretClient, scheme *
 
 // RegeneratePrimaryAccessKey regenerates either the primary or secondary access keys
 func (r *AzureRedisCacheActionManager) RegeneratePrimaryAccessKey(ctx context.Context, resourceGroup string, cacheName string) error {
-	client, err := getRedisCacheClient()
+	client, err := r.GetRedisCacheClient()
 	if err != nil {
 		return err
 	}
@@ -47,7 +48,7 @@ func (r *AzureRedisCacheActionManager) RegeneratePrimaryAccessKey(ctx context.Co
 
 // RegenerateSecondaryAccessKey regenerates either the primary or secondary access keys
 func (r *AzureRedisCacheActionManager) RegenerateSecondaryAccessKey(ctx context.Context, resourceGroup string, cacheName string) error {
-	client, err := getRedisCacheClient()
+	client, err := r.GetRedisCacheClient()
 	if err != nil {
 		return err
 	}

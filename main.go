@@ -49,6 +49,7 @@ import (
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	psqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/vnetrule"
 	rediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
+	rediscacheactions "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/actions"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
@@ -142,7 +143,7 @@ func main() {
 		secretClient,
 		scheme,
 	)
-	redisCacheActionManager := rediscache.NewAzureRedisCacheActionManager(
+	redisCacheActionManager := rediscacheactions.NewAzureRedisCacheActionManager(
 		secretClient,
 		scheme,
 	)

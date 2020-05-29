@@ -42,7 +42,7 @@ func (r *AzureRedisCacheManager) CreateRedisCache(
 	// convert kube labels to expected tag format
 	tags := helpers.LabelsToTags(instance.GetLabels())
 
-	redisClient, err := getRedisCacheClient()
+	redisClient, err := r.GetRedisCacheClient()
 	if err != nil {
 		return nil, err
 	}
@@ -110,7 +110,7 @@ func (r *AzureRedisCacheManager) CreateRedisCache(
 
 // GetRedisCache returns a redis cache object if it exists
 func (r *AzureRedisCacheManager) GetRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.ResourceType, err error) {
-	redisClient, err := getRedisCacheClient()
+	redisClient, err := r.GetRedisCacheClient()
 	if err != nil {
 		return result, err
 	}
@@ -119,7 +119,7 @@ func (r *AzureRedisCacheManager) GetRedisCache(ctx context.Context, groupName st
 
 // DeleteRedisCache removes the resource group named by env var
 func (r *AzureRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
-	redisClient, err := getRedisCacheClient()
+	redisClient, err := r.GetRedisCacheClient()
 	if err != nil {
 		return result, err
 	}

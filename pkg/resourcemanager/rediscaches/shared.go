@@ -24,7 +24,7 @@ type AzureRedisManager struct {
 	Scheme       *runtime.Scheme
 }
 
-func getRedisCacheClient() (redis.Client, error) {
+func (r *AzureRedisManager) GetRedisCacheClient() (redis.Client, error) {
 	redisClient := redis.NewClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
@@ -38,7 +38,7 @@ func getRedisCacheClient() (redis.Client, error) {
 
 //ListKeys lists the keys for redis cache
 func (r *AzureRedisManager) ListKeys(ctx context.Context, resourceGroupName string, redisCacheName string) (result redis.AccessKeys, err error) {
-	redisClient, err := getRedisCacheClient()
+	redisClient, err := r.GetRedisCacheClient()
 	if err != nil {
 		return result, err
 	}

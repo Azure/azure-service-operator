@@ -3,7 +3,7 @@ kind: RedisCacheAction
 metadata:
   name: rediscacheaction-sample-1
 spec:
-  resourceGroup: resourcegroup-azure-operators
+  resourceGroup: jupflueg-aso-rg
   cacheName: rediscache-sample-1
 
   # possible values are 'rollallkeys', 'rollprimarykey', 'rollsecondarykey'
