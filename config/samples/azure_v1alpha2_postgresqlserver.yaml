@@ -2,6 +2,9 @@ apiVersion: azure.microsoft.com/v1alpha2
 kind: PostgreSQLServer
 metadata:
   name: postgresqlserver-sample
+  labels: # Provide tags to add to the KeyVault as labels
+    tag1: value1
+    tag2: value2
 spec:
   location: eastus
   resourceGroup: resourcegroup-azure-operators
