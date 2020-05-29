@@ -3117,6 +3117,11 @@ func (in *RedisCacheList) DeepCopyObject() runtime.Object {
 func (in *RedisCacheProperties) DeepCopyInto(out *RedisCacheProperties) {
 	*out = *in
 	out.Sku = in.Sku
+	if in.ShardCount != nil {
+		in, out := &in.ShardCount, &out.ShardCount
+		*out = new(int32)
+		**out = **in
+	}
 	if in.Configuration != nil {
 		in, out := &in.Configuration, &out.Configuration
 		*out = make(map[string]string, len(*in))

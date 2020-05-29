@@ -54,6 +54,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 			}
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.State = string(newRc.ProvisioningState)
+			instance.Status.Output = *newRc.StaticIP
 			instance.Status.ResourceId = *newRc.ID
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false

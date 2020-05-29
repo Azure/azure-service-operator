@@ -6,7 +6,6 @@ package rediscaches
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
@@ -15,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -95,11 +95,23 @@ func (r *AzureRedisCacheManager) CreateRedisCache(
 
 	// handle vnet settings
 	if len(props.SubnetID) > 0 {
+		ip := props.StaticIP
 		if len(props.StaticIP) == 0 {
-			return nil, fmt.Errorf("subnet id provided but no static ip has been set")
+			vnetManager := vnet.NewAzureVNetManager()
+			sid := vnet.ParseSubnetID(props.SubnetID)
+
+			ip, err = vnetManager.GetAvailableIP(ctx, instance.Spec.ResourceGroupName, sid.VNet, sid.Subnet)
+			if err != nil {
+				return nil, err
+			}
 		}
+
 		createParams.CreateProperties.SubnetID = &props.SubnetID
-		createParams.CreateProperties.StaticIP = &props.StaticIP
+		createParams.CreateProperties.StaticIP = &ip
+	}
+
+	if redisSku.Name == redis.Premium && props.ShardCount != nil {
+		createParams.CreateProperties.ShardCount = props.ShardCount
 	}
 
 	// set redis config if one was provided
