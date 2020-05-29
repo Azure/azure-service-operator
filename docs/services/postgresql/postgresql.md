@@ -59,4 +59,4 @@ The `server` indicates the PostgreSQL server on which you want to configure the 
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
