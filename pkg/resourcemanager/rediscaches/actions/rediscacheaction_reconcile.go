@@ -20,6 +20,10 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 		opt(options)
 	}
 
+	if options.SecretClient != nil {
+		m.SecretClient = options.SecretClient
+	}
+
 	instance, err := m.convert(obj)
 	if err != nil {
 		return true, err
