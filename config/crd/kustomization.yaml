@@ -38,6 +38,7 @@ resources:
 - bases/azure.microsoft.com_azuresqlmanagedusers.yaml
 - bases/azure.microsoft.com_azureloadbalancers.yaml
 - bases/azure.microsoft.com_azurevmscalesets.yaml
+- bases/azure.microsoft.com_rediscachefirewallrules.yaml
 - bases/azure.microsoft.com_azurevirtualmachineextensions.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
@@ -76,6 +77,7 @@ patches:
 #- patches/webhook_in_azuresqlmanagedusers.yaml
 #- patches/webhook_in_azureloadbalancers.yaml
 #- patches/webhook_in_azurevmscalesets.yaml
+#- patches/webhook_in_rediscachefirewallrules.yaml
 #- patches/webhook_in_azurevirtualmachineextensions.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
 
@@ -113,6 +115,7 @@ patches:
 #- patches/cainjection_in_azuresqlmanagedusers.yaml
 #- patches/cainjection_in_azureloadbalancers.yaml
 #- patches/cainjection_in_azurevmscalesets.yaml
+#- patches/cainjection_in_rediscachefirewallrules.yaml
 #- patches/cainjection_in_azurevirtualmachineextensions.yaml
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch
 
