@@ -120,8 +120,14 @@ resources:
   version: v1alpha2
   kind: MySQLServer
 - group: azure
+  kind: RedisCacheFirewallRule
   version: v1alpha1
+- group: azure
   kind: RedisCacheAction
+  version: v1alpha1
+- group: azure
+  kind: AzureVirtualMachineExtension
+  version: v1alpha1
 - group: azure
   kind: AzureVirtualMachineExtension
   version: v1alpha1

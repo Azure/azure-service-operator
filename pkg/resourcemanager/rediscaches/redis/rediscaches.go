@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -19,13 +20,13 @@ import (
 
 // AzureRedisCacheManager creates a new RedisCacheManager
 type AzureRedisCacheManager struct {
-	AzureRedisManager
+	rediscaches.AzureRedisManager
 }
 
 // NewAzureRedisCacheManager creates a new RedisCacheManager
 func NewAzureRedisCacheManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureRedisCacheManager {
 	return &AzureRedisCacheManager{
-		AzureRedisManager{
+		rediscaches.AzureRedisManager{
 			SecretClient: secretClient,
 			Scheme:       scheme,
 		},

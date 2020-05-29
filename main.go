@@ -9,8 +9,9 @@ import (
 
 	"k8s.io/apimachinery/pkg/runtime"
 
-	"github.com/Azure/azure-service-operator/controllers"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
+
+	"github.com/Azure/azure-service-operator/controllers"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -48,8 +49,9 @@ import (
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	psqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/vnetrule"
-	rediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	rediscacheactions "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/actions"
+	rcfwr "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/firewallrule"
+	rediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
@@ -147,6 +149,8 @@ func main() {
 		secretClient,
 		scheme,
 	)
+
+	redisCacheFirewallRuleManager := rcfwr.NewAzureRedisCacheFirewallRuleManager()
 	appInsightsManager := resourcemanagerappinsights.NewManager(
 		secretClient,
 		scheme,
@@ -260,6 +264,22 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheAction")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.RedisCacheFirewallRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: redisCacheFirewallRuleManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheFirewallRule"),
+			),
+			Recorder: mgr.GetEventRecorderFor("RedisCacheFirewallRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheFirewallRule")
 		os.Exit(1)
 	}
 
