@@ -1,9 +1,9 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: MySQLUser
 metadata:
-  name: mysqluser-sample1
+  name: mysqluser-sample
 spec:
-  server: mysqlserver-sample3
+  server: mysqlserver-sample
   dbName: mysqldatabase-sample
   resourceGroup: resourcegroup-azure-operators
   roles: 
@@ -13,10 +13,10 @@ spec:
   #CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER
     - "select on *.*"
   # Specify a specific username for the user
-  username: mysqluser-sample1
+  # username: mysqluser-sample
   # Specify adminSecret and adminSecretKeyVault if you want to 
   # read the MYSQL server admin creds from a specific keyvault secret
-  adminSecret: mysqlserver-sample3
+  # adminSecret: mysqlserver-sample
   # adminSecretKeyVault: asokeyvault
 
   # Use the field below to optionally specify a different keyvault 

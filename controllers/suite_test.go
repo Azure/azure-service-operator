@@ -37,6 +37,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
 	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
+	mysqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
 	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
 	resourcemanagernic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
@@ -662,6 +663,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("MySQLVNetRule-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&MySQLUserReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqluser.NewMySqlUserManager(secretClient, scheme.Scheme),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLUser",
+				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLUser-controller"),
 			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)

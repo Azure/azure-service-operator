@@ -349,7 +349,7 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 		if strings.Contains(err.Error(), "is not allowed to connect to this MySQL server") || strings.Contains(err.Error(), "An internal error has occurred") {
 
 			// there is nothing much we can do here - cycle forever
-			return true, err
+			return true, nil
 		}
 		return false, err
 	}

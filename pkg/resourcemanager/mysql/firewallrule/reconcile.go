@@ -84,6 +84,7 @@ func (m *MySQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
 			errhelp.AsyncOpIncompleteError,
 		}
 

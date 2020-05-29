@@ -30,8 +30,8 @@ type MySQLUserReconciler struct {
 }
 
 // Reconcile for mysqluser
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=MySQLUsers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=MySQLUsers/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlusers,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlusers/status,verbs=get;update;patch
 func (r *MySQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.MySQLUser{})
 }
