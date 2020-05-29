@@ -47,4 +47,4 @@ ALTER COLUMN ENCRYPTION KEY key_name
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.

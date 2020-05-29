@@ -26,7 +26,7 @@ As an output of deployment, the operator stores a JSON formatted secret with the
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
 
 ## How would you use the Eventhub Operator from a real application
 
