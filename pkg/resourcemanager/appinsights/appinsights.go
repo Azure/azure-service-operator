@@ -126,6 +126,15 @@ func (m *Manager) StoreSecrets(ctx context.Context, resourceGroupName string, ap
 	)
 }
 
+// DeleteSecret deletes the secret information for this app insight
+func (m *Manager) DeleteSecret(ctx context.Context, resourceGroupName string, appInsightsName string, instance *v1alpha1.AppInsights) error {
+	key := types.NamespacedName{
+		Name:      fmt.Sprintf("appinsights-%s-%s", resourceGroupName, appInsightsName),
+		Namespace: instance.Namespace,
+	}
+	return m.SecretClient.Delete(ctx, key)
+}
+
 // Ensure checks the desired state of the operator
 func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
 	instance, err := m.convert(obj)
@@ -224,7 +233,11 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {
-			return false, nil
+			err = m.DeleteSecret(ctx,
+				i.Spec.ResourceGroup,
+				i.Name,
+				i)
+			return false, err
 		}
 		return true, err
 	}
@@ -232,7 +245,11 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 
 	if err == nil {
 		if response.Status != "InProgress" {
-			return false, nil
+			err = m.DeleteSecret(ctx,
+				i.Spec.ResourceGroup,
+				i.Name,
+				i)
+			return false, err
 		}
 	}
 

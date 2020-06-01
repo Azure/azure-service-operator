@@ -23,10 +23,16 @@ type ApplicationInsightsManager interface {
 		resourceName string) (*insights.ApplicationInsightsComponent, error)
 	DeleteAppInsights(ctx context.Context, resourceGroupName string, resourceName string) (autorest.Response, error)
 	GetAppInsights(ctx context.Context, resourceGroupName string, resourceName string) (insights.ApplicationInsightsComponent, error)
+
 	StoreSecrets(ctx context.Context,
 		resourceGroupName string,
 		appInsightsName string,
 		instrumentationKey string,
+		instance *v1alpha1.AppInsights) error
+
+	DeleteSecret(ctx context.Context,
+		resourceGroupName string,
+		appInsightsName string,
 		instance *v1alpha1.AppInsights) error
 
 	// ARM Client
