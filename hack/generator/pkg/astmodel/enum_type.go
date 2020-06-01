@@ -94,3 +94,13 @@ func (enum *EnumType) CreateDefinitions(name *TypeName, idFactory IdentifierFact
 func (enum *EnumType) Options() []EnumValue {
 	return append(enum.options[:0:0], enum.options...)
 }
+
+// CreateValidation creates the validation annotation for this Enum
+func (enum *EnumType) CreateValidation() Validation {
+	var values []interface{}
+	for _, opt := range enum.Options() {
+		values = append(values, opt.Value)
+	}
+
+	return ValidateEnum(values)
+}

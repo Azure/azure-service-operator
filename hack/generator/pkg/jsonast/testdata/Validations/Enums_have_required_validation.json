@@ -1,0 +1,15 @@
+{
+    "$comment": "Check that enum fields get the required validation specifying their valid values",
+
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "color": {
+            "type": "string",
+            "enum": ["red", "blue", "green"]
+        }
+    },
+    "required": ["color"]
+}

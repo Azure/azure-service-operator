@@ -26,5 +26,5 @@ func Test_ValidateEnum(t *testing.T) {
 	validation := ValidateEnum([]interface{}{1, true, "hello"})
 	comment := GenerateKubebuilderComment(validation)
 
-	g.Expect(comment).To(Equal("// +kubebuilder:validation:Enum=1,true,hello"))
+	g.Expect(comment).To(Equal("// +kubebuilder:validation:Enum={1,true,hello}"))
 }

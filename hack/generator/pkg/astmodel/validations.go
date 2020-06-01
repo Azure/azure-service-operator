@@ -28,13 +28,13 @@ func GenerateKubebuilderComment(validation Validation) string {
 		value := reflect.ValueOf(validation.value)
 
 		if value.Kind() == reflect.Slice {
-			// handle slice values which should look like "x,y,z"
+			// handle slice values which should look like "{"x","y","z"}
 			var values []string
 			for i := 0; i < value.Len(); i++ {
 				values = append(values, fmt.Sprintf("%v", value.Index(i)))
 			}
 
-			return fmt.Sprintf("%s%s=%s", prefix, validation.name, strings.Join(values, ","))
+			return fmt.Sprintf("%s%s={%s}", prefix, validation.name, strings.Join(values, ","))
 		}
 
 		// everything else
