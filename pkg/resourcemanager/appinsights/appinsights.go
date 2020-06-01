@@ -191,21 +191,6 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 
 	instance.Status.State = *appcomp.ProvisioningState
 
-	instKey := *appcomp.ApplicationInsightsComponentProperties.InstrumentationKey
-
-	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	err = m.SecretClient.Upsert(
-		ctx,
-		key,
-		map[string][]byte{"instrumentationKey": []byte(instKey)},
-		secrets.WithOwner(instance),
-		secrets.WithScheme(m.Scheme),
-	)
-	if err != nil {
-		instance.Status.Message = "failed to update secret, err: " + err.Error()
-		return false, err
-	}
-
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
 		instance.Status.Message = resourcemanager.SuccessMsg
