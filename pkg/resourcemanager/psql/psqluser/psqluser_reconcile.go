@@ -358,8 +358,8 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		if strings.Contains(err.Error(), "no pg_hba.conf entry for host") {
 			// The error indicates the client IP has no access to server.
 			instance.Status.Message = errhelp.StripErrorIDs(err) + "\nThe IP address is not allowed to access the server. Modify the firewall rule to include the IP address."
-			//Requeue the requests (return true) till the issue solves.
-			return true, nil
+			//Stop the reconcile and delete the user from service operator side.
+			return false, nil
 		}
 		//stop the reconcile with unkown error
 		return false, err
