@@ -10,41 +10,27 @@ import (
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
-	model "github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2018-03-01/redis"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 // AzureRedisCacheManager creates a new RedisCacheManager
 type AzureRedisCacheManager struct {
-	SecretClient secrets.SecretClient
-	Scheme       *runtime.Scheme
+	rediscaches.AzureRedisManager
 }
 
 // NewAzureRedisCacheManager creates a new RedisCacheManager
 func NewAzureRedisCacheManager(secretClient secrets.SecretClient, scheme *runtime.Scheme) *AzureRedisCacheManager {
 	return &AzureRedisCacheManager{
-		SecretClient: secretClient,
-		Scheme:       scheme,
+		rediscaches.AzureRedisManager{
+			SecretClient: secretClient,
+			Scheme:       scheme,
+		},
 	}
-}
-
-func getRedisCacheClient() (redis.Client, error) {
-	redisClient := redis.NewClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
-	a, err := iam.GetResourceManagementAuthorizer()
-	if err != nil {
-		log.Println("failed to initialize authorizer: " + err.Error())
-		return redisClient, err
-	}
-	redisClient.Authorizer = a
-	redisClient.AddToUserAgent(config.UserAgent())
-	return redisClient, nil
 }
 
 // CreateRedisCache creates a new RedisCache
@@ -57,7 +43,7 @@ func (r *AzureRedisCacheManager) CreateRedisCache(
 	// convert kube labels to expected tag format
 	tags := helpers.LabelsToTags(instance.GetLabels())
 
-	redisClient, err := getRedisCacheClient()
+	redisClient, err := r.GetRedisCacheClient()
 	if err != nil {
 		return nil, err
 	}
@@ -125,7 +111,7 @@ func (r *AzureRedisCacheManager) CreateRedisCache(
 
 // GetRedisCache returns a redis cache object if it exists
 func (r *AzureRedisCacheManager) GetRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.ResourceType, err error) {
-	redisClient, err := getRedisCacheClient()
+	redisClient, err := r.GetRedisCacheClient()
 	if err != nil {
 		return result, err
 	}
@@ -134,64 +120,9 @@ func (r *AzureRedisCacheManager) GetRedisCache(ctx context.Context, groupName st
 
 // DeleteRedisCache removes the resource group named by env var
 func (r *AzureRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
-	redisClient, err := getRedisCacheClient()
+	redisClient, err := r.GetRedisCacheClient()
 	if err != nil {
 		return result, err
 	}
 	return redisClient.Delete(ctx, groupName, redisCacheName)
-}
-
-//ListKeys lists the keys for redis cache
-func (r *AzureRedisCacheManager) ListKeys(ctx context.Context, resourceGroupName string, redisCacheName string) (result redis.AccessKeys, err error) {
-	redisClient, err := getRedisCacheClient()
-	if err != nil {
-		return result, err
-	}
-	return redisClient.ListKeys(ctx, resourceGroupName, redisCacheName)
-}
-
-// CreateSecrets creates a secret for a redis cache
-func (r *AzureRedisCacheManager) CreateSecrets(ctx context.Context, secretName string, instance *azurev1alpha1.RedisCache, data map[string][]byte) error {
-	key := types.NamespacedName{Name: secretName, Namespace: instance.Namespace}
-
-	err := r.SecretClient.Upsert(
-		ctx,
-		key,
-		data,
-		secrets.WithOwner(instance),
-		secrets.WithScheme(r.Scheme),
-	)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// ListKeysAndCreateSecrets lists keys and creates secrets
-func (r *AzureRedisCacheManager) ListKeysAndCreateSecrets(resourceGroupName string, redisCacheName string, secretName string, instance *azurev1alpha1.RedisCache) error {
-	var err error
-	var result model.AccessKeys
-	ctx := context.Background()
-
-	result, err = r.ListKeys(ctx, resourceGroupName, redisCacheName)
-	if err != nil {
-		return err
-	}
-	data := map[string][]byte{
-		"primaryKey":   []byte(*result.PrimaryKey),
-		"secondaryKey": []byte(*result.SecondaryKey),
-	}
-
-	err = r.CreateSecrets(
-		ctx,
-		secretName,
-		instance,
-		data,
-	)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }

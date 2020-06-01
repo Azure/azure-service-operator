@@ -17,8 +17,9 @@ import (
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 
-	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	"k8s.io/client-go/rest"
+
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 
 	resourcemanagerapimgmt "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
@@ -45,7 +46,9 @@ import (
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	resourcemanagerpsqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/psqluser"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
-	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
+	rediscacheactions "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/actions"
+	rcfwr "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/firewallrule"
+	rediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerblobcontainer "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	resourcemanagerstorageaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
@@ -55,13 +58,14 @@ import (
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/Azure/azure-service-operator/api/v1alpha2"
-	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"k8s.io/client-go/kubernetes/scheme"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -269,7 +273,7 @@ func setup() error {
 	err = (&RedisCacheReconciler{
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagerrediscaches.NewAzureRedisCacheManager(
+			AzureClient: rediscaches.NewAzureRedisCacheManager(
 				secretClient,
 				scheme.Scheme,
 			),
@@ -279,6 +283,41 @@ func setup() error {
 			),
 			Recorder: k8sManager.GetEventRecorderFor("RedisCache-controller"),
 			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&RedisCacheActionReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: rediscacheactions.NewAzureRedisCacheActionManager(
+				secretClient,
+				scheme.Scheme,
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheAction",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheAction"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("RedisCacheAction-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&RedisCacheFirewallRuleReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: rcfwr.NewAzureRedisCacheFirewallRuleManager(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheFirewallRule"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("RedisCacheFirewallRule-controller"),
+			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {

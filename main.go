@@ -9,8 +9,9 @@ import (
 
 	"k8s.io/apimachinery/pkg/runtime"
 
-	"github.com/Azure/azure-service-operator/controllers"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
+
+	"github.com/Azure/azure-service-operator/controllers"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -49,7 +50,9 @@ import (
 	psqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/psqluser"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	psqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/vnetrule"
-	resourcemanagerrediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
+	rediscacheactions "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/actions"
+	rcfwr "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/firewallrule"
+	rediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
@@ -139,10 +142,16 @@ func main() {
 	vnetManager := vnet.NewAzureVNetManager()
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 
-	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager(
+	redisCacheManager := rediscache.NewAzureRedisCacheManager(
 		secretClient,
 		scheme,
 	)
+	redisCacheActionManager := rediscacheactions.NewAzureRedisCacheActionManager(
+		secretClient,
+		scheme,
+	)
+
+	redisCacheFirewallRuleManager := rcfwr.NewAzureRedisCacheFirewallRuleManager()
 	appInsightsManager := resourcemanagerappinsights.NewManager(
 		secretClient,
 		scheme,
@@ -229,6 +238,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
 		os.Exit(1)
 	}
+
 	err = (&controllers.RedisCacheReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -243,6 +253,38 @@ func main() {
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.RedisCacheActionReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: redisCacheActionManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheAction",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheAction"),
+			),
+			Recorder: mgr.GetEventRecorderFor("RedisCacheAction-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheAction")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.RedisCacheFirewallRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: redisCacheFirewallRuleManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheFirewallRule"),
+			),
+			Recorder: mgr.GetEventRecorderFor("RedisCacheFirewallRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheFirewallRule")
 		os.Exit(1)
 	}
 
