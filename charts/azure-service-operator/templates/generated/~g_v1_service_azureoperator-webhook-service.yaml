@@ -1,13 +1,11 @@
-{{- if not .Values.multipleInstances}}
 apiVersion: v1
 kind: Service
 metadata:
   name: azureoperator-webhook-service
-  namespace: azureoperator-system
+  namespace: {{ .Values.namespace }}
 spec:
   ports:
   - port: 443
     targetPort: 443
   selector:
     control-plane: controller-manager
-{{- end}}
