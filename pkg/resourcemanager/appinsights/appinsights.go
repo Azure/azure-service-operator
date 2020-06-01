@@ -251,11 +251,11 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {
-			err = m.DeleteSecret(ctx,
+			m.DeleteSecret(ctx,
 				i.Spec.ResourceGroup,
 				i.Name,
 				i)
-			return false, err
+			return false, nil
 		}
 		return true, err
 	}
@@ -263,11 +263,11 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 
 	if err == nil {
 		if response.Status != "InProgress" {
-			err = m.DeleteSecret(ctx,
+			m.DeleteSecret(ctx,
 				i.Spec.ResourceGroup,
 				i.Name,
 				i)
-			return false, err
+			return false, nil
 		}
 	}
 
