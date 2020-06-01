@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all resourcegroup
+// +build all rediscache
 
 package controllers
 

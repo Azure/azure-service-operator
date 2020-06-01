@@ -184,7 +184,7 @@ If you are using Kube for storing secrets, there will be one secret with name `<
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
 
 ## Demo
 
