@@ -346,8 +346,12 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 	db, err := s.ConnectToSqlDb(ctx, MDriverName, instance.Spec.Server, instance.Spec.DbName, MSqlServerPort, adminuser, adminpassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
-		if strings.Contains(err.Error(), "is not allowed to connect to this MySQL server") || strings.Contains(err.Error(), "An internal error has occurred") {
+		if strings.Contains(err.Error(), "is not allowed to connect to this MySQL server") {
 
+			//for the ip address has no access to server, stop the reconcile and delete the user from controller
+			return false, nil
+		}
+		if strings.Contains(err.Error(), "An internal error has occurred") {
 			// there is nothing much we can do here - cycle forever
 			return true, nil
 		}
