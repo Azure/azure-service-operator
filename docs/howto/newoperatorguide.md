@@ -183,26 +183,28 @@ go build -o bin/manager main.go
 
     ```go
     func (p *AzureNewTypeClient) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
-            instance, err := p.convert(obj)
-            if err != nil {
-                return true, err
-            }
-            // Add logic to idempotently create the resource
-
-            // successful return
-            return true, nil
+        instance, err := p.convert(obj)
+        if err != nil {
+            return true, err
         }
 
-        func (p *AzureNewTypeClient) Delete(ctx context.Context, obj runtime.Object,  opts ...resourcemanager.ConfigOption) (bool, error) {
-            instance, err := p.convert(obj)
-            if err != nil {
-                return true, err
-            }
-            // Add logic to idempotently delete the resource
+        // Add logic to idempotently create the resource
 
-            // successful return
-            return false, nil
+        // successful return
+        return true, nil
+    }
+
+    func (p *AzureNewTypeClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+        instance, err := p.convert(obj)
+        if err != nil {
+            return true, err
         }
+
+        // Add logic to idempotently delete the resource
+
+        // successful return
+        return false, nil
+    }
     ```
 
     (ii) The `GetParents()` function returns the Azure Resource Manager (ARM) hierarchy of the resource. The order here matters - the immediate hierarchical resource should be returned first. For instance, for an Azure SQL database, the first parent should be Azure SQL server followed by the Resource Group.
