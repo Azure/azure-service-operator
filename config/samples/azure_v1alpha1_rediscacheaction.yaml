@@ -1,0 +1,9 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: RedisCacheAction
+metadata:
+  name: rediscacheaction-sample-1
+spec:
+  resourceGroup: resourcegroup-azure-operators
+  cacheName: rediscache-sample-1
+  # possible values are 'rollallkeys', 'rollprimarykey', 'rollsecondarykey'
+  actionName: rollallkeys
