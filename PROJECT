@@ -90,6 +90,10 @@ resources:
   version: v1alpha1
   kind: MySQLVNetRule
 - group: azure
+  kind: MySQLUser
+  version: v1alpha1
+- group: azure
+  kind: AzureVirtualMachine
   version: v1alpha1
   kind: AzureVirtualMachine
 - group: azure

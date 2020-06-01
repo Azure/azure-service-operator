@@ -11,14 +11,17 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
 
+//MySQLDatabaseClient struct
 type MySQLDatabaseClient struct {
 }
 
+//NewMySQLDatabaseClient create a new MySQLDatabaseClient
 func NewMySQLDatabaseClient() *MySQLDatabaseClient {
 	return &MySQLDatabaseClient{}
 }
 
-func getMySQLDatabasesClient() mysql.DatabasesClient {
+//GetMySQLDatabasesClient return the mysqldatabaseclient
+func GetMySQLDatabasesClient() mysql.DatabasesClient {
 	databasesClient := mysql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer()
 	databasesClient.Authorizer = a
@@ -54,7 +57,7 @@ func (m *MySQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context,
 
 func (m *MySQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, databasename string, servername string, resourcegroup string) (future mysql.DatabasesCreateOrUpdateFuture, err error) {
 
-	client := getMySQLDatabasesClient()
+	client := GetMySQLDatabasesClient()
 
 	// Check if name is valid if this is the first create call
 	valid, err := m.CheckDatabaseNameAvailability(ctx, databasename)
@@ -77,7 +80,7 @@ func (m *MySQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, databas
 
 func (m *MySQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename string, servername string, resourcegroup string) (status string, err error) {
 
-	client := getMySQLDatabasesClient()
+	client := GetMySQLDatabasesClient()
 
 	_, err = client.Get(ctx, resourcegroup, servername, databasename)
 	if err == nil { // db present, so go ahead and delete
@@ -91,7 +94,7 @@ func (m *MySQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename s
 
 func (m *MySQLDatabaseClient) GetDatabase(ctx context.Context, resourcegroup string, servername string, databasename string) (db mysql.Database, err error) {
 
-	client := getMySQLDatabasesClient()
+	client := GetMySQLDatabasesClient()
 
 	return client.Get(ctx, resourcegroup, servername, databasename)
 }
