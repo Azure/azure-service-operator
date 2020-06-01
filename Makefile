@@ -162,7 +162,6 @@ helm-chart-manifests: generate
 	find ./charts/azure-service-operator/templates/generated/*_customresourcedefinition_* -exec mv '{}' ./charts/azure-service-operator/crds \;
 	# remove namespace and webhooks, as we need to wrap them in Helm conditional syntax
 	rm charts/azure-service-operator/templates/generated/*_namespace_*
-	rm charts/azure-service-operator/templates/generated/*-webhook-service*
 	# replace hard coded ASO image with Helm templating
 	perl -pi -e s,controller:latest,"{{ .Values.image.repository }}",g ./charts/azure-service-operator/templates/generated/*_deployment_*
 	# replace hard coded namespace with Helm templating
