@@ -77,6 +77,17 @@ func (enum *EnumDefinition) createBaseDeclaration(codeGenerationContext *CodeGen
 		},
 	}
 
+	if enum.description != nil {
+		declaration.Doc.List = append(
+			declaration.Doc.List,
+			&ast.Comment{Text: "\n/*" + *enum.description + "*/"})
+	}
+
+	validationComment := GenerateKubebuilderComment(enum.baseType.CreateValidation())
+	declaration.Doc.List = append(
+		declaration.Doc.List,
+		&ast.Comment{Text: "\n" + validationComment})
+
 	return declaration
 }
 

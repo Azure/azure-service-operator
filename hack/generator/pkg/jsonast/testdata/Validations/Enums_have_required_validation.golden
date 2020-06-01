@@ -8,10 +8,10 @@ import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 /*Generated from: https://test.test/schemas/2020-01-01/test.json*/
 type Test struct {
 	// +kubebuilder:validation:Required
-	// +kubebuilder:validation:Enum={"blue","green","red"}
 	Color TestColor `json:"color"`
 }
 
+// +kubebuilder:validation:Enum={"blue","green","red"}
 type TestColor string
 
 const (

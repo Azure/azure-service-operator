@@ -333,10 +333,6 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 			fieldDefinition = fieldDefinition.MakeOptional()
 		}
 
-		if enum, ok := fieldDefinition.FieldType().(*astmodel.EnumType); ok {
-			fieldDefinition = fieldDefinition.WithValidation(enum.CreateValidation())
-		}
-
 		fields = append(fields, fieldDefinition)
 	}
 
