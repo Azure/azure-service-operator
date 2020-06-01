@@ -137,6 +137,15 @@ func (m *Manager) DeleteSecret(ctx context.Context, resourceGroupName string, ap
 
 // Ensure checks the desired state of the operator
 func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		m.SecretClient = options.SecretClient
+	}
+
 	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
@@ -213,6 +222,15 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 
 // Delete removes an AppInsights resource
 func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		m.SecretClient = options.SecretClient
+	}
+
 	i, err := m.convert(obj)
 	if err != nil {
 		return false, err
