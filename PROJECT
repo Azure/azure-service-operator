@@ -57,7 +57,6 @@ resources:
   kind: PostgreSQLUser
   version: v1alpha1
 - group: azure
-  kind: APIMgmtAPI
   version: v1alpha1
 - group: azure
   version: v1alpha1
