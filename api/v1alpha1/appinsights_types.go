@@ -12,10 +12,11 @@ import (
 
 // AppInsightsSpec defines the desired state of AppInsights
 type AppInsightsSpec struct {
-	Kind            string `json:"kind"`
-	Location        string `json:"location"`
-	ApplicationType string `json:"applicationType"` // Possible values include 'web' or 'other'
-	ResourceGroup   string `json:"resourceGroup,omitempty"`
+	Kind                   string `json:"kind"`
+	Location               string `json:"location"`
+	ApplicationType        string `json:"applicationType"` // Possible values include 'web' or 'other'
+	ResourceGroup          string `json:"resourceGroup,omitempty"`
+	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
