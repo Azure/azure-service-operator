@@ -5,6 +5,7 @@ package psqluser
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"reflect"
 	"strings"
@@ -14,6 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
@@ -72,7 +74,7 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		return false, nil
 	}
 
-	adminUser := string(adminSecret[PSecretUsernameKey]) + "@" + string(instance.Spec.Server)
+	adminUser := string(adminSecret["fullyQualifiedUsername"])
 	adminPassword := string(adminSecret[PSecretPasswordKey])
 
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
@@ -96,13 +98,13 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 			return false, nil
 		}
 
-		// if this is an unmarshall error - igmore and continue, otherwise report error and requeue
-		if !strings.Contains(errorString, "cannot unmarshal array into Go struct field serviceError2.details") {
-			return false, err
+		// if this is an unmarshall error - ignore and continue, otherwise report error and requeue
+		if _, ok := err.(*json.UnmarshalTypeError); ok {
+			return false, nil
 		}
 	}
-
-	db, err := s.ConnectToSqlDb(ctx, PDriverName, instance.Spec.Server, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
+	fullServerName := string(adminSecret["fullyQualifiedServerName"])
+	db, err := s.ConnectToSqlDb(ctx, PDriverName, fullServerName, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
@@ -148,7 +150,6 @@ func (s *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 		instance.Status.Message = "failed to update secret, err: " + err.Error()
 		return false, err
 	}
-
 	// Preformatted special formats are only available through keyvault as they require separated secrets
 	keyVaultEnabled := reflect.TypeOf(sqlUserSecretClient).Elem().Name() == "KeyvaultSecretClient"
 	if keyVaultEnabled {
@@ -349,10 +350,11 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	user := string(adminSecret[PSecretUsernameKey]) + "@" + string(instance.Spec.Server)
+	user := string(adminSecret["fullyQualifiedUsername"])
 	password := string(adminSecret[PSecretPasswordKey])
+	fullservername := string(adminSecret["fullyQualifiedServerName"])
 
-	db, err := s.ConnectToSqlDb(ctx, PDriverName, instance.Spec.Server, instance.Spec.DbName, PSqlServerPort, user, password)
+	db, err := s.ConnectToSqlDb(ctx, PDriverName, fullservername, instance.Spec.DbName, PSqlServerPort, user, password)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "no pg_hba.conf entry for host") {
@@ -416,7 +418,7 @@ func (s *PostgreSqlUserManager) GetParents(obj runtime.Object) ([]resourcemanage
 				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
-			Target: &v1alpha1.PostgreSQLServer{},
+			Target: &v1alpha2.PostgreSQLServer{},
 		},
 		{
 			Key: types.NamespacedName{

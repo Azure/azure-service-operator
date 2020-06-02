@@ -59,7 +59,6 @@ resources:
 - group: azure
   kind: APIMgmtAPI
   version: v1alpha1
-  kind: APIMgmtAPI
 - group: azure
   version: v1alpha1
   kind: ApimService

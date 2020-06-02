@@ -65,20 +65,9 @@ func (s *PostgreSqlUserManager) GetDB(ctx context.Context, resourceGroupName str
 }
 
 // ConnectToSqlDb connects to the PostgreSQL db using the given credentials
-func (s *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, database string, port int, user string, password string) (*sql.DB, error) {
+func (s *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, fullservername string, database string, port int, user string, password string) (*sql.DB, error) {
 
-	psqldbdnssuffix := "database.azure.com"
-	if config.Environment().Name != "AzurePublicCloud" {
-		psqldbdnssuffix = config.Environment().SQLDatabaseDNSSuffix
-	}
-	//the host or fullserveraddress should be:
-	//for public cloud <server>.postgres.database.azure.com
-	//for China cloud <server>.postgres.database.chinacloudapi.cn
-	//for German cloud <server>.postgres.database.cloudapi.de
-	//for US government <server>.postgres.database.usgovcloudapi.net
-	fullServerAddress := fmt.Sprintf("%s.postgres."+psqldbdnssuffix, server)
-
-	connString := fmt.Sprintf("host=%s user=%s password=%s port=%d dbname=%s sslmode=require connect_timeout=30", fullServerAddress, user, password, port, database)
+	connString := fmt.Sprintf("host=%s user=%s password=%s port=%d dbname=%s sslmode=require connect_timeout=30", fullservername, user, password, port, database)
 
 	db, err := sql.Open(drivername, connString)
 	if err != nil {
@@ -117,19 +106,15 @@ func (s *PostgreSqlUserManager) CreateUser(ctx context.Context, secret map[strin
 	newPassword := string(secret[PSecretPasswordKey])
 
 	// make an effort to prevent sql injection
-	if err := findBadChars(newUser); err != nil {
+	if err := helpers.FindBadChars(newUser); err != nil {
 		return "", fmt.Errorf("Problem found with username: %v", err)
 	}
-	if err := findBadChars(newPassword); err != nil {
+	if err := helpers.FindBadChars(newPassword); err != nil {
 		return "", fmt.Errorf("Problem found with password: %v", err)
 	}
 
 	tsql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s'", newUser, newPassword)
 	_, err := db.ExecContext(ctx, tsql)
-
-	// TODO: Have db lib do string interpolation
-	//tsql := fmt.Sprintf(`CREATE USER @User WITH PASSWORD='@Password'`)
-	//_, err := db.ExecContext(ctx, tsql, sql.Named("User", newUser), sql.Named("Password", newPassword))
 
 	if err != nil {
 		return newUser, err
@@ -143,10 +128,10 @@ func (s *PostgreSqlUserManager) UpdateUser(ctx context.Context, secret map[strin
 	newPassword := helpers.NewPassword()
 
 	// make an effort to prevent sql injection
-	if err := findBadChars(user); err != nil {
+	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("Problem found with username: %v", err)
 	}
-	if err := findBadChars(newPassword); err != nil {
+	if err := helpers.FindBadChars(newPassword); err != nil {
 		return fmt.Errorf("Problem found with password: %v", err)
 	}
 
@@ -159,8 +144,7 @@ func (s *PostgreSqlUserManager) UpdateUser(ctx context.Context, secret map[strin
 // UserExists checks if db contains user
 func (s *PostgreSqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
 
-	tsql := fmt.Sprintf("SELECT * FROM pg_user WHERE usename = '%s'", username)
-	res, err := db.ExecContext(ctx, tsql)
+	res, err := db.ExecContext(ctx, "SELECT * FROM pg_user WHERE usename = $1", username)
 	if err != nil {
 		return false, err
 	}
@@ -178,8 +162,7 @@ func (s *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user s
 
 // DeleteSecrets deletes the secrets associated with a SQLUser
 func (s *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) (bool, error) {
-	// determine our key namespace - if we're persisting to kube, we should use the actual instance namespace.
-	// In keyvault we have some creative freedom to allow more flexibility
+
 	secretKey := GetNamespacedName(instance, secretClient)
 
 	// delete standard user secret
@@ -191,7 +174,6 @@ func (s *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1a
 		instance.Status.Message = "failed to delete secret, err: " + err.Error()
 		return false, err
 	}
-
 	// delete all the custom formatted secrets if keyvault is in use
 	keyVaultEnabled := reflect.TypeOf(secretClient).Elem().Name() == "KeyvaultSecretClient"
 	if keyVaultEnabled {
@@ -230,6 +212,12 @@ func (s *PostgreSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance
 	key := GetNamespacedName(instance, secretClient)
 
 	secret, err := secretClient.Get(ctx, key)
+
+	psqldbdnssuffix := "postgres.database.azure.com"
+	if config.Environment().Name != "AzurePublicCloud" {
+		psqldbdnssuffix = "postgres." + config.Environment().SQLDatabaseDNSSuffix
+	}
+
 	if err != nil {
 		// @todo: find out whether this is an error due to non existing key or failed conn
 		pw := helpers.NewPassword()
@@ -238,7 +226,7 @@ func (s *PostgreSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance
 			"password":                 []byte(pw),
 			"PSqlServerNamespace":      []byte(instance.Namespace),
 			"PSqlServerName":           []byte(instance.Spec.Server),
-			"fullyQualifiedServerName": []byte(instance.Spec.Server + "." + config.Environment().SQLDatabaseDNSSuffix),
+			"fullyQualifiedServerName": []byte(instance.Spec.Server + "." + psqldbdnssuffix),
 			"PSqlDatabaseName":         []byte(instance.Spec.DbName),
 		}
 	}
@@ -265,21 +253,4 @@ func GetNamespacedName(instance *v1alpha1.PostgreSQLUser, secretClient secrets.S
 	}
 
 	return namespacedName
-}
-
-func findBadChars(stack string) error {
-	badChars := []string{
-		"'",
-		"\"",
-		";",
-		"--",
-		"/*",
-	}
-
-	for _, s := range badChars {
-		if idx := strings.Index(stack, s); idx > -1 {
-			return fmt.Errorf("potentially dangerous character seqience found: '%s' at pos: %d", s, idx)
-		}
-	}
-	return nil
 }

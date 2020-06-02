@@ -9,21 +9,6 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
-// PSqlServerPort is the default server port for psql server
-const PSqlServerPort = 5432
-
-// PDriverName is driver name for db connection
-const PDriverName = "postgres"
-
-// PSecretUsernameKey is the username key in secret
-const PSecretUsernameKey = "username"
-
-// PSecretPasswordKey is the password key in secret
-const PSecretPasswordKey = "password"
-
-// PSQLUserFinalizerName is the name of the finalizer
-const PSQLUserFinalizerName = "postgresqluser.finalizers.azure.com"
-
 // PostgreSQLUserReconciler reconciles a PSQLUser object
 type PostgreSQLUserReconciler struct {
 	Reconciler *AsyncReconciler
