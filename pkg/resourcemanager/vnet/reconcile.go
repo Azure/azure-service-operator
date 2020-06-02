@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/profiles/latest/network/mgmt/network"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -35,13 +36,15 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	// 	consider the reconcilliation successful
 	vNet, err := g.GetVNet(ctx, resourceGroup, resourceName)
 	if err == nil {
-		// succeeded! end reconcilliation successfully
-		instance.Status.Provisioning = false
-		instance.Status.Provisioned = true
-		instance.Status.FailedProvisioning = false
-		instance.Status.Message = resourcemanager.SuccessMsg
-		instance.Status.ResourceId = *vNet.ID
-		return true, nil
+		if vNet.ProvisioningState == network.Succeeded {
+			// succeeded! end reconcilliation successfully
+			instance.Status.Provisioning = false
+			instance.Status.Provisioned = true
+			instance.Status.FailedProvisioning = false
+			instance.Status.Message = resourcemanager.SuccessMsg
+			instance.Status.ResourceId = *vNet.ID
+			return true, nil
+		}
 	}
 
 	instance.Status.Provisioning = true

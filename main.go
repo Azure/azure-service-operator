@@ -9,11 +9,14 @@ import (
 
 	"k8s.io/apimachinery/pkg/runtime"
 
+	"github.com/Azure/go-autorest/autorest/azure/auth"
+
 	"github.com/Azure/azure-service-operator/controllers"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
+	healthz "sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -46,18 +49,23 @@ import (
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	psqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/vnetrule"
-	resourcemanagerrediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
+	rediscacheactions "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/actions"
+	rcfwr "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/firewallrule"
+	rediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	vm "github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
+	vmext "github.com/Azure/azure-service-operator/pkg/resourcemanager/vmext"
 	vmss "github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	vnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
+
 	// +kubebuilder:scaffold:imports
+	"net/http"
 )
 
 var (
@@ -87,9 +95,11 @@ func init() {
 
 func main() {
 	var metricsAddr string
+	var healthAddr string
 	var enableLeaderElection bool
 	var secretClient secrets.SecretClient
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
+	flag.StringVar(&healthAddr, "health-addr", ":8081", "The address the health endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
 
@@ -98,10 +108,13 @@ func main() {
 	ctrl.SetLogger(zap.Logger(true))
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
-		Scheme:             scheme,
-		MetricsBindAddress: metricsAddr,
-		LeaderElection:     enableLeaderElection,
+		Scheme:                 scheme,
+		MetricsBindAddress:     metricsAddr,
+		HealthProbeBindAddress: healthAddr,
+		LeaderElection:         enableLeaderElection,
+		LivenessEndpointName:   "/healthz",
 	})
+
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
@@ -128,10 +141,16 @@ func main() {
 	vnetManager := vnet.NewAzureVNetManager()
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 
-	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager(
+	redisCacheManager := rediscache.NewAzureRedisCacheManager(
 		secretClient,
 		scheme,
 	)
+	redisCacheActionManager := rediscacheactions.NewAzureRedisCacheActionManager(
+		secretClient,
+		scheme,
+	)
+
+	redisCacheFirewallRuleManager := rcfwr.NewAzureRedisCacheFirewallRuleManager()
 	appInsightsManager := resourcemanagerappinsights.NewManager(
 		secretClient,
 		scheme,
@@ -170,6 +189,18 @@ func main() {
 	)
 	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
 
+	var AzureHealthCheck healthz.Checker = func(_ *http.Request) error {
+		_, err := auth.NewAuthorizerFromEnvironment()
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+	if err := mgr.AddHealthzCheck("azurehealthz", AzureHealthCheck); err != nil {
+		setupLog.Error(err, "problem running health check to azure autorizer")
+	}
+
 	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -202,6 +233,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
 		os.Exit(1)
 	}
+
 	err = (&controllers.RedisCacheReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -216,6 +248,38 @@ func main() {
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.RedisCacheActionReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: redisCacheActionManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheAction",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheAction"),
+			),
+			Recorder: mgr.GetEventRecorderFor("RedisCacheAction-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheAction")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.RedisCacheFirewallRuleReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: redisCacheFirewallRuleManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheFirewallRule"),
+			),
+			Recorder: mgr.GetEventRecorderFor("RedisCacheFirewallRule-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheFirewallRule")
 		os.Exit(1)
 	}
 
@@ -700,6 +764,25 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.AzureVirtualMachineExtensionReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client: mgr.GetClient(),
+			AzureClient: vmext.NewAzureVirtualMachineExtensionClient(
+				secretClient,
+				mgr.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VirtualMachineExtension",
+				ctrl.Log.WithName("controllers").WithName("VirtualMachineExtension"),
+			),
+			Recorder: mgr.GetEventRecorderFor("VirtualMachineExtension-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "VirtualMachineExtension")
+		os.Exit(1)
+	}
+
 	if err = (&controllers.PostgreSQLVNetRuleReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -790,4 +873,5 @@ func main() {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
+
 }

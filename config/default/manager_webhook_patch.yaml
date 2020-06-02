@@ -12,6 +12,15 @@ spec:
         - containerPort: 443
           name: webhook-server
           protocol: TCP
+        - containerPort: 8081
+          name: liveness-port
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: liveness-port
+          initialDelaySeconds: 30
+          periodSeconds: 10
         volumeMounts:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: cert

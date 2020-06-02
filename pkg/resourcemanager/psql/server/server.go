@@ -6,7 +6,6 @@ package server
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
@@ -79,7 +78,8 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 	tags map[string]*string,
 	skuInfo psql.Sku, adminlogin string,
 	adminpassword string,
-	createmode string) (pollingURL string, server psql.Server, err error) {
+	createmode psql.CreateMode,
+	hash string) (pollingURL string, server psql.Server, err error) {
 
 	client, err := getPSQLServersClient()
 	if err != nil {
@@ -92,7 +92,6 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 		return "", psql.Server{}, err
 	}
 
-	var result psql.ServersCreateFuture
 	var serverProperties psql.BasicServerPropertiesForCreate
 	var skuData *psql.Sku
 	var storageProfile *psql.StorageProfile
@@ -101,7 +100,7 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 		storageProfile = &obj
 	}
 
-	if strings.EqualFold(createmode, string(psql.CreateModeReplica)) {
+	if createmode == psql.CreateModeReplica {
 		serverProperties = &psql.ServerPropertiesForReplica{
 			SourceServerID: to.StringPtr(instance.Spec.ReplicaProperties.SourceServerId),
 			CreateMode:     psql.CreateModeReplica,
@@ -120,23 +119,49 @@ func (p *PSQLServerClient) CreateServerIfValid(ctx context.Context,
 		skuData = &skuInfo
 	}
 
-	result, err = client.Create(
-		ctx,
-		instance.Spec.ResourceGroup,
-		instance.Name,
-		psql.ServerForCreate{
-			Location:   &instance.Spec.Location,
-			Tags:       tags,
-			Properties: serverProperties,
-			Sku:        skuData,
-		},
-	)
-	if err != nil {
-		return "", psql.Server{}, err
+	if hash != instance.Status.SpecHash && instance.Status.SpecHash != "" {
+		res, err := client.Update(
+			ctx,
+			instance.Spec.ResourceGroup,
+			instance.Name,
+			psql.ServerUpdateParameters{
+				Tags: tags,
+				Sku:  skuData,
+				ServerUpdateParametersProperties: &psql.ServerUpdateParametersProperties{
+					StorageProfile: storageProfile,
+					Version:        psql.ServerVersion(instance.Spec.ServerVersion),
+					SslEnforcement: psql.SslEnforcementEnum(instance.Spec.SSLEnforcement),
+				},
+			},
+		)
+		if err != nil {
+			return "", psql.Server{}, err
+		}
+
+		pollingURL = res.PollingURL()
+		server, err = res.Result(client)
+
+	} else {
+		res, err := client.Create(
+			ctx,
+			instance.Spec.ResourceGroup,
+			instance.Name,
+			psql.ServerForCreate{
+				Location:   &instance.Spec.Location,
+				Tags:       tags,
+				Properties: serverProperties,
+				Sku:        skuData,
+			},
+		)
+		if err != nil {
+			return "", psql.Server{}, err
+		}
+
+		pollingURL = res.PollingURL()
+		server, err = res.Result(client)
 	}
 
-	res, err := result.Result(client)
-	return result.PollingURL(), res, err
+	return pollingURL, server, err
 }
 
 func (p *PSQLServerClient) DeleteServer(ctx context.Context, resourcegroup string, servername string) (status string, err error) {
