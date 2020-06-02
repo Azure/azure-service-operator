@@ -9,6 +9,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -138,7 +139,7 @@ func (p *PSQLDatabaseClient) GetParents(obj runtime.Object) ([]resourcemanager.K
 				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
-			Target: &azurev1alpha1.PostgreSQLServer{},
+			Target: &v1alpha2.PostgreSQLServer{},
 		},
 		{
 			Key: types.NamespacedName{
