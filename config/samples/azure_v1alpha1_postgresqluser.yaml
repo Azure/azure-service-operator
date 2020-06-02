@@ -22,12 +22,6 @@ spec:
   # Use the field below to optionally specify a different keyvault 
   # to store the secrets in
   # keyVaultToStoreSecrets: asokeyvault
-  
-  # Below are optional fields that allow customizing the secrets you need
-  # keyVaultSecretPrefix: sqlServer-sqlDatabase
-  # valid secret formats
-  # adonet, adonet-urlonly, jdbc, jdbc-urlonly, odbc, odbc-urlonly, server, database, username, password
-  #keyVaultSecretFormats:  
-  #   - "adonet"
+
 
 
