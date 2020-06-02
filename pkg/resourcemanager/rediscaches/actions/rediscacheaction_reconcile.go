@@ -34,38 +34,47 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 		return true, nil
 	}
 
-	rollAllKeys := instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollAllKeys
+	if v1alpha1.IsRedisCacheRollAction(instance.Spec.ActionName) {
+		rollAllKeys := instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollAllKeys
 
-	if rollAllKeys || instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollPrimaryKey {
-		if err = m.RegeneratePrimaryAccessKey(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName); err != nil {
+		if rollAllKeys || instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollPrimaryKey {
+			if err = m.RegeneratePrimaryAccessKey(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName); err != nil {
+				instance.Status.Message = err.Error()
+				return false, err
+			}
+		}
+
+		if rollAllKeys || instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollSecondaryKey {
+			if err = m.RegenerateSecondaryAccessKey(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName); err != nil {
+				instance.Status.Message = err.Error()
+				return false, err
+			}
+		}
+
+		cacheInstance := &v1alpha1.RedisCache{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      instance.Spec.CacheName,
+				Namespace: instance.Namespace,
+			},
+			Spec: v1alpha1.RedisCacheSpec{
+				SecretName:        instance.Spec.SecretName,
+				ResourceGroupName: instance.Spec.ResourceGroup,
+			},
+		}
+		if err = m.ListKeysAndCreateSecrets(ctx, cacheInstance); err != nil {
+			instance.Status.Provisioned = false
+			instance.Status.FailedProvisioning = true
 			instance.Status.Message = err.Error()
 			return false, err
 		}
 	}
 
-	if rollAllKeys || instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollSecondaryKey {
-		if err = m.RegenerateSecondaryAccessKey(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName); err != nil {
+	if v1alpha1.IsRedisCacheRebootAction(instance.Spec.ActionName) {
+		err := m.ForceReboot(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName, instance.Spec.ActionName, instance.Spec.ShardID)
+		if err != nil {
 			instance.Status.Message = err.Error()
 			return false, err
 		}
-	}
-
-	// regenerate the secret
-	cacheInstance := &v1alpha1.RedisCache{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      instance.Spec.CacheName,
-			Namespace: instance.Namespace,
-		},
-		Spec: v1alpha1.RedisCacheSpec{
-			SecretName:        instance.Spec.SecretName,
-			ResourceGroupName: instance.Spec.ResourceGroup,
-		},
-	}
-	if err = m.ListKeysAndCreateSecrets(ctx, cacheInstance); err != nil {
-		instance.Status.Provisioned = false
-		instance.Status.FailedProvisioning = true
-		instance.Status.Message = err.Error()
-		return false, err
 	}
 
 	// successful return

@@ -7,13 +7,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// +kubebuilder:validation:Enum=rollallkeys;rollprimarykey;rollsecondarykey
+// +kubebuilder:validation:Enum=rollallkeys;rollprimarykey;rollsecondarykey;rebootallnodes;rebootprimarynode;rebootsecondarynode
 type RedisCacheActionName string
 
 const (
-	RedisCacheActionNameRollAllKeys      RedisCacheActionName = "rollallkeys"
-	RedisCacheActionNameRollPrimaryKey   RedisCacheActionName = "rollprimarykey"
-	RedisCacheActionNameRollSecondaryKey RedisCacheActionName = "rollsecondarykey"
+	RedisCacheActionNameRollAllKeys         RedisCacheActionName = "rollallkeys"
+	RedisCacheActionNameRollPrimaryKey      RedisCacheActionName = "rollprimarykey"
+	RedisCacheActionNameRollSecondaryKey    RedisCacheActionName = "rollsecondarykey"
+	RedisCacheActionNameRebootAllNodes      RedisCacheActionName = "rebootallnodes"
+	RedisCacheActionNameRebootPrimaryNode   RedisCacheActionName = "rebootprimarynode"
+	RedisCacheActionNameRebootSecondaryNode RedisCacheActionName = "rebootsecondarynode"
 )
 
 // RedisCacheActionSpec defines the desired state of RedisCacheAction
@@ -23,8 +26,10 @@ type RedisCacheActionSpec struct {
 	ActionName             RedisCacheActionName `json:"actionName"`
 	SecretName             string               `json:"secretName,omitempty"`
 	KeyVaultToStoreSecrets string               `json:"keyVaultToStoreSecrets,omitempty"`
+	ShardID                *int32               `json:"shardID,omitempty"`
 }
 
+// +kubebuilder:resource:shortName=rca,path=rediscacheactions
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
@@ -50,4 +55,16 @@ type RedisCacheActionList struct {
 
 func init() {
 	SchemeBuilder.Register(&RedisCacheAction{}, &RedisCacheActionList{})
+}
+
+func IsRedisCacheRollAction(actionName RedisCacheActionName) bool {
+	return actionName == RedisCacheActionNameRollAllKeys ||
+		actionName == RedisCacheActionNameRollPrimaryKey ||
+		actionName == RedisCacheActionNameRollSecondaryKey
+}
+
+func IsRedisCacheRebootAction(actionName RedisCacheActionName) bool {
+	return actionName == RedisCacheActionNameRebootAllNodes ||
+		actionName == RedisCacheActionNameRebootPrimaryNode ||
+		actionName == RedisCacheActionNameRebootSecondaryNode
 }
