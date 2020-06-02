@@ -100,11 +100,52 @@ func (m *Manager) CreateAppInsights(
 			},
 		},
 	)
+
 	return &result, err
+}
+
+// StoreSecrets upserts the secret information for this app insight
+func (m *Manager) StoreSecrets(ctx context.Context, resourceGroupName string, appInsightsName string, instrumentationKey string, instance *v1alpha1.AppInsights) error {
+
+	// build the connection string
+	data := map[string][]byte{
+		"AppInsightsName": []byte(appInsightsName),
+	}
+	data["instrumentationKey"] = []byte(instrumentationKey)
+
+	// upsert
+	key := types.NamespacedName{
+		Name:      fmt.Sprintf("appinsights-%s-%s", resourceGroupName, appInsightsName),
+		Namespace: instance.Namespace,
+	}
+	return m.SecretClient.Upsert(ctx,
+		key,
+		data,
+		secrets.WithOwner(instance),
+		secrets.WithScheme(m.Scheme),
+	)
+}
+
+// DeleteSecret deletes the secret information for this app insight
+func (m *Manager) DeleteSecret(ctx context.Context, resourceGroupName string, appInsightsName string, instance *v1alpha1.AppInsights) error {
+	key := types.NamespacedName{
+		Name:      fmt.Sprintf("appinsights-%s-%s", resourceGroupName, appInsightsName),
+		Namespace: instance.Namespace,
+	}
+	return m.SecretClient.Delete(ctx, key)
 }
 
 // Ensure checks the desired state of the operator
 func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		m.SecretClient = options.SecretClient
+	}
+
 	instance, err := m.convert(obj)
 	if err != nil {
 		return false, err
@@ -118,6 +159,21 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 		instance.Status.State = *comp.ProvisioningState
 
 		if *comp.ProvisioningState == "Succeeded" {
+
+			// upsert instrumentation key
+			if comp.ApplicationInsightsComponentProperties != nil {
+				properties := *comp.ApplicationInsightsComponentProperties
+				err = m.StoreSecrets(ctx,
+					instance.Spec.ResourceGroup,
+					instance.Name,
+					*properties.InstrumentationKey,
+					instance,
+				)
+				if err != nil {
+					return false, err
+				}
+			}
+
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
@@ -153,21 +209,6 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 
 	instance.Status.State = *appcomp.ProvisioningState
 
-	instKey := *appcomp.ApplicationInsightsComponentProperties.InstrumentationKey
-
-	key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	err = m.SecretClient.Upsert(
-		ctx,
-		key,
-		map[string][]byte{"instrumentationKey": []byte(instKey)},
-		secrets.WithOwner(instance),
-		secrets.WithScheme(m.Scheme),
-	)
-	if err != nil {
-		instance.Status.Message = "failed to update secret, err: " + err.Error()
-		return false, err
-	}
-
 	if instance.Status.Provisioning {
 		instance.Status.Provisioned = true
 		instance.Status.Message = resourcemanager.SuccessMsg
@@ -181,6 +222,15 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 
 // Delete removes an AppInsights resource
 func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
+	if options.SecretClient != nil {
+		m.SecretClient = options.SecretClient
+	}
+
 	i, err := m.convert(obj)
 	if err != nil {
 		return false, err
@@ -201,6 +251,10 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {
+			m.DeleteSecret(ctx,
+				i.Spec.ResourceGroup,
+				i.Name,
+				i)
 			return false, nil
 		}
 		return true, err
@@ -209,6 +263,10 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 
 	if err == nil {
 		if response.Status != "InProgress" {
+			m.DeleteSecret(ctx,
+				i.Spec.ResourceGroup,
+				i.Name,
+				i)
 			return false, nil
 		}
 	}
