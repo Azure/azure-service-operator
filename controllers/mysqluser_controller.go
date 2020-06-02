@@ -9,21 +9,6 @@ import (
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
-// MySqlServerPort is the default server port for psql server
-const MySqlServerPort = 3306
-
-// MDriverName is driver name for db connection
-const MDriverName = "postgres"
-
-// MSecretUsernameKey is the username key in secret
-const MSecretUsernameKey = "username"
-
-// MSecretPasswordKey is the password key in secret
-const MSecretPasswordKey = "password"
-
-// MySQLUserFinalizerName is the name of the finalizer
-const MySQLUserFinalizerName = "mysqluser.finalizers.azure.com"
-
 // MySQLUserReconciler reconciles a MySQLUser object
 type MySQLUserReconciler struct {
 	Reconciler *AsyncReconciler

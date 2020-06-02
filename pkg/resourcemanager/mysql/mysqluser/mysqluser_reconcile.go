@@ -5,6 +5,7 @@ package mysqluser
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"reflect"
 	"strings"
@@ -14,6 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
@@ -72,9 +74,6 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, nil
 	}
 
-	adminUser := string(adminSecret[MSecretUsernameKey]) + "@" + string(instance.Spec.Server)
-	adminPassword := string(adminSecret[MSecretPasswordKey])
-
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
@@ -97,12 +96,16 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		}
 
 		// if this is an unmarshall error - igmore and continue, otherwise report error and requeue
-		if !strings.Contains(errorString, "cannot unmarshal array into Go struct field serviceError2.details") {
+		if _, ok := err.(*json.UnmarshalTypeError); ok {
 			return false, err
 		}
 	}
 
-	db, err := s.ConnectToSqlDb(ctx, MDriverName, instance.Spec.Server, instance.Spec.DbName, MSqlServerPort, adminUser, adminPassword)
+	adminUser := string(adminSecret["fullyQualifiedUsername"])
+	adminPassword := string(adminSecret[MSecretPasswordKey])
+	fullServerName := string(adminSecret["fullyQualifiedServerName"])
+
+	db, err := s.ConnectToSqlDb(ctx, MDriverName, fullServerName, instance.Spec.DbName, MSqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
@@ -340,10 +343,12 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	adminuser := string(adminSecret[MSecretUsernameKey]) + "@" + string(instance.Spec.Server)
+	adminuser := string(adminSecret["fullyQualifiedUsername"])
 	adminpassword := string(adminSecret[MSecretPasswordKey])
+	fullServerName := string(adminSecret["fullyQualifiedServerName"])
+	fmt.Println("full server is :" + fullServerName)
 
-	db, err := s.ConnectToSqlDb(ctx, MDriverName, instance.Spec.Server, instance.Spec.DbName, MSqlServerPort, adminuser, adminpassword)
+	db, err := s.ConnectToSqlDb(ctx, MDriverName, fullServerName, instance.Spec.DbName, MSqlServerPort, adminuser, adminpassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "is not allowed to connect to this MySQL server") {
@@ -392,7 +397,7 @@ func (s *MySqlUserManager) GetParents(obj runtime.Object) ([]resourcemanager.Kub
 				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
-			Target: &v1alpha1.MySQLServer{},
+			Target: &v1alpha2.MySQLServer{},
 		},
 		{
 			Key: types.NamespacedName{

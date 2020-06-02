@@ -61,20 +61,9 @@ func (s *MySqlUserManager) GetDB(ctx context.Context, resourceGroupName string, 
 }
 
 // ConnectToSqlDb connects to the SQL db using the given credentials
-func (s *MySqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, server string, database string, port int, user string, password string) (*sql.DB, error) {
+func (s *MySqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, fullserver string, database string, port int, user string, password string) (*sql.DB, error) {
 
-	mysqldbdnssuffix := "database.azure.com"
-	if config.Environment().Name != "AzurePublicCloud" {
-		mysqldbdnssuffix = config.Environment().SQLDatabaseDNSSuffix
-	}
-	//the host or fullserveraddress should be:
-	//for public cloud <server>.mysql.database.azure.com
-	//for China cloud <server>.mysql.database.chinacloudapi.cn
-	//for German cloud <server>.mysql.database.cloudapi.de
-	//for US government <server>.mysql.database.usgovcloudapi.net
-	fullServerAddress := fmt.Sprintf("%s.mysql."+mysqldbdnssuffix, server)
-
-	connString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?tls=skip-verify", user, password, fullServerAddress, port, database)
+	connString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?tls=skip-verify", user, password, fullserver, port, database)
 
 	db, err := sql.Open(drivername, connString)
 	if err != nil {
@@ -113,10 +102,10 @@ func (s *MySqlUserManager) CreateUser(ctx context.Context, server string, secret
 	newPassword := string(secret[MSecretPasswordKey])
 
 	// make an effort to prevent sql injection
-	if err := findBadChars(newUser); err != nil {
+	if err := helpers.FindBadChars(newUser); err != nil {
 		return "", fmt.Errorf("Problem found with username: %v", err)
 	}
-	if err := findBadChars(newPassword); err != nil {
+	if err := helpers.FindBadChars(newPassword); err != nil {
 		return "", fmt.Errorf("Problem found with password: %v", err)
 	}
 
@@ -132,9 +121,9 @@ func (s *MySqlUserManager) CreateUser(ctx context.Context, server string, secret
 // UserExists checks if db contains user
 func (s *MySqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string, server string) (bool, error) {
 
-	tsql := fmt.Sprintf("SELECT * FROM mysql.user WHERE (Host = '%s') and (User = '%s')", server, username)
-	fmt.Printf(tsql)
-	err := db.QueryRowContext(ctx, tsql)
+	//tsql := fmt.Sprintf("SELECT * FROM mysql.user WHERE (Host = '%s') and (User = '%s')", server, username)
+
+	err := db.QueryRowContext(ctx, "SELECT * FROM mysql.user WHERE (Host = $1) and (User = $2)", server, username)
 	//err := db.ExecContext(ctx, tsql)
 
 	if err != nil {
@@ -207,6 +196,11 @@ func (s *MySqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1
 func (s *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.MySQLUser, secretClient secrets.SecretClient) map[string][]byte {
 	key := GetNamespacedName(instance, secretClient)
 
+	mysqldbdnssuffix := "mysql.database.azure.com"
+	if config.Environment().Name != "AzurePublicCloud" {
+		mysqldbdnssuffix = "mysql." + string(config.Environment().SQLDatabaseDNSSuffix)
+	}
+
 	secret, err := secretClient.Get(ctx, key)
 	if err != nil {
 		// @todo: find out whether this is an error due to non existing key or failed conn
@@ -216,7 +210,7 @@ func (s *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1a
 			"password":                 []byte(pw),
 			"MySqlServerNamespace":     []byte(instance.Namespace),
 			"MySqlServerName":          []byte(instance.Spec.Server),
-			"fullyQualifiedServerName": []byte(instance.Spec.Server + "." + config.Environment().SQLDatabaseDNSSuffix),
+			"fullyQualifiedServerName": []byte(instance.Spec.Server + "." + mysqldbdnssuffix),
 			"MySqlDatabaseName":        []byte(instance.Spec.DbName),
 		}
 	}
@@ -243,21 +237,4 @@ func GetNamespacedName(instance *v1alpha1.MySQLUser, secretClient secrets.Secret
 	}
 
 	return namespacedName
-}
-
-func findBadChars(stack string) error {
-	badChars := []string{
-		"'",
-		"\"",
-		";",
-		"--",
-		"/*",
-	}
-
-	for _, s := range badChars {
-		if idx := strings.Index(stack, s); idx > -1 {
-			return fmt.Errorf("potentially dangerous character seqience found: '%s' at pos: %d", s, idx)
-		}
-	}
-	return nil
 }
