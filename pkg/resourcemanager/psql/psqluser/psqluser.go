@@ -7,7 +7,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"reflect"
 	"strings"
 
 	psql "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2017-12-01/postgresql"
@@ -85,8 +84,17 @@ func (s *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername s
 // GrantUserRoles grants roles to a user for a given database
 func (s *PostgreSqlUserManager) GrantUserRoles(ctx context.Context, user string, roles []string, db *sql.DB) error {
 	var errorStrings []string
+
+	if err := helpers.FindBadChars(user); err != nil {
+		return fmt.Errorf("Problem found with username: %v", err)
+	}
+
 	for _, role := range roles {
 		tsql := fmt.Sprintf("GRANT %s TO %q", role, user)
+
+		if err := helpers.FindBadChars(role); err != nil {
+			return fmt.Errorf("Problem found with role: %v", err)
+		}
 
 		_, err := db.ExecContext(ctx, tsql)
 		if err != nil {
@@ -155,6 +163,10 @@ func (s *PostgreSqlUserManager) UserExists(ctx context.Context, db *sql.DB, user
 
 // DropUser drops a user from db
 func (s *PostgreSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
+	if err := helpers.FindBadChars(user); err != nil {
+		return fmt.Errorf("Problem found with username: %v", err)
+	}
+
 	tsql := fmt.Sprintf("DROP USER IF EXISTS %q", user)
 	_, err := db.ExecContext(ctx, tsql)
 	return err
@@ -173,35 +185,6 @@ func (s *PostgreSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1a
 	if err != nil {
 		instance.Status.Message = "failed to delete secret, err: " + err.Error()
 		return false, err
-	}
-	// delete all the custom formatted secrets if keyvault is in use
-	keyVaultEnabled := reflect.TypeOf(secretClient).Elem().Name() == "KeyvaultSecretClient"
-	if keyVaultEnabled {
-		customFormatNames := []string{
-			"adonet",
-			"adonet-urlonly",
-			"jdbc",
-			"jdbc-urlonly",
-			"odbc",
-			"odbc-urlonly",
-			"server",
-			"database",
-			"username",
-			"password",
-		}
-
-		for _, formatName := range customFormatNames {
-			key := types.NamespacedName{Namespace: secretKey.Namespace, Name: instance.Name + "-" + formatName}
-
-			err = secretClient.Delete(
-				ctx,
-				key,
-			)
-			if err != nil {
-				instance.Status.Message = "failed to delete secret, err: " + err.Error()
-				return false, err
-			}
-		}
 	}
 
 	return false, nil
@@ -230,27 +213,11 @@ func (s *PostgreSqlUserManager) GetOrPrepareSecret(ctx context.Context, instance
 			"PSqlDatabaseName":         []byte(instance.Spec.DbName),
 		}
 	}
+
 	return secret
 }
 
 // GetNamespacedName gets the namespaced-name
 func GetNamespacedName(instance *v1alpha1.PostgreSQLUser, secretClient secrets.SecretClient) types.NamespacedName {
-	var namespacedName types.NamespacedName
-	keyVaultEnabled := reflect.TypeOf(secretClient).Elem().Name() == "KeyvaultSecretClient"
-
-	if keyVaultEnabled {
-		// For a keyvault secret store, check for supplied namespace parameters
-		var dbUserCustomNamespace string
-		if instance.Spec.KeyVaultSecretPrefix != "" {
-			dbUserCustomNamespace = instance.Spec.KeyVaultSecretPrefix
-		} else {
-			dbUserCustomNamespace = "psqluser-" + instance.Spec.Server + "-" + instance.Spec.DbName
-		}
-
-		namespacedName = types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name}
-	} else {
-		namespacedName = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	}
-
-	return namespacedName
+	return types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 }
