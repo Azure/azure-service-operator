@@ -7,3 +7,7 @@ spec:
   location: westus
   resourceGroup: resourcegroup-azure-operators
   applicationType: other # Possible values include 'web' or 'other'
+
+  # Use the field below to optionally specify a different keyvault 
+  # to store the secrets in
+  #keyVaultToStoreSecrets: asoSecretKeyVault
