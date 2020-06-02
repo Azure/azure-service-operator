@@ -144,6 +144,10 @@ delete:
 validate-copyright-headers:
 	@./scripts/validate-copyright-headers.sh
 
+# Validate cainjection files:
+validate-cainjection-files:
+	@./scripts/validate-cainjection-files.sh
+
 # Generate manifests for helm and package them up
 helm-chart-manifests: manifests
 	mkdir charts/azure-service-operator/templates/generated
