@@ -61,6 +61,24 @@ func TestPSQLDatabaseController(t *testing.T) {
 
 	EnsureInstance(ctx, t, tc, postgreSQLServerInstance)
 
+	postgreSQLFirewallRuleName := GenerateTestResourceNameWithRandom("psql-fwrule", 10)
+
+	// Create the PostgreSQLFirewallRule object and expect the Reconcile to be created
+	postgreSQLFirewallRuleInstance := &azurev1alpha1.PostgreSQLFirewallRule{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      postgreSQLFirewallRuleName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.PostgreSQLFirewallRuleSpec{
+			ResourceGroup:  rgName,
+			Server:         postgreSQLServerName,
+			StartIPAddress: "0.0.0.0",
+			EndIPAddress:   "255.255.255.255",
+		},
+	}
+
+	EnsureInstance(ctx, t, tc, postgreSQLFirewallRuleInstance)
+
 	postgreSQLDatabaseName := GenerateTestResourceNameWithRandom("psql-db", 10)
 
 	// Create the PostgreSQLDatabase object and expect the Reconcile to be created
@@ -78,26 +96,6 @@ func TestPSQLDatabaseController(t *testing.T) {
 	EnsureInstance(ctx, t, tc, postgreSQLDatabaseInstance)
 
 	EnsureDelete(ctx, t, tc, postgreSQLDatabaseInstance)
-
-	// Test firewall rule -------------------------------
-
-	postgreSQLFirewallRuleName := GenerateTestResourceNameWithRandom("psql-fwrule", 10)
-
-	// Create the PostgreSQLFirewallRule object and expect the Reconcile to be created
-	postgreSQLFirewallRuleInstance := &azurev1alpha1.PostgreSQLFirewallRule{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      postgreSQLFirewallRuleName,
-			Namespace: "default",
-		},
-		Spec: azurev1alpha1.PostgreSQLFirewallRuleSpec{
-			ResourceGroup:  rgName,
-			Server:         postgreSQLServerName,
-			StartIPAddress: "0.0.0.0",
-			EndIPAddress:   "0.0.0.0",
-		},
-	}
-
-	EnsureInstance(ctx, t, tc, postgreSQLFirewallRuleInstance)
 
 	EnsureDelete(ctx, t, tc, postgreSQLFirewallRuleInstance)
 
