@@ -31,6 +31,7 @@ type KeyVaultKeySpec struct {
 // +kubebuilder:subresource:status
 
 // KeyVaultKey is the Schema for the keyvaultkeys API
+// +kubebuilder:resource:shortName=kvk
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type KeyVaultKey struct {
