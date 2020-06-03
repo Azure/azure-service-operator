@@ -28,6 +28,7 @@ type PostgreSQLServerSpec struct {
 // +kubebuilder:storageversion
 
 // PostgreSQLServer is the Schema for the postgresqlservers API
+// +kubebuilder:resource:shortName=psqls
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLServer struct {
