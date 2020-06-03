@@ -5,12 +5,14 @@ package vnet
 
 import (
 	"context"
+	"fmt"
+	"net"
 
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
+	"github.com/Azure/azure-service-operator/pkg/telemetry"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
@@ -110,4 +112,39 @@ func (v *AzureVNetManager) GetVNet(ctx context.Context, resourceGroupName string
 	}
 
 	return client.Get(ctx, resourceGroupName, resourceName, "")
+}
+
+func (v *AzureVNetManager) GetAvailableIP(ctx context.Context, resourceGroup, vnet, subnet string) (string, error) {
+	client, err := getVNetClient()
+	if err != nil {
+		return "", err
+	}
+
+	sclient := NewAzureSubnetManager()
+
+	sub, err := sclient.Get(ctx, resourceGroup, vnet, subnet)
+	if err != nil {
+		return "", err
+	}
+
+	if sub.SubnetPropertiesFormat == nil {
+		return "", fmt.Errorf("could not find subnet '%s'", subnet)
+	}
+	prefix := *sub.AddressPrefix
+	ip, _, err := net.ParseCIDR(prefix)
+	if err != nil {
+		return "", err
+	}
+
+	result, err := client.CheckIPAddressAvailability(ctx, resourceGroup, vnet, ip.String())
+	if err != nil {
+		return "", err
+	}
+
+	if result.AvailableIPAddresses == nil || len(*result.AvailableIPAddresses) == 0 {
+		return "", fmt.Errorf("No available IP addresses in vnet %s", vnet)
+	}
+
+	return (*result.AvailableIPAddresses)[0], nil
+
 }
