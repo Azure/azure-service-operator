@@ -59,9 +59,29 @@ The `server` indicates the MySQL server on which you want to configure the new M
 
 The MySQL virtual network rule operator allows you to add virtual network rules to the MySQL server.
 
+Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlvnetrule.yaml) for MySQL virtual network rule. 
+
 The `server` indicates the MySQL server on which you want to configure the new MySQL virtual network rule on and `resourceGroup` is the resource group of the MySQL server. Provide the virtual network name and subnet name in the variables `vNetName` and `subnetName`, and `vNetResourceGroup` is the resource group the virtual network is located in. The `ignoreMissingServiceEndpoint` indicates whether or not to create virtual network rule before the virtual network has vnet service endpoint enabled.
 
 *Note*: When using MySQL Virtual Network Rules, the `Basic` SKU is not a valid op
+
+### MySQL user
+
+The MySQL user operator allows you to add new user to an existing MySQL database. 
+
+Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqluser.yaml) for MySQL user. 
+
+The `resourceGroup` is the resource group of the MySQL server and MySQL database, provide the MySQL server name in `server` and MySQL database name in `dbName`. 
+
+The operator supports grant spefied previleges using the concept of `roles`, and supports to assign one or more previleges from the list:
+
+##### `SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER`.
+
+The username is defined by `username`. The MySQL server admin secret is stored in k8s specified by `adminSecret` or from specific keyvault created by end user `adminSecretKeyVault`. 
+
+End user can store the user scerect to keyvault by `keyVaultToStoreSecrets` or use the k8s default secret to store. 
+
+
 
 ## Deploy, view and delete resources
 
