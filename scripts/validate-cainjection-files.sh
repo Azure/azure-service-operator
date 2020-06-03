@@ -15,4 +15,5 @@ if [ ${#old_certmgr_files[@]} -gt 0 ]; then
   done
   echo "Run the following command to fix the files:"
   echo "  sed -i '' 's/certmanager.k8s.io/certmanager.io/' ./config/crd/patches/cainjection*.yaml"
+  exit 1
 fi
