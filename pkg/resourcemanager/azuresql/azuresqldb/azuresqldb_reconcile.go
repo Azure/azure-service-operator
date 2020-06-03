@@ -71,12 +71,25 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			instance.Spec.YearlyRetention,
 			instance.Spec.WeekOfYear)
 		if err != nil {
-			return false, err
+			failureErrors := []string{
+				errhelp.LongTermRetentionPolicyInvalid,
+			}
+			instance.Status.Message = fmt.Sprintf("Azure DB long-term retention policy error: %s", errhelp.StripErrorIDs(err))
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if helpers.ContainsString(failureErrors, azerr.Type) {
+				instance.Status.Provisioning = false
+				instance.Status.Provisioned = false
+				instance.Status.FailedProvisioning = true
+				return true, nil
+			} else {
+				return false, err
+			}
 		}
 
 		// db exists, we have successfully provisioned everything
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
+		instance.Status.FailedProvisioning = false
 		instance.Status.State = string(*dbGet.Status)
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *dbGet.ID
