@@ -33,27 +33,27 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		return false, err
 	}
 
-	redisName := instance.Name
+	name := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 	groupName := instance.Spec.ResourceGroupName
-	name := instance.ObjectMeta.Name
-
-	if len(instance.Spec.SecretName) == 0 {
-		instance.Spec.SecretName = redisName
-	}
 
 	// if an error occurs thats ok as it means that it doesn't exist yet
-	newRc, err := rc.GetRedisCache(ctx, groupName, name)
+	newRc, err := rc.GetRedisCache(ctx, groupName, name.Name)
 	if err == nil {
 
 		// succeeded! so end reconcilliation successfully
 		if newRc.ProvisioningState == "Succeeded" {
-			err = rc.ListKeysAndCreateSecrets(groupName, redisName, instance.Spec.SecretName, instance)
+			err = rc.ListKeysAndCreateSecrets(ctx, instance)
 			if err != nil {
 				instance.Status.Message = err.Error()
 				return false, err
 			}
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.State = string(newRc.ProvisioningState)
+
+			if newRc.StaticIP != nil {
+				instance.Status.Output = *newRc.StaticIP
+			}
+
 			instance.Status.ResourceId = *newRc.ID
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false

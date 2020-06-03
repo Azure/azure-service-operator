@@ -48,10 +48,12 @@ import (
 	pip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	psqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	psqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
+	psqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/psqluser"
 	psqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
 	psqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/vnetrule"
+	rediscacheactions "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/actions"
 	rcfwr "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/firewallrule"
-	resourcemanagerrediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
+	rediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
@@ -141,7 +143,11 @@ func main() {
 	vnetManager := vnet.NewAzureVNetManager()
 	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 
-	redisCacheManager := resourcemanagerrediscache.NewAzureRedisCacheManager(
+	redisCacheManager := rediscache.NewAzureRedisCacheManager(
+		secretClient,
+		scheme,
+	)
+	redisCacheActionManager := rediscacheactions.NewAzureRedisCacheActionManager(
 		secretClient,
 		scheme,
 	)
@@ -175,6 +181,10 @@ func main() {
 	psqlserverclient := psqlserver.NewPSQLServerClient(secretClient, mgr.GetScheme())
 	psqldatabaseclient := psqldatabase.NewPSQLDatabaseClient()
 	psqlfirewallruleclient := psqlfirewallrule.NewPSQLFirewallRuleClient()
+	psqlusermanager := psqluser.NewPostgreSqlUserManager(
+		secretClient,
+		scheme,
+	)
 	sqlUserManager := resourcemanagersqluser.NewAzureSqlUserManager(
 		secretClient,
 		scheme,
@@ -229,6 +239,7 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "CosmosDB")
 		os.Exit(1)
 	}
+
 	err = (&controllers.RedisCacheReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
@@ -243,6 +254,22 @@ func main() {
 	}).SetupWithManager(mgr)
 	if err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCache")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.RedisCacheActionReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: redisCacheActionManager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheAction",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheAction"),
+			),
+			Recorder: mgr.GetEventRecorderFor("RedisCacheAction-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheAction")
 		os.Exit(1)
 	}
 
@@ -554,6 +581,22 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLFirewallRule")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.PostgreSQLUserReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: psqlusermanager,
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"PSQLUser",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLUser"),
+			),
+			Recorder: mgr.GetEventRecorderFor("PostgreSQLUser-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLUser")
 		os.Exit(1)
 	}
 

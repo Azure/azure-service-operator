@@ -22,6 +22,7 @@ resources:
 - bases/azure.microsoft.com_postgresqldatabases.yaml
 - bases/azure.microsoft.com_postgresqlfirewallrules.yaml
 - bases/azure.microsoft.com_postgresqlvnetrules.yaml
+- bases/azure.microsoft.com_postgresqlusers.yaml
 - bases/azure.microsoft.com_apimservices.yaml
 - bases/azure.microsoft.com_apimgmtapis.yaml
 - bases/azure.microsoft.com_virtualnetworks.yaml
@@ -39,6 +40,7 @@ resources:
 - bases/azure.microsoft.com_azureloadbalancers.yaml
 - bases/azure.microsoft.com_azurevmscalesets.yaml
 - bases/azure.microsoft.com_azuredisks.yaml
+- bases/azure.microsoft.com_rediscacheactions.yaml
 - bases/azure.microsoft.com_rediscachefirewallrules.yaml
 - bases/azure.microsoft.com_azurevirtualmachineextensions.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
@@ -79,6 +81,7 @@ patches:
 #- patches/webhook_in_azureloadbalancers.yaml
 #- patches/webhook_in_azurevmscalesets.yaml
 #- patches/webhook_in_azuredisks.yaml
+#- patches/webhook_in_rediscacheactions.yaml
 #- patches/webhook_in_rediscachefirewallrules.yaml
 #- patches/webhook_in_azurevirtualmachineextensions.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
@@ -118,6 +121,7 @@ patches:
 #- patches/cainjection_in_azureloadbalancers.yaml
 #- patches/cainjection_in_azurevmscalesets.yaml
 #- patches/cainjection_in_azuredisks.yaml
+#- patches/cainjection_in_rediscacheactions.yaml
 #- patches/cainjection_in_rediscachefirewallrules.yaml
 #- patches/cainjection_in_azurevirtualmachineextensions.yaml
 # +kubebuilder:scaffold:crdkustomizecainjectionpatch

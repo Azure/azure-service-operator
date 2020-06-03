@@ -45,9 +45,11 @@ import (
 	resourcemanagerpip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
+	resourcemanagerpsqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/psqluser"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
+	rediscacheactions "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/actions"
 	rcfwr "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/firewallrule"
-	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
+	rediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerblobcontainer "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	resourcemanagerstorageaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
@@ -272,7 +274,7 @@ func setup() error {
 	err = (&RedisCacheReconciler{
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagerrediscaches.NewAzureRedisCacheManager(
+			AzureClient: rediscaches.NewAzureRedisCacheManager(
 				secretClient,
 				scheme.Scheme,
 			),
@@ -282,6 +284,25 @@ func setup() error {
 			),
 			Recorder: k8sManager.GetEventRecorderFor("RedisCache-controller"),
 			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&RedisCacheActionReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: rediscacheactions.NewAzureRedisCacheActionManager(
+				secretClient,
+				scheme.Scheme,
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheAction",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheAction"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("RedisCacheAction-controller"),
+			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -730,6 +751,22 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRule"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&PostgreSQLUserReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: resourcemanagerpsqluser.NewPostgreSqlUserManager(secretClient, k8sManager.GetScheme()),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"PostgreSQLUser",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLUser"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLUser-controller"),
 			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)
