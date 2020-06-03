@@ -34,6 +34,8 @@ type VNetManager interface {
 		resourceGroupName string,
 		resourceName string) (vnetwork.VirtualNetwork, error)
 
+	GetAvailableIP(ctc context.Context, resourceGroup, vnet, subnet string) (string, error)
+
 	// also embed async client methods
 	resourcemanager.ARMClient
 }
