@@ -25,6 +25,7 @@ type PostgreSQLVNetRuleSpec struct {
 // +kubebuilder:object:root=true
 
 // PostgreSQLVNetRule is the Schema for the PostgreSQLVNetRules API
+// +kubebuilder:resource:shortName=psqlvnr
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLVNetRule struct {
