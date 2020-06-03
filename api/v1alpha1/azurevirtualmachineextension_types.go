@@ -31,6 +31,7 @@ type AzureVirtualMachineExtensionSpec struct {
 
 // AzureVirtualMachineExtension is the Schema for the azurevirtualmachineextensions API
 // +kubebuilder:resource:shortName=vmext,path=azurevirtualmachineextensions
+// +kubebuilder:resource:shortName=avme
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureVirtualMachineExtension struct {

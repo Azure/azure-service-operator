@@ -27,6 +27,7 @@ type AzureSQLManagedUserSpec struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // AzureSQLManagedUser is the Schema for the azuresqlmanagedusers API
+// +kubebuilder:resource:shortName=asqlmu
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSQLManagedUser struct {

@@ -29,6 +29,7 @@ type RedisCacheActionSpec struct {
 // +kubebuilder:subresource:status
 
 // RedisCacheAction is the Schema for the rediscacheactions API
+// +kubebuilder:resource:shortName=rca
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type RedisCacheAction struct {
