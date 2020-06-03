@@ -22,6 +22,7 @@ resources:
 - bases/azure.microsoft.com_postgresqldatabases.yaml
 - bases/azure.microsoft.com_postgresqlfirewallrules.yaml
 - bases/azure.microsoft.com_postgresqlvnetrules.yaml
+- bases/azure.microsoft.com_postgresqlusers.yaml
 - bases/azure.microsoft.com_apimservices.yaml
 - bases/azure.microsoft.com_apimgmtapis.yaml
 - bases/azure.microsoft.com_virtualnetworks.yaml
