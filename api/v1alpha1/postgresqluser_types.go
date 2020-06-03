@@ -19,12 +19,10 @@ type PostgreSQLUserSpec struct {
 	ResourceGroup string   `json:"resourceGroup,omitempty"`
 	Roles         []string `json:"roles"`
 	// optional
-	AdminSecret            string   `json:"adminSecret,omitempty"`
-	AdminSecretKeyVault    string   `json:"adminSecretKeyVault,omitempty"`
-	Username               string   `json:"username,omitempty"`
-	KeyVaultToStoreSecrets string   `json:"keyVaultToStoreSecrets,omitempty"`
-	KeyVaultSecretPrefix   string   `json:"keyVaultSecretPrefix,omitempty"`
-	KeyVaultSecretFormats  []string `json:"keyVaultSecretFormats,omitempty"`
+	AdminSecret            string `json:"adminSecret,omitempty"`
+	AdminSecretKeyVault    string `json:"adminSecretKeyVault,omitempty"`
+	Username               string `json:"username,omitempty"`
+	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true
