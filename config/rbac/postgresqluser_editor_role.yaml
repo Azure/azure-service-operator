@@ -19,9 +19,6 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - postgre
-  sqlusers/status
+  - postgresqlusers/status
   verbs:
   - get
-  - patch
-  - update
