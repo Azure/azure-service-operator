@@ -14,6 +14,7 @@ require (
 	github.com/denisenkom/go-mssqldb v0.0.0-20200206145737-bbfc9a55622e
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-logr/logr v0.1.0
+	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gobuffalo/envy v1.7.0
 	github.com/google/go-cmp v0.3.0
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510

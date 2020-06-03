@@ -7,7 +7,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"reflect"
 	"strings"
 
 	mysql "github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2017-12-01/mysql"
@@ -81,8 +80,16 @@ func (s *MySqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string
 // GrantUserRoles grants roles to a user for a given database
 func (s *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, server string, roles []string, db *sql.DB) error {
 	var errorStrings []string
+	if err := helpers.FindBadChars(user); err != nil {
+		return fmt.Errorf("Problem found with username: %v", err)
+	}
+
 	for _, role := range roles {
 		tsql := fmt.Sprintf("GRANT %s TO '%s'@'%s'", role, user, server)
+
+		if err := helpers.FindBadChars(role); err != nil {
+			return fmt.Errorf("Problem found with role: %v", err)
+		}
 
 		_, err := db.ExecContext(ctx, tsql)
 		if err != nil {
@@ -139,6 +146,9 @@ func (s *MySqlUserManager) UserExists(ctx context.Context, db *sql.DB, username 
 // DropUser drops a user from db
 func (s *MySqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string, server string) error {
 	tsql := fmt.Sprintf("DROP USER IF EXISTS '%s'@'%s'", user, server)
+	if err := helpers.FindBadChars(user); err != nil {
+		return fmt.Errorf("Problem found with username: %v", err)
+	}
 	_, err := db.ExecContext(ctx, tsql)
 	return err
 }
@@ -157,36 +167,6 @@ func (s *MySqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alpha1
 	if err != nil {
 		instance.Status.Message = "failed to delete secret, err: " + err.Error()
 		return false, err
-	}
-
-	// delete all the custom formatted secrets if keyvault is in use
-	keyVaultEnabled := reflect.TypeOf(secretClient).Elem().Name() == "KeyvaultSecretClient"
-	if keyVaultEnabled {
-		customFormatNames := []string{
-			"adonet",
-			"adonet-urlonly",
-			"jdbc",
-			"jdbc-urlonly",
-			"odbc",
-			"odbc-urlonly",
-			"server",
-			"database",
-			"username",
-			"password",
-		}
-
-		for _, formatName := range customFormatNames {
-			key := types.NamespacedName{Namespace: secretKey.Namespace, Name: instance.Name + "-" + formatName}
-
-			err = secretClient.Delete(
-				ctx,
-				key,
-			)
-			if err != nil {
-				instance.Status.Message = "failed to delete secret, err: " + err.Error()
-				return false, err
-			}
-		}
 	}
 
 	return false, nil
@@ -219,22 +199,6 @@ func (s *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1a
 
 // GetNamespacedName gets the namespaced-name
 func GetNamespacedName(instance *v1alpha1.MySQLUser, secretClient secrets.SecretClient) types.NamespacedName {
-	var namespacedName types.NamespacedName
-	keyVaultEnabled := reflect.TypeOf(secretClient).Elem().Name() == "KeyvaultSecretClient"
 
-	if keyVaultEnabled {
-		// For a keyvault secret store, check for supplied namespace parameters
-		var dbUserCustomNamespace string
-		if instance.Spec.KeyVaultSecretPrefix != "" {
-			dbUserCustomNamespace = instance.Spec.KeyVaultSecretPrefix
-		} else {
-			dbUserCustomNamespace = "Mysqluser-" + instance.Spec.Server + "-" + instance.Spec.DbName
-		}
-
-		namespacedName = types.NamespacedName{Namespace: dbUserCustomNamespace, Name: instance.Name}
-	} else {
-		namespacedName = types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-	}
-
-	return namespacedName
+	return types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 }
