@@ -106,25 +106,6 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
-      path: /mutate-microsoft-network-infra-azure-com-v1-networkinterfaceipconfiguration
-  failurePolicy: Fail
-  matchPolicy: Equivalent
-  name: default.networkinterfaceipconfiguration.infra.azure.com
-  rules:
-  - apiGroups:
-    - microsoft.network.infra.azure.com
-    apiVersions:
-    - v1
-    operations:
-    - CREATE
-    - UPDATE
-    resources:
-    - networkinterfaceipconfigurations
-- clientConfig:
-    caBundle: Cg==
-    service:
-      name: webhook-service
-      namespace: system
       path: /mutate-microsoft-network-infra-azure-com-v1-networksecuritygroup
   failurePolicy: Fail
   matchPolicy: Equivalent
@@ -375,25 +356,6 @@ webhooks:
     - UPDATE
     resources:
     - loadbalancingrules
-- clientConfig:
-    caBundle: Cg==
-    service:
-      name: webhook-service
-      namespace: system
-      path: /validate-microsoft-network-infra-azure-com-v1-networkinterfaceipconfiguration
-  failurePolicy: Fail
-  matchPolicy: Equivalent
-  name: validation.networkinterfaceipconfiguration.infra.azure.com
-  rules:
-  - apiGroups:
-    - microsoft.network.infra.azure.com
-    apiVersions:
-    - v1
-    operations:
-    - CREATE
-    - UPDATE
-    resources:
-    - networkinterfaceipconfigurations
 - clientConfig:
     caBundle: Cg==
     service:

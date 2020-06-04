@@ -1,0 +1,1951 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.3.0
+  creationTimestamp: null
+  name: virtualmachinescalesets.microsoft.compute.infra.azure.com
+spec:
+  group: microsoft.compute.infra.azure.com
+  names:
+    kind: VirtualMachineScaleSet
+    listKind: VirtualMachineScaleSetList
+    plural: virtualmachinescalesets
+    singular: virtualmachinescaleset
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: VirtualMachineScaleSet is the Schema for the virtualmachinescalesets
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: VirtualMachineScaleSetSpec defines the desired state of VirtualMachineScaleSet
+            properties:
+              apiVersion:
+                type: string
+              identity:
+                description: Identity - The identity of the virtual machine scale
+                  set, if configured.
+                properties:
+                  type:
+                    description: Type - The type of identity used for the virtual
+                      machine. The type 'SystemAssigned, UserAssigned' includes both
+                      an implicitly created identity and a set of user assigned identities.
+                      The type 'None' will remove any identities from the virtual
+                      machine.
+                    enum:
+                    - SystemAssigned
+                    - UserAssigned
+                    - None
+                    type: string
+                  userAssignedIdentities:
+                    description: 'UserAssignedIdentities - The list of user identities
+                      associated with the Virtual Machine. The user identity references
+                      will be ARM resource ids in the form: ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}''.'
+                    items:
+                      type: string
+                    type: array
+                required:
+                - type
+                - userAssignedIdentities
+                type: object
+              location:
+                description: Location of the VNET in Azure
+                type: string
+              plan:
+                description: Plan - Specifies information about the marketplace image
+                  used to create the virtual machine. This element is only used for
+                  marketplace images. Before you can use a marketplace image from
+                  an API, you must enable the image for programmatic use.  In the
+                  Azure portal, find the marketplace image that you want to use and
+                  then click **Want to deploy programmatically, Get Started ->**.
+                  Enter any required information and then click **Save**.
+                properties:
+                  name:
+                    type: string
+                  product:
+                    description: Product - Specifies the product of the image from
+                      the marketplace. This is the same value as Offer under the imageReference
+                      element.
+                    type: string
+                  promotionCode:
+                    description: PromotionCode - The promotion code.
+                    type: string
+                  publisher:
+                    description: Publisher - The publisher ID.
+                    type: string
+                type: object
+              properties:
+                properties:
+                  additionalCapabilities:
+                    description: 'AdditionalCapabilities - Specifies additional capabilities
+                      enabled or disabled on the Virtual Machines in the Virtual Machine
+                      Scale Set. For instance: whether the Virtual Machines have the
+                      capability to support attaching managed data disks with UltraSSD_LRS
+                      storage account type.'
+                    properties:
+                      ultraSSDEnabled:
+                        description: UltraSSDEnabled - The flag that enables or disables
+                          a capability to have one or more managed data disks with
+                          UltraSSD_LRS storage account type on the VM or VMSS. Managed
+                          disks with storage account type UltraSSD_LRS can be added
+                          to a virtual machine or virtual machine scale set only if
+                          this property is enabled.
+                        type: boolean
+                    type: object
+                  automaticRepairsPolicy:
+                    description: AutomaticRepairsPolicy - Policy for automatic repairs.
+                    properties:
+                      enabled:
+                        description: Enabled - Specifies whether automatic repairs
+                          should be enabled on the virtual machine scale set. The
+                          default value is false.
+                        type: boolean
+                      gracePeriod:
+                        description: GracePeriod - The amount of time for which automatic
+                          repairs are suspended due to a state change on VM. The grace
+                          time starts after the state change has completed. This helps
+                          avoid premature or accidental repairs. The time duration
+                          should be specified in ISO 8601 format. The minimum allowed
+                          grace period is 30 minutes (PT30M), which is also the default
+                          value. The maximum allowed grace period is 90 minutes (PT90M).
+                        type: string
+                    type: object
+                  doNotRunExtensionsOnOverprovisionedVMs:
+                    description: DoNotRunExtensionsOnOverprovisionedVMs - When Overprovision
+                      is enabled, extensions are launched only on the requested number
+                      of VMs which are finally kept. This property will hence ensure
+                      that the extensions do not run on the extra overprovisioned
+                      VMs.
+                    type: boolean
+                  overprovision:
+                    description: Overprovision - Specifies whether the Virtual Machine
+                      Scale Set should be overprovisioned.
+                    type: boolean
+                  platformFaultDomainCount:
+                    description: PlatformFaultDomainCount - Fault Domain count for
+                      each placement group.
+                    format: int32
+                    type: integer
+                  provisioningState:
+                    description: ProvisioningState - READ-ONLY; The provisioning state,
+                      which only appears in the response.
+                    type: string
+                  scaleInPolicy:
+                    description: ScaleInPolicy - Specifies the scale-in policy that
+                      decides which virtual machines are chosen for removal when a
+                      Virtual Machine Scale Set is scaled-in.
+                    properties:
+                      rules:
+                        description: 'Rules - The rules to be followed when scaling-in
+                          a virtual machine scale set. Possible values are: **Default**
+                          When a virtual machine scale set is scaled in, the scale
+                          set will first be balanced across zones if it is a zonal
+                          scale set. Then, it will be balanced across Fault Domains
+                          as far as possible. Within each Fault Domain, the virtual
+                          machines chosen for removal will be the newest ones that
+                          are not protected from scale-in. **OldestVM** When a virtual
+                          machine scale set is being scaled-in, the oldest virtual
+                          machines that are not protected from scale-in will be chosen
+                          for removal. For zonal virtual machine scale sets, the scale
+                          set will first be balanced across zones. Within each zone,
+                          the oldest virtual machines that are not protected will
+                          be chosen for removal. **NewestVM** When a virtual machine
+                          scale set is being scaled-in, the newest virtual machines
+                          that are not protected from scale-in will be chosen for
+                          removal. For zonal virtual machine scale sets, the scale
+                          set will first be balanced across zones. Within each zone,
+                          the newest virtual machines that are not protected will
+                          be chosen for removal.'
+                        items:
+                          enum:
+                          - Default
+                          - NewestVM
+                          - OldestVM
+                          type: string
+                        type: array
+                    type: object
+                  singlePlacementGroup:
+                    description: 'SinglePlacementGroup - When true this limits the
+                      scale set to a single placement group, of max size 100 virtual
+                      machines. NOTE: If singlePlacementGroup is true, it may be modified
+                      to false. However, if singlePlacementGroup is false, it may
+                      not be modified to true.'
+                    type: boolean
+                  upgradePolicy:
+                    description: UpgradePolicy - The upgrade policy.
+                    properties:
+                      automaticOSUpgradePolicy:
+                        description: AutomaticOSUpgradePolicy - Configuration parameters
+                          used for performing automatic OS Upgrade.
+                        properties:
+                          disableAutomaticRollback:
+                            description: DisableAutomaticRollback - Whether OS image
+                              rollback feature should be disabled. Default value is
+                              false.
+                            type: boolean
+                          enableAutomaticOSUpgrade:
+                            description: EnableAutomaticOSUpgrade - Indicates whether
+                              OS upgrades should automatically be applied to scale
+                              set instances in a rolling fashion when a newer version
+                              of the OS image becomes available. Default value is
+                              false.  If this is set to true for Windows based scale
+                              sets, [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet)
+                              is automatically set to false and cannot be set to true.
+                            type: boolean
+                        type: object
+                      mode:
+                        default: Manual
+                        description: 'Mode - Specifies the mode of an upgrade to virtual
+                          machines in the scale set. Possible values are: **Manual**
+                          - You  control the application of updates to virtual machines
+                          in the scale set. You do this by using the manualUpgrade
+                          action. **Automatic** - All virtual machines in the scale
+                          set are  automatically updated at the same time.'
+                        enum:
+                        - Automatic
+                        - Manual
+                        - Rolling
+                        type: string
+                      rollingUpgradePolicy:
+                        description: RollingUpgradePolicy - The configuration parameters
+                          used while performing a rolling upgrade.
+                        properties:
+                          maxBatchInstancePercent:
+                            description: MaxBatchInstancePercent - The maximum percent
+                              of total virtual machine instances that will be upgraded
+                              simultaneously by the rolling upgrade in one batch.
+                              As this is a maximum, unhealthy instances in previous
+                              or future batches can cause the percentage of instances
+                              in a batch to decrease to ensure higher reliability.
+                              The default value for this parameter is 20%.
+                            format: int32
+                            type: integer
+                          maxUnhealthyInstancePercent:
+                            description: MaxUnhealthyInstancePercent - The maximum
+                              percentage of the total virtual machine instances in
+                              the scale set that can be simultaneously unhealthy,
+                              either as a result of being upgraded, or by being found
+                              in an unhealthy state by the virtual machine health
+                              checks before the rolling upgrade aborts. This constraint
+                              will be checked prior to starting any batch. The default
+                              value for this parameter is 20%.
+                            format: int32
+                            type: integer
+                          maxUnhealthyUpgradedInstancePercent:
+                            description: MaxUnhealthyUpgradedInstancePercent - The
+                              maximum percentage of upgraded virtual machine instances
+                              that can be found to be in an unhealthy state. This
+                              check will happen after each batch is upgraded. If this
+                              percentage is ever exceeded, the rolling update aborts.
+                              The default value for this parameter is 20%.
+                            format: int32
+                            type: integer
+                          pauseTimeBetweenBatches:
+                            description: PauseTimeBetweenBatches - The wait time between
+                              completing the update for all virtual machines in one
+                              batch and starting the next batch. The time duration
+                              should be specified in ISO 8601 format. The default
+                              value is 0 seconds (PT0S).
+                            type: string
+                        type: object
+                    type: object
+                  virtualMachineProfile:
+                    description: VirtualMachineProfile - The virtual machine profile.
+                    properties:
+                      billingProfile:
+                        description: 'BillingProfile - Specifies the billing related
+                          details of a Azure Spot VMSS. Minimum api-version: 2019-03-01.'
+                        properties:
+                          maxPrice:
+                            description: 'MaxPrice - Specifies the maximum price you
+                              are willing to pay for a Azure Spot VM/VMSS. This price
+                              is in US Dollars.  This price will be compared with
+                              the current Azure Spot price for the VM size. Also,
+                              the prices are compared at the time of create/update
+                              of Azure Spot VM/VMSS and the operation will only succeed
+                              if  the maxPrice is greater than the current Azure Spot
+                              price.  The maxPrice will also be used for evicting
+                              a Azure Spot VM/VMSS if the current Azure Spot price
+                              goes beyond the maxPrice after creation of VM/VMSS.  Possible
+                              values are:  - Any decimal value greater than zero.
+                              Example: 0.01538  -1 – indicates default price to be
+                              up-to on-demand.  You can set the maxPrice to -1 to
+                              indicate that the Azure Spot VM/VMSS should not be evicted
+                              for price reasons. Also, the default max price is -1
+                              if it is not provided by you. Minimum api-version: 2019-03-01.'
+                            type: string
+                        type: object
+                      diagnosticsProfile:
+                        description: 'DiagnosticsProfile - Specifies the boot diagnostic
+                          settings state. Minimum api-version: 2015-06-15.'
+                        properties:
+                          bootDiagnostics:
+                            description: BootDiagnostics - Boot Diagnostics is a debugging
+                              feature which allows you to view Console Output and
+                              Screenshot to diagnose VM status. You can easily view
+                              the output of your console log. Azure also enables you
+                              to see a screenshot of the VM from the hypervisor.
+                            properties:
+                              enabled:
+                                description: Enabled - Whether boot diagnostics should
+                                  be enabled on the Virtual Machine.
+                                type: boolean
+                              storageUri:
+                                description: StorageURI - Uri of the storage account
+                                  to use for placing the console output and screenshot.
+                                type: string
+                            type: object
+                        type: object
+                      evictionPolicy:
+                        description: 'EvictionPolicy - Specifies the eviction policy
+                          for the Azure Spot virtual machine and Azure Spot scale
+                          set. For Azure Spot virtual machines, the only supported
+                          value is ''Deallocate'' and the minimum api-version is 2019-03-01.
+                          For Azure Spot scale sets, both ''Deallocate'' and ''Delete''
+                          are supported and the minimum api-version is 2017-10-30-preview.
+                          Possible values include: ''Deallocate'', ''Delete'''
+                        enum:
+                        - Deallocate
+                        - Delete
+                        type: string
+                      networkProfile:
+                        description: NetworkProfile - Specifies properties of the
+                          network interfaces of the virtual machines in the scale
+                          set.
+                        properties:
+                          healthProbeRef:
+                            description: 'HealthProbe - A reference to a load balancer
+                              probe used to determine the health of an instance in
+                              the virtual machine scale set. The reference will be
+                              in the form: ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}''.'
+                            properties:
+                              name:
+                                description: Name is the name of resource being referenced
+                                type: string
+                              namespace:
+                                description: Namespace is the namespace of resource
+                                  being referenced.
+                                type: string
+                            required:
+                            - name
+                            - namespace
+                            type: object
+                          networkInterfaceConfigurations:
+                            description: NetworkInterfaceConfigurations - The list
+                              of network configurations.
+                            items:
+                              properties:
+                                name:
+                                  description: Name - The network configuration name.
+                                  type: string
+                                properties:
+                                  properties:
+                                    dnsSettings:
+                                      description: DNSSettings - The dns settings
+                                        to be applied on the network interfaces.
+                                      properties:
+                                        dnsServers:
+                                          description: DNSServers - List of DNS servers
+                                            IP addresses
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    enableAcceleratedNetworking:
+                                      description: EnableAcceleratedNetworking - Specifies
+                                        whether the network interface is accelerated
+                                        networking-enabled.
+                                      type: boolean
+                                    enableIPForwarding:
+                                      description: EnableIPForwarding - Whether IP
+                                        forwarding enabled on this NIC.
+                                      type: boolean
+                                    ipConfigurations:
+                                      description: IPConfigurations - Specifies the
+                                        IP configurations of the network interface.
+                                      items:
+                                        properties:
+                                          name:
+                                            type: string
+                                          properties:
+                                            properties:
+                                              loadBalancerBackendAddressPoolRefs:
+                                                description: LoadBalancerBackendAddressPools
+                                                  - Specifies an array of references
+                                                  to backend address pools of load
+                                                  balancers. A scale set can reference
+                                                  backend address pools of one public
+                                                  and one internal load balancer.
+                                                  Multiple scale sets cannot use the
+                                                  same load balancer.
+                                                items:
+                                                  description: KnownTypeReference
+                                                    is a reference to an object which
+                                                    the type and version is already
+                                                    known
+                                                  properties:
+                                                    name:
+                                                      description: Name is the name
+                                                        of resource being referenced
+                                                      type: string
+                                                    namespace:
+                                                      description: Namespace is the
+                                                        namespace of resource being
+                                                        referenced.
+                                                      type: string
+                                                  required:
+                                                  - name
+                                                  - namespace
+                                                  type: object
+                                                type: array
+                                              loadBalancerInboundNatPoolRefs:
+                                                description: LoadBalancerInboundNatPools
+                                                  - Specifies an array of references
+                                                  to inbound Nat pools of the load
+                                                  balancers. A scale set can reference
+                                                  inbound nat pools of one public
+                                                  and one internal load balancer.
+                                                  Multiple scale sets cannot use the
+                                                  same load balancer
+                                                items:
+                                                  description: KnownTypeReference
+                                                    is a reference to an object which
+                                                    the type and version is already
+                                                    known
+                                                  properties:
+                                                    name:
+                                                      description: Name is the name
+                                                        of resource being referenced
+                                                      type: string
+                                                    namespace:
+                                                      description: Namespace is the
+                                                        namespace of resource being
+                                                        referenced.
+                                                      type: string
+                                                  required:
+                                                  - name
+                                                  - namespace
+                                                  type: object
+                                                type: array
+                                              primary:
+                                                description: Primary - Specifies the
+                                                  primary network interface in case
+                                                  the virtual machine has more than
+                                                  1 network interface.
+                                                type: boolean
+                                              privateIPAddressVersion:
+                                                enum:
+                                                - IPv4
+                                                - IPv6
+                                                type: string
+                                              publicIPAddressConfiguration:
+                                                description: PublicIPAddressConfiguration
+                                                  - The publicIPAddressConfiguration.
+                                                properties:
+                                                  name:
+                                                    description: Name - The publicIP
+                                                      address configuration name.
+                                                    type: string
+                                                  properties:
+                                                    properties:
+                                                      dnsSettings:
+                                                        description: DNSSettings -
+                                                          The dns settings to be applied
+                                                          on the publicIP addresses
+                                                          .
+                                                        properties:
+                                                          domainNameLabel:
+                                                            description: DomainNameLabel
+                                                              - The Domain name label.The
+                                                              concatenation of the
+                                                              domain name label and
+                                                              vm index will be the
+                                                              domain name labels of
+                                                              the PublicIPAddress
+                                                              resources that will
+                                                              be created
+                                                            type: string
+                                                        type: object
+                                                      idleTimeoutInMinutes:
+                                                        description: IdleTimeoutInMinutes
+                                                          - The idle timeout of the
+                                                          public IP address.
+                                                        format: int32
+                                                        type: integer
+                                                      ipTags:
+                                                        description: IPTags - The
+                                                          list of IP tags associated
+                                                          with the public IP address.
+                                                        items:
+                                                          properties:
+                                                            ipTagType:
+                                                              description: 'IPTagType
+                                                                - IP tag type. Example:
+                                                                FirstPartyUsage.'
+                                                              type: string
+                                                            tag:
+                                                              description: 'Tag -
+                                                                IP tag associated
+                                                                with the public IP.
+                                                                Example: SQL, Storage
+                                                                etc.'
+                                                              type: string
+                                                          type: object
+                                                        type: array
+                                                      publicIPAddressVersion:
+                                                        enum:
+                                                        - IPv4
+                                                        - IPv6
+                                                        type: string
+                                                    type: object
+                                                type: object
+                                              subnetRef:
+                                                description: Subnet - Specifies the
+                                                  identifier of the subnet.
+                                                properties:
+                                                  name:
+                                                    description: Name is the name
+                                                      of resource being referenced
+                                                    type: string
+                                                  namespace:
+                                                    description: Namespace is the
+                                                      namespace of resource being
+                                                      referenced.
+                                                    type: string
+                                                required:
+                                                - name
+                                                - namespace
+                                                type: object
+                                            type: object
+                                        type: object
+                                      type: array
+                                    networkSecurityGroupRef:
+                                      description: NetworkSecurityGroup - The network
+                                        security group.
+                                      properties:
+                                        name:
+                                          description: Name is the name of resource
+                                            being referenced
+                                          type: string
+                                        namespace:
+                                          description: Namespace is the namespace
+                                            of resource being referenced.
+                                          type: string
+                                      required:
+                                      - name
+                                      - namespace
+                                      type: object
+                                    primary:
+                                      description: Primary - Specifies the primary
+                                        network interface in case the virtual machine
+                                        has more than 1 network interface.
+                                      type: boolean
+                                  type: object
+                              type: object
+                            type: array
+                        type: object
+                      osProfile:
+                        description: OsProfile - Specifies the operating system settings
+                          for the virtual machines in the scale set.
+                        properties:
+                          adminPassword:
+                            description: AdminPassword - Specifies the password of
+                              the administrator account.  **Minimum-length (Windows):**
+                              8 characters  **Minimum-length (Linux):** 6 characters  **Max-length
+                              (Windows):** 123 characters  **Max-length (Linux):**
+                              72 characters  **Complexity requirements:** 3 out of
+                              4 conditions below need to be fulfilled  Has lower characters
+                              Has upper characters  Has a digit  Has a special character
+                              (Regex match [\W_])  **Disallowed values:** "abc@123",
+                              "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1",
+                              "Password!", "Password1", "Password22", "iloveyou!"  For
+                              resetting the password, see [How to reset the Remote
+                              Desktop service or its login password in a Windows VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)  For
+                              resetting root password, see [Manage users, SSH, and
+                              check or repair disks on Azure Linux VMs using the VMAccess
+                              Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
+                            type: string
+                          adminUsername:
+                            description: AdminUsername - Specifies the name of the
+                              administrator account.  **Windows-only restriction:**
+                              Cannot end in "."  **Disallowed values:** "administrator",
+                              "admin", "user", "user1", "test", "user2", "test1",
+                              "user3", "admin1", "1", "123", "a", "actuser", "adm",
+                              "admin2", "aspnet", "backup", "console", "david", "guest",
+                              "john", "owner", "root", "server", "sql", "support",
+                              "support_388945a0", "sys", "test2", "test3", "user4",
+                              "user5".  **Minimum-length (Linux):** 1  character  **Max-length
+                              (Linux):** 64 characters  **Max-length (Windows):**
+                              20 characters   For root access to the Linux VM, see
+                              [Using root privileges on Linux virtual machines in
+                              Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+                              For a list of built-in system users on Linux that should
+                              not be used in this field, see [Selecting User Names
+                              for Linux on Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+                            type: string
+                          computerNamePrefix:
+                            description: ComputerNamePrefix - Specifies the computer
+                              name prefix for all of the virtual machines in the scale
+                              set. Computer name prefixes must be 1 to 15 characters
+                              long.
+                            type: string
+                          customData:
+                            description: CustomData - Specifies a base-64 encoded
+                              string of custom data. The base-64 encoded string is
+                              decoded to a binary array that is saved as a file on
+                              the Virtual Machine. The maximum length of the binary
+                              array is 65535 bytes.  For using cloud-init for your
+                              VM, see [Using cloud-init to customize a Linux VM during
+                              creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+                            type: string
+                          linuxConfiguration:
+                            description: LinuxConfiguration - Specifies the Linux
+                              operating system settings on the virtual machine. For
+                              a list of supported Linux distributions, see [Linux
+                              on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)  For
+                              running non-endorsed distributions, see [Information
+                              for Non-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+                            properties:
+                              disablePasswordAuthentication:
+                                description: DisablePasswordAuthentication - Specifies
+                                  whether password authentication should be disabled.
+                                type: boolean
+                              provisionVMAgent:
+                                description: ProvisionVMAgent - Indicates whether
+                                  virtual machine agent should be provisioned on the
+                                  virtual machine. When this property is not specified
+                                  in the request body, default behavior is to set
+                                  it to true.  This will ensure that VM Agent is installed
+                                  on the VM so that extensions can be added to the
+                                  VM later.
+                                type: boolean
+                              ssh:
+                                description: SSH - Specifies the ssh key configuration
+                                  for a Linux OS.
+                                properties:
+                                  publicKeys:
+                                    description: PublicKeys - The list of SSH public
+                                      keys used to authenticate with linux based VMs.
+                                    items:
+                                      properties:
+                                        keyData:
+                                          description: KeyData - SSH public key certificate
+                                            used to authenticate with the VM through
+                                            ssh. The key needs to be at least 2048-bit
+                                            and in ssh-rsa format. For creating ssh
+                                            keys, see [Create SSH keys on Linux and
+                                            Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+                                          type: string
+                                        path:
+                                          description: 'Path - Specifies the full
+                                            path on the created VM where ssh public
+                                            key is stored. If the file already exists,
+                                            the specified key is appended to the file.
+                                            Example: /home/user/.ssh/authorized_keys'
+                                          type: string
+                                      type: object
+                                    type: array
+                                type: object
+                            type: object
+                        required:
+                        - adminUsername
+                        - computerNamePrefix
+                        type: object
+                      priority:
+                        description: 'Priority - Specifies the priority for the virtual
+                          machines in the scale set. Minimum api-version: 2017-10-30-preview.
+                          Possible values include: ''Regular'', ''Low'', ''Spot'''
+                        enum:
+                        - Regular
+                        - Low
+                        - Spot
+                        type: string
+                      scheduledEventsProfile:
+                        description: ScheduledEventsProfile - Specifies Scheduled
+                          Event related configurations.
+                        properties:
+                          terminateNotificationProfile:
+                            description: TerminateNotificationProfile - Specifies
+                              Terminate Scheduled Event related configurations.
+                            properties:
+                              enable:
+                                description: Enable - Specifies whether the Terminate
+                                  Scheduled event is enabled or disabled.
+                                type: boolean
+                              notBeforeTimeout:
+                                description: NotBeforeTimeout - Configurable length
+                                  of time a Virtual Machine being deleted will have
+                                  to potentially approve the Terminate Scheduled Event
+                                  before the event is auto approved (timed out). The
+                                  configuration must be specified in ISO 8601 format,
+                                  the default value is 5 minutes (PT5M)
+                                type: string
+                            type: object
+                        type: object
+                      storageProfile:
+                        description: StorageProfile - Specifies the storage settings
+                          for the virtual machine disks.
+                        properties:
+                          dataDisks:
+                            description: DataDisks - Specifies the parameters that
+                              are used to add data disks to the virtual machines in
+                              the scale set.  For more information about disks, see
+                              [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+                            items:
+                              properties:
+                                caching:
+                                  default: None
+                                  description: Caching - Specifies the caching requirements.
+                                  enum:
+                                  - None
+                                  - ReadOnly
+                                  - ReadWrite
+                                  type: string
+                                createOption:
+                                  description: CreateOption - Specifies how the virtual
+                                    machine should be created.
+                                  enum:
+                                  - FromImage
+                                  - Empty
+                                  - Attach
+                                  type: string
+                                diskIOPSReadWrite:
+                                  description: DiskIOPSReadWrite - Specifies the Read-Write
+                                    IOPS for the managed disk. Should be used only
+                                    when StorageAccountType is UltraSSD_LRS. If not
+                                    specified, a default value would be assigned based
+                                    on diskSizeGB.
+                                  format: int64
+                                  type: integer
+                                diskMBpsReadWrite:
+                                  description: DiskMBpsReadWrite - Specifies the bandwidth
+                                    in MB per second for the managed disk. Should
+                                    be used only when StorageAccountType is UltraSSD_LRS.
+                                    If not specified, a default value would be assigned
+                                    based on diskSizeGB.
+                                  format: int64
+                                  type: integer
+                                diskSizeGB:
+                                  description: DiskSizeGB - Specifies the size of
+                                    an empty data disk in gigabytes. This element
+                                    can be used to overwrite the size of the disk
+                                    in a virtual machine image.  This value cannot
+                                    be larger than 1023 GB
+                                  format: int32
+                                  type: integer
+                                lun:
+                                  description: Lun - Specifies the logical unit number
+                                    of the data disk. This value is used to identify
+                                    data disks within the VM and therefore must be
+                                    unique for each data disk attached to a VM.
+                                  format: int32
+                                  type: integer
+                                managedDisk:
+                                  description: ManagedDisk - The managed disk parameters.
+                                  properties:
+                                    storageAccountType:
+                                      description: 'StorageAccountType - Specifies
+                                        the storage account type for the managed disk.
+                                        NOTE: UltraSSD_LRS can only be used with data
+                                        disks, it cannot be used with OS Disk.'
+                                      enum:
+                                      - Premium_LRS
+                                      - StandardSSD_LRS
+                                      - Standard_LRS
+                                      - UltraSSD_LRS
+                                      type: string
+                                  type: object
+                                name:
+                                  description: Name - The disk name.
+                                  type: string
+                                writeAcceleratorEnabled:
+                                  description: WriteAcceleratorEnabled - Specifies
+                                    whether writeAccelerator should be enabled or
+                                    disabled on the disk.
+                                  type: boolean
+                              type: object
+                            type: array
+                          imageReference:
+                            description: ImageReference - Specifies information about
+                              the image to use. You can specify information about
+                              platform images, marketplace images, or virtual machine
+                              images. This element is required when you want to use
+                              a platform image, marketplace image, or virtual machine
+                              image, but is not used in other creation operations.
+                            properties:
+                              id:
+                                description: ID - Resource Id
+                                type: string
+                              offer:
+                                description: Offer - Specifies the offer of the platform
+                                  image or marketplace image used to create the virtual
+                                  machine.
+                                type: string
+                              publisher:
+                                description: Publisher - The image publisher.
+                                type: string
+                              sku:
+                                description: Sku - The image SKU.
+                                type: string
+                              version:
+                                description: Version - Specifies the version of the
+                                  platform image or marketplace image used to create
+                                  the virtual machine. The allowed formats are Major.Minor.Build
+                                  or 'latest'. Major, Minor, and Build are decimal
+                                  numbers. Specify 'latest' to use the latest version
+                                  of an image available at deploy time. Even if you
+                                  use 'latest', the VM image will not automatically
+                                  update after deploy time even if a new version becomes
+                                  available.
+                                type: string
+                            type: object
+                          osDisk:
+                            description: OsDisk - Specifies information about the
+                              operating system disk used by the virtual machines in
+                              the scale set.  For more information about disks, see
+                              [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+                            properties:
+                              caching:
+                                default: None
+                                description: Caching - Specifies the caching requirements.
+                                enum:
+                                - None
+                                - ReadOnly
+                                - ReadWrite
+                                type: string
+                              createOption:
+                                description: CreateOption - Specifies how the virtual
+                                  machine should be created.
+                                enum:
+                                - FromImage
+                                - Empty
+                                - Attach
+                                type: string
+                              diskSizeGB:
+                                description: DiskSizeGB - Specifies the size of an
+                                  empty data disk in gigabytes. This element can be
+                                  used to overwrite the size of the disk in a virtual
+                                  machine image. This value cannot be larger than
+                                  1023 GB
+                                format: int32
+                                maximum: 1023
+                                type: integer
+                              image:
+                                description: Image - Specifies information about the
+                                  unmanaged user image to base the scale set on.
+                                properties:
+                                  uri:
+                                    description: URI - Specifies the virtual hard
+                                      disk's uri.
+                                    type: string
+                                type: object
+                              managedDisk:
+                                description: ManagedDisk - The managed disk parameters.
+                                properties:
+                                  storageAccountType:
+                                    description: 'StorageAccountType - Specifies the
+                                      storage account type for the managed disk. NOTE:
+                                      UltraSSD_LRS can only be used with data disks,
+                                      it cannot be used with OS Disk.'
+                                    enum:
+                                    - Premium_LRS
+                                    - StandardSSD_LRS
+                                    - Standard_LRS
+                                    - UltraSSD_LRS
+                                    type: string
+                                type: object
+                              name:
+                                description: Name - The disk name.
+                                type: string
+                              osType:
+                                description: OsType - This property allows you to
+                                  specify the type of the OS that is included in the
+                                  disk if creating a VM from user-image or a specialized
+                                  VHD.
+                                enum:
+                                - Windows
+                                - Linux
+                                type: string
+                              vhdContainers:
+                                description: VhdContainers - Specifies the container
+                                  urls that are used to store operating system disks
+                                  for the scale set.
+                                items:
+                                  type: string
+                                type: array
+                              writeAcceleratorEnabled:
+                                description: WriteAcceleratorEnabled - Specifies whether
+                                  writeAccelerator should be enabled or disabled on
+                                  the disk.
+                                type: boolean
+                            type: object
+                        type: object
+                    required:
+                    - networkProfile
+                    - osProfile
+                    - storageProfile
+                    type: object
+                  zoneBalance:
+                    description: ZoneBalance - Whether to force strictly even Virtual
+                      Machine distribution cross x-zones in case there is zone outage.
+                    type: boolean
+                required:
+                - upgradePolicy
+                - virtualMachineProfile
+                type: object
+              resourceGroupRef:
+                description: ResourceGroupRef is the Azure Resource Group the VirtualNetwork
+                  resides within
+                properties:
+                  name:
+                    description: Name is the name of resource being referenced
+                    type: string
+                  namespace:
+                    description: Namespace is the namespace of resource being referenced.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+              sku:
+                description: Sku - The virtual machine scale set sku.
+                properties:
+                  capacity:
+                    description: Capacity - Specifies the number of virtual machines
+                      in the scale set.
+                    format: int64
+                    type: integer
+                  name:
+                    description: Name - The sku name.
+                    type: string
+                  tier:
+                    default: Standard
+                    description: 'Tier - Specifies the tier of virtual machines in
+                      a scale set. Possible Values: **Standard** **Basic**'
+                    enum:
+                    - Standard
+                    - Basic
+                    type: string
+                required:
+                - capacity
+                - name
+                - tier
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: Tags - Resource tags
+                type: object
+              zones:
+                description: 'Zones - The virtual machine scale set zones. NOTE: Availability
+                  zones can only be set when you create the scale set'
+                items:
+                  type: string
+                type: array
+            required:
+            - apiVersion
+            - location
+            - properties
+            - resourceGroupRef
+            - sku
+            type: object
+          status:
+            description: VirtualMachineScaleSetStatus defines the observed state of
+              VirtualMachineScaleSet
+            properties:
+              deploymentId:
+                type: string
+              id:
+                type: string
+              provisioningState:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+  - name: v20191201
+    schema:
+      openAPIV3Schema:
+        description: VirtualMachineScaleSet is the Schema for the virtualmachinescalesets
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: VirtualMachineScaleSetSpec defines the desired state of VirtualMachineScaleSet
+            properties:
+              identity:
+                description: Identity - The identity of the virtual machine scale
+                  set, if configured.
+                properties:
+                  type:
+                    description: Type - The type of identity used for the virtual
+                      machine. The type 'SystemAssigned, UserAssigned' includes both
+                      an implicitly created identity and a set of user assigned identities.
+                      The type 'None' will remove any identities from the virtual
+                      machine.
+                    enum:
+                    - SystemAssigned
+                    - UserAssigned
+                    - None
+                    type: string
+                  userAssignedIdentities:
+                    description: 'UserAssignedIdentities - The list of user identities
+                      associated with the Virtual Machine. The user identity references
+                      will be ARM resource ids in the form: ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}''.'
+                    items:
+                      type: string
+                    type: array
+                required:
+                - type
+                - userAssignedIdentities
+                type: object
+              location:
+                description: Location of the VNET in Azure
+                type: string
+              plan:
+                description: Plan - Specifies information about the marketplace image
+                  used to create the virtual machine. This element is only used for
+                  marketplace images. Before you can use a marketplace image from
+                  an API, you must enable the image for programmatic use.  In the
+                  Azure portal, find the marketplace image that you want to use and
+                  then click **Want to deploy programmatically, Get Started ->**.
+                  Enter any required information and then click **Save**.
+                properties:
+                  name:
+                    type: string
+                  product:
+                    description: Product - Specifies the product of the image from
+                      the marketplace. This is the same value as Offer under the imageReference
+                      element.
+                    type: string
+                  promotionCode:
+                    description: PromotionCode - The promotion code.
+                    type: string
+                  publisher:
+                    description: Publisher - The publisher ID.
+                    type: string
+                type: object
+              properties:
+                properties:
+                  additionalCapabilities:
+                    description: 'AdditionalCapabilities - Specifies additional capabilities
+                      enabled or disabled on the Virtual Machines in the Virtual Machine
+                      Scale Set. For instance: whether the Virtual Machines have the
+                      capability to support attaching managed data disks with UltraSSD_LRS
+                      storage account type.'
+                    properties:
+                      ultraSSDEnabled:
+                        description: UltraSSDEnabled - The flag that enables or disables
+                          a capability to have one or more managed data disks with
+                          UltraSSD_LRS storage account type on the VM or VMSS. Managed
+                          disks with storage account type UltraSSD_LRS can be added
+                          to a virtual machine or virtual machine scale set only if
+                          this property is enabled.
+                        type: boolean
+                    type: object
+                  automaticRepairsPolicy:
+                    description: AutomaticRepairsPolicy - Policy for automatic repairs.
+                    properties:
+                      enabled:
+                        description: Enabled - Specifies whether automatic repairs
+                          should be enabled on the virtual machine scale set. The
+                          default value is false.
+                        type: boolean
+                      gracePeriod:
+                        description: GracePeriod - The amount of time for which automatic
+                          repairs are suspended due to a state change on VM. The grace
+                          time starts after the state change has completed. This helps
+                          avoid premature or accidental repairs. The time duration
+                          should be specified in ISO 8601 format. The minimum allowed
+                          grace period is 30 minutes (PT30M), which is also the default
+                          value. The maximum allowed grace period is 90 minutes (PT90M).
+                        type: string
+                    type: object
+                  doNotRunExtensionsOnOverprovisionedVMs:
+                    description: DoNotRunExtensionsOnOverprovisionedVMs - When Overprovision
+                      is enabled, extensions are launched only on the requested number
+                      of VMs which are finally kept. This property will hence ensure
+                      that the extensions do not run on the extra overprovisioned
+                      VMs.
+                    type: boolean
+                  overprovision:
+                    description: Overprovision - Specifies whether the Virtual Machine
+                      Scale Set should be overprovisioned.
+                    type: boolean
+                  platformFaultDomainCount:
+                    description: PlatformFaultDomainCount - Fault Domain count for
+                      each placement group.
+                    format: int32
+                    type: integer
+                  provisioningState:
+                    description: ProvisioningState - READ-ONLY; The provisioning state,
+                      which only appears in the response.
+                    type: string
+                  scaleInPolicy:
+                    description: ScaleInPolicy - Specifies the scale-in policy that
+                      decides which virtual machines are chosen for removal when a
+                      Virtual Machine Scale Set is scaled-in.
+                    properties:
+                      rules:
+                        description: 'Rules - The rules to be followed when scaling-in
+                          a virtual machine scale set. Possible values are: **Default**
+                          When a virtual machine scale set is scaled in, the scale
+                          set will first be balanced across zones if it is a zonal
+                          scale set. Then, it will be balanced across Fault Domains
+                          as far as possible. Within each Fault Domain, the virtual
+                          machines chosen for removal will be the newest ones that
+                          are not protected from scale-in. **OldestVM** When a virtual
+                          machine scale set is being scaled-in, the oldest virtual
+                          machines that are not protected from scale-in will be chosen
+                          for removal. For zonal virtual machine scale sets, the scale
+                          set will first be balanced across zones. Within each zone,
+                          the oldest virtual machines that are not protected will
+                          be chosen for removal. **NewestVM** When a virtual machine
+                          scale set is being scaled-in, the newest virtual machines
+                          that are not protected from scale-in will be chosen for
+                          removal. For zonal virtual machine scale sets, the scale
+                          set will first be balanced across zones. Within each zone,
+                          the newest virtual machines that are not protected will
+                          be chosen for removal.'
+                        items:
+                          enum:
+                          - Default
+                          - NewestVM
+                          - OldestVM
+                          type: string
+                        type: array
+                    type: object
+                  singlePlacementGroup:
+                    description: 'SinglePlacementGroup - When true this limits the
+                      scale set to a single placement group, of max size 100 virtual
+                      machines. NOTE: If singlePlacementGroup is true, it may be modified
+                      to false. However, if singlePlacementGroup is false, it may
+                      not be modified to true.'
+                    type: boolean
+                  upgradePolicy:
+                    description: UpgradePolicy - The upgrade policy.
+                    properties:
+                      automaticOSUpgradePolicy:
+                        description: AutomaticOSUpgradePolicy - Configuration parameters
+                          used for performing automatic OS Upgrade.
+                        properties:
+                          disableAutomaticRollback:
+                            description: DisableAutomaticRollback - Whether OS image
+                              rollback feature should be disabled. Default value is
+                              false.
+                            type: boolean
+                          enableAutomaticOSUpgrade:
+                            description: EnableAutomaticOSUpgrade - Indicates whether
+                              OS upgrades should automatically be applied to scale
+                              set instances in a rolling fashion when a newer version
+                              of the OS image becomes available. Default value is
+                              false.  If this is set to true for Windows based scale
+                              sets, [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet)
+                              is automatically set to false and cannot be set to true.
+                            type: boolean
+                        type: object
+                      mode:
+                        default: Manual
+                        description: 'Mode - Specifies the mode of an upgrade to virtual
+                          machines in the scale set. Possible values are: **Manual**
+                          - You  control the application of updates to virtual machines
+                          in the scale set. You do this by using the manualUpgrade
+                          action. **Automatic** - All virtual machines in the scale
+                          set are  automatically updated at the same time.'
+                        enum:
+                        - Automatic
+                        - Manual
+                        - Rolling
+                        type: string
+                      rollingUpgradePolicy:
+                        description: RollingUpgradePolicy - The configuration parameters
+                          used while performing a rolling upgrade.
+                        properties:
+                          maxBatchInstancePercent:
+                            description: MaxBatchInstancePercent - The maximum percent
+                              of total virtual machine instances that will be upgraded
+                              simultaneously by the rolling upgrade in one batch.
+                              As this is a maximum, unhealthy instances in previous
+                              or future batches can cause the percentage of instances
+                              in a batch to decrease to ensure higher reliability.
+                              The default value for this parameter is 20%.
+                            format: int32
+                            type: integer
+                          maxUnhealthyInstancePercent:
+                            description: MaxUnhealthyInstancePercent - The maximum
+                              percentage of the total virtual machine instances in
+                              the scale set that can be simultaneously unhealthy,
+                              either as a result of being upgraded, or by being found
+                              in an unhealthy state by the virtual machine health
+                              checks before the rolling upgrade aborts. This constraint
+                              will be checked prior to starting any batch. The default
+                              value for this parameter is 20%.
+                            format: int32
+                            type: integer
+                          maxUnhealthyUpgradedInstancePercent:
+                            description: MaxUnhealthyUpgradedInstancePercent - The
+                              maximum percentage of upgraded virtual machine instances
+                              that can be found to be in an unhealthy state. This
+                              check will happen after each batch is upgraded. If this
+                              percentage is ever exceeded, the rolling update aborts.
+                              The default value for this parameter is 20%.
+                            format: int32
+                            type: integer
+                          pauseTimeBetweenBatches:
+                            description: PauseTimeBetweenBatches - The wait time between
+                              completing the update for all virtual machines in one
+                              batch and starting the next batch. The time duration
+                              should be specified in ISO 8601 format. The default
+                              value is 0 seconds (PT0S).
+                            type: string
+                        type: object
+                    type: object
+                  virtualMachineProfile:
+                    description: VirtualMachineProfile - The virtual machine profile.
+                    properties:
+                      billingProfile:
+                        description: 'BillingProfile - Specifies the billing related
+                          details of a Azure Spot VMSS. Minimum api-version: 2019-03-01.'
+                        properties:
+                          maxPrice:
+                            description: 'MaxPrice - Specifies the maximum price you
+                              are willing to pay for a Azure Spot VM/VMSS. This price
+                              is in US Dollars.  This price will be compared with
+                              the current Azure Spot price for the VM size. Also,
+                              the prices are compared at the time of create/update
+                              of Azure Spot VM/VMSS and the operation will only succeed
+                              if  the maxPrice is greater than the current Azure Spot
+                              price.  The maxPrice will also be used for evicting
+                              a Azure Spot VM/VMSS if the current Azure Spot price
+                              goes beyond the maxPrice after creation of VM/VMSS.  Possible
+                              values are:  - Any decimal value greater than zero.
+                              Example: 0.01538  -1 – indicates default price to be
+                              up-to on-demand.  You can set the maxPrice to -1 to
+                              indicate that the Azure Spot VM/VMSS should not be evicted
+                              for price reasons. Also, the default max price is -1
+                              if it is not provided by you. Minimum api-version: 2019-03-01.'
+                            type: string
+                        type: object
+                      diagnosticsProfile:
+                        description: 'DiagnosticsProfile - Specifies the boot diagnostic
+                          settings state. Minimum api-version: 2015-06-15.'
+                        properties:
+                          bootDiagnostics:
+                            description: BootDiagnostics - Boot Diagnostics is a debugging
+                              feature which allows you to view Console Output and
+                              Screenshot to diagnose VM status. You can easily view
+                              the output of your console log. Azure also enables you
+                              to see a screenshot of the VM from the hypervisor.
+                            properties:
+                              enabled:
+                                description: Enabled - Whether boot diagnostics should
+                                  be enabled on the Virtual Machine.
+                                type: boolean
+                              storageUri:
+                                description: StorageURI - Uri of the storage account
+                                  to use for placing the console output and screenshot.
+                                type: string
+                            type: object
+                        type: object
+                      evictionPolicy:
+                        description: 'EvictionPolicy - Specifies the eviction policy
+                          for the Azure Spot virtual machine and Azure Spot scale
+                          set. For Azure Spot virtual machines, the only supported
+                          value is ''Deallocate'' and the minimum api-version is 2019-03-01.
+                          For Azure Spot scale sets, both ''Deallocate'' and ''Delete''
+                          are supported and the minimum api-version is 2017-10-30-preview.
+                          Possible values include: ''Deallocate'', ''Delete'''
+                        enum:
+                        - Deallocate
+                        - Delete
+                        type: string
+                      networkProfile:
+                        description: NetworkProfile - Specifies properties of the
+                          network interfaces of the virtual machines in the scale
+                          set.
+                        properties:
+                          healthProbeRef:
+                            description: 'HealthProbe - A reference to a load balancer
+                              probe used to determine the health of an instance in
+                              the virtual machine scale set. The reference will be
+                              in the form: ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}''.'
+                            properties:
+                              name:
+                                description: Name is the name of resource being referenced
+                                type: string
+                              namespace:
+                                description: Namespace is the namespace of resource
+                                  being referenced.
+                                type: string
+                            required:
+                            - name
+                            - namespace
+                            type: object
+                          networkInterfaceConfigurations:
+                            description: NetworkInterfaceConfigurations - The list
+                              of network configurations.
+                            items:
+                              properties:
+                                name:
+                                  description: Name - The network configuration name.
+                                  type: string
+                                properties:
+                                  properties:
+                                    dnsSettings:
+                                      description: DNSSettings - The dns settings
+                                        to be applied on the network interfaces.
+                                      properties:
+                                        dnsServers:
+                                          description: DNSServers - List of DNS servers
+                                            IP addresses
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    enableAcceleratedNetworking:
+                                      description: EnableAcceleratedNetworking - Specifies
+                                        whether the network interface is accelerated
+                                        networking-enabled.
+                                      type: boolean
+                                    enableIPForwarding:
+                                      description: EnableIPForwarding - Whether IP
+                                        forwarding enabled on this NIC.
+                                      type: boolean
+                                    ipConfigurations:
+                                      description: IPConfigurations - Specifies the
+                                        IP configurations of the network interface.
+                                      items:
+                                        properties:
+                                          name:
+                                            type: string
+                                          properties:
+                                            properties:
+                                              loadBalancerBackendAddressPoolRefs:
+                                                description: LoadBalancerBackendAddressPools
+                                                  - Specifies an array of references
+                                                  to backend address pools of load
+                                                  balancers. A scale set can reference
+                                                  backend address pools of one public
+                                                  and one internal load balancer.
+                                                  Multiple scale sets cannot use the
+                                                  same load balancer.
+                                                items:
+                                                  description: KnownTypeReference
+                                                    is a reference to an object which
+                                                    the type and version is already
+                                                    known
+                                                  properties:
+                                                    name:
+                                                      description: Name is the name
+                                                        of resource being referenced
+                                                      type: string
+                                                    namespace:
+                                                      description: Namespace is the
+                                                        namespace of resource being
+                                                        referenced.
+                                                      type: string
+                                                  required:
+                                                  - name
+                                                  - namespace
+                                                  type: object
+                                                type: array
+                                              loadBalancerInboundNatPoolRefs:
+                                                description: LoadBalancerInboundNatPools
+                                                  - Specifies an array of references
+                                                  to inbound Nat pools of the load
+                                                  balancers. A scale set can reference
+                                                  inbound nat pools of one public
+                                                  and one internal load balancer.
+                                                  Multiple scale sets cannot use the
+                                                  same load balancer
+                                                items:
+                                                  description: KnownTypeReference
+                                                    is a reference to an object which
+                                                    the type and version is already
+                                                    known
+                                                  properties:
+                                                    name:
+                                                      description: Name is the name
+                                                        of resource being referenced
+                                                      type: string
+                                                    namespace:
+                                                      description: Namespace is the
+                                                        namespace of resource being
+                                                        referenced.
+                                                      type: string
+                                                  required:
+                                                  - name
+                                                  - namespace
+                                                  type: object
+                                                type: array
+                                              primary:
+                                                description: Primary - Specifies the
+                                                  primary network interface in case
+                                                  the virtual machine has more than
+                                                  1 network interface.
+                                                type: boolean
+                                              privateIPAddressVersion:
+                                                enum:
+                                                - IPv4
+                                                - IPv6
+                                                type: string
+                                              publicIPAddressConfiguration:
+                                                description: PublicIPAddressConfiguration
+                                                  - The publicIPAddressConfiguration.
+                                                properties:
+                                                  name:
+                                                    description: Name - The publicIP
+                                                      address configuration name.
+                                                    type: string
+                                                  properties:
+                                                    properties:
+                                                      dnsSettings:
+                                                        description: DNSSettings -
+                                                          The dns settings to be applied
+                                                          on the publicIP addresses
+                                                          .
+                                                        properties:
+                                                          domainNameLabel:
+                                                            description: DomainNameLabel
+                                                              - The Domain name label.The
+                                                              concatenation of the
+                                                              domain name label and
+                                                              vm index will be the
+                                                              domain name labels of
+                                                              the PublicIPAddress
+                                                              resources that will
+                                                              be created
+                                                            type: string
+                                                        type: object
+                                                      idleTimeoutInMinutes:
+                                                        description: IdleTimeoutInMinutes
+                                                          - The idle timeout of the
+                                                          public IP address.
+                                                        format: int32
+                                                        type: integer
+                                                      ipTags:
+                                                        description: IPTags - The
+                                                          list of IP tags associated
+                                                          with the public IP address.
+                                                        items:
+                                                          properties:
+                                                            ipTagType:
+                                                              description: 'IPTagType
+                                                                - IP tag type. Example:
+                                                                FirstPartyUsage.'
+                                                              type: string
+                                                            tag:
+                                                              description: 'Tag -
+                                                                IP tag associated
+                                                                with the public IP.
+                                                                Example: SQL, Storage
+                                                                etc.'
+                                                              type: string
+                                                          type: object
+                                                        type: array
+                                                      publicIPAddressVersion:
+                                                        enum:
+                                                        - IPv4
+                                                        - IPv6
+                                                        type: string
+                                                    type: object
+                                                type: object
+                                              subnetRef:
+                                                description: Subnet - Specifies the
+                                                  identifier of the subnet.
+                                                properties:
+                                                  name:
+                                                    description: Name is the name
+                                                      of resource being referenced
+                                                    type: string
+                                                  namespace:
+                                                    description: Namespace is the
+                                                      namespace of resource being
+                                                      referenced.
+                                                    type: string
+                                                required:
+                                                - name
+                                                - namespace
+                                                type: object
+                                            type: object
+                                        type: object
+                                      type: array
+                                    networkSecurityGroupRef:
+                                      description: NetworkSecurityGroup - The network
+                                        security group.
+                                      properties:
+                                        name:
+                                          description: Name is the name of resource
+                                            being referenced
+                                          type: string
+                                        namespace:
+                                          description: Namespace is the namespace
+                                            of resource being referenced.
+                                          type: string
+                                      required:
+                                      - name
+                                      - namespace
+                                      type: object
+                                    primary:
+                                      description: Primary - Specifies the primary
+                                        network interface in case the virtual machine
+                                        has more than 1 network interface.
+                                      type: boolean
+                                  type: object
+                              type: object
+                            type: array
+                        type: object
+                      osProfile:
+                        description: OsProfile - Specifies the operating system settings
+                          for the virtual machines in the scale set.
+                        properties:
+                          adminPassword:
+                            description: AdminPassword - Specifies the password of
+                              the administrator account.  **Minimum-length (Windows):**
+                              8 characters  **Minimum-length (Linux):** 6 characters  **Max-length
+                              (Windows):** 123 characters  **Max-length (Linux):**
+                              72 characters  **Complexity requirements:** 3 out of
+                              4 conditions below need to be fulfilled  Has lower characters
+                              Has upper characters  Has a digit  Has a special character
+                              (Regex match [\W_])  **Disallowed values:** "abc@123",
+                              "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1",
+                              "Password!", "Password1", "Password22", "iloveyou!"  For
+                              resetting the password, see [How to reset the Remote
+                              Desktop service or its login password in a Windows VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)  For
+                              resetting root password, see [Manage users, SSH, and
+                              check or repair disks on Azure Linux VMs using the VMAccess
+                              Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
+                            type: string
+                          adminUsername:
+                            description: AdminUsername - Specifies the name of the
+                              administrator account.  **Windows-only restriction:**
+                              Cannot end in "."  **Disallowed values:** "administrator",
+                              "admin", "user", "user1", "test", "user2", "test1",
+                              "user3", "admin1", "1", "123", "a", "actuser", "adm",
+                              "admin2", "aspnet", "backup", "console", "david", "guest",
+                              "john", "owner", "root", "server", "sql", "support",
+                              "support_388945a0", "sys", "test2", "test3", "user4",
+                              "user5".  **Minimum-length (Linux):** 1  character  **Max-length
+                              (Linux):** 64 characters  **Max-length (Windows):**
+                              20 characters   For root access to the Linux VM, see
+                              [Using root privileges on Linux virtual machines in
+                              Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+                              For a list of built-in system users on Linux that should
+                              not be used in this field, see [Selecting User Names
+                              for Linux on Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+                            type: string
+                          computerNamePrefix:
+                            description: ComputerNamePrefix - Specifies the computer
+                              name prefix for all of the virtual machines in the scale
+                              set. Computer name prefixes must be 1 to 15 characters
+                              long.
+                            type: string
+                          customData:
+                            description: CustomData - Specifies a base-64 encoded
+                              string of custom data. The base-64 encoded string is
+                              decoded to a binary array that is saved as a file on
+                              the Virtual Machine. The maximum length of the binary
+                              array is 65535 bytes.  For using cloud-init for your
+                              VM, see [Using cloud-init to customize a Linux VM during
+                              creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+                            type: string
+                          linuxConfiguration:
+                            description: LinuxConfiguration - Specifies the Linux
+                              operating system settings on the virtual machine. For
+                              a list of supported Linux distributions, see [Linux
+                              on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)  For
+                              running non-endorsed distributions, see [Information
+                              for Non-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+                            properties:
+                              disablePasswordAuthentication:
+                                description: DisablePasswordAuthentication - Specifies
+                                  whether password authentication should be disabled.
+                                type: boolean
+                              provisionVMAgent:
+                                description: ProvisionVMAgent - Indicates whether
+                                  virtual machine agent should be provisioned on the
+                                  virtual machine. When this property is not specified
+                                  in the request body, default behavior is to set
+                                  it to true.  This will ensure that VM Agent is installed
+                                  on the VM so that extensions can be added to the
+                                  VM later.
+                                type: boolean
+                              ssh:
+                                description: SSH - Specifies the ssh key configuration
+                                  for a Linux OS.
+                                properties:
+                                  publicKeys:
+                                    description: PublicKeys - The list of SSH public
+                                      keys used to authenticate with linux based VMs.
+                                    items:
+                                      properties:
+                                        keyData:
+                                          description: KeyData - SSH public key certificate
+                                            used to authenticate with the VM through
+                                            ssh. The key needs to be at least 2048-bit
+                                            and in ssh-rsa format. For creating ssh
+                                            keys, see [Create SSH keys on Linux and
+                                            Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+                                          type: string
+                                        path:
+                                          description: 'Path - Specifies the full
+                                            path on the created VM where ssh public
+                                            key is stored. If the file already exists,
+                                            the specified key is appended to the file.
+                                            Example: /home/user/.ssh/authorized_keys'
+                                          type: string
+                                      type: object
+                                    type: array
+                                type: object
+                            type: object
+                        required:
+                        - adminUsername
+                        - computerNamePrefix
+                        type: object
+                      priority:
+                        description: 'Priority - Specifies the priority for the virtual
+                          machines in the scale set. Minimum api-version: 2017-10-30-preview.
+                          Possible values include: ''Regular'', ''Low'', ''Spot'''
+                        enum:
+                        - Regular
+                        - Low
+                        - Spot
+                        type: string
+                      scheduledEventsProfile:
+                        description: ScheduledEventsProfile - Specifies Scheduled
+                          Event related configurations.
+                        properties:
+                          terminateNotificationProfile:
+                            description: TerminateNotificationProfile - Specifies
+                              Terminate Scheduled Event related configurations.
+                            properties:
+                              enable:
+                                description: Enable - Specifies whether the Terminate
+                                  Scheduled event is enabled or disabled.
+                                type: boolean
+                              notBeforeTimeout:
+                                description: NotBeforeTimeout - Configurable length
+                                  of time a Virtual Machine being deleted will have
+                                  to potentially approve the Terminate Scheduled Event
+                                  before the event is auto approved (timed out). The
+                                  configuration must be specified in ISO 8601 format,
+                                  the default value is 5 minutes (PT5M)
+                                type: string
+                            type: object
+                        type: object
+                      storageProfile:
+                        description: StorageProfile - Specifies the storage settings
+                          for the virtual machine disks.
+                        properties:
+                          dataDisks:
+                            description: DataDisks - Specifies the parameters that
+                              are used to add data disks to the virtual machines in
+                              the scale set.  For more information about disks, see
+                              [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+                            items:
+                              properties:
+                                caching:
+                                  default: None
+                                  description: Caching - Specifies the caching requirements.
+                                  enum:
+                                  - None
+                                  - ReadOnly
+                                  - ReadWrite
+                                  type: string
+                                createOption:
+                                  description: CreateOption - Specifies how the virtual
+                                    machine should be created.
+                                  enum:
+                                  - FromImage
+                                  - Empty
+                                  - Attach
+                                  type: string
+                                diskIOPSReadWrite:
+                                  description: DiskIOPSReadWrite - Specifies the Read-Write
+                                    IOPS for the managed disk. Should be used only
+                                    when StorageAccountType is UltraSSD_LRS. If not
+                                    specified, a default value would be assigned based
+                                    on diskSizeGB.
+                                  format: int64
+                                  type: integer
+                                diskMBpsReadWrite:
+                                  description: DiskMBpsReadWrite - Specifies the bandwidth
+                                    in MB per second for the managed disk. Should
+                                    be used only when StorageAccountType is UltraSSD_LRS.
+                                    If not specified, a default value would be assigned
+                                    based on diskSizeGB.
+                                  format: int64
+                                  type: integer
+                                diskSizeGB:
+                                  description: DiskSizeGB - Specifies the size of
+                                    an empty data disk in gigabytes. This element
+                                    can be used to overwrite the size of the disk
+                                    in a virtual machine image.  This value cannot
+                                    be larger than 1023 GB
+                                  format: int32
+                                  type: integer
+                                lun:
+                                  description: Lun - Specifies the logical unit number
+                                    of the data disk. This value is used to identify
+                                    data disks within the VM and therefore must be
+                                    unique for each data disk attached to a VM.
+                                  format: int32
+                                  type: integer
+                                managedDisk:
+                                  description: ManagedDisk - The managed disk parameters.
+                                  properties:
+                                    storageAccountType:
+                                      description: 'StorageAccountType - Specifies
+                                        the storage account type for the managed disk.
+                                        NOTE: UltraSSD_LRS can only be used with data
+                                        disks, it cannot be used with OS Disk.'
+                                      enum:
+                                      - Premium_LRS
+                                      - StandardSSD_LRS
+                                      - Standard_LRS
+                                      - UltraSSD_LRS
+                                      type: string
+                                  type: object
+                                name:
+                                  description: Name - The disk name.
+                                  type: string
+                                writeAcceleratorEnabled:
+                                  description: WriteAcceleratorEnabled - Specifies
+                                    whether writeAccelerator should be enabled or
+                                    disabled on the disk.
+                                  type: boolean
+                              type: object
+                            type: array
+                          imageReference:
+                            description: ImageReference - Specifies information about
+                              the image to use. You can specify information about
+                              platform images, marketplace images, or virtual machine
+                              images. This element is required when you want to use
+                              a platform image, marketplace image, or virtual machine
+                              image, but is not used in other creation operations.
+                            properties:
+                              id:
+                                description: ID - Resource Id
+                                type: string
+                              offer:
+                                description: Offer - Specifies the offer of the platform
+                                  image or marketplace image used to create the virtual
+                                  machine.
+                                type: string
+                              publisher:
+                                description: Publisher - The image publisher.
+                                type: string
+                              sku:
+                                description: Sku - The image SKU.
+                                type: string
+                              version:
+                                description: Version - Specifies the version of the
+                                  platform image or marketplace image used to create
+                                  the virtual machine. The allowed formats are Major.Minor.Build
+                                  or 'latest'. Major, Minor, and Build are decimal
+                                  numbers. Specify 'latest' to use the latest version
+                                  of an image available at deploy time. Even if you
+                                  use 'latest', the VM image will not automatically
+                                  update after deploy time even if a new version becomes
+                                  available.
+                                type: string
+                            type: object
+                          osDisk:
+                            description: OsDisk - Specifies information about the
+                              operating system disk used by the virtual machines in
+                              the scale set.  For more information about disks, see
+                              [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+                            properties:
+                              caching:
+                                default: None
+                                description: Caching - Specifies the caching requirements.
+                                enum:
+                                - None
+                                - ReadOnly
+                                - ReadWrite
+                                type: string
+                              createOption:
+                                description: CreateOption - Specifies how the virtual
+                                  machine should be created.
+                                enum:
+                                - FromImage
+                                - Empty
+                                - Attach
+                                type: string
+                              diskSizeGB:
+                                description: DiskSizeGB - Specifies the size of an
+                                  empty data disk in gigabytes. This element can be
+                                  used to overwrite the size of the disk in a virtual
+                                  machine image. This value cannot be larger than
+                                  1023 GB
+                                format: int32
+                                maximum: 1023
+                                type: integer
+                              image:
+                                description: Image - Specifies information about the
+                                  unmanaged user image to base the scale set on.
+                                properties:
+                                  uri:
+                                    description: URI - Specifies the virtual hard
+                                      disk's uri.
+                                    type: string
+                                type: object
+                              managedDisk:
+                                description: ManagedDisk - The managed disk parameters.
+                                properties:
+                                  storageAccountType:
+                                    description: 'StorageAccountType - Specifies the
+                                      storage account type for the managed disk. NOTE:
+                                      UltraSSD_LRS can only be used with data disks,
+                                      it cannot be used with OS Disk.'
+                                    enum:
+                                    - Premium_LRS
+                                    - StandardSSD_LRS
+                                    - Standard_LRS
+                                    - UltraSSD_LRS
+                                    type: string
+                                type: object
+                              name:
+                                description: Name - The disk name.
+                                type: string
+                              osType:
+                                description: OsType - This property allows you to
+                                  specify the type of the OS that is included in the
+                                  disk if creating a VM from user-image or a specialized
+                                  VHD.
+                                enum:
+                                - Windows
+                                - Linux
+                                type: string
+                              vhdContainers:
+                                description: VhdContainers - Specifies the container
+                                  urls that are used to store operating system disks
+                                  for the scale set.
+                                items:
+                                  type: string
+                                type: array
+                              writeAcceleratorEnabled:
+                                description: WriteAcceleratorEnabled - Specifies whether
+                                  writeAccelerator should be enabled or disabled on
+                                  the disk.
+                                type: boolean
+                            type: object
+                        type: object
+                    required:
+                    - networkProfile
+                    - osProfile
+                    - storageProfile
+                    type: object
+                  zoneBalance:
+                    description: ZoneBalance - Whether to force strictly even Virtual
+                      Machine distribution cross x-zones in case there is zone outage.
+                    type: boolean
+                required:
+                - upgradePolicy
+                - virtualMachineProfile
+                type: object
+              resourceGroupRef:
+                description: ResourceGroupRef is the Azure Resource Group the VirtualNetwork
+                  resides within
+                properties:
+                  name:
+                    description: Name is the name of resource being referenced
+                    type: string
+                  namespace:
+                    description: Namespace is the namespace of resource being referenced.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+              sku:
+                description: Sku - The virtual machine scale set sku.
+                properties:
+                  capacity:
+                    description: Capacity - Specifies the number of virtual machines
+                      in the scale set.
+                    format: int64
+                    type: integer
+                  name:
+                    description: Name - The sku name.
+                    type: string
+                  tier:
+                    default: Standard
+                    description: 'Tier - Specifies the tier of virtual machines in
+                      a scale set. Possible Values: **Standard** **Basic**'
+                    enum:
+                    - Standard
+                    - Basic
+                    type: string
+                required:
+                - capacity
+                - name
+                - tier
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: Tags - Resource tags
+                type: object
+              zones:
+                description: 'Zones - The virtual machine scale set zones. NOTE: Availability
+                  zones can only be set when you create the scale set'
+                items:
+                  type: string
+                type: array
+            required:
+            - location
+            - properties
+            - resourceGroupRef
+            - sku
+            type: object
+          status:
+            description: VirtualMachineScaleSetStatus defines the observed state of
+              VirtualMachineScaleSet
+            properties:
+              id:
+                type: string
+              provisioningState:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

@@ -1,0 +1,20 @@
+# permissions for end users to view virtualmachines.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: virtualmachine-viewer-role
+rules:
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachines
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachines/status
+  verbs:
+  - get

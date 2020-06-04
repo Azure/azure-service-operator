@@ -1,0 +1,24 @@
+# permissions for end users to edit networkinterfaces.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: networkinterface-editor-role
+rules:
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - networkinterfaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.network.infra.azure.com
+  resources:
+  - networkinterfaces/status
+  verbs:
+  - get

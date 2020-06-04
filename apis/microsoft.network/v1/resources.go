@@ -25,6 +25,10 @@ func (nsg *NetworkSecurityGroup) GetResourceGroupObjectRef() *azcorev1.KnownType
 	return nsg.Spec.ResourceGroupRef
 }
 
+func (nic *NetworkInterface) GetResourceGroupObjectRef() *azcorev1.KnownTypeReference {
+	return nic.Spec.ResourceGroupRef
+}
+
 func (*VirtualNetwork) ResourceType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
@@ -71,4 +75,8 @@ func (*SecurityRule) ResourceType() string {
 
 func (*Subnet) ResourceType() string {
 	return "Microsoft.Network/virtualNetworks/subnets"
+}
+
+func (*NetworkInterface) ResourceType() string {
+	return "Microsoft.Network/networkInterfaces"
 }

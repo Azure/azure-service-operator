@@ -27,19 +27,20 @@ type (
 	}
 
 	Resource struct {
-		ObjectMeta        ResourceMeta      `json:"-"`
-		ResourceGroup     string            `json:"-"` // resource group should not be serialized as part of the resource. This indicates that this should be within a resource group or at a subscription level deployment.
-		SubscriptionID    string            `json:"-"`
-		ProvisioningState ProvisioningState `json:"-"`
-		DeploymentID      string            `json:"-"`
-		ID                string            `json:"id,omitempty"`
-		Name              string            `json:"name,omitempty"`
-		Location          string            `json:"location,omitempty"`
-		Type              string            `json:"type,omitempty"`
-		Tags              map[string]string `json:"tags,omitempty"`
-		ManagedBy         string            `json:"managedBy,omitempty"`
-		APIVersion        string            `json:"apiVersion,omitempty"`
-		Properties        json.RawMessage   `json:"properties,omitempty"`
+		ObjectMeta        ResourceMeta           `json:"-"`
+		ResourceGroup     string                 `json:"-"` // resource group should not be serialized as part of the resource. This indicates that this should be within a resource group or at a subscription level deployment.
+		SubscriptionID    string                 `json:"-"`
+		ProvisioningState ProvisioningState      `json:"-"`
+		DeploymentID      string                 `json:"-"`
+		ID                string                 `json:"id,omitempty"`
+		Name              string                 `json:"name,omitempty"`
+		Location          string                 `json:"location,omitempty"`
+		Sku               map[string]interface{} `json:"sku,omitempty"`
+		Type              string                 `json:"type,omitempty"`
+		Tags              map[string]string      `json:"tags,omitempty"`
+		ManagedBy         string                 `json:"managedBy,omitempty"`
+		APIVersion        string                 `json:"apiVersion,omitempty"`
+		Properties        json.RawMessage        `json:"properties,omitempty"`
 	}
 
 	AnnotationKey string

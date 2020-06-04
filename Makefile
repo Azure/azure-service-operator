@@ -94,7 +94,7 @@ generate: manifests $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths="./..."
 
 	$(CONVERSION_GEN) \
-    		--input-dirs=./apis/microsoft.network/v20191101,./apis/microsoft.resources/v20191001,./apis/microsoft.resources/v20150101 \
+    		--input-dirs=./apis/microsoft.network/v20191101,./apis/microsoft.resources/v20191001,./apis/microsoft.compute/v20191201,./apis/microsoft.resources/v20150101 \
     		--output-file-base=zz_generated.conversion \
     		--output-base=$(ROOT_DIR) \
     		--go-header-file=./hack/boilerplate.go.txt

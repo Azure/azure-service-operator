@@ -32,18 +32,16 @@ func TestGetTypeReferenceData(t *testing.T) {
 	})
 
 	refsData, err := GetTypeReferenceData(rt)
-	g := gomega.NewGomegaWithT(t)
+	g := gomega.NewWithT(t)
 	g.Expect(err).ToNot(gomega.HaveOccurred())
 	g.Expect(refsData).ToNot(gomega.BeEmpty())
-	g.Expect(refsData).To(gomega.HaveLen(4))
-	g.Expect(refsData).To(gomega.Equal([]TypeReferenceLocation{
+	expected := []TypeReferenceLocation{
 		{
 			JSONFieldName:     "embeddedBazzRef",
 			TemplateFieldName: "embeddedBazz",
 			Path:              []string{"spec", "properties"},
 			Group:             "microsoft.network.infra.azure.com",
 			Kind:              "Bazz",
-			IsSlice:           false,
 		},
 		{
 			Path:              []string{"spec", "properties"},
@@ -52,6 +50,13 @@ func TestGetTypeReferenceData(t *testing.T) {
 			Group:             "microsoft.network.infra.azure.com",
 			Kind:              "Route",
 			IsSlice:           true,
+		},
+		{
+			JSONFieldName:     "routeWithTemplateNameRef",
+			TemplateFieldName: "routeTemplateName",
+			Path:              []string{"spec", "properties"},
+			Group:             "microsoft.network.infra.azure.com",
+			Kind:              "Route",
 		},
 		{
 			JSONFieldName:     "blahRefs",
@@ -67,9 +72,34 @@ func TestGetTypeReferenceData(t *testing.T) {
 			Path:              []string{"spec", "properties", "foo"},
 			Group:             "microsoft.network.infra.azure.com",
 			Kind:              "Bazz",
-			IsSlice:           false,
 		},
-	}))
+		{
+			JSONFieldName:     "compositeRefs",
+			TemplateFieldName: "composites",
+			Path:              []string{"spec", "properties"},
+			Group:             "microsoft.network.infra.azure.com",
+			Kind:              "Composite",
+			IsSlice:           true,
+		},
+		{
+			JSONFieldName:     "subnetRef",
+			TemplateFieldName: "subnet",
+			Path:              []string{"spec", "properties", "specArray[]", "properties"},
+			Group:             "microsoft.network.infra.azure.com",
+			Kind:              "Subnet",
+		},
+		{
+			JSONFieldName:     "ipRef",
+			TemplateFieldName: "ip",
+			Path:              []string{"spec", "properties", "specArray[]", "properties", "nestedArray[]", "nested"},
+			Group:             "microsoft.network.infra.azure.com",
+			Kind:              "Subnet",
+		},
+	}
+	g.Expect(refsData).To(gomega.HaveLen(len(expected)))
+	for i, exp := range expected {
+		g.Expect(refsData[i]).To(gomega.Equal(exp))
+	}
 }
 
 func TestTypeReferenceLocation_JSONFields(t *testing.T) {
@@ -81,7 +111,7 @@ func TestTypeReferenceLocation_JSONFields(t *testing.T) {
 		Kind:              "kind",
 		IsSlice:           false,
 	}
-	g := gomega.NewGomegaWithT(t)
+	g := gomega.NewWithT(t)
 	g.Expect(trl.JSONFields()).To(gomega.Equal([]string{"hello", "world", "foo"}))
 	g.Expect(trl.Path).To(gomega.Equal([]string{"hello", "world"}))
 }
@@ -95,9 +125,48 @@ func TestTypeReferenceLocation_TemplateFields(t *testing.T) {
 		Kind:              "kind",
 		IsSlice:           false,
 	}
-	g := gomega.NewGomegaWithT(t)
+	g := gomega.NewWithT(t)
 	g.Expect(trl.TemplateFields()).To(gomega.Equal([]string{"hello", "world", "bar"}))
 	g.Expect(trl.Path).To(gomega.Equal([]string{"hello", "world"}))
+}
+
+func TestTypeReferenceLocation_WithinSlice(t *testing.T) {
+	cases := []struct {
+		Name        string
+		Subject     *TypeReferenceLocation
+		WithinSlice bool
+	}{
+		{
+			Name: "NotWithinASlice",
+			Subject: &TypeReferenceLocation{
+				Path: []string{"foo", "bar"},
+			},
+			WithinSlice: false,
+		},
+		{
+			Name: "WithinASliceWithPathAtEnd",
+			Subject: &TypeReferenceLocation{
+				Path: []string{"foo", "bar[]"},
+			},
+			WithinSlice: true,
+		},
+		{
+			Name: "WithinASliceWithPathAtTheStart",
+			Subject: &TypeReferenceLocation{
+				Path: []string{"foo[]", "bar"},
+			},
+			WithinSlice: true,
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.Name, func(t *testing.T) {
+			t.Parallel()
+			g := gomega.NewWithT(t)
+			g.Expect(c.Subject.WithinSlice()).To(gomega.Equal(c.WithinSlice))
+		})
+	}
 }
 
 func newLocalRouteTable(nn *client.ObjectKey) *RouteTable {
@@ -127,6 +196,24 @@ type (
 		BazzRef  *azcorev1.KnownTypeReference  `json:"bazzRef,omitempty" group:"microsoft.network.infra.azure.com" kind:"Bazz"`
 	}
 
+	Composite struct {
+		Primary                     *bool `json:"primary,omitempty"`
+		azcorev1.KnownTypeReference `json:""`
+	}
+
+	SpecProperties struct {
+		SubnetRef   *azcorev1.KnownTypeReference `json:"subnetRef,omitempty" group:"microsoft.network.infra.azure.com" kind:"Subnet"`
+		NestedArray []struct {
+			Nested struct {
+				IPRef *azcorev1.KnownTypeReference `json:"ipRef,omitempty" group:"microsoft.network.infra.azure.com" kind:"Subnet"`
+			} `json:"nested,omitempty"`
+		} `json:"nestedArray,omitempty"`
+	}
+
+	Spec struct {
+		Properties *SpecProperties `json:"properties,omitempty"`
+	}
+
 	Embedded struct {
 		EmbeddedBazzRef *azcorev1.KnownTypeReference `json:"embeddedBazzRef,omitempty" group:"microsoft.network.infra.azure.com" kind:"Bazz"`
 	}
@@ -136,7 +223,10 @@ type (
 		*Embedded
 		DisableBGPRoutePropagation bool                          `json:"disableBgpRoutePropagation,omitempty"`
 		RouteRefs                  []azcorev1.KnownTypeReference `json:"routeRefs,omitempty" group:"microsoft.network.infra.azure.com" kind:"Route"`
+		RouteWithTemplateName      *azcorev1.KnownTypeReference  `json:"routeWithTemplateNameRef,omitempty" templateName:"routeTemplateName" group:"microsoft.network.infra.azure.com" kind:"Route"`
 		Foo                        *Foo                          `json:"foo,omitempty"`
+		CompositeRefs              *[]Composite                  `json:"compositeRefs,omitempty" group:"microsoft.network.infra.azure.com" kind:"Composite"`
+		SpecArray                  []Spec                        `json:"specArray"`
 	}
 
 	// RouteTableSpec defines the desired state of RouteTable

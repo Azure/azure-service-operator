@@ -1,0 +1,357 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.3.0
+  creationTimestamp: null
+  name: networkinterfaces.microsoft.network.infra.azure.com
+spec:
+  group: microsoft.network.infra.azure.com
+  names:
+    kind: NetworkInterface
+    listKind: NetworkInterfaceList
+    plural: networkinterfaces
+    singular: networkinterface
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: NetworkInterface is the Schema for the networkinterfaces API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: NetworkInterfaceSpec defines the desired state of NetworkInterface
+            properties:
+              apiVersion:
+                type: string
+              location:
+                description: Location of the VNET in Azure
+                type: string
+              properties:
+                description: Properties of the Virtual Network
+                properties:
+                  dnsSettings:
+                    description: DNSSettings - The DNS settings in network interface.
+                    properties:
+                      dnsServers:
+                        description: DNSServers - List of DNS servers IP addresses.
+                          Use 'AzureProvidedDNS' to switch to azure provided DNS resolution.
+                          'AzureProvidedDNS' value cannot be combined with other IPs,
+                          it must be the only value in dnsServers collection.
+                        items:
+                          type: string
+                        type: array
+                      internalDnsNameLabel:
+                        description: InternalDNSNameLabel - Relative DNS name for
+                          this NIC used for internal communications between VMs in
+                          the same virtual network.
+                        type: string
+                    type: object
+                  enableAcceleratedNetworking:
+                    description: EnableAcceleratedNetworking - If the network interface
+                      is accelerated networking enabled.
+                    type: boolean
+                  enableIPForwarding:
+                    description: EnableIPForwarding - Indicates whether IP forwarding
+                      is enabled on this network interface.
+                    type: boolean
+                  ipConfigurations:
+                    description: IPConfigurations - A list of IPConfigurations of
+                      the network interface.
+                    items:
+                      description: NetworkInterfaceIPConfigurationSpec defines the
+                        desired state of NetworkInterfaceIPConfiguration
+                      properties:
+                        name:
+                          type: string
+                        properties:
+                          properties:
+                            primary:
+                              type: boolean
+                            privateIPAddress:
+                              type: string
+                            privateIPAddressVersion:
+                              enum:
+                              - IPv4
+                              - IPv6
+                              type: string
+                            privateIPAllocationMethod:
+                              enum:
+                              - Dynamic
+                              - Static
+                              type: string
+                            publicIPAddressRef:
+                              description: KnownTypeReference is a reference to an
+                                object which the type and version is already known
+                              properties:
+                                name:
+                                  description: Name is the name of resource being
+                                    referenced
+                                  type: string
+                                namespace:
+                                  description: Namespace is the namespace of resource
+                                    being referenced.
+                                  type: string
+                              required:
+                              - name
+                              - namespace
+                              type: object
+                            subnetRef:
+                              description: KnownTypeReference is a reference to an
+                                object which the type and version is already known
+                              properties:
+                                name:
+                                  description: Name is the name of resource being
+                                    referenced
+                                  type: string
+                                namespace:
+                                  description: Namespace is the namespace of resource
+                                    being referenced.
+                                  type: string
+                              required:
+                              - name
+                              - namespace
+                              type: object
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  networkSecurityGroupRef:
+                    description: NetworkSecurityGroup - The reference to the NetworkSecurityGroup
+                      resource.
+                    properties:
+                      name:
+                        description: Name is the name of resource being referenced
+                        type: string
+                      namespace:
+                        description: Namespace is the namespace of resource being
+                          referenced.
+                        type: string
+                    required:
+                    - name
+                    - namespace
+                    type: object
+                type: object
+              resourceGroupRef:
+                description: ResourceGroupRef is the Azure Resource Group the VirtualNetwork
+                  resides within
+                properties:
+                  name:
+                    description: Name is the name of resource being referenced
+                    type: string
+                  namespace:
+                    description: Namespace is the namespace of resource being referenced.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: Tags are user defined key value pairs
+                type: object
+            required:
+            - apiVersion
+            - location
+            - resourceGroupRef
+            type: object
+          status:
+            description: NetworkInterfaceStatus defines the observed state of NetworkInterface
+            properties:
+              deploymentId:
+                type: string
+              id:
+                type: string
+              provisioningState:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+  - name: v20191101
+    schema:
+      openAPIV3Schema:
+        description: NetworkInterface is the Schema for the networkinterfaces API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: NetworkInterfaceSpec defines the desired state of NetworkInterface
+            properties:
+              location:
+                description: Location of the VNET in Azure
+                type: string
+              properties:
+                description: Properties of the Virtual Network
+                properties:
+                  dnsSettings:
+                    description: DNSSettings - The DNS settings in network interface.
+                    properties:
+                      dnsServers:
+                        description: DNSServers - List of DNS servers IP addresses.
+                          Use 'AzureProvidedDNS' to switch to azure provided DNS resolution.
+                          'AzureProvidedDNS' value cannot be combined with other IPs,
+                          it must be the only value in dnsServers collection.
+                        items:
+                          type: string
+                        type: array
+                      internalDnsNameLabel:
+                        description: InternalDNSNameLabel - Relative DNS name for
+                          this NIC used for internal communications between VMs in
+                          the same virtual network.
+                        type: string
+                    type: object
+                  enableAcceleratedNetworking:
+                    description: EnableAcceleratedNetworking - If the network interface
+                      is accelerated networking enabled.
+                    type: boolean
+                  enableIPForwarding:
+                    description: EnableIPForwarding - Indicates whether IP forwarding
+                      is enabled on this network interface.
+                    type: boolean
+                  ipConfigurations:
+                    description: IPConfigurations - A list of IPConfigurations of
+                      the network interface.
+                    items:
+                      description: NetworkInterfaceIPConfigurationSpec defines the
+                        desired state of NetworkInterfaceIPConfiguration
+                      properties:
+                        name:
+                          type: string
+                        properties:
+                          properties:
+                            primary:
+                              type: boolean
+                            privateIPAddress:
+                              type: string
+                            privateIPAddressVersion:
+                              enum:
+                              - IPv4
+                              - IPv6
+                              type: string
+                            privateIPAllocationMethod:
+                              enum:
+                              - Dynamic
+                              - Static
+                              type: string
+                            publicIPAddressRef:
+                              description: KnownTypeReference is a reference to an
+                                object which the type and version is already known
+                              properties:
+                                name:
+                                  description: Name is the name of resource being
+                                    referenced
+                                  type: string
+                                namespace:
+                                  description: Namespace is the namespace of resource
+                                    being referenced.
+                                  type: string
+                              required:
+                              - name
+                              - namespace
+                              type: object
+                            subnetRef:
+                              description: KnownTypeReference is a reference to an
+                                object which the type and version is already known
+                              properties:
+                                name:
+                                  description: Name is the name of resource being
+                                    referenced
+                                  type: string
+                                namespace:
+                                  description: Namespace is the namespace of resource
+                                    being referenced.
+                                  type: string
+                              required:
+                              - name
+                              - namespace
+                              type: object
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  networkSecurityGroupRef:
+                    description: NetworkSecurityGroup - The reference to the NetworkSecurityGroup
+                      resource.
+                    properties:
+                      name:
+                        description: Name is the name of resource being referenced
+                        type: string
+                      namespace:
+                        description: Namespace is the namespace of resource being
+                          referenced.
+                        type: string
+                    required:
+                    - name
+                    - namespace
+                    type: object
+                type: object
+              resourceGroupRef:
+                description: ResourceGroupRef is the Azure Resource Group the VirtualNetwork
+                  resides within
+                properties:
+                  name:
+                    description: Name is the name of resource being referenced
+                    type: string
+                  namespace:
+                    description: Namespace is the namespace of resource being referenced.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: Tags are user defined key value pairs
+                type: object
+            required:
+            - location
+            - resourceGroupRef
+            type: object
+          status:
+            description: NetworkInterfaceStatus defines the observed state of NetworkInterface
+            properties:
+              id:
+                type: string
+              provisioningState:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

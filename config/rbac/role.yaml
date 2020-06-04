@@ -17,6 +17,28 @@ rules:
   - patch
   - watch
 - apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachines
+  - virtualmachinescalesets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachines/status
+  - virtualmachinescalesets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - microsoft.network.infra.azure.com
   resources:
   - backendaddresspools
@@ -24,7 +46,7 @@ rules:
   - inboundnatrules
   - loadbalancers
   - loadbalancingrules
-  - networkinterfaceipconfigurations
+  - networkinterfaces
   - networksecuritygroups
   - outboundrules
   - routes
@@ -48,7 +70,7 @@ rules:
   - inboundnatrules/status
   - loadbalancers/status
   - loadbalancingrules/status
-  - networkinterfaceipconfigurations/status
+  - networkinterfaces/status
   - networksecuritygroups/status
   - outboundrules/status
   - routes/status

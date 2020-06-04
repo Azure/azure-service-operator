@@ -1,0 +1,24 @@
+# permissions for end users to edit virtualmachinescalesets.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: virtualmachinescaleset-editor-role
+rules:
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachinescalesets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachinescalesets/status
+  verbs:
+  - get

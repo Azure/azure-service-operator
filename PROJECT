@@ -89,4 +89,22 @@ resources:
 - group: microsoft.network
   kind: Subnet
   version: v20191101
+- group: microsoft.compute
+  kind: VirtualMachine
+  version: v20191201
+- group: microsoft.compute
+  kind: VirtualMachine
+  version: v1
+- group: microsoft.compute
+  kind: VirtualMachineScaleSet
+  version: v1
+- group: microsoft.compute
+  kind: VirtualMachineScaleSet
+  version: v20191201
+- group: microsoft.network
+  kind: NetworkInterface
+  version: v1
+- group: microsoft.network
+  kind: NetworkInterface
+  version: v20191101
 version: "2"

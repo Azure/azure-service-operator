@@ -1,0 +1,20 @@
+# permissions for end users to view virtualmachinescalesets.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: virtualmachinescaleset-viewer-role
+rules:
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachinescalesets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachinescalesets/status
+  verbs:
+  - get

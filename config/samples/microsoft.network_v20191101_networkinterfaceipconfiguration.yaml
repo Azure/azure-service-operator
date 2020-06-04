@@ -1,7 +1,0 @@
-apiVersion: microsoft.network.infra.azure.com/v20191101
-kind: NetworkInterfaceIPConfiguration
-metadata:
-  name: networkinterfaceipconfiguration-sample
-spec:
-  # Add fields here
-  foo: bar

@@ -1,0 +1,24 @@
+# permissions for end users to edit virtualmachines.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: virtualmachine-editor-role
+rules:
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachines
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - microsoft.compute.infra.azure.com
+  resources:
+  - virtualmachines/status
+  verbs:
+  - get

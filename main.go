@@ -17,6 +17,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
+	microsoftcomputev1 "github.com/Azure/k8s-infra/apis/microsoft.compute/v1"
+	microsoftcomputev20191201 "github.com/Azure/k8s-infra/apis/microsoft.compute/v20191201"
 	microsoftnetworkv1 "github.com/Azure/k8s-infra/apis/microsoft.network/v1"
 	microsoftnetworkv20191101 "github.com/Azure/k8s-infra/apis/microsoft.network/v20191101"
 	microsoftresourcesv1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
@@ -41,6 +43,8 @@ func init() {
 	_ = microsoftresourcesv1.AddToScheme(scheme)
 	_ = microsoftnetworkv20191101.AddToScheme(scheme)
 	_ = microsoftnetworkv1.AddToScheme(scheme)
+	_ = microsoftcomputev20191201.AddToScheme(scheme)
+	_ = microsoftcomputev1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 

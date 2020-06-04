@@ -228,57 +228,6 @@ func (r *LoadBalancingRule) ValidateDelete() error {
 }
 
 // log is for logging in this package.
-var networkinterfaceipconfigurationlog = logf.Log.WithName("networkinterfaceipconfiguration-resource")
-
-func (r *NetworkInterfaceIPConfiguration) SetupWebhookWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewWebhookManagedBy(mgr).
-		For(r).
-		Complete()
-}
-
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-
-// +kubebuilder:webhook:path=/mutate-microsoft-network-infra-azure-com-v1-networkinterfaceipconfiguration,mutating=true,matchPolicy=Equivalent,failurePolicy=fail,groups=microsoft.network.infra.azure.com,resources=networkinterfaceipconfigurations,verbs=create;update,versions=v1,name=default.networkinterfaceipconfiguration.infra.azure.com
-
-var _ webhook.Defaulter = &NetworkInterfaceIPConfiguration{}
-
-// Default implements webhook.Defaulter so a webhook will be registered for the type
-func (r *NetworkInterfaceIPConfiguration) Default() {
-	networkinterfaceipconfigurationlog.Info("default", "name", r.Name)
-
-	// TODO(user): fill in your defaulting logic.
-}
-
-// TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
-// +kubebuilder:webhook:verbs=create;update,path=/validate-microsoft-network-infra-azure-com-v1-networkinterfaceipconfiguration,mutating=false,matchPolicy=Equivalent,failurePolicy=fail,groups=microsoft.network.infra.azure.com,resources=networkinterfaceipconfigurations,versions=v1,name=validation.networkinterfaceipconfiguration.infra.azure.com
-
-var _ webhook.Validator = &NetworkInterfaceIPConfiguration{}
-
-// ValidateCreate implements webhook.Validator so a webhook will be registered for the type
-func (r *NetworkInterfaceIPConfiguration) ValidateCreate() error {
-	networkinterfaceipconfigurationlog.Info("validate create", "name", r.Name)
-
-	// TODO(user): fill in your validation logic upon object creation.
-	return nil
-}
-
-// ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
-func (r *NetworkInterfaceIPConfiguration) ValidateUpdate(old runtime.Object) error {
-	networkinterfaceipconfigurationlog.Info("validate update", "name", r.Name)
-
-	// TODO(user): fill in your validation logic upon object update.
-	return nil
-}
-
-// ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *NetworkInterfaceIPConfiguration) ValidateDelete() error {
-	networkinterfaceipconfigurationlog.Info("validate delete", "name", r.Name)
-
-	// TODO(user): fill in your validation logic upon object deletion.
-	return nil
-}
-
-// log is for logging in this package.
 var networksecuritygrouplog = logf.Log.WithName("networksecuritygroup-resource")
 
 // +kubebuilder:webhook:path=/mutate-microsoft-network-infra-azure-com-v1-networksecuritygroup,mutating=true,matchPolicy=Equivalent,failurePolicy=fail,groups=microsoft.network.infra.azure.com,resources=networksecuritygroups,verbs=create;update,versions=v1,name=default.networksecuritygroup.infra.azure.com

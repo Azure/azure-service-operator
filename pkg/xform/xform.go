@@ -31,10 +31,6 @@ type (
 		Scheme *runtime.Scheme
 	}
 
-	idRef struct {
-		ID string `json:"id,omitempty"`
-	}
-
 	ownerReferenceState struct {
 		Obj   azcorev1.MetaObject
 		State string
@@ -402,12 +398,18 @@ func (m *ARMConverter) setResourceProperties(ctx context.Context, unObj map[stri
 
 	for _, ref := range refs {
 		var err error
-		if ref.IsSlice {
+		switch {
+		case ref.WithinSlice():
+			err = m.replaceSliceNestedReference(ctx, unObj, obj, ref)
+			if err != nil {
+				err = fmt.Errorf("failed to replace nested slice reference with: %w", err)
+			}
+		case ref.IsSlice:
 			err = m.replaceSliceReferenceWithIDs(ctx, unObj, obj, ref)
 			if err != nil {
 				err = fmt.Errorf("failed to replace slice reference with IDs with: %w", err)
 			}
-		} else {
+		default:
 			err = m.replaceReferenceWithID(ctx, unObj, obj, ref)
 			if err != nil {
 				err = fmt.Errorf("failed to replace reference with ID with: %w", err)
@@ -434,6 +436,64 @@ func (m *ARMConverter) setResourceProperties(ctx context.Context, unObj map[stri
 	}
 
 	res.Properties = raw
+	return nil
+}
+
+func (m *ARMConverter) replaceSliceNestedReference(ctx context.Context, unObj map[string]interface{}, obj azcorev1.MetaObject, ref TypeReferenceLocation) error {
+	var pathToFirstSlice []string
+	for _, segment := range ref.Path {
+		pathToFirstSlice = append(pathToFirstSlice, strings.TrimSuffix(segment, "[]"))
+		if PathSegmentIsSlice(segment) {
+			break
+		}
+	}
+
+	nestedSlice, found, err := unstructured.NestedSlice(unObj, pathToFirstSlice...)
+	if err != nil {
+		return fmt.Errorf("unable to find path %v with: %w", ref.JSONFields(), err)
+	}
+
+	if !found {
+		// ref was not found, no need to replace it
+		return nil
+	}
+
+	transformedItems := make([]interface{}, len(nestedSlice))
+	for itemIdx, item := range nestedSlice {
+		unObj, ok := item.(map[string]interface{})
+		if !ok {
+			return errors.New("nested slice items must be map[string]interface{}")
+		}
+
+		lengthOfRemainingPath := len(ref.Path) - len(pathToFirstSlice)
+		restOfPath := make([]string, lengthOfRemainingPath)
+		for pathIdx := 0; pathIdx < lengthOfRemainingPath; pathIdx++ {
+			restOfPath[pathIdx] = ref.Path[pathIdx+len(pathToFirstSlice)]
+		}
+
+		refWithRestOfPath := ref
+		refWithRestOfPath.Path = restOfPath
+		if refWithRestOfPath.WithinSlice() {
+			if err := m.replaceSliceNestedReference(ctx, unObj, obj, refWithRestOfPath); err != nil {
+				return fmt.Errorf("failed to replace nested slice reference with: %w", err)
+			}
+		}
+
+		if refWithRestOfPath.IsSlice {
+			if err := m.replaceSliceReferenceWithIDs(ctx, unObj, obj, refWithRestOfPath); err != nil {
+				return fmt.Errorf("failed to replace nested slice with IDs: %w", err)
+			}
+		} else {
+			if err := m.replaceReferenceWithID(ctx, unObj, obj, refWithRestOfPath); err != nil {
+				return fmt.Errorf("failed to replace nested slice with ID: %w", err)
+			}
+		}
+		transformedItems[itemIdx] = unObj
+	}
+
+	if err := unstructured.SetNestedSlice(unObj, transformedItems, pathToFirstSlice...); err != nil {
+		return fmt.Errorf("failed to set nested slice with transformed items: %w", err)
+	}
 	return nil
 }
 
@@ -472,7 +532,7 @@ func (m *ARMConverter) replaceReferenceWithID(ctx context.Context, unObj map[str
 	}
 
 	gvk := schema.GroupVersionKind{
-		Group:   obj.GetObjectKind().GroupVersionKind().Group,
+		Group:   ref.Group,
 		Version: "v1",
 		Kind:    ref.Kind,
 	}
@@ -513,7 +573,7 @@ func (m *ARMConverter) replaceReferenceWithID(ctx context.Context, unObj map[str
 }
 
 func (m *ARMConverter) replaceSliceReferenceWithIDs(ctx context.Context, unObj map[string]interface{}, obj azcorev1.MetaObject, ref TypeReferenceLocation) error {
-	unRef, found, err := unstructured.NestedSlice(unObj, ref.JSONFields()...)
+	unRefs, found, err := unstructured.NestedSlice(unObj, ref.JSONFields()...)
 	if err != nil {
 		return fmt.Errorf("unable to find path %v with: %w", ref.JSONFields(), err)
 	}
@@ -525,10 +585,9 @@ func (m *ARMConverter) replaceSliceReferenceWithIDs(ctx context.Context, unObj m
 
 	// remove the KnownTypeReference
 	unstructured.RemoveNestedField(unObj, ref.JSONFields()...)
-
 	var knownTypeRefsMap map[string][]azcorev1.KnownTypeReference
 	unRefMap := map[string]interface{}{
-		"ktrs": unRef,
+		"ktrs": unRefs,
 	}
 	if err := runtime.DefaultUnstructuredConverter.FromUnstructured(unRefMap, &knownTypeRefsMap); err != nil {
 		return fmt.Errorf("unable to build KnownTypeReference from unstructured with: %w", err)
@@ -536,7 +595,7 @@ func (m *ARMConverter) replaceSliceReferenceWithIDs(ctx context.Context, unObj m
 
 	var ids []interface{}
 	knownTypeRefs := knownTypeRefsMap["ktrs"]
-	for _, ktr := range knownTypeRefs {
+	for i, ktr := range knownTypeRefs {
 		if ktr.Name == "" {
 			// name of the reference is not set, so we will ignore it
 			continue
@@ -553,7 +612,7 @@ func (m *ARMConverter) replaceSliceReferenceWithIDs(ctx context.Context, unObj m
 		}
 
 		gvk := schema.GroupVersionKind{
-			Group:   obj.GetObjectKind().GroupVersionKind().Group,
+			Group:   ref.Group,
 			Version: "v1",
 			Kind:    ref.Kind,
 		}
@@ -582,14 +641,14 @@ func (m *ARMConverter) replaceSliceReferenceWithIDs(ctx context.Context, unObj m
 		}
 
 		if found {
-			unId, err := runtime.DefaultUnstructuredConverter.ToUnstructured(&idRef{
-				ID: id,
-			})
-
-			if err != nil {
-				return fmt.Errorf("unable to convert idRef to unstructured with: %w", err)
+			unRef, ok := unRefs[i].(map[string]interface{})
+			if !ok {
+				return fmt.Errorf("unable to cast %+v to map[string]interface{}", unRefs[i])
 			}
-			ids = append(ids, unId)
+			delete(unRef, "name")
+			delete(unRef, "namespace")
+			unRef["id"] = id
+			ids = append(ids, unRef)
 		}
 	}
 
@@ -645,6 +704,15 @@ func setTopLevelResourceFields(unObj map[string]interface{}, res *zips.Resource)
 		return err
 	}
 	res.Location = location
+
+	sku, found, err := unstructured.NestedMap(spec, "sku")
+	if err != nil {
+		return err
+	}
+
+	if found {
+		res.Sku = sku
+	}
 
 	status, ok, err := unstructured.NestedMap(unObj, "status")
 	if err != nil {

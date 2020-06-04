@@ -26,6 +26,7 @@ import (
 
 	"github.com/Azure/k8s-infra/apis"
 	azcorev1 "github.com/Azure/k8s-infra/apis/core/v1"
+	microsoftcomputev1 "github.com/Azure/k8s-infra/apis/microsoft.compute/v1"
 	microsoftnetworkv1 "github.com/Azure/k8s-infra/apis/microsoft.network/v1"
 	microsoftresourcesv1 "github.com/Azure/k8s-infra/apis/microsoft.resources/v1"
 	"github.com/Azure/k8s-infra/pkg/util/patch"
@@ -55,7 +56,6 @@ var (
 		new(microsoftnetworkv1.InboundNatRule),
 		new(microsoftnetworkv1.LoadBalancer),
 		new(microsoftnetworkv1.LoadBalancingRule),
-		new(microsoftnetworkv1.NetworkInterfaceIPConfiguration),
 		new(microsoftnetworkv1.NetworkSecurityGroup),
 		new(microsoftnetworkv1.OutboundRule),
 		new(microsoftnetworkv1.Route),
@@ -63,14 +63,19 @@ var (
 		new(microsoftnetworkv1.SecurityRule),
 		new(microsoftnetworkv1.VirtualNetwork),
 		new(microsoftnetworkv1.Subnet),
+		new(microsoftnetworkv1.NetworkInterface),
+		new(microsoftcomputev1.VirtualMachine),
+		new(microsoftcomputev1.VirtualMachineScaleSet),
 	}
 )
 
 // +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;patch
 // +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=microsoft.resources.infra.azure.com,resources=resourcegroups/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=backendaddresspools;frontendipconfigurations;inboundnatrules;loadbalancers;loadbalancingrules;networkinterfaceipconfigurations;networksecuritygroups;outboundrules;routes;routetables;securityrules;subnets;virtualnetworks,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=backendaddresspools/status;frontendipconfigurations/status;inboundnatrules/status;loadbalancers/status;loadbalancingrules/status;networkinterfaceipconfigurations/status;networksecuritygroups/status;outboundrules/status;routes/status;routetables/status;securityrules/status;subnets/status;virtualnetworks/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=backendaddresspools;frontendipconfigurations;inboundnatrules;loadbalancers;loadbalancingrules;networkinterfaces;networksecuritygroups;outboundrules;routes;routetables;securityrules;subnets;virtualnetworks,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.network.infra.azure.com,resources=backendaddresspools/status;frontendipconfigurations/status;inboundnatrules/status;loadbalancers/status;loadbalancingrules/status;networkinterfaces/status;networksecuritygroups/status;outboundrules/status;routes/status;routetables/status;securityrules/status;subnets/status;virtualnetworks/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=microsoft.compute.infra.azure.com,resources=virtualmachines;virtualmachinescalesets,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=microsoft.compute.infra.azure.com,resources=virtualmachines/status;virtualmachinescalesets/status,verbs=get;update;patch
 
 type (
 	// GenericReconciler reconciles a Resourcer object

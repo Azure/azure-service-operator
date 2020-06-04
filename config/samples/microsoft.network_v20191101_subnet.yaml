@@ -1,7 +1,7 @@
 apiVersion: microsoft.network.infra.azure.com/v20191101
 kind: Subnet
 metadata:
-  name: subnet-1
+  name: subnet-sample
   namespace: default
 spec:
   properties:
