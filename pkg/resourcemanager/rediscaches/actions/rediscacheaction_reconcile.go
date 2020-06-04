@@ -34,7 +34,7 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 		return true, nil
 	}
 
-	if v1alpha1.IsRedisCacheRollAction(instance.Spec.ActionName) {
+	if isRedisCacheRollAction(instance.Spec.ActionName) {
 		rollAllKeys := instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollAllKeys
 
 		if rollAllKeys || instance.Spec.ActionName == v1alpha1.RedisCacheActionNameRollPrimaryKey {
@@ -62,6 +62,7 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 			},
 		}
 		if err = m.ListKeysAndCreateSecrets(ctx, cacheInstance); err != nil {
+			instance.Status.Provisioning = true
 			instance.Status.Provisioned = false
 			instance.Status.FailedProvisioning = true
 			instance.Status.Message = err.Error()
@@ -69,7 +70,7 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 		}
 	}
 
-	if v1alpha1.IsRedisCacheRebootAction(instance.Spec.ActionName) {
+	if isRedisCacheRebootAction(instance.Spec.ActionName) {
 		err := m.ForceReboot(ctx, instance.Spec.ResourceGroup, instance.Spec.CacheName, instance.Spec.ActionName, instance.Spec.ShardID)
 		if err != nil {
 			instance.Status.Message = err.Error()
@@ -78,6 +79,7 @@ func (m *AzureRedisCacheActionManager) Ensure(ctx context.Context, obj runtime.O
 	}
 
 	// successful return
+	instance.Status.Provisioning = true
 	instance.Status.Provisioned = true
 	instance.Status.FailedProvisioning = false
 	instance.Status.Message = resourcemanager.SuccessMsg
@@ -128,4 +130,16 @@ func (m *AzureRedisCacheActionManager) convert(obj runtime.Object) (*v1alpha1.Re
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}
 	return local, nil
+}
+
+func isRedisCacheRollAction(actionName v1alpha1.RedisCacheActionName) bool {
+	return actionName == v1alpha1.RedisCacheActionNameRollAllKeys ||
+		actionName == v1alpha1.RedisCacheActionNameRollPrimaryKey ||
+		actionName == v1alpha1.RedisCacheActionNameRollSecondaryKey
+}
+
+func isRedisCacheRebootAction(actionName v1alpha1.RedisCacheActionName) bool {
+	return actionName == v1alpha1.RedisCacheActionNameRebootAllNodes ||
+		actionName == v1alpha1.RedisCacheActionNameRebootPrimaryNode ||
+		actionName == v1alpha1.RedisCacheActionNameRebootSecondaryNode
 }

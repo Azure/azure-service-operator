@@ -29,7 +29,6 @@ type RedisCacheActionSpec struct {
 	ShardID                *int32               `json:"shardID,omitempty"`
 }
 
-// +kubebuilder:resource:shortName=rca,path=rediscacheactions
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
@@ -55,16 +54,4 @@ type RedisCacheActionList struct {
 
 func init() {
 	SchemeBuilder.Register(&RedisCacheAction{}, &RedisCacheActionList{})
-}
-
-func IsRedisCacheRollAction(actionName RedisCacheActionName) bool {
-	return actionName == RedisCacheActionNameRollAllKeys ||
-		actionName == RedisCacheActionNameRollPrimaryKey ||
-		actionName == RedisCacheActionNameRollSecondaryKey
-}
-
-func IsRedisCacheRebootAction(actionName RedisCacheActionName) bool {
-	return actionName == RedisCacheActionNameRebootAllNodes ||
-		actionName == RedisCacheActionNameRebootPrimaryNode ||
-		actionName == RedisCacheActionNameRebootSecondaryNode
 }
