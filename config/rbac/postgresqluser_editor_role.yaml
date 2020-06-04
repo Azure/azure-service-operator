@@ -1,4 +1,4 @@
-# permissions to do edit mysqlusers.
+# permissions for end users to edit postgresqlusers.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -19,9 +19,6 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
-  - postgre
-  sqlusers/status
+  - postgresqlusers/status
   verbs:
   - get
-  - patch
-  - update

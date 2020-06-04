@@ -93,9 +93,9 @@ test-process-coverage:
 test-cleanup-azure-resources: 	
 	# Delete the resource groups that match the pattern
 	for rgname in `az group list --query "[*].[name]" -o table | grep '^${TEST_RESOURCE_PREFIX}' `; do \
-	    echo "$$rgname will be deleted"; \
-	    az group delete --name $$rgname --no-wait --yes; \
-    done
+		echo "$$rgname will be deleted"; \
+		az group delete --name $$rgname --no-wait --yes; \
+	done
 
 # Build the docker image
 docker-build:
@@ -143,6 +143,10 @@ delete:
 # Validate copyright headers
 validate-copyright-headers:
 	@./scripts/validate-copyright-headers.sh
+
+# Validate cainjection files:
+validate-cainjection-files:
+	@./scripts/validate-cainjection-files.sh
 
 # Generate manifests for helm and package them up
 helm-chart-manifests: manifests
