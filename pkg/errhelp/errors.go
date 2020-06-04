@@ -64,6 +64,7 @@ const (
 	InvalidAddressPrefixFormat                     = "InvalidAddressPrefixFormat"
 	FeatureNotSupportedForEdition                  = "FeatureNotSupportedForEdition"
 	VirtualNetworkRuleBadRequest                   = "VirtualNetworkRuleBadRequest"
+	LongTermRetentionPolicyInvalid                 = "LongTermRetentionPolicyInvalid"
 )
 
 func NewAzureError(err error) error {

@@ -5,7 +5,9 @@ package actions
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 
@@ -61,4 +63,32 @@ func (r *AzureRedisCacheActionManager) RegenerateSecondaryAccessKey(ctx context.
 	}
 
 	return nil
+}
+
+func (r *AzureRedisCacheActionManager) ForceReboot(ctx context.Context, resourceGroup string, cacheName string, actionName v1alpha1.RedisCacheActionName, shardID *int32) error {
+	client, err := r.GetRedisCacheClient()
+	if err != nil {
+		return err
+	}
+
+	var rebootType model.RebootType
+	switch actionName {
+	case v1alpha1.RedisCacheActionNameRebootAllNodes:
+		rebootType = model.AllNodes
+	case v1alpha1.RedisCacheActionNameRebootPrimaryNode:
+		rebootType = model.PrimaryNode
+	case v1alpha1.RedisCacheActionNameRebootSecondaryNode:
+		rebootType = model.SecondaryNode
+	default:
+		return fmt.Errorf("%v is not a valid reboot action", actionName)
+	}
+
+	_, err = client.ForceReboot(ctx, resourceGroup, cacheName, model.RebootParameters{
+		RebootType: rebootType,
+		ShardID:    shardID,
+	})
+	if err != nil {
+		return err
+	}
+	return err
 }
