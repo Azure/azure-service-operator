@@ -1,4 +1,4 @@
-# permissions to do viewer mysqlusers.
+# permissions for end users to view postgresqlusers.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
