@@ -29,10 +29,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
         docker-ce-cli \
         azure-cli \
-        zsh \
-    #
-    # Install ZSH shell
-    && wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
     #
     # Clean up
     && apt-get autoremove -y \
@@ -79,4 +75,4 @@ if [ -d "/usr/local/share/azure-localhost" ]; then\n\
     mkdir -p $HOME/.azure\n\
     cp -r /usr/local/share/azure-localhost/* $HOME/.azure\n\
     chown -R $(id -u) $HOME/.azure\n\
-fi' | tee -a /root/.bashrc /root/.zshrc /home/${USERNAME}/.bashrc >> /home/${USERNAME}/.zshrc
+fi' | tee -a /root/.bashrc /home/${USERNAME}/.bashrc
