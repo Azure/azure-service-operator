@@ -11,6 +11,7 @@ import (
 	"time"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/pkg/errhelp"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -97,3 +98,4 @@ func TestRedisCacheControllerNoResourceGroup(t *testing.T) {
 
 	// delete rc
 	EnsureDelete(ctx, t, tc, redisCacheInstance)
+}
