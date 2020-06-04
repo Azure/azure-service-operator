@@ -30,6 +30,7 @@ type RedisCacheProperties struct {
 	EnableNonSslPort bool              `json:"enableNonSslPort,omitempty"`
 	SubnetID         string            `json:"subnetId,omitempty"`
 	StaticIP         string            `json:"staticIp,omitempty"`
+	ShardCount       *int32            `json:"shardCount,omitempty"`
 	Configuration    map[string]string `json:"configuration,omitempty"`
 }
 
