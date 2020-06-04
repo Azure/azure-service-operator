@@ -59,3 +59,41 @@ func TestRedisCacheControllerHappyPath(t *testing.T) {
 	// delete rc
 	EnsureDelete(ctx, t, tc, redisCacheInstance)
 }
+func TestRedisCacheControllerNoResourceGroup(t *testing.T) {
+	t.Parallel()
+	defer PanicRecover(t)
+	ctx := context.Background()
+
+	var rgLocation string
+	var rgName string
+	var redisCacheName string
+
+	rgName = GenerateTestResourceNameWithRandom("rcfwr-rg", 10)
+	rgLocation = tc.resourceGroupLocation
+	redisCacheName = GenerateTestResourceNameWithRandom("rediscache", 10)
+
+	// Create the RedisCache object and expect the Reconcile to be created
+	redisCacheInstance := &azurev1alpha1.RedisCache{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      redisCacheName,
+			Namespace: "default",
+		},
+		Spec: azurev1alpha1.RedisCacheSpec{
+			Location:          rgLocation,
+			ResourceGroupName: rgName,
+			Properties: azurev1alpha1.RedisCacheProperties{
+				Sku: azurev1alpha1.RedisCacheSku{
+					Name:     "Basic",
+					Family:   "C",
+					Capacity: 0,
+				},
+				EnableNonSslPort: true,
+			},
+		},
+	}
+
+	// create rc
+	EnsureInstanceWithResult(ctx, t, tc, redisCacheInstance, errhelp.ResourceGroupNotFoundErrorCode, false)
+
+	// delete rc
+	EnsureDelete(ctx, t, tc, redisCacheInstance)
