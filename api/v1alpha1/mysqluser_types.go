@@ -28,8 +28,7 @@ type MySQLUserSpec struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// MySQLUser is the Schema for the postgresqlusers API
-// +kubebuilder:resource:shortName=mysqlu,path=mysqluser
+// MySQLUser is the Schema for the mysqlusers API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type MySQLUser struct {
