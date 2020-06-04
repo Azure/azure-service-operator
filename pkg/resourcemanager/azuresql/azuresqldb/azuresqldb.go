@@ -5,9 +5,11 @@ package azuresqldb
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	sql3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
 	"github.com/Azure/go-autorest/autorest"
@@ -107,6 +109,64 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 			DatabaseProperties: &dbProp,
 			Tags:               tags,
 		})
+
+	return future.Response(), err
+}
+
+// AddLongTermRetention enables / disables long term retention
+func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, weeklyRetention string, monthlyRetention string, yearlyRetention string, weekOfYear int32) (*http.Response, error) {
+
+	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient()
+	if err != nil {
+		return &http.Response{
+			StatusCode: 0,
+		}, err
+	}
+
+	// validate the input and exit if nothing needs to happen - this is ok!
+	if weeklyRetention == "" && monthlyRetention == "" && yearlyRetention == "" {
+		return &http.Response{
+			StatusCode: 200,
+		}, nil
+	}
+
+	// validate the pairing of yearly retention and week of year
+	if yearlyRetention != "" && (weekOfYear <= 0 || weekOfYear > 52) {
+		return &http.Response{
+			StatusCode: 500,
+		}, fmt.Errorf("weekOfYear must be greater than 0 and less or equal to 52 when yearlyRetention is used")
+	}
+
+	// create pointers so that we can pass nils if needed
+	pWeeklyRetention := &weeklyRetention
+	if weeklyRetention == "" {
+		pWeeklyRetention = nil
+	}
+	pMonthlyRetention := &monthlyRetention
+	if monthlyRetention == "" {
+		pMonthlyRetention = nil
+	}
+	pYearlyRetention := &yearlyRetention
+	pWeekOfYear := &weekOfYear
+	if yearlyRetention == "" {
+		pYearlyRetention = nil
+		pWeekOfYear = nil
+	}
+
+	future, err := longTermClient.CreateOrUpdate(
+		ctx,
+		resourceGroupName,
+		serverName,
+		databaseName,
+		sql3.BackupLongTermRetentionPolicy{
+			LongTermRetentionPolicyProperties: &sql3.LongTermRetentionPolicyProperties{
+				WeeklyRetention:  pWeeklyRetention,
+				MonthlyRetention: pMonthlyRetention,
+				YearlyRetention:  pYearlyRetention,
+				WeekOfYear:       pWeekOfYear,
+			},
+		},
+	)
 
 	return future.Response(), err
 }

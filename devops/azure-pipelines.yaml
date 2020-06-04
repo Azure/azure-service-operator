@@ -29,6 +29,12 @@ steps:
   lfs: "true"
 
 - script: |
+    make validate-copyright-headers
+    make validate-cainjection-files
+  displayName: 'Validate Source'
+  continueOnError: 'false'
+
+- script: |
     set -x
     ls -l /usr/local/go*
     mkdir -p '$(GOBIN)'
@@ -98,12 +104,6 @@ steps:
 #     AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
 #     REQUEUE_AFTER: $(REQUEUE_AFTER)
 #   workingDirectory: '$(MODULE_PATH)'
-
-- script: |
-    make validate-copyright-headers
-  continueOnError: 'false'
-  displayName: 'Validate Copyright Headers'
-  workingDirectory: '$(MODULE_PATH)'
 
 - script: |
     set -e
