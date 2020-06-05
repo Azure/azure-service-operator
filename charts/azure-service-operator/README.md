@@ -69,6 +69,8 @@ azureOperatorKeyvault: OperatorSecretKeyVault
 
 ### Install Chart
 
+#### Pre-Install
+
 If you are deploying into an already created namespace, be sure to set the following variable to false:
 ```
 createNamespace: False
@@ -79,10 +81,29 @@ and specify the namespace name:
 namespace: your-namespace
 ```
 
-To upgrade your existing CRDs, or install the latest version, run:
+Prior to installing the Helm Chart, we recommend updating your CRDs, as Helm will not remove or update them if they already exist on the cluster.
+
+##### Default Namespace
+
+If you do not need a custom namespace, run the command below to update your CRDs:
 ```
-kubectl apply -f charts/azure-service-operator/crds/
+kubectl apply -f ./crds
 ```
+
+##### Custom Namespace
+
+If installing to a custom namespace, some additional variable replacement will need to be done on the CRDs. Run the command below, replacing <your namespace> with the desired custom namespace:
+```
+NAMESPACE=<your namespace>
+find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,$NAMESPACE,g {} \;
+```
+
+Then, apply the CRDs:
+```
+kubectl apply -f ./crds
+```
+
+#### Install
 
 Finally, install the chart with your added values. The chart can be installed by using a values file or environment variables.
 ```
@@ -112,7 +133,7 @@ The following table lists the configurable parameters of the azure-service-opera
 | `azureClientSecret`  | Azure Service Principal Client Secret | `` |
 | `azureUseMI`  | Set to True if using Managed Identity for authentication | `False` |
 | `azureOperatorKeyvault`  | Set this value with the name of your Azure Key Vault resource if you prefer to store secrets in Key Vault rather than as Kubernetes secrets (default) | `` |
-| `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azure-service-operator:latest` |
+| `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azure-service-operator:0.0.20258` |
 | `cloudEnvironment`  | Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud | `AzurePublicCloud` |
 | `createNamespace`  | Set to True if you would like the namespace autocreated, otherwise False if you have an existing namespace. If using an existing namespace, the `namespace` field must also be updated | `True` |
 | `namespace`  | Configure a custom namespace to deploy the operator into | `azureoperator-system` |
