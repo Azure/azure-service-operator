@@ -87,7 +87,7 @@ Prior to installing the Helm Chart, we recommend updating your CRDs, as Helm wil
 
 If you do not need a custom namespace, run the command below to update your CRDs:
 ```
-kubectl apply -f ./crds
+kubectl apply -f ./charts/azure-service-operator/crds/
 ```
 
 ##### Custom Namespace
@@ -95,12 +95,12 @@ kubectl apply -f ./crds
 If installing to a custom namespace, some additional variable replacement will need to be done on the CRDs. Run the command below, replacing <your namespace> with the desired custom namespace:
 ```
 NAMESPACE=<your namespace>
-find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,$NAMESPACE,g {} \;
+find ./charts/azure-service-operator/crds/ -type f -exec perl -pi -e s,azureoperator-system,$NAMESPACE,g {} \;
 ```
 
 Then, apply the CRDs:
 ```
-kubectl apply -f ./crds
+kubectl apply -f ./charts/azure-service-operator/crds/
 ```
 
 #### Install
