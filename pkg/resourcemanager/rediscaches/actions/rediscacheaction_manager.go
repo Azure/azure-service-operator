@@ -15,6 +15,8 @@ type RedisCacheActionManager interface {
 
 	RegenerateSecondaryAccessKey(ctx context.Context, resourceGroup string, cacheName string) (string, error)
 
+	ForceReboot(ctx context.Context, resourceGroup string, cacheName string) error
+
 	// also embed async client methods
 	resourcemanager.ARMClient
 }
