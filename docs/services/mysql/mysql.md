@@ -73,15 +73,11 @@ Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqluser.yaml) for MySQL
 
 The `resourceGroup` is the resource group of the MySQL server and MySQL database, provide the MySQL server name in `server` and MySQL database name in `dbName`. 
 
-The operator supports grant spefied previleges using the concept of `roles`, and supports to assign one or more previleges from the list:
+The operator supports grant specified previleges using the concept of `roles`, and supports to assign one or more privileges from the list:
 
 ##### `SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER`.
 
-The username is defined by `username`. The MySQL server admin secret is stored in k8s specified by `adminSecret` or from specific keyvault created by end user `adminSecretKeyVault`. 
-
-End user can store the user scerect to keyvault by `keyVaultToStoreSecrets` or use the k8s default secret to store. 
-
-
+The username is defined by `username`. The MySQL server admin secret is stored in the secret with name `adminSecret` in the  keyvault named `adminSecretKeyVault`. 
 
 ## Deploy, view and delete resources
 
