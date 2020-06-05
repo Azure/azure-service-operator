@@ -7,9 +7,6 @@ azureOperatorKeyvault: ""
 # Set to False if you do not need the namespace autocreated
 createNamespace: True
 
-# If installing multiple instances of ASO, set this to True
-multipleInstances: False
-
 # Optional, Custom Namespace 
 namespace: azureoperator-system
 
