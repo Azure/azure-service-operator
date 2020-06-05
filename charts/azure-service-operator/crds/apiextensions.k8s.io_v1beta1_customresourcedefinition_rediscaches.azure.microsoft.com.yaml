@@ -55,6 +55,9 @@ spec:
                   type: object
                 enableNonSslPort:
                   type: boolean
+                shardCount:
+                  format: int32
+                  type: integer
                 sku:
                   description: RedisCacheSku the SKU of the Redis Cache.
                   properties:
@@ -96,6 +99,8 @@ spec:
             flattenedSecrets:
               type: boolean
             message:
+              type: string
+            output:
               type: string
             pollingUrl:
               type: string

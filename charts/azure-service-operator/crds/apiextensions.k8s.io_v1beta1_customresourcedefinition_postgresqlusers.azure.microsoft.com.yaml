@@ -4,7 +4,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.5
   creationTimestamp: null
-  name: postgresqlvnetrules.azure.microsoft.com
+  name: postgresqlusers.azure.microsoft.com
 spec:
   additionalPrinterColumns:
   - JSONPath: .status.provisioned
@@ -15,15 +15,16 @@ spec:
     type: string
   group: azure.microsoft.com
   names:
-    kind: PostgreSQLVNetRule
-    listKind: PostgreSQLVNetRuleList
-    plural: postgresqlvnetrules
-    singular: postgresqlvnetrule
+    kind: PostgreSQLUser
+    listKind: PostgreSQLUserList
+    plural: postgresqlusers
+    singular: postgresqluser
   scope: Namespaced
-  subresources: {}
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
-      description: PostgreSQLVNetRule is the Schema for the PostgreSQLVNetRules API
+      description: PostgreSQLUser is the Schema for the postgresqlusers API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -38,28 +39,33 @@ spec:
         metadata:
           type: object
         spec:
-          description: PotgreSQLVNetRuleSpec defines the desired state of PostgreSQLVNetRule
+          description: PostgreSQLUserSpec defines the desired state of PostgreSqlUser
           properties:
-            ignoreMissingServiceEndpoint:
-              type: boolean
+            adminSecret:
+              description: optional
+              type: string
+            adminSecretKeyVault:
+              type: string
+            dbName:
+              type: string
+            keyVaultToStoreSecrets:
+              type: string
             resourceGroup:
+              type: string
+            roles:
+              items:
+                type: string
+              type: array
+            server:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
               type: string
-            server:
-              type: string
-            subnetName:
-              type: string
-            vNetName:
-              type: string
-            vNetResourceGroup:
+            username:
               type: string
           required:
-          - resourceGroup
+          - dbName
+          - roles
           - server
-          - subnetName
-          - vNetName
-          - vNetResourceGroup
           type: object
         status:
           description: ASOStatus (AzureServiceOperatorsStatus) defines the observed

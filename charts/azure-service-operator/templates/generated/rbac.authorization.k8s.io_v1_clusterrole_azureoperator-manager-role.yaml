@@ -671,6 +671,26 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - postgresqlusers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - postgresqlusers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - postgresqlvnetrules
   verbs:
   - create

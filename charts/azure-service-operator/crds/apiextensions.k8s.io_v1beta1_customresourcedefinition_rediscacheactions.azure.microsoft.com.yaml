@@ -46,6 +46,9 @@ spec:
               - rollallkeys
               - rollprimarykey
               - rollsecondarykey
+              - rebootallnodes
+              - rebootprimarynode
+              - rebootsecondarynode
               type: string
             cacheName:
               type: string
@@ -55,6 +58,9 @@ spec:
               type: string
             secretName:
               type: string
+            shardID:
+              format: int32
+              type: integer
           required:
           - actionName
           - cacheName
@@ -74,6 +80,8 @@ spec:
             flattenedSecrets:
               type: boolean
             message:
+              type: string
+            output:
               type: string
             pollingUrl:
               type: string

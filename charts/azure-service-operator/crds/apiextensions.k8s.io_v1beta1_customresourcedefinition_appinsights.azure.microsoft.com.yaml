@@ -43,6 +43,8 @@ spec:
           properties:
             applicationType:
               type: string
+            keyVaultToStoreSecrets:
+              type: string
             kind:
               type: string
             location:
@@ -68,6 +70,8 @@ spec:
             flattenedSecrets:
               type: boolean
             message:
+              type: string
+            output:
               type: string
             pollingUrl:
               type: string

@@ -88,6 +88,8 @@ spec:
                 type: boolean
               message:
                 type: string
+              output:
+                type: string
               pollingUrl:
                 type: string
               provisioned:
@@ -136,9 +138,18 @@ spec:
                 description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                   Important: Run "make" to regenerate code after modifying this file'
                 type: string
+              monthlyRetention:
+                type: string
               resourceGroup:
                 type: string
               server:
+                type: string
+              weekOfYear:
+                format: int32
+                type: integer
+              weeklyRetention:
+                type: string
+              yearlyRetention:
                 type: string
             required:
             - edition
@@ -159,6 +170,8 @@ spec:
               flattenedSecrets:
                 type: boolean
               message:
+                type: string
+              output:
                 type: string
               pollingUrl:
                 type: string
