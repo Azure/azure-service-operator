@@ -61,6 +61,25 @@ The `redisCache` indicates the RedisCache on which you want to configure the new
 
 _Note:_ When the `startIP` and `endIP` are 0.0.0.0, it denotes a special case that adds a firewall rule to allow all Azure services to access the RedisCache.
 
+## RedisCache action
+
+The RedisCache action allows you to regenerate keys and reboot the RedisCache cluster.
+
+Here is a [sample YAML](/config/samples/azure_v1alpha1_rediscacheaction.yaml) for RedisCache action.
+
+The `cacheName` indicates the RedisCache on which you want to perform the action and `resourceGroup` is the resource group of the RedisCache. The `actionName` corresponds to one of the supported actions listed below. 
+
+### RedisCache action - Roll Keys
+The `secretName` field is used to update the RedisCache secret. The `keyVaultToStoreSecrets` field is used to specify a KeyVault instance where the RedisCache secret exists. The following "roll" actions are supported:
+- `rollprimarykey` - regenerates primary key and updates the secret
+- `rollsecondarykey` - regenerates secondary key and updates the secret
+- `rollallkeys` - regenerates primary and secondary keys and updates the secret
+
+### RedisCache action - Reboot
+The `shardID` field is used to specify a specific RedisCache shard to reboot. The following "reboot" actions are supported:
+- `rebootprimarynode` - reboots all primary nodes in the RedisCache cluster
+- `rebootsecondarynode` - reboots all secondary nodes in the RedisCache cluster
+- `rebootallnodes` - reboots all nodes (primary & secondary) in the RedisCache cluster
 
 ## Deploy, view and delete resources
 

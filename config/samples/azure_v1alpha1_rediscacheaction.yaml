@@ -5,5 +5,5 @@ metadata:
 spec:
   resourceGroup: resourcegroup-azure-operators
   cacheName: rediscache-sample-1
-  # possible values are 'rollallkeys', 'rollprimarykey', 'rollsecondarykey'
+  # possible values are 'rollallkeys', 'rollprimarykey', 'rollsecondarykey', 'rebootallnodes', 'rebootprimarynode', 'rebootsecondarynode'
   actionName: rollallkeys
