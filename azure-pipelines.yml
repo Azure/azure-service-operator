@@ -48,6 +48,12 @@ variables:
 steps:
   - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
     lfs: "true"
+    
+  - script: |
+      make validate-copyright-headers
+      make validate-cainjection-files
+    displayName: 'Validate Source'
+    continueOnError: 'false'
 
   - task: GoTool@0
     displayName: Get Go 1.13.7
@@ -89,14 +95,7 @@ steps:
         go mod download
         make install-test-dependencies
       workingDirectory: '$(System.DefaultWorkingDirectory)'
-    
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: 'make validate-copyright-headers'
-      workingDirectory: '$(System.DefaultWorkingDirectory)'
-    displayName: 'Validate Copyright Headers'
-  
+
   - script: |
       set -e
       export PATH=$PATH:$(go env GOPATH)/bin
