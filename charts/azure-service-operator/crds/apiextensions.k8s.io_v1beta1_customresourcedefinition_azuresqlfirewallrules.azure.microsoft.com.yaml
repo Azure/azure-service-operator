@@ -83,6 +83,8 @@ spec:
                 type: boolean
               message:
                 type: string
+              output:
+                type: string
               pollingUrl:
                 type: string
               provisioned:
@@ -150,6 +152,8 @@ spec:
               flattenedSecrets:
                 type: boolean
               message:
+                type: string
+              output:
                 type: string
               pollingUrl:
                 type: string
