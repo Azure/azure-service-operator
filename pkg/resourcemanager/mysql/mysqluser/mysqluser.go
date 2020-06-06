@@ -78,14 +78,14 @@ func (s *MySqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string
 }
 
 // GrantUserRoles grants roles to a user for a given database
-func (s *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, server string, roles []string, db *sql.DB) error {
+func (s *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, server string, database string, roles []string, db *sql.DB) error {
 	var errorStrings []string
 	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("Problem found with username: %v", err)
 	}
 
 	for _, role := range roles {
-		tsql := fmt.Sprintf("GRANT %s TO '%s'@'%s'", role, user, server)
+		tsql := fmt.Sprintf("GRANT %s ON %s TO '%s'@'%s'", role, database, user, server)
 
 		if err := helpers.FindBadChars(role); err != nil {
 			return fmt.Errorf("Problem found with role: %v", err)

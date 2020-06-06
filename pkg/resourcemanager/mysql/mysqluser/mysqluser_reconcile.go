@@ -162,7 +162,7 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, fmt.Errorf("No roles specified for database user")
 	}
 
-	err = s.GrantUserRoles(ctx, user, string(instance.Spec.Server), instance.Spec.Roles, db)
+	err = s.GrantUserRoles(ctx, user, string(instance.Spec.Server), string(instance.Spec.DbName), instance.Spec.Roles, db)
 	if err != nil {
 		instance.Status.Message = "GrantUserRoles failed"
 		return false, fmt.Errorf("GrantUserRoles failed")
