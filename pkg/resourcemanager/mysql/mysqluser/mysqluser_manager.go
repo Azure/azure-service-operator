@@ -17,7 +17,7 @@ import (
 type MySQLUser interface {
 	GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (mysql.Database, error)
 	ConnectToMySqlDb(ctx context.Context, drivername string, server string, dbname string, port int, username string, password string) (*sql.DB, error)
-	GrantUserRoles(ctx context.Context, user string, server string, roles []string, db *sql.DB) error
+	GrantUserRoles(ctx context.Context, user string, server string, database string, roles []string, db *sql.DB) error
 	CreateUser(ctx context.Context, server string, secret map[string][]byte, db *sql.DB) (string, error)
 	UserExists(ctx context.Context, db *sql.DB, username string, sevrer string) (bool, error)
 	DropUser(ctx context.Context, db *sql.DB, user string, server string) error
