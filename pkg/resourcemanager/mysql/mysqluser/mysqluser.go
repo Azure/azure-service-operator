@@ -85,7 +85,7 @@ func (s *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, serv
 	}
 
 	for _, role := range roles {
-		tsql := fmt.Sprintf("GRANT %s ON %s TO '%s'@'%s'", role, database, user, server)
+		tsql := fmt.Sprintf("GRANT %s ON `%s`.* TO '%s'@'%s'", role, database, user, server)
 
 		if err := helpers.FindBadChars(role); err != nil {
 			return fmt.Errorf("Problem found with role: %v", err)
