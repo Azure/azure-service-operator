@@ -67,7 +67,7 @@ The `server` indicates the MySQL server on which you want to configure the new M
 
 ### MySQL user
 
-The MySQL user operator allows you to add new user to an existing MySQL database. 
+The MySQL user operator allows you to add a new user to an existing MySQL database. 
 
 Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqluser.yaml) for MySQL user. 
 
