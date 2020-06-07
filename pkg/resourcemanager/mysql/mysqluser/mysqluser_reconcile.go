@@ -94,7 +94,7 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 			return false, nil
 		}
 
-		// if this is an unmarshall error - igmore and continue, otherwise report error and requeue
+		// if this is an unmarshall error - ignore and continue, otherwise report error and requeue
 		if _, ok := err.(*json.UnmarshalTypeError); ok {
 			return false, err
 		}
