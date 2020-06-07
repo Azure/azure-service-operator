@@ -73,7 +73,7 @@ Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqluser.yaml) for MySQL
 
 The `resourceGroup` is the resource group of the MySQL server and MySQL database, provide the MySQL server name in `server` and MySQL database name in `dbName`. 
 
-The operator supports grant specified previleges using the concept of `roles`, and supports to assign one or more privileges from the list:
+The operator supports grant specified privileges using the concept of `roles`, and supports assigning one or more privileges from the list:
 
 ##### `SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER`.
 
