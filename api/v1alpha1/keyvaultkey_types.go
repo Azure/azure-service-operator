@@ -20,6 +20,7 @@ type KeyVaultKeySpec struct {
 	KeyVault      string                      `json:"keyVault,omitempty"`
 	KeySize       int32                       `json:"keySize,omitempty"`
 	Type          kvops.JSONWebKeyType        `json:"type,omitempty"`
+	Curve         kvops.JSONWebKeyCurveName   `json:"curve,omitempty"`
 	Operations    []kvops.JSONWebKeyOperation `json:"operations,omitempty"`
 }
 
