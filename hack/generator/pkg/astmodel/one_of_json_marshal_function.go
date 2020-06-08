@@ -85,7 +85,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 
 	var statements []ast.Stmt
 
-	for _, field := range f.oneOfStruct.fields {
+	for _, field := range f.oneOfStruct.Fields() {
 		fieldSelectorExpr := &ast.SelectorExpr{
 			X:   ast.NewIdent(receiverName),
 			Sel: ast.NewIdent(string(field.fieldName)),

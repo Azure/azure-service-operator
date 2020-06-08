@@ -12,7 +12,7 @@ import (
 
 // StructType represents an (unnamed) struct type
 type StructType struct {
-	fields    []*FieldDefinition
+	fields    map[FieldName]*FieldDefinition
 	functions map[string]Function
 }
 
@@ -23,18 +23,26 @@ var EmptyStructType = NewStructType()
 var _ Type = (*StructType)(nil)
 
 // NewStructType is a factory method for creating a new StructTypeDefinition
-func NewStructType(fields ...*FieldDefinition) *StructType {
-	sort.Slice(fields, func(left int, right int) bool {
-		return fields[left].fieldName < fields[right].fieldName
-	})
-
-	return &StructType{fields, make(map[string]Function)}
+func NewStructType() *StructType {
+	return &StructType{
+		fields:    make(map[FieldName]*FieldDefinition),
+		functions: make(map[string]Function),
+	}
 }
 
 // Fields returns all our field definitions
-// A copy of the slice is returned to preserve immutability
+// A sorted slice is returned to preserve immutability and provide determinism
 func (structType *StructType) Fields() []*FieldDefinition {
-	return append(structType.fields[:0:0], structType.fields...)
+	var result []*FieldDefinition
+	for _, field := range structType.fields {
+		result = append(result, field)
+	}
+
+	sort.Slice(result, func(left int, right int) bool {
+		return result[left].fieldName < result[right].fieldName
+	})
+
+	return result
 }
 
 // AsType implements Type for StructType
@@ -98,19 +106,14 @@ func (structType *StructType) Equals(t Type) bool {
 			return false
 		}
 
-		ourFields := make(map[FieldName]*FieldDefinition)
-		for _, f := range structType.fields {
-			ourFields[f.fieldName] = f
-		}
-
-		for _, f := range st.fields {
-			ourfield, ok := ourFields[f.fieldName]
+		for n, f := range st.fields {
+			ourField, ok := structType.fields[n]
 			if !ok {
 				// Didn't find the field, not equal
 				return false
 			}
 
-			if !ourfield.Equals(f) {
+			if !ourField.Equals(f) {
 				// Different field, even though same name; not-equal
 				return false
 			}
@@ -167,12 +170,32 @@ func (structType *StructType) CreateDefinitions(name *TypeName, idFactory Identi
 		newFields = append(newFields, field.WithType(newFieldType))
 	}
 
-	newStructType := NewStructType(newFields...)
+	newStructType := NewStructType().WithFields(newFields...)
 	for functionName, function := range structType.functions {
 		newStructType.functions[functionName] = function
 	}
 
 	return NewStructDefinition(name, newStructType, isResource), otherTypes
+}
+
+// WithField creates a new StructType with another field attached to it
+func (structType *StructType) WithField(field *FieldDefinition) *StructType {
+	// Create a copy of structType to preserve immutability
+	result := structType.copy()
+	result.fields[field.fieldName] = field
+
+	return result
+}
+
+// WithFields creates a new StructType with additional fields attached to it
+func (structType *StructType) WithFields(fields ...*FieldDefinition) *StructType {
+	// Create a copy of structType to preserve immutability
+	result := structType.copy()
+	for _, f := range fields {
+		result.fields[f.fieldName] = f
+	}
+
+	return result
 }
 
 // WithFunction creates a new StructType with a function (method) attached to it
@@ -185,7 +208,11 @@ func (structType *StructType) WithFunction(name string, function Function) *Stru
 }
 
 func (structType *StructType) copy() *StructType {
-	result := NewStructType(structType.fields...)
+	result := NewStructType()
+
+	for key, value := range structType.fields {
+		result.fields[key] = value
+	}
 
 	for key, value := range structType.functions {
 		result.functions[key] = value

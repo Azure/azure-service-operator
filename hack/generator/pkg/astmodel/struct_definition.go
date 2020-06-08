@@ -48,16 +48,6 @@ func (definition *StructDefinition) WithDescription(description *string) TypeDef
 	return &result
 }
 
-// Field provides indexed access to our fields
-func (definition *StructDefinition) Field(index int) FieldDefinition {
-	return *definition.StructType.fields[index]
-}
-
-// FieldCount indicates how many fields are contained
-func (definition *StructDefinition) FieldCount() int {
-	return len(definition.StructType.fields)
-}
-
 // AsDeclarations generates an AST node representing this struct definition
 func (definition *StructDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
 	var identifier *ast.Ident

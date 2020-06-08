@@ -270,7 +270,7 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsc
 		return fields[0].FieldType(), nil
 	}
 
-	structDefinition := astmodel.NewStructType(fields...)
+	structDefinition := astmodel.NewStructType().WithFields(fields...)
 	return structDefinition, nil
 }
 
@@ -498,7 +498,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		}
 	}
 
-	result := astmodel.NewStructType(fields...)
+	result := astmodel.NewStructType().WithFields(fields...)
 	return result, nil
 }
 
@@ -596,7 +596,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 		}
 	}
 
-	structType := astmodel.NewStructType(fields...)
+	structType := astmodel.NewStructType().WithFields(fields...)
 	structType = structType.WithFunction(
 		"MarshalJSON",
 		astmodel.NewOneOfJSONMarshalFunction(structType, scanner.idFactory))

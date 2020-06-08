@@ -18,11 +18,11 @@ func Test_NewStructDefinition_GivenValues_InitializesFields(t *testing.T) {
 	const group = "group"
 	const version = "2020-01-01"
 	fullNameField := createStringField("fullName", "Full legal name")
-	familyNameField := createStringField("familiyName", "Shared family name")
+	familyNameField := createStringField("familyName", "Shared family name")
 	knownAsField := createStringField("knownAs", "Commonly known as")
 
 	ref := NewTypeName(*NewLocalPackageReference(group, version), name)
-	definition := NewStructDefinition(ref, NewStructType(fullNameField, familyNameField, knownAsField), false)
+	definition := NewStructDefinition(ref, NewStructType().WithFields(fullNameField, familyNameField, knownAsField), false)
 
 	definitionGroup, definitionPackage, err := definition.Name().PackageReference.GroupAndPackage()
 	g.Expect(err).ShouldNot(HaveOccurred())

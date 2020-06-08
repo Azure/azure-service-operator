@@ -18,11 +18,11 @@ func TestStructType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
 	knownAsField := NewFieldDefinition("KnownAs", "known-as", StringType)
 	genderField := NewFieldDefinition("Gender", "gender", StringType)
 
-	personType := NewStructType(fullNameField, familyNameField, knownAsField)
-	otherPersonType := NewStructType(fullNameField, familyNameField, knownAsField)
-	reorderedType := NewStructType(knownAsField, familyNameField, fullNameField)
-	shorterType := NewStructType(knownAsField, fullNameField)
-	longerType := NewStructType(fullNameField, familyNameField, knownAsField, genderField)
+	personType := NewStructType().WithFields(fullNameField, familyNameField, knownAsField)
+	otherPersonType := NewStructType().WithFields(fullNameField, familyNameField, knownAsField)
+	reorderedType := NewStructType().WithFields(knownAsField, familyNameField, fullNameField)
+	shorterType := NewStructType().WithFields(knownAsField, fullNameField)
+	longerType := NewStructType().WithFields(fullNameField, familyNameField, knownAsField, genderField)
 	mapType := NewMapType(StringType, personType)
 
 	cases := []struct {

@@ -28,7 +28,7 @@ func NewTestStruct(name string, fields ...string) StructDefinition {
 	}
 
 	ref := NewTypeName(*NewLocalPackageReference("group", "2020-01-01"), name)
-	definition := NewStructDefinition(ref, NewStructType(fs...), false)
+	definition := NewStructDefinition(ref, NewStructType().WithFields(fs...), false)
 
 	return *definition
 }
