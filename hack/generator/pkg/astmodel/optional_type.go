@@ -24,6 +24,11 @@ var _ Type = (*OptionalType)(nil)
 
 // AsType renders the Go abstract syntax tree for an optional type
 func (optional *OptionalType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
+	// Special case interface{} as it shouldn't be a pointer
+	if optional.element == AnyType {
+		return optional.element.AsType(codeGenerationContext)
+	}
+
 	return &ast.StarExpr{
 		X: optional.element.AsType(codeGenerationContext),
 	}
