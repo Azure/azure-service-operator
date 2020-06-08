@@ -6,17 +6,23 @@
 package codegen
 
 import (
+	"bufio"
 	"context"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
+	"sort"
+	"strings"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
 
+	"github.com/hashicorp/go-multierror"
 	"k8s.io/klog/v2"
 )
 
@@ -49,9 +55,9 @@ func (generator *CodeGenerator) Generate(ctx context.Context, outputFolder strin
 	}
 
 	klog.V(0).Infof("Cleaning output folder '%v'", outputFolder)
-	err = cleanFolder(outputFolder)
+	err = deleteGeneratedCodeFromFolder(outputFolder)
 	if err != nil {
-		return fmt.Errorf("error cleaning output folder '%v' (%w)", generator.configuration.SchemaURL, err)
+		return fmt.Errorf("error cleaning output folder '%v' (%w)", outputFolder, err)
 	}
 
 	scanner := jsonast.NewSchemaScanner(astmodel.NewIdentifierFactory())
@@ -165,17 +171,120 @@ func loadSchema(source string) (*gojsonschema.Schema, error) {
 	return schema, nil
 }
 
-//TODO: Only clean generated files
-func cleanFolder(outputFolder string) error {
-	err := os.RemoveAll(outputFolder)
+func deleteGeneratedCodeFromFolder(outputFolder string) error {
+	globPattern := path.Join(outputFolder, "**", "*", "*"+astmodel.CodeGeneratedFileSuffix) + "*"
+
+	files, err := filepath.Glob(globPattern)
 	if err != nil {
-		return fmt.Errorf("error removing output folder '%v' (%w)", outputFolder, err)
+		return fmt.Errorf("error globbing files with pattern '%s' (%w)", globPattern, err)
 	}
 
-	err = os.Mkdir(outputFolder, 0700)
-	if err != nil {
-		return fmt.Errorf("error creating output folder '%v' (%w)", outputFolder, err)
+	var result *multierror.Error
+
+	for _, file := range files {
+		isGenerated, err := isFileGenerated(file)
+
+		if err != nil {
+			result = multierror.Append(result, fmt.Errorf("error determining if file was generated (%w)", err))
+		}
+
+		if isGenerated {
+			err := os.Remove(file)
+			if err != nil {
+				result = multierror.Append(result, fmt.Errorf("error removing file '%v' (%w)", file, err))
+			}
+		}
 	}
 
-	return nil
+	err = deleteEmptyDirectories(outputFolder)
+	if err != nil {
+		result = multierror.Append(result, err)
+	}
+
+	return result.ErrorOrNil()
+}
+
+func isFileGenerated(filename string) (bool, error) {
+	// Technically, the code generated message could be on any line according to
+	// the specification at https://github.com/golang/go/issues/13560 but
+	// for our purposes checking the first few lines is plenty
+	maxLinesToCheck := 20
+
+	f, err := os.Open(filename)
+	if err != nil {
+		return false, err
+	}
+
+	reader := bufio.NewReader(f)
+	for i := 0; i < maxLinesToCheck; i++ {
+		line, err := reader.ReadString('\n')
+		if err == io.EOF {
+			return false, nil
+		}
+		if err != nil {
+			return false, err
+		}
+
+		if strings.Contains(line, astmodel.CodeGenerationComment) {
+			return true, nil
+		}
+	}
+	defer f.Close()
+
+	return false, nil
+}
+
+func deleteEmptyDirectories(path string) error {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return nil
+	}
+
+	// TODO: There has to be a better way to do this?
+	var dirs []string
+
+	// Second pass to clean up empty directories
+	walkFunction := func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() {
+			dirs = append(dirs, path)
+		}
+
+		return nil
+	}
+	err := filepath.Walk(path, walkFunction)
+	if err != nil {
+		return err
+	}
+
+	// Now order the directories by deepest first - we have to do this because otherwise a directory
+	// isn't empty because it has a bunch of empty directories inside of it
+	sortFunction := func(i int, j int) bool {
+		// Comparing by length is sufficient here because a nested directory path
+		// will always be longer than just the parent directory path
+		return len(dirs[i]) > len(dirs[j])
+	}
+	sort.Slice(dirs, sortFunction)
+
+	var result *multierror.Error
+
+	// Now clean things up
+	for _, dir := range dirs {
+		files, err := ioutil.ReadDir(dir)
+		if err != nil {
+			result = multierror.Append(result, fmt.Errorf("error reading directory '%v' (%w)", dir, err))
+		}
+
+		if len(files) == 0 {
+			// Directory is empty now, we can delete it
+			err := os.Remove(dir)
+			if err != nil {
+				result = multierror.Append(result, fmt.Errorf("error removing dir '%v' (%w)", dir, err))
+			}
+		}
+	}
+
+	return result.ErrorOrNil()
 }

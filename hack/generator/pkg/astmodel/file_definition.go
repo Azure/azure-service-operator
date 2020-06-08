@@ -138,7 +138,7 @@ func (file *FileDefinition) AsAst() ast.Node {
 	header, headerLen := createComments(
 		"Copyright (c) Microsoft Corporation.",
 		"Licensed under the MIT license.",
-		"This is a generated file. Please do not make manual changes.")
+		CodeGenerationComment)
 
 	// We set Package (the offset of the package keyword) so that it follows the header comments
 	result := &ast.File{

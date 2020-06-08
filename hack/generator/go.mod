@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/devigned/tab v0.1.1
 	github.com/golang/protobuf v1.3.2 // indirect
+	github.com/hashicorp/go-multierror v1.1.0
 	github.com/onsi/ginkgo v1.11.0 // indirect
 	github.com/onsi/gomega v1.8.1
 	github.com/pelletier/go-toml v1.6.0 // indirect
