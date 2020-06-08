@@ -1,25 +1,59 @@
-// If you want to run as a non-root user in the container, see .devcontainer/docker-compose.yml.
 {
-    "name": "Go",
-    "dockerComposeFile": "docker-compose.yml",
-    "service": "docker-in-docker",
-    "workspaceFolder": "/workspace",
-    "shutdownAction": "stopCompose",
-    "postCreateCommand": "make set-kindcluster",
-    "extensions": [
-        "ms-azuretools.vscode-docker",
-        "ms-vscode.go"
+    "name": "ASO",
+    "dockerFile": "Dockerfile",
+
+    "runArgs": [
+      "--cap-add=SYS_PTRACE",
+      "--security-opt", "seccomp=unconfined",
+      "--env-file=${localWorkspaceFolder}/.env"
     ],
+    
     "settings": {
-        "terminal.integrated.shell.linux": "zsh",
-        "go.gopath": "/go",
-        "go.inferGopath": true,
-        "go.useLanguageServer": true,
-        "go.toolsEnvVars": {
-            "GO111MODULE": "on"
-        },
-        "remote.extensionKind": {
-            "ms-azuretools.vscode-docker": "workspace"
-        }
-    }
+      "terminal.integrated.shell.linux": "zsh",
+      "go.gopath": "/go",
+      "go.useLanguageServer": true,
+      "[go]": {
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+              "source.organizeImports": true,
+          },
+          // Optional: Disable snippets, as they conflict with completion ranking.
+          "editor.snippetSuggestions": "none",
+      },
+      "[go.mod]": {
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+              "source.organizeImports": true,
+          },
+      },
+      "gopls": {
+          // Add parameter placeholders when completing a function.
+          "usePlaceholders": true,
+  
+          // If true, enable additional analyses with staticcheck.
+          // Warning: This will significantly increase memory usage.
+          "staticcheck": false,
+      }
+    },
+    
+    "mounts": [
+      "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
+      // Comment the next line to avoid syncing your kubeconfig
+      "source=${env:HOME}${env:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind",
+      // Uncomment the next line to also sync certs in your .minikube folder
+      // "source=${env:HOME}${env:USERPROFILE}/.minikube,target=/usr/local/share/minikube-localhost,type=bind",
+      // Comment the next line to avoid syncing azure cli config
+      "source=${env:HOME}${env:USERPROFILE}/.azure,target=/usr/local/share/azure-localhost,type=bind",
+    ],
+    
+    "extensions": [
+      "ms-vscode.go",
+      "ms-vscode.azurecli",
+      "ms-azuretools.vscode-docker",
+      "ms-kubernetes-tools.vscode-kubernetes-tools"
+    ],
+    
+    "remoteEnv": {
+      "GO111MODULE": "on",
+    },
 }

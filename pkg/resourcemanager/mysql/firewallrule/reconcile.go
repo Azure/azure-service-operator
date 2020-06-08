@@ -56,6 +56,7 @@ func (m *MySQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
+			errhelp.ResourceNotFound,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -84,6 +85,7 @@ func (m *MySQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
 			errhelp.AsyncOpIncompleteError,
 		}
 
