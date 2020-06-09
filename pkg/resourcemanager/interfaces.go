@@ -24,7 +24,7 @@ type Options struct {
 // ConfigOption wraps a function that sets a value in the options struct
 type ConfigOption func(*Options)
 
-// WithSecretClient can be used to pass aa KeyVault SecretClient
+// WithSecretClient can be used to pass in a KeyVault SecretClient
 func WithSecretClient(secretClient secrets.SecretClient) ConfigOption {
 	return func(op *Options) {
 		op.SecretClient = secretClient

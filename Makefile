@@ -1,5 +1,5 @@
 # Image URL to use all building/pushing image targets
-
+IMG ?= controller:latest
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
@@ -8,61 +8,58 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-IMG ?= controller:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
-CRD_OPTIONS ?= "crd:trivialVersions=true"
+CRD_OPTIONS ?= "crd"
 
 BUILD_ID ?= $(shell git rev-parse --short HEAD)
 
 # best to keep the prefix as short as possible to not exceed naming limits for things like keyvault (24 chars)
 TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
 
-# Some parts of the test suite use Go Build Tags to ignore certain tests. Default to all tests but allow the user to pass custom tags.
+# Go compiler builds tags: some parts of the test suite use these to selectively compile tests.
 BUILD_TAGS ?= all
+
+ifdef TMPDIR
+TMPDIR := $(realpath ${TMPDIR})
+else
+TMPDIR := /tmp
+endif
 
 all: manager
 
 # Generate test certs for development
+generate-test-certs: CONFIGTXT := $(shell mktemp)
+generate-test-certs: WEBHOOK_DIR := $(TMPDIR)/k8s-webhook-server
+generate-test-certs: WEBHOOK_CERT_DIR := $(TMPDIR)/k8s-webhook-server/serving-certs
 generate-test-certs:
-	echo "[req]" > config.txt
-	echo "distinguished_name = req_distinguished_name" >> config.txt
-	echo "[req_distinguished_name]" >> config.txt
-	echo "[SAN]" >> config.txt
-	echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> config.txt
-	openssl req -x509 -days 730 -out tls.crt -keyout tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config config.txt -nodes
-	rm -rf /tmp/k8s-webhook-server
-	mkdir -p /tmp/k8s-webhook-server/serving-certs
-	mv tls.* /tmp/k8s-webhook-server/serving-certs/
+	rm -rf $(WEBHOOK_DIR)
+	mkdir -p $(WEBHOOK_CERT_DIR)
 
-# Run API unittests
-api-test: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=false go test -v -coverprofile=coverage.txt -covermode count ./api/...  2>&1 | tee testlogs.txt
-	go-junit-report < testlogs.txt  > report.xml
-	go tool cover -html=coverage.txt -o cover.html
+	@echo "[req]" > $(CONFIGTXT)
+	@echo "distinguished_name = req_distinguished_name" >> $(CONFIGTXT)
+	@echo "[req_distinguished_name]" >> $(CONFIGTXT)
+	@echo "[SAN]" >> $(CONFIGTXT)
+	@echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> $(CONFIGTXT)
 
-# Run tests
-test: generate fmt vet manifests 
-	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
-	go test -tags "$(BUILD_TAGS)" -parallel 3 -v -coverprofile=coverage.txt -covermode count \
-	./api/... \
-	./controllers/... \
-	-timeout 10m 2>&1 | tee testlogs.txt
-	go-junit-report < testlogs.txt > report.xml
-	go tool cover -html=coverage.txt -o cover.html
+	@echo "OpenSSL Config:"
+	@cat $(CONFIGTXT)
+	@echo
 
-# Run tests with existing cluster
-test-existing-controllers: generate fmt vet manifests
-	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 go test -tags "$(BUILD_TAGS)" -parallel 4 -v ./controllers/... -timeout 45m
+	openssl req -x509 -days 730 -out $(WEBHOOK_CERT_DIR)/tls.crt -keyout $(WEBHOOK_CERT_DIR)/tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config $(CONFIGTXT) -nodes
 
-unit-tests:
-	go test ./pkg/resourcemanager/keyvaults/unittest/
+# Run Controller tests against the configured cluster
+test-integration-controllers: generate fmt vet manifests
+	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
+	./controllers/... 
+	#2>&1 | tee reports/integration-controllers-output.txt
+	#go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
 
-
-# Run tests with existing cluster
-test-existing-managers: generate fmt vet manifests
-	TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
-	go test -v -coverprofile=coverage-existing.txt -covermode count \
-	./api/... \
+# Run Resource Manager tests against the configured cluster
+test-integration-managers: generate fmt vet manifests
+	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 \
+	go test -v -coverprofile=reports/integration-managers-coverage-ouput.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
+  ./api/... \
 	./pkg/resourcemanager/eventhubs/...  \
 	./pkg/resourcemanager/resourcegroups/...  \
 	./pkg/resourcemanager/storages/... \
@@ -70,20 +67,48 @@ test-existing-managers: generate fmt vet manifests
 	./pkg/resourcemanager/psql/database/... \
 	./pkg/resourcemanager/psql/firewallrule/... \
 	./pkg/resourcemanager/appinsights/... \
-	./pkg/resourcemanager/vnet/... \
-	./pkg/resourcemanager/pip/... \
-	./pkg/resourcemanager/nic/... \
-	./pkg/resourcemanager/apim/apimgmt... \
-	./pkg/secrets/...
+	./pkg/resourcemanager/vnet/...
+	#2>&1 | tee reports/integration-managers-output.txt
+	#go-junit-report < reports/integration-managers-output.txt > reports/integration-managers-report.xml
 
+# Run all available tests. Note that Controllers are not unit-testable.
+test-unit: generate fmt vet manifests 
+	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
+	go test -v -tags "$(BUILD_TAGS)" -coverprofile=coverage-unit.txt -covermode count -parallel 4 -timeout 10m \
+	./api/... \
+	./pkg/secrets/...
+	./pkg/resourcemanager/keyvaults/unittest/ \
+	#2>&1 | tee testlogs.txt
+	#go-junit-report < testlogs.txt > report-unit.xml
+	go tool cover -html=coverage/coverage.txt -o cover-unit.html
+
+# Merge all the available test coverage results and publish a single report
+test-process-coverage:
+	find reports -name "*-coverage-output.txt" -type f -print | xargs gocovmerge > reports/merged-coverage-output.txt
+	gocov convert reports/merged-coverage-output.txt > reports/merged-coverage-output.json
+	gocov-xml < reports/merged-coverage-output.json > reports/merged-coverage.xml
+	go tool cover -html=reports/merged-coverage-output.txt -o reports/merged-coverage.html
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
 test-cleanup-azure-resources: 	
 	# Delete the resource groups that match the pattern
 	for rgname in `az group list --query "[*].[name]" -o table | grep '^${TEST_RESOURCE_PREFIX}' `; do \
-	    echo "$$rgname will be deleted"; \
-	    az group delete --name $$rgname --no-wait --yes; \
-    done
+		echo "$$rgname will be deleted"; \
+		az group delete --name $$rgname --no-wait --yes; \
+	done
+
+# Build the docker image
+docker-build:
+	docker build . -t ${IMG} ${ARGS}
+	@echo "updating kustomize image patch file for manager resource"
+	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
+
+# Push the docker image
+docker-push:
+	docker push ${IMG}
+
+# Build and Push the docker image
+build-and-push: docker-build docker-push
 
 # Build manager binary
 manager: generate fmt vet
@@ -119,6 +144,10 @@ delete:
 validate-copyright-headers:
 	@./scripts/validate-copyright-headers.sh
 
+# Validate cainjection files:
+validate-cainjection-files:
+	@./scripts/validate-cainjection-files.sh
+
 # Generate manifests for helm and package them up
 helm-chart-manifests: manifests
 	mkdir charts/azure-service-operator/templates/generated
@@ -148,31 +177,11 @@ vet:
 generate: manifests
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
 
-# Build the docker image
-docker-build:
-	docker build . -t ${IMG} ${ARGS}
-	@echo "updating kustomize image patch file for manager resource"
-	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
-
-# Push the docker image
-docker-push:
-	docker push ${IMG}
-
-# Build and Push the docker image
-build-and-push: docker-build docker-push
-
-# Deploy operator infrastructure
-terraform:
-	terraform init devops/terraform
-	terraform apply devops/terraform
-
-terraform-and-deploy: terraform generate install-cert-manager build-and-push deploy
-
 # find or download controller-gen
 # download controller-gen if necessary
 controller-gen:
 ifeq (, $(shell which controller-gen))
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.0
+	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.5
 CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 else
 CONTROLLER_GEN=$(shell which controller-gen)
@@ -246,10 +255,10 @@ install-kubebuilder:
 ifeq (,$(shell which kubebuilder))
 	@echo "installing kubebuilder"
 	# download kubebuilder and extract it to tmp
-	curl -sL https://go.kubebuilder.io/dl/2.0.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C /tmp/
+	curl -sL https://go.kubebuilder.io/dl/2.0.0/$(shell go env GOOS)/$(shell go env GOARCH) | tar -xz -C $(TMPDIR)
 	# move to a long-term location and put it on your path
 	# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
-	mv /tmp/kubebuilder_2.0.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
+	mv $(TMPDIR)/kubebuilder_2.0.0_$(shell go env GOOS)_$(shell go env GOARCH) /usr/local/kubebuilder
 	export PATH=$$PATH:/usr/local/kubebuilder/bin
 else
 	@echo "kubebuilder has been installed"
@@ -273,12 +282,12 @@ install-cert-manager:
 	kubectl label namespace cert-manager cert-manager.io/disable-validation=true
 	kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
 
+
 install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
-install-test-dependency:
-	go get -u github.com/jstemmer/go-junit-report \
+install-test-dependencies:
+	go get github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
-	&& go get github.com/onsi/ginkgo/ginkgo \
-	&& go get golang.org/x/tools/cmd/cover
+	&& go get github.com/wadey/gocovmerge

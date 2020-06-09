@@ -8,7 +8,9 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -50,7 +52,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 	azureSQLDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
-		Edition:      dbEdition,
+		Edition:      v1alpha1.DBEdition(dbEdition),
 	}
 
 	instance.Status.Provisioning = true
@@ -59,9 +61,35 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	dbGet, err := db.GetDB(ctx, groupName, server, dbName)
 	if err == nil {
 
+		// optionally set the long term retention policy
+		_, err = db.AddLongTermRetention(ctx,
+			groupName,
+			server,
+			dbName,
+			instance.Spec.WeeklyRetention,
+			instance.Spec.MonthlyRetention,
+			instance.Spec.YearlyRetention,
+			instance.Spec.WeekOfYear)
+		if err != nil {
+			failureErrors := []string{
+				errhelp.LongTermRetentionPolicyInvalid,
+			}
+			instance.Status.Message = fmt.Sprintf("Azure DB long-term retention policy error: %s", errhelp.StripErrorIDs(err))
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if helpers.ContainsString(failureErrors, azerr.Type) {
+				instance.Status.Provisioning = false
+				instance.Status.Provisioned = false
+				instance.Status.FailedProvisioning = true
+				return true, nil
+			} else {
+				return false, err
+			}
+		}
+
 		// db exists, we have successfully provisioned everything
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
+		instance.Status.FailedProvisioning = false
 		instance.Status.State = string(*dbGet.Status)
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *dbGet.ID
@@ -132,11 +160,21 @@ func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object, opt
 
 	_, err = db.DeleteDB(ctx, groupName, server, dbName)
 	if err != nil {
-		if errhelp.IsStatusCode204(err) {
-			// Database does not exist
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
+		}
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
 			return false, nil
 		}
-
 		return true, fmt.Errorf("AzureSqlDb delete error %v", err)
 	}
 
@@ -164,11 +202,12 @@ func (g *AzureSqlDbManager) GetStatus(obj runtime.Object) (*azurev1alpha1.ASOSta
 	if err != nil {
 		return nil, err
 	}
-	return &instance.Status, nil
+	st := azurev1alpha1.ASOStatus(instance.Status)
+	return &st, nil
 }
 
-func (*AzureSqlDbManager) convert(obj runtime.Object) (*azurev1alpha1.AzureSqlDatabase, error) {
-	local, ok := obj.(*azurev1alpha1.AzureSqlDatabase)
+func (*AzureSqlDbManager) convert(obj runtime.Object) (*v1beta1.AzureSqlDatabase, error) {
+	local, ok := obj.(*v1beta1.AzureSqlDatabase)
 	if !ok {
 		return nil, fmt.Errorf("failed type assertion on kind: %s", obj.GetObjectKind().GroupVersionKind().String())
 	}

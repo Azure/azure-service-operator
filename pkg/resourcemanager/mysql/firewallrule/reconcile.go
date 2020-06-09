@@ -56,6 +56,7 @@ func (m *MySQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
+			errhelp.ResourceNotFound,
 		}
 
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -84,6 +85,7 @@ func (m *MySQLFirewallRuleClient) Ensure(ctx context.Context, obj runtime.Object
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
 			errhelp.AsyncOpIncompleteError,
 		}
 
@@ -123,9 +125,22 @@ func (m *MySQLFirewallRuleClient) Delete(ctx context.Context, obj runtime.Object
 
 	status, err := m.DeleteFirewallRule(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Name)
 	if err != nil {
-		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			return true, err
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
 		}
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
+			return false, nil
+		}
+		return true, err
 	}
 	instance.Status.State = status
 

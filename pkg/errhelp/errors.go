@@ -42,6 +42,7 @@ const (
 	NotFoundErrorCode                              = "NotFound"
 	NoSuchHost                                     = "no such host"
 	ParentNotFoundErrorCode                        = "ParentResourceNotFound"
+	StorageAccountIsNotProvisioned                 = "StorageAccountIsNotProvisioned"
 	PreconditionFailed                             = "PreconditionFailed"
 	QuotaExceeded                                  = "QuotaExceeded"
 	ResourceGroupNotFoundErrorCode                 = "ResourceGroupNotFound"
@@ -63,6 +64,7 @@ const (
 	InvalidAddressPrefixFormat                     = "InvalidAddressPrefixFormat"
 	FeatureNotSupportedForEdition                  = "FeatureNotSupportedForEdition"
 	VirtualNetworkRuleBadRequest                   = "VirtualNetworkRuleBadRequest"
+	LongTermRetentionPolicyInvalid                 = "LongTermRetentionPolicyInvalid"
 )
 
 func NewAzureError(err error) error {

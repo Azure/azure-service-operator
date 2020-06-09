@@ -486,9 +486,22 @@ func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object, o
 	if err == nil {
 		_, err := k.DeleteVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 		if err != nil {
-			if !errhelp.IsAsynchronousOperationNotComplete(err) {
-				return true, err
+			catch := []string{
+				errhelp.AsyncOpIncompleteError,
 			}
+			gone := []string{
+				errhelp.ResourceGroupNotFoundErrorCode,
+				errhelp.ParentNotFoundErrorCode,
+				errhelp.NotFoundErrorCode,
+				errhelp.ResourceNotFound,
+			}
+			azerr := errhelp.NewAzureErrorAzureError(err)
+			if helpers.ContainsString(catch, azerr.Type) {
+				return true, nil
+			} else if helpers.ContainsString(gone, azerr.Type) {
+				return false, nil
+			}
+			return true, err
 		}
 		return true, nil
 	}

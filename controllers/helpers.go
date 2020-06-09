@@ -5,6 +5,8 @@ package controllers
 
 import (
 	"context"
+	"crypto/rand"
+	"crypto/rsa"
 	"encoding/json"
 
 	"fmt"
@@ -18,6 +20,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/crypto/ssh"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -37,7 +40,7 @@ import (
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
-	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
+	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerstorages "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages"
 )
@@ -432,4 +435,12 @@ func GenerateAlphaNumTestResourceName(id string) string {
 // GenerateAlphaNumTestResourceNameWithRandom returns an alpha-numeric resource name with a random string appended
 func GenerateAlphaNumTestResourceNameWithRandom(id string, rc int) string {
 	return helpers.RemoveNonAlphaNumeric(GenerateTestResourceName(id) + helpers.RandomString(rc))
+}
+
+// GenerateRandomSshPublicKeyString returns a random string of SSH public key data
+func GenerateRandomSshPublicKeyString() string {
+	privateKey, _ := rsa.GenerateKey(rand.Reader, 2048)
+	publicRsaKey, _ := ssh.NewPublicKey(&privateKey.PublicKey)
+	sshPublicKeyData := string(ssh.MarshalAuthorizedKey(publicRsaKey))
+	return sshPublicKeyData
 }

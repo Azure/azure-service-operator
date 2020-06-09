@@ -25,6 +25,7 @@ type AzureSqlFailoverGroupSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+
 // AzureSqlFailoverGroup is the Schema for the azuresqlfailovergroups API
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"

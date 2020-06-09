@@ -3,97 +3,80 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-FROM golang:1.13.5
+FROM golang:1.13.10-buster
 
-# Avoid warnings by switching to noninteractive
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Configure apt, install packages and tools
-RUN apt-get update \
+# Configure apt, install packages and cli tools
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update \
+    && apt-get -y install --no-install-recommends apt-transport-https ca-certificates curl gnupg2 lsb-release \
     # 
-    # Install recommended utils
-    && apt-get -y install --no-install-recommends apt-utils 2>&1 \
+    # Install Kubebuilder
+    && curl -sL https://go.kubebuilder.io/dl/2.3.1/$(go env GOOS)/$(go env GOARCH) | tar -xz --strip-components=2 -C /usr/local/bin \
     #
-    # Install sudo
-    && apt-get -y install sudo \
+    # Install Helm
+    && curl -s https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz | tar -zxv --strip-components=1 -C /usr/local/bin linux-amd64/helm \
     #
-    # Verify git, process tools, lsb-release (common in install instructions for CLIs) installed
-    && apt-get -y install git procps lsb-release \
+    # Install Docker CLI package source
+    && curl -fsSL https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/gpg | (OUT=$(apt-key add - 2>&1) || echo $OUT) \
+    && echo "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list \
     #
-    # Install gocode-gomod
-    && go get -x -d github.com/stamblerre/gocode 2>&1 \
-    && go build -o gocode-gomod github.com/stamblerre/gocode \
-    && mv gocode-gomod $GOPATH/bin/ \
-    && GO111MODULE=on go get -v golang.org/x/tools/gopls@latest 2>&1 \
+    # Add the Azure CLI package source
+    && curl -sL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - 2>/dev/null \
+    && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/azure-cli.list \
     #
-    # Install Go tools
-    && go get -u -v \
-        github.com/mdempsky/gocode \
-        github.com/uudashr/gopkgs/cmd/gopkgs \
-        github.com/ramya-rao-a/go-outline \
-        github.com/acroca/go-symbols \
-        github.com/godoctor/godoctor \
-        golang.org/x/tools/cmd/guru \
-        golang.org/x/tools/cmd/gorename \
-        github.com/rogpeppe/godef \
-        github.com/zmb3/gogetdoc \
-        github.com/haya14busa/goplay/cmd/goplay \
-        github.com/sqs/goreturns \
-        github.com/josharian/impl \
-        github.com/davidrjenni/reftools/cmd/fillstruct \
-        github.com/fatih/gomodifytags \
-        github.com/cweill/gotests/... \
-        golang.org/x/tools/cmd/goimports \
-        golang.org/x/lint/golint \
-        github.com/alecthomas/gometalinter \
-        honnef.co/go/tools/... \
-        github.com/golangci/golangci-lint/cmd/golangci-lint \
-        github.com/mgechev/revive \
-        github.com/derekparker/delve/cmd/dlv 2>&1 \
+    # Install Packages
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        docker-ce-cli \
+        azure-cli \
+        zsh \
+    #
+    # Install ZSH shell
+    && wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
     #
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update \
+RUN export DEBIAN_FRONTEND=noninteractive \
     #
-    # Install Docker CE CLI
-    && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common lsb-release \
-    && curl -fsSL https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/gpg | apt-key add - 2>/dev/null \
-    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable" \
-    && apt-get update \
-    && apt-get install -y docker-ce-cli \
+    # Install Go development tools
+    && GO111MODULE=on go get -v \
+        golang.org/x/tools/gopls@latest \
+        golang.org/x/lint/golint@latest \
+        github.com/go-delve/delve/cmd/dlv@latest \
+        2>&1 \
     #
-    # Install kubectl
-    && curl -sSL -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
-    && chmod +x /usr/local/bin/kubectl \
-    #
-    # Install Helm
-    && curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash - \
-    #
-    # Install Azure CLI
-    && curl -sL https://aka.ms/InstallAzureCLIDeb | bash -
+    # Install Go test dependencies
+    && GO111MODULE=on go get -v \
+        github.com/jstemmer/go-junit-report@latest \
+        github.com/axw/gocov/gocov@latest \
+        github.com/AlekSi/gocov-xml \
+        github.com/wadey/gocovmerge \
+        2>&1
 
-# Verify git, process tools installed
-RUN apt-get -y install git procps wget nano zsh inotify-tools jq
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
-
-ENV PATH="/usr/local/kubebuilder/bin:${PATH}"
-
-ENV GO111MODULE=on
-
-ENV AZURE_CLIENT_ID="${AZURE_CLIENT_ID}"
-ENV AZURE_CLIENT_SECRET="${AZURE_CLIENT_SECRET}"
-ENV AZURE_SUBSCRIPTION_ID="${AZURE_SUBSCRIPTION_ID}"
-ENV AZURE_TENANT_ID="${AZURE_TENANT_ID}"
-ENV KUBECONFIG="/root/.kube/kind-config-kind"
-
-COPY ./Makefile ./
-RUN make install-kind
-RUN make install-kubebuilder
-RUN make install-kustomize
-RUN make install-test-dependency
-
-# Set the default shell to bash instead of sh
-ENV SHELL /bin/bash
+# Copy shares from localhost into container when new shells are created
+RUN echo '\n\
+if [ -d "/usr/local/share/kube-localhost" ]; then\n\
+    mkdir -p $HOME/.kube\n\
+    cp -r /usr/local/share/kube-localhost/* $HOME/.kube\n\
+    chown -R $(id -u) $HOME/.kube\n\
+    sed -i -e "s/localhost/host.docker.internal/g" $HOME/.kube/config\n\
+\n\
+    if [ -d "/usr/local/share/minikube-localhost" ]; then\n\
+        mkdir -p $HOME/.minikube\n\
+        cp -r /usr/local/share/minikube-localhost/ca.crt $HOME/.minikube\n\
+        cp -r /usr/local/share/minikube-localhost/client.crt $HOME/.minikube\n\
+        cp -r /usr/local/share/minikube-localhost/client.key $HOME/.minikube\n\
+        chown -R $(id -u) $HOME/.minikube\n\
+        sed -i -r "s|(\s*certificate-authority:\s).*|\\1$HOME\/.minikube\/ca.crt|g" $HOME/.kube/config\n\
+        sed -i -r "s|(\s*client-certificate:\s).*|\\1$HOME\/.minikube\/client.crt|g" $HOME/.kube/config\n\
+        sed -i -r "s|(\s*client-key:\s).*|\\1$HOME\/.minikube\/client.key|g" $HOME/.kube/config\n\
+    fi\n\
+fi\n\
+if [ -d "/usr/local/share/azure-localhost" ]; then\n\
+    mkdir -p $HOME/.azure\n\
+    cp -r /usr/local/share/azure-localhost/* $HOME/.azure\n\
+    chown -R $(id -u) $HOME/.azure\n\
+fi' | tee -a /root/.bashrc /root/.zshrc /home/${USERNAME}/.bashrc >> /home/${USERNAME}/.zshrc

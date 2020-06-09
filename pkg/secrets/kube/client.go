@@ -32,7 +32,7 @@ func (k *KubeSecretClient) Create(ctx context.Context, key types.NamespacedName,
 	}
 
 	if options.Flatten {
-		return fmt.Errorf("kube secret client does not support flattened secrets")
+		return fmt.Errorf("FlattenedSecretsNotSupported")
 	}
 
 	secret := &v1.Secret{
@@ -66,6 +66,10 @@ func (k *KubeSecretClient) Upsert(ctx context.Context, key types.NamespacedName,
 		opt(options)
 	}
 
+	if options.Flatten {
+		return fmt.Errorf("FlattenedSecretsNotSupported")
+	}
+
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      key.Name,
@@ -82,6 +86,14 @@ func (k *KubeSecretClient) Upsert(ctx context.Context, key types.NamespacedName,
 		}
 
 		if options.Owner != nil && options.Scheme != nil {
+			// the uid is required for SetControllerReference, try to populate it if it isn't
+			if options.Owner.GetUID() == "" {
+				ownerKey := types.NamespacedName{Name: options.Owner.GetName(), Namespace: options.Owner.GetNamespace()}
+				if err := k.KubeClient.Get(ctx, ownerKey, options.Owner); err != nil {
+					return client.IgnoreNotFound(err)
+				}
+			}
+
 			if err := controllerutil.SetControllerReference(options.Owner, secret, options.Scheme); err != nil {
 				return err
 			}

@@ -10,7 +10,7 @@ variables:
   MAJOR_VERSION: 0
   MINOR_VERSION: 0
   PATCH_VERSION: $(Build.BuildId)
-  GOROOT: '/usr/local/go1.13' # Go installation path
+  GOROOT: '/usr/local/go1.13.11' # Go installation path
   GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   MODULE_PATH: '$(GOPATH)/src/$(Build.Repository.Name)' # Path to the module's code
@@ -27,6 +27,12 @@ steps:
 
 - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
   lfs: "true"
+
+- script: |
+    make validate-copyright-headers
+    make validate-cainjection-files
+  displayName: 'Validate Source'
+  continueOnError: 'false'
 
 - script: |
     set -x
@@ -100,37 +106,15 @@ steps:
 #   workingDirectory: '$(MODULE_PATH)'
 
 - script: |
-    make validate-copyright-headers
-  continueOnError: 'false'
-  displayName: 'Validate Copyright Headers'
-  workingDirectory: '$(MODULE_PATH)'
-
-- script: |
     set -e
-    GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
+    GO111MODULE="on" go get sigs.k8s.io/kind@v0.7.0
     kind create cluster
     export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
     kubectl cluster-info
-    # kubectl create namespace cert-manager
-    # kubectl label namespace cert-manager cert-manager.io/disable-validation=true
-    # kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
-    # kubectl create namespace azureoperator-system 
-    # kubectl --namespace azureoperator-system \
-    #   create secret generic azureoperatorsettings \
-    #   --from-literal=AZURE_CLIENT_ID=${AZURE_CLIENT_ID} \
-    #   --from-literal=AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET} \
-    #   --from-literal=AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID} \
-    #   --from-literal=AZURE_TENANT_ID=${AZURE_TENANT_ID}
-    #create image and load it into cluster
-    # IMG="docker.io/controllertest:1" make docker-build
-    # kind load docker-image docker.io/controllertest:1 --loglevel "trace"
     make install
     kubectl get namespaces
-    # kubectl -n cert-manager rollout status deployment.v1.apps/cert-manager
-    # kubectl get pods --namespace cert-manager
-    # echo "all the pods should be running"
-    #make deploy
-    make test-existing-controllers
+    #make test-existing-controllers
+    make test-integration-controllers
   continueOnError: 'false'
   displayName: 'Set kind cluster and Run int tests'
   env:

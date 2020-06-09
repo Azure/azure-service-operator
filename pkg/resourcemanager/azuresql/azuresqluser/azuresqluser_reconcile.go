@@ -219,14 +219,6 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		return false, nil
 	}
 
-	// prepare the user secret client
-	var sqlUserSecretClient secrets.SecretClient
-	if options.SecretClient != nil {
-		sqlUserSecretClient = options.SecretClient
-	} else {
-		sqlUserSecretClient = s.SecretClient
-	}
-
 	// short circuit connection if database doesn't exist
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
@@ -244,19 +236,35 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	var user = string(adminSecret[SecretUsernameKey])
-	var password = string(adminSecret[SecretPasswordKey])
+	var adminuser = string(adminSecret[SecretUsernameKey])
+	var adminpassword = string(adminSecret[SecretPasswordKey])
 
-	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, user, password)
+	db, err := s.ConnectToSqlDb(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName, SqlServerPort, adminuser, adminpassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
 
-			// there is nothing much we can do here - cycle forever
-			return true, err
+			// Stop the reconcile
+			return false, nil
 		}
 		return false, err
 	}
+
+	var sqlUserSecretClient secrets.SecretClient
+	if options.SecretClient != nil {
+		sqlUserSecretClient = options.SecretClient
+	} else {
+		sqlUserSecretClient = s.SecretClient
+	}
+
+	userkey := GetNamespacedName(instance, sqlUserSecretClient)
+	userSecret, err := sqlUserSecretClient.Get(ctx, userkey)
+	if err != nil {
+		//user secret is gone
+		return false, nil
+	}
+
+	user := string(userSecret[SecretUsernameKey])
 
 	exists, err := s.UserExists(ctx, db, user)
 	if err != nil {
@@ -278,7 +286,8 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser succeeded")
 
-	return true, nil
+	//successfully delete
+	return false, nil
 }
 
 // GetParents gets the parents of the user

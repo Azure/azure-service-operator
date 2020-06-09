@@ -15,8 +15,11 @@ import (
 	"testing"
 	"time"
 
-	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
+	kscheme "k8s.io/client-go/kubernetes/scheme"
+
 	"k8s.io/client-go/rest"
+
+	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 
 	resourcemanagerapimgmt "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
@@ -24,6 +27,7 @@ import (
 	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
+	resourcemanagersqlmanageduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlmanageduser"
 	resourcemanagersqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlserver"
 	resourcemanagersqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqluser"
 	resourcemanagersqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlvnetrule"
@@ -31,28 +35,38 @@ import (
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
 	resourcemanagerkeyvaults "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
 	mysqlDatabaseManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlFirewallManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
+	mysqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
 	mysqlServerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
 	resourcemanagernic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
 	resourcemanagerpip "github.com/Azure/azure-service-operator/pkg/resourcemanager/pip"
 	resourcemanagerpsqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/database"
 	resourcemanagerpsqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/firewallrule"
+	resourcemanagerpsqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/psqluser"
 	resourcemanagerpsqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/psql/server"
-	resourcemanagerrediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
+	rediscacheactions "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/actions"
+	rcfwr "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/firewallrule"
+	rediscaches "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
 	resourcegroupsresourcemanager "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
 	resourcemanagerblobcontainer "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	resourcemanagerstorageaccount "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmext"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vmss"
 	resourcemanagervnet "github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
 
-	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"k8s.io/client-go/kubernetes/scheme"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
+
+	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
+	"github.com/Azure/azure-service-operator/api/v1beta1"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -105,7 +119,19 @@ func setup() error {
 		return fmt.Errorf("rest config nil")
 	}
 
+	err = kscheme.AddToScheme(scheme.Scheme)
+	if err != nil {
+		return err
+	}
 	err = azurev1alpha1.AddToScheme(scheme.Scheme)
+	if err != nil {
+		return err
+	}
+	err = v1alpha2.AddToScheme(scheme.Scheme)
+	if err != nil {
+		return err
+	}
+	err = v1beta1.AddToScheme(scheme.Scheme)
 	if err != nil {
 		return err
 	}
@@ -248,7 +274,7 @@ func setup() error {
 	err = (&RedisCacheReconciler{
 		Reconciler: &AsyncReconciler{
 			Client: k8sManager.GetClient(),
-			AzureClient: resourcemanagerrediscaches.NewAzureRedisCacheManager(
+			AzureClient: rediscaches.NewAzureRedisCacheManager(
 				secretClient,
 				scheme.Scheme,
 			),
@@ -258,6 +284,41 @@ func setup() error {
 			),
 			Recorder: k8sManager.GetEventRecorderFor("RedisCache-controller"),
 			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&RedisCacheActionReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: rediscacheactions.NewAzureRedisCacheActionManager(
+				secretClient,
+				scheme.Scheme,
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheAction",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheAction"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("RedisCacheAction-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&RedisCacheFirewallRuleReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: rcfwr.NewAzureRedisCacheFirewallRuleManager(),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RedisCacheFirewallRule",
+				ctrl.Log.WithName("controllers").WithName("RedisCacheFirewallRule"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("RedisCacheFirewallRule-controller"),
+			Scheme:   k8sManager.GetScheme(),
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -401,6 +462,25 @@ func setup() error {
 		return err
 	}
 
+	err = (&AzureSQLManagedUserReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: resourcemanagersqlmanageduser.NewAzureSqlManagedUserManager(
+				secretClient,
+				scheme.Scheme,
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AzureSqlManagedUser",
+				ctrl.Log.WithName("controllers").WithName("AzureSqlManagedUser"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AzureSqlManagedUser-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
 	err = (&VirtualNetworkReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
@@ -467,6 +547,63 @@ func setup() error {
 				ctrl.Log.WithName("controllers").WithName("VirtualMachine"),
 			),
 			Recorder: k8sManager.GetEventRecorderFor("VirtualMachine-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureVirtualMachineExtensionReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: vmext.NewAzureVirtualMachineExtensionClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VirtualMachineExtension",
+				ctrl.Log.WithName("controllers").WithName("VirtualMachineExtension"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("VirtualMachineExtension-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureLoadBalancerReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: loadbalancer.NewAzureLoadBalancerClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"LoadBalancer",
+				ctrl.Log.WithName("controllers").WithName("LoadBalancer"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("LoadBalancer-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
+	err = (&AzureVMScaleSetReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: vmss.NewAzureVMScaleSetClient(
+				secretClient,
+				k8sManager.GetScheme(),
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"VMScaleSet",
+				ctrl.Log.WithName("controllers").WithName("VMScaleSet"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("VMScaleSet-controller"),
 			Scheme:   scheme.Scheme,
 		},
 	}).SetupWithManager(k8sManager)
@@ -573,6 +710,22 @@ func setup() error {
 		return err
 	}
 
+	err = (&MySQLUserReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: mysqluser.NewMySqlUserManager(secretClient, scheme.Scheme),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLUser",
+				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("MySQLUser-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
 	err = (&PostgreSQLServerReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
@@ -621,10 +774,26 @@ func setup() error {
 		return err
 	}
 
+	err = (&PostgreSQLUserReconciler{
+		Reconciler: &AsyncReconciler{
+			Client:      k8sManager.GetClient(),
+			AzureClient: resourcemanagerpsqluser.NewPostgreSqlUserManager(secretClient, k8sManager.GetScheme()),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"PostgreSQLUser",
+				ctrl.Log.WithName("controllers").WithName("PostgreSQLUser"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLUser-controller"),
+			Scheme:   k8sManager.GetScheme(),
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
 	err = (&StorageAccountReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagerstorageaccount.New(),
+			AzureClient: resourcemanagerstorageaccount.New(secretClient, k8sManager.GetScheme()),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
@@ -653,7 +822,10 @@ func setup() error {
 	// Create the ResourceGroup resource
 	result, _ := resourceGroupManager.CheckExistence(context.Background(), resourceGroupName)
 	if result.Response.StatusCode != 204 {
-		_, _ = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+		_, err = resourceGroupManager.CreateGroup(context.Background(), resourceGroupName, resourcegroupLocation)
+		if err != nil {
+			return fmt.Errorf("ResourceGroup creation failed")
+		}
 	}
 
 	tc = TestContext{

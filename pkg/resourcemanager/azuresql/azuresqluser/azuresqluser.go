@@ -110,10 +110,10 @@ func (s *AzureSqlUserManager) CreateUser(ctx context.Context, secret map[string]
 	newPassword := string(secret[SecretPasswordKey])
 
 	// make an effort to prevent sql injection
-	if err := findBadChars(newUser); err != nil {
+	if err := helpers.FindBadChars(newUser); err != nil {
 		return "", fmt.Errorf("Problem found with username: %v", err)
 	}
-	if err := findBadChars(newPassword); err != nil {
+	if err := helpers.FindBadChars(newPassword); err != nil {
 		return "", fmt.Errorf("Problem found with password: %v", err)
 	}
 
@@ -136,10 +136,10 @@ func (s *AzureSqlUserManager) RotateUserPassword(ctx context.Context, secret map
 	newPassword := helpers.NewPassword()
 
 	// make an effort to prevent sql injection
-	if err := findBadChars(user); err != nil {
+	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("Problem found with username: %v", err)
 	}
-	if err := findBadChars(newPassword); err != nil {
+	if err := helpers.FindBadChars(newPassword); err != nil {
 		return fmt.Errorf("Problem found with password: %v", err)
 	}
 
@@ -165,8 +165,8 @@ func (s *AzureSqlUserManager) UserExists(ctx context.Context, db *sql.DB, userna
 
 // DropUser drops a user from db
 func (s *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
-	tsql := "DROP USER @user"
-	_, err := db.ExecContext(ctx, tsql, sql.Named("user", user))
+	tsql := fmt.Sprintf("DROP USER %q", user)
+	_, err := db.ExecContext(ctx, tsql)
 	return err
 }
 
@@ -377,21 +377,4 @@ func (s *AzureSqlUserManager) GetSecretNamespacedName(instance *v1alpha1.AzureSQ
 	}
 
 	return namespacedName
-}
-
-func findBadChars(stack string) error {
-	badChars := []string{
-		"'",
-		"\"",
-		";",
-		"--",
-		"/*",
-	}
-
-	for _, s := range badChars {
-		if idx := strings.Index(stack, s); idx > -1 {
-			return fmt.Errorf("potentially dangerous character seqience found: '%s' at pos: %d", s, idx)
-		}
-	}
-	return nil
 }

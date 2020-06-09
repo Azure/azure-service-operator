@@ -49,13 +49,15 @@ resources:
   kind: PostgreSQLDatabase
 - group: azure
   version: v1alpha1
-  kind: PostgreSQLFirewallRule
-- group: azure
-  version: v1alpha1
   kind: PostgreSQLVNetRule
 - group: azure
   version: v1alpha1
-  kind: APIMgmtAPI
+  kind: PostgreSQLFirewallRule
+- group: azure
+  kind: PostgreSQLUser
+  version: v1alpha1
+- group: azure
+  version: v1alpha1
 - group: azure
   version: v1alpha1
   kind: ApimService
@@ -90,5 +92,45 @@ resources:
   version: v1alpha1
   kind: MySQLVNetRule
 - group: azure
+  kind: MySQLUser
   version: v1alpha1
+- group: azure
   kind: AzureVirtualMachine
+  version: v1alpha1
+- group: azure
+  version: v1alpha1
+  kind: AzureSQLManagedUser
+- group: azure
+  version: v1alpha1
+  kind: AzureLoadBalancer
+- group: azure
+  version: v1alpha1
+  kind: AzureVMScaleSet
+- group: azure
+  version: v1beta1
+  kind: AzureSqlServer
+- group: azure
+  version: v1beta1
+  kind: AzureSqlDatabase
+- group: azure
+  version: v1beta1
+  kind: AzureSqlFirewallRule
+- group: azure
+  version: v1beta1
+  kind: AzureSqlFailoverGroup
+- group: azure
+  version: v1alpha2
+  kind: BlobContainer
+- group: azure
+  version: v1alpha2
+  kind: MySQLServer
+- group: azure
+  kind: RedisCacheFirewallRule
+  version: v1alpha1
+- group: azure
+  kind: RedisCacheAction
+  version: v1alpha1
+- group: azure
+  kind: AzureVirtualMachineExtension
+  version: v1alpha1
+

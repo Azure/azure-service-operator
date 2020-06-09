@@ -9,6 +9,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
+	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
@@ -98,15 +99,27 @@ func (p *PSQLDatabaseClient) Delete(ctx context.Context, obj runtime.Object, opt
 
 	status, err := p.DeleteDatabase(ctx, instance.Name, instance.Spec.Server, instance.Spec.ResourceGroup)
 	if err != nil {
-		if !errhelp.IsAsynchronousOperationNotComplete(err) {
-			return true, err
+		catch := []string{
+			errhelp.AsyncOpIncompleteError,
 		}
-	}
-
-	if err == nil {
-		if status != "InProgress" {
+		gone := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+			errhelp.ResourceNotFound,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			return true, nil
+		} else if helpers.ContainsString(gone, azerr.Type) {
 			return false, nil
 		}
+		return true, err
+	}
+	instance.Status.State = status
+
+	if status != "InProgress" {
+		return false, nil
 	}
 
 	return true, nil
@@ -126,7 +139,7 @@ func (p *PSQLDatabaseClient) GetParents(obj runtime.Object) ([]resourcemanager.K
 				Namespace: instance.Namespace,
 				Name:      instance.Spec.Server,
 			},
-			Target: &azurev1alpha1.PostgreSQLServer{},
+			Target: &v1alpha2.PostgreSQLServer{},
 		},
 		{
 			Key: types.NamespacedName{
