@@ -257,7 +257,7 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		sqlUserSecretClient = s.SecretClient
 	}
 
-	userkey := GetNamespacedName(instance, sqlUserSecretClient)
+	userkey := s.GetSecretNamespacedName(instance, sqlUserSecretClient)
 	userSecret, err := sqlUserSecretClient.Get(ctx, userkey)
 	if err != nil {
 		//user secret is gone

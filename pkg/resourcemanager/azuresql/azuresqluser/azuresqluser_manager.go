@@ -25,6 +25,7 @@ type SqlUserManager interface {
 	DeleteSecrets(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) (bool, error)
 	GetOrPrepareSecret(ctx context.Context, instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) map[string][]byte
 	GetSecretNamespacedName(instance *v1alpha1.AzureSQLUser, secretClient secrets.SecretClient) types.NamespacedName
+	RotateUserPassword(ctx context.Context, secret map[string][]byte, db *sql.DB) error
 
 	// also embed methods from AsyncClient
 	resourcemanager.ARMClient
