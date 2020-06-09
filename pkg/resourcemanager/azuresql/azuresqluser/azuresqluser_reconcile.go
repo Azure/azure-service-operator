@@ -365,7 +365,7 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 	userkey := GetNamespacedName(instance, sqlUserSecretClient)
 	userSecret, err := sqlUserSecretClient.Get(ctx, userkey)
 	if err != nil {
-		// assuming if the admin secret is gone the sql server is too
+		//user secret is gone
 		return false, nil
 	}
 
