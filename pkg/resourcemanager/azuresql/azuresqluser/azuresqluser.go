@@ -273,6 +273,7 @@ func (s *AzureSqlUserManager) ReconcileCustomSecrets(ctx context.Context, instan
 		}
 	}
 
+	instance.Status.FlattenedSecrets = true
 	err := secretClient.Upsert(
 		ctx,
 		types.NamespacedName{Namespace: userSecretNamespacedName.Namespace, Name: instance.Name},
@@ -282,10 +283,18 @@ func (s *AzureSqlUserManager) ReconcileCustomSecrets(ctx context.Context, instan
 		secrets.Flatten(true),
 	)
 	if err != nil {
-		return err
+		if strings.Contains(err.Error(), "FlattenedSecretsNotSupported") { // kube client does not support Flatten
+			err = secretClient.Upsert(ctx,
+				types.NamespacedName{Namespace: userSecretNamespacedName.Namespace, Name: instance.Name},
+				formattedSecrets)
+			if err != nil {
+				return fmt.Errorf("Upsert into KubeClient without flatten failed")
+			}
+			instance.Status.FlattenedSecrets = false
+		}
 	}
 
-	return nil
+	return err
 }
 
 // DeleteSecrets deletes the secrets associated with a SQLUser
