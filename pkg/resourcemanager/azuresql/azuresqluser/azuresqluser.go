@@ -165,8 +165,6 @@ func (s *AzureSqlUserManager) UserExists(ctx context.Context, db *sql.DB, userna
 
 // DropUser drops a user from db
 func (s *AzureSqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
-	//tsql := "DROP USER @user"
-	//_, err := db.ExecContext(ctx, tsql, sql.Named("user", user))
 	tsql := fmt.Sprintf("DROP USER %q", user)
 	_, err := db.ExecContext(ctx, tsql)
 	return err
