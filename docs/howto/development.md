@@ -159,35 +159,22 @@ Then, open a web browser and navigate to the [Metrics Endpoint](http://127.0.0.1
 
 If you're using VSCode with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extensions installed, you can quickly have your environment set up and ready to go, with everything you need to get started.
 
-1. Clone the repository into the following folder `~/go/src/github.com/Azure`.
-2. Make sure the environment variable `GO111MODULE` is set to `on`.
+1. Clone the repository and open the folder in VS Code. (will refer to the folder as PROJECT_DIR)
+2. Create a new file at $PROJECT_DIR/.env with the following variables set for your environment:
+```
+AZURE_TENANT_ID=
+AZURE_SUBSCRIPTION_ID=
+AZURE_CLIENT_ID=
+AZURE_CLIENT_SECRET=
+```
 
-    ```
-    export GO111MODULE=on
-    ```
-
-3. Install test certificates using `make generate-test-certs`.
-4. Open this folder `~/go/src/github.com/Azure` in VSCode.
-5. Inside the folder `.devcontainer`, create a file called `.env` and using the following template, copy your environment variable details.
-
-    ```txt
-    AZURE_CLIENT_ID=
-
-    AZURE_CLIENT_SECRET=
-
-    AZURE_SUBSCRIPTION_ID=
-
-    AZURE_TENANT_ID=
-    ```
-
-6. Open the Command Pallet (`Command+Shift+P` on MacOS or `CTRL+Shift+P` on Windows), type `Remote-Containers: Open Folder in Container...`, select the ```Azure-service-operator``` folder and hit enter.
-7. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
-8. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment via the terminal inside VSCode.
-
-**Note**: after the DevContainer has finished building, the Kind cluster will start initializing and installing the Azure Service Operator in the background. This will take some time before it is available.
-
-To see when the Kind cluster is ready, use `docker ps -a` to list your running containers, look for `IMAGE` with the name `azure-service-operator_devcontainer_docker-in-docker...`. Using that image's `CONTAINER ID`, use `docker logs -f CONTAINER ID` to view the logs from the container setting up your cluster.
-9. Use `kubectl apply` with the sample YAML files to create custom resources for testing.
+3. Click on the green button in the lower left-hand corner and select "Remote-Containers: Reopen in Container" from the drop-down
+4. VSCode will relaunch and start building our development container. This will install all the necessary dependencies required for you to begin developing.
+5. Once the container has finished building, you can now start testing your Azure Service Operator within your own local kubernetes environment via the terminal inside VSCode.
+6. Install test certificates using `make generate-test-certs`.
+7. Install CRDs using `make install`.
+8. Run the project using `make run`.
+9. In another terminal, use `kubectl apply` with the sample YAML files to create custom resources for testing.
 For eg., use  `kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yaml` from the terminal to create a SQL server using the operator.
 `kubectl describe SqlServer` would show the events that indicate if the resource is created or being created.
 
