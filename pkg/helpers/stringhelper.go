@@ -202,7 +202,7 @@ func FindBadChars(stack string) error {
 
 	for _, s := range badChars {
 		if idx := strings.Index(stack, s); idx > -1 {
-			return fmt.Errorf("potentially dangerous character seqience found: '%s' at pos: %d", s, idx)
+			return fmt.Errorf("potentially dangerous character sequence found: '%s' at pos: %d", s, idx)
 		}
 	}
 	return nil
