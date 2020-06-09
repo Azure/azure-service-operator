@@ -41,6 +41,7 @@ import (
 	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
 	mysqlfirewall "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/firewallrule"
+	mysqluser "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/mysqluser"
 	mysqlserver "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/server"
 	mysqlvnetrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/vnetrule"
 	nic "github.com/Azure/azure-service-operator/pkg/resourcemanager/nic"
@@ -91,8 +92,11 @@ func init() {
 // +kubebuilder:rbac:groups=core,resources=events,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=events,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlusers,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlusers/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqlusers,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqlusers/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlusers,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlusers/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
 
@@ -711,6 +715,22 @@ func main() {
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MySQLFirewallRule")
+		os.Exit(1)
+	}
+
+	if err = (&controllers.MySQLUserReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: mysqluser.NewMySqlUserManager(secretClient, scheme),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"MySQLUser",
+				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
+			),
+			Recorder: mgr.GetEventRecorderFor("MySQLUser-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MySQLUser")
 		os.Exit(1)
 	}
 
