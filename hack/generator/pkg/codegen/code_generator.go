@@ -23,7 +23,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
 
-	"github.com/hashicorp/go-multierror"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 )
 
@@ -181,29 +181,29 @@ func deleteGeneratedCodeFromFolder(outputFolder string) error {
 		return fmt.Errorf("error globbing files with pattern '%s' (%w)", globPattern, err)
 	}
 
-	var result *multierror.Error
+	var errs []error
 
 	for _, file := range files {
 		isGenerated, err := isFileGenerated(file)
 
 		if err != nil {
-			result = multierror.Append(result, fmt.Errorf("error determining if file was generated (%w)", err))
+			errs = append(errs, fmt.Errorf("error determining if file was generated (%w)", err))
 		}
 
 		if isGenerated {
 			err := os.Remove(file)
 			if err != nil {
-				result = multierror.Append(result, fmt.Errorf("error removing file '%v' (%w)", file, err))
+				errs = append(errs, fmt.Errorf("error removing file '%v' (%w)", file, err))
 			}
 		}
 	}
 
 	err = deleteEmptyDirectories(outputFolder)
 	if err != nil {
-		result = multierror.Append(result, err)
+		errs = append(errs, err)
 	}
 
-	return result.ErrorOrNil()
+	return kerrors.NewAggregate(errs)
 }
 
 func isFileGenerated(filename string) (bool, error) {
@@ -270,23 +270,23 @@ func deleteEmptyDirectories(path string) error {
 	}
 	sort.Slice(dirs, sortFunction)
 
-	var result *multierror.Error
+	var errs []error
 
 	// Now clean things up
 	for _, dir := range dirs {
 		files, err := ioutil.ReadDir(dir)
 		if err != nil {
-			result = multierror.Append(result, fmt.Errorf("error reading directory '%v' (%w)", dir, err))
+			errs = append(errs, fmt.Errorf("error reading directory '%v' (%w)", dir, err))
 		}
 
 		if len(files) == 0 {
 			// Directory is empty now, we can delete it
 			err := os.Remove(dir)
 			if err != nil {
-				result = multierror.Append(result, fmt.Errorf("error removing dir '%v' (%w)", dir, err))
+				errs = append(errs, fmt.Errorf("error removing dir '%v' (%w)", dir, err))
 			}
 		}
 	}
 
-	return result.ErrorOrNil()
+	return kerrors.NewAggregate(errs)
 }

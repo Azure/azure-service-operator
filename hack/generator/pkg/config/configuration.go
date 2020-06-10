@@ -10,7 +10,7 @@ import (
 	"fmt"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	"github.com/hashicorp/go-multierror"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // Configuration is used to control which types get generated
@@ -66,29 +66,29 @@ func (config *Configuration) Initialize() error {
 		return errors.New("SchemaURL missing")
 	}
 
-	var result *multierror.Error
+	var errs []error
 	for _, filter := range config.ExportFilters {
 		err := filter.Initialize()
 		if err != nil {
-			result = multierror.Append(result, err)
+			errs = append(errs, err)
 		}
 	}
 
 	for _, filter := range config.TypeFilters {
 		err := filter.Initialize()
 		if err != nil {
-			result = multierror.Append(result, err)
+			errs = append(errs, err)
 		}
 	}
 
 	for _, transformer := range config.TypeTransformers {
 		err := transformer.Initialize()
 		if err != nil {
-			result = multierror.Append(result, err)
+			errs = append(errs, err)
 		}
 	}
 
-	return result.ErrorOrNil()
+	return kerrors.NewAggregate(errs)
 }
 
 // ShouldExport tests for whether a given type should be exported as Go code
