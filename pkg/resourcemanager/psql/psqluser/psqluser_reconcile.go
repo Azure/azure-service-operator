@@ -206,13 +206,6 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 	}
 	key := types.NamespacedName{Name: adminsecretName, Namespace: instance.Namespace}
 
-	var sqlUserSecretClient secrets.SecretClient
-	if options.SecretClient != nil {
-		sqlUserSecretClient = options.SecretClient
-	} else {
-		sqlUserSecretClient = s.SecretClient
-	}
-
 	// if the admin secret keyvault is not specified, fall back to global secretclient
 	if len(instance.Spec.AdminSecretKeyVault) != 0 {
 		adminSecretClient = keyvaultSecrets.New(instance.Spec.AdminSecretKeyVault)
@@ -244,11 +237,11 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	user := string(adminSecret["fullyQualifiedUsername"])
-	password := string(adminSecret[PSecretPasswordKey])
+	adminuser := string(adminSecret["fullyQualifiedUsername"])
+	adminpassword := string(adminSecret[PSecretPasswordKey])
 	fullservername := string(adminSecret["fullyQualifiedServerName"])
 
-	db, err := s.ConnectToSqlDb(ctx, PDriverName, fullservername, instance.Spec.DbName, PSqlServerPort, user, password)
+	db, err := s.ConnectToSqlDb(ctx, PDriverName, fullservername, instance.Spec.DbName, PSqlServerPort, adminuser, adminpassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "no pg_hba.conf entry for host") {
@@ -261,22 +254,36 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
-	requestedusername := instance.Spec.Username
+	var psqlUserSecretClient secrets.SecretClient
+	if options.SecretClient != nil {
+		psqlUserSecretClient = options.SecretClient
+	} else {
+		psqlUserSecretClient = s.SecretClient
+	}
 
-	exists, err := s.UserExists(ctx, db, requestedusername)
+	userkey := GetNamespacedName(instance, psqlUserSecretClient)
+	userSecret, err := psqlUserSecretClient.Get(ctx, userkey)
+	if err != nil {
+
+		return false, nil
+	}
+
+	user := string(userSecret[PSecretUsernameKey])
+
+	exists, err := s.UserExists(ctx, db, user)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser failed with %s", err.Error())
 		return true, err
 	}
 	if !exists {
 
-		s.DeleteSecrets(ctx, instance, sqlUserSecretClient)
-		instance.Status.Message = fmt.Sprintf("The user %s doesn't exist", requestedusername)
+		s.DeleteSecrets(ctx, instance, psqlUserSecretClient)
+		instance.Status.Message = fmt.Sprintf("The user %s doesn't exist", user)
 		//User doesn't exist. Stop the reconcile.
 		return false, nil
 	}
 
-	err = s.DropUser(ctx, db, requestedusername)
+	err = s.DropUser(ctx, db, user)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser failed with %s", err.Error())
 		//stop the reconcile with err
@@ -284,7 +291,7 @@ func (s *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 	}
 
 	// Once the user has been dropped, also delete their secrets.
-	s.DeleteSecrets(ctx, instance, sqlUserSecretClient)
+	s.DeleteSecrets(ctx, instance, psqlUserSecretClient)
 
 	instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser succeeded")
 
