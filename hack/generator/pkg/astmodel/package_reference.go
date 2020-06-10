@@ -31,12 +31,12 @@ func NewPackageReference(packagePath string) *PackageReference {
 	return &PackageReference{packagePath: packagePath}
 }
 
-func (pr *PackageReference) isLocalPackage() bool {
+func (pr *PackageReference) IsLocalPackage() bool {
 	return strings.HasPrefix(pr.packagePath, localPathPrefix)
 }
 
 func (pr *PackageReference) stripLocalPackagePrefix() (string, error) {
-	if !pr.isLocalPackage() {
+	if !pr.IsLocalPackage() {
 		return "", fmt.Errorf("cannot strip local package prefix from non-local package %v", pr.packagePath)
 	}
 
@@ -70,3 +70,11 @@ func (pr *PackageReference) PackageName() string {
 func (pr *PackageReference) Equals(ref *PackageReference) bool {
 	return pr.packagePath == ref.packagePath
 }
+
+// String returns the string representation of the package reference
+func (pr *PackageReference) String() string {
+	return pr.packagePath
+}
+
+// Ensure we implement Stringer
+var _ fmt.Stringer = &PackageReference{}

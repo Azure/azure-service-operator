@@ -1,5 +1,10 @@
 schemaurl: https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json
 typefilters:
+  - action: prune
+    group: definitions
+    name: Expression
+    because: expression is an ARM template construct which doesn't belong in CRDs
+exportfilters:
   - action: include
     version: 2020-*
     because: all 2020 API versions are included
@@ -7,5 +12,19 @@ typefilters:
     version: '*preview'
     because: preview SDK versions are excluded by default
   - action: exclude
-    group: 'deploymenttemplate'
+    group: deploymenttemplate
     because: this is the "container" group that holds references to all of the other groups and as such doesn't make sense to generate
+  - action: exclude
+    group: definitions
+    name: NumberOrExpression
+    because: this type is not really used, it's just float64. We remap this type to float64 in typetransformers so we can skip exporting it too
+  - action: exclude
+    group: definitions
+    name: ResourceBase
+    because: this type is not used
+typetransformers:
+  - group: definitions
+    name: NumberOrExpression
+    because: NumberOrExpression is an ARM template artifact that doesn't make sense in CRDs
+    target:
+      name: float

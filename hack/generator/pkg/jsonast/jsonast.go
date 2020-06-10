@@ -8,6 +8,7 @@ package jsonast
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"net/url"
 	"regexp"
 	"strings"
@@ -39,10 +40,10 @@ type (
 
 	// A SchemaScanner is used to scan a JSON Schema extracting and collecting type definitions
 	SchemaScanner struct {
-		definitions  map[astmodel.TypeName]astmodel.TypeDefiner
-		TypeHandlers map[SchemaType]TypeHandler
-		Filters      []string
-		idFactory    astmodel.IdentifierFactory
+		definitions   map[astmodel.TypeName]astmodel.TypeDefiner
+		TypeHandlers  map[SchemaType]TypeHandler
+		configuration *config.Configuration
+		idFactory     astmodel.IdentifierFactory
 	}
 )
 
@@ -81,8 +82,6 @@ const (
 	String  SchemaType = "string"
 	Enum    SchemaType = "enum"
 	Unknown SchemaType = "unknown"
-
-	expressionFragment = "/definitions/expression"
 )
 
 func (use *UnknownSchemaError) Error() string {
@@ -93,11 +92,12 @@ func (use *UnknownSchemaError) Error() string {
 }
 
 // NewSchemaScanner constructs a new scanner, ready for use
-func NewSchemaScanner(idFactory astmodel.IdentifierFactory) *SchemaScanner {
+func NewSchemaScanner(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) *SchemaScanner {
 	return &SchemaScanner{
-		definitions:  make(map[astmodel.TypeName]astmodel.TypeDefiner),
-		TypeHandlers: DefaultTypeHandlers(),
-		idFactory:    idFactory,
+		definitions:   make(map[astmodel.TypeName]astmodel.TypeDefiner),
+		TypeHandlers:  DefaultTypeHandlers(),
+		configuration: configuration,
+		idFactory:     idFactory,
 	}
 }
 
@@ -121,11 +121,6 @@ func (scanner *SchemaScanner) RunHandlerForSchema(ctx context.Context, schema *g
 	}
 
 	return scanner.RunHandler(ctx, schemaType, schema)
-}
-
-// AddFilters will add a filter (perhaps not currently used?)
-func (scanner *SchemaScanner) AddFilters(filters []string) {
-	scanner.Filters = append(scanner.Filters, filters...)
 }
 
 // GenerateDefinitions takes in the resources section of the Azure deployment template schema and returns golang AST Packages
@@ -295,6 +290,12 @@ func generateFieldDefinition(ctx context.Context, scanner *SchemaScanner, prop *
 		return field, nil
 	}
 
+	// This can happen if the property type was pruned away by a type filter.
+	if propType == nil {
+		// returning nil here is a signal to the caller that this property cannot be constructed.
+		return nil, nil
+	}
+
 	if err != nil {
 		return nil, err
 	}
@@ -313,6 +314,17 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 		fieldDefinition, err := generateFieldDefinition(ctx, scanner, prop)
 		if err != nil {
 			return nil, err
+		}
+
+		// This can happen if the property type was pruned away by a type filter.
+		// There are a few options here: We can skip this property entirely, we can emit it
+		// with no type (won't compile), or we can emit with with interface{}.
+		// Currently emitting a warning and skipping
+		if fieldDefinition == nil {
+			// TODO: This log shouldn't happen in cases where the type in question is later excluded, see:
+			// TODO: https://github.com/Azure/k8s-infra/issues/138
+			klog.V(2).Infof("Property %s omitted due to nil propType (probably due to type filter)", prop.Property)
+			continue
 		}
 
 		// add documentation
@@ -343,7 +355,10 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 		// only generate this field if there are no other fields:
 		if len(fields) == 0 {
 			// TODO: for JSON serialization this needs to be unpacked into "parent"
-			additionalPropsField := astmodel.NewFieldDefinition("additionalProperties", "additionalProperties", astmodel.NewStringMapType(astmodel.AnyType))
+			additionalPropsField := astmodel.NewFieldDefinition(
+				"additionalProperties",
+				"additionalProperties",
+				astmodel.NewStringMapType(astmodel.AnyType))
 			fields = append(fields, additionalPropsField)
 		}
 	} else if schema.AdditionalProperties != false {
@@ -354,7 +369,19 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 			return nil, err
 		}
 
-		additionalPropsField := astmodel.NewFieldDefinition(astmodel.FieldName("additionalProperties"), "additionalProperties", astmodel.NewStringMapType(additionalPropsType))
+		// This can happen if the property type was prune away by a type filter.
+		// There are a few options here: We can skip this property entirely, we can emit it
+		// with no type (won't compile), or we can emit with with interface{}.
+		// TODO: Currently setting this to anyType as that's easiest to deal with and will generate
+		// TODO: a warning during controller-gen
+		if additionalPropsType == nil {
+			additionalPropsType = astmodel.AnyType
+		}
+
+		additionalPropsField := astmodel.NewFieldDefinition(
+			astmodel.FieldName("additionalProperties"),
+			"additionalProperties",
+			astmodel.NewStringMapType(additionalPropsType))
 		fields = append(fields, additionalPropsField)
 	}
 
@@ -366,11 +393,6 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 	defer span.End()
 
 	url := schema.Ref.GetUrl()
-
-	if url.Fragment == expressionFragment {
-		// skip expressions
-		return nil, nil
-	}
 
 	// make a new topic based on the ref URL
 	name, err := objectTypeOf(url)
@@ -397,10 +419,30 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 			scanner.idFactory.CreatePackageNameFromVersion(version)),
 		scanner.idFactory.CreateIdentifier(name, astmodel.Exported))
 
+	// Prune the graph according to the configuration
+	shouldPrune, because := scanner.configuration.ShouldPrune(typeName)
+	if shouldPrune == config.Prune {
+		klog.V(2).Infof("Skipping %s because %s", typeName, because)
+		return nil, nil // Skip entirely
+	}
+
+	// Target types according to configuration
+	transformation, because := scanner.configuration.TransformType(typeName)
+	if transformation != nil {
+		klog.V(2).Infof("Transforming %s -> %s because %s", typeName, transformation, because)
+		return transformation, nil
+	}
+
 	return generateDefinitionsFor(ctx, scanner, typeName, isResource, url, schema.RefSchema)
 }
 
-func generateDefinitionsFor(ctx context.Context, scanner *SchemaScanner, typeName *astmodel.TypeName, isResource bool, url *url.URL, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
+func generateDefinitionsFor(
+	ctx context.Context,
+	scanner *SchemaScanner,
+	typeName *astmodel.TypeName,
+	isResource bool,
+	url *url.URL,
+	schema *gojsonschema.SubSchema) (astmodel.Type, error) {
 
 	schemaType, err := getSubSchemaType(schema)
 	if err != nil {
@@ -635,6 +677,11 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 	astType, err := scanner.RunHandlerForSchema(ctx, onlyChild)
 	if err != nil {
 		return nil, err
+	}
+
+	// astType can be nil if it was pruned from the tree
+	if astType == nil {
+		return nil, nil
 	}
 
 	return astmodel.NewArrayType(astType), nil

@@ -18,6 +18,7 @@ import (
 	"strings"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
@@ -27,7 +28,7 @@ import (
 )
 
 type CodeGenerator struct {
-	configuration *Configuration
+	configuration *config.Configuration
 }
 
 func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
@@ -36,7 +37,7 @@ func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
 		return nil, fmt.Errorf("failed to load configuration file '%v' (%w)", configurationFile, err)
 	}
 
-	err = config.Validate()
+	err = config.Initialize()
 	if err != nil {
 		return nil, fmt.Errorf("configuration loaded from '%v' is invalid (%w)", configurationFile, err)
 	}
@@ -60,7 +61,7 @@ func (generator *CodeGenerator) Generate(ctx context.Context, outputFolder strin
 		return fmt.Errorf("error cleaning output folder '%v' (%w)", outputFolder, err)
 	}
 
-	scanner := jsonast.NewSchemaScanner(astmodel.NewIdentifierFactory())
+	scanner := jsonast.NewSchemaScanner(astmodel.NewIdentifierFactory(), generator.configuration)
 
 	klog.V(0).Infof("Walking JSON schema")
 	defs, err := scanner.GenerateDefinitions(ctx, schema.Root())
@@ -108,22 +109,23 @@ func (generator *CodeGenerator) CreatePackagesForDefinitions(definitions []astmo
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
 
-		shouldExport, reason := generator.configuration.ShouldExport(def)
 		defName := def.Name()
+		shouldExport, reason := generator.configuration.ShouldExport(defName)
+
 		groupName, pkgName, err := defName.PackageReference.GroupAndPackage()
 		if err != nil {
 			return nil, err
 		}
 
 		switch shouldExport {
-		case Skip:
-			klog.V(2).Infof("Skipping %s/%s because %s", groupName, pkgName, reason)
+		case config.Skip:
+			klog.V(2).Infof("Skipping %s because %s", defName, reason)
 
-		case Export:
+		case config.Export:
 			if reason == "" {
-				klog.V(3).Infof("Exporting %s/%s", groupName, pkgName)
+				klog.V(3).Infof("Exporting %s", defName)
 			} else {
-				klog.V(2).Infof("Exporting %s/%s because %s", groupName, pkgName, reason)
+				klog.V(2).Infof("Exporting %s because %s", defName, reason)
 			}
 
 			pkgRef := defName.PackageReference
@@ -145,13 +147,13 @@ func (generator *CodeGenerator) CreatePackagesForDefinitions(definitions []astmo
 	return pkgs, nil
 }
 
-func loadConfiguration(configurationFile string) (*Configuration, error) {
+func loadConfiguration(configurationFile string) (*config.Configuration, error) {
 	data, err := ioutil.ReadFile(configurationFile)
 	if err != nil {
 		return nil, err
 	}
 
-	result := NewConfiguration()
+	result := config.NewConfiguration()
 
 	err = yaml.Unmarshal(data, result)
 	if err != nil {
