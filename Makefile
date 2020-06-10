@@ -160,14 +160,14 @@ helm-chart-manifests: generate
 	kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
 	# move CRD definitions to crd folder
 	find ./charts/azure-service-operator/templates/generated/*_customresourcedefinition_* -exec mv '{}' ./charts/azure-service-operator/crds \;
-	# remove namespace and webhooks, as we need to wrap them in Helm conditional syntax
+	# remove namespace as we will let Helm manage it
 	rm charts/azure-service-operator/templates/generated/*_namespace_*
 	# replace hard coded ASO image with Helm templating
 	perl -pi -e s,controller:latest,"{{ .Values.image.repository }}",g ./charts/azure-service-operator/templates/generated/*_deployment_*
 	# replace hard coded namespace with Helm templating
-	find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,"{{ .Values.namespace }}",g {} \;
+	find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,"{{ .Release.Namespace }}",g {} \;
 	# create unique names so each instance of the operator has its own role binding 
-	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec perl -pi -e 's/$$/-{{ .Values.namespace }}/ if /name: azure/' {} \;
+	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec perl -pi -e 's/$$/-{{ .Release.Namespace }}/ if /name: azure/' {} \;
 	# package the necessary files into a tar file
 	helm package ./charts/azure-service-operator -d ./charts
 	# update Chart.yaml for Helm Repository

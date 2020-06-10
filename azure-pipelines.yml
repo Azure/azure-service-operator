@@ -216,7 +216,7 @@ steps:
       # replace hard coded ASO image with Helm templating
       sed -i -e 's/controller:latest/{{ .Values.image.repository }}/' ./charts/azure-service-operator/templates/generated/*_deployment_*
       # replace hard coded namespace with Helm templating
-      find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' -e 's@namespace: azureoperator-system@namespace: {{ .Values.namespace }}@' {} \;
+      find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' -e 's@namespace: azureoperator-system@namespace: {{ .Release.Namespace }}@' {} \;
       # package the necessary files into a tar file
       helm package ./charts/azure-service-operator -d ./charts
       # update Chart.yaml for Helm Repository
@@ -234,18 +234,16 @@ steps:
         imagename="$(PIPELINE_CONTAINER_REGISTRY_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
         echo $imagename
         make install
-        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz \
+        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz -n azureoperator-system --create-namespace \
             --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
             --set azureTenantID=$(AZURE_TENANT_ID) \
             --set azureClientID=$(AZURE_CLIENT_ID) \
             --set azureClientSecret=$(AZURE_CLIENT_SECRET) \
             --set azureUseMI=true \
             --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
-            --set createNamespace=true \
             --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$(ASO-DEVOPS-MI)" \
             --set aad-pod-identity.azureIdentity.clientID=$(POD-IDENTITY-CLIENTID) \
-            --set image.repository=$imagename \
-            --set namespace=$(OPERATOR_NAMESPACE)
+            --set image.repository=$imagename 
         kubectl get namespace
         kubectl get pods -n $(OPERATOR_NAMESPACE)
         kubectl describe pods -n $(OPERATOR_NAMESPACE)

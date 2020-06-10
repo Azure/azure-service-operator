@@ -73,30 +73,19 @@ azureOperatorKeyvault: OperatorSecretKeyVault
 
 #### Install Chart
 
-If you are deploying into an already created namespace, be sure to set the following variable to false:
-```
-createNamespace: False
-```
-
-and specify the namespace name:
-```
-namespace: your-namespace
-```
-
 Finally, install the chart with your added values. The chart can be installed by using a values file or environment variables.
 ```
-helm upgrade --install aso azureserviceoperator/azure-service-operator -f values.yaml
+helm upgrade --install aso azureserviceoperator/azure-service-operator -n azureoperator-system --create-namespace -f values.yaml
 ```
 
 ```
-helm upgrade --install aso azureserviceoperator/azure-service-operator \
+helm upgrade --install aso azureserviceoperator/azure-service-operator -n azureoperator-system --create-namespace \
     --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
     --set azureTenantID=$AZURE_TENANT_ID \
     --set azureClientID=$AZURE_CLIENT_ID \
     --set azureClientSecret=$AZURE_CLIENT_SECRET \
     --set azureUseMI=$AZURE_USE_MI \
-    --set azureOperatorKeyvault=$AZURE_OPERATOR_KEYVAULT \
-    --set createNamespace=False
+    --set azureOperatorKeyvault=$AZURE_OPERATOR_KEYVAULT
 ```
 
 ### Configuration

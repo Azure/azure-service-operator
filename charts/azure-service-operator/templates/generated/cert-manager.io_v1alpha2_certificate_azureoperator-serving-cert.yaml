@@ -2,11 +2,11 @@ apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: azureoperator-serving-cert
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   dnsNames:
-  - azureoperator-webhook-service.{{ .Values.namespace }}.svc
-  - azureoperator-webhook-service.{{ .Values.namespace }}.svc.cluster.local
+  - azureoperator-webhook-service.{{ .Release.Namespace }}.svc
+  - azureoperator-webhook-service.{{ .Release.Namespace }}.svc.cluster.local
   issuerRef:
     kind: Issuer
     name: azureoperator-selfsigned-issuer

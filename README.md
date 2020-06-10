@@ -86,7 +86,7 @@ Do you want to quickly deploy the latest version of Azure Service Operator on yo
     Note that the ServicePrincipal you pass to the command below needs to have access to create resources in your subscription.
 
     ```console
-    helm install aso ./azure-service-operator \
+    helm install aso ./azure-service-operator -n azureoperator-system --create-namespace \
         --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
         --set azureTenantID=$AZURE_TENANT_ID \
         --set azureClientID=$AZURE_CLIENT_ID \

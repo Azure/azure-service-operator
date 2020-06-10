@@ -41,6 +41,10 @@ spec:
         spec:
           description: KeyVaultKeySpec defines the desired state of KeyVaultKey
           properties:
+            curve:
+              description: JSONWebKeyCurveName enumerates the values for json web
+                key curve name.
+              type: string
             keySize:
               format: int32
               type: integer

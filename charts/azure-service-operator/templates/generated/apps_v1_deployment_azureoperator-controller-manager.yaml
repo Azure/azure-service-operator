@@ -5,7 +5,7 @@ metadata:
     app: azure-service-operator-v1
     control-plane: controller-manager
   name: azureoperator-controller-manager
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
