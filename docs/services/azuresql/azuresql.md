@@ -176,7 +176,7 @@ The default secret name for a SQL User in Key Vault is prefixed by `azuresqluser
 Some client libraries support connecting directly to Key Vault to retrieve secrets. Users can set the `keyVaultSecretFormats` parameter to request that connection strings for their desired formats are added to the Key Vault. Each secret will be named with the secret prefix followed by the format name, for example: `azuresqluser-<serverName>-<azureSqlDatabaseName>-<azureSqlUserName>-adonet`.
 The AzureSQLUser [sample YAML](/config/samples/azure_v1alpha1_azuresqluser.yaml) demonstrates the usage of these parameters.
 
-The `name` passed in the SQL User Spec is used to generate the username on the database. To ensure uniqueness on shared servers, a UUID is appended to the requested name to make the username in Azure SQL unique. `server` and `dbname` qualify the database on which you want to create the user on. `adminsecret` is the name of the secret where the username and password will be stored. `roles` specify the security roles that this user should have on the specified database.
+The `name` passed in the SQL User Spec is used to generate the username on the database. To ensure uniqueness on shared servers, a UUID is appended to the requested name to make the username unique. `server` and `dbname` qualify the database on which you want to create the user on. `adminsecret` is the name of the secret where the username and password will be stored. `roles` specify the security roles that this user should have on the specified database.
 
 ### SQL Managed user
 
