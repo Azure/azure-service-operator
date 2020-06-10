@@ -168,7 +168,7 @@ The default secret contains the following fields:
 - `username`
 - `password`
 
-When using Kube secrets, the default secret will be stored under the namespace and name of the SQL User object,
+When using Kube secrets, the default secret will be stored under the namespace and name of the SQL User object.
 
 When Key Vault is configured, each secret value is Base64 encoded and the set of secrets is persisted as a single JSON document in the Key Vault.
 The default secret name for a SQL User in Key Vault is prefixed by `azuresqluser-<serverName>-<azureSqlDatabaseName>`. Users can set the `keyVaultSecretPrefix` parameter to override this value. Note that the SQL User name will always be appended to the secret name so the final name may be `azuresqluser-<serverName>-<azureSqlDatabaseName>-<azureSqlUserName>`
