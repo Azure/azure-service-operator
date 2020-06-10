@@ -118,7 +118,7 @@ helm upgrade --install aso azureserviceoperator/azure-service-operator \
     --set azureClientSecret=$AZURE_CLIENT_SECRET \
     --set azureUseMI=$AZURE_USE_MI \
     --set azureOperatorKeyvault=$AZURE_OPERATOR_KEYVAULT \
-    --set createNamespace=False
+    --set createNamespace=True
 ```
 
 ## Configuration
