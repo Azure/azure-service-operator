@@ -92,9 +92,9 @@ kubectl apply -f ./charts/azure-service-operator/crds/
 
 ##### Custom Namespace
 
-If installing to a custom namespace, some additional variable replacement will need to be done on the CRDs. Run the command below, replacing <your namespace> with the desired custom namespace:
+If installing to a custom namespace, some additional variable replacement will need to be done on the CRDs. Run the command below, replacing `your-namespace` with the desired custom namespace:
 ```
-NAMESPACE=<your namespace>
+NAMESPACE=your-namespace
 find ./charts/azure-service-operator/crds/ -type f -exec perl -pi -e s,azureoperator-system,$NAMESPACE,g {} \;
 ```
 
@@ -118,7 +118,7 @@ helm upgrade --install aso azureserviceoperator/azure-service-operator \
     --set azureClientSecret=$AZURE_CLIENT_SECRET \
     --set azureUseMI=$AZURE_USE_MI \
     --set azureOperatorKeyvault=$AZURE_OPERATOR_KEYVAULT \
-    --set createNamespace=False
+    --set createNamespace=True
 ```
 
 ## Configuration
