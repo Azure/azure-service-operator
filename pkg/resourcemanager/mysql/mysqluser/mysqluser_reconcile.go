@@ -255,7 +255,23 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	err = s.DropUser(ctx, db, string(instance.Spec.Username), string(instance.Spec.Server))
+	var userSecretClient secrets.SecretClient
+	if options.SecretClient != nil {
+		userSecretClient = options.SecretClient
+	} else {
+		userSecretClient = s.SecretClient
+	}
+
+	userkey := GetNamespacedName(instance, userSecretClient)
+	userSecret, err := userSecretClient.Get(ctx, userkey)
+	if err != nil {
+
+		return false, nil
+	}
+
+	user := string(userSecret[MSecretUsernameKey])
+
+	err = s.DropUser(ctx, db, user, string(instance.Spec.Server))
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Delete MySqlUser failed with %s", err.Error())
 		return false, err
