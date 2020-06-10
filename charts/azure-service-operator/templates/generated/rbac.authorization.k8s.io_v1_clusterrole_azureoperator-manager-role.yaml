@@ -299,6 +299,14 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azuresqlusers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - azuresqlvnetrules
   verbs:
   - create
@@ -584,6 +592,26 @@ rules:
   - azure.microsoft.com
   resources:
   - mysqlservers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - mysqlusers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - mysqlusers/status
   verbs:
   - get
   - patch
