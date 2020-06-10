@@ -81,6 +81,28 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object, opts
 		KeyOps:        &instance.Spec.Operations,
 		KeyAttributes: &katts,
 	}
+
+	switch instance.Spec.Type {
+	case kvops.RSA, kvops.RSAHSM:
+		if instance.Spec.KeySize == 0 {
+			instance.Status.Message = "no keysize provided for rsa key"
+			instance.Status.FailedProvisioning = true
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = false
+			return true, nil
+		}
+		params.KeySize = &instance.Spec.KeySize
+	case kvops.EC, kvops.ECHSM:
+		if instance.Spec.Curve == "" {
+			instance.Status.Message = "no curve provided for ec key"
+			instance.Status.FailedProvisioning = true
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = false
+			return true, nil
+		}
+		params.Curve = instance.Spec.Curve
+	}
+
 	req, err := kvopsclient.CreateKey(ctx, vaultBaseURL, instance.Name, params)
 	if err != nil {
 		instance.Status.Message = err.Error()
