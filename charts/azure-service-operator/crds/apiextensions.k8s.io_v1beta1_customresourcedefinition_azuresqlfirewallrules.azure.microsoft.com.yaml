@@ -1,0 +1,182 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureoperator-system/azureoperator-serving-cert
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: azuresqlfirewallrules.azure.microsoft.com
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.provisioned
+    name: Provisioned
+    type: string
+  - JSONPath: .status.message
+    name: Message
+    type: string
+  conversion:
+    strategy: Webhook
+    webhookClientConfig:
+      caBundle: Cg==
+      service:
+        name: azureoperator-webhook-service
+        namespace: azureoperator-system
+        path: /convert
+  group: azure.microsoft.com
+  names:
+    kind: AzureSqlFirewallRule
+    listKind: AzureSqlFirewallRuleList
+    plural: azuresqlfirewallrules
+    singular: azuresqlfirewallrule
+  preserveUnknownFields: false
+  scope: Namespaced
+  subresources:
+    status: {}
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: AzureSqlFirewallRule is the Schema for the azuresqlfirewallrules
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: AzureSqlFirewallRuleSpec defines the desired state of AzureSqlFirewallRule
+            properties:
+              endipaddress:
+                type: string
+              resourcegroup:
+                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                  Important: Run "make" to regenerate code after modifying this file'
+                type: string
+              server:
+                type: string
+              startipaddress:
+                type: string
+            required:
+            - server
+            type: object
+          status:
+            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
+              state of resource actions
+            properties:
+              completed:
+                format: date-time
+                type: string
+              containsUpdate:
+                type: boolean
+              failedProvisioning:
+                type: boolean
+              flattenedSecrets:
+                type: boolean
+              message:
+                type: string
+              output:
+                type: string
+              pollingUrl:
+                type: string
+              provisioned:
+                type: boolean
+              provisioning:
+                type: boolean
+              requested:
+                format: date-time
+                type: string
+              resourceId:
+                type: string
+              specHash:
+                type: string
+              state:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: AzureSqlFirewallRule is the Schema for the azuresqlfirewallrules
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: AzureSqlFirewallRuleSpec defines the desired state of AzureSqlFirewallRule
+            properties:
+              endIpAddress:
+                type: string
+              resourceGroup:
+                description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                  Important: Run "make" to regenerate code after modifying this file'
+                type: string
+              server:
+                type: string
+              startIpAddress:
+                type: string
+            required:
+            - server
+            type: object
+          status:
+            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
+              state of resource actions
+            properties:
+              completed:
+                format: date-time
+                type: string
+              containsUpdate:
+                type: boolean
+              failedProvisioning:
+                type: boolean
+              flattenedSecrets:
+                type: boolean
+              message:
+                type: string
+              output:
+                type: string
+              pollingUrl:
+                type: string
+              provisioned:
+                type: boolean
+              provisioning:
+                type: boolean
+              requested:
+                format: date-time
+                type: string
+              resourceId:
+                type: string
+              specHash:
+                type: string
+              state:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
