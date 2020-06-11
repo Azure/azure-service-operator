@@ -244,8 +244,6 @@ steps:
         echo $(chosenclustername)
         az aks get-credentials -g $(AKS_CLUSTER_RG) -n $(chosenclustername)
         kubectl delete -f ./charts/azure-service-operator/crds/
-        helm list
-        helm delete aso
         # Set tags to available for the selected cluster to put it back into the free pool
         echo "Setting tags back to free"
         az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
