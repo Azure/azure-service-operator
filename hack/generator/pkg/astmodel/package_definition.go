@@ -28,6 +28,10 @@ func NewPackageDefinition(groupName string, packageName string) *PackageDefiniti
 	return &PackageDefinition{groupName, packageName, nil}
 }
 
+func (pkgDef *PackageDefinition) Definitions() []TypeDefiner {
+	return pkgDef.definitions
+}
+
 // AddDefinition adds a Definition to the PackageDefinition
 func (pkgDef *PackageDefinition) AddDefinition(def TypeDefiner) {
 	pkgDef.definitions = append(pkgDef.definitions, def)

@@ -27,10 +27,12 @@ import (
 	"k8s.io/klog/v2"
 )
 
+// CodeGenerator is a generator of code
 type CodeGenerator struct {
 	configuration *config.Configuration
 }
 
+// NewCodeGenerator produces a new Generator with the given configuration
 func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
 	config, err := loadConfiguration(configurationFile)
 	if err != nil {
@@ -47,8 +49,8 @@ func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
 	return result, nil
 }
 
+// Generate produces the Go code corresponding to the configured JSON schema in the given output folder
 func (generator *CodeGenerator) Generate(ctx context.Context, outputFolder string) error {
-
 	klog.V(0).Infof("Loading JSON schema %v", generator.configuration.SchemaURL)
 	schema, err := loadSchema(generator.configuration.SchemaURL)
 	if err != nil {
@@ -64,14 +66,25 @@ func (generator *CodeGenerator) Generate(ctx context.Context, outputFolder strin
 	scanner := jsonast.NewSchemaScanner(astmodel.NewIdentifierFactory(), generator.configuration)
 
 	klog.V(0).Infof("Walking JSON schema")
+
 	defs, err := scanner.GenerateDefinitions(ctx, schema.Root())
 	if err != nil {
 		return fmt.Errorf("failed to walk JSON schema (%w)", err)
 	}
 
+	defs, err = generator.FilterDefinitions(defs)
+	if err != nil {
+		return fmt.Errorf("failed to filter generated definitions (%w)", err)
+	}
+
 	packages, err := generator.CreatePackagesForDefinitions(defs)
 	if err != nil {
 		return fmt.Errorf("failed to assign generated definitions to packages (%w)", err)
+	}
+
+	packages, err = generator.MarkLatestResourceVersionsForStorage(packages)
+	if err != nil {
+		return fmt.Errorf("unable to mark latest resource versions for as storage versions (%w)", err)
 	}
 
 	fileCount := 0
@@ -105,17 +118,105 @@ func (generator *CodeGenerator) Generate(ctx context.Context, outputFolder strin
 	return nil
 }
 
-func (generator *CodeGenerator) CreatePackagesForDefinitions(definitions []astmodel.TypeDefiner) ([]*astmodel.PackageDefinition, error) {
-	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-	for _, def := range definitions {
+// MarkLatestResourceVersionsForStorage marks the latest version of each resource as the storage version
+func (generator *CodeGenerator) MarkLatestResourceVersionsForStorage(
+	pkgs []*astmodel.PackageDefinition) ([]*astmodel.PackageDefinition, error) {
 
+	var result []*astmodel.PackageDefinition
+
+	resourceLookup, err := groupResourcesByVersion(pkgs)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, pkg := range pkgs {
+
+		resultPkg := astmodel.NewPackageDefinition(pkg.GroupName, pkg.PackageName)
+		for _, def := range pkg.Definitions() {
+			// see if it is a resource (only struct definitions can be resources)
+			if structDef, ok := def.(*astmodel.StructDefinition); ok && structDef.IsResource() {
+
+				unversionedName, err := getUnversionedName(structDef.TypeName)
+				if err != nil {
+					// should never happen as all resources have versioned names
+					return nil, err
+				}
+
+				allVersionsOfResource := resourceLookup[unversionedName]
+				latestVersionOfResource := allVersionsOfResource[len(allVersionsOfResource)-1]
+
+				thisPackagePath := structDef.Name().PackageReference.PackagePath()
+				latestPackagePath := latestVersionOfResource.Name().PackageReference.PackagePath()
+
+				// mark as storage version if it's the latest version
+				isLatestVersion := thisPackagePath == latestPackagePath
+				structDef = structDef.WithIsStorageVersion(isLatestVersion)
+
+				resultPkg.AddDefinition(structDef)
+			} else {
+				// otherwise simply add it
+				resultPkg.AddDefinition(def)
+			}
+		}
+
+		result = append(result, resultPkg)
+	}
+
+	return result, nil
+}
+
+func getUnversionedName(name *astmodel.TypeName) (unversionedName, error) {
+	group, _, err := name.PackageReference.GroupAndPackage()
+	if err != nil {
+		return unversionedName{}, err
+	}
+
+	return unversionedName{group, name.Name()}, nil
+}
+
+type unversionedName struct {
+	group string
+	name  string
+}
+
+func groupResourcesByVersion(
+	pkgs []*astmodel.PackageDefinition) (map[unversionedName][]*astmodel.StructDefinition, error) {
+
+	result := make(map[unversionedName][]*astmodel.StructDefinition)
+
+	for _, pkg := range pkgs {
+		for _, def := range pkg.Definitions() {
+			if structDef, ok := def.(*astmodel.StructDefinition); ok && structDef.IsResource() {
+				name, err := getUnversionedName(structDef.TypeName)
+				if err != nil {
+					// this should never happen as resources will all have versioned names
+					return nil, fmt.Errorf("Unable to extract unversioned name in groupResources: %w", err)
+				}
+
+				result[name] = append(result[name], structDef)
+			}
+		}
+	}
+
+	// order each set of resources by package name (== by version as these are sortable dates)
+	for _, slice := range result {
+		sort.Slice(slice, func(i, j int) bool {
+			return slice[i].TypeName.PackageReference.PackageName() < slice[j].TypeName.PackageReference.PackageName()
+		})
+	}
+
+	return result, nil
+}
+
+// FilterDefinitions applies the configuration include/exclude filters to the generated definitions
+func (generator *CodeGenerator) FilterDefinitions(
+	definitions []astmodel.TypeDefiner) ([]astmodel.TypeDefiner, error) {
+
+	var newDefinitions []astmodel.TypeDefiner
+
+	for _, def := range definitions {
 		defName := def.Name()
 		shouldExport, reason := generator.configuration.ShouldExport(defName)
-
-		groupName, pkgName, err := defName.PackageReference.GroupAndPackage()
-		if err != nil {
-			return nil, err
-		}
 
 		switch shouldExport {
 		case config.Skip:
@@ -128,14 +229,32 @@ func (generator *CodeGenerator) CreatePackagesForDefinitions(definitions []astmo
 				klog.V(2).Infof("Exporting %s because %s", defName, reason)
 			}
 
-			pkgRef := defName.PackageReference
-			if pkg, ok := packages[pkgRef]; ok {
-				pkg.AddDefinition(def)
-			} else {
-				pkg = astmodel.NewPackageDefinition(groupName, pkgName)
-				pkg.AddDefinition(def)
-				packages[pkgRef] = pkg
-			}
+			newDefinitions = append(newDefinitions, def)
+		}
+	}
+
+	return newDefinitions, nil
+}
+
+// CreatePackagesForDefinitions groups type definitions into packages
+func (generator *CodeGenerator) CreatePackagesForDefinitions(
+	definitions []astmodel.TypeDefiner) ([]*astmodel.PackageDefinition, error) {
+
+	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
+	for _, def := range definitions {
+		defName := def.Name()
+		groupName, pkgName, err := defName.PackageReference.GroupAndPackage()
+		if err != nil {
+			return nil, err
+		}
+
+		pkgRef := defName.PackageReference
+		if pkg, ok := packages[pkgRef]; ok {
+			pkg.AddDefinition(def)
+		} else {
+			pkg = astmodel.NewPackageDefinition(groupName, pkgName)
+			pkg.AddDefinition(def)
+			packages[pkgRef] = pkg
 		}
 	}
 

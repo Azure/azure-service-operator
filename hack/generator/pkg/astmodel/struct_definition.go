@@ -12,10 +12,11 @@ import (
 
 // StructDefinition encapsulates the definition of a struct
 type StructDefinition struct {
-	TypeName    *TypeName
-	StructType  *StructType
-	isResource  bool
-	description *string
+	TypeName         *TypeName
+	StructType       *StructType
+	isResource       bool
+	isStorageVersion bool
+	description      *string
 }
 
 // IsResource indicates if this is a ARM resource and should be a kubebuilder root
@@ -38,13 +39,20 @@ func (definition *StructDefinition) Type() Type {
 
 // NewStructDefinition is a factory method for creating a new StructDefinition
 func NewStructDefinition(name *TypeName, structType *StructType, isResource bool) *StructDefinition {
-	return &StructDefinition{name, structType, isResource, nil}
+	return &StructDefinition{name, structType, isResource, false, nil}
 }
 
 // WithDescription adds a description (doc-comment) to the struct
 func (definition *StructDefinition) WithDescription(description *string) TypeDefiner {
 	result := *definition
 	result.description = description
+	return &result
+}
+
+// WithIsStorageVersion marks the struct definition as a Kubebuilder storage version (or not)
+func (definition *StructDefinition) WithIsStorageVersion(isStorageVersion bool) *StructDefinition {
+	result := *definition
+	result.isStorageVersion = isStorageVersion
 	return &result
 }
 
@@ -102,16 +110,23 @@ func (definition *StructDefinition) AsDeclarations(codeGenerationContext *CodeGe
 			},
 		}
 
+		comments :=
+			[]*ast.Comment{
+				{
+					Text: "// +kubebuilder:object:root=true\n",
+				},
+			}
+
+		if definition.isStorageVersion {
+			comments = append(comments, &ast.Comment{
+				Text: "// +kubebuilder:storageversion\n",
+			})
+		}
+
 		resourceDeclaration := &ast.GenDecl{
 			Tok:   token.TYPE,
 			Specs: []ast.Spec{resourceTypeSpec},
-			Doc: &ast.CommentGroup{
-				List: []*ast.Comment{
-					{
-						Text: "// +kubebuilder:object:root=true\n",
-					},
-				},
-			},
+			Doc:   &ast.CommentGroup{List: comments},
 		}
 
 		declarations = append(declarations, resourceDeclaration)
