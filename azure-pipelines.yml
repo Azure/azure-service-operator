@@ -218,7 +218,7 @@ steps:
         imagename="$(PIPELINE_CONTAINER_REGISTRY_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
         echo $imagename
         kubectl apply -f ./charts/azure-service-operator/crds/
-        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz -n azureoperator-system --create-namespace \
+        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz -n $(OPERATOR_NAMESPACE) --create-namespace \
             --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
             --set azureTenantID=$(AZURE_TENANT_ID) \
             --set azureClientID=$(AZURE_CLIENT_ID) \
@@ -242,8 +242,9 @@ steps:
       inlineScript: |
         echo "Chosen AKS Cluster name"
         echo $(chosenclustername)
-        az aks get-credentials -g $(AKS_CLUSTER_RG) -n $(chosenclustername)
         kubectl delete -f ./charts/azure-service-operator/crds/
+        helm list -n $(OPERATOR_NAMESPACE)
+        helm delete aso -n $(OPERATOR_NAMESPACE)
         # Set tags to available for the selected cluster to put it back into the free pool
         echo "Setting tags back to free"
         az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
