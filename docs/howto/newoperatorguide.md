@@ -329,13 +329,13 @@ go build -o bin/manager main.go
     Run:
     ```
     make helm-chart-manifests
-    make delete-helm-gen-manifests
     ```
 
-    This will generate the manifests into the Helm Chart directory, and repackage them into a new Helm Chart tar.gz file. Add the newly modified files to the PR, which should be the following:
+    This will generate the manifests into the Helm Chart directory, and repackage them into a new Helm Chart tar.gz file. Add the newly modified files to the PR with `git add charts`, which should be the following:
     ```
     charts/azure-service-operator-0.1.0.tgz
     charts/index.yaml
+    charts/azure-service-operator/crds/<your new crd>
     ```
 
 13. Finally, make sure you add documentation for your operator under `/docs/services`.

@@ -69,30 +69,45 @@ azureOperatorKeyvault: OperatorSecretKeyVault
 
 ### Install Chart
 
-If you are deploying into an already created namespace, be sure to set the following variable to false:
+#### Pre-Install
+
+Prior to installing the Helm Chart, we recommend updating your CRDs, as Helm will not remove or update them if they already exist on the cluster.
+
+##### Default Namespace
+
+If you do not need a custom namespace, run the command below to update your CRDs:
 ```
-createNamespace: False
+kubectl apply -f ./charts/azure-service-operator/crds/
 ```
 
-and specify the namespace name:
+##### Custom Namespace
+
+If installing to a custom namespace, some additional variable replacement will need to be done on the CRDs. Run the command below, replacing `your-namespace` with the desired custom namespace:
 ```
-namespace: your-namespace
+NAMESPACE=your-namespace
+find ./charts/azure-service-operator/crds/ -type f -exec perl -pi -e s,azureoperator-system,$NAMESPACE,g {} \;
 ```
+
+Then, apply the CRDs:
+```
+kubectl apply -f ./charts/azure-service-operator/crds/
+```
+
+#### Install
 
 Finally, install the chart with your added values. The chart can be installed by using a values file or environment variables.
 ```
-helm upgrade --install aso azureserviceoperator/azure-service-operator -f values.yaml
+helm upgrade --install aso azureserviceoperator/azure-service-operator -n azureoperator-system --create-namespace -f values.yaml
 ```
 
 ```
-helm upgrade --install aso azureserviceoperator/azure-service-operator \
+helm upgrade --install aso azureserviceoperator/azure-service-operator -n azureoperator-system --create-namespace \
     --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
     --set azureTenantID=$AZURE_TENANT_ID \
     --set azureClientID=$AZURE_CLIENT_ID \
     --set azureClientSecret=$AZURE_CLIENT_SECRET \
     --set azureUseMI=$AZURE_USE_MI \
-    --set azureOperatorKeyvault=$AZURE_OPERATOR_KEYVAULT \
-    --set createNamespace=False
+    --set azureOperatorKeyvault=$AZURE_OPERATOR_KEYVAULT
 ```
 
 ## Configuration
@@ -109,7 +124,5 @@ The following table lists the configurable parameters of the azure-service-opera
 | `azureOperatorKeyvault`  | Set this value with the name of your Azure Key Vault resource if you prefer to store secrets in Key Vault rather than as Kubernetes secrets (default) | `` |
 | `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azure-service-operator:0.0.20258` |
 | `cloudEnvironment`  | Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud | `AzurePublicCloud` |
-| `createNamespace`  | Set to True if you would like the namespace autocreated, otherwise False if you have an existing namespace. If using an existing namespace, the `namespace` field must also be updated | `True` |
-| `namespace`  | Configure a custom namespace to deploy the operator into | `azureoperator-system` |
 | `aad-pod-identity.azureIdentity.resourceID`  | The resource ID for your managed identity | `` |
 | `aad-pod-identity.azureIdentity.clientID`  | The client ID for your managed identity | `` |

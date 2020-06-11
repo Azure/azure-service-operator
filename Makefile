@@ -149,17 +149,29 @@ validate-cainjection-files:
 	@./scripts/validate-cainjection-files.sh
 
 # Generate manifests for helm and package them up
-helm-chart-manifests: manifests
-	mkdir charts/azure-service-operator/templates/generated
-	kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
-	rm charts/azure-service-operator/templates/generated/~g_v1_namespace_azureoperator-system.yaml
-	sed -i '' -e 's@controller:latest@{{ .Values.image.repository }}@' ./charts/azure-service-operator/templates/generated/apps_v1_deployment_azureoperator-controller-manager.yaml
-	find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' -e 's@namespace: azureoperator-system@namespace: {{ .Values.namespace }}@' {} \;
-	helm package ./charts/azure-service-operator -d ./charts
-	helm repo index ./charts
-
-delete-helm-gen-manifests:
+helm-chart-manifests: generate
+	# remove generated files
 	rm -rf charts/azure-service-operator/templates/generated/
+	rm -rf charts/azure-service-operator/crds
+	# create directory for generated files
+	mkdir charts/azure-service-operator/templates/generated
+	mkdir charts/azure-service-operator/crds
+	# generate files using kustomize
+	kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
+	# move CRD definitions to crd folder
+	find ./charts/azure-service-operator/templates/generated/*_customresourcedefinition_* -exec mv '{}' ./charts/azure-service-operator/crds \;
+	# remove namespace as we will let Helm manage it
+	rm charts/azure-service-operator/templates/generated/*_namespace_*
+	# replace hard coded ASO image with Helm templating
+	perl -pi -e s,controller:latest,"{{ .Values.image.repository }}",g ./charts/azure-service-operator/templates/generated/*_deployment_*
+	# replace hard coded namespace with Helm templating
+	find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,"{{ .Release.Namespace }}",g {} \;
+	# create unique names so each instance of the operator has its own role binding 
+	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec perl -pi -e 's/$$/-{{ .Release.Namespace }}/ if /name: azure/' {} \;
+	# package the necessary files into a tar file
+	helm package ./charts/azure-service-operator -d ./charts
+	# update Chart.yaml for Helm Repository
+	helm repo index ./charts
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen
