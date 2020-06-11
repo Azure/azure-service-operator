@@ -258,7 +258,8 @@ steps:
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        make delete
+        kubectl delete -f ./charts/azure-service-operator/crds/
+        helm list
         helm delete aso
         echo "Chosen AKS Cluster name"
         echo $(chosenclustername)
@@ -266,7 +267,7 @@ steps:
         echo "Setting tags back to free"
         az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
       workingDirectory: '$(System.DefaultWorkingDirectory)'
-      failOnStandardError: true
+      failOnStandardError: false
     displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
 
   - task: Docker@2
