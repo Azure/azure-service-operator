@@ -106,6 +106,7 @@ steps:
       make install
       export TEST_APIM_RG=$(TEST_APIM_RG)
       export TEST_APIM_NAME=$(TEST_APIM_NAME)
+      export BUILD_TAGS=resourcegroup
       make test-integration-controllers
     displayName: Run tests on a Kind Cluster
     continueOnError: 'false'
