@@ -250,7 +250,7 @@ func InstantiateVault(ctx context.Context, vaultName string, containsUpdate bool
 }
 
 // CreateVault creates a new key vault
-func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, sku azurev1alpha1.KeyVaultSku, tags map[string]*string) (keyvault.Vault, error) {
+func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alpha1.KeyVault, sku azurev1alpha1.KeyVaultSku, tags map[string]*string, exists bool) (keyvault.Vault, error) {
 	vaultName := instance.Name
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
@@ -290,16 +290,21 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 		keyVaultSku.Name = keyvault.Premium
 	}
 
+	pols := []keyvault.AccessPolicyEntry{}
 	params := keyvault.VaultCreateOrUpdateParameters{
 		Properties: &keyvault.VaultProperties{
 			TenantID:         &id,
-			AccessPolicies:   &accessPolicies,
+			AccessPolicies:   &pols,
 			Sku:              &keyVaultSku,
 			NetworkAcls:      &networkAcls,
 			EnableSoftDelete: &enableSoftDelete,
 		},
 		Location: to.StringPtr(location),
 		Tags:     tags,
+	}
+
+	if exists {
+		params.Properties.AccessPolicies = &accessPolicies
 	}
 
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
@@ -393,11 +398,12 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 	instance.Status.Provisioning = true
 	instance.Status.FailedProvisioning = false
-
+	exists := false
 	// Check if this KeyVault already exists and its state if it does.
 
 	keyvault, err := k.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
+		exists = true
 		if instance.Status.SpecHash == hash {
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.Provisioned = true
@@ -408,6 +414,7 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 		instance.Status.SpecHash = hash
 		instance.Status.ContainsUpdate = true
+
 	}
 
 	keyvault, err = k.CreateVault(
@@ -415,65 +422,74 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		instance,
 		instance.Spec.Sku,
 		labels,
+		exists,
 	)
-
 	if err != nil {
-		// let the user know what happened
-		instance.Status.Message = err.Error()
-		instance.Status.Provisioning = false
-		// errors we expect might happen that we are ok with waiting for
-		catch := []string{
-			errhelp.ResourceGroupNotFoundErrorCode,
-			errhelp.ParentNotFoundErrorCode,
-			errhelp.NotFoundErrorCode,
-			errhelp.AsyncOpIncompleteError,
-		}
-
-		catchUnrecoverableErrors := []string{
-			errhelp.AccountNameInvalid,
-			errhelp.AlreadyExists,
-			errhelp.InvalidAccessPolicy,
-			errhelp.BadRequest,
-			errhelp.LocationNotAvailableForResourceType,
-		}
-
-		azerr := errhelp.NewAzureErrorAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
-			// most of these error technically mean the resource is actually not provisioning
-			switch azerr.Type {
-			case errhelp.AsyncOpIncompleteError:
-				instance.Status.Provisioning = true
-			}
-			// reconciliation is not done but error is acceptable
+		done, err := HandleCreationError(instance, err)
+		if done && exists {
+			instance.Status.Message = "key vault created but access policies failed: " + instance.Status.Message
 			return false, nil
 		}
-		if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
-			// Unrecoverable error, so stop reconcilation
-			switch azerr.Type {
-			case errhelp.AlreadyExists:
-				timeNow := metav1.NewTime(time.Now())
-				if timeNow.Sub(instance.Status.RequestedAt.Time) < (30 * time.Second) {
-					instance.Status.Provisioning = true
-					return false, nil
-				}
 
-			}
-			instance.Status.Message = "Reconcilation hit unrecoverable error " + err.Error()
-			return true, nil
-		}
-		// reconciliation not done and we don't know what happened
-		return false, err
-
+		return done, err
 	}
-	instance.Status.ContainsUpdate = false
-	instance.Status.State = keyvault.Status
 
+	instance.Status.State = keyvault.Status
+	instance.Status.ResourceId = *keyvault.ID
+	instance.Status.ContainsUpdate = false
 	instance.Status.Provisioned = true
 	instance.Status.Provisioning = false
 	instance.Status.Message = resourcemanager.SuccessMsg
-	instance.Status.ResourceId = *keyvault.ID
 
 	return true, nil
+}
+
+func HandleCreationError(instance *v1alpha1.KeyVault, err error) (bool, error) {
+	// let the user know what happened
+	instance.Status.Message = err.Error()
+	instance.Status.Provisioning = false
+	// errors we expect might happen that we are ok with waiting for
+	catch := []string{
+		errhelp.ResourceGroupNotFoundErrorCode,
+		errhelp.ParentNotFoundErrorCode,
+		errhelp.NotFoundErrorCode,
+		errhelp.AsyncOpIncompleteError,
+	}
+
+	catchUnrecoverableErrors := []string{
+		errhelp.AccountNameInvalid,
+		errhelp.AlreadyExists,
+		errhelp.InvalidAccessPolicy,
+		errhelp.BadRequest,
+		errhelp.LocationNotAvailableForResourceType,
+	}
+
+	azerr := errhelp.NewAzureErrorAzureError(err)
+	if helpers.ContainsString(catch, azerr.Type) {
+		// most of these error technically mean the resource is actually not provisioning
+		switch azerr.Type {
+		case errhelp.AsyncOpIncompleteError:
+			instance.Status.Provisioning = true
+		}
+		// reconciliation is not done but error is acceptable
+		return false, nil
+	}
+	if helpers.ContainsString(catchUnrecoverableErrors, azerr.Type) {
+		// Unrecoverable error, so stop reconcilation
+		switch azerr.Type {
+		case errhelp.AlreadyExists:
+			timeNow := metav1.NewTime(time.Now())
+			if timeNow.Sub(instance.Status.RequestedAt.Time) < (30 * time.Second) {
+				instance.Status.Provisioning = true
+				return false, nil
+			}
+
+		}
+		instance.Status.Message = "Reconcilation hit unrecoverable error " + err.Error()
+		return true, nil
+	}
+	// reconciliation not done and we don't know what happened
+	return false, err
 }
 
 func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
