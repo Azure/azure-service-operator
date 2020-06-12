@@ -78,8 +78,6 @@ steps:
         os=$(go env GOOS)
         arch=$(go env GOARCH)
         curl -sL https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
-        #mv $(go env GOPATH)/bin/kubebuilder_2.3.1_${os}_${arch} /usr/local/kubebuilder
-        #export PATH=$PATH:/usr/local/kubebuilder/bin
         export PATH=$PATH:$(go env path)/bin
         echo '##vso[task.prependpath]$(go env path)/bin'
         # download kustomize
@@ -184,7 +182,7 @@ steps:
         echo "##vso[task.setvariable variable=chosenclustername]$clustername"
         echo 'az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername'
         az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername
-        # Set tags to not available for the selected cluster so it doesn't get used
+        # Set tags to not available for the selected cluster so it doesn't get used in another run
         az resource tag --tags 'freeforpipeline=false' -g $(AKS_CLUSTER_RG) -n $clustername --resource-type Microsoft.ContainerService/managedClusters
       workingDirectory: '$(System.DefaultWorkingDirectory)'
       failOnStandardError: true
@@ -206,24 +204,7 @@ steps:
       img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
       echo $img
       sed -i -e 's@azure-service-operator:latest@azureserviceoperator:'${img}'@' charts/azure-service-operator/values.yaml
-      # create directory for generated files
-      mkdir charts/azure-service-operator/templates/generated
-      # generate files using kustomize
-      which kustomize
-      kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
-      # remove namespace, as we need to wrap it in a conditional since Helm 3 does not autocreate them
-      rm charts/azure-service-operator/templates/generated/~g_v1_namespace_azureoperator-system.yaml
-      # replace hard coded ASO image with Helm templating
-      sed -i -e 's/controller:latest/{{ .Values.image.repository }}/' ./charts/azure-service-operator/templates/generated/*_deployment_*
-      # replace hard coded namespace with Helm templating
-      find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' -e 's@namespace: azureoperator-system@namespace: {{ .Release.Namespace }}@' {} \;
-      # package the necessary files into a tar file
-      helm package ./charts/azure-service-operator -d ./charts
-      # update Chart.yaml for Helm Repository
-      helm repo index ./charts
-      # remove directory containing generated manifests for Helm Chart
-      #rm -rf charts/azure-service-operator/templates/generated/
-    displayName: Deploy to AKS - Helm generate and package charts
+    displayName: Deploy to AKS - Replace image in values.yaml
 
   - task: Bash@3
     displayName: Deploy to AKS - Helm Deploy
@@ -233,8 +214,10 @@ steps:
         kubectl delete namespace $(OPERATOR_NAMESPACE)
         imagename="$(PIPELINE_CONTAINER_REGISTRY_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
         echo $imagename
-        make install
-        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz -n azureoperator-system --create-namespace \
+        # Apply CRDs as Helm 3 does not install CRDs for Helm upgrade
+        kubectl apply -f ./charts/azure-service-operator/crds/
+        # Deploy using Helm
+        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz -n $(OPERATOR_NAMESPACE) --create-namespace \
             --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
             --set azureTenantID=$(AZURE_TENANT_ID) \
             --set azureClientID=$(AZURE_CLIENT_ID) \
@@ -244,6 +227,7 @@ steps:
             --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$(ASO-DEVOPS-MI)" \
             --set aad-pod-identity.azureIdentity.clientID=$(POD-IDENTITY-CLIENTID) \
             --set image.repository=$imagename 
+        # Verify namespace and pods
         kubectl get namespace
         kubectl get pods -n $(OPERATOR_NAMESPACE)
         kubectl describe pods -n $(OPERATOR_NAMESPACE)
@@ -258,6 +242,11 @@ steps:
       inlineScript: |
         echo "Chosen AKS Cluster name"
         echo $(chosenclustername)
+        # Delete CRDs to clean up cluster
+        kubectl delete -f ./charts/azure-service-operator/crds/
+        # Remove Helm deployment
+        helm list -n $(OPERATOR_NAMESPACE)
+        helm delete aso -n $(OPERATOR_NAMESPACE)
         # Set tags to available for the selected cluster to put it back into the free pool
         echo "Setting tags back to free"
         az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
