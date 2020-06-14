@@ -61,7 +61,6 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			instance.Status.Provisioning = true
 		}
 		instance.Status.ResourceId = *item.ID
-		instance.Status.Provisioning = false
 		return true, nil
 	}
 	future, err := g.CreateVirtualMachine(
