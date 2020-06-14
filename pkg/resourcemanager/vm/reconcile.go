@@ -52,10 +52,16 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 	// to overcome the issue with the lack of idempotence of the Create call
 	item, err := g.GetVirtualMachine(ctx, resourceGroup, resourceName)
 	if err == nil {
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		instance.Status.Message = resourcemanager.SuccessMsg
+		if *item.ProvisioningState == "Succeeded" {
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			instance.Status.Message = resourcemanager.SuccessMsg
+		} else {
+			instance.Status.Provisioned = false
+			instance.Status.Provisioning = true
+		}
 		instance.Status.ResourceId = *item.ID
+		instance.Status.Provisioning = false
 		return true, nil
 	}
 	future, err := g.CreateVirtualMachine(
