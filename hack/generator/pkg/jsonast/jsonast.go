@@ -8,7 +8,6 @@ package jsonast
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"net/url"
 	"regexp"
 	"strings"
@@ -16,6 +15,7 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"github.com/devigned/tab"
 	"github.com/xeipuuv/gojsonschema"
 )
@@ -109,6 +109,10 @@ func (scanner *SchemaScanner) AddTypeHandler(schemaType SchemaType, handler Type
 
 // RunHandler triggers the appropriate handler for the specified schemaType
 func (scanner *SchemaScanner) RunHandler(ctx context.Context, schemaType SchemaType, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
+	if ctx.Err() != nil { // check for cancellation
+		return nil, ctx.Err()
+	}
+
 	handler := scanner.TypeHandlers[schemaType]
 	return handler(ctx, scanner, schema)
 }

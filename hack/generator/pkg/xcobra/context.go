@@ -43,8 +43,10 @@ func RunWithCtx(run func(ctx context.Context, cmd *cobra.Command, args []string)
 	signal.Notify(signalChan, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
-		<-signalChan
-		cancel()
+		if sig, ok := <-signalChan; ok {
+			fmt.Fprintf(os.Stderr, "Received %v, cancelling...\n", sig)
+			cancel()
+		}
 	}()
 
 	return func(cmd *cobra.Command, args []string) {
