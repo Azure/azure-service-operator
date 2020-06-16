@@ -21,6 +21,7 @@ import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
+	"github.com/xeipuuv/gojsonreference"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
 
@@ -300,11 +301,55 @@ func (fs *cancellableFileSystem) Open(source string) (http.File, error) {
 	return os.Open(source)
 }
 
+type cancellableJSONLoaderFactory struct {
+	ctx   context.Context
+	inner gojsonschema.JSONLoaderFactory
+}
+
+var _ gojsonschema.JSONLoaderFactory = &cancellableJSONLoaderFactory{}
+
+func (factory *cancellableJSONLoaderFactory) New(source string) gojsonschema.JSONLoader {
+	return &cancellableJSONLoader{factory.ctx, factory.inner.New(source)}
+}
+
+type cancellableJSONLoader struct {
+	ctx   context.Context
+	inner gojsonschema.JSONLoader
+}
+
+var _ gojsonschema.JSONLoader = &cancellableJSONLoader{}
+
+func (loader *cancellableJSONLoader) LoadJSON() (interface{}, error) {
+	if loader.ctx.Err() != nil { // check for cancellation
+		return nil, loader.ctx.Err()
+	}
+
+	return loader.inner.LoadJSON()
+}
+
+func (loader *cancellableJSONLoader) JsonSource() interface{} {
+	return loader.inner.JsonSource()
+}
+
+func (loader *cancellableJSONLoader) JsonReference() (gojsonreference.JsonReference, error) {
+	if loader.ctx.Err() != nil { // check for cancellation
+		return gojsonreference.JsonReference{}, loader.ctx.Err()
+	}
+
+	return loader.inner.JsonReference()
+}
+
+func (loader *cancellableJSONLoader) LoaderFactory() gojsonschema.JSONLoaderFactory {
+	return &cancellableJSONLoaderFactory{loader.ctx, loader.inner.LoaderFactory()}
+}
+
 func loadSchema(ctx context.Context, source string) (*gojsonschema.Schema, error) {
 	sl := gojsonschema.NewSchemaLoader()
-	// note that we "configure" the DefaultClient in gen.go to cancel HTTP calls
-	// the cancellableFS here only handles actual FS calls
-	loader := gojsonschema.NewReferenceLoaderFileSystem(source, &cancellableFileSystem{ctx})
+	loader := &cancellableJSONLoader{
+		ctx,
+		gojsonschema.NewReferenceLoaderFileSystem(source, &cancellableFileSystem{ctx}),
+	}
+
 	schema, err := sl.Compile(loader)
 	if err != nil {
 		return nil, fmt.Errorf("error loading schema from '%v' (%w)", source, err)
