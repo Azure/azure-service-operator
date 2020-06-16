@@ -106,7 +106,7 @@ func (h *Helper) Patch(ctx context.Context, resource runtime.Object) error {
 	if ok {
 		hasStatus = true
 		// if the resource contains a status remove it from our unstructured copy
-		// to avoid uneccsary patching.
+		// to avoid unnecessary patching.
 		unstructured.RemoveNestedField(after, "status")
 	}
 

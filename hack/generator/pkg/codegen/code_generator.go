@@ -22,6 +22,7 @@ import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 	"github.com/xeipuuv/gojsonreference"
+	"github.com/bmatcuk/doublestar"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
 
@@ -52,17 +53,17 @@ func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
 }
 
 // Generate produces the Go code corresponding to the configured JSON schema in the given output folder
-func (generator *CodeGenerator) Generate(ctx context.Context, outputFolder string) error {
+func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.V(0).Infof("Loading JSON schema %v", generator.configuration.SchemaURL)
 	schema, err := loadSchema(ctx, generator.configuration.SchemaURL)
 	if err != nil {
 		return fmt.Errorf("error loading schema from '%v' (%w)", generator.configuration.SchemaURL, err)
 	}
 
-	klog.V(0).Infof("Cleaning output folder '%v'", outputFolder)
-	err = deleteGeneratedCodeFromFolder(ctx, outputFolder)
+	klog.V(0).Infof("Cleaning output folder '%v'", generator.configuration.OutputPath)
+	err = deleteGeneratedCodeFromFolder(ctx, generator.configuration.OutputPath)
 	if err != nil {
-		return fmt.Errorf("error cleaning output folder '%v' (%w)", outputFolder, err)
+		return fmt.Errorf("error cleaning output folder '%v' (%w)", generator.configuration.OutputPath, err)
 	}
 
 	scanner := jsonast.NewSchemaScanner(astmodel.NewIdentifierFactory(), generator.configuration)
@@ -93,14 +94,14 @@ func (generator *CodeGenerator) Generate(ctx context.Context, outputFolder strin
 	definitionCount := 0
 
 	// emit each package
-	klog.V(0).Infof("Writing output files into %v", outputFolder)
+	klog.V(0).Infof("Writing output files into %v", generator.configuration.OutputPath)
 	for _, pkg := range packages {
 		if ctx.Err() != nil { // check for cancellation
 			return ctx.Err()
 		}
 
 		// create directory if not already there
-		outputDir := filepath.Join(outputFolder, pkg.GroupName, pkg.PackageName)
+		outputDir := filepath.Join(generator.configuration.OutputPath, pkg.GroupName, pkg.PackageName)
 		if _, err := os.Stat(outputDir); os.IsNotExist(err) {
 			klog.V(5).Infof("Creating directory '%s'\n", outputDir)
 			err = os.MkdirAll(outputDir, 0700)
@@ -359,9 +360,10 @@ func loadSchema(ctx context.Context, source string) (*gojsonschema.Schema, error
 }
 
 func deleteGeneratedCodeFromFolder(ctx context.Context, outputFolder string) error {
-	globPattern := path.Join(outputFolder, "**", "*", "*"+astmodel.CodeGeneratedFileSuffix) + "*"
+	// We use doublestar here rather than filepath.Glob because filepath.Glob doesn't support **
+	globPattern := path.Join(outputFolder, "**", "*", "*"+astmodel.CodeGeneratedFileSuffix)
 
-	files, err := filepath.Glob(globPattern)
+	files, err := doublestar.Glob(globPattern)
 	if err != nil {
 		return fmt.Errorf("error globbing files with pattern '%s' (%w)", globPattern, err)
 	}
@@ -405,6 +407,7 @@ func isFileGenerated(filename string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
+	defer f.Close()
 
 	reader := bufio.NewReader(f)
 	for i := 0; i < maxLinesToCheck; i++ {
@@ -420,7 +423,6 @@ func isFileGenerated(filename string) (bool, error) {
 			return true, nil
 		}
 	}
-	defer f.Close()
 
 	return false, nil
 }

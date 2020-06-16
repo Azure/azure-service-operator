@@ -16,13 +16,15 @@ import (
 // Configuration is used to control which types get generated
 type Configuration struct {
 	// Base URL for the JSON schema to generate
-	SchemaURL string
+	SchemaURL string `yaml:"schemaUrl"`
+	// The folder where the code should be generated
+	OutputPath string `yaml:"outputPath"`
 	// Filters used to control which types are exported
-	ExportFilters []*ExportFilter
+	ExportFilters []*ExportFilter `yaml:"exportFilters"`
 	// Filters used to control which types are created from the JSON schema
-	TypeFilters []*TypeFilter
+	TypeFilters []*TypeFilter `yaml:"typeFilters"`
 	// Transformers used to remap types
-	TypeTransformers []*TypeTransformer
+	TypeTransformers []*TypeTransformer `yaml:"typeTransformers"`
 }
 
 // ShouldExportResult is returned by ShouldExport to indicate whether the supplied type should be exported
@@ -64,6 +66,11 @@ func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Config
 func (config *Configuration) Initialize() error {
 	if config.SchemaURL == "" {
 		return errors.New("SchemaURL missing")
+	}
+
+	if config.OutputPath == "" {
+		// Default to an apis folder in the current directory if not specified
+		config.OutputPath = "apis"
 	}
 
 	var errs []error

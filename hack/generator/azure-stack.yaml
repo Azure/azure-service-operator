@@ -1,5 +1,5 @@
-schemaurl: https://schema.management.azure.com/schemas/2019-03-01-hybrid/deploymentTemplate.json
-exportfilters:
+schemaUrl: https://schema.management.azure.com/schemas/2019-03-01-hybrid/deploymentTemplate.json
+exportFilters:
   - action: include
     version: 2020-*
     because: all 2020 API versions are included

@@ -1,10 +1,11 @@
-schemaurl: https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json
-typefilters:
+schemaUrl: https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json
+outputPath: apis
+typeFilters:
   - action: prune
     group: definitions
     name: Expression
     because: expression is an ARM template construct which doesn't belong in CRDs
-exportfilters:
+exportFilters:
   - action: include
     version: 2020-*
     because: all 2020 API versions are included
@@ -22,7 +23,7 @@ exportfilters:
     group: definitions
     name: ResourceBase
     because: this type is not used
-typetransformers:
+typeTransformers:
   - group: definitions
     name: NumberOrExpression
     because: NumberOrExpression is an ARM template artifact that doesn't make sense in CRDs
