@@ -308,6 +308,9 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	}
 
 	future, err := vaultsClient.CreateOrUpdate(ctx, groupName, vaultName, params)
+	if err != nil {
+		return keyvault.Vault{}, err
+	}
 
 	return future.Result(vaultsClient)
 }
@@ -387,11 +390,8 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 		return true, err
 	}
 
-	// hash the spec and set if new
+	// hash the spec
 	hash := helpers.Hash256(instance.Spec)
-	if instance.Status.SpecHash == "" {
-		instance.Status.SpecHash = hash
-	}
 
 	// convert kube labels to expected tag format
 	labels := helpers.LabelsToTags(instance.GetLabels())
@@ -400,7 +400,6 @@ func (k *azureKeyVaultManager) Ensure(ctx context.Context, obj runtime.Object, o
 	instance.Status.FailedProvisioning = false
 	exists := false
 	// Check if this KeyVault already exists and its state if it does.
-
 	keyvault, err := k.GetVault(ctx, instance.Spec.ResourceGroup, instance.Name)
 	if err == nil {
 		exists = true
