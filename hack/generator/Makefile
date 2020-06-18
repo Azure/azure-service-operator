@@ -3,6 +3,7 @@ PACKAGE         = github.com/Azure/k8s-infra/hack/generator
 DATE            ?= $(shell date +%FT%T%z)
 VERSION         ?= $(shell git rev-list -1 HEAD)
 SHORT_VERSION   ?= $(shell git rev-parse --short HEAD)
+TREE_STATE      ?= $(if $(shell git status --porcelain),dirty,clean)
 CRD_OPTIONS ?= "crd:crdVersions=v1"
 
 include ../../tools.mk
@@ -29,8 +30,8 @@ rm-apis: ; $(info $(M) removing previously generated apis…)
 	$(Q) rm -rf apis
 
 .PHONY: build
-build: tidy fmt vet lint ; $(info $(M) buiding ./bin/$(APP))
-	$(Q) $(GO)  build -ldflags "-X $(PACKAGE)/cmd.GitCommit=$(VERSION)" -o ./bin/$(APP)
+build: tidy fmt vet lint ; $(info $(M) building ./bin/$(APP))
+	$(Q) $(GO)  build -ldflags "-X $(PACKAGE)/pkg/codegen.GitCommit=$(SHORT_VERSION) -X $(PACKAGE)/pkg/codegen.GitTreeState=$(TREE_STATE)" -o ./bin/$(APP)
 
 .PHONY: lint
 lint: $(GOLANGCI_LINT) ; $(info $(M) running golangci configured linters…) ## Lint codebase

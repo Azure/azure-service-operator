@@ -21,8 +21,8 @@ import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
-	"github.com/xeipuuv/gojsonreference"
 	"github.com/bmatcuk/doublestar"
+	"github.com/xeipuuv/gojsonreference"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
 
@@ -54,6 +54,7 @@ func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
 
 // Generate produces the Go code corresponding to the configured JSON schema in the given output folder
 func (generator *CodeGenerator) Generate(ctx context.Context) error {
+	klog.V(1).Infof("Generator version: %v", combinedVersion())
 	klog.V(0).Infof("Loading JSON schema %v", generator.configuration.SchemaURL)
 	schema, err := loadSchema(ctx, generator.configuration.SchemaURL)
 	if err != nil {
@@ -137,7 +138,7 @@ func (generator *CodeGenerator) MarkLatestResourceVersionsForStorage(
 
 	for _, pkg := range pkgs {
 
-		resultPkg := astmodel.NewPackageDefinition(pkg.GroupName, pkg.PackageName)
+		resultPkg := astmodel.NewPackageDefinition(pkg.GroupName, pkg.PackageName, pkg.GeneratorVersion)
 		for _, def := range pkg.Definitions() {
 			// see if it is a resource (only struct definitions can be resources)
 			if structDef, ok := def.(*astmodel.StructDefinition); ok && structDef.IsResource() {
@@ -246,6 +247,7 @@ func (generator *CodeGenerator) FilterDefinitions(
 func (generator *CodeGenerator) CreatePackagesForDefinitions(
 	definitions []astmodel.TypeDefiner) ([]*astmodel.PackageDefinition, error) {
 
+	genVersion := combinedVersion()
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
 		defName := def.Name()
@@ -258,7 +260,7 @@ func (generator *CodeGenerator) CreatePackagesForDefinitions(
 		if pkg, ok := packages[pkgRef]; ok {
 			pkg.AddDefinition(def)
 		} else {
-			pkg = astmodel.NewPackageDefinition(groupName, pkgName)
+			pkg = astmodel.NewPackageDefinition(groupName, pkgName, genVersion)
 			pkg.AddDefinition(def)
 			packages[pkgRef] = pkg
 		}
