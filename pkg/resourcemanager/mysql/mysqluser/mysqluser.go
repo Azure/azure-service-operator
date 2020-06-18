@@ -89,7 +89,7 @@ func (s *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, data
 		if err := helpers.FindBadChars(role); err != nil {
 			return fmt.Errorf("Problem found with role: %v", err)
 		}
-		//TODO: how to use SQL injection for grant command, like CreateUser and DropUser
+		//TODO: how to use SQL parameters for grant command, like CreateUser and DropUser
 		tsql := fmt.Sprintf("GRANT %s ON `%s`.* TO '%s'", role, database, user)
 		_, err := db.ExecContext(ctx, tsql)
 		if err != nil {
