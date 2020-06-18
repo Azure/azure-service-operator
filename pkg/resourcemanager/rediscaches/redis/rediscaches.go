@@ -86,7 +86,7 @@ func (r *AzureRedisCacheManager) CreateRedisCache(
 			vnetManager := vnet.NewAzureVNetManager()
 			sid := vnet.ParseSubnetID(props.SubnetID)
 
-			ip, err = vnetManager.GetAvailableIP(ctx, instance.Spec.ResourceGroupName, sid.VNet, sid.Subnet)
+			ip, err = vnetManager.GetAvailableIP(ctx, sid.ResourceGroup, sid.VNet, sid.Subnet)
 			if err != nil {
 				return nil, err
 			}
