@@ -143,8 +143,7 @@ func (s *MySqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string
 	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("Problem found with username: %v", err)
 	}
-	tsql := "DROP USER IF EXISTS ?"
-	_, err := db.ExecContext(ctx, tsql, user)
+	_, err := db.ExecContext(ctx, "DROP USER IF EXISTS ?", user)
 	return err
 }
 
