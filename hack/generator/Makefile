@@ -4,7 +4,7 @@ DATE            ?= $(shell date +%FT%T%z)
 VERSION         ?= $(shell git rev-list -1 HEAD)
 SHORT_VERSION   ?= $(shell git rev-parse --short HEAD)
 TREE_STATE      ?= $(if $(shell git status --porcelain),dirty,clean)
-CRD_OPTIONS ?= "crd:crdVersions=v1"
+CRD_OPTIONS ?= "crd:crdVersions=v1,allowDangerousTypes=true"
 
 include ../../tools.mk
 
