@@ -150,7 +150,7 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, err
 	}
 
-	user, err = s.CreateUser(ctx, string(instance.Spec.Server), DBSecret, db)
+	user, err = s.CreateUser(ctx, DBSecret, db)
 	if err != nil {
 		instance.Status.Message = "failed creating user, err: " + err.Error()
 		return false, err
@@ -162,7 +162,7 @@ func (s *MySqlUserManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 		return false, fmt.Errorf("No roles specified for database user")
 	}
 
-	err = s.GrantUserRoles(ctx, user, string(instance.Spec.Server), string(instance.Spec.DbName), instance.Spec.Roles, db)
+	err = s.GrantUserRoles(ctx, user, string(instance.Spec.DbName), instance.Spec.Roles, db)
 	if err != nil {
 		instance.Status.Message = "GrantUserRoles failed"
 		return false, fmt.Errorf("GrantUserRoles failed")
@@ -271,7 +271,7 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 
 	user := string(userSecret[MSecretUsernameKey])
 
-	err = s.DropUser(ctx, db, user, string(instance.Spec.Server))
+	err = s.DropUser(ctx, db, user)
 	if err != nil {
 		instance.Status.Message = fmt.Sprintf("Delete MySqlUser failed with %s", err.Error())
 		return false, err
