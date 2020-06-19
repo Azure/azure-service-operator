@@ -237,6 +237,7 @@ func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 			// Best case deletion of secrets
 			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 			p.SecretClient.Delete(ctx, key, secrets.Flatten(instance.Spec.FlattenSecrets))
+			return false, nil
 		}
 	}
 
