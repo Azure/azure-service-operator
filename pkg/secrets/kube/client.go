@@ -121,7 +121,7 @@ func (k *KubeSecretClient) Get(ctx context.Context, key types.NamespacedName) (m
 	return data, nil
 }
 
-func (k *KubeSecretClient) Delete(ctx context.Context, key types.NamespacedName) error {
+func (k *KubeSecretClient) Delete(ctx context.Context, key types.NamespacedName, opts ...secrets.SecretOption) error {
 	secret := &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      key.Name,

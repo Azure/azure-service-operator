@@ -21,6 +21,7 @@ type PostgreSQLServerSpec struct {
 	CreateMode             string              `json:"createMode,omitempty"`
 	StorageProfile         *PSQLStorageProfile `json:"storageProfile,omitempty"`
 	ReplicaProperties      ReplicaProperties   `json:"replicaProperties,omitempty"`
+	FlattenSecrets         bool                `json:"flattenSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true

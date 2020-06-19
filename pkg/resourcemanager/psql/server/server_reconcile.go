@@ -15,6 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -235,8 +236,7 @@ func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 		if status != "InProgress" {
 			// Best case deletion of secrets
 			key := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
-			p.SecretClient.Delete(ctx, key)
-			return false, nil
+			p.SecretClient.Delete(ctx, key, secrets.Flatten(instance.Spec.FlattenSecrets))
 		}
 	}
 

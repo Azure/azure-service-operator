@@ -15,7 +15,7 @@ import (
 type SecretClient interface {
 	Create(ctx context.Context, key types.NamespacedName, data map[string][]byte, opts ...SecretOption) error
 	Upsert(ctx context.Context, key types.NamespacedName, data map[string][]byte, opts ...SecretOption) error
-	Delete(ctx context.Context, key types.NamespacedName) error
+	Delete(ctx context.Context, key types.NamespacedName, opts ...SecretOption) error
 	Get(ctx context.Context, key types.NamespacedName) (map[string][]byte, error)
 }
 

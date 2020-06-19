@@ -202,6 +202,7 @@ func (p *PSQLServerClient) AddServerCredsToSecrets(ctx context.Context, secretNa
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(p.Scheme),
+		secrets.Flatten(instance.Spec.FlattenSecrets),
 	)
 	if err != nil {
 		return err
@@ -223,6 +224,7 @@ func (p *PSQLServerClient) UpdateSecretWithFullServerName(ctx context.Context, s
 		data,
 		secrets.WithOwner(instance),
 		secrets.WithScheme(p.Scheme),
+		secrets.Flatten(instance.Spec.FlattenSecrets),
 	)
 	if err != nil {
 		return err
