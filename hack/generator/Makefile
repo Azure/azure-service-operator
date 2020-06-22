@@ -12,7 +12,7 @@ V = 0
 Q = $(if $(filter 1,$V),,@)
 
 .PHONY: all
-all: build test
+all: header-check build test
 
 .PHONY: manifests
 manifests: $(CONTROLLER_GEN)

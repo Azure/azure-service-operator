@@ -1,6 +1,7 @@
 # Directories.
 ROOT_DIR        :=$(shell git rev-parse --show-toplevel)
 TOOLS_DIR       = $(abspath $(ROOT_DIR)/hack/tools)
+SCRIPTS_DIR     = $(abspath $(ROOT_DIR)/scripts)
 TOOLS_BIN_DIR   = $(TOOLS_DIR)/bin
 
 GO_INSTALL      = $(abspath $(ROOT_DIR)/scripts/go_install.sh)
@@ -39,6 +40,9 @@ $(GOLANGCI_LINT): ## Build golangci-lint from tools folder.
 	echo $(ROOT_DIR)
 	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) github.com/golangci/golangci-lint/cmd/golangci-lint@v1.26.0
 
+.PHONY: header-check
+header-check: ## Runs header checks on all files to verify boilerplate
+	$(SCRIPTS_DIR)/verify_boilerplate.sh
 
 # TODO: are these used?
 $(GOLINT): ## Build golint

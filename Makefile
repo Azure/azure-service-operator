@@ -73,10 +73,6 @@ fmt: ## Run go fmt against code
 vet: ## Run go vet against code
 	$(GO) vet ./...
 
-.PHONY: header-check
-header-check: ## Runs header checks on all files to verify boilerplate
-	./scripts/verify_boilerplate.sh
-
 .PHONY: tidy
 tidy: ## Runs go mod to ensure tidy.
 	$(GO) mod tidy
