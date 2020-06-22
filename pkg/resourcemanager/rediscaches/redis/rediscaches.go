@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/vnet"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 	"k8s.io/apimachinery/pkg/runtime"
 )
@@ -131,10 +132,16 @@ func (r *AzureRedisCacheManager) GetRedisCache(ctx context.Context, groupName st
 }
 
 // DeleteRedisCache removes the resource group named by env var
-func (r *AzureRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result redis.DeleteFuture, err error) {
+func (r *AzureRedisCacheManager) DeleteRedisCache(ctx context.Context, groupName string, redisCacheName string) (result autorest.Response, err error) {
 	redisClient, err := r.GetRedisCacheClient()
 	if err != nil {
 		return result, err
 	}
-	return redisClient.Delete(ctx, groupName, redisCacheName)
+	future, err := redisClient.Delete(ctx, groupName, redisCacheName)
+	if err != nil {
+		return result, err
+	}
+
+	return future.Result(redisClient)
+
 }
