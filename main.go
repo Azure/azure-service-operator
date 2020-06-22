@@ -9,8 +9,6 @@ import (
 
 	"k8s.io/apimachinery/pkg/runtime"
 
-	"github.com/Azure/go-autorest/autorest/azure/auth"
-
 	"github.com/Azure/azure-service-operator/controllers"
 
 	kscheme "k8s.io/client-go/kubernetes/scheme"
@@ -37,6 +35,7 @@ import (
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
@@ -201,13 +200,13 @@ func main() {
 	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
 
 	var AzureHealthCheck healthz.Checker = func(_ *http.Request) error {
-		_, err := auth.NewAuthorizerFromEnvironment()
+		_, err := iam.GetResourceManagementAuthorizer()
 		if err != nil {
 			return err
 		}
-
 		return nil
 	}
+
 	if err := mgr.AddHealthzCheck("azurehealthz", AzureHealthCheck); err != nil {
 		setupLog.Error(err, "problem running health check to azure autorizer")
 	}
