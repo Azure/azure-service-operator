@@ -261,14 +261,6 @@ func (k *KeyvaultSecretClient) Upsert(ctx context.Context, key types.NamespacedN
 		SecretAttributes: &secretAttributes,
 	}
 
-	/*if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
-		// If secret exists we delete it and recreate it again
-		_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretBaseName)
-		if err != nil {
-			return fmt.Errorf("Upsert failed: Trying to delete existing secret failed with %v", err)
-		}
-	}*/
-
 	_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secretParams)
 
 	return err
@@ -298,11 +290,8 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 	}
 
 	stringSecret := *result.Value
-	jsonErr := json.Unmarshal([]byte(stringSecret), &data)
-	if jsonErr != nil {
-		// return fmt.Errorf("secret improperly formatted: %v", jsonErr)
-		// this is fine, no fields means this is a flat secret
-	}
+	// ignore the error here as it generally means the value is not json and therefore cannot be traversed for additional deletions
+	_ = json.Unmarshal([]byte(stringSecret), &data)
 
 	_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
 	if err != nil {
