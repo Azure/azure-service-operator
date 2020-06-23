@@ -8,7 +8,7 @@
 2. [Developing](development.md)
     Find useful information for running the operator locally.
 
-3. [Testing](test.md)
+3. [Testing](testing.md)
    Find information about how to run and author tests.
 
 4. [Deploying](deploy.md)
