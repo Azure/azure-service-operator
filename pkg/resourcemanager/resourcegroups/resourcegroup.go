@@ -26,6 +26,7 @@ func getGroupsClient() (resources.GroupsClient, error) {
 	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	fmt.Println("*******")
 	fmt.Println(config.ClientID())
+	fmt.Println(config.ClientSecret())
 	fmt.Println("*******")
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
