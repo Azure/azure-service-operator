@@ -122,6 +122,13 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	if instance.Status.Provisioning ||
 		(!specHashWasEmpty && instance.Status.SpecHash == hash) {
 
+		// TODO: This is a bit of a hack because really this check should be in the SDK.
+		// TODO: See: https://github.com/Azure/azure-sdk-for-go/issues/10712
+		if instance.Spec.ResourceGroup == "" {
+			instance.Status.Message = "A non-empty resource group must be specified."
+			return false, nil
+		}
+
 		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 		if err != nil {
 			azerr := errhelp.NewAzureErrorAzureError(err)

@@ -15,7 +15,7 @@ type AppInsightsSpec struct {
 	Kind                   string `json:"kind"`
 	Location               string `json:"location"`
 	ApplicationType        string `json:"applicationType"` // Possible values include 'web' or 'other'
-	ResourceGroup          string `json:"resourceGroup,omitempty"`
+	ResourceGroup          string `json:"resourceGroup"`
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
