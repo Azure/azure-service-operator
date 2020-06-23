@@ -146,17 +146,27 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 		return true, nil
 	}
 
-	req, err := rc.DeleteRedisCache(ctx, groupName, name)
+	_, err = rc.DeleteRedisCache(ctx, groupName, name)
 	if err != nil {
 		instance.Status.Message = err.Error()
+		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		if req.Response().StatusCode == http.StatusNotFound {
+		ignorableErr := []string{
+			errhelp.AsyncOpIncompleteError,
+		}
+
+		finished := []string{
+			errhelp.ResourceNotFound,
+		}
+		if helpers.ContainsString(ignorableErr, azerr.Type) {
+			return true, nil
+		}
+		if helpers.ContainsString(finished, azerr.Type) {
 			// Best case deletion of secrets
 			rc.SecretClient.Delete(ctx, key)
 			return false, nil
 		}
-
-		return true, fmt.Errorf("AzureRedisCacheManager Delete failed with %s", err)
+		return true, err
 	}
 
 	return true, nil
