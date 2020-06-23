@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
 
-	_ "github.com/go-sql-driver/mysql" //sql drive link
+	_ "github.com/go-sql-driver/mysql" //mysql drive link
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -62,7 +62,7 @@ func (s *MySqlUserManager) GetDB(ctx context.Context, resourceGroupName string, 
 // ConnectToSqlDb connects to the SQL db using the given credentials
 func (s *MySqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, fullserver string, database string, port int, user string, password string) (*sql.DB, error) {
 
-	connString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?tls=skip-verify", user, password, fullserver, port, database)
+	connString := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?tls=skip-verify&interpolateParams=true", user, password, fullserver, port, database)
 
 	db, err := sql.Open(drivername, connString)
 	if err != nil {
@@ -78,19 +78,19 @@ func (s *MySqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string
 }
 
 // GrantUserRoles grants roles to a user for a given database
-func (s *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, server string, database string, roles []string, db *sql.DB) error {
+func (s *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, database string, roles []string, db *sql.DB) error {
 	var errorStrings []string
 	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("Problem found with username: %v", err)
 	}
 
 	for _, role := range roles {
-		tsql := fmt.Sprintf("GRANT %s ON `%s`.* TO '%s'@'%s'", role, database, user, server)
 
 		if err := helpers.FindBadChars(role); err != nil {
 			return fmt.Errorf("Problem found with role: %v", err)
 		}
-
+		//TODO: how to use SQL parameters for grant command, like CreateUser and DropUser
+		tsql := fmt.Sprintf("GRANT %s ON `%s`.* TO '%s'", role, database, user)
 		_, err := db.ExecContext(ctx, tsql)
 		if err != nil {
 			errorStrings = append(errorStrings, err.Error())
@@ -104,11 +104,10 @@ func (s *MySqlUserManager) GrantUserRoles(ctx context.Context, user string, serv
 }
 
 // CreateUser creates user with secret credentials
-func (s *MySqlUserManager) CreateUser(ctx context.Context, server string, secret map[string][]byte, db *sql.DB) (string, error) {
+func (s *MySqlUserManager) CreateUser(ctx context.Context, secret map[string][]byte, db *sql.DB) (string, error) {
 	newUser := string(secret[MSecretUsernameKey])
 	newPassword := string(secret[MSecretPasswordKey])
 
-	// make an effort to prevent sql injection
 	if err := helpers.FindBadChars(newUser); err != nil {
 		return "", fmt.Errorf("Problem found with username: %v", err)
 	}
@@ -116,8 +115,8 @@ func (s *MySqlUserManager) CreateUser(ctx context.Context, server string, secret
 		return "", fmt.Errorf("Problem found with password: %v", err)
 	}
 
-	tsql := fmt.Sprintf("CREATE USER IF NOT EXISTS '%s'@'%s' IDENTIFIED BY '%s'", newUser, server, newPassword)
-	_, err := db.ExecContext(ctx, tsql)
+	tsql := "CREATE USER IF NOT EXISTS ? IDENTIFIED BY ? "
+	_, err := db.ExecContext(ctx, tsql, newUser, newPassword)
 
 	if err != nil {
 		return newUser, err
@@ -126,11 +125,9 @@ func (s *MySqlUserManager) CreateUser(ctx context.Context, server string, secret
 }
 
 // UserExists checks if db contains user
-func (s *MySqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string, server string) (bool, error) {
+func (s *MySqlUserManager) UserExists(ctx context.Context, db *sql.DB, username string) (bool, error) {
 
-	//tsql := fmt.Sprintf("SELECT * FROM mysql.user WHERE (Host = '%s') and (User = '%s')", server, username)
-
-	err := db.QueryRowContext(ctx, "SELECT * FROM mysql.user WHERE (Host = $1) and (User = $2)", server, username)
+	err := db.QueryRowContext(ctx, "SELECT * FROM mysql.user WHERE User = $1", username)
 	//err := db.ExecContext(ctx, tsql)
 
 	if err != nil {
@@ -138,18 +135,15 @@ func (s *MySqlUserManager) UserExists(ctx context.Context, db *sql.DB, username 
 	}
 	return true, nil
 
-	//rows, err := res.RowsAffected()
-	//return rows > 0, err
-
 }
 
 // DropUser drops a user from db
-func (s *MySqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string, server string) error {
-	tsql := fmt.Sprintf("DROP USER IF EXISTS '%s'@'%s'", user, server)
+func (s *MySqlUserManager) DropUser(ctx context.Context, db *sql.DB, user string) error {
+
 	if err := helpers.FindBadChars(user); err != nil {
 		return fmt.Errorf("Problem found with username: %v", err)
 	}
-	_, err := db.ExecContext(ctx, tsql)
+	_, err := db.ExecContext(ctx, "DROP USER IF EXISTS ?", user)
 	return err
 }
 
@@ -183,7 +177,6 @@ func (s *MySqlUserManager) GetOrPrepareSecret(ctx context.Context, instance *v1a
 
 	secret, err := secretClient.Get(ctx, key)
 	if err != nil {
-		// @todo: find out whether this is an error due to non existing key or failed conn
 		pw := helpers.NewPassword()
 		return map[string][]byte{
 			"username":                 []byte(""),
