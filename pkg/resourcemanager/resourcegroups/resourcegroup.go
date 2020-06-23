@@ -5,6 +5,7 @@ package resourcegroups
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strings"
 	"sync"
@@ -23,6 +24,9 @@ type AzureResourceGroupManager struct{}
 
 func getGroupsClient() (resources.GroupsClient, error) {
 	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
+	fmt.Println("*******")
+	fmt.Println(config.ClientID())
+	fmt.Println("*******")
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
 		return resources.GroupsClient{}, err
