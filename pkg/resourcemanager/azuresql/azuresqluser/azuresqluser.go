@@ -204,15 +204,17 @@ func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 
 		for _, formatName := range customFormatNames {
 			key := types.NamespacedName{Namespace: secretKey.Namespace, Name: instance.Name + "-" + formatName}
-
 			err = secretClient.Delete(
 				ctx,
 				key,
 			)
 			if err != nil {
-				instance.Status.Message = "failed to delete secret, err: " + err.Error()
-				return false, err
+				if !strings.Contains(err.Error(), "does not exist") {
+					instance.Status.Message = "failed to delete secret, err: " + err.Error()
+					return false, err
+				}
 			}
+
 		}
 	}
 

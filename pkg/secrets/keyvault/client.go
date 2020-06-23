@@ -300,7 +300,8 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 	stringSecret := *result.Value
 	jsonErr := json.Unmarshal([]byte(stringSecret), &data)
 	if jsonErr != nil {
-		return fmt.Errorf("secret improperly formatted" + jsonErr.Error())
+		// return fmt.Errorf("secret improperly formatted: %v", jsonErr)
+		// this is fine, no fields means this is a flat secret
 	}
 
 	_, err = k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)

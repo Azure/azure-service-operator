@@ -243,16 +243,18 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 			}
 		}
 
-		err = sqlUserSecretClient.Upsert(
-			ctx,
-			types.NamespacedName{Namespace: key.Namespace, Name: instance.Name},
-			formattedSecrets,
-			secrets.WithOwner(instance),
-			secrets.WithScheme(s.Scheme),
-			secrets.Flatten(true),
-		)
-		if err != nil {
-			return false, err
+		if len(formattedSecrets) > 0 {
+			err = sqlUserSecretClient.Upsert(
+				ctx,
+				types.NamespacedName{Namespace: key.Namespace, Name: instance.Name},
+				formattedSecrets,
+				secrets.WithOwner(instance),
+				secrets.WithScheme(s.Scheme),
+				secrets.Flatten(true),
+			)
+			if err != nil {
+				return false, err
+			}
 		}
 	}
 
