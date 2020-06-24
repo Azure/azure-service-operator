@@ -8,18 +8,19 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-/*Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar*/
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
+
 	// +kubebuilder:validation:Required
 	Size int `json:"size"`
 }
 
-/*Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo*/
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	Name *string `json:"name"`
 }
 
-/*Generated from: https://test.test/schemas/2020-01-01/test.json*/
+//Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	MyBool     *bool           `json:"myBool"`
 	MyString   *string         `json:"myString"`
@@ -27,9 +28,11 @@ type Test struct {
 }
 
 type TestProperties struct {
-	/*Bar: mutually exclusive with all other properties*/
+
+	//Bar: mutually exclusive with all other properties
 	Bar *Bar `json:"bar"`
-	/*Foo: mutually exclusive with all other properties*/
+
+	//Foo: mutually exclusive with all other properties
 	Foo *Foo `json:"foo"`
 }
 

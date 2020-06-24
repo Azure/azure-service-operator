@@ -8,30 +8,35 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-/*Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar*/
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
+
 	// +kubebuilder:validation:Required
 	Size int `json:"size"`
 }
 
-/*Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz*/
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
+
 	// +kubebuilder:validation:Required
 	Enabled bool `json:"enabled"`
 }
 
-/*Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo*/
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	Name *string `json:"name"`
 }
 
-/*Generated from: https://test.test/schemas/2020-01-01/test.json*/
+//Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	/*Bar: mutually exclusive with all other properties*/
+
+	//Bar: mutually exclusive with all other properties
 	Bar *Bar `json:"bar"`
-	/*Baz: mutually exclusive with all other properties*/
+
+	//Baz: mutually exclusive with all other properties
 	Baz *Baz `json:"baz"`
-	/*Foo: mutually exclusive with all other properties*/
+
+	//Foo: mutually exclusive with all other properties
 	Foo *Foo `json:"foo"`
 }
 

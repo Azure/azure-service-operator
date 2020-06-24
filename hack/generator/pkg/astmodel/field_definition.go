@@ -107,27 +107,15 @@ func (field *FieldDefinition) AsField(codeGenerationContext *CodeGenerationConte
 		},
 	}
 
-	addDocComment := func(comment string) {
-		newLine := ""
-		if result.Doc.List == nil {
-			// if first comment, add a newline
-			newLine = "\n"
-		}
-
-		result.Doc.List = append(result.Doc.List, &ast.Comment{
-			Text: newLine + comment,
-		})
-	}
-
 	// generate validation comments:
 	for _, validation := range field.validations {
 		// these are not doc comments but they must go here to be emitted before the field
-		addDocComment(GenerateKubebuilderComment(validation))
+		addDocComment(&result.Doc.List, GenerateKubebuilderComment(validation), 200)
 	}
 
 	// generate doc comment:
 	if field.description != "" {
-		addDocComment(fmt.Sprintf("/*%s: %s*/", field.fieldName, field.description))
+		addDocComment(&result.Doc.List, fmt.Sprintf("%s: %s", field.fieldName, field.description), 80)
 	}
 
 	return result

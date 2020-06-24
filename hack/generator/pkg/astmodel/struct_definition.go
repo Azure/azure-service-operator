@@ -81,8 +81,7 @@ func (definition *StructDefinition) AsDeclarations(codeGenerationContext *CodeGe
 	}
 
 	if definition.description != nil {
-		declaration.Doc.List = append(declaration.Doc.List,
-			&ast.Comment{Text: "\n/*" + *definition.description + "*/"})
+		addDocComment(&declaration.Doc.List, *definition.description, 200)
 	}
 
 	declarations := []ast.Decl{declaration}

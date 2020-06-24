@@ -8,16 +8,19 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-/*Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo*/
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo int
 
-/*Generated from: https://test.test/schemas/2020-01-01/test.json*/
+//Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	/*Bool1: mutually exclusive with all other properties*/
+
+	//Bool1: mutually exclusive with all other properties
 	Bool1 *bool `json:"bool1"`
-	/*Foo: mutually exclusive with all other properties*/
+
+	//Foo: mutually exclusive with all other properties
 	Foo *Foo `json:"foo"`
-	/*Object2: mutually exclusive with all other properties*/
+
+	//Object2: mutually exclusive with all other properties
 	Object2 *TestObject2 `json:"object2"`
 }
 

@@ -41,13 +41,8 @@ func (std *SimpleTypeDefiner) WithDescription(desc *string) TypeDefiner {
 func (std *SimpleTypeDefiner) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
 	var docComments *ast.CommentGroup
 	if std.description != nil {
-		docComments = &ast.CommentGroup{
-			List: []*ast.Comment{
-				{
-					Text: "\n/*" + *std.description + "*/",
-				},
-			},
-		}
+		docComments = &ast.CommentGroup{}
+		addDocComment(&docComments.List, *std.description, 120)
 	}
 
 	return []ast.Decl{

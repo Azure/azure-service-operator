@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"bufio"
 	"bytes"
 	"go/ast"
 	"go/format"
@@ -14,6 +15,7 @@ import (
 	"io"
 	"os"
 	"sort"
+	"strings"
 
 	"k8s.io/klog/v2"
 )
@@ -175,21 +177,24 @@ func (file FileDefinition) SaveToWriter(filename string, dst io.Writer) error {
 	fset := token.NewFileSet()
 	fset.AddFile(filename, 1, 102400)
 
-	var buffer bytes.Buffer
-	err := format.Node(&buffer, fset, original)
+	var unformattedBuffer bytes.Buffer
+	err := format.Node(&unformattedBuffer, fset, original)
 	if err != nil {
 		return err
 	}
 
-	// Parse it out of the buffer again so we can "go fmt" it
-	var toFormat ast.Node
-	toFormat, err = parser.ParseFile(fset, filename, &buffer, parser.ParseComments)
+	// This is a nasty technique with only one redeeming characteristic: It works
+	reformattedBuffer := file.addBlankLinesBeforeComments(unformattedBuffer)
+
+	// Read the source from the memory buffer (has the effect similar to 'go fmt')
+	var cleanAst ast.Node
+	cleanAst, err = parser.ParseFile(fset, filename, &reformattedBuffer, parser.ParseComments)
 	if err != nil {
 		klog.Errorf("Failed to reformat code (%s); keeping code as is.", err)
-		toFormat = original
+		cleanAst = original
 	}
 
-	return format.Node(dst, fset, toFormat)
+	return format.Node(dst, fset, cleanAst)
 }
 
 // SaveToFile writes this generated file to disk
@@ -203,4 +208,36 @@ func (file FileDefinition) SaveToFile(filePath string) error {
 	defer f.Close()
 
 	return file.SaveToWriter(filePath, f)
+}
+
+// addBlankLinesBeforeComments reads the source in the passed buffer and injects a blank line just
+// before each '//' style comment so that the comments are nicely spaced out in the generated code.
+func (file FileDefinition) addBlankLinesBeforeComments(buffer bytes.Buffer) bytes.Buffer {
+	// Read all the lines from the buffer
+	var lines []string
+	reader := bufio.NewReader(&buffer)
+	scanner := bufio.NewScanner(reader)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	isComment := func(s string) bool {
+		return strings.HasPrefix(strings.TrimSpace(s), "//")
+	}
+
+	var result bytes.Buffer
+	lastLineWasComment := false
+	for _, l := range lines {
+		// Add blank line prior to each comment block
+		if !lastLineWasComment && isComment(l) {
+			result.WriteString("\n")
+		}
+
+		result.WriteString(l)
+		result.WriteString("\n")
+
+		lastLineWasComment = isComment(l)
+	}
+
+	return result
 }
