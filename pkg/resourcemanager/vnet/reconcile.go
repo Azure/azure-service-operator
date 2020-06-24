@@ -36,7 +36,7 @@ func (g *AzureVNetManager) Ensure(ctx context.Context, obj runtime.Object, opts 
 	// 	consider the reconcilliation successful
 	vNet, err := g.GetVNet(ctx, resourceGroup, resourceName)
 	if err == nil {
-		if vNet.ProvisioningState == network.Succeeded {
+		if network.ProvisioningState(vNet.ProvisioningState) == network.Succeeded {
 			// succeeded! end reconcilliation successfully
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = true

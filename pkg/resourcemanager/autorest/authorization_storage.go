@@ -4,21 +4,22 @@
 package autorest
 
 import (
-	. "github.com/Azure/go-autorest/autorest"
 	"net/http"
 	"strings"
+
+	. "github.com/Azure/go-autorest/autorest"
 )
 
-// SharedKeyAuthorizer implements an authorization for Shared Key
+// SharedKeyAuth implements an authorization for Shared Key
 // this can be used for interaction with Blob, File and Queue Storage Endpoints
-type SharedKeyAuthorizer struct {
+type SharedKeyAuth struct {
 	storageAccountName string
 	storageAccountKey  string
 }
 
 // NewSharedKeyAuthorizer creates a SharedKeyAuthorizer using the given credentials
-func NewSharedKeyAuthorizer(accountName, accountKey string) *SharedKeyAuthorizer {
-	return &SharedKeyAuthorizer{
+func NewSharedKeyAuth(accountName, accountKey string) *SharedKeyAuth {
+	return &SharedKeyAuth{
 		storageAccountName: accountName,
 		storageAccountKey:  accountKey,
 	}
@@ -32,7 +33,7 @@ func NewSharedKeyAuthorizer(accountName, accountKey string) *SharedKeyAuthorizer
 // You may use Shared Key Lite authorization to authorize a request made against the
 // 2009-09-19 version and later of the Blob and Queue services,
 // and version 2014-02-14 and later of the File services.
-func (skl *SharedKeyAuthorizer) WithAuthorization() PrepareDecorator {
+func (skl *SharedKeyAuth) WithAuthorization() PrepareDecorator {
 	return func(p Preparer) Preparer {
 		return PreparerFunc(func(r *http.Request) (*http.Request, error) {
 			r, err := p.Prepare(r)

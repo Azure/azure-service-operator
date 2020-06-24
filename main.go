@@ -54,6 +54,7 @@ import (
 	rcfwr "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/firewallrule"
 	rediscache "github.com/Azure/azure-service-operator/pkg/resourcemanager/rediscaches/redis"
 	resourcemanagerresourcegroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/resourcegroups"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/roles"
 	blobContainerManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/blobcontainer"
 	storageaccountManager "github.com/Azure/azure-service-operator/pkg/resourcemanager/storages/storageaccount"
 	vm "github.com/Azure/azure-service-operator/pkg/resourcemanager/vm"
@@ -908,6 +909,23 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "PostgreSQLServer")
 		os.Exit(1)
 	}
+
+	if err = (&controllers.RoleAssignReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: &roles.RoleAssignManager{},
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"RoleAssign",
+				ctrl.Log.WithName("controllers").WithName("RoleAssign"),
+			),
+			Recorder: mgr.GetEventRecorderFor("RoleAssign-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "RoleAssign")
+		os.Exit(1)
+	}
+
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

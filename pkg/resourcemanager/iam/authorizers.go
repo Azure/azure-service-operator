@@ -278,7 +278,7 @@ func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience str
 func GetSharedKeyAuthorizer(accountName string, accountKey string) (authorizer autorest.Authorizer, err error) {
 	var a autorest.Authorizer
 
-	a = autorestPatch.NewSharedKeyAuthorizer(accountName, accountKey)
+	a = autorestPatch.NewSharedKeyAuth(accountName, accountKey)
 
 	return a, err
 }

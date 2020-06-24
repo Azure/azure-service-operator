@@ -1,0 +1,7 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: RoleAssign
+metadata:
+  name: roleassign-sample
+spec:
+  # Add fields here
+  foo: bar

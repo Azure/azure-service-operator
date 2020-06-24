@@ -3,13 +3,14 @@ module github.com/Azure/azure-service-operator
 go 1.13
 
 require (
-	github.com/Azure/azure-sdk-for-go v38.0.0+incompatible
-	github.com/Azure/go-autorest/autorest v0.9.0
-	github.com/Azure/go-autorest/autorest/adal v0.5.0
-	github.com/Azure/go-autorest/autorest/azure/auth v0.1.0
-	github.com/Azure/go-autorest/autorest/date v0.1.0
-	github.com/Azure/go-autorest/autorest/to v0.2.0
-	github.com/Azure/go-autorest/autorest/validation v0.1.0
+	github.com/Azure-Samples/azure-sdk-for-go-samples v0.0.0-20200605093232-8a3b76178dbc
+	github.com/Azure/azure-sdk-for-go v39.2.0+incompatible
+	github.com/Azure/go-autorest/autorest v0.9.4
+	github.com/Azure/go-autorest/autorest/adal v0.8.1
+	github.com/Azure/go-autorest/autorest/azure/auth v0.4.2
+	github.com/Azure/go-autorest/autorest/date v0.2.0
+	github.com/Azure/go-autorest/autorest/to v0.3.0
+	github.com/Azure/go-autorest/autorest/validation v0.2.0
 	github.com/Azure/go-autorest/tracing v0.5.0
 	github.com/denisenkom/go-mssqldb v0.0.0-20200206145737-bbfc9a55622e
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
