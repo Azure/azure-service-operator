@@ -39,9 +39,9 @@ For more details on the control flow of the Azure Service operator, refer to [Az
 
 ![Deploying ASO](/docs/images/asodeploy.gif)
 
-Do you want to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and start exploring? Follow these steps.
+Ready to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and start exploring? Follow these steps.
 
-1. Make sure `kubectl` is configured to connect to the Kubernetes cluster you want to deploy Azure Service Operators to.
+1. Make sure `kubectl` is configured to connect to the Kubernetes cluster you want to deploy Azure Service Operator to.
     
     To connect to an Azure Kubernetes Service cluster, you can use the below command:
 
