@@ -41,8 +41,7 @@ type EventHubStorageAccount struct {
 	// ResourceGroup - Name of the storage account resource group
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
-	// +kubebuilder:validation:Required
-	ResourceGroup string `json:"resourceGroup"`
+	ResourceGroup string `json:"resourceGroup,omitempty"`
 	// AccountName - Name of the storage account
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3

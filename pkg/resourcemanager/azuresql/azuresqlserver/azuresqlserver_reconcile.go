@@ -124,6 +124,12 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 		// TODO: This is a bit of a hack because really this check should be in the SDK.
 		// TODO: See: https://github.com/Azure/azure-sdk-for-go/issues/10712
+		// Note that this can really only happen due to bad state in etcd because the
+		// CRD for the resource requires this field. Bad state in etcd can be caused by
+		// something like conversion webhooks being disabled and using a non-storage
+		// version of the CRD. This is really just a nice-to-have error to make it clear
+		// what the problem is for that rare case, which primarily can happen while
+		// we are testing locally.
 		if instance.Spec.ResourceGroup == "" {
 			instance.Status.Message = "A non-empty resource group must be specified."
 			return false, nil
