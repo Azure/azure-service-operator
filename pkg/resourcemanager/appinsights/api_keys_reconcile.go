@@ -68,8 +68,9 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		// handle 400 errs
-		if azerr.Code == http.StatusBadRequest {
+		// handle errors
+		switch azerr.Code {
+		case http.StatusBadRequest:
 			// if the key already exists it is fine only if the secret exists
 			if strings.Contains(azerr.Type, "already exists") {
 				sKey := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
@@ -81,6 +82,8 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 			}
 			instance.Status.FailedProvisioning = true
 			return true, nil
+		case http.StatusNotFound:
+			return false, nil
 		}
 
 		return false, fmt.Errorf("api key create error %v", err)
