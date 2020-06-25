@@ -6,7 +6,6 @@ package pip
 import (
 	"context"
 
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/network/mgmt/network"
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
@@ -86,7 +85,7 @@ func (m *AzurePublicIPAddressClient) DeletePublicIPAddress(ctx context.Context, 
 
 }
 
-func (m *AzurePublicIPAddressClient) GetPublicIPAddress(ctx context.Context, resourcegroup string, publicIPAddressName string) (pip network.PublicIPAddress, err error) {
+func (m *AzurePublicIPAddressClient) GetPublicIPAddress(ctx context.Context, resourcegroup string, publicIPAddressName string) (pip vnetwork.PublicIPAddress, err error) {
 
 	client := getPublicIPAddressClient()
 

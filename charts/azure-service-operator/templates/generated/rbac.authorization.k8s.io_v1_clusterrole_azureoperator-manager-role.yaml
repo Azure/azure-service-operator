@@ -819,6 +819,26 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - roleassigns
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - roleassigns/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - storageaccounts
   verbs:
   - create

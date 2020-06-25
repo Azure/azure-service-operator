@@ -15,10 +15,9 @@ type RoleAssignSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	ResourceGroup string `json:"resourceGroup"`
-	PrincipalID   string `json:"principalId"`
-	Role          string `json:"role"`
-	Scope         string `json:"scope"`
+	PrincipalID string `json:"principalId"`
+	Role        string `json:"role"`
+	Scope       string `json:"scope"`
 }
 
 // +kubebuilder:object:root=true

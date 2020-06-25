@@ -3,5 +3,11 @@ kind: RoleAssign
 metadata:
   name: roleassign-sample
 spec:
-  # Add fields here
-  foo: bar
+  # note this is object id and not client id (app id)
+  principalId: ${OBJECT_ID}
+  # scope is the full resouce ID of the object you want to add access to
+  # this examlpe points to a resource group
+  scope: /subscriptions/${SUBSCRIPTION_ID}/resourceGroups/resourcegroup-azure-operators
+  # role can be a string representation like "Owner". tje uuid of a RoleDefinition like "acdd72a7-3385-48ef-bd42-f606fba81ae7" or a fulle resource ID
+  # like "/subscriptions/${SUBSCRIPTION_ID}/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7"
+  role: Reader

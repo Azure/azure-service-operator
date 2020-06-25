@@ -10,7 +10,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
-	autorestPatch "github.com/Azure/azure-service-operator/pkg/resourcemanager/autorest"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/adal"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
@@ -271,14 +270,4 @@ func GetResourceManagementTokenHybrid(activeDirectoryEndpoint, tokenAudience str
 		tokenAudience)
 
 	return tokenProvider, err
-}
-
-// GetSharedKeyAuthorizer gets the shared key authorizer needed for adlsgen2. Pulls in from a patch from an incoming PR to the azure autorest sdk.
-// Once that PR is merged in, we can change line 214 from autorestPatch. to autorest.
-func GetSharedKeyAuthorizer(accountName string, accountKey string) (authorizer autorest.Authorizer, err error) {
-	var a autorest.Authorizer
-
-	a = autorestPatch.NewSharedKeyAuth(accountName, accountKey)
-
-	return a, err
 }
