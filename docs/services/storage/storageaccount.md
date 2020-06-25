@@ -10,8 +10,8 @@ The spec is comprised of the following fields:
 
 * Location
 * ResourceGroup
-* Sku
-    * Name
+* SKU
+* Name
 * Kind
 * AccessTier
 * SupportsHttpsTrafficOnly
