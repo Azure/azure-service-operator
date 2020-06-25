@@ -15,19 +15,19 @@ The Azure Service Operator comprises of:
 
 The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
-For more details on the control flow of the Azure Service operator, refer to [Azure Service Operator control flow](/docs/design/controlflow.md).
+Curious to see how it all works? Check out our [control flow diagrams](/docs/design/controlflow.md).
 
 ## Supported Azure Services
 
 - [Resource Group](/docs/services/resourcegroup/resourcegroup.md)
-- [EventHub](/docs/services/eventhub/eventhub.md)
+- [Event Hubs](/docs/services/eventhub/eventhub.md)
 - [Azure SQL](/docs/services/azuresql/azuresql.md)
 - [Azure Database for PostgreSQL](/docs/services/postgresql/postgresql.md)
 - [Azure Database for MySQL](/docs/services/mysql/mysql.md)
-- [Azure Keyvault](/docs/services/keyvault/keyvault.md)
-- [Azure Rediscache](/docs/services/rediscache/rediscache.md)
+- [Azure Key Vault](/docs/services/keyvault/keyvault.md)
+- [Azure Cache for Redis](/docs/services/rediscache/rediscache.md)
 - [Storage Account](/docs/services/storage/storageaccount.md)
-- [Blob container](/docs/services/storage/blobcontainer.md)
+- [Blob Storage](/docs/services/storage/blobcontainer.md)
 - [Virtual Network](/docs/services/virtualnetwork/virtualnetwork.md)
 - [Application Insights](/docs/services/appinsights/appinsights.md)
 - [API Management](/docs/services/apimgmt/apimgmt.md)
