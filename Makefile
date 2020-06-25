@@ -19,22 +19,33 @@ TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
 # Go compiler builds tags: some parts of the test suite use these to selectively compile tests.
 BUILD_TAGS ?= all
 
-# Temp directory variable, set by environment on macOS and set to default for everything else
-TMPDIR ?= /tmp/
+ifdef TMPDIR
+TMPDIR := $(realpath ${TMPDIR})
+else
+TMPDIR := /tmp
+endif
 
 all: manager
 
 # Generate test certs for development
+generate-test-certs: CONFIGTXT := $(shell mktemp)
+generate-test-certs: WEBHOOK_DIR := $(TMPDIR)/k8s-webhook-server
+generate-test-certs: WEBHOOK_CERT_DIR := $(TMPDIR)/k8s-webhook-server/serving-certs
 generate-test-certs:
-	echo "[req]" > config.txt
-	echo "distinguished_name = req_distinguished_name" >> config.txt
-	echo "[req_distinguished_name]" >> config.txt
-	echo "[SAN]" >> config.txt
-	echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> config.txt
-	openssl req -x509 -days 730 -out tls.crt -keyout tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config config.txt -nodes
-	rm -rf $(TMPDIR)/k8s-webhook-server
-	mkdir -p $(TMPDIR)/k8s-webhook-server/serving-certs
-	mv tls.* $(TMPDIR)/k8s-webhook-server/serving-certs/
+	rm -rf $(WEBHOOK_DIR)
+	mkdir -p $(WEBHOOK_CERT_DIR)
+
+	@echo "[req]" > $(CONFIGTXT)
+	@echo "distinguished_name = req_distinguished_name" >> $(CONFIGTXT)
+	@echo "[req_distinguished_name]" >> $(CONFIGTXT)
+	@echo "[SAN]" >> $(CONFIGTXT)
+	@echo "subjectAltName=DNS:azureoperator-webhook-service.azureoperator-system.svc.cluster.local" >> $(CONFIGTXT)
+
+	@echo "OpenSSL Config:"
+	@cat $(CONFIGTXT)
+	@echo
+
+	openssl req -x509 -days 730 -out $(WEBHOOK_CERT_DIR)/tls.crt -keyout $(WEBHOOK_CERT_DIR)/tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config $(CONFIGTXT) -nodes
 
 # Run Controller tests against the configured cluster
 test-integration-controllers: generate fmt vet manifests
@@ -82,9 +93,9 @@ test-process-coverage:
 test-cleanup-azure-resources: 	
 	# Delete the resource groups that match the pattern
 	for rgname in `az group list --query "[*].[name]" -o table | grep '^${TEST_RESOURCE_PREFIX}' `; do \
-	    echo "$$rgname will be deleted"; \
-	    az group delete --name $$rgname --no-wait --yes; \
-    done
+		echo "$$rgname will be deleted"; \
+		az group delete --name $$rgname --no-wait --yes; \
+	done
 
 # Build the docker image
 docker-build:
@@ -133,18 +144,34 @@ delete:
 validate-copyright-headers:
 	@./scripts/validate-copyright-headers.sh
 
-# Generate manifests for helm and package them up
-helm-chart-manifests: manifests
-	mkdir charts/azure-service-operator/templates/generated
-	kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
-	rm charts/azure-service-operator/templates/generated/~g_v1_namespace_azureoperator-system.yaml
-	sed -i '' -e 's@controller:latest@{{ .Values.image.repository }}@' ./charts/azure-service-operator/templates/generated/apps_v1_deployment_azureoperator-controller-manager.yaml
-	find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i '' -e 's@namespace: azureoperator-system@namespace: {{ .Values.namespace }}@' {} \;
-	helm package ./charts/azure-service-operator -d ./charts
-	helm repo index ./charts
+# Validate cainjection files:
+validate-cainjection-files:
+	@./scripts/validate-cainjection-files.sh
 
-delete-helm-gen-manifests:
+# Generate manifests for helm and package them up
+helm-chart-manifests: generate
+	# remove generated files
 	rm -rf charts/azure-service-operator/templates/generated/
+	rm -rf charts/azure-service-operator/crds
+	# create directory for generated files
+	mkdir charts/azure-service-operator/templates/generated
+	mkdir charts/azure-service-operator/crds
+	# generate files using kustomize
+	kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
+	# move CRD definitions to crd folder
+	find ./charts/azure-service-operator/templates/generated/*_customresourcedefinition_* -exec mv '{}' ./charts/azure-service-operator/crds \;
+	# remove namespace as we will let Helm manage it
+	rm charts/azure-service-operator/templates/generated/*_namespace_*
+	# replace hard coded ASO image with Helm templating
+	perl -pi -e s,controller:latest,"{{ .Values.image.repository }}",g ./charts/azure-service-operator/templates/generated/*_deployment_*
+	# replace hard coded namespace with Helm templating
+	find ./charts/azure-service-operator/templates/generated/ -type f -exec perl -pi -e s,azureoperator-system,"{{ .Release.Namespace }}",g {} \;
+	# create unique names so each instance of the operator has its own role binding 
+	find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec perl -pi -e 's/$$/-{{ .Release.Namespace }}/ if /name: azure/' {} \;
+	# package the necessary files into a tar file
+	helm package ./charts/azure-service-operator -d ./charts
+	# update Chart.yaml for Helm Repository
+	helm repo index ./charts
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests: controller-gen

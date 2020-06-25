@@ -33,27 +33,27 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 		return false, err
 	}
 
-	redisName := instance.Name
+	name := types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}
 	groupName := instance.Spec.ResourceGroupName
-	name := instance.ObjectMeta.Name
-
-	if len(instance.Spec.SecretName) == 0 {
-		instance.Spec.SecretName = redisName
-	}
 
 	// if an error occurs thats ok as it means that it doesn't exist yet
-	newRc, err := rc.GetRedisCache(ctx, groupName, name)
+	newRc, err := rc.GetRedisCache(ctx, groupName, name.Name)
 	if err == nil {
 
 		// succeeded! so end reconcilliation successfully
 		if newRc.ProvisioningState == "Succeeded" {
-			err = rc.ListKeysAndCreateSecrets(groupName, redisName, instance.Spec.SecretName, instance)
+			err = rc.ListKeysAndCreateSecrets(ctx, instance)
 			if err != nil {
 				instance.Status.Message = err.Error()
 				return false, err
 			}
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.State = string(newRc.ProvisioningState)
+
+			if newRc.StaticIP != nil {
+				instance.Status.Output = *newRc.StaticIP
+			}
+
 			instance.Status.ResourceId = *newRc.ID
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
@@ -146,17 +146,27 @@ func (rc *AzureRedisCacheManager) Delete(ctx context.Context, obj runtime.Object
 		return true, nil
 	}
 
-	req, err := rc.DeleteRedisCache(ctx, groupName, name)
+	_, err = rc.DeleteRedisCache(ctx, groupName, name)
 	if err != nil {
 		instance.Status.Message = err.Error()
+		azerr := errhelp.NewAzureErrorAzureError(err)
 
-		if req.Response().StatusCode == http.StatusNotFound {
+		ignorableErr := []string{
+			errhelp.AsyncOpIncompleteError,
+		}
+
+		finished := []string{
+			errhelp.ResourceNotFound,
+		}
+		if helpers.ContainsString(ignorableErr, azerr.Type) {
+			return true, nil
+		}
+		if helpers.ContainsString(finished, azerr.Type) {
 			// Best case deletion of secrets
 			rc.SecretClient.Delete(ctx, key)
 			return false, nil
 		}
-
-		return true, fmt.Errorf("AzureRedisCacheManager Delete failed with %s", err)
+		return true, err
 	}
 
 	return true, nil

@@ -10,5 +10,5 @@ spec:
   adminUserName: azureuser
   # SSH public key to be used with VM (eg cat ~/.ssh/id_rsa.pub)
   sshPublicKeyData: "{ssh public key}"
-  networkInterfaceName: hpfnic20
+  networkInterfaceName: nic-sample-01
   platformImageURN: Canonical:UbuntuServer:16.04-LTS:latest

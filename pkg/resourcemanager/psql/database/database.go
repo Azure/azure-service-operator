@@ -19,7 +19,8 @@ func NewPSQLDatabaseClient() *PSQLDatabaseClient {
 	return &PSQLDatabaseClient{}
 }
 
-func getPSQLDatabasesClient() (psql.DatabasesClient, error) {
+//GetPSQLDatabasesClient retrieves the psqldabase
+func GetPSQLDatabasesClient() (psql.DatabasesClient, error) {
 	databasesClient := psql.NewDatabasesClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
 	if err != nil {
@@ -64,7 +65,7 @@ func (p *PSQLDatabaseClient) CheckDatabaseNameAvailability(ctx context.Context, 
 
 func (p *PSQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, databasename string, servername string, resourcegroup string) (*http.Response, error) {
 
-	client, err := getPSQLDatabasesClient()
+	client, err := GetPSQLDatabasesClient()
 	if err != nil {
 		return &http.Response{
 			StatusCode: 500,
@@ -99,7 +100,7 @@ func (p *PSQLDatabaseClient) CreateDatabaseIfValid(ctx context.Context, database
 
 func (p *PSQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename string, servername string, resourcegroup string) (status string, err error) {
 
-	client, err := getPSQLDatabasesClient()
+	client, err := GetPSQLDatabasesClient()
 	if err != nil {
 		return "", err
 	}
@@ -116,7 +117,7 @@ func (p *PSQLDatabaseClient) DeleteDatabase(ctx context.Context, databasename st
 
 func (p *PSQLDatabaseClient) GetDatabase(ctx context.Context, resourcegroup string, servername string, databasename string) (db psql.Database, err error) {
 
-	client, err := getPSQLDatabasesClient()
+	client, err := GetPSQLDatabasesClient()
 	if err != nil {
 		return psql.Database{}, err
 	}

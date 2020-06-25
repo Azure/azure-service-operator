@@ -2,7 +2,6 @@ trigger:
   branches:
     include:
     - master
-    - pipeline-updates
 
 resources:
 - repo: self
@@ -11,33 +10,50 @@ pool:
    vmImage: 'ubuntu-latest'
 
 variables:
-  imageRepository: 'manager'
-  containerRegistry: '$(CONTAINER_REGISTRY)'
   tag: '$(Build.BuildId)'
   MAJOR_VERSION: 0
   MINOR_VERSION: 1
   PATCH_VERSION: $(Build.BuildId)
-  GOROOT: '/usr/local/go1.13' # Go installation path
-  #GOPATH: '$(System.DefaultWorkingDirectory)/gopath' # Go workspace path
-  #GOBIN:  '$(GOPATH)/bin' # Go binaries path
-  MODULE_PATH: '$(System.DefaultWorkingDirectory)/src/$(Build.Repository.Name)' # Path to the module's code
   IMAGE_NAME: 'candidate/k8s/azureserviceoperator'
   ASO_HELM_CHART_NAME: 'candidate/k8s/asohelmchart'
   KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
-  # CONTAINER_REGISTRY:     - set this value in Azure Devops variables - Name of Release ACR Service Connection
-  # AZURE_SUBSCRIPTION_ID   - set this value in Azure Devops variables
-  # AZURE_TENANT_ID:        - set this value in Azure Devops variables
-  # AZURE_CLIENT_ID:        - set this value in Azure Devops variables
-  # AZURE_CLIENT_SECRET:    - set this value in Azure Devops variables
-  # OPERATOR_NAMESPACE      - set this value in Azure Devops variables
-  # REQUEUE_AFTER:          - set this value in Azure Devops variables
-  
+
+  # Set these values in Azure Devops variables 
+
+  # AKS_CLUSTER_RG: Name of Resource group where AKS clusters used for testing are present
+  # OPERATOR_NAMESPACE: Namespace in AKS cluster that operator is deployed to (Default: azureoperator-system)
+  # ASO-DEVOPS-MI: Name of Managed Identity to use to deploy the Operator as in AKS
+  # POD-IDENTITY-CLIENTID: ClientID of Managed Identity to use to deploy the Operator as in AKS
+  # AZURE_OPERATOR_KEYVAULT: Keyvault passed to Operator deployment to use for secrets
+  # AZURE_CLIENT_ID: Client ID of Service Principal used to run integration tests on Kind Cluster, login to Helm registry ACR
+  # AZURE_CLIENT_SECRET: Secret for the above Client ID
+  # AZURE_SUBSCRIPTION_ID: Subscription ID that the pipeline runs against
+  # AZURE_TENANT_ID: Tenant ID that the pipeline runs against 
+
+  # Pipeline ACR - Temporary ACR used to hold the image until AKS deploy testing is done.
+  # Release ACR - Only after the deploy test succeeds, the image and helm chart are pushed to the release ACR. 
+  # The release pipeline exposes the images in Release ACR through mcr.microsoft.com
+
+  # CONTAINER_REGISTRY: Service Connection Name for Release ACR.
+  # CONTAINER_REGISTRY_NAME: Name of the Release ACR.
+  # PIPELINE_CONTAINER_REGISTRY: Service Connection Name for temporary ACR used in pipeline. 
+  # PIPELINE_CONTAINER_REGISTRY_NAME: Name of the temporary ACR used in the pipeline.
+
+  # TEST_APIM_NAME: Used in integration tests - Name of the APIM service that is pre-configured.
+  # TEST_APIM_RG: Used in integration tests - Name of the resource group the pre-configured APIM service is in.
+
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
 steps:
   - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
     lfs: "true"
+    
+  - script: |
+      make validate-copyright-headers
+      make validate-cainjection-files
+    displayName: 'Validate Source'
+    continueOnError: 'false'
 
   - task: GoTool@0
     displayName: Get Go 1.13.7
@@ -62,8 +78,6 @@ steps:
         os=$(go env GOOS)
         arch=$(go env GOARCH)
         curl -sL https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
-        #mv $(go env GOPATH)/bin/kubebuilder_2.3.1_${os}_${arch} /usr/local/kubebuilder
-        #export PATH=$PATH:/usr/local/kubebuilder/bin
         export PATH=$PATH:$(go env path)/bin
         echo '##vso[task.prependpath]$(go env path)/bin'
         # download kustomize
@@ -79,14 +93,7 @@ steps:
         go mod download
         make install-test-dependencies
       workingDirectory: '$(System.DefaultWorkingDirectory)'
-    
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: 'make validate-copyright-headers'
-      workingDirectory: '$(System.DefaultWorkingDirectory)'
-    displayName: 'Validate Copyright Headers'
-      
+
   - script: |
       set -e
       export PATH=$PATH:$(go env GOPATH)/bin
@@ -117,12 +124,6 @@ steps:
     displayName: Render Coverage Reports
     continueOnError: true
     workingDirectory: '$(System.DefaultWorkingDirectory)'
-
-#  - task: PublishTestResults@2
-#    displayName: Publish test results
-#    inputs:
-#      testRunner: JUnit
-#      testResultsFiles: $(System.DefaultWorkingDirectory)/reports/*-report.xml
     
   - task: PublishCodeCoverageResults@1
     displayName: Publish Codecoverage results
@@ -152,28 +153,40 @@ steps:
   - task: Docker@2
     displayName: Login to temporary pipeline ACR
     inputs:
-      command: login
       containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
+      command: 'login'
 
   - task: Docker@2
     displayName: Build and Push Docker Image to temporary ACR for validation
     inputs:
-      command: buildAndPush
       containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
-      repository: $(IMAGE_NAME)
-      Dockerfile: "$(System.DefaultWorkingDirectory)/Dockerfile"    
-      buildContext: $(System.DefaultWorkingDirectory)
-      tags: |
-        $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
-
-  - task: Kubernetes@1
-    displayName: Deploy to AKS - Fetch kubeconfig
+      repository: '$(IMAGE_NAME)'
+      command: 'buildAndPush'
+      Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
+      buildContext: '$(System.DefaultWorkingDirectory)'
+      tags: '$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)'
+  
+  - task: AzureCLI@2
     inputs:
-      connectionType: 'Kubernetes Service Connection'
-      kubernetesServiceEndpoint: 'ASO-AKS'
-      namespace: $(OPERATOR_NAMESPACE)
-      command: 'login'
-      checkLatest: true
+      azureSubscription: 'ASO Subscription'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az resource list --tag freeforpipeline=true --query '[].{Name:name}' -o table > clusters.txt
+        clustername=$(tail -n 1 clusters.txt)
+        if [ "$clustername" == "" ]; then
+          echo AKS clusters unavailable
+          exit 1
+        fi
+        echo $clustername
+        echo "##vso[task.setvariable variable=chosenclustername]$clustername"
+        echo 'az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername'
+        az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername
+        # Set tags to not available for the selected cluster so it doesn't get used in another run
+        az resource tag --tags 'freeforpipeline=false' -g $(AKS_CLUSTER_RG) -n $clustername --resource-type Microsoft.ContainerService/managedClusters
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
+      failOnStandardError: true
+    displayName: Deploy to AKS - Find available AKS cluster and connect to it
 
   - script: |
       kubectl create namespace cert-manager
@@ -191,51 +204,7 @@ steps:
       img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
       echo $img
       sed -i -e 's@azure-service-operator:latest@azureserviceoperator:'${img}'@' charts/azure-service-operator/values.yaml
-      # create directory for generated files
-      mkdir charts/azure-service-operator/templates/generated
-      # generate files using kustomize
-      which kustomize
-      kustomize build ./config/default -o ./charts/azure-service-operator/templates/generated
-      # remove namespace, as we need to wrap it in a conditional since Helm 3 does not autocreate them
-      rm charts/azure-service-operator/templates/generated/*_namespace_*
-      # replace hard coded ASO image with Helm templating
-      sed -i -e 's/controller:latest/{{ .Values.image.repository }}/' ./charts/azure-service-operator/templates/generated/*_deployment_*
-      # replace hard coded namespace with Helm templating
-      find ./charts/azure-service-operator/templates/generated/ -type f -exec sed -i -e 's/namespace: azureoperator-system/namespace: {{ .Values.namespace }}/' {} \;
-      # wrap CRDs in Helm conditional syntax
-      find ./charts/azure-service-operator/templates/generated/ -name *customresourcedefinition* -exec bash -c '(echo "{{- if .Values.installCRD }}"; cat {}) > tmp.yaml && mv tmp.yaml {} && echo "{{- end }}" >> {}' _ {} \;
-      # create unique names so each instance of the operator has its own role binding
-      find ./charts/azure-service-operator/templates/generated/ -name *clusterrole* -exec sed -i -e '/name: azure/s/$$/-{{ .Values.namespace }}/' {} \;
-      # package the necessary files into a tar file
-      helm package ./charts/azure-service-operator -d ./charts
-      # update Chart.yaml for Helm Repository
-      helm repo index ./charts
-      # remove directory containing generated manifests for Helm Chart
-      #rm -rf charts/azure-service-operator/templates/generated/
-    displayName: Deploy to AKS - Helm generate and package charts
-
- # - task: KubernetesManifest@0
- #   displayName: Deploy to AKS - Bake Helm manifests
- #   name: bake
- #   inputs:
- #     action: bake
- #     namespace: 'default'
- #     helmChart: charts/azure-service-operator-0.1.0.tgz
- #     overrides: |
- #       image.repository:$(containerRegistry)/$(IMAGE_NAME)
- #       namespace: $(OPERATOR_NAMESPACE)
- #       azureTenantID: $(AZURE_TENANT_ID)
- #       azureSubscriptionID: $(AZURE_SUBSCRIPTION_ID)
-
-
- # - task: KubernetesManifest@0
- #   displayName: Deploy to AKS - Helm deploy
- #   inputs:
- #     action: 'deploy'
- #     kubernetesServiceConnection: 'ASO-AKS'
- #     namespace: $(OPERATOR_NAMESPACE)
- #     manifests: '$(bake.manifestsBundle)'
-
+    displayName: Deploy to AKS - Replace image in values.yaml
 
   - task: Bash@3
     displayName: Deploy to AKS - Helm Deploy
@@ -245,54 +214,62 @@ steps:
         kubectl delete namespace $(OPERATOR_NAMESPACE)
         imagename="$(PIPELINE_CONTAINER_REGISTRY_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
         echo $imagename
-        make install
-        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz \
+        # Apply CRDs as Helm 3 does not install CRDs for Helm upgrade
+        kubectl apply -f ./charts/azure-service-operator/crds/
+        # Deploy using Helm
+        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz -n $(OPERATOR_NAMESPACE) --create-namespace \
             --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
             --set azureTenantID=$(AZURE_TENANT_ID) \
             --set azureClientID=$(AZURE_CLIENT_ID) \
             --set azureClientSecret=$(AZURE_CLIENT_SECRET) \
             --set azureUseMI=true \
             --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
-            --set createNamespace=true \
-            --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/4ef44fef-c51d-4d7c-a6ff-8635c02848b1/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-devops-mi" \
-            --set aad-pod-identity.azureIdentity.clientID="88cd557c-f616-489a-a397-0a651fd91edf" \
-            --set image.repository=$imagename \
-            --set namespace=$(OPERATOR_NAMESPACE)
+            --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$(ASO-DEVOPS-MI)" \
+            --set aad-pod-identity.azureIdentity.clientID=$(POD-IDENTITY-CLIENTID) \
+            --set image.repository=$imagename 
+        # Verify namespace and pods
         kubectl get namespace
         kubectl get pods -n $(OPERATOR_NAMESPACE)
         kubectl describe pods -n $(OPERATOR_NAMESPACE)
         kubectl rollout status deployment/azureoperator-controller-manager -n $(OPERATOR_NAMESPACE) --timeout 120s
         kubectl logs -n $(OPERATOR_NAMESPACE) deployment/azureoperator-controller-manager -c manager
- 
- # - task: HelmDeploy@0
- #   inputs:
- #     connectionType: 'Kubernetes Service Connection'
- #     kubernetesServiceConnection: 'ASO-AKS'
- #     command: 'upgrade'
- #     chartType: 'FilePath'
- #     chartPath: 'charts/azure-service-operator-0.1.0.tgz'
- #     releaseName: 'aso'
- #     overrideValues: 'azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID), azureTenantID=$(AZURE_TENANT_ID), azureClientID=$(AZURE_CLIENT_ID), azureClientSecret=$(AZURE_CLIENT_SECRET), namespace=$(OPERATOR_NAMESPACE)'
-      
-  ## TODO: Add a Health check task to ensure operator deployed to AKS works
-  ## TODO: Delete Helm deployment 
+  
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'ASO Subscription'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        echo "Chosen AKS Cluster name"
+        echo $(chosenclustername)
+        # Delete CRDs to clean up cluster
+        kubectl delete -f ./charts/azure-service-operator/crds/
+        # Remove Helm deployment
+        helm list -n $(OPERATOR_NAMESPACE)
+        helm delete aso -n $(OPERATOR_NAMESPACE)
+        # Set tags to available for the selected cluster to put it back into the free pool
+        echo "Setting tags back to free"
+        az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
+      failOnStandardError: true
+    displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
 
   - task: Docker@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Login to release ACR
     inputs:
-      command: login
       containerRegistry: $(CONTAINER_REGISTRY)
+      command: 'login'
 
   - task: Docker@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Build and Push Docker Image $(IMAGE_NAME)
     inputs:
-      command: buildAndPush
       containerRegistry: $(CONTAINER_REGISTRY)
-      repository: $(IMAGE_NAME)
-      Dockerfile: "$(System.DefaultWorkingDirectory)/Dockerfile"    
-      buildContext: $(System.DefaultWorkingDirectory)
+      repository: '$(IMAGE_NAME)'
+      command: 'buildAndPush'
+      Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
+      buildContext: '$(System.DefaultWorkingDirectory)'
       tags: |
         latest
         $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)

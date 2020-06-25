@@ -1,0 +1,262 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureoperator-system/azureoperator-serving-cert
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: mysqlservers.azure.microsoft.com
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.provisioned
+    name: Provisioned
+    type: string
+  - JSONPath: .status.message
+    name: Message
+    type: string
+  conversion:
+    strategy: Webhook
+    webhookClientConfig:
+      caBundle: Cg==
+      service:
+        name: azureoperator-webhook-service
+        namespace: azureoperator-system
+        path: /convert
+  group: azure.microsoft.com
+  names:
+    kind: MySQLServer
+    listKind: MySQLServerList
+    plural: mysqlservers
+    singular: mysqlserver
+  preserveUnknownFields: false
+  scope: Namespaced
+  subresources:
+    status: {}
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: MySQLServer is the Schema for the mysqlservers API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: MySQLServerSpec defines the desired state of MySQLServer
+            properties:
+              createMode:
+                type: string
+              keyVaultToStoreSecrets:
+                type: string
+              location:
+                type: string
+              replicaProperties:
+                properties:
+                  sourceServerId:
+                    type: string
+                type: object
+              resourceGroup:
+                type: string
+              serverVersion:
+                description: ServerVersion enumerates the values for server version.
+                type: string
+              sku:
+                properties:
+                  capacity:
+                    description: Capacity - The scale up/out capacity, representing
+                      server's compute units.
+                    format: int32
+                    type: integer
+                  family:
+                    description: Family - The family of hardware.
+                    type: string
+                  name:
+                    description: Name - The name of the sku, typically, tier + family
+                      + cores, e.g. B_Gen4_1, GP_Gen5_8.
+                    type: string
+                  size:
+                    description: Size - The size code, to be interpreted by resource
+                      as appropriate.
+                    type: string
+                  tier:
+                    description: 'Tier - The tier of the particular SKU, e.g. Basic.
+                      Possible values include: ''Basic'', ''GeneralPurpose'', ''MemoryOptimized'''
+                    type: string
+                type: object
+              sslEnforcement:
+                type: string
+            required:
+            - location
+            type: object
+          status:
+            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
+              state of resource actions
+            properties:
+              completed:
+                format: date-time
+                type: string
+              containsUpdate:
+                type: boolean
+              failedProvisioning:
+                type: boolean
+              flattenedSecrets:
+                type: boolean
+              message:
+                type: string
+              output:
+                type: string
+              pollingUrl:
+                type: string
+              provisioned:
+                type: boolean
+              provisioning:
+                type: boolean
+              requested:
+                format: date-time
+                type: string
+              resourceId:
+                type: string
+              specHash:
+                type: string
+              state:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+  - name: v1alpha2
+    schema:
+      openAPIV3Schema:
+        description: MySQLServer is the Schema for the mysqlservers API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: MySQLServerSpec defines the desired state of MySQLServer
+            properties:
+              createMode:
+                type: string
+              keyVaultToStoreSecrets:
+                type: string
+              location:
+                type: string
+              replicaProperties:
+                properties:
+                  sourceServerId:
+                    type: string
+                type: object
+              resourceGroup:
+                type: string
+              serverVersion:
+                description: ServerVersion enumerates the values for server version.
+                type: string
+              sku:
+                properties:
+                  capacity:
+                    description: Capacity - The scale up/out capacity, representing
+                      server's compute units.
+                    format: int32
+                    type: integer
+                  family:
+                    description: Family - The family of hardware.
+                    type: string
+                  name:
+                    description: Name - The name of the sku, typically, tier + family
+                      + cores, e.g. B_Gen4_1, GP_Gen5_8.
+                    type: string
+                  size:
+                    description: Size - The size code, to be interpreted by resource
+                      as appropriate.
+                    type: string
+                  tier:
+                    description: 'Tier - The tier of the particular SKU, e.g. Basic.
+                      Possible values include: ''Basic'', ''GeneralPurpose'', ''MemoryOptimized'''
+                    type: string
+                type: object
+              sslEnforcement:
+                type: string
+              storageProfile:
+                properties:
+                  backupRetentionDays:
+                    description: BackupRetentionDays - Backup retention days for the
+                      server.
+                    format: int32
+                    type: integer
+                  geoRedundantBackup:
+                    description: 'GeoRedundantBackup - Enable Geo-redundant or not
+                      for server backup. Possible values include: ''Enabled'', ''Disabled'''
+                    type: string
+                  storageAutogrow:
+                    description: 'StorageAutogrow - Enable Storage Auto Grow. Possible
+                      values include: ''StorageAutogrowEnabled'', ''StorageAutogrowDisabled'''
+                    type: string
+                  storageMB:
+                    description: StorageMB - Max storage allowed for a server.
+                    format: int32
+                    type: integer
+                type: object
+            required:
+            - location
+            type: object
+          status:
+            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
+              state of resource actions
+            properties:
+              completed:
+                format: date-time
+                type: string
+              containsUpdate:
+                type: boolean
+              failedProvisioning:
+                type: boolean
+              flattenedSecrets:
+                type: boolean
+              message:
+                type: string
+              output:
+                type: string
+              pollingUrl:
+                type: string
+              provisioned:
+                type: boolean
+              provisioning:
+                type: boolean
+              requested:
+                format: date-time
+                type: string
+              resourceId:
+                type: string
+              specHash:
+                type: string
+              state:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

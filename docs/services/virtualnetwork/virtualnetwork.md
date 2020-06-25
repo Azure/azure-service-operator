@@ -30,4 +30,4 @@ You are able to specify a single or multiple subnets for your virtual network.
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/customresource.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.

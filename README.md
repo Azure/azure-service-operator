@@ -2,9 +2,9 @@
 
 [![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
 
-> This project is experimental. The API is expected to change (while adhering to semantic versioning). It is not recommended for production environments.
+> This project is experimental. The API is expected to change (while adhering to semantic versioning). Alpha and Beta resources are generally not recommended for production environments.
 
-The Azure Service Operator helps you provision Azure resources and connect your applications to them from within Kubernetes.
+The **Azure Service Operator** helps you provision Azure resources and connect your applications to them from within Kubernetes.
 
 ## Overview
 
@@ -15,7 +15,7 @@ The Azure Service Operator comprises of:
 
 The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
-For more details on the control flow of the Azure Service operator, refer to [Azure Service Operator control flow](/docs/design/controlflow.md)
+For more details on the control flow of the Azure Service operator, refer to [Azure Service Operator control flow](/docs/design/controlflow.md).
 
 ## Supported Azure Services
 
@@ -39,9 +39,9 @@ For more details on the control flow of the Azure Service operator, refer to [Az
 
 ![Deploying ASO](/docs/images/asodeploy.gif)
 
-Do you want to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and start exploring? Follow these steps.
+Ready to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and start exploring? Follow these steps.
 
-1. Make sure `kubectl` is configured to connect to the Kubernetes cluster you want to deploy Azure Service Operators to.
+1. Make sure `kubectl` is configured to connect to the Kubernetes cluster you want to deploy Azure Service Operator to.
     
     To connect to an Azure Kubernetes Service cluster, you can use the below command:
 
@@ -63,7 +63,7 @@ Do you want to quickly deploy the latest version of Azure Service Operator on yo
     kubectl rollout status -n cert-manager deploy/cert-manager-webhook
     ```
 
-3. Download the latest Helm chart for Azure Service Operators locally to your machine. Run the following commands.
+3. Download the latest Helm chart for Azure Service Operator locally to your machine. Run the following commands.
 
     ```console
     mkdir install-aso
@@ -86,11 +86,11 @@ Do you want to quickly deploy the latest version of Azure Service Operator on yo
     Note that the ServicePrincipal you pass to the command below needs to have access to create resources in your subscription.
 
     ```console
-    helm install aso ./azure-service-operator \
-        --set azureSubscriptionID=<AzureSubscriptionID> \
-        --set azureTenantID=<AzureTenantID> \
-        --set azureClientID=<ServicePrincipalClientId> \
-        --set azureClientSecret=<ServicePrincipalClientSecret> \
+    helm install aso ./azure-service-operator -n azureoperator-system --create-namespace \
+        --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+        --set azureTenantID=$AZURE_TENANT_ID \
+        --set azureClientID=$AZURE_CLIENT_ID \
+        --set azureClientSecret=$AZURE_CLIENT_SECRET \
         --set createNamespace=true \
         --set image.repository="mcr.microsoft.com/k8s/azure-service-operator:latest"
     ```

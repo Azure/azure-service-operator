@@ -189,3 +189,21 @@ func FromBase64EncodedString(input string) string {
 	decodedString := string(output)
 	return decodedString
 }
+
+// FindBadChars find the bad chars in a postgresql user
+func FindBadChars(stack string) error {
+	badChars := []string{
+		"'",
+		"\"",
+		";",
+		"--",
+		"/*",
+	}
+
+	for _, s := range badChars {
+		if idx := strings.Index(stack, s); idx > -1 {
+			return fmt.Errorf("potentially dangerous character sequence found: '%s' at pos: %d", s, idx)
+		}
+	}
+	return nil
+}
