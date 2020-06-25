@@ -11,6 +11,8 @@ import (
 
 	"encoding/json"
 
+	multierror "github.com/hashicorp/go-multierror"
+
 	mgmtclient "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2018-02-14/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	keyvaults "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
@@ -302,13 +304,16 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 	}
 
 	if options.Flatten {
+		var final *multierror.Error
 		for formatName := range data {
 			sName := secretName + "-" + formatName
 			_, err := k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, sName)
 			if err != nil {
-				return err
+				final = multierror.Append(final, err)
 			}
-
+		}
+		if err := final.ErrorOrNil(); err != nil {
+			return err
 		}
 	}
 
