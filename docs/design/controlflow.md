@@ -1,6 +1,6 @@
 ## Deploying the operator - how it works
 
-![](/docs/images/DeployFlow.png)
+![](/docs/images/Deploy%20Flow.png)
 
 1. The user provisions the Managed Identity (or service principal) in their environment for the Azure Service Operator to use.
 2. The user then deploy cert-manager for the Azure Service Operator to use when deployed.
