@@ -141,7 +141,7 @@ func TestVirtualMachineExtensionHappyPath(t *testing.T) {
 		},
 	}
 
-	EnsureInstance(ctx, t, tc, vmInstance)
+	EnsureInstanceWithResult(ctx, t, tc, vmInstance, errhelp.AsyncOpIncompleteError, false)
 
 	// To create a VM extension
 	extName := GenerateTestResourceNameWithRandom("ext", 10)

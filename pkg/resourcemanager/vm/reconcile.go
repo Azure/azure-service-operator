@@ -6,6 +6,7 @@ package vm
 import (
 	"context"
 	"fmt"
+	"log"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -53,16 +54,21 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 	item, err := g.GetVirtualMachine(ctx, resourceGroup, resourceName)
 	if err == nil {
 		if *item.ProvisioningState == "Succeeded" {
+
+			instance.Status.State = string(*item.ProvisioningState)
 			instance.Status.Provisioned = true
 			instance.Status.Provisioning = false
 			instance.Status.Message = resourcemanager.SuccessMsg
-		} else {
-			instance.Status.Provisioned = false
-			instance.Status.Provisioning = true
+			instance.Status.ResourceId = *item.ID
+			return true, nil
 		}
+
+		instance.Status.Message = "VM may not be ready yet"
+		instance.Status.State = string(*item.ProvisioningState)
 		instance.Status.ResourceId = *item.ID
-		return true, nil
 	}
+
+	log.Print("reconcile.go Creating the vm")
 	future, err := g.CreateVirtualMachine(
 		ctx,
 		location,
@@ -96,6 +102,8 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			switch azerr.Type {
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
+				instance.Status.Message = errhelp.AsyncOpIncompleteError
+				instance.Status.Provisioned = false
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil
@@ -124,6 +132,8 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			switch azerr.Type {
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
+				instance.Status.Message = errhelp.AsyncOpIncompleteError
+				instance.Status.Provisioned = false
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil

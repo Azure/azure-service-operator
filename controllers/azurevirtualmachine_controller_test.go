@@ -145,7 +145,7 @@ func TestVirtualMachineHappyPathWithNicPipVNetAndSubnet(t *testing.T) {
 		},
 	}
 
-	EnsureInstance(ctx, t, tc, vmInstance)
+	EnsureInstanceWithResult(ctx, t, tc, vmInstance, errhelp.AsyncOpIncompleteError, false)
 
 	EnsureDelete(ctx, t, tc, vmInstance)
 
