@@ -33,6 +33,7 @@ type AccessPolicyEntry struct {
 	TenantID string `json:"tenantID,omitempty"`
 	// ClientID - The client ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The client ID must be unique for the list of access policies.
 	ClientID string `json:"clientID,omitempty"`
+	ObjectID string `json:"objectID,omitempty"`
 	// ApplicationID -  Application ID of the client making request on behalf of a principal
 	ApplicationID string `json:"applicationID,omitempty"`
 	// Permissions - Permissions the identity has for keys, secrets, and certificates.
