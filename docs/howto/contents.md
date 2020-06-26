@@ -8,7 +8,6 @@
 2. [Developing](development.md)
     Find useful information for running the operator locally.
 
-<<<<<<< HEAD
 3. [Testing](test.md)
 =======
 3. [Testing](testing.md)
