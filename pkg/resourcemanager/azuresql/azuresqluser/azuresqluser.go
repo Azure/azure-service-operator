@@ -210,7 +210,7 @@ func (s *AzureSqlUserManager) DeleteSecrets(ctx context.Context, instance *v1alp
 			)
 			if err != nil {
 				if !strings.Contains(err.Error(), "does not exist") {
-					instance.Status.Message = "failed to delete secret, err: " + err.Error()
+					instance.Status.Message = "failed to delete secret: " + err.Error()
 					return false, err
 				}
 			}

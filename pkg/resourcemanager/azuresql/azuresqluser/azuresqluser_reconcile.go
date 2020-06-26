@@ -253,7 +253,7 @@ func (s *AzureSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, op
 				secrets.Flatten(true),
 			)
 			if err != nil {
-				return false, err
+				return false, fmt.Errorf("failed to update secret: %w", err)
 			}
 		}
 	}

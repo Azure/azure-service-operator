@@ -178,7 +178,7 @@ func (k *KeyvaultSecretClient) Create(ctx context.Context, key types.NamespacedN
 	}
 
 	if _, err := k.KeyVaultClient.GetSecret(ctx, vaultBaseURL, secretBaseName, secretVersion); err == nil {
-		return fmt.Errorf("secret already exists %v", err)
+		return fmt.Errorf("secret already exists %w", err)
 	}
 
 	_, err = k.KeyVaultClient.SetSecret(ctx, vaultBaseURL, secretBaseName, secretParams)
