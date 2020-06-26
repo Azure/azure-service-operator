@@ -15,7 +15,10 @@ import (
 type AzureSqlFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ResourceGroup  string `json:"resourcegroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup  string `json:"resourcegroup"`
 	Server         string `json:"server"`
 	StartIPAddress string `json:"startipaddress,omitempty"`
 	EndIPAddress   string `json:"endipaddress,omitempty"`
