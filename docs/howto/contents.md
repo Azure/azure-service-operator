@@ -8,7 +8,6 @@
 2. [Developing](development.md)
     Find useful information for running the operator locally.
 
-=======
 3. [Testing](testing.md)
 >>>>>>> 0ddc3c41beee3638a0e0ddc27544788798d18cbf
    Find information about how to run and author tests.
