@@ -26,7 +26,7 @@
 
 7. Azure API provisions/deprovisions the resource and returns the Resource object to the Service Operator.
 
-8. The Azure Service Operator retrieves the information required to access/consume the Azure resource from the Resource object and stores it in a Kubernetes secret or as a secret in a pre-specified Azure KeyVault.
+8. The Azure Service Operator retrieves the information required to access/consume the Azure resource from the Resource object and stores it in a Kubernetes secret, or as a secret in a pre-specified Azure KeyVault.
 
 9. The app is deployed successfully now that the Azure service it depends on is provisioned, and the secret it references exists.
 
