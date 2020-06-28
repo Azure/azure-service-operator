@@ -77,7 +77,7 @@ func (typeName *TypeName) CreateInternalDefinitions(_ *TypeName, _ IdentifierFac
 }
 
 // CreateDefinitions adds another name to this already-named type
-func (typeName *TypeName) CreateDefinitions(name *TypeName, _ IdentifierFactory, _ bool) (TypeDefiner, []TypeDefiner) {
+func (typeName *TypeName) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefiner, []TypeDefiner) {
 	return NewSimpleTypeDefiner(name, typeName), nil
 }
 

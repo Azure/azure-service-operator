@@ -78,12 +78,12 @@ func (enum *EnumType) RequiredImports() []*PackageReference {
 // of this "raw" enum type
 func (enum *EnumType) CreateInternalDefinitions(nameHint *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
 	// an internal enum must always be named:
-	definedEnum, otherTypes := enum.CreateDefinitions(nameHint, idFactory, false)
+	definedEnum, otherTypes := enum.CreateDefinitions(nameHint, idFactory)
 	return definedEnum.Name(), append(otherTypes, definedEnum)
 }
 
 // CreateDefinitions defines a named type for this "raw" enum type
-func (enum *EnumType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory, _ bool) (TypeDefiner, []TypeDefiner) {
+func (enum *EnumType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefiner, []TypeDefiner) {
 	identifier := idFactory.CreateEnumIdentifier(name.name)
 	canonicalName := NewTypeName(name.PackageReference, identifier)
 	return NewEnumDefinition(canonicalName, enum), nil

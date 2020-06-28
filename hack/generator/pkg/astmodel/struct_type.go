@@ -82,6 +82,7 @@ func (structType *StructType) RequiredImports() []*PackageReference {
 
 // References this type has to the given type
 func (structType *StructType) References(d *TypeName) bool {
+
 	for _, field := range structType.fields {
 		if field.FieldType().References(d) {
 			return true
@@ -148,13 +149,13 @@ func (structType *StructType) Equals(t Type) bool {
 // of the anonymous struct type. This is needed for controller-gen to work correctly:
 func (structType *StructType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
 	// an internal struct must always be named:
-	definedStruct, otherTypes := structType.CreateDefinitions(name, idFactory, false /* internal structs are never resources */)
+	definedStruct, otherTypes := structType.CreateDefinitions(name, idFactory)
 	return definedStruct.Name(), append(otherTypes, definedStruct)
 }
 
 // CreateDefinitions defines a named type for this struct and invokes CreateInternalDefinitions for each field type
 // to instantiate any definitions required by internal types.
-func (structType *StructType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory, isResource bool) (TypeDefiner, []TypeDefiner) {
+func (structType *StructType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefiner, []TypeDefiner) {
 
 	var otherTypes []TypeDefiner
 	var newFields []*FieldDefinition
@@ -175,7 +176,7 @@ func (structType *StructType) CreateDefinitions(name *TypeName, idFactory Identi
 		newStructType.functions[functionName] = function
 	}
 
-	return NewStructDefinition(name, newStructType, isResource), otherTypes
+	return NewStructDefinition(name, newStructType), otherTypes
 }
 
 // WithField creates a new StructType with another field attached to it

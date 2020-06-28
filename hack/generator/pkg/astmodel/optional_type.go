@@ -64,6 +64,6 @@ func (optional *OptionalType) CreateInternalDefinitions(name *TypeName, idFactor
 }
 
 // CreateDefinitions defines a named type for this OptionalType
-func (optional *OptionalType) CreateDefinitions(name *TypeName, _ IdentifierFactory, _ bool) (TypeDefiner, []TypeDefiner) {
+func (optional *OptionalType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefiner, []TypeDefiner) {
 	return NewSimpleTypeDefiner(name, optional), nil
 }

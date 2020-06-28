@@ -94,14 +94,14 @@ func anyReferences(defs []TypeDefiner, defName *TypeName) bool {
 	return false
 }
 
-func partitionDefinitions(definitions []TypeDefiner) (resourceStructs []*StructDefinition, otherDefinitions []TypeDefiner) {
+func partitionDefinitions(definitions []TypeDefiner) (resourceStructs []*ResourceDefinition, otherDefinitions []TypeDefiner) {
 
-	var resources []*StructDefinition
+	var resources []*ResourceDefinition
 	var notResources []TypeDefiner
 
 	for _, def := range definitions {
-		if structDef, ok := def.(*StructDefinition); ok && structDef.IsResource() {
-			resources = append(resources, structDef)
+		if resourceDef, ok := def.(*ResourceDefinition); ok {
+			resources = append(resources, resourceDef)
 		} else {
 			notResources = append(notResources, def)
 		}

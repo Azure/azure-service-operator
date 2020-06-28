@@ -64,7 +64,7 @@ func (prim *PrimitiveType) CreateInternalDefinitions(_ *TypeName, _ IdentifierFa
 }
 
 // CreateDefinitions defines a named type for this primitive
-func (prim *PrimitiveType) CreateDefinitions(name *TypeName, _ IdentifierFactory, _ bool) (TypeDefiner, []TypeDefiner) {
+func (prim *PrimitiveType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefiner, []TypeDefiner) {
 	return NewSimpleTypeDefiner(name, prim), nil
 }
 

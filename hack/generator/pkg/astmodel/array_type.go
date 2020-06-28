@@ -59,6 +59,6 @@ func (array *ArrayType) CreateInternalDefinitions(name *TypeName, idFactory Iden
 }
 
 // CreateDefinitions defines a named type for this array type
-func (array *ArrayType) CreateDefinitions(name *TypeName, _ IdentifierFactory, _ bool) (TypeDefiner, []TypeDefiner) {
+func (array *ArrayType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefiner, []TypeDefiner) {
 	return NewSimpleTypeDefiner(name, array), nil
 }

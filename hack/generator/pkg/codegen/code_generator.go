@@ -140,10 +140,10 @@ func (generator *CodeGenerator) MarkLatestResourceVersionsForStorage(
 
 		resultPkg := astmodel.NewPackageDefinition(pkg.GroupName, pkg.PackageName, pkg.GeneratorVersion)
 		for _, def := range pkg.Definitions() {
-			// see if it is a resource (only struct definitions can be resources)
-			if structDef, ok := def.(*astmodel.StructDefinition); ok && structDef.IsResource() {
+			// see if it is a resource
+			if resourceDef, ok := def.(*astmodel.ResourceDefinition); ok {
 
-				unversionedName, err := getUnversionedName(structDef.TypeName)
+				unversionedName, err := getUnversionedName(resourceDef.Name())
 				if err != nil {
 					// should never happen as all resources have versioned names
 					return nil, err
@@ -152,14 +152,16 @@ func (generator *CodeGenerator) MarkLatestResourceVersionsForStorage(
 				allVersionsOfResource := resourceLookup[unversionedName]
 				latestVersionOfResource := allVersionsOfResource[len(allVersionsOfResource)-1]
 
-				thisPackagePath := structDef.Name().PackageReference.PackagePath()
+				thisPackagePath := resourceDef.Name().PackageReference.PackagePath()
 				latestPackagePath := latestVersionOfResource.Name().PackageReference.PackagePath()
 
 				// mark as storage version if it's the latest version
 				isLatestVersion := thisPackagePath == latestPackagePath
-				structDef = structDef.WithIsStorageVersion(isLatestVersion)
+				if isLatestVersion {
+					resourceDef = resourceDef.MarkAsStorageVersion()
+				}
 
-				resultPkg.AddDefinition(structDef)
+				resultPkg.AddDefinition(resourceDef)
 			} else {
 				// otherwise simply add it
 				resultPkg.AddDefinition(def)
@@ -187,20 +189,20 @@ type unversionedName struct {
 }
 
 func groupResourcesByVersion(
-	pkgs []*astmodel.PackageDefinition) (map[unversionedName][]*astmodel.StructDefinition, error) {
+	pkgs []*astmodel.PackageDefinition) (map[unversionedName][]*astmodel.ResourceDefinition, error) {
 
-	result := make(map[unversionedName][]*astmodel.StructDefinition)
+	result := make(map[unversionedName][]*astmodel.ResourceDefinition)
 
 	for _, pkg := range pkgs {
 		for _, def := range pkg.Definitions() {
-			if structDef, ok := def.(*astmodel.StructDefinition); ok && structDef.IsResource() {
-				name, err := getUnversionedName(structDef.TypeName)
+			if resourceDef, ok := def.(*astmodel.ResourceDefinition); ok {
+				name, err := getUnversionedName(resourceDef.Name())
 				if err != nil {
 					// this should never happen as resources will all have versioned names
 					return nil, fmt.Errorf("Unable to extract unversioned name in groupResources: %w", err)
 				}
 
-				result[name] = append(result[name], structDef)
+				result[name] = append(result[name], resourceDef)
 			}
 		}
 	}
@@ -208,7 +210,7 @@ func groupResourcesByVersion(
 	// order each set of resources by package name (== by version as these are sortable dates)
 	for _, slice := range result {
 		sort.Slice(slice, func(i, j int) bool {
-			return slice[i].TypeName.PackageReference.PackageName() < slice[j].TypeName.PackageReference.PackageName()
+			return slice[i].Name().PackageReference.PackageName() < slice[j].Name().PackageReference.PackageName()
 		})
 	}
 
