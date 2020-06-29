@@ -159,7 +159,7 @@ git clone git@github.com:Azure-Samples/azure-service-operator-samples.git
 cd azure-service-operator-samples/azure-votes-sql/
 ```
 
-Get ACR host info for `docker build` commadn
+Get ACR host info for `docker build` command
 ```
 echo $(az acr show -g $RESOURCE_GROUP -n $ACR_NAME --query loginServer -o tsv)
 ```
