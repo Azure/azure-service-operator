@@ -44,13 +44,16 @@ az login -t $TENANT_ID \
 
 ### Create a new resource group where your ACR and AKS cluster will live
 
-Note: if you already have a Kubernetes cluster and Container registry you can skip some steps.
+>Note: if you already have a Kubernetes cluster and Container registry you can skip this step.
 
 ```
 az group create -g $RESOURCE_GROUP -l $LOCATION
 ```
 
 ### Create the Azure Container Registry where the Votes app image will be pushed
+> Note: If you already have a Container registry you can skip this step.
+> Note: This guide attaches ACR directly to the AKS cluster. If you use your own Container Registry you will need to create an image pull secret.
+
 ```
 az acr create \
     --name $ACR_NAME \
@@ -60,7 +63,9 @@ az acr create \
 ```
 
 ### Create a Kubernetes cluster
-- Create an AKS Cluster attached to the ACR with monitoring addon enabled
+>Note: if you already have a Kubernetes cluster you can skip this step.
+> Any Kubernetes cluster v1.13+ should work here.
+Create an AKS Cluster attached to the ACR
 
 > Note: you may need to add the `--generate-ssh-keys` flag if you get an error stating the following: `An RSA key file or key value must be supplied to SSH Key Value`
 ```
@@ -79,7 +84,7 @@ az aks get-credentials \
 
 ### Create Service Principal for Azure Service Operator
 
-Note: The access granted for the purposes of this guide may not be appropriate for production deployments
+> Note: The access granted for the purposes of this guide may not be appropriate for production deployments
 
 ```
 
