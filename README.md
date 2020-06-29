@@ -92,7 +92,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
         --set azureClientID=$AZURE_CLIENT_ID \
         --set azureClientSecret=$AZURE_CLIENT_SECRET \
         --set createNamespace=true \
-        --set image.repository="mcr.microsoft.com/k8s/azure-service-operator:latest"
+        --set image.repository="mcr.microsoft.com/k8s/azureserviceoperator:latest"
     ```
 
 You should now see the Azure service operator pods running in your cluster.
