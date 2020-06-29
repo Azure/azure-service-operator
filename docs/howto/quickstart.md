@@ -19,7 +19,7 @@ In this guide we will:
 
 Set these variables now as they will help with copy/paste of commands later.
 
-Note: only the first 3 need to be changed.
+>Only the first 3 environment variables need to be changed before pasting.
 
 ```
 VOTES_APP_INSTANCE_NAME="<alias>" # only alpha numeric
@@ -126,17 +126,56 @@ helm upgrade --install aso https://github.com/Azure/azure-service-operator/raw/m
     --set image.repository="mcr.microsoft.com/k8s/azureserviceoperator:0.1.11139"
 ```
 
+Successful output should look like this:
+
+```
+Release "aso" does not exist. Installing it now.
+NAME: aso
+LAST DEPLOYED: Mon Jun 29 15:35:56 2020
+NAMESPACE: azureoperator-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+```
+
+To check on the operator run `kubectl get po`
+
+```
+kubectl get po -n azureoperator-system
+NAME                                                READY   STATUS    RESTARTS   AGE
+azureoperator-controller-manager-7dd75bbd97-djx8g   2/2     Running   1          2m50s
+```
+
 ## Build the Votes App and deploy
 
 ### Clone the Votes App and Helm Chart
 
-Go to [Azure Service Operator Samples](git@github.com:Azure-Samples/azure-service-operator-samples.git)
+[Azure Service Operator Samples](git@github.com:Azure-Samples/azure-service-operator-samples.git)
 
 Clone this repository. Move to the `azure-votes-sql` directory.
+
+```
+git clone git@github.com:Azure-Samples/azure-service-operator-samples.git
+cd azure-service-operator-samples/azure-votes-sql/
+```
 
 Get ACR host info for `docker build` commadn
 ```
 echo $(az acr show -g $RESOURCE_GROUP -n $ACR_NAME --query loginServer -o tsv)
+```
+
+e.g.
+
+```
+# In this example VOTES_APP_INSTANCE_NAME="azvotessqldemo1"
+>echo $(az acr show -g $RESOURCE_GROUP -n $ACR_NAME --query loginServer -o tsv)
+acrazvotessqldemo1.azurecr.io
+```
+
+Use the value from the `echo` command to create this variable
+
+```
+DOCKER_HOST=acrazvotessqldemo1.azurecr.io
 ```
 
 Log in to ACR
@@ -147,8 +186,8 @@ az acr login --name $ACR_NAME
 
 #### Build/Push Docker image
 ```
-docker build -t your_registry/sqldemo:1 .
-docker push your_registry/sqldemo:1
+docker build -t $DOCKER_HOST/sqldemo:1 .
+docker push $DOCKER_HOST/sqldemo:1
 ```
 
 #### Helm install Azure SQL Votes App
@@ -159,8 +198,24 @@ helm upgrade --install $HELM_RELEASE_NAME charts/azure-sql-demo \
     --set serverName=$AZURE_SQL_SEVER_NAME \
     --set databaseName=$AZURE_SQL_DB_NAME \
     --set region=$LOCATION \
-    --set image=your_registry.com/sqldemo:1 \
+    --set image=$DOCKER_HOST/sqldemo:1 \
     --set local=true # this opens up firewall access to the server
+```
+
+Successful output for this command looks like:
+```
+Release "azvotessqldemo1" does not exist. Installing it now.
+NAME: azvotessqldemo1
+LAST DEPLOYED: Mon Jun 29 15:51:28 2020
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Demo App Deployed!
+
+Run `kubectl port-forward deployment/azure-votes-sql 8080:8080`
+Then visit `http://localhost:8080` in your browser to test.
 ```
 
 This command will deploy 5 kinds of Kube resoruces
@@ -176,14 +231,27 @@ Use `kubectl get ${Kind}` to see the status of that object.
 E.g.
 
 ```
+kubectl get ResourceGroup
+NAME                     PROVISIONED   MESSAGE
+app-rg-azvotessqldemo1   true          successfully provisioned
+
 kubectl get AzureSqlServer
 NAME                  PROVISIONED   MESSAGE
 sql-azurevotesdemo   true          successfully provisioned
+
+kubectl get AzureSqlDatabase
+NAME                    PROVISIONED   MESSAGE
+sqldb-azvotessqldemo1   true          successfully provisioned
+
+kubectl get AzureSqlFirewallRule
+NAME                    PROVISIONED   MESSAGE
+saso-sql-fwrule         true          successfully provisioned
+saso-sql-fwrule-local   true          successfully provisioned
 ```
 
 Once all the Azure resources are successfully provisioned (ResourceGroup, AzureSqlServer, AzureSqlDatabase, AzureSqlFirewallRule) the Azure Votes App will be able to start.
 
-Note: The Azure resources take 3-4 minutes to become ready. The application will attempt to start once the resources are provisioned but this doesn't mean all networking is in fact ready. For the reason the application is biult to handle failures in connection by exiting so Kubernetes can restart it.
+>The Azure resources take 3-4 minutes to become ready. The application will attempt to start once the resources are provisioned but this doesn't mean all networking is in fact ready. For the reason the application is biult to handle failures in connection by exiting so Kubernetes can restart it.
 
 Your deployment may restart 5 times before everything is actually available.
 
@@ -209,5 +277,5 @@ If you need to access the database via the portal or some SQL workbench tool sim
 ```
 kubectl get secret
 NAME                            TYPE                                  DATA   AGE
-your_sqlserver_name             Opaque                                5      33m
+sql-azvotessqldemo1             Opaque                                5      5m4s
 ```
