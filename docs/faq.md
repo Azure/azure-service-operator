@@ -2,6 +2,8 @@
 
 This page provides help with the most common questions about Azure Service Operators.
 
+Test!
+
 ### Do I have to order the creation of resources through the operator? For instance, do I need to first create the EventHub namespace before creating the EventHub?
 No, you can issue the creation of all resources at the same time. The operator will take care of waiting and requeuing the requests until the parent resource is ready and all resources will eventually be ready.
 
