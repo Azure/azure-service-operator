@@ -70,6 +70,7 @@ spec:
           - publisherEmail
           - publisherName
           - resourceGroup
+          - vnetResourceGroup
           type: object
         status:
           description: ASOStatus (AzureServiceOperatorsStatus) defines the observed

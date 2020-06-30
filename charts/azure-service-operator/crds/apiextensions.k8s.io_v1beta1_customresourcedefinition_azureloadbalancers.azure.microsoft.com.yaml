@@ -58,6 +58,7 @@ spec:
             publicIPAddressName:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
           required:
           - backendAddressPoolName

@@ -57,6 +57,7 @@ spec:
             redisCache:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
           required:
           - properties

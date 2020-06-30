@@ -130,6 +130,7 @@ spec:
                   type: boolean
               type: object
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
           required:
           - apiId

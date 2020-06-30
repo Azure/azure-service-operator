@@ -110,6 +110,7 @@ spec:
                   type: array
               type: object
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             sku:
               description: KeyVaultSku the SKU of the Key Vault
