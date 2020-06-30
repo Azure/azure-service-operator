@@ -2,7 +2,7 @@
 
 The Azure Service Operator project accepts contributions via GitHub pull requests. This document outlines the process to help get your contribution accepted.
 
-Please see also the [Azure Service Operator Developer Guide](docs/community/developer-guide.md).
+Please see also the [Azure Service Operator Developer Guide](docs/howto/development.md).
 
 ## Contributor License Agreements
 
@@ -29,6 +29,7 @@ Issues are used as the primary method for tracking anything to do with the Azure
 ### Issue Lifecycle
 
 The issue lifecycle is mainly driven by the core maintainers, but is good information for those contributing to the project. All issue types follow the same general lifecycle. Differences are noted below.
+
 1. Issue creation
 2. Triage
     - The maintainer in charge of triaging will apply the proper labels for the issue. This includes labels for priority, type, and metadata. If additional
