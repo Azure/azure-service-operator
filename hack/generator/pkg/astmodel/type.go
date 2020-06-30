@@ -25,7 +25,7 @@ type Type interface {
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type) bool
 
-	// CreateDefinitions gives a name to the type and might generate some asssociated definitions as well (the second result)
+	// CreateDefinitions gives a name to the type and might generate some associated definitions as well (the second result)
 	// that also must be included in the output.
 	CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefiner, []TypeDefiner)
 

@@ -11,6 +11,8 @@ import (
 
 // TypeDefiner represents a named type in the output files, and knows how to generate the Go AST
 type TypeDefiner interface {
+	// RequiredImports returns a list of packages required by this type
+	RequiredImports() []*PackageReference
 
 	// Name is the name that will be bound to the type
 	Name() *TypeName

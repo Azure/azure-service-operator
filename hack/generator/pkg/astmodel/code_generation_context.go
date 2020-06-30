@@ -5,6 +5,8 @@
 
 package astmodel
 
+import "fmt"
+
 // CodeGenerationContext stores context about the location code-generation is occurring.
 // This is required because some things (such as specific field types) are impacted by the context
 // in which the field declaration occurs - for example in a file with two conflicting package references
@@ -33,4 +35,14 @@ func (codeGenContext *CodeGenerationContext) PackageImports() map[PackageReferen
 		result[key] = value
 	}
 	return result
+}
+
+// GetImportedPackageName gets the imported packages name or an error if the package was not imported
+func (codeGenContext *CodeGenerationContext) GetImportedPackageName(reference *PackageReference) (string, error) {
+	packageImport, ok := codeGenContext.packageImports[*reference]
+	if !ok {
+		return "", fmt.Errorf("package %s not imported", reference)
+	}
+
+	return packageImport.PackageName(), nil
 }

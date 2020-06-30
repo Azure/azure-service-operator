@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"fmt"
 	"go/ast"
 	"go/token"
 )
@@ -77,12 +78,24 @@ func (definition *ResourceDefinition) WithDescription(description *string) TypeD
 	return &result
 }
 
-// TODO: metav1 import should be added via RequiredImports?
-var typeMetaField = defineField("", "metav1.TypeMeta", "`json:\",inline\"`")
-var objectMetaField = defineField("", "metav1.ObjectMeta", "`json:\"metadata,omitempty\"`")
+// RequiredImports returns a list of packages required by this
+func (definition *ResourceDefinition) RequiredImports() []*PackageReference {
+	typeImports := definition.spec.RequiredImports()
+	// TODO BUG: the status is not considered here
+	typeImports = append(typeImports, MetaV1PackageReference)
+
+	return typeImports
+}
 
 // AsDeclarations converts the ResourceDefinition to a go declaration
 func (definition *ResourceDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
+
+	packageName, err := codeGenerationContext.GetImportedPackageName(MetaV1PackageReference)
+	if err != nil {
+		panic(fmt.Errorf("resource definition for %s failed to import package: %w", definition.typeName, err))
+	}
+	typeMetaField := defineField("", fmt.Sprintf("%s.TypeMeta", packageName), "`json:\",inline\"`")
+	objectMetaField := defineField("", fmt.Sprintf("%s.ObjectMeta", packageName), "`json:\"metadata,omitempty\"`")
 
 	/*
 		start off with:

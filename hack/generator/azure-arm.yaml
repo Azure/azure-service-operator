@@ -5,13 +5,13 @@ typeFilters:
     group: definitions
     name: Expression
     because: expression is an ARM template construct which doesn't belong in CRDs
-exportFilters:
   - action: include
     version: 2020-*
     because: all 2020 API versions are included
-  - action: exclude
+  - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default
+exportFilters:
   - action: exclude
     group: deploymenttemplate
     because: this is the "container" group that holds references to all of the other groups and as such doesn't make sense to generate

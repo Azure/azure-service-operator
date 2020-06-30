@@ -113,3 +113,8 @@ func (enum *EnumDefinition) createValueDeclaration(value EnumValue) ast.Spec {
 
 	return valueSpec
 }
+
+// RequiredImports returns a list of packages required by this type
+func (enum *EnumDefinition) RequiredImports() []*PackageReference {
+	return enum.baseType.RequiredImports()
+}

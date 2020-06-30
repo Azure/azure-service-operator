@@ -42,6 +42,11 @@ func (definition *StructDefinition) WithDescription(description *string) TypeDef
 	return &result
 }
 
+// RequiredImports returns a list of packages required by this
+func (definition *StructDefinition) RequiredImports() []*PackageReference {
+	return definition.structType.RequiredImports()
+}
+
 // AsDeclarations returns the Go AST declarations for this struct
 func (definition *StructDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
 	identifier := ast.NewIdent(definition.typeName.name)

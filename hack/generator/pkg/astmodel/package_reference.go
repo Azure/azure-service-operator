@@ -14,6 +14,8 @@ const (
 	localPathPrefix = "github.com/Azure/k8s-infra/hack/generator/apis/"
 )
 
+var MetaV1PackageReference = NewPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
+
 // PackageReference indicates which package
 // a struct belongs to.
 type PackageReference struct {

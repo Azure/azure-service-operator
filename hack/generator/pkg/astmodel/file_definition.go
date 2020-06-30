@@ -42,18 +42,18 @@ func NewFileDefinition(packageRef *PackageReference, definitions ...TypeDefiner)
 // generateImports products the definitive set of imports for use in this file and
 // disambiguates any conflicts
 func (file *FileDefinition) generateImports() map[PackageImport]struct{} {
-
-	metav1Import := NewPackageImport(
-		*NewPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")).WithName("metav1")
-
 	var requiredImports = make(map[PackageImport]struct{}) // fake set type
-	requiredImports[*metav1Import] = struct{}{}
 
 	for _, s := range file.definitions {
-		for _, requiredImport := range s.Type().RequiredImports() {
+		for _, requiredImport := range s.RequiredImports() {
 			// no need to import the current package
 			if !requiredImport.Equals(file.packageReference) {
 				newImport := NewPackageImport(*requiredImport)
+
+				if requiredImport.PackagePath() == MetaV1PackageReference.PackagePath() {
+					newImport = newImport.WithName("metav1")
+				}
+
 				requiredImports[*newImport] = struct{}{}
 			}
 		}
@@ -100,8 +100,10 @@ func (file *FileDefinition) AsAst() ast.Node {
 	// Create context from imports
 	codeGenContext := NewCodeGenerationContext(file.packageReference, packageReferences)
 
-	// Create import header:
-	decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs(packageReferences)})
+	// Create import header if needed
+	if len(packageReferences) > 0 {
+		decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs(packageReferences)})
+	}
 
 	// Emit all definitions:
 	for _, s := range file.definitions {

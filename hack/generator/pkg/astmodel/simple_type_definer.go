@@ -58,3 +58,8 @@ func (std *SimpleTypeDefiner) AsDeclarations(codeGenerationContext *CodeGenerati
 		},
 	}
 }
+
+// RequiredImports returns a list of packages required by this type
+func (std *SimpleTypeDefiner) RequiredImports() []*PackageReference {
+	return std.theType.RequiredImports()
+}

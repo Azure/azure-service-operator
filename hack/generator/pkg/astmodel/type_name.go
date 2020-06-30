@@ -33,9 +33,10 @@ var _ Type = (*TypeName)(nil)
 // AsType implements Type for TypeName
 func (typeName *TypeName) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 	// If our package is being referenced, we need to ensure we include a selector for that reference
-	if imp, ok := codeGenerationContext.PackageImports()[typeName.PackageReference]; ok {
+	packageName, err := codeGenerationContext.GetImportedPackageName(&typeName.PackageReference)
+	if err == nil {
 		return &ast.SelectorExpr{
-			X:   ast.NewIdent(imp.PackageName()),
+			X:   ast.NewIdent(packageName),
 			Sel: ast.NewIdent(typeName.Name()),
 		}
 	}
