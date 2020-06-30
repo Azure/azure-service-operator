@@ -109,7 +109,8 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object, opts
 
 		// this generally means the operator doesn't have access to the keyvault
 		// this can be resolved elsewhere so we should keep trying
-		if req.Response.StatusCode == http.StatusForbidden {
+		// See https://github.com/Azure/azure-sdk-for-go/issues/10975 for more details
+		if req.Response.Response != nil && req.Response.StatusCode == http.StatusForbidden {
 			return false, nil
 		}
 
