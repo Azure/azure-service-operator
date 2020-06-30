@@ -15,7 +15,10 @@ import (
 type ConsumerGroupSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ResourceGroup     string `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup     string `json:"resourceGroup"`
 	Namespace         string `json:"namespace,omitempty"`
 	Eventhub          string `json:"eventHub,omitempty"`
 	ConsumerGroupName string `json:"consumerGroupName,omitempty"` // optional, falls back to ObjectMeta.Name

@@ -15,6 +15,9 @@ type RedisCacheFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup string                           `json:"resourceGroup"`
 	CacheName     string                           `json:"redisCache"`
 	Properties    RedisCacheFirewallRuleProperties `json:"properties"`
