@@ -86,7 +86,7 @@ Please see the [FAQ](docs/faq.md) for answers to commonly asked questions about 
 
 ## Contributing
 
-The [contribution guide][contribution-guide] covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide][developer-guide] will help you onboard as a developer.
+The [contribution guide](CONTRIBUTING.MD) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](docs/howto/development.md) will help you onboard as a developer.
 
 ## Support
 
