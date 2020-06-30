@@ -67,6 +67,9 @@ steps:
     displayName: 'Validate Source'
     continueOnError: 'false'
 
+  - script: |
+      echo "Hello"
+
   - task: GoTool@0
     displayName: Get Go 1.13.7
     inputs:
