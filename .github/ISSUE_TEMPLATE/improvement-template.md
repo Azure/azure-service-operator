@@ -10,7 +10,7 @@ assignees: ''
 A description of how things are today.
 
 **Describe the improvement**
-How could things be changed or improved?
+How should things be changed or improved?
 
 **Additional context**
 Add any other context about the suggested improvement.
