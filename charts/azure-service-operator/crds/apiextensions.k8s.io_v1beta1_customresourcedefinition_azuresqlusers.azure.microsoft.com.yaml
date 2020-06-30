@@ -57,6 +57,7 @@ spec:
             keyVaultToStoreSecrets:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             roles:
               items:
@@ -70,6 +71,7 @@ spec:
               type: string
           required:
           - dbName
+          - resourceGroup
           - roles
           - server
           type: object

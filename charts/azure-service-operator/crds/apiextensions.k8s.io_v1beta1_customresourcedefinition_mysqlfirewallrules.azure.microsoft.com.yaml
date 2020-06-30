@@ -44,6 +44,7 @@ spec:
             endIpAddress:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             server:
               type: string

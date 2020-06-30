@@ -66,6 +66,7 @@ spec:
                     type: string
                 type: object
               resourceGroup:
+                pattern: ^[-\w\._\(\)]+$
                 type: string
               serverVersion:
                 description: ServerVersion enumerates the values for server version.
@@ -97,6 +98,7 @@ spec:
                 type: string
             required:
             - location
+            - resourceGroup
             type: object
           status:
             description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
@@ -166,6 +168,7 @@ spec:
                     type: string
                 type: object
               resourceGroup:
+                pattern: ^[-\w\._\(\)]+$
                 type: string
               serverVersion:
                 description: ServerVersion enumerates the values for server version.
@@ -217,6 +220,7 @@ spec:
                 type: object
             required:
             - location
+            - resourceGroup
             type: object
           status:
             description: ASOStatus (AzureServiceOperatorsStatus) defines the observed

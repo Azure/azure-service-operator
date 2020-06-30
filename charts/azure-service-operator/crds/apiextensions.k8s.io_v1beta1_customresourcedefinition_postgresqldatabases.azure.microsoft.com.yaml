@@ -44,6 +44,7 @@ spec:
             resourceGroup:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
+              pattern: ^[-\w\._\(\)]+$
               type: string
             server:
               type: string
