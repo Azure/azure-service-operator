@@ -7,9 +7,6 @@ Closes #[issue number]
 
 **Special notes for your reviewer**:
 
-**How does this PR make you feel**:
-![gif](https://giphy.com/)
-
 **If applicable**:
 - [ ] this PR contains documentation
 - [ ] this PR contains tests
