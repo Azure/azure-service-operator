@@ -14,7 +14,10 @@ type ReadWriteEndpointFailoverPolicy string
 type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Location                     string                          `json:"location"`
-	ResourceGroup                string                          `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup                string                          `json:"resourceGroup"`
 	Server                       string                          `json:"server"`
 	FailoverPolicy               ReadWriteEndpointFailoverPolicy `json:"failoverPolicy"`
 	FailoverGracePeriod          int32                           `json:"failoverGracePeriod"`

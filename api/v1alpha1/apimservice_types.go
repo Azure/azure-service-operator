@@ -20,7 +20,7 @@ type ApimServiceSpec struct {
 	PublisherName            string `json:"publisherName"`
 	PublisherEmail           string `json:"publisherEmail"`
 	VnetType                 string `json:"vnetType,omitempty"`
-	VnetResourceGroup        string `json:"vnetResourceGroup,omitempty"`
+	VnetResourceGroup        string `json:"vnetResourceGroup"`
 	VnetName                 string `json:"vnetName,omitempty"`
 	VnetSubnetName           string `json:"vnetSubnetName,omitempty"`
 	AppInsightsResourceGroup string `json:"appInsightsResourceGroup,omitempty"`

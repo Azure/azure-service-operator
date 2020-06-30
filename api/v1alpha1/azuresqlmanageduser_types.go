@@ -16,7 +16,10 @@ type AzureSQLManagedUserSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Server                  string   `json:"server"`
 	DbName                  string   `json:"dbName"`
-	ResourceGroup           string   `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup           string   `json:"resourceGroup"`
 	Roles                   []string `json:"roles"`
 	ManagedIdentityName     string   `json:"managedIdentityName,omitempty"`
 	ManagedIdentityClientId string   `json:"managedIdentityClientId"`

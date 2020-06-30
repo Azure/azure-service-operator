@@ -13,7 +13,10 @@ import (
 // MySQLServerSpec defines the desired state of MySQLServer
 type MySQLServerSpec struct {
 	Location               string             `json:"location"`
-	ResourceGroup          string             `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup          string             `json:"resourceGroup"`
 	Sku                    AzureDBsSQLSku     `json:"sku,omitempty"`
 	ServerVersion          ServerVersion      `json:"serverVersion,omitempty"`
 	SSLEnforcement         SslEnforcementEnum `json:"sslEnforcement,omitempty"`
