@@ -24,7 +24,7 @@ Install the latest (3.x+) [Helm](https://helm.sh/docs/intro/install/) on your ma
 
 Add the helm repo:
 ```console
-helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts --username <github username> --password <github personal access token>
+helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
 ```
 
 ### Getting Started
