@@ -12,7 +12,10 @@ import (
 
 // MySQLDatabaseSpec defines the desired state of MySQLDatabase
 type MySQLDatabaseSpec struct {
-	ResourceGroup string `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup string `json:"resourceGroup"`
 	Server        string `json:"server,omitempty"`
 }
 

@@ -18,7 +18,10 @@ type EventhubNamespaceSpec struct {
 	Location      string                        `json:"location"`
 	Sku           EventhubNamespaceSku          `json:"sku,omitempty"`
 	Properties    EventhubNamespaceProperties   `json:"properties,omitempty"`
-	ResourceGroup string                        `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup string                        `json:"resourceGroup"`
 	NetworkRule   *EventhubNamespaceNetworkRule `json:"networkRule,omitempty"`
 }
 

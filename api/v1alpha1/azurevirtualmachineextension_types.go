@@ -15,6 +15,9 @@ type AzureVirtualMachineExtensionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location                string `json:"location"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup           string `json:"resourceGroup"`
 	VMName                  string `json:"vmName"`
 	AutoUpgradeMinorVersion bool   `json:"autoUpgradeMinorVersion"`
