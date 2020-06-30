@@ -1,4 +1,4 @@
-trigger:
+pr:
   branches:
     include:
     - master
