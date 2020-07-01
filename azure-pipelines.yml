@@ -52,282 +52,295 @@ variables:
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-jobs:
-  - job: CheckChanges
-    steps:
-      - task: Bash@3
-        name: "check_changes"
-        inputs:
-          targetType: 'filePath'
-          filePath: './check-changes.sh'
 
-  - job: Build
-    dependsOn: CheckChanges
-    condition: eq(dependencies.CheckChanges.outputs['check_changes.SOURCE_CODE_CHANGED'], 'true')
-    steps:
-      - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
-        lfs: "true"
-        
-      - script: |
-          make validate-copyright-headers
-          make validate-cainjection-files
-        displayName: 'Validate Source'
-        continueOnError: 'false'
+steps:
+  - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
+    lfs: "true"
 
-      - task: GoTool@0
-        displayName: Get Go 1.13.7
-        inputs:
-          version: '1.13.7'
+  - task: Bash@3
+    name: "check_changes"
+    inputs:
+      targetType: 'filePath'
+      filePath: './check-changes.sh'
+    
+  - script: |
+      make validate-copyright-headers
+      make validate-cainjection-files
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    displayName: 'Validate Source'
+    continueOnError: 'false'
+    
 
-      - task: Go@0
-        displayName: Get Go dependencies
-        inputs:
-          command: 'get'
-          arguments: '-d'
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
+  - task: GoTool@0
+    displayName: Get Go 1.13.7
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    inputs:
+      version: '1.13.7'
 
-      - task: Bash@3
-        displayName: Install kubebuilder, kustomize and test dependencies
-        inputs:
-          targetType: 'inline'
-          script: |
-            set -x
-            mkdir -p $(System.DefaultWorkingDirectory)/bin
-            go env
-            os=$(go env GOOS)
-            arch=$(go env GOARCH)
-            curl -sL https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
-            export PATH=$PATH:$(go env path)/bin
-            echo '##vso[task.prependpath]$(go env path)/bin'
-            # download kustomize
-            curl -o $(System.DefaultWorkingDirectory)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
-            # set permission
-            chmod a+x $(System.DefaultWorkingDirectory)/bin/*
-            chmod a+x $(System.DefaultWorkingDirectory)/bin/kustomize
-            export PATH=$PATH:$(System.DefaultWorkingDirectory)/bin
-            echo '##vso[task.prependpath]$(System.DefaultWorkingDirectory)/bin'
-            which kustomize
-            kustomize version
-            cp $(System.DefaultWorkingDirectory)/bin/kustomize $(System.DefaultWorkingDirectory)/kustomize
-            go mod download
-            make install-test-dependencies
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
+  - task: Go@0
+    displayName: Get Go dependencies
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    inputs:
+      command: 'get'
+      arguments: '-d'
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
 
-      - script: |
-          set -e
-          export PATH=$PATH:$(go env GOPATH)/bin
-          GO111MODULE="on" go get sigs.k8s.io/kind@v0.7.0
-          kind create cluster
-          export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
-          kubectl cluster-info
-          make install
-          export TEST_APIM_RG=$(TEST_APIM_RG)
-          export TEST_APIM_NAME=$(TEST_APIM_NAME)
-          make test-integration-controllers
-        displayName: Run tests on a Kind Cluster
-        continueOnError: 'false'
-        env:
-          GO111MODULE: on
-          AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-          AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-          AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-          AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-          REQUEUE_AFTER: $(REQUEUE_AFTER)
-          KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
-          BUILD_ID: $(Build.BuildId)
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+  - task: Bash@3
+    displayName: Install kubebuilder, kustomize and test dependencies
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    inputs:
+      targetType: 'inline'
+      script: |
+        set -x
+        mkdir -p $(System.DefaultWorkingDirectory)/bin
+        go env
+        os=$(go env GOOS)
+        arch=$(go env GOARCH)
+        curl -sL https://go.kubebuilder.io/dl/2.3.1/${os}/${arch} | tar -xz -C $(go env GOPATH)/bin
+        export PATH=$PATH:$(go env path)/bin
+        echo '##vso[task.prependpath]$(go env path)/bin'
+        # download kustomize
+        curl -o $(System.DefaultWorkingDirectory)/bin/kustomize -sL https://go.kubebuilder.io/kustomize/${os}/${arch}
+        # set permission
+        chmod a+x $(System.DefaultWorkingDirectory)/bin/*
+        chmod a+x $(System.DefaultWorkingDirectory)/bin/kustomize
+        export PATH=$PATH:$(System.DefaultWorkingDirectory)/bin
+        echo '##vso[task.prependpath]$(System.DefaultWorkingDirectory)/bin'
+        which kustomize
+        kustomize version
+        cp $(System.DefaultWorkingDirectory)/bin/kustomize $(System.DefaultWorkingDirectory)/kustomize
+        go mod download
+        make install-test-dependencies
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
 
-      - bash: |
-          export PATH=$PATH:$(go env GOPATH)/bin
-          make test-process-coverage
-        displayName: Render Coverage Reports
-        continueOnError: true
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
-        
-      - task: PublishCodeCoverageResults@1
-        displayName: Publish Codecoverage results
-        inputs:
-          codeCoverageTool: Cobertura 
-          summaryFileLocation: $(System.DefaultWorkingDirectory)/reports/merged-coverage.xml
-      
-      - task: PublishBuildArtifacts@1
-        displayName: Publish test reports
-        inputs:
-          pathtoPublish: '$(System.DefaultWorkingDirectory)/reports'
-          artifactName: reports
-      
-      - task: AzureCLI@2
-        displayName: Test - Cleanup Azure Resources
-        condition: always()
-        inputs:
-          azureSubscription: 'ASO Subscription'
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: 'make test-cleanup-azure-resources'
+  - script: |
+      set -e
+      export PATH=$PATH:$(go env GOPATH)/bin
+      GO111MODULE="on" go get sigs.k8s.io/kind@v0.7.0
+      kind create cluster
+      export KUBECONFIG=$(kind get kubeconfig-path --name="kind")
+      kubectl cluster-info
+      make install
+      export TEST_APIM_RG=$(TEST_APIM_RG)
+      export TEST_APIM_NAME=$(TEST_APIM_NAME)
+      make test-integration-controllers
+    displayName: Run tests on a Kind Cluster
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    continueOnError: 'false'
+    env:
+      GO111MODULE: on
+      AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+      AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+      AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+      AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+      REQUEUE_AFTER: $(REQUEUE_AFTER)
+      KUBEBUILDER_ASSETS: $(go env GOPATH)/bin
+      BUILD_ID: $(Build.BuildId)
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
 
-      - script: docker build -t $(IMAGE_NAME) .
-        displayName: Docker build
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+  - bash: |
+      export PATH=$PATH:$(go env GOPATH)/bin
+      make test-process-coverage
+    displayName: Render Coverage Reports
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    continueOnError: true
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    
+  - task: PublishCodeCoverageResults@1
+    displayName: Publish Codecoverage results
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    inputs:
+      codeCoverageTool: Cobertura 
+      summaryFileLocation: $(System.DefaultWorkingDirectory)/reports/merged-coverage.xml
+  
+  - task: PublishBuildArtifacts@1
+    displayName: Publish test reports
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    inputs:
+      pathtoPublish: '$(System.DefaultWorkingDirectory)/reports'
+      artifactName: reports
+  
+  - task: AzureCLI@2
+    displayName: Test - Cleanup Azure Resources
+    condition: always()
+    inputs:
+      azureSubscription: 'ASO Subscription'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: 'make test-cleanup-azure-resources'
 
-      - task: Docker@2
-        displayName: Login to temporary pipeline ACR
-        inputs:
-          containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
-          command: 'login'
+  - script: docker build -t $(IMAGE_NAME) .
+    displayName: Docker build
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
 
-      - task: Docker@2
-        displayName: Build and Push Docker Image to temporary ACR for validation
-        inputs:
-          containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
-          repository: '$(IMAGE_NAME)'
-          command: 'buildAndPush'
-          Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
-          buildContext: '$(System.DefaultWorkingDirectory)'
-          tags: '$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)'
-      
-      - task: AzureCLI@2
-        inputs:
-          azureSubscription: 'ASO Subscription'
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: |
-            az resource list --tag freeforpipeline=true --query '[].{Name:name}' -o table > clusters.txt
-            clustername=$(tail -n 1 clusters.txt)
-            if [ "$clustername" == "" ]; then
-              echo AKS clusters unavailable
-              exit 1
-            fi
-            echo $clustername
-            echo "##vso[task.setvariable variable=chosenclustername]$clustername"
-            echo 'az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername'
-            az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername
-            # Set tags to not available for the selected cluster so it doesn't get used in another run
-            az resource tag --tags 'freeforpipeline=false' -g $(AKS_CLUSTER_RG) -n $clustername --resource-type Microsoft.ContainerService/managedClusters
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
-          failOnStandardError: true
-        displayName: Deploy to AKS - Find available AKS cluster and connect to it
+  - task: Docker@2
+    displayName: Login to temporary pipeline ACR
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    inputs:
+      containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
+      command: 'login'
 
-      - script: |
-          kubectl create namespace cert-manager
-          kubectl label namespace cert-manager cert-manager.io/disable-validation=true
-          kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
-        displayName: Deploy to AKS - Install Cert Manager
+  - task: Docker@2
+    displayName: Build and Push Docker Image to temporary ACR for validation
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    inputs:
+      containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
+      repository: '$(IMAGE_NAME)'
+      command: 'buildAndPush'
+      Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
+      buildContext: '$(System.DefaultWorkingDirectory)'
+      tags: '$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)'
+  
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'ASO Subscription'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az resource list --tag freeforpipeline=true --query '[].{Name:name}' -o table > clusters.txt
+        clustername=$(tail -n 1 clusters.txt)
+        if [ "$clustername" == "" ]; then
+          echo AKS clusters unavailable
+          exit 1
+        fi
+        echo $clustername
+        echo "##vso[task.setvariable variable=chosenclustername]$clustername"
+        echo 'az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername'
+        az aks get-credentials -g $(AKS_CLUSTER_RG) -n $clustername
+        # Set tags to not available for the selected cluster so it doesn't get used in another run
+        az resource tag --tags 'freeforpipeline=false' -g $(AKS_CLUSTER_RG) -n $clustername --resource-type Microsoft.ContainerService/managedClusters
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
+      failOnStandardError: true
+    displayName: Deploy to AKS - Find available AKS cluster and connect to it
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
 
-      - task: HelmInstaller@1
-        displayName: Deploy to AKS - Install latest Helm
-        inputs:
-          helmVersionToInstall: 'latest'
-      
-      - script: |
-          # Replace image repository in values.yaml to the official image in ACR
-          img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
-          echo $img
-          sed -i -e 's@azure-service-operator:latest@azureserviceoperator:'${img}'@' charts/azure-service-operator/values.yaml
-        displayName: Deploy to AKS - Replace image in values.yaml
+  - script: |
+      kubectl create namespace cert-manager
+      kubectl label namespace cert-manager cert-manager.io/disable-validation=true
+      kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+    displayName: Deploy to AKS - Install Cert Manager
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
 
-      - task: Bash@3
-        displayName: Deploy to AKS - Helm Deploy
-        inputs:
-          targetType: 'inline'
-          script: |
-            kubectl delete namespace $(OPERATOR_NAMESPACE)
-            imagename="$(PIPELINE_CONTAINER_REGISTRY_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
-            echo $imagename
-            # Apply CRDs as Helm 3 does not install CRDs for Helm upgrade
-            kubectl apply -f ./charts/azure-service-operator/crds/
-            # Deploy using Helm
-            helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz -n $(OPERATOR_NAMESPACE) --create-namespace \
-                --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
-                --set azureTenantID=$(AZURE_TENANT_ID) \
-                --set azureClientID=$(AZURE_CLIENT_ID) \
-                --set azureClientSecret=$(AZURE_CLIENT_SECRET) \
-                --set azureUseMI=true \
-                --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
-                --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$(ASO-DEVOPS-MI)" \
-                --set aad-pod-identity.azureIdentity.clientID=$(POD-IDENTITY-CLIENTID) \
-                --set image.repository=$imagename 
-            # Verify namespace and pods
-            kubectl get namespace
-            kubectl get pods -n $(OPERATOR_NAMESPACE)
-            kubectl describe pods -n $(OPERATOR_NAMESPACE)
-            kubectl rollout status deployment/azureoperator-controller-manager -n $(OPERATOR_NAMESPACE) --timeout 120s
-            kubectl logs -n $(OPERATOR_NAMESPACE) deployment/azureoperator-controller-manager -c manager
-      
-      - task: AzureCLI@2
-        inputs:
-          azureSubscription: 'ASO Subscription'
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: |
-            echo "Chosen AKS Cluster name"
-            echo $(chosenclustername)
-            # Delete CRDs to clean up cluster
-            kubectl delete -f ./charts/azure-service-operator/crds/
-            # Remove Helm deployment
-            helm list -n $(OPERATOR_NAMESPACE)
-            helm delete aso -n $(OPERATOR_NAMESPACE)
-            # Set tags to available for the selected cluster to put it back into the free pool
-            echo "Setting tags back to free"
-            az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
-          failOnStandardError: true
-        displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
+  - task: HelmInstaller@1
+    displayName: Deploy to AKS - Install latest Helm
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    inputs:
+      helmVersionToInstall: 'latest'
+  
+  - script: |
+      # Replace image repository in values.yaml to the official image in ACR
+      img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
+      echo $img
+      sed -i -e 's@azure-service-operator:latest@azureserviceoperator:'${img}'@' charts/azure-service-operator/values.yaml
+    displayName: Deploy to AKS - Replace image in values.yaml
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
 
-      - task: Docker@2
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-        displayName: Login to release ACR
-        inputs:
-          containerRegistry: $(CONTAINER_REGISTRY)
-          command: 'login'
+  - task: Bash@3
+    displayName: Deploy to AKS - Helm Deploy
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
+    inputs:
+      targetType: 'inline'
+      script: |
+        kubectl delete namespace $(OPERATOR_NAMESPACE)
+        imagename="$(PIPELINE_CONTAINER_REGISTRY_NAME)/$(IMAGE_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
+        echo $imagename
+        # Apply CRDs as Helm 3 does not install CRDs for Helm upgrade
+        kubectl apply -f ./charts/azure-service-operator/crds/
+        # Deploy using Helm
+        helm upgrade --install aso charts/azure-service-operator-0.1.0.tgz -n $(OPERATOR_NAMESPACE) --create-namespace \
+            --set azureSubscriptionID=$(AZURE_SUBSCRIPTION_ID) \
+            --set azureTenantID=$(AZURE_TENANT_ID) \
+            --set azureClientID=$(AZURE_CLIENT_ID) \
+            --set azureClientSecret=$(AZURE_CLIENT_SECRET) \
+            --set azureUseMI=true \
+            --set azureOperatorKeyvault=$(AZURE_OPERATOR_KEYVAULT) \
+            --set aad-pod-identity.azureIdentity.resourceID="/subscriptions/$(AZURE_SUBSCRIPTION_ID)/resourcegroups/resourcegroup-azure-operators/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$(ASO-DEVOPS-MI)" \
+            --set aad-pod-identity.azureIdentity.clientID=$(POD-IDENTITY-CLIENTID) \
+            --set image.repository=$imagename 
+        # Verify namespace and pods
+        kubectl get namespace
+        kubectl get pods -n $(OPERATOR_NAMESPACE)
+        kubectl describe pods -n $(OPERATOR_NAMESPACE)
+        kubectl rollout status deployment/azureoperator-controller-manager -n $(OPERATOR_NAMESPACE) --timeout 120s
+        kubectl logs -n $(OPERATOR_NAMESPACE) deployment/azureoperator-controller-manager -c manager
+  
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'ASO Subscription'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        echo "Chosen AKS Cluster name"
+        echo $(chosenclustername)
+        # Delete CRDs to clean up cluster
+        kubectl delete -f ./charts/azure-service-operator/crds/
+        # Remove Helm deployment
+        helm list -n $(OPERATOR_NAMESPACE)
+        helm delete aso -n $(OPERATOR_NAMESPACE)
+        # Set tags to available for the selected cluster to put it back into the free pool
+        echo "Setting tags back to free"
+        az resource tag --tags 'freeforpipeline=true' -g $(AKS_CLUSTER_RG) -n $(chosenclustername) --resource-type Microsoft.ContainerService/managedClusters
+      workingDirectory: '$(System.DefaultWorkingDirectory)'
+      failOnStandardError: true
+    displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
 
-      - task: Docker@2
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-        displayName: Build and Push Docker Image $(IMAGE_NAME)
-        inputs:
-          containerRegistry: $(CONTAINER_REGISTRY)
-          repository: '$(IMAGE_NAME)'
-          command: 'buildAndPush'
-          Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
-          buildContext: '$(System.DefaultWorkingDirectory)'
-          tags: |
-            latest
-            $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
-      
-      - script: |
-          export HELM_EXPERIMENTAL_OCI=1
-          cd charts/azure-service-operator
-          versiontag="$(CONTAINER_REGISTRY_NAME)/$(ASO_HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
-          latesttag="$(CONTAINER_REGISTRY_NAME)/$(ASO_HELM_CHART_NAME):latest"
-          echo $versiontag
-          echo $latesttag
-          echo $(AZURE_CLIENT_SECRET)|helm registry login $(CONTAINER_REGISTRY_NAME) --username $(AZURE_CLIENT_ID) --password-stdin
-          helm chart save . $versiontag
-          helm chart save . $latesttag
-          helm chart push $versiontag
-          helm chart push $latesttag
-        continueOnError: 'true'
-        displayName: Push Helm chart to MCR repo
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  - task: Docker@2
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Login to release ACR
+    inputs:
+      containerRegistry: $(CONTAINER_REGISTRY)
+      command: 'login'
 
-      - script: |
-          echo "updating kustomize image patch file for manager resource"
-          echo $IMAGE_NAME
-          img="$IMAGE_NAME:$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
-          echo $img
-          sed -i -e 's@controller:latest@'${img}'@g' ./config/default/manager_image_patch.yaml
-          which kustomize
-          kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
-          set -x
-          echo $img > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
-          cp charts/azure-service-operator-0.1.0.tgz $(Build.ArtifactStagingDirectory)
-        continueOnError: 'false'
-        displayName: Package artifacts (image, setup.yaml and helm charts) for release
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+  - task: Docker@2
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Build and Push Docker Image $(IMAGE_NAME)
+    inputs:
+      containerRegistry: $(CONTAINER_REGISTRY)
+      repository: '$(IMAGE_NAME)'
+      command: 'buildAndPush'
+      Dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'
+      buildContext: '$(System.DefaultWorkingDirectory)'
+      tags: |
+        latest
+        $(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)
+  
+  - script: |
+      export HELM_EXPERIMENTAL_OCI=1
+      cd charts/azure-service-operator
+      versiontag="$(CONTAINER_REGISTRY_NAME)/$(ASO_HELM_CHART_NAME):$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)"
+      latesttag="$(CONTAINER_REGISTRY_NAME)/$(ASO_HELM_CHART_NAME):latest"
+      echo $versiontag
+      echo $latesttag
+      echo $(AZURE_CLIENT_SECRET)|helm registry login $(CONTAINER_REGISTRY_NAME) --username $(AZURE_CLIENT_ID) --password-stdin
+      helm chart save . $versiontag
+      helm chart save . $latesttag
+      helm chart push $versiontag
+      helm chart push $latesttag
+    continueOnError: 'true'
+    displayName: Push Helm chart to MCR repo
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
-      - task: PublishBuildArtifacts@1
-        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-        inputs:
-          pathtoPublish: $(Build.ArtifactStagingDirectory)
-          artifactName: drop
+  - script: |
+      echo "updating kustomize image patch file for manager resource"
+      echo $IMAGE_NAME
+      img="$IMAGE_NAME:$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
+      echo $img
+      sed -i -e 's@controller:latest@'${img}'@g' ./config/default/manager_image_patch.yaml
+      which kustomize
+      kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
+      set -x
+      echo $img > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
+      cp charts/azure-service-operator-0.1.0.tgz $(Build.ArtifactStagingDirectory)
+    continueOnError: 'false'
+    displayName: Package artifacts (image, setup.yaml and helm charts) for release
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+
+  - task: PublishBuildArtifacts@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    inputs:
+      pathtoPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: drop
