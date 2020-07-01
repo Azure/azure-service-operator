@@ -19,6 +19,7 @@ const (
 // Options contains the inputs available for passing to Ensure optionally
 type Options struct {
 	SecretClient secrets.SecretClient
+	Credential   map[string]string
 }
 
 // ConfigOption wraps a function that sets a value in the options struct
@@ -28,6 +29,13 @@ type ConfigOption func(*Options)
 func WithSecretClient(secretClient secrets.SecretClient) ConfigOption {
 	return func(op *Options) {
 		op.SecretClient = secretClient
+	}
+}
+
+// WithAzureCredential allows callers of ArmClient methods to specify the service principal used
+func WithAzureCredential(cred map[string]string) ConfigOption {
+	return func(op *Options) {
+		op.Credential = cred
 	}
 }
 
