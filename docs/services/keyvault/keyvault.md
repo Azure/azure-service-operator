@@ -34,6 +34,8 @@ KeyVault access can be restricted to only certain virtual networks or IP ranges.
 
 The KeyVaultKey operator serves as an operator that allows for declarative management of Key Vault keys - one of the three resources available for storage and management in Key Vault; keys, secrets, and certificates.  Keys can be leveraged for various use cases.
 
+You can find a sample YAML for KeyVault Kay [here](/config/samples/azure_v1alpha1_keyvaultkey.yaml)
+
 For example, one of the most common use cases for Key Vault keys is [SQL Server Always Encrypted](https://docs.microsoft.com/sql/relational-databases/security/encryption/always-encrypted-database-engine) data encryption.  The KeyVaultKey operator will allow for generation of an key that can be used to leverage data encryption via managed keys in Key Vault:
 
 ```sql

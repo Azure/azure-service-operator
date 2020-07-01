@@ -13,8 +13,6 @@ The Event Hubs operator can be used to provision the following resources.
 3. Consumer groups - Deploys a consumer group given the event hub, Event Hubs namespace and resource group. 
    1. [Sample YAML file](config\samples\azure_v1alpha1_capture.yaml)
 
-
-
 ### Event Hubs - Deployment output
 
 The Event Hubs operator deploys an event hub in the specified namespace according to the spec.
