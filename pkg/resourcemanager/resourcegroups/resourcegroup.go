@@ -11,6 +11,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2017-05-10/resources"
 
+	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/go-autorest/autorest"
@@ -24,6 +25,18 @@ type AzureResourceGroupManager struct{}
 func getGroupsClient() (resources.GroupsClient, error) {
 	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), config.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer()
+	if err != nil {
+		return resources.GroupsClient{}, err
+	}
+	groupsClient.Authorizer = a
+	groupsClient.AddToUserAgent(config.UserAgent())
+	return groupsClient, nil
+}
+
+func getGroupsClientWithCreds(creds map[string]string) (resources.GroupsClient, error) {
+
+	groupsClient := resources.NewGroupsClientWithBaseURI(config.BaseURI(), creds["AZURE_SUBSCRIPTION_ID"])
+	a, err := iam.GetResourceManagementAuthorizerWithCreds(creds)
 	if err != nil {
 		return resources.GroupsClient{}, err
 	}
@@ -46,7 +59,7 @@ func getGroupsClientWithAuthFile() (resources.GroupsClient, error) {
 }
 
 // CreateGroup creates a new resource group named by env var
-func (_ *AzureResourceGroupManager) CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
+func (m *AzureResourceGroupManager) CreateGroup(ctx context.Context, groupName string, location string) (resources.Group, error) {
 	groupsClient, err := getGroupsClient()
 	if err != nil {
 		return resources.Group{}, err
@@ -56,7 +69,22 @@ func (_ *AzureResourceGroupManager) CreateGroup(ctx context.Context, groupName s
 		ctx,
 		groupName,
 		resources.Group{
-			Location: to.StringPtr(location),
+			Location: &location,
+		})
+}
+
+// CreateGroup creates a new resource group named by env var
+func (m *AzureResourceGroupManager) CreateGroupWithCreds(ctx context.Context, instance *v1alpha1.ResourceGroup, creds map[string]string) (resources.Group, error) {
+	groupsClient, err := getGroupsClientWithCreds(creds)
+	if err != nil {
+		return resources.Group{}, err
+	}
+
+	return groupsClient.CreateOrUpdate(
+		ctx,
+		instance.Name,
+		resources.Group{
+			Location: &instance.Spec.Location,
 		})
 }
 
@@ -79,6 +107,24 @@ func CreateGroupWithAuthFile(ctx context.Context, groupName string, location str
 // DeleteGroup removes the resource group named by env var
 func (_ *AzureResourceGroupManager) DeleteGroup(ctx context.Context, groupName string) (result autorest.Response, err error) {
 	client, err := getGroupsClient()
+	if err != nil {
+		return autorest.Response{
+			Response: &http.Response{
+				StatusCode: 500,
+			},
+		}, err
+	}
+
+	future, err := client.Delete(ctx, groupName)
+	if err != nil {
+		return autorest.Response{}, err
+	}
+
+	return future.Result(client)
+}
+
+func (_ *AzureResourceGroupManager) DeleteGroupWithCreds(ctx context.Context, groupName string, creds map[string]string) (result autorest.Response, err error) {
+	client, err := getGroupsClientWithCreds(creds)
 	if err != nil {
 		return autorest.Response{
 			Response: &http.Response{

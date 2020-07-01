@@ -18,16 +18,19 @@ import (
 )
 
 func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
 
 	instance, err := g.convert(obj)
 	if err != nil {
 		return false, err
 	}
-	resourcegroupLocation := instance.Spec.Location
-	resourcegroupName := instance.ObjectMeta.Name
+
 	instance.Status.Provisioning = true
 
-	group, err := g.CreateGroup(ctx, resourcegroupName, resourcegroupLocation)
+	group, err := g.CreateGroupWithCreds(ctx, instance, options.Credential)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -58,6 +61,11 @@ func (g *AzureResourceGroupManager) Ensure(ctx context.Context, obj runtime.Obje
 }
 
 func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
 	instance, err := g.convert(obj)
 	if err != nil {
 		return false, err
@@ -65,7 +73,7 @@ func (g *AzureResourceGroupManager) Delete(ctx context.Context, obj runtime.Obje
 
 	resourcegroup := instance.ObjectMeta.Name
 
-	_, err = g.DeleteGroup(ctx, resourcegroup)
+	_, err = g.DeleteGroupWithCreds(ctx, resourcegroup, options.Credential)
 	if err != nil {
 
 		catch := []string{
