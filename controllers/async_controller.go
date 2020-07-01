@@ -6,10 +6,12 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
+	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultsecretlib "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
@@ -18,6 +20,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -34,15 +37,17 @@ const (
 // It reconciles Kubernets objects which require long running operations in Azure.
 type AsyncReconciler struct {
 	client.Client
-	AzureClient resourcemanager.ARMClient
-	Telemetry   telemetry.TelemetryClient
-	Recorder    record.EventRecorder
-	Scheme      *runtime.Scheme
+	AzureClient  resourcemanager.ARMClient
+	Telemetry    telemetry.TelemetryClient
+	Recorder     record.EventRecorder
+	Scheme       *runtime.Scheme
+	SecretClient secrets.SecretClient
 }
 
 // Reconcile reconciles the change request
 func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (result ctrl.Result, err error) {
 	ctx := context.Background()
+	var configOptions []resourcemanager.ConfigOption
 
 	if err := r.Get(ctx, req.NamespacedName, obj); err != nil {
 		r.Telemetry.LogInfoByInstance("ignorable error", "error during fetch from api server", req.String())
@@ -54,6 +59,17 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 	if err != nil {
 		r.Telemetry.LogErrorByInstance("unable to fetch status", err, req.String())
 		return ctrl.Result{}, err
+	}
+
+	// get credentials to use for provisioning
+	creds, err := r.GetAzureAuth(ctx, req)
+	if err != nil {
+		status.Message = "unable to source credentials for authenticating with Azure: " + err.Error()
+		return ctrl.Result{RequeueAfter: requeDuration}, r.Status().Update(ctx, obj)
+	}
+
+	if len(creds) > 0 {
+		configOptions = append(configOptions, resourcemanager.WithAzureCredential(creds))
 	}
 
 	// record the time that this request was requested at
@@ -108,7 +124,6 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 		return ctrl.Result{}, r.Update(ctx, obj)
 	}
 
-	var configOptions []resourcemanager.ConfigOption
 	if res.GetDeletionTimestamp().IsZero() {
 		if !HasFinalizer(res, finalizerName) {
 			AddFinalizer(res, finalizerName)
@@ -210,4 +225,88 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 	r.Telemetry.LogInfo("status", "exiting reconciliation")
 
 	return result, err
+}
+
+// AuthSourceMode determines the strategy used to soruce auth credentials when authenticating with Azure
+type AuthSourceMode string
+
+const (
+	FallbackMode       AuthSourceMode = "fallback"
+	NamespaceMode                     = "namespace"
+	AdminNamespaceMode                = "admin-namespace"
+	GlobalMode                        = "global"
+)
+
+func (r *AsyncReconciler) GetAzureAuth(ctx context.Context, req ctrl.Request) (map[string]string, error) {
+	creds := map[string]string{}
+	// resourcemanagerconfig.ParseEnvironment()
+	m := strings.ToLower(resourcemanagerconfig.AuthSourceMode())
+	mode := AuthSourceMode(m)
+
+	modes := []AuthSourceMode{FallbackMode, NamespaceMode, AdminNamespaceMode, GlobalMode}
+	found := false
+	for _, v := range modes {
+		if v == mode {
+			found = true
+		}
+	}
+	if !found {
+		return creds, fmt.Errorf("Auth source mode is invalid: '%s'", mode)
+	}
+
+	if mode == NamespaceMode || mode == FallbackMode {
+		key := types.NamespacedName{
+			Name:      "aso-auth",
+			Namespace: req.Namespace,
+		}
+		s, err := r.SecretClient.Get(ctx, key)
+		if err != nil {
+			if !strings.Contains(err.Error(), "not found") || mode != FallbackMode {
+				return creds, fmt.Errorf("failed getting auth secret for '%v' auth mode: %w", mode, err)
+			}
+		} else {
+			return convertByteMapToStringMap(s), nil
+		}
+	}
+
+	if mode == AdminNamespaceMode || mode == FallbackMode {
+		adminNS := resourcemanagerconfig.AuthSourceNamespace()
+		if adminNS == "" && mode == AdminNamespaceMode {
+			return creds, fmt.Errorf("auth mode is '%s' but not namespace provided", AdminNamespaceMode)
+		}
+
+		key := types.NamespacedName{
+			Name:      "aso-auth-" + req.Namespace,
+			Namespace: adminNS,
+		}
+		s, err := r.SecretClient.Get(ctx, key)
+		if err != nil {
+			if !strings.Contains(err.Error(), "not found") || mode != FallbackMode {
+				return creds, err
+			}
+		} else {
+			log.Printf("using '%s' mode credentials", AdminNamespaceMode)
+
+			return convertByteMapToStringMap(s), nil
+		}
+
+	}
+
+	return map[string]string{
+		"AZURE_CLIENT_ID":       resourcemanagerconfig.ClientID(),
+		"AZURE_CLIENT_SECRET":   resourcemanagerconfig.ClientSecret(),
+		"AZURE_SUBSCRIPTION_ID": resourcemanagerconfig.SubscriptionID(),
+		"AZURE_TENANT_ID":       resourcemanagerconfig.TenantID(),
+	}, nil
+
+}
+
+func convertByteMapToStringMap(in map[string][]byte) map[string]string {
+	out := map[string]string{}
+
+	for k, v := range in {
+		out[k] = string(v)
+	}
+
+	return out
 }
