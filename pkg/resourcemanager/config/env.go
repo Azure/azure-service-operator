@@ -57,6 +57,9 @@ func ParseEnvironment() error {
 	operatorKeyvault = envy.Get("AZURE_OPERATOR_KEYVAULT", "")               // operatorKeyvault()
 	testResourcePrefix = envy.Get("TEST_RESOURCE_PREFIX", "t-"+helpers.RandomString(6))
 
+	authenticationSourceMode = envy.Get("AZURE_OPERATOR_AUTH_SOURCE_MODE", "fallback")
+	authenticationAdminNamespace = envy.Get("AZURE_OPERATOR_AUTH_SOURCE_NAMESPACE", "")
+
 	var err error
 
 	for _, requirement := range GetRequiredConfigs() {

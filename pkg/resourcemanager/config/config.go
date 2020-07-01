@@ -16,24 +16,36 @@ var (
 	// each has corresponding public accessors below.
 	// if anything requires a `Set` accessor, that indicates it perhaps
 	// shouldn't be set here, because mutable vars shouldn't be global.
-	clientID               string
-	clientSecret           string
-	tenantID               string
-	subscriptionID         string
-	locationDefault        string
-	authorizationServerURL string
-	cloudName              string
-	useDeviceFlow          bool
-	useMI                  bool
-	buildID                string
-	keepResources          bool
-	operatorKeyvault       string
-	userAgent              string
-	baseURI                string
-	environment            *azure.Environment
+	clientID                     string
+	clientSecret                 string
+	tenantID                     string
+	subscriptionID               string
+	locationDefault              string
+	authorizationServerURL       string
+	cloudName                    string
+	useDeviceFlow                bool
+	useMI                        bool
+	buildID                      string
+	keepResources                bool
+	operatorKeyvault             string
+	userAgent                    string
+	baseURI                      string
+	environment                  *azure.Environment
+	authenticationSourceMode     string
+	authenticationAdminNamespace string
 
 	testResourcePrefix string // used to generate resource names in tests, should probably exist in a test only package
 )
+
+// AuthSourceMode is the strategy for sourcing auth credentials for interacting with Azure
+func AuthSourceMode() string {
+	return authenticationSourceMode
+}
+
+// AuthSourceNamespace is the namespace used when AuthSourceMode is 'admin-namespace'
+func AuthSourceNamespace() string {
+	return authenticationAdminNamespace
+}
 
 // ClientID is the OAuth client ID.
 func ClientID() string {
