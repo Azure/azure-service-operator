@@ -42,6 +42,14 @@ func NewPollClientWithBaseURI(baseURI string, subscriptionID string) PollClient 
 	return c
 }
 
+func NewPollClientWithCreds(creds map[string]string) PollClient {
+	c := PollClient{NewWithBaseURI(config.BaseURI(), creds["AZURE_SUBSCRIPTION_ID"])}
+	a, _ := iam.GetResourceManagementAuthorizerWithCreds(creds)
+	c.Authorizer = a
+	c.AddToUserAgent(config.UserAgent())
+	return c
+}
+
 // NewWithBaseURI creates an instance of the BaseClient client.
 func NewWithBaseURI(baseURI string, subscriptionID string) BaseClient {
 	return BaseClient{
