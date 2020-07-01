@@ -6,7 +6,6 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 	"time"
 
@@ -285,8 +284,6 @@ func (r *AsyncReconciler) GetAzureAuth(ctx context.Context, req ctrl.Request) (m
 				return creds, err
 			}
 		} else {
-			log.Printf("using '%s' mode credentials", AdminNamespaceMode)
-
 			return convertByteMapToStringMap(s), nil
 		}
 
