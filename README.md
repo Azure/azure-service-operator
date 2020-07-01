@@ -2,6 +2,11 @@
 
 [![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
 
+<<<<<<< HEAD
+=======
+> Note: The API is expected to change (while adhering to semantic versioning). Alpha and Beta resources are generally not recommended for production environments.
+
+>>>>>>> d68b553e6bf999217983adf62df479f447108fa9
 The **Azure Service Operator** helps you provision Azure resources and connect your applications to them from within Kubernetes.
 
 ## Overview

@@ -3,7 +3,7 @@
 ![](/docs/images/Deploy%20Flow.png)
 
 1. The user provisions the Managed Identity (or service principal) in their environment for the Azure Service Operator to use.
-2. The user then deploy cert-manager for the Azure Service Operator to use when deployed.
+2. The user then deploys cert-manager for the Azure Service Operator to use when deployed.
 
 3. The user then uses the Helm chart to deploy the operator. This includes the controller pod and the manager pod, created from images stored in the public Microsoft Container Registry. The Helm chart also deploys dependencies like [aad-pod-identity](https://github.com/Azure/aad-pod-identity) in addition to the Azure Service Operator. This deployment also configures the needed Kubernetes RBAC rules.
 
@@ -26,7 +26,7 @@
 
 7. Azure API provisions/deprovisions the resource and returns the Resource object to the Service Operator.
 
-8. The Azure Service Operator retrieves the information required to access/consume the Azure resource from the Resource object and stores it in a Kubernetes secret or as a secret in a pre-specified Azure KeyVault.
+8. The Azure Service Operator retrieves the information required to access/consume the Azure resource from the Resource object and stores it in a Kubernetes secret, or as a secret in a pre-specified Azure KeyVault.
 
 9. The app is deployed successfully now that the Azure service it depends on is provisioned, and the secret it references exists.
 

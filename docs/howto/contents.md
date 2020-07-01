@@ -15,7 +15,7 @@
 ## Developing Azure Service Operator
 
 1. [Prerequisites](prereqs.md):
-    Find the list of tools and dependencies needed to develop and deploy the Azure Service Opera
+    Find the list of tools and dependencies needed to develop and deploy the Azure Service Operator
 2. [Developing](development.md)
     Find information for running the operator locally.
 3. [Testing](testing.md)

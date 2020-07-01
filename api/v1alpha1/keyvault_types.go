@@ -10,6 +10,9 @@ import (
 // KeyVaultSpec defines the desired state of KeyVault
 type KeyVaultSpec struct {
 	Location         string               `json:"location"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup    string               `json:"resourceGroup"`
 	EnableSoftDelete bool                 `json:"enableSoftDelete,omitempty"`
 	NetworkPolicies  *NetworkRuleSet      `json:"networkPolicies,omitempty"`
