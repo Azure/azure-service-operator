@@ -17,7 +17,7 @@ type StorageAccountSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location      string `json:"location,omitempty"`
+	Location string `json:"location,omitempty"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required

@@ -9,7 +9,7 @@ import (
 
 // APIMgmtSpec defines the desired state of APIMgmt
 type APIMgmtSpec struct {
-	Location      string        `json:"location"`
+	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required

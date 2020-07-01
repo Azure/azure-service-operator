@@ -9,7 +9,7 @@ import (
 
 // KeyVaultSpec defines the desired state of KeyVault
 type KeyVaultSpec struct {
-	Location         string               `json:"location"`
+	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
