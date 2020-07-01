@@ -68,6 +68,27 @@ func GetResourceManagementAuthorizer() (autorest.Authorizer, error) {
 	return armAuthorizer, err
 }
 
+// GetResourceManagementAuthorizer gets an OAuthTokenAuthorizer for Azure Resource Manager
+func GetResourceManagementAuthorizerWithCreds(creds map[string]string) (autorest.Authorizer, error) {
+	if armAuthorizer != nil {
+		return armAuthorizer, nil
+	}
+
+	var a autorest.Authorizer
+	var err error
+
+	a, err = getAuthorizerForResourceWithCreds(config.Environment().ResourceManagerEndpoint, creds)
+
+	if err == nil {
+		// cache
+		armAuthorizer = a
+	} else {
+		// clear cache
+		armAuthorizer = nil
+	}
+	return armAuthorizer, err
+}
+
 // GetBatchAuthorizer gets an OAuthTokenAuthorizer for Azure Batch.
 func GetBatchAuthorizer() (autorest.Authorizer, error) {
 	if batchAuthorizer != nil {
@@ -212,6 +233,54 @@ func getAuthorizerForResource(resource string) (autorest.Authorizer, error) {
 
 		token, err := adal.NewServicePrincipalToken(
 			*oauthConfig, config.ClientID(), config.ClientSecret(), resource)
+		if err != nil {
+			return nil, err
+		}
+		a = autorest.NewBearerAuthorizer(token)
+
+	case OAuthGrantTypeMI:
+		MIEndpoint, err := adal.GetMSIVMEndpoint()
+		if err != nil {
+			return nil, err
+		}
+
+		token, err := adal.NewServicePrincipalTokenFromMSI(MIEndpoint, resource)
+		if err != nil {
+			return nil, err
+		}
+
+		a = autorest.NewBearerAuthorizer(token)
+
+	case OAuthGrantTypeDeviceFlow:
+		deviceconfig := auth.NewDeviceFlowConfig(config.ClientID(), config.TenantID())
+		deviceconfig.Resource = resource
+		a, err = deviceconfig.Authorizer()
+		if err != nil {
+			return nil, err
+		}
+
+	default:
+		return a, fmt.Errorf("invalid grant type specified")
+	}
+
+	return a, err
+}
+
+func getAuthorizerForResourceWithCreds(resource string, creds map[string]string) (autorest.Authorizer, error) {
+
+	var a autorest.Authorizer
+	var err error
+
+	switch grantType() {
+	case OAuthGrantTypeServicePrincipal:
+		oauthConfig, err := adal.NewOAuthConfig(
+			config.Environment().ActiveDirectoryEndpoint, creds["AZURE_TENANT_ID"])
+		if err != nil {
+			return nil, err
+		}
+
+		token, err := adal.NewServicePrincipalToken(
+			*oauthConfig, creds["AZURE_CLIENT_ID"], creds["AZURE_CLIENT_SECRET"], resource)
 		if err != nil {
 			return nil, err
 		}
