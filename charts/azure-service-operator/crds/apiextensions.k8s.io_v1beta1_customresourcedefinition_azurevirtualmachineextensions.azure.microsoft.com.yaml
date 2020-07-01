@@ -19,7 +19,7 @@ spec:
     listKind: AzureVirtualMachineExtensionList
     plural: azurevirtualmachineextensions
     shortNames:
-    - vmext
+    - avme
     singular: azurevirtualmachineextension
   scope: Namespaced
   subresources:

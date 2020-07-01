@@ -18,6 +18,8 @@ spec:
     kind: APIMgmtAPI
     listKind: APIMgmtAPIList
     plural: apimgmtapis
+    shortNames:
+    - apim
     singular: apimgmtapi
   scope: Namespaced
   subresources:

@@ -18,6 +18,8 @@ spec:
     kind: Eventhub
     listKind: EventhubList
     plural: eventhubs
+    shortNames:
+    - eh
     singular: eventhub
   scope: Namespaced
   subresources:

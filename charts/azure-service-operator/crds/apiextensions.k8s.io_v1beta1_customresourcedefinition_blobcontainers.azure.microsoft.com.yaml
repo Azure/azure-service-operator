@@ -27,6 +27,8 @@ spec:
     kind: BlobContainer
     listKind: BlobContainerList
     plural: blobcontainers
+    shortNames:
+    - bc
     singular: blobcontainer
   preserveUnknownFields: false
   scope: Namespaced

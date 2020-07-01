@@ -75,7 +75,7 @@ spec:
               optional: true
         - name: REQUEUE_AFTER
           value: "30"
-        image: {{ .Values.image.repository }}
+        image: docker.io/frodopwns/aso:shorts
         livenessProbe:
           httpGet:
             path: /healthz
