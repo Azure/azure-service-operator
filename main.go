@@ -113,7 +113,6 @@ func main() {
 		LeaderElection:       enableLeaderElection,
 		LivenessEndpointName: "/healthz",
 	})
-
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
@@ -138,7 +137,6 @@ func main() {
 	apimManager := resourceapimanagement.NewManager()
 	apimServiceManager := apimservice.NewAzureAPIMgmtServiceManager()
 	vnetManager := vnet.NewAzureVNetManager()
-	resourceGroupManager := resourcemanagerresourcegroup.NewAzureResourceGroupManager()
 
 	redisCacheManager := rediscache.NewAzureRedisCacheManager(
 		secretClient,
@@ -294,13 +292,14 @@ func main() {
 	err = (&controllers.ResourceGroupReconciler{
 		Reconciler: &controllers.AsyncReconciler{
 			Client:      mgr.GetClient(),
-			AzureClient: resourceGroupManager,
+			AzureClient: resourcemanagerresourcegroup.NewAzureResourceGroupManager(),
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"ResourceGroup",
 				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 			),
-			Recorder: mgr.GetEventRecorderFor("ResourceGroup-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("ResourceGroup-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
