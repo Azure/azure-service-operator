@@ -10,6 +10,7 @@
 1. [Authentication using managed identities](managedidentity.md)
    Use a managed identity for authentication of Azure Service Operator instead of a service principal.
 2. [Secret management](secrets.md) Learn how secrets are managed in Azure Service Operator and choose the best option for you.
+3. [How it works](controlflow.md) Learn the control flow behind deploying the operator and provision resources through the operator.
 
 ## Developing Azure Service Operator
 
