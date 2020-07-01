@@ -1,31 +1,31 @@
-# azure-service-operator
+## Deploy Azure Service Operator using Helm charts
 
-[Azure Service Operator](https://github.com/azure/azure-service-operator) enables users to provision and deprovision various Azure services using a Kubernetes Operator.
+### Installing
 
-## Installing
+#### Before you begin
 
-### Pre-Install
+This Helm chart contains certificates that depend on [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) to be installed. Install cert-manager:
 
-This Helm chart contains certificates that depend on [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) to be installed. Install cert-manager prior to installing chart:
-
-```
-kubectl create namespace cert-manager
-kubectl label namespace cert-manager cert-manager.io/disable-validation=true
-kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+```console
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
 ```
 
-### Helm
+You can use the below command to check if the cert manager pods are ready. The cert manager pods should be running before proceeding to the next step.
 
-Install the latest (3.x+) [Helm](https://helm.sh/docs/intro/install/) on your machine.
+```console
+kubectl rollout status -n cert-manager deploy/cert-manager-webhook
+```
+
+Next, install the latest (3.x+) [Helm](https://helm.sh/docs/intro/install/) on your machine.
 
 Add the helm repo:
 ```console
-helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts --username <github username> --password <github personal access token>
+helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
 ```
 
-## Getting Started
+### Configure Azure Service Operator
 
-Copy the `values.yaml` file from this directory and in the following steps fill in the requisite values.
+Copy the `values.yaml` [file](../../charts/azure-service-operator/values.yaml) and fill in the requisite values in the following steps.
 
 First, set the following variables to your Azure Tenant ID and Subscription ID:
 ```
@@ -33,19 +33,26 @@ azureTenantID: 00000000-0000-0000-0000-000000000000
 azureSubscriptionID: 00000000-0000-0000-0000-000000000000
 ```
 
-### Authentication
+You can find these values by running the following:
+```
+az account show
+```
+
+#### Authentication
 
 Next, choose one of the following authentication methods, and set its appropriate variables.
 
-#### Service Principal
+##### Service Principal
 
-Set the following variables to your client ID and secret values:
+Once you have created a service principal, set the following variables to your client ID and secret values:
 ```
 azureClientID: 00000000-0000-0000-0000-000000000000
 azureClientSecret: 00000000-0000-0000-0000-000000000000
 ```
 
-#### Managed Identity
+##### Managed Identity
+
+Follow the instructions [here](../../docs/managedIdentity.md) to create an identity and assign it the correct permissions.
 
 Set the following Helm Chart values:
 ```
@@ -58,7 +65,7 @@ aad-pod-identity:
 
 Follow the instructions [here](../../docs/deploy.md) to create an identity and assign it the correct permissions.
 
-### Keyvault
+#### Store secrets in Azure KeyVault (optional)
 
 By default, secrets will be stored as Kubernetes secrets. If you wish to store them in KeyVault instead, follow the instructions [here](../../docs/deploy.md).
 
@@ -67,50 +74,14 @@ Then, set the following chart value to your KeyVault name:
 azureOperatorKeyvault: OperatorSecretKeyVault
 ```
 
-### Install Chart
-
-#### Pre-Install
-
-Prior to installing the Helm Chart, we recommend updating your CRDs, as Helm will not remove or update them if they already exist on the cluster.
-
-##### Default Namespace
-
-If you do not need a custom namespace, run the command below to update your CRDs:
-```
-kubectl apply -f ./charts/azure-service-operator/crds/
-```
-
-##### Custom Namespace
-
-If installing to a custom namespace, some additional variable replacement will need to be done on the CRDs. Run the command below, replacing `your-namespace` with the desired custom namespace:
-```
-NAMESPACE=your-namespace
-find ./charts/azure-service-operator/crds/ -type f -exec perl -pi -e s,azureoperator-system,$NAMESPACE,g {} \;
-```
-
-Then, apply the CRDs:
-```
-kubectl apply -f ./charts/azure-service-operator/crds/
-```
-
-#### Install
+#### Install Chart
 
 Finally, install the chart with your added values. The chart can be installed by using a values file or environment variables.
 ```
 helm upgrade --install aso azureserviceoperator/azure-service-operator -n azureoperator-system --create-namespace -f values.yaml
 ```
 
-```
-helm upgrade --install aso azureserviceoperator/azure-service-operator -n azureoperator-system --create-namespace \
-    --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-    --set azureTenantID=$AZURE_TENANT_ID \
-    --set azureClientID=$AZURE_CLIENT_ID \
-    --set azureClientSecret=$AZURE_CLIENT_SECRET \
-    --set azureUseMI=$AZURE_USE_MI \
-    --set azureOperatorKeyvault=$AZURE_OPERATOR_KEYVAULT
-```
-
-## Configuration
+### Configuration
 
 The following table lists the configurable parameters of the azure-service-operator chart and its dependency chart, aad-pod-identity.
 
@@ -122,7 +93,9 @@ The following table lists the configurable parameters of the azure-service-opera
 | `azureClientSecret`  | Azure Service Principal Client Secret | `` |
 | `azureUseMI`  | Set to True if using Managed Identity for authentication | `False` |
 | `azureOperatorKeyvault`  | Set this value with the name of your Azure Key Vault resource if you prefer to store secrets in Key Vault rather than as Kubernetes secrets (default) | `` |
-| `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azure-service-operator:0.0.20258` |
+| `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azureserviceoperator:latest` |
 | `cloudEnvironment`  | Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud | `AzurePublicCloud` |
+| `createNamespace`  | Set to True if you would like the namespace autocreated, otherwise False if you have an existing namespace. If using an existing namespace, the `namespace` field must also be updated | `True` |
+| `namespace`  | Configure a custom namespace to deploy the operator into | `azureoperator-system` |
 | `aad-pod-identity.azureIdentity.resourceID`  | The resource ID for your managed identity | `` |
 | `aad-pod-identity.azureIdentity.clientID`  | The client ID for your managed identity | `` |

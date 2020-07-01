@@ -1,4 +1,4 @@
-# Deploying the Azure Service Operator
+# Building the Azure Service Operator locally and deploying
 
 The easiest way to deploy the Azure Service Operator is to use Helm charts. Follow instructions [here](helmdeploy.md).
 However, if you're interested and building and deploying the operators from source, follow the instructions laid out here.

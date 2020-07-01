@@ -66,21 +66,21 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
             --set image.repository="mcr.microsoft.com/k8s/azureserviceoperator:latest"
     ```
 
-You should now see the Azure service operator pods running in your cluster, like the below.
+    You should now see the Azure service operator pods running in your cluster, like the below.
 
-```console
-$ kubectl get pods -n azureoperator-system
-NAME                                                READY   STATUS    RESTARTS   AGE
-azureoperator-controller-manager-7dd75bbd97-mk4s9   2/2     Running   0          35s
-```
+    ```console
+    $ kubectl get pods -n azureoperator-system
+    NAME                                                READY   STATUS    RESTARTS   AGE
+    azureoperator-controller-manager-7dd75bbd97-mk4s9   2/2     Running   0          35s
+    ```
 
 If you're interested in deploying an Azure service through the operator, check out the set of [supported Azure services](#supported-azure-services) and their configurable helm charts.
 
 ## About the project
 
-This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](/charts/azure-service-operator).
+This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](/charts/azure-service-operator/README.md).
 
-If you're interested in building the operator locally and then deploying it, follow these instructions [here](docs\howto\deploy.md)).
+If you're interested in building the operator locally and then deploying it, follow these instructions [here](docs\howto\deploy.md).
 
 Please see the [FAQ](docs/faq.md) for answers to commonly asked questions about the Azure Service Operator.
 
