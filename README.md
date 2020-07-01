@@ -13,7 +13,7 @@ The Azure Service Operator comprises of:
 
 The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
-Curious to see how it all works? Check out our [control flow diagrams](/docs/design/controlflow.md).
+Curious to see how it all works? Check out our [control flow diagrams](/docs/howto/controlflow.md).
 
 ## Supported Azure Services
 
@@ -80,13 +80,13 @@ If you're interested in deploying an Azure service through the operator, check o
 
 This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](/charts/azure-service-operator/README.md).
 
-If you're interested in building the operator locally and then deploying it, follow these instructions [here](docs\howto\deploy.md).
-
 Please see the [FAQ](docs/faq.md) for answers to commonly asked questions about the Azure Service Operator.
+
+Have more questions? Feel free to consult our documentation [here](docs/howto/contents.md).
 
 ## Contributing
 
-The [contribution guide](CONTRIBUTING.MD) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](docs/howto/development.md) will help you onboard as a developer.
+The [contribution guide](CONTRIBUTING.MD) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](docs/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
 
 ## Support
 
@@ -96,6 +96,3 @@ Azure Service Operator is an open source project that is **not** covered by the 
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-[contribution-guide]: CONTRIBUTING.md
-[developer-guide]: docs/howto/contents.md
-[FAQ]: docs/faq.md
