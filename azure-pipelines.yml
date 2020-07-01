@@ -1,4 +1,12 @@
+# By default, ADO runs jobs on pushes and on PRs. Since we're only tracking/after PRs, turn off 
+# tiggers on push.
 trigger:
+  branches:
+    exclude:
+    - '*'
+
+# PR Section describes what happens on PR
+pr:
   branches:
     include:
     - master
