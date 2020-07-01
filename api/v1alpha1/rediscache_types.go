@@ -18,6 +18,9 @@ type RedisCacheSpec struct {
 	// +kubebuilder:validation:MinLength=0
 
 	Location               string               `json:"location,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroupName      string               `json:"resourceGroup"`
 	Properties             RedisCacheProperties `json:"properties,omitempty"`
 	SecretName             string               `json:"secretName,omitempty"`

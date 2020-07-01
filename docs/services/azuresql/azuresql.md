@@ -4,7 +4,7 @@
 
 The Azure SQL operator suite consists of the following operators.
 
-1. Azure SQL server - Deploys an Azure SQL server given the location and Resource group
+1. Azure SQL server - Deploys an Azure SQL server given the location and resource group
 2. Azure SQL database - Deploys an SQL database given the SQL server
 3. Azure SQL firewall rule - Deploys a firewall rule to allow access to the SQL server from specific IPs
 4. Azure SQL VirtualNetwork rule - Deploys a VirtualNetwork rule to allow access to the SQL server from specific VNets
@@ -200,6 +200,6 @@ You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, vi
 
 ## Demo
 
-Watch this demo <https://bit.ly/2lUIX6Y> to observe how you would you use the Azure SQL Operator from a real application.
+Check out this demo <https://bit.ly/2lUIX6Y> to see how you could use the Azure SQL Operator from a real application.
 
-In this demo, we use YAML to deploy the application and the SQL server. Once the SQL server is provisioned, the connection details are stored as secrets which the application can use to access the SQL server.
+In this demo, we use YAML to deploy the application and the SQL server. Once the SQL server is provisioned, the connection details are stored as Kubernetes secrets, which the application can use to access the SQL server.

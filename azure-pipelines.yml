@@ -2,6 +2,10 @@ trigger:
   branches:
     include:
     - master
+  paths:
+    exclude:
+    - docs/*
+    - README.md
 
 resources:
 - repo: self

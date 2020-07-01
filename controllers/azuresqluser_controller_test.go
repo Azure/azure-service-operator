@@ -27,6 +27,7 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 	var sqlUser *azurev1alpha1.AzureSQLUser
 
 	sqlServerName = GenerateTestResourceNameWithRandom("sqlusr-test", 10)
+	resourceGroup := GenerateTestResourceNameWithRandom("myrg", 10)
 
 	username := "sql-test-user" + helpers.RandomString(10)
 	roles := []string{"db_owner"}
@@ -37,6 +38,7 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.AzureSQLUserSpec{
+			ResourceGroup: resourceGroup,
 			Server:      sqlServerName,
 			DbName:      sqlDatabaseName,
 			AdminSecret: "",
