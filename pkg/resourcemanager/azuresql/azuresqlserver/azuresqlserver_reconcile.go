@@ -55,15 +55,15 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		}
 
 		// Assure that the requested name is available and assume the secret exists
-		checkNameResult, err := CheckNameAvailability(ctx, instance.Name)
-
+		checkNameResult, err := CheckNameAvailability(ctx, instance.Name, options.Credential)
 		if err != nil {
 			instance.Status.Provisioning = false
 			return false, err
 		}
+
 		if *checkNameResult.Available != true {
 			instance.Status.Provisioning = false
-			if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err != nil {
+			if _, err := s.GetServerWithCreds(ctx, instance.Spec.ResourceGroup, instance.Name, options.Credential); err != nil {
 				instance.Status.Message = "SQL server already exists somewhere else"
 				return true, nil
 			}
@@ -122,13 +122,13 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	if instance.Status.Provisioning ||
 		(!specHashWasEmpty && instance.Status.SpecHash == hash) {
 
-		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
+		serv, err := s.GetServerWithCreds(ctx, instance.Spec.ResourceGroup, instance.Name, options.Credential)
 		if err != nil {
 			azerr := errhelp.NewAzureErrorAzureError(err)
 
 			// handle failures in the async operation
 			if instance.Status.PollingURL != "" {
-				pClient := pollclient.NewPollClient()
+				pClient := pollclient.NewPollClientWithCreds(options.Credential)
 				res, err := pClient.Get(ctx, instance.Status.PollingURL)
 				if err != nil {
 					return false, err
@@ -173,7 +173,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if pollURL, _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, tags, azureSQLServerProperties, false); err != nil {
+	if pollURL, _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, tags, azureSQLServerProperties, false, options.Credential); err != nil {
 
 		instance.Status.Message = err.Error()
 

@@ -18,6 +18,11 @@ import (
 
 // Ensure creates a sqlfirewallrule
 func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
 	instance, err := fw.convert(obj)
 	if err != nil {
 		return false, err
@@ -29,7 +34,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 	startIP := instance.Spec.StartIPAddress
 	endIP := instance.Spec.EndIPAddress
 
-	fwr, err := fw.GetSQLFirewallRule(ctx, groupName, server, ruleName)
+	fwr, err := fw.GetSQLFirewallRule(ctx, groupName, server, ruleName, options.Credential)
 	if err == nil {
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
@@ -48,7 +53,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		return false, nil
 	}
 
-	_, err = fw.CreateOrUpdateSQLFirewallRule(ctx, groupName, server, ruleName, startIP, endIP)
+	_, err = fw.CreateOrUpdateSQLFirewallRule(ctx, groupName, server, ruleName, startIP, endIP, options.Credential)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		catch := []string{
@@ -69,6 +74,10 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 
 // Delete drops a sqlfirewallrule
 func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
 	instance, err := fw.convert(obj)
 	if err != nil {
 		return false, err
@@ -78,7 +87,7 @@ func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.O
 	server := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
 
-	err = fw.DeleteSQLFirewallRule(ctx, groupName, server, ruleName)
+	err = fw.DeleteSQLFirewallRule(ctx, groupName, server, ruleName, options.Credential)
 	if err != nil {
 		catch := []string{
 			errhelp.AsyncOpIncompleteError,

@@ -43,8 +43,8 @@ func NewAzureSqlManagedUserManager(secretClient secrets.SecretClient, scheme *ru
 }
 
 // GetDB retrieves a database
-func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (azuresql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient()
+func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string, creds map[string]string) (azuresql.Database, error) {
+	dbClient, err := azuresqlshared.GetGoDbClientWithCreds(creds)
 	if err != nil {
 		return azuresql.Database{}, err
 	}

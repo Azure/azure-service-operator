@@ -19,6 +19,11 @@ import (
 
 // Ensure creates a sqlvnetrule
 func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
 	instance, err := vr.convert(obj)
 	if err != nil {
 		return false, err
@@ -32,7 +37,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 	subnetName := instance.Spec.SubnetName
 	ignoreendpoint := instance.Spec.IgnoreMissingServiceEndpoint
 
-	vnetrule, err := vr.GetSQLVNetRule(ctx, groupName, server, ruleName)
+	vnetrule, err := vr.GetSQLVNetRule(ctx, groupName, server, ruleName, options.Credential)
 	if err == nil {
 		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == sql.Ready {
 			instance.Status.Provisioning = false
@@ -55,7 +60,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 	}
 
 	instance.Status.Provisioning = true
-	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
+	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint, options.Credential)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -91,6 +96,11 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 
 // Delete drops a sqlvnetrule
 func (vr *AzureSqlVNetRuleManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
 	instance, err := vr.convert(obj)
 	if err != nil {
 		return false, err
@@ -100,7 +110,7 @@ func (vr *AzureSqlVNetRuleManager) Delete(ctx context.Context, obj runtime.Objec
 	server := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
 
-	err = vr.DeleteSQLVNetRule(ctx, groupName, server, ruleName)
+	err = vr.DeleteSQLVNetRule(ctx, groupName, server, ruleName, options.Credential)
 	if err != nil {
 		instance.Status.Message = err.Error()
 

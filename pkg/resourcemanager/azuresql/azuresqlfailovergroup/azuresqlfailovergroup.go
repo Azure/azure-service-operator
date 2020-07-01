@@ -31,8 +31,8 @@ func NewAzureSqlFailoverGroupManager(secretClient secrets.SecretClient, scheme *
 }
 
 // GetServer returns a SQL server
-func (f *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient()
+func (f *AzureSqlFailoverGroupManager) GetServerWithCreds(ctx context.Context, resourceGroupName string, serverName string, creds map[string]string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClientWithCreds(creds)
 	if err != nil {
 		return sql.Server{}, err
 	}
@@ -61,8 +61,8 @@ func (f *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupN
 }
 
 // GetFailoverGroup retrieves a failover group
-func (f *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error) {
-	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient()
+func (f *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, creds map[string]string) (sql.FailoverGroup, error) {
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClientWithCreds(creds)
 	if err != nil {
 		return sql.FailoverGroup{}, err
 	}
@@ -76,7 +76,7 @@ func (f *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, res
 }
 
 // DeleteFailoverGroup deletes a failover group
-func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string) (result autorest.Response, err error) {
+func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string, creds map[string]string) (result autorest.Response, err error) {
 	result = autorest.Response{
 		Response: &http.Response{
 			StatusCode: 200,
@@ -84,17 +84,17 @@ func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context
 	}
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	_, err = sdk.GetServer(ctx, resourceGroupName, serverName)
+	_, err = sdk.GetServerWithCreds(ctx, resourceGroupName, serverName, creds)
 	if err != nil {
 		return result, nil
 	}
 	// check to see if the failover group exists, if it doesn't then short-circuit
-	_, err = sdk.GetFailoverGroup(ctx, resourceGroupName, serverName, failoverGroupName)
+	_, err = sdk.GetFailoverGroup(ctx, resourceGroupName, serverName, failoverGroupName, creds)
 	if err != nil {
 		return result, nil
 	}
 
-	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient()
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClientWithCreds(creds)
 	if err != nil {
 		return result, err
 	}
@@ -113,8 +113,8 @@ func (sdk *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context
 }
 
 // CreateOrUpdateFailoverGroup creates a failover group
-func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties azuresqlshared.SQLFailoverGroupProperties) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
-	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient()
+func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string, properties azuresqlshared.SQLFailoverGroupProperties, creds map[string]string) (result sql.FailoverGroupsCreateOrUpdateFuture, err error) {
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClientWithCreds(creds)
 	if err != nil {
 		return sql.FailoverGroupsCreateOrUpdateFuture{}, err
 	}
@@ -122,7 +122,7 @@ func (sdk *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(ctx context
 	// Construct a PartnerInfo object from the server name
 	// Get resource ID from the servername to use
 
-	server, err := sdk.GetServer(ctx, properties.SecondaryServerResourceGroup, properties.SecondaryServer)
+	server, err := sdk.GetServerWithCreds(ctx, properties.SecondaryServerResourceGroup, properties.SecondaryServer, creds)
 	if err != nil {
 		return result, nil
 	}

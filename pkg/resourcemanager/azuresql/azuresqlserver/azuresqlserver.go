@@ -75,9 +75,22 @@ func (_ *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName
 	)
 }
 
+func (_ *AzureSqlServerManager) GetServerWithCreds(ctx context.Context, resourceGroupName string, serverName string, creds map[string]string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClientWithCreds(creds)
+	if err != nil {
+		return sql.Server{}, err
+	}
+
+	return serversClient.Get(
+		ctx,
+		resourceGroupName,
+		serverName,
+	)
+}
+
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (pollingURL string, result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient()
+func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool, creds map[string]string) (pollingURL string, result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClientWithCreds(creds)
 	if err != nil {
 		return "", sql.Server{}, err
 	}
@@ -85,7 +98,7 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 	serverProp := azuresqlshared.SQLServerPropertiesToServer(properties)
 
 	if forceUpdate == false {
-		checkNameResult, _ := CheckNameAvailability(ctx, serverName)
+		checkNameResult, _ := CheckNameAvailability(ctx, serverName, creds)
 		if checkNameResult.Reason == sql.AlreadyExists {
 			err = errors.New("AlreadyExists")
 			return
@@ -115,8 +128,8 @@ func (_ *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 	return future.PollingURL(), result, err
 }
 
-func CheckNameAvailability(ctx context.Context, serverName string) (result sql.CheckNameAvailabilityResponse, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient()
+func CheckNameAvailability(ctx context.Context, serverName string, creds map[string]string) (result sql.CheckNameAvailabilityResponse, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClientWithCreds(creds)
 	if err != nil {
 		return sql.CheckNameAvailabilityResponse{}, err
 	}

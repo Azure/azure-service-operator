@@ -21,6 +21,10 @@ import (
 
 // Ensure creates an AzureSqlDb
 func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
 
 	instance, err := db.convert(obj)
 	if err != nil {
@@ -58,7 +62,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	instance.Status.Provisioning = true
 	instance.Status.Provisioned = false
 
-	dbGet, err := db.GetDB(ctx, groupName, server, dbName)
+	dbGet, err := db.GetDBWithCreds(ctx, groupName, server, dbName, options.Credential)
 	if err == nil {
 
 		// optionally set the long term retention policy
@@ -69,7 +73,9 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			instance.Spec.WeeklyRetention,
 			instance.Spec.MonthlyRetention,
 			instance.Spec.YearlyRetention,
-			instance.Spec.WeekOfYear)
+			instance.Spec.WeekOfYear,
+			options.Credential,
+		)
 		if err != nil {
 			failureErrors := []string{
 				errhelp.LongTermRetentionPolicyInvalid,
@@ -106,7 +112,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		return false, nil
 	}
 
-	resp, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSQLDatabaseProperties)
+	resp, err := db.CreateOrUpdateDBWithCreds(ctx, groupName, location, server, labels, azureSQLDatabaseProperties, options.Credential)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
@@ -149,6 +155,11 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 // Delete drops a AzureSqlDb
 func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
 	instance, err := db.convert(obj)
 	if err != nil {
 		return false, err
@@ -158,7 +169,7 @@ func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object, opt
 	server := instance.Spec.Server
 	dbName := instance.ObjectMeta.Name
 
-	_, err = db.DeleteDB(ctx, groupName, server, dbName)
+	_, err = db.DeleteDBWithCreds(ctx, groupName, server, dbName, options.Credential)
 	if err != nil {
 		catch := []string{
 			errhelp.AsyncOpIncompleteError,

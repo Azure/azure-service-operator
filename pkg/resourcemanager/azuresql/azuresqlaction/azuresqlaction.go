@@ -94,11 +94,11 @@ func (s *AzureSqlActionManager) UpdateUserPassword(ctx context.Context, groupNam
 
 // UpdateAdminPassword gets the server instance from Azure, updates the admin password
 // for the server and stores the new password in the secret
-func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupName string, serverName string, secretKey types.NamespacedName, secretClient secrets.SecretClient) error {
+func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupName string, serverName string, secretKey types.NamespacedName, secretClient secrets.SecretClient, creds map[string]string) error {
 
 	azuresqlserverManager := azuresqlserver.NewAzureSqlServerManager(secretClient, s.Scheme)
 	// Get the SQL server instance
-	server, err := azuresqlserverManager.GetServer(ctx, groupName, serverName)
+	server, err := azuresqlserverManager.GetServerWithCreds(ctx, groupName, serverName, creds)
 	if err != nil {
 		return err
 	}
@@ -120,7 +120,7 @@ func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupNa
 	azureSqlServerProperties.AdministratorLoginPassword = to.StringPtr(newPassword)
 
 	// Update the SQL server with the newly generated password
-	_, _, err = azuresqlserverManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, server.Tags, azureSqlServerProperties, true)
+	_, _, err = azuresqlserverManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, server.Tags, azureSqlServerProperties, true, creds)
 
 	if err != nil {
 		azerr := errhelp.NewAzureErrorAzureError(err)

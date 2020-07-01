@@ -46,7 +46,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		DatabaseList:                 instance.Spec.DatabaseList,
 	}
 
-	resp, err := fg.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName)
+	resp, err := fg.GetFailoverGroup(ctx, groupName, serverName, failoverGroupName, options.Credential)
 	if err == nil {
 
 		if *resp.ReplicationState == "SEEDING" {
@@ -70,7 +70,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		return false, nil
 	}
 
-	_, err = fg.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties)
+	_, err = fg.CreateOrUpdateFailoverGroup(ctx, groupName, serverName, failoverGroupName, sqlFailoverGroupProperties, options.Credential)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		catch := []string{
@@ -139,7 +139,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 	// key for Secret to delete on successful provision
 	key := types.NamespacedName{Name: instance.ObjectMeta.Name, Namespace: instance.Namespace}
 
-	_, err = fg.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
+	_, err = fg.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName, options.Credential)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)

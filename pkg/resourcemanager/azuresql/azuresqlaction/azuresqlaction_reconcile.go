@@ -23,6 +23,11 @@ const passwordLength = 16
 
 // Ensure creates an AzureSqlAction
 func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
+	options := &resourcemanager.Options{}
+	for _, opt := range opts {
+		opt(options)
+	}
+
 	instance, err := s.convert(obj)
 	if err != nil {
 		return false, err
@@ -56,7 +61,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			}
 
 			// Roll SQL server's admin password
-			err := s.UpdateAdminPassword(ctx, groupName, serverName, adminKey, adminSecretClient)
+			err := s.UpdateAdminPassword(ctx, groupName, serverName, adminKey, adminSecretClient, options.Credential)
 			if err != nil {
 				instance.Status.Message = err.Error()
 				catch := []string{

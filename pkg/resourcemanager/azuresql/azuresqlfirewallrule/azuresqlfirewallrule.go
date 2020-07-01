@@ -33,9 +33,22 @@ func (_ *AzureSqlFirewallRuleManager) GetServer(ctx context.Context, resourceGro
 	)
 }
 
+func (_ *AzureSqlFirewallRuleManager) GetServerWithCreds(ctx context.Context, resourceGroupName string, serverName string, creds map[string]string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClientWithCreds(creds)
+	if err != nil {
+		return sql.Server{}, err
+	}
+
+	return serversClient.Get(
+		ctx,
+		resourceGroupName,
+		serverName,
+	)
+}
+
 // GetSQLFirewallRule returns a firewall rule
-func (_ *AzureSqlFirewallRuleManager) GetSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (result sql.FirewallRule, err error) {
-	firewallClient, err := azuresqlshared.GetGoFirewallClient()
+func (_ *AzureSqlFirewallRuleManager) GetSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, creds map[string]string) (result sql.FirewallRule, err error) {
+	firewallClient, err := azuresqlshared.GetGoFirewallClientWithCreds(creds)
 	if err != nil {
 		return sql.FirewallRule{}, err
 	}
@@ -49,21 +62,21 @@ func (_ *AzureSqlFirewallRuleManager) GetSQLFirewallRule(ctx context.Context, re
 }
 
 // DeleteSQLFirewallRule deletes a firewall rule
-func (sdk *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (err error) {
+func (sdk *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, creds map[string]string) (err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := sdk.GetServer(ctx, resourceGroupName, serverName)
+	server, err := sdk.GetServerWithCreds(ctx, resourceGroupName, serverName, creds)
 	if err != nil || *server.State != "Ready" {
 		return nil
 	}
 
 	// check to see if the rule exists, if it doesn't then short-circuit
-	_, err = sdk.GetSQLFirewallRule(ctx, resourceGroupName, serverName, ruleName)
+	_, err = sdk.GetSQLFirewallRule(ctx, resourceGroupName, serverName, ruleName, creds)
 	if err != nil {
 		return nil
 	}
 
-	firewallClient, err := azuresqlshared.GetGoFirewallClient()
+	firewallClient, err := azuresqlshared.GetGoFirewallClientWithCreds(creds)
 	if err != nil {
 		return err
 	}
@@ -81,15 +94,15 @@ func (sdk *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Contex
 // CreateOrUpdateSQLFirewallRule creates or updates a firewall rule
 // based on code from: https://github.com/Azure-Samples/azure-sdk-for-go-samples/blob/master/sql/sql.go#L111
 // to allow allow Azure services to connect example: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure#manage-firewall-rules-using-azure-cli
-func (sdk *AzureSqlFirewallRuleManager) CreateOrUpdateSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, startIP string, endIP string) (result bool, err error) {
+func (sdk *AzureSqlFirewallRuleManager) CreateOrUpdateSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, startIP string, endIP string, creds map[string]string) (result bool, err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := sdk.GetServer(ctx, resourceGroupName, serverName)
+	server, err := sdk.GetServerWithCreds(ctx, resourceGroupName, serverName, creds)
 	if err != nil || *server.State != "Ready" {
 		return false, err
 	}
 
-	firewallClient, err := azuresqlshared.GetGoFirewallClient()
+	firewallClient, err := azuresqlshared.GetGoFirewallClientWithCreds(creds)
 	if err != nil {
 		return false, err
 	}
