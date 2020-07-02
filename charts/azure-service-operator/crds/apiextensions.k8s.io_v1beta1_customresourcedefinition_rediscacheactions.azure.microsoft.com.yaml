@@ -18,6 +18,8 @@ spec:
     kind: RedisCacheAction
     listKind: RedisCacheActionList
     plural: rediscacheactions
+    shortNames:
+    - rca
     singular: rediscacheaction
   scope: Namespaced
   subresources:

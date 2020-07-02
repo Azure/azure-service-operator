@@ -18,6 +18,8 @@ spec:
     kind: ApimService
     listKind: ApimServiceList
     plural: apimservices
+    shortNames:
+    - apims
     singular: apimservice
   scope: Namespaced
   subresources:

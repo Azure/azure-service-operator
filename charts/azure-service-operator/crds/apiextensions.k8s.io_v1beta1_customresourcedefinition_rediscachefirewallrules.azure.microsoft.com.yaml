@@ -18,6 +18,8 @@ spec:
     kind: RedisCacheFirewallRule
     listKind: RedisCacheFirewallRuleList
     plural: rediscachefirewallrules
+    shortNames:
+    - rcfwr
     singular: rediscachefirewallrule
   scope: Namespaced
   subresources:

@@ -18,6 +18,8 @@ spec:
     kind: MySQLDatabase
     listKind: MySQLDatabaseList
     plural: mysqldatabases
+    shortNames:
+    - mysqldb
     singular: mysqldatabase
   scope: Namespaced
   subresources:

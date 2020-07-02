@@ -18,6 +18,8 @@ spec:
     kind: AzureSQLUser
     listKind: AzureSQLUserList
     plural: azuresqlusers
+    shortNames:
+    - asqlu
     singular: azuresqluser
   scope: Namespaced
   subresources:

@@ -18,6 +18,8 @@ spec:
     kind: MySQLVNetRule
     listKind: MySQLVNetRuleList
     plural: mysqlvnetrules
+    shortNames:
+    - mysqlvnr
     singular: mysqlvnetrule
   scope: Namespaced
   subresources: {}
