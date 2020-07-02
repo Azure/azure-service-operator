@@ -1,4 +1,12 @@
+# By default, ADO runs jobs on pushes and on PRs. Since we're only tracking/after PRs, turn off 
+# tiggers on push.
 trigger:
+  branches:
+    exclude:
+    - '*'
+
+# PR Section describes what happens on PR
+pr:
   branches:
     include:
     - master
@@ -207,7 +215,7 @@ steps:
       # Replace image repository in values.yaml to the official image in ACR
       img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
       echo $img
-      sed -i -e 's@azure-service-operator:latest@azureserviceoperator:'${img}'@' charts/azure-service-operator/values.yaml
+      sed -i -e 's@azureserviceoperator:latest@azureserviceoperator:'${img}'@' charts/azure-service-operator/values.yaml
     displayName: Deploy to AKS - Replace image in values.yaml
 
   - task: Bash@3

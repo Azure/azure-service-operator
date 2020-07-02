@@ -55,6 +55,7 @@ spec:
             platformImageURN:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             sshPublicKeyData:
               type: string
