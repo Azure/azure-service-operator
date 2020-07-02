@@ -65,12 +65,14 @@ spec:
                   Important: Run "make" to regenerate code after modifying this file'
                 type: string
               resourcegroup:
+                pattern: ^[-\w\._\(\)]+$
                 type: string
               server:
                 type: string
             required:
             - edition
             - location
+            - resourcegroup
             - server
             type: object
           status:
@@ -141,6 +143,7 @@ spec:
               monthlyRetention:
                 type: string
               resourceGroup:
+                pattern: ^[-\w\._\(\)]+$
                 type: string
               server:
                 type: string
@@ -154,6 +157,7 @@ spec:
             required:
             - edition
             - location
+            - resourceGroup
             - server
             type: object
           status:

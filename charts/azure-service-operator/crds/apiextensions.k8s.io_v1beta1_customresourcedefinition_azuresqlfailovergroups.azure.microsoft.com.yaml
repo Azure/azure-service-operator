@@ -72,6 +72,7 @@ spec:
                   this file'
                 type: string
               resourcegroup:
+                pattern: ^[-\w\._\(\)]+$
                 type: string
               secondaryserver:
                 type: string
@@ -84,6 +85,7 @@ spec:
             - failovergraceperiod
             - failoverpolicy
             - location
+            - resourcegroup
             - secondaryserver
             - secondaryserverresourcegroup
             - server
@@ -163,6 +165,7 @@ spec:
                   this file'
                 type: string
               resourceGroup:
+                pattern: ^[-\w\._\(\)]+$
                 type: string
               secondaryServer:
                 type: string
@@ -175,6 +178,7 @@ spec:
             - failoverGracePeriod
             - failoverPolicy
             - location
+            - resourceGroup
             - secondaryServer
             - secondaryServerResourceGroup
             - server

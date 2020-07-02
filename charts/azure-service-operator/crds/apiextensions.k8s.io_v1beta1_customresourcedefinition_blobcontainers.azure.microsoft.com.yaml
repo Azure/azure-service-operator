@@ -64,9 +64,11 @@ spec:
                   Important: Run "make" to regenerate code after modifying this file'
                 type: string
               resourcegroup:
+                pattern: ^[-\w\._\(\)]+$
                 type: string
             required:
             - location
+            - resourcegroup
             type: object
           status:
             description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
@@ -134,9 +136,11 @@ spec:
                   Important: Run "make" to regenerate code after modifying this file'
                 type: string
               resourceGroup:
+                pattern: ^[-\w\._\(\)]+$
                 type: string
             required:
             - location
+            - resourceGroup
             type: object
           status:
             description: ASOStatus (AzureServiceOperatorsStatus) defines the observed

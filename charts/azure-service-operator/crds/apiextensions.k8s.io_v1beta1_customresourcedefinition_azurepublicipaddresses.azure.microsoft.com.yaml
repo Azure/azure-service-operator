@@ -53,6 +53,7 @@ spec:
             publicIPAllocationMethod:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             skuName:
               type: string
