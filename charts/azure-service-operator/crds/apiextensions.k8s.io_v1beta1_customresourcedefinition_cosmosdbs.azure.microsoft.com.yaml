@@ -108,6 +108,7 @@ spec:
                   type: string
               type: object
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             virtualNetworkRules:
               items:

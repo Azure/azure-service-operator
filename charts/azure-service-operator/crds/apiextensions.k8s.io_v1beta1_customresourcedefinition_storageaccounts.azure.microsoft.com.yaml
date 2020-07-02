@@ -125,6 +125,7 @@ spec:
                   type: array
               type: object
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             sku:
               description: StorageAccountSku the SKU of the storage account.

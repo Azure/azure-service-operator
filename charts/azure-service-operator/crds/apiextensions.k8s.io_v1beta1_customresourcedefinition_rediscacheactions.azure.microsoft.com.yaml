@@ -55,6 +55,7 @@ spec:
             keyVaultToStoreSecrets:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             secretName:
               type: string

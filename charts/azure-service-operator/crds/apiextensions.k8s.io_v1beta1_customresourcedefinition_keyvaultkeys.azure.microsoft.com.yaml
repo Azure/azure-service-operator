@@ -61,6 +61,7 @@ spec:
                 type: string
               type: array
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             type:
               description: JSONWebKeyType enumerates the values for json web key type.

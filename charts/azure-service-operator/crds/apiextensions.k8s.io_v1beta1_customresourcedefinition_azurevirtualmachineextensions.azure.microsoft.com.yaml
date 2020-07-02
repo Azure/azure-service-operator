@@ -58,6 +58,7 @@ spec:
             publisher:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             settings:
               type: string
