@@ -2,11 +2,8 @@
 
 [![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
 
-<<<<<<< HEAD
-=======
 > Note: The API is expected to change (while adhering to semantic versioning). Alpha and Beta resources are generally not recommended for production environments.
 
->>>>>>> d68b553e6bf999217983adf62df479f447108fa9
 The **Azure Service Operator** helps you provision Azure resources and connect your applications to them from within Kubernetes.
 
 ## Overview
@@ -104,4 +101,3 @@ Azure Service Operator is an open source project that is **not** covered by the 
 ## Code of conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
