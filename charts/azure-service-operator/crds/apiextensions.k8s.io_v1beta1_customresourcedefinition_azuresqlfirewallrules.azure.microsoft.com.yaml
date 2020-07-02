@@ -27,6 +27,8 @@ spec:
     kind: AzureSqlFirewallRule
     listKind: AzureSqlFirewallRuleList
     plural: azuresqlfirewallrules
+    shortNames:
+    - asqlfwr
     singular: azuresqlfirewallrule
   preserveUnknownFields: false
   scope: Namespaced
@@ -60,12 +62,14 @@ spec:
               resourcegroup:
                 description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                   Important: Run "make" to regenerate code after modifying this file'
+                pattern: ^[-\w\._\(\)]+$
                 type: string
               server:
                 type: string
               startipaddress:
                 type: string
             required:
+            - resourcegroup
             - server
             type: object
           status:
@@ -130,12 +134,14 @@ spec:
               resourceGroup:
                 description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                   Important: Run "make" to regenerate code after modifying this file'
+                pattern: ^[-\w\._\(\)]+$
                 type: string
               server:
                 type: string
               startIpAddress:
                 type: string
             required:
+            - resourceGroup
             - server
             type: object
           status:
