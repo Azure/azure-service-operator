@@ -3,22 +3,14 @@ entries:
   azure-service-operator:
   - apiVersion: v2
     appVersion: 0.1.0
-<<<<<<< HEAD
-    created: "2020-06-30T16:06:11.899378-06:00"
-=======
-    created: "2020-07-01T16:56:55.618965-06:00"
->>>>>>> update crds with shortnames
+    created: "2020-07-02T10:30:55.191248-06:00"
     dependencies:
     - condition: azureUseMI
       name: aad-pod-identity
       repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
       version: 1.5.5
     description: Deploy components and dependencies of azure-service-operator
-<<<<<<< HEAD
-    digest: 9185550b98142f1179fda44d630a1dd47f0ad8f71413ff818dc6cb2bf815c6cf
-=======
-    digest: 712db8df9a0eb9a3eb59deec6a1e9bb0287cbf5ebd538a62f1abe9a1ebc7e8d8
->>>>>>> update crds with shortnames
+    digest: b2343088d70b70ba2fdfc80b7b0faf722e13078681b5d9683119c102b18d065d
     home: https://github.com/Azure/azure-service-operator
     name: azure-service-operator
     sources:
@@ -26,8 +18,4 @@ entries:
     urls:
     - azure-service-operator-0.1.0.tgz
     version: 0.1.0
-<<<<<<< HEAD
-generated: "2020-06-30T16:06:11.895354-06:00"
-=======
-generated: "2020-07-01T16:56:55.6141-06:00"
->>>>>>> update crds with shortnames
+generated: "2020-07-02T10:30:55.186109-06:00"
