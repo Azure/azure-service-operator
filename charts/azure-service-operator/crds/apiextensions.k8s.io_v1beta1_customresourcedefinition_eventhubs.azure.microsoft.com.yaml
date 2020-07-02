@@ -142,6 +142,7 @@ spec:
                   type: integer
               type: object
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             secretName:
               description: SecretName - Used to specify the name of the secret. Defaults
@@ -149,6 +150,7 @@ spec:
               type: string
           required:
           - location
+          - resourceGroup
           type: object
         status:
           description: ASOStatus (AzureServiceOperatorsStatus) defines the observed

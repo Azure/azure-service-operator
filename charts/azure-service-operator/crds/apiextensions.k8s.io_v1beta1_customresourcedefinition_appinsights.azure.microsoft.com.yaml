@@ -50,11 +50,13 @@ spec:
             location:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
           required:
           - applicationType
           - kind
           - location
+          - resourceGroup
           type: object
         status:
           description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
