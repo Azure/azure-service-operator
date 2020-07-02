@@ -17,7 +17,7 @@ type StorageAccountSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location      string `json:"location,omitempty"`
+	Location string `json:"location,omitempty"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
@@ -68,7 +68,7 @@ type StorageAccountAccessTier string
 // +kubebuilder:subresource:status
 
 // StorageAccount is the Schema for the storages API
-// +kubebuilder:resource:shortName=sa
+// +kubebuilder:resource:shortName=sacct
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type StorageAccount struct {

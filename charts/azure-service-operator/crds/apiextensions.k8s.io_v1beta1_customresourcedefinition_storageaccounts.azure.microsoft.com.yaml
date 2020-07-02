@@ -19,7 +19,7 @@ spec:
     listKind: StorageAccountList
     plural: storageaccounts
     shortNames:
-    - sa
+    - sacct
     singular: storageaccount
   scope: Namespaced
   subresources:
