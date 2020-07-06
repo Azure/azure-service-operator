@@ -57,7 +57,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
 
     Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md)
 
-    ```console
+    ```sh
     helm upgrade --install aso https://github.com/Azure/azure-service-operator/raw/master/charts/azure-service-operator-0.1.0.tgz \
             --create-namespace \
             --namespace=azureoperator-system \
