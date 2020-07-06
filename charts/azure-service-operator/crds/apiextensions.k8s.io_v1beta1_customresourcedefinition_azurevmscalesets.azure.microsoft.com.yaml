@@ -18,6 +18,8 @@ spec:
     kind: AzureVMScaleSet
     listKind: AzureVMScaleSetList
     plural: azurevmscalesets
+    shortNames:
+    - avmss
     singular: azurevmscaleset
   scope: Namespaced
   subresources:
@@ -60,6 +62,7 @@ spec:
             platformImageURN:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             sshPublicKeyData:
               type: string

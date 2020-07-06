@@ -18,6 +18,8 @@ spec:
     kind: ApimService
     listKind: ApimServiceList
     plural: apimservices
+    shortNames:
+    - apims
     singular: apimservice
   scope: Namespaced
   subresources:
@@ -70,6 +72,7 @@ spec:
           - publisherEmail
           - publisherName
           - resourceGroup
+          - vnetResourceGroup
           type: object
         status:
           description: ASOStatus (AzureServiceOperatorsStatus) defines the observed

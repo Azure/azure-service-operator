@@ -1,11 +1,15 @@
+# By default, ADO runs jobs on pushes and on PRs. Since we're only tracking/after PRs, turn off 
+# tiggers on push.
 trigger:
+  branches:
+    exclude:
+    - '*'
+
+# PR Section describes what happens on PR
+pr:
   branches:
     include:
     - master
-  paths:
-    exclude:
-    - docs/*
-    - README.md
 
 resources:
 - repo: self
@@ -52,20 +56,30 @@ variables:
 steps:
   - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
     lfs: "true"
+
+  - task: Bash@3
+    name: "check_changes"
+    inputs:
+      targetType: 'filePath'
+      filePath: './scripts/check-changes.sh'
     
   - script: |
       make validate-copyright-headers
       make validate-cainjection-files
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     displayName: 'Validate Source'
     continueOnError: 'false'
 
+
   - task: GoTool@0
     displayName: Get Go 1.13.7
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     inputs:
       version: '1.13.7'
 
   - task: Go@0
     displayName: Get Go dependencies
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     inputs:
       command: 'get'
       arguments: '-d'
@@ -73,6 +87,7 @@ steps:
 
   - task: Bash@3
     displayName: Install kubebuilder, kustomize and test dependencies
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     inputs:
       targetType: 'inline'
       script: |
@@ -110,6 +125,7 @@ steps:
       export TEST_APIM_NAME=$(TEST_APIM_NAME)
       make test-integration-controllers
     displayName: Run tests on a Kind Cluster
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     continueOnError: 'false'
     env:
       GO111MODULE: on
@@ -126,17 +142,20 @@ steps:
       export PATH=$PATH:$(go env GOPATH)/bin
       make test-process-coverage
     displayName: Render Coverage Reports
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     continueOnError: true
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     
   - task: PublishCodeCoverageResults@1
     displayName: Publish Codecoverage results
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     inputs:
       codeCoverageTool: Cobertura 
       summaryFileLocation: $(System.DefaultWorkingDirectory)/reports/merged-coverage.xml
   
   - task: PublishBuildArtifacts@1
     displayName: Publish test reports
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     inputs:
       pathtoPublish: '$(System.DefaultWorkingDirectory)/reports'
       artifactName: reports
@@ -152,16 +171,19 @@ steps:
 
   - script: docker build -t $(IMAGE_NAME) .
     displayName: Docker build
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     workingDirectory: '$(System.DefaultWorkingDirectory)'
 
   - task: Docker@2
     displayName: Login to temporary pipeline ACR
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     inputs:
       containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
       command: 'login'
 
   - task: Docker@2
     displayName: Build and Push Docker Image to temporary ACR for validation
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     inputs:
       containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
       repository: '$(IMAGE_NAME)'
@@ -191,27 +213,31 @@ steps:
       workingDirectory: '$(System.DefaultWorkingDirectory)'
       failOnStandardError: true
     displayName: Deploy to AKS - Find available AKS cluster and connect to it
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
 
   - script: |
       kubectl create namespace cert-manager
       kubectl label namespace cert-manager cert-manager.io/disable-validation=true
       kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
     displayName: Deploy to AKS - Install Cert Manager
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
 
   - task: HelmInstaller@1
     displayName: Deploy to AKS - Install latest Helm
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     inputs:
       helmVersionToInstall: 'latest'
-  
   - script: |
       # Replace image repository in values.yaml to the official image in ACR
       img="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
       echo $img
-      sed -i -e 's@azure-service-operator:latest@azureserviceoperator:'${img}'@' charts/azure-service-operator/values.yaml
+      sed -i -e 's@azureserviceoperator:latest@azureserviceoperator:'${img}'@' charts/azure-service-operator/values.yaml
     displayName: Deploy to AKS - Replace image in values.yaml
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
 
   - task: Bash@3
     displayName: Deploy to AKS - Helm Deploy
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
     inputs:
       targetType: 'inline'
       script: |
@@ -257,6 +283,7 @@ steps:
       workingDirectory: '$(System.DefaultWorkingDirectory)'
       failOnStandardError: true
     displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
+    condition: eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true')
 
   - task: Docker@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))

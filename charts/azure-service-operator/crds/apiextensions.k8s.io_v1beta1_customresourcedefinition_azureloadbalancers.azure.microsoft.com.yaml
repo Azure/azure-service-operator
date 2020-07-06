@@ -18,6 +18,8 @@ spec:
     kind: AzureLoadBalancer
     listKind: AzureLoadBalancerList
     plural: azureloadbalancers
+    shortNames:
+    - alb
     singular: azureloadbalancer
   scope: Namespaced
   subresources:
@@ -58,6 +60,7 @@ spec:
             publicIPAddressName:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
           required:
           - backendAddressPoolName

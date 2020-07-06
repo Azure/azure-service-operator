@@ -76,12 +76,6 @@ spec:
         - name: REQUEUE_AFTER
           value: "30"
         image: {{ .Values.image.repository }}
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: liveness-port
-          initialDelaySeconds: 30
-          periodSeconds: 10
         name: manager
         ports:
         - containerPort: 443
