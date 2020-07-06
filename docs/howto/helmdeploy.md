@@ -19,7 +19,7 @@ kubectl rollout status -n cert-manager deploy/cert-manager-webhook
 Next, install the latest (3.x+) [Helm](https://helm.sh/docs/intro/install/) on your machine.
 
 Add the helm repo:
-```console
+```sh
 helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
 ```
 
