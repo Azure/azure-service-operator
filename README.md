@@ -49,7 +49,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     ```
 1. Install [Helm](https://helm.sh/docs/intro/install/), and add the Helm repo for Azure Service Operator. Please note that the instructions here use Helm 3.
 
-    ```console
+    ```sh
     helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
     ```
 
