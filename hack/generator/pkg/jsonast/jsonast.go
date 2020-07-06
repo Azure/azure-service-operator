@@ -235,7 +235,17 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsche
 
 	var values []astmodel.EnumValue
 	for _, v := range schema.Enum {
-		id := scanner.idFactory.CreateIdentifier(v, astmodel.Exported)
+		vTrimmed := strings.Trim(v, "\"")
+
+		// Some specs include boolean enums with quotes around the boolean literals
+		if baseType == astmodel.BoolType {
+			v = vTrimmed
+		}
+
+		// TODO: This is a bit of a hack as we don't have a way to handle this generically right now
+		// TODO: for an arbitrary non-renderable character
+		// use vTrimmed as seed for identifier as it doesn't have quotes surrounding it
+		id := scanner.idFactory.CreateIdentifier(vTrimmed, astmodel.Exported)
 		values = append(values, astmodel.EnumValue{Identifier: id, Value: v})
 	}
 
@@ -669,7 +679,7 @@ func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 	defer span.End()
 
 	// See https://github.com/Azure/k8s-infra/issues/111 for details about why this is treated as oneOf
-	klog.Warningf("Handling anyOf type as if it were oneOf: %v\n", schema.Ref.GetUrl())
+	klog.V(2).Infof("Handling anyOf type as if it were oneOf: %v\n", schema.Ref.GetUrl())
 	return generateOneOfUnionType(ctx, schema.AnyOf, scanner)
 }
 
