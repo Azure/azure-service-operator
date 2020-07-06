@@ -18,6 +18,8 @@ spec:
     kind: PostgreSQLVNetRule
     listKind: PostgreSQLVNetRuleList
     plural: postgresqlvnetrules
+    shortNames:
+    - psqlvnr
     singular: postgresqlvnetrule
   scope: Namespaced
   subresources: {}

@@ -27,6 +27,8 @@ spec:
     kind: AzureSqlFailoverGroup
     listKind: AzureSqlFailoverGroupList
     plural: azuresqlfailovergroups
+    shortNames:
+    - asqlfog
     singular: azuresqlfailovergroup
   preserveUnknownFields: false
   scope: Namespaced

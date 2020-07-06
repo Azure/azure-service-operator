@@ -18,6 +18,8 @@ spec:
     kind: AzureLoadBalancer
     listKind: AzureLoadBalancerList
     plural: azureloadbalancers
+    shortNames:
+    - alb
     singular: azureloadbalancer
   scope: Namespaced
   subresources:

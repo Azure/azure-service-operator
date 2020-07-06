@@ -18,6 +18,8 @@ spec:
     kind: VirtualNetwork
     listKind: VirtualNetworkList
     plural: virtualnetworks
+    shortNames:
+    - vn
     singular: virtualnetwork
   scope: Namespaced
   subresources:

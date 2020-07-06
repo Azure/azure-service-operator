@@ -18,6 +18,8 @@ spec:
     kind: PostgreSQLFirewallRule
     listKind: PostgreSQLFirewallRuleList
     plural: postgresqlfirewallrules
+    shortNames:
+    - psqlfwr
     singular: postgresqlfirewallrule
   scope: Namespaced
   subresources:

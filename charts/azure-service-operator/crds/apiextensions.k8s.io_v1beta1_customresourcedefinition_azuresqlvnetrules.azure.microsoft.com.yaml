@@ -18,6 +18,8 @@ spec:
     kind: AzureSQLVNetRule
     listKind: AzureSQLVNetRuleList
     plural: azuresqlvnetrules
+    shortNames:
+    - asqlvnr
     singular: azuresqlvnetrule
   scope: Namespaced
   subresources:

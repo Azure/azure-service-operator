@@ -27,6 +27,8 @@ spec:
     kind: PostgreSQLServer
     listKind: PostgreSQLServerList
     plural: postgresqlservers
+    shortNames:
+    - psqls
     singular: postgresqlserver
   preserveUnknownFields: false
   scope: Namespaced

@@ -18,6 +18,8 @@ spec:
     kind: EventhubNamespace
     listKind: EventhubNamespaceList
     plural: eventhubnamespaces
+    shortNames:
+    - ehns
     singular: eventhubnamespace
   scope: Namespaced
   subresources:

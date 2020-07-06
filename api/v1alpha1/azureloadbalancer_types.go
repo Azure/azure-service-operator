@@ -31,6 +31,7 @@ type AzureLoadBalancerSpec struct {
 // +kubebuilder:subresource:status
 
 // AzureLoadBalancer is the Schema for the azureloadbalancers API
+// +kubebuilder:resource:shortName=alb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureLoadBalancer struct {
