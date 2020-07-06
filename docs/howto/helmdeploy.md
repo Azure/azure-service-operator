@@ -34,7 +34,7 @@ azureSubscriptionID: 00000000-0000-0000-0000-000000000000
 ```
 
 You can find these values by running the following:
-```
+```sh
 az account show
 ```
 
