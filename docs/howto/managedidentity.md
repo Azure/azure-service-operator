@@ -76,8 +76,8 @@ Let's break down exactly what the script is doing.
 
 2. Apply the AzureIdentity and Binding manifests. This binds the identity to the Azure Service Operator.
 
-  ```bash
-  ➜  azure-service-operator git:(master) ✗ cat <<EOF | kubectl apply -f -
+  ```console
+  $ cat <<EOF | kubectl apply -f -
   apiVersion: "aadpodidentity.k8s.io/v1"
   kind: AzureIdentity
   metadata:
