@@ -28,7 +28,7 @@ To find the principal ID of your AKS cluster, you can run the following commands
 
 Run the script as follows:
 
-``` go
+```sh
 go run cli/main.go createmi \
   -g resourcegroup_name \
   -i managed_identity_name \
