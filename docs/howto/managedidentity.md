@@ -12,7 +12,7 @@ In this guide, we'll show you how to use managed identities instead of service p
 ## Create a managed identity
 We've provided a script [here](./../../cli/main.go) to accomplish the steps of creating a managed identity and giving it the right permissions. Just ensure you have the following values when you run it.
 
-|         |         |
+| Value | Description |
 |---------|---------|
 |**resourcegroup_name**               |   Resource group where you want to create the managed identity      |
 |**managed_identity_name**            | Name of the managed identity you'd like to create
