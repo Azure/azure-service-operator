@@ -45,7 +45,7 @@ Next, choose one of the following authentication methods, and set its appropriat
 ##### Service Principal
 
 Once you have created a service principal, set the following variables to your client ID and secret values:
-```
+```yaml
 azureClientID: 00000000-0000-0000-0000-000000000000
 azureClientSecret: 00000000-0000-0000-0000-000000000000
 ```
