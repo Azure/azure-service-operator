@@ -2,7 +2,7 @@
 
 ## Deploy Custom Resource
 
-Once the Azure Service Operator is deployed, you can use the YAML files in the `config/samples` [folder](../../config\samples) to create the resources using the following command.
+Once the Azure Service Operator is deployed, you can use the YAML files in the `config/samples` [folder](../../config/samples) to create the resources using the following command.
 
 ```
 kubectl apply -f <YAML file>
