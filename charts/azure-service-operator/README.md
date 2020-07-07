@@ -28,7 +28,7 @@ helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure
 Copy the `values.yaml` [file](../../charts/azure-service-operator/values.yaml) and fill in the requisite values in the following steps.
 
 First, set the following variables to your Azure Tenant ID and Subscription ID:
-```
+```yaml
 azureTenantID: 00000000-0000-0000-0000-000000000000
 azureSubscriptionID: 00000000-0000-0000-0000-000000000000
 ```
