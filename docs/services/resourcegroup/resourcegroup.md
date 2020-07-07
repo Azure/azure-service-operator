@@ -4,7 +4,7 @@ The Resource group operator can be used to provision a Resource group given the 
 
 Learn more about Azure resorce groups [here](https://docs.microsoft.com/azure/azure-resource-manager/management/manage-resource-groups-cli).
 
-Here is a [sample YAML](/config\samples\azure_v1alpha1_resourcegroup.yaml) to provision a resource group.
+Here is a [sample YAML](/config/samples/azure_v1alpha1_resourcegroup.yaml) to provision a resource group.
 
 ## Required Fields
 
