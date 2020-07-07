@@ -7,6 +7,9 @@ package config
 
 import (
 	"fmt"
+
+	"github.com/pkg/errors"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
@@ -32,7 +35,7 @@ func (transformer *TypeTransformer) Initialize() error {
 	}
 
 	if transformer.Target.Name == "" {
-		return fmt.Errorf(
+		return errors.Errorf(
 			"type transformer for group: %s, version: %s, name: %s is missing type name to transform to",
 			transformer.Group,
 			transformer.Version,
@@ -61,7 +64,7 @@ func (transformer *TypeTransformer) initializePrimitiveTypeTarget() error {
 	case "string":
 		transformer.targetType = astmodel.StringType
 	default:
-		return fmt.Errorf(
+		return errors.Errorf(
 			"type transformer for group: %s, version: %s, name: %s has unknown"+
 				"primtive type transformation target: %s",
 			transformer.Group,

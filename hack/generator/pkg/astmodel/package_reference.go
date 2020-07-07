@@ -8,6 +8,8 @@ package astmodel
 import (
 	"fmt"
 	"strings"
+
+	"github.com/pkg/errors"
 )
 
 const (
@@ -39,7 +41,7 @@ func (pr *PackageReference) IsLocalPackage() bool {
 
 func (pr *PackageReference) stripLocalPackagePrefix() (string, error) {
 	if !pr.IsLocalPackage() {
-		return "", fmt.Errorf("cannot strip local package prefix from non-local package %v", pr.packagePath)
+		return "", errors.Errorf("cannot strip local package prefix from non-local package %v", pr.packagePath)
 	}
 
 	return strings.Replace(pr.packagePath, localPathPrefix, "", -1), nil

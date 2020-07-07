@@ -6,11 +6,10 @@
 package config
 
 import (
-	"errors"
-	"fmt"
+	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // Configuration is used to control which types get generated
@@ -109,7 +108,7 @@ func (config *Configuration) ShouldExport(typeName *astmodel.TypeName) (result S
 			case ExportFilterInclude:
 				return Export, f.Because
 			default:
-				panic(fmt.Errorf("unknown exportfilter directive: %s", f.Action))
+				panic(errors.Errorf("unknown exportfilter directive: %s", f.Action))
 			}
 		}
 	}
@@ -128,7 +127,7 @@ func (config *Configuration) ShouldPrune(typeName *astmodel.TypeName) (result Sh
 			case TypeFilterInclude:
 				return Include, f.Because
 			default:
-				panic(fmt.Errorf("unknown typefilter directive: %s", f.Action))
+				panic(errors.Errorf("unknown typefilter directive: %s", f.Action))
 			}
 		}
 	}

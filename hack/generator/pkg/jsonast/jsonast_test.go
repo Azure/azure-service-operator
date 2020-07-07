@@ -8,17 +8,17 @@ package jsonast
 import (
 	"bytes"
 	"context"
-	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 )
 
 func runGoldenTest(t *testing.T, path string) {
@@ -27,14 +27,14 @@ func runGoldenTest(t *testing.T, path string) {
 	g := goldie.New(t)
 	inputFile, err := ioutil.ReadFile(path)
 	if err != nil {
-		t.Fatal(fmt.Errorf("cannot read golden test input file: %w", err))
+		t.Fatalf("cannot read golden test input file: %v", err)
 	}
 
 	loader := gojsonschema.NewSchemaLoader()
 	schema, err := loader.Compile(gojsonschema.NewBytesLoader(inputFile))
 
 	if err != nil {
-		t.Fatal(fmt.Errorf("could not compile input: %w", err))
+		t.Fatalf("could not compile input: %v", err)
 	}
 
 	config := config.NewConfiguration()
@@ -42,7 +42,7 @@ func runGoldenTest(t *testing.T, path string) {
 	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config)
 	defs, err := scanner.GenerateDefinitions(context.TODO(), schema.Root())
 	if err != nil {
-		t.Fatal(fmt.Errorf("could not produce nodes from scanner: %w", err))
+		t.Fatalf("could not produce nodes from scanner: %v", err)
 	}
 
 	// put all definitions in one file, regardless
@@ -52,7 +52,7 @@ func runGoldenTest(t *testing.T, path string) {
 	buf := &bytes.Buffer{}
 	err = fileDef.SaveToWriter(path, buf)
 	if err != nil {
-		t.Fatal(fmt.Errorf("could not generate file: %w", err))
+		t.Fatalf("could not generate file: %v", err)
 	}
 
 	g.Assert(t, testName, buf.Bytes())
@@ -79,7 +79,7 @@ func TestGolden(t *testing.T) {
 	})
 
 	if err != nil {
-		t.Fatal(fmt.Errorf("Error enumerating files: %w", err))
+		t.Fatalf("Error enumerating files: %v", err)
 	}
 
 	// run all tests

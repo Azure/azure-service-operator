@@ -21,6 +21,8 @@ manifests: $(CONTROLLER_GEN)
 .PHONY: gen-arm
 gen-arm: rm-apis build ; $(info $(M) running k8sinfra-gen gen…) @ ## Running gen
 	$(Q) ./bin/$(APP) gen azure-arm.yaml
+	# Run with verbosity 4 to see a stack trace for errors.
+	# $(Q) ./bin/$(APP) gen azure-arm.yaml -v 4
 
 	$(Q) $(CONTROLLER_GEN) object:headerFile=../boilerplate.go.txt paths="./..."
 

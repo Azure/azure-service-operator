@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"go/ast"
 	"go/token"
+
+	"github.com/pkg/errors"
 )
 
 // CreateResourceDefinitions creates definitions for a resource
@@ -92,7 +94,7 @@ func (definition *ResourceDefinition) AsDeclarations(codeGenerationContext *Code
 
 	packageName, err := codeGenerationContext.GetImportedPackageName(MetaV1PackageReference)
 	if err != nil {
-		panic(fmt.Errorf("resource definition for %s failed to import package: %w", definition.typeName, err))
+		panic(errors.Wrapf(err, "resource definition for %s failed to import package", definition.typeName))
 	}
 	typeMetaField := defineField("", fmt.Sprintf("%s.TypeMeta", packageName), "`json:\",inline\"`")
 	objectMetaField := defineField("", fmt.Sprintf("%s.ObjectMeta", packageName), "`json:\"metadata,omitempty\"`")

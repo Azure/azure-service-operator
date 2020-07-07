@@ -8,7 +8,6 @@ package codegen
 import (
 	"bufio"
 	"context"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -18,16 +17,17 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 	"github.com/bmatcuk/doublestar"
+	"github.com/pkg/errors"
 	"github.com/xeipuuv/gojsonreference"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
-
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 )
 
 // CodeGenerator is a generator of code
@@ -39,12 +39,12 @@ type CodeGenerator struct {
 func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
 	config, err := loadConfiguration(configurationFile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to load configuration file '%v' (%w)", configurationFile, err)
+		return nil, errors.Wrapf(err, "failed to load configuration file %q", configurationFile)
 	}
 
 	err = config.Initialize()
 	if err != nil {
-		return nil, fmt.Errorf("configuration loaded from '%v' is invalid (%w)", configurationFile, err)
+		return nil, errors.Wrapf(err, "configuration loaded from %q is invalid", configurationFile)
 	}
 
 	result := &CodeGenerator{configuration: config}
@@ -58,13 +58,13 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.V(0).Infof("Loading JSON schema %v", generator.configuration.SchemaURL)
 	schema, err := loadSchema(ctx, generator.configuration.SchemaURL)
 	if err != nil {
-		return fmt.Errorf("error loading schema from '%v' (%w)", generator.configuration.SchemaURL, err)
+		return errors.Wrapf(err, "error loading schema from %q", generator.configuration.SchemaURL)
 	}
 
-	klog.V(0).Infof("Cleaning output folder '%v'", generator.configuration.OutputPath)
+	klog.V(0).Infof("Cleaning output folder %q", generator.configuration.OutputPath)
 	err = deleteGeneratedCodeFromFolder(ctx, generator.configuration.OutputPath)
 	if err != nil {
-		return fmt.Errorf("error cleaning output folder '%v' (%w)", generator.configuration.OutputPath, err)
+		return errors.Wrapf(err, "error cleaning output folder %q", generator.configuration.OutputPath)
 	}
 
 	scanner := jsonast.NewSchemaScanner(astmodel.NewIdentifierFactory(), generator.configuration)
@@ -73,22 +73,22 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 
 	defs, err := scanner.GenerateDefinitions(ctx, schema.Root())
 	if err != nil {
-		return fmt.Errorf("failed to walk JSON schema (%w)", err)
+		return errors.Wrapf(err, "failed to walk JSON schema")
 	}
 
 	defs, err = generator.FilterDefinitions(defs)
 	if err != nil {
-		return fmt.Errorf("failed to filter generated definitions (%w)", err)
+		return errors.Wrapf(err, "failed to filter generated definitions")
 	}
 
 	packages, err := generator.CreatePackagesForDefinitions(defs)
 	if err != nil {
-		return fmt.Errorf("failed to assign generated definitions to packages (%w)", err)
+		return errors.Wrapf(err, "failed to assign generated definitions to packages")
 	}
 
 	packages, err = generator.MarkLatestResourceVersionsForStorage(packages)
 	if err != nil {
-		return fmt.Errorf("unable to mark latest resource versions for as storage versions (%w)", err)
+		return errors.Wrapf(err, "unable to mark latest resource versions for as storage versions")
 	}
 
 	fileCount := 0
@@ -104,16 +104,16 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 		// create directory if not already there
 		outputDir := filepath.Join(generator.configuration.OutputPath, pkg.GroupName, pkg.PackageName)
 		if _, err := os.Stat(outputDir); os.IsNotExist(err) {
-			klog.V(5).Infof("Creating directory '%s'\n", outputDir)
+			klog.V(5).Infof("Creating directory %q\n", outputDir)
 			err = os.MkdirAll(outputDir, 0700)
 			if err != nil {
-				klog.Fatalf("Unable to create directory '%s'", outputDir)
+				klog.Fatalf("Unable to create directory %q", outputDir)
 			}
 		}
 
 		count, err := pkg.EmitDefinitions(outputDir)
 		if err != nil {
-			return fmt.Errorf("error writing definitions into '%v' (%w)", outputDir, err)
+			return errors.Wrapf(err, "error writing definitions into %q", outputDir)
 		}
 
 		fileCount += count
@@ -199,7 +199,7 @@ func groupResourcesByVersion(
 				name, err := getUnversionedName(resourceDef.Name())
 				if err != nil {
 					// this should never happen as resources will all have versioned names
-					return nil, fmt.Errorf("Unable to extract unversioned name in groupResources: %w", err)
+					return nil, errors.Wrapf(err, "Unable to extract unversioned name in groupResources")
 				}
 
 				result[name] = append(result[name], resourceDef)
@@ -357,7 +357,7 @@ func loadSchema(ctx context.Context, source string) (*gojsonschema.Schema, error
 
 	schema, err := sl.Compile(loader)
 	if err != nil {
-		return nil, fmt.Errorf("error loading schema from '%v' (%w)", source, err)
+		return nil, errors.Wrapf(err, "error loading schema from %q", source)
 	}
 
 	return schema, nil
@@ -369,7 +369,7 @@ func deleteGeneratedCodeFromFolder(ctx context.Context, outputFolder string) err
 
 	files, err := doublestar.Glob(globPattern)
 	if err != nil {
-		return fmt.Errorf("error globbing files with pattern '%s' (%w)", globPattern, err)
+		return errors.Wrapf(err, "error globbing files with pattern %q", globPattern)
 	}
 
 	var errs []error
@@ -382,13 +382,13 @@ func deleteGeneratedCodeFromFolder(ctx context.Context, outputFolder string) err
 		isGenerated, err := isFileGenerated(file)
 
 		if err != nil {
-			errs = append(errs, fmt.Errorf("error determining if file was generated (%w)", err))
+			errs = append(errs, errors.Wrapf(err, "error determining if file was generated"))
 		}
 
 		if isGenerated {
 			err := os.Remove(file)
 			if err != nil {
-				errs = append(errs, fmt.Errorf("error removing file '%v' (%w)", file, err))
+				errs = append(errs, errors.Wrapf(err, "error removing file %q", file))
 			}
 		}
 	}
@@ -479,14 +479,14 @@ func deleteEmptyDirectories(ctx context.Context, path string) error {
 
 		files, err := ioutil.ReadDir(dir)
 		if err != nil {
-			errs = append(errs, fmt.Errorf("error reading directory '%v' (%w)", dir, err))
+			errs = append(errs, errors.Wrapf(err, "error reading directory %q", dir))
 		}
 
 		if len(files) == 0 {
 			// Directory is empty now, we can delete it
 			err := os.Remove(dir)
 			if err != nil {
-				errs = append(errs, fmt.Errorf("error removing dir '%v' (%w)", dir, err))
+				errs = append(errs, errors.Wrapf(err, "error removing dir %q", dir))
 			}
 		}
 	}

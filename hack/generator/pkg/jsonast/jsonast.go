@@ -12,12 +12,13 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/devigned/tab"
+	"github.com/pkg/errors"
+	"github.com/xeipuuv/gojsonschema"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
-	"github.com/devigned/tab"
-	"github.com/xeipuuv/gojsonschema"
 )
 
 type (
@@ -164,19 +165,19 @@ func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema *g
 	// get initial topic from ID and Title:
 	url := schema.ID.GetUrl()
 	if schema.Title == nil {
-		return nil, fmt.Errorf("Given schema has no Title")
+		return nil, errors.New("Given schema has no Title")
 	}
 
 	rootName := *schema.Title
 
 	rootGroup, err := groupOf(url)
 	if err != nil {
-		return nil, fmt.Errorf("Unable to extract group for schema: %w", err)
+		return nil, errors.Wrapf(err, "Unable to extract group for schema")
 	}
 
 	rootVersion, err := versionOf(url)
 	if err != nil {
-		return nil, fmt.Errorf("Unable to extract version for schema: %w", err)
+		return nil, errors.Wrapf(err, "Unable to extract version for schema")
 	}
 
 	rootPackage := astmodel.NewLocalPackageReference(
@@ -546,7 +547,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 					return nil, err
 				}
 			} else {
-				return nil, fmt.Errorf("couldn't find definition for: %v", concreteType)
+				return nil, errors.Errorf("couldn't find definition for: %v", concreteType)
 			}
 
 		default:
@@ -611,7 +612,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			// Just a sanity check that we've already scanned this definition
 			// TODO: Could remove this?
 			if _, ok := scanner.findTypeDefinition(concreteType); !ok {
-				return nil, fmt.Errorf("couldn't find struct for definition: %v", concreteType)
+				return nil, errors.Errorf("couldn't find struct for definition: %v", concreteType)
 			}
 			fieldName := scanner.idFactory.CreateFieldName(concreteType.Name(), astmodel.Exported)
 
@@ -662,7 +663,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 				fieldName, jsonName, concreteType).MakeOptional().WithDescription(&fieldDescription)
 			fields = append(fields, field)
 		default:
-			return nil, fmt.Errorf("unexpected oneOf member, type: %T", t)
+			return nil, errors.Errorf("unexpected oneOf member, type: %T", t)
 		}
 	}
 
@@ -688,7 +689,7 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 	defer span.End()
 
 	if len(schema.ItemsChildren) > 1 {
-		return nil, fmt.Errorf("item contains more children than expected: %v", schema.ItemsChildren)
+		return nil, errors.Errorf("item contains more children than expected: %v", schema.ItemsChildren)
 	}
 
 	if len(schema.ItemsChildren) == 0 {
@@ -759,7 +760,7 @@ func getPrimitiveType(name SchemaType) (*astmodel.PrimitiveType, error) {
 	case Bool:
 		return astmodel.BoolType, nil
 	default:
-		return astmodel.AnyType, fmt.Errorf("%s is not a simple type and no ast.NewIdent can be created", name)
+		return astmodel.AnyType, errors.Errorf("%s is not a simple type and no ast.NewIdent can be created", name)
 	}
 }
 
@@ -780,7 +781,7 @@ func groupOf(url *url.URL) (string, error) {
 
 	file := pathParts[len(pathParts)-1]
 	if !strings.HasSuffix(file, ".json") {
-		return "", fmt.Errorf("Unexpected URL format (doesn't point to .json file)")
+		return "", errors.Errorf("Unexpected URL format (doesn't point to .json file)")
 	}
 
 	return strings.TrimSuffix(file, ".json"), nil

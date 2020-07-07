@@ -7,6 +7,7 @@ require (
 	github.com/devigned/tab v0.1.1
 	github.com/onsi/gomega v1.8.1
 	github.com/pelletier/go-toml v1.6.0 // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/sebdah/goldie/v2 v2.3.0
 	github.com/spf13/afero v1.2.2 // indirect
 	github.com/spf13/cast v1.3.1 // indirect

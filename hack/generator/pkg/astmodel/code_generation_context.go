@@ -5,7 +5,7 @@
 
 package astmodel
 
-import "fmt"
+import "github.com/pkg/errors"
 
 // CodeGenerationContext stores context about the location code-generation is occurring.
 // This is required because some things (such as specific field types) are impacted by the context
@@ -41,7 +41,7 @@ func (codeGenContext *CodeGenerationContext) PackageImports() map[PackageReferen
 func (codeGenContext *CodeGenerationContext) GetImportedPackageName(reference *PackageReference) (string, error) {
 	packageImport, ok := codeGenContext.packageImports[*reference]
 	if !ok {
-		return "", fmt.Errorf("package %s not imported", reference)
+		return "", errors.Errorf("package %s not imported", reference)
 	}
 
 	return packageImport.PackageName(), nil
