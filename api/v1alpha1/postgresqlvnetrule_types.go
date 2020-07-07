@@ -14,6 +14,9 @@ import (
 type PostgreSQLVNetRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup                string `json:"resourceGroup"`
 	Server                       string `json:"server"`
 	VNetResourceGroup            string `json:"vNetResourceGroup"`
@@ -25,6 +28,7 @@ type PostgreSQLVNetRuleSpec struct {
 // +kubebuilder:object:root=true
 
 // PostgreSQLVNetRule is the Schema for the PostgreSQLVNetRules API
+// +kubebuilder:resource:shortName=psqlvnr
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLVNetRule struct {

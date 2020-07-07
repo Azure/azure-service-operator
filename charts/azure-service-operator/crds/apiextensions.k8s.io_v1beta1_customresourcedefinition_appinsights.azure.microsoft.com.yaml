@@ -18,6 +18,8 @@ spec:
     kind: AppInsights
     listKind: AppInsightsList
     plural: appinsights
+    shortNames:
+    - ai
     singular: appinsights
   scope: Namespaced
   subresources:
@@ -50,11 +52,13 @@ spec:
             location:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
           required:
           - applicationType
           - kind
           - location
+          - resourceGroup
           type: object
         status:
           description: ASOStatus (AzureServiceOperatorsStatus) defines the observed

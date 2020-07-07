@@ -28,6 +28,7 @@ func TestMySQLUserControllerNoAdminSecret(t *testing.T) {
 
 	mysqlServerName = GenerateTestResourceNameWithRandom("mysqlserver-test", 10)
 	mysqlDatabaseName = GenerateTestResourceNameWithRandom("mysqldb-test", 10)
+	resourceGroup := GenerateTestResourceNameWithRandom("myrg", 10)
 	mysqlusername := "mysql-test-user" + helpers.RandomString(10)
 	roles := []string{"select on *.* "}
 
@@ -37,10 +38,11 @@ func TestMySQLUserControllerNoAdminSecret(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.MySQLUserSpec{
-			Server:      mysqlServerName,
-			DbName:      mysqlDatabaseName,
-			AdminSecret: "",
-			Roles:       roles,
+			ResourceGroup: resourceGroup,
+			Server:        mysqlServerName,
+			DbName:        mysqlDatabaseName,
+			AdminSecret:   "",
+			Roles:         roles,
 		},
 	}
 

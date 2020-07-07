@@ -16,6 +16,9 @@ type KeyVaultKeySpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location      string                      `json:"location"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup string                      `json:"resourceGroup"`
 	KeyVault      string                      `json:"keyVault,omitempty"`
 	KeySize       int32                       `json:"keySize,omitempty"`
@@ -28,6 +31,7 @@ type KeyVaultKeySpec struct {
 // +kubebuilder:subresource:status
 
 // KeyVaultKey is the Schema for the keyvaultkeys API
+// +kubebuilder:resource:shortName=kvk
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type KeyVaultKey struct {

@@ -14,6 +14,9 @@ import (
 type PostgreSQLDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup string `json:"resourceGroup"`
 	Server        string `json:"server"`
 }
@@ -22,6 +25,7 @@ type PostgreSQLDatabaseSpec struct {
 // +kubebuilder:subresource:status
 
 // PostgreSQLDatabase is the Schema for the postgresqldatabases API
+// +kubebuilder:resource:shortName=psqldb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLDatabase struct {

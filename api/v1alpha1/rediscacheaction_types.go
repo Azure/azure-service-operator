@@ -21,6 +21,9 @@ const (
 
 // RedisCacheActionSpec defines the desired state of RedisCacheAction
 type RedisCacheActionSpec struct {
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup          string               `json:"resourceGroup"`
 	CacheName              string               `json:"cacheName"`
 	ActionName             RedisCacheActionName `json:"actionName"`
@@ -33,6 +36,7 @@ type RedisCacheActionSpec struct {
 // +kubebuilder:subresource:status
 
 // RedisCacheAction is the Schema for the rediscacheactions API
+// +kubebuilder:resource:shortName=rca
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type RedisCacheAction struct {

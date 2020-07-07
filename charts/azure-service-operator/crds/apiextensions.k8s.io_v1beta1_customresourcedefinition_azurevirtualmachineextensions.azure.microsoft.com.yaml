@@ -19,7 +19,7 @@ spec:
     listKind: AzureVirtualMachineExtensionList
     plural: azurevirtualmachineextensions
     shortNames:
-    - vmext
+    - avme
     singular: azurevirtualmachineextension
   scope: Namespaced
   subresources:
@@ -58,6 +58,7 @@ spec:
             publisher:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             settings:
               type: string

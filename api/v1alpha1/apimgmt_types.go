@@ -10,6 +10,9 @@ import (
 // APIMgmtSpec defines the desired state of APIMgmt
 type APIMgmtSpec struct {
 	Location      string        `json:"location"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup string        `json:"resourceGroup"`
 	APIService    string        `json:"apiService"`
 	APIId         string        `json:"apiId"`
@@ -18,6 +21,7 @@ type APIMgmtSpec struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:resource:shortName=apim
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type APIMgmtAPI struct {

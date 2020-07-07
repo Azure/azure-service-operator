@@ -15,7 +15,10 @@ type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location      string    `json:"location"`
-	ResourceGroup string    `json:"resourcegroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup string    `json:"resourcegroup"`
 	Server        string    `json:"server"`
 	Edition       DBEdition `json:"edition"`
 	// optional
@@ -26,6 +29,7 @@ type AzureSqlDatabaseSpec struct {
 // +kubebuilder:subresource:status
 
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
+// +kubebuilder:resource:shortName=asqldb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlDatabase struct {
