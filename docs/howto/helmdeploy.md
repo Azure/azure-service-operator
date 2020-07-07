@@ -55,7 +55,7 @@ azureClientSecret: 00000000-0000-0000-0000-000000000000
 Follow the instructions [here](../../docs/managedIdentity.md) to create an identity and assign it the correct permissions.
 
 Set the following Helm Chart values:
-```
+```yaml
 azureUseMI: True
 aad-pod-identity:
     azureIdentity:
