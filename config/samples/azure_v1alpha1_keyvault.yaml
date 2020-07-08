@@ -24,8 +24,11 @@ spec:
   accessPolicies:
     - tenantID: <tenantID>
       clientID: <clientID>
-      applicationID: <appID>
-      # use object id if the service principal running the operator cannot access the Application API to learn about service principals
+      # applicationID and objectID are optional replacements for clientID
+      # Use clientID when the access you are providing is for the same Service Principal who created the Key Vault. An access policy actually needs the ObjectID but with proper permissions we can translate clientID to ObjectID.
+      # Use applicationID when providing access to a managed identity
+      # Use objectID when the service principal who needs access is not the same as the one the operator used to create the Key Vault. The permissions a service principal needs to translate clientID to objectID for other SPs is astronomical.
+      # applicationID: <appID>
       # objectID: <application registration's object id>
       permissions:
         keys: # backup create decrypt delete encrypt get import list purge recover restore sign unwrapKey update verify wrapKey
