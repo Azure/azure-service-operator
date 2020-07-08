@@ -37,7 +37,7 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 
 	instance.Status.Provisioning = true
 
-	// we have reconciled this previously, check if it already exists
+	// we may have reconciled this previously, check if it already exists
 	if instance.Status.ResourceId != "" {
 		idParts := strings.Split(instance.Status.ResourceId, "/")
 
