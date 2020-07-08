@@ -33,6 +33,7 @@ type RedisCacheFirewallRuleProperties struct {
 // +kubebuilder:subresource:status
 
 // RedisCacheFirewallRule is the Schema for the rediscachefirewallrules API
+// +kubebuilder:resource:shortName=rcfwr
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type RedisCacheFirewallRule struct {

@@ -27,6 +27,8 @@ spec:
     kind: AzureSqlServer
     listKind: AzureSqlServerList
     plural: azuresqlservers
+    shortNames:
+    - asqls
     singular: azuresqlserver
   preserveUnknownFields: false
   scope: Namespaced

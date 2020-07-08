@@ -18,6 +18,8 @@ spec:
     kind: AzureNetworkInterface
     listKind: AzureNetworkInterfaceList
     plural: azurenetworkinterfaces
+    shortNames:
+    - ani
     singular: azurenetworkinterface
   scope: Namespaced
   subresources:

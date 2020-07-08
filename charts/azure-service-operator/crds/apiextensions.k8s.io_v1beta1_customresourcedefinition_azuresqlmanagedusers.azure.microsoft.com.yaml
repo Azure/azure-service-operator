@@ -18,6 +18,8 @@ spec:
     kind: AzureSQLManagedUser
     listKind: AzureSQLManagedUserList
     plural: azuresqlmanagedusers
+    shortNames:
+    - asqlmu
     singular: azuresqlmanageduser
   scope: Namespaced
   subresources:

@@ -18,6 +18,8 @@ spec:
     kind: AzureSqlAction
     listKind: AzureSqlActionList
     plural: azuresqlactions
+    shortNames:
+    - asqla
     singular: azuresqlaction
   scope: Namespaced
   subresources:

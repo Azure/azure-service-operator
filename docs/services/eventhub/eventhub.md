@@ -14,7 +14,7 @@ The Event Hubs operator can be used to provision the following resources.
 
 The Event Hubs operator deploys an event hub in the specified namespace according to the spec.
 
-As an output of deployment, the operator stores a JSON formatted secret with the following fields. For more details on where the secrets are stored, look [here](/docs/secrets.md)
+As an output of deployment, the operator stores a JSON formatted secret with the following fields. For more details on where the secrets are stored, look [here](/docs/topics/secrets.md)
 
 - `primaryConnectionString`
 - `secondaryConnectionString`

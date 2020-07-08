@@ -18,6 +18,8 @@ spec:
     kind: KeyVault
     listKind: KeyVaultList
     plural: keyvaults
+    shortNames:
+    - kv
     singular: keyvault
   scope: Namespaced
   subresources:
