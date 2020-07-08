@@ -25,7 +25,7 @@ spec:
     - tenantID: <tenantID>
       clientID: <clientID>
       applicationID: <appID>
-      # use object id if the service principal running th operaotr cannot access the Application API to learn about service principals
+      # use object id if the service principal running the operator cannot access the Application API to learn about service principals
       # objectID: <application registration's object id>
       permissions:
         keys: # backup create decrypt delete encrypt get import list purge recover restore sign unwrapKey update verify wrapKey
