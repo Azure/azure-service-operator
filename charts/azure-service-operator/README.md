@@ -122,7 +122,7 @@ The following table lists the configurable parameters of the azure-service-opera
 | `azureClientSecret`  | Azure Service Principal Client Secret | `` |
 | `azureUseMI`  | Set to True if using Managed Identity for authentication | `False` |
 | `azureOperatorKeyvault`  | Set this value with the name of your Azure Key Vault resource if you prefer to store secrets in Key Vault rather than as Kubernetes secrets (default) | `` |
-| `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azure-service-operator:0.0.20258` |
+| `image.repository`  | Image repository | `mcr.microsoft.com/k8s/azureserviceoperator:0.0.20258` |
 | `cloudEnvironment`  | Set the cloud environment, possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud | `AzurePublicCloud` |
 | `aad-pod-identity.azureIdentity.resourceID`  | The resource ID for your managed identity | `` |
 | `aad-pod-identity.azureIdentity.clientID`  | The client ID for your managed identity | `` |
