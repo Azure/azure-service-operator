@@ -12,7 +12,10 @@ import (
 
 // MySQLDatabaseSpec defines the desired state of MySQLDatabase
 type MySQLDatabaseSpec struct {
-	ResourceGroup string `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup string `json:"resourceGroup"`
 	Server        string `json:"server,omitempty"`
 }
 
@@ -20,6 +23,7 @@ type MySQLDatabaseSpec struct {
 // +kubebuilder:subresource:status
 
 // MySQLDatabase is the Schema for the mysqldatabases API
+// +kubebuilder:resource:shortName=mysqldb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type MySQLDatabase struct {

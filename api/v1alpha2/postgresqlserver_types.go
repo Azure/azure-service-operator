@@ -13,7 +13,10 @@ import (
 // PostgreSQLServerSpec defines the desired state of PostgreSQLServer
 type PostgreSQLServerSpec struct {
 	Location               string              `json:"location"`
-	ResourceGroup          string              `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup          string              `json:"resourceGroup"`
 	Sku                    AzureDBsSQLSku      `json:"sku,omitempty"`
 	ServerVersion          ServerVersion       `json:"serverVersion,omitempty"`
 	SSLEnforcement         SslEnforcementEnum  `json:"sslEnforcement,omitempty"`
@@ -28,6 +31,7 @@ type PostgreSQLServerSpec struct {
 // +kubebuilder:storageversion
 
 // PostgreSQLServer is the Schema for the postgresqlservers API
+// +kubebuilder:resource:shortName=psqls
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLServer struct {

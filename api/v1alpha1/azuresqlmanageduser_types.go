@@ -16,7 +16,10 @@ type AzureSQLManagedUserSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Server                  string   `json:"server"`
 	DbName                  string   `json:"dbName"`
-	ResourceGroup           string   `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup           string   `json:"resourceGroup"`
 	Roles                   []string `json:"roles"`
 	ManagedIdentityName     string   `json:"managedIdentityName,omitempty"`
 	ManagedIdentityClientId string   `json:"managedIdentityClientId"`
@@ -27,6 +30,7 @@ type AzureSQLManagedUserSpec struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // AzureSQLManagedUser is the Schema for the azuresqlmanagedusers API
+// +kubebuilder:resource:shortName=asqlmu
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSQLManagedUser struct {

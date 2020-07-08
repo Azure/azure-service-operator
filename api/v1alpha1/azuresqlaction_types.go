@@ -14,6 +14,9 @@ import (
 type AzureSqlActionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup         string `json:"resourceGroup"`
 	ActionName            string `json:"actionName"`
 	ServerName            string `json:"serverName"`
@@ -28,6 +31,7 @@ type AzureSqlActionSpec struct {
 // +kubebuilder:subresource:status
 
 // AzureSqlAction is the Schema for the azuresqlactions API
+// +kubebuilder:resource:shortName=asqla
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlAction struct {

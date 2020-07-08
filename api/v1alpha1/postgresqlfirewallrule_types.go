@@ -14,6 +14,9 @@ import (
 type PostgreSQLFirewallRuleSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup  string `json:"resourceGroup"`
 	Server         string `json:"server"`
 	StartIPAddress string `json:"startIpAddress"`
@@ -24,6 +27,7 @@ type PostgreSQLFirewallRuleSpec struct {
 // +kubebuilder:subresource:status
 
 // PostgreSQLFirewallRule is the Schema for the postgresqlfirewallrules API
+// +kubebuilder:resource:shortName=psqlfwr
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLFirewallRule struct {
