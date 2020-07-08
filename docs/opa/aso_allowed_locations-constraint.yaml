@@ -1,0 +1,37 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: asoallowedlocations
+metadata:
+  name: asoallowedlocations
+spec:
+  match:
+    kinds:
+      - apiGroups: 
+        - azure.microsoft.com
+        kinds:
+        - APIMgmtAPI
+        - ApimService
+        - AppInsights
+        - AzureLoadBalancer
+        - AzureNetworkInterface
+        - AzurePublicIPAddress
+        - AzureSqlDatabase
+        - AzureSqlFailoverGroup
+        - AzureSqlServer
+        - AzureVirtualMachineExtension
+        - AzureVirtualMachine
+        - AzureVMScaleSet
+        - BlobContainer
+        - CosmosDB
+        - EventhubNamespace
+        - Eventhub
+        - KeyVaultKey
+        - KeyVault
+        - MySQLServer
+        - PostgreSQLServer
+        - RedisCache
+        - ResourceGroup
+        - StorageAccount
+        - VirtualNetwork
+        
+  parameters:
+    allowedlocations: ['northeurope']

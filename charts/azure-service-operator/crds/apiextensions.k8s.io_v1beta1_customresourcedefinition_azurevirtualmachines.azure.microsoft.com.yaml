@@ -18,6 +18,8 @@ spec:
     kind: AzureVirtualMachine
     listKind: AzureVirtualMachineList
     plural: azurevirtualmachines
+    shortNames:
+    - avm
     singular: azurevirtualmachine
   scope: Namespaced
   subresources:
@@ -55,6 +57,7 @@ spec:
             platformImageURN:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             sshPublicKeyData:
               type: string
