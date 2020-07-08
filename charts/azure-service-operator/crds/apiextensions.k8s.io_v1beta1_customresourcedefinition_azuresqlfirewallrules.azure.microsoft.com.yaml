@@ -27,6 +27,8 @@ spec:
     kind: AzureSqlFirewallRule
     listKind: AzureSqlFirewallRuleList
     plural: azuresqlfirewallrules
+    shortNames:
+    - asqlfwr
     singular: azuresqlfirewallrule
   preserveUnknownFields: false
   scope: Namespaced

@@ -18,6 +18,8 @@ spec:
     kind: AzureVirtualMachine
     listKind: AzureVirtualMachineList
     plural: azurevirtualmachines
+    shortNames:
+    - avm
     singular: azurevirtualmachine
   scope: Namespaced
   subresources:

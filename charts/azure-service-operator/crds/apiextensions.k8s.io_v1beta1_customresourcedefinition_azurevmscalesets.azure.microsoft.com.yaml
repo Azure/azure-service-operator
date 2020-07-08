@@ -18,6 +18,8 @@ spec:
     kind: AzureVMScaleSet
     listKind: AzureVMScaleSetList
     plural: azurevmscalesets
+    shortNames:
+    - avmss
     singular: azurevmscaleset
   scope: Namespaced
   subresources:

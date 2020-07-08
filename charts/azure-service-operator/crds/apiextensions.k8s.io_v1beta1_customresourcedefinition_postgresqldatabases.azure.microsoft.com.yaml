@@ -18,6 +18,8 @@ spec:
     kind: PostgreSQLDatabase
     listKind: PostgreSQLDatabaseList
     plural: postgresqldatabases
+    shortNames:
+    - psqldb
     singular: postgresqldatabase
   scope: Namespaced
   subresources:

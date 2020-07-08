@@ -18,6 +18,8 @@ spec:
     kind: ConsumerGroup
     listKind: ConsumerGroupList
     plural: consumergroups
+    shortNames:
+    - cg
     singular: consumergroup
   scope: Namespaced
   subresources:

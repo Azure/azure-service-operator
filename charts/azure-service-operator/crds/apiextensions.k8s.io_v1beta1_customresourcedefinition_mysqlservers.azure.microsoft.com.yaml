@@ -27,6 +27,8 @@ spec:
     kind: MySQLServer
     listKind: MySQLServerList
     plural: mysqlservers
+    shortNames:
+    - mysqls
     singular: mysqlserver
   preserveUnknownFields: false
   scope: Namespaced

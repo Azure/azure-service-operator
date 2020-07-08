@@ -27,6 +27,8 @@ spec:
     kind: AzureSqlDatabase
     listKind: AzureSqlDatabaseList
     plural: azuresqldatabases
+    shortNames:
+    - asqldb
     singular: azuresqldatabase
   preserveUnknownFields: false
   scope: Namespaced

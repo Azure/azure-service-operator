@@ -18,6 +18,8 @@ spec:
     kind: PostgreSQLUser
     listKind: PostgreSQLUserList
     plural: postgresqlusers
+    shortNames:
+    - psqlu
     singular: postgresqluser
   scope: Namespaced
   subresources:

@@ -18,6 +18,8 @@ spec:
     kind: RedisCache
     listKind: RedisCacheList
     plural: rediscaches
+    shortNames:
+    - rc
     singular: rediscache
   scope: Namespaced
   subresources:
