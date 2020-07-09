@@ -52,7 +52,7 @@ azureClientSecret: 00000000-0000-0000-0000-000000000000
 
 ##### Managed Identity
 
-Follow the instructions [here](../../docs/managedIdentity.md) to create an identity and assign it the correct permissions.
+Follow the instructions [here](/docs/howto/managedidentity.md) to create an identity and assign it the correct permissions.
 
 Set the following Helm Chart values:
 ```
