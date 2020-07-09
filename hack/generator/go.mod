@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/bmatcuk/doublestar v1.3.1
 	github.com/devigned/tab v0.1.1
+	github.com/gobuffalo/flect v0.2.1
 	github.com/onsi/gomega v1.8.1
 	github.com/pelletier/go-toml v1.6.0 // indirect
 	github.com/pkg/errors v0.9.1
