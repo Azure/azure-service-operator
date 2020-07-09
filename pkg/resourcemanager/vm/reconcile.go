@@ -34,6 +34,8 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 	nicName := instance.Spec.NetworkInterfaceName
 	imageURN := instance.Spec.PlatformImageURN
 
+	const SucceededProvisioningState = "Succeeded"
+
 	// Check to see if secret exists and if yes retrieve the admin login and password
 	secret, err := g.GetOrPrepareSecret(ctx, instance)
 	if err != nil {
@@ -52,11 +54,19 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 	// to overcome the issue with the lack of idempotence of the Create call
 	item, err := g.GetVirtualMachine(ctx, resourceGroup, resourceName)
 	if err == nil {
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		instance.Status.Message = resourcemanager.SuccessMsg
-		instance.Status.ResourceId = *item.ID
-		return true, nil
+
+		if *item.ProvisioningState == SucceededProvisioningState {
+
+			instance.Status.Provisioned = true
+			instance.Status.Provisioning = false
+			instance.Status.Message = resourcemanager.SuccessMsg
+			instance.Status.ResourceId = *item.ID
+			return true, nil
+		}
+
+		instance.Status.Provisioned = false
+		instance.Status.Message = "Creating"
+
 	}
 	future, err := g.CreateVirtualMachine(
 		ctx,
@@ -91,6 +101,7 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			switch azerr.Type {
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
+				instance.Status.Message = err.Error()
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil
@@ -119,6 +130,7 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			switch azerr.Type {
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
+				instance.Status.Message = err.Error()
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil
@@ -127,15 +139,15 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 		return false, err
 	}
 
-	if instance.Status.Provisioning {
-		instance.Status.Provisioned = true
-		instance.Status.Provisioning = false
-		instance.Status.Message = resourcemanager.SuccessMsg
-	} else {
-		instance.Status.Provisioned = false
-		instance.Status.Provisioning = true
-	}
-	return true, nil
+	// if instance.Status.Provisioning {
+	// 	instance.Status.Provisioned = true
+	// 	instance.Status.Provisioning = false
+	// 	instance.Status.Message = resourcemanager.SuccessMsg
+	// } else {
+	// 	instance.Status.Provisioned = false
+	// 	instance.Status.Provisioning = true
+	// }
+	return false, nil
 }
 
 func (g *AzureVirtualMachineClient) Delete(ctx context.Context, obj runtime.Object, opts ...resourcemanager.ConfigOption) (bool, error) {
