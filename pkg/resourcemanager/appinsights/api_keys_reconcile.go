@@ -52,7 +52,6 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 		}
 
 		return false, nil
-
 	}
 
 	apiKey, err := c.CreateKey(
