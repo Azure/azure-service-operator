@@ -92,7 +92,7 @@ Have more questions? Feel free to consult our documentation [here](docs/howto/co
 
 ## Contributing
 
-The [contribution guide](CONTRIBUTING.MD) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](docs/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
+The [contribution guide](CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](docs/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
 
 ## Support
 
