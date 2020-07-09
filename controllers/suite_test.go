@@ -207,6 +207,25 @@ func setup() error {
 		return err
 	}
 
+	err = (&AppInsightsApiKeyReconciler{
+		Reconciler: &AsyncReconciler{
+			Client: k8sManager.GetClient(),
+			AzureClient: resourcemanagerappinsights.NewAPIKeyClient(
+				secretClient,
+				scheme.Scheme,
+			),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AppInsightsApiKey",
+				ctrl.Log.WithName("controllers").WithName("AppInsightsApiKey"),
+			),
+			Recorder: k8sManager.GetEventRecorderFor("AppInsightsApiKey-controller"),
+			Scheme:   scheme.Scheme,
+		},
+	}).SetupWithManager(k8sManager)
+	if err != nil {
+		return err
+	}
+
 	err = (&APIMAPIReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),

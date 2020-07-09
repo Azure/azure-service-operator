@@ -860,6 +860,22 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.AppInsightsApiKeyReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: resourcemanagerappinsights.NewAPIKeyClient(secretClient, scheme),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AppInsightsApiKey",
+				ctrl.Log.WithName("controllers").WithName("AppInsightsApiKey"),
+			),
+			Recorder: mgr.GetEventRecorderFor("AppInsightsApiKey-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AppInsightsApiKey")
+		os.Exit(1)
+	}
+
 	if err = (&v1alpha1.AzureSqlServer{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlServer")
 		os.Exit(1)
@@ -889,6 +905,7 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "PostgreSQLServer")
 		os.Exit(1)
 	}
+
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
