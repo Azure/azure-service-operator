@@ -63,7 +63,7 @@ aad-pod-identity:
         clientID: "00000000-0000-0000-0000-000000000000"
 ```
 
-Follow the instructions [here](../../docs/deploy.md) to create an identity and assign it the correct permissions.
+Follow the instructions [here](/docs/howto/deploy.md) to create an identity and assign it the correct permissions.
 
 #### Store secrets in Azure KeyVault (optional)
 
