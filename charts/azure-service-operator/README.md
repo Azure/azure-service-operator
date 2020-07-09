@@ -67,7 +67,7 @@ Follow the instructions [here](../../docs/deploy.md) to create an identity and a
 
 #### Store secrets in Azure KeyVault (optional)
 
-By default, secrets will be stored as Kubernetes secrets. If you wish to store them in KeyVault instead, follow the instructions [here](../../docs/deploy.md).
+By default, secrets will be stored as Kubernetes secrets. If you wish to store them in KeyVault instead, follow the instructions [here](/docs/howto/deploy.md).
 
 Then, set the following chart value to your KeyVault name:
 ```
