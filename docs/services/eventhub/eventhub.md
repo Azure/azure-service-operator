@@ -5,7 +5,7 @@
 The Event Hubs operator can be used to provision the following resources.
 
 1. Event Hubs - Deploys an Event Hubs instance given the Event Hubs namespace, Resource Group and Location. 
-   1. [Sample YAML file](config\samples\azure_v1alpha1_eventhub.yaml)
+   1. [Sample YAML file](config/samples/azure_v1alpha1_eventhub.yaml)
 
 2. Event Hubs namespace - Deploys an Event Hubs namespace given the resource group and location. Also has the ability to configure SKU, properties, and network rules. 
    1. [Sample YAML file](config\samples\azure_v1alpha1_eventhub_namespace.yaml)
