@@ -15,6 +15,9 @@ type AzurePublicIPAddressSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location                 string `json:"location"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup            string `json:"resourceGroup"`
 	PublicIPAllocationMethod string `json:"publicIPAllocationMethod"`
 	IdleTimeoutInMinutes     int    `json:"idleTimeoutInMinutes"`
@@ -26,6 +29,7 @@ type AzurePublicIPAddressSpec struct {
 // +kubebuilder:subresource:status
 
 // AzurePublicIPAddress is the Schema for the azurepublicipaddresses API
+// +kubebuilder:resource:shortName=apipa
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzurePublicIPAddress struct {

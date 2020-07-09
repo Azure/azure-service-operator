@@ -2,9 +2,9 @@
 
 [![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
 
-> This project is experimental. The API is expected to change (while adhering to semantic versioning). Alpha and Beta resources are generally not recommended for production environments.
+> Note: The API is expected to change (while adhering to semantic versioning). Alpha and Beta resources are generally not recommended for production environments.
 
-The Azure Service Operator helps you provision Azure resources and connect your applications to them from within Kubernetes.
+The **Azure Service Operator** helps you provision Azure resources and connect your applications to them from within Kubernetes.
 
 ## Overview
 
@@ -15,19 +15,19 @@ The Azure Service Operator comprises of:
 
 The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
-For more details on the control flow of the Azure Service operator, refer to [Azure Service Operator control flow](/docs/design/controlflow.md)
+Curious to see how it all works? Check out our [control flow diagrams](/docs/design/controlflow.md).
 
 ## Supported Azure Services
 
 - [Resource Group](/docs/services/resourcegroup/resourcegroup.md)
-- [EventHub](/docs/services/eventhub/eventhub.md)
+- [Event Hubs](/docs/services/eventhub/eventhub.md)
 - [Azure SQL](/docs/services/azuresql/azuresql.md)
 - [Azure Database for PostgreSQL](/docs/services/postgresql/postgresql.md)
 - [Azure Database for MySQL](/docs/services/mysql/mysql.md)
-- [Azure Keyvault](/docs/services/keyvault/keyvault.md)
-- [Azure Rediscache](/docs/services/rediscache/rediscache.md)
+- [Azure Key Vault](/docs/services/keyvault/keyvault.md)
+- [Azure Cache for Redis](/docs/services/rediscache/rediscache.md)
 - [Storage Account](/docs/services/storage/storageaccount.md)
-- [Blob container](/docs/services/storage/blobcontainer.md)
+- [Blob Storage](/docs/services/storage/blobcontainer.md)
 - [Virtual Network](/docs/services/virtualnetwork/virtualnetwork.md)
 - [Application Insights](/docs/services/appinsights/appinsights.md)
 - [API Management](/docs/services/apimgmt/apimgmt.md)
@@ -39,9 +39,9 @@ For more details on the control flow of the Azure Service operator, refer to [Az
 
 ![Deploying ASO](/docs/images/asodeploy.gif)
 
-Do you want to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and start exploring? Follow these steps.
+Ready to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and start exploring? Follow these steps.
 
-1. Make sure `kubectl` is configured to connect to the Kubernetes cluster you want to deploy Azure Service Operators to.
+1. Make sure `kubectl` is configured to connect to the Kubernetes cluster you want to deploy Azure Service Operator to.
     
     To connect to an Azure Kubernetes Service cluster, you can use the below command:
 
@@ -63,7 +63,7 @@ Do you want to quickly deploy the latest version of Azure Service Operator on yo
     kubectl rollout status -n cert-manager deploy/cert-manager-webhook
     ```
 
-3. Download the latest Helm chart for Azure Service Operators locally to your machine. Run the following commands.
+3. Download the latest Helm chart for Azure Service Operator locally to your machine. Run the following commands.
 
     ```console
     mkdir install-aso
@@ -92,7 +92,7 @@ Do you want to quickly deploy the latest version of Azure Service Operator on yo
         --set azureClientID=$AZURE_CLIENT_ID \
         --set azureClientSecret=$AZURE_CLIENT_SECRET \
         --set createNamespace=true \
-        --set image.repository="mcr.microsoft.com/k8s/azure-service-operator:latest"
+        --set image.repository="mcr.microsoft.com/k8s/azureserviceoperator:latest"
     ```
 
 You should now see the Azure service operator pods running in your cluster.

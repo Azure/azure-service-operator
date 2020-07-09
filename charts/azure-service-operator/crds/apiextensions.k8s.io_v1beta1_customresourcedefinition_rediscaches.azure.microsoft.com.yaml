@@ -18,6 +18,8 @@ spec:
     kind: RedisCache
     listKind: RedisCacheList
     plural: rediscaches
+    shortNames:
+    - rc
     singular: rediscache
   scope: Namespaced
   subresources:
@@ -79,6 +81,7 @@ spec:
                   type: string
               type: object
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             secretName:
               type: string

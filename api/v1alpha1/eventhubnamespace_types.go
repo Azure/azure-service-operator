@@ -18,13 +18,17 @@ type EventhubNamespaceSpec struct {
 	Location      string                        `json:"location"`
 	Sku           EventhubNamespaceSku          `json:"sku,omitempty"`
 	Properties    EventhubNamespaceProperties   `json:"properties,omitempty"`
-	ResourceGroup string                        `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup string                        `json:"resourceGroup"`
 	NetworkRule   *EventhubNamespaceNetworkRule `json:"networkRule,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // EventhubNamespace is the Schema for the eventhubnamespaces API
+// +kubebuilder:resource:shortName=ehns
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type EventhubNamespace struct {

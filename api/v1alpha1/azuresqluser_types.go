@@ -16,7 +16,10 @@ type AzureSQLUserSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Server        string   `json:"server"`
 	DbName        string   `json:"dbName"`
-	ResourceGroup string   `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup string   `json:"resourceGroup"`
 	Roles         []string `json:"roles"`
 	// optional
 	AdminSecret            string   `json:"adminSecret,omitempty"`
@@ -31,6 +34,7 @@ type AzureSQLUserSpec struct {
 // +kubebuilder:subresource:status
 
 // AzureSQLUser is the Schema for the sqlusers API
+// +kubebuilder:resource:shortName=asqlu
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSQLUser struct {

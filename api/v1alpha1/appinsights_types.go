@@ -15,7 +15,10 @@ type AppInsightsSpec struct {
 	Kind                   string `json:"kind"`
 	Location               string `json:"location"`
 	ApplicationType        string `json:"applicationType"` // Possible values include 'web' or 'other'
-	ResourceGroup          string `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup          string `json:"resourceGroup"`
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
@@ -23,6 +26,7 @@ type AppInsightsSpec struct {
 // +kubebuilder:subresource:status
 
 // AppInsights is the Schema for the appinsights API
+// +kubebuilder:resource:shortName=ai
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AppInsights struct {

@@ -20,7 +20,7 @@ type ApimServiceSpec struct {
 	PublisherName            string `json:"publisherName"`
 	PublisherEmail           string `json:"publisherEmail"`
 	VnetType                 string `json:"vnetType,omitempty"`
-	VnetResourceGroup        string `json:"vnetResourceGroup,omitempty"`
+	VnetResourceGroup        string `json:"vnetResourceGroup"`
 	VnetName                 string `json:"vnetName,omitempty"`
 	VnetSubnetName           string `json:"vnetSubnetName,omitempty"`
 	AppInsightsResourceGroup string `json:"appInsightsResourceGroup,omitempty"`
@@ -31,6 +31,7 @@ type ApimServiceSpec struct {
 // +kubebuilder:subresource:status
 
 // ApimService is the Schema for the apimservices API
+// +kubebuilder:resource:shortName=apims
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type ApimService struct {

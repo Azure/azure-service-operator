@@ -18,7 +18,10 @@ type EventhubSpec struct {
 	Location          string                    `json:"location"`
 	Namespace         string                    `json:"namespace,omitempty"`
 	Properties        EventhubProperties        `json:"properties,omitempty"`
-	ResourceGroup     string                    `json:"resourceGroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup     string                    `json:"resourceGroup"`
 	AuthorizationRule EventhubAuthorizationRule `json:"authorizationRule,omitempty"`
 	// SecretName - Used to specify the name of the secret. Defaults to Event Hub name if omitted.
 	SecretName             string `json:"secretName,omitempty"`
@@ -37,6 +40,7 @@ type EventhubAuthorizationRule struct {
 type EventHubStorageAccount struct {
 	// ResourceGroup - Name of the storage account resource group
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
 	ResourceGroup string `json:"resourceGroup,omitempty"`
 	// AccountName - Name of the storage account
 	// +kubebuilder:validation:MaxLength=24
@@ -91,6 +95,7 @@ type EventhubProperties struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // Eventhub is the Schema for the eventhubs API
+// +kubebuilder:resource:shortName=eh
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type Eventhub struct {

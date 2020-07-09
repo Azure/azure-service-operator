@@ -18,6 +18,8 @@ spec:
     kind: ConsumerGroup
     listKind: ConsumerGroupList
     plural: consumergroups
+    shortNames:
+    - cg
     singular: consumergroup
   scope: Namespaced
   subresources:
@@ -50,7 +52,10 @@ spec:
             resourceGroup:
               description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                 Important: Run "make" to regenerate code after modifying this file'
+              pattern: ^[-\w\._\(\)]+$
               type: string
+          required:
+          - resourceGroup
           type: object
         status:
           description: ASOStatus (AzureServiceOperatorsStatus) defines the observed

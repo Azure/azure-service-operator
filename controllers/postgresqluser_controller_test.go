@@ -28,6 +28,7 @@ func TestPostgreSQLUserControllerNoAdminSecret(t *testing.T) {
 
 	postgresqlServerName = GenerateTestResourceNameWithRandom("psqlserver-test", 10)
 	postgresqlDatabaseName = GenerateTestResourceNameWithRandom("psqldb-test", 10)
+	resourceGroup := GenerateTestResourceNameWithRandom("myrg", 10)
 	pusername := "psql-test-user" + helpers.RandomString(10)
 	roles := []string{"azure_pg_admin"}
 
@@ -37,6 +38,7 @@ func TestPostgreSQLUserControllerNoAdminSecret(t *testing.T) {
 			Namespace: "default",
 		},
 		Spec: azurev1alpha1.PostgreSQLUserSpec{
+			ResourceGroup: resourceGroup,
 			Server:      postgresqlServerName,
 			DbName:      postgresqlDatabaseName,
 			AdminSecret: "",

@@ -18,6 +18,9 @@ type CosmosDBSpec struct {
 	// +kubebuilder:validation:MinLength=0
 
 	Location               string                        `json:"location,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
 	ResourceGroup          string                        `json:"resourceGroup"`
 	Kind                   CosmosDBKind                  `json:"kind,omitempty"`
 	Properties             CosmosDBProperties            `json:"properties,omitempty"`
@@ -78,6 +81,7 @@ type CosmosDBLocation struct {
 // +kubebuilder:subresource:status
 
 // CosmosDB is the Schema for the cosmosdbs API
+// +kubebuilder:resource:shortName=cdb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type CosmosDB struct {

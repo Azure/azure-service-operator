@@ -17,7 +17,10 @@ type BlobContainerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	Location      string         `json:"location"`
-	ResourceGroup string         `json:"resourcegroup,omitempty"`
+	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
+	// +kubebuilder:validation:MinLength:1
+	// +kubebuilder:validation:Required
+	ResourceGroup string         `json:"resourcegroup"`
 	AccountName   string         `json:"accountname,omitempty"`
 	AccessLevel   s.PublicAccess `json:"accesslevel,omitempty"`
 }
@@ -26,6 +29,7 @@ type BlobContainerSpec struct {
 // +kubebuilder:subresource:status
 
 // BlobContainer is the Schema for the blobcontainers API
+// +kubebuilder:resource:shortName=bc
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type BlobContainer struct {
