@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/gobuffalo/flect"
 	"go/ast"
 )
 
@@ -85,6 +86,10 @@ func (typeName *TypeName) CreateDefinitions(name *TypeName, _ IdentifierFactory)
 // String returns the string representation of the type name
 func (typeName *TypeName) String() string {
 	return fmt.Sprintf("%s/%s", typeName.PackageReference, typeName.name)
+}
+
+func (typeName *TypeName) Singular() *TypeName {
+	return NewTypeName(typeName.PackageReference, flect.Singularize(typeName.name))
 }
 
 // Ensure we implement Stringer
