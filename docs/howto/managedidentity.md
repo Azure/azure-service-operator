@@ -67,7 +67,7 @@ EOF
 
 Let's break down exactly what the script is doing.
 
-1. Install [aad-pod-identity](https://github.com/Azure/aad-pod-identity#1-create-the-deployment).
+1. Install [aad-pod-identity](https://github.com/Azure/aad-pod-identity).
 
   ```shell
   make install-aad-pod-identity
