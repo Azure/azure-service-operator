@@ -61,11 +61,13 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			instance.Status.Provisioning = false
 			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.ResourceId = *item.ID
+			instance.Status.State = *item.ProvisioningState
 			return true, nil
 		}
 
 		instance.Status.Provisioned = false
-		instance.Status.Message = "Creating"
+		instance.Status.State = *item.ProvisioningState
+		instance.Status.Message = "Requested resource has been requested but is not ready yet"
 
 	}
 	future, err := g.CreateVirtualMachine(
