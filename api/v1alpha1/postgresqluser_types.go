@@ -32,6 +32,7 @@ type PostgreSQLUserSpec struct {
 // +kubebuilder:subresource:status
 
 // PostgreSQLUser is the Schema for the postgresqlusers API
+// +kubebuilder:resource:shortName=psqlu
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type PostgreSQLUser struct {

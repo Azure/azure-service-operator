@@ -181,3 +181,11 @@ For eg., use  `kubectl apply -f config/samples/azure_v1alpha1_azuresqlserver.yam
 ## Want to contribute a new operator?
 
 If you are ready to contribute a new operator to the Azure Service Operators project, please follow the step-by-step guide [here](newoperatorguide.md).
+
+## Updating Helm Chart in the repo
+
+If you make changes to the Chart or if you make changes to the CRDs, you will need to update the Helm Chart and check-in the updated chart using the following steps:
+
+1. After you make the changes to the CRDs or the chart, run `make helm-chart-manifests` from the project root.
+2. Add all the modified files generated including the .tgz file, to your commit.
+3. Include these files in your Pull Request.

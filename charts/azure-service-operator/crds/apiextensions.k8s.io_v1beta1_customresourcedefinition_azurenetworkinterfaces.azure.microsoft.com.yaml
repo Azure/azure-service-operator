@@ -18,6 +18,8 @@ spec:
     kind: AzureNetworkInterface
     listKind: AzureNetworkInterfaceList
     plural: azurenetworkinterfaces
+    shortNames:
+    - ani
     singular: azurenetworkinterface
   scope: Namespaced
   subresources:
@@ -49,6 +51,7 @@ spec:
             publicIPAddressName:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             subnetName:
               type: string

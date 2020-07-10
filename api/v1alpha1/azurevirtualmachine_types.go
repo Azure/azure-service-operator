@@ -40,6 +40,7 @@ const (
 // +kubebuilder:subresource:status
 
 // AzureVirtualMachine is the Schema for the azurevirtualmachines API
+// +kubebuilder:resource:shortName=avm
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureVirtualMachine struct {

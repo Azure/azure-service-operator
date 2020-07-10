@@ -18,6 +18,8 @@ spec:
     kind: RedisCacheAction
     listKind: RedisCacheActionList
     plural: rediscacheactions
+    shortNames:
+    - rca
     singular: rediscacheaction
   scope: Namespaced
   subresources:
@@ -55,6 +57,7 @@ spec:
             keyVaultToStoreSecrets:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             secretName:
               type: string

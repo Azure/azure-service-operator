@@ -32,6 +32,7 @@ type MySQLServerSpec struct {
 // +kubebuilder:storageversion
 
 // MySQLServer is the Schema for the mysqlservers API
+// +kubebuilder:resource:shortName=mysqls
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type MySQLServer struct {

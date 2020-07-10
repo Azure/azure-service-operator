@@ -81,6 +81,7 @@ type CosmosDBLocation struct {
 // +kubebuilder:subresource:status
 
 // CosmosDB is the Schema for the cosmosdbs API
+// +kubebuilder:resource:shortName=cdb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type CosmosDB struct {

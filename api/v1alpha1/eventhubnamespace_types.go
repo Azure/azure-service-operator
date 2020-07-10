@@ -28,6 +28,7 @@ type EventhubNamespaceSpec struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // EventhubNamespace is the Schema for the eventhubnamespaces API
+// +kubebuilder:resource:shortName=ehns
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type EventhubNamespace struct {

@@ -18,6 +18,8 @@ spec:
     kind: APIMgmtAPI
     listKind: APIMgmtAPIList
     plural: apimgmtapis
+    shortNames:
+    - apim
     singular: apimgmtapi
   scope: Namespaced
   subresources:
@@ -130,6 +132,7 @@ spec:
                   type: boolean
               type: object
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
           required:
           - apiId
