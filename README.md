@@ -47,13 +47,13 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     ```sh
     kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
     ```
-1. Install [Helm](https://helm.sh/docs/intro/install/), and add the Helm repo for Azure Service Operator. Please note that the instructions here use Helm 3.
+2.  Install [Helm](https://helm.sh/docs/intro/install/), and add the Helm repo for Azure Service Operator. Please note that the instructions here use Helm 3.
 
     ```sh
     helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
     ```
 
-2. Install the Azure Service Operator on your cluster using the following helm install command.
+3. Install the Azure Service Operator on your cluster using the following helm install command.
 
     Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md)
 
@@ -76,7 +76,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     azureoperator-controller-manager-7dd75bbd97-mk4s9   2/2     Running   0          35s
     ```
 
-To deploy an Azure service through the operator, check out the set of [supported Azure services](#supported-azure-services) and the sample YAML files in the `config/samples` [folder](../../config\samples) to create the resources using the following command.
+To deploy an Azure service through the operator, check out the set of [supported Azure services](#supported-azure-services) and the sample YAML files in the `config/samples` [folder](../../config/samples) to create the resources using the following command.
 
 ```sh
 kubectl apply -f <YAML file>

@@ -5,6 +5,9 @@ However, if you're interested and building and deploying the operators from sour
 
 ## Build the operator
 
+> [!NOTE]
+> This step assumes you have the prerequisites installed. See prerequisites [here](prereqs.md) for information on setup.
+
 1. Clone the repository.
 
 2. Make sure the environment variable `GO111MODULE` is set to `on`.

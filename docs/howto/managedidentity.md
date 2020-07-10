@@ -102,4 +102,3 @@ Let's break down exactly what the script is doing.
   Now that you've completed the above steps, the Azure Service Operator you've deployed now uses a managed identity for authentication. Use the following command to confirm the above steps worked.
 
   ```
-  TBD
