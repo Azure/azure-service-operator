@@ -12,7 +12,7 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.1
 
 You can use the below command to check if the cert manager pods are ready. The cert manager pods should be running before proceeding to the next step.
 
-```console
+```sh
 kubectl rollout status -n cert-manager deploy/cert-manager-webhook
 ```
 
