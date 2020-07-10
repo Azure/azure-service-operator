@@ -101,7 +101,6 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			switch azerr.Type {
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
-				instance.Status.Message = err.Error()
 
 			}
 			// reconciliation is not done but error is acceptable
@@ -110,7 +109,6 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 		//change to spec is required
 		if future.Response().StatusCode == 400 {
 			instance.Status.FailedProvisioning = true
-			instance.Status.Message = err.Error()
 			return false, nil
 		}
 
@@ -138,7 +136,6 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			switch azerr.Type {
 			case errhelp.AsyncOpIncompleteError:
 				instance.Status.Provisioning = true
-				instance.Status.Message = err.Error()
 			}
 			// reconciliation is not done but error is acceptable
 			return false, nil
@@ -147,15 +144,6 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 		// reconciliation not done and we don't know what happened
 		return false, err
 	}
-
-	// if instance.Status.Provisioning {
-	// 	instance.Status.Provisioned = true
-	// 	instance.Status.Provisioning = false
-	// 	instance.Status.Message = resourcemanager.SuccessMsg
-	// } else {
-	// 	instance.Status.Provisioned = false
-	// 	instance.Status.Provisioning = true
-	// }
 	return false, nil
 }
 
