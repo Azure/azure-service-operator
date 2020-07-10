@@ -84,7 +84,7 @@ kubectl apply -f <YAML file>
 
 ## About the project
 
-This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](/charts/azure-service-operator/README.md).
+This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](docs/howto/helmdeploy.md).
 
 Please see the [FAQ](docs/faq.md) for answers to commonly asked questions about the Azure Service Operator.
 
