@@ -34,7 +34,7 @@ azureSubscriptionID: 00000000-0000-0000-0000-000000000000
 ```
 
 You can find these values by running the following:
-```
+```sh
 az account show
 ```
 
@@ -77,7 +77,7 @@ azureOperatorKeyvault: OperatorSecretKeyVault
 #### Install Chart
 
 Finally, install the chart with your added values. The chart can be installed by using a values file or environment variables.
-```
+```sh
 helm upgrade --install aso azureserviceoperator/azure-service-operator -n azureoperator-system --create-namespace -f values.yaml
 ```
 
