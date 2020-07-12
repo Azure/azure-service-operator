@@ -13,7 +13,8 @@ import (
 type Function interface {
 	RequiredImports() []*PackageReference
 
-	References(name *TypeName) bool
+	// References returns the set of types to which this function refers.
+	References() TypeNameSet
 
 	// AsFunc renders the current instance as a Go abstract syntax tree
 	AsFunc(codeGenerationContext *CodeGenerationContext, receiver *TypeName, methodName string) *ast.FuncDecl

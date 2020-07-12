@@ -14,9 +14,10 @@ type Type interface {
 	// RequiredImports returns a list of packages required by this type
 	RequiredImports() []*PackageReference
 
-	// References determines if this type has a direct reference to the given definition name
-	// For example an Array of Persons references a Person
-	References(d *TypeName) bool
+	// References returns the names of all types that this type
+	// references. For example, an Array of Persons references a
+	// Person.
+	References() TypeNameSet
 
 	// AsType renders as a Go abstract syntax tree for a type
 	// (yes this says ast.Expr but that is what the Go 'ast' package uses for types)

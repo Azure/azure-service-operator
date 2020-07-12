@@ -45,6 +45,18 @@ func runGoldenTest(t *testing.T, path string) {
 		t.Fatalf("could not produce nodes from scanner: %v", err)
 	}
 
+	// The golden files always generate a top-level Test type - mark
+	// that as the root.
+	roots := astmodel.NewTypeNameSet(*astmodel.NewTypeName(
+		*astmodel.NewPackageReference(
+			"github.com/Azure/k8s-infra/hack/generator/apis/test/v20200101"),
+		"Test",
+	))
+	defs, err = astmodel.StripUnusedDefinitions(roots, defs)
+	if err != nil {
+		t.Fatalf("could not strip unused types: %v", err)
+	}
+
 	// put all definitions in one file, regardless
 	// the package reference isn't really used here
 	fileDef := astmodel.NewFileDefinition(&defs[0].Name().PackageReference, defs...)

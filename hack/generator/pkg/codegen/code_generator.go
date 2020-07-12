@@ -81,6 +81,12 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 		return errors.Wrapf(err, "failed to filter generated definitions")
 	}
 
+	roots := astmodel.CollectResourceDefinitions(defs)
+	defs, err = astmodel.StripUnusedDefinitions(roots, defs)
+	if err != nil {
+		return errors.Wrapf(err, "failed to strip unused definitions")
+	}
+
 	packages, err := generator.CreatePackagesForDefinitions(defs)
 	if err != nil {
 		return errors.Wrapf(err, "failed to assign generated definitions to packages")

@@ -39,9 +39,9 @@ func (enum *EnumType) AsType(codeGenerationContext *CodeGenerationContext) ast.E
 	return enum.BaseType.AsType(codeGenerationContext)
 }
 
-// References indicates whether this Type includes any direct references to the given Type
-func (enum *EnumType) References(tn *TypeName) bool {
-	return enum.BaseType.References(tn)
+// References returns any types the underlying type refers to.
+func (enum *EnumType) References() TypeNameSet {
+	return enum.BaseType.References()
 }
 
 // Equals will return true if the supplied type has the same base type and options

@@ -86,7 +86,10 @@ func emitFiles(filesToGenerate map[string][]TypeDefiner, outputDir string) error
 
 func anyReferences(defs []TypeDefiner, defName *TypeName) bool {
 	for _, def := range defs {
-		if def.Type().References(defName) {
+		if def == nil {
+			continue
+		}
+		if def.Type().References().Contains(*defName) {
 			return true
 		}
 	}

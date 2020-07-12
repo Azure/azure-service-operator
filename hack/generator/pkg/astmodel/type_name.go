@@ -53,9 +53,12 @@ func (typeName *TypeName) AsType(codeGenerationContext *CodeGenerationContext) a
 	return ast.NewIdent(typeName.name)
 }
 
-// References indicates whether this Type includes any direct references to the given Type
-func (typeName *TypeName) References(d *TypeName) bool {
-	return typeName.Equals(d)
+// References returns a set containing this type name.
+func (typeName *TypeName) References() TypeNameSet {
+	if typeName == nil {
+		return nil
+	}
+	return NewTypeNameSet(*typeName)
 }
 
 // RequiredImports returns all the imports required for this definition
