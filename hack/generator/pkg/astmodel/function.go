@@ -14,6 +14,7 @@ type Function interface {
 	RequiredImports() []*PackageReference
 
 	// References returns the set of types to which this function refers.
+	// Should *not* include the receiver of this function
 	References() TypeNameSet
 
 	// AsFunc renders the current instance as a Go abstract syntax tree

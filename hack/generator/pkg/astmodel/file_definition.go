@@ -31,12 +31,94 @@ type FileDefinition struct {
 // NewFileDefinition creates a file definition containing specified definitions
 func NewFileDefinition(packageRef *PackageReference, definitions ...TypeDefiner) *FileDefinition {
 
+	// Topological sort of the definitions, putting them in order of reference
+	ranks := calcRanks(definitions)
 	sort.Slice(definitions, func(i, j int) bool {
+		iRank := ranks[*definitions[i].Name()]
+		jRank := ranks[*definitions[j].Name()]
+		if iRank != jRank {
+			return iRank < jRank
+		}
+
 		return definitions[i].Name().name < definitions[j].Name().name
 	})
 
 	// TODO: check that all definitions are from same package
 	return &FileDefinition{packageRef, definitions}
+}
+
+// Calculate the ranks for each type
+// Can't use a recursive algorithm, so have to use an iterative one
+func calcRanks(definitions []TypeDefiner) map[TypeName]int {
+	ranks := make(map[TypeName]int)
+
+	// First need a way to identify all the root type definers
+	// These are the ones not referenced by any other in this file
+	nonroots := make(map[TypeName]bool)
+	for _, d := range definitions {
+		for ref := range d.Type().References() {
+			nonroots[ref] = true
+		}
+	}
+
+	// Create a queue of all the definitions we need to process
+	var queue []TypeDefiner
+	for _, d := range definitions {
+		if _, ok := d.(*ResourceDefinition); ok {
+			// Resources have rank 0
+			ranks[*d.Name()] = 0
+		} else if _, ok := nonroots[*d.Name()]; !ok {
+			// Roots have rank 0
+			ranks[*d.Name()] = 0
+		}
+		queue = append(queue, d)
+	}
+
+	lastLength := len(queue)
+	for len(queue) > 0 {
+		queue = assignRanks(queue, ranks)
+		if len(queue) == lastLength {
+			// No progress made - give everything a fallback rank
+			for _, d := range queue {
+				ranks[*d.Name()] = 10000
+			}
+
+			queue = nil
+		}
+
+		lastLength = len(queue)
+	}
+
+	return ranks
+}
+
+// assignRanks allocates ranks to any type definers whose types have known rank,
+// returning a slice containing the remaining type definers for later processing
+func assignRanks(definers []TypeDefiner, ranks map[TypeName]int) []TypeDefiner {
+	var assignable []TypeDefiner
+	var remaining []TypeDefiner
+
+	// Partition type definers into ones we can allocate, and ones to defer. We do this before
+	// making any changes to ranks to avoid iteration ordering having any impact on the ranks
+	// assigned.
+	for _, d := range definers {
+		if _, ok := ranks[*d.Name()]; ok {
+			assignable = append(assignable, d)
+		} else {
+			remaining = append(remaining, d)
+		}
+	}
+
+	// Assign ranks
+	for _, d := range assignable {
+		rank := ranks[*d.Name()]
+		for ref := range d.Type().References() {
+			//klog.V(0).Infof("%v: %v -> %v\n", rank, d.Name(), ref)
+			ranks[ref] = rank + 1
+		}
+	}
+
+	return remaining
 }
 
 // generateImports products the definitive set of imports for use in this file and

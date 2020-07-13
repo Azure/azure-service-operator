@@ -137,11 +137,7 @@ func (definition *ResourceDefinition) AsDeclarations(codeGenerationContext *Code
 		})
 	}
 
-	if definition.description != nil {
-		comments = append(comments, &ast.Comment{
-			Text: "/*" + *definition.description + "*/",
-		})
-	}
+	addDocComment(&comments, *definition.description, 200);
 
 	return []ast.Decl{
 		&ast.GenDecl{

@@ -5,18 +5,6 @@ package v20200101
 
 import "encoding/json"
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
-type Bar struct {
-
-	// +kubebuilder:validation:Required
-	Size int `json:"size"`
-}
-
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
-type Foo struct {
-	Name *string `json:"name"`
-}
-
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	MyBool     *bool           `json:"myBool"`
@@ -42,4 +30,16 @@ func (testProperties TestProperties) MarshalJSON() ([]byte, error) {
 		return json.Marshal(testProperties.Foo)
 	}
 	return nil, nil
+}
+
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
+type Bar struct {
+
+	// +kubebuilder:validation:Required
+	Size int `json:"size"`
+}
+
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+type Foo struct {
+	Name *string `json:"name"`
 }
