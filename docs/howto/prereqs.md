@@ -1,4 +1,4 @@
-# Development and Deployment Dependencies
+# Development Dependencies
 
 1. [GoLang](https://golang.org/dl/) is installed.
 2. [Docker](https://docs.docker.com/install/) is installed and running.
