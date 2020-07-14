@@ -137,7 +137,7 @@ func (definition *ResourceDefinition) AsDeclarations(codeGenerationContext *Code
 		})
 	}
 
-	addDocComment(&comments, *definition.description, 200);
+	addDocComment(&comments, *definition.description, 200)
 
 	return []ast.Decl{
 		&ast.GenDecl{

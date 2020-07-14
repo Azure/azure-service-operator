@@ -58,14 +58,18 @@ func runGoldenTest(t *testing.T, path string) {
 		t.Fatalf("could not strip unused types: %v", err)
 	}
 
-	var pr astmodel.PackageReference
+	var pr *astmodel.PackageReference
 	var ds []astmodel.TypeDefiner
 	for _, def := range defs {
 		ds = append(ds, def)
+		if pr == nil {
+			pr = &def.Name().PackageReference
+		}
 	}
 
-	// put all definitions in one file, regardless.	// the package reference isn't really used here.
-	fileDef := astmodel.NewFileDefinition(&pr, ds...)
+	// put all definitions in one file, regardless.
+	// the package reference isn't really used here.
+	fileDef := astmodel.NewFileDefinition(pr, ds...)
 
 	buf := &bytes.Buffer{}
 	err = fileDef.SaveToWriter(path, buf)
@@ -101,8 +105,19 @@ func TestGolden(t *testing.T) {
 	}
 
 	// run all tests
+	// Sanity check that there are at least a few groups
+	minExpectedTestGroups := 3
+	if len(testGroups) < minExpectedTestGroups {
+		t.Fatalf("Expected at least %d test groups, found: %d", minExpectedTestGroups, len(testGroups))
+	}
+
 	for groupName, fs := range testGroups {
 		t.Run(groupName, func(t *testing.T) {
+			// Sanity check that there is at least one test in each group
+			if len(fs) == 0 {
+				t.Fatalf("Test group %s was empty", groupName)
+			}
+
 			for _, f := range fs {
 				t.Run(f.name, func(t *testing.T) {
 					runGoldenTest(t, f.path)
