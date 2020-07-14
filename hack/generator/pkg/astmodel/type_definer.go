@@ -17,8 +17,9 @@ type TypeDefiner interface {
 	// Name is the name that will be bound to the type
 	Name() *TypeName
 
-	// Type is the type that the name will be bound to
-	Type() Type
+	// References returns the names of all types that the types
+	// being defined reference.
+	References() TypeNameSet
 
 	// WithDescription adds (or removes!) a description for the defined type
 	WithDescription(description *string) TypeDefiner

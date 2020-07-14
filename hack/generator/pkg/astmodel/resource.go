@@ -59,11 +59,16 @@ func (definition *ResourceDefinition) Name() *TypeName {
 	return definition.typeName
 }
 
-// Type returns the type to be associated with the name
-func (definition *ResourceDefinition) Type() Type {
-	return definition.spec // TODO BUG: the status is not considered here
-	// TO FIX: consider lifting up the two methods used on the result of this method
-	// (which are References/RequiredImports) into the TypeDefiner interface
+// References returns the types referenced by Status or Spec parts of the resource
+func (definition *ResourceDefinition) References() TypeNameSet {
+	spec := definition.spec.References()
+
+	var status TypeNameSet
+	if definition.status != nil {
+		status = definition.status.References()
+	}
+
+	return SetUnion(spec, status)
 }
 
 // MarkAsStorageVersion marks the resource as the Kubebuilder storage version

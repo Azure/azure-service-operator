@@ -546,12 +546,15 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 
 		case *astmodel.TypeName:
 			// TODO: need to check if this is a reference to a struct type or not
-
 			if def, ok := scanner.findTypeDefinition(concreteType); ok {
-				var err error
-				fields, err = handleType(fields, def.Type())
-				if err != nil {
-					return nil, err
+				if structDef, ok := def.(*astmodel.StructDefinition); ok {
+					var err error
+					fields, err = handleType(fields, structDef.Type())
+					if err != nil {
+						return nil, err
+					}
+				} else {
+					return nil, errors.Errorf("unhandled case in allOf: unable to unpack %v", concreteType)
 				}
 			} else {
 				return nil, errors.Errorf("couldn't find definition for: %v", concreteType)

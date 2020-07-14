@@ -89,7 +89,8 @@ func anyReferences(defs []TypeDefiner, defName *TypeName) bool {
 		if def == nil {
 			continue
 		}
-		if def.Type().References().Contains(*defName) {
+
+		if def.References().Contains(*defName) {
 			return true
 		}
 	}

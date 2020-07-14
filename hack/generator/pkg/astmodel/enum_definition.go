@@ -29,9 +29,9 @@ func (enum *EnumDefinition) Name() *TypeName {
 	return enum.typeName
 }
 
-// Type returns the underlying EnumerationType for this enum
-func (enum *EnumDefinition) Type() Type {
-	return enum.baseType
+// References returns the underlying type's references
+func (enum *EnumDefinition) References() TypeNameSet {
+	return enum.baseType.References()
 }
 
 func (enum *EnumDefinition) WithDescription(description *string) TypeDefiner {

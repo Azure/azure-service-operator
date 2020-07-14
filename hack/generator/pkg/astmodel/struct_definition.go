@@ -35,6 +35,11 @@ func (definition *StructDefinition) Type() Type {
 	return definition.structType
 }
 
+// References returns the types referenced by the struct type
+func (definition *StructDefinition) References() TypeNameSet {
+	return definition.structType.References()
+}
+
 // WithDescription adds a description (doc-comment) to the definition
 func (definition *StructDefinition) WithDescription(description *string) TypeDefiner {
 	result := *definition

@@ -56,7 +56,7 @@ func calcRanks(definitions []TypeDefiner) map[TypeName]int {
 	// These are the ones not referenced by any other in this file
 	nonroots := make(map[TypeName]bool)
 	for _, d := range definitions {
-		for ref := range d.Type().References() {
+		for ref := range d.References() {
 			nonroots[ref] = true
 		}
 	}
@@ -112,8 +112,7 @@ func assignRanks(definers []TypeDefiner, ranks map[TypeName]int) []TypeDefiner {
 	// Assign ranks
 	for _, d := range assignable {
 		rank := ranks[*d.Name()]
-		for ref := range d.Type().References() {
-			//klog.V(0).Infof("%v: %v -> %v\n", rank, d.Name(), ref)
+		for ref := range d.References() {
 			ranks[ref] = rank + 1
 		}
 	}

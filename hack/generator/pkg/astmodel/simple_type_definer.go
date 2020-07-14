@@ -28,8 +28,8 @@ func (std *SimpleTypeDefiner) Name() *TypeName {
 	return std.name
 }
 
-func (std *SimpleTypeDefiner) Type() Type {
-	return std.theType
+func (std *SimpleTypeDefiner) References() TypeNameSet {
+	return std.theType.References()
 }
 
 func (std *SimpleTypeDefiner) WithDescription(desc *string) TypeDefiner {

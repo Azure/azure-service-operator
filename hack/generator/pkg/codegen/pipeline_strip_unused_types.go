@@ -32,7 +32,7 @@ func StripUnusedDefinitions(
 	references := make(map[astmodel.TypeName]astmodel.TypeNameSet)
 
 	for _, def := range definitions {
-		references[*def.Name()] = def.Type().References()
+		references[*def.Name()] = def.References()
 	}
 
 	graph := newReferenceGraph(roots, references)
