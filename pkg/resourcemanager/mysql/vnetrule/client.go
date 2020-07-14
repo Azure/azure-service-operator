@@ -69,7 +69,7 @@ func (vr *MySQLVNetRuleClient) DeleteSQLVNetRule(ctx context.Context, resourceGr
 }
 
 // CreateOrUpdateSQLVNetRule creates or updates a VNet rule
-// based on code from: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#VirtualNetworkRulesClient.CreateOrUpdate
+// based on code from: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#VirtualNetworkRulesClient.CreateOrUpdate
 func (vr *MySQLVNetRuleClient) CreateOrUpdateSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, VNetRG string, VNetName string, SubnetName string, IgnoreServiceEndpoint bool) (vnr mysql.VirtualNetworkRule, err error) {
 
 	VNetRulesClient := getMySQLVNetRulesClient()

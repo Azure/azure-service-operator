@@ -4,13 +4,13 @@
 package azuresqlshared
 
 import (
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 )
 
 // SQLServerProperties contains values needed for adding / updating SQL servers,
-// wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#Server
-// also wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ServerProperties
+// wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#Server
+// also wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#ServerProperties
 type SQLServerProperties struct {
 
 	// AdministratorLogin - Administrator username for the server. Once created it cannot be changed.
@@ -21,8 +21,8 @@ type SQLServerProperties struct {
 }
 
 // SQLDatabaseProperties contains values needed for adding / updating SQL servers,
-// wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#Database
-// also wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseProperties
+// wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#Database
+// also wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#DatabaseProperties
 type SQLDatabaseProperties struct {
 
 	// DatabaseName is the name of the database
@@ -78,7 +78,7 @@ func SQLServerPropertiesToServer(properties SQLServerProperties) (result sql.Ser
 func SQLDatabasePropertiesToDatabase(properties SQLDatabaseProperties) (result sql.DatabaseProperties) {
 
 	result = sql.DatabaseProperties{
-		Edition: translateDBEdition(properties.Edition),
+		// Edition: translateDBEdition(properties.Edition), TODO:
 	}
 
 	return result

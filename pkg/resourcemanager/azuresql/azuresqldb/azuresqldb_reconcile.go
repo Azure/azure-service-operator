@@ -90,7 +90,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
 		instance.Status.FailedProvisioning = false
-		instance.Status.State = string(*dbGet.Status)
+		instance.Status.State = string(dbGet.Status)
 		instance.Status.Message = resourcemanager.SuccessMsg
 		instance.Status.ResourceId = *dbGet.ID
 		return true, nil

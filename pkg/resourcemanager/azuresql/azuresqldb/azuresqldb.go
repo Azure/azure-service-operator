@@ -8,11 +8,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	sql3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
@@ -49,16 +48,14 @@ func (_ *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string,
 		resourceGroupName,
 		serverName,
 		databaseName,
-		"serviceTierAdvisors, transparentDataEncryption",
 	)
 }
 
 // DeleteDB deletes a DB
-func (sdk *AzureSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result autorest.Response, err error) {
-	result = autorest.Response{
-		Response: &http.Response{
-			StatusCode: 200,
-		},
+func (sdk *AzureSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result *http.Response, err error) {
+	// TODO: Probably shouldn't return a response at all in the err case here (all through this function)
+	result = &http.Response{
+		StatusCode: 200,
 	}
 
 	// check to see if the server exists, if it doesn't then short-circuit
@@ -78,23 +75,31 @@ func (sdk *AzureSqlDbManager) DeleteDB(ctx context.Context, resourceGroupName st
 		return result, err
 	}
 
-	result, err = dbClient.Delete(
+	future, err := dbClient.Delete(
 		ctx,
 		resourceGroupName,
 		serverName,
 		databaseName,
 	)
 
-	return result, err
+	if err != nil {
+		return result, err
+	}
+
+	return future.Response(), err
 }
 
 // CreateOrUpdateDB creates or updates a DB in Azure
 func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLDatabaseProperties) (*http.Response, error) {
+
+	// TODO: Probably shouldn't return a response at all in the err case here (all through this function)
+	result := &http.Response{
+		StatusCode: 0,
+	}
+
 	dbClient, err := azuresqlshared.GetGoDbClient()
 	if err != nil {
-		return &http.Response{
-			StatusCode: 0,
-		}, err
+		return result, err
 	}
 
 	dbProp := azuresqlshared.SQLDatabasePropertiesToDatabase(properties)
@@ -110,6 +115,10 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 			Tags:               tags,
 		})
 
+	if err != nil {
+		return result, err
+	}
+
 	return future.Response(), err
 }
 
@@ -117,6 +126,7 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, weeklyRetention string, monthlyRetention string, yearlyRetention string, weekOfYear int32) (*http.Response, error) {
 
 	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient()
+	// TODO: Probably shouldn't return a response at all in the err case here (all through this function)
 	if err != nil {
 		return &http.Response{
 			StatusCode: 0,
@@ -167,6 +177,12 @@ func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGr
 			},
 		},
 	)
+
+	if err != nil {
+		return &http.Response{
+			StatusCode: 500,
+		}, nil
+	}
 
 	return future.Response(), err
 }
