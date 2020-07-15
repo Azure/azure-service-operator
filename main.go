@@ -906,8 +906,9 @@ func main() {
 				"AppInsightsApiKey",
 				ctrl.Log.WithName("controllers").WithName("AppInsightsApiKey"),
 			),
-			Recorder: mgr.GetEventRecorderFor("AppInsightsApiKey-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("AppInsightsApiKey-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AppInsightsApiKey")
