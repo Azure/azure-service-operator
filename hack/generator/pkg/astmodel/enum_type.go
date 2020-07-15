@@ -52,7 +52,7 @@ func (enum *EnumType) Equals(t Type) bool {
 		}
 
 		if len(enum.options) != len(e.options) {
-			// Different number of fields, not equal
+			// Different number of properties, not equal
 			return false
 		}
 

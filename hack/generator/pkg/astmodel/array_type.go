@@ -9,7 +9,7 @@ import (
 	"go/ast"
 )
 
-// ArrayType is used for fields that contain an array of values
+// ArrayType is used for properties that contain an array of values
 type ArrayType struct {
 	element Type
 }

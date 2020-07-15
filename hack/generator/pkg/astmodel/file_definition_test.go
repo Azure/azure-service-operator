@@ -21,14 +21,14 @@ func Test_NewFileDefinition_GivenValues_InitializesFields(t *testing.T) {
 	g.Expect(file.definitions).To(HaveLen(1))
 }
 
-func NewTestStruct(name string, fields ...string) StructDefinition {
-	var fs []*FieldDefinition
-	for _, n := range fields {
-		fs = append(fs, NewFieldDefinition(FieldName(n), n, StringType))
+func NewTestStruct(name string, properties ...string) StructDefinition {
+	var ps []*PropertyDefinition
+	for _, n := range properties {
+		ps = append(ps, NewPropertyDefinition(PropertyName(n), n, StringType))
 	}
 
 	ref := NewTypeName(*NewLocalPackageReference("group", "2020-01-01"), name)
-	definition := NewStructDefinition(ref, NewStructType().WithFields(fs...))
+	definition := NewStructDefinition(ref, NewStructType().WithProperties(ps...))
 
 	return *definition
 }

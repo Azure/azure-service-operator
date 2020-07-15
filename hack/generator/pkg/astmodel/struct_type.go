@@ -12,8 +12,8 @@ import (
 
 // StructType represents an (unnamed) struct type
 type StructType struct {
-	fields    map[FieldName]*FieldDefinition
-	functions map[string]Function
+	properties map[PropertyName]*PropertyDefinition
+	functions  map[string]Function
 }
 
 // EmptyStructType is an empty struct
@@ -25,21 +25,21 @@ var _ Type = (*StructType)(nil)
 // NewStructType is a factory method for creating a new StructTypeDefinition
 func NewStructType() *StructType {
 	return &StructType{
-		fields:    make(map[FieldName]*FieldDefinition),
-		functions: make(map[string]Function),
+		properties: make(map[PropertyName]*PropertyDefinition),
+		functions:  make(map[string]Function),
 	}
 }
 
-// Fields returns all our field definitions
+// Properties returns all our property definitions
 // A sorted slice is returned to preserve immutability and provide determinism
-func (structType *StructType) Fields() []*FieldDefinition {
-	var result []*FieldDefinition
-	for _, field := range structType.fields {
-		result = append(result, field)
+func (structType *StructType) Properties() []*PropertyDefinition {
+	var result []*PropertyDefinition
+	for _, property := range structType.properties {
+		result = append(result, property)
 	}
 
 	sort.Slice(result, func(left int, right int) bool {
-		return result[left].fieldName < result[right].fieldName
+		return result[left].propertyName < result[right].propertyName
 	})
 
 	return result
@@ -48,20 +48,20 @@ func (structType *StructType) Fields() []*FieldDefinition {
 // AsType implements Type for StructType
 func (structType *StructType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 
-	// Copy the slice of fields and sort it
-	fields := structType.Fields()
-	sort.Slice(fields, func(i int, j int) bool {
-		return fields[i].fieldName < fields[j].fieldName
+	// Copy the slice of properties and sort it
+	properties := structType.Properties()
+	sort.Slice(properties, func(i int, j int) bool {
+		return properties[i].propertyName < properties[j].propertyName
 	})
 
-	fieldDefinitions := make([]*ast.Field, len(fields))
-	for i, f := range fields {
-		fieldDefinitions[i] = f.AsField(codeGenerationContext)
+	fields := make([]*ast.Field, len(properties))
+	for i, f := range properties {
+		fields[i] = f.AsField(codeGenerationContext)
 	}
 
 	return &ast.StructType{
 		Fields: &ast.FieldList{
-			List: fieldDefinitions,
+			List: fields,
 		},
 	}
 }
@@ -69,8 +69,8 @@ func (structType *StructType) AsType(codeGenerationContext *CodeGenerationContex
 // RequiredImports returns a list of packages required by this
 func (structType *StructType) RequiredImports() []*PackageReference {
 	var result []*PackageReference
-	for _, field := range structType.fields {
-		result = append(result, field.FieldType().RequiredImports()...)
+	for _, property := range structType.properties {
+		result = append(result, property.PropertyType().RequiredImports()...)
 	}
 
 	for _, function := range structType.functions {
@@ -80,12 +80,11 @@ func (structType *StructType) RequiredImports() []*PackageReference {
 	return result
 }
 
-// References returns the set of all the types the fields referred to
-// by any field.
+// References returns the set of all the types referred to by any property.
 func (structType *StructType) References() TypeNameSet {
 	var results TypeNameSet
-	for _, field := range structType.fields {
-		for ref := range field.FieldType().References() {
+	for _, property := range structType.properties {
+		for ref := range property.PropertyType().References() {
 			results = results.Add(ref)
 		}
 	}
@@ -93,28 +92,28 @@ func (structType *StructType) References() TypeNameSet {
 	return results
 }
 
-// Equals returns true if the passed type is a struct type with the same fields, false otherwise
-// The order of the fields is not relevant
+// Equals returns true if the passed type is a struct type with the same properties, false otherwise
+// The order of the properties is not relevant
 func (structType *StructType) Equals(t Type) bool {
 	if structType == t {
 		return true
 	}
 
 	if st, ok := t.(*StructType); ok {
-		if len(structType.fields) != len(st.fields) {
-			// Different number of fields, not equal
+		if len(structType.properties) != len(st.properties) {
+			// Different number of properties, not equal
 			return false
 		}
 
-		for n, f := range st.fields {
-			ourField, ok := structType.fields[n]
+		for n, f := range st.properties {
+			ourProperty, ok := structType.properties[n]
 			if !ok {
-				// Didn't find the field, not equal
+				// Didn't find the property, not equal
 				return false
 			}
 
-			if !ourField.Equals(f) {
-				// Different field, even though same name; not-equal
+			if !ourProperty.Equals(f) {
+				// Different property, even though same name; not-equal
 				return false
 			}
 		}
@@ -137,7 +136,7 @@ func (structType *StructType) Equals(t Type) bool {
 			}
 		}
 
-		// All fields match, equal
+		// All properties match, equal
 		return true
 	}
 
@@ -152,25 +151,25 @@ func (structType *StructType) CreateInternalDefinitions(name *TypeName, idFactor
 	return definedStruct.Name(), append(otherTypes, definedStruct)
 }
 
-// CreateDefinitions defines a named type for this struct and invokes CreateInternalDefinitions for each field type
+// CreateDefinitions defines a named type for this struct and invokes CreateInternalDefinitions for each property type
 // to instantiate any definitions required by internal types.
 func (structType *StructType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefiner, []TypeDefiner) {
 
 	var otherTypes []TypeDefiner
-	var newFields []*FieldDefinition
+	var newProperties []*PropertyDefinition
 
-	for _, field := range structType.fields {
+	for _, property := range structType.properties {
 
 		// create definitions for nested types
-		nestedName := name.Name() + string(field.fieldName)
+		nestedName := name.Name() + string(property.propertyName)
 		nameHint := NewTypeName(name.PackageReference, nestedName)
-		newFieldType, moreTypes := field.fieldType.CreateInternalDefinitions(nameHint, idFactory)
+		newPropertyType, moreTypes := property.propertyType.CreateInternalDefinitions(nameHint, idFactory)
 
 		otherTypes = append(otherTypes, moreTypes...)
-		newFields = append(newFields, field.WithType(newFieldType))
+		newProperties = append(newProperties, property.WithType(newPropertyType))
 	}
 
-	newStructType := NewStructType().WithFields(newFields...)
+	newStructType := NewStructType().WithProperties(newProperties...)
 	for functionName, function := range structType.functions {
 		newStructType.functions[functionName] = function
 	}
@@ -178,21 +177,23 @@ func (structType *StructType) CreateDefinitions(name *TypeName, idFactory Identi
 	return NewStructDefinition(name, newStructType), otherTypes
 }
 
-// WithField creates a new StructType with another field attached to it
-func (structType *StructType) WithField(field *FieldDefinition) *StructType {
+// WithProperty creates a new StructType with another property attached to it
+// Properties are unique by name, so this can be used to Add and Replace a property
+func (structType *StructType) WithProperty(property *PropertyDefinition) *StructType {
 	// Create a copy of structType to preserve immutability
 	result := structType.copy()
-	result.fields[field.fieldName] = field
+	result.properties[property.propertyName] = property
 
 	return result
 }
 
-// WithFields creates a new StructType with additional fields attached to it
-func (structType *StructType) WithFields(fields ...*FieldDefinition) *StructType {
+// WithProperties creates a new StructType with additional properties included
+// Properties are unique by name, so this can be used to both Add and Replace properties.
+func (structType *StructType) WithProperties(properties ...*PropertyDefinition) *StructType {
 	// Create a copy of structType to preserve immutability
 	result := structType.copy()
-	for _, f := range fields {
-		result.fields[f.fieldName] = f
+	for _, f := range properties {
+		result.properties[f.propertyName] = f
 	}
 
 	return result
@@ -210,8 +211,8 @@ func (structType *StructType) WithFunction(name string, function Function) *Stru
 func (structType *StructType) copy() *StructType {
 	result := NewStructType()
 
-	for key, value := range structType.fields {
-		result.fields[key] = value
+	for key, value := range structType.properties {
+		result.properties[key] = value
 	}
 
 	for key, value := range structType.functions {

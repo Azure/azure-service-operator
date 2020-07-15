@@ -37,7 +37,7 @@ func (f *OneOfJSONMarshalFunction) Equals(other Function) bool {
 
 // References returns the set of references for the underlying struct.
 func (f *OneOfJSONMarshalFunction) References() TypeNameSet {
-	// Defer this check to the owning struct as we only refer to its fields and it
+	// Defer this check to the owning struct as we only refer to its properties and it
 	return f.oneOfStruct.References()
 }
 
@@ -85,10 +85,10 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 
 	var statements []ast.Stmt
 
-	for _, field := range f.oneOfStruct.Fields() {
+	for _, property := range f.oneOfStruct.Properties() {
 		fieldSelectorExpr := &ast.SelectorExpr{
 			X:   ast.NewIdent(receiverName),
-			Sel: ast.NewIdent(string(field.fieldName)),
+			Sel: ast.NewIdent(string(property.propertyName)),
 		}
 
 		ifStatement := ast.IfStmt{

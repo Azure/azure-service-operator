@@ -271,30 +271,30 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsc
 	ctx, span := tab.StartSpan(ctx, "objectHandler")
 	defer span.End()
 
-	fields, err := getFields(ctx, scanner, schema)
+	properties, err := getProperties(ctx, scanner, schema)
 	if err != nil {
 		return nil, err
 	}
 
-	// if we _only_ have an 'additionalProperties' field, then we are making
+	// if we _only_ have an 'additionalProperties' property, then we are making
 	// a dictionary-like type, and we won't generate a struct; instead, we
 	// will just use the 'additionalProperties' type directly
-	if len(fields) == 1 && fields[0].FieldName() == "additionalProperties" {
-		return fields[0].FieldType(), nil
+	if len(properties) == 1 && properties[0].PropertyName() == "additionalProperties" {
+		return properties[0].PropertyType(), nil
 	}
 
-	structDefinition := astmodel.NewStructType().WithFields(fields...)
+	structDefinition := astmodel.NewStructType().WithProperties(properties...)
 	return structDefinition, nil
 }
 
-func generateFieldDefinition(ctx context.Context, scanner *SchemaScanner, prop *gojsonschema.SubSchema) (*astmodel.FieldDefinition, error) {
-	fieldName := scanner.idFactory.CreateFieldName(prop.Property, astmodel.Exported)
+func generatePropertyDefinitions(ctx context.Context, scanner *SchemaScanner, prop *gojsonschema.SubSchema) (*astmodel.PropertyDefinition, error) {
+	propertyName := scanner.idFactory.CreatePropertyName(prop.Property, astmodel.Exported)
 
 	schemaType, err := getSubSchemaType(prop)
 	if _, ok := err.(*UnknownSchemaError); ok {
 		// if we don't know the type, we still need to provide the property, we will just provide open interface
-		field := astmodel.NewFieldDefinition(fieldName, prop.Property, astmodel.AnyType)
-		return field, nil
+		property := astmodel.NewPropertyDefinition(propertyName, prop.Property, astmodel.AnyType)
+		return property, nil
 	}
 
 	if err != nil {
@@ -304,8 +304,8 @@ func generateFieldDefinition(ctx context.Context, scanner *SchemaScanner, prop *
 	propType, err := scanner.RunHandler(ctx, schemaType, prop)
 	if _, ok := err.(*UnknownSchemaError); ok {
 		// if we don't know the type, we still need to provide the property, we will just provide open interface
-		field := astmodel.NewFieldDefinition(fieldName, prop.Property, astmodel.AnyType)
-		return field, nil
+		property := astmodel.NewPropertyDefinition(propertyName, prop.Property, astmodel.AnyType)
+		return property, nil
 	}
 
 	// This can happen if the property type was pruned away by a type filter.
@@ -318,18 +318,18 @@ func generateFieldDefinition(ctx context.Context, scanner *SchemaScanner, prop *
 		return nil, err
 	}
 
-	field := astmodel.NewFieldDefinition(fieldName, prop.Property, propType)
-	return field, nil
+	property := astmodel.NewPropertyDefinition(propertyName, prop.Property, propType)
+	return property, nil
 }
 
-func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) ([]*astmodel.FieldDefinition, error) {
-	ctx, span := tab.StartSpan(ctx, "getFields")
+func getProperties(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) ([]*astmodel.PropertyDefinition, error) {
+	ctx, span := tab.StartSpan(ctx, "getProperties")
 	defer span.End()
 
-	var fields []*astmodel.FieldDefinition
+	var properties []*astmodel.PropertyDefinition
 	for _, prop := range schema.PropertiesChildren {
 
-		fieldDefinition, err := generateFieldDefinition(ctx, scanner, prop)
+		property, err := generatePropertyDefinitions(ctx, scanner, prop)
 		if err != nil {
 			return nil, err
 		}
@@ -338,7 +338,7 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 		// There are a few options here: We can skip this property entirely, we can emit it
 		// with no type (won't compile), or we can emit with with interface{}.
 		// Currently emitting a warning and skipping
-		if fieldDefinition == nil {
+		if property == nil {
 			// TODO: This log shouldn't happen in cases where the type in question is later excluded, see:
 			// TODO: https://github.com/Azure/k8s-infra/issues/138
 			klog.V(2).Infof("Property %s omitted due to nil propType (probably due to type filter)", prop.Property)
@@ -346,7 +346,7 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 		}
 
 		// add documentation
-		fieldDefinition = fieldDefinition.WithDescription(prop.Description)
+		property = property.WithDescription(prop.Description)
 
 		// add validations
 		isRequired := false
@@ -358,29 +358,29 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 		}
 
 		if isRequired {
-			fieldDefinition = fieldDefinition.MakeRequired()
+			property = property.MakeRequired()
 		} else {
-			fieldDefinition = fieldDefinition.MakeOptional()
+			property = property.MakeTypeOptional()
 		}
 
-		fields = append(fields, fieldDefinition)
+		properties = append(properties, property)
 	}
 
 	// see: https://json-schema.org/understanding-json-schema/reference/object.html#properties
 	if schema.AdditionalProperties == nil {
 		// if not specified, any additional properties are allowed (TODO: tell all Azure teams this fact and get them to update their API definitions)
 		// for now we aren't following the spec 100% as it pollutes the generated code
-		// only generate this field if there are no other fields:
-		if len(fields) == 0 {
+		// only generate this property if there are no other properties:
+		if len(properties) == 0 {
 			// TODO: for JSON serialization this needs to be unpacked into "parent"
-			additionalPropsField := astmodel.NewFieldDefinition(
+			additionalProperties := astmodel.NewPropertyDefinition(
 				"additionalProperties",
 				"additionalProperties",
 				astmodel.NewStringMapType(astmodel.AnyType))
-			fields = append(fields, additionalPropsField)
+			properties = append(properties, additionalProperties)
 		}
 	} else if schema.AdditionalProperties != false {
-		// otherwise, if not false then it is a type for all additional fields
+		// otherwise, if not false then it is a type for all additional properties
 		// TODO: for JSON serialization this needs to be unpacked into "parent"
 		additionalPropsType, err := scanner.RunHandlerForSchema(ctx, schema.AdditionalProperties.(*gojsonschema.SubSchema))
 		if err != nil {
@@ -396,14 +396,14 @@ func getFields(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema
 			additionalPropsType = astmodel.AnyType
 		}
 
-		additionalPropsField := astmodel.NewFieldDefinition(
-			astmodel.FieldName("additionalProperties"),
+		additionalProperties := astmodel.NewPropertyDefinition(
+			astmodel.PropertyName("additionalProperties"),
 			"additionalProperties",
 			astmodel.NewStringMapType(additionalPropsType))
-		fields = append(fields, additionalPropsField)
+		properties = append(properties, additionalProperties)
 	}
 
-	return fields, nil
+	return properties, nil
 }
 
 func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
@@ -537,19 +537,19 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		return types[0], nil
 	}
 
-	var handleType func(fields []*astmodel.FieldDefinition, st astmodel.Type) ([]*astmodel.FieldDefinition, error)
-	handleType = func(fields []*astmodel.FieldDefinition, st astmodel.Type) ([]*astmodel.FieldDefinition, error) {
+	var handleType func(properties []*astmodel.PropertyDefinition, st astmodel.Type) ([]*astmodel.PropertyDefinition, error)
+	handleType = func(properties []*astmodel.PropertyDefinition, st astmodel.Type) ([]*astmodel.PropertyDefinition, error) {
 		switch concreteType := st.(type) {
 		case *astmodel.StructType:
-			// if it's a struct type get all its fields:
-			fields = append(fields, concreteType.Fields()...)
+			// if it's a struct type get all its properties:
+			properties = append(properties, concreteType.Properties()...)
 
 		case *astmodel.TypeName:
 			// TODO: need to check if this is a reference to a struct type or not
 			if def, ok := scanner.findTypeDefinition(concreteType); ok {
 				if structDef, ok := def.(*astmodel.StructDefinition); ok {
 					var err error
-					fields, err = handleType(fields, structDef.Type())
+					properties, err = handleType(properties, structDef.Type())
 					if err != nil {
 						return nil, err
 					}
@@ -564,22 +564,22 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 			klog.Errorf("Unhandled type in allOf: %#v\n", concreteType)
 		}
 
-		return fields, nil
+		return properties, nil
 	}
 
 	// If there's more than one option, synthesize a type.
-	var fields []*astmodel.FieldDefinition
+	var properties []*astmodel.PropertyDefinition
 
 	for _, d := range types {
 		// unpack the contents of what we got from subhandlers:
 		var err error
-		fields, err = handleType(fields, d)
+		properties, err = handleType(properties, d)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	result := astmodel.NewStructType().WithFields(fields...)
+	result := astmodel.NewStructType().WithProperties(properties...)
 	return result, nil
 }
 
@@ -613,8 +613,8 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 	// If there's more than one option, synthesize a type.
 	// Note that this is required because Kubernetes CRDs do not support OneOf the same way
 	// OpenAPI does, see https://github.com/Azure/k8s-infra/issues/71
-	var fields []*astmodel.FieldDefinition
-	fieldDescription := "mutually exclusive with all other properties"
+	var properties []*astmodel.PropertyDefinition
+	propertyDescription := "mutually exclusive with all other properties"
 
 	for i, t := range results {
 		switch concreteType := t.(type) {
@@ -624,36 +624,36 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			if _, ok := scanner.findTypeDefinition(concreteType); !ok {
 				return nil, errors.Errorf("couldn't find struct for definition: %v", concreteType)
 			}
-			fieldName := scanner.idFactory.CreateFieldName(concreteType.Name(), astmodel.Exported)
+			propertyName := scanner.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported)
 
 			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported)
-			field := astmodel.NewFieldDefinition(
-				fieldName, jsonName, concreteType).MakeOptional().WithDescription(&fieldDescription)
-			fields = append(fields, field)
+			property := astmodel.NewPropertyDefinition(
+				propertyName, jsonName, concreteType).MakeTypeOptional().WithDescription(&propertyDescription)
+			properties = append(properties, property)
 		case *astmodel.EnumType:
 			// TODO: This name sucks but what alternative do we have?
 			name := fmt.Sprintf("enum%v", i)
-			fieldName := scanner.idFactory.CreateFieldName(name, astmodel.Exported)
+			propertyName := scanner.idFactory.CreatePropertyName(name, astmodel.Exported)
 
 			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
-			field := astmodel.NewFieldDefinition(
-				fieldName, jsonName, concreteType).MakeOptional().WithDescription(&fieldDescription)
-			fields = append(fields, field)
+			property := astmodel.NewPropertyDefinition(
+				propertyName, jsonName, concreteType).MakeTypeOptional().WithDescription(&propertyDescription)
+			properties = append(properties, property)
 		case *astmodel.StructType:
 			// TODO: This name sucks but what alternative do we have?
 			name := fmt.Sprintf("object%v", i)
-			fieldName := scanner.idFactory.CreateFieldName(name, astmodel.Exported)
+			propertyName := scanner.idFactory.CreatePropertyName(name, astmodel.Exported)
 
 			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
-			field := astmodel.NewFieldDefinition(
-				fieldName, jsonName, concreteType).MakeOptional().WithDescription(&fieldDescription)
-			fields = append(fields, field)
+			property := astmodel.NewPropertyDefinition(
+				propertyName, jsonName, concreteType).MakeTypeOptional().WithDescription(&propertyDescription)
+			properties = append(properties, property)
 		case *astmodel.PrimitiveType:
 			var primitiveTypeName string
 			if concreteType == astmodel.AnyType {
@@ -664,20 +664,20 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 
 			// TODO: This name sucks but what alternative do we have?
 			name := fmt.Sprintf("%v%v", primitiveTypeName, i)
-			fieldName := scanner.idFactory.CreateFieldName(name, astmodel.Exported)
+			propertyName := scanner.idFactory.CreatePropertyName(name, astmodel.Exported)
 
 			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
-			field := astmodel.NewFieldDefinition(
-				fieldName, jsonName, concreteType).MakeOptional().WithDescription(&fieldDescription)
-			fields = append(fields, field)
+			property := astmodel.NewPropertyDefinition(
+				propertyName, jsonName, concreteType).MakeTypeOptional().WithDescription(&propertyDescription)
+			properties = append(properties, property)
 		default:
 			return nil, errors.Errorf("unexpected oneOf member, type: %T", t)
 		}
 	}
 
-	structType := astmodel.NewStructType().WithFields(fields...)
+	structType := astmodel.NewStructType().WithProperties(properties...)
 	structType = structType.WithFunction(
 		"MarshalJSON",
 		astmodel.NewOneOfJSONMarshalFunction(structType, scanner.idFactory))

@@ -24,7 +24,7 @@ const (
 // IdentifierFactory is a factory for creating Go identifiers from Json schema names
 type IdentifierFactory interface {
 	CreateIdentifier(name string, visibility Visibility) string
-	CreateFieldName(fieldName string, visibility Visibility) FieldName
+	CreatePropertyName(propertyName string, visibility Visibility) PropertyName
 	CreatePackageNameFromVersion(version string) string
 	CreateGroupName(name string) string
 	// CreateEnumIdentifier generates the canonical name for an enumeration
@@ -76,9 +76,9 @@ func (factory *identifierFactory) CreateIdentifier(name string, visibility Visib
 	return result
 }
 
-func (factory *identifierFactory) CreateFieldName(fieldName string, visibility Visibility) FieldName {
-	id := factory.CreateIdentifier(fieldName, visibility)
-	return FieldName(id)
+func (factory *identifierFactory) CreatePropertyName(propertyName string, visibility Visibility) PropertyName {
+	id := factory.CreateIdentifier(propertyName, visibility)
+	return PropertyName(id)
 }
 
 func createRenames() map[string]string {

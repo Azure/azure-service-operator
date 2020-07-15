@@ -9,7 +9,7 @@ import (
 	"go/ast"
 )
 
-// MapType is used to define fields that contain additional property values
+// MapType is used to define properties that contain additional property values
 type MapType struct {
 	key   Type
 	value Type

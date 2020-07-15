@@ -109,7 +109,7 @@ func (definition *ResourceDefinition) AsDeclarations(codeGenerationContext *Code
 			metav1.TypeMeta   `json:",inline"`
 			metav1.ObjectMeta `json:"metadata,omitempty"`
 
-		then the Spec/Status fields
+		then the Spec/Status properties
 	*/
 	fields := []*ast.Field{
 		typeMetaField,
