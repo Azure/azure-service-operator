@@ -1,15 +1,27 @@
 # Azure Service Operator Documentation
 
-## Getting Started
+## Beginner's guide to Azure Service Operator
 
-1. [Prerequisites](prereqs.md):
-    Find the list of tools and dependencies needed to develop and deploy the Azure Service Operator here.
+- [Deploy with Helm (recommended)](helmdeploy.md)
+    - Deploy Azure Service Operator using a configurable Helm chart.
+- [Build locally & deploy without Helm](deploy.md)
+    - Build Azure Service Operator locally and deploy to a Kubernetes cluster.
+- [Provision a resource using Azure Service Operator](resourceprovision.md) Learn to use Azure Service Operator to provision different Azure resources.
+- [Authentication using managed identities](managedidentity.md)
+    - Use a managed identity for authentication of Azure Service Operator instead of a service principal.
+- [Secret management](secrets.md) Learn how secrets are managed in Azure Service Operator and choose the best option for you.
+- [How it works](controlflow.md) Learn the control flow behind deploying the operator and provision resources through the operator.
 
-2. [Developing](development.md)
-    Find useful information for running the operator locally.
+## Developing Azure Service Operator
 
-3. [Testing](testing.md)
-   Find information about how to run and author tests.
-
-4. [Deploying](deploy.md)
-    If you are ready to deploy to a Kubernetes cluster, go here.
+- [Prerequisites](prereqs.md):
+    - Find the list of tools and dependencies needed to develop and deploy the Azure Service Operator
+- [Developing](development.md)
+    - Find information for running the operator locally.
+- [Testing](testing.md)
+    - Find information about how to run and author tests.
+- [Debugging](debugging.md)
+    - Debug your Azure Service Operator deployment.
+- [New Operator Guide](newoperatorguide.md)
+    - Create a new operator to be used with Azure Service Operator.
+- [Kubebuilder tips & tricks](kubebuilder.md) Install and get started with Kubebuilder
