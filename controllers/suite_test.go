@@ -6,6 +6,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	"log"
 	"net/http"
 	"os"
@@ -24,7 +25,6 @@ import (
 	resourcemanagerapimgmt "github.com/Azure/azure-service-operator/pkg/resourcemanager/apim/apimgmt"
 	resourcemanagerappinsights "github.com/Azure/azure-service-operator/pkg/resourcemanager/appinsights"
 	resourcemanagersqlaction "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlaction"
-	resourcemanagersqldb "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqldb"
 	resourcemanagersqlfailovergroup "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfailovergroup"
 	resourcemanagersqlfirewallrule "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlfirewallrule"
 	resourcemanagersqlmanageduser "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlmanageduser"
@@ -151,6 +151,7 @@ func setup() error {
 	keyVaultManager := resourcemanagerkeyvaults.NewAzureKeyVaultManager(k8sManager.GetScheme())
 	eventhubClient := resourcemanagereventhub.NewEventhubClient(secretClient, scheme.Scheme)
 	consumerGroupClient := resourcemanagereventhub.NewConsumerGroupClient()
+	azureSqlDatabaseManager := resourcemanagersqldb.NewAzureSqlDbManager()
 
 	timeout = time.Second * 780
 
@@ -398,7 +399,7 @@ func setup() error {
 	err = (&AzureSqlDatabaseReconciler{
 		Reconciler: &AsyncReconciler{
 			Client:      k8sManager.GetClient(),
-			AzureClient: resourcemanagersqldb.NewAzureSqlDbManager(),
+			AzureClient: azureSqlDatabaseManager,
 			Telemetry: telemetry.InitializeTelemetryDefault(
 				"AzureSqlDb",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
@@ -856,6 +857,7 @@ func setup() error {
 		eventhubClient:        eventhubClient,
 		resourceGroupManager:  resourceGroupManager,
 		keyVaultManager:       keyVaultManager,
+		sqlDbManager:          azureSqlDatabaseManager,
 		timeout:               timeout,
 		timeoutFast:           time.Minute * 3,
 		retry:                 time.Second * 3,
