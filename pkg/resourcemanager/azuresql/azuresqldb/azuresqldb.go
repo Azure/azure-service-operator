@@ -103,6 +103,7 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 	}
 
 	dbProp := azuresqlshared.SQLDatabasePropertiesToDatabase(properties)
+	dbSku := azuresqlshared.SQLDatabasePropertiesToSku(properties)
 
 	future, err := dbClient.CreateOrUpdate(
 		ctx,
@@ -113,6 +114,7 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(ctx context.Context, resourceGroupN
 			Location:           to.StringPtr(location),
 			DatabaseProperties: &dbProp,
 			Tags:               tags,
+			Sku:                dbSku,
 		})
 
 	if err != nil {

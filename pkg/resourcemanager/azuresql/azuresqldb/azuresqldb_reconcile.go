@@ -6,9 +6,9 @@ package azuresqldb
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -45,14 +45,25 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	if len(instance.Spec.DbName) > 0 {
 		dbName = instance.Spec.DbName
 	}
-	dbEdition := instance.Spec.Edition
+
+	dbSku, err := azuresqlshared.MergeDBEditionAndSku(instance.Spec.Edition, instance.Spec.Sku)
+	// TODO: Ideally we would catch this earlier -- if/when we update the storage version
+	// TODO: to not include Edition, we can remove this
+	if err != nil {
+		instance.Status.Provisioning = false
+		instance.Status.Provisioned = false
+		instance.Status.FailedProvisioning = true
+		instance.Status.Message = fmt.Sprintf("Azure DB error: %s", errhelp.StripErrorIDs(err))
+		return true, nil
+	}
 
 	// convert kube labels to expected tag format
 	labels := helpers.LabelsToTags(instance.GetLabels())
 
 	azureSQLDatabaseProperties := azuresqlshared.SQLDatabaseProperties{
 		DatabaseName: dbName,
-		Edition:      v1alpha1.DBEdition(dbEdition),
+		MaxSize:      instance.Spec.MaxSize,
+		Sku:          dbSku,
 	}
 
 	instance.Status.Provisioning = true
@@ -111,6 +122,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureErrorAzureError(err)
 
+		// handle errors
 		// resource request has been sent to ARM
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
 			instance.Status.Provisioning = true
@@ -137,6 +149,16 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		// assertion that a 404 error implies that the Azure SQL server hasn't been provisioned yet
 		if resp != nil && resp.StatusCode == 404 {
 			instance.Status.Message = fmt.Sprintf("Waiting for SQL Server %s to provision", server)
+			instance.Status.Provisioning = false
+			return false, nil
+		}
+
+		switch azerr.Code {
+		case http.StatusBadRequest:
+			instance.Status.FailedProvisioning = true
+			instance.Status.Provisioning = false
+			return true, nil
+		case http.StatusNotFound:
 			instance.Status.Provisioning = false
 			return false, nil
 		}
