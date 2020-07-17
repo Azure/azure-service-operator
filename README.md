@@ -54,7 +54,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     ```
 3. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
 
-    First, set the following variables to your Azure Tenant ID and Subscription ID with your values:
+    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
     ```yaml
     AZURE_TENANT_ID=00000000-0000-0000-0000-000000000000
     AZUR_SUBSCRIPTION_ID=00000000-0000-0000-0000-000000000000
@@ -64,7 +64,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     ```sh
     az account show
     ```
-    Next, we'll create a service principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. 
+    Next, we'll create a service principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md)
 
     ```sh
         az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
@@ -87,8 +87,6 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     ```
 
 4. Install the Azure Service Operator on your cluster using the following helm install command.
-
-    Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md)
 
     ```sh
     helm upgrade --install aso https://github.com/Azure/azure-service-operator/raw/master/charts/azure-service-operator-0.1.0.tgz \
