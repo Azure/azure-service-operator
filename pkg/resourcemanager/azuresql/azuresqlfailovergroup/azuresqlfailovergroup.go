@@ -14,7 +14,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 
-	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	"github.com/Azure/go-autorest/autorest"
 )
 
@@ -56,7 +56,6 @@ func (f *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupN
 		resourceGroupName,
 		serverName,
 		databaseName,
-		"serviceTierAdvisors, transparentDataEncryption",
 	)
 }
 
