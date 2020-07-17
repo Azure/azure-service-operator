@@ -12,7 +12,7 @@ import (
 
 // PostgreSQLServerSpec defines the desired state of PostgreSQLServer
 type PostgreSQLServerSpec struct {
-	Location               string              `json:"location"`
+	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required

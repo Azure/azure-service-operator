@@ -35,7 +35,7 @@ func (vr *PostgreSQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Obje
 
 	vnetrule, err := vr.GetPostgreSQLVNetRule(ctx, groupName, server, ruleName)
 	if err == nil {
-		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == psql.Ready {
+		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == psql.VirtualNetworkRuleStateReady {
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = true
 			instance.Status.Message = resourcemanager.SuccessMsg

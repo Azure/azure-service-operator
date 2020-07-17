@@ -15,7 +15,7 @@ The Azure Service Operator comprises of:
 
 The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
-Curious to see how it all works? Check out our [control flow diagrams](/docs/design/controlflow.md).
+Curious to see how it all works? Check out our [control flow diagrams](/docs/howto/controlflow.md).
 
 ## Supported Azure Services
 
@@ -41,77 +41,58 @@ Curious to see how it all works? Check out our [control flow diagrams](/docs/des
 
 Ready to quickly deploy the latest version of Azure Service Operator on your Kubernetes cluster and start exploring? Follow these steps.
 
-1. Make sure `kubectl` is configured to connect to the Kubernetes cluster you want to deploy Azure Service Operator to.
-    
-    To connect to an Azure Kubernetes Service cluster, you can use the below command:
 
-    ```console
-    az aks get-credentials -g <AKSClusterResourceGroup> -n <AKSClusterName>
+1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
+
+    ```sh
+    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+    ```
+2.  Install [Helm](https://helm.sh/docs/intro/install/), and add the Helm repo for Azure Service Operator. Please note that the instructions here use Helm 3.
+
+    ```sh
+    helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
     ```
 
-1. Install cert-manager on the cluster using the following commands.
+3. Install the Azure Service Operator on your cluster using the following helm install command.
 
-    ```console
-    kubectl create namespace cert-manager
-    kubectl label namespace cert-manager cert-manager.io/disable-validation=true
-    kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+    Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md)
+
+    ```sh
+    helm upgrade --install aso https://github.com/Azure/azure-service-operator/raw/master/charts/azure-service-operator-0.1.0.tgz \
+            --create-namespace \
+            --namespace=azureoperator-system \
+            --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+            --set azureTenantID=$AZURE_TENANT_ID \
+            --set azureClientID=$AZURE_CLIENT_ID \
+            --set azureClientSecret=$AZURE_CLIENT_SECRET \
+            --set image.repository="mcr.microsoft.com/k8s/azureserviceoperator:latest"
     ```
 
-    Wait for the cert-manager deployment to complete. You can use the below command to check for this.
+    You should now see the Azure service operator pods running in your cluster, like the below.
 
     ```console
-    kubectl rollout status -n cert-manager deploy/cert-manager-webhook
+    $ kubectl get pods -n azureoperator-system
+    NAME                                                READY   STATUS    RESTARTS   AGE
+    azureoperator-controller-manager-7dd75bbd97-mk4s9   2/2     Running   0          35s
     ```
 
-3. Download the latest Helm chart for Azure Service Operator locally to your machine. Run the following commands.
+To deploy an Azure service through the operator, check out the set of [supported Azure services](#supported-azure-services) and the sample YAML files in the `config/samples` [folder](../../config/samples) to create the resources using the following command.
 
-    ```console
-    mkdir install-aso
-    cd install-aso
-    export HELM_EXPERIMENTAL_OCI=1
-    ```
-
-    Pull and export the helm chart.
-
-    ```console
-    helm chart pull mcr.microsoft.com/k8s/asohelmchart:latest
-    ```
-
-    ```console
-    helm chart export mcr.microsoft.com/k8s/asohelmchart:latest --destination .
-    ```
-
-4. Install the Azure Service Operator on your cluster using the following helm install command.
-
-    Note that the ServicePrincipal you pass to the command below needs to have access to create resources in your subscription.
-
-    ```console
-    helm install aso ./azure-service-operator -n azureoperator-system --create-namespace \
-        --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-        --set azureTenantID=$AZURE_TENANT_ID \
-        --set azureClientID=$AZURE_CLIENT_ID \
-        --set azureClientSecret=$AZURE_CLIENT_SECRET \
-        --set createNamespace=true \
-        --set image.repository="mcr.microsoft.com/k8s/azureserviceoperator:latest"
-    ```
-
-You should now see the Azure service operator pods running in your cluster.
-
-```console
-kubectl get pods -n azureoperator-system
+```sh
+kubectl apply -f <YAML file>
 ```
 
-## Getting started
+## About the project
 
-This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](/charts/azure-service-operator).
-
-For detailed instructions on getting started, check out our [How-to Guide](docs/howto/contents.md).
+This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases) that you can deploy via a [configurable Helm chart](docs/howto/helmdeploy.md).
 
 Please see the [FAQ](docs/faq.md) for answers to commonly asked questions about the Azure Service Operator.
 
+Have more questions? Feel free to consult our documentation [here](docs/howto/contents.md).
+
 ## Contributing
 
-The [contribution guide][contribution-guide] covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide][developer-guide] will help you onboard as a developer.
+The [contribution guide](CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](docs/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
 
 ## Support
 
@@ -120,7 +101,3 @@ Azure Service Operator is an open source project that is **not** covered by the 
 ## Code of conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-[contribution-guide]: CONTRIBUTING.md
-[developer-guide]: docs/howto/contents.md
-[FAQ]: docs/faq.md

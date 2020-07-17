@@ -14,8 +14,8 @@ import (
 type AzureSQLUserSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Server        string   `json:"server"`
-	DbName        string   `json:"dbName"`
+	Server string `json:"server"`
+	DbName string `json:"dbName"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
