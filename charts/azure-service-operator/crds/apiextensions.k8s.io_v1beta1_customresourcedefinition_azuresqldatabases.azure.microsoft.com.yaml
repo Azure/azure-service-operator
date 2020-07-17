@@ -60,7 +60,7 @@ spec:
                 description: optional
                 type: string
               edition:
-                description: 'DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition'
+                description: 'DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#DatabaseEdition'
                 type: integer
               location:
                 description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
@@ -134,7 +134,6 @@ spec:
             description: AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
             properties:
               dbName:
-                description: optional
                 type: string
               edition:
                 type: integer
@@ -142,6 +141,12 @@ spec:
                 description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
                   Important: Run "make" to regenerate code after modifying this file'
                 type: string
+              maxSize:
+                anyOf:
+                - type: integer
+                - type: string
+                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                x-kubernetes-int-or-string: true
               monthlyRetention:
                 type: string
               resourceGroup:
@@ -149,6 +154,30 @@ spec:
                 type: string
               server:
                 type: string
+              sku:
+                properties:
+                  capacity:
+                    description: Capacity - Capacity of the particular SKU.
+                    format: int32
+                    type: integer
+                  family:
+                    description: Family - If the service has different generations
+                      of hardware, for the same SKU, then that can be captured here.
+                    type: string
+                  name:
+                    description: Name - The name of the SKU, typically, a letter +
+                      Number code, e.g. P3.
+                    type: string
+                  size:
+                    description: Size - Size of the particular SKU
+                    type: string
+                  tier:
+                    description: optional Tier - The tier or edition of the particular
+                      SKU, e.g. Basic, Premium.
+                    type: string
+                required:
+                - name
+                type: object
               weekOfYear:
                 format: int32
                 type: integer
@@ -157,7 +186,6 @@ spec:
               yearlyRetention:
                 type: string
             required:
-            - edition
             - location
             - resourceGroup
             - server
