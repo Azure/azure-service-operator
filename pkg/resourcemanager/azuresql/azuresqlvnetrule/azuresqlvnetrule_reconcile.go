@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
@@ -34,7 +34,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 
 	vnetrule, err := vr.GetSQLVNetRule(ctx, groupName, server, ruleName)
 	if err == nil {
-		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == sql.Ready {
+		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == sql.VirtualNetworkRuleStateReady {
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = true
 			instance.Status.Message = resourcemanager.SuccessMsg
