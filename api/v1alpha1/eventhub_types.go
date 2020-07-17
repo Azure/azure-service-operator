@@ -15,9 +15,9 @@ import (
 type EventhubSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location          string                    `json:"location"`
-	Namespace         string                    `json:"namespace,omitempty"`
-	Properties        EventhubProperties        `json:"properties,omitempty"`
+	Location   string             `json:"location"`
+	Namespace  string             `json:"namespace,omitempty"`
+	Properties EventhubProperties `json:"properties,omitempty"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
@@ -95,6 +95,7 @@ type EventhubProperties struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // Eventhub is the Schema for the eventhubs API
+// +kubebuilder:resource:shortName=eh
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type Eventhub struct {

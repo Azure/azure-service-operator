@@ -17,7 +17,7 @@ type RedisCacheSpec struct {
 
 	// +kubebuilder:validation:MinLength=0
 
-	Location               string               `json:"location,omitempty"`
+	Location string `json:"location,omitempty"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
@@ -67,6 +67,7 @@ const (
 // +kubebuilder:subresource:status
 
 // RedisCache is the Schema for the rediscaches API
+// +kubebuilder:resource:shortName=rc
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type RedisCache struct {

@@ -9,7 +9,7 @@ import (
 
 // KeyVaultSpec defines the desired state of KeyVault
 type KeyVaultSpec struct {
-	Location         string               `json:"location"`
+	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
@@ -36,6 +36,9 @@ type AccessPolicyEntry struct {
 	TenantID string `json:"tenantID,omitempty"`
 	// ClientID - The client ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The client ID must be unique for the list of access policies.
 	ClientID string `json:"clientID,omitempty"`
+	// ObjectID is the value to use if the access policy is for a user other than the user creating the Key Vault when the creating user does not have access to the Application API which is used to translate ClientID to Object ID
+	// To get around this, use az-cli or the Azure portal to source the ObjectID from your Service Principal
+	ObjectID string `json:"objectID,omitempty"`
 	// ApplicationID -  Application ID of the client making request on behalf of a principal
 	ApplicationID string `json:"applicationID,omitempty"`
 	// Permissions - Permissions the identity has for keys, secrets, and certificates.
@@ -60,6 +63,7 @@ type Permissions struct {
 // +kubebuilder:subresource:status
 
 // KeyVault is the Schema for the keyvaults API
+// +kubebuilder:resource:shortName=kv
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type KeyVault struct {

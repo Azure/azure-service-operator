@@ -39,10 +39,10 @@ func TestPostgreSQLUserControllerNoAdminSecret(t *testing.T) {
 		},
 		Spec: azurev1alpha1.PostgreSQLUserSpec{
 			ResourceGroup: resourceGroup,
-			Server:      postgresqlServerName,
-			DbName:      postgresqlDatabaseName,
-			AdminSecret: "",
-			Roles:       roles,
+			Server:        postgresqlServerName,
+			DbName:        postgresqlDatabaseName,
+			AdminSecret:   "",
+			Roles:         roles,
 		},
 	}
 

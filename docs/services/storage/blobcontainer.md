@@ -6,7 +6,7 @@ Learn more about Azure Blob Storage [here](https://docs.microsoft.com/en-us/azur
 
 Here is a [sample YAML](/config/samples/azure_v1alpha1_blobcontainer.yaml) to provision a Blob Container.
 
-### Required Fields 
+## Required Fields 
 
 A Blob Container needs the following fields to deploy, along with a location and resource group.
 

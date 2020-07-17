@@ -18,6 +18,8 @@ spec:
     kind: CosmosDB
     listKind: CosmosDBList
     plural: cosmosdbs
+    shortNames:
+    - cdb
     singular: cosmosdb
   scope: Namespaced
   subresources:
@@ -108,6 +110,7 @@ spec:
                   type: string
               type: object
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             virtualNetworkRules:
               items:

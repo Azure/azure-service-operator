@@ -107,6 +107,26 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - appinsightsapikeys
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - azure.microsoft.com
+  resources:
+  - appinsightsapikeys/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - azure.microsoft.com
+  resources:
   - azureloadbalancers
   verbs:
   - create

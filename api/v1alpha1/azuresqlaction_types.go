@@ -31,6 +31,7 @@ type AzureSqlActionSpec struct {
 // +kubebuilder:subresource:status
 
 // AzureSqlAction is the Schema for the azuresqlactions API
+// +kubebuilder:resource:shortName=asqla
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlAction struct {
