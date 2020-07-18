@@ -49,7 +49,7 @@ func (definition *ResourceType) CreateDefinitions(name *TypeName, idFactory Iden
 
 	specName := defineStruct("Spec", definition.spec)
 
-	var statusName *TypeName
+	var statusName Type // the type is very important here, it must be a nil(Type) if status isn’t set, not a nil(*TypeName)
 	if definition.status != nil {
 		statusName = defineStruct("Status", definition.status)
 	}
