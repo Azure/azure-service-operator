@@ -28,6 +28,10 @@ func NewStringMapType(value Type) *MapType {
 // assert that we implemented Type correctly
 var _ Type = (*MapType)(nil)
 
+func (m *MapType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+	return AsSimpleDeclarations(codeGenerationContext, name, description, m)
+}
+
 // AsType implements Type for MapType to create the abstract syntax tree for a map
 func (m *MapType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 	return &ast.MapType{
@@ -63,13 +67,13 @@ func (m *MapType) Equals(t Type) bool {
 }
 
 // CreateInternalDefinitions invokes CreateInCreateInternalDefinitions on both key and map types
-func (m *MapType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
+func (m *MapType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
 	newKeyType, keyOtherTypes := m.key.CreateInternalDefinitions(name, idFactory)
 	newValueType, valueOtherTypes := m.value.CreateInternalDefinitions(name, idFactory)
 	return NewMapType(newKeyType, newValueType), append(keyOtherTypes, valueOtherTypes...)
 }
 
 // CreateDefinitions defines a named type for this MapType
-func (m *MapType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefiner, []TypeDefiner) {
-	return NewSimpleTypeDefiner(name, m), nil
+func (m *MapType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefinition, []TypeDefinition) {
+	return MakeTypeDefinition(name, m), nil
 }

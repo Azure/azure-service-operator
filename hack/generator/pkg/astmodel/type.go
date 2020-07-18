@@ -23,14 +23,17 @@ type Type interface {
 	// (yes this says ast.Expr but that is what the Go 'ast' package uses for types)
 	AsType(codeGenerationContext *CodeGenerationContext) ast.Expr
 
+	// AsDeclarations renders as a Go abstract syntax tree for a declaration
+	AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl
+
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type) bool
 
 	// CreateDefinitions gives a name to the type and might generate some associated definitions as well (the second result)
 	// that also must be included in the output.
-	CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefiner, []TypeDefiner)
+	CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefinition, []TypeDefinition)
 
 	// CreateInternalDefinitions creates definitions for nested types where needed (e.g. nested anonymous enums, structs),
 	// and returns the new, updated type to use in this type’s place.
-	CreateInternalDefinitions(nameHint *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner)
+	CreateInternalDefinitions(nameHint *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition)
 }

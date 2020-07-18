@@ -24,7 +24,7 @@ func Test_NewFileDefinition_GivenValues_InitializesFields(t *testing.T) {
 		NewStringPropertyDefinition("knownAs"),
 		NewStringPropertyDefinition("familyName"),
 	)
-	file := NewFileDefinition(&person.Name().PackageReference, &person)
+	file := NewFileDefinition(&person.Name().PackageReference, person)
 
 	g.Expect(*file.packageReference).To(Equal(person.Name().PackageReference))
 	g.Expect(file.definitions).To(HaveLen(1))
@@ -48,7 +48,7 @@ func Test_CalcRanks_GivenMultipleRoots_AssignsRankZeroToAll(t *testing.T) {
 	root3 := NewTestStruct("c")
 	root4 := NewTestStruct("d")
 
-	ranks := calcRanks([]TypeDefiner{&root1, &root2, &root3, &root4})
+	ranks := calcRanks([]TypeDefinition{root1, root2, root3, root4})
 
 	g.Expect(ranks[*root1.Name()]).To(Equal(0))
 	g.Expect(ranks[*root2.Name()]).To(Equal(0))
@@ -100,7 +100,7 @@ func Test_CalcRanks_GivenLinearDependencies_AssignsRanksInOrder(t *testing.T) {
 
 	rank0 := NewTestStruct("a", referenceToRank1)
 
-	ranks := calcRanks([]TypeDefiner{&rank0, &rank1, &rank2, &rank3})
+	ranks := calcRanks([]TypeDefinition{rank0, rank1, rank2, rank3})
 
 	g.Expect(ranks[*rank0.Name()]).To(Equal(0))
 	g.Expect(ranks[*rank1.Name()]).To(Equal(1))
@@ -144,7 +144,7 @@ func Test_CalcRanks_GivenDiamondDependencies_AssignRanksInOrder(t *testing.T) {
 
 	top := NewTestStruct("a", referenceToLeft, referenceToRight)
 
-	ranks := calcRanks([]TypeDefiner{&top, &left, &right, &bottom})
+	ranks := calcRanks([]TypeDefinition{top, left, right, bottom})
 
 	g.Expect(ranks[*top.Name()]).To(Equal(0))
 	g.Expect(ranks[*right.Name()]).To(Equal(1))
@@ -188,7 +188,7 @@ func Test_CalcRanks_GivenDiamondWithBar_AssignRanksInOrder(t *testing.T) {
 
 	top := NewTestStruct("a", referenceToLeft, referenceToRight)
 
-	ranks := calcRanks([]TypeDefiner{&top, &left, &right, &bottom})
+	ranks := calcRanks([]TypeDefinition{top, left, right, bottom})
 
 	g.Expect(ranks[*top.Name()]).To(Equal(0))
 	g.Expect(ranks[*right.Name()]).To(Equal(1))
@@ -232,7 +232,7 @@ func Test_CalcRanks_GivenDiamondWithReverseBar_AssignRanksInOrder(t *testing.T) 
 	referenceToRight := NewPropertyDefinition("r", "r", right.Name())
 	top := NewTestStruct("a", referenceToLeft, referenceToRight)
 
-	ranks := calcRanks([]TypeDefiner{&top, &left, &right, &bottom})
+	ranks := calcRanks([]TypeDefinition{top, left, right, bottom})
 
 	g.Expect(ranks[*top.Name()]).To(Equal(0))
 	g.Expect(ranks[*right.Name()]).To(Equal(1))
@@ -244,11 +244,9 @@ func Test_CalcRanks_GivenDiamondWithReverseBar_AssignRanksInOrder(t *testing.T) 
  * Supporting methods
  */
 
-func NewTestStruct(name string, fields ...*PropertyDefinition) StructDefinition {
+func NewTestStruct(name string, fields ...*PropertyDefinition) TypeDefinition {
 	ref := NewTypeName(*NewLocalPackageReference("group", "2020-01-01"), name)
-	definition := NewStructDefinition(ref, NewStructType().WithProperties(fields...))
-
-	return *definition
+	return MakeTypeDefinition(ref, NewStructType().WithProperties(fields...))
 }
 
 func NewStringPropertyDefinition(name string) *PropertyDefinition {

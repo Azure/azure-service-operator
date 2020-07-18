@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"go/ast"
+	"go/token"
 	"sort"
 )
 
@@ -28,6 +29,52 @@ func NewStructType() *StructType {
 		properties: make(map[PropertyName]*PropertyDefinition),
 		functions:  make(map[string]Function),
 	}
+}
+
+func (structType *StructType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+	identifier := ast.NewIdent(name.Name())
+	declaration := &ast.GenDecl{
+		Tok: token.TYPE,
+		Doc: &ast.CommentGroup{},
+		Specs: []ast.Spec{
+			&ast.TypeSpec{
+				Name: identifier,
+				Type: structType.AsType(codeGenerationContext),
+			},
+		},
+	}
+
+	if description != nil {
+		addDocComment(&declaration.Doc.List, *description, 200)
+	}
+
+	result := []ast.Decl{declaration}
+	result = append(result, structType.generateMethodDecls(codeGenerationContext, name)...)
+	return result
+}
+
+func (structType *StructType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName *TypeName) []ast.Decl {
+	var result []ast.Decl
+	for methodName, function := range structType.functions {
+		funcDef := function.AsFunc(codeGenerationContext, typeName, methodName)
+		result = append(result, funcDef)
+	}
+
+	return result
+}
+
+func defineField(fieldName string, fieldType ast.Expr, tag string) *ast.Field {
+
+	result := &ast.Field{
+		Type: fieldType,
+		Tag:  &ast.BasicLit{Kind: token.STRING, Value: tag},
+	}
+
+	if fieldName != "" {
+		result.Names = []*ast.Ident{ast.NewIdent(fieldName)}
+	}
+
+	return result
 }
 
 // Properties returns all our property definitions
@@ -145,7 +192,7 @@ func (structType *StructType) Equals(t Type) bool {
 
 // CreateInternalDefinitions defines a named type for this struct and returns that type to be used in-place
 // of the anonymous struct type. This is needed for controller-gen to work correctly:
-func (structType *StructType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
+func (structType *StructType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
 	// an internal struct must always be named:
 	definedStruct, otherTypes := structType.CreateDefinitions(name, idFactory)
 	return definedStruct.Name(), append(otherTypes, definedStruct)
@@ -153,9 +200,9 @@ func (structType *StructType) CreateInternalDefinitions(name *TypeName, idFactor
 
 // CreateDefinitions defines a named type for this struct and invokes CreateInternalDefinitions for each property type
 // to instantiate any definitions required by internal types.
-func (structType *StructType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefiner, []TypeDefiner) {
+func (structType *StructType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefinition, []TypeDefinition) {
 
-	var otherTypes []TypeDefiner
+	var otherTypes []TypeDefinition
 	var newProperties []*PropertyDefinition
 
 	for _, property := range structType.properties {
@@ -174,7 +221,7 @@ func (structType *StructType) CreateDefinitions(name *TypeName, idFactory Identi
 		newStructType.functions[functionName] = function
 	}
 
-	return NewStructDefinition(name, newStructType), otherTypes
+	return MakeTypeDefinition(name, newStructType), otherTypes
 }
 
 // WithProperty creates a new StructType with another property attached to it

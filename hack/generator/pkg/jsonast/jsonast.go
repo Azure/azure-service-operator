@@ -41,7 +41,7 @@ type (
 
 	// A SchemaScanner is used to scan a JSON Schema extracting and collecting type definitions
 	SchemaScanner struct {
-		definitions   map[astmodel.TypeName]astmodel.TypeDefiner
+		definitions   map[astmodel.TypeName]*astmodel.TypeDefinition
 		TypeHandlers  map[SchemaType]TypeHandler
 		configuration *config.Configuration
 		idFactory     astmodel.IdentifierFactory
@@ -49,14 +49,14 @@ type (
 )
 
 // findTypeDefinition looks to see if we have seen the specified definition before, returning its definition if we have.
-func (scanner *SchemaScanner) findTypeDefinition(name *astmodel.TypeName) (astmodel.TypeDefiner, bool) {
+func (scanner *SchemaScanner) findTypeDefinition(name *astmodel.TypeName) (*astmodel.TypeDefinition, bool) {
 	result, ok := scanner.definitions[*name]
 	return result, ok
 }
 
 // addTypeDefinition adds a type definition to emit later
-func (scanner *SchemaScanner) addTypeDefinition(def astmodel.TypeDefiner) {
-	scanner.definitions[*def.Name()] = def
+func (scanner *SchemaScanner) addTypeDefinition(def astmodel.TypeDefinition) {
+	scanner.definitions[*def.Name()] = &def
 }
 
 // addEmptyTypeDefinition adds a placeholder definition; it should always be replaced later
@@ -95,7 +95,7 @@ func (use *UnknownSchemaError) Error() string {
 // NewSchemaScanner constructs a new scanner, ready for use
 func NewSchemaScanner(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) *SchemaScanner {
 	return &SchemaScanner{
-		definitions:   make(map[astmodel.TypeName]astmodel.TypeDefiner),
+		definitions:   make(map[astmodel.TypeName]*astmodel.TypeDefinition),
 		TypeHandlers:  DefaultTypeHandlers(),
 		configuration: configuration,
 		idFactory:     idFactory,
@@ -152,7 +152,11 @@ func (scanner *SchemaScanner) RunHandlerForSchema(ctx context.Context, schema *g
 // 							- ARM specific resources. I'm not 100% sure why...
 //
 // 		allOf acts like composition which composites each schema from the child oneOf with the base reference from allOf.
-func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema *gojsonschema.SubSchema, opts ...BuilderOption) (map[astmodel.TypeName]astmodel.TypeDefiner, error) {
+func (scanner *SchemaScanner) GenerateDefinitions(
+	ctx context.Context,
+	schema *gojsonschema.SubSchema,
+	opts ...BuilderOption) (map[astmodel.TypeName]astmodel.TypeDefinition, error) {
+
 	ctx, span := tab.StartSpan(ctx, "GenerateDefinitions")
 	defer span.End()
 
@@ -192,9 +196,9 @@ func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema *g
 	}
 
 	// produce the results
-	defs := make(map[astmodel.TypeName]astmodel.TypeDefiner)
+	defs := make(map[astmodel.TypeName]astmodel.TypeDefinition)
 	for _, def := range scanner.definitions {
-		defs[*def.Name()] = def
+		defs[*def.Name()] = *def
 	}
 
 	return defs, nil
@@ -483,34 +487,24 @@ func generateDefinitionsFor(
 		return nil, err
 	}
 
-	var definer astmodel.TypeDefiner
-	var otherDefs []astmodel.TypeDefiner
-
-	// Give the type a name:
 	if isResource {
-		if specType, ok := result.(*astmodel.StructType); ok {
-			definer, otherDefs = astmodel.CreateResourceDefinitions(typeName, specType, nil, scanner.idFactory)
-		} else {
-			klog.Warningf("expected a struct type for resource: %v", typeName)
-			// TODO: handle this better, only Kusto does it
-			// we can lookup the actual struct and then use that
-			definer, otherDefs = result.CreateDefinitions(typeName, scanner.idFactory)
-		}
-	} else {
-		definer, otherDefs = result.CreateDefinitions(typeName, scanner.idFactory)
+		result = astmodel.NewResourceType(result, nil)
 	}
 
+	// Give the type a name:
+	definition, otherDefs := result.CreateDefinitions(typeName, scanner.idFactory)
+
 	description := "Generated from: " + url.String()
-	definer = definer.WithDescription(&description)
+	definition = definition.WithDescription(&description)
 
 	// register all definitions
-	scanner.addTypeDefinition(definer)
+	scanner.addTypeDefinition(definition)
 	for _, otherDef := range otherDefs {
 		scanner.addTypeDefinition(otherDef)
 	}
 
 	// return the name of the primary type
-	return definer.Name(), nil
+	return definition.Name(), nil
 }
 
 func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
@@ -544,14 +538,10 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		case *astmodel.TypeName:
 			// TODO: need to check if this is a reference to a struct type or not
 			if def, ok := scanner.findTypeDefinition(concreteType); ok {
-				if structDef, ok := def.(*astmodel.StructDefinition); ok {
-					var err error
-					properties, err = handleType(properties, structDef.Type())
-					if err != nil {
-						return nil, err
-					}
-				} else {
-					return nil, errors.Errorf("unhandled case in allOf: unable to unpack %v", concreteType)
+				var err error
+				properties, err = handleType(properties, def.Type())
+				if err != nil {
+					return nil, err
 				}
 			} else {
 				return nil, errors.Errorf("couldn't find definition for: %v", concreteType)

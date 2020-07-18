@@ -22,6 +22,10 @@ func NewOptionalType(element Type) *OptionalType {
 // assert we implemented Type correctly
 var _ Type = (*OptionalType)(nil)
 
+func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+	return AsSimpleDeclarations(codeGenerationContext, name, description, optional)
+}
+
 // AsType renders the Go abstract syntax tree for an optional type
 func (optional *OptionalType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 	// Special case interface{} as it shouldn't be a pointer
@@ -58,12 +62,12 @@ func (optional *OptionalType) Equals(t Type) bool {
 }
 
 // CreateInternalDefinitions invokes CreateInternalDefinitions on the inner type
-func (optional *OptionalType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
+func (optional *OptionalType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
 	newElementType, otherTypes := optional.element.CreateInternalDefinitions(name, idFactory)
 	return NewOptionalType(newElementType), otherTypes
 }
 
 // CreateDefinitions defines a named type for this OptionalType
-func (optional *OptionalType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefiner, []TypeDefiner) {
-	return NewSimpleTypeDefiner(name, optional), nil
+func (optional *OptionalType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefinition, []TypeDefinition) {
+	return MakeTypeDefinition(name, optional), nil
 }

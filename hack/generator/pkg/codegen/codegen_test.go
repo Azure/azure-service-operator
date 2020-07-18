@@ -8,12 +8,13 @@ package codegen
 import (
 	"bytes"
 	"context"
-	. "github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+
+	. "github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
@@ -59,7 +60,7 @@ func runGoldenTest(t *testing.T, path string) {
 	}
 
 	var pr *astmodel.PackageReference
-	var ds []astmodel.TypeDefiner
+	var ds []astmodel.TypeDefinition
 	for _, def := range defs {
 		ds = append(ds, def)
 		if pr == nil {

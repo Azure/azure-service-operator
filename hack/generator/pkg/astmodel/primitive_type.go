@@ -37,6 +37,10 @@ func (prim *PrimitiveType) AsType(codeGenerationContext *CodeGenerationContext) 
 	return ast.NewIdent(prim.name)
 }
 
+func (prim *PrimitiveType) AsDeclarations(CodeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+	return AsSimpleDeclarations(CodeGenerationContext, name, description, prim)
+}
+
 // RequiredImports returns a list of package required by this
 func (prim *PrimitiveType) RequiredImports() []*PackageReference {
 	return nil
@@ -58,14 +62,14 @@ func (prim *PrimitiveType) Equals(t Type) bool {
 }
 
 // CreateInternalDefinitions does nothing as there are no inner types
-func (prim *PrimitiveType) CreateInternalDefinitions(_ *TypeName, _ IdentifierFactory) (Type, []TypeDefiner) {
+func (prim *PrimitiveType) CreateInternalDefinitions(_ *TypeName, _ IdentifierFactory) (Type, []TypeDefinition) {
 	// a primitive type has no internal types that require definition
 	return prim, nil
 }
 
 // CreateDefinitions defines a named type for this primitive
-func (prim *PrimitiveType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefiner, []TypeDefiner) {
-	return NewSimpleTypeDefiner(name, prim), nil
+func (prim *PrimitiveType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefinition, []TypeDefinition) {
+	return MakeTypeDefinition(name, prim), nil
 }
 
 // Name returns the name of the primitive type
