@@ -190,40 +190,6 @@ func (structType *StructType) Equals(t Type) bool {
 	return false
 }
 
-// NameInternalDefinitions defines a named type for this struct and returns that type to be used in-place
-// of the anonymous struct type. This is needed for controller-gen to work correctly:
-func (structType *StructType) NameInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
-	// an internal struct must always be named:
-	definedStruct, otherTypes := structType.CreateNamedDefinition(name, idFactory)
-	return definedStruct.Name(), append(otherTypes, definedStruct)
-}
-
-// CreateNamedDefinition defines a named type for this struct and invokes NameInternalDefinitions for each property type
-// to instantiate any definitions required by internal types.
-func (structType *StructType) CreateNamedDefinition(name *TypeName, idFactory IdentifierFactory) (TypeDefinition, []TypeDefinition) {
-
-	var otherTypes []TypeDefinition
-	var newProperties []*PropertyDefinition
-
-	for _, property := range structType.properties {
-
-		// create definitions for nested types
-		nestedName := name.Name() + string(property.propertyName)
-		nameHint := NewTypeName(name.PackageReference, nestedName)
-		newPropertyType, moreTypes := property.propertyType.NameInternalDefinitions(nameHint, idFactory)
-
-		otherTypes = append(otherTypes, moreTypes...)
-		newProperties = append(newProperties, property.WithType(newPropertyType))
-	}
-
-	newStructType := NewStructType().WithProperties(newProperties...)
-	for functionName, function := range structType.functions {
-		newStructType.functions[functionName] = function
-	}
-
-	return MakeTypeDefinition(name, newStructType), otherTypes
-}
-
 // WithProperty creates a new StructType with another property attached to it
 // Properties are unique by name, so this can be used to Add and Replace a property
 func (structType *StructType) WithProperty(property *PropertyDefinition) *StructType {

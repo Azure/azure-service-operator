@@ -28,38 +28,16 @@ func NewResourceType(specType Type, statusType Type) *ResourceType {
 // assert that ResourceType implements TypeDefiner
 var _ Type = &ResourceType{}
 
+func (definition *ResourceType) SpecType() Type {
+	return definition.spec
+}
+
+func (definition *ResourceType) StatusType() Type {
+	return definition.status
+}
+
 func (definition *ResourceType) AsType(_ *CodeGenerationContext) ast.Expr {
 	panic("a resource cannot be used directly as a type")
-}
-
-func (definition *ResourceType) NameInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
-	panic("a resource should never be nested")
-}
-
-func (definition *ResourceType) CreateNamedDefinition(name *TypeName, idFactory IdentifierFactory) (TypeDefinition, []TypeDefinition) {
-	var others []TypeDefinition
-
-	defineStruct := func(suffix string, theType Type) *TypeName {
-		definedName := NewTypeName(name.PackageReference, name.Name()+suffix)
-		defined, definedOthers := theType.CreateNamedDefinition(definedName, idFactory)
-		others = append(append(others, defined), definedOthers...)
-		return definedName
-	}
-
-	specName := defineStruct("Spec", definition.spec)
-
-	var statusName Type // the type is very important here, it must be a nil(Type) if status isn’t set, not a nil(*TypeName)
-	if definition.status != nil {
-		statusName = defineStruct("Status", definition.status)
-	}
-
-	this := MakeTypeDefinition(name, &ResourceType{
-		specName,
-		statusName,
-		definition.isStorageVersion,
-	})
-
-	return this, others
 }
 
 func (definition *ResourceType) Equals(other Type) bool {

@@ -80,17 +80,6 @@ func (typeName *TypeName) Equals(t Type) bool {
 	return false
 }
 
-// NameInternalDefinitions does nothing
-func (typeName *TypeName) NameInternalDefinitions(_ *TypeName, _ IdentifierFactory) (Type, []TypeDefinition) {
-	// there is nothing internal to a TypeName, return it unchanged
-	return typeName, nil
-}
-
-// CreateNamedDefinition adds another name to this already-named type
-func (typeName *TypeName) CreateNamedDefinition(name *TypeName, _ IdentifierFactory) (TypeDefinition, []TypeDefinition) {
-	return MakeTypeDefinition(name, typeName), nil
-}
-
 // String returns the string representation of the type name
 func (typeName *TypeName) String() string {
 	return fmt.Sprintf("%s/%s", typeName.PackageReference, typeName.name)

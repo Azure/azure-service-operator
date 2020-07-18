@@ -61,17 +61,6 @@ func (prim *PrimitiveType) Equals(t Type) bool {
 	return false
 }
 
-// NameInternalDefinitions does nothing as there are no inner types
-func (prim *PrimitiveType) NameInternalDefinitions(_ *TypeName, _ IdentifierFactory) (Type, []TypeDefinition) {
-	// a primitive type has no internal types that require definition
-	return prim, nil
-}
-
-// CreateNamedDefinition defines a named type for this primitive
-func (prim *PrimitiveType) CreateNamedDefinition(name *TypeName, _ IdentifierFactory) (TypeDefinition, []TypeDefinition) {
-	return MakeTypeDefinition(name, prim), nil
-}
-
 // Name returns the name of the primitive type
 func (prim *PrimitiveType) Name() string {
 	return prim.name

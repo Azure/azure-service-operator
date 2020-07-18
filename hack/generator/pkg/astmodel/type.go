@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"fmt"
 	"go/ast"
 )
 
@@ -28,12 +29,83 @@ type Type interface {
 
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type) bool
+}
 
-	// CreateNamedDefinition gives a name to the type and might generate some associated definitions as well (the second result)
-	// that also must be included in the output.
-	CreateNamedDefinition(name *TypeName, idFactory IdentifierFactory) (TypeDefinition, []TypeDefinition)
+type TypeVisitor struct {
+	VisitTypeName     func(this *TypeVisitor, it *TypeName, ctx interface{}) Type
+	VisitArrayType    func(this *TypeVisitor, it *ArrayType, ctx interface{}) Type
+	VisitPrimitive    func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) Type
+	VisitStructType   func(this *TypeVisitor, it *StructType, ctx interface{}) Type
+	VisitMapType      func(this *TypeVisitor, it *MapType, ctx interface{}) Type
+	VisitOptionalType func(this *TypeVisitor, it *OptionalType, ctx interface{}) Type
+	VisitEnumType     func(this *TypeVisitor, it *EnumType, ctx interface{}) Type
+	VisitResourceType func(this *TypeVisitor, it *ResourceType, ctx interface{}) Type
+}
 
-	// NameInternalDefinitions creates definitions for nested types where needed (e.g. nested anonymous enums, structs),
-	// and returns the new, updated type to use in this type’s place.
-	NameInternalDefinitions(nameHint *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition)
+func (tv *TypeVisitor) Visit(t Type, ctx interface{}) Type {
+	if t == nil {
+		return nil
+	}
+
+	switch it := t.(type) {
+	case *TypeName:
+		return tv.VisitTypeName(tv, it, ctx)
+	case *ArrayType:
+		return tv.VisitArrayType(tv, it, ctx)
+	case *PrimitiveType:
+		return tv.VisitPrimitive(tv, it, ctx)
+	case *StructType:
+		return tv.VisitStructType(tv, it, ctx)
+	case *MapType:
+		return tv.VisitMapType(tv, it, ctx)
+	case *OptionalType:
+		return tv.VisitOptionalType(tv, it, ctx)
+	case *EnumType:
+		return tv.VisitEnumType(tv, it, ctx)
+	case *ResourceType:
+		return tv.VisitResourceType(tv, it, ctx)
+	}
+
+	panic(fmt.Sprintf("unhandled type: (%T) %v", t, t))
+}
+
+func MakeTypeVisitor() TypeVisitor {
+	return TypeVisitor{
+		VisitTypeName: func(_ *TypeVisitor, it *TypeName, _ interface{}) Type {
+			return it
+		},
+		VisitArrayType: func(this *TypeVisitor, it *ArrayType, ctx interface{}) Type {
+			newElement := this.Visit(it.element, ctx)
+			return NewArrayType(newElement)
+		},
+		VisitPrimitive: func(_ *TypeVisitor, it *PrimitiveType, _ interface{}) Type {
+			return it
+		},
+		VisitStructType: func(this *TypeVisitor, it *StructType, ctx interface{}) Type {
+			// just map the property types
+			var newProps []*PropertyDefinition
+			for _, prop := range it.properties {
+				newProps = append(newProps, prop.WithType(this.Visit(prop.propertyType, ctx)))
+			}
+			return it.WithProperties(newProps...)
+		},
+		VisitMapType: func(this *TypeVisitor, it *MapType, ctx interface{}) Type {
+			newKey := this.Visit(it.key, ctx)
+			newValue := this.Visit(it.value, ctx)
+			return NewMapType(newKey, newValue)
+		},
+		VisitEnumType: func(_ *TypeVisitor, it *EnumType, _ interface{}) Type {
+			// if we visit the enum base type then we will also have to do something
+			// about the values. so by default don't do anything with the enum base
+			return it
+		},
+		VisitOptionalType: func(this *TypeVisitor, it *OptionalType, ctx interface{}) Type {
+			return NewOptionalType(this.Visit(it.element, ctx))
+		},
+		VisitResourceType: func(this *TypeVisitor, it *ResourceType, ctx interface{}) Type {
+			spec := this.Visit(it.spec, ctx)
+			status := this.Visit(it.status, ctx)
+			return NewResourceType(spec, status)
+		},
+	}
 }

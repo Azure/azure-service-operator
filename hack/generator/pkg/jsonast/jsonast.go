@@ -56,6 +56,10 @@ func (scanner *SchemaScanner) findTypeDefinition(name *astmodel.TypeName) (*astm
 
 // addTypeDefinition adds a type definition to emit later
 func (scanner *SchemaScanner) addTypeDefinition(def astmodel.TypeDefinition) {
+	if existing, ok := scanner.definitions[*def.Name()]; ok && existing != nil {
+		panic(fmt.Sprintf("overwriting existing definition for %v", def.Name()))
+	}
+
 	scanner.definitions[*def.Name()] = &def
 }
 
@@ -197,7 +201,12 @@ func (scanner *SchemaScanner) GenerateDefinitions(
 
 	// produce the results
 	defs := make(map[astmodel.TypeName]astmodel.TypeDefinition)
-	for _, def := range scanner.definitions {
+	for defName, def := range scanner.definitions {
+		if def == nil {
+			continue
+			panic(fmt.Sprintf("%v was nil", defName))
+		}
+
 		defs[*def.Name()] = *def
 	}
 
@@ -491,20 +500,102 @@ func generateDefinitionsFor(
 		result = astmodel.NewResourceType(result, nil)
 	}
 
-	// Give the type a name:
-	definition, otherDefs := result.CreateNamedDefinition(typeName, scanner.idFactory)
+	// TODO: I was WIP here...
+	//definition := astmodel.MakeTypeDefinition(typeName, result)
 
-	description := "Generated from: " + url.String()
-	definition = definition.WithDescription(&description)
+	// fixup any internal structs or enums
+	result, defs := NameInternalTypes(result, typeName, scanner.idFactory)
 
-	// register all definitions
-	scanner.addTypeDefinition(definition)
-	for _, otherDef := range otherDefs {
-		scanner.addTypeDefinition(otherDef)
+	// this feels a bit hacky, but...
+	// if we don’t find the top-level type in the generated types we haven’t named it yet
+	found := false
+	for _, def := range defs {
+		if result == def.Type() || result == def.Name() {
+			result = def.Name()
+			found = true
+			break
+		}
 	}
 
-	// return the name of the primary type
-	return definition.Name(), nil
+	if !found {
+		def := astmodel.MakeTypeDefinition(typeName, result)
+		description := "Generated from: " + url.String()
+		def = def.WithDescription(&description)
+		defs = append(defs, def)
+		result = def.Name()
+	}
+	// end hackiness
+
+	// register all definitions
+	for _, def := range defs {
+		scanner.addTypeDefinition(def)
+	}
+
+	if def, ok := scanner.findTypeDefinition(typeName); !ok || def == nil {
+		// sanity check
+		panic(fmt.Sprintf("didn't set type definition for %v", typeName))
+	}
+
+	// return the primary type (this will always be a TypeName)
+	return result, nil
+}
+
+// NameInternalTypes - for CRDs all inner enums and structs must be named, so we do it here:
+// TODO: this can be pulled into its own pipeline stage, I think!
+func NameInternalTypes(input astmodel.Type, typeName *astmodel.TypeName, idFactory astmodel.IdentifierFactory) (astmodel.Type, []astmodel.TypeDefinition) {
+
+	var generatedTypes []astmodel.TypeDefinition
+
+	// for this visitor, we will pass around the name hint as 'ctx' parameter
+	visitor := astmodel.MakeTypeVisitor()
+
+	visitor.VisitEnumType = func(this *astmodel.TypeVisitor, it *astmodel.EnumType, ctx interface{}) astmodel.Type {
+		nameHint := ctx.(string)
+		enumName := astmodel.NewTypeName(typeName.PackageReference, idFactory.CreateEnumIdentifier(nameHint))
+		namedEnum := astmodel.MakeTypeDefinition(enumName, it)
+
+		generatedTypes = append(generatedTypes, namedEnum)
+
+		return namedEnum.Name()
+	}
+
+	visitor.VisitStructType = func(this *astmodel.TypeVisitor, it *astmodel.StructType, ctx interface{}) astmodel.Type {
+		nameHint := ctx.(string)
+
+		var props []*astmodel.PropertyDefinition
+		// first map the inner types:
+		for _, prop := range it.Properties() {
+			newPropType := this.Visit(prop.PropertyType(), nameHint+string(prop.PropertyName()))
+			props = append(props, prop.WithType(newPropType))
+		}
+
+		structName := astmodel.NewTypeName(typeName.PackageReference, nameHint)
+		namedStruct := astmodel.MakeTypeDefinition(structName, it.WithProperties(props...))
+		generatedTypes = append(generatedTypes, namedStruct)
+
+		return namedStruct.Name()
+	}
+
+	visitor.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) astmodel.Type {
+		nameHint := ctx.(string)
+
+		spec := this.Visit(it.SpecType(), nameHint+"Spec")
+
+		var status astmodel.Type // the type is very important here, it must be a nil(Type) if status isn’t set, not a nil(*TypeName)
+		if it.StatusType() != nil {
+			status = this.Visit(it.StatusType(), nameHint+"Status")
+		}
+
+		resourceName := astmodel.NewTypeName(typeName.PackageReference, nameHint)
+		resource := astmodel.MakeTypeDefinition(resourceName, astmodel.NewResourceType(spec, status))
+		generatedTypes = append(generatedTypes, resource)
+
+		return resource.Name()
+	}
+
+	visitedType := visitor.Visit(input, typeName.Name())
+
+	return visitedType, generatedTypes
 }
 
 func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) (astmodel.Type, error) {
