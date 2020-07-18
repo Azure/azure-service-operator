@@ -80,14 +80,14 @@ func (typeName *TypeName) Equals(t Type) bool {
 	return false
 }
 
-// CreateInternalDefinitions does nothing
-func (typeName *TypeName) CreateInternalDefinitions(_ *TypeName, _ IdentifierFactory) (Type, []TypeDefinition) {
+// NameInternalDefinitions does nothing
+func (typeName *TypeName) NameInternalDefinitions(_ *TypeName, _ IdentifierFactory) (Type, []TypeDefinition) {
 	// there is nothing internal to a TypeName, return it unchanged
 	return typeName, nil
 }
 
-// CreateDefinitions adds another name to this already-named type
-func (typeName *TypeName) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefinition, []TypeDefinition) {
+// CreateNamedDefinition adds another name to this already-named type
+func (typeName *TypeName) CreateNamedDefinition(name *TypeName, _ IdentifierFactory) (TypeDefinition, []TypeDefinition) {
 	return MakeTypeDefinition(name, typeName), nil
 }
 

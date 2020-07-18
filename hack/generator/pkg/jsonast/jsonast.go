@@ -492,7 +492,7 @@ func generateDefinitionsFor(
 	}
 
 	// Give the type a name:
-	definition, otherDefs := result.CreateDefinitions(typeName, scanner.idFactory)
+	definition, otherDefs := result.CreateNamedDefinition(typeName, scanner.idFactory)
 
 	description := "Generated from: " + url.String()
 	definition = definition.WithDescription(&description)

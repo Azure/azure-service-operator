@@ -190,17 +190,17 @@ func (structType *StructType) Equals(t Type) bool {
 	return false
 }
 
-// CreateInternalDefinitions defines a named type for this struct and returns that type to be used in-place
+// NameInternalDefinitions defines a named type for this struct and returns that type to be used in-place
 // of the anonymous struct type. This is needed for controller-gen to work correctly:
-func (structType *StructType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
+func (structType *StructType) NameInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
 	// an internal struct must always be named:
-	definedStruct, otherTypes := structType.CreateDefinitions(name, idFactory)
+	definedStruct, otherTypes := structType.CreateNamedDefinition(name, idFactory)
 	return definedStruct.Name(), append(otherTypes, definedStruct)
 }
 
-// CreateDefinitions defines a named type for this struct and invokes CreateInternalDefinitions for each property type
+// CreateNamedDefinition defines a named type for this struct and invokes NameInternalDefinitions for each property type
 // to instantiate any definitions required by internal types.
-func (structType *StructType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefinition, []TypeDefinition) {
+func (structType *StructType) CreateNamedDefinition(name *TypeName, idFactory IdentifierFactory) (TypeDefinition, []TypeDefinition) {
 
 	var otherTypes []TypeDefinition
 	var newProperties []*PropertyDefinition
@@ -210,7 +210,7 @@ func (structType *StructType) CreateDefinitions(name *TypeName, idFactory Identi
 		// create definitions for nested types
 		nestedName := name.Name() + string(property.propertyName)
 		nameHint := NewTypeName(name.PackageReference, nestedName)
-		newPropertyType, moreTypes := property.propertyType.CreateInternalDefinitions(nameHint, idFactory)
+		newPropertyType, moreTypes := property.propertyType.NameInternalDefinitions(nameHint, idFactory)
 
 		otherTypes = append(otherTypes, moreTypes...)
 		newProperties = append(newProperties, property.WithType(newPropertyType))

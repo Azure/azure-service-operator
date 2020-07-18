@@ -32,17 +32,16 @@ func (definition *ResourceType) AsType(_ *CodeGenerationContext) ast.Expr {
 	panic("a resource cannot be used directly as a type")
 }
 
-func (definition *ResourceType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
+func (definition *ResourceType) NameInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
 	panic("a resource should never be nested")
 }
 
-func (definition *ResourceType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefinition, []TypeDefinition) {
-
+func (definition *ResourceType) CreateNamedDefinition(name *TypeName, idFactory IdentifierFactory) (TypeDefinition, []TypeDefinition) {
 	var others []TypeDefinition
 
 	defineStruct := func(suffix string, theType Type) *TypeName {
 		definedName := NewTypeName(name.PackageReference, name.Name()+suffix)
-		defined, definedOthers := theType.CreateDefinitions(definedName, idFactory)
+		defined, definedOthers := theType.CreateNamedDefinition(definedName, idFactory)
 		others = append(append(others, defined), definedOthers...)
 		return definedName
 	}

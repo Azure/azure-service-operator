@@ -56,13 +56,13 @@ func (array *ArrayType) Equals(t Type) bool {
 	return false
 }
 
-// CreateInternalDefinitions invokes CreateInternalDefinitions on the inner 'element' type
-func (array *ArrayType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
-	newElementType, otherTypes := array.element.CreateInternalDefinitions(name, idFactory)
+// NameInternalDefinitions invokes NameInternalDefinitions on the inner 'element' type
+func (array *ArrayType) NameInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefinition) {
+	newElementType, otherTypes := array.element.NameInternalDefinitions(name, idFactory)
 	return NewArrayType(newElementType), otherTypes
 }
 
-// CreateDefinitions defines a named type for this array type
-func (array *ArrayType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefinition, []TypeDefinition) {
+// CreateNamedDefinition defines a named type for this array type
+func (array *ArrayType) CreateNamedDefinition(name *TypeName, _ IdentifierFactory) (TypeDefinition, []TypeDefinition) {
 	return MakeTypeDefinition(name, array), nil
 }
