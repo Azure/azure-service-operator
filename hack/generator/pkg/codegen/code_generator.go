@@ -48,8 +48,11 @@ func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
 func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.V(1).Infof("Generator version: %v", combinedVersion())
 
+	idFactory := astmodel.NewIdentifierFactory()
+
 	pipeline := []PipelineStage{
-		loadSchema(ctx, generator.configuration),
+		loadSchema(ctx, idFactory, generator.configuration),
+		nameTypesForCRD(idFactory),
 		applyExportFilters(generator.configuration),
 		stripUnreferencedTypeDefinitions(),
 		deleteGeneratedCode(generator.configuration.OutputPath),
@@ -142,7 +145,7 @@ func (loader *cancellableJSONLoader) LoaderFactory() gojsonschema.JSONLoaderFact
 	return &cancellableJSONLoaderFactory{loader.ctx, loader.inner.LoaderFactory()}
 }
 
-func loadSchema(ctx context.Context, configuration *config.Configuration) PipelineStage {
+func loadSchema(ctx context.Context, idFactory astmodel.IdentifierFactory, configuration *config.Configuration) PipelineStage {
 	source := configuration.SchemaURL
 
 	return PipelineStage{
@@ -161,7 +164,7 @@ func loadSchema(ctx context.Context, configuration *config.Configuration) Pipeli
 				return nil, errors.Wrapf(err, "error loading schema from %q", source)
 			}
 
-			scanner := jsonast.NewSchemaScanner(astmodel.NewIdentifierFactory(), configuration)
+			scanner := jsonast.NewSchemaScanner(idFactory, configuration)
 
 			klog.V(0).Infof("Walking JSON schema")
 

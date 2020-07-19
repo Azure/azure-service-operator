@@ -113,7 +113,7 @@ func MarkLatestResourceVersionsForStorage(packages []*astmodel.PackageDefinition
 				// mark as storage version if it's the latest version
 				isLatestVersion := thisPackagePath == latestPackagePath
 				if isLatestVersion {
-					def = astmodel.MakeTypeDefinition(def.Name(), resourceType.MarkAsStorageVersion())
+					def = astmodel.MakeTypeDefinition(def.Name(), resourceType.MarkAsStorageVersion()).WithDescription(def.Description())
 				}
 
 				resultPkg.AddDefinition(def)

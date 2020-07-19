@@ -21,22 +21,28 @@ func MakeTypeDefinition(name *TypeName, theType Type) TypeDefinition {
 	return TypeDefinition{name: name, theType: theType}
 }
 
+// Name returns the name being associated with the type
 func (std *TypeDefinition) Name() *TypeName {
 	return std.name
 }
 
+// Type returns the type being associated with the name
 func (std *TypeDefinition) Type() Type {
 	return std.theType
+}
+
+// Description returns the description to be attached to this type definition (as a comment)
+func (std *TypeDefinition) Description() *string {
+	return std.description
 }
 
 func (std *TypeDefinition) References() TypeNameSet {
 	return std.theType.References()
 }
 
-func (std *TypeDefinition) WithDescription(desc *string) TypeDefinition {
-	result := *std
-	result.description = desc
-	return result
+func (std TypeDefinition) WithDescription(desc *string) TypeDefinition {
+	std.description = desc
+	return std
 }
 
 func (std *TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
