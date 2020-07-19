@@ -81,7 +81,11 @@ func (definition *ResourceType) MarkAsStorageVersion() *ResourceType {
 // RequiredImports returns a list of packages required by this
 func (definition *ResourceType) RequiredImports() []*PackageReference {
 	typeImports := definition.spec.RequiredImports()
-	// TODO BUG: the status is not considered here
+
+	if definition.status != nil {
+		typeImports = append(typeImports, definition.status.RequiredImports()...)
+	}
+
 	typeImports = append(typeImports, MetaV1PackageReference)
 
 	return typeImports
