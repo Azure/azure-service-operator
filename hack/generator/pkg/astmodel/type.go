@@ -31,6 +31,7 @@ type Type interface {
 	Equals(t Type) bool
 }
 
+// TypeVisitor represents a visitor for a tree of types
 type TypeVisitor struct {
 	VisitTypeName     func(this *TypeVisitor, it *TypeName, ctx interface{}) Type
 	VisitArrayType    func(this *TypeVisitor, it *ArrayType, ctx interface{}) Type
@@ -42,6 +43,7 @@ type TypeVisitor struct {
 	VisitResourceType func(this *TypeVisitor, it *ResourceType, ctx interface{}) Type
 }
 
+// Visit invokes the appropriate VisitX on TypeVisitor
 func (tv *TypeVisitor) Visit(t Type, ctx interface{}) Type {
 	if t == nil {
 		return nil
@@ -69,6 +71,9 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) Type {
 	panic(fmt.Sprintf("unhandled type: (%T) %v", t, t))
 }
 
+// MakeTypeVisitor returns a default (identity transform) visitor, which
+// visits every type in the tree. If you want to actually do something you will
+// need to override the properties on the returned TypeVisitor.
 func MakeTypeVisitor() TypeVisitor {
 	return TypeVisitor{
 		VisitTypeName: func(_ *TypeVisitor, it *TypeName, _ interface{}) Type {
