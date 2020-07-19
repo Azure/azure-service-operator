@@ -30,13 +30,13 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 			}
 
 			for typeName, typeDef := range types {
-				newDefs := handleType(typeDef, idFactory, getDescription)
+				newDefs := nameInnerTypes(typeDef, idFactory, getDescription)
 				for _, newDef := range newDefs {
 					result[*newDef.Name()] = newDef
 				}
 
 				if _, ok := result[typeName]; !ok {
-					// if we didn’t regenerate the “input” type in handleType then it won’t
+					// if we didn’t regenerate the “input” type in nameInnerTypes then it won’t
 					// have been added to the output; do it here
 					result[typeName] = typeDef
 				}
@@ -47,7 +47,7 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 	}
 }
 
-func handleType(
+func nameInnerTypes(
 	def astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
 	getDescription func(*astmodel.TypeName) *string) []astmodel.TypeDefinition {
@@ -59,6 +59,7 @@ func handleType(
 
 	visitor.VisitEnumType = func(this *astmodel.TypeVisitor, it *astmodel.EnumType, ctx interface{}) astmodel.Type {
 		nameHint := ctx.(string)
+
 		enumName := astmodel.NewTypeName(def.Name().PackageReference, idFactory.CreateEnumIdentifier(nameHint))
 
 		namedEnum := astmodel.MakeTypeDefinition(enumName, it)
