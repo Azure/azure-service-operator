@@ -203,7 +203,7 @@ func (scanner *SchemaScanner) GenerateDefinitions(
 	defs := make(map[astmodel.TypeName]astmodel.TypeDefinition)
 	for defName, def := range scanner.definitions {
 		if def == nil {
-			continue
+			// sanity check/assert:
 			panic(fmt.Sprintf("%v was nil", defName))
 		}
 
