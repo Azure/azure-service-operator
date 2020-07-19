@@ -26,7 +26,7 @@ func NewResourceType(specType Type, statusType Type) *ResourceType {
 	return &ResourceType{specType, statusType, false}
 }
 
-// assert that ResourceType implements TypeDefiner
+// assert that ResourceType implements Type
 var _ Type = &ResourceType{}
 
 // SpecType returns the type used for specificiation
