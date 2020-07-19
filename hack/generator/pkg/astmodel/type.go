@@ -40,7 +40,8 @@ func TypeEquals(left, right Type) bool {
 	return left.Equals(right)
 }
 
-// TypeVisitor represents a visitor for a tree of types
+// TypeVisitor represents a visitor for a tree of types.
+// The `ctx` argument can be used to “smuggle” additional data down the call-chain.
 type TypeVisitor struct {
 	VisitTypeName     func(this *TypeVisitor, it *TypeName, ctx interface{}) Type
 	VisitArrayType    func(this *TypeVisitor, it *ArrayType, ctx interface{}) Type
@@ -84,6 +85,9 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) Type {
 // visits every type in the tree. If you want to actually do something you will
 // need to override the properties on the returned TypeVisitor.
 func MakeTypeVisitor() TypeVisitor {
+	// TODO [performance]: we can do reference comparisons on the results of
+	// recursive invocations of Visit to avoid having to rebuild the tree if the
+	// leafs do not actually change.
 	return TypeVisitor{
 		VisitTypeName: func(_ *TypeVisitor, it *TypeName, _ interface{}) Type {
 			return it
