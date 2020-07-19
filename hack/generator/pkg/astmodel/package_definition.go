@@ -40,15 +40,15 @@ func (pkgDef *PackageDefinition) AddDefinition(def TypeDefinition) {
 
 // EmitDefinitions emits the PackageDefinition to an output directory
 func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string) (int, error) {
-	resources, otherDefinitions := partitionDefinitions(pkgDef.definitions)
+	definitions := partitionDefinitions(pkgDef.definitions)
 
 	// initialize with 1 resource per file
 	filesToGenerate := make(map[string][]TypeDefinition)
-	for _, resource := range resources {
+	for _, resource := range definitions.resources {
 		filesToGenerate[FileNameHint(resource)] = []TypeDefinition{resource}
 	}
 
-	allocateTypesToFiles(otherDefinitions, filesToGenerate)
+	allocateTypesToFiles(definitions.otherDefinitions, filesToGenerate)
 	err := emitFiles(filesToGenerate, outputDir)
 	if err != nil {
 		return 0, err
@@ -94,17 +94,23 @@ func anyReferences(defs []TypeDefinition, defName *TypeName) bool {
 	return false
 }
 
-func partitionDefinitions(definitions []TypeDefinition) (resources []TypeDefinition, otherDefinitions []TypeDefinition) {
+type partitionedDefinitions struct {
+	resources        []TypeDefinition
+	otherDefinitions []TypeDefinition
+}
+
+func partitionDefinitions(definitions []TypeDefinition) partitionedDefinitions {
+	var result partitionedDefinitions
 
 	for _, def := range definitions {
 		if _, ok := def.Type().(*ResourceType); ok {
-			resources = append(resources, def)
+			result.resources = append(result.resources, def)
 		} else {
-			otherDefinitions = append(otherDefinitions, def)
+			result.otherDefinitions = append(result.otherDefinitions, def)
 		}
 	}
 
-	return
+	return result
 }
 
 func allocateTypesToFiles(typesToAllocate []TypeDefinition, filesToGenerate map[string][]TypeDefinition) {
