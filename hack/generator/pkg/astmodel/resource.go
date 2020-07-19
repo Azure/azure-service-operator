@@ -13,7 +13,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// ResourceType represents an ARM resource
+// ResourceType represents a Kubernetes CRD resource which has both
+// spec (the user-requested state) and status (the current state)
 type ResourceType struct {
 	spec             Type
 	status           Type
@@ -28,27 +29,30 @@ func NewResourceType(specType Type, statusType Type) *ResourceType {
 // assert that ResourceType implements TypeDefiner
 var _ Type = &ResourceType{}
 
+// SpecType returns the type used for specificiation
 func (definition *ResourceType) SpecType() Type {
 	return definition.spec
 }
 
+// StatusType returns the type used for current status
 func (definition *ResourceType) StatusType() Type {
 	return definition.status
 }
 
+// AsType converts the ResourceType to go AST Expr
 func (definition *ResourceType) AsType(_ *CodeGenerationContext) ast.Expr {
 	panic("a resource cannot be used directly as a type")
 }
 
+// Equals returns true if the other type is also a ResourceType and has Equal fields
 func (definition *ResourceType) Equals(other Type) bool {
 	if definition == other {
 		return true
 	}
 
 	if otherResource, ok := other.(*ResourceType); ok {
-		return definition.spec.Equals(otherResource.spec) &&
-			((definition.status == nil && otherResource.status == nil) ||
-				definition.status.Equals(otherResource.status)) &&
+		return TypeEquals(definition.spec, otherResource.spec) &&
+			TypeEquals(definition.status, otherResource.status) &&
 			definition.isStorageVersion == otherResource.isStorageVersion
 	}
 

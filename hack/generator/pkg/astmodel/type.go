@@ -31,6 +31,15 @@ type Type interface {
 	Equals(t Type) bool
 }
 
+// TypeEquals decides if the types are the same and handles the `nil` case
+func TypeEquals(left, right Type) bool {
+	if left == nil {
+		return right == nil
+	}
+
+	return left.Equals(right)
+}
+
 // TypeVisitor represents a visitor for a tree of types
 type TypeVisitor struct {
 	VisitTypeName     func(this *TypeVisitor, it *TypeName, ctx interface{}) Type
