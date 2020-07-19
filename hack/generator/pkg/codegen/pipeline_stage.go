@@ -12,7 +12,7 @@ import (
 )
 
 // Types is the set of all types being generated
-type Types = map[astmodel.TypeName]astmodel.TypeDefinition
+type Types map[astmodel.TypeName]astmodel.TypeDefinition
 
 // PipelineStage represents a composable stage of processing that can transform or process the set
 // of generated types
