@@ -35,18 +35,6 @@ func NewPropertyDefinition(propertyName PropertyName, jsonName string, propertyT
 	}
 }
 
-// NewEmbeddedDefinition is a factory method for defining an embedding
-// of another type.
-func NewEmbeddedDefinition(other Type) *PropertyDefinition {
-	// in Go, this is just a field without a name:
-	return &PropertyDefinition{
-		propertyName: "",
-		propertyType: other,
-		jsonName:     "",
-		description:  "",
-	}
-}
-
 // PropertyName returns the name of the property
 func (property *PropertyDefinition) PropertyName() PropertyName {
 	return property.propertyName
