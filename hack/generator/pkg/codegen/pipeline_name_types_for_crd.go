@@ -47,7 +47,10 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 	}
 }
 
-func handleType(def astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory, getDescription func(*astmodel.TypeName) *string) []astmodel.TypeDefinition {
+func handleType(
+	def astmodel.TypeDefinition,
+	idFactory astmodel.IdentifierFactory,
+	getDescription func(*astmodel.TypeName) *string) []astmodel.TypeDefinition {
 
 	var resultTypes []astmodel.TypeDefinition
 
