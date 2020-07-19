@@ -50,7 +50,7 @@ func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedGetters(t
 func Test_NewEmbeddedStructDefinition_ReturnsInstanceWithExpectedFields(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	st := NewStructType()
+	st := NewObjectType()
 	field := NewEmbeddedStructDefinition(st)
 
 	g.Expect(field.propertyName).To(Equal(PropertyName("")))

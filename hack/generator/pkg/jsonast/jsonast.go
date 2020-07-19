@@ -293,7 +293,7 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsc
 		return properties[0].PropertyType(), nil
 	}
 
-	structDefinition := astmodel.NewStructType().WithProperties(properties...)
+	structDefinition := astmodel.NewObjectType().WithProperties(properties...)
 	return structDefinition, nil
 }
 
@@ -537,12 +537,11 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 	var handleType func(properties []*astmodel.PropertyDefinition, st astmodel.Type) ([]*astmodel.PropertyDefinition, error)
 	handleType = func(properties []*astmodel.PropertyDefinition, st astmodel.Type) ([]*astmodel.PropertyDefinition, error) {
 		switch concreteType := st.(type) {
-		case *astmodel.StructType:
+		case *astmodel.ObjectType:
 			// if it's a struct type get all its properties:
 			properties = append(properties, concreteType.Properties()...)
 
 		case *astmodel.TypeName:
-			// TODO: need to check if this is a reference to a struct type or not
 			if def, ok := scanner.findTypeDefinition(concreteType); ok {
 				var err error
 				properties, err = handleType(properties, def.Type())
@@ -572,7 +571,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		}
 	}
 
-	result := astmodel.NewStructType().WithProperties(properties...)
+	result := astmodel.NewObjectType().WithProperties(properties...)
 	return result, nil
 }
 
@@ -636,7 +635,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			property := astmodel.NewPropertyDefinition(
 				propertyName, jsonName, concreteType).MakeTypeOptional().WithDescription(&propertyDescription)
 			properties = append(properties, property)
-		case *astmodel.StructType:
+		case *astmodel.ObjectType:
 			// TODO: This name sucks but what alternative do we have?
 			name := fmt.Sprintf("object%v", i)
 			propertyName := scanner.idFactory.CreatePropertyName(name, astmodel.Exported)
@@ -670,7 +669,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 		}
 	}
 
-	structType := astmodel.NewStructType().WithProperties(properties...)
+	structType := astmodel.NewObjectType().WithProperties(properties...)
 	structType = structType.WithFunction(
 		"MarshalJSON",
 		astmodel.NewOneOfJSONMarshalFunction(structType, scanner.idFactory))

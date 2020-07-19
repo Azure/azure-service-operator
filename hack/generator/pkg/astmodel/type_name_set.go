@@ -41,6 +41,22 @@ func (ts TypeNameSet) Contains(val TypeName) bool {
 	return found
 }
 
+func (ts TypeNameSet) Equals(set TypeNameSet) bool {
+	if len(ts) != len(set) {
+		// Different sizes, not equal
+		return false
+	}
+
+	for k := range set {
+		if _, ok := ts[k]; !ok {
+			// Missing key, not equal
+			return false
+		}
+	}
+
+	return true
+}
+
 // SetUnion returns a new set with all of the names in s1 or s2.
 func SetUnion(s1, s2 TypeNameSet) TypeNameSet {
 	var result TypeNameSet

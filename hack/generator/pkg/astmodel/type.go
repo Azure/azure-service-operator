@@ -35,7 +35,7 @@ type TypeVisitor struct {
 	VisitTypeName     func(this *TypeVisitor, it *TypeName, ctx interface{}) Type
 	VisitArrayType    func(this *TypeVisitor, it *ArrayType, ctx interface{}) Type
 	VisitPrimitive    func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) Type
-	VisitStructType   func(this *TypeVisitor, it *StructType, ctx interface{}) Type
+	VisitObjectType   func(this *TypeVisitor, it *ObjectType, ctx interface{}) Type
 	VisitMapType      func(this *TypeVisitor, it *MapType, ctx interface{}) Type
 	VisitOptionalType func(this *TypeVisitor, it *OptionalType, ctx interface{}) Type
 	VisitEnumType     func(this *TypeVisitor, it *EnumType, ctx interface{}) Type
@@ -54,8 +54,8 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) Type {
 		return tv.VisitArrayType(tv, it, ctx)
 	case *PrimitiveType:
 		return tv.VisitPrimitive(tv, it, ctx)
-	case *StructType:
-		return tv.VisitStructType(tv, it, ctx)
+	case *ObjectType:
+		return tv.VisitObjectType(tv, it, ctx)
 	case *MapType:
 		return tv.VisitMapType(tv, it, ctx)
 	case *OptionalType:
@@ -81,7 +81,7 @@ func MakeTypeVisitor() TypeVisitor {
 		VisitPrimitive: func(_ *TypeVisitor, it *PrimitiveType, _ interface{}) Type {
 			return it
 		},
-		VisitStructType: func(this *TypeVisitor, it *StructType, ctx interface{}) Type {
+		VisitObjectType: func(this *TypeVisitor, it *ObjectType, ctx interface{}) Type {
 			// just map the property types
 			var newProps []*PropertyDefinition
 			for _, prop := range it.properties {

@@ -11,27 +11,27 @@ import (
 	"sort"
 )
 
-// StructType represents an (unnamed) struct type
-type StructType struct {
+// ObjectType represents an (unnamed) object type
+type ObjectType struct {
 	properties map[PropertyName]*PropertyDefinition
 	functions  map[string]Function
 }
 
-// EmptyStructType is an empty struct
-var EmptyStructType = NewStructType()
+// EmptyObjectType is an empty object
+var EmptyObjectType = NewObjectType()
 
-// Ensure StructType implements the Type interface correctly
-var _ Type = (*StructType)(nil)
+// Ensure ObjectType implements the Type interface correctly
+var _ Type = (*ObjectType)(nil)
 
-// NewStructType is a factory method for creating a new StructTypeDefinition
-func NewStructType() *StructType {
-	return &StructType{
+// NewObjectType is a factory method for creating a new ObjectType
+func NewObjectType() *ObjectType {
+	return &ObjectType{
 		properties: make(map[PropertyName]*PropertyDefinition),
 		functions:  make(map[string]Function),
 	}
 }
 
-func (structType *StructType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
 	identifier := ast.NewIdent(name.Name())
 	declaration := &ast.GenDecl{
 		Tok: token.TYPE,
@@ -39,7 +39,7 @@ func (structType *StructType) AsDeclarations(codeGenerationContext *CodeGenerati
 		Specs: []ast.Spec{
 			&ast.TypeSpec{
 				Name: identifier,
-				Type: structType.AsType(codeGenerationContext),
+				Type: objectType.AsType(codeGenerationContext),
 			},
 		},
 	}
@@ -49,13 +49,13 @@ func (structType *StructType) AsDeclarations(codeGenerationContext *CodeGenerati
 	}
 
 	result := []ast.Decl{declaration}
-	result = append(result, structType.generateMethodDecls(codeGenerationContext, name)...)
+	result = append(result, objectType.generateMethodDecls(codeGenerationContext, name)...)
 	return result
 }
 
-func (structType *StructType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName *TypeName) []ast.Decl {
+func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName *TypeName) []ast.Decl {
 	var result []ast.Decl
-	for methodName, function := range structType.functions {
+	for methodName, function := range objectType.functions {
 		funcDef := function.AsFunc(codeGenerationContext, typeName, methodName)
 		result = append(result, funcDef)
 	}
@@ -79,9 +79,9 @@ func defineField(fieldName string, fieldType ast.Expr, tag string) *ast.Field {
 
 // Properties returns all our property definitions
 // A sorted slice is returned to preserve immutability and provide determinism
-func (structType *StructType) Properties() []*PropertyDefinition {
+func (objectType *ObjectType) Properties() []*PropertyDefinition {
 	var result []*PropertyDefinition
-	for _, property := range structType.properties {
+	for _, property := range objectType.properties {
 		result = append(result, property)
 	}
 
@@ -92,11 +92,11 @@ func (structType *StructType) Properties() []*PropertyDefinition {
 	return result
 }
 
-// AsType implements Type for StructType
-func (structType *StructType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
+// AsType implements Type for ObjectType
+func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 
 	// Copy the slice of properties and sort it
-	properties := structType.Properties()
+	properties := objectType.Properties()
 	sort.Slice(properties, func(i int, j int) bool {
 		return properties[i].propertyName < properties[j].propertyName
 	})
@@ -114,13 +114,13 @@ func (structType *StructType) AsType(codeGenerationContext *CodeGenerationContex
 }
 
 // RequiredImports returns a list of packages required by this
-func (structType *StructType) RequiredImports() []*PackageReference {
+func (objectType *ObjectType) RequiredImports() []*PackageReference {
 	var result []*PackageReference
-	for _, property := range structType.properties {
+	for _, property := range objectType.properties {
 		result = append(result, property.PropertyType().RequiredImports()...)
 	}
 
-	for _, function := range structType.functions {
+	for _, function := range objectType.functions {
 		result = append(result, function.RequiredImports()...)
 	}
 
@@ -128,9 +128,9 @@ func (structType *StructType) RequiredImports() []*PackageReference {
 }
 
 // References returns the set of all the types referred to by any property.
-func (structType *StructType) References() TypeNameSet {
+func (objectType *ObjectType) References() TypeNameSet {
 	var results TypeNameSet
-	for _, property := range structType.properties {
+	for _, property := range objectType.properties {
 		for ref := range property.PropertyType().References() {
 			results = results.Add(ref)
 		}
@@ -139,21 +139,21 @@ func (structType *StructType) References() TypeNameSet {
 	return results
 }
 
-// Equals returns true if the passed type is a struct type with the same properties, false otherwise
+// Equals returns true if the passed type is a object type with the same properties, false otherwise
 // The order of the properties is not relevant
-func (structType *StructType) Equals(t Type) bool {
-	if structType == t {
+func (objectType *ObjectType) Equals(t Type) bool {
+	if objectType == t {
 		return true
 	}
 
-	if st, ok := t.(*StructType); ok {
-		if len(structType.properties) != len(st.properties) {
+	if st, ok := t.(*ObjectType); ok {
+		if len(objectType.properties) != len(st.properties) {
 			// Different number of properties, not equal
 			return false
 		}
 
 		for n, f := range st.properties {
-			ourProperty, ok := structType.properties[n]
+			ourProperty, ok := objectType.properties[n]
 			if !ok {
 				// Didn't find the property, not equal
 				return false
@@ -165,13 +165,13 @@ func (structType *StructType) Equals(t Type) bool {
 			}
 		}
 
-		if len(structType.functions) != len(st.functions) {
+		if len(objectType.functions) != len(st.functions) {
 			// Different number of functions, not equal
 			return false
 		}
 
 		for functionName, function := range st.functions {
-			ourFunction, ok := structType.functions[functionName]
+			ourFunction, ok := objectType.functions[functionName]
 			if !ok {
 				// Didn't find the func, not equal
 				return false
@@ -190,21 +190,21 @@ func (structType *StructType) Equals(t Type) bool {
 	return false
 }
 
-// WithProperty creates a new StructType with another property attached to it
+// WithProperty creates a new ObjectType with another property attached to it
 // Properties are unique by name, so this can be used to Add and Replace a property
-func (structType *StructType) WithProperty(property *PropertyDefinition) *StructType {
-	// Create a copy of structType to preserve immutability
-	result := structType.copy()
+func (objectType *ObjectType) WithProperty(property *PropertyDefinition) *ObjectType {
+	// Create a copy of objectType to preserve immutability
+	result := objectType.copy()
 	result.properties[property.propertyName] = property
 
 	return result
 }
 
-// WithProperties creates a new StructType with additional properties included
+// WithProperties creates a new ObjectType with additional properties included
 // Properties are unique by name, so this can be used to both Add and Replace properties.
-func (structType *StructType) WithProperties(properties ...*PropertyDefinition) *StructType {
-	// Create a copy of structType to preserve immutability
-	result := structType.copy()
+func (objectType *ObjectType) WithProperties(properties ...*PropertyDefinition) *ObjectType {
+	// Create a copy of objectType to preserve immutability
+	result := objectType.copy()
 	for _, f := range properties {
 		result.properties[f.propertyName] = f
 	}
@@ -212,23 +212,23 @@ func (structType *StructType) WithProperties(properties ...*PropertyDefinition) 
 	return result
 }
 
-// WithFunction creates a new StructType with a function (method) attached to it
-func (structType *StructType) WithFunction(name string, function Function) *StructType {
-	// Create a copy of structType to preserve immutability
-	result := structType.copy()
+// WithFunction creates a new ObjectType with a function (method) attached to it
+func (objectType *ObjectType) WithFunction(name string, function Function) *ObjectType {
+	// Create a copy of objectType to preserve immutability
+	result := objectType.copy()
 	result.functions[name] = function
 
 	return result
 }
 
-func (structType *StructType) copy() *StructType {
-	result := NewStructType()
+func (objectType *ObjectType) copy() *ObjectType {
+	result := NewObjectType()
 
-	for key, value := range structType.properties {
+	for key, value := range objectType.properties {
 		result.properties[key] = value
 	}
 
-	for key, value := range structType.functions {
+	for key, value := range objectType.functions {
 		result.functions[key] = value
 	}
 

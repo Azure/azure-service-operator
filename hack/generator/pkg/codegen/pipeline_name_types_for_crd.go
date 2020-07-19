@@ -66,7 +66,7 @@ func handleType(def astmodel.TypeDefinition, idFactory astmodel.IdentifierFactor
 		return namedEnum.Name()
 	}
 
-	visitor.VisitStructType = func(this *astmodel.TypeVisitor, it *astmodel.StructType, ctx interface{}) astmodel.Type {
+	visitor.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) astmodel.Type {
 		nameHint := ctx.(string)
 
 		var props []*astmodel.PropertyDefinition
@@ -76,14 +76,14 @@ func handleType(def astmodel.TypeDefinition, idFactory astmodel.IdentifierFactor
 			props = append(props, prop.WithType(newPropType))
 		}
 
-		structName := astmodel.NewTypeName(def.Name().PackageReference, nameHint)
+		objectName := astmodel.NewTypeName(def.Name().PackageReference, nameHint)
 
-		namedStruct := astmodel.MakeTypeDefinition(structName, it.WithProperties(props...))
-		namedStruct = namedStruct.WithDescription(getDescription(structName))
+		namedObjectType := astmodel.MakeTypeDefinition(objectName, it.WithProperties(props...))
+		namedObjectType = namedObjectType.WithDescription(getDescription(objectName))
 
-		resultTypes = append(resultTypes, namedStruct)
+		resultTypes = append(resultTypes, namedObjectType)
 
-		return namedStruct.Name()
+		return namedObjectType.Name()
 	}
 
 	visitor.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) astmodel.Type {
