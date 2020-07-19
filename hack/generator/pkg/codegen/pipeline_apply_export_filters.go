@@ -8,7 +8,6 @@ package codegen
 import (
 	"context"
 
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"k8s.io/klog/v2"
 )
@@ -17,7 +16,7 @@ import (
 func applyExportFilters(configuration *config.Configuration) PipelineStage {
 	return PipelineStage{
 		"Filter generated types",
-		func(ctx context.Context, types map[astmodel.TypeName]astmodel.TypeDefinition) (map[astmodel.TypeName]astmodel.TypeDefinition, error) {
+		func(ctx context.Context, types Types) (Types, error) {
 			return filterTypes(configuration, types)
 		},
 	}
@@ -26,9 +25,9 @@ func applyExportFilters(configuration *config.Configuration) PipelineStage {
 // filterTypes applies the configuration include/exclude filters to the generated definitions
 func filterTypes(
 	configuration *config.Configuration,
-	definitions map[astmodel.TypeName]astmodel.TypeDefinition) (map[astmodel.TypeName]astmodel.TypeDefinition, error) {
+	definitions Types) (Types, error) {
 
-	newDefinitions := make(map[astmodel.TypeName]astmodel.TypeDefinition)
+	newDefinitions := make(Types)
 
 	for _, def := range definitions {
 		defName := def.Name()

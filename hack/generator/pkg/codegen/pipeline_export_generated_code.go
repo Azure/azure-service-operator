@@ -22,7 +22,7 @@ func exportPackages(outputPath string) PipelineStage {
 	description := fmt.Sprintf("Export packages to %q", outputPath)
 	return PipelineStage{
 		description,
-		func(ctx context.Context, types map[astmodel.TypeName]astmodel.TypeDefinition) (map[astmodel.TypeName]astmodel.TypeDefinition, error) {
+		func(ctx context.Context, types Types) (Types, error) {
 			packages, err := CreatePackagesForDefinitions(types)
 			if err != nil {
 				return nil, errors.Wrapf(err, "failed to assign generated definitions to packages")
@@ -44,7 +44,7 @@ func exportPackages(outputPath string) PipelineStage {
 }
 
 // CreatePackagesForDefinitions groups type definitions into packages
-func CreatePackagesForDefinitions(definitions map[astmodel.TypeName]astmodel.TypeDefinition) ([]*astmodel.PackageDefinition, error) {
+func CreatePackagesForDefinitions(definitions Types) ([]*astmodel.PackageDefinition, error) {
 
 	genVersion := combinedVersion()
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)

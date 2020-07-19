@@ -14,7 +14,7 @@ import (
 func stripUnreferencedTypeDefinitions() PipelineStage {
 	return PipelineStage{
 		"Strip unreferenced types",
-		func(ctx context.Context, defs map[astmodel.TypeName]astmodel.TypeDefinition) (map[astmodel.TypeName]astmodel.TypeDefinition, error) {
+		func(ctx context.Context, defs Types) (Types, error) {
 			roots := collectResourceDefinitions(defs)
 			return StripUnusedDefinitions(roots, defs)
 		},
@@ -26,7 +26,7 @@ func stripUnreferencedTypeDefinitions() PipelineStage {
 // generated as a byproduct of an allOf element.
 func StripUnusedDefinitions(
 	roots astmodel.TypeNameSet,
-	definitions map[astmodel.TypeName]astmodel.TypeDefinition) (map[astmodel.TypeName]astmodel.TypeDefinition, error) {
+	definitions Types) (Types, error) {
 
 	// Collect all the reference sets for each type.
 	references := make(map[astmodel.TypeName]astmodel.TypeNameSet)
@@ -37,7 +37,7 @@ func StripUnusedDefinitions(
 
 	graph := newReferenceGraph(roots, references)
 	connectedTypes := graph.connected()
-	usedDefinitions := make(map[astmodel.TypeName]astmodel.TypeDefinition)
+	usedDefinitions := make(Types)
 	for _, def := range definitions {
 		if connectedTypes.Contains(*def.Name()) {
 			usedDefinitions[*def.Name()] = def
@@ -49,7 +49,7 @@ func StripUnusedDefinitions(
 
 // collectResourceDefinitions returns a TypeNameSet of all of the
 // resource definitions in the definitions passed in.
-func collectResourceDefinitions(definitions map[astmodel.TypeName]astmodel.TypeDefinition) astmodel.TypeNameSet {
+func collectResourceDefinitions(definitions Types) astmodel.TypeNameSet {
 	resources := make(astmodel.TypeNameSet)
 	for _, def := range definitions {
 		if _, ok := def.Type().(*astmodel.ResourceType); ok {
