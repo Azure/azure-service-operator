@@ -287,14 +287,14 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsc
 	}
 
 	// if we _only_ have an 'additionalProperties' property, then we are making
-	// a dictionary-like type, and we won't generate a struct; instead, we
+	// a dictionary-like type, and we won't generate an object type; instead, we
 	// will just use the 'additionalProperties' type directly
 	if len(properties) == 1 && properties[0].PropertyName() == "additionalProperties" {
 		return properties[0].PropertyType(), nil
 	}
 
-	structDefinition := astmodel.NewObjectType().WithProperties(properties...)
-	return structDefinition, nil
+	objectType := astmodel.NewObjectType().WithProperties(properties...)
+	return objectType, nil
 }
 
 func generatePropertyDefinitions(ctx context.Context, scanner *SchemaScanner, prop *gojsonschema.SubSchema) (*astmodel.PropertyDefinition, error) {
@@ -538,7 +538,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 	handleType = func(properties []*astmodel.PropertyDefinition, st astmodel.Type) ([]*astmodel.PropertyDefinition, error) {
 		switch concreteType := st.(type) {
 		case *astmodel.ObjectType:
-			// if it's a struct type get all its properties:
+			// if it's an object type get all its properties:
 			properties = append(properties, concreteType.Properties()...)
 
 		case *astmodel.TypeName:
@@ -614,7 +614,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			// Just a sanity check that we've already scanned this definition
 			// TODO: Could remove this?
 			if _, ok := scanner.findTypeDefinition(concreteType); !ok {
-				return nil, errors.Errorf("couldn't find struct for definition: %v", concreteType)
+				return nil, errors.Errorf("couldn't find type for definition: %v", concreteType)
 			}
 			propertyName := scanner.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported)
 
@@ -669,12 +669,12 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 		}
 	}
 
-	structType := astmodel.NewObjectType().WithProperties(properties...)
-	structType = structType.WithFunction(
+	objectType := astmodel.NewObjectType().WithProperties(properties...)
+	objectType = objectType.WithFunction(
 		"MarshalJSON",
-		astmodel.NewOneOfJSONMarshalFunction(structType, scanner.idFactory))
+		astmodel.NewOneOfJSONMarshalFunction(objectType, scanner.idFactory))
 
-	return structType, nil
+	return objectType, nil
 }
 
 func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) (astmodel.Type, error) {

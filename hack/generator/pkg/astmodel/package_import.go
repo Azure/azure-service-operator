@@ -10,8 +10,7 @@ import (
 	"go/token"
 )
 
-// PackageReference indicates which package
-// a struct belongs to.
+// PackageImport represents an import of a name from a package
 type PackageImport struct {
 	PackageReference PackageReference // This is used as the key in a map so can't be pointer
 	name             *string

@@ -194,7 +194,7 @@ func (file *FileDefinition) AsAst() ast.Node {
 		decls = append(decls, s.AsDeclarations(codeGenContext)...)
 	}
 
-	// Emit struct registration for each resource:
+	// Emit registration for each resource:
 	var exprs []ast.Expr
 	for _, defn := range file.definitions {
 		if _, ok := defn.Type().(*ResourceType); ok {

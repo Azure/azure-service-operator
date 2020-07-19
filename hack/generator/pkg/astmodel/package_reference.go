@@ -18,8 +18,7 @@ const (
 
 var MetaV1PackageReference = NewPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
 
-// PackageReference indicates which package
-// a struct belongs to.
+// PackageReference indicates which package a type belongs to
 type PackageReference struct {
 	packagePath string
 }

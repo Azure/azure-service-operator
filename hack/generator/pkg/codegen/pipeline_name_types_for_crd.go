@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
-// nameTypesForCRD - for CRDs all inner enums and structs must be named, so we do it here
+// nameTypesForCRD - for CRDs all inner enums and objects must be named, so we do it here
 func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 
 	return PipelineStage{
