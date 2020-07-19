@@ -15,7 +15,7 @@ import (
 func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 
 	return PipelineStage{
-		Name: "expand inner types",
+		Name: "name inner types for CRD",
 		Action: func(ctx context.Context, types Types) (Types, error) {
 
 			result := make(Types)
@@ -91,7 +91,7 @@ func handleType(def astmodel.TypeDefinition, idFactory astmodel.IdentifierFactor
 		}
 
 		resourceName := astmodel.NewTypeName(def.Name().PackageReference, nameHint)
-		
+
 		resource := astmodel.MakeTypeDefinition(resourceName, astmodel.NewResourceType(spec, status))
 		resource = resource.WithDescription(getDescription(resourceName))
 
