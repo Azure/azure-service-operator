@@ -41,10 +41,16 @@ func runGoldenTest(t *testing.T, path string) {
 
 	config := config.NewConfiguration()
 
-	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config)
+	idFactory := astmodel.NewIdentifierFactory()
+	scanner := NewSchemaScanner(idFactory, config)
 	defs, err := scanner.GenerateDefinitions(context.TODO(), schema.Root())
 	if err != nil {
 		t.Fatalf("could not produce nodes from scanner: %v", err)
+	}
+
+	defs, err = nameTypesForCRD(idFactory).Action(context.TODO(), defs)
+	if err != nil {
+		t.Fatalf("could not name types for CRD: %v", err)
 	}
 
 	// The golden files always generate a top-level Test type - mark
