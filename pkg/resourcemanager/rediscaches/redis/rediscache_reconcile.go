@@ -68,6 +68,7 @@ func (rc *AzureRedisCacheManager) Ensure(ctx context.Context, obj runtime.Object
 
 	// actually provision the redis cache
 	instance.Status.Provisioning = true
+	instance.Status.FailedProvisioning = false
 	_, err = rc.CreateRedisCache(ctx, *instance)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
