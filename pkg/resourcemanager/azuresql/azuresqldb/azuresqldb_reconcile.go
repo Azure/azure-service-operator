@@ -74,7 +74,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			return false, err
 		}
 
-		if res.Status == "Failed" {
+		if res.Status == pollclient.LongRunningOperationPollStatusFailed {
 			instance.Status.Message = res.Error.Error()
 
 			// TODO: Unfortunate that this is duplicated below... this stems from a race condition where
@@ -95,7 +95,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		}
 
 		// Previous operation was a success
-		if res.Status == "Succeeded" {
+		if res.Status == pollclient.LongRunningOperationPollStatusSucceeded {
 			instance.Status.Provisioning = false
 			instance.Status.SpecHash = hash
 			instance.Status.PollingURL = ""

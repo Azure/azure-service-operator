@@ -58,7 +58,7 @@ func (m *AzureCosmosDBManager) Ensure(ctx context.Context, obj runtime.Object, o
 
 		instance.Status.PollingURL = ""
 
-		if pollResponse.Status == "Failed" {
+		if pollResponse.Status == pollclient.LongRunningOperationPollStatusFailed {
 			instance.Status.Provisioning = false
 			instance.Status.Message = pollResponse.Error.Error()
 			return true, nil
