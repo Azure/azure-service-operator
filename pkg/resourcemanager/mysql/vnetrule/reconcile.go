@@ -34,7 +34,7 @@ func (vr *MySQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Object, o
 
 	vnetrule, err := vr.GetSQLVNetRule(ctx, groupName, server, ruleName)
 	if err == nil {
-		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == mysql.Ready {
+		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == mysql.VirtualNetworkRuleStateReady {
 			instance.Status.Provisioning = false
 			instance.Status.Provisioned = true
 			instance.Status.Message = resourcemanager.SuccessMsg

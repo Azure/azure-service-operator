@@ -12,9 +12,9 @@ import (
 
 // AppInsightsSpec defines the desired state of AppInsights
 type AppInsightsSpec struct {
-	Kind                   string `json:"kind"`
-	Location               string `json:"location"`
-	ApplicationType        string `json:"applicationType"` // Possible values include 'web' or 'other'
+	Kind            string `json:"kind"`
+	Location        string `json:"location"`
+	ApplicationType string `json:"applicationType"` // Possible values include 'web' or 'other'
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required

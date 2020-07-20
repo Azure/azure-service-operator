@@ -39,10 +39,10 @@ func TestAzureSQLUserControllerNoAdminSecret(t *testing.T) {
 		},
 		Spec: azurev1alpha1.AzureSQLUserSpec{
 			ResourceGroup: resourceGroup,
-			Server:      sqlServerName,
-			DbName:      sqlDatabaseName,
-			AdminSecret: "",
-			Roles:       roles,
+			Server:        sqlServerName,
+			DbName:        sqlDatabaseName,
+			AdminSecret:   "",
+			Roles:         roles,
 		},
 	}
 
