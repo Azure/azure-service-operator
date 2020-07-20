@@ -51,9 +51,6 @@ type (
 // findTypeDefinition looks to see if we have seen the specified definition before, returning its definition if we have.
 func (scanner *SchemaScanner) findTypeDefinition(name *astmodel.TypeName) (astmodel.TypeDefiner, bool) {
 	result, ok := scanner.definitions[*name]
-	if !ok || result == nil {
-		result, ok = scanner.definitions[*name.Singular()]
-	}
 	return result, ok
 }
 
