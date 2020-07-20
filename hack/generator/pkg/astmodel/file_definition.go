@@ -78,7 +78,7 @@ func calcRanks(definitions []TypeDefiner) map[TypeName]int {
 	for len(queue) > 0 {
 		queue = assignRanks(queue, ranks)
 		if len(queue) == lastLength {
-			// No progress made - give everything a fallback rank
+			// No progress made - give everything remaining a fallback rank
 			for _, d := range queue {
 				ranks[*d.Name()] = 10000
 			}
@@ -113,7 +113,10 @@ func assignRanks(definers []TypeDefiner, ranks map[TypeName]int) []TypeDefiner {
 	for _, d := range assignable {
 		rank := ranks[*d.Name()]
 		for ref := range d.References() {
-			ranks[ref] = rank + 1
+			if _, ok := ranks[ref]; !ok {
+				// Never overwrite an existing rank
+				ranks[ref] = rank + 1
+			}
 		}
 	}
 
