@@ -21,8 +21,21 @@ Set these variables now as they will help with copy/paste of commands later.
 
 >Only the first 3 environment variables need to be changed before pasting.
 
+`VOTES_APP_INSTANCE_NAME` should be an alphanumeric string that is likely to be globally unique. The tutorial will use `azvotessqldemo1` but if you are following along you should pick something else.
+
+Find the `TENANT_ID` on the Azure Portal
+ 1. go to https://portal.azure.com/
+ 2. select "Azure Active Directory"
+ 3. from the left, select "Properties"
+ 4. find the section labeled "Tenant ID" and copy the ID
+
+Find the `SUBSCRIPTION_ID` on the Azure Portal
+ 1. go to https://portal.azure.com/
+ 2. select "Subscriptions"
+ 3. copy the ID from one of the listed subscriptions
+
 ```
-VOTES_APP_INSTANCE_NAME="<alias>" # only alpha numeric
+VOTES_APP_INSTANCE_NAME="<alias>"
 TENANT_ID=""
 SUBSCRIPTION_ID=""
 
