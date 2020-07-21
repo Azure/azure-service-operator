@@ -139,7 +139,7 @@ TEST SUITE: None
 To check on the operator run `kubectl get po`
 
 ```
-kubectl get po -n azureoperator-system
+kubectl get pods -n azureoperator-system
 NAME                                                READY   STATUS    RESTARTS   AGE
 azureoperator-controller-manager-7dd75bbd97-djx8g   2/2     Running   1          2m50s
 ```
