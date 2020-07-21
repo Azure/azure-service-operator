@@ -14,13 +14,13 @@ import (
 // OneOfJSONMarshalFunction is a function for marshalling discriminated unions
 // (types with only mutually exclusive properties) to JSON
 type OneOfJSONMarshalFunction struct {
-	oneOfStruct *StructType
+	oneOfObject *ObjectType
 	idFactory   IdentifierFactory // TODO: It's this or pass it in the AsFunc method
 }
 
 // NewOneOfJSONMarshalFunction creates a new OneOfJSONMarshalFunction struct
-func NewOneOfJSONMarshalFunction(oneOfStruct *StructType, idFactory IdentifierFactory) *OneOfJSONMarshalFunction {
-	return &OneOfJSONMarshalFunction{oneOfStruct, idFactory}
+func NewOneOfJSONMarshalFunction(oneOfObject *ObjectType, idFactory IdentifierFactory) *OneOfJSONMarshalFunction {
+	return &OneOfJSONMarshalFunction{oneOfObject, idFactory}
 }
 
 // Ensure OneOfJSONMarshalFunction implements Function interface correctly
@@ -29,7 +29,7 @@ var _ Function = (*OneOfJSONMarshalFunction)(nil)
 // Equals determines if this function is equal to the passed in function
 func (f *OneOfJSONMarshalFunction) Equals(other Function) bool {
 	if o, ok := other.(*OneOfJSONMarshalFunction); ok {
-		return f.oneOfStruct.Equals(o.oneOfStruct)
+		return f.oneOfObject.Equals(o.oneOfObject)
 	}
 
 	return false
@@ -38,7 +38,7 @@ func (f *OneOfJSONMarshalFunction) Equals(other Function) bool {
 // References returns the set of references for the underlying struct.
 func (f *OneOfJSONMarshalFunction) References() TypeNameSet {
 	// Defer this check to the owning struct as we only refer to its properties and it
-	return f.oneOfStruct.References()
+	return f.oneOfObject.References()
 }
 
 // AsFunc returns the function as a go ast
@@ -85,7 +85,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 
 	var statements []ast.Stmt
 
-	for _, property := range f.oneOfStruct.Properties() {
+	for _, property := range f.oneOfObject.Properties() {
 		fieldSelectorExpr := &ast.SelectorExpr{
 			X:   ast.NewIdent(receiverName),
 			Sel: ast.NewIdent(string(property.propertyName)),

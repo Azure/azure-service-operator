@@ -14,11 +14,11 @@ import (
 )
 
 // CreateResourceDefinitions creates definitions for a resource
-func CreateResourceDefinitions(name *TypeName, specType *StructType, statusType *StructType, idFactory IdentifierFactory) (TypeDefiner, []TypeDefiner) {
+func CreateResourceDefinitions(name *TypeName, specType *ObjectType, statusType *ObjectType, idFactory IdentifierFactory) (TypeDefiner, []TypeDefiner) {
 
 	var others []TypeDefiner
 
-	defineStruct := func(suffix string, structType *StructType) *TypeName {
+	defineStruct := func(suffix string, structType *ObjectType) *TypeName {
 		definedName := NewTypeName(name.PackageReference, name.Name()+suffix)
 		defined, definedOthers := structType.CreateDefinitions(definedName, idFactory)
 		others = append(append(others, defined), definedOthers...)
