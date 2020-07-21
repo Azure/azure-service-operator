@@ -71,7 +71,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
         --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
     ```
 
-    This should give you an output like the following:
+    This should give you output like the following:
     ```sh
     "appId": "xxxxxxxxxx",
     "displayName": "azure-service-operator",
