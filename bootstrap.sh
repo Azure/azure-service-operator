@@ -24,9 +24,9 @@ else
       az ad sp delete --id http://$SP_NAME
 fi
 
-AZURE_CLIENT_SECRET=$(az ad sp create-for-rbac --name $SP_NAME --role Contributor | jq -r .password)
-AZURE_CLIENT_ID=$(az ad sp show --id http://$SP_NAME --query appId --output tsv)
-AZURE_TENANT_ID=$(az ad sp show --id http://$SP_NAME --query appOwnerTenantId --output tsv )
+AZURE_CLIENT_SECRET=$(az ad sp create-for-rbac --name $SP_NAME --role Contributor -o tsv | awk '{print $4}')
+AZURE_CLIENT_ID=$(az ad sp show --id http://$SP_NAME --query appId -o tsv)
+AZURE_TENANT_ID=$(az ad sp show --id http://$SP_NAME --query appOwnerTenantId -o tsv)
 
 export AZURE_CLIENT_ID
 export AZURE_TENANT_ID
