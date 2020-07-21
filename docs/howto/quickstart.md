@@ -249,7 +249,8 @@ saso-sql-fwrule-local   true          successfully provisioned
 
 Once all the Azure resources are successfully provisioned (ResourceGroup, AzureSqlServer, AzureSqlDatabase, AzureSqlFirewallRule) the Azure Votes App will be able to start.
 
->The Azure resources take 3-4 minutes to become ready. The application will attempt to start once the resources are provisioned but this doesn't mean all networking is in fact ready. For the reason the application is biult to handle failures in connection by exiting so Kubernetes can restart it.
+>[!NOTE]
+>The Azure resources typically take 3-4 minutes to become ready. The application will attempt to start once the resources are provisioned but this doesn't mean all networking is in fact ready. For this reason, the application is built to handle connection failures by exiting, so Kubernetes can restart it.
 
 Your deployment may restart 5 times before everything is actually available.
 
