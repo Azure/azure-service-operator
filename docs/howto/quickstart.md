@@ -88,7 +88,7 @@ az aks get-credentials \
 
 ### Create Service Principal for Azure Service Operator
 
->The access granted for the purposes of this guide may not be appropriate for production deployments
+>The access granted for the purposes of this guide may not be appropriate for production deployments. We'll store the credentials in a JSON file to access later when deploying ASO.
 
 ```
 az ad sp create-for-rbac \
