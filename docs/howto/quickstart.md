@@ -173,7 +173,7 @@ acrazvotessqldemo1.azurecr.io
 Use the value from the `echo` command to create this variable
 
 ```
-DOCKER_HOST=acrazvotessqldemo1.azurecr.io
+DOCKER_HOST=$(az acr show -g $RESOURCE_GROUP -n $ACR_NAME --query loginServer -o tsv)
 ```
 
 Log in to ACR
