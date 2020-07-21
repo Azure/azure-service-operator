@@ -6,7 +6,7 @@ package azuresqlvnetrule
 import (
 	"context"
 
-	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql"
+	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 )
 
@@ -57,7 +57,7 @@ func (vr *AzureSqlVNetRuleManager) DeleteSQLVNetRule(ctx context.Context, resour
 }
 
 // CreateOrUpdateSQLVNetRule creates or updates a VNet rule
-// based on code from: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#VirtualNetworkRulesClient.CreateOrUpdate
+// based on code from: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#VirtualNetworkRulesClient.CreateOrUpdate
 func (vr *AzureSqlVNetRuleManager) CreateOrUpdateSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, VNetRG string, VNetName string, SubnetName string, IgnoreServiceEndpoint bool) (vnr sql.VirtualNetworkRule, err error) {
 
 	VNetRulesClient, err := azuresqlshared.GetGoVNetRulesClient()

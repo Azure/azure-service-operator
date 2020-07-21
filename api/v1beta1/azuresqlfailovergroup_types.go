@@ -13,7 +13,7 @@ type ReadWriteEndpointFailoverPolicy string
 // AzureSqlFailoverGroupSpec defines the desired state of AzureSqlFailoverGroup
 type AzureSqlFailoverGroupSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
-	Location                     string                          `json:"location"`
+	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
@@ -32,6 +32,7 @@ type AzureSqlFailoverGroupSpec struct {
 // +kubebuilder:storageversion
 
 // AzureSqlFailoverGroup is the Schema for the azuresqlfailovergroups API
+// +kubebuilder:resource:shortName=asqlfog
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlFailoverGroup struct {

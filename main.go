@@ -14,7 +14,6 @@ import (
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	ctrl "sigs.k8s.io/controller-runtime"
-	healthz "sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -35,7 +34,6 @@ import (
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagercosmosdb "github.com/Azure/azure-service-operator/pkg/resourcemanager/cosmosdbs"
 	resourcemanagereventhub "github.com/Azure/azure-service-operator/pkg/resourcemanager/eventhubs"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	resourcemanagerkeyvault "github.com/Azure/azure-service-operator/pkg/resourcemanager/keyvaults"
 	loadbalancer "github.com/Azure/azure-service-operator/pkg/resourcemanager/loadbalancer"
 	mysqldatabase "github.com/Azure/azure-service-operator/pkg/resourcemanager/mysql/database"
@@ -64,9 +62,7 @@ import (
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
 	telemetry "github.com/Azure/azure-service-operator/pkg/telemetry"
-
 	// +kubebuilder:scaffold:imports
-	"net/http"
 )
 
 var (
@@ -101,11 +97,9 @@ func init() {
 
 func main() {
 	var metricsAddr string
-	var healthAddr string
 	var enableLeaderElection bool
 	var secretClient secrets.SecretClient
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
-	flag.StringVar(&healthAddr, "health-addr", ":8081", "The address the health endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
 
@@ -114,11 +108,10 @@ func main() {
 	ctrl.SetLogger(zap.Logger(true))
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
-		Scheme:                 scheme,
-		MetricsBindAddress:     metricsAddr,
-		HealthProbeBindAddress: healthAddr,
-		LeaderElection:         enableLeaderElection,
-		LivenessEndpointName:   "/healthz",
+		Scheme:               scheme,
+		MetricsBindAddress:   metricsAddr,
+		LeaderElection:       enableLeaderElection,
+		LivenessEndpointName: "/healthz",
 	})
 
 	if err != nil {
@@ -198,18 +191,6 @@ func main() {
 		scheme,
 	)
 	sqlActionManager := resourcemanagersqlaction.NewAzureSqlActionManager(secretClient, scheme)
-
-	var AzureHealthCheck healthz.Checker = func(_ *http.Request) error {
-		_, err := iam.GetResourceManagementAuthorizer()
-		if err != nil {
-			return err
-		}
-		return nil
-	}
-
-	if err := mgr.AddHealthzCheck("azurehealthz", AzureHealthCheck); err != nil {
-		setupLog.Error(err, "problem running health check to azure autorizer")
-	}
 
 	err = (&controllers.StorageAccountReconciler{
 		Reconciler: &controllers.AsyncReconciler{
@@ -879,6 +860,22 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.AppInsightsApiKeyReconciler{
+		Reconciler: &controllers.AsyncReconciler{
+			Client:      mgr.GetClient(),
+			AzureClient: resourcemanagerappinsights.NewAPIKeyClient(secretClient, scheme),
+			Telemetry: telemetry.InitializeTelemetryDefault(
+				"AppInsightsApiKey",
+				ctrl.Log.WithName("controllers").WithName("AppInsightsApiKey"),
+			),
+			Recorder: mgr.GetEventRecorderFor("AppInsightsApiKey-controller"),
+			Scheme:   scheme,
+		},
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "AppInsightsApiKey")
+		os.Exit(1)
+	}
+
 	if err = (&v1alpha1.AzureSqlServer{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "AzureSqlServer")
 		os.Exit(1)
@@ -908,6 +905,7 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "PostgreSQLServer")
 		os.Exit(1)
 	}
+
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

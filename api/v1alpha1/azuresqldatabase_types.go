@@ -14,7 +14,7 @@ import (
 type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string    `json:"location"`
+	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
@@ -29,6 +29,7 @@ type AzureSqlDatabaseSpec struct {
 // +kubebuilder:subresource:status
 
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
+// +kubebuilder:resource:shortName=asqldb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlDatabase struct {
@@ -48,7 +49,7 @@ type AzureSqlDatabaseList struct {
 	Items           []AzureSqlDatabase `json:"items"`
 }
 
-// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
+// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#DatabaseEdition
 type DBEdition byte
 
 const (

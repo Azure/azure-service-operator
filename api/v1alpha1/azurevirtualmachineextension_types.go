@@ -14,7 +14,7 @@ import (
 type AzureVirtualMachineExtensionSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location                string `json:"location"`
+	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
@@ -34,6 +34,7 @@ type AzureVirtualMachineExtensionSpec struct {
 
 // AzureVirtualMachineExtension is the Schema for the azurevirtualmachineextensions API
 // +kubebuilder:resource:shortName=vmext,path=azurevirtualmachineextensions
+// +kubebuilder:resource:shortName=avme
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureVirtualMachineExtension struct {

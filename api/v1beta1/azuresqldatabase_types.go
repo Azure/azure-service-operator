@@ -5,6 +5,7 @@ package v1beta1
 
 import (
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -12,23 +13,53 @@ import (
 
 type DBEdition byte
 
+const (
+	SqlDatabaseEditionBasic          = DBEdition(0)
+	SqlDatabaseEditionDataWarehouse  = DBEdition(3)
+	SqlDatabaseEditionFree           = DBEdition(4)
+	SqlDatabaseEditionGeneralPurpose = DBEdition(5)
+	SqlDatabaseEditionHyperscale     = DBEdition(6)
+	SqlDatabaseEditionPremium        = DBEdition(7)
+	SqlDatabaseEditionStandard       = DBEdition(9)
+	SqlDatabaseEditionStretch        = DBEdition(10)
+)
+
+type SqlDatabaseSku struct {
+	// Name - The name of the SKU, typically, a letter + Number code, e.g. P3.
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength:1
+	Name string `json:"name"`
+	// optional
+	// Tier - The tier or edition of the particular SKU, e.g. Basic, Premium.
+	Tier string `json:"tier,omitempty"`
+	// Size - Size of the particular SKU
+	Size string `json:"size,omitempty"`
+	// Family - If the service has different generations of hardware, for the same SKU, then that can be captured here.
+	Family string `json:"family,omitempty"`
+	// Capacity - Capacity of the particular SKU.
+	Capacity *int32 `json:"capacity,omitempty"`
+}
+
 // AzureSqlDatabaseSpec defines the desired state of AzureSqlDatabase
 type AzureSqlDatabaseSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string    `json:"location"`
+	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
-	ResourceGroup string    `json:"resourceGroup"`
-	Server        string    `json:"server"`
-	Edition       DBEdition `json:"edition"`
-	// optional
-	DbName           string `json:"dbName,omitempty"`
-	WeeklyRetention  string `json:"weeklyRetention,omitempty"`
-	MonthlyRetention string `json:"monthlyRetention,omitempty"`
-	YearlyRetention  string `json:"yearlyRetention,omitempty"`
-	WeekOfYear       int32  `json:"weekOfYear,omitempty"`
+	ResourceGroup string `json:"resourceGroup"`
+	Server        string `json:"server"`
+
+	// +kubebuilder:validation:Optional
+	Edition          DBEdition          `json:"edition"`       // TODO: Remove this in v1beta2
+	Sku              *SqlDatabaseSku    `json:"sku,omitempty"` // TODO: make this required in v1beta2
+	MaxSize          *resource.Quantity `json:"maxSize,omitempty"`
+	DbName           string             `json:"dbName,omitempty"`
+	WeeklyRetention  string             `json:"weeklyRetention,omitempty"`
+	MonthlyRetention string             `json:"monthlyRetention,omitempty"`
+	YearlyRetention  string             `json:"yearlyRetention,omitempty"`
+	WeekOfYear       int32              `json:"weekOfYear,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -36,6 +67,7 @@ type AzureSqlDatabaseSpec struct {
 // +kubebuilder:storageversion
 
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
+// +kubebuilder:resource:shortName=asqldb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlDatabase struct {

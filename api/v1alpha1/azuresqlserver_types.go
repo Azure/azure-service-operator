@@ -15,7 +15,7 @@ import (
 type AzureSqlServerSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location               string `json:"location"`
+	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
@@ -27,6 +27,7 @@ type AzureSqlServerSpec struct {
 // +kubebuilder:subresource:status
 
 // AzureSqlServer is the Schema for the azuresqlservers API
+// +kubebuilder:resource:shortName=asqls
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type AzureSqlServer struct {

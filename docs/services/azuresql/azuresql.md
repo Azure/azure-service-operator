@@ -81,8 +81,8 @@ type: Opaque
 
 Here is a [sample YAML](/config/samples/azure_v1beta1_azuresqldatabase.yaml) for SQL database
 
-Update the `location` and the `resourcegroup` to where you want to provisiong the SQL database. `server` is the name of the Azure SQL server where you want to create the database in.
-The `edition` represents the SQL database edition you want to use when creating the resource and should be one of the values above.
+Update the `location` and the `resourcegroup` to where you want to provision the SQL database. `server` is the name of the Azure SQL server where you want to create the database in.
+The `sku` represents the SQL database SKU you want to use when creating the resource. You can see more detail about what SKUs are supported and their cost on the [SQL database pricing page](https://azure.microsoft.com/en-us/pricing/details/sql-database/single/).
 
 In order to configure longt-term retention policies for the SQL database, the following fields can be configured (but are optional):
   * `weeklyRetention` - the weekly retention policy for an LTR backup in an ISO 8601 duration format

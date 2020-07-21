@@ -63,8 +63,8 @@ func (m *Manager) GetParents(obj runtime.Object) ([]resourcemanager.KubeParent, 
 	}, nil
 }
 
-func (g *Manager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
-	instance, err := g.convert(obj)
+func (m *Manager) GetStatus(obj runtime.Object) (*v1alpha1.ASOStatus, error) {
+	instance, err := m.convert(obj)
 	if err != nil {
 		return nil, err
 	}

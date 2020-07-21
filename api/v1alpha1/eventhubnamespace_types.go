@@ -15,9 +15,9 @@ import (
 type EventhubNamespaceSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Location      string                        `json:"location"`
-	Sku           EventhubNamespaceSku          `json:"sku,omitempty"`
-	Properties    EventhubNamespaceProperties   `json:"properties,omitempty"`
+	Location   string                      `json:"location"`
+	Sku        EventhubNamespaceSku        `json:"sku,omitempty"`
+	Properties EventhubNamespaceProperties `json:"properties,omitempty"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
@@ -28,6 +28,7 @@ type EventhubNamespaceSpec struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // EventhubNamespace is the Schema for the eventhubnamespaces API
+// +kubebuilder:resource:shortName=ehns
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type EventhubNamespace struct {

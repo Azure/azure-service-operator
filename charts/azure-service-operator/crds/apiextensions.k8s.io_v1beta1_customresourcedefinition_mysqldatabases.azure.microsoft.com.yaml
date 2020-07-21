@@ -18,6 +18,8 @@ spec:
     kind: MySQLDatabase
     listKind: MySQLDatabaseList
     plural: mysqldatabases
+    shortNames:
+    - mysqldb
     singular: mysqldatabase
   scope: Namespaced
   subresources:
@@ -42,9 +44,12 @@ spec:
           description: MySQLDatabaseSpec defines the desired state of MySQLDatabase
           properties:
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             server:
               type: string
+          required:
+          - resourceGroup
           type: object
         status:
           description: ASOStatus (AzureServiceOperatorsStatus) defines the observed

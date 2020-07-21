@@ -18,6 +18,8 @@ spec:
     kind: MySQLFirewallRule
     listKind: MySQLFirewallRuleList
     plural: mysqlfirewallrules
+    shortNames:
+    - mysqlfwr
     singular: mysqlfirewallrule
   scope: Namespaced
   subresources:
@@ -44,6 +46,7 @@ spec:
             endIpAddress:
               type: string
             resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
               type: string
             server:
               type: string

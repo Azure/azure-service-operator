@@ -13,7 +13,7 @@ import (
 
 // MySQLServerSpec defines the desired state of MySQLServer
 type MySQLServerSpec struct {
-	Location               string               `json:"location"`
+	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
 	// +kubebuilder:validation:Required
@@ -32,6 +32,7 @@ type MySQLServerSpec struct {
 // +kubebuilder:storageversion
 
 // MySQLServer is the Schema for the mysqlservers API
+// +kubebuilder:resource:shortName=mysqls
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
 type MySQLServer struct {
