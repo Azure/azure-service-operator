@@ -103,9 +103,7 @@ az ad sp create-for-rbac \
 Cert Manager is used to provide certificates for Kube RBAC Proxy and the operator's web hooks.
 
 ```
-kubectl create namespace cert-manager
-kubectl label namespace cert-manager cert-manager.io/disable-validation=true
-kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+kubectl apply-f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
 ```
 
 Wait for Cert Manager to deploy before continuing...or run this handy command
