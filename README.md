@@ -64,7 +64,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     ```sh
     az account show
     ```
-    Next, we'll create a service principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md)
+    Next, we'll create a service principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md).
 
     ```sh
     az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
