@@ -318,14 +318,14 @@ func generatePropertyDefinitions(ctx context.Context, scanner *SchemaScanner, pr
 		return property, nil
 	}
 
+	if err != nil {
+		return nil, err
+	}
+
 	// This can happen if the property type was pruned away by a type filter.
 	if propType == nil {
 		// returning nil here is a signal to the caller that this property cannot be constructed.
 		return nil, nil
-	}
-
-	if err != nil {
-		return nil, err
 	}
 
 	property := astmodel.NewPropertyDefinition(propertyName, prop.Property, propType)
@@ -540,6 +540,17 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		case *astmodel.ObjectType:
 			// if it's an object type get all its properties:
 			properties = append(properties, concreteType.Properties()...)
+
+		case *astmodel.ResourceType:
+			// it is a little strange to merge one resource into another with allOf,
+			// but it is done and therefore we have to support it.
+			// (an example is Microsoft.VisualStudio’s Project type)
+			// at the moment we will just take the spec type:
+			var err error
+			properties, err = handleType(properties, concreteType.SpecType())
+			if err != nil {
+				return nil, err
+			}
 
 		case *astmodel.TypeName:
 			if def, ok := scanner.findTypeDefinition(concreteType); ok {
