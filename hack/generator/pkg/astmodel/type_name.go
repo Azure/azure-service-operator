@@ -7,8 +7,9 @@ package astmodel
 
 import (
 	"fmt"
-	"github.com/gobuffalo/flect"
 	"go/ast"
+
+	"github.com/gobuffalo/flect"
 )
 
 // TypeName is a name associated with another Type (it also is usable as a Type)
@@ -30,6 +31,10 @@ func (typeName *TypeName) Name() string {
 // A TypeName can be used as a Type,
 // it is simply a reference to the name.
 var _ Type = (*TypeName)(nil)
+
+func (typeName *TypeName) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+	return AsSimpleDeclarations(codeGenerationContext, name, description, typeName)
+}
 
 // AsType implements Type for TypeName
 func (typeName *TypeName) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
@@ -73,17 +78,6 @@ func (typeName *TypeName) Equals(t Type) bool {
 	}
 
 	return false
-}
-
-// CreateInternalDefinitions does nothing
-func (typeName *TypeName) CreateInternalDefinitions(_ *TypeName, _ IdentifierFactory) (Type, []TypeDefiner) {
-	// there is nothing internal to a TypeName, return it unchanged
-	return typeName, nil
-}
-
-// CreateDefinitions adds another name to this already-named type
-func (typeName *TypeName) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefiner, []TypeDefiner) {
-	return NewSimpleTypeDefiner(name, typeName), nil
 }
 
 // String returns the string representation of the type name

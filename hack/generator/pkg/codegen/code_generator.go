@@ -7,6 +7,11 @@ package codegen
 
 import (
 	"context"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"os"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
@@ -14,10 +19,7 @@ import (
 	"github.com/xeipuuv/gojsonreference"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 	"k8s.io/klog/v2"
-	"net/http"
-	"os"
 )
 
 // CodeGenerator is a generator of code
@@ -45,27 +47,20 @@ func NewCodeGenerator(configurationFile string) (*CodeGenerator, error) {
 // Generate produces the Go code corresponding to the configured JSON schema in the given output folder
 func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.V(1).Infof("Generator version: %v", combinedVersion())
-	klog.V(0).Infof("Loading JSON schema %v", generator.configuration.SchemaURL)
-	schema, err := loadSchema(ctx, generator.configuration.SchemaURL)
-	if err != nil {
-		return errors.Wrapf(err, "error loading schema from %q", generator.configuration.SchemaURL)
-	}
 
-	scanner := jsonast.NewSchemaScanner(astmodel.NewIdentifierFactory(), generator.configuration)
-
-	klog.V(0).Infof("Walking JSON schema")
-
-	defs, err := scanner.GenerateDefinitions(ctx, schema.Root())
-	if err != nil {
-		return errors.Wrapf(err, "failed to walk JSON schema")
-	}
+	idFactory := astmodel.NewIdentifierFactory()
 
 	pipeline := []PipelineStage{
+		loadSchema(ctx, idFactory, generator.configuration),
+		nameTypesForCRD(idFactory),
 		applyExportFilters(generator.configuration),
 		stripUnreferencedTypeDefinitions(),
 		deleteGeneratedCode(generator.configuration.OutputPath),
 		exportPackages(generator.configuration.OutputPath),
 	}
+
+	defs := make(Types)
+	var err error
 
 	for i, stage := range pipeline {
 		klog.V(0).Infof("Pipeline stage %d/%d: %s", i+1, len(pipeline), stage.Name)
@@ -150,17 +145,35 @@ func (loader *cancellableJSONLoader) LoaderFactory() gojsonschema.JSONLoaderFact
 	return &cancellableJSONLoaderFactory{loader.ctx, loader.inner.LoaderFactory()}
 }
 
-func loadSchema(ctx context.Context, source string) (*gojsonschema.Schema, error) {
-	sl := gojsonschema.NewSchemaLoader()
-	loader := &cancellableJSONLoader{
-		ctx,
-		gojsonschema.NewReferenceLoaderFileSystem(source, &cancellableFileSystem{ctx}),
-	}
+func loadSchema(ctx context.Context, idFactory astmodel.IdentifierFactory, configuration *config.Configuration) PipelineStage {
+	source := configuration.SchemaURL
 
-	schema, err := sl.Compile(loader)
-	if err != nil {
-		return nil, errors.Wrapf(err, "error loading schema from %q", source)
-	}
+	return PipelineStage{
+		Name: fmt.Sprintf("Load and walk schema from %q", source),
+		Action: func(ctx context.Context, types Types) (Types, error) {
+			klog.V(0).Infof("Loading JSON schema %q", source)
 
-	return schema, nil
+			sl := gojsonschema.NewSchemaLoader()
+			loader := &cancellableJSONLoader{
+				ctx,
+				gojsonschema.NewReferenceLoaderFileSystem(source, &cancellableFileSystem{ctx}),
+			}
+
+			schema, err := sl.Compile(loader)
+			if err != nil {
+				return nil, errors.Wrapf(err, "error loading schema from %q", source)
+			}
+
+			scanner := jsonast.NewSchemaScanner(idFactory, configuration)
+
+			klog.V(0).Infof("Walking JSON schema")
+
+			defs, err := scanner.GenerateDefinitions(ctx, schema.Root())
+			if err != nil {
+				return nil, errors.Wrapf(err, "failed to walk JSON schema")
+			}
+
+			return defs, nil
+		},
+	}
 }

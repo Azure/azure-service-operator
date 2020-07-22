@@ -22,6 +22,10 @@ func NewArrayType(element Type) *ArrayType {
 // assert we implemented Type correctly
 var _ Type = (*ArrayType)(nil)
 
+func (array *ArrayType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+	return AsSimpleDeclarations(codeGenerationContext, name, description, array)
+}
+
 // AsType renders the Go abstract syntax tree for an array type
 func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 	return &ast.ArrayType{
@@ -50,15 +54,4 @@ func (array *ArrayType) Equals(t Type) bool {
 	}
 
 	return false
-}
-
-// CreateInternalDefinitions invokes CreateInternalDefinitions on the inner 'element' type
-func (array *ArrayType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
-	newElementType, otherTypes := array.element.CreateInternalDefinitions(name, idFactory)
-	return NewArrayType(newElementType), otherTypes
-}
-
-// CreateDefinitions defines a named type for this array type
-func (array *ArrayType) CreateDefinitions(name *TypeName, _ IdentifierFactory) (TypeDefiner, []TypeDefiner) {
-	return NewSimpleTypeDefiner(name, array), nil
 }

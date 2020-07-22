@@ -8,12 +8,13 @@ package codegen
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 	"os"
 	"path/filepath"
 	"sort"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/pkg/errors"
+	"k8s.io/klog/v2"
 )
 
 // exportPackages creates a PipelineStage to export our generated code as a set of packages
@@ -21,7 +22,7 @@ func exportPackages(outputPath string) PipelineStage {
 	description := fmt.Sprintf("Export packages to %q", outputPath)
 	return PipelineStage{
 		description,
-		func(ctx context.Context, types map[astmodel.TypeName]astmodel.TypeDefiner) (map[astmodel.TypeName]astmodel.TypeDefiner, error) {
+		func(ctx context.Context, types Types) (Types, error) {
 			packages, err := CreatePackagesForDefinitions(types)
 			if err != nil {
 				return nil, errors.Wrapf(err, "failed to assign generated definitions to packages")
@@ -43,7 +44,7 @@ func exportPackages(outputPath string) PipelineStage {
 }
 
 // CreatePackagesForDefinitions groups type definitions into packages
-func CreatePackagesForDefinitions(definitions map[astmodel.TypeName]astmodel.TypeDefiner) ([]*astmodel.PackageDefinition, error) {
+func CreatePackagesForDefinitions(definitions Types) ([]*astmodel.PackageDefinition, error) {
 
 	genVersion := combinedVersion()
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
@@ -95,9 +96,9 @@ func MarkLatestResourceVersionsForStorage(packages []*astmodel.PackageDefinition
 		resultPkg := astmodel.NewPackageDefinition(pkg.GroupName, pkg.PackageName, pkg.GeneratorVersion)
 		for _, def := range pkg.Definitions() {
 			// see if it is a resource
-			if resourceDef, ok := def.(*astmodel.ResourceDefinition); ok {
+			if resourceType, ok := def.Type().(*astmodel.ResourceType); ok {
 
-				unversionedName, err := getUnversionedName(resourceDef.Name())
+				unversionedName, err := getUnversionedName(def.Name())
 				if err != nil {
 					// should never happen as all resources have versioned names
 					return nil, err
@@ -106,16 +107,16 @@ func MarkLatestResourceVersionsForStorage(packages []*astmodel.PackageDefinition
 				allVersionsOfResource := resourceLookup[unversionedName]
 				latestVersionOfResource := allVersionsOfResource[len(allVersionsOfResource)-1]
 
-				thisPackagePath := resourceDef.Name().PackageReference.PackagePath()
+				thisPackagePath := def.Name().PackageReference.PackagePath()
 				latestPackagePath := latestVersionOfResource.Name().PackageReference.PackagePath()
 
 				// mark as storage version if it's the latest version
 				isLatestVersion := thisPackagePath == latestPackagePath
 				if isLatestVersion {
-					resourceDef = resourceDef.MarkAsStorageVersion()
+					def = astmodel.MakeTypeDefinition(def.Name(), resourceType.MarkAsStorageVersion()).WithDescription(def.Description())
 				}
 
-				resultPkg.AddDefinition(resourceDef)
+				resultPkg.AddDefinition(def)
 			} else {
 				// otherwise simply add it
 				resultPkg.AddDefinition(def)
@@ -162,20 +163,20 @@ func writeFiles(ctx context.Context, packages []*astmodel.PackageDefinition, out
 	return nil
 }
 
-func groupResourcesByVersion(packages []*astmodel.PackageDefinition) (map[unversionedName][]*astmodel.ResourceDefinition, error) {
+func groupResourcesByVersion(packages []*astmodel.PackageDefinition) (map[unversionedName][]astmodel.TypeDefinition, error) {
 
-	result := make(map[unversionedName][]*astmodel.ResourceDefinition)
+	result := make(map[unversionedName][]astmodel.TypeDefinition)
 
 	for _, pkg := range packages {
 		for _, def := range pkg.Definitions() {
-			if resourceDef, ok := def.(*astmodel.ResourceDefinition); ok {
-				name, err := getUnversionedName(resourceDef.Name())
+			if _, ok := def.Type().(*astmodel.ResourceType); ok {
+				name, err := getUnversionedName(def.Name())
 				if err != nil {
 					// this should never happen as resources will all have versioned names
 					return nil, errors.Wrapf(err, "Unable to extract unversioned name in groupResources")
 				}
 
-				result[name] = append(result[name], resourceDef)
+				result[name] = append(result[name], def)
 			}
 		}
 	}

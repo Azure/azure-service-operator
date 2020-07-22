@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"go/ast"
+	"go/token"
 	"sort"
 )
 
@@ -28,6 +29,52 @@ func NewObjectType() *ObjectType {
 		properties: make(map[PropertyName]*PropertyDefinition),
 		functions:  make(map[string]Function),
 	}
+}
+
+func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+	identifier := ast.NewIdent(name.Name())
+	declaration := &ast.GenDecl{
+		Tok: token.TYPE,
+		Doc: &ast.CommentGroup{},
+		Specs: []ast.Spec{
+			&ast.TypeSpec{
+				Name: identifier,
+				Type: objectType.AsType(codeGenerationContext),
+			},
+		},
+	}
+
+	if description != nil {
+		addDocComment(&declaration.Doc.List, *description, 200)
+	}
+
+	result := []ast.Decl{declaration}
+	result = append(result, objectType.generateMethodDecls(codeGenerationContext, name)...)
+	return result
+}
+
+func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName *TypeName) []ast.Decl {
+	var result []ast.Decl
+	for methodName, function := range objectType.functions {
+		funcDef := function.AsFunc(codeGenerationContext, typeName, methodName)
+		result = append(result, funcDef)
+	}
+
+	return result
+}
+
+func defineField(fieldName string, fieldType ast.Expr, tag string) *ast.Field {
+
+	result := &ast.Field{
+		Type: fieldType,
+		Tag:  &ast.BasicLit{Kind: token.STRING, Value: tag},
+	}
+
+	if fieldName != "" {
+		result.Names = []*ast.Ident{ast.NewIdent(fieldName)}
+	}
+
+	return result
 }
 
 // Properties returns all our property definitions
@@ -141,40 +188,6 @@ func (objectType *ObjectType) Equals(t Type) bool {
 	}
 
 	return false
-}
-
-// CreateInternalDefinitions defines a named type for this object and returns that type to be used in-place
-// of the anonymous object type. This is needed for controller-gen to work correctly:
-func (objectType *ObjectType) CreateInternalDefinitions(name *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
-	// an internal object must always be named:
-	definedObject, otherTypes := objectType.CreateDefinitions(name, idFactory)
-	return definedObject.Name(), append(otherTypes, definedObject)
-}
-
-// CreateDefinitions defines a named type for this object and invokes CreateInternalDefinitions for each property type
-// to instantiate any definitions required by internal types.
-func (objectType *ObjectType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefiner, []TypeDefiner) {
-
-	var otherTypes []TypeDefiner
-	var newProperties []*PropertyDefinition
-
-	for _, property := range objectType.properties {
-
-		// create definitions for nested types
-		nestedName := name.Name() + string(property.propertyName)
-		nameHint := NewTypeName(name.PackageReference, nestedName)
-		newPropertyType, moreTypes := property.propertyType.CreateInternalDefinitions(nameHint, idFactory)
-
-		otherTypes = append(otherTypes, moreTypes...)
-		newProperties = append(newProperties, property.WithType(newPropertyType))
-	}
-
-	newObjectType := NewObjectType().WithProperties(newProperties...)
-	for functionName, function := range objectType.functions {
-		newObjectType.functions[functionName] = function
-	}
-
-	return NewObjectDefinition(name, newObjectType), otherTypes
 }
 
 // WithProperty creates a new ObjectType with another property attached to it

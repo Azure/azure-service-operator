@@ -35,9 +35,9 @@ func (f *OneOfJSONMarshalFunction) Equals(other Function) bool {
 	return false
 }
 
-// References returns the set of references for the underlying struct.
+// References returns the set of references for the underlying object.
 func (f *OneOfJSONMarshalFunction) References() TypeNameSet {
-	// Defer this check to the owning struct as we only refer to its properties and it
+	// Defer this check to the owning object as we only refer to its properties and it
 	return f.oneOfObject.References()
 }
 

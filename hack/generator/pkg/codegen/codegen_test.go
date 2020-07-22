@@ -8,12 +8,13 @@ package codegen
 import (
 	"bytes"
 	"context"
-	. "github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+
+	. "github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
@@ -40,10 +41,16 @@ func runGoldenTest(t *testing.T, path string) {
 
 	config := config.NewConfiguration()
 
-	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config)
+	idFactory := astmodel.NewIdentifierFactory()
+	scanner := NewSchemaScanner(idFactory, config)
 	defs, err := scanner.GenerateDefinitions(context.TODO(), schema.Root())
 	if err != nil {
 		t.Fatalf("could not produce nodes from scanner: %v", err)
+	}
+
+	defs, err = nameTypesForCRD(idFactory).Action(context.TODO(), defs)
+	if err != nil {
+		t.Fatalf("could not name types for CRD: %v", err)
 	}
 
 	// The golden files always generate a top-level Test type - mark
@@ -59,7 +66,7 @@ func runGoldenTest(t *testing.T, path string) {
 	}
 
 	var pr *astmodel.PackageReference
-	var ds []astmodel.TypeDefiner
+	var ds []astmodel.TypeDefinition
 	for _, def := range defs {
 		ds = append(ds, def)
 		if pr == nil {

@@ -8,24 +8,25 @@ package codegen
 import (
 	"bufio"
 	"context"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
-	"github.com/bmatcuk/doublestar"
-	"github.com/pkg/errors"
 	"io"
 	"io/ioutil"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"os"
 	"path"
 	"path/filepath"
 	"sort"
 	"strings"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/bmatcuk/doublestar"
+	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // deleteGeneratedCode creates a pipeline stage for cleanup of our output folder prior to generating files
 func deleteGeneratedCode(outputFolder string) PipelineStage {
 	return PipelineStage{
 		"Delete generated code from " + outputFolder,
-		func(ctx context.Context, types map[astmodel.TypeName]astmodel.TypeDefiner) (map[astmodel.TypeName]astmodel.TypeDefiner, error) {
+		func(ctx context.Context, types Types) (Types, error) {
 			err := deleteGeneratedCodeFromFolder(ctx, outputFolder)
 			if err != nil {
 				return nil, err

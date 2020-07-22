@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"go/ast"
+	"go/token"
 	"sort"
 
 	"k8s.io/klog/v2"
@@ -15,7 +16,7 @@ import (
 // EnumType represents a set of mutually exclusive predefined options
 type EnumType struct {
 	// BaseType is the underlying type used to define the values
-	BaseType *PrimitiveType
+	baseType *PrimitiveType
 	// Options is the set of all unique values
 	options []EnumValue
 }
@@ -29,25 +30,99 @@ func NewEnumType(baseType *PrimitiveType, options []EnumValue) *EnumType {
 		return options[left].Identifier < options[right].Identifier
 	})
 
-	return &EnumType{BaseType: baseType, options: options}
+	return &EnumType{baseType: baseType, options: options}
+}
+
+// AsDeclarations converts the EnumType to a series of Go AST Decls
+func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+	var specs []ast.Spec
+	for _, v := range enum.options {
+		s := enum.createValueDeclaration(name, v)
+		specs = append(specs, s)
+	}
+
+	declaration := &ast.GenDecl{
+		Tok:   token.CONST,
+		Doc:   &ast.CommentGroup{},
+		Specs: specs,
+	}
+
+	result := []ast.Decl{
+		enum.createBaseDeclaration(codeGenerationContext, name, description),
+		declaration}
+
+	return result
+}
+
+func (enum *EnumType) createBaseDeclaration(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) ast.Decl {
+	identifier := ast.NewIdent(name.Name())
+
+	typeSpecification := &ast.TypeSpec{
+		Name: identifier,
+		Type: enum.baseType.AsType(codeGenerationContext),
+	}
+
+	declaration := &ast.GenDecl{
+		Tok: token.TYPE,
+		Doc: &ast.CommentGroup{},
+		Specs: []ast.Spec{
+			typeSpecification,
+		},
+	}
+
+	if description != nil {
+		declaration.Doc.List = append(
+			declaration.Doc.List,
+			&ast.Comment{Text: "\n/*" + *description + "*/"})
+	}
+
+	validationComment := GenerateKubebuilderComment(enum.CreateValidation())
+	declaration.Doc.List = append(
+		declaration.Doc.List,
+		&ast.Comment{Text: "\n" + validationComment})
+
+	return declaration
+}
+
+func (enum *EnumType) createValueDeclaration(name *TypeName, value EnumValue) ast.Spec {
+
+	enumIdentifier := ast.NewIdent(name.Name())
+	valueIdentifier := ast.NewIdent(name.Name() + value.Identifier)
+
+	valueLiteral := ast.BasicLit{
+		Kind:  token.STRING,
+		Value: value.Value,
+	}
+
+	valueSpec := &ast.ValueSpec{
+		Names: []*ast.Ident{valueIdentifier},
+		Values: []ast.Expr{
+			&ast.CallExpr{
+				Fun:  enumIdentifier,
+				Args: []ast.Expr{&valueLiteral},
+			},
+		},
+	}
+
+	return valueSpec
 }
 
 // AsType implements Type for EnumType
 func (enum *EnumType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 	// this should "never" happen as we name all enums; warn about it if it does
 	klog.Warning("Emitting unnamed enum, something’s awry")
-	return enum.BaseType.AsType(codeGenerationContext)
+	return enum.baseType.AsType(codeGenerationContext)
 }
 
 // References returns any types the underlying type refers to.
 func (enum *EnumType) References() TypeNameSet {
-	return enum.BaseType.References()
+	return enum.baseType.References()
 }
 
 // Equals will return true if the supplied type has the same base type and options
 func (enum *EnumType) Equals(t Type) bool {
 	if e, ok := t.(*EnumType); ok {
-		if !enum.BaseType.Equals(e.BaseType) {
+		if !enum.baseType.Equals(e.baseType) {
 			return false
 		}
 
@@ -72,21 +147,6 @@ func (enum *EnumType) Equals(t Type) bool {
 // RequiredImports indicates that Enums never need additional imports
 func (enum *EnumType) RequiredImports() []*PackageReference {
 	return nil
-}
-
-// CreateInternalDefinitions defines a named type for this enum and returns that type to be used in place
-// of this "raw" enum type
-func (enum *EnumType) CreateInternalDefinitions(nameHint *TypeName, idFactory IdentifierFactory) (Type, []TypeDefiner) {
-	// an internal enum must always be named:
-	definedEnum, otherTypes := enum.CreateDefinitions(nameHint, idFactory)
-	return definedEnum.Name(), append(otherTypes, definedEnum)
-}
-
-// CreateDefinitions defines a named type for this "raw" enum type
-func (enum *EnumType) CreateDefinitions(name *TypeName, idFactory IdentifierFactory) (TypeDefiner, []TypeDefiner) {
-	identifier := idFactory.CreateEnumIdentifier(name.name)
-	canonicalName := NewTypeName(name.PackageReference, identifier)
-	return NewEnumDefinition(canonicalName, enum), nil
 }
 
 // Options returns all the enum options

@@ -44,23 +44,6 @@ func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedGetters(t
 }
 
 /*
- * NewEmbeddedStructDefinition() tests
- */
-
-func Test_NewEmbeddedStructDefinition_ReturnsInstanceWithExpectedFields(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	st := NewObjectType()
-	field := NewEmbeddedStructDefinition(st)
-
-	g.Expect(field.propertyName).To(Equal(PropertyName("")))
-	g.Expect(field.propertyType).To(Equal(st))
-	g.Expect(field.jsonName).To(Equal(""))
-	g.Expect(field.description).To(Equal(""))
-
-}
-
-/*
  * WithDescription() tests
  */
 

@@ -25,11 +25,11 @@ type FileDefinition struct {
 	// the package this file is in
 	packageReference *PackageReference
 	// definitions to include in this file
-	definitions []TypeDefiner
+	definitions []TypeDefinition
 }
 
 // NewFileDefinition creates a file definition containing specified definitions
-func NewFileDefinition(packageRef *PackageReference, definitions ...TypeDefiner) *FileDefinition {
+func NewFileDefinition(packageRef *PackageReference, definitions ...TypeDefinition) *FileDefinition {
 
 	// Topological sort of the definitions, putting them in order of reference
 	ranks := calcRanks(definitions)
@@ -49,7 +49,7 @@ func NewFileDefinition(packageRef *PackageReference, definitions ...TypeDefiner)
 
 // Calculate the ranks for each type
 // Can't use a recursive algorithm, so have to use an iterative one
-func calcRanks(definitions []TypeDefiner) map[TypeName]int {
+func calcRanks(definitions []TypeDefinition) map[TypeName]int {
 	ranks := make(map[TypeName]int)
 
 	// First need a way to identify all the root type definers
@@ -62,9 +62,9 @@ func calcRanks(definitions []TypeDefiner) map[TypeName]int {
 	}
 
 	// Create a queue of all the definitions we need to process
-	var queue []TypeDefiner
+	var queue []TypeDefinition
 	for _, d := range definitions {
-		if _, ok := d.(*ResourceDefinition); ok {
+		if _, ok := d.Type().(*ResourceType); ok {
 			// Resources have rank 0
 			ranks[*d.Name()] = 0
 		} else if _, ok := nonroots[*d.Name()]; !ok {
@@ -94,9 +94,9 @@ func calcRanks(definitions []TypeDefiner) map[TypeName]int {
 
 // assignRanks allocates ranks to any type definers whose types have known rank,
 // returning a slice containing the remaining type definers for later processing
-func assignRanks(definers []TypeDefiner, ranks map[TypeName]int) []TypeDefiner {
-	var assignable []TypeDefiner
-	var remaining []TypeDefiner
+func assignRanks(definers []TypeDefinition, ranks map[TypeName]int) []TypeDefinition {
+	var assignable []TypeDefinition
+	var remaining []TypeDefinition
 
 	// Partition type definers into ones we can allocate, and ones to defer. We do this before
 	// making any changes to ranks to avoid iteration ordering having any impact on the ranks
@@ -194,13 +194,13 @@ func (file *FileDefinition) AsAst() ast.Node {
 		decls = append(decls, s.AsDeclarations(codeGenContext)...)
 	}
 
-	// Emit struct registration for each resource:
+	// Emit registration for each resource:
 	var exprs []ast.Expr
 	for _, defn := range file.definitions {
-		if structDefn, ok := defn.(*ResourceDefinition); ok {
+		if _, ok := defn.Type().(*ResourceType); ok {
 			exprs = append(exprs, &ast.UnaryExpr{
 				Op: token.AND,
-				X:  &ast.CompositeLit{Type: structDefn.Name().AsType(codeGenContext)},
+				X:  &ast.CompositeLit{Type: defn.Name().AsType(codeGenContext)},
 			})
 		}
 	}

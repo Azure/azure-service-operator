@@ -24,7 +24,7 @@ func Test_NewObjectDefinition_GivenValues_InitializesProperties(t *testing.T) {
 
 	ref := NewTypeName(*NewLocalPackageReference(group, version), name)
 	objectType := NewObjectType().WithProperties(fullName, familyName, knownAs)
-	objectDefinition := NewObjectDefinition(ref, objectType)
+	objectDefinition := MakeTypeDefinition(ref, objectType)
 
 	g.Expect(objectDefinition.Name().name).To(Equal(name))
 	g.Expect(objectDefinition.Type()).To(Equal(objectType))
@@ -34,7 +34,7 @@ func Test_NewObjectDefinition_GivenValues_InitializesProperties(t *testing.T) {
 
 	g.Expect(definitionGroup).To(Equal(group))
 	g.Expect(definitionPackage).To(Equal(version))
-	g.Expect(objectDefinition.objectType.properties).To(HaveLen(3))
+	g.Expect(objectDefinition.Type().(*ObjectType).properties).To(HaveLen(3))
 }
 
 /*
@@ -52,9 +52,9 @@ func Test_ObjectDefinitionWithDescription_GivenDescription_ReturnsExpected(t *te
 
 	ref := NewTypeName(*NewLocalPackageReference(group, version), name)
 	objectType := NewObjectType().WithProperties(fullName, familyName, knownAs)
-	objectDefinition := NewObjectDefinition(ref, objectType).WithDescription(&description).(*ObjectDefinition)
+	objectDefinition := MakeTypeDefinition(ref, objectType).WithDescription(&description)
 
-	g.Expect(objectDefinition.Description()).To(Equal(description))
+	g.Expect(objectDefinition.Description()).To(Equal(&description))
 }
 
 /*
@@ -65,7 +65,7 @@ func Test_ObjectDefinitionAsAst_GivenValidStruct_ReturnsNonNilResult(t *testing.
 	g := NewGomegaWithT(t)
 
 	ref := NewTypeName(*NewLocalPackageReference("group", "2020-01-01"), "name")
-	definition := NewObjectDefinition(ref, NewObjectType())
+	definition := MakeTypeDefinition(ref, NewObjectType())
 	node := definition.AsDeclarations(nil)
 
 	g.Expect(node).NotTo(BeNil())
