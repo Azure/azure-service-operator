@@ -149,7 +149,7 @@ func loadSchema(ctx context.Context, idFactory astmodel.IdentifierFactory, confi
 	source := configuration.SchemaURL
 
 	return PipelineStage{
-		Name: fmt.Sprintf("load and walk schema from %q", source),
+		Name: fmt.Sprintf("Load and walk schema from %q", source),
 		Action: func(ctx context.Context, types Types) (Types, error) {
 			klog.V(0).Infof("Loading JSON schema %q", source)
 
