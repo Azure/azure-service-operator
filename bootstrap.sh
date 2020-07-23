@@ -2,7 +2,7 @@
 SP_NAME=az-service-operator
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
 kubectl -n cert-manager wait --for=condition=ready pod -l app=cert-manager
-POD="$(kubectl get pods --all-namespaces|grep cert-manager-webhook|awk '{print $2}'|head --)"
+POD="$(kubectl get pods --all-namespaces|grep cert-manager-webhook|awk '{print $2}'|head -n 1)"
 while [[ $(kubectl -n cert-manager get pods $POD -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
 
 DIR="azure-service-operator"
