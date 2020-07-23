@@ -30,11 +30,11 @@ func (fake *FakeFunction) AsFunc(codeGenerationContext *CodeGenerationContext, r
 }
 
 func (fake *FakeFunction) Equals(f Function) bool {
-	if fake==nil && f == nil {
+	if fake == nil && f == nil {
 		return true
 	}
 
-	if fake==nil || f == nil {
+	if fake == nil || f == nil {
 		return false
 	}
 
@@ -60,7 +60,7 @@ func (fake *FakeFunction) Equals(f Function) bool {
 		}
 	}
 
-	return true;
+	return true
 }
 
 var _ Function = &FakeFunction{}

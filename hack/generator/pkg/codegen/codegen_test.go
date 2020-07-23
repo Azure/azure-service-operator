@@ -8,13 +8,12 @@ package codegen
 import (
 	"bytes"
 	"context"
+	"github.com/pkg/errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
-
-	. "github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
@@ -27,64 +26,101 @@ func runGoldenTest(t *testing.T, path string) {
 	testName := strings.TrimPrefix(t.Name(), "TestGolden/")
 
 	g := goldie.New(t)
-	inputFile, err := ioutil.ReadFile(path)
-	if err != nil {
-		t.Fatalf("cannot read golden test input file: %v", err)
+	testSchemaLoader := func(ctx context.Context, source string) (*gojsonschema.Schema, error) {
+		inputFile, err := ioutil.ReadFile(path)
+		if err != nil {
+			return nil, errors.Wrapf(err, "cannot read golden test input file")
+		}
+
+		loader := gojsonschema.NewSchemaLoader()
+		schema, err := loader.Compile(gojsonschema.NewBytesLoader(inputFile))
+
+		if err != nil {
+			return nil, errors.Wrapf(err, "could not compile input")
+		}
+
+		return schema, nil
 	}
 
-	loader := gojsonschema.NewSchemaLoader()
-	schema, err := loader.Compile(gojsonschema.NewBytesLoader(inputFile))
+	stripUnusedTypesPipelineStage := PipelineStage{
+		Name: "Strip unused types for test",
+		Action: func(ctx context.Context, defs Types) (Types, error) {
+			// The golden files always generate a top-level Test type - mark
+			// that as the root.
+			roots := astmodel.NewTypeNameSet(*astmodel.NewTypeName(
+				*astmodel.NewPackageReference(
+					"github.com/Azure/k8s-infra/hack/generator/apis/test/v20200101"),
+				"Test",
+			))
+			defs, err := StripUnusedDefinitions(roots, defs)
+			if err != nil {
+				return nil, errors.Wrapf(err, "could not strip unused types")
+			}
 
-	if err != nil {
-		t.Fatalf("could not compile input: %v", err)
+			return defs, nil
+		},
 	}
 
-	config := config.NewConfiguration()
+	exportPackagesTestPipelineStage := PipelineStage{
+		Name: "Export packages for test",
+		Action: func(ctx context.Context, defs Types) (Types, error) {
+			var pr *astmodel.PackageReference
+			var ds []astmodel.TypeDefinition
+			for _, def := range defs {
+				ds = append(ds, def)
+				if pr == nil {
+					pr = &def.Name().PackageReference
+				}
+			}
+
+			// put all definitions in one file, regardless.
+			// the package reference isn't really used here.
+			fileDef := astmodel.NewFileDefinition(pr, ds...)
+
+			buf := &bytes.Buffer{}
+			err := fileDef.SaveToWriter(path, buf)
+			if err != nil {
+				t.Fatalf("could not generate file: %v", err)
+			}
+
+			g.Assert(t, testName, buf.Bytes())
+
+			return nil, nil
+		},
+	}
 
 	idFactory := astmodel.NewIdentifierFactory()
-	scanner := NewSchemaScanner(idFactory, config)
-	defs, err := scanner.GenerateDefinitions(context.TODO(), schema.Root())
+	config := config.NewConfiguration()
+	codegen, err := NewCodeGeneratorFromConfig(config, idFactory)
+
 	if err != nil {
-		t.Fatalf("could not produce nodes from scanner: %v", err)
+		t.Fatalf("could not create code generator: %v", err)
 	}
 
-	defs, err = nameTypesForCRD(idFactory).Action(context.TODO(), defs)
-	if err != nil {
-		t.Fatalf("could not name types for CRD: %v", err)
-	}
-
-	// The golden files always generate a top-level Test type - mark
-	// that as the root.
-	roots := astmodel.NewTypeNameSet(*astmodel.NewTypeName(
-		*astmodel.NewPackageReference(
-			"github.com/Azure/k8s-infra/hack/generator/apis/test/v20200101"),
-		"Test",
-	))
-	defs, err = StripUnusedDefinitions(roots, defs)
-	if err != nil {
-		t.Fatalf("could not strip unused types: %v", err)
-	}
-
-	var pr *astmodel.PackageReference
-	var ds []astmodel.TypeDefinition
-	for _, def := range defs {
-		ds = append(ds, def)
-		if pr == nil {
-			pr = &def.Name().PackageReference
+	// Snip out the bits of the code generator we know we need to override
+	var pipeline []PipelineStage
+	for _, stage := range codegen.pipeline {
+		if strings.HasPrefix(stage.Name, "Load and walk schema") {
+			pipeline = append(pipeline, loadSchemaIntoTypes(idFactory, config, testSchemaLoader))
+		} else if strings.HasPrefix(stage.Name, "Delete generated code from") {
+			continue // Skip this
+		} else if strings.HasPrefix(stage.Name, "Export packages") {
+			pipeline = append(pipeline, exportPackagesTestPipelineStage)
+		} else if strings.HasPrefix(stage.Name, "Strip unreferenced types") {
+			// TODO: we will want to leave this included for some flavors of test, but for now since we
+			// TODO: don't ever actually have any resources, exclude it
+			pipeline = append(pipeline, stripUnusedTypesPipelineStage)
+		} else {
+			pipeline = append(pipeline, stage)
 		}
 	}
 
-	// put all definitions in one file, regardless.
-	// the package reference isn't really used here.
-	fileDef := astmodel.NewFileDefinition(pr, ds...)
+	codegen.pipeline = pipeline
 
-	buf := &bytes.Buffer{}
-	err = fileDef.SaveToWriter(path, buf)
+	err = codegen.Generate(context.TODO())
 	if err != nil {
-		t.Fatalf("could not generate file: %v", err)
+		t.Fatalf("codegen failed: %v", err)
 	}
-
-	g.Assert(t, testName, buf.Bytes())
 }
 
 func TestGolden(t *testing.T) {

@@ -29,7 +29,7 @@ func NewGenCommand() (*cobra.Command, error) {
 		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
 			configFile := args[0]
 
-			cg, err := codegen.NewCodeGenerator(configFile)
+			cg, err := codegen.NewCodeGeneratorFromConfigFile(configFile)
 			if err != nil {
 				klog.Errorf("Error creating code generator: %v\n", err)
 				return err
