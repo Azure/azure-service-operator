@@ -370,7 +370,7 @@ func getProperties(ctx context.Context, scanner *SchemaScanner, schema *gojsonsc
 		if isRequired {
 			property = property.MakeRequired()
 		} else {
-			property = property.MakeTypeOptional()
+			property = property.MakeOptional()
 		}
 
 		properties = append(properties, property)
@@ -646,7 +646,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported)
 			property := astmodel.NewPropertyDefinition(
-				propertyName, jsonName, concreteType).MakeTypeOptional().WithDescription(&propertyDescription)
+				propertyName, jsonName, concreteType).MakeOptional().WithDescription(&propertyDescription)
 			properties = append(properties, property)
 		case *astmodel.EnumType:
 			// TODO: This name sucks but what alternative do we have?
@@ -657,7 +657,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
 			property := astmodel.NewPropertyDefinition(
-				propertyName, jsonName, concreteType).MakeTypeOptional().WithDescription(&propertyDescription)
+				propertyName, jsonName, concreteType).MakeOptional().WithDescription(&propertyDescription)
 			properties = append(properties, property)
 		case *astmodel.ObjectType:
 			// TODO: This name sucks but what alternative do we have?
@@ -668,7 +668,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
 			property := astmodel.NewPropertyDefinition(
-				propertyName, jsonName, concreteType).MakeTypeOptional().WithDescription(&propertyDescription)
+				propertyName, jsonName, concreteType).MakeOptional().WithDescription(&propertyDescription)
 			properties = append(properties, property)
 		case *astmodel.PrimitiveType:
 			var primitiveTypeName string
@@ -686,7 +686,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 			// but we still need it for controller-gen
 			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
 			property := astmodel.NewPropertyDefinition(
-				propertyName, jsonName, concreteType).MakeTypeOptional().WithDescription(&propertyDescription)
+				propertyName, jsonName, concreteType).MakeOptional().WithDescription(&propertyDescription)
 			properties = append(properties, property)
 		default:
 			return nil, errors.Errorf("unexpected oneOf member, type: %T", t)

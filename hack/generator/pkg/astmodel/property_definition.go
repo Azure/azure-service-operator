@@ -82,18 +82,72 @@ func (property *PropertyDefinition) WithValidation(validation Validation) *Prope
 
 // MakeRequired returns a new PropertyDefinition that is marked as required
 func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
-	return property.WithValidation(ValidateRequired())
-}
-
-// MakeTypeOptional returns a new PropertyDefinition that has an optional value
-func (property *PropertyDefinition) MakeTypeOptional() *PropertyDefinition {
-	if _, ok := property.propertyType.(*OptionalType); ok {
+	if !property.HasOptionalType() && property.HasRequiredValidation() {
 		return property
 	}
 
 	result := *property
-	result.propertyType = NewOptionalType(result.propertyType)
+
+	if property.HasOptionalType() {
+		// Need to remove the optionality
+		ot := property.propertyType.(*OptionalType)
+		result.propertyType = ot.BaseType()
+	}
+
+	if !property.HasRequiredValidation() {
+		result = *result.WithValidation(ValidateRequired())
+	}
+
 	return &result
+}
+
+// MakeOptional returns a new PropertyDefinition that has an optional value
+func (property *PropertyDefinition) MakeOptional() *PropertyDefinition {
+	if property.HasOptionalType() && !property.HasRequiredValidation() {
+		// No change required
+		return property
+	}
+
+	result := *property
+
+	if !property.HasOptionalType() {
+		// Need to make the type optional
+		result.propertyType = NewOptionalType(result.propertyType)
+	}
+
+	if property.HasRequiredValidation() {
+		// Need to remove the Required validation
+		var validations []Validation
+		for _, v := range result.validations {
+			if !v.HasName(RequiredValidationName) {
+				validations = append(validations, v)
+			}
+		}
+
+		result.validations = validations
+	}
+
+	return &result
+}
+
+// HasRequiredValidation returns true if the property has validation specifying that it is required;
+// returns false otherwise.
+func (property *PropertyDefinition) HasRequiredValidation() bool {
+	required := ValidateRequired()
+	for _, v := range property.validations {
+		if v == required {
+			return true
+		}
+	}
+
+	return false
+}
+
+// HasOptionalType returns true if the type of this property is an optioan reference to a value
+// (and might therefore be nil).
+func (property *PropertyDefinition) HasOptionalType() bool {
+	_, ok := property.propertyType.(*OptionalType)
+	return ok
 }
 
 // AsField generates a Go AST field node representing this property definition

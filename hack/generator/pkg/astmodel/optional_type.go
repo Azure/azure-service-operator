@@ -60,3 +60,8 @@ func (optional *OptionalType) Equals(t Type) bool {
 
 	return false
 }
+
+// BaseType returns the underlying type
+func (optional *OptionalType) BaseType() Type {
+	return optional.element
+}

@@ -153,35 +153,82 @@ func Test_PropertyDefinitionWithType_GivenSameType_ReturnsExistingReference(t *t
  * MakeRequired() Tests
  */
 
-func Test_PropertyDefinition_MakeRequired_ReturnsDifferentReference(t *testing.T) {
+func Test_PropertyDefinitionMakeRequired_WhenOptional_ReturnsDifferentReference(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType)
+	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).MakeOptional()
+	field := original.MakeRequired()
+
+	g.Expect(field).NotTo(BeIdenticalTo(original))
+}
+
+func TestPropertyDefinitionMakeRequired_WhenOptional_ReturnsTypeWithMandatoryValidation(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).MakeOptional()
+	field := original.MakeRequired()
+
+	g.Expect(field.validations).To(ContainElement(ValidateRequired()))
+}
+
+func Test_PropertyDefinitionMakeRequired_WhenRequired_ReturnsExistingReference(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).MakeRequired()
+	field := original.MakeRequired()
+
+	g.Expect(field).To(BeIdenticalTo(original))
+}
+
+func Test_PropertyDefinitionMakeRequired_WhenTypeOptionalAndValidationPresent_ReturnsNewReference(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).
+		MakeOptional().
+		WithValidation(ValidateRequired())
 	field := original.MakeRequired()
 
 	g.Expect(field).NotTo(BeIdenticalTo(original))
 }
 
 /*
- * MakeTypeOptional() Tests
+ * MakeOptional() Tests
  */
 
-func Test_PropertyDefinitionWithRequiredType_MakeTypeOptional_ReturnsDifferentReference(t *testing.T) {
+func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsDifferentReference(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType)
-	field := original.MakeTypeOptional()
+	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).MakeRequired()
+	field := original.MakeOptional()
 
 	g.Expect(field).NotTo(BeIdenticalTo(original))
 }
 
-func Test_PropertyDefinitionWithOptionalType_MakeTypeOptional_ReturnsExistingReference(t *testing.T) {
+func TestPropertyDefinitionMakeOptional_WhenRequired_ReturnsTypeWithoutMandatoryValidation(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).MakeTypeOptional()
-	field := original.MakeTypeOptional()
+	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).MakeRequired()
+	field := original.MakeOptional()
+
+	g.Expect(field.validations).NotTo(ContainElement(ValidateRequired()))
+}
+
+func Test_PropertyDefinitionMakeOptional_WhenOptional_ReturnsExistingReference(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).MakeOptional()
+	field := original.MakeOptional()
 
 	g.Expect(field).To(BeIdenticalTo(original))
+}
+
+func Test_PropertyDefinitionMakeOptional_WhenTypeMandatoryAndMissingValidation_ReturnsNewReference(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType)
+	field := original.MakeOptional()
+
+	g.Expect(field).NotTo(BeIdenticalTo(original))
 }
 
 /*

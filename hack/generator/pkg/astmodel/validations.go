@@ -45,13 +45,31 @@ func GenerateKubebuilderComment(validation Validation) string {
 	return fmt.Sprintf("%s%s", prefix, validation.name)
 }
 
+func (v Validation) HasName(name string) bool {
+	return v.name == name
+}
+
+/*
+ * Constants for names of validation
+ */
+
+const (
+	EnumValidationName string = "Enum"
+	RequiredValidationName string = "Required"
+)
+
+/*
+ * Factory methods for Validation instances
+ */
+
 // ValidateEnum returns a Validation that requires the value be one of the
 // passed 'permittedValues'
 func ValidateEnum(permittedValues []interface{}) Validation {
-	return Validation{"Enum", permittedValues}
+	return Validation{EnumValidationName, permittedValues}
 }
 
 // ValidateRequired returns a Validation that requires a value be present
 func ValidateRequired() Validation {
-	return Validation{"Required", nil}
+	return Validation{RequiredValidationName, nil}
 }
+
