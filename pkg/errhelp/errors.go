@@ -58,6 +58,7 @@ const (
 	NameNotAvailable                               = "NameNotAvailable"
 	PublicIPIdleTimeoutIsOutOfRange                = "PublicIPIdleTimeoutIsOutOfRange"
 	InvalidRequestContent                          = "InvalidRequestContent"
+	InvalidMaxSizeTierCombination                  = "InvalidMaxSizeTierCombination"
 	InternalServerError                            = "InternalServerError"
 	NetworkAclsValidationFailure                   = "NetworkAclsValidationFailure"
 	SubnetHasServiceEndpointWithInvalidServiceName = "SubnetHasServiceEndpointWithInvalidServiceName"
