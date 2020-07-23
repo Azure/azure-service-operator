@@ -15,6 +15,16 @@ type MapType struct {
 	value Type
 }
 
+// KeyType returns the type of keys in the type represented by this MapType
+func (m *MapType) KeyType() Type {
+	return m.key
+}
+
+// ValueType returns the type of values in the type represented by this MapType
+func (m *MapType) ValueType() Type {
+	return m.value
+}
+
 // NewMapType creates a new map with the specified key and value types
 func NewMapType(key Type, value Type) *MapType {
 	return &MapType{key, value}

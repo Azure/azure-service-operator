@@ -539,35 +539,38 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		switch concreteType := st.(type) {
 		case *astmodel.ObjectType:
 			// if it's an object type get all its properties:
-			properties = append(properties, concreteType.Properties()...)
+			return append(properties, concreteType.Properties()...), nil
 
 		case *astmodel.ResourceType:
 			// it is a little strange to merge one resource into another with allOf,
 			// but it is done and therefore we have to support it.
 			// (an example is Microsoft.VisualStudio’s Project type)
 			// at the moment we will just take the spec type:
-			var err error
-			properties, err = handleType(properties, concreteType.SpecType())
-			if err != nil {
-				return nil, err
-			}
+			return handleType(properties, concreteType.SpecType())
 
 		case *astmodel.TypeName:
 			if def, ok := scanner.findTypeDefinition(concreteType); ok {
-				var err error
-				properties, err = handleType(properties, def.Type())
-				if err != nil {
-					return nil, err
-				}
-			} else {
-				return nil, errors.Errorf("couldn't find definition for: %v", concreteType)
+				return handleType(properties, def.Type())
 			}
 
-		default:
-			klog.Errorf("Unhandled type in allOf: %#v\n", concreteType)
+			return nil, errors.Errorf("couldn't find definition for: %v", concreteType)
+
+		case *astmodel.MapType:
+			if concreteType.KeyType().Equals(astmodel.StringType) {
+				// move map type into 'additionalProperties' property
+				// TODO: consider privileging this as its own property on ObjectType,
+				// since it has special behaviour and we need to handle it differently
+				// for JSON serialization
+				newProp := astmodel.NewPropertyDefinition(
+					"additionalProperties",
+					"additionalProperties",
+					concreteType)
+
+				return append(properties, newProp), nil
+			}
 		}
 
-		return properties, nil
+		return nil, errors.Errorf("unable to handle type in allOf: %#v\n", st)
 	}
 
 	// If there's more than one option, synthesize a type.
