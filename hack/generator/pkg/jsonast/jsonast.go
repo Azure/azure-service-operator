@@ -530,6 +530,16 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		}
 	}
 
+	// if the node that contains the allOf defines other properties, create an object type with them inside to merge
+	if len(schema.PropertiesChildren) > 0 {
+		objectType, err := scanner.RunHandler(ctx, Object, schema)
+		if err != nil {
+			return nil, err
+		}
+
+		types = append(types, objectType)
+	}
+
 	if len(types) == 1 {
 		return types[0], nil
 	}
