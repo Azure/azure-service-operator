@@ -46,19 +46,13 @@ func (property *PropertyDefinition) PropertyType() Type {
 }
 
 // WithDescription returns a new PropertyDefinition with the specified description
-func (property *PropertyDefinition) WithDescription(description *string) *PropertyDefinition {
-	if description == nil {
-		// Special handling for nil
-		d := ""
-		return property.WithDescription(&d)
-	}
-
-	if *description == property.description {
+func (property *PropertyDefinition) WithDescription(description string) *PropertyDefinition {
+	if description == property.description {
 		return property
 	}
 
 	result := *property
-	result.description = *description
+	result.description = description
 	return &result
 }
 

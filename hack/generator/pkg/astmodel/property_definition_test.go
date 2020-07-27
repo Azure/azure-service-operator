@@ -50,7 +50,7 @@ func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedGetters(t
 func Test_PropertyDefinitionWithDescription_GivenDescription_SetsField(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	field := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).WithDescription(&fieldDescription)
+	field := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).WithDescription(fieldDescription)
 
 	g.Expect(field.description).To(Equal(fieldDescription))
 }
@@ -59,7 +59,7 @@ func Test_PropertyDefinitionWithDescription_GivenDescription_ReturnsDifferentRef
 	g := NewGomegaWithT(t)
 
 	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType)
-	field := original.WithDescription(&fieldDescription)
+	field := original.WithDescription(fieldDescription)
 
 	g.Expect(field).NotTo(Equal(original))
 }
@@ -68,34 +68,25 @@ func Test_PropertyDefinitionWithDescription_GivenDescription_DoesNotModifyOrigin
 	g := NewGomegaWithT(t)
 
 	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType)
-	field := original.WithDescription(&fieldDescription)
+	field := original.WithDescription(fieldDescription)
 
 	g.Expect(field.description).NotTo(Equal(original.description))
 }
 
-func Test_PropertyDefinitionWithDescription_GivenNilDescription_SetsDescriptionToEmptyString(t *testing.T) {
+func Test_PropertyDefinitionWithDescription_GivenEmptyDescription_ReturnsDifferentReference(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).WithDescription(&fieldDescription)
-	field := original.WithDescription(nil)
-
-	g.Expect(field.description).To(Equal(""))
-}
-
-func Test_PropertyDefinitionWithDescription_GivenNilDescription_ReturnsDifferentReference(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).WithDescription(&fieldDescription)
-	field := original.WithDescription(nil)
+	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).WithDescription(fieldDescription)
+	field := original.WithDescription("")
 
 	g.Expect(field).NotTo(Equal(original))
 }
 
-func Test_PropertyDefinitionWithNoDescription_GivenNilDescription_ReturnsSameReference(t *testing.T) {
+func Test_PropertyDefinitionWithNoDescription_GivenEmptyDescription_ReturnsSameReference(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType)
-	field := original.WithDescription(nil)
+	field := original.WithDescription("")
 
 	g.Expect(field).To(Equal(original))
 }
@@ -103,8 +94,8 @@ func Test_PropertyDefinitionWithNoDescription_GivenNilDescription_ReturnsSameRef
 func Test_PropertyDefinitionWithDescription_GivenSameDescription_ReturnsSameReference(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).WithDescription(&fieldDescription)
-	field := original.WithDescription(&fieldDescription)
+	original := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).WithDescription(fieldDescription)
+	field := original.WithDescription(fieldDescription)
 
 	g.Expect(field).To(Equal(original))
 }
@@ -304,7 +295,7 @@ func Test_PropertyDefinitionAsAst_GivenValidField_ReturnsNonNilResult(t *testing
 
 	field := NewPropertyDefinition(fieldName, fieldJsonName, fieldType).
 		MakeRequired().
-		WithDescription(&fieldDescription)
+		WithDescription(fieldDescription)
 
 	node := field.AsField(nil)
 

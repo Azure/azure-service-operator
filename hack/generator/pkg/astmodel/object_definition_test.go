@@ -72,9 +72,9 @@ func Test_ObjectDefinitionAsAst_GivenValidStruct_ReturnsNonNilResult(t *testing.
 }
 
 func createStringProperty(name string, description string) *PropertyDefinition {
-	return NewPropertyDefinition(PropertyName(name), name, StringType).WithDescription(&description)
+	return NewPropertyDefinition(PropertyName(name), name, StringType).WithDescription(description)
 }
 
 func createIntProperty(name string, description string) *PropertyDefinition {
-	return NewPropertyDefinition(PropertyName(name), name, IntType).WithDescription(&description)
+	return NewPropertyDefinition(PropertyName(name), name, IntType).WithDescription(description)
 }
