@@ -45,6 +45,20 @@ func (std TypeDefinition) WithDescription(desc *string) TypeDefinition {
 	return std
 }
 
+// WithType returns an updated TypeDefinition with the specified type
+func (std *TypeDefinition) WithType(t Type) TypeDefinition {
+	result := *std
+	result.theType = t
+	return result
+}
+
+// WithName returns an updated TypeDefinition with the specified name
+func (std *TypeDefinition) WithName(typeName *TypeName) TypeDefinition {
+	result := *std
+	result.name = typeName
+	return result
+}
+
 func (std *TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
 	return std.theType.AsDeclarations(codeGenerationContext, std.name, std.description)
 }
