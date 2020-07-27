@@ -33,7 +33,8 @@ type IdentifierFactory interface {
 
 // identifierFactory is an implementation of the IdentifierFactory interface
 type identifierFactory struct {
-	renames map[string]string
+	renames       map[string]string
+	reservedWords map[string]string
 }
 
 // assert the implementation exists
@@ -42,7 +43,8 @@ var _ IdentifierFactory = (*identifierFactory)(nil)
 // NewIdentifierFactory creates an IdentifierFactory ready for use
 func NewIdentifierFactory() IdentifierFactory {
 	return &identifierFactory{
-		renames: createRenames(),
+		renames:       createRenames(),
+		reservedWords: createReservedWords(),
 	}
 }
 
@@ -73,6 +75,12 @@ func (factory *identifierFactory) CreateIdentifier(name string, visibility Visib
 	}
 
 	result := strings.Join(caseCorrectedWords, "")
+
+	if alternateWord, ok := factory.reservedWords[result]; ok {
+		// This is a reserved word, we need to use an alternate word
+		return alternateWord
+	}
+
 	return result
 }
 
@@ -85,6 +93,37 @@ func createRenames() map[string]string {
 	return map[string]string{
 		"$schema": "Schema",
 		"*":       "Star", // This happens mostly in enums
+	}
+}
+
+// These are words reserved by go, along with our chosen substitutes
+func createReservedWords() map[string]string {
+	return map[string]string{
+		"break":       "brk",
+		"case":        "c",
+		"chan":        "chn",
+		"const":       "cnst",
+		"continue":    "cont",
+		"default":     "def",
+		"defer":       "deferVar",
+		"else":        "els",
+		"fallthrough": "fallthrgh",
+		"for":         "f",
+		"func":        "funcVar",
+		"go":          "g",
+		"goto":        "gotoVar",
+		"if":          "ifVar",
+		"import":      "imp",
+		"interface":   "iface",
+		"map":         "m",
+		"package":     "pkg",
+		"range":       "rng",
+		"return":      "ret",
+		"select":      "sel",
+		"struct":      "strct",
+		"switch":      "sw",
+		"type":        "typeVar",
+		"var":         "v",
 	}
 }
 

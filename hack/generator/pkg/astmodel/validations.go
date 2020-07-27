@@ -54,7 +54,7 @@ func (v Validation) HasName(name string) bool {
  */
 
 const (
-	EnumValidationName string = "Enum"
+	EnumValidationName     string = "Enum"
 	RequiredValidationName string = "Required"
 )
 
@@ -72,4 +72,3 @@ func ValidateEnum(permittedValues []interface{}) Validation {
 func ValidateRequired() Validation {
 	return Validation{RequiredValidationName, nil}
 }
-
