@@ -82,13 +82,13 @@ func (property *PropertyDefinition) WithValidation(validation Validation) *Prope
 
 // MakeRequired returns a new PropertyDefinition that is marked as required
 func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
-	if !property.HasOptionalType() && property.HasRequiredValidation() {
+	if !property.hasOptionalType() && property.HasRequiredValidation() {
 		return property
 	}
 
 	result := *property
 
-	if property.HasOptionalType() {
+	if property.hasOptionalType() {
 		// Need to remove the optionality
 		ot := property.propertyType.(*OptionalType)
 		result.propertyType = ot.BaseType()
@@ -103,14 +103,14 @@ func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
 
 // MakeOptional returns a new PropertyDefinition that has an optional value
 func (property *PropertyDefinition) MakeOptional() *PropertyDefinition {
-	if property.HasOptionalType() && !property.HasRequiredValidation() {
+	if (property.hasOptionalType() || property.isReferenceType()) && !property.HasRequiredValidation() {
 		// No change required
 		return property
 	}
 
 	result := *property
 
-	if !property.HasOptionalType() {
+	if !property.hasOptionalType() && !property.isReferenceType() {
 		// Need to make the type optional
 		result.propertyType = NewOptionalType(result.propertyType)
 	}
@@ -143,10 +143,22 @@ func (property *PropertyDefinition) HasRequiredValidation() bool {
 	return false
 }
 
-// HasOptionalType returns true if the type of this property is an optioan reference to a value
+// hasOptionalType returns true if the type of this property is an optional reference to a value
 // (and might therefore be nil).
-func (property *PropertyDefinition) HasOptionalType() bool {
+func (property *PropertyDefinition) hasOptionalType() bool {
 	_, ok := property.propertyType.(*OptionalType)
+	return ok
+}
+
+// isReferenceType returns true if the type of this property is an array
+// or a map
+func (property *PropertyDefinition) isReferenceType() bool {
+	_, ok := property.propertyType.(*ArrayType)
+	if ok {
+		return true
+	}
+
+	_, ok = property.propertyType.(*MapType)
 	return ok
 }
 

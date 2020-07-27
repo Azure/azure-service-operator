@@ -191,6 +191,32 @@ func Test_PropertyDefinitionMakeRequired_WhenTypeOptionalAndValidationPresent_Re
 	g.Expect(field).NotTo(BeIdenticalTo(original))
 }
 
+func Test_PropertyDefinitionMakeRequired_PropertyTypeArrayAndMap(t *testing.T) {
+
+	cases := []struct {
+		name       string
+		propertyType  Type
+	}{
+		// Expect equal to self
+		{"required array property returns self", NewArrayType(fieldType)},
+		{"required map property returns self", NewMapType(fieldType, fieldType)},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			original := NewPropertyDefinition(fieldName, fieldJsonName, c.propertyType)
+			field := original.MakeRequired()
+
+			g.Expect(field).NotTo(BeIdenticalTo(original))
+			g.Expect(field.validations).To(ContainElement(ValidateRequired()))
+			g.Expect(field.propertyType).To(BeIdenticalTo(original.propertyType))
+		})
+	}
+}
+
 /*
  * MakeOptional() Tests
  */
@@ -229,6 +255,44 @@ func Test_PropertyDefinitionMakeOptional_WhenTypeMandatoryAndMissingValidation_R
 	field := original.MakeOptional()
 
 	g.Expect(field).NotTo(BeIdenticalTo(original))
+}
+
+func Test_PropertyDefinitionMakeOptional_PropertyTypeArrayAndMap(t *testing.T) {
+
+	cases := []struct {
+		name                  string
+		propertyType          Type
+		propertyRequiredFirst bool
+	}{
+		// Expect equal to self
+		{"optional array property returns self", NewArrayType(fieldType), false},
+		{"optional map property returns self", NewMapType(fieldType, fieldType), false},
+		{"required array property returns new property", NewArrayType(fieldType), true},
+		{"required map property returns new property", NewMapType(fieldType, fieldType), true},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			if c.propertyRequiredFirst {
+				original := NewPropertyDefinition(fieldName, fieldJsonName, c.propertyType)
+				required := original.MakeRequired()
+				field := required.MakeOptional()
+
+				g.Expect(field).NotTo(BeIdenticalTo(original))
+				g.Expect(field.validations).NotTo(ContainElement(ValidateRequired()))
+				g.Expect(field.propertyType).To(BeIdenticalTo(required.propertyType))
+			} else {
+				original := NewPropertyDefinition(fieldName, fieldJsonName, c.propertyType)
+				field := original.MakeOptional()
+
+				g.Expect(field).To(BeIdenticalTo(original))
+			}
+		})
+	}
 }
 
 /*
