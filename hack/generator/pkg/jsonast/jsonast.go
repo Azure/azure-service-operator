@@ -91,7 +91,7 @@ const (
 
 func (use *UnknownSchemaError) Error() string {
 	if use.Schema == nil || use.Schema.ID == nil {
-		return fmt.Sprint("unable to determine schema type for nil schema or one without an ID")
+		return "unable to determine schema type for nil schema or one without an ID"
 	}
 	return fmt.Sprintf("unable to determine the schema type for %s", use.Schema.ID.String())
 }

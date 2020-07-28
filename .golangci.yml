@@ -4,3 +4,4 @@ run:
 linters:
   enable:
     - gofmt
+    - exportloopref

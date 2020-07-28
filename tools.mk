@@ -38,7 +38,7 @@ $(CONVERSION_GEN): ## Build conversion-gen from tools folder.
 
 $(GOLANGCI_LINT): ## Build golangci-lint from tools folder.
 	echo $(ROOT_DIR)
-	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) github.com/golangci/golangci-lint/cmd/golangci-lint@v1.26.0
+	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) github.com/golangci/golangci-lint/cmd/golangci-lint@v1.29.0
 
 .PHONY: header-check
 header-check: ## Runs header checks on all files to verify boilerplate

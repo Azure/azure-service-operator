@@ -28,6 +28,7 @@ type TypeMatcher struct {
 	Because string
 }
 
+// Initialize initializes the type matcher
 func (typeMatcher *TypeMatcher) Initialize() error {
 	typeMatcher.groupRegex = createGlobbingRegex(typeMatcher.Group)
 	typeMatcher.versionRegex = createGlobbingRegex(typeMatcher.Version)

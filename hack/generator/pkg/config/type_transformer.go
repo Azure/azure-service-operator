@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
+// A transformation target
 type TransformTarget struct {
 	PackagePath string `yaml:",omitempty"`
 	Name        string `yaml:",omitempty"`
@@ -77,6 +78,8 @@ func (transformer *TypeTransformer) initializePrimitiveTypeTarget() error {
 	return nil
 }
 
+// TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
+// the provided type name matches the pattern(s) specified in the TypeTransformer
 func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName) astmodel.Type {
 	name := typeName.Name()
 

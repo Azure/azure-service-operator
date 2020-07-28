@@ -52,7 +52,7 @@ func NewConfiguration() *Configuration {
 	return &result
 }
 
-/// WithExportFilters adds the provided ExportFilters to the configurations collection of ExportFilters
+// WithExportFilters adds the provided ExportFilters to the configurations collection of ExportFilters
 func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Configuration {
 	result := *config
 	result.ExportFilters = append(result.ExportFilters, filters...)

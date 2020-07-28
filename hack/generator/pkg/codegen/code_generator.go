@@ -21,7 +21,7 @@ type CodeGenerator struct {
 	pipeline      []PipelineStage
 }
 
-// NewCodeGenerator produces a new Generator with the given configuration
+// NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
 func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, error) {
 	configuration, err := loadConfiguration(configurationFile)
 	if err != nil {
@@ -38,7 +38,7 @@ func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, e
 	return NewCodeGeneratorFromConfig(configuration, idFactory)
 }
 
-// NewCodeGenerator produces a new Generator with the given configuration
+// NewCodeGeneratorFromConfig produces a new Generator with the given configuration
 func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) (*CodeGenerator, error) {
 	var pipeline []PipelineStage
 	pipeline = append(pipeline, loadSchemaIntoTypes(idFactory, configuration, defaultSchemaLoader))

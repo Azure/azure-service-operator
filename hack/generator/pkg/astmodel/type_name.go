@@ -82,6 +82,7 @@ func (typeName TypeName) String() string {
 	return fmt.Sprintf("%s/%s", typeName.PackageReference, typeName.name)
 }
 
+// Singular returns a typename with the name singularized
 func (typeName TypeName) Singular() TypeName {
 	return MakeTypeName(typeName.PackageReference, flect.Singularize(typeName.name))
 }

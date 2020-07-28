@@ -381,7 +381,7 @@ func (gr *GenericReconciler) reconcileDelete(ctx context.Context, metaObj azcore
 
 	switch resource.ProvisioningState {
 	case zips.DeletingProvisioningState:
-		msg := fmt.Sprintf("deleting... checking for updated state")
+		msg := "deleting... checking for updated state"
 		gr.Recorder.Event(metaObj, v1.EventTypeNormal, "ResourceDeleteInProgress", msg)
 		return gr.updateFromNonTerminalDeleteState(ctx, resource, metaObj)
 	default:
