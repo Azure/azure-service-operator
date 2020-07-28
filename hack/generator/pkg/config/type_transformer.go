@@ -47,8 +47,8 @@ func (transformer *TypeTransformer) Initialize() error {
 		return transformer.initializePrimitiveTypeTarget()
 	}
 
-	transformer.targetType = astmodel.NewTypeName(
-		*astmodel.NewPackageReference(transformer.Target.PackagePath),
+	transformer.targetType = astmodel.MakeTypeName(
+		astmodel.MakePackageReference(transformer.Target.PackagePath),
 		transformer.Target.Name)
 	return nil
 }
@@ -77,7 +77,7 @@ func (transformer *TypeTransformer) initializePrimitiveTypeTarget() error {
 	return nil
 }
 
-func (transformer *TypeTransformer) TransformTypeName(typeName *astmodel.TypeName) astmodel.Type {
+func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName) astmodel.Type {
 	name := typeName.Name()
 
 	if typeName.PackageReference.IsLocalPackage() {

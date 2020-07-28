@@ -12,10 +12,10 @@ type FakeFunction struct {
 	Referenced TypeNameSet
 }
 
-func (fake *FakeFunction) RequiredImports() []*PackageReference {
-	var result []*PackageReference
+func (fake *FakeFunction) RequiredImports() []PackageReference {
+	var result []PackageReference
 	for k := range fake.Imported {
-		result = append(result, &k)
+		result = append(result, k)
 	}
 
 	return result
@@ -25,7 +25,7 @@ func (fake *FakeFunction) References() TypeNameSet {
 	return fake.Referenced
 }
 
-func (fake *FakeFunction) AsFunc(codeGenerationContext *CodeGenerationContext, receiver *TypeName, methodName string) *ast.FuncDecl {
+func (fake *FakeFunction) AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
 	panic("implement me")
 }
 

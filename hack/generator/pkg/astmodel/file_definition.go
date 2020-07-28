@@ -23,19 +23,19 @@ import (
 // FileDefinition is the content of a file we're generating
 type FileDefinition struct {
 	// the package this file is in
-	packageReference *PackageReference
+	packageReference PackageReference
 	// definitions to include in this file
 	definitions []TypeDefinition
 }
 
 // NewFileDefinition creates a file definition containing specified definitions
-func NewFileDefinition(packageRef *PackageReference, definitions ...TypeDefinition) *FileDefinition {
+func NewFileDefinition(packageRef PackageReference, definitions ...TypeDefinition) *FileDefinition {
 
 	// Topological sort of the definitions, putting them in order of reference
 	ranks := calcRanks(definitions)
 	sort.Slice(definitions, func(i, j int) bool {
-		iRank := ranks[*definitions[i].Name()]
-		jRank := ranks[*definitions[j].Name()]
+		iRank := ranks[definitions[i].Name()]
+		jRank := ranks[definitions[j].Name()]
 		if iRank != jRank {
 			return iRank < jRank
 		}
@@ -66,10 +66,10 @@ func calcRanks(definitions []TypeDefinition) map[TypeName]int {
 	for _, d := range definitions {
 		if _, ok := d.Type().(*ResourceType); ok {
 			// Resources have rank 0
-			ranks[*d.Name()] = 0
-		} else if _, ok := nonroots[*d.Name()]; !ok {
+			ranks[d.Name()] = 0
+		} else if _, ok := nonroots[d.Name()]; !ok {
 			// Roots have rank 0
-			ranks[*d.Name()] = 0
+			ranks[d.Name()] = 0
 		}
 		queue = append(queue, d)
 	}
@@ -80,7 +80,7 @@ func calcRanks(definitions []TypeDefinition) map[TypeName]int {
 		if len(queue) == lastLength {
 			// No progress made - give everything remaining a fallback rank
 			for _, d := range queue {
-				ranks[*d.Name()] = 10000
+				ranks[d.Name()] = 10000
 			}
 
 			queue = nil
@@ -102,7 +102,7 @@ func assignRanks(definers []TypeDefinition, ranks map[TypeName]int) []TypeDefini
 	// making any changes to ranks to avoid iteration ordering having any impact on the ranks
 	// assigned.
 	for _, d := range definers {
-		if _, ok := ranks[*d.Name()]; ok {
+		if _, ok := ranks[d.Name()]; ok {
 			assignable = append(assignable, d)
 		} else {
 			remaining = append(remaining, d)
@@ -111,7 +111,7 @@ func assignRanks(definers []TypeDefinition, ranks map[TypeName]int) []TypeDefini
 
 	// Assign ranks
 	for _, d := range assignable {
-		rank := ranks[*d.Name()]
+		rank := ranks[d.Name()]
 		for ref := range d.References() {
 			if _, ok := ranks[ref]; !ok {
 				// Never overwrite an existing rank
@@ -132,7 +132,7 @@ func (file *FileDefinition) generateImports() map[PackageImport]struct{} {
 		for _, requiredImport := range s.RequiredImports() {
 			// no need to import the current package
 			if !requiredImport.Equals(file.packageReference) {
-				newImport := NewPackageImport(*requiredImport)
+				newImport := NewPackageImport(requiredImport)
 
 				if requiredImport.PackagePath() == MetaV1PackageReference.PackagePath() {
 					newImport = newImport.WithName("metav1")

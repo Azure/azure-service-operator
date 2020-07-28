@@ -24,9 +24,9 @@ func Test_NewFileDefinition_GivenValues_InitializesFields(t *testing.T) {
 		NewStringPropertyDefinition("knownAs"),
 		NewStringPropertyDefinition("familyName"),
 	)
-	file := NewFileDefinition(&person.Name().PackageReference, person)
+	file := NewFileDefinition(person.Name().PackageReference, person)
 
-	g.Expect(*file.packageReference).To(Equal(person.Name().PackageReference))
+	g.Expect(file.packageReference).To(Equal(person.Name().PackageReference))
 	g.Expect(file.definitions).To(HaveLen(1))
 }
 
@@ -50,10 +50,10 @@ func Test_CalcRanks_GivenMultipleRoots_AssignsRankZeroToAll(t *testing.T) {
 
 	ranks := calcRanks([]TypeDefinition{root1, root2, root3, root4})
 
-	g.Expect(ranks[*root1.Name()]).To(Equal(0))
-	g.Expect(ranks[*root2.Name()]).To(Equal(0))
-	g.Expect(ranks[*root3.Name()]).To(Equal(0))
-	g.Expect(ranks[*root4.Name()]).To(Equal(0))
+	g.Expect(ranks[root1.Name()]).To(Equal(0))
+	g.Expect(ranks[root2.Name()]).To(Equal(0))
+	g.Expect(ranks[root3.Name()]).To(Equal(0))
+	g.Expect(ranks[root4.Name()]).To(Equal(0))
 }
 
 func Test_CalcRanks_GivenLinearDependencies_AssignsRanksInOrder(t *testing.T) {
@@ -102,10 +102,10 @@ func Test_CalcRanks_GivenLinearDependencies_AssignsRanksInOrder(t *testing.T) {
 
 	ranks := calcRanks([]TypeDefinition{rank0, rank1, rank2, rank3})
 
-	g.Expect(ranks[*rank0.Name()]).To(Equal(0))
-	g.Expect(ranks[*rank1.Name()]).To(Equal(1))
-	g.Expect(ranks[*rank2.Name()]).To(Equal(2))
-	g.Expect(ranks[*rank3.Name()]).To(Equal(3))
+	g.Expect(ranks[rank0.Name()]).To(Equal(0))
+	g.Expect(ranks[rank1.Name()]).To(Equal(1))
+	g.Expect(ranks[rank2.Name()]).To(Equal(2))
+	g.Expect(ranks[rank3.Name()]).To(Equal(3))
 }
 
 func Test_CalcRanks_GivenDiamondDependencies_AssignRanksInOrder(t *testing.T) {
@@ -146,10 +146,10 @@ func Test_CalcRanks_GivenDiamondDependencies_AssignRanksInOrder(t *testing.T) {
 
 	ranks := calcRanks([]TypeDefinition{top, left, right, bottom})
 
-	g.Expect(ranks[*top.Name()]).To(Equal(0))
-	g.Expect(ranks[*right.Name()]).To(Equal(1))
-	g.Expect(ranks[*left.Name()]).To(Equal(1))
-	g.Expect(ranks[*bottom.Name()]).To(Equal(2))
+	g.Expect(ranks[top.Name()]).To(Equal(0))
+	g.Expect(ranks[right.Name()]).To(Equal(1))
+	g.Expect(ranks[left.Name()]).To(Equal(1))
+	g.Expect(ranks[bottom.Name()]).To(Equal(2))
 }
 
 func Test_CalcRanks_GivenDiamondWithBar_AssignRanksInOrder(t *testing.T) {
@@ -190,10 +190,10 @@ func Test_CalcRanks_GivenDiamondWithBar_AssignRanksInOrder(t *testing.T) {
 
 	ranks := calcRanks([]TypeDefinition{top, left, right, bottom})
 
-	g.Expect(ranks[*top.Name()]).To(Equal(0))
-	g.Expect(ranks[*right.Name()]).To(Equal(1))
-	g.Expect(ranks[*left.Name()]).To(Equal(1))
-	g.Expect(ranks[*bottom.Name()]).To(Equal(2))
+	g.Expect(ranks[top.Name()]).To(Equal(0))
+	g.Expect(ranks[right.Name()]).To(Equal(1))
+	g.Expect(ranks[left.Name()]).To(Equal(1))
+	g.Expect(ranks[bottom.Name()]).To(Equal(2))
 }
 
 func Test_CalcRanks_GivenDiamondWithReverseBar_AssignRanksInOrder(t *testing.T) {
@@ -234,10 +234,10 @@ func Test_CalcRanks_GivenDiamondWithReverseBar_AssignRanksInOrder(t *testing.T) 
 
 	ranks := calcRanks([]TypeDefinition{top, left, right, bottom})
 
-	g.Expect(ranks[*top.Name()]).To(Equal(0))
-	g.Expect(ranks[*right.Name()]).To(Equal(1))
-	g.Expect(ranks[*left.Name()]).To(Equal(1))
-	g.Expect(ranks[*bottom.Name()]).To(Equal(2))
+	g.Expect(ranks[top.Name()]).To(Equal(0))
+	g.Expect(ranks[right.Name()]).To(Equal(1))
+	g.Expect(ranks[left.Name()]).To(Equal(1))
+	g.Expect(ranks[bottom.Name()]).To(Equal(2))
 }
 
 /*
@@ -245,7 +245,7 @@ func Test_CalcRanks_GivenDiamondWithReverseBar_AssignRanksInOrder(t *testing.T) 
  */
 
 func NewTestObject(name string, fields ...*PropertyDefinition) TypeDefinition {
-	ref := NewTypeName(*NewLocalPackageReference("group", "2020-01-01"), name)
+	ref := MakeTypeName(MakeLocalPackageReference("group", "2020-01-01"), name)
 	return MakeTypeDefinition(ref, NewObjectType().WithProperties(fields...))
 }
 

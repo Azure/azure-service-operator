@@ -37,12 +37,12 @@ func (prim *PrimitiveType) AsType(codeGenerationContext *CodeGenerationContext) 
 	return ast.NewIdent(prim.name)
 }
 
-func (prim *PrimitiveType) AsDeclarations(CodeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+func (prim *PrimitiveType) AsDeclarations(CodeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
 	return AsSimpleDeclarations(CodeGenerationContext, name, description, prim)
 }
 
 // RequiredImports returns a list of package required by this
-func (prim *PrimitiveType) RequiredImports() []*PackageReference {
+func (prim *PrimitiveType) RequiredImports() []PackageReference {
 	return nil
 }
 

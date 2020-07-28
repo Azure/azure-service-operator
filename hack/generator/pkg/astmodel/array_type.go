@@ -22,7 +22,7 @@ func NewArrayType(element Type) *ArrayType {
 // assert we implemented Type correctly
 var _ Type = (*ArrayType)(nil)
 
-func (array *ArrayType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+func (array *ArrayType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
 	return AsSimpleDeclarations(codeGenerationContext, name, description, array)
 }
 
@@ -34,7 +34,7 @@ func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) ast
 }
 
 // RequiredImports returns a list of packages required by this
-func (array *ArrayType) RequiredImports() []*PackageReference {
+func (array *ArrayType) RequiredImports() []PackageReference {
 	return array.element.RequiredImports()
 }
 

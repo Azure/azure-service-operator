@@ -79,7 +79,7 @@ func (definition *ResourceType) MarkAsStorageVersion() *ResourceType {
 }
 
 // RequiredImports returns a list of packages required by this
-func (definition *ResourceType) RequiredImports() []*PackageReference {
+func (definition *ResourceType) RequiredImports() []PackageReference {
 	typeImports := definition.spec.RequiredImports()
 
 	if definition.status != nil {
@@ -92,7 +92,7 @@ func (definition *ResourceType) RequiredImports() []*PackageReference {
 }
 
 // AsDeclarations converts the resource type to a set of go declarations
-func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, typeName *TypeName, description *string) []ast.Decl {
+func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, typeName TypeName, description *string) []ast.Decl {
 
 	packageName, err := codeGenerationContext.GetImportedPackageName(MetaV1PackageReference)
 	if err != nil {

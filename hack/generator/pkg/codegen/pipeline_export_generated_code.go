@@ -191,7 +191,7 @@ func groupResourcesByVersion(packages []*astmodel.PackageDefinition) (map[unvers
 	return result, nil
 }
 
-func getUnversionedName(name *astmodel.TypeName) (unversionedName, error) {
+func getUnversionedName(name astmodel.TypeName) (unversionedName, error) {
 	group, _, err := name.PackageReference.GroupAndPackage()
 	if err != nil {
 		return unversionedName{}, err

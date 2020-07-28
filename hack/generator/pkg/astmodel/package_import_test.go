@@ -12,8 +12,8 @@ import (
 )
 
 func TestPackageImport_Equals(t *testing.T) {
-	localPkgRef := NewLocalPackageReference("group", "ver")
-	localPkgImport := NewPackageImport(*localPkgRef)
+	localPkgRef := MakeLocalPackageReference("group", "ver")
+	localPkgImport := NewPackageImport(localPkgRef)
 
 	cases := []struct {
 		name     string
@@ -22,7 +22,7 @@ func TestPackageImport_Equals(t *testing.T) {
 		expected bool
 	}{
 		{"package import is equal to itself", localPkgImport, localPkgImport, true},
-		{"package import is equal to same import different reference", NewPackageImport(*localPkgRef), NewPackageImport(*localPkgRef), true},
+		{"package import is equal to same import different reference", NewPackageImport(localPkgRef), NewPackageImport(localPkgRef), true},
 		{"package import is not equal to import with name", localPkgImport, localPkgImport.WithName("ref"), false},
 		{"package import differs by name is not equal", localPkgImport.WithName("ref1"), localPkgImport.WithName("ref2"), false},
 		{"package imports with same name are equal", localPkgImport.WithName("ref"), localPkgImport.WithName("ref"), true},

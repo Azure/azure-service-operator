@@ -22,7 +22,7 @@ func NewOptionalType(element Type) *OptionalType {
 // assert we implemented Type correctly
 var _ Type = (*OptionalType)(nil)
 
-func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
 	return AsSimpleDeclarations(codeGenerationContext, name, description, optional)
 }
 
@@ -39,7 +39,7 @@ func (optional *OptionalType) AsType(codeGenerationContext *CodeGenerationContex
 }
 
 // RequiredImports returns the imports required by the 'element' type
-func (optional *OptionalType) RequiredImports() []*PackageReference {
+func (optional *OptionalType) RequiredImports() []PackageReference {
 	return optional.element.RequiredImports()
 }
 

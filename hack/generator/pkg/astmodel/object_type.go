@@ -31,7 +31,7 @@ func NewObjectType() *ObjectType {
 	}
 }
 
-func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
 	identifier := ast.NewIdent(name.Name())
 	declaration := &ast.GenDecl{
 		Tok: token.TYPE,
@@ -53,7 +53,7 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 	return result
 }
 
-func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName *TypeName) []ast.Decl {
+func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []ast.Decl {
 	var result []ast.Decl
 	for methodName, function := range objectType.functions {
 		funcDef := function.AsFunc(codeGenerationContext, typeName, methodName)
@@ -114,8 +114,8 @@ func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContex
 }
 
 // RequiredImports returns a list of packages required by this
-func (objectType *ObjectType) RequiredImports() []*PackageReference {
-	var result []*PackageReference
+func (objectType *ObjectType) RequiredImports() []PackageReference {
+	var result []PackageReference
 	for _, property := range objectType.properties {
 		result = append(result, property.PropertyType().RequiredImports()...)
 	}

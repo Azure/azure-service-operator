@@ -12,7 +12,7 @@ import (
 
 // PackageImport represents an import of a name from a package
 type PackageImport struct {
-	PackageReference PackageReference // This is used as the key in a map so can't be pointer
+	PackageReference PackageReference
 	name             *string
 }
 
@@ -57,7 +57,7 @@ func (pi *PackageImport) PackageName() string {
 
 // Equals returns true if the passed package reference references the same package, false otherwise
 func (pi *PackageImport) Equals(ref *PackageImport) bool {
-	packagesEqual := pi.PackageReference.Equals(&ref.PackageReference)
+	packagesEqual := pi.PackageReference.Equals(ref.PackageReference)
 	namesEqual := (pi.name == nil && ref.name == nil) || (pi.name != nil && ref.name != nil && *pi.name == *ref.name)
 
 	return packagesEqual && namesEqual

@@ -7,9 +7,10 @@ package config
 
 import (
 	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"regexp"
 	"strings"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
 // TypeMatcher contains basic functionality for a filter
@@ -60,7 +61,7 @@ func (typeMatcher *TypeMatcher) matches(glob string, regex **regexp.Regexp, name
 }
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
-func (typeMatcher *TypeMatcher) AppliesToType(typeName *astmodel.TypeName) bool {
+func (typeMatcher *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 	groupName, packageName, err := typeName.PackageReference.GroupAndPackage()
 	if err != nil {
 		// TODO: Should this func return an error rather than panic?

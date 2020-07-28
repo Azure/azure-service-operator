@@ -44,7 +44,7 @@ func (f *OneOfJSONMarshalFunction) References() TypeNameSet {
 // AsFunc returns the function as a go ast
 func (f *OneOfJSONMarshalFunction) AsFunc(
 	codeGenerationContext *CodeGenerationContext,
-	receiver *TypeName,
+	receiver TypeName,
 	methodName string) *ast.FuncDecl {
 
 	receiverName := f.idFactory.CreateIdentifier(receiver.name, NotExported)
@@ -135,8 +135,8 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 }
 
 // RequiredImports returns a list of packages required by this
-func (f *OneOfJSONMarshalFunction) RequiredImports() []*PackageReference {
-	return []*PackageReference{
-		NewPackageReference("encoding/json"),
+func (f *OneOfJSONMarshalFunction) RequiredImports() []PackageReference {
+	return []PackageReference{
+		MakePackageReference("encoding/json"),
 	}
 }

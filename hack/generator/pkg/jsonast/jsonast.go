@@ -49,28 +49,28 @@ type (
 )
 
 // findTypeDefinition looks to see if we have seen the specified definition before, returning its definition if we have.
-func (scanner *SchemaScanner) findTypeDefinition(name *astmodel.TypeName) (*astmodel.TypeDefinition, bool) {
-	result, ok := scanner.definitions[*name]
+func (scanner *SchemaScanner) findTypeDefinition(name astmodel.TypeName) (*astmodel.TypeDefinition, bool) {
+	result, ok := scanner.definitions[name]
 	return result, ok
 }
 
 // addTypeDefinition adds a type definition to emit later
 func (scanner *SchemaScanner) addTypeDefinition(def astmodel.TypeDefinition) {
-	if existing, ok := scanner.definitions[*def.Name()]; ok && existing != nil {
+	if existing, ok := scanner.definitions[def.Name()]; ok && existing != nil {
 		panic(fmt.Sprintf("overwriting existing definition for %v", def.Name()))
 	}
 
-	scanner.definitions[*def.Name()] = &def
+	scanner.definitions[def.Name()] = &def
 }
 
 // addEmptyTypeDefinition adds a placeholder definition; it should always be replaced later
-func (scanner *SchemaScanner) addEmptyTypeDefinition(name *astmodel.TypeName) {
-	scanner.definitions[*name] = nil
+func (scanner *SchemaScanner) addEmptyTypeDefinition(name astmodel.TypeName) {
+	scanner.definitions[name] = nil
 }
 
 // removeTypeDefinition removes a type definition
-func (scanner *SchemaScanner) removeTypeDefinition(name *astmodel.TypeName) {
-	delete(scanner.definitions, *name)
+func (scanner *SchemaScanner) removeTypeDefinition(name astmodel.TypeName) {
+	delete(scanner.definitions, name)
 }
 
 // Definitions for different kinds of JSON schema
@@ -188,11 +188,11 @@ func (scanner *SchemaScanner) GenerateDefinitions(
 		return nil, errors.Wrapf(err, "Unable to extract version for schema")
 	}
 
-	rootPackage := astmodel.NewLocalPackageReference(
+	rootPackage := astmodel.MakeLocalPackageReference(
 		scanner.idFactory.CreateGroupName(rootGroup),
 		scanner.idFactory.CreatePackageNameFromVersion(rootVersion))
 
-	rootTypeName := astmodel.NewTypeName(*rootPackage, rootName)
+	rootTypeName := astmodel.MakeTypeName(rootPackage, rootName)
 
 	_, err = generateDefinitionsFor(ctx, scanner, rootTypeName, false, url, schema)
 	if err != nil {
@@ -207,7 +207,7 @@ func (scanner *SchemaScanner) GenerateDefinitions(
 			panic(fmt.Sprintf("%v was nil", defName))
 		}
 
-		defs[*def.Name()] = *def
+		defs[def.Name()] = *def
 	}
 
 	return defs, nil
@@ -443,8 +443,8 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 	isResource := isResource(url)
 
 	// produce a usable name:
-	typeName := astmodel.NewTypeName(
-		*astmodel.NewLocalPackageReference(
+	typeName := astmodel.MakeTypeName(
+		astmodel.MakeLocalPackageReference(
 			scanner.idFactory.CreateGroupName(group),
 			scanner.idFactory.CreatePackageNameFromVersion(version)),
 		scanner.idFactory.CreateIdentifier(name, astmodel.Exported))
@@ -469,7 +469,7 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 func generateDefinitionsFor(
 	ctx context.Context,
 	scanner *SchemaScanner,
-	typeName *astmodel.TypeName,
+	typeName astmodel.TypeName,
 	isResource bool,
 	url *url.URL,
 	schema *gojsonschema.SubSchema) (astmodel.Type, error) {
@@ -556,7 +556,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 			// at the moment we will just take the spec type:
 			return handleType(properties, concreteType.SpecType())
 
-		case *astmodel.TypeName:
+		case astmodel.TypeName:
 			if def, ok := scanner.findTypeDefinition(concreteType); ok {
 				return handleType(properties, def.Type())
 			}
@@ -632,7 +632,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 
 	for i, t := range results {
 		switch concreteType := t.(type) {
-		case *astmodel.TypeName:
+		case astmodel.TypeName:
 			// Just a sanity check that we've already scanned this definition
 			// TODO: Could remove this?
 			if _, ok := scanner.findTypeDefinition(concreteType); !ok {

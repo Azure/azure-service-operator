@@ -32,15 +32,15 @@ func StripUnusedDefinitions(
 	references := make(map[astmodel.TypeName]astmodel.TypeNameSet)
 
 	for _, def := range definitions {
-		references[*def.Name()] = def.References()
+		references[def.Name()] = def.References()
 	}
 
 	graph := newReferenceGraph(roots, references)
 	connectedTypes := graph.connected()
 	usedDefinitions := make(Types)
 	for _, def := range definitions {
-		if connectedTypes.Contains(*def.Name()) {
-			usedDefinitions[*def.Name()] = def
+		if connectedTypes.Contains(def.Name()) {
+			usedDefinitions[def.Name()] = def
 		}
 	}
 
@@ -53,7 +53,7 @@ func collectResourceDefinitions(definitions Types) astmodel.TypeNameSet {
 	resources := make(astmodel.TypeNameSet)
 	for _, def := range definitions {
 		if _, ok := def.Type().(*astmodel.ResourceType); ok {
-			resources.Add(*def.Name())
+			resources.Add(def.Name())
 		}
 	}
 	return resources

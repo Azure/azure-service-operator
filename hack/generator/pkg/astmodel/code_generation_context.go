@@ -13,11 +13,11 @@ import "github.com/pkg/errors"
 // a disambiguation must occur and field types must ensure they correctly refer to the disambiguated types
 type CodeGenerationContext struct {
 	packageImports map[PackageReference]PackageImport
-	currentPackage *PackageReference
+	currentPackage PackageReference
 }
 
 // New CodeGenerationContext creates a new immutable code generation context
-func NewCodeGenerationContext(currentPackage *PackageReference, packageImports map[PackageImport]struct{}) *CodeGenerationContext {
+func NewCodeGenerationContext(currentPackage PackageReference, packageImports map[PackageImport]struct{}) *CodeGenerationContext {
 	packageImportsMap := make(map[PackageReference]PackageImport)
 	for imp := range packageImports {
 		packageImportsMap[imp.PackageReference] = imp
@@ -38,8 +38,8 @@ func (codeGenContext *CodeGenerationContext) PackageImports() map[PackageReferen
 }
 
 // GetImportedPackageName gets the imported packages name or an error if the package was not imported
-func (codeGenContext *CodeGenerationContext) GetImportedPackageName(reference *PackageReference) (string, error) {
-	packageImport, ok := codeGenContext.packageImports[*reference]
+func (codeGenContext *CodeGenerationContext) GetImportedPackageName(reference PackageReference) (string, error) {
+	packageImport, ok := codeGenContext.packageImports[reference]
 	if !ok {
 		return "", errors.Errorf("package %s not imported", reference)
 	}

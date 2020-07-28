@@ -21,8 +21,8 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 			result := make(Types)
 
 			// this is a little bit of a hack, better way to do it?
-			getDescription := func(typeName *astmodel.TypeName) *string {
-				if typeDef, ok := types[*typeName]; ok {
+			getDescription := func(typeName astmodel.TypeName) *string {
+				if typeDef, ok := types[typeName]; ok {
 					return typeDef.Description()
 				}
 
@@ -32,7 +32,7 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 			for typeName, typeDef := range types {
 				newDefs := nameInnerTypes(typeDef, idFactory, getDescription)
 				for _, newDef := range newDefs {
-					result[*newDef.Name()] = newDef
+					result[newDef.Name()] = newDef
 				}
 
 				if _, ok := result[typeName]; !ok {
@@ -50,7 +50,7 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 func nameInnerTypes(
 	def astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	getDescription func(*astmodel.TypeName) *string) []astmodel.TypeDefinition {
+	getDescription func(astmodel.TypeName) *string) []astmodel.TypeDefinition {
 
 	var resultTypes []astmodel.TypeDefinition
 
@@ -60,7 +60,7 @@ func nameInnerTypes(
 	visitor.VisitEnumType = func(this *astmodel.TypeVisitor, it *astmodel.EnumType, ctx interface{}) astmodel.Type {
 		nameHint := ctx.(string)
 
-		enumName := astmodel.NewTypeName(def.Name().PackageReference, idFactory.CreateEnumIdentifier(nameHint))
+		enumName := astmodel.MakeTypeName(def.Name().PackageReference, idFactory.CreateEnumIdentifier(nameHint))
 
 		namedEnum := astmodel.MakeTypeDefinition(enumName, it)
 		namedEnum = namedEnum.WithDescription(getDescription(enumName))
@@ -80,7 +80,7 @@ func nameInnerTypes(
 			props = append(props, prop.WithType(newPropType))
 		}
 
-		objectName := astmodel.NewTypeName(def.Name().PackageReference, nameHint)
+		objectName := astmodel.MakeTypeName(def.Name().PackageReference, nameHint)
 
 		namedObjectType := astmodel.MakeTypeDefinition(objectName, it.WithProperties(props...))
 		namedObjectType = namedObjectType.WithDescription(getDescription(objectName))
@@ -95,12 +95,12 @@ func nameInnerTypes(
 
 		spec := this.Visit(it.SpecType(), nameHint+"Spec")
 
-		var status astmodel.Type // the type is very important here, it must be a nil(Type) if status isn’t set, not a nil(*TypeName)
+		var status astmodel.Type
 		if it.StatusType() != nil {
 			status = this.Visit(it.StatusType(), nameHint+"Status")
 		}
 
-		resourceName := astmodel.NewTypeName(def.Name().PackageReference, nameHint)
+		resourceName := astmodel.MakeTypeName(def.Name().PackageReference, nameHint)
 
 		resource := astmodel.MakeTypeDefinition(resourceName, astmodel.NewResourceType(spec, status))
 		resource = resource.WithDescription(getDescription(resourceName))

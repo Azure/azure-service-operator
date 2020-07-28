@@ -70,7 +70,7 @@ func (pkgDef *PackageDefinition) DefinitionCount() int {
 func emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string) error {
 	for fileName, defs := range filesToGenerate {
 		fullFileName := fileName + "_types" + CodeGeneratedFileSuffix
-		genFile := NewFileDefinition(&defs[0].Name().PackageReference, defs...)
+		genFile := NewFileDefinition(defs[0].Name().PackageReference, defs...)
 		outputFile := filepath.Join(outputDir, fullFileName)
 
 		klog.V(5).Infof("Writing %q\n", outputFile)
@@ -84,9 +84,9 @@ func emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string) er
 	return nil
 }
 
-func anyReferences(defs []TypeDefinition, defName *TypeName) bool {
+func anyReferences(defs []TypeDefinition, defName TypeName) bool {
 	for _, def := range defs {
-		if def.References().Contains(*defName) {
+		if def.References().Contains(defName) {
 			return true
 		}
 	}

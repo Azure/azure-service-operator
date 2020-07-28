@@ -8,12 +8,13 @@ package codegen
 import (
 	"bytes"
 	"context"
-	"github.com/pkg/errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/pkg/errors"
 
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
@@ -47,8 +48,8 @@ func runGoldenTest(t *testing.T, path string) {
 		Action: func(ctx context.Context, defs Types) (Types, error) {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
-			roots := astmodel.NewTypeNameSet(*astmodel.NewTypeName(
-				*astmodel.NewPackageReference(
+			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
+				astmodel.MakePackageReference(
 					"github.com/Azure/k8s-infra/hack/generator/apis/test/v20200101"),
 				"Test",
 			))
@@ -64,13 +65,11 @@ func runGoldenTest(t *testing.T, path string) {
 	exportPackagesTestPipelineStage := PipelineStage{
 		Name: "Export packages for test",
 		Action: func(ctx context.Context, defs Types) (Types, error) {
-			var pr *astmodel.PackageReference
+			var pr astmodel.PackageReference
 			var ds []astmodel.TypeDefinition
 			for _, def := range defs {
 				ds = append(ds, def)
-				if pr == nil {
-					pr = &def.Name().PackageReference
-				}
+				pr = def.Name().PackageReference
 			}
 
 			// put all definitions in one file, regardless.

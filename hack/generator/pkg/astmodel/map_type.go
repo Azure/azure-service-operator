@@ -38,7 +38,7 @@ func NewStringMapType(value Type) *MapType {
 // assert that we implemented Type correctly
 var _ Type = (*MapType)(nil)
 
-func (m *MapType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+func (m *MapType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
 	return AsSimpleDeclarations(codeGenerationContext, name, description, m)
 }
 
@@ -51,8 +51,8 @@ func (m *MapType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr 
 }
 
 // RequiredImports returns a list of packages required by this
-func (m *MapType) RequiredImports() []*PackageReference {
-	var result []*PackageReference
+func (m *MapType) RequiredImports() []PackageReference {
+	var result []PackageReference
 	result = append(result, m.key.RequiredImports()...)
 	result = append(result, m.value.RequiredImports()...)
 	return result

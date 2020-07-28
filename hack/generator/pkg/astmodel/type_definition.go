@@ -12,17 +12,17 @@ import (
 
 // TypeDefinition is a name paired with a type
 type TypeDefinition struct {
-	name        *TypeName
+	name        TypeName
 	description *string
 	theType     Type
 }
 
-func MakeTypeDefinition(name *TypeName, theType Type) TypeDefinition {
+func MakeTypeDefinition(name TypeName, theType Type) TypeDefinition {
 	return TypeDefinition{name: name, theType: theType}
 }
 
 // Name returns the name being associated with the type
-func (std *TypeDefinition) Name() *TypeName {
+func (std *TypeDefinition) Name() TypeName {
 	return std.name
 }
 
@@ -53,7 +53,7 @@ func (std *TypeDefinition) WithType(t Type) TypeDefinition {
 }
 
 // WithName returns an updated TypeDefinition with the specified name
-func (std *TypeDefinition) WithName(typeName *TypeName) TypeDefinition {
+func (std *TypeDefinition) WithName(typeName TypeName) TypeDefinition {
 	result := *std
 	result.name = typeName
 	return result
@@ -64,7 +64,7 @@ func (std *TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationC
 }
 
 // AsSimpleDeclarations is a helper for types that only require a simple name/alias to be defined
-func AsSimpleDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string, theType Type) []ast.Decl {
+func AsSimpleDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string, theType Type) []ast.Decl {
 	var docComments *ast.CommentGroup
 	if description != nil {
 		docComments = &ast.CommentGroup{}
@@ -86,7 +86,7 @@ func AsSimpleDeclarations(codeGenerationContext *CodeGenerationContext, name *Ty
 }
 
 // RequiredImports returns a list of packages required by this type
-func (std *TypeDefinition) RequiredImports() []*PackageReference {
+func (std *TypeDefinition) RequiredImports() []PackageReference {
 	return std.theType.RequiredImports()
 }
 

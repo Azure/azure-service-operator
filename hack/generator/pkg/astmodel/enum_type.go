@@ -34,7 +34,7 @@ func NewEnumType(baseType *PrimitiveType, options []EnumValue) *EnumType {
 }
 
 // AsDeclarations converts the EnumType to a series of Go AST Decls
-func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl {
+func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
 	var specs []ast.Spec
 	for _, v := range enum.options {
 		s := enum.createValueDeclaration(name, v)
@@ -54,7 +54,7 @@ func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContex
 	return result
 }
 
-func (enum *EnumType) createBaseDeclaration(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) ast.Decl {
+func (enum *EnumType) createBaseDeclaration(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) ast.Decl {
 	identifier := ast.NewIdent(name.Name())
 
 	typeSpecification := &ast.TypeSpec{
@@ -84,7 +84,7 @@ func (enum *EnumType) createBaseDeclaration(codeGenerationContext *CodeGeneratio
 	return declaration
 }
 
-func (enum *EnumType) createValueDeclaration(name *TypeName, value EnumValue) ast.Spec {
+func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) ast.Spec {
 
 	enumIdentifier := ast.NewIdent(name.Name())
 	valueIdentifier := ast.NewIdent(name.Name() + value.Identifier)
@@ -145,7 +145,7 @@ func (enum *EnumType) Equals(t Type) bool {
 }
 
 // RequiredImports indicates that Enums never need additional imports
-func (enum *EnumType) RequiredImports() []*PackageReference {
+func (enum *EnumType) RequiredImports() []PackageReference {
 	return nil
 }
 

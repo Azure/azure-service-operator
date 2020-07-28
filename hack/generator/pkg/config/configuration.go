@@ -99,7 +99,7 @@ func (config *Configuration) Initialize() error {
 
 // ShouldExport tests for whether a given type should be exported as Go code
 // Returns a result indicating whether export should occur as well as a reason for logging
-func (config *Configuration) ShouldExport(typeName *astmodel.TypeName) (result ShouldExportResult, because string) {
+func (config *Configuration) ShouldExport(typeName astmodel.TypeName) (result ShouldExportResult, because string) {
 	for _, f := range config.ExportFilters {
 		if f.AppliesToType(typeName) {
 			switch f.Action {
@@ -118,7 +118,7 @@ func (config *Configuration) ShouldExport(typeName *astmodel.TypeName) (result S
 }
 
 // ShouldPrune tests for whether a given type should be extracted from the JSON schema or pruned
-func (config *Configuration) ShouldPrune(typeName *astmodel.TypeName) (result ShouldPruneResult, because string) {
+func (config *Configuration) ShouldPrune(typeName astmodel.TypeName) (result ShouldPruneResult, because string) {
 	for _, f := range config.TypeFilters {
 		if f.AppliesToType(typeName) {
 			switch f.Action {
@@ -138,7 +138,7 @@ func (config *Configuration) ShouldPrune(typeName *astmodel.TypeName) (result Sh
 
 // TransformType uses the configured type transformers to transform a type name (reference) to a different type.
 // If no transformation is performed, nil is returned
-func (config *Configuration) TransformType(name *astmodel.TypeName) (astmodel.Type, string) {
+func (config *Configuration) TransformType(name astmodel.TypeName) (astmodel.Type, string) {
 	for _, transformer := range config.TypeTransformers {
 		result := transformer.TransformTypeName(name)
 		if result != nil {

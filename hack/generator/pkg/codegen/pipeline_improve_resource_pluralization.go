@@ -23,7 +23,7 @@ func improveResourcePluralization() PipelineStage {
 				if _, ok := typeDef.Type().(*astmodel.ResourceType); ok {
 					newTypeName := typeName.Singular()
 					typeDef = typeDef.WithName(newTypeName)
-					result[*newTypeName] = typeDef
+					result[newTypeName] = typeDef
 				} else {
 					result[typeName] = typeDef
 				}

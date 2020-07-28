@@ -13,7 +13,7 @@ import (
 // Type represents something that is a Go type
 type Type interface {
 	// RequiredImports returns a list of packages required by this type
-	RequiredImports() []*PackageReference
+	RequiredImports() []PackageReference
 
 	// References returns the names of all types that this type
 	// references. For example, an Array of Persons references a
@@ -25,7 +25,7 @@ type Type interface {
 	AsType(codeGenerationContext *CodeGenerationContext) ast.Expr
 
 	// AsDeclarations renders as a Go abstract syntax tree for a declaration
-	AsDeclarations(codeGenerationContext *CodeGenerationContext, name *TypeName, description *string) []ast.Decl
+	AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl
 
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type) bool
@@ -43,7 +43,7 @@ func TypeEquals(left, right Type) bool {
 // TypeVisitor represents a visitor for a tree of types.
 // The `ctx` argument can be used to “smuggle” additional data down the call-chain.
 type TypeVisitor struct {
-	VisitTypeName     func(this *TypeVisitor, it *TypeName, ctx interface{}) Type
+	VisitTypeName     func(this *TypeVisitor, it TypeName, ctx interface{}) Type
 	VisitArrayType    func(this *TypeVisitor, it *ArrayType, ctx interface{}) Type
 	VisitPrimitive    func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) Type
 	VisitObjectType   func(this *TypeVisitor, it *ObjectType, ctx interface{}) Type
@@ -60,7 +60,7 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) Type {
 	}
 
 	switch it := t.(type) {
-	case *TypeName:
+	case TypeName:
 		return tv.VisitTypeName(tv, it, ctx)
 	case *ArrayType:
 		return tv.VisitArrayType(tv, it, ctx)
@@ -89,7 +89,7 @@ func MakeTypeVisitor() TypeVisitor {
 	// recursive invocations of Visit to avoid having to rebuild the tree if the
 	// leafs do not actually change.
 	return TypeVisitor{
-		VisitTypeName: func(_ *TypeVisitor, it *TypeName, _ interface{}) Type {
+		VisitTypeName: func(_ *TypeVisitor, it TypeName, _ interface{}) Type {
 			return it
 		},
 		VisitArrayType: func(this *TypeVisitor, it *ArrayType, ctx interface{}) Type {

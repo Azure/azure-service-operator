@@ -44,7 +44,7 @@ func filterTypes(
 				klog.V(2).Infof("Exporting %s because %s", defName, reason)
 			}
 
-			newDefinitions[*def.Name()] = def
+			newDefinitions[def.Name()] = def
 		}
 	}
 

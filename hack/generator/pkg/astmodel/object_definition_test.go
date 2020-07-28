@@ -22,7 +22,7 @@ func Test_NewObjectDefinition_GivenValues_InitializesProperties(t *testing.T) {
 	const group = "group"
 	const version = "2020-01-01"
 
-	ref := NewTypeName(*NewLocalPackageReference(group, version), name)
+	ref := MakeTypeName(MakeLocalPackageReference(group, version), name)
 	objectType := NewObjectType().WithProperties(fullName, familyName, knownAs)
 	objectDefinition := MakeTypeDefinition(ref, objectType)
 
@@ -50,7 +50,7 @@ func Test_ObjectDefinitionWithDescription_GivenDescription_ReturnsExpected(t *te
 
 	description := "This is my test description"
 
-	ref := NewTypeName(*NewLocalPackageReference(group, version), name)
+	ref := MakeTypeName(MakeLocalPackageReference(group, version), name)
 	objectType := NewObjectType().WithProperties(fullName, familyName, knownAs)
 	objectDefinition := MakeTypeDefinition(ref, objectType).WithDescription(&description)
 
@@ -64,7 +64,7 @@ func Test_ObjectDefinitionWithDescription_GivenDescription_ReturnsExpected(t *te
 func Test_ObjectDefinitionAsAst_GivenValidStruct_ReturnsNonNilResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	ref := NewTypeName(*NewLocalPackageReference("group", "2020-01-01"), "name")
+	ref := MakeTypeName(MakeLocalPackageReference("group", "2020-01-01"), "name")
 	definition := MakeTypeDefinition(ref, NewObjectType())
 	node := definition.AsDeclarations(nil)
 

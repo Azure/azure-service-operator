@@ -16,29 +16,29 @@ const (
 	localPathPrefix = "github.com/Azure/k8s-infra/hack/generator/apis/"
 )
 
-var MetaV1PackageReference = NewPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
+var MetaV1PackageReference = MakePackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
 
 // PackageReference indicates which package a type belongs to
 type PackageReference struct {
 	packagePath string
 }
 
-// NewLocalPackageReference Creates a new local package reference from a group and package name
-func NewLocalPackageReference(groupName string, packageName string) *PackageReference {
+// MakeLocalPackageReference Creates a new local package reference from a group and package name
+func MakeLocalPackageReference(groupName string, packageName string) PackageReference {
 	url := localPathPrefix + groupName + "/" + packageName
-	return &PackageReference{packagePath: url}
+	return PackageReference{packagePath: url}
 }
 
-// NewPackageReference creates a new package reference from a path
-func NewPackageReference(packagePath string) *PackageReference {
-	return &PackageReference{packagePath: packagePath}
+// MakePackageReference creates a new package reference from a path
+func MakePackageReference(packagePath string) PackageReference {
+	return PackageReference{packagePath: packagePath}
 }
 
-func (pr *PackageReference) IsLocalPackage() bool {
+func (pr PackageReference) IsLocalPackage() bool {
 	return strings.HasPrefix(pr.packagePath, localPathPrefix)
 }
 
-func (pr *PackageReference) stripLocalPackagePrefix() (string, error) {
+func (pr PackageReference) stripLocalPackagePrefix() (string, error) {
 	if !pr.IsLocalPackage() {
 		return "", errors.Errorf("cannot strip local package prefix from non-local package %v", pr.packagePath)
 	}
@@ -48,7 +48,7 @@ func (pr *PackageReference) stripLocalPackagePrefix() (string, error) {
 
 // GroupAndPackage gets the group and package for this package reference if applicable,
 // or an error if not
-func (pr *PackageReference) GroupAndPackage() (string, string, error) {
+func (pr PackageReference) GroupAndPackage() (string, string, error) {
 	groupAndVersion, err := pr.stripLocalPackagePrefix()
 	if err != nil {
 		return "", "", err
@@ -59,25 +59,25 @@ func (pr *PackageReference) GroupAndPackage() (string, string, error) {
 }
 
 // PackagePath returns the fully qualified package path
-func (pr *PackageReference) PackagePath() string {
+func (pr PackageReference) PackagePath() string {
 	return pr.packagePath
 }
 
 // PackageName is the package name of the package reference
-func (pr *PackageReference) PackageName() string {
+func (pr PackageReference) PackageName() string {
 	l := strings.Split(pr.packagePath, "/")
 	return l[len(l)-1]
 }
 
 // Equals returns true if the passed package reference references the same package, false otherwise
-func (pr *PackageReference) Equals(ref *PackageReference) bool {
+func (pr PackageReference) Equals(ref PackageReference) bool {
 	return pr.packagePath == ref.packagePath
 }
 
 // String returns the string representation of the package reference
-func (pr *PackageReference) String() string {
+func (pr PackageReference) String() string {
 	return pr.packagePath
 }
 
 // Ensure we implement Stringer
-var _ fmt.Stringer = &PackageReference{}
+var _ fmt.Stringer = PackageReference{}
