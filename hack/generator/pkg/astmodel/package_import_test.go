@@ -12,6 +12,7 @@ import (
 )
 
 func TestPackageImport_Equals(t *testing.T) {
+	var nilPkgRef *PackageImport
 	localPkgRef := MakeLocalPackageReference("group", "ver")
 	localPkgImport := NewPackageImport(localPkgRef)
 
@@ -26,6 +27,9 @@ func TestPackageImport_Equals(t *testing.T) {
 		{"package import is not equal to import with name", localPkgImport, localPkgImport.WithName("ref"), false},
 		{"package import differs by name is not equal", localPkgImport.WithName("ref1"), localPkgImport.WithName("ref2"), false},
 		{"package imports with same name are equal", localPkgImport.WithName("ref"), localPkgImport.WithName("ref"), true},
+		{"two nil imports are equal", nilPkgRef, nilPkgRef, true},
+		{"nil not equal to other reference", nilPkgRef, localPkgImport, false},
+		{"other reference not equal to nil", localPkgImport, nil, false},
 	}
 
 	for _, c := range cases {
