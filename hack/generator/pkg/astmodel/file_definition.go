@@ -138,7 +138,7 @@ func (file *FileDefinition) generateImports() map[PackageImport]struct{} {
 					newImport = newImport.WithName("metav1")
 				}
 
-				requiredImports[*newImport] = struct{}{}
+				requiredImports[newImport] = struct{}{}
 			}
 		}
 	}
@@ -149,7 +149,7 @@ func (file *FileDefinition) generateImports() map[PackageImport]struct{} {
 	// but a different package path
 	for imp := range requiredImports {
 		for otherImp := range requiredImports {
-			if !imp.Equals(&otherImp) && imp.PackageName() == otherImp.PackageName() {
+			if !imp.Equals(otherImp) && imp.PackageName() == otherImp.PackageName() {
 				klog.Warningf(
 					"File %v: import %v (named %v) and import %v (named %v) conflict",
 					file.packageReference.PackagePath(),
