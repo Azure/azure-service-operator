@@ -185,8 +185,8 @@ func Test_PropertyDefinitionMakeRequired_WhenTypeOptionalAndValidationPresent_Re
 func Test_PropertyDefinitionMakeRequired_PropertyTypeArrayAndMap(t *testing.T) {
 
 	cases := []struct {
-		name       string
-		propertyType  Type
+		name         string
+		propertyType Type
 	}{
 		// Expect equal to self
 		{"required array property returns self", NewArrayType(fieldType)},
