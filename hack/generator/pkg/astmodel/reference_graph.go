@@ -44,12 +44,19 @@ func NewReferenceGraphWithResourcesAsRoots(types Types) ReferenceGraph {
 	return NewReferenceGraph(roots, references)
 }
 
+type ReachableTypes map[TypeName]int // int = depth
+
+func (reachable ReachableTypes) Contains(tn TypeName) bool {
+	_, ok := reachable[tn]
+	return ok
+}
+
 // Connected returns the set of types that are reachable from the roots.
-func (c ReferenceGraph) Connected() TypeNameSet {
+func (c ReferenceGraph) Connected() ReachableTypes {
 	// Make a non-nil set so we don't need to worry about passing it back down.
-	connectedTypes := make(TypeNameSet)
+	connectedTypes := make(ReachableTypes)
 	for node := range c.roots {
-		c.collectTypes(node, connectedTypes)
+		c.collectTypes(0, node, connectedTypes)
 	}
 
 	return connectedTypes
@@ -57,14 +64,20 @@ func (c ReferenceGraph) Connected() TypeNameSet {
 
 // collectTypes returns the set of types that are reachable from the given
 // 'node' (and places them in 'collected').
-func (c ReferenceGraph) collectTypes(node TypeName, collected TypeNameSet) {
-	if collected.Contains(node) {
+func (c ReferenceGraph) collectTypes(depth int, node TypeName, collected ReachableTypes) {
+	if currentDepth, ok := collected[node]; ok {
 		// We can stop here - we've already visited this node.
-		return
+		// But first, see if we are at a lower depth:
+		if depth >= currentDepth {
+			return
+		}
+
+		// if the depth is lower than what we already had
+		// we must continue to reassign depths
 	}
 
-	collected.Add(node)
+	collected[node] = depth
 	for child := range c.references[node] {
-		c.collectTypes(child, collected)
+		c.collectTypes(depth+1, child, collected)
 	}
 }

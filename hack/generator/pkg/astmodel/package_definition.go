@@ -20,35 +20,28 @@ type PackageDefinition struct {
 	GroupName        string
 	PackageName      string
 	GeneratorVersion string
-
-	definitions []TypeDefinition
+	definitions      Types
 }
 
 // NewPackageDefinition constructs a new package definition
 func NewPackageDefinition(groupName string, packageName string, genVersion string) *PackageDefinition {
-	return &PackageDefinition{groupName, packageName, genVersion, nil}
+	return &PackageDefinition{groupName, packageName, genVersion, make(Types)}
 }
 
-func (pkgDef *PackageDefinition) Definitions() []TypeDefinition {
+func (pkgDef *PackageDefinition) Definitions() Types {
 	return pkgDef.definitions
 }
 
 // AddDefinition adds a Definition to the PackageDefinition
 func (pkgDef *PackageDefinition) AddDefinition(def TypeDefinition) {
-	pkgDef.definitions = append(pkgDef.definitions, def)
+	pkgDef.definitions.Add(def)
 }
 
 // EmitDefinitions emits the PackageDefinition to an output directory
 func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string) (int, error) {
-	definitions := partitionDefinitions(pkgDef.definitions)
 
-	// initialize with 1 resource per file
-	filesToGenerate := make(map[string][]TypeDefinition)
-	for _, resource := range definitions.resources {
-		filesToGenerate[FileNameHint(resource)] = []TypeDefinition{resource}
-	}
+	filesToGenerate := allocateTypesToFiles(pkgDef.definitions)
 
-	allocateTypesToFiles(definitions.otherDefinitions, filesToGenerate)
 	err := emitFiles(filesToGenerate, outputDir)
 	if err != nil {
 		return 0, err
@@ -84,131 +77,47 @@ func emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string) er
 	return nil
 }
 
-func anyReferences(defs []TypeDefinition, defName TypeName) bool {
-	for _, def := range defs {
-		if def.References().Contains(defName) {
-			return true
+func allocateTypesToFiles(types Types) map[string][]TypeDefinition {
+	graph := NewReferenceGraphWithResourcesAsRoots(types)
+
+	type Root struct {
+		depth int
+		name  TypeName
+	}
+
+	// rootFor maps a type name to the best root for it
+	rootFor := make(map[TypeName]Root)
+
+	for root := range graph.roots {
+		collected := make(ReachableTypes)
+		graph.collectTypes(0, root, collected)
+		for node, depth := range collected {
+			if current_root, ok := rootFor[node]; ok {
+				// use depth and then root name as a tiebreaker
+				if depth < current_root.depth ||
+					(depth == current_root.depth && root.Name() < current_root.name.Name()) {
+					rootFor[node] = Root{depth, root}
+				}
+			} else {
+				rootFor[node] = Root{depth, root}
+			}
 		}
 	}
 
-	return false
-}
+	filesToGenerate := make(map[string][]TypeDefinition)
 
-type partitionedDefinitions struct {
-	resources        []TypeDefinition
-	otherDefinitions []TypeDefinition
-}
-
-func partitionDefinitions(definitions []TypeDefinition) partitionedDefinitions {
-	var result partitionedDefinitions
-
-	for _, def := range definitions {
-		if _, ok := def.Type().(*ResourceType); ok {
-			result.resources = append(result.resources, def)
+	for _, def := range types {
+		var fileName string
+		if root, ok := rootFor[def.name]; ok {
+			fileName = FileNameHint(root.name)
 		} else {
-			result.otherDefinitions = append(result.otherDefinitions, def)
-		}
-	}
-
-	return result
-}
-
-func allocateTypesToFiles(typesToAllocate []TypeDefinition, filesToGenerate map[string][]TypeDefinition) {
-	// Keep track of how many types we've checked since we last allocated one
-	// This lets us detect if/when we stall during allocation
-	skippedTypes := 0
-
-	// Limit to how many types we skip before taking remedial action
-	// len(typesToAllocate) changes during execution, so we cache it
-	skipLimit := len(typesToAllocate)
-
-	for len(typesToAllocate) > 0 {
-		// dequeue!
-		typeToAllocate := typesToAllocate[0]
-		typesToAllocate = typesToAllocate[1:]
-
-		filesReferencingType := findFilesReferencingType(typeToAllocate, filesToGenerate)
-		hasPendingReferences := anyReferences(typesToAllocate, typeToAllocate.Name())
-
-		allocatedFileName := allocateFileName(filesReferencingType, typeToAllocate, hasPendingReferences)
-		if allocatedFileName == "" && skippedTypes > skipLimit {
-			// We've stalled during allocation of types, implying we have a cycle of mutually referencing types
-			allocatedFileName = allocateFilenameWhenStalled(typesToAllocate, filesToGenerate, len(filesReferencingType), typeToAllocate)
+			fileName = FileNameHint(def.name)
 		}
 
-		if allocatedFileName != "" {
-			filesToGenerate[allocatedFileName] = append(filesToGenerate[allocatedFileName], typeToAllocate)
-			skippedTypes = 0
-			continue
-		}
-
-		// re-queue it for later, it will eventually be allocated
-		typesToAllocate = append(typesToAllocate, typeToAllocate)
-		skippedTypes++
-
-	}
-}
-
-func allocateFileName(filesReferencingType []string, typeToAllocate TypeDefinition, pendingReferences bool) string {
-	if len(filesReferencingType) > 1 {
-		// Type is referenced by more than one file, put it in its own file
-		return FileNameHint(typeToAllocate)
+		filesToGenerate[fileName] = append(filesToGenerate[fileName], def)
 	}
 
-	if len(filesReferencingType) == 1 && !pendingReferences {
-		// Type is only referenced from one file, and is not refeferenced anywhere else, put it in that file
-		return filesReferencingType[0]
-	}
-
-	if len(filesReferencingType) == 0 && !pendingReferences {
-		// Type is not referenced by any file and is not referenced elsewhere, put it in its own file
-		return FileNameHint(typeToAllocate)
-	}
-
-	// Not allocating to a file at this time
-	return ""
-}
-
-func allocateFilenameWhenStalled(
-	typesToAllocate []TypeDefinition,
-	filesToGenerate map[string][]TypeDefinition,
-	filesReferencingTypeToAllocate int,
-	typeToAllocate TypeDefinition) string {
-	// We've processed the entire queue without allocating any files, so we have a cycle of related types to allocate
-	// None of these types are referenced by multiple files (they would already be allocated, per rule above)
-	// So either they're referenced by one file, or none at all
-	// Breaking the cycle requires allocating one of these types; we need to do this deterministicly
-	// So we prefer allocating to an existing file if we can, and we prefer names earlier in the alphabet
-
-	for _, t := range typesToAllocate {
-		refs := findFilesReferencingType(t, filesToGenerate)
-		if len(refs) > filesReferencingTypeToAllocate {
-			// Type 't' would go into an existing file and is a better choice
-			// Don't allocate a file name to 'typeToAllocate'
-			return ""
-		}
-
-		if FileNameHint(t) < FileNameHint(typeToAllocate) {
-			// Type `t` is closer to the start of the alphabet and is a better choice
-			// Don't allocate a file name to 'typeToAllocate'
-			return ""
-		}
-	}
-
-	// This is the best candidate for breaking the cycle, allocate it to a file of its own
-	return FileNameHint(typeToAllocate)
-}
-
-func findFilesReferencingType(def TypeDefinition, filesToGenerate map[string][]TypeDefinition) []string {
-
-	var result []string
-	for fileName, fileDefs := range filesToGenerate {
-		if anyReferences(fileDefs, def.Name()) {
-			result = append(result, fileName)
-		}
-	}
-
-	return result
+	return filesToGenerate
 }
 
 var groupVersionFileTemplate = template.Must(template.New("groupVersionFile").Parse(`
