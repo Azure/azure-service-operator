@@ -15,13 +15,13 @@ func stripUnreferencedTypeDefinitions() PipelineStage {
 	return PipelineStage{
 		"Strip unreferenced types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
-			roots := collectResourceDefinitions(defs)
+			roots := astmodel.CollectResourceDefinitions(defs)
 			return StripUnusedDefinitions(roots, defs)
 		},
 	}
 }
 
-// stripUnusedDefinitions removes all types that aren't in roots or
+// StripUnusedDefinitions removes all types that aren't in roots or
 // referred to by the types in roots, for example types that are
 // generated as a byproduct of an allOf element.
 func StripUnusedDefinitions(
@@ -35,8 +35,8 @@ func StripUnusedDefinitions(
 		references[def.Name()] = def.References()
 	}
 
-	graph := newReferenceGraph(roots, references)
-	connectedTypes := graph.connected()
+	graph := astmodel.NewReferenceGraph(roots, references)
+	connectedTypes := graph.Connected()
 
 	usedDefinitions := make(astmodel.Types)
 	for _, def := range definitions {
@@ -46,50 +46,4 @@ func StripUnusedDefinitions(
 	}
 
 	return usedDefinitions, nil
-}
-
-// collectResourceDefinitions returns a TypeNameSet of all of the
-// resource definitions in the definitions passed in.
-func collectResourceDefinitions(definitions astmodel.Types) astmodel.TypeNameSet {
-	resources := make(astmodel.TypeNameSet)
-	for _, def := range definitions {
-		if _, ok := def.Type().(*astmodel.ResourceType); ok {
-			resources.Add(def.Name())
-		}
-	}
-	return resources
-}
-
-func newReferenceGraph(roots astmodel.TypeNameSet, references map[astmodel.TypeName]astmodel.TypeNameSet) *referenceGraph {
-	return &referenceGraph{
-		roots:      roots,
-		references: references,
-	}
-}
-
-type referenceGraph struct {
-	roots      astmodel.TypeNameSet
-	references map[astmodel.TypeName]astmodel.TypeNameSet
-}
-
-// connected returns the set of types that are reachable from the
-// roots.
-func (c referenceGraph) connected() astmodel.TypeNameSet {
-	// Make a non-nil set so we don't need to worry about passing it back down.
-	connectedTypes := make(astmodel.TypeNameSet)
-	for node := range c.roots {
-		c.collectTypes(node, connectedTypes)
-	}
-	return connectedTypes
-}
-
-func (c referenceGraph) collectTypes(node astmodel.TypeName, collected astmodel.TypeNameSet) {
-	if collected.Contains(node) {
-		// We can stop here - we've already visited this node.
-		return
-	}
-	collected.Add(node)
-	for child := range c.references[node] {
-		c.collectTypes(child, collected)
-	}
 }
