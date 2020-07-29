@@ -7,11 +7,12 @@ package codegen
 
 import (
 	"context"
+	"io/ioutil"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 	"k8s.io/klog/v2"
 )
 
@@ -66,7 +67,7 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.V(1).Infof("Generator version: %v", combinedVersion())
 
-	defs := make(Types)
+	defs := make(astmodel.Types)
 	var err error
 
 	for i, stage := range generator.pipeline {

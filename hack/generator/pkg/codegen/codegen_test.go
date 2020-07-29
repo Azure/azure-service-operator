@@ -45,7 +45,7 @@ func runGoldenTest(t *testing.T, path string) {
 
 	stripUnusedTypesPipelineStage := PipelineStage{
 		Name: "Strip unused types for test",
-		Action: func(ctx context.Context, defs Types) (Types, error) {
+		Action: func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
 			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
@@ -64,7 +64,7 @@ func runGoldenTest(t *testing.T, path string) {
 
 	exportPackagesTestPipelineStage := PipelineStage{
 		Name: "Export packages for test",
-		Action: func(ctx context.Context, defs Types) (Types, error) {
+		Action: func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			var pr astmodel.PackageReference
 			var ds []astmodel.TypeDefinition
 			for _, def := range defs {
@@ -147,7 +147,7 @@ func TestGolden(t *testing.T) {
 	}
 
 	// run all tests
-	// Sanity check that there are at least a few groups
+	// safety check that there are at least a few groups
 	minExpectedTestGroups := 3
 	if len(testGroups) < minExpectedTestGroups {
 		t.Fatalf("Expected at least %d test groups, found: %d", minExpectedTestGroups, len(testGroups))
@@ -155,7 +155,7 @@ func TestGolden(t *testing.T) {
 
 	for groupName, fs := range testGroups {
 		t.Run(groupName, func(t *testing.T) {
-			// Sanity check that there is at least one test in each group
+			// safety check that there is at least one test in each group
 			if len(fs) == 0 {
 				t.Fatalf("Test group %s was empty", groupName)
 			}

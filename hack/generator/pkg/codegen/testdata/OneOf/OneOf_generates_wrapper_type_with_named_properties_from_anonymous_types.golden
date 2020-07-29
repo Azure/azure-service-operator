@@ -15,7 +15,7 @@ type Test struct {
 	Foo *Foo `json:"foo"`
 
 	//Object2: mutually exclusive with all other properties
-	Object2 *TestObject2 `json:"object2"`
+	Object2 *Test_Object2 `json:"object2"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because Test represents a discriminated union (JSON OneOf)
@@ -35,6 +35,6 @@ func (test Test) MarshalJSON() ([]byte, error) {
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo int
 
-type TestObject2 struct {
+type Test_Object2 struct {
 	Foo *string `json:"foo"`
 }

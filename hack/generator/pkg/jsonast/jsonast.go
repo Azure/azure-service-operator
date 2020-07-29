@@ -159,7 +159,7 @@ func (scanner *SchemaScanner) RunHandlerForSchema(ctx context.Context, schema *g
 func (scanner *SchemaScanner) GenerateDefinitions(
 	ctx context.Context,
 	schema *gojsonschema.SubSchema,
-	opts ...BuilderOption) (map[astmodel.TypeName]astmodel.TypeDefinition, error) {
+	opts ...BuilderOption) (astmodel.Types, error) {
 
 	ctx, span := tab.StartSpan(ctx, "GenerateDefinitions")
 	defer span.End()
@@ -200,14 +200,14 @@ func (scanner *SchemaScanner) GenerateDefinitions(
 	}
 
 	// produce the results
-	defs := make(map[astmodel.TypeName]astmodel.TypeDefinition)
+	defs := make(astmodel.Types)
 	for defName, def := range scanner.definitions {
 		if def == nil {
-			// sanity check/assert:
+			// safety check/assert:
 			panic(fmt.Sprintf("%v was nil", defName))
 		}
 
-		defs[def.Name()] = *def
+		defs.Add(*def)
 	}
 
 	return defs, nil
@@ -504,7 +504,7 @@ func generateDefinitionsFor(
 	scanner.addTypeDefinition(definition)
 
 	if def, ok := scanner.findTypeDefinition(typeName); !ok || def == nil {
-		// sanity check in case of breaking changes
+		// safety check in case of breaking changes
 		panic(fmt.Sprintf("didn't set type definition for %v", typeName))
 	}
 
@@ -633,7 +633,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []*gojsonschema.SubS
 	for i, t := range results {
 		switch concreteType := t.(type) {
 		case astmodel.TypeName:
-			// Just a sanity check that we've already scanned this definition
+			// Just a safety check that we've already scanned this definition
 			// TODO: Could remove this?
 			if _, ok := scanner.findTypeDefinition(concreteType); !ok {
 				return nil, errors.Errorf("couldn't find type for definition: %v", concreteType)

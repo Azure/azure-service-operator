@@ -5,8 +5,8 @@ package v20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	Tags *TestTags `json:"tags"`
+	Tags *Test_Tags `json:"tags"`
 }
 
-type TestTags struct {
+type Test_Tags struct {
 }

@@ -7,14 +7,15 @@ package codegen
 
 import (
 	"context"
+	"net/http"
+	"os"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 	"github.com/pkg/errors"
 	"github.com/xeipuuv/gojsonreference"
 	"github.com/xeipuuv/gojsonschema"
-	"net/http"
-	"os"
 
 	"k8s.io/klog/v2"
 )
@@ -100,7 +101,7 @@ func loadSchemaIntoTypes(
 
 	return PipelineStage{
 		Name: "Load and walk schema",
-		Action: func(ctx context.Context, types Types) (Types, error) {
+		Action: func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			klog.V(0).Infof("Loading JSON schema %q", source)
 
 			schema, err := schemaLoader(ctx, source)
