@@ -53,6 +53,7 @@ var _ = Describe("AzurePublicIPAddress", func() {
 					IdleTimeoutInMinutes:     3,
 					PublicIPAddressVersion:   "IPv4",
 					SkuName:                  "Basic",
+					IPTags:                   map[string]string{"TestIpTag": "/Test/VipPool"},
 				}}
 
 			By("creating an API obj")

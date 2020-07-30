@@ -30,6 +30,7 @@ func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Obj
 	idleTimeoutInMinutes := instance.Spec.IdleTimeoutInMinutes
 	publicIPAddressVersion := instance.Spec.PublicIPAddressVersion
 	skuName := instance.Spec.SkuName
+	ipTags := instance.Spec.IPTags
 
 	instance.Status.Provisioning = true
 	// Check if this item already exists. This is required
@@ -51,6 +52,7 @@ func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Obj
 		idleTimeoutInMinutes,
 		publicIPAddressVersion,
 		skuName,
+		ipTags,
 	)
 	if err != nil {
 		// let the user know what happened

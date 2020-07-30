@@ -14,6 +14,7 @@ import (
 type AzurePublicIPAddressSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
 	Location string `json:"location"`
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength:1
@@ -23,6 +24,8 @@ type AzurePublicIPAddressSpec struct {
 	IdleTimeoutInMinutes     int    `json:"idleTimeoutInMinutes"`
 	PublicIPAddressVersion   string `json:"publicIPAddressVersion"`
 	SkuName                  string `json:"skuName"`
+	// +optional
+	IPTags map[string]string `json:"ipTags,omitempty"`
 }
 
 // +kubebuilder:object:root=true
