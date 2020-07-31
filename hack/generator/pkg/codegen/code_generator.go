@@ -60,6 +60,7 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 		improveResourcePluralization(),
 		applyExportFilters(configuration),
 		stripUnreferencedTypeDefinitions(),
+		checkForAnyType(),
 	}
 }
 

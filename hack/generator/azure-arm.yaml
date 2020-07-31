@@ -23,6 +23,117 @@ exportFilters:
     group: definitions
     name: ResourceBase
     because: this type is not used
+
+  # Exclusions for packages that currently produce types including AnyType.
+  # TODO: get rid of these, either by chasing the teams generating
+  # weird json or by handling them differently in the generator.
+  - action: exclude
+    group: microsoft.authorization
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.automation
+    version: v20151031
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.cognitiveservices
+    version: v20170418
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.compute
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.compute.extensions
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.compute.galleries
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.containerinstance
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.containerregistry
+    version: v20171001
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.datafactory
+    version: v20180601
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.eventgrid
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.importexport
+    version: v20161101
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.insights
+    version: v20180301
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.keyvault
+    version: v20150601
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.kusto
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.logic
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.machinelearning
+    version: v20170101
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.machinelearningservices
+    version: v20200101
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.migrate
+    version: v20191001
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.netapp
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.network
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.notificationhubs
+    version: v20150401
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.recoveryservices
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.relay
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.resources
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.servicebus
+    version: v20170401
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.storage
+    version: v20190601
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.streamanalytics
+    version: v20160301
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.visualstudio
+    version: v20140226
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.vmwarecloudsimple
+    version: v20190401
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.web
+    because: it generates types containing AnyType
+
 typeTransformers:
   - group: definitions
     name: NumberOrExpression

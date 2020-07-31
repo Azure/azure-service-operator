@@ -452,7 +452,7 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 	// Prune the graph according to the configuration
 	shouldPrune, because := scanner.configuration.ShouldPrune(typeName)
 	if shouldPrune == config.Prune {
-		klog.V(2).Infof("Skipping %s because %s", typeName, because)
+		klog.V(3).Infof("Skipping %s because %s", typeName, because)
 		return nil, nil // Skip entirely
 	}
 

@@ -103,6 +103,8 @@ func runGoldenTest(t *testing.T, path string) {
 			pipeline = append(pipeline, loadSchemaIntoTypes(idFactory, config, testSchemaLoader))
 		} else if strings.HasPrefix(stage.Name, "Delete generated code from") {
 			continue // Skip this
+		} else if strings.HasPrefix(stage.Name, "Check for rogue AnyTypes") {
+			continue // Skip this
 		} else if strings.HasPrefix(stage.Name, "Export packages") {
 			pipeline = append(pipeline, exportPackagesTestPipelineStage)
 		} else if strings.HasPrefix(stage.Name, "Strip unreferenced types") {

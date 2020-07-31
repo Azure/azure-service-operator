@@ -36,7 +36,7 @@ func filterTypes(
 
 		switch shouldExport {
 		case config.Skip:
-			klog.V(2).Infof("Skipping %s because %s", defName, reason)
+			klog.V(3).Infof("Skipping %s because %s", defName, reason)
 
 		case config.Export:
 			if reason == "" {
