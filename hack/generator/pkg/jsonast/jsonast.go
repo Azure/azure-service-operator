@@ -36,9 +36,6 @@ type (
 		Filters []string
 	}
 
-	// A BuilderOption is used to provide custom configuration for our scanner
-	BuilderOption func(scanner *SchemaScanner) error
-
 	// A SchemaScanner is used to scan a JSON Schema extracting and collecting type definitions
 	SchemaScanner struct {
 		definitions   map[astmodel.TypeName]*astmodel.TypeDefinition
@@ -100,7 +97,7 @@ func (use *UnknownSchemaError) Error() string {
 func NewSchemaScanner(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) *SchemaScanner {
 	return &SchemaScanner{
 		definitions:   make(map[astmodel.TypeName]*astmodel.TypeDefinition),
-		TypeHandlers:  DefaultTypeHandlers(),
+		TypeHandlers:  defaultTypeHandlers(),
 		configuration: configuration,
 		idFactory:     idFactory,
 	}
@@ -156,19 +153,9 @@ func (scanner *SchemaScanner) RunHandlerForSchema(ctx context.Context, schema *g
 // 							- ARM specific resources. I'm not 100% sure why...
 //
 // 		allOf acts like composition which composites each schema from the child oneOf with the base reference from allOf.
-func (scanner *SchemaScanner) GenerateDefinitions(
-	ctx context.Context,
-	schema *gojsonschema.SubSchema,
-	opts ...BuilderOption) (astmodel.Types, error) {
-
+func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema *gojsonschema.SubSchema) (map[astmodel.TypeName]astmodel.TypeDefinition, error) {
 	ctx, span := tab.StartSpan(ctx, "GenerateDefinitions")
 	defer span.End()
-
-	for _, opt := range opts {
-		if err := opt(scanner); err != nil {
-			return nil, err
-		}
-	}
 
 	// get initial topic from ID and Title:
 	url := schema.ID.GetUrl()
@@ -194,7 +181,7 @@ func (scanner *SchemaScanner) GenerateDefinitions(
 
 	rootTypeName := astmodel.MakeTypeName(rootPackage, rootName)
 
-	_, err = generateDefinitionsFor(ctx, scanner, rootTypeName, false, url, schema)
+	_, err = generateDefinitionsFor(ctx, scanner, rootTypeName, schema)
 	if err != nil {
 		return nil, err
 	}
@@ -213,8 +200,8 @@ func (scanner *SchemaScanner) GenerateDefinitions(
 	return defs, nil
 }
 
-// DefaultTypeHandlers will create a default map of JSONType to AST transformers
-func DefaultTypeHandlers() map[SchemaType]TypeHandler {
+// defaultTypeHandlers will create a default map of JSONType to AST transformers
+func defaultTypeHandlers() map[SchemaType]TypeHandler {
 	return map[SchemaType]TypeHandler{
 		Array:  arrayHandler,
 		OneOf:  oneOfHandler,
@@ -332,8 +319,13 @@ func generatePropertyDefinitions(ctx context.Context, scanner *SchemaScanner, pr
 	return property, nil
 }
 
-func getProperties(ctx context.Context, scanner *SchemaScanner, schema *gojsonschema.SubSchema) ([]*astmodel.PropertyDefinition, error) {
+func getProperties(
+	ctx context.Context,
+	scanner *SchemaScanner,
+	schema *gojsonschema.SubSchema) ([]*astmodel.PropertyDefinition, error) {
+
 	ctx, span := tab.StartSpan(ctx, "getProperties")
+
 	defer span.End()
 
 	var properties []*astmodel.PropertyDefinition
@@ -440,8 +432,6 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 		return nil, err
 	}
 
-	isResource := isResource(url)
-
 	// produce a usable name:
 	typeName := astmodel.MakeTypeName(
 		astmodel.MakeLocalPackageReference(
@@ -463,21 +453,22 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonschem
 		return transformation, nil
 	}
 
-	return generateDefinitionsFor(ctx, scanner, typeName, isResource, url, schema.RefSchema)
+	return generateDefinitionsFor(ctx, scanner, typeName, schema.RefSchema)
 }
 
 func generateDefinitionsFor(
 	ctx context.Context,
 	scanner *SchemaScanner,
 	typeName astmodel.TypeName,
-	isResource bool,
-	url *url.URL,
 	schema *gojsonschema.SubSchema) (astmodel.Type, error) {
 
 	schemaType, err := getSubSchemaType(schema)
 	if err != nil {
 		return nil, err
 	}
+
+	url := schema.ID.GetUrl()
+	isResource := isResource(url)
 
 	// see if we already generated something for this ref
 	if _, ok := scanner.findTypeDefinition(typeName); ok {
@@ -552,7 +543,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema *gojsonsch
 		case *astmodel.ResourceType:
 			// it is a little strange to merge one resource into another with allOf,
 			// but it is done and therefore we have to support it.
-			// (an example is Microsoft.VisualStudio’s Project type)
+			// (an example is the Microsoft.VisualStudio Project type)
 			// at the moment we will just take the spec type:
 			return handleType(properties, concreteType.SpecType())
 
