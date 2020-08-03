@@ -22,21 +22,21 @@ func MakeTypeDefinition(name TypeName, theType Type) TypeDefinition {
 }
 
 // Name returns the name being associated with the type
-func (std *TypeDefinition) Name() TypeName {
+func (std TypeDefinition) Name() TypeName {
 	return std.name
 }
 
 // Type returns the type being associated with the name
-func (std *TypeDefinition) Type() Type {
+func (std TypeDefinition) Type() Type {
 	return std.theType
 }
 
 // Description returns the description to be attached to this type definition (as a comment)
-func (std *TypeDefinition) Description() *string {
+func (std TypeDefinition) Description() *string {
 	return std.description
 }
 
-func (std *TypeDefinition) References() TypeNameSet {
+func (std TypeDefinition) References() TypeNameSet {
 	return std.theType.References()
 }
 
@@ -46,20 +46,20 @@ func (std TypeDefinition) WithDescription(desc *string) TypeDefinition {
 }
 
 // WithType returns an updated TypeDefinition with the specified type
-func (std *TypeDefinition) WithType(t Type) TypeDefinition {
-	result := *std
+func (std TypeDefinition) WithType(t Type) TypeDefinition {
+	result := std
 	result.theType = t
 	return result
 }
 
 // WithName returns an updated TypeDefinition with the specified name
-func (std *TypeDefinition) WithName(typeName TypeName) TypeDefinition {
-	result := *std
+func (std TypeDefinition) WithName(typeName TypeName) TypeDefinition {
+	result := std
 	result.name = typeName
 	return result
 }
 
-func (std *TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
+func (std TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []ast.Decl {
 	return std.theType.AsDeclarations(codeGenerationContext, std.name, std.description)
 }
 
@@ -86,7 +86,7 @@ func AsSimpleDeclarations(codeGenerationContext *CodeGenerationContext, name Typ
 }
 
 // RequiredImports returns a list of packages required by this type
-func (std *TypeDefinition) RequiredImports() []PackageReference {
+func (std TypeDefinition) RequiredImports() []PackageReference {
 	return std.theType.RequiredImports()
 }
 
