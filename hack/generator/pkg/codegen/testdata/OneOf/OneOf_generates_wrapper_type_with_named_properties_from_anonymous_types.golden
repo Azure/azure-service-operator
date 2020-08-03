@@ -33,7 +33,9 @@ func (test Test) MarshalJSON() ([]byte, error) {
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
-type Foo int
+type Foo struct {
+	Name *string `json:"name"`
+}
 
 type Test_Object2 struct {
 	Foo *string `json:"foo"`

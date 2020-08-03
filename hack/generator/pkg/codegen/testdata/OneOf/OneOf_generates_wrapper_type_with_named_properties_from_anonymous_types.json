@@ -22,7 +22,12 @@
     ],
     "definitions": {
         "Foo": {
-            "type": "integer"
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
         }
     }
 }

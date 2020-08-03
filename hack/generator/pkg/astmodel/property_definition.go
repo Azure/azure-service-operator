@@ -97,14 +97,17 @@ func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
 
 // MakeOptional returns a new PropertyDefinition that has an optional value
 func (property *PropertyDefinition) MakeOptional() *PropertyDefinition {
-	if (property.hasOptionalType() || property.isReferenceType()) && !property.HasRequiredValidation() {
+	if isTypeOptional(property.propertyType) && !property.HasRequiredValidation() {
 		// No change required
 		return property
 	}
 
 	result := *property
 
-	if !property.hasOptionalType() && !property.isReferenceType() {
+	// Note that this function uses isTypeOptional while MakeRequired uses property.hasOptionalType
+	// because in this direction we care if the type behaves optionally already (Map, Array included),
+	// whereas in the MakeRequired direction we only care if the type is specifically *astmodel.Optional
+	if !isTypeOptional(property.propertyType) {
 		// Need to make the type optional
 		result.propertyType = NewOptionalType(result.propertyType)
 	}
@@ -141,18 +144,6 @@ func (property *PropertyDefinition) HasRequiredValidation() bool {
 // (and might therefore be nil).
 func (property *PropertyDefinition) hasOptionalType() bool {
 	_, ok := property.propertyType.(*OptionalType)
-	return ok
-}
-
-// isReferenceType returns true if the type of this property is an array
-// or a map
-func (property *PropertyDefinition) isReferenceType() bool {
-	_, ok := property.propertyType.(*ArrayType)
-	if ok {
-		return true
-	}
-
-	_, ok = property.propertyType.(*MapType)
 	return ok
 }
 

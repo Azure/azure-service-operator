@@ -15,8 +15,27 @@ type OptionalType struct {
 }
 
 // NewOptionalType creates a new optional type that may or may not have the specified 'element' type
-func NewOptionalType(element Type) *OptionalType {
+func NewOptionalType(element Type) Type {
+	if isTypeOptional(element) {
+		return element
+	}
+
 	return &OptionalType{element}
+}
+
+func isTypeOptional(t Type) bool {
+	// Arrays and Maps are already "optional" as far as Go is concerned,
+	// so don't wrap them. Optional is also obviously already optional.
+	switch t.(type) {
+	case *ArrayType:
+		return true
+	case *MapType:
+		return true
+	case *OptionalType:
+		return true
+	default:
+		return false
+	}
 }
 
 // assert we implemented Type correctly

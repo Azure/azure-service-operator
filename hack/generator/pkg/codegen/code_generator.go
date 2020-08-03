@@ -57,6 +57,7 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []PipelineStage {
 	return []PipelineStage{
 		nameTypesForCRD(idFactory),
+		removeTypeAliases(),
 		improveResourcePluralization(),
 		applyExportFilters(configuration),
 		stripUnreferencedTypeDefinitions(),
