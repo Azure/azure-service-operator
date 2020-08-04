@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
 	"go/ast"
 	"go/token"
 )
@@ -48,40 +49,6 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	methodName string) *ast.FuncDecl {
 
 	receiverName := f.idFactory.CreateIdentifier(receiver.name, NotExported)
-
-	header, _ := createComments(
-		fmt.Sprintf(
-			"%s defers JSON marshaling to the first non-nil property, because %s represents a discriminated union (JSON OneOf)",
-			methodName,
-			receiver.name))
-
-	result := &ast.FuncDecl{
-		Doc: &ast.CommentGroup{
-			List: header,
-		},
-		Name: ast.NewIdent(methodName),
-		Recv: &ast.FieldList{
-			List: []*ast.Field{
-				{
-					Type:  receiver.AsType(codeGenerationContext),
-					Names: []*ast.Ident{ast.NewIdent(receiverName)},
-				},
-			},
-		},
-		Type: &ast.FuncType{
-			Func: token.HighestPrec,
-			Results: &ast.FieldList{
-				List: []*ast.Field{
-					{
-						Type: ast.NewIdent("[]byte"),
-					},
-					{
-						Type: ast.NewIdent("error"),
-					},
-				},
-			},
-		},
-	}
 
 	var statements []ast.Stmt
 
@@ -127,9 +94,24 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	}
 	statements = append(statements, finalReturnStatement)
 
-	result.Body = &ast.BlockStmt{
-		List: statements,
-	}
+	result := astbuilder.DefineFunc(
+		astbuilder.FuncDetails{
+			Name: ast.NewIdent(methodName),
+			Comment: fmt.Sprintf(
+				"defers JSON marshaling to the first non-nil property, because %s represents a discriminated union (JSON OneOf)",
+				receiver.name),
+			ReceiverIdent: ast.NewIdent(receiverName),
+			ReceiverType:  receiver.AsType(codeGenerationContext),
+			Returns: []*ast.Field{
+				{
+					Type: ast.NewIdent("[]byte"),
+				},
+				{
+					Type: ast.NewIdent("error"),
+				},
+			},
+			Body: statements,
+		})
 
 	return result
 }
