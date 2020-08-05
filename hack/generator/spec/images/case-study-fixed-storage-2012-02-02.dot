@@ -1,0 +1,16 @@
+graph G {
+    subgraph apiVersions {
+        rank=same;
+
+        node [shape=ellipse, group=api];
+        v20110101;
+        v20120202;
+    }
+
+    node [shape=ellipse, penwidth=3];
+    v1;
+
+    edge [arrowhead=vee, arrowtail=vee, dir=both];
+    v20110101 -- v1;
+    v20120202 -- v1;
+}
