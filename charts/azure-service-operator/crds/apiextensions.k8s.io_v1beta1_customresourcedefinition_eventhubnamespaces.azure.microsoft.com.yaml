@@ -29,14 +29,10 @@ spec:
       description: EventhubNamespace is the Schema for the eventhubnamespaces API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -44,12 +40,10 @@ spec:
           description: EventhubNamespaceSpec defines the desired state of EventhubNamespace
           properties:
             location:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "make" to regenerate code after modifying this file'
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
               type: string
             networkRule:
-              description: EventhubNamespaceNetworkRule defines the namespace network
-                rule
+              description: EventhubNamespaceNetworkRule defines the namespace network rule
               properties:
                 defaultAction:
                   description: DefaultAction defined as a string
@@ -59,8 +53,7 @@ spec:
                   items:
                     properties:
                       ipMask:
-                        description: IPMask - IPv4 address 1.1.1.1 or CIDR notation
-                          1.1.0.0/24
+                        description: IPMask - IPv4 address 1.1.1.1 or CIDR notation 1.1.0.0/24
                         type: string
                     type: object
                   type: array
@@ -69,12 +62,10 @@ spec:
                   items:
                     properties:
                       ignoreMissingServiceEndpoint:
-                        description: IgnoreMissingVnetServiceEndpoint - Value that
-                          indicates whether to ignore missing VNet Service Endpoint
+                        description: IgnoreMissingVnetServiceEndpoint - Value that indicates whether to ignore missing VNet Service Endpoint
                         type: boolean
                       subnetId:
-                        description: Subnet - Full Resource ID of Virtual Network
-                          Subnet
+                        description: Subnet - Full Resource ID of Virtual Network Subnet
                         type: string
                     type: object
                   type: array
@@ -109,8 +100,7 @@ spec:
           - resourceGroup
           type: object
         status:
-          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
-            state of resource actions
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
           properties:
             completed:
               format: date-time
