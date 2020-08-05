@@ -26,10 +26,13 @@ type FileDefinition struct {
 	packageReference PackageReference
 	// definitions to include in this file
 	definitions []TypeDefinition
+
+	// other packages whose references may be needed for code generation
+	generatedPackages map[PackageReference]*PackageDefinition
 }
 
 // NewFileDefinition creates a file definition containing specified definitions
-func NewFileDefinition(packageRef PackageReference, definitions ...TypeDefinition) *FileDefinition {
+func NewFileDefinition(packageRef PackageReference, definitions []TypeDefinition, generatedPackages map[PackageReference]*PackageDefinition) *FileDefinition {
 
 	// Topological sort of the definitions, putting them in order of reference
 	ranks := calcRanks(definitions)
@@ -44,7 +47,7 @@ func NewFileDefinition(packageRef PackageReference, definitions ...TypeDefinitio
 	})
 
 	// TODO: check that all definitions are from same package
-	return &FileDefinition{packageRef, definitions}
+	return &FileDefinition{packageRef, definitions, generatedPackages}
 }
 
 // Calculate the ranks for each type
@@ -182,7 +185,7 @@ func (file *FileDefinition) AsAst() ast.Node {
 	packageReferences := file.generateImports()
 
 	// Create context from imports
-	codeGenContext := NewCodeGenerationContext(file.packageReference, packageReferences)
+	codeGenContext := NewCodeGenerationContext(file.packageReference, packageReferences, file.generatedPackages)
 
 	// Create import header if needed
 	if len(packageReferences) > 0 {

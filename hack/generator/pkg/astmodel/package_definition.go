@@ -32,17 +32,28 @@ func (pkgDef *PackageDefinition) Definitions() Types {
 	return pkgDef.definitions
 }
 
+func (pkgDef *PackageDefinition) GetDefinition(typeName TypeName) (TypeDefinition, error) {
+	for _, def := range pkgDef.definitions {
+		if def.Name().Equals(typeName) {
+			return def, nil
+		}
+	}
+
+	return TypeDefinition{}, errors.Errorf("No error with name %v found", typeName)
+}
+
 // AddDefinition adds a Definition to the PackageDefinition
 func (pkgDef *PackageDefinition) AddDefinition(def TypeDefinition) {
 	pkgDef.definitions.Add(def)
 }
 
 // EmitDefinitions emits the PackageDefinition to an output directory
-func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string) (int, error) {
+func (pkgDef *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages map[PackageReference]*PackageDefinition) (int, error) {
 
 	filesToGenerate := allocateTypesToFiles(pkgDef.definitions)
 
-	err := emitFiles(filesToGenerate, outputDir)
+	err := emitFiles(filesToGenerate, outputDir, generatedPackages)
+
 	if err != nil {
 		return 0, err
 	}
@@ -60,10 +71,10 @@ func (pkgDef *PackageDefinition) DefinitionCount() int {
 	return len(pkgDef.definitions)
 }
 
-func emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string) error {
+func emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string, generatedPackages map[PackageReference]*PackageDefinition) error {
 	for fileName, defs := range filesToGenerate {
 		fullFileName := fileName + "_types" + CodeGeneratedFileSuffix
-		genFile := NewFileDefinition(defs[0].Name().PackageReference, defs...)
+		genFile := NewFileDefinition(defs[0].Name().PackageReference, defs, generatedPackages)
 		outputFile := filepath.Join(outputDir, fullFileName)
 
 		klog.V(5).Infof("Writing %q\n", outputFile)
@@ -92,10 +103,10 @@ func allocateTypesToFiles(types Types) map[string][]TypeDefinition {
 		collected := make(ReachableTypes)
 		graph.collectTypes(0, root, collected)
 		for node, depth := range collected {
-			if current_root, ok := rootFor[node]; ok {
+			if currentRoot, ok := rootFor[node]; ok {
 				// use depth and then root name as a tiebreaker
-				if depth < current_root.depth ||
-					(depth == current_root.depth && root.Name() < current_root.name.Name()) {
+				if depth < currentRoot.depth ||
+					(depth == currentRoot.depth && root.Name() < currentRoot.name.Name()) {
 					rootFor[node] = Root{depth, root}
 				}
 			} else {

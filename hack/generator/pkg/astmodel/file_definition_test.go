@@ -24,7 +24,7 @@ func Test_NewFileDefinition_GivenValues_InitializesFields(t *testing.T) {
 		NewStringPropertyDefinition("knownAs"),
 		NewStringPropertyDefinition("familyName"),
 	)
-	file := NewFileDefinition(person.Name().PackageReference, person)
+	file := NewFileDefinition(person.Name().PackageReference, []TypeDefinition{person}, nil)
 
 	g.Expect(file.packageReference).To(Equal(person.Name().PackageReference))
 	g.Expect(file.definitions).To(HaveLen(1))

@@ -65,6 +65,10 @@ func runGoldenTest(t *testing.T, path string) {
 	exportPackagesTestPipelineStage := PipelineStage{
 		Name: "Export packages for test",
 		Action: func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+			if len(defs) == 0 {
+				t.Fatalf("defs was empty")
+			}
+
 			var pr astmodel.PackageReference
 			var ds []astmodel.TypeDefinition
 			for _, def := range defs {
@@ -72,12 +76,26 @@ func runGoldenTest(t *testing.T, path string) {
 				pr = def.Name().PackageReference
 			}
 
+			// Fabricate a single package definition
+			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
+
+			groupName, packageName, err := pr.GroupAndPackage()
+			if err != nil {
+				t.Fatalf("couldnt extract group and package name from package reference: %v", err)
+			}
+
+			packageDefinition := astmodel.NewPackageDefinition(groupName, packageName, "1")
+			for _, def := range defs {
+				packageDefinition.AddDefinition(def)
+			}
+			pkgs[pr] = packageDefinition
+
 			// put all definitions in one file, regardless.
 			// the package reference isn't really used here.
-			fileDef := astmodel.NewFileDefinition(pr, ds...)
+			fileDef := astmodel.NewFileDefinition(pr, ds, pkgs)
 
 			buf := &bytes.Buffer{}
-			err := fileDef.SaveToWriter(path, buf)
+			err = fileDef.SaveToWriter(path, buf)
 			if err != nil {
 				t.Fatalf("could not generate file: %v", err)
 			}

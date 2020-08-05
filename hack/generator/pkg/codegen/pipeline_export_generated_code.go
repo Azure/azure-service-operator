@@ -44,7 +44,7 @@ func exportPackages(outputPath string) PipelineStage {
 }
 
 // CreatePackagesForDefinitions groups type definitions into packages
-func CreatePackagesForDefinitions(definitions astmodel.Types) ([]*astmodel.PackageDefinition, error) {
+func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
 
 	genVersion := combinedVersion()
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
@@ -65,33 +65,21 @@ func CreatePackagesForDefinitions(definitions astmodel.Types) ([]*astmodel.Packa
 		}
 	}
 
-	var pkgs []*astmodel.PackageDefinition
-	for _, pkg := range packages {
-		pkgs = append(pkgs, pkg)
-	}
-
-	// Sort the list of packages to ensure we always write them to disk in the same sequence
-	sort.Slice(pkgs, func(i int, j int) bool {
-		iPkg := pkgs[i]
-		jPkg := pkgs[j]
-		return iPkg.GroupName < jPkg.GroupName ||
-			(iPkg.GroupName == jPkg.GroupName && iPkg.PackageName < jPkg.PackageName)
-	})
-
-	return pkgs, nil
+	return packages, nil
 }
 
 // MarkLatestResourceVersionsForStorage marks the latest version of each resource as the storage version
-func MarkLatestResourceVersionsForStorage(packages []*astmodel.PackageDefinition) ([]*astmodel.PackageDefinition, error) {
+func MarkLatestResourceVersionsForStorage(
+	packages map[astmodel.PackageReference]*astmodel.PackageDefinition) (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
 
-	var result []*astmodel.PackageDefinition
+	result := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 
 	resourceLookup, err := groupResourcesByVersion(packages)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, pkg := range packages {
+	for pkgRef, pkg := range packages {
 
 		resultPkg := astmodel.NewPackageDefinition(pkg.GroupName, pkg.PackageName, pkg.GeneratorVersion)
 		for _, def := range pkg.Definitions() {
@@ -123,19 +111,32 @@ func MarkLatestResourceVersionsForStorage(packages []*astmodel.PackageDefinition
 			}
 		}
 
-		result = append(result, resultPkg)
+		result[pkgRef] = resultPkg
 	}
 
 	return result, nil
 }
 
-func writeFiles(ctx context.Context, packages []*astmodel.PackageDefinition, outputPath string) error {
+func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*astmodel.PackageDefinition, outputPath string) error {
 	fileCount := 0
 	definitionCount := 0
 
+	var pkgs []*astmodel.PackageDefinition
+	for _, pkg := range packages {
+		pkgs = append(pkgs, pkg)
+	}
+
+	// Sort the list of packages to ensure we always write them to disk in the same sequence
+	sort.Slice(pkgs, func(i int, j int) bool {
+		iPkg := pkgs[i]
+		jPkg := pkgs[j]
+		return iPkg.GroupName < jPkg.GroupName ||
+			(iPkg.GroupName == jPkg.GroupName && iPkg.PackageName < jPkg.PackageName)
+	})
+
 	// emit each package
 	klog.V(0).Infof("Writing output files into %v", outputPath)
-	for _, pkg := range packages {
+	for _, pkg := range pkgs {
 		if ctx.Err() != nil { // check for cancellation
 			return ctx.Err()
 		}
@@ -150,7 +151,7 @@ func writeFiles(ctx context.Context, packages []*astmodel.PackageDefinition, out
 			}
 		}
 
-		count, err := pkg.EmitDefinitions(outputDir)
+		count, err := pkg.EmitDefinitions(outputDir, packages)
 		if err != nil {
 			return errors.Wrapf(err, "error writing definitions into %q", outputDir)
 		}
@@ -163,7 +164,7 @@ func writeFiles(ctx context.Context, packages []*astmodel.PackageDefinition, out
 	return nil
 }
 
-func groupResourcesByVersion(packages []*astmodel.PackageDefinition) (map[unversionedName][]astmodel.TypeDefinition, error) {
+func groupResourcesByVersion(packages map[astmodel.PackageReference]*astmodel.PackageDefinition) (map[unversionedName][]astmodel.TypeDefinition, error) {
 
 	result := make(map[unversionedName][]astmodel.TypeDefinition)
 

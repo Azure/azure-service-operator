@@ -18,12 +18,14 @@ func TestPackageGroupVersion_IncludesGeneratorVersion(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	pkg := NewPackageDefinition("longest-johns", "santiana", "latest-version")
+	pkgs := make(map[PackageReference]*PackageDefinition)
+	pkgs[MakeLocalPackageReference(pkg.GroupName, pkg.PackageName)] = pkg
 
 	destDir, err := ioutil.TempDir("", "package_definition_test")
 	g.Expect(err).To(BeNil())
 	defer os.RemoveAll(destDir)
 
-	fileCount, err := pkg.EmitDefinitions(destDir)
+	fileCount, err := pkg.EmitDefinitions(destDir, pkgs)
 	g.Expect(err).To(BeNil())
 	g.Expect(fileCount).To(Equal(0))
 
