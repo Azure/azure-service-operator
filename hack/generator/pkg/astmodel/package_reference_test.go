@@ -14,5 +14,5 @@ import (
 // If `localPathPrefix` does not have a trailing slash, `stripLocalPackagePrefix()` and `NewLocalPackageReference()` will misbehave
 func TestLocalPackageReferenceMustEndWithSlash(t *testing.T) {
 	g := NewGomegaWithT(t)
-	g.Expect(localPathPrefix).To(HaveSuffix("/"))
+	g.Expect(LocalPathPrefix).To(HaveSuffix("/"))
 }

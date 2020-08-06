@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	localPathPrefix = "github.com/Azure/k8s-infra/hack/generator/apis/"
+	LocalPathPrefix = "github.com/Azure/k8s-infra/hack/generated/apis/" // TODO: From config?
 )
 
 var MetaV1PackageReference = MakePackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
@@ -25,7 +25,7 @@ type PackageReference struct {
 
 // MakeLocalPackageReference Creates a new local package reference from a group and package name
 func MakeLocalPackageReference(groupName string, packageName string) PackageReference {
-	url := localPathPrefix + groupName + "/" + packageName
+	url := LocalPathPrefix + groupName + "/" + packageName
 	return PackageReference{packagePath: url}
 }
 
@@ -35,7 +35,7 @@ func MakePackageReference(packagePath string) PackageReference {
 }
 
 func (pr PackageReference) IsLocalPackage() bool {
-	return strings.HasPrefix(pr.packagePath, localPathPrefix)
+	return strings.HasPrefix(pr.packagePath, LocalPathPrefix)
 }
 
 func (pr PackageReference) stripLocalPackagePrefix() (string, error) {
@@ -43,7 +43,7 @@ func (pr PackageReference) stripLocalPackagePrefix() (string, error) {
 		return "", errors.Errorf("cannot strip local package prefix from non-local package %v", pr.packagePath)
 	}
 
-	return strings.Replace(pr.packagePath, localPathPrefix, "", -1), nil
+	return strings.Replace(pr.packagePath, LocalPathPrefix, "", -1), nil
 }
 
 // GroupAndPackage gets the group and package for this package reference if applicable,

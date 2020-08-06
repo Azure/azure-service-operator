@@ -8,44 +8,19 @@ DATE            ?= $(shell date +%FT%T%z)
 VERSION         ?= $(shell git rev-list -1 HEAD)
 SHORT_VERSION   ?= $(shell git rev-parse --short HEAD)
 TREE_STATE      ?= $(if $(shell git status --porcelain),dirty,clean)
-CRD_OPTIONS     ?= "crd:crdVersions=v1,allowDangerousTypes=true"
 GO_DIRS         := $(shell $(GO) list -f '{{.Dir}}' ./...)
 
 V = 0
 Q = $(if $(filter 1,$V),,@)
 
 .PHONY: all
-all: header-check fmt build test
-
-.PHONY: manifests
-manifests: $(CONTROLLER_GEN)
-	$(Q) $(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./apis/..." output:crd:artifacts:config=config/crd/bases
-
-# TODO: This doesn't work right now because the manifests target fails
-.PHONY: generate
-generate: manifests $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
-	$(Q) $(CONTROLLER_GEN) object:headerFile=../boilerplate.go.txt paths="./..."
-
-	$(Q) $(CONVERSION_GEN) \
-		--input-dirs="./apis/..." \
-		--output-file-base=zz_generated.conversion \
-		--output-base=./ \
-		--go-header-file=../boilerplate.go.txt
+all: header-check fmt build test gen-arm make-generated-code
 
 .PHONY: gen-arm
-gen-arm: rm-apis build ; $(info $(M) running k8sinfra-gen gen…) @ ## Running gen
+gen-arm: ; $(info $(M) running k8sinfra-gen gen…) @ ## Running gen
 	$(Q) ./bin/$(APP) gen azure-arm.yaml
 	# Run with verbosity 4 to see a stack trace for errors.
 	# $(Q) ./bin/$(APP) gen azure-arm.yaml -v 4
-
-	$(Q) $(CONTROLLER_GEN) object:headerFile=../boilerplate.go.txt paths="./..."
-
-# TODO: We should remove this target once we place the generated code outside of the generator.
-# TODO: The generator already cleans up the APIs directory but since right now the generated code
-# TODO: doesn't build we need to rm-apis before build.
-.PHONY: rm-apis
-rm-apis: ; $(info $(M) removing previously generated apis…)
-	$(Q) rm -rf apis
 
 .PHONY: build
 build: tidy lint ; $(info $(M) building ./bin/$(APP))
@@ -87,13 +62,16 @@ gox: install-tools
 	$(Q) tar -czvf ./bin/$(SHORT_VERSION)/$(APP)_linux_amd64.tar.gz -C ./bin/$(SHORT_VERSION)/ $(APP)_linux_amd64
 	$(Q) tar -czvf ./bin/$(SHORT_VERSION)/$(APP)_windows_amd64.tar.gz -C ./bin/$(SHORT_VERSION)/ $(APP)_windows_amd64.exe
 
-.PHONY: ci
-ci: build test-cover
-
 .PHONY: diagrams
 diagrams: $(patsubst %.dot,%.png,$(wildcard spec/images/*.dot))
 
-%.png: %.dot 
+%.png: %.dot
 	$(info $(M) Generating diagram $@ from $< …)
 	$(Q) dot $< -Tpng -o $@
 
+.PHONY: make-generated-code
+make-generated-code:
+	$(Q) cd ../generated && make all
+
+.PHONY: ci
+ci: build test-cover gen-arm make-generated-code
