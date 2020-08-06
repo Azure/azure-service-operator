@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-  - port: 443
-    targetPort: 443
+  - port: 9443
+    targetPort: 9443
   selector:
     control-plane: controller-manager

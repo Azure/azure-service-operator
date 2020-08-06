@@ -112,6 +112,7 @@ func main() {
 		MetricsBindAddress:   metricsAddr,
 		LeaderElection:       enableLeaderElection,
 		LivenessEndpointName: "/healthz",
+		Port:                 9443,
 	})
 
 	if err != nil {
