@@ -12,10 +12,10 @@ import (
 )
 
 /*
- * NewObjectDefinition() Tests
+ * MakeTypeDefinition() Tests
  */
 
-func Test_NewObjectDefinition_GivenValues_InitializesProperties(t *testing.T) {
+func Test_MakeTypeDefinition_GivenValues_InitializesProperties(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	const name = "demo"
@@ -41,7 +41,7 @@ func Test_NewObjectDefinition_GivenValues_InitializesProperties(t *testing.T) {
  * WithDescription() tests
  */
 
-func Test_ObjectDefinitionWithDescription_GivenDescription_ReturnsExpected(t *testing.T) {
+func Test_TypeDefinitionWithDescription_GivenDescription_ReturnsExpected(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	const name = "demo"
@@ -61,7 +61,7 @@ func Test_ObjectDefinitionWithDescription_GivenDescription_ReturnsExpected(t *te
  * AsAst() Tests
  */
 
-func Test_ObjectDefinitionAsAst_GivenValidStruct_ReturnsNonNilResult(t *testing.T) {
+func Test_TypeDefinitionAsAst_GivenValidStruct_ReturnsNonNilResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	ref := MakeTypeName(MakeLocalPackageReference("group", "2020-01-01"), "name")
