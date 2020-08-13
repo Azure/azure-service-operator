@@ -14,9 +14,10 @@ import (
 // nameTypesForCRD - for CRDs all inner enums and objects must be named, so we do it here
 func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 
-	return PipelineStage{
-		Name: "Name inner types for CRD",
-		Action: func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+	return MakePipelineStage(
+		"nameTypes",
+		"Name inner types for CRD",
+		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
 			result := make(astmodel.Types)
 
@@ -43,8 +44,7 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 			}
 
 			return result, nil
-		},
-	}
+		})
 }
 
 func nameInnerTypes(

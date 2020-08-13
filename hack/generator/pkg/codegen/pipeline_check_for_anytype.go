@@ -19,7 +19,8 @@ import (
 // checkForAnyType returns a stage that will return an error if there
 // are any uses of AnyType remaining in the passed defs.
 func checkForAnyType() PipelineStage {
-	return PipelineStage{
+	return MakePipelineStage(
+		"rogueCheck",
 		"Check for rogue AnyTypes",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			var badNames []astmodel.TypeName
@@ -38,8 +39,7 @@ func checkForAnyType() PipelineStage {
 				return nil, errors.Wrap(err, "summarising bad types")
 			}
 			return nil, errors.Errorf("AnyTypes found - add exclusions for: %s", strings.Join(packages, ", "))
-		},
-	}
+		})
 }
 
 func containsAnyType(theType astmodel.Type) bool {

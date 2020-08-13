@@ -99,9 +99,10 @@ func loadSchemaIntoTypes(
 	schemaLoader schemaLoader) PipelineStage {
 	source := configuration.SchemaURL
 
-	return PipelineStage{
-		Name: "Load and walk schema",
-		Action: func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+	return MakePipelineStage(
+		"loadSchema",
+		"Load and walk schema",
+		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			klog.V(0).Infof("Loading JSON schema %q", source)
 
 			schema, err := schemaLoader(ctx, source)
@@ -119,6 +120,5 @@ func loadSchemaIntoTypes(
 			}
 
 			return defs, nil
-		},
-	}
+		})
 }

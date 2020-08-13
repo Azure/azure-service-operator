@@ -15,7 +15,8 @@ import (
 
 // removeTypeAliases creates a pipeline stage removing type aliases
 func removeTypeAliases() PipelineStage {
-	return PipelineStage{
+	return MakePipelineStage(
+		"removeAliases",
 		"Remove type aliases",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			visitor := astmodel.MakeTypeVisitor()
@@ -32,7 +33,7 @@ func removeTypeAliases() PipelineStage {
 			}
 
 			return result, nil
-		}}
+		})
 }
 
 func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, types astmodel.Types) astmodel.Type {

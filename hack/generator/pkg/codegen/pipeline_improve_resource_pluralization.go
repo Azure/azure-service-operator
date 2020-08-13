@@ -14,9 +14,10 @@ import (
 // improveResourcePluralization improves pluralization for resources
 func improveResourcePluralization() PipelineStage {
 
-	return PipelineStage{
-		Name: "Improve resource pluralization",
-		Action: func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+	return MakePipelineStage(
+		"pluralizeNames",
+		"Improve resource pluralization",
+		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
 			result := make(astmodel.Types)
 			for _, typeDef := range types {
@@ -37,6 +38,5 @@ func improveResourcePluralization() PipelineStage {
 			}
 
 			return result, nil
-		},
-	}
+		})
 }

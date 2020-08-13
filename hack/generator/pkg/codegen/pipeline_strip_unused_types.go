@@ -12,13 +12,13 @@ import (
 )
 
 func stripUnreferencedTypeDefinitions() PipelineStage {
-	return PipelineStage{
+	return MakePipelineStage(
+		"stripUnreferenced",
 		"Strip unreferenced types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			roots := astmodel.CollectResourceDefinitions(defs)
 			return StripUnusedDefinitions(roots, defs)
-		},
-	}
+		})
 }
 
 // StripUnusedDefinitions removes all types that aren't in roots or

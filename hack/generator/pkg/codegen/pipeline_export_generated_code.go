@@ -20,7 +20,8 @@ import (
 // exportPackages creates a PipelineStage to export our generated code as a set of packages
 func exportPackages(outputPath string) PipelineStage {
 	description := fmt.Sprintf("Export packages to %q", outputPath)
-	return PipelineStage{
+	return MakePipelineStage(
+		"exportPackages",
 		description,
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			packages, err := CreatePackagesForDefinitions(types)
@@ -39,8 +40,7 @@ func exportPackages(outputPath string) PipelineStage {
 			}
 
 			return types, nil
-		},
-	}
+		})
 }
 
 // CreatePackagesForDefinitions groups type definitions into packages

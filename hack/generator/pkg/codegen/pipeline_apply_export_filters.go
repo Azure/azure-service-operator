@@ -15,12 +15,12 @@ import (
 
 // applyExportFilters creates a PipelineStage to reduce our set of types for export
 func applyExportFilters(configuration *config.Configuration) PipelineStage {
-	return PipelineStage{
+	return MakePipelineStage(
+		"filterTypes",
 		"Filter generated types",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			return filterTypes(configuration, types)
-		},
-	}
+		})
 }
 
 // filterTypes applies the configuration include/exclude filters to the generated definitions

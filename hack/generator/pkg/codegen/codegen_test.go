@@ -43,9 +43,10 @@ func runGoldenTest(t *testing.T, path string) {
 		return schema, nil
 	}
 
-	stripUnusedTypesPipelineStage := PipelineStage{
-		Name: "Strip unused types for test",
-		Action: func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+	stripUnusedTypesPipelineStage := MakePipelineStage(
+		"stripUnused",
+		"Strip unused types for test",
+		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
 			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(
@@ -58,12 +59,12 @@ func runGoldenTest(t *testing.T, path string) {
 			}
 
 			return defs, nil
-		},
-	}
+		})
 
-	exportPackagesTestPipelineStage := PipelineStage{
-		Name: "Export packages for test",
-		Action: func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+	exportPackagesTestPipelineStage := MakePipelineStage(
+		"exportPackages",
+		"Export packages for test",
+		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			if len(defs) == 0 {
 				t.Fatalf("defs was empty")
 			}
@@ -102,12 +103,11 @@ func runGoldenTest(t *testing.T, path string) {
 			g.Assert(t, testName, buf.Bytes())
 
 			return nil, nil
-		},
-	}
+		})
 
 	idFactory := astmodel.NewIdentifierFactory()
-	config := config.NewConfiguration()
-	codegen, err := NewCodeGeneratorFromConfig(config, idFactory)
+	cfg := config.NewConfiguration()
+	codegen, err := NewCodeGeneratorFromConfig(cfg, idFactory)
 
 	if err != nil {
 		t.Fatalf("could not create code generator: %v", err)
@@ -116,15 +116,15 @@ func runGoldenTest(t *testing.T, path string) {
 	// Snip out the bits of the code generator we know we need to override
 	var pipeline []PipelineStage
 	for _, stage := range codegen.pipeline {
-		if strings.HasPrefix(stage.Name, "Load and walk schema") {
-			pipeline = append(pipeline, loadSchemaIntoTypes(idFactory, config, testSchemaLoader))
-		} else if strings.HasPrefix(stage.Name, "Delete generated code from") {
+		if stage.HasId("loadSchema") {
+			pipeline = append(pipeline, loadSchemaIntoTypes(idFactory, cfg, testSchemaLoader))
+		} else if stage.HasId("deleteGenerated") {
 			continue // Skip this
-		} else if strings.HasPrefix(stage.Name, "Check for rogue AnyTypes") {
+		} else if stage.HasId("rogueCheck") {
 			continue // Skip this
-		} else if strings.HasPrefix(stage.Name, "Export packages") {
+		} else if stage.HasId("exportPackages") {
 			pipeline = append(pipeline, exportPackagesTestPipelineStage)
-		} else if strings.HasPrefix(stage.Name, "Strip unreferenced types") {
+		} else if stage.HasId("stripUnreferenced") {
 			// TODO: we will want to leave this included for some flavors of test, but for now since we
 			// TODO: don't ever actually have any resources, exclude it
 			pipeline = append(pipeline, stripUnusedTypesPipelineStage)
