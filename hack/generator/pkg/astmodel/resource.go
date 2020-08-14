@@ -92,11 +92,11 @@ func (definition *ResourceType) RequiredImports() []PackageReference {
 }
 
 // AsDeclarations converts the resource type to a set of go declarations
-func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, typeName TypeName, description *string) []ast.Decl {
+func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
 
 	packageName, err := codeGenerationContext.GetImportedPackageName(MetaV1PackageReference)
 	if err != nil {
-		panic(errors.Wrapf(err, "resource definition for %s failed to import package", typeName))
+		panic(errors.Wrapf(err, "resource definition for %s failed to import package", name))
 	}
 
 	typeMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
@@ -119,7 +119,7 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 		fields = append(fields, defineField("Status", definition.status.AsType(codeGenerationContext), "`json:\"spec,omitempty\"`"))
 	}
 
-	resourceIdentifier := ast.NewIdent(typeName.Name())
+	resourceIdentifier := ast.NewIdent(name.Name())
 	resourceTypeSpec := &ast.TypeSpec{
 		Name: resourceIdentifier,
 		Type: &ast.StructType{
@@ -140,9 +140,7 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 		})
 	}
 
-	if description != nil {
-		addDocComment(&comments, *description, 200)
-	}
+	addDocComments(&comments, description, 200)
 
 	return []ast.Decl{
 		&ast.GenDecl{

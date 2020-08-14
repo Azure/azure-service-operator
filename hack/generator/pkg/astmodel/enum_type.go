@@ -34,7 +34,7 @@ func NewEnumType(baseType *PrimitiveType, options []EnumValue) *EnumType {
 }
 
 // AsDeclarations converts the EnumType to a series of Go AST Decls
-func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
+func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
 	var specs []ast.Spec
 	for _, v := range enum.options {
 		s := enum.createValueDeclaration(name, v)
@@ -54,7 +54,10 @@ func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContex
 	return result
 }
 
-func (enum *EnumType) createBaseDeclaration(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) ast.Decl {
+func (enum *EnumType) createBaseDeclaration(
+	codeGenerationContext *CodeGenerationContext,
+	name TypeName,
+	description []string) ast.Decl {
 	identifier := ast.NewIdent(name.Name())
 
 	typeSpecification := &ast.TypeSpec{
@@ -70,11 +73,7 @@ func (enum *EnumType) createBaseDeclaration(codeGenerationContext *CodeGeneratio
 		},
 	}
 
-	if description != nil {
-		declaration.Doc.List = append(
-			declaration.Doc.List,
-			&ast.Comment{Text: "\n/*" + *description + "*/"})
-	}
+	addDocComments(&declaration.Doc.List, description, 120)
 
 	validationComment := GenerateKubebuilderComment(enum.CreateValidation())
 	declaration.Doc.List = append(

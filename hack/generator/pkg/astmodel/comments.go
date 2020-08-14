@@ -13,9 +13,21 @@ import (
 
 // Utility methods for adding comments
 
+func addDocComments(commentList *[]*ast.Comment, comments []string, width int) {
+	for _, comment := range comments {
+		// Skip empty comments
+		if comment == "" {
+			continue
+		}
+
+		addDocComment(commentList, comment, width)
+	}
+}
+
 func addDocComment(commentList *[]*ast.Comment, comment string, width int) {
 	for _, c := range formatDocComment(comment, width) {
 		line := strings.TrimSpace(c)
+
 		if !strings.HasPrefix(line, "//") {
 			line = "//" + line
 		}

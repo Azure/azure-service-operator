@@ -32,7 +32,7 @@ func (typeName TypeName) Name() string {
 // it is simply a reference to the name.
 var _ Type = TypeName{}
 
-func (typeName TypeName) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
+func (typeName TypeName) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
 	return AsSimpleDeclarations(codeGenerationContext, name, description, typeName)
 }
 

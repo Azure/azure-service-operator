@@ -33,12 +33,12 @@ var AnyType = &PrimitiveType{"interface{}"}
 var _ Type = (*PrimitiveType)(nil)
 
 // AsType implements Type for PrimitiveType returning an abstract syntax tree
-func (prim *PrimitiveType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
+func (prim *PrimitiveType) AsType(_ *CodeGenerationContext) ast.Expr {
 	return ast.NewIdent(prim.name)
 }
 
-func (prim *PrimitiveType) AsDeclarations(CodeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
-	return AsSimpleDeclarations(CodeGenerationContext, name, description, prim)
+func (prim *PrimitiveType) AsDeclarations(genContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
+	return AsSimpleDeclarations(genContext, name, description, prim)
 }
 
 // RequiredImports returns a list of package required by this

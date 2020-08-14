@@ -31,7 +31,7 @@ func NewObjectType() *ObjectType {
 	}
 }
 
-func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
+func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
 	identifier := ast.NewIdent(name.Name())
 	declaration := &ast.GenDecl{
 		Tok: token.TYPE,
@@ -44,9 +44,7 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 		},
 	}
 
-	if description != nil {
-		addDocComment(&declaration.Doc.List, *description, 200)
-	}
+	addDocComments(&declaration.Doc.List, description, 200)
 
 	result := []ast.Decl{declaration}
 	result = append(result, objectType.generateMethodDecls(codeGenerationContext, name)...)

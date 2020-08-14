@@ -41,7 +41,7 @@ func isTypeOptional(t Type) bool {
 // assert we implemented Type correctly
 var _ Type = (*OptionalType)(nil)
 
-func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description *string) []ast.Decl {
+func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
 	return AsSimpleDeclarations(codeGenerationContext, name, description, optional)
 }
 

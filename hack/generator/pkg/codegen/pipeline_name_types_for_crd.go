@@ -22,12 +22,12 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 			result := make(astmodel.Types)
 
 			// this is a little bit of a hack, better way to do it?
-			getDescription := func(typeName astmodel.TypeName) *string {
+			getDescription := func(typeName astmodel.TypeName) []string {
 				if typeDef, ok := types[typeName]; ok {
 					return typeDef.Description()
 				}
 
-				return nil
+				return []string{}
 			}
 
 			for typeName, typeDef := range types {
@@ -50,7 +50,7 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 func nameInnerTypes(
 	def astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	getDescription func(astmodel.TypeName) *string) []astmodel.TypeDefinition {
+	getDescription func(typeName astmodel.TypeName) []string) []astmodel.TypeDefinition {
 
 	var resultTypes []astmodel.TypeDefinition
 

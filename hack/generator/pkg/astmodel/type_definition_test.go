@@ -48,13 +48,13 @@ func Test_TypeDefinitionWithDescription_GivenDescription_ReturnsExpected(t *test
 	const group = "group"
 	const version = "2020-01-01"
 
-	description := "This is my test description"
+	description := []string{"This is my test description"}
 
 	ref := MakeTypeName(MakeLocalPackageReference(group, version), name)
 	objectType := NewObjectType().WithProperties(fullName, familyName, knownAs)
-	objectDefinition := MakeTypeDefinition(ref, objectType).WithDescription(&description)
+	objectDefinition := MakeTypeDefinition(ref, objectType).WithDescription(description)
 
-	g.Expect(objectDefinition.Description()).To(Equal(&description))
+	g.Expect(objectDefinition.Description()).To(Equal(description))
 }
 
 /*
