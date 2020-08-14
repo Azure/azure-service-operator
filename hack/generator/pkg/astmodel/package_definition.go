@@ -175,7 +175,7 @@ func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) error {
 
 	gvFile := filepath.Join(outputDir, "groupversion_info"+CodeGeneratedFileSuffix)
 
-	err = ioutil.WriteFile(gvFile, buf.Bytes(), 0700)
+	err = ioutil.WriteFile(gvFile, buf.Bytes(), 0600)
 	if err != nil {
 		return errors.Wrapf(err, "error writing group version file %q", gvFile)
 	}

@@ -4,4 +4,9 @@ run:
 linters:
   enable:
     - gofmt
-    - exportloopref
+    - megacheck
+  presets:
+    - bugs
+    - unused
+  disable: 
+    - scopelint # obsoleted by exportloopref

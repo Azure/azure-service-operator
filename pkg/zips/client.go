@@ -234,7 +234,7 @@ func (c *Client) Head(ctx context.Context, entityPath string, mw ...MiddlewareFu
 }
 
 func (c *Client) execute(ctx context.Context, method string, entityPath string, body io.Reader, mw ...MiddlewareFunc) (*http.Response, error) {
-	req, err := http.NewRequest(method, c.Host+strings.TrimPrefix(entityPath, "/"), body)
+	req, err := http.NewRequestWithContext(ctx, method, c.Host+strings.TrimPrefix(entityPath, "/"), body)
 	if err != nil {
 		tab.For(ctx).Error(err)
 		return nil, err

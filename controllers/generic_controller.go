@@ -379,16 +379,15 @@ func (gr *GenericReconciler) reconcileDelete(ctx context.Context, metaObj azcore
 		return ctrl.Result{}, fmt.Errorf("unable to transform to resource with: %w", err)
 	}
 
-	switch resource.ProvisioningState {
-	case zips.DeletingProvisioningState:
+	if resource.ProvisioningState == zips.DeletingProvisioningState {
 		msg := "deleting... checking for updated state"
 		gr.Recorder.Event(metaObj, v1.EventTypeNormal, "ResourceDeleteInProgress", msg)
 		return gr.updateFromNonTerminalDeleteState(ctx, resource, metaObj)
-	default:
-		msg := fmt.Sprintf("start deleting resource in state %q", resource.ProvisioningState)
-		gr.Recorder.Event(metaObj, v1.EventTypeNormal, "ResourceDeleteStart", msg)
-		return gr.startDeleteOfResource(ctx, resource, metaObj)
 	}
+
+	msg := fmt.Sprintf("start deleting resource in state %q", resource.ProvisioningState)
+	gr.Recorder.Event(metaObj, v1.EventTypeNormal, "ResourceDeleteStart", msg)
+	return gr.startDeleteOfResource(ctx, resource, metaObj)
 }
 
 // startDeleteOfResource will begin the delete of a resource by telling Azure to start deleting it. The resource will be

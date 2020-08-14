@@ -58,7 +58,7 @@ func getResourceReferences(t reflect.Type) ([]TypeReferenceLocation, error) {
 	var refs []TypeReferenceLocation
 	var err error
 
-	switch t.Kind() {
+	switch t.Kind() { //nolint: don't check for exhaustiveness
 	case reflect.Ptr:
 		refs, err = gatherPtr(t)
 	case reflect.Struct:
