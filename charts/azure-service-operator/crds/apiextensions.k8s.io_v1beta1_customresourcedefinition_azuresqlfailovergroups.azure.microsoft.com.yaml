@@ -4,7 +4,6 @@ metadata:
   annotations:
     cert-manager.io/inject-ca-from: azureoperator-system/azureoperator-serving-cert
     controller-gen.kubebuilder.io/version: v0.2.5
-  creationTimestamp: null
   name: azuresqlfailovergroups.azure.microsoft.com
 spec:
   additionalPrinterColumns:
@@ -32,25 +31,19 @@ spec:
     singular: azuresqlfailovergroup
   preserveUnknownFields: false
   scope: Namespaced
-  subresources:
-    status: {}
+  subresources: {}
   version: v1alpha1
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: AzureSqlFailoverGroup is the Schema for the azuresqlfailovergroups
-          API
+        description: AzureSqlFailoverGroup is the Schema for the azuresqlfailovergroups API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
           metadata:
             type: object
@@ -65,13 +58,12 @@ spec:
                 format: int32
                 type: integer
               failoverpolicy:
-                description: ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#ReadWriteEndpointFailoverPolicy
+                description: ReadWriteEndpointFailoverPolicy - wraps https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#ReadWriteEndpointFailoverPolicy
                 type: string
               keyVaultToStoreSecrets:
                 type: string
               location:
-                description: 'Important: Run "make" to regenerate code after modifying
-                  this file'
+                description: 'Important: Run "make" to regenerate code after modifying this file'
                 type: string
               resourcegroup:
                 pattern: ^[-\w\._\(\)]+$
@@ -93,8 +85,7 @@ spec:
             - server
             type: object
           status:
-            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
-              state of resource actions
+            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
             properties:
               completed:
                 format: date-time
@@ -131,18 +122,13 @@ spec:
   - name: v1beta1
     schema:
       openAPIV3Schema:
-        description: AzureSqlFailoverGroup is the Schema for the azuresqlfailovergroups
-          API
+        description: AzureSqlFailoverGroup is the Schema for the azuresqlfailovergroups API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
           metadata:
             type: object
@@ -157,14 +143,12 @@ spec:
                 format: int32
                 type: integer
               failoverPolicy:
-                description: 'NOTE: json tags are required.  Any new fields you add
-                  must have json tags for the fields to be serialized.'
+                description: 'NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.'
                 type: string
               keyVaultToStoreSecrets:
                 type: string
               location:
-                description: 'Important: Run "make" to regenerate code after modifying
-                  this file'
+                description: 'Important: Run "make" to regenerate code after modifying this file'
                 type: string
               resourceGroup:
                 pattern: ^[-\w\._\(\)]+$
@@ -186,8 +170,7 @@ spec:
             - server
             type: object
           status:
-            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
-              state of resource actions
+            description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
             properties:
               completed:
                 format: date-time

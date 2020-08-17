@@ -14,6 +14,12 @@ import (
 	"github.com/Azure/go-autorest/tracing"
 )
 
+const (
+	LongRunningOperationPollStatusFailed    = "Failed"
+	LongRunningOperationPollStatusSucceeded = "Succeeded"
+	LongRunningOperationPollStatusCancelled = "Cancelled"
+)
+
 const fqdn = "github.com/Azure/azure-service-operator/pollingclient"
 
 // BaseClient was modeled off some of the other Baseclients in the go sdk and contains an autorest client
@@ -51,8 +57,8 @@ func NewWithBaseURI(baseURI string, subscriptionID string) BaseClient {
 	}
 }
 
-// PollRespons models the expected response from the poll url
-type PollRespons struct {
+// PollResponse models the expected response from the poll url
+type PollResponse struct {
 	autorest.Response `json:"-"`
 	Name              string             `json:"name,omitempty"`
 	Status            string             `json:"status,omitempty"`
@@ -60,7 +66,7 @@ type PollRespons struct {
 }
 
 // Get takes a context and a polling url and performs a Get request on the url
-func (client PollClient) Get(ctx context.Context, pollURL string) (result PollRespons, err error) {
+func (client PollClient) Get(ctx context.Context, pollURL string) (result PollResponse, err error) {
 	if tracing.IsEnabled() {
 		ctx = tracing.StartSpan(ctx, fqdn+"/PollClient.Get")
 		defer func() {
@@ -109,7 +115,7 @@ func (client PollClient) GetSender(req *http.Request) (*http.Response, error) {
 
 // GetResponder handles the response to the Get request. The method always
 // closes the http.Response Body.
-func (client PollClient) GetResponder(resp *http.Response) (result PollRespons, err error) {
+func (client PollClient) GetResponder(resp *http.Response) (result PollResponse, err error) {
 	err = autorest.Respond(
 		resp,
 		client.ByInspecting(),

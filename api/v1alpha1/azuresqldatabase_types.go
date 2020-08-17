@@ -49,7 +49,7 @@ type AzureSqlDatabaseList struct {
 	Items           []AzureSqlDatabase `json:"items"`
 }
 
-// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2015-05-01-preview/sql#DatabaseEdition
+// DBEdition - wraps: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#DatabaseEdition
 type DBEdition byte
 
 const (

@@ -29,14 +29,10 @@ spec:
       description: CosmosDB is the Schema for the cosmosdbs API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -50,9 +46,7 @@ spec:
             keyVaultToStoreSecrets:
               type: string
             kind:
-              description: CosmosDBKind enumerates the values for kind. Only one of
-                the following kinds may be specified. If none of the following kinds
-                is specified, the default one is GlobalDocumentDBKind.
+              description: CosmosDBKind enumerates the values for kind. Only one of the following kinds may be specified. If none of the following kinds is specified, the default one is GlobalDocumentDBKind.
               enum:
               - GlobalDocumentDB
               - MongoDB
@@ -62,8 +56,7 @@ spec:
               type: string
             locations:
               items:
-                description: CosmosDBLocation defines one or more locations for geo-redundancy
-                  and high availability
+                description: CosmosDBLocation defines one or more locations for geo-redundancy and high availability
                 properties:
                   failoverPriority:
                     format: int32
@@ -95,16 +88,14 @@ spec:
                     type: object
                   type: array
                 databaseAccountOfferType:
-                  description: DatabaseAccountOfferType - The offer type for the Cosmos
-                    DB database account.
+                  description: DatabaseAccountOfferType - The offer type for the Cosmos DB database account.
                   enum:
                   - Standard
                   type: string
                 enableMultipleWriteLocations:
                   type: boolean
                 isVirtualNetworkFilterEnabled:
-                  description: IsVirtualNetworkFilterEnabled - Flag to indicate whether
-                    to enable/disable Virtual Network ACL rules.
+                  description: IsVirtualNetworkFilterEnabled - Flag to indicate whether to enable/disable Virtual Network ACL rules.
                   type: boolean
                 mongoDBVersion:
                   type: string
@@ -117,8 +108,7 @@ spec:
                 description: CosmosDBVirtualNetworkRule virtual Network ACL Rule object
                 properties:
                   ignoreMissingVNetServiceEndpoint:
-                    description: IgnoreMissingVNetServiceEndpoint - Create firewall
-                      rule before the virtual network has vnet service endpoint enabled.
+                    description: IgnoreMissingVNetServiceEndpoint - Create firewall rule before the virtual network has vnet service endpoint enabled.
                     type: boolean
                   subnetID:
                     description: 'ID - Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.'
@@ -129,8 +119,7 @@ spec:
           - resourceGroup
           type: object
         status:
-          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
-            state of resource actions
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
           properties:
             completed:
               format: date-time

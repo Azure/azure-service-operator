@@ -7,6 +7,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -17,6 +18,7 @@ import (
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	kvsecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -60,8 +62,10 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		return false
 	}, tc.timeoutFast, tc.retry, "wait for server to have secret")
 
-	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase", 10)
-	var sqlDatabaseInstance *v1beta1.AzureSqlDatabase
+	sqlDatabaseName1 := GenerateTestResourceNameWithRandom("sqldatabase", 10)
+	sqlDatabaseName2 := GenerateTestResourceNameWithRandom("sqldatabase", 10)
+	var sqlDatabaseInstance1 *v1beta1.AzureSqlDatabase
+	var sqlDatabaseInstance2 *v1beta1.AzureSqlDatabase
 
 	sqlFirewallRuleNamespacedNameLocal := types.NamespacedName{
 		Name:      GenerateTestResourceNameWithRandom("sqlfwr-local", 10),
@@ -89,13 +93,13 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 		})
 
 		// Create a database in the new server
-		t.Run("set up database in primary server", func(t *testing.T) {
+		t.Run("set up database in primary server using edition", func(t *testing.T) {
 			t.Parallel()
 
 			// Create the SqlDatabase object and expect the Reconcile to be created
-			sqlDatabaseInstance = &v1beta1.AzureSqlDatabase{
+			sqlDatabaseInstance1 = &v1beta1.AzureSqlDatabase{
 				ObjectMeta: metav1.ObjectMeta{
-					Name:      sqlDatabaseName,
+					Name:      sqlDatabaseName1,
 					Namespace: "default",
 				},
 				Spec: v1beta1.AzureSqlDatabaseSpec{
@@ -106,7 +110,74 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 				},
 			}
 
-			EnsureInstance(ctx, t, tc, sqlDatabaseInstance)
+			EnsureInstance(ctx, t, tc, sqlDatabaseInstance1)
+		})
+
+		t.Run("set up second database in primary server using sku with maxsizebytes, then update it to use a different SKU", func(t *testing.T) {
+			t.Parallel()
+
+			maxSize := resource.MustParse("500Mi")
+			// Create the SqlDatabase object and expect the Reconcile to be created
+			sqlDatabaseInstance2 = &v1beta1.AzureSqlDatabase{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      sqlDatabaseName2,
+					Namespace: "default",
+				},
+				Spec: v1beta1.AzureSqlDatabaseSpec{
+					Location:      rgLocation,
+					ResourceGroup: rgName,
+					Server:        sqlServerName,
+					Sku: &v1beta1.SqlDatabaseSku{
+						Name: "S0",
+						Tier: "Standard",
+					},
+					MaxSize: &maxSize,
+				},
+			}
+
+			EnsureInstance(ctx, t, tc, sqlDatabaseInstance2)
+
+			namespacedName := types.NamespacedName{Name: sqlDatabaseName2, Namespace: "default"}
+			err = tc.k8sClient.Get(ctx, namespacedName, sqlDatabaseInstance2)
+			assert.Equal(nil, err, "get sql database in k8s")
+
+			originalHash := sqlDatabaseInstance2.Status.SpecHash
+
+			sqlDatabaseInstance2.Spec.Sku = &v1beta1.SqlDatabaseSku{
+				Name: "Basic",
+				Tier: "Basic",
+			}
+			maxSizeMb := 100
+			maxSize = resource.MustParse(fmt.Sprintf("%dMi", maxSizeMb))
+			sqlDatabaseInstance2.Spec.MaxSize = &maxSize
+
+			err = tc.k8sClient.Update(ctx, sqlDatabaseInstance2)
+			assert.Equal(nil, err, "updating sql database in k8s")
+
+			assert.Eventually(func() bool {
+				db := &v1beta1.AzureSqlDatabase{}
+				err = tc.k8sClient.Get(ctx, namespacedName, db)
+				assert.Equal(nil, err, "err getting DB from k8s")
+				return originalHash != db.Status.SpecHash
+			}, tc.timeout, tc.retry, "wait for sql database to be updated in k8s")
+
+			assert.Eventually(func() bool {
+				db, err := tc.sqlDbManager.GetDB(ctx, rgName, sqlServerName, sqlDatabaseName2)
+				assert.Equal(nil, err, "err getting DB fromAzure")
+				return db.Sku.Name != nil && *db.Sku.Name == "Basic"
+			}, tc.timeout, tc.retry, "wait for sql database Sku.Name to be updated in azure")
+
+			assert.Eventually(func() bool {
+				db, err := tc.sqlDbManager.GetDB(ctx, rgName, sqlServerName, sqlDatabaseName2)
+				assert.Equal(nil, err, "err getting DB fromAzure")
+				return db.Sku.Tier != nil && *db.Sku.Tier == "Basic"
+			}, tc.timeout, tc.retry, "wait for sql database Sku.Tier to be updated in azure")
+
+			assert.Eventually(func() bool {
+				db, err := tc.sqlDbManager.GetDB(ctx, rgName, sqlServerName, sqlDatabaseName2)
+				assert.Equal(nil, err, "err getting DB fromAzure")
+				return db.MaxSizeBytes != nil && *db.MaxSizeBytes == int64(maxSizeMb)*int64(1024)*int64(1024)
+			}, tc.timeout, tc.retry, "wait for sql database MaxSizeBytes to be updated in azure")
 		})
 
 		// Create FirewallRules ---------------------------------------
@@ -171,7 +242,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 				},
 				Spec: azurev1alpha1.AzureSQLUserSpec{
 					Server:                sqlServerName,
-					DbName:                sqlDatabaseName,
+					DbName:                sqlDatabaseName1,
 					ResourceGroup:         rgName,
 					Roles:                 roles,
 					KeyVaultSecretFormats: keyVaultSecretFormats,
@@ -187,7 +258,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 				key := types.NamespacedName{Name: sqlUser.ObjectMeta.Name, Namespace: sqlUser.ObjectMeta.Namespace}
 				var secrets, _ = tc.secretClient.Get(ctx, key)
 
-				return strings.Contains(string(secrets["azureSqlDatabaseName"]), sqlDatabaseName)
+				return strings.Contains(string(secrets["azureSqlDatabaseName"]), sqlDatabaseName1)
 			}, tc.timeoutFast, tc.retry, "wait for secret store to show azure sql user credentials")
 
 			t.Log(sqlUser.Status)
@@ -210,7 +281,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 				},
 				Spec: azurev1alpha1.AzureSQLUserSpec{
 					Server:                 sqlServerName,
-					DbName:                 sqlDatabaseName,
+					DbName:                 sqlDatabaseName1,
 					ResourceGroup:          rgName,
 					Roles:                  roles,
 					KeyVaultToStoreSecrets: keyVaultName,
@@ -223,11 +294,11 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			keyVaultSecretClient := kvsecrets.New(keyVaultName)
 
 			assert.Eventually(func() bool {
-				keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName
+				keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName1
 				key := types.NamespacedName{Name: kvSqlUser1.ObjectMeta.Name, Namespace: keyNamespace}
 				var secrets, _ = keyVaultSecretClient.Get(ctx, key)
 
-				return strings.Contains(string(secrets["azureSqlDatabaseName"]), sqlDatabaseName)
+				return strings.Contains(string(secrets["azureSqlDatabaseName"]), sqlDatabaseName1)
 			}, tc.timeoutFast, tc.retry, "wait for keyvault to show azure sql user credentials")
 
 			t.Log(kvSqlUser1.Status)
@@ -251,7 +322,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 				},
 				Spec: azurev1alpha1.AzureSQLUserSpec{
 					Server:                 sqlServerName,
-					DbName:                 sqlDatabaseName,
+					DbName:                 sqlDatabaseName1,
 					ResourceGroup:          rgName,
 					Roles:                  roles,
 					KeyVaultToStoreSecrets: keyVaultName,
@@ -265,7 +336,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			keyVaultSecretClient := kvsecrets.New(keyVaultName)
 
 			assert.Eventually(func() bool {
-				keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName
+				keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName1
 				keyName := kvSqlUser2.ObjectMeta.Name + "-adonet"
 				key := types.NamespacedName{Name: keyName, Namespace: keyNamespace}
 				var secrets, _ = keyVaultSecretClient.Get(ctx, key)
@@ -278,7 +349,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	})
 
 	t.Run("deploy sql action and roll user credentials", func(t *testing.T) {
-		keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName
+		keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName1
 		key := types.NamespacedName{Name: kvSqlUser1.ObjectMeta.Name, Namespace: keyNamespace}
 
 		keyVaultName := tc.keyvaultName
@@ -295,7 +366,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 				ResourceGroup:      rgName,
 				ServerName:         sqlServerName,
 				ActionName:         "rollusercreds",
-				DbName:             sqlDatabaseName,
+				DbName:             sqlDatabaseName1,
 				DbUser:             kvSqlUser1.ObjectMeta.Name,
 				UserSecretKeyVault: keyVaultName,
 			},
@@ -340,7 +411,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			}, tc.timeoutFast, tc.retry, "wait for the azuresqluser kube secret to be deleted")
 
 			assert.Eventually(func() bool {
-				keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName
+				keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName1
 				key := types.NamespacedName{Name: kvSqlUser1.ObjectMeta.Name, Namespace: keyNamespace}
 				var _, err = keyVaultSecretClient.Get(ctx, key)
 
@@ -349,7 +420,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			}, tc.timeoutFast, tc.retry, "wait for the azuresqluser keyvault secret to be deleted")
 
 			assert.Eventually(func() bool {
-				keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName
+				keyNamespace := "azuresqluser-" + sqlServerName + "-" + sqlDatabaseName1
 				keyName := kvSqlUser2.ObjectMeta.Name + "-adonet"
 				key := types.NamespacedName{Name: keyName, Namespace: keyNamespace}
 				var _, err = keyVaultSecretClient.Get(ctx, key)
@@ -386,7 +457,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 					FailoverGracePeriod:          30,
 					SecondaryServer:              sqlServerTwoName,
 					SecondaryServerResourceGroup: rgName,
-					DatabaseList:                 []string{sqlDatabaseName},
+					DatabaseList:                 []string{sqlDatabaseName1},
 				},
 			}
 
@@ -409,9 +480,10 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			t.Parallel()
 			EnsureDelete(ctx, t, tc, sqlFailoverGroupInstance)
 		})
-		t.Run("delete db", func(t *testing.T) {
+		t.Run("delete dbs", func(t *testing.T) {
 			t.Parallel()
-			EnsureDelete(ctx, t, tc, sqlDatabaseInstance)
+			EnsureDelete(ctx, t, tc, sqlDatabaseInstance1)
+			EnsureDelete(ctx, t, tc, sqlDatabaseInstance2)
 		})
 
 	})
