@@ -60,11 +60,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
     ```
 
-<<<<<<< HEAD
-    You can find these values by running the following with the [Azure CLI](https://docs.microsoft.com/cli/azure):
-=======
     You can find these values by using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest):
->>>>>>> 2a5ef90bc4638eca0c52eb9ff85cf421518ec21b
     ```sh
     az account show
     ```
