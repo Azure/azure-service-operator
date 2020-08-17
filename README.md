@@ -60,18 +60,22 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
     ```
 
+<<<<<<< HEAD
     You can find these values by running the following with the [Azure CLI](https://docs.microsoft.com/cli/azure):
+=======
+    You can find these values by using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest):
+>>>>>>> 2a5ef90bc4638eca0c52eb9ff85cf421518ec21b
     ```sh
     az account show
     ```
-    Next, we'll create a service principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md)
+    Next, we'll create a service principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md).
 
     ```sh
-        az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
+    az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
         --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
     ```
 
-    This should give you an output like the following:
+    This should give you output like the following:
     ```sh
     "appId": "xxxxxxxxxx",
     "displayName": "azure-service-operator",
