@@ -56,8 +56,8 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
 
     First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
     ```yaml
-    AZURE_TENANT_ID=00000000-0000-0000-0000-000000000000
-    AZUR_SUBSCRIPTION_ID=00000000-0000-0000-0000-000000000000
+    AZURE_TENANT_ID=<your-tenant-id-goes-here>
+    AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
     ```
 
     You can find these values by running the following:
@@ -82,8 +82,8 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
 
     Once you have created a service principal, set the following variables to your app ID and password values:
     ```sh 
-    AZURE_CLIENT_ID=00000000-0000-0000-0000-000000000000 # This is the appID from the service principal we created.
-    AZURE_CLIENT_SECRET=00000000-0000-0000-0000-000000000000 # This is the password from the service principal we created.
+    AZURE_CLIENT_ID=<your-client-id> # This is the appID from the service principal we created.
+    AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
     ```
 
 4. Install the Azure Service Operator on your cluster using the following helm install command.
