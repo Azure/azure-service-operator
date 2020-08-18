@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"go/ast"
 	"go/token"
+	"k8s.io/klog/v2"
 
 	"github.com/pkg/errors"
 )
@@ -19,11 +20,90 @@ type ResourceType struct {
 	spec             Type
 	status           Type
 	isStorageVersion bool
+	owner            *TypeName
 }
 
 // NewResourceType defines a new resource type
 func NewResourceType(specType Type, statusType Type) *ResourceType {
-	return &ResourceType{specType, statusType, false}
+	return &ResourceType{specType, statusType, false, nil}
+}
+
+// NewAzureResourceType defines a new resource type for Azure. It ensures that
+// the resource has certain expected properties such as type and name.
+// The typeName parameter is just used for logging.
+func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *ResourceType {
+	if objectType, ok := specType.(*ObjectType); ok {
+		// We have certain expectations about structure for resources
+		var nameProperty *PropertyDefinition
+		var typeProperty *PropertyDefinition
+		isNameOptional := false
+		isTypeOptional := false
+		for _, property := range objectType.Properties() {
+			if property.HasName("Name") {
+				nameProperty = property
+				if _, ok := property.PropertyType().(*OptionalType); ok {
+					isNameOptional = true
+				}
+			}
+
+			if property.HasName("Type") {
+				typeProperty = property
+				if _, ok := property.PropertyType().(*OptionalType); ok {
+					isTypeOptional = true
+				}
+			}
+		}
+
+		if typeProperty == nil {
+			// TODO: These resources are currently missing a type property... We should do something
+			// TODO: about that, but for now we just bypass them.
+			if typeName.Name() != "EnvironmentsEventSources" &&
+				typeName.Name() != "SitesConfig" &&
+				typeName.Name() != "SitesSlotsConfig" &&
+				typeName.Name() != "ServersAdministrators" {
+				panic(fmt.Sprintf("Resource %s is missing type property", typeName))
+			}
+		}
+
+		if nameProperty == nil {
+			klog.V(1).Infof("resource %s is missing field 'Name', fabricating one...", typeName)
+
+			nameProperty = NewPropertyDefinition(PropertyName("Name"), "name", StringType)
+			nameProperty.WithDescription("The name of the resource")
+			isNameOptional = true
+		}
+
+		if isNameOptional {
+			// Fix name to be required -- again this is an artifact of bad spec more than anything
+			nameProperty = nameProperty.MakeRequired()
+			objectType = objectType.WithProperty(nameProperty)
+		}
+
+		// If the name is not a string, force it to be -- there are a good number
+		// of resources which define name as an enum with a limited set of values.
+		// That is actually incorrect because it forbids nested naming from being used
+		// (i.e. myresource/mysubresource/enumvalue) and that's the style of naming
+		// that we're always using because we deploy each resource standalone.
+		if !nameProperty.PropertyType().Equals(StringType) {
+			klog.V(4).Infof(
+				"Forcing resource %s name property with type %T to be string instead",
+				typeName,
+				nameProperty.PropertyType())
+			nameProperty = nameProperty.WithType(StringType)
+			objectType = objectType.WithProperty(nameProperty)
+		}
+
+		if isTypeOptional {
+			typeProperty = typeProperty.MakeRequired()
+			objectType = objectType.WithProperty(typeProperty)
+		}
+		specType = objectType
+	} else {
+		klog.Warningf("expected a struct type for resource: %v, got %T", typeName, specType)
+		// TODO: handle this better, only Kusto does it
+	}
+
+	return NewResourceType(specType, statusType)
 }
 
 // assert that ResourceType implements Type
@@ -78,10 +158,22 @@ func (definition *ResourceType) References() TypeNameSet {
 	return SetUnion(spec, status)
 }
 
+// Owner returns the name of the owner type
+func (definition *ResourceType) Owner() *TypeName {
+	return definition.owner
+}
+
 // MarkAsStorageVersion marks the resource as the Kubebuilder storage version
 func (definition *ResourceType) MarkAsStorageVersion() *ResourceType {
 	result := *definition
 	result.isStorageVersion = true
+	return &result
+}
+
+// WithOwner updates the owner of the resource and returns a copy of the resource
+func (definition *ResourceType) WithOwner(owner *TypeName) *ResourceType {
+	result := *definition
+	result.owner = owner
 	return &result
 }
 
@@ -94,6 +186,8 @@ func (definition *ResourceType) RequiredImports() []PackageReference {
 	}
 
 	typeImports = append(typeImports, MetaV1PackageReference)
+	typeImports = append(typeImports, MakeGenRuntimePackageReference())
+	typeImports = append(typeImports, MakePackageReference("fmt"))
 
 	return typeImports
 }
@@ -149,11 +243,14 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 
 	addDocComments(&comments, description, 200)
 
-	return []ast.Decl{
-		&ast.GenDecl{
-			Tok:   token.TYPE,
-			Specs: []ast.Spec{resourceTypeSpec},
-			Doc:   &ast.CommentGroup{List: comments},
-		},
+	var declarations []ast.Decl
+	resourceDeclaration := &ast.GenDecl{
+		Tok:   token.TYPE,
+		Specs: []ast.Spec{resourceTypeSpec},
+		Doc:   &ast.CommentGroup{List: comments},
 	}
+
+	declarations = append(declarations, resourceDeclaration)
+
+	return declarations
 }

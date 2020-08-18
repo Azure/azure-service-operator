@@ -476,15 +476,15 @@ func generateDefinitionsFor(
 	// Add a placeholder to avoid recursive calls
 	// we will overwrite this later (this is checked below)
 	scanner.addEmptyTypeDefinition(typeName)
-
 	result, err := scanner.RunHandler(ctx, schemaType, schema)
+
 	if err != nil {
 		scanner.removeTypeDefinition(typeName) // we weren't able to generate it, remove placeholder
 		return nil, err
 	}
 
 	if isResource {
-		result = astmodel.NewResourceType(result, nil)
+		result = astmodel.NewAzureResourceType(result, nil, typeName)
 	}
 
 	description := []string{
@@ -684,7 +684,7 @@ func generateOneOfUnionType(ctx context.Context, subschemas []Schema, scanner *S
 
 	objectType := astmodel.NewObjectType().WithProperties(properties...)
 	objectType = objectType.WithFunction(
-		"MarshalJSON",
+		astmodel.JSONMarshalFunctionName,
 		astmodel.NewOneOfJSONMarshalFunction(objectType, scanner.idFactory))
 
 	return objectType, nil

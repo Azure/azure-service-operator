@@ -113,6 +113,8 @@ func runGoldenTest(t *testing.T, path string) {
 		t.Fatalf("could not create code generator: %v", err)
 	}
 
+	hasResources := strings.HasPrefix(testName, "ArmResource")
+
 	// Snip out the bits of the code generator we know we need to override
 	var pipeline []PipelineStage
 	for _, stage := range codegen.pipeline {
@@ -124,10 +126,10 @@ func runGoldenTest(t *testing.T, path string) {
 			continue // Skip this
 		} else if stage.HasId("exportPackages") {
 			pipeline = append(pipeline, exportPackagesTestPipelineStage)
-		} else if stage.HasId("stripUnreferenced") {
-			// TODO: we will want to leave this included for some flavors of test, but for now since we
-			// TODO: don't ever actually have any resources, exclude it
+		} else if stage.HasId("stripUnreferenced") && !hasResources {
 			pipeline = append(pipeline, stripUnusedTypesPipelineStage)
+		} else if stage.HasId("createArmTypes") && !hasResources {
+			continue
 		} else {
 			pipeline = append(pipeline, stage)
 		}

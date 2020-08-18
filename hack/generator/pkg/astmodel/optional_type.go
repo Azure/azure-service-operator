@@ -38,6 +38,11 @@ func isTypeOptional(t Type) bool {
 	}
 }
 
+// Element returns the type which is optional
+func (optional *OptionalType) Element() Type {
+	return optional.element
+}
+
 // assert we implemented Type correctly
 var _ Type = (*OptionalType)(nil)
 

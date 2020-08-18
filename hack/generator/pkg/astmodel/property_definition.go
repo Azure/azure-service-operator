@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"go/ast"
 	"go/token"
+	"sort"
+	"strings"
 )
 
 // PropertyName is a semantic type
@@ -18,20 +20,23 @@ type PropertyName string
 type PropertyDefinition struct {
 	propertyName PropertyName
 	propertyType Type
-	jsonName     string
 	description  string
 	validations  []Validation
+	tags         map[string][]string
 }
 
 // NewPropertyDefinition is a factory method for creating a new PropertyDefinition
 // name is the name for the new property (mandatory)
 // propertyType is the type for the new property (mandatory)
 func NewPropertyDefinition(propertyName PropertyName, jsonName string, propertyType Type) *PropertyDefinition {
+	tags := make(map[string][]string)
+	tags["json"] = []string{jsonName}
+
 	return &PropertyDefinition{
 		propertyName: propertyName,
 		propertyType: propertyType,
-		jsonName:     jsonName,
 		description:  "",
+		tags:         tags,
 	}
 }
 
@@ -67,10 +72,38 @@ func (property *PropertyDefinition) WithType(newType Type) *PropertyDefinition {
 	return &result
 }
 
+// HasName returns true if the property has the given name
+func (property *PropertyDefinition) HasName(name PropertyName) bool {
+	return property.propertyName == name
+}
+
 // WithValidation adds the given validation to the property's set of validations
 func (property *PropertyDefinition) WithValidation(validation Validation) *PropertyDefinition {
 	result := *property
 	result.validations = append(result.validations, validation)
+	return &result
+}
+
+// WithoutValidation removes all validations from the field
+func (property *PropertyDefinition) WithoutValidation() *PropertyDefinition {
+	result := *property
+	result.validations = nil
+	return &result
+}
+
+// WithTag adds the given tag to the field
+func (property *PropertyDefinition) WithTag(key string, value string) *PropertyDefinition {
+	result := *property
+	// TODO: Should we have a copy function here to make this a bit safer? Right now both this function
+	// TODO: and the above WithValidations technically leave references (i.e. maps) the same. That is ok
+	// TODO: as long as this object really is immutable and nothing is changing the content of the maps
+	// TODO: after a copy has been made it it was a bit surprising that we aren't doing a deep copy here.
+	// Have to copy the map here
+	result.tags = make(map[string][]string)
+	for k, v := range property.tags {
+		result.tags[k] = v
+	}
+	result.tags[key] = append(result.tags[key], value)
 	return &result
 }
 
@@ -147,8 +180,28 @@ func (property *PropertyDefinition) hasOptionalType() bool {
 	return ok
 }
 
+func (property *PropertyDefinition) renderedTags() string {
+	var orderedKeys []string
+	for key := range property.tags {
+		orderedKeys = append(orderedKeys, key)
+	}
+
+	sort.Slice(orderedKeys, func(i, j int) bool {
+		return orderedKeys[i] < orderedKeys[j]
+	})
+
+	var tags []string
+	for _, key := range orderedKeys {
+		tagString := strings.Join(property.tags[key], ",")
+		tags = append(tags, fmt.Sprintf("%s:%q", key, tagString))
+	}
+
+	return strings.Join(tags, " ")
+}
+
 // AsField generates a Go AST field node representing this property definition
 func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGenerationContext) *ast.Field {
+	tags := property.renderedTags()
 
 	result := &ast.Field{
 		Doc:   &ast.CommentGroup{},
@@ -156,7 +209,7 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 		Type:  property.PropertyType().AsType(codeGenerationContext),
 		Tag: &ast.BasicLit{
 			Kind:  token.STRING,
-			Value: fmt.Sprintf("`json:%q`", property.jsonName),
+			Value: fmt.Sprintf("`%s`", tags),
 		},
 	}
 

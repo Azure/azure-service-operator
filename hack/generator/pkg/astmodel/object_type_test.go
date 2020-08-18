@@ -178,6 +178,23 @@ func Test_WithProperties_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
 }
 
 /*
+ * WithoutProperty() Tests
+ */
+
+func Test_ObjectWithoutProperty_ReturnsExpectedObject(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	original := EmptyObjectType.WithProperties(fullName, familyName, knownAs, gender)
+	modified := original.WithoutProperty(fullName.propertyName)
+
+	g.Expect(original).NotTo(Equal(modified))
+	g.Expect(modified.Properties()).NotTo(ContainElement(fullName))
+	g.Expect(modified.Properties()).To(ContainElement(familyName))
+	g.Expect(modified.Properties()).To(ContainElement(knownAs))
+	g.Expect(modified.Properties()).To(ContainElement(gender))
+}
+
+/*
  * WithFunction() tests
  */
 

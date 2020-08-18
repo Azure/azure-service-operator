@@ -12,6 +12,8 @@ import (
 	"go/token"
 )
 
+const JSONMarshalFunctionName string = "MarshalJSON"
+
 // OneOfJSONMarshalFunction is a function for marshalling discriminated unions
 // (types with only mutually exclusive properties) to JSON
 type OneOfJSONMarshalFunction struct {

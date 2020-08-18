@@ -1,0 +1,125 @@
+{
+    "$comment": "Test that an ARM resource graph with various owners renders each resource properly. In this test, A owns B which owns C",
+    "id": "https://test.test/schemas/2020-01-01/test.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test",
+    "type": "object",
+    "properties": {
+        "a": {
+            "$ref": "#/resourceDefinitions/A"
+        },
+        "b": {
+            "$ref": "#/resourceDefinitions/B"
+        },
+        "c": {
+            "$ref": "#/resourceDefinitions/C"
+        }
+    },
+    "resourceDefinitions": {
+        "C": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/C"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        },
+        "B": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/B"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                },
+                "resources": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/resourceDefinitions/C"
+                            }
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        },
+        "A": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Microsoft.Azure/A"
+                    ]
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "enum": [
+                        "2020-06-01"
+                    ]
+                },
+                "resources": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/resourceDefinitions/B"
+                            }
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "apiVersion"
+            ]
+        }
+    },
+    "definitions": {
+        "Foo": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

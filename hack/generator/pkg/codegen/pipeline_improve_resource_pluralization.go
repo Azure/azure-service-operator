@@ -21,12 +21,21 @@ func improveResourcePluralization() PipelineStage {
 
 			result := make(astmodel.Types)
 			for _, typeDef := range types {
-				if _, ok := typeDef.Type().(*astmodel.ResourceType); ok {
+				if resourceType, ok := typeDef.Type().(*astmodel.ResourceType); ok {
 					newTypeName := typeDef.Name().Singular()
 					// check if there is already a resource with this name
 					if _, ok := types[newTypeName]; !ok {
 						// not found: rename the resource
-						result.Add(typeDef.WithName(newTypeName))
+						typeDef = typeDef.WithName(newTypeName)
+
+						// Need to update owner ref too if applicable
+						if resourceType.Owner() != nil {
+							owner := resourceType.Owner().Singular()
+							resourceType = resourceType.WithOwner(&owner)
+							typeDef = typeDef.WithType(resourceType)
+						}
+
+						result.Add(typeDef)
 					} else {
 						// resource with singular name already exists,
 						// so output the resource without depluralizing

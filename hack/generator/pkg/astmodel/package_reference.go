@@ -13,7 +13,9 @@ import (
 )
 
 const (
-	LocalPathPrefix = "github.com/Azure/k8s-infra/hack/generated/apis/" // TODO: From config?
+	LocalPathPrefix       = "github.com/Azure/k8s-infra/hack/generated/apis/" // TODO: From config?
+	genRuntimePathPrefix  = "github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
+	GenRuntimePackageName = "genruntime"
 )
 
 var MetaV1PackageReference = MakePackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
@@ -32,6 +34,12 @@ func MakeLocalPackageReference(groupName string, packageName string) PackageRefe
 // MakePackageReference creates a new package reference from a path
 func MakePackageReference(packagePath string) PackageReference {
 	return PackageReference{packagePath: packagePath}
+}
+
+// MakeGenRuntimePackageReference creates a new package reference for the genruntime package
+func MakeGenRuntimePackageReference() PackageReference {
+	url := genRuntimePathPrefix
+	return PackageReference{packagePath: url}
 }
 
 func (pr PackageReference) IsLocalPackage() bool {

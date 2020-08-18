@@ -34,3 +34,21 @@ func TestPackageGroupVersion_IncludesGeneratorVersion(t *testing.T) {
 	g.Expect(err).To(BeNil())
 	g.Expect(string(data)).To(ContainSubstring("// Generator version: latest-version"))
 }
+
+func Test_PropertyDefinitionWithValidation_GivenValidation_DoesNotModifyOriginal(t *testing.T) {
+	g := NewGomegaWithT(t)
+	original := NewPropertyDefinition("FullName", "fullName", StringType)
+	original = original.WithValidation(ValidateRequired())
+	field := original.WithValidation(ValidateRequired())
+
+	g.Expect(field.validations).NotTo(Equal(original.validations))
+}
+
+func Test_PropertyDefinitionWithTag_GivenTag_DoesNotModifyOriginal(t *testing.T) {
+	g := NewGomegaWithT(t)
+	original := NewPropertyDefinition("FullName", "fullName", StringType)
+	original = original.WithTag("a", "b")
+	field := original.WithTag("c", "d")
+
+	g.Expect(field.tags).NotTo(Equal(original.tags))
+}

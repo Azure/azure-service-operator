@@ -131,7 +131,7 @@ func MakeTypeVisitor() TypeVisitor {
 		VisitResourceType: func(this *TypeVisitor, it *ResourceType, ctx interface{}) Type {
 			spec := this.Visit(it.spec, ctx)
 			status := this.Visit(it.status, ctx)
-			return NewResourceType(spec, status)
+			return NewResourceType(spec, status).WithOwner(it.Owner())
 		},
 	}
 }

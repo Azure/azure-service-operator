@@ -19,6 +19,11 @@ func NewArrayType(element Type) *ArrayType {
 	return &ArrayType{element}
 }
 
+// Element returns the element type of the array
+func (array *ArrayType) Element() Type {
+	return array.element
+}
+
 // assert we implemented Type correctly
 var _ Type = (*ArrayType)(nil)
 

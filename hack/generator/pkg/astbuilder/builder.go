@@ -47,27 +47,6 @@ func NewStruct(varName *ast.Ident, structName *ast.Ident) ast.Stmt {
 		})
 }
 
-// NilGuardAndReturn checks if a variable is nil and if it is returns, like:
-// 	if <toCheck> == nil {
-// 		return <returns...>
-//	}
-func NilGuardAndReturn(toCheck *ast.Ident, returns ...ast.Expr) ast.Stmt {
-	return &ast.IfStmt{
-		Cond: &ast.BinaryExpr{
-			X:  toCheck,
-			Op: token.EQL,
-			Y:  ast.NewIdent("nil"),
-		},
-		Body: &ast.BlockStmt{
-			List: []ast.Stmt{
-				&ast.ReturnStmt{
-					Results: returns,
-				},
-			},
-		},
-	}
-}
-
 type FuncDetails struct {
 	ReceiverIdent *ast.Ident
 	ReceiverType  ast.Expr
@@ -155,9 +134,9 @@ func SimpleVariableDeclaration(ident *ast.Ident, typ ast.Expr) *ast.DeclStmt {
 	}
 }
 
-// AppendList returns an assignment statement for a list append, like:
+// AppendList returns a statement for a list append, like:
 //	<lhs> = append(<lhs>, <rhs>)
-func AppendList(lhs ast.Expr, rhs ast.Expr) *ast.AssignStmt {
+func AppendList(lhs ast.Expr, rhs ast.Expr) ast.Stmt {
 	return SimpleAssignment(
 		lhs,
 		token.ASSIGN,
@@ -193,5 +172,100 @@ func MakeMap(key ast.Expr, value ast.Expr) *ast.CallExpr {
 				Value: value,
 			},
 		},
+	}
+}
+
+// TypeAssert returns an assignment statement with a type assertion
+// 	<lhs>, ok := <rhs>.(<type>)
+func TypeAssert(lhs ast.Expr, rhs ast.Expr, typ ast.Expr) *ast.AssignStmt {
+
+	return &ast.AssignStmt{
+		Lhs: []ast.Expr{
+			lhs,
+			ast.NewIdent("ok"),
+		},
+		Tok: token.DEFINE,
+		Rhs: []ast.Expr{
+			&ast.TypeAssertExpr{
+				X:    rhs,
+				Type: typ,
+			},
+		},
+	}
+}
+
+// ReturnIfOk checks a boolean ok variable and if it is ok returns the specified values
+//	if ok {
+//		return <returns>
+//	}
+func ReturnIfOk(returns ...ast.Expr) *ast.IfStmt {
+	return ReturnIfExpr(ast.NewIdent("ok"), returns...)
+}
+
+// ReturnIfNotOk checks a boolean ok variable and if it is not ok returns the specified values
+//	if !ok {
+//		return <returns>
+//	}
+func ReturnIfNotOk(returns ...ast.Expr) *ast.IfStmt {
+	return ReturnIfExpr(
+		&ast.UnaryExpr{
+			Op: token.NOT,
+			X:  ast.NewIdent("ok"),
+		},
+		returns...)
+}
+
+// ReturnIfNil checks if a variable is nil and if it is returns, like:
+// 	if <toCheck> == nil {
+// 		return <returns...>
+//	}
+func ReturnIfNil(toCheck *ast.Ident, returns ...ast.Expr) ast.Stmt {
+	return ReturnIfExpr(
+		&ast.BinaryExpr{
+			X:  toCheck,
+			Op: token.EQL,
+			Y:  ast.NewIdent("nil"),
+		},
+		returns...)
+}
+
+// ReturnIfExpr returns if the expression evaluates as true.
+//	if <cond> {
+// 		return <returns...>
+//	}
+func ReturnIfExpr(cond ast.Expr, returns ...ast.Expr) *ast.IfStmt {
+	if len(returns) == 0 {
+		panic("Expected at least 1 return for ReturnIfOk")
+	}
+
+	return &ast.IfStmt{
+		Cond: cond,
+		Body: &ast.BlockStmt{
+			List: []ast.Stmt{
+				&ast.ReturnStmt{
+					Results: returns,
+				},
+			},
+		},
+	}
+}
+
+// FormatError produces a call to fmt.Errorf with the given format string and args
+//	fmt.Errorf(<formatString>, <args>)
+func FormatError(formatString string, args ...ast.Expr) *ast.CallExpr {
+	var callArgs []ast.Expr
+	callArgs = append(
+		callArgs,
+		&ast.BasicLit{
+			Kind:  token.STRING,
+			Value: formatString,
+		})
+	callArgs = append(callArgs, args...)
+	return &ast.CallExpr{
+		Fun: &ast.SelectorExpr{
+			X:   ast.NewIdent("fmt"),
+			Sel: ast.NewIdent("Errorf"),
+		},
+		Args: callArgs,
 	}
 }

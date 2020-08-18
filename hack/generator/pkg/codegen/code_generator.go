@@ -49,10 +49,12 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 	return []PipelineStage{
 		augmentResourcesWithStatus(idFactory, configuration),
 		nameTypesForCRD(idFactory),
+		determineResourceOwnership(),
 		removeTypeAliases(),
 		improveResourcePluralization(),
 		applyExportFilters(configuration),
 		stripUnreferencedTypeDefinitions(),
+		createArmTypesAndCleanKubernetesTypes(idFactory),
 		checkForAnyType(),
 	}
 }

@@ -90,7 +90,7 @@ func (enum *EnumType) createBaseDeclaration(
 func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) ast.Spec {
 
 	enumIdentifier := ast.NewIdent(name.Name())
-	valueIdentifier := ast.NewIdent(name.Name() + value.Identifier)
+	valueIdentifier := ast.NewIdent(GetEnumValueId(name, value))
 
 	valueLiteral := ast.BasicLit{
 		Kind:  token.STRING,
@@ -166,4 +166,13 @@ func (enum *EnumType) CreateValidation() Validation {
 	}
 
 	return ValidateEnum(values)
+}
+
+// BaseType returns the base type of the enum
+func (enum *EnumType) BaseType() *PrimitiveType {
+	return enum.baseType
+}
+
+func GetEnumValueId(name TypeName, value EnumValue) string {
+	return name.name + value.Identifier
 }

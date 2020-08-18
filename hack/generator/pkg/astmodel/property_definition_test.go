@@ -30,7 +30,7 @@ func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedFields(t 
 
 	g.Expect(field.propertyName).To(Equal(fieldName))
 	g.Expect(field.propertyType).To(Equal(fieldType))
-	g.Expect(field.jsonName).To(Equal(fieldJsonName))
+	g.Expect(field.tags["json"]).To(Equal([]string{fieldJsonName}))
 	g.Expect(field.description).To(BeEmpty())
 }
 
