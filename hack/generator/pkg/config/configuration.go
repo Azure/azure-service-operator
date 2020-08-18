@@ -6,7 +6,11 @@
 package config
 
 import (
+	"io/ioutil"
+	"path/filepath"
+
 	"github.com/pkg/errors"
+	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
@@ -16,6 +20,8 @@ import (
 type Configuration struct {
 	// Base URL for the JSON schema to generate
 	SchemaURL string `yaml:"schemaUrl"`
+	// Information about where to locate status (Swagger) files
+	Status StatusConfiguration `yaml:"status"`
 	// The folder where the code should be generated
 	OutputPath string `yaml:"outputPath"`
 	// Filters used to control which types are exported
@@ -24,6 +30,33 @@ type Configuration struct {
 	TypeFilters []*TypeFilter `yaml:"typeFilters"`
 	// Transformers used to remap types
 	TypeTransformers []*TypeTransformer `yaml:"typeTransformers"`
+}
+
+// NewConfiguration returns a new empty Configuration
+func NewConfiguration() *Configuration {
+	return &Configuration{}
+}
+
+// LoadConfiguration loads a `Configuration` from the specified file
+func LoadConfiguration(configurationFile string) (*Configuration, error) {
+	data, err := ioutil.ReadFile(configurationFile)
+	if err != nil {
+		return nil, err
+	}
+
+	result := &Configuration{}
+
+	err = yaml.Unmarshal(data, result)
+	if err != nil {
+		return nil, errors.Wrapf(err, "configuration file loaded from %q is not valid YAML", configurationFile)
+	}
+
+	err = result.initialize(configurationFile)
+	if err != nil {
+		return nil, errors.Wrapf(err, "configuration file loaded from %q is invalid", configurationFile)
+	}
+
+	return result, nil
 }
 
 // ShouldExportResult is returned by ShouldExport to indicate whether the supplied type should be exported
@@ -46,12 +79,6 @@ const (
 	Prune ShouldPruneResult = "prune"
 )
 
-// NewConfiguration is a convenience factory for Configuration
-func NewConfiguration() *Configuration {
-	result := Configuration{}
-	return &result
-}
-
 // WithExportFilters adds the provided ExportFilters to the configurations collection of ExportFilters
 func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Configuration {
 	result := *config
@@ -60,9 +87,9 @@ func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Config
 	return &result
 }
 
-// Initialize checks for common errors and initializes structures inside the configuration
+// initialize checks for common errors and initializes structures inside the configuration
 // which need additional setup after json deserialization
-func (config *Configuration) Initialize() error {
+func (config *Configuration) initialize(configPath string) error {
 	if config.SchemaURL == "" {
 		return errors.New("SchemaURL missing")
 	}
@@ -92,6 +119,15 @@ func (config *Configuration) Initialize() error {
 		if err != nil {
 			errs = append(errs, err)
 		}
+	}
+
+	// make Status.SchemaRoot an absolute path
+	absLocation, err := filepath.Abs(configPath)
+	if err != nil {
+		errs = append(errs, err)
+	} else {
+		parentDir := filepath.Dir(absLocation)
+		config.Status.SchemaRoot = filepath.Join(parentDir, config.Status.SchemaRoot)
 	}
 
 	return kerrors.NewAggregate(errs)
@@ -148,4 +184,27 @@ func (config *Configuration) TransformType(name astmodel.TypeName) (astmodel.Typ
 
 	// No matches, return nil
 	return nil, ""
+}
+
+// StatusConfiguration provides configuration options for the
+// status parts of resources, which are generated from the
+// Azure Swagger specs.
+type StatusConfiguration struct {
+	// The root URL of the status (Swagger) files (relative to this file)
+	SchemaRoot string `yaml:"schemaRoot"`
+
+	// Custom per-group configuration
+	Overrides []SchemaOverride `yaml:"overrides"`
+}
+
+// SchemaOverride provides configuration to override namespaces (groups)
+// this is used (for example) to distinguish Microsoft.Network.Frontdoor
+// from Microsoft.Network, even though both use Microsoft.Network in
+// their Swagger specs.
+type SchemaOverride struct {
+	// The root for this group (relative to SchemaRoot)
+	BasePath string `yaml:"basePath"`
+
+	// A suffix to add on to the group name
+	Suffix string `yaml:"suffix"`
 }

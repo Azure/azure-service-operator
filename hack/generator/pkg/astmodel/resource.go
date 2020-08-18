@@ -39,6 +39,13 @@ func (definition *ResourceType) StatusType() Type {
 	return definition.status
 }
 
+// WithStatus returns a new resource that has the specified status type
+func (definition *ResourceType) WithStatus(statusType Type) *ResourceType {
+	result := *definition
+	result.status = statusType
+	return &result
+}
+
 // AsType converts the ResourceType to go AST Expr
 func (definition *ResourceType) AsType(_ *CodeGenerationContext) ast.Expr {
 	panic("a resource cannot be used directly as a type")

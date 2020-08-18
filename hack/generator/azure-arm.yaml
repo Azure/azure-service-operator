@@ -133,6 +133,35 @@ exportFilters:
   - action: exclude
     group: microsoft.web
     because: it generates types containing AnyType
+# The following end up with AnyType in Status:
+  - action: exclude
+    group: microsoft.containerservice
+    version: v20180331
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.containerservice
+    version: v20190601
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.insights
+    version: v20150501
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.insights
+    version: v20160301
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.insights
+    version: v20170401
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.insights
+    version: v20180416
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.insights
+    version: v20190301
+    because: it generates types containing AnyType
 
 typeTransformers:
   - group: definitions
@@ -140,3 +169,132 @@ typeTransformers:
     because: NumberOrExpression is an ARM template artifact that doesn't make sense in CRDs
     target:
       name: float
+
+status:
+  schemaRoot: "./azure-rest-api-specs/specification"
+
+  # the configuration below is copied from the ARM schema repo:
+  # https://github.com/Azure/azure-resource-manager-schemas/blob/master/generator/autogenlist.ts
+  overrides: [
+    {
+        basePath: 'blueprint/resource-manager',
+        namespace: 'Microsoft.Blueprint',
+        resourceConfig: [
+            {
+                type: 'blueprintAssignments',
+                scopes: ScopeType.Subcription | ScopeType.ManagementGroup,
+            },
+            {
+                type: 'blueprints',
+                scopes: ScopeType.Subcription | ScopeType.ManagementGroup,
+            },
+            {
+                type: 'blueprints/artifacts',
+                scopes: ScopeType.Subcription | ScopeType.ManagementGroup,
+            },
+            {
+                type: 'blueprints/versions',
+                scopes: ScopeType.Subcription | ScopeType.ManagementGroup,
+            },
+        ]
+    },
+    {
+        basePath: 'customproviders/resource-manager',
+        namespace: 'Microsoft.CustomProviders',
+        resourceConfig: [
+            {
+                type: 'associations',
+                scopes: ScopeType.Extension,
+            },
+        ],
+    },
+    {
+        basePath: 'consumption/resource-manager',
+        namespace: 'Microsoft.Consumption',
+        resourceConfig: [
+            {
+                type: 'budgets',
+                scopes: ScopeType.Subcription | ScopeType.ResourceGroup | ScopeType.Extension,
+            },
+        ],
+    },
+    {
+      basePath: 'digitaltwins/resource-manager',
+      resourceConfig: [
+          {
+              type: 'integrationResources',
+              scopes: ScopeType.Extension,
+          }
+      ]
+    },
+    {
+        basePath: 'deviceprovisioningservices/resource-manager',
+        suffix: 'Provisioning',
+    },
+    {
+        basePath: 'frontdoor/resource-manager',
+        suffix: 'FrontDoor',
+    },
+    { 
+        basePath: 'eventgrid/resource-manager',
+        resourceConfig: [
+            {
+                type: 'eventSubscriptions',
+                scopes: ScopeType.Extension | ScopeType.Subcription | ScopeType.ResourceGroup,
+            },
+        ],
+    },
+    {
+        basePath: 'machinelearning/resource-manager',
+        postProcessor: machineLearningPostProcessor,
+    },
+    {
+        basePath: 'managednetwork/resource-manager',
+        resourceConfig: [
+            {
+                type: 'scopeAssignments',
+                scopes: ScopeType.Subcription,
+            },
+        ],
+    },
+    {
+        basePath: 'policyinsights/resource-manager',
+        resourceConfig: [
+            {
+                type: 'remediations',
+                scopes: ScopeType.Subcription | ScopeType.ResourceGroup | ScopeType.ManagementGroup,
+            }
+        ]
+    },
+    {
+        basePath: 'resources/resource-manager',
+        resourceConfig: [
+            {
+                type: 'deployments',
+                scopes: ScopeType.Tenant | ScopeType.ManagementGroup | ScopeType.Subcription | ScopeType.ResourceGroup,
+            },
+            {
+                type: 'tags',
+                scopes: ScopeType.ManagementGroup | ScopeType.Subcription | ScopeType.ResourceGroup | ScopeType.Extension,
+            },
+        ],
+        postProcessor: resourcesPostProcessor,
+    },
+    {
+        basePath: 'storSimple1200Series/resource-manager',
+        suffix: '1200'
+    },
+    { 
+        basePath: 'storsimple8000series/resource-manager',
+        suffix: '8000',
+    },
+    {
+        basePath: 'softwareplan/resource-manager',
+        resourceConfig: [
+            {
+                type: 'hybridUseBenefits',
+                scopes: ScopeType.Extension,
+            },
+        ]
+    },
+  ]

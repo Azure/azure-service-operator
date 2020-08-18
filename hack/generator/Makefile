@@ -14,10 +14,10 @@ V = 0
 Q = $(if $(filter 1,$V),,@)
 
 .PHONY: all
-all: header-check fmt build test gen-arm make-generated-code
+all: header-check fmt test gen-arm make-generated-code
 
 .PHONY: gen-arm
-gen-arm: ; $(info $(M) running k8sinfra-gen gen…) @ ## Running gen
+gen-arm: build ; $(info $(M) running k8sinfra-gen gen…) @ ## Running gen
 	$(Q) ./bin/$(APP) gen azure-arm.yaml
 	# Run with verbosity 4 to see a stack trace for errors.
 	# $(Q) ./bin/$(APP) gen azure-arm.yaml -v 4

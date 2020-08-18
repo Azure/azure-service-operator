@@ -30,7 +30,6 @@ func StripUnusedDefinitions(
 
 	// Collect all the reference sets for each type.
 	references := make(map[astmodel.TypeName]astmodel.TypeNameSet)
-
 	for _, def := range definitions {
 		references[def.Name()] = def.References()
 	}

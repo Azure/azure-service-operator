@@ -81,6 +81,14 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) Type {
 	panic(fmt.Sprintf("unhandled type: (%T) %v", t, t))
 }
 
+// VisitDefinition invokes the TypeVisitor on both the name and type of the definition
+// NB: this is only valid if VisitTypeName returns a TypeName and not generally a Type
+func (tv *TypeVisitor) VisitDefinition(td TypeDefinition, ctx interface{}) TypeDefinition {
+	return MakeTypeDefinition(
+		tv.VisitTypeName(tv, td.Name(), ctx).(TypeName),
+		tv.Visit(td.Type(), ctx))
+}
+
 // MakeTypeVisitor returns a default (identity transform) visitor, which
 // visits every type in the tree. If you want to actually do something you will
 // need to override the properties on the returned TypeVisitor.

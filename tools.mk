@@ -53,3 +53,6 @@ $(GOX): ## Build gox
 
 $(GCOV2LCOV): ## Build gcov2lcov
 	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) github.com/jandelgado/gcov2lcov@v1.0.2
+
+.PHONY: install-tools
+install-tools: $(KIND) $(KUSTOMIZE) $(CONTROLLER_GEN) $(CONVERSION_GEN) $(GOLANGCI_LINT) $(GOLINT) $(GOX) $(GCOV2LCOV)

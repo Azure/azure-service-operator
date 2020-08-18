@@ -20,6 +20,8 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
       - name: Build docker image
         run: make docker-build
   test-generator:
@@ -35,6 +37,8 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Checkout code
         uses: actions/checkout@v2
+        with: 
+          submodules: 'true'
       - name: Make test generator
         run: make -C ./hack/generator ci
       - name: Coveralls
@@ -62,6 +66,8 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
       - name: Make integration test
         run: make test-cover-int
         if: ${{ env.AZURE_TENANT_ID != '' }}

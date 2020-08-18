@@ -31,6 +31,7 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 			}
 
 			for typeName, typeDef := range types {
+
 				newDefs := nameInnerTypes(typeDef, idFactory, getDescription)
 				for _, newDef := range newDefs {
 					result.Add(newDef)
@@ -93,11 +94,11 @@ func nameInnerTypes(
 	visitor.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) astmodel.Type {
 		nameHint := ctx.(string)
 
-		spec := this.Visit(it.SpecType(), nameHint+"Spec")
+		spec := this.Visit(it.SpecType(), nameHint+"_Spec")
 
 		var status astmodel.Type
 		if it.StatusType() != nil {
-			status = this.Visit(it.StatusType(), nameHint+"Status")
+			status = this.Visit(it.StatusType(), nameHint+"_Status")
 		}
 
 		resourceName := astmodel.MakeTypeName(def.Name().PackageReference, nameHint)

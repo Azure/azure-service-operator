@@ -9,8 +9,8 @@ import (
 	"fmt"
 )
 
+// GitCommit and GitTreeState are populated by the Makefile.
 var (
-	// GitCommit and GitTreeState are populated by the Makefile.
 	GitCommit    string
 	GitTreeState string
 )

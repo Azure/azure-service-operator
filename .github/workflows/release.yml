@@ -17,6 +17,8 @@ jobs:
           go-version: 1.13.x
       - name: checkout code
         uses: actions/checkout@v2
+        with:
+          submodules: 'true' 
       - name: set env
         run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
       - name: docker login

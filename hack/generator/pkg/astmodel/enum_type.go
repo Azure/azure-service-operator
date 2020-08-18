@@ -26,6 +26,10 @@ var _ Type = (*EnumType)(nil)
 
 // NewEnumType defines a new enumeration including the legal values
 func NewEnumType(baseType *PrimitiveType, options []EnumValue) *EnumType {
+	if baseType == nil {
+		panic("baseType must be provided")
+	}
+
 	sort.Slice(options, func(left int, right int) bool {
 		return options[left].Identifier < options[right].Identifier
 	})

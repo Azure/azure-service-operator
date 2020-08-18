@@ -7,12 +7,10 @@ package codegen
 
 import (
 	"context"
-	"io/ioutil"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"github.com/pkg/errors"
-	"gopkg.in/yaml.v3"
 	"k8s.io/klog/v2"
 )
 
@@ -24,19 +22,12 @@ type CodeGenerator struct {
 
 // NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
 func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, error) {
-	configuration, err := loadConfiguration(configurationFile)
+	configuration, err := config.LoadConfiguration(configurationFile)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to load configuration file %q", configurationFile)
+		return nil, err
 	}
 
-	err = configuration.Initialize()
-	if err != nil {
-		return nil, errors.Wrapf(err, "configuration loaded from %q is invalid", configurationFile)
-	}
-
-	idFactory := astmodel.NewIdentifierFactory()
-
-	return NewCodeGeneratorFromConfig(configuration, idFactory)
+	return NewCodeGeneratorFromConfig(configuration, astmodel.NewIdentifierFactory())
 }
 
 // NewCodeGeneratorFromConfig produces a new Generator with the given configuration
@@ -56,6 +47,7 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 
 func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []PipelineStage {
 	return []PipelineStage{
+		augmentResourcesWithStatus(idFactory, configuration),
 		nameTypesForCRD(idFactory),
 		removeTypeAliases(),
 		improveResourcePluralization(),
@@ -81,20 +73,4 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	}
 
 	return nil
-}
-
-func loadConfiguration(configurationFile string) (*config.Configuration, error) {
-	data, err := ioutil.ReadFile(configurationFile)
-	if err != nil {
-		return nil, err
-	}
-
-	result := config.NewConfiguration()
-
-	err = yaml.Unmarshal(data, result)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
 }

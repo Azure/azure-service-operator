@@ -114,7 +114,7 @@ func loadSchemaIntoTypes(
 
 			klog.V(0).Infof("Walking JSON schema")
 
-			defs, err := scanner.GenerateDefinitions(ctx, schema.Root())
+			defs, err := scanner.GenerateDefinitions(ctx, jsonast.MakeGoJSONSchema(schema.Root()))
 			if err != nil {
 				return nil, errors.Wrapf(err, "failed to walk JSON schema")
 			}

@@ -136,7 +136,7 @@ func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*ast
 	})
 
 	// emit each package
-	klog.V(0).Infof("Writing output files into %v", outputPath)
+	klog.V(0).Infof("Writing output files into %q", outputPath)
 	for _, pkg := range pkgs {
 		if ctx.Err() != nil { // check for cancellation
 			return ctx.Err()

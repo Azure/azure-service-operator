@@ -1,0 +1,3 @@
+[submodule "hack/generator/azure-rest-api-specs"]
+	path = hack/generator/azure-rest-api-specs
+	url = https://github.com/Azure/azure-rest-api-specs
