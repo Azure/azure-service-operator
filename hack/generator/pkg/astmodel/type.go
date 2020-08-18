@@ -31,19 +31,6 @@ type Type interface {
 	Equals(t Type) bool
 }
 
-// Types is the set of all types being generated
-type Types map[TypeName]TypeDefinition
-
-// Add adds a type to the set, with safety check that it has not already been defined
-func (types Types) Add(def TypeDefinition) {
-	key := def.Name()
-	if _, ok := types[key]; ok {
-		panic(fmt.Sprintf("type already defined: %v", key))
-	}
-
-	types[key] = def
-}
-
 // TypeEquals decides if the types are the same and handles the `nil` case
 func TypeEquals(left, right Type) bool {
 	if left == nil {
