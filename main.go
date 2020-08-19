@@ -32,10 +32,13 @@ import (
 var (
 	scheme   = runtime.NewScheme()
 	setupLog = ctrl.Log.WithName("setup")
+	flagSet  = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 )
 
 func init() {
-	klog.InitFlags(nil)
+	// must use our flagSet so it doesn’t conflict with other flag definitions using global flagset
+	// see: https://github.com/golang/go/issues/27336
+	klog.InitFlags(flagSet)
 
 	_ = clientgoscheme.AddToScheme(scheme)
 	_ = microsoftresourcesv20191001.AddToScheme(scheme)
@@ -51,10 +54,10 @@ func init() {
 func main() {
 	var metricsAddr string
 	var enableLeaderElection bool
-	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
-	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
+	flagSet.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
+	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
-	flag.Parse()
+	flagSet.Parse(os.Args[1:]) //nolint: error will never be returned due to ExitOnError
 
 	ctrl.SetLogger(klogr.New())
 
