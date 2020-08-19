@@ -7,6 +7,7 @@ package codegen
 
 import (
 	"context"
+	"fmt"
 	"regexp"
 	"strings"
 
@@ -42,37 +43,39 @@ func (extractor *typeExtractor) extractTypes(
 
 	scanner := jsonast.NewSchemaScanner(extractor.idFactory, extractor.config)
 
-	for operationPath, op := range swagger.Paths.Paths {
+	for rawOperationPath, op := range swagger.Paths.Paths {
 		put := op.Put
 		if put == nil {
 			continue
 		}
 
-		resourceName, err := extractor.resourceNameFromOperationPath(packageName, operationPath)
-		if err != nil {
-			klog.Error(err)
-			continue
-		}
-
-		resourceType, err := extractor.resourceTypeFromOperation(ctx, scanner, swagger, filePath, put)
-		if err != nil {
-			if err == context.Canceled {
-				return err
+		for _, operationPath := range expandEnumsInPath(rawOperationPath, put.Parameters) {
+			resourceName, err := extractor.resourceNameFromOperationPath(packageName, operationPath)
+			if err != nil {
+				klog.Errorf("Error extracting resource name (%s): %s", filePath, err.Error())
+				continue
 			}
 
-			return errors.Wrapf(err, "unable to produce type for resource %v", resourceName)
-		}
+			resourceType, err := extractor.resourceTypeFromOperation(ctx, scanner, swagger, filePath, put)
+			if err != nil {
+				if err == context.Canceled {
+					return err
+				}
 
-		if resourceType == nil {
-			continue
-		}
-
-		if existingResource, ok := resources[resourceName]; ok {
-			if !astmodel.TypeEquals(existingResource.Type(), resourceType) {
-				klog.Errorf("RESOURCE already defined differently 😱: %v", resourceName)
+				return errors.Wrapf(err, "unable to produce type for resource %v", resourceName)
 			}
-		} else {
-			resources.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
+
+			if resourceType == nil {
+				continue
+			}
+
+			if existingResource, ok := resources[resourceName]; ok {
+				if !astmodel.TypeEquals(existingResource.Type(), resourceType) {
+					klog.Errorf("RESOURCE already defined differently 😱: %v", resourceName)
+				}
+			} else {
+				resources.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
+			}
 		}
 	}
 
@@ -88,6 +91,54 @@ func (extractor *typeExtractor) extractTypes(
 	}
 
 	return nil
+}
+
+func expandEnumsInPath(operationPath string, parameters []spec.Parameter) []string {
+
+	results := []string{operationPath}
+
+	for _, parameter := range parameters {
+		if parameter.In == "path" &&
+			parameter.Required &&
+			len(parameter.Enum) > 0 {
+
+			// found an enum that needs expansion, replace '{parameterName}' with
+			// each value of the enum
+
+			var newResults []string
+
+			replace := fmt.Sprintf("{%s}", parameter.Name)
+			values := enumValuesToStrings(parameter.Enum)
+
+			for _, result := range results {
+				for _, enumValue := range values {
+					newResults = append(newResults, strings.ReplaceAll(result, replace, enumValue))
+				}
+			}
+
+			results = newResults
+		}
+	}
+
+	return results
+}
+
+// if you update this you might also need to update "jsonast.enumValuesToLiterals"
+func enumValuesToStrings(enumValues []interface{}) []string {
+	result := make([]string, len(enumValues))
+	for i, enumValue := range enumValues {
+		if enumString, ok := enumValue.(string); ok {
+			result[i] = enumString
+		} else if enumStringer, ok := enumValue.(fmt.Stringer); ok {
+			result[i] = enumStringer.String()
+		} else if enumFloat, ok := enumValue.(float64); ok {
+			result[i] = fmt.Sprintf("%g", enumFloat)
+		} else {
+			panic(fmt.Sprintf("unable to convert enum value (%v %T) to string", enumValue, enumValue))
+		}
+	}
+
+	return result
 }
 
 func (extractor *typeExtractor) resourceNameFromOperationPath(packageName string, operationPath string) (astmodel.TypeName, error) {

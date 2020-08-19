@@ -149,9 +149,12 @@ func (schema *OpenAPISchema) additionalPropertiesSchema() Schema {
 	return schema.withNewSchema(*result)
 }
 
-func (schema *OpenAPISchema) enumValues() []string {
-	result := make([]string, len(schema.inner.Enum))
-	for i, enumValue := range schema.inner.Enum {
+// enumValuesToLiterals converts interface{}-typed values to their
+// literal go-lang representations
+// if you update this you might also need to update "codegen.enumValuesToStrings"
+func enumValuesToLiterals(enumValues []interface{}) []string {
+	result := make([]string, len(enumValues))
+	for i, enumValue := range enumValues {
 		if enumString, ok := enumValue.(string); ok {
 			result[i] = fmt.Sprintf("%q", enumString)
 		} else if enumStringer, ok := enumValue.(fmt.Stringer); ok {
@@ -159,11 +162,15 @@ func (schema *OpenAPISchema) enumValues() []string {
 		} else if enumFloat, ok := enumValue.(float64); ok {
 			result[i] = fmt.Sprintf("%g", enumFloat)
 		} else {
-			panic(fmt.Sprintf("unable to convert enum value (%v %T) to string", enumValue, enumValue))
+			panic(fmt.Sprintf("unable to convert enum value (%v %T) to literal", enumValue, enumValue))
 		}
 	}
 
 	return result
+}
+
+func (schema *OpenAPISchema) enumValues() []string {
+	return enumValuesToLiterals(schema.inner.Enum)
 }
 
 func (schema *OpenAPISchema) isRef() bool {
