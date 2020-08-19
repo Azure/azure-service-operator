@@ -60,8 +60,7 @@ func (extractor *typeExtractor) extractTypes(
 				return err
 			}
 
-			klog.Errorf("unable to produce type for %v: %v", resourceName, err)
-			continue // TODO: make fatal
+			return errors.Wrapf(err, "unable to produce type for resource %v", resourceName)
 		}
 
 		if resourceType == nil {

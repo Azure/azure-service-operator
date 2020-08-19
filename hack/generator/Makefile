@@ -52,7 +52,7 @@ test: ; $(info $(M) running go test…)
 
 .PHONY: test-cover
 test-cover: $(GCOV2LCOV) ; $(info $(M) running go test…)
-	$(Q) $(GO) test -tags=noexit -race -covermode atomic -coverprofile=cover.out ./...
+	$(Q) $(GO) test -tags=noexit -race -covermode atomic -coverprofile=cover.out -coverpkg=./... ./...
 	$(Q) $(GCOV2LCOV) -infile cover.out -outfile coverage.lcov
 
 .PHONY: gox

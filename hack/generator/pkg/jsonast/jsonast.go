@@ -511,6 +511,14 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 
 		d, err := scanner.RunHandlerForSchema(ctx, all)
 		if err != nil {
+			if unknownSchema, ok := err.(*UnknownSchemaError); ok {
+				if unknownSchema.Schema.description() != nil {
+					// some Swagger types (e.g. ServiceFabric Cluster) use allOf with a description-only schema
+					klog.V(2).Infof("skipping description-only schema type with description %q", *unknownSchema.Schema.description())
+					continue
+				}
+			}
+
 			return nil, err
 		}
 
