@@ -5,13 +5,13 @@ package v20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	Foo              *Foo     `json:"foo"`
-	FooAlias         *Foo     `json:"fooAlias"`
-	StringAlias      *string  `json:"stringAlias"`
-	StringArrayAlias []string `json:"stringArrayAlias"`
+	Foo              *Foo     `json:"foo,omitempty"`
+	FooAlias         *Foo     `json:"fooAlias,omitempty"`
+	StringAlias      *string  `json:"stringAlias,omitempty"`
+	StringArrayAlias []string `json:"stringArrayAlias,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }

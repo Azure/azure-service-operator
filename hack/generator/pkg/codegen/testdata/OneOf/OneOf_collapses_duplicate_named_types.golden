@@ -8,5 +8,5 @@ type Test Foo
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }

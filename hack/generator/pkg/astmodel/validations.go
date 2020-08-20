@@ -49,6 +49,10 @@ func (v Validation) HasName(name string) bool {
 	return v.name == name
 }
 
+func (v Validation) Equals(other Validation) bool {
+	return v.name == other.name
+}
+
 /*
  * Constants for names of validation
  */

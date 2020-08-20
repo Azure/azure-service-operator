@@ -9,13 +9,13 @@ import "encoding/json"
 type Test struct {
 
 	//Bool1: mutually exclusive with all other properties
-	Bool1 *bool `json:"bool1"`
+	Bool1 *bool `json:"bool1,omitempty"`
 
 	//Foo: mutually exclusive with all other properties
-	Foo *Foo `json:"foo"`
+	Foo *Foo `json:"foo,omitempty"`
 
 	//Object2: mutually exclusive with all other properties
-	Object2 *Test_Object2 `json:"object2"`
+	Object2 *Test_Object2 `json:"object2,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because Test represents a discriminated union (JSON OneOf)
@@ -34,9 +34,9 @@ func (test Test) MarshalJSON() ([]byte, error) {
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 type Test_Object2 struct {
-	Foo *string `json:"foo"`
+	Foo *string `json:"foo,omitempty"`
 }

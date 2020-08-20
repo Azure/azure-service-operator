@@ -8,7 +8,7 @@ type Test struct {
 
 	// +kubebuilder:validation:Required
 	Enabled bool    `json:"enabled"`
-	Name    *string `json:"name"`
+	Name    *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Size int `json:"size"`

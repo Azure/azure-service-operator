@@ -7,18 +7,18 @@ import "encoding/json"
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	MyBool     *bool            `json:"myBool"`
-	MyString   *string          `json:"myString"`
-	Properties *Test_Properties `json:"properties"`
+	MyBool     *bool            `json:"myBool,omitempty"`
+	MyString   *string          `json:"myString,omitempty"`
+	Properties *Test_Properties `json:"properties,omitempty"`
 }
 
 type Test_Properties struct {
 
 	//Bar: mutually exclusive with all other properties
-	Bar *Bar `json:"bar"`
+	Bar *Bar `json:"bar,omitempty"`
 
 	//Foo: mutually exclusive with all other properties
-	Foo *Foo `json:"foo"`
+	Foo *Foo `json:"foo,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because Test_Properties represents a discriminated union (JSON OneOf)
@@ -41,5 +41,5 @@ type Bar struct {
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }

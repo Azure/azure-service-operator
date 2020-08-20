@@ -5,5 +5,5 @@ package v20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	Tags map[string]float64 `json:"tags"`
+	Tags map[string]float64 `json:"tags,omitempty"`
 }

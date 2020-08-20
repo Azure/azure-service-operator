@@ -20,9 +20,9 @@ type FakeResource struct {
 type FakeResource_SpecArm struct {
 	ApiVersion  FakeResourceSpecApiVersion   `json:"apiVersion"`
 	MapFoo      map[string]FooArm            `json:"mapFoo"`
-	MapOfArrays map[string][]FooArm          `json:"mapOfArrays"`
-	MapOfEnums  map[string]Color             `json:"mapOfEnums"`
-	MapOfMaps   map[string]map[string]FooArm `json:"mapOfMaps"`
+	MapOfArrays map[string][]FooArm          `json:"mapOfArrays,omitempty"`
+	MapOfEnums  map[string]Color             `json:"mapOfEnums,omitempty"`
+	MapOfMaps   map[string]map[string]FooArm `json:"mapOfMaps,omitempty"`
 	Name        string                       `json:"name"`
 	Type        FakeResourceSpecType         `json:"type"`
 }
@@ -59,9 +59,9 @@ type FakeResource_Spec struct {
 
 	// +kubebuilder:validation:Required
 	MapFoo      map[string]Foo            `json:"mapFoo"`
-	MapOfArrays map[string][]Foo          `json:"mapOfArrays"`
-	MapOfEnums  map[string]Color          `json:"mapOfEnums"`
-	MapOfMaps   map[string]map[string]Foo `json:"mapOfMaps"`
+	MapOfArrays map[string][]Foo          `json:"mapOfArrays,omitempty"`
+	MapOfEnums  map[string]Color          `json:"mapOfEnums,omitempty"`
+	MapOfMaps   map[string]map[string]Foo `json:"mapOfMaps,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources" json:"owner" kind:"ResourceGroup"`
@@ -184,12 +184,12 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooArm struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.ArmTransformer = &Foo{}

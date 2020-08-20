@@ -5,8 +5,8 @@ package v20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	P1 [][][]float64 `json:"p1"`
-	P2 [][]float64   `json:"p2"`
-	P3 []float64     `json:"p3"`
-	P4 *float64      `json:"p4"`
+	P1 [][][]float64 `json:"p1,omitempty"`
+	P2 [][]float64   `json:"p2,omitempty"`
+	P3 []float64     `json:"p3,omitempty"`
+	P4 *float64      `json:"p4,omitempty"`
 }

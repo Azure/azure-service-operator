@@ -5,10 +5,10 @@ package v20200101
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	Tags *Test_Tags `json:"tags"`
+	Tags *Test_Tags `json:"tags,omitempty"`
 }
 
 type Test_Tags struct {
-	OtherField           *string            `json:"otherField"`
+	OtherField           *string            `json:"otherField,omitempty"`
 	additionalProperties map[string]float64 `json:"additionalProperties"`
 }

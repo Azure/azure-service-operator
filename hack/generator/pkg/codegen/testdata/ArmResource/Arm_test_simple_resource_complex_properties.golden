@@ -19,10 +19,10 @@ type FakeResource struct {
 
 type FakeResource_SpecArm struct {
 	ApiVersion  FakeResourceSpecApiVersion `json:"apiVersion"`
-	Color       *FakeResourceSpecColor     `json:"color"`
+	Color       *FakeResourceSpecColor     `json:"color,omitempty"`
 	Foo         FooArm                     `json:"foo"`
 	Name        string                     `json:"name"`
-	OptionalFoo *FooArm                    `json:"optionalFoo"`
+	OptionalFoo *FooArm                    `json:"optionalFoo,omitempty"`
 	Type        FakeResourceSpecType       `json:"type"`
 }
 
@@ -53,11 +53,11 @@ type FakeResource_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string                 `json:"azureName"`
-	Color     *FakeResourceSpecColor `json:"color"`
+	Color     *FakeResourceSpecColor `json:"color,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Foo         Foo  `json:"foo"`
-	OptionalFoo *Foo `json:"optionalFoo"`
+	OptionalFoo *Foo `json:"optionalFoo,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources" json:"owner" kind:"ResourceGroup"`
@@ -121,12 +121,12 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooArm struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.ArmTransformer = &Foo{}

@@ -20,9 +20,9 @@ type FakeResource struct {
 type FakeResource_SpecArm struct {
 	ApiVersion    FakeResourceSpecApiVersion `json:"apiVersion"`
 	ArrayFoo      []FooArm                   `json:"arrayFoo"`
-	ArrayOfArrays [][]FooArm                 `json:"arrayOfArrays"`
-	ArrayOfEnums  []Color                    `json:"arrayOfEnums"`
-	ArrayOfMaps   []map[string]FooArm        `json:"arrayOfMaps"`
+	ArrayOfArrays [][]FooArm                 `json:"arrayOfArrays,omitempty"`
+	ArrayOfEnums  []Color                    `json:"arrayOfEnums,omitempty"`
+	ArrayOfMaps   []map[string]FooArm        `json:"arrayOfMaps,omitempty"`
 	Name          string                     `json:"name"`
 	Type          FakeResourceSpecType       `json:"type"`
 }
@@ -55,9 +55,9 @@ type FakeResource_Spec struct {
 
 	// +kubebuilder:validation:Required
 	ArrayFoo      []Foo            `json:"arrayFoo"`
-	ArrayOfArrays [][]Foo          `json:"arrayOfArrays"`
-	ArrayOfEnums  []Color          `json:"arrayOfEnums"`
-	ArrayOfMaps   []map[string]Foo `json:"arrayOfMaps"`
+	ArrayOfArrays [][]Foo          `json:"arrayOfArrays,omitempty"`
+	ArrayOfEnums  []Color          `json:"arrayOfEnums,omitempty"`
+	ArrayOfMaps   []map[string]Foo `json:"arrayOfMaps,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -166,12 +166,12 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooArm struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.ArmTransformer = &Foo{}
