@@ -56,6 +56,7 @@ func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *con
 		stripUnreferencedTypeDefinitions(),
 		createArmTypesAndCleanKubernetesTypes(idFactory),
 		checkForAnyType(),
+		checkForMissingStatusInformation(),
 	}
 }
 

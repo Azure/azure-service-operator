@@ -25,7 +25,7 @@ type OpenAPISchema struct {
 	cache     OpenAPISchemaCache
 }
 
-// MakeOpenAPISchema wrapes a spec.Swagger to conform to the Schema abstraction
+// MakeOpenAPISchema wraps a spec.Swagger to conform to the Schema abstraction
 func MakeOpenAPISchema(
 	schema spec.Schema,
 	root spec.Swagger,
@@ -173,40 +173,54 @@ func (schema *OpenAPISchema) enumValues() []string {
 	return enumValuesToLiterals(schema.inner.Enum)
 }
 
+func (schema *OpenAPISchema) extensions() map[string]interface{} {
+	return schema.inner.Extensions
+}
+
 func (schema *OpenAPISchema) isRef() bool {
 	return schema.inner.Ref.GetURL() != nil
 }
 
 func (schema *OpenAPISchema) refSchema() Schema {
+	fileName, root, result := loadRefSchema(schema.root, schema.inner.Ref, schema.fileName, schema.cache)
+	return &OpenAPISchema{
+		result,
+		root,
+		fileName,
+		// Note that we preserve the groupName and version that were input at the start,
+		// even if we are reading a file from a different group or version. this is intentional;
+		// essentially all imported types are copied into the target group/version, which avoids
+		// issues with types from the 'common-types' files which have no group and a version of 'v1'.
+		schema.groupName,
+		schema.version,
+		schema.cache,
+	}
+}
+
+func loadRefSchema(
+	schemaRoot spec.Swagger,
+	ref spec.Ref,
+	schemaPath string,
+	cache OpenAPISchemaCache) (string, spec.Swagger, spec.Schema) {
+
 	var fileName string
 	var root spec.Swagger
 	var err error
 
-	if !schema.inner.Ref.HasFragmentOnly {
-		fileName, root, err = schema.cache.fetchFileRelative(schema.fileName, schema.inner.Ref.GetURL())
+	if !ref.HasFragmentOnly {
+		fileName, root, err = cache.fetchFileRelative(schemaPath, ref.GetURL())
 		if err != nil {
 			panic(err)
 		}
 	} else {
-		fileName, root = schema.fileName, schema.root
+		fileName, root = schemaPath, schemaRoot
 	}
 
-	reffed := objectNameFromPointer(schema.inner.Ref.GetPointer())
+	reffed := objectNameFromPointer(ref.GetPointer())
 	if result, ok := root.Definitions[reffed]; !ok {
 		panic(fmt.Sprintf("couldn't find: %s in %s", reffed, fileName))
 	} else {
-		return &OpenAPISchema{
-			result,
-			root,
-			fileName,
-			// Note that we preserve the groupName and version that were input at the start,
-			// even if we are reading a file from a different group or version. this is intentional;
-			// essentially all imported types are copied into the target group/version, which avoids
-			// issues with types from the 'common-types' files which have no group and a version of 'v1'.
-			schema.groupName,
-			schema.version,
-			schema.cache,
-		}
+		return fileName, root, result
 	}
 }
 

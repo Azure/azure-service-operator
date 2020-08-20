@@ -20,6 +20,9 @@ type Schema interface {
 	title() *string
 	description() *string
 
+	// for extensions like x-ms-...
+	extensions() map[string]interface{}
+
 	hasType(schemaType SchemaType) bool
 
 	// complex things

@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package jsonast
 
 import (
 	"context"
@@ -13,26 +13,42 @@ import (
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 )
 
-type typeExtractor struct {
+type SwaggerTypeExtractor struct {
 	idFactory astmodel.IdentifierFactory
 	config    *config.Configuration
-	cache     jsonast.OpenAPISchemaCache
+	cache     OpenAPISchemaCache
 	// group for output types (e.g. Microsoft.Network.Frontdoor)
 	outputGroup   string
 	outputVersion string
 }
 
-// extractTypes finds all operations in the Swagger spec that
+// NewSwaggerTypeExtractor creates a new SwaggerTypeExtractor
+func NewSwaggerTypeExtractor(
+	config *config.Configuration,
+	idFactory astmodel.IdentifierFactory,
+	outputGroup string,
+	outputVersion string,
+	cache OpenAPISchemaCache) SwaggerTypeExtractor {
+
+	return SwaggerTypeExtractor{
+		idFactory:     idFactory,
+		outputVersion: outputVersion,
+		outputGroup:   outputGroup,
+		cache:         cache,
+		config:        config,
+	}
+}
+
+// ExtractTypes finds all operations in the Swagger spec that
 // have a PUT verb and a path like "Microsoft.GroupName/…/resourceName/{resourceId}",
 // and extracts the types for those operations, into the 'resources' parameter.
 // Any additional types required by the resource types are placed into the 'otherTypes' parameter.
-func (extractor *typeExtractor) extractTypes(
+func (extractor *SwaggerTypeExtractor) ExtractTypes(
 	ctx context.Context,
 	filePath string,
 	swagger spec.Swagger,
@@ -41,7 +57,7 @@ func (extractor *typeExtractor) extractTypes(
 
 	packageName := extractor.idFactory.CreatePackageNameFromVersion(extractor.outputVersion)
 
-	scanner := jsonast.NewSchemaScanner(extractor.idFactory, extractor.config)
+	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)
 
 	for rawOperationPath, op := range swagger.Paths.Paths {
 		put := op.Put
@@ -49,14 +65,21 @@ func (extractor *typeExtractor) extractTypes(
 			continue
 		}
 
+		resourceSchema := extractor.findARMResourceSchema(filePath, swagger, *put)
+		if resourceSchema == nil {
+			//klog.Warningf("No ARM schema found for %s in %q", rawOperationPath, filePath)
+			continue
+		}
+
 		for _, operationPath := range expandEnumsInPath(rawOperationPath, put.Parameters) {
+
 			resourceName, err := extractor.resourceNameFromOperationPath(packageName, operationPath)
 			if err != nil {
 				klog.Errorf("Error extracting resource name (%s): %s", filePath, err.Error())
 				continue
 			}
 
-			resourceType, err := extractor.resourceTypeFromOperation(ctx, scanner, swagger, filePath, put)
+			resourceType, err := scanner.RunHandlerForSchema(ctx, *resourceSchema)
 			if err != nil {
 				if err == context.Canceled {
 					return err
@@ -66,12 +89,13 @@ func (extractor *typeExtractor) extractTypes(
 			}
 
 			if resourceType == nil {
+				// this indicates a filtered-out type
 				continue
 			}
 
 			if existingResource, ok := resources[resourceName]; ok {
 				if !astmodel.TypeEquals(existingResource.Type(), resourceType) {
-					klog.Errorf("RESOURCE already defined differently 😱: %v", resourceName)
+					return errors.Errorf("resource already defined differently: %v", resourceName)
 				}
 			} else {
 				resources.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
@@ -91,6 +115,122 @@ func (extractor *typeExtractor) extractTypes(
 	}
 
 	return nil
+}
+
+// Look at the responses of the PUT to determine if this represents an ARM resource,
+// and if so, return the schema for it.
+// see: https://github.com/Azure/autorest/issues/1936#issuecomment-286928591
+func (extractor *SwaggerTypeExtractor) findARMResourceSchema(
+	filePath string,
+	swagger spec.Swagger,
+	op spec.Operation) *Schema {
+
+	if op.Responses != nil {
+		for statusCode, response := range op.Responses.StatusCodeResponses {
+			// only check OK and Created (per above linked comment)
+			if statusCode == 200 || statusCode == 201 {
+				result := extractor.getARMResourceSchemaFromResponse(filePath, swagger, response)
+				if result != nil {
+					return result
+				}
+			}
+		}
+	}
+
+	// none found
+	return nil
+}
+
+func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(filePath string, swagger spec.Swagger, response spec.Response) *Schema {
+	if response.Schema != nil {
+		// the schema can either be directly included
+
+		schema := MakeOpenAPISchema(
+			*response.Schema,
+			swagger,
+			filePath,
+			extractor.outputGroup,
+			extractor.outputVersion,
+			extractor.cache)
+
+		if isMarkedAsARMResource(schema) {
+			return &schema
+		}
+	} else if response.Ref.GetURL() != nil {
+		// or it can be under a $ref
+
+		filePath, swagger, refSchema := loadRefSchema(swagger, response.Ref, filePath, extractor.cache)
+		schema := MakeOpenAPISchema(
+			refSchema,
+			swagger,
+			filePath,
+			extractor.outputGroup,
+			extractor.outputVersion,
+			extractor.cache)
+
+		if isMarkedAsARMResource(schema) {
+			return &schema
+		}
+	}
+
+	return nil
+}
+
+// a Schema represents an ARM resource if it (or anything reachable via $ref or AllOf)
+// is marked with x-ms-azure-resource, or if it (or anything reachable via $ref or AllOf)
+// has each of the properties: id,name,type.
+func isMarkedAsARMResource(schema Schema) bool {
+	hasID := false
+	hasName := false
+	hasType := false
+
+	var recurse func(schema Schema) bool
+	recurse = func(schema Schema) bool {
+		if schema.extensions()["x-ms-azure-resource"] == true {
+			return true
+		}
+
+		props := schema.properties()
+		if !hasID {
+			if idProp, ok := props["id"]; ok {
+				if idProp.hasType("string") {
+					hasID = true
+				}
+			}
+		}
+
+		if !hasName {
+			if nameProp, ok := props["name"]; ok {
+				if nameProp.hasType("string") {
+					hasName = true
+				}
+			}
+		}
+
+		if !hasType {
+			if typeProp, ok := props["type"]; ok {
+				if typeProp.hasType("string") {
+					hasType = true
+				}
+			}
+		}
+
+		if schema.isRef() {
+			return recurse(schema.refSchema())
+		}
+
+		if schema.hasAllOf() {
+			for _, allOf := range schema.allOf() {
+				if recurse(allOf) {
+					return true
+				}
+			}
+		}
+
+		return hasID && hasName && hasType
+	}
+
+	return recurse(schema)
 }
 
 func expandEnumsInPath(operationPath string, parameters []spec.Parameter) []string {
@@ -141,7 +281,7 @@ func enumValuesToStrings(enumValues []interface{}) []string {
 	return result
 }
 
-func (extractor *typeExtractor) resourceNameFromOperationPath(packageName string, operationPath string) (astmodel.TypeName, error) {
+func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(packageName string, operationPath string) (astmodel.TypeName, error) {
 	_, name, err := inferNameFromURLPath(operationPath)
 	if err != nil {
 		return astmodel.TypeName{}, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
@@ -149,30 +289,6 @@ func (extractor *typeExtractor) resourceNameFromOperationPath(packageName string
 
 	packageRef := astmodel.MakeLocalPackageReference(extractor.idFactory.CreateGroupName(extractor.outputGroup), packageName)
 	return astmodel.MakeTypeName(packageRef, name), nil
-}
-
-func (extractor *typeExtractor) resourceTypeFromOperation(
-	ctx context.Context,
-	scanner *jsonast.SchemaScanner,
-	schemaRoot spec.Swagger,
-	filePath string,
-	operation *spec.Operation) (astmodel.Type, error) {
-
-	for _, param := range operation.Parameters {
-		if param.In == "body" && param.Required { // assume this is the Resource
-			schema := jsonast.MakeOpenAPISchema(
-				*param.Schema,
-				schemaRoot,
-				filePath,
-				extractor.outputGroup,
-				extractor.outputVersion,
-				extractor.cache)
-
-			return scanner.RunHandlerForSchema(ctx, schema)
-		}
-	}
-
-	return nil, nil
 }
 
 // inferNameFromURLPath attempts to extract a name from a Swagger operation path
@@ -189,19 +305,30 @@ func inferNameFromURLPath(operationPath string) (string, string, error) {
 	reading := false
 	skippedLast := false
 	for _, urlPart := range urlParts {
+		if len(urlPart) == 0 {
+			// skip empty parts
+			continue
+		}
+
 		if reading {
-			if len(urlPart) > 0 && urlPart[0] != '{' {
-				name += strings.ToUpper(urlPart[0:1]) + urlPart[1:]
-				skippedLast = false
-			} else {
+			if urlPart == "default" {
+				// skip; shouldn’t be part of name
+				// TODO: I haven’t yet found where this is done in autorest/autorest.armresource to document this
+			} else if urlPart[0] == '{' {
+				// this is a url parameter
+
 				if skippedLast {
 					// this means two {parameters} in a row
 					return "", "", errors.Errorf("multiple parameters in path")
 				}
 
 				skippedLast = true
+			} else {
+				// normal part of path, uppercase first character
+				name += strings.ToUpper(urlPart[0:1]) + urlPart[1:]
+				skippedLast = false
 			}
-		} else if swaggerGroupRegex.MatchString(urlPart) {
+		} else if SwaggerGroupRegex.MatchString(urlPart) {
 			group = urlPart
 			reading = true
 		}
@@ -218,5 +345,6 @@ func inferNameFromURLPath(operationPath string) (string, string, error) {
 	return group, name, nil
 }
 
+// SwaggerGroupRegex matches a “group” (Swagger ‘namespace’)
 // based on: https://github.com/Azure/autorest/blob/85de19623bdce3ccc5000bae5afbf22a49bc4665/core/lib/pipeline/metadata-generation.ts#L25
-var swaggerGroupRegex = regexp.MustCompile(`[Mm]icrosoft\.[^/\\]+`)
+var SwaggerGroupRegex = regexp.MustCompile(`[Mm]icrosoft\.[^/\\]+`)

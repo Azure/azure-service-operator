@@ -169,6 +169,27 @@ exportFilters:
   - action: exclude
     group: microsoft.web
     because: it generates types containing AnyType
+# The following are very old versions that have missing or otherwise problematic Swagger specs:
+  - action: exclude
+    group: microsoft.insights
+    version: v20140401
+    because: old version with no Swagger information to generate Status types
+  - action: exclude
+    group: microsoft.storage
+    version: v20150801
+    because: old version with no Swagger information to generate Status types
+  - action: exclude
+    group: microsoft.servicefabric
+    version: v20160301
+    because: old version with no Swagger information to generate Status types
+  - action: exclude
+    group: microsoft.documentdb
+    version: v20150408
+    because: old version with no Swagger information to generate Status types
+  - action: exclude
+    group: microsoft.apimanagement
+    version: v20160707
+    because: missing information from Swagger spec
 # The following end up with AnyType in Status:
   - action: exclude
     group: microsoft.containerservice
@@ -197,6 +218,14 @@ exportFilters:
   - action: exclude
     group: microsoft.insights
     version: v20190301
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.apimanagement
+    version: v20190101
+    because: it generates types containing AnyType
+  - action: exclude
+    group: microsoft.powerbi
+    version: v20160129
     because: it generates types containing AnyType
 
 typeTransformers:

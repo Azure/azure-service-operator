@@ -7,6 +7,7 @@ package codegen
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -62,19 +63,17 @@ func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *co
 			statusTypes := generateStatusTypes(swaggerTypes)
 
 			found := 0
-			notFound := 0
 			for typeName, typeDef := range types {
 				// for resources, try to find the matching Status type
 				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-					if statusDef, ok := statusTypes.resourceTypes[typeName]; ok {
+					if statusDef, ok := statusTypes.resourceTypes.tryFind(typeName); ok {
 						klog.V(4).Infof("Swagger information found for %v", typeName)
 						newTypes.Add(astmodel.MakeTypeDefinition(typeName, resource.WithStatus(statusDef)))
 						found++
 					} else {
-						// TODO: eventually this will be a warning/error
-						klog.V(2).Infof("No swagger information found for %v", typeName)
+						// missing status is caught later in pipeline (checkForMissingStatusInformation)
+						// as we only want to report this for non-pruned types
 						newTypes.Add(typeDef)
-						notFound++
 					}
 				} else {
 					// other types are simply copied
@@ -87,7 +86,6 @@ func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *co
 			newTypes.AddAll(statusTypes.otherTypes)
 
 			klog.V(1).Infof("Found status information for %v resources", found)
-			klog.V(1).Infof("Missing status information for %v resources", notFound)
 			klog.V(1).Infof("Input %v types, output %v types", len(types), len(newTypes))
 
 			return newTypes, nil
@@ -97,10 +95,31 @@ func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *co
 
 type statusTypes struct {
 	// resourceTypes maps Spec name to corresponding Status type
-	resourceTypes map[astmodel.TypeName]astmodel.Type
+	// the typeName is lowercased to be case-insensitive
+	resourceTypes resourceLookup
 
 	// otherTypes has all other Status types renamed to avoid clashes with Spec Types
 	otherTypes []astmodel.TypeDefinition
+}
+
+type resourceLookup map[astmodel.TypeName]astmodel.Type
+
+func lowerCase(name astmodel.TypeName) astmodel.TypeName {
+	return astmodel.MakeTypeName(name.PackageReference, strings.ToLower(name.Name()))
+}
+
+func (resourceLookup resourceLookup) tryFind(name astmodel.TypeName) (astmodel.Type, bool) {
+	result, ok := resourceLookup[lowerCase(name)]
+	return result, ok
+}
+
+func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmodel.Type) {
+	lower := lowerCase(name)
+	if _, ok := resourceLookup[lower]; ok {
+		panic(fmt.Sprintf("lowercase name collision: %v", name))
+	}
+
+	resourceLookup[lower] = theType
 }
 
 // generateStatusTypes returns the statusTypes for the input swaggerTypes
@@ -116,10 +135,10 @@ func generateStatusTypes(swaggerTypes swaggerTypes) statusTypes {
 		otherTypes = append(otherTypes, renamer.VisitDefinition(typeDef, nil))
 	}
 
-	resourceLookup := make(map[astmodel.TypeName]astmodel.Type)
+	resourceLookup := make(resourceLookup)
 	for resourceName, resourceDef := range swaggerTypes.resources {
 		// resourceName is not renamed as this is a lookup for the Spec type
-		resourceLookup[resourceName] = renamer.Visit(resourceDef.Type(), nil)
+		resourceLookup.add(resourceName, renamer.Visit(resourceDef.Type(), nil))
 	}
 
 	return statusTypes{resourceLookup, otherTypes}
@@ -158,7 +177,7 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 
 	for schemaPath, schema := range schemas {
 		// these have already been tested in the loadAllSchemas function so are guaranteed to match
-		outputGroup := swaggerGroupRegex.FindString(schemaPath)
+		outputGroup := jsonast.SwaggerGroupRegex.FindString(schemaPath)
 		outputVersion := swaggerVersionRegex.FindString(schemaPath)
 
 		// see if there is a config override for this file
@@ -174,15 +193,14 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 			}
 		}
 
-		extractor := typeExtractor{
-			outputVersion: outputVersion,
-			outputGroup:   outputGroup,
-			idFactory:     idFactory,
-			cache:         cache,
-			config:        config,
-		}
+		extractor := jsonast.NewSwaggerTypeExtractor(
+			config,
+			idFactory,
+			outputGroup,
+			outputVersion,
+			cache)
 
-		err := extractor.extractTypes(ctx, schemaPath, schema, result.resources, result.otherTypes)
+		err := extractor.ExtractTypes(ctx, schemaPath, schema, result.resources, result.otherTypes)
 		if err != nil {
 			return swaggerTypes{}, errors.Wrapf(err, "error processing %q", schemaPath)
 		}
@@ -237,7 +255,7 @@ func loadAllSchemas(
 
 		if !fileInfo.IsDir() &&
 			filepath.Ext(filePath) == ".json" &&
-			swaggerGroupRegex.MatchString(filePath) &&
+			jsonast.SwaggerGroupRegex.MatchString(filePath) &&
 			swaggerVersionRegex.MatchString(filePath) {
 
 			// all files are loaded in parallel to speed this up

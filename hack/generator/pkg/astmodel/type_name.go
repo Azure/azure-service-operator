@@ -18,6 +18,11 @@ type TypeName struct {
 	name             string
 }
 
+func SortTypeName(left, right TypeName) bool {
+	return left.PackageReference.packagePath < right.PackageReference.packagePath ||
+		(left.PackageReference.packagePath == right.PackageReference.packagePath && left.name < right.name)
+}
+
 // MakeTypeName is a factory method for creating a TypeName
 func MakeTypeName(pr PackageReference, name string) TypeName {
 	return TypeName{pr, name}

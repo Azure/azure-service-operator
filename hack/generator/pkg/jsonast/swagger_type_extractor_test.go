@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package codegen
+package jsonast
 
 import (
 	"fmt"
@@ -39,6 +39,15 @@ func Test_InferNameFromURLPath_FailsWithNoGroupName(t *testing.T) {
 	_, _, err := inferNameFromURLPath("/resourceName/{resourceId}/{anotherParameter}")
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err.Error()).To(ContainSubstring("no group name"))
+}
+
+func Test_InferNameFromURLPath_SkipsDefault(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	group, name, err := inferNameFromURLPath("Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}")
+	g.Expect(err).To(BeNil())
+	g.Expect(group).To(Equal("Microsoft.Storage"))
+	g.Expect(name).To(Equal("StorageAccountsBlobServicesContainers"))
 }
 
 func Test_expandEnumsInPath_ExpandsAnEnum(t *testing.T) {
