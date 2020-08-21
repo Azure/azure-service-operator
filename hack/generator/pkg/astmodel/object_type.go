@@ -342,3 +342,8 @@ func (objectType *ObjectType) copy() *ObjectType {
 
 	return result
 }
+
+// String implements fmt.Stringer
+func (objectType *ObjectType) String() string {
+	return "(object)"
+}

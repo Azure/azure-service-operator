@@ -29,6 +29,10 @@ type Type interface {
 
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type) bool
+
+	// Make sure all Types have a printable version for debugging/user info.
+	// This doesn't need to be a full representation of the type.
+	fmt.Stringer
 }
 
 // TypeEquals decides if the types are the same and handles the `nil` case

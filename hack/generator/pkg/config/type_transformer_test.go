@@ -6,8 +6,9 @@
 package config_test
 
 import (
-	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 	"testing"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	. "github.com/onsi/gomega"
@@ -91,4 +92,114 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 
 	// Tutor should be student
 	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(student2019))
+}
+
+func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		Target: config.TransformTarget{
+			Map: &config.MapType{
+				Key: config.TransformTarget{
+					Name: "string",
+				},
+				Value: config.TransformTarget{
+					Map: &config.MapType{
+						Key: config.TransformTarget{
+							Name: "int",
+						},
+						Value: config.TransformTarget{
+							Name: "float",
+						},
+					},
+				},
+			},
+		},
+	}
+	err := transformer.Initialize()
+	g.Expect(err).To(BeNil())
+
+	expected := astmodel.NewMapType(
+		astmodel.StringType,
+		astmodel.NewMapType(
+			astmodel.IntType,
+			astmodel.FloatType))
+
+	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(expected))
+}
+
+func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		Target: config.TransformTarget{
+			Map: &config.MapType{
+				Key: config.TransformTarget{
+					Name: "string",
+				},
+				Value: config.TransformTarget{
+					Map: &config.MapType{
+						Value: config.TransformTarget{
+							Name: "int",
+						},
+					},
+				},
+			},
+		},
+	}
+	err := transformer.Initialize()
+	g.Expect(err).To(Not(BeNil()))
+	g.Expect(err.Error()).To(ContainSubstring("no target type found in target/map/value/map/key"))
+}
+
+func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(Not(BeNil()))
+	g.Expect(err.Error()).To(ContainSubstring("no target type found"))
+}
+
+func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		Target: config.TransformTarget{
+			Name: "int",
+			Map: &config.MapType{
+				Key: config.TransformTarget{
+					Name: "string",
+				},
+				Value: config.TransformTarget{
+					Name: "string",
+				},
+			},
+		},
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(Not(BeNil()))
+	g.Expect(err.Error()).To(ContainSubstring("multiple target types defined"))
+}
+
+func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		Target: config.TransformTarget{
+			Name: "nemo",
+		},
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(Not(BeNil()))
+	g.Expect(err.Error()).To(ContainSubstring("unknown primitive type transformation target: nemo"))
 }

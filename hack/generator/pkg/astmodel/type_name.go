@@ -82,7 +82,7 @@ func (typeName TypeName) Equals(t Type) bool {
 	return false
 }
 
-// String returns the string representation of the type name
+// String returns the string representation of the type name, and implements fmt.Stringer.
 func (typeName TypeName) String() string {
 	return fmt.Sprintf("%s/%s", typeName.PackageReference, typeName.name)
 }
@@ -91,6 +91,3 @@ func (typeName TypeName) String() string {
 func (typeName TypeName) Singular() TypeName {
 	return MakeTypeName(typeName.PackageReference, flect.Singularize(typeName.name))
 }
-
-// Ensure we implement Stringer
-var _ fmt.Stringer = &TypeName{}

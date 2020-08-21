@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"fmt"
 	"go/ast"
 	"go/token"
 	"sort"
@@ -175,4 +176,9 @@ func (enum *EnumType) BaseType() *PrimitiveType {
 
 func GetEnumValueId(name TypeName, value EnumValue) string {
 	return name.name + value.Identifier
+}
+
+// String implements fmt.Stringer
+func (enum *EnumType) String() string {
+	return fmt.Sprintf("(enum: %s)", enum.baseType.String())
 }

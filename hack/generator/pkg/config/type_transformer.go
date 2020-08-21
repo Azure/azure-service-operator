@@ -7,6 +7,7 @@ package config
 
 import (
 	"fmt"
+	"regexp"
 
 	"github.com/pkg/errors"
 
@@ -17,16 +18,57 @@ import (
 type TransformTarget struct {
 	PackagePath string `yaml:",omitempty"`
 	Name        string `yaml:",omitempty"`
+	Map         *MapType
+}
+
+type MapType struct {
+	Key   TransformTarget `yaml:",omitempty"`
+	Value TransformTarget `yaml:",omitempty"`
 }
 
 // A TypeTransformer is used to remap types
 type TypeTransformer struct {
 	TypeMatcher `yaml:",inline"`
 
+	// Property is a wildcard matching specific properties on the types selected by this filter
+	Property      string `yaml:",omitempty"`
+	propertyRegex *regexp.Regexp
+
 	Target TransformTarget
 
 	// This is used purely for "caching" the actual astmodel type after Initialize()
 	targetType astmodel.Type
+}
+
+func produceTargetType(target TransformTarget, descriptor string) (astmodel.Type, error) {
+	if target.Name != "" && target.Map != nil {
+		return nil, errors.Errorf("multiple target types defined")
+	}
+
+	if target.Name != "" {
+		if target.PackagePath == "" {
+			return primitiveTypeTarget(target.Name)
+		}
+		return astmodel.MakeTypeName(
+			astmodel.MakePackageReference(target.PackagePath),
+			target.Name), nil
+	}
+
+	if target.Map != nil {
+		keyType, err := produceTargetType(target.Map.Key, descriptor+"/map/key")
+		if err != nil {
+			return nil, err
+		}
+
+		valueType, err := produceTargetType(target.Map.Value, descriptor+"/map/value")
+		if err != nil {
+			return nil, err
+		}
+
+		return astmodel.NewMapType(keyType, valueType), nil
+	}
+
+	return nil, errors.Errorf("no target type found in %s", descriptor)
 }
 
 func (transformer *TypeTransformer) Initialize() error {
@@ -35,47 +77,39 @@ func (transformer *TypeTransformer) Initialize() error {
 		return err
 	}
 
-	if transformer.Target.Name == "" {
-		return errors.Errorf(
-			"type transformer for group: %s, version: %s, name: %s is missing type name to transform to",
+	transformer.propertyRegex = createGlobbingRegex(transformer.Property)
+
+	targetType, err := produceTargetType(transformer.Target, "target")
+	if err != nil {
+		return errors.Wrapf(
+			err,
+			"type transformer for group: %s, version: %s, name: %s",
 			transformer.Group,
 			transformer.Version,
 			transformer.Name)
 	}
 
-	// Type has no package -- must be a primitive type
-	if transformer.Target.PackagePath == "" {
-		return transformer.initializePrimitiveTypeTarget()
-	}
-
-	transformer.targetType = astmodel.MakeTypeName(
-		astmodel.MakePackageReference(transformer.Target.PackagePath),
-		transformer.Target.Name)
+	transformer.targetType = targetType
 	return nil
 }
 
-func (transformer *TypeTransformer) initializePrimitiveTypeTarget() error {
-	switch transformer.Target.Name {
+func primitiveTypeTarget(name string) (astmodel.Type, error) {
+	switch name {
 	case "bool":
-		transformer.targetType = astmodel.BoolType
+		return astmodel.BoolType, nil
 	case "float":
-		transformer.targetType = astmodel.FloatType
+		return astmodel.FloatType, nil
 	case "int":
-		transformer.targetType = astmodel.IntType
+		return astmodel.IntType, nil
 	case "string":
-		transformer.targetType = astmodel.StringType
+		return astmodel.StringType, nil
 	default:
-		return errors.Errorf(
-			"type transformer for group: %s, version: %s, name: %s has unknown"+
-				"primtive type transformation target: %s",
-			transformer.Group,
-			transformer.Version,
-			transformer.Name,
-			transformer.Target.Name)
-
+		return nil, errors.Errorf("unknown primitive type transformation target: %s", name)
 	}
+}
 
-	return nil
+func (transformer *TypeTransformer) propertyNameMatches(propName astmodel.PropertyName) bool {
+	return transformer.matches(transformer.Property, &transformer.propertyRegex, string(propName))
 }
 
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if

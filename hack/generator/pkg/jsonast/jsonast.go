@@ -483,6 +483,14 @@ func generateDefinitionsFor(
 		return nil, err
 	}
 
+	if obj, ok := result.(*astmodel.ObjectType); ok {
+		transformed := scanner.configuration.TransformTypeProperties(typeName, obj)
+		if transformed != nil {
+			klog.V(2).Infof("Transforming %s.%s -> %s because %s", typeName, transformed.Property, transformed.NewPropertyType.String(), transformed.Because)
+			result = transformed.NewType
+		}
+	}
+
 	if isResource {
 		result = astmodel.NewAzureResourceType(result, nil, typeName)
 	}

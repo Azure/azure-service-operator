@@ -29,7 +29,11 @@ type Configuration struct {
 	// Filters used to control which types are created from the JSON schema
 	TypeFilters []*TypeFilter `yaml:"typeFilters"`
 	// Transformers used to remap types
-	TypeTransformers []*TypeTransformer `yaml:"typeTransformers"`
+	Transformers []*TypeTransformer `yaml:"typeTransformers"`
+
+	// after init TypeTransformers is split into property and non-property transformers
+	typeTransformers     []*TypeTransformer
+	propertyTransformers []*TypeTransformer
 }
 
 // NewConfiguration returns a new empty Configuration
@@ -114,12 +118,25 @@ func (config *Configuration) initialize(configPath string) error {
 		}
 	}
 
-	for _, transformer := range config.TypeTransformers {
+	// split Transformers into two sets
+	var typeTransformers []*TypeTransformer
+	var propertyTransformers []*TypeTransformer
+	for _, transformer := range config.Transformers {
 		err := transformer.Initialize()
 		if err != nil {
 			errs = append(errs, err)
 		}
+
+		if transformer.Property != "" {
+			propertyTransformers = append(propertyTransformers, transformer)
+		} else {
+			typeTransformers = append(typeTransformers, transformer)
+		}
 	}
+
+	config.Transformers = nil
+	config.typeTransformers = typeTransformers
+	config.propertyTransformers = propertyTransformers
 
 	// make Status.SchemaRoot an absolute path
 	absLocation, err := filepath.Abs(configPath)
@@ -175,7 +192,7 @@ func (config *Configuration) ShouldPrune(typeName astmodel.TypeName) (result Sho
 // TransformType uses the configured type transformers to transform a type name (reference) to a different type.
 // If no transformation is performed, nil is returned
 func (config *Configuration) TransformType(name astmodel.TypeName) (astmodel.Type, string) {
-	for _, transformer := range config.TypeTransformers {
+	for _, transformer := range config.typeTransformers {
 		result := transformer.TransformTypeName(name)
 		if result != nil {
 			return result, transformer.Because
@@ -184,6 +201,48 @@ func (config *Configuration) TransformType(name astmodel.TypeName) (astmodel.Typ
 
 	// No matches, return nil
 	return nil, ""
+}
+
+// PropertyTransformResult is the result of applying a property type transform
+type PropertyTransformResult struct {
+	NewType         *astmodel.ObjectType
+	Property        astmodel.PropertyName
+	NewPropertyType astmodel.Type
+	Because         string
+}
+
+// TransformTypeProperties applies any property transformers to the type
+func (config *Configuration) TransformTypeProperties(name astmodel.TypeName, objectType *astmodel.ObjectType) *PropertyTransformResult {
+
+	for _, transformer := range config.propertyTransformers {
+		if transformer.AppliesToType(name) {
+			found := false
+			var propName astmodel.PropertyName
+			var newProps []*astmodel.PropertyDefinition
+
+			for _, prop := range objectType.Properties() {
+				if transformer.propertyNameMatches(prop.PropertyName()) {
+					found = true
+					propName = prop.PropertyName()
+
+					newProps = append(newProps, prop.WithType(transformer.targetType))
+				} else {
+					newProps = append(newProps, prop)
+				}
+			}
+
+			if found {
+				return &PropertyTransformResult{
+					NewType:         objectType.WithProperties(newProps...),
+					Property:        propName,
+					NewPropertyType: transformer.targetType,
+					Because:         transformer.Because,
+				}
+			}
+		}
+	}
+
+	return nil
 }
 
 // StatusConfiguration provides configuration options for the

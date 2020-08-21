@@ -234,6 +234,16 @@ typeTransformers:
     because: NumberOrExpression is an ARM template artifact that doesn't make sense in CRDs
     target:
       name: float
+  - group: deploymenttemplate
+    name: ResourceBase
+    property: Tags
+    target:
+      map:
+        key: 
+          name: string
+        value:
+          name: string
+    because: Tags is defined as map[string]interface{} when it should be map[string]string
 
 status:
   schemaRoot: "./azure-rest-api-specs/specification"

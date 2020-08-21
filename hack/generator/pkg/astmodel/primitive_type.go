@@ -65,3 +65,8 @@ func (prim *PrimitiveType) Equals(t Type) bool {
 func (prim *PrimitiveType) Name() string {
 	return prim.name
 }
+
+// String implements fmt.Stringer
+func (prim *PrimitiveType) String() string {
+	return prim.name
+}

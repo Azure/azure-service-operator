@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"fmt"
 	"go/ast"
 )
 
@@ -59,4 +60,9 @@ func (array *ArrayType) Equals(t Type) bool {
 	}
 
 	return false
+}
+
+// String implements fmt.Stringer
+func (array *ArrayType) String() string {
+	return fmt.Sprintf("[]%s", array.element.String())
 }

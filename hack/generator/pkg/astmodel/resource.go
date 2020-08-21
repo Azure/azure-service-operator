@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"go/ast"
 	"go/token"
+
 	"k8s.io/klog/v2"
 
 	"github.com/pkg/errors"
@@ -253,4 +254,9 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 	declarations = append(declarations, resourceDeclaration)
 
 	return declarations
+}
+
+// String implements fmt.Stringer
+func (*ResourceType) String() string {
+	return "(resource)"
 }

@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"fmt"
 	"go/ast"
 )
 
@@ -74,4 +75,9 @@ func (m *MapType) Equals(t Type) bool {
 	}
 
 	return false
+}
+
+// String implements fmt.Stringer
+func (m *MapType) String() string {
+	return fmt.Sprintf("map[%s]%s", m.key.String(), m.value.String())
 }
