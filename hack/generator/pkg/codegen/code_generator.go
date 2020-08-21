@@ -48,11 +48,13 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []PipelineStage {
 	return []PipelineStage{
 		augmentResourcesWithStatus(idFactory, configuration),
+		applyExportFilters(configuration), // should come after status types are loaded
+		stripUnreferencedTypeDefinitions(),
 		nameTypesForCRD(idFactory),
+		applyPropertyRewrites(configuration), // must come after nameTypesForCRD so that objects are all expanded
 		determineResourceOwnership(),
 		removeTypeAliases(),
 		improveResourcePluralization(),
-		applyExportFilters(configuration),
 		stripUnreferencedTypeDefinitions(),
 		createArmTypesAndCleanKubernetesTypes(idFactory),
 		checkForAnyType(),

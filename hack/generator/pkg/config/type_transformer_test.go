@@ -203,3 +203,101 @@ func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err.Error()).To(ContainSubstring("unknown primitive type transformation target: nemo"))
 }
+
+func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		IfType: &config.TransformTarget{
+			Name: "from",
+		},
+		Target: config.TransformTarget{
+			Name: "to",
+		},
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(Not(BeNil()))
+	g.Expect(err.Error()).To(ContainSubstring("ifType is only usable with property matches"))
+}
+
+func Test_TransformCanTransformProperty(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "*"},
+		Property:    "foo",
+		Target: config.TransformTarget{
+			Name: "string",
+		},
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(BeNil())
+
+	typeName := student2019
+	prop := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
+	typeDef := astmodel.NewObjectType().WithProperties(prop)
+
+	result := transformer.TransformProperty(typeName, typeDef)
+	g.Expect(result).ToNot(BeNil())
+
+	fooProp, ok := result.NewType.Property("foo")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(fooProp.PropertyType()).To(Equal(astmodel.StringType))
+}
+
+func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "*"},
+		IfType: &config.TransformTarget{
+			Name: "string",
+		},
+		Property: "foo",
+		Target: config.TransformTarget{
+			Name: "int",
+		},
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(BeNil())
+
+	typeName := student2019
+	prop := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
+	typeDef := astmodel.NewObjectType().WithProperties(prop)
+
+	result := transformer.TransformProperty(typeName, typeDef)
+	g.Expect(result).To(BeNil()) // as ifType does not match
+}
+
+func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "*"},
+		IfType: &config.TransformTarget{
+			Name: "int",
+		},
+		Property: "foo",
+		Target: config.TransformTarget{
+			Name: "string",
+		},
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(BeNil())
+
+	typeName := student2019
+	prop := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
+	typeDef := astmodel.NewObjectType().WithProperties(prop)
+
+	result := transformer.TransformProperty(typeName, typeDef)
+	g.Expect(result).To(Not(BeNil()))
+
+	fooProp, ok := result.NewType.Property("foo")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(fooProp.PropertyType()).To(Equal(astmodel.StringType))
+}

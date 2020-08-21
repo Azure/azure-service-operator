@@ -34,10 +34,13 @@ type TypeTransformer struct {
 	Property      string `yaml:",omitempty"`
 	propertyRegex *regexp.Regexp
 
-	Target TransformTarget
+	// IfType only performs the transform if the original type matches (only usable with Property at the moment)
+	IfType *TransformTarget `yaml:"ifType,omitempty"`
+	ifType astmodel.Type    // cache the astmodel type
 
-	// This is used purely for "caching" the actual astmodel type after Initialize()
-	targetType astmodel.Type
+	// Target is the type to turn the type into
+	Target     TransformTarget
+	targetType astmodel.Type // cache the astmodel type
 }
 
 func produceTargetType(target TransformTarget, descriptor string) (astmodel.Type, error) {
@@ -78,6 +81,18 @@ func (transformer *TypeTransformer) Initialize() error {
 	}
 
 	transformer.propertyRegex = createGlobbingRegex(transformer.Property)
+	if transformer.IfType != nil {
+		if transformer.Property == "" {
+			return errors.Errorf("ifType is only usable with property matches (for now)")
+		}
+
+		ifType, err := produceTargetType(*transformer.IfType, "ifType")
+		if err != nil {
+			return err
+		}
+
+		transformer.ifType = ifType
+	}
 
 	targetType, err := produceTargetType(transformer.Target, "target")
 	if err != nil {
@@ -103,6 +118,8 @@ func primitiveTypeTarget(name string) (astmodel.Type, error) {
 		return astmodel.IntType, nil
 	case "string":
 		return astmodel.StringType, nil
+	case "any":
+		return astmodel.AnyType, nil
 	default:
 		return nil, errors.Errorf("unknown primitive type transformation target: %s", name)
 	}
@@ -136,4 +153,47 @@ func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName
 
 	// Didn't match so return nil
 	return nil
+}
+
+// PropertyTransformResult is the result of applying a property type transform
+type PropertyTransformResult struct {
+	NewType         *astmodel.ObjectType
+	Property        astmodel.PropertyName
+	NewPropertyType astmodel.Type
+	Because         string
+}
+
+// TransformProperty transforms the property on the given object type
+func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, objectType *astmodel.ObjectType) *PropertyTransformResult {
+	if !transformer.AppliesToType(name) {
+		return nil
+	}
+
+	found := false
+	var propName astmodel.PropertyName
+	var newProps []*astmodel.PropertyDefinition
+
+	for _, prop := range objectType.Properties() {
+		if transformer.propertyNameMatches(prop.PropertyName()) &&
+			(transformer.ifType == nil || transformer.ifType.Equals(prop.PropertyType())) {
+
+			found = true
+			propName = prop.PropertyName()
+
+			newProps = append(newProps, prop.WithType(transformer.targetType))
+		} else {
+			newProps = append(newProps, prop)
+		}
+	}
+
+	if !found {
+		return nil
+	}
+
+	return &PropertyTransformResult{
+		NewType:         objectType.WithProperties(newProps...),
+		Property:        propName,
+		NewPropertyType: transformer.targetType,
+		Because:         transformer.Because,
+	}
 }

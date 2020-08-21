@@ -159,10 +159,6 @@ exportFilters:
     version: v20160301
     because: it generates types containing AnyType
   - action: exclude
-    group: microsoft.visualstudio
-    version: v20140226
-    because: it generates types containing AnyType
-  - action: exclude
     group: microsoft.vmwarecloudsimple
     version: v20190401
     because: it generates types containing AnyType
@@ -234,9 +230,14 @@ typeTransformers:
     because: NumberOrExpression is an ARM template artifact that doesn't make sense in CRDs
     target:
       name: float
-  - group: deploymenttemplate
-    name: ResourceBase
+  - name: "*"
     property: Tags
+    ifType: 
+        map:
+          key:
+            name: string
+          value:
+            name: any
     target:
       map:
         key: 

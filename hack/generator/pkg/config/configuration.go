@@ -203,42 +203,13 @@ func (config *Configuration) TransformType(name astmodel.TypeName) (astmodel.Typ
 	return nil, ""
 }
 
-// PropertyTransformResult is the result of applying a property type transform
-type PropertyTransformResult struct {
-	NewType         *astmodel.ObjectType
-	Property        astmodel.PropertyName
-	NewPropertyType astmodel.Type
-	Because         string
-}
-
 // TransformTypeProperties applies any property transformers to the type
 func (config *Configuration) TransformTypeProperties(name astmodel.TypeName, objectType *astmodel.ObjectType) *PropertyTransformResult {
 
 	for _, transformer := range config.propertyTransformers {
-		if transformer.AppliesToType(name) {
-			found := false
-			var propName astmodel.PropertyName
-			var newProps []*astmodel.PropertyDefinition
-
-			for _, prop := range objectType.Properties() {
-				if transformer.propertyNameMatches(prop.PropertyName()) {
-					found = true
-					propName = prop.PropertyName()
-
-					newProps = append(newProps, prop.WithType(transformer.targetType))
-				} else {
-					newProps = append(newProps, prop)
-				}
-			}
-
-			if found {
-				return &PropertyTransformResult{
-					NewType:         objectType.WithProperties(newProps...),
-					Property:        propName,
-					NewPropertyType: transformer.targetType,
-					Because:         transformer.Because,
-				}
-			}
+		result := transformer.TransformProperty(name, objectType)
+		if result != nil {
+			return result
 		}
 	}
 
