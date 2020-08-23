@@ -121,6 +121,8 @@ Please see the [FAQ](docs/faq.md) for answers to commonly asked questions about 
 
 Have more questions? Feel free to consult our documentation [here](docs/howto/contents.md).
 
+[Azure Service Operator community calls](https://docs.google.com/document/d/1MEx5W8X_BwxvVJ4NRfgublQJ2sTrw5dSqrJ8Z4YxV94/edit?usp=sharing) are held monthly on the first Wednesday of the month at 4 PM PST. 
+
 ## Contributing
 
 The [contribution guide](CONTRIBUTING.md) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](docs/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
