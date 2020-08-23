@@ -24,6 +24,9 @@ type Configuration struct {
 	Status StatusConfiguration `yaml:"status"`
 	// The folder where the code should be generated
 	OutputPath string `yaml:"outputPath"`
+	// AnyTypePackages lists packages which we expect to generate
+	// interface{} fields.
+	AnyTypePackages []string `yaml:"anyTypePackages"`
 	// Filters used to control which types are exported
 	ExportFilters []*ExportFilter `yaml:"exportFilters"`
 	// Filters used to control which types are created from the JSON schema

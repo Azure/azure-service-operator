@@ -60,169 +60,103 @@ exportFilters:
     name: ResourceBase
     because: this type is not used
 
-  # Exclusions for packages that currently produce types including AnyType.
-  # TODO: get rid of these, either by chasing the teams generating
-  # weird json or by handling them differently in the generator.
-  - action: exclude
-    group: microsoft.authorization
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.automation
-    version: v20151031
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.cognitiveservices
-    version: v20170418
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.compute
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.compute.extensions
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.compute.galleries
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.containerinstance
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.containerregistry
-    version: v20171001
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.datafactory
-    version: v20180601
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.eventgrid
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.importexport
-    version: v20161101
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.insights
-    version: v20180301
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.keyvault
-    version: v20150601
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.kusto
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.logic
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.machinelearning
-    version: v20170101
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.machinelearningservices
-    version: v20200101
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.migrate
-    version: v20191001
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.netapp
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.network
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.notificationhubs
-    version: v20150401
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.recoveryservices
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.relay
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.resources
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.servicebus
-    version: v20170401
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.storage
-    version: v20190601
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.streamanalytics
-    version: v20160301
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.vmwarecloudsimple
-    version: v20190401
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.web
-    because: it generates types containing AnyType
-# The following are very old versions that have missing or otherwise problematic Swagger specs:
-  - action: exclude
-    group: microsoft.insights
-    version: v20140401
-    because: old version with no Swagger information to generate Status types
-  - action: exclude
-    group: microsoft.storage
-    version: v20150801
-    because: old version with no Swagger information to generate Status types
-  - action: exclude
-    group: microsoft.servicefabric
-    version: v20160301
-    because: old version with no Swagger information to generate Status types
-  - action: exclude
-    group: microsoft.documentdb
-    version: v20150408
-    because: old version with no Swagger information to generate Status types
-  - action: exclude
-    group: microsoft.apimanagement
-    version: v20160707
-    because: missing information from Swagger spec
-# The following end up with AnyType in Status:
-  - action: exclude
-    group: microsoft.containerservice
-    version: v20180331
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.containerservice
-    version: v20190601
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.insights
-    version: v20150501
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.insights
-    version: v20160301
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.insights
-    version: v20170401
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.insights
-    version: v20180416
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.insights
-    version: v20190301
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.apimanagement
-    version: v20190101
-    because: it generates types containing AnyType
-  - action: exclude
-    group: microsoft.powerbi
-    version: v20160129
-    because: it generates types containing AnyType
+# Exclusions for packages that currently produce types including AnyType.
+# TODO: get rid of these, either by chasing the teams generating
+# weird json or by handling them differently in the generator.
+anyTypePackages:
+  - microsoft.authorization/v20180301
+  - microsoft.authorization/v20180501
+  - microsoft.authorization/v20190101
+  - microsoft.authorization/v20190601
+  - microsoft.authorization/v20190901
+  - microsoft.automation/v20151031
+  - microsoft.cognitiveservices/v20170418
+  - microsoft.compute.extensions/v20180601
+  - microsoft.compute.extensions/v20181001
+  - microsoft.compute.extensions/v20190301
+  - microsoft.compute.extensions/v20190701
+  - microsoft.compute.galleries/v20180601
+  - microsoft.compute.galleries/v20190301
+  - microsoft.compute/v20150801
+  - microsoft.compute/v20170330
+  - microsoft.compute/v20171201
+  - microsoft.compute/v20180601
+  - microsoft.compute/v20181001
+  - microsoft.compute/v20190301
+  - microsoft.compute/v20190701
+  - microsoft.containerinstance/v20180401
+  - microsoft.containerinstance/v20181001
+  - microsoft.containerregistry/v20171001
+  - microsoft.datafactory/v20180601
+  - microsoft.eventgrid/v20180101
+  - microsoft.eventgrid/v20190101
+  - microsoft.eventgrid/v20190601
+  - microsoft.keyvault/v20150601
+  - microsoft.kusto/v20190515
+  - microsoft.kusto/v20191109
+  - microsoft.kusto/v20200215
+  - microsoft.logic/v20160601
+  - microsoft.logic/v20161001
+  - microsoft.logic/v20170701
+  - microsoft.machinelearning/v20170101
+  - microsoft.machinelearningservices/v20200101
+  - microsoft.migrate/v20191001
+  - microsoft.netapp/v20170815
+  - microsoft.netapp/v20190501
+  - microsoft.network/v20170901
+  - microsoft.network/v20171001
+  - microsoft.network/v20171101
+  - microsoft.network/v20180101
+  - microsoft.network/v20180201
+  - microsoft.network/v20180401
+  - microsoft.network/v20180601
+  - microsoft.network/v20180701
+  - microsoft.network/v20180801
+  - microsoft.network/v20180901
+  - microsoft.network/v20181001
+  - microsoft.network/v20181101
+  - microsoft.network/v20181201
+  - microsoft.network/v20190201
+  - microsoft.network/v20190401
+  - microsoft.network/v20190601
+  - microsoft.network/v20190701
+  - microsoft.network/v20190801
+  - microsoft.network/v20190901
+  - microsoft.network/v20191101
+  - microsoft.network/v20191201
+  - microsoft.network/v20200301
+  - microsoft.network/v20200401
+  - microsoft.network/v20200501
+  - microsoft.recoveryservices/v20160601
+  - microsoft.recoveryservices/v20180110
+  - microsoft.relay/v20160701
+  - microsoft.relay/v20170401
+  - microsoft.resources/v20150101
+  - microsoft.resources/v20160201
+  - microsoft.resources/v20160901
+  - microsoft.resources/v20170510
+  - microsoft.resources/v20180501
+  - microsoft.resources/v20190501
+  - microsoft.servicebus/v20170401
+  - microsoft.storage/v20190601
+  - microsoft.streamanalytics/v20160301
+  - microsoft.vmwarecloudsimple/v20190401
+  - microsoft.web/v20140601
+  - microsoft.web/v20150801
+  - microsoft.web/v20160601
+  - microsoft.web/v20180201
+  - microsoft.web/v20181101
+  # The following end up with AnyType in Status
+  - microsoft.apimanagement/v20190101
+  - microsoft.containerservice/v20180331
+  - microsoft.containerservice/v20190601
+  - microsoft.insights/v20150501
+  - microsoft.insights/v20160301
+  - microsoft.insights/v20170401
+  - microsoft.insights/v20180301
+  - microsoft.insights/v20180416
+  - microsoft.insights/v20190301
+  - microsoft.powerbi/v20160129
 
 typeTransformers:
   - group: definitions
