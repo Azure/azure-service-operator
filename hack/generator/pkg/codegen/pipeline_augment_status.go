@@ -218,8 +218,10 @@ var skipDirectories = []string{
 }
 
 func shouldSkipDir(filePath string) bool {
+	p := filepath.ToSlash(filePath)
+
 	for _, skipDir := range skipDirectories {
-		if strings.Contains(filePath, skipDir) {
+		if strings.Contains(p, skipDir) {
 			return true
 		}
 	}
