@@ -15,6 +15,7 @@ BUILD_ID ?= $(shell git rev-parse --short HEAD)
 
 # best to keep the prefix as short as possible to not exceed naming limits for things like keyvault (24 chars)
 TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
+KIND_CLUSTER_NAME = aso-kind
 
 # Go compiler builds tags: some parts of the test suite use these to selectively compile tests.
 BUILD_TAGS ?= all
@@ -212,17 +213,24 @@ install-bindata:
 generate-template:
 	go-bindata -pkg template -prefix pkg/template/assets/ -o pkg/template/templates.go pkg/template/assets/
 
-create-kindcluster:
-ifeq (,$(shell kind get clusters))
-	@echo "no kind cluster"
-else
-	@echo "kind cluster is running, deleteing the current cluster"
-	kind delete cluster
-endif
-	@echo "creating kind cluster"
-	kind create cluster
+# TODO: These kind-delete / kind-create targets were stolen from k8s-infra and
+# TODO: should be merged back together when the projects more closely align
+.PHONY: kind-delete
+kind-delete: install-kind
+	kind delete cluster --name=$(KIND_CLUSTER_NAME) || true
 
-set-kindcluster: install-kind
+.PHONY: kind-create
+kind-create: install-kind
+	kind get clusters | grep -E $(KIND_CLUSTER_NAME) > /dev/null;\
+	EXISTS=$$?;\
+	if [ $$EXISTS -eq 0 ]; then \
+		echo "$(KIND_CLUSTER_NAME) already exists"; \
+	else \
+		kind create cluster --name=$(KIND_CLUSTER_NAME); \
+	fi; \
+
+.PHONY: set-kindcluster
+set-kindcluster: install-kind kind-create
 ifeq (${shell kind get kubeconfig-path --name="kind"},${KUBECONFIG})
 	@echo "kubeconfig-path points to kind path"
 else
@@ -230,8 +238,6 @@ else
 	@echo  "\e[31mexport KUBECONFIG=$(shell kind get kubeconfig-path --name="kind")\e[0m"
 	@exit 111
 endif
-	make create-kindcluster
-
 	@echo "getting value of KUBECONFIG"
 	@echo ${KUBECONFIG}
 	@echo "getting value of kind kubeconfig-path"
@@ -263,7 +269,7 @@ endif
 install-kind:
 ifeq (,$(shell which kind))
 	@echo "installing kind"
-	GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
+	GO111MODULE="on" go get sigs.k8s.io/kind@v0.8.1
 else
 	@echo "kind has been installed"
 endif
