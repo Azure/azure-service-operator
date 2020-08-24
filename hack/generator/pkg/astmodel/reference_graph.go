@@ -23,6 +23,18 @@ func CollectResourceDefinitions(definitions Types) TypeNameSet {
 	return resources
 }
 
+// CollectResourceListDefinitions returns a TypeNameSet of all of the
+// resource list definitions in the definitions passed in.
+func CollectResourceListDefinitions(definitions Types) TypeNameSet {
+	resources := make(TypeNameSet)
+	for _, def := range definitions {
+		if _, ok := def.Type().(*ResourceListType); ok {
+			resources.Add(def.Name())
+		}
+	}
+	return resources
+}
+
 // NewReferenceGraph produces a new ReferenceGraph with the given roots and references
 func NewReferenceGraph(roots TypeNameSet, references map[TypeName]TypeNameSet) ReferenceGraph {
 	return ReferenceGraph{

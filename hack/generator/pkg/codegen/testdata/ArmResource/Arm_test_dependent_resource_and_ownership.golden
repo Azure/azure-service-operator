@@ -17,6 +17,13 @@ type A struct {
 	Spec              A_Spec `json:"spec,omitempty"`
 }
 
+// +kubebuilder:object:root=true
+type AList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []A `json:"items"`
+}
+
 type A_SpecArm struct {
 	ApiVersion ASpecApiVersion `json:"apiVersion"`
 	Name       string          `json:"name"`
@@ -31,6 +38,13 @@ type B struct {
 	Spec              B_Spec `json:"spec,omitempty"`
 }
 
+// +kubebuilder:object:root=true
+type BList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []B `json:"items"`
+}
+
 type B_SpecArm struct {
 	ApiVersion BSpecApiVersion `json:"apiVersion"`
 	Name       string          `json:"name"`
@@ -43,6 +57,13 @@ type C struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              C_Spec `json:"spec,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+type CList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []C `json:"items"`
 }
 
 type C_SpecArm struct {
@@ -198,5 +219,5 @@ func (cSpec *C_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, ar
 	return nil
 }
 func init() {
-	SchemeBuilder.Register(&A{}, &B{}, &C{})
+	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{})
 }

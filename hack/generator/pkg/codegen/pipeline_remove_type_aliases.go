@@ -42,7 +42,7 @@ func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, type
 		panic(fmt.Sprintf("Couldn't find type for type name %s", name))
 	}
 
-	// If this typeName definition has a type of object, enum, or resource
+	// If this typeName definition has a type of object, enum, or resource, or resourceList
 	// it's okay. Everything else we want to pull up one level to remove the alias
 	switch concreteType := def.Type().(type) {
 	case *astmodel.ObjectType:
@@ -50,6 +50,8 @@ func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, type
 	case *astmodel.EnumType:
 		return def.Name()
 	case *astmodel.ResourceType:
+		return def.Name()
+	case *astmodel.ResourceListType:
 		return def.Name()
 	case astmodel.TypeName:
 		// We need to resolve further because this type is an alias

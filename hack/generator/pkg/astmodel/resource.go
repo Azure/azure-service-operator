@@ -110,7 +110,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *Re
 // assert that ResourceType implements Type
 var _ Type = &ResourceType{}
 
-// SpecType returns the type used for specificiation
+// SpecType returns the type used for specification
 func (definition *ResourceType) SpecType() Type {
 	return definition.spec
 }

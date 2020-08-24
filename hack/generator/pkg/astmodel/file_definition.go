@@ -200,7 +200,9 @@ func (file *FileDefinition) AsAst() ast.Node {
 	// Emit registration for each resource:
 	var exprs []ast.Expr
 	for _, defn := range file.definitions {
-		if _, ok := defn.Type().(*ResourceType); ok {
+		_, isResource := defn.Type().(*ResourceType)
+		_, isResourceList := defn.Type().(*ResourceListType)
+		if isResource || isResourceList {
 			exprs = append(exprs, &ast.UnaryExpr{
 				Op: token.AND,
 				X:  &ast.CompositeLit{Type: defn.Name().AsType(codeGenContext)},
