@@ -51,8 +51,6 @@ func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, type
 		return def.Name()
 	case *astmodel.ResourceType:
 		return def.Name()
-	case *astmodel.ResourceListType:
-		return def.Name()
 	case astmodel.TypeName:
 		// We need to resolve further because this type is an alias
 		klog.V(3).Infof("Found type alias %s, replacing it with %s", name, concreteType)

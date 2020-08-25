@@ -16,10 +16,8 @@ func stripUnreferencedTypeDefinitions() PipelineStage {
 		"stripUnreferenced",
 		"Strip unreferenced types",
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
-			resourceRoots := astmodel.CollectResourceDefinitions(defs)
-			resourceListRoots := astmodel.CollectResourceListDefinitions(defs)
+			roots := astmodel.CollectResourceDefinitions(defs)
 
-			roots := astmodel.SetUnion(resourceRoots, resourceListRoots)
 			return StripUnusedDefinitions(roots, defs)
 		})
 }

@@ -253,7 +253,74 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 
 	declarations = append(declarations, resourceDeclaration)
 
+	declarations = append(declarations, definition.resourceListTypeDecls(codeGenerationContext, name, description)...)
+
 	return declarations
+}
+
+func (definition *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
+	return MakeTypeName(
+		name.PackageReference,
+		name.Name()+"List")
+}
+
+func (definition *ResourceType) resourceListTypeDecls(
+	codeGenerationContext *CodeGenerationContext,
+	resourceTypeName TypeName,
+	description []string) []ast.Decl {
+
+	typeName := definition.makeResourceListTypeName(resourceTypeName)
+
+	packageName, err := codeGenerationContext.GetImportedPackageName(MetaV1PackageReference)
+	if err != nil {
+		panic(errors.Wrapf(err, "resource list definition for %s failed to import package", typeName))
+	}
+
+	typeMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
+	objectMetaField := defineField("", ast.NewIdent(fmt.Sprintf("%s.ListMeta", packageName)), "`json:\"metadata,omitempty\"`")
+
+	// We need an array of items
+	items := NewArrayType(resourceTypeName)
+
+	fields := []*ast.Field{
+		typeMetaField,
+		objectMetaField,
+		defineField("Items", items.AsType(codeGenerationContext), "`json:\"items\"`"),
+	}
+
+	resourceIdentifier := ast.NewIdent(typeName.Name())
+	resourceTypeSpec := &ast.TypeSpec{
+		Name: resourceIdentifier,
+		Type: &ast.StructType{
+			Fields: &ast.FieldList{List: fields},
+		},
+	}
+
+	comments :=
+		[]*ast.Comment{
+			{
+				Text: "// +kubebuilder:object:root=true\n",
+			},
+		}
+
+	addDocComments(&comments, description, 200)
+
+	return []ast.Decl{
+		&ast.GenDecl{
+			Tok:   token.TYPE,
+			Specs: []ast.Spec{resourceTypeSpec},
+			Doc:   &ast.CommentGroup{List: comments},
+		},
+	}
+}
+
+// SchemeTypes returns the types represented by this resource which must be registered
+// with the controller Scheme
+func (definition *ResourceType) SchemeTypes(name TypeName) []TypeName {
+	return []TypeName{
+		name,
+		definition.makeResourceListTypeName(name),
+	}
 }
 
 // String implements fmt.Stringer

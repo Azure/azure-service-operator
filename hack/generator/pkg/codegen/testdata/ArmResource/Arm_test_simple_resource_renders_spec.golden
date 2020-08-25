@@ -18,6 +18,7 @@ type FakeResource struct {
 }
 
 // +kubebuilder:object:root=true
+//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResourceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

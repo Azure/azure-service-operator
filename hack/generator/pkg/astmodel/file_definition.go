@@ -200,13 +200,14 @@ func (file *FileDefinition) AsAst() ast.Node {
 	// Emit registration for each resource:
 	var exprs []ast.Expr
 	for _, defn := range file.definitions {
-		_, isResource := defn.Type().(*ResourceType)
-		_, isResourceList := defn.Type().(*ResourceListType)
-		if isResource || isResourceList {
-			exprs = append(exprs, &ast.UnaryExpr{
-				Op: token.AND,
-				X:  &ast.CompositeLit{Type: defn.Name().AsType(codeGenContext)},
-			})
+
+		if resource, ok := defn.Type().(*ResourceType); ok {
+			for _, t := range resource.SchemeTypes(defn.Name()) {
+				exprs = append(exprs, &ast.UnaryExpr{
+					Op: token.AND,
+					X:  &ast.CompositeLit{Type: t.AsType(codeGenContext)},
+				})
+			}
 		}
 	}
 

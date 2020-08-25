@@ -47,15 +47,14 @@ func TypeEquals(left, right Type) bool {
 // TypeVisitor represents a visitor for a tree of types.
 // The `ctx` argument can be used to “smuggle” additional data down the call-chain.
 type TypeVisitor struct {
-	VisitTypeName         func(this *TypeVisitor, it TypeName, ctx interface{}) Type
-	VisitArrayType        func(this *TypeVisitor, it *ArrayType, ctx interface{}) Type
-	VisitPrimitive        func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) Type
-	VisitObjectType       func(this *TypeVisitor, it *ObjectType, ctx interface{}) Type
-	VisitMapType          func(this *TypeVisitor, it *MapType, ctx interface{}) Type
-	VisitOptionalType     func(this *TypeVisitor, it *OptionalType, ctx interface{}) Type
-	VisitEnumType         func(this *TypeVisitor, it *EnumType, ctx interface{}) Type
-	VisitResourceType     func(this *TypeVisitor, it *ResourceType, ctx interface{}) Type
-	VisitResourceListType func(this *TypeVisitor, it *ResourceListType, ctx interface{}) Type
+	VisitTypeName     func(this *TypeVisitor, it TypeName, ctx interface{}) Type
+	VisitArrayType    func(this *TypeVisitor, it *ArrayType, ctx interface{}) Type
+	VisitPrimitive    func(this *TypeVisitor, it *PrimitiveType, ctx interface{}) Type
+	VisitObjectType   func(this *TypeVisitor, it *ObjectType, ctx interface{}) Type
+	VisitMapType      func(this *TypeVisitor, it *MapType, ctx interface{}) Type
+	VisitOptionalType func(this *TypeVisitor, it *OptionalType, ctx interface{}) Type
+	VisitEnumType     func(this *TypeVisitor, it *EnumType, ctx interface{}) Type
+	VisitResourceType func(this *TypeVisitor, it *ResourceType, ctx interface{}) Type
 }
 
 // Visit invokes the appropriate VisitX on TypeVisitor
@@ -81,8 +80,6 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) Type {
 		return tv.VisitEnumType(tv, it, ctx)
 	case *ResourceType:
 		return tv.VisitResourceType(tv, it, ctx)
-	case *ResourceListType:
-		return tv.VisitResourceListType(tv, it, ctx)
 	}
 
 	panic(fmt.Sprintf("unhandled type: (%T) %v", t, t))
@@ -139,12 +136,6 @@ func MakeTypeVisitor() TypeVisitor {
 			spec := this.Visit(it.spec, ctx)
 			status := this.Visit(it.status, ctx)
 			return NewResourceType(spec, status).WithOwner(it.Owner())
-		},
-		VisitResourceListType: func(this *TypeVisitor, it *ResourceListType, ctx interface{}) Type {
-			resource := this.VisitTypeName(this, it.resource, ctx)
-			// There's an expectation that this is a typeName
-			resourceTypeName := resource.(TypeName)
-			return NewResourceListType(resourceTypeName)
 		},
 	}
 }
