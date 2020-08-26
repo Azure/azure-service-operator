@@ -32,15 +32,10 @@ func applyPropertyRewrites(config *config.Configuration) PipelineStage {
 					continue
 				}
 
-				transformed := config.TransformTypeProperties(name, objectType)
-				if transformed != nil {
-					klog.V(2).Infof("Transforming %s.%s -> %s because %s",
-						name,
-						transformed.Property,
-						transformed.NewPropertyType.String(),
-						transformed.Because)
-
-					objectType = transformed.NewType
+				transformation := config.TransformTypeProperties(name, objectType)
+				if transformation != nil {
+					klog.V(2).Infof("Transforming %s", transformation)
+					objectType = transformation.NewType
 				}
 
 				newTypes.Add(t.WithType(objectType))

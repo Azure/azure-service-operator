@@ -39,8 +39,13 @@ type TypeTransformer struct {
 	ifType astmodel.Type    // cache the astmodel type
 
 	// Target is the type to turn the type into
-	Target     TransformTarget
-	targetType astmodel.Type // cache the astmodel type
+	Target     *TransformTarget `yaml:",omitempty"`
+	targetType astmodel.Type    // cache the astmodel type
+
+	// Remove indicates that the property should be removed from the
+	// type. This is only usable with Property. Target and Remove are
+	// mutually exclusive.
+	Remove bool `yaml:",omitempty"`
 }
 
 func produceTargetType(target TransformTarget, descriptor string) (astmodel.Type, error) {
@@ -80,6 +85,19 @@ func (transformer *TypeTransformer) Initialize() error {
 		return err
 	}
 
+	if transformer.Remove {
+		if transformer.Property == "" {
+			return errors.Errorf("remove is only usable with property matches")
+		}
+		if transformer.Target != nil {
+			return errors.Errorf("remove and target can't both be set")
+		}
+	} else {
+		if transformer.Target == nil {
+			return errors.Errorf("no target type and remove is not set")
+		}
+	}
+
 	transformer.propertyRegex = createGlobbingRegex(transformer.Property)
 	if transformer.IfType != nil {
 		if transformer.Property == "" {
@@ -94,17 +112,19 @@ func (transformer *TypeTransformer) Initialize() error {
 		transformer.ifType = ifType
 	}
 
-	targetType, err := produceTargetType(transformer.Target, "target")
-	if err != nil {
-		return errors.Wrapf(
-			err,
-			"type transformer for group: %s, version: %s, name: %s",
-			transformer.Group,
-			transformer.Version,
-			transformer.Name)
-	}
+	if transformer.Target != nil {
+		targetType, err := produceTargetType(*transformer.Target, "target")
+		if err != nil {
+			return errors.Wrapf(
+				err,
+				"type transformer for group: %s, version: %s, name: %s",
+				transformer.Group,
+				transformer.Version,
+				transformer.Name)
+		}
 
-	transformer.targetType = targetType
+		transformer.targetType = targetType
+	}
 	return nil
 }
 
@@ -157,10 +177,29 @@ func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName
 
 // PropertyTransformResult is the result of applying a property type transform
 type PropertyTransformResult struct {
+	TypeName        astmodel.TypeName
 	NewType         *astmodel.ObjectType
 	Property        astmodel.PropertyName
 	NewPropertyType astmodel.Type
+	Removed         bool
 	Because         string
+}
+
+// String generates a printable representation of this result.
+func (r PropertyTransformResult) String() string {
+	if r.Removed {
+		return fmt.Sprintf("%s.%s removed because %s",
+			r.TypeName,
+			r.Property,
+			r.Because,
+		)
+	}
+	return fmt.Sprintf("%s.%s -> %s because %s",
+		r.TypeName,
+		r.Property,
+		r.NewPropertyType.String(),
+		r.Because,
+	)
 }
 
 // TransformProperty transforms the property on the given object type
@@ -180,7 +219,10 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 			found = true
 			propName = prop.PropertyName()
 
-			newProps = append(newProps, prop.WithType(transformer.targetType))
+			if transformer.targetType != nil {
+				newProps = append(newProps, prop.WithType(transformer.targetType))
+			}
+			// Otherwise this is a removal - we don't copy the prop across.
 		} else {
 			newProps = append(newProps, prop)
 		}
@@ -190,10 +232,17 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 		return nil
 	}
 
-	return &PropertyTransformResult{
-		NewType:         objectType.WithProperties(newProps...),
-		Property:        propName,
-		NewPropertyType: transformer.targetType,
-		Because:         transformer.Because,
+	result := PropertyTransformResult{
+		TypeName: name,
+		NewType:  objectType.WithoutProperties().WithProperties(newProps...),
+		Property: propName,
+		Because:  transformer.Because,
 	}
+
+	if transformer.Remove {
+		result.Removed = true
+	} else {
+		result.NewPropertyType = transformer.targetType
+	}
+	return &result
 }

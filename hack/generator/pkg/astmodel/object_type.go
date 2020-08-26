@@ -295,6 +295,14 @@ func (objectType *ObjectType) WithProperties(properties ...*PropertyDefinition) 
 	return result
 }
 
+// WithoutProperties creates a new ObjectType from this one but
+// without any properties.
+func (objectType *ObjectType) WithoutProperties() *ObjectType {
+	result := objectType.copy()
+	result.properties = make(map[PropertyName]*PropertyDefinition)
+	return result
+}
+
 // WithoutProperty creates a new ObjectType without the specified field
 func (objectType *ObjectType) WithoutProperty(name PropertyName) *ObjectType {
 	// Create a copy of objectType to preserve immutability

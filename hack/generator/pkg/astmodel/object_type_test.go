@@ -195,6 +195,20 @@ func Test_ObjectWithoutProperty_ReturnsExpectedObject(t *testing.T) {
 }
 
 /*
+ * WithoutProperties() Tests
+ */
+
+func Test_ObjectWithoutProperties_ReturnsExpectedObject(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	original := EmptyObjectType.WithProperties(fullName, familyName, knownAs, gender)
+	modified := original.WithoutProperties()
+
+	g.Expect(original).NotTo(Equal(modified))
+	g.Expect(modified.Properties()).To(HaveLen(0))
+}
+
+/*
  * WithFunction() tests
  */
 

@@ -88,9 +88,6 @@ anyTypePackages:
   - microsoft.containerinstance/v20181001
   - microsoft.containerregistry/v20171001
   - microsoft.datafactory/v20180601
-  - microsoft.eventgrid/v20180101
-  - microsoft.eventgrid/v20190101
-  - microsoft.eventgrid/v20190601
   - microsoft.keyvault/v20150601
   - microsoft.kusto/v20190515
   - microsoft.kusto/v20191109
@@ -179,6 +176,24 @@ typeTransformers:
         value:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
+
+  # Removing map[string]interfaces{} that happen because the type has
+  # only readonly properties that have all been removed in the swagger
+  # -> deployment template conversion.
+
+  - group: microsoft.eventgrid
+    version: v20190601
+    name: Domains_Spec
+    property: Properties
+    remove: true
+    because: it has no writable properties in swagger
+
+  - group: microsoft.eventgrid
+    version: "*"
+    name: Topics_Spec
+    property: Properties
+    remove: true
+    because: it has no writable properties in swagger
 
 status:
   schemaRoot: "./azure-rest-api-specs/specification"

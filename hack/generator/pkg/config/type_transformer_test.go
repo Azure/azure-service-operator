@@ -19,7 +19,7 @@ func Test_TransformByGroup_CorrectlySelectsTypes(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Group: "role"},
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Name: "int",
 		},
 	}
@@ -40,7 +40,7 @@ func Test_TransformByVersion_CorrectlySelectsTypes(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Version: "2019-*"},
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Name: "int",
 		},
 	}
@@ -61,7 +61,7 @@ func Test_TransformByName_CorrectlySelectsTypes(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "p*"},
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Name: "int",
 		},
 	}
@@ -82,7 +82,7 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			PackagePath: astmodel.LocalPathPrefix + "role/2019-01-01",
 			Name:        "student",
 		},
@@ -99,7 +99,7 @@ func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Map: &config.MapType{
 				Key: config.TransformTarget{
 					Name: "string",
@@ -134,7 +134,7 @@ func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Map: &config.MapType{
 				Key: config.TransformTarget{
 					Name: "string",
@@ -163,7 +163,35 @@ func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
 
 	err := transformer.Initialize()
 	g.Expect(err).To(Not(BeNil()))
-	g.Expect(err.Error()).To(ContainSubstring("no target type found"))
+	g.Expect(err.Error()).To(ContainSubstring("no target type and remove is not set"))
+}
+
+func Test_TransformWithRemoveButNoProperty_ReportsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		Remove: true,
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(Not(BeNil()))
+	g.Expect(err).To(MatchError("remove is only usable with property matches"))
+}
+
+func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		Property: "hat",
+		Target: &config.TransformTarget{
+			Name: "int",
+		},
+		Remove: true,
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(Not(BeNil()))
+	g.Expect(err).To(MatchError("remove and target can't both be set"))
 }
 
 func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
@@ -171,7 +199,7 @@ func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Name: "int",
 			Map: &config.MapType{
 				Key: config.TransformTarget{
@@ -194,7 +222,7 @@ func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Name: "nemo",
 		},
 	}
@@ -212,7 +240,7 @@ func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
 		IfType: &config.TransformTarget{
 			Name: "from",
 		},
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Name: "to",
 		},
 	}
@@ -228,7 +256,7 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "*"},
 		Property:    "foo",
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Name: "string",
 		},
 	}
@@ -248,6 +276,44 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 	g.Expect(fooProp.PropertyType()).To(Equal(astmodel.StringType))
 }
 
+func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "*"},
+		Property:    "foo*",
+		Target: &config.TransformTarget{
+			Name: "string",
+		},
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(BeNil())
+
+	typeName := student2019
+	props := []*astmodel.PropertyDefinition{
+		astmodel.NewPropertyDefinition("foo1", "foo1", astmodel.IntType),
+		astmodel.NewPropertyDefinition("foo2", "foo2", astmodel.BoolType),
+		astmodel.NewPropertyDefinition("other", "other", astmodel.FloatType),
+	}
+	typeDef := astmodel.NewObjectType().WithProperties(props...)
+
+	result := transformer.TransformProperty(typeName, typeDef)
+	g.Expect(result).ToNot(BeNil())
+
+	foo1Prop, ok := result.NewType.Property("foo1")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(foo1Prop.PropertyType()).To(Equal(astmodel.StringType))
+
+	foo2Prop, ok := result.NewType.Property("foo2")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(foo2Prop.PropertyType()).To(Equal(astmodel.StringType))
+
+	otherProp, ok := result.NewType.Property("other")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(otherProp.PropertyType()).To(Equal(astmodel.FloatType))
+}
+
 func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 	g := NewGomegaWithT(t)
 
@@ -257,7 +323,7 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 			Name: "string",
 		},
 		Property: "foo",
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Name: "int",
 		},
 	}
@@ -282,7 +348,7 @@ func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
 			Name: "int",
 		},
 		Property: "foo",
-		Target: config.TransformTarget{
+		Target: &config.TransformTarget{
 			Name: "string",
 		},
 	}
@@ -300,4 +366,52 @@ func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
 	fooProp, ok := result.NewType.Property("foo")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(fooProp.PropertyType()).To(Equal(astmodel.StringType))
+}
+
+func Test_TransformCanRemoveProperty(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: "*"},
+		IfType: &config.TransformTarget{
+			Name: "int",
+		},
+		Property: "foo",
+		Remove:   true,
+	}
+
+	err := transformer.Initialize()
+	g.Expect(err).To(BeNil())
+
+	typeName := student2019
+	prop := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
+	typeDef := astmodel.NewObjectType().WithProperties(prop)
+
+	result := transformer.TransformProperty(typeName, typeDef)
+	g.Expect(result).To(Not(BeNil()))
+
+	_, ok := result.NewType.Property("foo")
+	g.Expect(ok).To(BeFalse())
+}
+
+func Test_TransformResult_String(t *testing.T) {
+	g := NewGomegaWithT(t)
+	result := config.PropertyTransformResult{
+		TypeName:        student2019,
+		Property:        "HairColour",
+		NewPropertyType: astmodel.StringType,
+		Because:         "string is better",
+	}
+	g.Expect(result.String()).To(Equal(astmodel.LocalPathPrefix + "role/2019-01-01/student.HairColour -> string because string is better"))
+}
+
+func Test_TransformResult_StringRemove(t *testing.T) {
+	g := NewGomegaWithT(t)
+	result := config.PropertyTransformResult{
+		TypeName: student2019,
+		Property: "HairColour",
+		Removed:  true,
+		Because:  "it's irrelevant",
+	}
+	g.Expect(result.String()).To(Equal(astmodel.LocalPathPrefix + "role/2019-01-01/student.HairColour removed because it's irrelevant"))
 }
