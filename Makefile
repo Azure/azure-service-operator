@@ -97,6 +97,11 @@ test-cleanup-azure-resources:
 		az group delete --name $$rgname --no-wait --yes; \
 	done
 
+	for rgname in `az group list --query "[*].[name]" -o table | grep 'rg-prime$$' `; do \
+		echo "$$rgname will be deleted"; \
+		az group delete --name $$rgname --no-wait --yes; \
+	done
+
 # Build the docker image
 docker-build:
 	docker build . -t ${IMG} ${ARGS}

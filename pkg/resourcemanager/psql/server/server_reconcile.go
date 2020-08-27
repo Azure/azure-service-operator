@@ -103,7 +103,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 					return false, err
 				}
 
-				if res.Status == "Failed" {
+				if res.Status == pollclient.LongRunningOperationPollStatusFailed {
 					instance.Status.Provisioning = false
 					instance.Status.RequestedAt = nil
 					ignore := []string{

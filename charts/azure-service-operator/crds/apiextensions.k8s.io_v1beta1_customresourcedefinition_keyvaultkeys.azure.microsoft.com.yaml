@@ -29,14 +29,10 @@ spec:
       description: KeyVaultKey is the Schema for the keyvaultkeys API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -44,8 +40,7 @@ spec:
           description: KeyVaultKeySpec defines the desired state of KeyVaultKey
           properties:
             curve:
-              description: JSONWebKeyCurveName enumerates the values for json web
-                key curve name.
+              description: JSONWebKeyCurveName enumerates the values for json web key curve name.
               type: string
             keySize:
               format: int32
@@ -53,13 +48,11 @@ spec:
             keyVault:
               type: string
             location:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "make" to regenerate code after modifying this file'
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
               type: string
             operations:
               items:
-                description: JSONWebKeyOperation enumerates the values for json web
-                  key operation.
+                description: JSONWebKeyOperation enumerates the values for json web key operation.
                 type: string
               type: array
             resourceGroup:
@@ -73,8 +66,7 @@ spec:
           - resourceGroup
           type: object
         status:
-          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed
-            state of resource actions
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
           properties:
             completed:
               format: date-time

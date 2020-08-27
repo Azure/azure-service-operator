@@ -7,6 +7,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -112,7 +113,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			EnsureInstance(ctx, t, tc, sqlDatabaseInstance1)
 		})
 
-		t.Run("set up second database in primary server using sku with maxsizebytes", func(t *testing.T) {
+		t.Run("set up second database in primary server using sku with maxsizebytes, then update it to use a different SKU", func(t *testing.T) {
 			t.Parallel()
 
 			maxSize := resource.MustParse("500Mi")
@@ -135,6 +136,48 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			}
 
 			EnsureInstance(ctx, t, tc, sqlDatabaseInstance2)
+
+			namespacedName := types.NamespacedName{Name: sqlDatabaseName2, Namespace: "default"}
+			err = tc.k8sClient.Get(ctx, namespacedName, sqlDatabaseInstance2)
+			assert.Equal(nil, err, "get sql database in k8s")
+
+			originalHash := sqlDatabaseInstance2.Status.SpecHash
+
+			sqlDatabaseInstance2.Spec.Sku = &v1beta1.SqlDatabaseSku{
+				Name: "Basic",
+				Tier: "Basic",
+			}
+			maxSizeMb := 100
+			maxSize = resource.MustParse(fmt.Sprintf("%dMi", maxSizeMb))
+			sqlDatabaseInstance2.Spec.MaxSize = &maxSize
+
+			err = tc.k8sClient.Update(ctx, sqlDatabaseInstance2)
+			assert.Equal(nil, err, "updating sql database in k8s")
+
+			assert.Eventually(func() bool {
+				db := &v1beta1.AzureSqlDatabase{}
+				err = tc.k8sClient.Get(ctx, namespacedName, db)
+				assert.Equal(nil, err, "err getting DB from k8s")
+				return originalHash != db.Status.SpecHash
+			}, tc.timeout, tc.retry, "wait for sql database to be updated in k8s")
+
+			assert.Eventually(func() bool {
+				db, err := tc.sqlDbManager.GetDB(ctx, rgName, sqlServerName, sqlDatabaseName2)
+				assert.Equal(nil, err, "err getting DB fromAzure")
+				return db.Sku.Name != nil && *db.Sku.Name == "Basic"
+			}, tc.timeout, tc.retry, "wait for sql database Sku.Name to be updated in azure")
+
+			assert.Eventually(func() bool {
+				db, err := tc.sqlDbManager.GetDB(ctx, rgName, sqlServerName, sqlDatabaseName2)
+				assert.Equal(nil, err, "err getting DB fromAzure")
+				return db.Sku.Tier != nil && *db.Sku.Tier == "Basic"
+			}, tc.timeout, tc.retry, "wait for sql database Sku.Tier to be updated in azure")
+
+			assert.Eventually(func() bool {
+				db, err := tc.sqlDbManager.GetDB(ctx, rgName, sqlServerName, sqlDatabaseName2)
+				assert.Equal(nil, err, "err getting DB fromAzure")
+				return db.MaxSizeBytes != nil && *db.MaxSizeBytes == int64(maxSizeMb)*int64(1024)*int64(1024)
+			}, tc.timeout, tc.retry, "wait for sql database MaxSizeBytes to be updated in azure")
 		})
 
 		// Create FirewallRules ---------------------------------------

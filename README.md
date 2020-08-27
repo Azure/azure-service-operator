@@ -52,10 +52,41 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     ```sh
     helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
     ```
+3. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
 
-3. Install the Azure Service Operator on your cluster using the following helm install command.
+    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
+    ```yaml
+    AZURE_TENANT_ID=<your-tenant-id-goes-here>
+    AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
+    ```
 
-    Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md)
+    You can find these values by using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest):
+    ```sh
+    az account show
+    ```
+    Next, we'll create a service principal with Contributor permissions for your subscription, so ASO can create resources in your subscription on your behalf. Note that the [ServicePrincipal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli) you pass to the command below needs to have access to create resources in your subscription. If you'd like to use Managed Identity for authorization instead, check out instructions [here](docs/howto/managedidentity.md).
+
+    ```sh
+    az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
+        --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+    ```
+
+    This should give you output like the following:
+    ```sh
+    "appId": "xxxxxxxxxx",
+    "displayName": "azure-service-operator",
+    "name": "http://azure-service-operator",
+    "password": "xxxxxxxxxxx",
+    "tenant": "xxxxxxxxxxxxx"
+    ```
+
+    Once you have created a service principal, set the following variables to your app ID and password values:
+    ```sh 
+    AZURE_CLIENT_ID=<your-client-id> # This is the appID from the service principal we created.
+    AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
+    ```
+
+4. Install the Azure Service Operator on your cluster using the following helm install command.
 
     ```sh
     helm upgrade --install aso https://github.com/Azure/azure-service-operator/raw/master/charts/azure-service-operator-0.1.0.tgz \
@@ -89,6 +120,8 @@ This project maintains [releases of the Azure Service Operator](https://github.c
 Please see the [FAQ](docs/faq.md) for answers to commonly asked questions about the Azure Service Operator.
 
 Have more questions? Feel free to consult our documentation [here](docs/howto/contents.md).
+
+[Azure Service Operator community calls](https://docs.google.com/document/d/1MEx5W8X_BwxvVJ4NRfgublQJ2sTrw5dSqrJ8Z4YxV94/edit?usp=sharing) are held monthly on the first Wednesday of the month at 4 PM PST. 
 
 ## Contributing
 
