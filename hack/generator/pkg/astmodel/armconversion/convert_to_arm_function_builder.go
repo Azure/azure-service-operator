@@ -13,6 +13,8 @@ import (
 	"go/token"
 )
 
+const nameParameterString = "name"
+
 type convertToArmBuilder struct {
 	conversionBuilder
 	resultIdent *ast.Ident
@@ -62,7 +64,7 @@ func (builder *convertToArmBuilder) functionDeclaration() *ast.FuncDecl {
 				{
 					Type: ast.NewIdent("string"),
 					Names: []*ast.Ident{
-						ast.NewIdent("owningName"),
+						ast.NewIdent(nameParameterString),
 					},
 				},
 			},
@@ -120,19 +122,13 @@ func (builder *convertToArmBuilder) namePropertyHandler(
 		return nil
 	}
 
-	fromProp, _ := fromType.Property(GetAzureNameProperty(builder.idFactory).PropertyName())
 	result := astbuilder.SimpleAssignment(
 		&ast.SelectorExpr{
 			X:   builder.resultIdent,
 			Sel: ast.NewIdent(string(toProp.PropertyName())),
 		},
 		token.ASSIGN,
-		createArmResourceNameForDeployment(
-			ast.NewIdent("owningName"),
-			&ast.SelectorExpr{
-				X:   builder.receiverIdent,
-				Sel: ast.NewIdent(string(fromProp.PropertyName())),
-			}))
+		ast.NewIdent(nameParameterString))
 	return []ast.Stmt{result}
 }
 
@@ -434,7 +430,7 @@ func (builder *convertToArmBuilder) convertComplexMapProperty(
 
 // convertComplexTypeNameProperty handles conversion of complex TypeName properties.
 // This function generates code that looks like this:
-// 	<nameHint>, err := <source>.ToArm(owningName)
+// 	<nameHint>, err := <source>.ToArm(name)
 //	if err != nil {
 //		return nil, err
 //	}
@@ -477,7 +473,7 @@ func callToArmFunction(source ast.Expr, destination ast.Expr, methodName string)
 					Sel: ast.NewIdent(methodName),
 				},
 				Args: []ast.Expr{
-					ast.NewIdent("owningName"),
+					ast.NewIdent(nameParameterString),
 				},
 			},
 		},
@@ -486,17 +482,4 @@ func callToArmFunction(source ast.Expr, destination ast.Expr, methodName string)
 	results = append(results, astbuilder.CheckErrorAndReturn(ast.NewIdent("nil")))
 
 	return results
-}
-
-func createArmResourceNameForDeployment(owningNameParameter ast.Expr, input ast.Expr) *ast.CallExpr {
-	return &ast.CallExpr{
-		Fun: &ast.SelectorExpr{
-			X:   ast.NewIdent(astmodel.GenRuntimePackageName),
-			Sel: ast.NewIdent("CreateArmResourceNameForDeployment"),
-		},
-		Args: []ast.Expr{
-			owningNameParameter,
-			input,
-		},
-	}
 }

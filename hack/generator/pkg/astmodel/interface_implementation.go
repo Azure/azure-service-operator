@@ -11,8 +11,8 @@ type InterfaceImplementation struct {
 	functions map[string]Function
 }
 
-// NewInterface creates a new interface implementation with the given name and set of functions
-func NewInterface(name TypeName, functions map[string]Function) *InterfaceImplementation {
+// NewInterfaceImplementation creates a new interface implementation with the given name and set of functions
+func NewInterfaceImplementation(name TypeName, functions map[string]Function) *InterfaceImplementation {
 	return &InterfaceImplementation{name: name, functions: functions}
 }
 

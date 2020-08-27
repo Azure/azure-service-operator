@@ -219,7 +219,7 @@ func ReturnIfNotOk(returns ...ast.Expr) *ast.IfStmt {
 // 	if <toCheck> == nil {
 // 		return <returns...>
 //	}
-func ReturnIfNil(toCheck *ast.Ident, returns ...ast.Expr) ast.Stmt {
+func ReturnIfNil(toCheck ast.Expr, returns ...ast.Expr) ast.Stmt {
 	return ReturnIfExpr(
 		&ast.BinaryExpr{
 			X:  toCheck,
@@ -267,5 +267,14 @@ func FormatError(formatString string, args ...ast.Expr) *ast.CallExpr {
 			Sel: ast.NewIdent("Errorf"),
 		},
 		Args: callArgs,
+	}
+}
+
+// AddrOf returns a statement that gets the address of the provided expression.
+//	&<expr>
+func AddrOf(exp ast.Expr) *ast.UnaryExpr {
+	return &ast.UnaryExpr{
+		Op: token.AND,
+		X:  exp,
 	}
 }

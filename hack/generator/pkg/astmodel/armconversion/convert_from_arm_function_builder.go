@@ -72,7 +72,7 @@ func (builder *convertFromArmBuilder) functionDeclaration() *ast.FuncDecl {
 						Sel: ast.NewIdent("KnownResourceReference"),
 					},
 					Names: []*ast.Ident{
-						ast.NewIdent("owner"),
+						ast.NewIdent(builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)),
 					},
 				},
 				{
@@ -180,7 +180,7 @@ func (builder *convertFromArmBuilder) ownerPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType) []ast.Stmt {
 
-	if toProp.PropertyName() != astmodel.PropertyName("Owner") || !builder.isResource {
+	if toProp.PropertyName() != builder.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported) || !builder.isResource {
 		return nil
 	}
 
@@ -190,7 +190,7 @@ func (builder *convertFromArmBuilder) ownerPropertyHandler(
 			Sel: ast.NewIdent(string(toProp.PropertyName())),
 		},
 		token.ASSIGN,
-		ast.NewIdent("owner"))
+		ast.NewIdent(builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)))
 	return []ast.Stmt{result}
 }
 
@@ -492,7 +492,7 @@ func (builder *convertFromArmBuilder) convertComplexTypeNameProperty(
 					Sel: ast.NewIdent(builder.methodName),
 				},
 				Args: []ast.Expr{
-					ast.NewIdent("owner"),
+					ast.NewIdent(builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)),
 					params.source,
 				},
 			}))

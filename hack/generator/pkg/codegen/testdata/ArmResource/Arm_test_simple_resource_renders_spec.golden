@@ -17,6 +17,19 @@ type FakeResource struct {
 	Spec              FakeResource_Spec `json:"spec,omitempty"`
 }
 
+var _ genruntime.KubernetesResource = &FakeResource{}
+
+// AzureName returns the Azure name of the resource
+func (fakeResource *FakeResource) AzureName() string {
+	return fakeResource.Spec.AzureName
+}
+
+// Owner returns the ResourceReference of the owner, or nil if there is no owner
+func (fakeResource *FakeResource) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(fakeResource.Spec)
+	return &genruntime.ResourceReference{Name: fakeResource.Spec.Owner.Name, Group: group, Kind: kind}
+}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResourceList struct {
@@ -57,13 +70,13 @@ type FakeResource_Spec struct {
 var _ genruntime.ArmTransformer = &FakeResource_Spec{}
 
 // ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(owningName string) (interface{}, error) {
+func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{}, error) {
 	if fakeResourceSpec == nil {
 		return nil, nil
 	}
 	result := FakeResource_SpecArm{}
 	result.ApiVersion = fakeResourceSpec.ApiVersion
-	result.Name = genruntime.CreateArmResourceNameForDeployment(owningName, fakeResourceSpec.AzureName)
+	result.Name = name
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }

@@ -394,8 +394,8 @@ func createOwnerProperty(idFactory astmodel.IdentifierFactory, ownerTypeName *as
 		"KnownResourceReference")
 
 	prop := astmodel.NewPropertyDefinition(
-		idFactory.CreatePropertyName("owner", astmodel.Exported),
-		"owner",
+		idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
+		idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
 		knownResourceReferenceType)
 
 	group, _, err := ownerTypeName.PackageReference.GroupAndPackage()

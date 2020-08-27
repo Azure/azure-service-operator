@@ -5,6 +5,8 @@
 
 package genruntime
 
+import "reflect"
+
 // KnownResourceReference is a resource reference to a known type.
 type KnownResourceReference struct {
 	// This is the name of the Kubernetes resource to reference.
@@ -28,4 +30,23 @@ type ResourceReference struct {
 	// Note: Version is not required here because references are all about linking one Kubernetes
 	// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
 	// name - the versions are just giving a different view on the same resource
+}
+
+// LookupOwnerGroupKind looks up an owners group and kind annotations using reflection.
+// This is primarily used to convert from a KnownResourceReference to the more general
+// ResourceReference
+func LookupOwnerGroupKind(v interface{}) (string, string) {
+	t := reflect.TypeOf(v)
+	field, _ := t.FieldByName("Owner")
+
+	group, ok := field.Tag.Lookup("group")
+	if !ok {
+		panic("Couldn't find owner group tag")
+	}
+	kind, ok := field.Tag.Lookup("kind")
+	if !ok {
+		panic("Couldn't find %s owner kind tag")
+	}
+
+	return group, kind
 }

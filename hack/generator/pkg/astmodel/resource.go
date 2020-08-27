@@ -22,11 +22,18 @@ type ResourceType struct {
 	status           Type
 	isStorageVersion bool
 	owner            *TypeName
+	InterfaceImplementer
 }
 
 // NewResourceType defines a new resource type
 func NewResourceType(specType Type, statusType Type) *ResourceType {
-	return &ResourceType{specType, statusType, false, nil}
+	return &ResourceType{
+		spec:                 specType,
+		status:               statusType,
+		isStorageVersion:     false,
+		owner:                nil,
+		InterfaceImplementer: MakeInterfaceImplementer(),
+	}
 }
 
 // NewAzureResourceType defines a new resource type for Azure. It ensures that
@@ -127,6 +134,14 @@ func (definition *ResourceType) WithStatus(statusType Type) *ResourceType {
 	return &result
 }
 
+// WithInterface creates a new Resource with a function (method) attached to it
+func (definition *ResourceType) WithInterface(iface *InterfaceImplementation) *ResourceType {
+	// Create a copy of objectType to preserve immutability
+	result := *definition
+	result.InterfaceImplementer = result.InterfaceImplementer.WithInterface(iface)
+	return &result
+}
+
 // AsType converts the ResourceType to go AST Expr
 func (definition *ResourceType) AsType(_ *CodeGenerationContext) ast.Expr {
 	panic("a resource cannot be used directly as a type")
@@ -141,7 +156,8 @@ func (definition *ResourceType) Equals(other Type) bool {
 	if otherResource, ok := other.(*ResourceType); ok {
 		return TypeEquals(definition.spec, otherResource.spec) &&
 			TypeEquals(definition.status, otherResource.status) &&
-			definition.isStorageVersion == otherResource.isStorageVersion
+			definition.isStorageVersion == otherResource.isStorageVersion &&
+			definition.InterfaceImplementer.Equals(otherResource.InterfaceImplementer)
 	}
 
 	return false
@@ -189,6 +205,9 @@ func (definition *ResourceType) RequiredImports() []PackageReference {
 	typeImports = append(typeImports, MetaV1PackageReference)
 	typeImports = append(typeImports, MakeGenRuntimePackageReference())
 	typeImports = append(typeImports, MakePackageReference("fmt"))
+
+	// Interface imports
+	typeImports = append(typeImports, definition.InterfaceImplementer.RequiredImports()...)
 
 	return typeImports
 }
@@ -252,6 +271,7 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 	}
 
 	declarations = append(declarations, resourceDeclaration)
+	declarations = append(declarations, definition.InterfaceImplementer.AsDeclarations(codeGenerationContext, name, nil)...)
 
 	declarations = append(declarations, definition.resourceListTypeDecls(codeGenerationContext, name, description)...)
 

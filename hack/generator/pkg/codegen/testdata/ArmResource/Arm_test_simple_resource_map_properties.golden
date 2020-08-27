@@ -17,6 +17,19 @@ type FakeResource struct {
 	Spec              FakeResource_Spec `json:"spec,omitempty"`
 }
 
+var _ genruntime.KubernetesResource = &FakeResource{}
+
+// AzureName returns the Azure name of the resource
+func (fakeResource *FakeResource) AzureName() string {
+	return fakeResource.Spec.AzureName
+}
+
+// Owner returns the ResourceReference of the owner, or nil if there is no owner
+func (fakeResource *FakeResource) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(fakeResource.Spec)
+	return &genruntime.ResourceReference{Name: fakeResource.Spec.Owner.Name, Group: group, Kind: kind}
+}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResourceList struct {
@@ -78,7 +91,7 @@ type FakeResource_Spec struct {
 var _ genruntime.ArmTransformer = &FakeResource_Spec{}
 
 // ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(owningName string) (interface{}, error) {
+func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{}, error) {
 	if fakeResourceSpec == nil {
 		return nil, nil
 	}
@@ -87,7 +100,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(owningName string) (inte
 	result.MapFoo = make(map[string]FooArm)
 	if fakeResourceSpec.MapFoo != nil {
 		for key, value := range fakeResourceSpec.MapFoo {
-			elem, err := value.ConvertToArm(owningName)
+			elem, err := value.ConvertToArm(name)
 			if err != nil {
 				return nil, err
 			}
@@ -100,7 +113,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(owningName string) (inte
 		for key, value := range fakeResourceSpec.MapOfArrays {
 			var elemTyped []FooArm
 			for _, item := range value {
-				elem, err := item.ConvertToArm(owningName)
+				elem, err := item.ConvertToArm(name)
 				if err != nil {
 					return nil, err
 				}
@@ -117,7 +130,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(owningName string) (inte
 			elemTyped := make(map[string]FooArm)
 			if value != nil {
 				for key, value := range value {
-					elem, err := value.ConvertToArm(owningName)
+					elem, err := value.ConvertToArm(name)
 					if err != nil {
 						return nil, err
 					}
@@ -128,7 +141,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(owningName string) (inte
 			result.MapOfMaps[key] = elemTyped
 		}
 	}
-	result.Name = genruntime.CreateArmResourceNameForDeployment(owningName, fakeResourceSpec.AzureName)
+	result.Name = name
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }
@@ -203,7 +216,7 @@ type Foo struct {
 var _ genruntime.ArmTransformer = &Foo{}
 
 // ConvertToArm converts from a Kubernetes CRD object to an ARM object
-func (foo *Foo) ConvertToArm(owningName string) (interface{}, error) {
+func (foo *Foo) ConvertToArm(name string) (interface{}, error) {
 	if foo == nil {
 		return nil, nil
 	}
