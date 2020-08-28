@@ -52,6 +52,8 @@ test: ; $(info $(M) running go test…)
 
 .PHONY: test-cover
 test-cover: $(GCOV2LCOV) ; $(info $(M) running go test…)
+	# NOTE: if you update the 'test-cover' target, also update ./github/workflows/test.yml
+	#       for the Windows part of the "test-generator" job.
 	$(Q) $(GO) test -tags=noexit -race -covermode atomic -coverprofile=cover.out -coverpkg=./... ./...
 	$(Q) $(GCOV2LCOV) -infile cover.out -outfile coverage.lcov
 

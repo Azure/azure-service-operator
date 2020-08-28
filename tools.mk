@@ -52,6 +52,8 @@ $(GOX): ## Build gox
 	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL)  github.com/mitchellh/gox@v1.0.1
 
 $(GCOV2LCOV): ## Build gcov2lcov
+	# NOTE: if you update the version here, also update ./github/workflows/test.yml
+	#       for the Windows part of the "test-generator" job.
 	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) github.com/jandelgado/gcov2lcov@v1.0.2
 
 .PHONY: install-tools
