@@ -164,13 +164,13 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			assert.Eventually(func() bool {
 				db, err := tc.sqlDbManager.GetDB(ctx, rgName, sqlServerName, sqlDatabaseName2)
 				assert.Equal(nil, err, "err getting DB fromAzure")
-				return db.Sku.Name != nil && *db.Sku.Name == "Basic"
+				return db.Sku != nil && db.Sku.Name != nil && *db.Sku.Name == "Basic"
 			}, tc.timeout, tc.retry, "wait for sql database Sku.Name to be updated in azure")
 
 			assert.Eventually(func() bool {
 				db, err := tc.sqlDbManager.GetDB(ctx, rgName, sqlServerName, sqlDatabaseName2)
 				assert.Equal(nil, err, "err getting DB fromAzure")
-				return db.Sku.Tier != nil && *db.Sku.Tier == "Basic"
+				return db.Sku != nil && db.Sku.Tier != nil && *db.Sku.Tier == "Basic"
 			}, tc.timeout, tc.retry, "wait for sql database Sku.Tier to be updated in azure")
 
 			assert.Eventually(func() bool {
