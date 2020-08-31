@@ -190,10 +190,6 @@ func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 	return t, nil
 }
 
-func createArmTypeName(name astmodel.TypeName) astmodel.TypeName {
-	return astmodel.MakeTypeName(name.PackageReference, name.Name()+"Arm")
-}
-
 type conversionHandler = func(t *astmodel.ObjectType) (*astmodel.ObjectType, error)
 
 func transformTypeDefinition(
@@ -260,7 +256,7 @@ func createArmTypeDefinition(definitions astmodel.Types, def astmodel.TypeDefini
 
 	armDef, err := transformTypeDefinition(
 		// This type is the ARM type so give it the ARM name
-		def.WithName(createArmTypeName(def.Name())),
+		def.WithName(astmodel.CreateArmTypeName(def.Name())),
 		[]conversionHandler{removeValidations, convertPropertiesToArmTypesWrapper})
 	if err != nil {
 		return astmodel.TypeDefinition{}, err
@@ -354,7 +350,7 @@ func convertArmPropertyTypeIfNeeded(definitions astmodel.Types, t astmodel.Type)
 		}
 
 		if _, ok := def.Type().(*astmodel.ObjectType); ok {
-			return createArmTypeName(def.Name())
+			return astmodel.CreateArmTypeName(def.Name())
 		} else {
 			// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
 			// just keep using that alias)
@@ -363,7 +359,7 @@ func convertArmPropertyTypeIfNeeded(definitions astmodel.Types, t astmodel.Type)
 			if updatedType.Equals(def.Type()) {
 				return it
 			} else {
-				return createArmTypeName(def.Name())
+				return astmodel.CreateArmTypeName(def.Name())
 			}
 		}
 	}

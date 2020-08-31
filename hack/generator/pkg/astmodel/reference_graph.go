@@ -5,6 +5,10 @@
 
 package astmodel
 
+import (
+	"github.com/pkg/errors"
+)
+
 // ReferenceGraph is a graph of references between types
 type ReferenceGraph struct {
 	roots      TypeNameSet
@@ -23,6 +27,48 @@ func CollectResourceDefinitions(definitions Types) TypeNameSet {
 	return resources
 }
 
+// CollectArmSpecDefinitions returns a TypeNameSet of all of the
+// arm spec definitions passed in.
+func CollectArmSpecAndStatusDefinitions(definitions Types) TypeNameSet {
+	findType := func(t Type) (TypeName, error) {
+		name, ok := t.(TypeName)
+		if !ok {
+			return TypeName{}, errors.Errorf("Type was not of type TypeName, instead %T", t)
+		}
+
+		armName := CreateArmTypeName(name)
+
+		if _, ok = definitions[armName]; !ok {
+			return TypeName{}, errors.Errorf("Couldn't ARM type find %q", armName)
+		}
+
+		return armName, nil
+	}
+
+	// TODO: We should be using a better way to identify ARM types. I believe
+	// TODO Bevan is working on it.
+	armSpecAndStatus := make(TypeNameSet)
+	for _, def := range definitions {
+		if resourceType, ok := def.Type().(*ResourceType); ok {
+
+			armSpecName, err := findType(resourceType.spec)
+			if err != nil {
+				panic(errors.Wrapf(err, "Error getting ARM spec for resource %q", def.Name()))
+			}
+			armSpecAndStatus.Add(armSpecName)
+
+			if resourceType.status != nil {
+				armStatusName, err := findType(resourceType.status)
+				if err != nil {
+					panic(errors.Wrapf(err, "Error getting ARM status for resource %q", def.Name()))
+				}
+				armSpecAndStatus.Add(armStatusName)
+			}
+		}
+	}
+	return armSpecAndStatus
+}
+
 // NewReferenceGraph produces a new ReferenceGraph with the given roots and references
 func NewReferenceGraph(roots TypeNameSet, references map[TypeName]TypeNameSet) ReferenceGraph {
 	return ReferenceGraph{
@@ -32,9 +78,12 @@ func NewReferenceGraph(roots TypeNameSet, references map[TypeName]TypeNameSet) R
 }
 
 // NewReferenceGraphWithResourcesAsRoots produces a ReferenceGraph for the given set of
-// types, where the Resource types are the roots.
+// types, where the Resource types (and their ARM spec/status) are the roots.
 func NewReferenceGraphWithResourcesAsRoots(types Types) ReferenceGraph {
-	roots := CollectResourceDefinitions(types)
+	resources := CollectResourceDefinitions(types)
+	armSpecAndStatus := CollectArmSpecAndStatusDefinitions(types)
+
+	roots := SetUnion(resources, armSpecAndStatus)
 
 	references := make(map[TypeName]TypeNameSet)
 	for _, def := range types {
