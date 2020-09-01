@@ -7,10 +7,10 @@ package codegen
 
 import (
 	"context"
-	"fmt"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel/armconversion"
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // createArmTypesAndCleanKubernetesTypes walks the type graph and builds new types for communicating
@@ -290,7 +290,7 @@ func modifyKubeResourceSpecDefinition(
 	kubePropertyRemapper := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		var hasName bool
 		for _, prop := range t.Properties() {
-			if prop.PropertyName() == astmodel.PropertyName("Name") {
+			if prop.PropertyName() == "Name" {
 				hasName = true
 			}
 		}
@@ -298,7 +298,7 @@ func modifyKubeResourceSpecDefinition(
 		// TODO: Right now the Kubernetes type has all of its standard requiredness (validations). If we want to allow
 		// TODO: users to submit "just a name and owner" types we will have to strip some validation until
 		// TODO: https://github.com/kubernetes-sigs/controller-tools/issues/461 is fixed
-		kubernetesType := t.WithoutProperty(astmodel.PropertyName("Name")).WithoutProperty(astmodel.PropertyName("Type"))
+		kubernetesType := t.WithoutProperty("Name").WithoutProperty("Type")
 		if hasName {
 			kubernetesType = kubernetesType.WithProperty(armconversion.GetAzureNameProperty(idFactory))
 		}
@@ -340,28 +340,31 @@ func addArmConversionInterface(
 		[]conversionHandler{addInterfaceHandler})
 }
 
-func convertArmPropertyTypeIfNeeded(definitions astmodel.Types, t astmodel.Type) astmodel.Type {
+func convertArmPropertyTypeIfNeeded(definitions astmodel.Types, t astmodel.Type) (astmodel.Type, error) {
 
 	visitor := astmodel.MakeTypeVisitor()
-	visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) astmodel.Type {
+	visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 		def, ok := definitions[it]
 		if !ok {
-			panic(fmt.Sprintf("couldn't find type %v", it))
+			return nil, errors.Errorf("Failed to lookup %v", it)
 		}
 
 		if _, ok := def.Type().(*astmodel.ObjectType); ok {
-			return astmodel.CreateArmTypeName(def.Name())
-		} else {
-			// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
-			// just keep using that alias)
-			updatedType := this.Visit(def.Type(), ctx)
-
-			if updatedType.Equals(def.Type()) {
-				return it
-			} else {
-				return astmodel.CreateArmTypeName(def.Name())
-			}
+			return astmodel.CreateArmTypeName(def.Name()), nil
 		}
+
+		// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
+		// just keep using that alias)
+		updatedType, err := this.Visit(def.Type(), ctx)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to update definition %v", def.Name())
+		}
+
+		if updatedType.Equals(def.Type()) {
+			return it, nil
+		}
+
+		return astmodel.CreateArmTypeName(def.Name()), nil
 	}
 
 	return visitor.Visit(t, nil)
@@ -370,14 +373,20 @@ func convertArmPropertyTypeIfNeeded(definitions astmodel.Types, t astmodel.Type)
 func convertPropertiesToArmTypes(t *astmodel.ObjectType, definitions astmodel.Types) (*astmodel.ObjectType, error) {
 	result := t
 
+	var errs []error
 	for _, prop := range result.Properties() {
 		propType := prop.PropertyType()
-		newType := convertArmPropertyTypeIfNeeded(definitions, propType)
-
-		if newType != propType {
+		newType, err := convertArmPropertyTypeIfNeeded(definitions, propType)
+		if err != nil {
+			errs = append(errs, err)
+		} else if newType != propType {
 			newProp := prop.WithType(newType)
 			result = result.WithProperty(newProp)
 		}
+	}
+
+	if len(errs) > 0 {
+		return nil, kerrors.NewAggregate(errs)
 	}
 
 	return result, nil

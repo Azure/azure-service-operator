@@ -7,8 +7,9 @@ package codegen
 
 import (
 	"context"
-
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // nameTypesForCRD - for CRDs all inner enums and objects must be named, so we do it here
@@ -32,13 +33,17 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 
 			for typeName, typeDef := range types {
 
-				newDefs := nameInnerTypes(typeDef, idFactory, getDescription)
+				newDefs, err := nameInnerTypes(typeDef, idFactory, getDescription)
+				if err != nil {
+					return nil, errors.Wrapf(err, "failed to name inner types")
+				}
+
 				for _, newDef := range newDefs {
 					result.Add(newDef)
 				}
 
 				if _, ok := result[typeName]; !ok {
-					// if we didn’t regenerate the “input” type in nameInnerTypes then it won’t
+					// if we didn't regenerate the “input” type in nameInnerTypes then it won’t
 					// have been added to the output; do it here
 					result.Add(typeDef)
 				}
@@ -51,14 +56,12 @@ func nameTypesForCRD(idFactory astmodel.IdentifierFactory) PipelineStage {
 func nameInnerTypes(
 	def astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	getDescription func(typeName astmodel.TypeName) []string) []astmodel.TypeDefinition {
+	getDescription func(typeName astmodel.TypeName) []string) ([]astmodel.TypeDefinition, error) {
 
 	var resultTypes []astmodel.TypeDefinition
 
-	// for this visitor, we will pass around the name hint as 'ctx' parameter
 	visitor := astmodel.MakeTypeVisitor()
-
-	visitor.VisitEnumType = func(this *astmodel.TypeVisitor, it *astmodel.EnumType, ctx interface{}) astmodel.Type {
+	visitor.VisitEnumType = func(this *astmodel.TypeVisitor, it *astmodel.EnumType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
 
 		enumName := astmodel.MakeTypeName(def.Name().PackageReference, idFactory.CreateEnumIdentifier(nameHint))
@@ -68,17 +71,26 @@ func nameInnerTypes(
 
 		resultTypes = append(resultTypes, namedEnum)
 
-		return namedEnum.Name()
+		return namedEnum.Name(), nil
 	}
 
-	visitor.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) astmodel.Type {
+	visitor.VisitObjectType = func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
 
+		var errs []error
 		var props []*astmodel.PropertyDefinition
 		// first map the inner types:
 		for _, prop := range it.Properties() {
-			newPropType := this.Visit(prop.PropertyType(), nameHint+"_"+string(prop.PropertyName()))
-			props = append(props, prop.WithType(newPropType))
+			newPropType, err := this.Visit(prop.PropertyType(), nameHint+"_"+string(prop.PropertyName()))
+			if err != nil {
+				errs = append(errs, err)
+			} else {
+				props = append(props, prop.WithType(newPropType))
+			}
+		}
+
+		if len(errs) > 0 {
+			return nil, kerrors.NewAggregate(errs)
 		}
 
 		objectName := astmodel.MakeTypeName(def.Name().PackageReference, nameHint)
@@ -88,17 +100,23 @@ func nameInnerTypes(
 
 		resultTypes = append(resultTypes, namedObjectType)
 
-		return namedObjectType.Name()
+		return namedObjectType.Name(), nil
 	}
 
-	visitor.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) astmodel.Type {
+	visitor.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
 
-		spec := this.Visit(it.SpecType(), nameHint+"_Spec")
+		spec, err := this.Visit(it.SpecType(), nameHint+"_Spec")
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to name spec type %v", it.SpecType())
+		}
 
 		var status astmodel.Type
 		if it.StatusType() != nil {
-			status = this.Visit(it.StatusType(), nameHint+"_Status")
+			status, err = this.Visit(it.StatusType(), nameHint+"_Status")
+			if err != nil {
+				return nil, errors.Wrapf(err, "failed to name status type %v", it.StatusType())
+			}
 		}
 
 		resourceName := astmodel.MakeTypeName(def.Name().PackageReference, nameHint)
@@ -110,10 +128,13 @@ func nameInnerTypes(
 
 		resultTypes = append(resultTypes, resource)
 
-		return resource.Name()
+		return resource.Name(), nil
 	}
 
-	_ = visitor.Visit(def.Type(), def.Name().Name())
+	_, err := visitor.Visit(def.Type(), def.Name().Name())
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to name inner types of %v", def.Name())
+	}
 
-	return resultTypes
+	return resultTypes, nil
 }

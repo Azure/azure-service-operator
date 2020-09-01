@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"os"
 	"path"
 	"path/filepath"
@@ -60,7 +61,10 @@ func augmentResourcesWithStatus(idFactory astmodel.IdentifierFactory, config *co
 
 			newTypes := make(astmodel.Types)
 
-			statusTypes := generateStatusTypes(swaggerTypes)
+			statusTypes, err := generateStatusTypes(swaggerTypes)
+			if err != nil {
+				return nil, err
+			}
 
 			found := 0
 			for typeName, typeDef := range types {
@@ -123,32 +127,47 @@ func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmode
 }
 
 // generateStatusTypes returns the statusTypes for the input swaggerTypes
-func generateStatusTypes(swaggerTypes swaggerTypes) statusTypes {
+func generateStatusTypes(swaggerTypes swaggerTypes) (statusTypes, error) {
 	appendStatusToName := func(typeName astmodel.TypeName) astmodel.TypeName {
 		return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
 	}
 
+	var errs []error
 	renamer := makeRenamingVisitor(appendStatusToName)
 
 	var otherTypes []astmodel.TypeDefinition
 	for _, typeDef := range swaggerTypes.otherTypes {
-		otherTypes = append(otherTypes, renamer.VisitDefinition(typeDef, nil))
+		renamedDef, err := renamer.VisitDefinition(typeDef, nil)
+		if err != nil {
+			errs = append(errs, err)
+		} else {
+			otherTypes = append(otherTypes, *renamedDef)
+		}
 	}
 
 	resourceLookup := make(resourceLookup)
 	for resourceName, resourceDef := range swaggerTypes.resources {
 		// resourceName is not renamed as this is a lookup for the Spec type
-		resourceLookup.add(resourceName, renamer.Visit(resourceDef.Type(), nil))
+		renamedDef, err := renamer.Visit(resourceDef.Type(), nil)
+		if err != nil {
+			errs = append(errs, err)
+		} else {
+			resourceLookup.add(resourceName, renamedDef)
+		}
 	}
 
-	return statusTypes{resourceLookup, otherTypes}
+	if len(errs) > 0 {
+		return statusTypes{}, kerrors.NewAggregate(errs)
+	}
+
+	return statusTypes{resourceLookup, otherTypes}, nil
 }
 
 func makeRenamingVisitor(rename func(astmodel.TypeName) astmodel.TypeName) astmodel.TypeVisitor {
 	visitor := astmodel.MakeTypeVisitor()
 
-	visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) astmodel.Type {
-		return rename(it)
+	visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+		return rename(it), nil
 	}
 
 	return visitor

@@ -68,14 +68,25 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.V(1).Infof("Generator version: %v", combinedVersion())
 
 	defs := make(astmodel.Types)
-	var err error
-
 	for i, stage := range generator.pipeline {
 		klog.V(0).Infof("Pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.description)
-		defs, err = stage.Action(ctx, defs)
+		updatedDefs, err := stage.Action(ctx, defs)
 		if err != nil {
 			return errors.Wrapf(err, "Failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.description)
 		}
+
+		defsAdded := updatedDefs.Except(defs)
+		defsRemoved := defs.Except(updatedDefs)
+
+		if len(defsAdded) > 0 && len(defsRemoved) > 0 {
+			klog.V(1).Infof("Added %d, removed %d type definitions", len(defsAdded), len(defsRemoved))
+		} else if len(defsAdded) > 0 {
+			klog.V(1).Infof("Added %d type definitions", len(defsAdded))
+		} else if len(defsRemoved) > 0 {
+			klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
+		}
+
+		defs = updatedDefs
 	}
 
 	return nil

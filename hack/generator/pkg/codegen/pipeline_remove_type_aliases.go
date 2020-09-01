@@ -8,6 +8,7 @@ package codegen
 import (
 	"context"
 	"fmt"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"k8s.io/klog/v2"
@@ -22,21 +23,29 @@ func removeTypeAliases() PipelineStage {
 			visitor := astmodel.MakeTypeVisitor()
 			var result = make(astmodel.Types)
 
-			visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) astmodel.Type {
-				resolvedName := resolveTypeName(this, it, types)
-				return resolvedName
+			visitor.VisitTypeName = func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+				return resolveTypeName(this, it, types)
 			}
 
+			var errs []error
 			for _, typeDef := range types {
-				newType := visitor.Visit(typeDef.Type(), nil)
-				result.Add(typeDef.WithType(newType))
+				visitedType, err := visitor.Visit(typeDef.Type(), nil)
+				if err != nil {
+					errs = append(errs, err)
+				} else {
+					result.Add(typeDef.WithType(visitedType))
+				}
+			}
+
+			if len(errs) > 0 {
+				return nil, kerrors.NewAggregate(errs)
 			}
 
 			return result, nil
 		})
 }
 
-func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, types astmodel.Types) astmodel.Type {
+func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, types astmodel.Types) (astmodel.Type, error) {
 	def, ok := types[name]
 	if !ok {
 		panic(fmt.Sprintf("Couldn't find type for type name %s", name))
@@ -46,11 +55,11 @@ func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, type
 	// it's okay. Everything else we want to pull up one level to remove the alias
 	switch concreteType := def.Type().(type) {
 	case *astmodel.ObjectType:
-		return def.Name()
+		return def.Name(), nil
 	case *astmodel.EnumType:
-		return def.Name()
+		return def.Name(), nil
 	case *astmodel.ResourceType:
-		return def.Name()
+		return def.Name(), nil
 	case astmodel.TypeName:
 		// We need to resolve further because this type is an alias
 		klog.V(3).Infof("Found type alias %s, replacing it with %s", name, concreteType)
