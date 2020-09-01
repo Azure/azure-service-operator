@@ -24,12 +24,6 @@ import (
 	mssql "github.com/denisenkom/go-mssqldb"
 )
 
-// SqlServerPort is the default server port for sql server
-const SqlServerPort = 1433
-
-// DriverName is driver name for db connection
-const DriverName = "sqlserver"
-
 type AzureSqlManagedUserManager struct {
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
@@ -58,7 +52,7 @@ func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupNam
 }
 
 // ConnectToSqlDb connects to the SQL db using the current identity of operator (should be MI)
-func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, drivername string, server string, database string) (db *sql.DB, err error) {
+func (s *AzureSqlManagedUserManager) ConnectToSqlDbAsCurrentUser(ctx context.Context, server string, database string) (db *sql.DB, err error) {
 
 	fullServerAddress := fmt.Sprintf("%s."+config.Environment().SQLDatabaseDNSSuffix, server)
 	connString := fmt.Sprintf("Server=%s;Database=%s", fullServerAddress, database)

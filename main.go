@@ -126,6 +126,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	setupLog.V(0).Info("Configuration details", "Configuration", resourcemanagerconfig.ConfigString())
+
 	keyvaultName := resourcemanagerconfig.OperatorKeyvault()
 
 	if keyvaultName == "" {

@@ -67,7 +67,7 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 		}
 	}
 
-	db, err := s.ConnectToSqlDbAsCurrentUser(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName)
+	db, err := s.ConnectToSqlDbAsCurrentUser(ctx, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
@@ -146,7 +146,31 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 		requestedUsername = instance.Name
 	}
 
-	db, err := s.ConnectToSqlDbAsCurrentUser(ctx, DriverName, instance.Spec.Server, instance.Spec.DbName)
+	// short circuit connection if database doesn't exist
+	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	if err != nil {
+		instance.Status.Message = err.Error()
+
+		catch := []string{
+			errhelp.ResourceNotFound,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.ResourceGroupNotFoundErrorCode,
+		}
+		azerr := errhelp.NewAzureErrorAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			// Best case deletion of secrets
+			err2 := s.DeleteSecrets(ctx, instance, s.SecretClient)
+			if err2 != nil {
+				instance.Status.Message = "failed to delete secrets for managed identity user, err: " + err2.Error()
+				return false, err2
+			}
+
+			return false, nil
+		}
+		return false, err
+	}
+
+	db, err := s.ConnectToSqlDbAsCurrentUser(ctx, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
@@ -180,7 +204,11 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 	}
 
 	// Best case deletion of secrets
-	s.DeleteSecrets(ctx, instance, s.SecretClient)
+	err = s.DeleteSecrets(ctx, instance, s.SecretClient)
+	if err != nil {
+		instance.Status.Message = "failed to delete secrets for managed identity user, err: " + err.Error()
+		return false, err
+	}
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlManagedUser succeeded")
 

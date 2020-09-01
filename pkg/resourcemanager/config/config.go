@@ -134,3 +134,15 @@ func AppendRandomSuffix(prefix string) string {
 func BaseURI() string {
 	return baseURI
 }
+
+// ConfigString returns the parts of the configuration file with are not secrets as a string for easy logging
+func ConfigString() string {
+	return fmt.Sprintf(
+		"clientID: %q, tenantID: %q, subscriptionID: %q, cloudName: %q, useDeviceFlow: %v, useManagedIdentity: %v",
+		ClientID(),
+		TenantID(),
+		SubscriptionID(),
+		cloudName,
+		UseDeviceFlow(),
+		UseMI())
+}
