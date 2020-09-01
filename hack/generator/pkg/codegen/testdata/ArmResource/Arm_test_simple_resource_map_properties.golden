@@ -48,6 +48,23 @@ type FakeResource_SpecArm struct {
 	Type        FakeResourceSpecType         `json:"type"`
 }
 
+var _ genruntime.ArmResourceSpec = &FakeResource_SpecArm{}
+
+// GetApiVersion returns the ApiVersion of the resource
+func (fakeResourceSpecArm FakeResource_SpecArm) GetApiVersion() string {
+	return string(fakeResourceSpecArm.ApiVersion)
+}
+
+// GetName returns the Name of the resource
+func (fakeResourceSpecArm FakeResource_SpecArm) GetName() string {
+	return fakeResourceSpecArm.Name
+}
+
+// GetType returns the Type of the resource
+func (fakeResourceSpecArm FakeResource_SpecArm) GetType() string {
+	return string(fakeResourceSpecArm.Type)
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Color
 
 // +kubebuilder:validation:Enum={"blue","green","red"}

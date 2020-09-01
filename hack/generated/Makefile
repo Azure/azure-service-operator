@@ -14,6 +14,10 @@ all: generate build
 
 .PHONY: generate
 generate: $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
+	# Force regeneration of all of the conversions
+	@echo "Deleting old controller gen files"
+	$(Q) find "./apis" -type f -name "zz_generated.*" -delete
+
 	@echo "Executing controller-gen"
 	$(Q) $(CONTROLLER_GEN) object:headerFile=../boilerplate.go.txt paths="./..."
 

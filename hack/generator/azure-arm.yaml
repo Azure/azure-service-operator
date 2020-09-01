@@ -47,6 +47,17 @@ typeFilters:
     group: microsoft.automation
     name: AutomationAccountsRunbooksDraftChildResource
     because: Uses OneOf in a weird way that makes detecting actual resource difficult, skipping for now.
+  - action: prune
+    group: microsoft.web
+    version: '*2018*'
+    because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle.
+  - action: prune
+    group: microsoft.kusto
+    because: Some types use OneOf in a way we don't currently handle correctly.
+  - action: prune
+    group: microsoft.timeseriesinsights
+    version: v20171115
+    because: Some types use OneOf in a way we don't currently handle.
 exportFilters:
   - action: exclude
     group: deploymenttemplate
@@ -89,9 +100,6 @@ anyTypePackages:
   - microsoft.containerregistry/v20171001
   - microsoft.datafactory/v20180601
   - microsoft.keyvault/v20150601
-  - microsoft.kusto/v20190515
-  - microsoft.kusto/v20191109
-  - microsoft.kusto/v20200215
   - microsoft.logic/v20160601
   - microsoft.logic/v20161001
   - microsoft.logic/v20170701
@@ -141,8 +149,6 @@ anyTypePackages:
   - microsoft.web/v20140601
   - microsoft.web/v20150801
   - microsoft.web/v20160601
-  - microsoft.web/v20180201
-  - microsoft.web/v20181101
   # The following end up with AnyType in Status
   - microsoft.apimanagement/v20190101
   - microsoft.containerservice/v20180331

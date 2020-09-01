@@ -7,10 +7,8 @@ package codegen
 
 import (
 	"context"
-	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
-
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
+	"github.com/pkg/errors"
 )
 
 // applyKubernetesResourceInterface ensures that every Resource implements the KubernetesResource interface
@@ -42,11 +40,7 @@ func applyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) Pipe
 
 					iface, err := astmodel.NewKubernetesResourceInterfaceImpl(idFactory, specObject)
 					if err != nil {
-						// TODO: This should be changed to an error once we handle oneOf/allOf better
-						// return nil, errors.Wrapf(err, "Couldn't implement Kubernetes resource interface for %q", spec.Name())
-						klog.Warningf("Couldn't implement Kubernetes resource interface for %q, due to: %v", spec.Name(), err)
-						result.Add(typeDef)
-						continue
+						return nil, errors.Wrapf(err, "Couldn't implement Kubernetes resource interface for %q", spec.Name())
 					}
 
 					newDef := typeDef.WithType(resource.WithInterface(iface))

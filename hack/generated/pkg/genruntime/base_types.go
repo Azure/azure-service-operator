@@ -26,3 +26,14 @@ type KubernetesResource interface {
 	// AzureName returns the Azure name of the resource
 	AzureName() string
 }
+
+// ArmResourceSpec is an ARM resource specification. This interface contains
+// methods to access properties common to all ARM Resource Specs. An Azure
+// Deployment is made of these.
+type ArmResourceSpec interface {
+	GetApiVersion() string
+
+	GetType() string
+
+	GetName() string
+}

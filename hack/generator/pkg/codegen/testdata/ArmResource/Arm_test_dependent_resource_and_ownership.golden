@@ -44,6 +44,23 @@ type A_SpecArm struct {
 	Type       ASpecType       `json:"type"`
 }
 
+var _ genruntime.ArmResourceSpec = &A_SpecArm{}
+
+// GetApiVersion returns the ApiVersion of the resource
+func (aSpecArm A_SpecArm) GetApiVersion() string {
+	return string(aSpecArm.ApiVersion)
+}
+
+// GetName returns the Name of the resource
+func (aSpecArm A_SpecArm) GetName() string {
+	return aSpecArm.Name
+}
+
+// GetType returns the Type of the resource
+func (aSpecArm A_SpecArm) GetType() string {
+	return string(aSpecArm.Type)
+}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type B struct {
@@ -79,6 +96,23 @@ type B_SpecArm struct {
 	Type       BSpecType       `json:"type"`
 }
 
+var _ genruntime.ArmResourceSpec = &B_SpecArm{}
+
+// GetApiVersion returns the ApiVersion of the resource
+func (bSpecArm B_SpecArm) GetApiVersion() string {
+	return string(bSpecArm.ApiVersion)
+}
+
+// GetName returns the Name of the resource
+func (bSpecArm B_SpecArm) GetName() string {
+	return bSpecArm.Name
+}
+
+// GetType returns the Type of the resource
+func (bSpecArm B_SpecArm) GetType() string {
+	return string(bSpecArm.Type)
+}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type C struct {
@@ -112,6 +146,23 @@ type C_SpecArm struct {
 	ApiVersion CSpecApiVersion `json:"apiVersion"`
 	Name       string          `json:"name"`
 	Type       CSpecType       `json:"type"`
+}
+
+var _ genruntime.ArmResourceSpec = &C_SpecArm{}
+
+// GetApiVersion returns the ApiVersion of the resource
+func (cSpecArm C_SpecArm) GetApiVersion() string {
+	return string(cSpecArm.ApiVersion)
+}
+
+// GetName returns the Name of the resource
+func (cSpecArm C_SpecArm) GetName() string {
+	return cSpecArm.Name
+}
+
+// GetType returns the Type of the resource
+func (cSpecArm C_SpecArm) GetType() string {
+	return string(cSpecArm.Type)
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}

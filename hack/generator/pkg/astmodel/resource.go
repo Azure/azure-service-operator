@@ -44,33 +44,31 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *Re
 		// We have certain expectations about structure for resources
 		var nameProperty *PropertyDefinition
 		var typeProperty *PropertyDefinition
+		var apiVersionProperty *PropertyDefinition
 		isNameOptional := false
 		isTypeOptional := false
 		for _, property := range objectType.Properties() {
-			if property.HasName("Name") {
+			if property.HasName(NameProperty) {
 				nameProperty = property
 				if _, ok := property.PropertyType().(*OptionalType); ok {
 					isNameOptional = true
 				}
 			}
 
-			if property.HasName("Type") {
+			if property.HasName(TypeProperty) {
 				typeProperty = property
 				if _, ok := property.PropertyType().(*OptionalType); ok {
 					isTypeOptional = true
 				}
 			}
+
+			if property.HasName(ApiVersionProperty) {
+				apiVersionProperty = property
+			}
 		}
 
 		if typeProperty == nil {
-			// TODO: These resources are currently missing a type property... We should do something
-			// TODO: about that, but for now we just bypass them.
-			if typeName.Name() != "EnvironmentsEventSources" &&
-				typeName.Name() != "SitesConfig" &&
-				typeName.Name() != "SitesSlotsConfig" &&
-				typeName.Name() != "ServersAdministrators" {
-				panic(fmt.Sprintf("Resource %s is missing type property", typeName))
-			}
+			panic(fmt.Sprintf("Resource %s is missing type property", typeName))
 		}
 
 		if nameProperty == nil {
@@ -81,11 +79,22 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName) *Re
 			isNameOptional = true
 		}
 
+		if apiVersionProperty == nil {
+			panic(fmt.Sprintf("Resource %s is missing apiVersion property", typeName))
+		}
+
 		if isNameOptional {
 			// Fix name to be required -- again this is an artifact of bad spec more than anything
 			nameProperty = nameProperty.MakeRequired()
 			objectType = objectType.WithProperty(nameProperty)
 		}
+
+		// Fix APIVersion to be required. Technically this isn't due to a bad specification, but in our
+		// case forcing it to required makes our lives simpler (and the vast majority of resources specify
+		// it as required anyway). The only time it's allowed to be optional is if you set apiProfile on
+		// the ARM template instead, which we never do.
+		apiVersionProperty = apiVersionProperty.MakeRequired()
+		objectType = objectType.WithProperty(apiVersionProperty)
 
 		// If the name is not a string, force it to be -- there are a good number
 		// of resources which define name as an enum with a limited set of values.

@@ -26,7 +26,7 @@ func createArmTypesAndCleanKubernetesTypes(idFactory astmodel.IdentifierFactory)
 			// 3. Merge results from 1 and 2 together. Add any type/definition from the originally provided
 			//    definitions that wasn't changed by the previous steps (enums primarily).
 
-			armTypes, kubeNameToArmDefs, err := createArmTypes(definitions)
+			armTypes, kubeNameToArmDefs, err := createArmTypes(definitions, idFactory)
 			if err != nil {
 				return nil, err
 			}
@@ -48,7 +48,9 @@ func createArmTypesAndCleanKubernetesTypes(idFactory astmodel.IdentifierFactory)
 	}
 }
 
-func createArmTypes(definitions astmodel.Types) (astmodel.Types, astmodel.Types, error) {
+func createArmTypes(
+	definitions astmodel.Types,
+	idFactory astmodel.IdentifierFactory) (astmodel.Types, astmodel.Types, error) {
 
 	kubeNameToArmDefs := make(astmodel.Types)
 
@@ -56,7 +58,7 @@ func createArmTypes(definitions astmodel.Types) (astmodel.Types, astmodel.Types,
 		definitions,
 		// Resource handler
 		func(name astmodel.TypeName, resourceType *astmodel.ResourceType) (astmodel.TypeName, astmodel.TypeDefinition, error) {
-			armSpecDef, kubeSpecName, err := createArmResourceSpecDefinition(definitions, resourceType)
+			armSpecDef, kubeSpecName, err := createArmResourceSpecDefinition(definitions, resourceType, idFactory)
 			if err != nil {
 				return astmodel.TypeName{},
 					astmodel.TypeDefinition{},
@@ -234,7 +236,8 @@ func getResourceSpecDefinition(
 
 func createArmResourceSpecDefinition(
 	definitions astmodel.Types,
-	resourceType *astmodel.ResourceType) (astmodel.TypeDefinition, astmodel.TypeName, error) {
+	resourceType *astmodel.ResourceType,
+	idFactory astmodel.IdentifierFactory) (astmodel.TypeDefinition, astmodel.TypeName, error) {
 
 	resourceSpecDef, err := getResourceSpecDefinition(definitions, resourceType)
 	if err != nil {
@@ -243,8 +246,23 @@ func createArmResourceSpecDefinition(
 
 	armTypeDef, err := createArmTypeDefinition(definitions, resourceSpecDef)
 	if err != nil {
-		return astmodel.TypeDefinition{}, astmodel.TypeName{}, nil
+		return astmodel.TypeDefinition{}, astmodel.TypeName{}, err
 	}
+
+	// ARM specs have a special interface that they need to implement, go ahead and create that here
+	armSpecObj, ok := armTypeDef.Type().(*astmodel.ObjectType)
+	if !ok {
+		return astmodel.TypeDefinition{}, astmodel.TypeName{}, errors.Errorf(
+			"Arm spec %q isn't of type ObjectType, instead: %T", armTypeDef.Name(), armTypeDef.Type())
+	}
+
+	iface, err := astmodel.NewArmSpecInterfaceImpl(idFactory, armSpecObj)
+	if err != nil {
+		return astmodel.TypeDefinition{}, astmodel.TypeName{}, err
+	}
+
+	updatedSpec := armSpecObj.WithInterface(iface)
+	armTypeDef = armTypeDef.WithType(updatedSpec)
 
 	return armTypeDef, resourceSpecDef.Name(), nil
 }
