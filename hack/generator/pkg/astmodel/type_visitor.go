@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+
 	"github.com/pkg/errors"
 
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -23,6 +24,7 @@ type TypeVisitor struct {
 	VisitOptionalType func(this *TypeVisitor, it *OptionalType, ctx interface{}) (Type, error)
 	VisitEnumType     func(this *TypeVisitor, it *EnumType, ctx interface{}) (Type, error)
 	VisitResourceType func(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error)
+	VisitArmType      func(this *TypeVisitor, it *ArmType, ctx interface{}) (Type, error)
 }
 
 // Visit invokes the appropriate VisitX on TypeVisitor
@@ -48,6 +50,8 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 		return tv.VisitEnumType(tv, it, ctx)
 	case *ResourceType:
 		return tv.VisitResourceType(tv, it, ctx)
+	case *ArmType:
+		return tv.VisitArmType(tv, it, ctx)
 	}
 
 	panic(fmt.Sprintf("unhandled type: (%T) %v", t, t))
@@ -71,7 +75,7 @@ func (tv *TypeVisitor) VisitDefinition(td TypeDefinition, ctx interface{}) (*Typ
 		return nil, errors.Wrapf(err, "visit of type of %q failed", td.Name())
 	}
 
-	def := MakeTypeDefinition(name, visitedType)
+	def := MakeTypeDefinition(name, visitedType).WithDescription(td.description)
 	return &def, nil
 }
 
@@ -154,6 +158,19 @@ func MakeTypeVisitor() TypeVisitor {
 			}
 
 			return NewResourceType(visitedSpec, visitedStatus).WithOwner(it.Owner()), nil
+		},
+		VisitArmType: func(this *TypeVisitor, at *ArmType, ctx interface{}) (Type, error) {
+			newType, err := this.Visit(&at.objectType, ctx)
+			if err != nil {
+				return nil, errors.Wrapf(err, "failed to visit ARM underlying type %v", at.objectType)
+			}
+
+			ot, ok := newType.(*ObjectType)
+			if !ok {
+				return nil, errors.Errorf("expected transformation of ARM underlying type %v to return ObjectType, not %v", at.objectType, ot)
+			}
+
+			return MakeArmType(*ot), nil
 		},
 	}
 }
