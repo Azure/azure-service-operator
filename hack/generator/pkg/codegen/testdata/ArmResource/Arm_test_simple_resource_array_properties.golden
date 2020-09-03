@@ -154,11 +154,11 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{
 	return result, nil
 }
 
-// PopulateFromArm converts from an Azure ARM object to a Kubernetes CRD object
+// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
 func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FakeResource_SpecArm)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for FromArm function. Expected FakeResource_SpecArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FakeResource_SpecArm, got %T", armInput)
 	}
 	fakeResourceSpec.ApiVersion = typedInput.ApiVersion
 	var err error
@@ -224,11 +224,11 @@ func (foo *Foo) ConvertToArm(name string) (interface{}, error) {
 	return result, nil
 }
 
-// PopulateFromArm converts from an Azure ARM object to a Kubernetes CRD object
+// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
 func (foo *Foo) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FooArm)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for FromArm function. Expected FooArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FooArm, got %T", armInput)
 	}
 	foo.Name = typedInput.Name
 	return nil

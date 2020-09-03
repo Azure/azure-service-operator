@@ -64,7 +64,7 @@ func (builder *convertFromArmBuilder) functionDeclaration() *ast.FuncDecl {
 			ReceiverType: &ast.StarExpr{
 				X: builder.receiverTypeExpr,
 			},
-			Comment: "converts from an Azure ARM object to a Kubernetes CRD object",
+			Comment: "populates a Kubernetes CRD object from an Azure ARM object",
 			Params: []*ast.Field{
 				{
 					Type: &ast.SelectorExpr{
@@ -130,7 +130,9 @@ func (builder *convertFromArmBuilder) assertInputTypeIsArm() []ast.Stmt {
 		result,
 		astbuilder.ReturnIfNotOk(
 			astbuilder.FormatError(
-				fmt.Sprintf("\"unexpected type supplied for FromArm function. Expected %s, got %%T\"", builder.armTypeIdent.Name),
+				fmt.Sprintf("\"unexpected type supplied for %s() function. Expected %s, got %%T\"",
+					builder.methodName,
+					builder.armTypeIdent.Name),
 				builder.inputIdent)))
 
 	return result
@@ -299,10 +301,16 @@ func (builder *convertFromArmBuilder) convertComplexOptionalProperty(
 
 	destinationType := params.destinationType.(*astmodel.OptionalType)
 
+	newSource := &ast.UnaryExpr{
+		X:  params.source,
+		Op: token.MUL,
+	}
+
 	innerStatements := builder.fromArmComplexPropertyConversion(
 		params.withDestinationType(destinationType.Element()).
 			withAdditionalConversionContext(destinationType).
-			withAssignmentHandler(handler))
+			withAssignmentHandler(handler).
+			withSource(newSource))
 
 	result := &ast.IfStmt{
 		Cond: &ast.BinaryExpr{

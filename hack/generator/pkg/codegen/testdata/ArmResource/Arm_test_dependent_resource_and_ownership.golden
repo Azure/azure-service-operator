@@ -202,11 +202,11 @@ func (aSpec *A_Spec) ConvertToArm(name string) (interface{}, error) {
 	return result, nil
 }
 
-// PopulateFromArm converts from an Azure ARM object to a Kubernetes CRD object
+// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
 func (aSpec *A_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
 	typedInput, ok := armInput.(A_SpecArm)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for FromArm function. Expected A_SpecArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected A_SpecArm, got %T", armInput)
 	}
 	aSpec.ApiVersion = typedInput.ApiVersion
 	aSpec.AzureName = genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name)
@@ -251,11 +251,11 @@ func (bSpec *B_Spec) ConvertToArm(name string) (interface{}, error) {
 	return result, nil
 }
 
-// PopulateFromArm converts from an Azure ARM object to a Kubernetes CRD object
+// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
 func (bSpec *B_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
 	typedInput, ok := armInput.(B_SpecArm)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for FromArm function. Expected B_SpecArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected B_SpecArm, got %T", armInput)
 	}
 	bSpec.ApiVersion = typedInput.ApiVersion
 	bSpec.AzureName = genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name)
@@ -300,11 +300,11 @@ func (cSpec *C_Spec) ConvertToArm(name string) (interface{}, error) {
 	return result, nil
 }
 
-// PopulateFromArm converts from an Azure ARM object to a Kubernetes CRD object
+// PopulateFromArm populates a Kubernetes CRD object from an Azure ARM object
 func (cSpec *C_Spec) PopulateFromArm(owner genruntime.KnownResourceReference, armInput interface{}) error {
 	typedInput, ok := armInput.(C_SpecArm)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for FromArm function. Expected C_SpecArm, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected C_SpecArm, got %T", armInput)
 	}
 	cSpec.ApiVersion = typedInput.ApiVersion
 	cSpec.AzureName = genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name)
