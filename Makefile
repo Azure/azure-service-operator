@@ -341,3 +341,17 @@ install-test-dependencies:
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge
+
+install-operator-sdk:
+	echo writeme
+	exit 1
+
+generate-operator-bundle: manifests
+	operator-sdk generate kustomize manifests
+	sed -i '/- ..\/scorecard/d' config/manifests/kustomization.yaml
+	# Generate samples/kustomization.yaml with all of the samples.
+	cd config/samples && ls azure*.yaml | sed 's/^/- /g' | (echo "resources:" && cat) > kustomization.yaml
+	kustomize build config/manifests | operator-sdk generate bundle --overwrite --version 0.37.0
+	# This is only needed until CRD conversion support is released in
+	# OpenShift 4.7
+	scripts/add-openshift-cert-handling.sh
