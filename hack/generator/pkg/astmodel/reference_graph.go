@@ -16,7 +16,7 @@ type ReferenceGraph struct {
 }
 
 // CollectResourceDefinitions returns a TypeNameSet of all of the
-// resource definitions in the definitions passed in.
+// root definitions in the definitions passed in.
 func CollectResourceDefinitions(definitions Types) TypeNameSet {
 	resources := make(TypeNameSet)
 	for _, def := range definitions {

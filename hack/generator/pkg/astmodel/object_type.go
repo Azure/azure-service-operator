@@ -282,18 +282,11 @@ func (objectType *ObjectType) String() string {
 
 // IsObjectType returns true if the passed type is an object type OR if it is a wrapper type containing an object type
 func IsObjectType(t Type) bool {
-	switch o := t.(type) {
-	case *ObjectType:
-		return true
-	case ArmType:
-		wrapped := o.ObjectType()
-		return IsObjectType(&wrapped)
-	default:
-		return false
-	}
+	_, ok := t.(*ObjectType)
+	return ok
 }
 
 // IsObjectDefinition returns true if the passed definition is for a Arm type; false otherwise.
 func IsObjectDefinition(definition TypeDefinition) bool {
-	return IsArmType(definition.theType)
+	return IsObjectType(definition.theType)
 }

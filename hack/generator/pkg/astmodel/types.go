@@ -62,12 +62,14 @@ func (types Types) Contains(name TypeName) bool {
 // TypesDisjointUnion merges this and other, with a safety check that no type is overwritten.
 // If an attempt is made to overwrite a type, this function panics
 func TypesDisjointUnion(s1 Types, s2 Types) Types {
+	result := s1.Copy()
+	result.AddTypes(s2)
+	return result
+}
+
+// Copy makes an independent copy of this set of types
+func (types Types) Copy() Types {
 	result := make(Types)
-	for _, o := range s1 {
-		result.Add(o)
-	}
-	for _, o := range s2 {
-		result.Add(o)
-	}
+	result.AddTypes(types)
 	return result
 }
