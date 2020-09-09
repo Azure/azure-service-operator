@@ -6,4 +6,5 @@ This project uses GitHub Issues to track bugs and feature requests. Please [sear
 
 ## Microsoft Support Policy
 
-Support for this project/product is limited to the resources listed above.
+Support for this project/product is limited to the resources listed above. This project is **not** covered by the [Microsoft Azure support policy](https://support.microsoft.com/en-us/help/2941892/support-for-linux-and-open-source-technology-in-azure).
+
