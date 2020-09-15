@@ -269,6 +269,12 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 			},
 		}
 
+	if definition.status != nil {
+		comments = append(comments, &ast.Comment{
+			Text: "// +kubebuilder:subresource:status\n",
+		})
+	}
+
 	if definition.isStorageVersion {
 		comments = append(comments, &ast.Comment{
 			Text: "// +kubebuilder:storageversion\n",
