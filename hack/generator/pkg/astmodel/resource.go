@@ -262,23 +262,15 @@ func (definition *ResourceType) AsDeclarations(codeGenerationContext *CodeGenera
 		},
 	}
 
-	comments :=
-		[]*ast.Comment{
-			{
-				Text: "// +kubebuilder:object:root=true\n",
-			},
-		}
+	var comments []*ast.Comment
 
+	addDocComment(&comments, "// +kubebuilder:object:root=true\n", 120)
 	if definition.status != nil {
-		comments = append(comments, &ast.Comment{
-			Text: "// +kubebuilder:subresource:status\n",
-		})
+		addDocComment(&comments, "// +kubebuilder:subresource:status\n", 120)
 	}
 
 	if definition.isStorageVersion {
-		comments = append(comments, &ast.Comment{
-			Text: "// +kubebuilder:storageversion\n",
-		})
+		addDocComment(&comments, "// +kubebuilder:storageversion\n", 120)
 	}
 
 	addDocComments(&comments, description, 200)
