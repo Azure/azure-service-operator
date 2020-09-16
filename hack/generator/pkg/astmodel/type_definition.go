@@ -73,7 +73,7 @@ func AsSimpleDeclarations(codeGenerationContext *CodeGenerationContext, name Typ
 	var docComments *ast.CommentGroup
 	if len(description) > 0 {
 		docComments = &ast.CommentGroup{}
-		addDocComments(&docComments.List, description, 120)
+		addWrappedComments(&docComments.List, description, 120)
 	}
 
 	return []ast.Decl{

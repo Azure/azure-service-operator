@@ -13,37 +13,41 @@ import (
 
 // Utility methods for adding comments
 
-func addDocComments(commentList *[]*ast.Comment, comments []string, width int) {
+func addWrappedComments(commentList *[]*ast.Comment, comments []string, width int) {
 	for _, comment := range comments {
 		// Skip empty comments
 		if comment == "" {
 			continue
 		}
 
-		addDocComment(commentList, comment, width)
+		addWrappedComment(commentList, comment, width)
 	}
 }
 
-func addDocComment(commentList *[]*ast.Comment, comment string, width int) {
-	for _, c := range formatDocComment(comment, width) {
-		line := strings.TrimSpace(c)
-
-		if !strings.HasPrefix(line, "//") {
-			line = "//" + line
-		}
-
-		if *commentList == nil {
-			line = "\n" + line
-		}
-
-		*commentList = append(*commentList, &ast.Comment{
-			Text: line,
-		})
+func addWrappedComment(commentList *[]*ast.Comment, comment string, width int) {
+	for _, c := range formatComment(comment, width) {
+		addComment(commentList, c)
 	}
 }
 
-// formatDocComment splits the supplied comment string up ready for use as a documentation comment
-func formatDocComment(comment string, width int) []string {
+func addComment(commentList *[]*ast.Comment, comment string) {
+	line := strings.TrimSpace(comment)
+
+	if !strings.HasPrefix(line, "//") {
+		line = "//" + line
+	}
+
+	if *commentList == nil {
+		line = "\n" + line
+	}
+
+	*commentList = append(*commentList, &ast.Comment{
+		Text: line,
+	})
+}
+
+// formatComment splits the supplied comment string up ready for use as a documentation comment
+func formatComment(comment string, width int) []string {
 	// Remove markdown bolding
 	text := strings.ReplaceAll(comment, "**", "")
 

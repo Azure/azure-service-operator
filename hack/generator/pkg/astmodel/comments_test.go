@@ -48,7 +48,7 @@ func TestDocumentationCommentFormatting(t *testing.T) {
 		c := c
 		t.Run(c.comment, func(t *testing.T) {
 			g := NewGomegaWithT(t)
-			lines := formatDocComment(c.comment, 64)
+			lines := formatComment(c.comment, 64)
 			g.Expect(lines).To(Equal(c.results))
 		})
 	}

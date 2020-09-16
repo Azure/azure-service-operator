@@ -277,12 +277,12 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 	// generate validation comments:
 	for _, validation := range property.validations {
 		// these are not doc comments but they must go here to be emitted before the property
-		addDocComment(&result.Doc.List, GenerateKubebuilderComment(validation), 200)
+		addComment(&result.Doc.List, GenerateKubebuilderComment(validation))
 	}
 
-	// generate doc comment:
+	// generate comment:
 	if property.description != "" {
-		addDocComment(&result.Doc.List, fmt.Sprintf("%s: %s", property.propertyName, property.description), 80)
+		addWrappedComment(&result.Doc.List, fmt.Sprintf("%s: %s", property.propertyName, property.description), 80)
 	}
 
 	return result

@@ -46,7 +46,7 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 		},
 	}
 
-	addDocComments(&declaration.Doc.List, description, 200)
+	addWrappedComments(&declaration.Doc.List, description, 200)
 
 	result := []ast.Decl{declaration}
 	result = append(result, objectType.InterfaceImplementer.AsDeclarations(codeGenerationContext, name, nil)...)
