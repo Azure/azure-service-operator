@@ -11,8 +11,7 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-# Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
-CRD_OPTIONS ?= "crd:crdVersions=v1beta1"
+CRD_OPTIONS ?= "crd:crdVersions=v1"
 
 BUILD_ID ?= $(shell git rev-parse --short HEAD)
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
@@ -210,6 +209,11 @@ helm-chart-manifests: generate
 .PHONY: manifests
 manifests: controller-gen
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+	# update manifests to force preserveUnknownFields to false. We can't use controller-gen to set this to false because it has a bug...
+	# see: https://github.com/kubernetes-sigs/controller-tools/issues/476
+	# TODO: After this has been in the release for "a while" we can remove it since the default is also false and we just
+	# TODO: need it for the upgrade scenario between v1beta1 and v1 CRD types
+	ls config/crd/bases | xargs -I % yq eval -i ".spec.preserveUnknownFields = false" config/crd/bases/%
 
 # Run go fmt against code
 .PHONY: fmt
