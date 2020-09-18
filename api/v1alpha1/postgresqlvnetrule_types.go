@@ -25,9 +25,9 @@ type PostgreSQLVNetRuleSpec struct {
 	IgnoreMissingServiceEndpoint bool   `json:"ignoreMissingServiceEndpoint,omitempty"`
 }
 
-// +kubebuilder:object:root=true
-
 // PostgreSQLVNetRule is the Schema for the PostgreSQLVNetRules API
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 // +kubebuilder:resource:shortName=psqlvnr
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"

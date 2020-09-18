@@ -24,10 +24,9 @@ type AzureNetworkInterfaceSpec struct {
 	PublicIPAddressName string `json:"publicIPAddressName"`
 }
 
+// AzureNetworkInterface is the Schema for the azurenetworkinterfaces API
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-
-// AzureNetworkInterface is the Schema for the azurenetworkinterfaces API
 // +kubebuilder:resource:shortName=ani
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"

@@ -22,7 +22,8 @@ spec:
     - psqlvnr
     singular: postgresqlvnetrule
   scope: Namespaced
-  subresources: {}
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: PostgreSQLVNetRule is the Schema for the PostgreSQLVNetRules API

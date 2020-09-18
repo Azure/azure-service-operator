@@ -22,7 +22,8 @@ spec:
     - mysqlvnr
     singular: mysqlvnetrule
   scope: Namespaced
-  subresources: {}
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: MySQLVNetRule is the Schema for the mysqlvnetrules API

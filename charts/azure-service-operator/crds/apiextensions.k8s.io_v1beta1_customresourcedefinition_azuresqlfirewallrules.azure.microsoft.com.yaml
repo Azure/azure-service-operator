@@ -31,7 +31,8 @@ spec:
     singular: azuresqlfirewallrule
   preserveUnknownFields: false
   scope: Namespaced
-  subresources: {}
+  subresources:
+    status: {}
   version: v1alpha1
   versions:
   - name: v1alpha1
