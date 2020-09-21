@@ -25,9 +25,9 @@ type MySQLVNetRuleSpec struct {
 	IgnoreMissingServiceEndpoint bool   `json:"ignoreMissingServiceEndpoint,omitempty"`
 }
 
-// +kubebuilder:object:root=true
-
 // MySQLVNetRule is the Schema for the mysqlvnetrules API
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 // +kubebuilder:resource:shortName=mysqlvnr
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"

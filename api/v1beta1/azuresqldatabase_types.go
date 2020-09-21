@@ -62,11 +62,10 @@ type AzureSqlDatabaseSpec struct {
 	WeekOfYear       int32              `json:"weekOfYear,omitempty"`
 }
 
+// AzureSqlDatabase is the Schema for the azuresqldatabases API
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
-
-// AzureSqlDatabase is the Schema for the azuresqldatabases API
 // +kubebuilder:resource:shortName=asqldb
 // +kubebuilder:printcolumn:name="Provisioned",type="string",JSONPath=".status.provisioned"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.message"
