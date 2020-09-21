@@ -12,6 +12,7 @@ endif
 CRD_OPTIONS ?= "crd"
 
 BUILD_ID ?= $(shell git rev-parse --short HEAD)
+timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
 
 # best to keep the prefix as short as possible to not exceed naming limits for things like keyvault (24 chars)
 TEST_RESOURCE_PREFIX ?= aso-$(BUILD_ID)
@@ -26,9 +27,11 @@ else
 TMPDIR := /tmp
 endif
 
+.PHONY: all
 all: manager
 
 # Generate test certs for development
+.PHONY: generate-test-certs
 generate-test-certs: CONFIGTXT := $(shell mktemp)
 generate-test-certs: WEBHOOK_DIR := $(TMPDIR)/k8s-webhook-server
 generate-test-certs: WEBHOOK_CERT_DIR := $(TMPDIR)/k8s-webhook-server/serving-certs
@@ -49,6 +52,7 @@ generate-test-certs:
 	openssl req -x509 -days 730 -out $(WEBHOOK_CERT_DIR)/tls.crt -keyout $(WEBHOOK_CERT_DIR)/tls.key -newkey rsa:4096 -subj "/CN=azureoperator-webhook-service.azureoperator-system" -config $(CONFIGTXT) -nodes
 
 # Run Controller tests against the configured cluster
+.PHONY: test-integration-controllers
 test-integration-controllers: generate fmt vet manifests
 	TEST_RESOURCE_PREFIX=$(TEST_RESOURCE_PREFIX) TEST_USE_EXISTING_CLUSTER=true REQUEUE_AFTER=20 \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=reports/integration-controllers-coverage-output.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
@@ -57,6 +61,7 @@ test-integration-controllers: generate fmt vet manifests
 	#go-junit-report < reports/integration-controllers-output.txt > reports/integration-controllers-report.xml
 
 # Run Resource Manager tests against the configured cluster
+.PHONY: test-integration-managers
 test-integration-managers: generate fmt vet manifests
 	TEST_USE_EXISTING_CLUSTER=true TEST_CONTROLLER_WITH_MOCKS=false REQUEUE_AFTER=20 \
 	go test -v -coverprofile=reports/integration-managers-coverage-ouput.txt -coverpkg=./... -covermode count -parallel 4 -timeout 45m \
@@ -73,6 +78,7 @@ test-integration-managers: generate fmt vet manifests
 	#go-junit-report < reports/integration-managers-output.txt > reports/integration-managers-report.xml
 
 # Run all available tests. Note that Controllers are not unit-testable.
+.PHONY: test-unit
 test-unit: generate fmt vet manifests 
 	TEST_USE_EXISTING_CLUSTER=false REQUEUE_AFTER=20 \
 	go test -v -tags "$(BUILD_TAGS)" -coverprofile=coverage-unit.txt -covermode count -parallel 4 -timeout 10m \
@@ -84,6 +90,7 @@ test-unit: generate fmt vet manifests
 	go tool cover -html=coverage/coverage.txt -o cover-unit.html
 
 # Merge all the available test coverage results and publish a single report
+.PHONY: test-process-coverage
 test-process-coverage:
 	find reports -name "*-coverage-output.txt" -type f -print | xargs gocovmerge > reports/merged-coverage-output.txt
 	gocov convert reports/merged-coverage-output.txt > reports/merged-coverage-output.json
@@ -91,6 +98,7 @@ test-process-coverage:
 	go tool cover -html=reports/merged-coverage-output.txt -o reports/merged-coverage.html
 
 # Cleanup resource groups azure created by tests using pattern matching 't-rg-'
+.PHONY: test-cleanup-azure-resources
 test-cleanup-azure-resources: 	
 	# Delete the resource groups that match the pattern
 	for rgname in `az group list --query "[*].[name]" -o table | grep '^${TEST_RESOURCE_PREFIX}' `; do \
@@ -104,36 +112,42 @@ test-cleanup-azure-resources:
 	done
 
 # Build the docker image
+.PHONY: docker-build
 docker-build:
 	docker build . -t ${IMG} ${ARGS}
 	@echo "updating kustomize image patch file for manager resource"
 	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
 
 # Push the docker image
+.PHONY: docker-push
 docker-push:
 	docker push ${IMG}
 
 # Build and Push the docker image
+.PHONY: build-and-push
 build-and-push: docker-build docker-push
 
 # Build manager binary
+.PHONY: manager
 manager: generate fmt vet
 	go build -o bin/manager main.go
 
 # Run against the configured Kubernetes cluster in ~/.kube/config
+.PHONY: run
 run: generate fmt vet
 	go run ./main.go
 
 # Install CRDs into a cluster
+.PHONY: generate
 install: generate
 	kubectl apply -f config/crd/bases
 
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
+.PHONY: deploy
 deploy: manifests
 	kustomize build config/default | kubectl apply -f -
 
-timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
-
+.PHONY: update
 update:
 	IMG="docker.io/controllertest:$(timestamp)" make ARGS="${ARGS}" docker-build
 	kind load docker-image docker.io/controllertest:$(timestamp) --loglevel "trace"
@@ -141,19 +155,23 @@ update:
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
+.PHONY: delete
 delete:
 	kubectl delete -f config/crd/bases
 	kustomize build config/default | kubectl delete -f -
 
 # Validate copyright headers
+.PHONY: validate-copyright-headers
 validate-copyright-headers:
 	@./scripts/validate-copyright-headers.sh
 
 # Validate cainjection files:
+.PHONY: validate-cainjection-files
 validate-cainjection-files:
 	@./scripts/validate-cainjection-files.sh
 
 # Generate manifests for helm and package them up
+.PHONY: helm-chart-manifests
 helm-chart-manifests: generate
 	# remove generated files
 	rm -rf charts/azure-service-operator/templates/generated/
@@ -179,23 +197,28 @@ helm-chart-manifests: generate
 	helm repo index ./charts
 
 # Generate manifests e.g. CRD, RBAC etc.
+.PHONY: manifests
 manifests: controller-gen
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 
 # Run go fmt against code
+.PHONY: fmt
 fmt:
 	go fmt ./...
 
 # Run go vet against code
+.PHONY: vet
 vet: 
 	go vet ./...
 
 # Generate code
+.PHONY: generate
 generate: manifests
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./api/...
 
 # find or download controller-gen
 # download controller-gen if necessary
+.PHONY: controller-gen
 controller-gen:
 ifeq (, $(shell which controller-gen))
 	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.2.5
@@ -208,7 +231,7 @@ endif
 install-bindata:
 	go get -u github.com/jteeuwen/go-bindata/...
 
-.PHONE:
+.PHONY: generate-template
 generate-template:
 	go-bindata -pkg template -prefix pkg/template/assets/ -o pkg/template/templates.go pkg/template/assets/
 
@@ -265,6 +288,7 @@ endif
 	make deploy
 	sed -i'' -e 's@image: .*@image: '"IMAGE_URL"'@' ./config/default/manager_image_patch.yaml
 
+.PHONY: install-kind
 install-kind:
 ifeq (,$(shell which kind))
 	@echo "installing kind"
@@ -273,6 +297,7 @@ else
 	@echo "kind has been installed"
 endif
 
+.PHONY: install-kubebuilder
 install-kubebuilder:
 ifeq (,$(shell which kubebuilder))
 	@echo "installing kubebuilder"
@@ -286,6 +311,7 @@ else
 	@echo "kubebuilder has been installed"
 endif
 
+.PHONY: install-kustomize
 install-kustomize:
 ifeq (,$(shell which kustomize))
 	@echo "installing kustomize"
@@ -299,15 +325,17 @@ else
 	@echo "kustomize has been installed"
 endif
 
+.PHONY: install-cert-manager
 install-cert-manager:
 	kubectl create namespace cert-manager
 	kubectl label namespace cert-manager cert-manager.io/disable-validation=true
 	kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
 
-
+.PHONY: install-aad-pod-identity
 install-aad-pod-identity:
 	kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/deployment-rbac.yaml
 
+.PHONY: install-test-dependencies
 install-test-dependencies:
 	go get github.com/jstemmer/go-junit-report \
 	&& go get github.com/axw/gocov/gocov \
