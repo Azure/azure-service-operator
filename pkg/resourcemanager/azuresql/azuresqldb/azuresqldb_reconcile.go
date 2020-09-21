@@ -68,9 +68,15 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 	// Before we attempt to issue a new update, check if there is a previously ongoing update
 	if instance.Status.PollingURL != "" {
+		// TODO: There are other places which use PollClient which may or may not need this treatment as well...
 		pClient := pollclient.NewPollClient()
 		res, err := pClient.Get(ctx, instance.Status.PollingURL)
-		if err != nil {
+		pollErr := errhelp.NewAzureErrorAzureError(err)
+		if pollErr != nil {
+			if pollErr.Type == errhelp.OperationIdNotFound {
+				// Something happened to our OperationId, just clear things out and try again
+				instance.Status.PollingURL = ""
+			}
 			return false, err
 		}
 
@@ -82,10 +88,12 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			if res.Error.Code == errhelp.InvalidMaxSizeTierCombination {
 				instance.Status.FailedProvisioning = true
 				instance.Status.Provisioning = false
+				instance.Status.PollingURL = ""
 				return true, nil
 			}
 
-			// There can be intermediate errors and various other things that cause requests to fail, so we need to try again
+			// There can be intermediate errors and various other things that cause requests to fail, so we need to try again.
+			instance.Status.PollingURL = "" // Clear URL to force retry
 			return false, nil
 		}
 
@@ -153,7 +161,6 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			}
 		}
 	}
-
 	pollingUrl, _, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSQLDatabaseProperties)
 
 	if err != nil {

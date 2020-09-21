@@ -66,6 +66,7 @@ const (
 	FeatureNotSupportedForEdition                  = "FeatureNotSupportedForEdition"
 	VirtualNetworkRuleBadRequest                   = "VirtualNetworkRuleBadRequest"
 	LongTermRetentionPolicyInvalid                 = "LongTermRetentionPolicyInvalid"
+	OperationIdNotFound                            = "OperationIdNotFound"
 )
 
 func NewAzureError(err error) error {
@@ -148,6 +149,9 @@ func NewAzureError(err error) error {
 }
 
 func NewAzureErrorAzureError(err error) *AzureError {
+	if err == nil {
+		return nil
+	}
 	return NewAzureError(err).(*AzureError)
 }
 
