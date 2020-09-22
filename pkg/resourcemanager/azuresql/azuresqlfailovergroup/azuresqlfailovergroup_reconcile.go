@@ -64,7 +64,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		errhelp.ResourceGroupNotFoundErrorCode,
 		errhelp.ParentNotFoundErrorCode,
 	}
-	azerr := errhelp.NewAzureErrorAzureError(err)
+	azerr := errhelp.NewAzureError(err)
 	if helpers.ContainsString(requeuErrors, azerr.Type) {
 		instance.Status.Provisioning = false
 		return false, nil
@@ -85,7 +85,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		catchUnrecoverableErrors := []string{
 			errhelp.InvalidFailoverGroupRegion,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
@@ -142,7 +142,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 	_, err = fg.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// these errors are expected
 		ignore := []string{

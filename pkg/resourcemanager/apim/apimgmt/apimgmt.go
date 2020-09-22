@@ -163,7 +163,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Message = err.Error()
 			return false, nil
@@ -199,7 +199,7 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 	if err != nil {
 		i.Status.Message = err.Error()
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		handle := []string{
 			errhelp.ResourceNotFound,
 			errhelp.ParentNotFoundErrorCode,

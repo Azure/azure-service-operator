@@ -98,7 +98,7 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			errhelp.InvalidResourceReference,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -133,7 +133,7 @@ func (g *AzureVirtualMachineClient) Ensure(ctx context.Context, obj runtime.Obje
 			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -175,7 +175,7 @@ func (g *AzureVirtualMachineClient) Delete(ctx context.Context, obj runtime.Obje
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

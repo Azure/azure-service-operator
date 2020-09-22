@@ -250,7 +250,7 @@ func (e *azureEventHubManager) Ensure(ctx context.Context, obj runtime.Object, o
 	hub, err := e.CreateHub(ctx, resourcegroup, eventhubNamespace, eventhubName, messageRetentionInDays, partitionCount, capturePtr)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// this happens when op isnt complete, just requeue
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
@@ -349,7 +349,7 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object, o
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.NotFoundErrorCode,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Message = err.Error()
 			return false, nil

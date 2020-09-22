@@ -42,7 +42,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		errhelp.ResourceGroupNotFoundErrorCode,
 		errhelp.ParentNotFoundErrorCode,
 	}
-	azerr := errhelp.NewAzureErrorAzureError(err)
+	azerr := errhelp.NewAzureError(err)
 	if helpers.ContainsString(requeuErrors, azerr.Type) {
 		instance.Status.Provisioning = false
 		return false, nil
@@ -58,7 +58,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 			errhelp.AlreadyExists,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
@@ -89,7 +89,7 @@ func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.O
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

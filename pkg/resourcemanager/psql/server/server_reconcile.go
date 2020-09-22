@@ -150,7 +150,7 @@ func (p *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 			instance.Status.Message = errhelp.StripErrorIDs(err)
 			instance.Status.Provisioning = false
 
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 
 			catchInProgress := []string{
 				errhelp.AsyncOpIncompleteError,
@@ -221,7 +221,7 @@ func (p *PSQLServerClient) Delete(ctx context.Context, obj runtime.Object, opts 
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

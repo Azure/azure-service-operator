@@ -123,7 +123,7 @@ func (s *AzureSqlActionManager) UpdateAdminPassword(ctx context.Context, groupNa
 	_, _, err = azuresqlserverManager.CreateOrUpdateSQLServer(ctx, groupName, *server.Location, serverName, server.Tags, azureSqlServerProperties, true)
 
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if !strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			return err
 		}

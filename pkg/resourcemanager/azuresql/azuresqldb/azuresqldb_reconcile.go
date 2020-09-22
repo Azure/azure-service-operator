@@ -71,7 +71,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		// TODO: There are other places which use PollClient which may or may not need this treatment as well...
 		pClient := pollclient.NewPollClient()
 		res, err := pClient.Get(ctx, instance.Status.PollingURL)
-		pollErr := errhelp.NewAzureErrorAzureError(err)
+		pollErr := errhelp.NewAzureError(err)
 		if pollErr != nil {
 			if pollErr.Type == errhelp.OperationIdNotFound {
 				// Something happened to our OperationId, just clear things out and try again
@@ -129,7 +129,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 					errhelp.LongTermRetentionPolicyInvalid,
 				}
 				instance.Status.Message = fmt.Sprintf("Azure DB long-term retention policy error: %s", errhelp.StripErrorIDs(err))
-				azerr := errhelp.NewAzureErrorAzureError(err)
+				azerr := errhelp.NewAzureError(err)
 				if helpers.ContainsString(failureErrors, azerr.Type) {
 					instance.Status.Provisioning = false
 					instance.Status.Provisioned = false
@@ -150,7 +150,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			return true, nil
 		} else {
 			instance.Status.Message = fmt.Sprintf("AzureSqlDb Get error %s", err.Error())
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 			requeuErrors := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -165,7 +165,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// handle errors
 		// resource request has been sent to ARM
@@ -238,7 +238,7 @@ func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object, opt
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

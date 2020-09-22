@@ -63,7 +63,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 					errhelp.ResourceGroupNotFoundErrorCode, // RG not present yet
 					errhelp.ResourceNotFound,               // server not present yet
 				}
-				azerr := errhelp.NewAzureErrorAzureError(err)
+				azerr := errhelp.NewAzureError(err)
 				if helpers.ContainsString(catch, azerr.Type) {
 					return false, nil //requeue until server/RG ready
 				}

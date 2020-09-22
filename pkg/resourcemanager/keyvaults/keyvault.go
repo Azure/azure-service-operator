@@ -475,7 +475,7 @@ func HandleCreationError(instance *v1alpha1.KeyVault, err error) (bool, error) {
 		errhelp.LocationNotAvailableForResourceType,
 	}
 
-	azerr := errhelp.NewAzureErrorAzureError(err)
+	azerr := errhelp.NewAzureError(err)
 	if helpers.ContainsString(catch, azerr.Type) {
 		// most of these error technically mean the resource is actually not provisioning
 		switch azerr.Type {
@@ -529,7 +529,7 @@ func (k *azureKeyVaultManager) Delete(ctx context.Context, obj runtime.Object, o
 				errhelp.NotFoundErrorCode,
 				errhelp.ResourceNotFound,
 			}
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 			if helpers.ContainsString(catch, azerr.Type) {
 				return true, nil
 			} else if helpers.ContainsString(gone, azerr.Type) {

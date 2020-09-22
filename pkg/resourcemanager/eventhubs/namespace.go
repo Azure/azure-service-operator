@@ -318,7 +318,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 				_, err := ns.CreateNetworkRuleSet(ctx, resourcegroup, namespaceName, networkRuleSet)
 				if err != nil {
 					instance.Status.Message = errhelp.StripErrorIDs(err)
-					azerr := errhelp.NewAzureErrorAzureError(err)
+					azerr := errhelp.NewAzureError(err)
 
 					ignorableErrors := []string{
 						errhelp.ResourceGroupNotFoundErrorCode,
@@ -359,7 +359,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 	newNs, err := ns.CreateNamespace(ctx, resourcegroup, namespaceName, namespaceLocation, eventHubNSSku, eventHubNSProperties)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
 			// resource creation request sent to Azure
@@ -392,7 +392,7 @@ func (ns *azureEventHubNamespaceManager) Delete(ctx context.Context, obj runtime
 
 	resp, err := ns.DeleteNamespace(ctx, resourcegroup, namespaceName)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// check if async op from previous delete was still happening
 		catch := []string{

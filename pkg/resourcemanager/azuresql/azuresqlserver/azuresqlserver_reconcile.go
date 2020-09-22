@@ -124,7 +124,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
 		if err != nil {
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 
 			// handle failures in the async operation
 			if instance.Status.PollingURL != "" {
@@ -178,7 +178,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		instance.Status.Message = err.Error()
 
 		// check for our known errors
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		switch azerr.Type {
 		case errhelp.AsyncOpIncompleteError:
@@ -275,7 +275,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 	_, err = s.DeleteSQLServer(ctx, groupName, name)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// these errors are expected
 		ignore := []string{

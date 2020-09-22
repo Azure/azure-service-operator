@@ -48,7 +48,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 		errhelp.ResourceGroupNotFoundErrorCode,
 		errhelp.ParentNotFoundErrorCode,
 	}
-	azerr := errhelp.NewAzureErrorAzureError(err)
+	azerr := errhelp.NewAzureError(err)
 	if helpers.ContainsString(requeuErrors, azerr.Type) {
 		instance.Status.Provisioning = false
 		return false, nil
@@ -58,7 +58,7 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 	_, err = vr.CreateOrUpdateSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
 			instance.Status.Provisioning = true
@@ -104,7 +104,7 @@ func (vr *AzureSqlVNetRuleManager) Delete(ctx context.Context, obj runtime.Objec
 	if err != nil {
 		instance.Status.Message = err.Error()
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		// these errors are expected
 		ignore := []string{
 			errhelp.AsyncOpIncompleteError,

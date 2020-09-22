@@ -57,7 +57,7 @@ var _ = Describe("VNet", func() {
 					ignore := []string{
 						errhelp.AsyncOpIncompleteError,
 					}
-					azerr := errhelp.NewAzureErrorAzureError(err)
+					azerr := errhelp.NewAzureError(err)
 					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false
@@ -82,7 +82,7 @@ var _ = Describe("VNet", func() {
 					ignore := []string{
 						errhelp.AsyncOpIncompleteError,
 					}
-					azerr := errhelp.NewAzureErrorAzureError(err)
+					azerr := errhelp.NewAzureError(err)
 					if !helpers.ContainsString(ignore, azerr.Type) {
 						fmt.Println("error occured")
 						return false

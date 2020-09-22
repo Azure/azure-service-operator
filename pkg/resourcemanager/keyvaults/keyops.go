@@ -47,7 +47,7 @@ func (k *KeyvaultKeyClient) Ensure(ctx context.Context, obj runtime.Object, opts
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
@@ -139,7 +139,7 @@ func (k *KeyvaultKeyClient) Delete(ctx context.Context, obj runtime.Object, opts
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}
