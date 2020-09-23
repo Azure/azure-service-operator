@@ -54,7 +54,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 		if pollURL != "" {
 			pClient := pollclient.NewPollClient()
 			res, err := pClient.Get(ctx, pollURL)
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 			if err != nil {
 				if azerr.Type == errhelp.NetworkAclsValidationFailure {
 					instance.Status.Message = "Unable to provision Azure Storage Account due to error: " + errhelp.StripErrorIDs(err)
@@ -105,7 +105,7 @@ func (sa *azureStorageManager) Ensure(ctx context.Context, obj runtime.Object, o
 	pollURL, _, err = sa.CreateStorage(ctx, groupName, name, location, sku, kind, labels, accessTier, enableHTTPSTrafficOnly, dataLakeEnabled, &networkAcls)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		instance.Status.Provisioning = false
 
 		ignore := []string{
@@ -188,13 +188,11 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 
-		err = errhelp.NewAzureError(err)
-		if azerr, ok := err.(*errhelp.AzureError); ok {
-			if helpers.ContainsString(catch, azerr.Type) {
-				// Best case deletion of secrets
-				sa.SecretClient.Delete(ctx, key)
-				return false, nil
-			}
+		azerr := errhelp.NewAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) {
+			// Best case deletion of secrets
+			sa.SecretClient.Delete(ctx, key)
+			return false, nil
 		}
 		return true, err
 	}
@@ -210,7 +208,7 @@ func (sa *azureStorageManager) Delete(ctx context.Context, obj runtime.Object, o
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

@@ -45,7 +45,7 @@ func (bc *AzureBlobContainerManager) Ensure(ctx context.Context, obj runtime.Obj
 		}
 		// END WIP: Validation error handling investigation
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		catchIgnorable := []string{
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
@@ -98,7 +98,7 @@ func (bc *AzureBlobContainerManager) Delete(ctx context.Context, obj runtime.Obj
 	if err != nil {
 		instance.Status.Message = err.Error()
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		catch := []string{
 			errhelp.AsyncOpIncompleteError,
 		}

@@ -65,7 +65,7 @@ func (g *AzureNetworkInterfaceClient) Ensure(ctx context.Context, obj runtime.Ob
 			errhelp.InvalidResourceReference,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -93,7 +93,7 @@ func (g *AzureNetworkInterfaceClient) Ensure(ctx context.Context, obj runtime.Ob
 			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -144,7 +144,7 @@ func (g *AzureNetworkInterfaceClient) Delete(ctx context.Context, obj runtime.Ob
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

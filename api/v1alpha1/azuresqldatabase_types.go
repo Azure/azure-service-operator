@@ -25,7 +25,6 @@ type AzureSqlDatabaseSpec struct {
 	DbName string `json:"dbName,omitempty"`
 }
 
-
 // AzureSqlDatabase is the Schema for the azuresqldatabases API
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status

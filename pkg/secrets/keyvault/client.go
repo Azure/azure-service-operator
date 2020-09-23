@@ -292,7 +292,7 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 	_, err := k.KeyVaultClient.DeleteSecret(ctx, vaultBaseURL, secretName)
 
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if azerr.Type != errhelp.SecretNotFound { // If not found still need to purge
 			return err
 		}
@@ -301,7 +301,7 @@ func (k *KeyvaultSecretClient) Delete(ctx context.Context, key types.NamespacedN
 	// If Keyvault has softdelete enabled, we will need to purge the secret in addition to deleting it
 	_, err = k.KeyVaultClient.PurgeDeletedSecret(ctx, vaultBaseURL, secretName)
 	for err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if azerr.Type == errhelp.NotSupported { // Keyvault not softdelete enabled; ignore error
 			return nil
 		}

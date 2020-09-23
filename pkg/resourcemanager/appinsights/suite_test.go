@@ -80,7 +80,7 @@ var _ = AfterSuite(func() {
 	ignore := []string{
 		errhelp.AsyncOpIncompleteError,
 	}
-	azerr := errhelp.NewAzureErrorAzureError(err)
+	azerr := errhelp.NewAzureError(err)
 	if !helpers.ContainsString(ignore, azerr.Type) {
 		log.Println("Delete RG failed")
 		return
@@ -95,7 +95,7 @@ var _ = AfterSuite(func() {
 			catch := []string{
 				errhelp.ResourceGroupNotFoundErrorCode,
 			}
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 			if helpers.ContainsString(catch, azerr.Type) {
 				log.Println("Delete RG failed")
 				return

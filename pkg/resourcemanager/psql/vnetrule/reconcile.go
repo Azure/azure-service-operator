@@ -49,7 +49,7 @@ func (vr *PostgreSQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Obje
 		errhelp.ResourceGroupNotFoundErrorCode,
 		errhelp.ParentNotFoundErrorCode,
 	}
-	azerr := errhelp.NewAzureErrorAzureError(err)
+	azerr := errhelp.NewAzureError(err)
 	if helpers.ContainsString(requeuErrors, azerr.Type) {
 		instance.Status.Provisioning = false
 		return false, nil
@@ -59,7 +59,7 @@ func (vr *PostgreSQLVNetRuleClient) Ensure(ctx context.Context, obj runtime.Obje
 	_, err = vr.CreateOrUpdatePostgreSQLVNetRule(ctx, groupName, server, ruleName, virtualNetworkRG, virtualnetworkname, subnetName, ignoreendpoint)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
 			instance.Status.Provisioning = true
@@ -116,7 +116,7 @@ func (vr *PostgreSQLVNetRuleClient) Delete(ctx context.Context, obj runtime.Obje
 	if err != nil {
 		instance.Status.Message = err.Error()
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		// these errors are expected
 		ignore := []string{
 			errhelp.AsyncOpIncompleteError,

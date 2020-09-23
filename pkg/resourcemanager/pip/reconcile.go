@@ -68,7 +68,7 @@ func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Obj
 			errhelp.PublicIPIdleTimeoutIsOutOfRange,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			isReconcilationDone := false
@@ -100,7 +100,7 @@ func (g *AzurePublicIPAddressClient) Ensure(ctx context.Context, obj runtime.Obj
 			errhelp.SubscriptionDoesNotHaveServer,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// most of these error technically mean the resource is actually not provisioning
 			switch azerr.Type {
@@ -151,7 +151,7 @@ func (g *AzurePublicIPAddressClient) Delete(ctx context.Context, obj runtime.Obj
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

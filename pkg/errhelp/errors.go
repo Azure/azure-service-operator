@@ -66,9 +66,10 @@ const (
 	FeatureNotSupportedForEdition                  = "FeatureNotSupportedForEdition"
 	VirtualNetworkRuleBadRequest                   = "VirtualNetworkRuleBadRequest"
 	LongTermRetentionPolicyInvalid                 = "LongTermRetentionPolicyInvalid"
+	OperationIdNotFound                            = "OperationIdNotFound"
 )
 
-func NewAzureError(err error) error {
+func NewAzureError(err error) *AzureError {
 	var kind, reason string
 	if err == nil {
 		return nil
@@ -145,10 +146,6 @@ func NewAzureError(err error) error {
 	ae.Type = kind
 
 	return &ae
-}
-
-func NewAzureErrorAzureError(err error) *AzureError {
-	return NewAzureError(err).(*AzureError)
 }
 
 type AzureError struct {

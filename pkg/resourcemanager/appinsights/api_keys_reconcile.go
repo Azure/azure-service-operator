@@ -65,7 +65,7 @@ func (c *InsightsAPIKeysClient) Ensure(ctx context.Context, obj runtime.Object, 
 	)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// handle errors
 		switch azerr.Code {
@@ -135,7 +135,7 @@ func (c *InsightsAPIKeysClient) Delete(ctx context.Context, obj runtime.Object, 
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.AsyncOpIncompleteError,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return false, nil
 		}

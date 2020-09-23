@@ -79,7 +79,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			_, err := g.CreateAPIMgmtSvc(ctx, tier, location, resourceGroupName, resourceName, publisherName, publisherEmail)
 			if err != nil {
 				instance.Status.Provisioning = false
-				azerr := errhelp.NewAzureErrorAzureError(err)
+				azerr := errhelp.NewAzureError(err)
 				if helpers.ContainsString(catch, azerr.Type) {
 					instance.Status.Message = "API Mgmt Svc encountered a caught error, requeueing..."
 					return false, nil
@@ -119,7 +119,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			appInsightsName,
 		)
 		if err != nil {
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 			if helpers.ContainsString(catch, azerr.Type) {
 				instance.Status.Message = "API Mgmt Svc encountered a caught error, requeueing..."
 				return false, nil
@@ -151,7 +151,7 @@ func (g *AzureAPIMgmtServiceManager) Ensure(ctx context.Context, obj runtime.Obj
 			subnetName,
 		)
 		if err != nil {
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 			if !helpers.ContainsString(catch, azerr.Type) {
 				instance.Status.Message = "API Mgmt Svc encountered a caught error, requeueing..."
 				return false, nil
@@ -194,7 +194,7 @@ func (g *AzureAPIMgmtServiceManager) Delete(ctx context.Context, obj runtime.Obj
 
 	_, err = g.DeleteAPIMgmtSvc(ctx, resourceGroupName, resourceName)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		alreadyDeletedErrors := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,

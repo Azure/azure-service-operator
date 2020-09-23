@@ -196,7 +196,7 @@ func (m *Manager) Ensure(ctx context.Context, obj runtime.Object, opts ...resour
 			errhelp.AsyncOpIncompleteError,
 		}
 
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			instance.Status.Message = err.Error()
 			return false, nil
@@ -247,7 +247,7 @@ func (m *Manager) Delete(ctx context.Context, obj runtime.Object, opts ...resour
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {

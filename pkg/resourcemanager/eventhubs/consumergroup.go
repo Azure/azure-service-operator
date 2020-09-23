@@ -124,7 +124,7 @@ func (cg *azureConsumerGroupManager) Ensure(ctx context.Context, obj runtime.Obj
 	newCg, err := cg.CreateConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// this happens when op isnt complete, just requeue
 		if strings.Contains(azerr.Type, errhelp.AsyncOpIncompleteError) {
@@ -175,7 +175,7 @@ func (cg *azureConsumerGroupManager) Delete(ctx context.Context, obj runtime.Obj
 	// deletions to non existing groups lead to 'conflicting operation' errors so we GET it here
 	_, err = cg.GetConsumerGroup(ctx, resourcegroup, namespaceName, eventhubName, azureConsumerGroupName)
 	if err != nil {
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,

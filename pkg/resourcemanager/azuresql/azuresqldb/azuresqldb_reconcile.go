@@ -68,9 +68,15 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 	// Before we attempt to issue a new update, check if there is a previously ongoing update
 	if instance.Status.PollingURL != "" {
+		// TODO: There are other places which use PollClient which may or may not need this treatment as well...
 		pClient := pollclient.NewPollClient()
 		res, err := pClient.Get(ctx, instance.Status.PollingURL)
-		if err != nil {
+		pollErr := errhelp.NewAzureError(err)
+		if pollErr != nil {
+			if pollErr.Type == errhelp.OperationIdNotFound {
+				// Something happened to our OperationId, just clear things out and try again
+				instance.Status.PollingURL = ""
+			}
 			return false, err
 		}
 
@@ -82,10 +88,12 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			if res.Error.Code == errhelp.InvalidMaxSizeTierCombination {
 				instance.Status.FailedProvisioning = true
 				instance.Status.Provisioning = false
+				instance.Status.PollingURL = ""
 				return true, nil
 			}
 
-			// There can be intermediate errors and various other things that cause requests to fail, so we need to try again
+			// There can be intermediate errors and various other things that cause requests to fail, so we need to try again.
+			instance.Status.PollingURL = "" // Clear URL to force retry
 			return false, nil
 		}
 
@@ -121,7 +129,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 					errhelp.LongTermRetentionPolicyInvalid,
 				}
 				instance.Status.Message = fmt.Sprintf("Azure DB long-term retention policy error: %s", errhelp.StripErrorIDs(err))
-				azerr := errhelp.NewAzureErrorAzureError(err)
+				azerr := errhelp.NewAzureError(err)
 				if helpers.ContainsString(failureErrors, azerr.Type) {
 					instance.Status.Provisioning = false
 					instance.Status.Provisioned = false
@@ -142,7 +150,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			return true, nil
 		} else {
 			instance.Status.Message = fmt.Sprintf("AzureSqlDb Get error %s", err.Error())
-			azerr := errhelp.NewAzureErrorAzureError(err)
+			azerr := errhelp.NewAzureError(err)
 			requeuErrors := []string{
 				errhelp.ParentNotFoundErrorCode,
 				errhelp.ResourceGroupNotFoundErrorCode,
@@ -153,12 +161,11 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			}
 		}
 	}
-
 	pollingUrl, _, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSQLDatabaseProperties)
 
 	if err != nil {
 		instance.Status.Message = err.Error()
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 
 		// handle errors
 		// resource request has been sent to ARM
@@ -231,7 +238,7 @@ func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object, opt
 			errhelp.NotFoundErrorCode,
 			errhelp.ResourceNotFound,
 		}
-		azerr := errhelp.NewAzureErrorAzureError(err)
+		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			return true, nil
 		} else if helpers.ContainsString(gone, azerr.Type) {
