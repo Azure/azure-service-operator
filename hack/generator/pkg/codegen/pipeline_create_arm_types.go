@@ -436,6 +436,7 @@ func createOwnerProperty(idFactory astmodel.IdentifierFactory, ownerTypeName *as
 	if err != nil {
 		return nil, err
 	}
+	group = group + astmodel.GroupSuffix
 
 	prop = prop.WithTag("group", group).WithTag("kind", ownerTypeName.Name())
 	prop = prop.WithValidation(astmodel.ValidateRequired()) // Owner is already required

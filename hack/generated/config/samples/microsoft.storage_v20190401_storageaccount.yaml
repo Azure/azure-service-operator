@@ -1,0 +1,16 @@
+apiVersion: microsoft.storage.infra.azure.com/v20190401
+kind: StorageAccount
+metadata:
+  name: samplekubestorage
+  namespace: default
+spec:
+  apiVersion: 2019-04-01
+  location: westcentralus
+  kind: BlobStorage
+  sku:
+    name: Standard_LRS
+  owner:
+    name: my-rg
+  properties:
+    accessTier: Hot
+    # supportsHttpsTrafficOnly: true

@@ -2,7 +2,6 @@ SHELL := /bin/bash
 .DEFAULT_GOAL:=build
 
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
-REGISTRY ?= localhost:5000/fake
 CONFIG_REGISTRY = kind-registry:5000/fake/k8s-infra-controller:latest
 IMG ?= k8s-infra-contoller:$(timestamp)
 CRD_OPTIONS ?= "crd:crdVersions=v1"
@@ -40,10 +39,6 @@ test-cover: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run tests 
 
 test-cover-int: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run tests w/ code coverage (./cover.out)
 	$(GO) test ./... -tags integration -coverprofile=cover.out -coverpkg=./...
-
-$(KUBECTL) $(KUBE_APISERVER) $(ETCD) $(KUBEBUILDER): ## Install test asset kubectl, kube-apiserver, etcd
-	. ./scripts/fetch_ext_bins.sh && fetch_tools
-
 
 ## --------------------------------------
 ## Linting

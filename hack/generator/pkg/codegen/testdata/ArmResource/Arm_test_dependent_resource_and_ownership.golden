@@ -185,7 +185,7 @@ type A_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"microsoft.resources" json:"owner" kind:"ResourceGroup"`
+	Owner genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
 }
 
 var _ genruntime.ArmTransformer = &A_Spec{}
@@ -234,7 +234,7 @@ type B_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"test" json:"owner" kind:"A"`
+	Owner genruntime.KnownResourceReference `group:"test.infra.azure.com" json:"owner" kind:"A"`
 }
 
 var _ genruntime.ArmTransformer = &B_Spec{}
@@ -283,7 +283,7 @@ type C_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"test" json:"owner" kind:"B"`
+	Owner genruntime.KnownResourceReference `group:"test.infra.azure.com" json:"owner" kind:"B"`
 }
 
 var _ genruntime.ArmTransformer = &C_Spec{}

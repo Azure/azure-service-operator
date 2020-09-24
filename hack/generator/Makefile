@@ -16,6 +16,12 @@ Q = $(if $(filter 1,$V),,@)
 .PHONY: all
 all: header-check fmt test gen-arm make-generated-code
 
+# There is a ci specific target because we want the CI pass to fail if
+# the code has not been go fmt-ed, whereas locally we want "make all"
+# to just format the code for you
+.PHONY: ci
+ci: build test-cover gen-arm make-generated-code-ci
+
 .PHONY: gen-arm
 gen-arm: build ; $(info $(M) running k8sinfra-gen gen…) @ ## Running gen
 	$(Q) ./bin/$(APP) gen azure-arm.yaml
@@ -75,5 +81,6 @@ diagrams: $(patsubst %.dot,%.png,$(wildcard spec/images/*.dot))
 make-generated-code:
 	$(Q) cd ../generated && make all
 
-.PHONY: ci
-ci: build test-cover gen-arm make-generated-code
+.PHONY: make-generated-code-ci
+make-generated-code-ci:
+	$(Q) cd ../generated && make ci

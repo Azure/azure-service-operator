@@ -16,6 +16,7 @@ const (
 	LocalPathPrefix       = "github.com/Azure/k8s-infra/hack/generated/apis/" // TODO: From config?
 	genRuntimePathPrefix  = "github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 	GenRuntimePackageName = "genruntime"
+	GroupSuffix           = ".infra.azure.com"
 )
 
 var MetaV1PackageReference = MakePackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")

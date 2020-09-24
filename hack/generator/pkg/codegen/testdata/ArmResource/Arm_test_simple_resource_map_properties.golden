@@ -101,7 +101,7 @@ type FakeResource_Spec struct {
 	MapOfMaps   map[string]map[string]Foo `json:"mapOfMaps,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"microsoft.resources" json:"owner" kind:"ResourceGroup"`
+	Owner genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
 }
 
 var _ genruntime.ArmTransformer = &FakeResource_Spec{}
