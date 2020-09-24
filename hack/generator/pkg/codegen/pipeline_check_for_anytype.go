@@ -82,10 +82,12 @@ func containsAnyType(theType astmodel.Type) bool {
 }
 
 func packageName(name astmodel.TypeName) (string, error) {
-	group, version, err := name.PackageReference.GroupAndPackage()
+	group, err := name.PackageReference.Group()
 	if err != nil {
 		return "", err
 	}
+
+	version := name.PackageReference.Package()
 	return group + "/" + version, nil
 }
 

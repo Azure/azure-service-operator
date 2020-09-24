@@ -79,10 +79,12 @@ func runGoldenTest(t *testing.T, path string) {
 			// Fabricate a single package definition
 			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 
-			groupName, packageName, err := pr.GroupAndPackage()
+			groupName, err := pr.Group()
 			if err != nil {
-				t.Fatalf("couldnt extract group and package name from package reference: %v", err)
+				t.Fatalf("couldnt extract group from package reference: %v", err)
 			}
+
+			packageName := pr.Package()
 
 			packageDefinition := astmodel.NewPackageDefinition(groupName, packageName, "1")
 			for _, def := range defs {

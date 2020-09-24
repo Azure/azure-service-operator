@@ -29,8 +29,10 @@ func Test_MakeTypeDefinition_GivenValues_InitializesProperties(t *testing.T) {
 	g.Expect(objectDefinition.Name().name).To(Equal(name))
 	g.Expect(objectDefinition.Type()).To(Equal(objectType))
 
-	definitionGroup, definitionPackage, err := objectDefinition.Name().PackageReference.GroupAndPackage()
+	definitionGroup, err := objectDefinition.Name().PackageReference.Group()
 	g.Expect(err).To(BeNil())
+
+	definitionPackage := objectDefinition.Name().PackageReference.Package()
 
 	g.Expect(definitionGroup).To(Equal(group))
 	g.Expect(definitionPackage).To(Equal(version))

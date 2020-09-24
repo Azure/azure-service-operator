@@ -18,7 +18,7 @@ const packagePath = "test.package/v1"
 func TestConnectionChecker_Avoids_Cycles(t *testing.T) {
 	g := NewGomegaWithT(t)
 	makeName := func(name string) astmodel.TypeName {
-		return astmodel.MakeTypeName(astmodel.MakePackageReference(packagePath), name)
+		return astmodel.MakeTypeName(astmodel.MakeLibraryPackageReference(packagePath), name)
 	}
 
 	makeSet := func(names ...string) astmodel.TypeNameSet {

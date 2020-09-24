@@ -234,12 +234,14 @@ func (file *FileDefinition) AsAst() ast.Node {
 		"Licensed under the MIT license.",
 		CodeGenerationComment)
 
+	packageName := file.packageReference.Package()
+
 	// We set Package (the offset of the package keyword) so that it follows the header comments
 	result := &ast.File{
 		Doc: &ast.CommentGroup{
 			List: header,
 		},
-		Name:    ast.NewIdent(file.packageReference.PackageName()),
+		Name:    ast.NewIdent(packageName),
 		Decls:   decls,
 		Package: token.Pos(headerLen),
 	}

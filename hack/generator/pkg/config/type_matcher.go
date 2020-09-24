@@ -63,11 +63,13 @@ func (typeMatcher *TypeMatcher) matches(glob string, regex **regexp.Regexp, name
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
 func (typeMatcher *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
-	groupName, packageName, err := typeName.PackageReference.GroupAndPackage()
+	groupName, err := typeName.PackageReference.Group()
 	if err != nil {
 		// TODO: Should this func return an error rather than panic?
 		panic(fmt.Sprintf("%v", err))
 	}
+
+	packageName := typeName.PackageReference.Package()
 
 	result := typeMatcher.groupMatches(groupName) &&
 		typeMatcher.versionMatches(packageName) &&

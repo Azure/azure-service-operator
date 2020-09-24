@@ -432,7 +432,7 @@ func createOwnerProperty(idFactory astmodel.IdentifierFactory, ownerTypeName *as
 		idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
 		knownResourceReferenceType)
 
-	group, _, err := ownerTypeName.PackageReference.GroupAndPackage()
+	group, err := ownerTypeName.PackageReference.Group()
 	if err != nil {
 		return nil, err
 	}

@@ -50,12 +50,14 @@ func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.Pack
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
 		defName := def.Name()
-		groupName, pkgName, err := defName.PackageReference.GroupAndPackage()
+		pkgRef := defName.PackageReference
+
+		groupName, err := pkgRef.Group()
 		if err != nil {
 			return nil, err
 		}
 
-		pkgRef := defName.PackageReference
+		pkgName := pkgRef.Package()
 		if pkg, ok := packages[pkgRef]; ok {
 			pkg.AddDefinition(def)
 		} else {
@@ -186,7 +188,7 @@ func groupResourcesByVersion(packages map[astmodel.PackageReference]*astmodel.Pa
 	// order each set of resources by package name (== by version as these are sortable dates)
 	for _, slice := range result {
 		sort.Slice(slice, func(i, j int) bool {
-			return slice[i].Name().PackageReference.PackageName() < slice[j].Name().PackageReference.PackageName()
+			return slice[i].Name().PackageReference.Package() < slice[j].Name().PackageReference.Package()
 		})
 	}
 
@@ -194,7 +196,7 @@ func groupResourcesByVersion(packages map[astmodel.PackageReference]*astmodel.Pa
 }
 
 func getUnversionedName(name astmodel.TypeName) (unversionedName, error) {
-	group, _, err := name.PackageReference.GroupAndPackage()
+	group, err := name.PackageReference.Group()
 	if err != nil {
 		return unversionedName{}, err
 	}

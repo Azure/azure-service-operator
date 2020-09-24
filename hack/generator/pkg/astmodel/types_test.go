@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	pkg             = MakePackageReference("foo")
+	pkg             = MakeLibraryPackageReference("foo")
 	alphaDefinition = createTestDefinition("alpha")
 	betaDefinition  = createTestDefinition("beta")
 	gammaDefinition = createTestDefinition("gamma")

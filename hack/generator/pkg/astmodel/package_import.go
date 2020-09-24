@@ -50,7 +50,7 @@ func (pi PackageImport) PackageName() string {
 		return pi.name
 	}
 
-	return pi.PackageReference.PackageName()
+	return pi.PackageReference.Package()
 }
 
 // Equals returns true if the passed package reference references the same package, false otherwise

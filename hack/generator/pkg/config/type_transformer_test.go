@@ -83,7 +83,8 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{Name: "tutor"},
 		Target: &config.TransformTarget{
-			PackagePath: astmodel.LocalPathPrefix + "role/2019-01-01",
+			Group:       "role",
+			PackageName: "2019-01-01",
 			Name:        "student",
 		},
 	}
