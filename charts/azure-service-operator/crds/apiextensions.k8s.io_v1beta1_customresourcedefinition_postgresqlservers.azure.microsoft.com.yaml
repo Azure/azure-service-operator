@@ -16,7 +16,6 @@ spec:
   conversion:
     strategy: Webhook
     webhookClientConfig:
-      caBundle: Cg==
       service:
         name: azureoperator-webhook-service
         namespace: azureoperator-system
