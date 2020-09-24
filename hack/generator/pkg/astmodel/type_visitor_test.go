@@ -111,3 +111,57 @@ func MakeCountingTypeVisitor() *CountingTypeVisitor {
 
 	return result
 }
+
+func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
+
+	mapOfStringToString := NewMapType(StringType, StringType)
+	mapOfStringToBool := NewMapType(StringType, BoolType)
+
+	fullName := NewPropertyDefinition("FullName", "full-name", StringType)
+	familyName := NewPropertyDefinition("FamilyName", "family-name", StringType)
+	knownAs := NewPropertyDefinition("KnownAs", "known-as", StringType)
+
+	transform := &FakeFunction{}
+	transmogrify := &FakeFunction{}
+	skew := &FakeFunction{}
+
+	person := NewObjectType().WithProperties(fullName, familyName, knownAs)
+	individual := NewObjectType().WithProperties(fullName).
+		WithFunction("Transform", transform).
+		WithFunction("Transmogrify", transmogrify).
+		WithFunction("Skew", skew)
+
+	resource := NewResourceType(person, individual)
+
+	cases := []struct {
+		name    string
+		subject Type
+	}{
+		{"Strings", StringType},
+		{"Integers", IntType},
+		{"Booleans", BoolType},
+		{"Map of String to String", mapOfStringToString},
+		{"Map of String to Bool", mapOfStringToBool},
+		{"Object type with properties", person},
+		{"Object type with functions", individual},
+		{"Resource type", resource},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			v := MakeTypeVisitor()
+			result, err := v.Visit(c.subject, nil)
+
+			g.Expect(err).To(BeNil())
+			g.Expect(result.Equals(c.subject)).To(BeTrue())
+
+			// Test both ways to be paranoid
+			// If this test fails while the previous line passes, there's likely a bug in .Equals()
+			g.Expect(c.subject.Equals(result)).To(BeTrue())
+		})
+	}
+}

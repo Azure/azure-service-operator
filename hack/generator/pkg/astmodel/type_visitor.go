@@ -176,7 +176,7 @@ func identityVisitOfResourceType(this *TypeVisitor, it *ResourceType, ctx interf
 		return nil, errors.Wrapf(err, "failed to visit resource status type %v", it.status)
 	}
 
-	return NewResourceType(visitedSpec, visitedStatus).WithOwner(it.Owner()), nil
+	return it.WithSpec(visitedSpec).WithStatus(visitedStatus), nil
 }
 
 func identityVisitOfArmType(this *TypeVisitor, at *ArmType, ctx interface{}) (Type, error) {

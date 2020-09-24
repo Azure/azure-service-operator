@@ -86,6 +86,7 @@ func (objectType *ObjectType) Properties() []*PropertyDefinition {
 		result = append(result, property)
 	}
 
+	// Sorted so that it's always consistent
 	sort.Slice(result, func(left int, right int) bool {
 		return result[left].propertyName < result[right].propertyName
 	})
@@ -107,12 +108,7 @@ func (objectType *ObjectType) HasFunctionWithName(name string) bool {
 // AsType implements Type for ObjectType
 func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContext) ast.Expr {
 
-	// Copy the slice of properties and sort it
 	properties := objectType.Properties()
-	sort.Slice(properties, func(i int, j int) bool {
-		return properties[i].propertyName < properties[j].propertyName
-	})
-
 	fields := make([]*ast.Field, len(properties))
 	for i, f := range properties {
 		fields[i] = f.AsField(codeGenerationContext)
