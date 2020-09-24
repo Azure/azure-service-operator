@@ -1,0 +1,145 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: eventhubnamespaces.azure.microsoft.com
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.provisioned
+    name: Provisioned
+    type: string
+  - JSONPath: .status.message
+    name: Message
+    type: string
+  group: azure.microsoft.com
+  names:
+    kind: EventhubNamespace
+    listKind: EventhubNamespaceList
+    plural: eventhubnamespaces
+    shortNames:
+    - ehns
+    singular: eventhubnamespace
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: EventhubNamespace is the Schema for the eventhubnamespaces API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: EventhubNamespaceSpec defines the desired state of EventhubNamespace
+          properties:
+            location:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run "make" to regenerate code after modifying this file'
+              type: string
+            networkRule:
+              description: EventhubNamespaceNetworkRule defines the namespace network rule
+              properties:
+                defaultAction:
+                  description: DefaultAction defined as a string
+                  type: string
+                ipRules:
+                  description: IPRules - List of IpRules
+                  items:
+                    properties:
+                      ipMask:
+                        description: IPMask - IPv4 address 1.1.1.1 or CIDR notation 1.1.0.0/24
+                        type: string
+                    type: object
+                  type: array
+                virtualNetworkRules:
+                  description: VirtualNetworkRules - List VirtualNetwork Rules
+                  items:
+                    properties:
+                      ignoreMissingServiceEndpoint:
+                        description: IgnoreMissingVnetServiceEndpoint - Value that indicates whether to ignore missing VNet Service Endpoint
+                        type: boolean
+                      subnetId:
+                        description: Subnet - Full Resource ID of Virtual Network Subnet
+                        type: string
+                    type: object
+                  type: array
+              type: object
+            properties:
+              description: EventhubNamespaceProperties defines the namespace properties
+              properties:
+                isAutoInflateEnabled:
+                  type: boolean
+                kafkaEnabled:
+                  type: boolean
+                maximumThroughputUnits:
+                  format: int32
+                  type: integer
+              type: object
+            resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
+              type: string
+            sku:
+              description: EventhubNamespaceSku defines the sku
+              properties:
+                capacity:
+                  format: int32
+                  type: integer
+                name:
+                  type: string
+                tier:
+                  type: string
+              type: object
+          required:
+          - location
+          - resourceGroup
+          type: object
+        status:
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
+          properties:
+            completed:
+              format: date-time
+              type: string
+            containsUpdate:
+              type: boolean
+            failedProvisioning:
+              type: boolean
+            flattenedSecrets:
+              type: boolean
+            message:
+              type: string
+            output:
+              type: string
+            pollingUrl:
+              type: string
+            provisioned:
+              type: boolean
+            provisioning:
+              type: boolean
+            requested:
+              format: date-time
+              type: string
+            resourceId:
+              type: string
+            specHash:
+              type: string
+            state:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

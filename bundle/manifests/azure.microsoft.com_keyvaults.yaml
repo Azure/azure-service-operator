@@ -1,0 +1,159 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: keyvaults.azure.microsoft.com
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.provisioned
+    name: Provisioned
+    type: string
+  - JSONPath: .status.message
+    name: Message
+    type: string
+  group: azure.microsoft.com
+  names:
+    kind: KeyVault
+    listKind: KeyVaultList
+    plural: keyvaults
+    shortNames:
+    - kv
+    singular: keyvault
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: KeyVault is the Schema for the keyvaults API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: KeyVaultSpec defines the desired state of KeyVault
+          properties:
+            accessPolicies:
+              items:
+                properties:
+                  applicationID:
+                    description: ApplicationID -  Application ID of the client making request on behalf of a principal
+                    type: string
+                  clientID:
+                    description: ClientID - The client ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The client ID must be unique for the list of access policies.
+                    type: string
+                  objectID:
+                    description: ObjectID is the value to use if the access policy is for a user other than the user creating the Key Vault when the creating user does not have access to the Application API which is used to translate ClientID to Object ID To get around this, use az-cli or the Azure portal to source the ObjectID from your Service Principal
+                    type: string
+                  permissions:
+                    description: Permissions - Permissions the identity has for keys, secrets, and certificates.
+                    properties:
+                      certificates:
+                        items:
+                          type: string
+                        type: array
+                      keys:
+                        items:
+                          type: string
+                        type: array
+                      secrets:
+                        items:
+                          type: string
+                        type: array
+                      storage:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  tenantID:
+                    description: TenantID - The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
+                    type: string
+                type: object
+              type: array
+            enableSoftDelete:
+              type: boolean
+            location:
+              type: string
+            networkPolicies:
+              properties:
+                bypass:
+                  description: 'Bypass - Tells what traffic can bypass network rules. This can be ''AzureServices'' or ''None''.  If not specified the default is ''AzureServices''. Possible values include: ''AzureServices'', ''None'''
+                  type: string
+                defaultAction:
+                  description: 'DefaultAction - The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated. Possible values include: ''Allow'', ''Deny'''
+                  type: string
+                ipRules:
+                  description: IPRules - The list of IP address rules.
+                  items:
+                    type: string
+                  type: array
+                virtualNetworkRules:
+                  description: VirtualNetworkRules - The list of virtual network rules.
+                  items:
+                    type: string
+                  type: array
+              type: object
+            resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
+              type: string
+            sku:
+              description: KeyVaultSku the SKU of the Key Vault
+              properties:
+                name:
+                  description: 'Name - The SKU name. Required for account creation; optional for update. Possible values include: ''Premium'', `Standard`'
+                  type: string
+              type: object
+          required:
+          - location
+          - resourceGroup
+          type: object
+        status:
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
+          properties:
+            completed:
+              format: date-time
+              type: string
+            containsUpdate:
+              type: boolean
+            failedProvisioning:
+              type: boolean
+            flattenedSecrets:
+              type: boolean
+            message:
+              type: string
+            output:
+              type: string
+            pollingUrl:
+              type: string
+            provisioned:
+              type: boolean
+            provisioning:
+              type: boolean
+            requested:
+              format: date-time
+              type: string
+            resourceId:
+              type: string
+            specHash:
+              type: string
+            state:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

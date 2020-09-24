@@ -1,0 +1,178 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: storageaccounts.azure.microsoft.com
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.provisioned
+    name: Provisioned
+    type: string
+  - JSONPath: .status.message
+    name: Message
+    type: string
+  group: azure.microsoft.com
+  names:
+    kind: StorageAccount
+    listKind: StorageAccountList
+    plural: storageaccounts
+    shortNames:
+    - sacct
+    singular: storageaccount
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: StorageAccount is the Schema for the storages API
+      properties:
+        additionalResources:
+          description: StorageAccountAdditionalResources holds the additional resources
+          properties:
+            secrets:
+              items:
+                type: string
+              type: array
+          type: object
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        output:
+          description: StorageAccountOutput is the object that contains the output from creating a Storage Account object
+          properties:
+            connectionString1:
+              type: string
+            connectionString2:
+              type: string
+            key1:
+              type: string
+            key2:
+              type: string
+            storageAccountName:
+              type: string
+          type: object
+        spec:
+          description: StorageAccountSpec defines the desired state of Storage
+          properties:
+            accessTier:
+              description: StorageAccountAccessTier enumerates the values for access tier. Only one of the following access tiers may be specified. If none of the following access tiers is specified, the default one is Hot.
+              enum:
+              - Cool
+              - Hot
+              type: string
+            dataLakeEnabled:
+              type: boolean
+            kind:
+              description: StorageAccountKind enumerates the values for kind. Only one of the following kinds may be specified. If none of the following kinds is specified, the default one is StorageV2.
+              enum:
+              - BlobStorage
+              - BlockBlobStorage
+              - FileStorage
+              - Storage
+              - StorageV2
+              type: string
+            location:
+              minLength: 0
+              type: string
+            networkRule:
+              properties:
+                bypass:
+                  description: 'Bypass - Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics. Possible values include: ''None'', ''Logging'', ''Metrics'', ''AzureServices'''
+                  type: string
+                defaultAction:
+                  description: 'DefaultAction - Specifies the default action of allow or deny when no other rules match. Possible values include: ''DefaultActionAllow'', ''DefaultActionDeny'''
+                  type: string
+                ipRules:
+                  description: IPRules - Sets the IP ACL rules
+                  items:
+                    properties:
+                      ipAddressOrRange:
+                        description: IPAddressOrRange - Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
+                        type: string
+                    type: object
+                  type: array
+                virtualNetworkRules:
+                  description: VirtualNetworkRules - Sets the virtual network rules
+                  items:
+                    properties:
+                      subnetId:
+                        description: 'SubnetId - Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.'
+                        type: string
+                    type: object
+                  type: array
+              type: object
+            resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
+              type: string
+            sku:
+              description: StorageAccountSku the SKU of the storage account.
+              properties:
+                name:
+                  description: 'Name - The SKU name. Required for account creation; optional for update. Possible values include: ''StandardLRS'', ''StandardGRS'', ''StandardRAGRS'', ''StandardZRS'', ''PremiumLRS'', ''PremiumZRS'', ''StandardGZRS'', ''StandardRAGZRS'''
+                  enum:
+                  - Premium_LRS
+                  - Premium_ZRS
+                  - Standard_GRS
+                  - Standard_GZRS
+                  - Standard_LRS
+                  - Standard_RAGRS
+                  - Standard_RAGZRS
+                  - Standard_ZRS
+                  type: string
+              type: object
+            supportsHttpsTrafficOnly:
+              type: boolean
+          required:
+          - resourceGroup
+          type: object
+        status:
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
+          properties:
+            completed:
+              format: date-time
+              type: string
+            containsUpdate:
+              type: boolean
+            failedProvisioning:
+              type: boolean
+            flattenedSecrets:
+              type: boolean
+            message:
+              type: string
+            output:
+              type: string
+            pollingUrl:
+              type: string
+            provisioned:
+              type: boolean
+            provisioning:
+              type: boolean
+            requested:
+              format: date-time
+              type: string
+            resourceId:
+              type: string
+            specHash:
+              type: string
+            state:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

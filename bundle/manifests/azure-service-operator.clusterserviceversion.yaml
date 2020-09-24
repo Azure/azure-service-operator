@@ -1,0 +1,2380 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: |-
+      [
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "APIMgmtAPI",
+          "metadata": {
+            "name": "aso-apimgmtapi-sample"
+          },
+          "spec": {
+            "apiId": "apiId0",
+            "apiService": "apimservice-sample",
+            "location": "westus",
+            "properties": {
+              "apiVersionDescription": "API version description",
+              "description": "API description",
+              "displayName": "aso-apimgmtapi-sample",
+              "isCurrent": true,
+              "isOnline": true,
+              "path": "/api/test",
+              "protocols": [
+                "http"
+              ],
+              "subscriptionRequired": false
+            },
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "ApimService",
+          "metadata": {
+            "name": "apimservice-sample"
+          },
+          "spec": {
+            "appInsightsName": "appinsights-sample-wmm",
+            "appInsightsResourceGroup": "resourcegroup-azure-operators-wmm",
+            "location": "westus",
+            "publisherEmail": {
+              "Your email": null
+            },
+            "publisherName": {
+              "Your name": null
+            },
+            "resourceGroup": "resourcegroup-azure-operators",
+            "tier": "premium",
+            "vnetName": "virtualnetwork-sample",
+            "vnetResourceGroup": "resourcegroup-azure-operators",
+            "vnetSubnetName": "test1",
+            "vnetType": "none"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AppInsights",
+          "metadata": {
+            "name": "appinsights-sample"
+          },
+          "spec": {
+            "applicationType": "other",
+            "kind": "other",
+            "location": "westus",
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AppInsightsApiKey",
+          "metadata": {
+            "name": "key-sample"
+          },
+          "spec": {
+            "appInsights": "appinsights-sample",
+            "authSDKControlChannel": true,
+            "readTelemetry": true,
+            "resourceGroup": "resourcegroup-azure-operators",
+            "writeAnnotations": true
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureLoadBalancer",
+          "metadata": {
+            "name": "lb-sample-01"
+          },
+          "spec": {
+            "backendAddressPoolName": "test",
+            "backendPort": 3000,
+            "frontendPortRangeEnd": 2000,
+            "frontendPortRangeStart": 1001,
+            "inboundNatPoolName": "test",
+            "location": "SouthCentralUS",
+            "publicIPAddressName": "lb-pip-sample-01",
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureNetworkInterface",
+          "metadata": {
+            "name": "nic-sample-01"
+          },
+          "spec": {
+            "location": "SouthCentralUS",
+            "publicIPAddressName": "nic-pip-sample-01",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "subnetName": "test1",
+            "vnetName": "vnet-sample-01"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureNetworkInterface",
+          "metadata": {
+            "name": "nic-sample-02"
+          },
+          "spec": {
+            "location": "SouthCentralUS",
+            "publicIPAddressName": "nic-pip-sample-02",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "subnetName": "test1",
+            "vnetName": "vnet-sample-02"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzurePublicIPAddress",
+          "metadata": {
+            "name": "lb-pip-sample-01"
+          },
+          "spec": {
+            "idleTimeoutInMinutes": 10,
+            "location": "SouthCentralUS",
+            "publicIPAddressVersion": "IPv4",
+            "publicIPAllocationMethod": "Static",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "skuName": "Basic"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzurePublicIPAddress",
+          "metadata": {
+            "name": "nic-pip-sample-01"
+          },
+          "spec": {
+            "idleTimeoutInMinutes": 10,
+            "location": "SouthCentralUS",
+            "publicIPAddressVersion": "IPv4",
+            "publicIPAllocationMethod": "Static",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "skuName": "Basic"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzurePublicIPAddress",
+          "metadata": {
+            "name": "nic-pip-sample-02"
+          },
+          "spec": {
+            "idleTimeoutInMinutes": 10,
+            "location": "SouthCentralUS",
+            "publicIPAddressVersion": "IPv4",
+            "publicIPAllocationMethod": "Static",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "skuName": "Basic"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureSQLManagedUser",
+          "metadata": {
+            "name": "azuresqlmanageduser-sample"
+          },
+          "spec": {
+            "dbName": "azuresqldatabase-sample",
+            "managedIdentityClientId": null,
+            "resourceGroup": "resourcegroup-azure-operators",
+            "roles": [
+              "db_owner"
+            ],
+            "server": "sqlserver-sample-777"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureSQLUser",
+          "metadata": {
+            "name": "sqluser-sample"
+          },
+          "spec": {
+            "dbName": "azuresqldatabase-sample1",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "roles": [
+              "db_owner"
+            ],
+            "server": "sqlserver-sample-777"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureSQLVNetRule",
+          "metadata": {
+            "name": "azuresqlvnetrule-sample"
+          },
+          "spec": {
+            "ignoreMissingServiceEndpoint": true,
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "sqlserver-sample-777",
+            "subnetName": "test1",
+            "vNetName": "virtualnetwork-sample",
+            "vNetResourceGroup": "resourcegroup-vnet"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureSqlAction",
+          "metadata": {
+            "name": "azuresqlaction-sample"
+          },
+          "spec": {
+            "resourceGroup": "resourcegroup-azure-operators",
+            "serverName": "sqlserver-sample-777"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureSqlDatabase",
+          "metadata": {
+            "labels": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "name": "azuresqldatabase-sample1"
+          },
+          "spec": {
+            "edition": 0,
+            "location": "westus",
+            "resourcegroup": "resourcegroup-azure-operators",
+            "server": "sqlserver-sample-777"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureSqlDatabase",
+          "metadata": {
+            "labels": {
+              "tag1": "valueA",
+              "tag2": "valueB"
+            },
+            "name": "azuresqldatabase-sample3"
+          },
+          "spec": {
+            "edition": 0,
+            "location": "westus",
+            "resourcegroup": "resourcegroup-azure-operators",
+            "server": "sqlserver-sample777"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureSqlFailoverGroup",
+          "metadata": {
+            "name": "azuresqlfailovergroup-sample"
+          },
+          "spec": {
+            "databaselist": [
+              "azuresqldatabase-sample1",
+              "azuresqldatabase-sample2"
+            ],
+            "failovergraceperiod": 30,
+            "failoverpolicy": "automatic",
+            "location": "eastus",
+            "resourcegroup": "resourcegroup-azure-operators",
+            "secondaryserver": "sqlserver-samplesec",
+            "secondaryserverresourcegroup": "resourcegroup-azure-operators",
+            "server": "sqlserver-samplepri"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureSqlFirewallRule",
+          "metadata": {
+            "name": "sqlf-allowazuresvcaccess"
+          },
+          "spec": {
+            "endipaddress": "0.0.0.0",
+            "resourcegroup": "resourcegroup-azure-operators",
+            "server": "sqlserver-sample-777",
+            "startipaddress": "0.0.0.0"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureSqlServer",
+          "metadata": {
+            "labels": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "name": "sqlserver-sample-777"
+          },
+          "spec": {
+            "location": "westus",
+            "resourcegroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureSqlServer",
+          "metadata": {
+            "labels": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "name": "sqlserver-sample777"
+          },
+          "spec": {
+            "location": "westus",
+            "resourcegroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureVMScaleSet",
+          "metadata": {
+            "name": "vmss-sample-01"
+          },
+          "spec": {
+            "adminUserName": "azureuser7",
+            "backendAddressPoolName": "test",
+            "capacity": 3,
+            "inboundNatPoolName": "test",
+            "loadBalancerName": "lb-sample-01",
+            "location": "SouthCentralUS",
+            "osType": "Linux",
+            "platformImageURN": "Canonical:UbuntuServer:16.04-LTS:latest",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "sshPublicKeyData": "{ssh public key}",
+            "subnetName": "test1",
+            "virtualNetworkName": "vnet-sample-01",
+            "vmSize": "Standard_DS1_v2"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureVirtualMachine",
+          "metadata": {
+            "name": "hpfvm1"
+          },
+          "spec": {
+            "adminUserName": "azureuser",
+            "location": "SouthCentralUS",
+            "networkInterfaceName": "nic-sample-02",
+            "osType": "Linux",
+            "platformImageURN": "Canonical:UbuntuServer:16.04-LTS:latest",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "sshPublicKeyData": {
+              "ssh key": null
+            },
+            "vmSize": "Standard_DS1_v2"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureVirtualMachine",
+          "metadata": {
+            "name": "hpfvm20"
+          },
+          "spec": {
+            "adminUserName": "azureuser",
+            "location": "SouthCentralUS",
+            "networkInterfaceName": "nic-sample-01",
+            "osType": "Linux",
+            "platformImageURN": "Canonical:UbuntuServer:16.04-LTS:latest",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "sshPublicKeyData": "{ssh public key}",
+            "vmSize": "Standard_DS1_v2"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "AzureVirtualMachineExtension",
+          "metadata": {
+            "name": "vmext20a"
+          },
+          "spec": {
+            "autoUpgradeMinorVersion": true,
+            "forceUpdateTag": "Test2",
+            "location": "SouthCentralUS",
+            "protectedSettings": "{}",
+            "publisher": "Microsoft.Azure.Extensions",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "settings": "{\"commandToExecute\":\"echo 'hello, world'\"}",
+            "typeHandlerVersion": "2.1",
+            "typeName": "CustomScript",
+            "vmName": "vm20"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "BlobContainer",
+          "metadata": {
+            "name": "blobcontainer-sample"
+          },
+          "spec": {
+            "accesslevel": "Container",
+            "accountname": "storageaccountsample777",
+            "location": "westus",
+            "resourcegroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "ConsumerGroup",
+          "metadata": {
+            "name": "consumergroup-sample-1"
+          },
+          "spec": {
+            "eventHub": "eventhub-sample-1",
+            "namespace": "eventhubnamespace-sample-1",
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "CosmosDB",
+          "metadata": {
+            "name": "cosmosdb-sample-1"
+          },
+          "spec": {
+            "kind": "GlobalDocumentDB",
+            "location": "westus",
+            "properties": {
+              "databaseAccountOfferType": "Standard",
+              "isVirtualNetworkFilterEnabled": true
+            },
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "CosmosDB",
+          "metadata": {
+            "labels": {
+              "CosmosAccountType": "Production"
+            },
+            "name": "cosmosdb-sample-2"
+          },
+          "spec": {
+            "ipRules": [
+              "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26"
+            ],
+            "kind": "GlobalDocumentDB",
+            "location": "eastus",
+            "locations": [
+              {
+                "failoverPriority": 0,
+                "isZoneRedundant": true,
+                "locationName": "eastus"
+              },
+              {
+                "failoverPriority": 1,
+                "locationName": "westus"
+              }
+            ],
+            "properties": {
+              "databaseAccountOfferType": "Standard",
+              "enableMultipleWriteLocations": true
+            },
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "Eventhub",
+          "metadata": {
+            "name": "eventhub-sample-1"
+          },
+          "spec": {
+            "authorizationRule": {
+              "name": "RootManageSharedAccessKey",
+              "rights": [
+                "Listen",
+                "Manage",
+                "Send"
+              ]
+            },
+            "location": "westus",
+            "namespace": "eventhubnamespace-sample-1",
+            "properties": {
+              "messageRetentionInDays": 7,
+              "partitionCount": 2
+            },
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "Eventhub",
+          "metadata": {
+            "name": "eventhub-sample-2307-10-capture"
+          },
+          "spec": {
+            "authorizationRule": {
+              "name": "RootManageSharedAccessKey",
+              "rights": [
+                "Listen",
+                "Manage",
+                "Send"
+              ]
+            },
+            "location": "westus",
+            "namespace": "eventhubnamespace-sample-1",
+            "properties": {
+              "captureDescription": {
+                "destination": {
+                  "archiveNameFormat": "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
+                  "blobContainer": "capturecontainer",
+                  "name": "EventHubArchive.AzureBlockBlob",
+                  "storageAccount": {
+                    "accountName": "storageaccountauv1",
+                    "resourceGroup": "my-resource-group"
+                  }
+                },
+                "enabled": true,
+                "intervalInSeconds": 120,
+                "sizeLimitInBytes": 524288000
+              },
+              "messageRetentionInDays": 7,
+              "partitionCount": 2
+            },
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "EventhubNamespace",
+          "metadata": {
+            "name": "eventhubnamespace-sample-1"
+          },
+          "spec": {
+            "location": "westus",
+            "properties": {
+              "isAutoInflateEnabled": false,
+              "kafkaEnabled": false,
+              "maximumThroughputUnits": 0
+            },
+            "resourceGroup": "resourcegroup-azure-operators",
+            "sku": {
+              "capacity": 1,
+              "name": "Standard",
+              "tier": "Standard"
+            }
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "KeyVault",
+          "metadata": {
+            "labels": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "name": "keyvaultsample123"
+          },
+          "spec": {
+            "accessPolicies": [
+              {
+                "clientID": "\u003cclientID\u003e",
+                "permissions": {
+                  "certificates": [
+                    "list",
+                    "get"
+                  ],
+                  "keys": [
+                    "list",
+                    "get"
+                  ],
+                  "secrets": [
+                    "list",
+                    "get"
+                  ],
+                  "storage": [
+                    "list",
+                    "get"
+                  ]
+                },
+                "tenantID": "\u003ctenantID\u003e"
+              }
+            ],
+            "enableSoftDelete": false,
+            "location": "westus",
+            "networkPolicies": {
+              "bypass": "AzureServices",
+              "defaultAction": "Allow",
+              "ipRules": [
+                "172.16.0.0/24",
+                "172.16.1.0/24"
+              ],
+              "virtualNetworkRules": [
+                "/subscriptions/\u003csubid\u003e/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1",
+                "/subscriptions/\u003csubid\u003e/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet2"
+              ]
+            },
+            "resourceGroup": "resourcegroup-azure-operators",
+            "sku": {
+              "name": "standard"
+            }
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "KeyVault",
+          "metadata": {
+            "labels": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "name": "keyvaultsample123-simple"
+          },
+          "spec": {
+            "enableSoftDelete": false,
+            "location": "westus",
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "KeyVaultKey",
+          "metadata": {
+            "name": "keyvaultkey-sample"
+          },
+          "spec": {
+            "keySize": 4096,
+            "keyVault": "keyvaultsample123",
+            "location": "westus",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "type": "RSA"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "MySQLDatabase",
+          "metadata": {
+            "name": "mysqldatabase-sample"
+          },
+          "spec": {
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "mysqlserver-sample"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "MySQLDatabase",
+          "metadata": {
+            "name": "mysqldatabase-sample2"
+          },
+          "spec": {
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "mysqlserver-sample2"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "MySQLFirewallRule",
+          "metadata": {
+            "name": "mysqlfirewallrule-sample"
+          },
+          "spec": {
+            "endIpAddress": "0.0.0.0",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "mysqlserver-sample",
+            "startIpAddress": "0.0.0.0"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "MySQLFirewallRule",
+          "metadata": {
+            "name": "mysqlfirewallrule-sample2"
+          },
+          "spec": {
+            "endIpAddress": "0.0.0.0",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "mysqlserver-sample2",
+            "startIpAddress": "0.0.0.0"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "MySQLServer",
+          "metadata": {
+            "name": "mysqlserver-replica"
+          },
+          "spec": {
+            "createMode": "Replica",
+            "location": "eastus2",
+            "replicaProperties": {
+              "sourceServerId": "/subscriptions/{SUBID}/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.DBforMySQL/servers/mysqlserver-sample"
+            },
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "MySQLServer",
+          "metadata": {
+            "name": "mysqlserver-sample"
+          },
+          "spec": {
+            "createMode": "Default",
+            "location": "eastus2",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "serverVersion": "8.0",
+            "sku": {
+              "capacity": 4,
+              "family": "Gen5",
+              "name": "GP_Gen5_4",
+              "size": "51200",
+              "tier": "GeneralPurpose"
+            },
+            "sslEnforcement": "Enabled"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "MySQLServer",
+          "metadata": {
+            "name": "mysqlserver-sample2"
+          },
+          "spec": {
+            "createMode": "Default",
+            "location": "eastus2",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "serverVersion": "8.0",
+            "sku": {
+              "capacity": 4,
+              "family": "Gen5",
+              "name": "GP_Gen5_4",
+              "size": "51200",
+              "tier": "GeneralPurpose"
+            },
+            "sslEnforcement": "Enabled"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "MySQLUser",
+          "metadata": {
+            "name": "mysqluser-sample"
+          },
+          "spec": {
+            "dbName": "mysqldatabase-sample",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "roles": [
+              "SELECT"
+            ],
+            "server": "mysqlserver-sample"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "MySQLVNetRule",
+          "metadata": {
+            "name": "mysqlvnetrule-sample"
+          },
+          "spec": {
+            "ignoreMissingServiceEndpoint": true,
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "mysqlserver-sample",
+            "subnetName": "test1",
+            "vNetName": "virtualnetwork-sample",
+            "vNetResourceGroup": "resourcegroup-vnet"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "PostgreSQLDatabase",
+          "metadata": {
+            "name": "postgresqldatabase-sample"
+          },
+          "spec": {
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "postgresqlserver-sample"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "PostgreSQLDatabase",
+          "metadata": {
+            "name": "postgresqldatabase-sample2"
+          },
+          "spec": {
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "postgresqlserver-sample2"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "PostgreSQLFirewallRule",
+          "metadata": {
+            "name": "postgresqlfirewallrule-sample"
+          },
+          "spec": {
+            "endIpAddress": "0.0.0.0",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "postgresqlserver-sample",
+            "startIpAddress": "0.0.0.0"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "PostgreSQLFirewallRule",
+          "metadata": {
+            "name": "postgresqlfirewallrule-sample2"
+          },
+          "spec": {
+            "endIpAddress": "0.0.0.0",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "postgresqlserver-sample2",
+            "startIpAddress": "0.0.0.0"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "PostgreSQLServer",
+          "metadata": {
+            "name": "postgresqlserver-replica3"
+          },
+          "spec": {
+            "createMode": "Replica",
+            "location": "eastus",
+            "replicaProperties": {
+              "sourceServerId": "/subscriptions/{subscription ID}/resourceGroups/resourcegroup-azure-operators/providers/Microsoft.DBforPostgreSQL/servers/postgresqlserver-sample"
+            },
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "PostgreSQLServer",
+          "metadata": {
+            "name": "postgresqlserver-sample"
+          },
+          "spec": {
+            "createMode": "Default",
+            "location": "eastus",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "serverVersion": "10",
+            "sku": {
+              "capacity": 4,
+              "family": "Gen5",
+              "name": "GP_Gen5_4",
+              "size": "51200",
+              "tier": "GeneralPurpose"
+            },
+            "sslEnforcement": "Enabled"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "PostgreSQLServer",
+          "metadata": {
+            "name": "postgresqlserver-sample2"
+          },
+          "spec": {
+            "location": "southcentralus",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "serverVersion": "10",
+            "sku": {
+              "capacity": 2,
+              "family": "Gen5",
+              "name": "B_Gen5_2",
+              "size": "51200",
+              "tier": "Basic"
+            },
+            "sslEnforcement": "Enabled"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "PostgreSQLUser",
+          "metadata": {
+            "name": "psqluser-sample"
+          },
+          "spec": {
+            "dbName": "postgresqldatabase-sample",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "roles": [
+              "azure_pg_admin"
+            ],
+            "server": "postgresqlserver-sample"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "PostgreSQLVNetRule",
+          "metadata": {
+            "name": "postgresqlvnetrule-sample1"
+          },
+          "spec": {
+            "ignoreMissingServiceEndpoint": true,
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "postgresqlserver-sample",
+            "subnetName": "test1",
+            "vNetName": "virtualnetwork-sample",
+            "vNetResourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "RedisCache",
+          "metadata": {
+            "labels": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "name": "rediscache-sample-1"
+          },
+          "spec": {
+            "location": "westus",
+            "properties": {
+              "enableNonSslPort": true,
+              "sku": {
+                "capacity": 1,
+                "family": "C",
+                "name": "Basic"
+              }
+            },
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "RedisCacheAction",
+          "metadata": {
+            "name": "rediscacheaction-sample-1"
+          },
+          "spec": {
+            "actionName": "rollallkeys",
+            "cacheName": "rediscache-sample-1",
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "RedisCacheFirewallRule",
+          "metadata": {
+            "name": "rediscachefirewallrule"
+          },
+          "spec": {
+            "properties": {
+              "endIP": "0.0.0.0",
+              "startIP": "0.0.0.0"
+            },
+            "redisCache": "rediscache-sample-1",
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "ResourceGroup",
+          "metadata": {
+            "name": "resourcegroup-azure-operators"
+          },
+          "spec": {
+            "location": "westus"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "StorageAccount",
+          "metadata": {
+            "name": "storageaccountsample777"
+          },
+          "spec": {
+            "accessTier": "Hot",
+            "kind": "StorageV2",
+            "location": "westus",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "sku": {
+              "name": "Standard_RAGRS"
+            },
+            "supportsHttpsTrafficOnly": true
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "VirtualNetwork",
+          "metadata": {
+            "name": "vnet-sample-01"
+          },
+          "spec": {
+            "addressSpace": "10.0.0.0/8",
+            "location": "SouthCentralUS",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "subnets": [
+              {
+                "subnetAddressPrefix": "10.1.0.0/16",
+                "subnetName": "test1"
+              },
+              {
+                "subnetAddressPrefix": "10.2.0.0/16",
+                "subnetName": "test2"
+              }
+            ]
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha1",
+          "kind": "VirtualNetwork",
+          "metadata": {
+            "name": "vnet-sample-02"
+          },
+          "spec": {
+            "addressSpace": "10.0.0.0/8",
+            "location": "SouthCentralUS",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "subnets": [
+              {
+                "subnetAddressPrefix": "10.1.0.0/16",
+                "subnetName": "test1"
+              },
+              {
+                "subnetAddressPrefix": "10.2.0.0/16",
+                "subnetName": "test2"
+              }
+            ]
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha2",
+          "kind": "BlobContainer",
+          "metadata": {
+            "name": "blobcontainer-sample"
+          },
+          "spec": {
+            "accessLevel": "Container",
+            "accountName": "storageaccountsample777",
+            "location": "westus",
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha2",
+          "kind": "MySQLServer",
+          "metadata": {
+            "labels": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "name": "mysqlserver-sample"
+          },
+          "spec": {
+            "createMode": "Default",
+            "location": "eastus2",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "serverVersion": "8.0",
+            "sku": {
+              "capacity": 4,
+              "family": "Gen5",
+              "name": "GP_Gen5_4",
+              "size": "51200",
+              "tier": "GeneralPurpose"
+            },
+            "sslEnforcement": "Enabled"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1alpha2",
+          "kind": "PostgreSQLServer",
+          "metadata": {
+            "labels": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "name": "postgresqlserver-sample"
+          },
+          "spec": {
+            "createMode": "Default",
+            "location": "eastus",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "serverVersion": "10",
+            "sku": {
+              "capacity": 4,
+              "family": "Gen5",
+              "name": "GP_Gen5_4",
+              "size": "51200",
+              "tier": "GeneralPurpose"
+            },
+            "sslEnforcement": "Enabled"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1beta1",
+          "kind": "AzureSqlDatabase",
+          "metadata": {
+            "labels": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "name": "azuresqldatabase-sample"
+          },
+          "spec": {
+            "location": "westus",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "sqlserver-sample-777",
+            "sku": {
+              "name": "Basic",
+              "tier": "Basic"
+            }
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1beta1",
+          "kind": "AzureSqlFailoverGroup",
+          "metadata": {
+            "name": "azuresqlfailovergroup-sample"
+          },
+          "spec": {
+            "databaseList": [
+              "azuresqldatabase-sample",
+              "azuresqldatabase-sample2"
+            ],
+            "failoverGracePeriod": 30,
+            "failoverPolicy": "automatic",
+            "location": "eastus",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "secondaryServer": "sqlserver-samplesec",
+            "secondaryServerResourceGroup": "resourcegroup-azure-operators",
+            "server": "sqlserver-samplepri"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1beta1",
+          "kind": "AzureSqlFirewallRule",
+          "metadata": {
+            "name": "sqlf-allowazuresvcaccess"
+          },
+          "spec": {
+            "endIpAddress": "0.0.0.0",
+            "resourceGroup": "resourcegroup-azure-operators",
+            "server": "sqlserver-sample-777",
+            "startIpAddress": "0.0.0.0"
+          }
+        },
+        {
+          "apiVersion": "azure.microsoft.com/v1beta1",
+          "kind": "AzureSqlServer",
+          "metadata": {
+            "labels": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "name": "sqlserver-sample-777"
+          },
+          "spec": {
+            "location": "westus",
+            "resourceGroup": "resourcegroup-azure-operators"
+          }
+        }
+      ]
+    capabilities: Basic Install
+    operators.operatorframework.io/builder: operator-sdk-v1.0.0
+    operators.operatorframework.io/project_layout: go
+  name: azure-service-operator.v0.37.0
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - kind: APIMgmtAPI
+      name: apimgmtapis.azure.microsoft.com
+      version: v1alpha1
+    - kind: ApimService
+      name: apimservices.azure.microsoft.com
+      version: v1alpha1
+    - kind: AppInsights
+      name: appinsights.azure.microsoft.com
+      version: v1alpha1
+    - kind: AppInsightsApiKey
+      name: appinsightsapikeys.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureLoadBalancer
+      name: azureloadbalancers.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureNetworkInterface
+      name: azurenetworkinterfaces.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzurePublicIPAddress
+      name: azurepublicipaddresses.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureSqlAction
+      name: azuresqlactions.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureSqlDatabase
+      name: azuresqldatabases.azure.microsoft.com
+      version: v1beta1
+    - kind: AzureSqlDatabase
+      name: azuresqldatabases.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureSqlFailoverGroup
+      name: azuresqlfailovergroups.azure.microsoft.com
+      version: v1beta1
+    - kind: AzureSqlFailoverGroup
+      name: azuresqlfailovergroups.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureSqlFirewallRule
+      name: azuresqlfirewallrules.azure.microsoft.com
+      version: v1beta1
+    - kind: AzureSqlFirewallRule
+      name: azuresqlfirewallrules.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureSQLManagedUser
+      name: azuresqlmanagedusers.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureSqlServer
+      name: azuresqlservers.azure.microsoft.com
+      version: v1beta1
+    - kind: AzureSqlServer
+      name: azuresqlservers.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureSQLUser
+      name: azuresqlusers.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureSQLVNetRule
+      name: azuresqlvnetrules.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureVirtualMachineExtension
+      name: azurevirtualmachineextensions.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureVirtualMachine
+      name: azurevirtualmachines.azure.microsoft.com
+      version: v1alpha1
+    - kind: AzureVMScaleSet
+      name: azurevmscalesets.azure.microsoft.com
+      version: v1alpha1
+    - kind: BlobContainer
+      name: blobcontainers.azure.microsoft.com
+      version: v1alpha2
+    - kind: BlobContainer
+      name: blobcontainers.azure.microsoft.com
+      version: v1alpha1
+    - kind: ConsumerGroup
+      name: consumergroups.azure.microsoft.com
+      version: v1alpha1
+    - kind: CosmosDB
+      name: cosmosdbs.azure.microsoft.com
+      version: v1alpha1
+    - kind: EventhubNamespace
+      name: eventhubnamespaces.azure.microsoft.com
+      version: v1alpha1
+    - kind: Eventhub
+      name: eventhubs.azure.microsoft.com
+      version: v1alpha1
+    - kind: KeyVaultKey
+      name: keyvaultkeys.azure.microsoft.com
+      version: v1alpha1
+    - kind: KeyVault
+      name: keyvaults.azure.microsoft.com
+      version: v1alpha1
+    - kind: MySQLDatabase
+      name: mysqldatabases.azure.microsoft.com
+      version: v1alpha1
+    - kind: MySQLFirewallRule
+      name: mysqlfirewallrules.azure.microsoft.com
+      version: v1alpha1
+    - kind: MySQLServer
+      name: mysqlservers.azure.microsoft.com
+      version: v1alpha2
+    - kind: MySQLServer
+      name: mysqlservers.azure.microsoft.com
+      version: v1alpha1
+    - kind: MySQLUser
+      name: mysqlusers.azure.microsoft.com
+      version: v1alpha1
+    - kind: MySQLVNetRule
+      name: mysqlvnetrules.azure.microsoft.com
+      version: v1alpha1
+    - kind: PostgreSQLDatabase
+      name: postgresqldatabases.azure.microsoft.com
+      version: v1alpha1
+    - kind: PostgreSQLFirewallRule
+      name: postgresqlfirewallrules.azure.microsoft.com
+      version: v1alpha1
+    - kind: PostgreSQLServer
+      name: postgresqlservers.azure.microsoft.com
+      version: v1alpha2
+    - kind: PostgreSQLServer
+      name: postgresqlservers.azure.microsoft.com
+      version: v1alpha1
+    - kind: PostgreSQLUser
+      name: postgresqlusers.azure.microsoft.com
+      version: v1alpha1
+    - kind: PostgreSQLVNetRule
+      name: postgresqlvnetrules.azure.microsoft.com
+      version: v1alpha1
+    - kind: RedisCacheAction
+      name: rediscacheactions.azure.microsoft.com
+      version: v1alpha1
+    - kind: RedisCacheFirewallRule
+      name: rediscachefirewallrules.azure.microsoft.com
+      version: v1alpha1
+    - kind: RedisCache
+      name: rediscaches.azure.microsoft.com
+      version: v1alpha1
+    - kind: ResourceGroup
+      name: resourcegroups.azure.microsoft.com
+      version: v1alpha1
+    - kind: StorageAccount
+      name: storageaccounts.azure.microsoft.com
+      version: v1alpha1
+    - kind: VirtualNetwork
+      name: virtualnetworks.azure.microsoft.com
+      version: v1alpha1
+  description: Enables provisioning and managing Azure services as Kubernetes resources.
+  displayName: Azure Service Operator
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - apps
+          resources:
+          - deployments
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - apps
+          resources:
+          - deployments/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - AzureSQLUsers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - AzureSQLUsers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - apimgmtapis
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - apimgmtapis/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - apimservices
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - apimservices/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - appinsights
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - appinsights/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - appinsightsapikeys
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - appinsightsapikeys/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azureloadbalancers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azureloadbalancers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azurenetworkinterfaces
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azurenetworkinterfaces/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azurepublicipaddresses
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azurepublicipaddresses/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlactions
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlactions/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqldatabases
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqldatabases/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlfailovergroups
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlfailovergroups/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlfirewallrules
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlfirewallrules/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlmanagedusers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlmanagedusers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlservers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlservers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlusers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlusers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlvnetrules
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azuresqlvnetrules/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azurevirtualmachineextensions
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azurevirtualmachineextensions/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azurevirtualmachines
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azurevirtualmachines/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azurevmscalesets
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - azurevmscalesets/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - blobcontainers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - blobcontainers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - consumergroups
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - consumergroups/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - cosmosdbs
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - cosmosdbs/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - eventhubnamespaces
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - eventhubnamespaces/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - eventhubs
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - eventhubs/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - events
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - keyvaultkeys
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - keyvaultkeys/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - keyvaults
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - keyvaults/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - mysqldatabases
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - mysqldatabases/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - mysqlfirewallrules
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - mysqlfirewallrules/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - mysqlservers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - mysqlservers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - mysqlusers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - mysqlusers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - mysqlvnetrules
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - mysqlvnetrules/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - postgresqldatabases
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - postgresqldatabases/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - postgresqlfirewallrules
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - postgresqlfirewallrules/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - postgresqlservers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - postgresqlservers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - postgresqlusers
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - postgresqlusers/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - postgresqlvnetrules
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - postgresqlvnetrules/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - rediscacheactions
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - rediscacheactions/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - rediscachefirewallrules
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - rediscachefirewallrules/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - rediscaches
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - rediscaches/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - resourcegroups
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - resourcegroups/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - storageaccounts
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - storageaccounts/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - virtualnetworks
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - azure.microsoft.com
+          resources:
+          - virtualnetworks/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - ""
+          resources:
+          - secrets
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - authentication.k8s.io
+          resources:
+          - tokenreviews
+          verbs:
+          - create
+        - apiGroups:
+          - authorization.k8s.io
+          resources:
+          - subjectaccessreviews
+          verbs:
+          - create
+        serviceAccountName: default
+      deployments:
+      - name: azureoperator-controller-manager
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              control-plane: controller-manager
+          strategy: {}
+          template:
+            metadata:
+              labels:
+                aadpodidbinding: aso_manager_binding
+                control-plane: controller-manager
+            spec:
+              containers:
+              - args:
+                - --metrics-addr=127.0.0.1:8080
+                command:
+                - /manager
+                env:
+                - name: AZURE_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_CLIENT_ID
+                      name: azureoperatorsettings
+                      optional: true
+                - name: AZURE_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_CLIENT_SECRET
+                      name: azureoperatorsettings
+                      optional: true
+                - name: AZURE_TENANT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_TENANT_ID
+                      name: azureoperatorsettings
+                - name: AZURE_SUBSCRIPTION_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_SUBSCRIPTION_ID
+                      name: azureoperatorsettings
+                - name: AZURE_USE_MI
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_USE_MI
+                      name: azureoperatorsettings
+                      optional: true
+                - name: AZURE_OPERATOR_KEYVAULT
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_OPERATOR_KEYVAULT
+                      name: azureoperatorsettings
+                      optional: true
+                - name: AZURE_CLOUD_ENV
+                  valueFrom:
+                    secretKeyRef:
+                      key: AZURE_CLOUD_ENV
+                      name: azureoperatorsettings
+                      optional: true
+                - name: REQUEUE_AFTER
+                  value: "30"
+                image: controller:latest
+                name: manager
+                ports:
+                - containerPort: 9443
+                  name: webhook-server
+                  protocol: TCP
+                - containerPort: 8081
+                  name: liveness-port
+                  protocol: TCP
+                resources:
+                  limits:
+                    cpu: 500m
+                    memory: 512Mi
+                  requests:
+                    cpu: 200m
+                    memory: 256Mi
+                volumeMounts:
+                - mountPath: /tmp/k8s-webhook-server/serving-certs
+                  name: cert
+                  readOnly: true
+              - args:
+                - --secure-listen-address=0.0.0.0:8443
+                - --upstream=http://127.0.0.1:8080/
+                - --logtostderr=true
+                - --v=10
+                image: gcr.io/kubebuilder/kube-rbac-proxy:v0.5.0
+                name: kube-rbac-proxy
+                ports:
+                - containerPort: 8443
+                  name: https
+                resources: {}
+              terminationGracePeriodSeconds: 10
+              volumes:
+              - name: cert
+                secret:
+                  defaultMode: 420
+                  secretName: webhook-server-cert
+      permissions:
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps/status
+          verbs:
+          - get
+          - update
+          - patch
+        serviceAccountName: default
+    strategy: deployment
+  installModes:
+  - supported: true
+    type: OwnNamespace
+  - supported: true
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - azure
+  - infrastructure
+  links:
+  - name: Azure Service Operator
+    url: https://azure-service-operator.domain
+  maturity: alpha
+  provider:
+    name: Microsoft AKS team
+  version: 0.37.0

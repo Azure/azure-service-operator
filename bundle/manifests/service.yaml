@@ -1,0 +1,14 @@
+kind: Service
+metadata:
+  name: azureoperator-webhook-service
+  annotations:
+    service.alpha.openshift.io/serving-cert-secret-name: webhook-server-cert
+spec:
+  ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 9443
+  selector:
+    control-plane: controller-manager
+  sessionAffinity: None
+  type: ClusterIP

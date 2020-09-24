@@ -1,0 +1,127 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: rediscaches.azure.microsoft.com
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.provisioned
+    name: Provisioned
+    type: string
+  - JSONPath: .status.message
+    name: Message
+    type: string
+  group: azure.microsoft.com
+  names:
+    kind: RedisCache
+    listKind: RedisCacheList
+    plural: rediscaches
+    shortNames:
+    - rc
+    singular: rediscache
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: RedisCache is the Schema for the rediscaches API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: RedisCacheSpec defines the desired state of RedisCache
+          properties:
+            keyVaultToStoreSecrets:
+              type: string
+            location:
+              minLength: 0
+              type: string
+            properties:
+              description: RedisCacheProperties the properties of the Redis Cache.
+              properties:
+                configuration:
+                  additionalProperties:
+                    type: string
+                  type: object
+                enableNonSslPort:
+                  type: boolean
+                shardCount:
+                  format: int32
+                  type: integer
+                sku:
+                  description: RedisCacheSku the SKU of the Redis Cache.
+                  properties:
+                    capacity:
+                      format: int32
+                      type: integer
+                    family:
+                      type: string
+                    name:
+                      description: 'Name - The SKU name. Required for account creation; optional for update. Possible values include: ''StandardLRS'', ''StandardGRS'', ''StandardRAGRS'', ''StandardZRS'', ''PremiumLRS'', ''PremiumZRS'', ''StandardGZRS'', ''StandardRAGZRS'''
+                      type: string
+                  type: object
+                staticIp:
+                  type: string
+                subnetId:
+                  type: string
+              type: object
+            resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
+              type: string
+            secretName:
+              type: string
+          required:
+          - resourceGroup
+          type: object
+        status:
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
+          properties:
+            completed:
+              format: date-time
+              type: string
+            containsUpdate:
+              type: boolean
+            failedProvisioning:
+              type: boolean
+            flattenedSecrets:
+              type: boolean
+            message:
+              type: string
+            output:
+              type: string
+            pollingUrl:
+              type: string
+            provisioned:
+              type: boolean
+            provisioning:
+              type: boolean
+            requested:
+              format: date-time
+              type: string
+            resourceId:
+              type: string
+            specHash:
+              type: string
+            state:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

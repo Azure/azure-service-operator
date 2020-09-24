@@ -1,0 +1,163 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: apimgmtapis.azure.microsoft.com
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.provisioned
+    name: Provisioned
+    type: string
+  - JSONPath: .status.message
+    name: Message
+    type: string
+  group: azure.microsoft.com
+  names:
+    kind: APIMgmtAPI
+    listKind: APIMgmtAPIList
+    plural: apimgmtapis
+    shortNames:
+    - apim
+    singular: apimgmtapi
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: APIMgmtSpec defines the desired state of APIMgmt
+          properties:
+            apiId:
+              type: string
+            apiService:
+              type: string
+            location:
+              type: string
+            properties:
+              properties:
+                apiRevision:
+                  description: APIRevision - Describes the Revision of the Api. If no value is provided, default revision 1 is created
+                  type: string
+                apiRevisionDescription:
+                  description: APIRevisionDescription - Description of the Api Revision.
+                  type: string
+                apiVersion:
+                  description: APIVersion - Indicates the Version identifier of the API if the API is versioned
+                  type: string
+                apiVersionDescription:
+                  description: APIVersionDescription - Description of the Api Version.
+                  type: string
+                apiVersionSetId:
+                  description: APIVersionSetID - A resource identifier for the related ApiVersionSet.
+                  type: string
+                apiVersionSets:
+                  description: APIVersionSet - APIVersionSetContractDetails an API Version Set contains the common configuration for a set of API versions.
+                  properties:
+                    description:
+                      description: Description - Description of API Version Set.
+                      type: string
+                    id:
+                      description: ID - Identifier for existing API Version Set. Omit this value to create a new Version Set.
+                      type: string
+                    name:
+                      description: Name - The display Name of the API Version Set.
+                      type: string
+                  type: object
+                description:
+                  description: Description - Description of the API. May include HTML formatting tags.
+                  type: string
+                displayName:
+                  description: DisplayName - API name. Must be 1 to 300 characters long.
+                  type: string
+                format:
+                  description: " Format - Format of the Content in which the API is getting imported. Possible values include: \t'WadlXML', 'WadlLinkJSON', 'SwaggerJSON', 'SwaggerLinkJSON', 'Wsdl', 'WsdlLink', 'Openapi', 'Openapijson', 'OpenapiLink'"
+                  type: string
+                isCurrent:
+                  description: IsCurrent - Indicates if API revision is current api revision.
+                  type: boolean
+                isOnline:
+                  description: IsOnline - READ-ONLY; Indicates if API revision is accessible via the gateway.
+                  type: boolean
+                path:
+                  description: " Path - Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. \tIt is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API."
+                  type: string
+                protocols:
+                  description: Protocols - Describes on which protocols the operations in this API can be invoked.
+                  items:
+                    type: string
+                  type: array
+                serviceUrl:
+                  description: ServiceURL - Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
+                  type: string
+                sourceApiId:
+                  description: SourceAPIID - API identifier of the source API.
+                  type: string
+                subscriptionRequired:
+                  description: SubscriptionRequired - Specifies whether an API or Product subscription is required for accessing the API.
+                  type: boolean
+              type: object
+            resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
+              type: string
+          required:
+          - apiId
+          - apiService
+          - location
+          - properties
+          - resourceGroup
+          type: object
+        status:
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
+          properties:
+            completed:
+              format: date-time
+              type: string
+            containsUpdate:
+              type: boolean
+            failedProvisioning:
+              type: boolean
+            flattenedSecrets:
+              type: boolean
+            message:
+              type: string
+            output:
+              type: string
+            pollingUrl:
+              type: string
+            provisioned:
+              type: boolean
+            provisioning:
+              type: boolean
+            requested:
+              format: date-time
+              type: string
+            resourceId:
+              type: string
+            specHash:
+              type: string
+            state:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

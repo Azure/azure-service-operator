@@ -1,0 +1,164 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: cosmosdbs.azure.microsoft.com
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.provisioned
+    name: Provisioned
+    type: string
+  - JSONPath: .status.message
+    name: Message
+    type: string
+  group: azure.microsoft.com
+  names:
+    kind: CosmosDB
+    listKind: CosmosDBList
+    plural: cosmosdbs
+    shortNames:
+    - cdb
+    singular: cosmosdb
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: CosmosDB is the Schema for the cosmosdbs API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: CosmosDBSpec defines the desired state of CosmosDB
+          properties:
+            ipRules:
+              items:
+                type: string
+              type: array
+            keyVaultToStoreSecrets:
+              type: string
+            kind:
+              description: CosmosDBKind enumerates the values for kind. Only one of the following kinds may be specified. If none of the following kinds is specified, the default one is GlobalDocumentDBKind.
+              enum:
+              - GlobalDocumentDB
+              - MongoDB
+              type: string
+            location:
+              minLength: 0
+              type: string
+            locations:
+              items:
+                description: CosmosDBLocation defines one or more locations for geo-redundancy and high availability
+                properties:
+                  failoverPriority:
+                    format: int32
+                    type: integer
+                  isZoneRedundant:
+                    type: boolean
+                  locationName:
+                    type: string
+                required:
+                - failoverPriority
+                - locationName
+                type: object
+              type: array
+            properties:
+              description: CosmosDBProperties the CosmosDBProperties of CosmosDB.
+              properties:
+                capabilities:
+                  items:
+                    description: Capability cosmos DB capability object
+                    properties:
+                      name:
+                        description: Name *CosmosCapability `json:"name,omitempty"`
+                        enum:
+                        - EnableCassandra
+                        - EnableTable
+                        - EnableGremlin
+                        - EnableMongo
+                        type: string
+                    type: object
+                  type: array
+                databaseAccountOfferType:
+                  description: DatabaseAccountOfferType - The offer type for the Cosmos DB database account.
+                  enum:
+                  - Standard
+                  type: string
+                enableMultipleWriteLocations:
+                  type: boolean
+                isVirtualNetworkFilterEnabled:
+                  description: IsVirtualNetworkFilterEnabled - Flag to indicate whether to enable/disable Virtual Network ACL rules.
+                  type: boolean
+                mongoDBVersion:
+                  type: string
+              type: object
+            resourceGroup:
+              pattern: ^[-\w\._\(\)]+$
+              type: string
+            virtualNetworkRules:
+              items:
+                description: CosmosDBVirtualNetworkRule virtual Network ACL Rule object
+                properties:
+                  ignoreMissingVNetServiceEndpoint:
+                    description: IgnoreMissingVNetServiceEndpoint - Create firewall rule before the virtual network has vnet service endpoint enabled.
+                    type: boolean
+                  subnetID:
+                    description: 'ID - Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.'
+                    type: string
+                type: object
+              type: array
+          required:
+          - resourceGroup
+          type: object
+        status:
+          description: ASOStatus (AzureServiceOperatorsStatus) defines the observed state of resource actions
+          properties:
+            completed:
+              format: date-time
+              type: string
+            containsUpdate:
+              type: boolean
+            failedProvisioning:
+              type: boolean
+            flattenedSecrets:
+              type: boolean
+            message:
+              type: string
+            output:
+              type: string
+            pollingUrl:
+              type: string
+            provisioned:
+              type: boolean
+            provisioning:
+              type: boolean
+            requested:
+              format: date-time
+              type: string
+            resourceId:
+              type: string
+            specHash:
+              type: string
+            state:
+              type: string
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
