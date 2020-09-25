@@ -16,14 +16,25 @@ import (
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
-// checkForAnyType returns a stage that will check for any defs
-// containing AnyTypes. It accepts a set of packages that we expect to
-// contain types with AnyTypes. Those packages will be quietly
-// filtered out of the output of the stage, but if there are more
-// AnyTypes in other packages they'll be reported as an error. The
-// stage will also return an error if there are packages that we
-// expect to have AnyTypes but turn out not to.
-func checkForAnyType(packages []string) PipelineStage {
+// filterOutDefinitionsUsingAnyType returns a stage that will check for any definitions
+// containing AnyTypes. It accepts a set of packages that we expect to contain types
+// with AnyTypes. Those packages will be quietly filtered out of the output of the
+// stage, but if there are more AnyTypes in other packages they'll be reported as an
+// error. The stage will also return an error if there are packages that we expect
+// to have AnyTypes but turn out not to, ensuring that we clean up our configuration
+// as the schemas are fixed and our handling improves.
+func filterOutDefinitionsUsingAnyType(packages []string) PipelineStage {
+	return checkForAnyType("Filter out rogue definitions using AnyTypes", packages)
+}
+
+// ensureDefinitionsDoNotUseAnyTypes returns a stage that will check for any
+// definitions containing AnyTypes. The stage will return errors for each type
+// found that uses an AnyType.
+func ensureDefinitionsDoNotUseAnyTypes() PipelineStage {
+	return checkForAnyType("Catch rogue definitions using AnyTypes", []string{})
+}
+
+func checkForAnyType(description string, packages []string) PipelineStage {
 	expectedPackages := make(map[string]struct{}, len(packages))
 	for _, p := range packages {
 		expectedPackages[p] = struct{}{}
@@ -31,7 +42,7 @@ func checkForAnyType(packages []string) PipelineStage {
 
 	return MakePipelineStage(
 		"rogueCheck",
-		"Check for rogue AnyTypes",
+		description,
 		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
 			var badNames []astmodel.TypeName
 			output := make(astmodel.Types)

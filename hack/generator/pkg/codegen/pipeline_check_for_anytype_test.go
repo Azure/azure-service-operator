@@ -36,7 +36,7 @@ func TestFindsAnytypes(t *testing.T) {
 	// One that's fine.
 	add(p3, "C", astmodel.NewArrayType(astmodel.IntType))
 
-	results, err := checkForAnyType(nil).Action(context.Background(), defs)
+	results, err := filterOutDefinitionsUsingAnyType(nil).Action(context.Background(), defs)
 
 	g.Expect(results).To(HaveLen(0))
 	g.Expect(err).To(MatchError("AnyTypes found - add exclusions for: horo.logy/v20200730, road.train/v20200730"))
@@ -64,7 +64,7 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 	add(p3, "C", astmodel.NewArrayType(astmodel.IntType))
 
 	exclusions := []string{"horo.logy/v20200730", "road.train/v20200730"}
-	results, err := checkForAnyType(exclusions).Action(context.Background(), defs)
+	results, err := filterOutDefinitionsUsingAnyType(exclusions).Action(context.Background(), defs)
 	g.Expect(err).To(BeNil())
 
 	expected := make(astmodel.Types)
@@ -101,7 +101,7 @@ func TestComplainsAboutUnneededExclusions(t *testing.T) {
 		"gamma.knife/v20200821",
 		"road.train/v20200730",
 	}
-	results, err := checkForAnyType(exclusions).Action(context.Background(), defs)
+	results, err := filterOutDefinitionsUsingAnyType(exclusions).Action(context.Background(), defs)
 	g.Expect(results).To(HaveLen(0))
 	g.Expect(errors.Cause(err)).To(MatchError("no AnyTypes found in: gamma.knife/v20200821, people.vultures/20200821"))
 }
