@@ -23,7 +23,7 @@ type ResourceGroupReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=resourcegroups/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={resourcegroups/status,resourcegroups/finalizers},verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *ResourceGroupReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {

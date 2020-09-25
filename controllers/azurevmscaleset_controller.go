@@ -15,7 +15,7 @@ type AzureVMScaleSetReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurevmscalesets,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurevmscalesets/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={azurevmscalesets/status,azurevmscalesets/finalizers},verbs=get;update;patch
 
 func (r *AzureVMScaleSetReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureVMScaleSet{})

@@ -15,7 +15,7 @@ type KeyVaultKeyReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=keyvaultkeys,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=keyvaultkeys/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={keyvaultkeys/status,keyvaultkeys/finalizers},verbs=get;update;patch
 
 func (r *KeyVaultKeyReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.KeyVaultKey{})

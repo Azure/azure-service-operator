@@ -14,7 +14,7 @@ type MySQLServerReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlservers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlservers/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqlservers/status,mysqlservers/finalizers},verbs=get;update;patch
 
 func (r *MySQLServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &v1alpha2.MySQLServer{})

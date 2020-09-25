@@ -16,7 +16,7 @@ type PostgreSQLUserReconciler struct {
 
 //Reconcile for postgresqluser
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqlusers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqlusers/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={postgresqlusers/status,postgresqlusers/finalizers},verbs=get;update;patch
 func (r *PostgreSQLUserReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.PostgreSQLUser{})
 }

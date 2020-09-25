@@ -15,7 +15,7 @@ type AppInsightsApiKeyReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=appinsightsapikeys,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=appinsightsapikeys/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={appinsightsapikeys/status,appinsightsapikeys/finalizers},verbs=get;update;patch
 
 func (r *AppInsightsApiKeyReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.AppInsightsApiKey{})

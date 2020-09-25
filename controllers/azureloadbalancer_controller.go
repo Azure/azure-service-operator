@@ -15,7 +15,7 @@ type AzureLoadBalancerReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azureloadbalancers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azureloadbalancers/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={azureloadbalancers/status,azureloadbalancers/finalizers},verbs=get;update;patch
 
 func (r *AzureLoadBalancerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureLoadBalancer{})
