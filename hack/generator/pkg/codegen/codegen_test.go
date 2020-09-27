@@ -69,24 +69,20 @@ func runGoldenTest(t *testing.T, path string) {
 				t.Fatalf("defs was empty")
 			}
 
-			var pr astmodel.PackageReference
+			var pr astmodel.LocalPackageReference
 			var ds []astmodel.TypeDefinition
 			for _, def := range defs {
 				ds = append(ds, def)
-				pr = def.Name().PackageReference
+				if ref, ok := def.Name().PackageReference.AsLocalPackage(); ok {
+					pr = ref
+				}
+
 			}
 
 			// Fabricate a single package definition
 			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 
-			groupName, err := pr.Group()
-			if err != nil {
-				t.Fatalf("couldnt extract group from package reference: %v", err)
-			}
-
-			packageName := pr.Package()
-
-			packageDefinition := astmodel.NewPackageDefinition(groupName, packageName, "1")
+			packageDefinition := astmodel.NewPackageDefinition(pr.Group(), pr.PackageName(), "1")
 			for _, def := range defs {
 				packageDefinition.AddDefinition(def)
 			}
@@ -97,7 +93,7 @@ func runGoldenTest(t *testing.T, path string) {
 			fileDef := astmodel.NewFileDefinition(pr, ds, pkgs)
 
 			buf := &bytes.Buffer{}
-			err = fileDef.SaveToWriter(path, buf)
+			err := fileDef.SaveToWriter(path, buf)
 			if err != nil {
 				t.Fatalf("could not generate file: %v", err)
 			}

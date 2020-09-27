@@ -13,44 +13,49 @@ const (
 
 // LocalPackageReference specifies a local package name or reference
 type LocalPackageReference struct {
-	groupName   string
-	packageName string
+	group   string
+	version string
 }
 
 var _ PackageReference = LocalPackageReference{}
 var _ fmt.Stringer = LocalPackageReference{}
 
-// MakeLocalPackageReference Creates a new local package reference from a group and package name
-func MakeLocalPackageReference(groupName string, packageName string) LocalPackageReference {
-	return LocalPackageReference{groupName: groupName, packageName: packageName}
+// MakeLocalPackageReference Creates a new local package reference from a group and version
+func MakeLocalPackageReference(group string, version string) LocalPackageReference {
+	return LocalPackageReference{group: group, version: version}
 }
 
 // IsLocalPackage returns true
-func (pr LocalPackageReference) IsLocalPackage() bool {
-	return true
+func (pr LocalPackageReference) AsLocalPackage() (LocalPackageReference, bool) {
+	return pr, true
 }
 
-// Group returns the group of this reference
-func (pr LocalPackageReference) Group() (string, error) {
-	return pr.groupName, nil
+// Group returns the group of this local reference
+func (pr LocalPackageReference) Group() string {
+	return pr.group
+}
+
+// Version returns the version of this local reference
+func (pr LocalPackageReference) Version() string {
+	return pr.version
 }
 
 // Package returns the package name of this reference
-func (pr LocalPackageReference) Package() string {
-	return pr.packageName
+func (pr LocalPackageReference) PackageName() string {
+	return pr.version
 }
 
 // PackagePath returns the fully qualified package path
 func (pr LocalPackageReference) PackagePath() string {
-	url := LocalPathPrefix + pr.groupName + "/" + pr.packageName
+	url := LocalPathPrefix + pr.group + "/" + pr.version
 	return url
 }
 
 // Equals returns true if the passed package reference references the same package, false otherwise
 func (pr LocalPackageReference) Equals(ref PackageReference) bool {
 	if other, ok := ref.(LocalPackageReference); ok {
-		return pr.packageName == other.packageName &&
-			pr.groupName == other.groupName
+		return pr.version == other.version &&
+			pr.group == other.group
 	}
 
 	return false

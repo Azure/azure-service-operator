@@ -225,7 +225,7 @@ func (definition *ResourceType) RequiredImports() []PackageReference {
 
 	typeImports = append(typeImports, MetaV1PackageReference)
 	typeImports = append(typeImports, MakeGenRuntimePackageReference())
-	typeImports = append(typeImports, MakeLibraryPackageReference("fmt"))
+	typeImports = append(typeImports, MakeExternalPackageReference("fmt"))
 
 	// Interface imports
 	typeImports = append(typeImports, definition.InterfaceImplementer.RequiredImports()...)

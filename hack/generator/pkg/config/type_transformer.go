@@ -16,11 +16,10 @@ import (
 
 // A transformation target
 type TransformTarget struct {
-	LibraryPath string `yaml:",omitempty"`
-	Group       string `yaml:",omitempty"`
-	PackageName string `yaml:"package,omitempty"`
-	Name        string `yaml:",omitempty"`
-	Map         *MapType
+	Group   string `yaml:",omitempty"`
+	Version string `yaml:"package,omitempty"`
+	Name    string `yaml:",omitempty"`
+	Map     *MapType
 }
 
 type MapType struct {
@@ -56,15 +55,9 @@ func produceTargetType(target TransformTarget, descriptor string) (astmodel.Type
 	}
 
 	if target.Name != "" {
-		if target.LibraryPath != "" {
+		if target.Group != "" && target.Version != "" {
 			return astmodel.MakeTypeName(
-				astmodel.MakeLibraryPackageReference(target.LibraryPath),
-				target.Name), nil
-		}
-
-		if target.Group != "" && target.PackageName != "" {
-			return astmodel.MakeTypeName(
-				astmodel.MakeLocalPackageReference(target.Group, target.PackageName),
+				astmodel.MakeLocalPackageReference(target.Group, target.Version),
 				target.Name), nil
 		}
 
@@ -161,23 +154,14 @@ func (transformer *TypeTransformer) propertyNameMatches(propName astmodel.Proper
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
 // the provided type name matches the pattern(s) specified in the TypeTransformer
 func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName) astmodel.Type {
-	name := typeName.Name()
+	if localRef, ok := typeName.PackageReference.AsLocalPackage(); ok {
+		group := localRef.Group()
+		version := localRef.Version()
+		name := typeName.Name()
 
-	if typeName.PackageReference.IsLocalPackage() {
-		group, err := typeName.PackageReference.Group()
-		if err != nil {
-			// This shouldn't ever happen because IsLocalPackage is true -- checking just to be safe
-			panic(fmt.Sprintf("%s was flagged as a local package but has no group and package", typeName.PackageReference))
-		}
-
-		version := typeName.PackageReference.Package()
-
-		if transformer.groupMatches(group) && transformer.versionMatches(version) && transformer.nameMatches(name) {
-			return transformer.targetType
-		}
-	} else {
-		// TODO: Support external types better rather than doing everything in terms of GVK?
-		if transformer.nameMatches(name) {
+		if transformer.groupMatches(group) &&
+			transformer.versionMatches(version) &&
+			transformer.nameMatches(name) {
 			return transformer.targetType
 		}
 	}

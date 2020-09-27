@@ -51,10 +51,8 @@ func checkForAnyType(description string, packages []string) PipelineStage {
 					badNames = append(badNames, name)
 				}
 
-				packageName, err := packageName(name)
-				if err != nil {
-					return nil, err
-				}
+				packageName := packageName(name)
+
 				// We only want to include this type in the output if
 				// it's not in a package that we know contains
 				// AnyTypes.
@@ -92,14 +90,15 @@ func containsAnyType(theType astmodel.Type) bool {
 	return found
 }
 
-func packageName(name astmodel.TypeName) (string, error) {
-	group, err := name.PackageReference.Group()
-	if err != nil {
-		return "", err
+func packageName(name astmodel.TypeName) string {
+	if localRef, ok := name.PackageReference.AsLocalPackage(); ok {
+		group := localRef.Group()
+		version := localRef.Version()
+
+		return group + "/" + version
 	}
 
-	version := name.PackageReference.Package()
-	return group + "/" + version, nil
+	return name.PackageReference.PackageName()
 }
 
 func collectBadPackages(
@@ -108,10 +107,7 @@ func collectBadPackages(
 ) ([]string, error) {
 	grouped := make(map[string][]string)
 	for _, name := range names {
-		groupVersion, err := packageName(name)
-		if err != nil {
-			return nil, err
-		}
+		groupVersion := packageName(name)
 		grouped[groupVersion] = append(grouped[groupVersion], name.Name())
 	}
 

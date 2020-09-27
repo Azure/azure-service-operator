@@ -10,7 +10,7 @@ import (
 	"testing"
 )
 
-func TestMakeLibraryPackageReference_GivenPath_ReturnsInstanceWithPath(t *testing.T) {
+func TestMakeExternalPackageReference_GivenPath_ReturnsInstanceWithPath(t *testing.T) {
 	cases := []struct {
 		name string
 		path string
@@ -24,13 +24,13 @@ func TestMakeLibraryPackageReference_GivenPath_ReturnsInstanceWithPath(t *testin
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
-			ref := MakeLibraryPackageReference(c.path)
+			ref := MakeExternalPackageReference(c.path)
 			g.Expect(ref.PackagePath()).To(Equal(c.path))
 		})
 	}
 }
 
-func TestLibraryPackageReferences_ReturnExpectedProperties(t *testing.T) {
+func TestExternalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 	cases := []struct {
 		name        string
 		path        string
@@ -46,34 +46,32 @@ func TestLibraryPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			ref := MakeLibraryPackageReference(c.path)
-			_, err := ref.Group()
+			ref := MakeExternalPackageReference(c.path)
+			_, ok := ref.AsLocalPackage()
 
-			g.Expect(ref.IsLocalPackage()).To(BeFalse())
-			g.Expect(ref.Package()).To(Equal(c.packageName))
+			g.Expect(ok).To(BeFalse())
 			g.Expect(ref.PackagePath()).To(Equal(c.path))
 			g.Expect(ref.String()).To(Equal(c.path))
-			g.Expect(err).NotTo(BeNil())
 		})
 	}
 }
 
-func TestLibraryPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
+func TestExternalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 
-	fmtRef := MakeLibraryPackageReference("fmt")
-	astRef := MakeLibraryPackageReference("go/ast")
+	fmtRef := MakeExternalPackageReference("fmt")
+	astRef := MakeExternalPackageReference("go/ast")
 	otherRef := MakeLocalPackageReference("group", "package")
 
 	cases := []struct {
 		name     string
-		this     LibraryPackageReference
+		this     ExternalPackageReference
 		other    PackageReference
 		areEqual bool
 	}{
 		{"Equal self", fmtRef, fmtRef, true},
 		{"Equal self", astRef, astRef, true},
-		{"Not equal other library", fmtRef, astRef, false},
-		{"Not equal other library", astRef, fmtRef, false},
+		{"Not equal other external reference", fmtRef, astRef, false},
+		{"Not equal other external reference", astRef, fmtRef, false},
 		{"Not equal other kind", fmtRef, otherRef, false},
 		{"Not equal other kind", astRef, otherRef, false},
 	}

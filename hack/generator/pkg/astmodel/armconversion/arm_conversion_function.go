@@ -42,7 +42,7 @@ func (c *ArmConversionFunction) RequiredImports() []astmodel.PackageReference {
 	// of the properties in the ARM object, so we need to import those.
 	result = append(result, c.armType.RequiredImports()...)
 	result = append(result, astmodel.MakeGenRuntimePackageReference())
-	result = append(result, astmodel.MakeLibraryPackageReference("fmt"))
+	result = append(result, astmodel.MakeExternalPackageReference("fmt"))
 
 	return result
 }

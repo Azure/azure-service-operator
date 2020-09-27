@@ -50,14 +50,15 @@ func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.Pack
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
 		defName := def.Name()
-		pkgRef := defName.PackageReference
-
-		groupName, err := pkgRef.Group()
-		if err != nil {
-			return nil, err
+		pkgRef, ok := defName.PackageReference.AsLocalPackage()
+		if !ok {
+			klog.Errorf("Definition %v from external package %v skipped", defName.Name(), defName.PackageReference)
+			continue
 		}
 
-		pkgName := pkgRef.Package()
+		groupName := pkgRef.Group()
+		pkgName := pkgRef.PackageName()
+
 		if pkg, ok := packages[pkgRef]; ok {
 			pkg.AddDefinition(def)
 		} else {
@@ -188,7 +189,7 @@ func groupResourcesByVersion(packages map[astmodel.PackageReference]*astmodel.Pa
 	// order each set of resources by package name (== by version as these are sortable dates)
 	for _, slice := range result {
 		sort.Slice(slice, func(i, j int) bool {
-			return slice[i].Name().PackageReference.Package() < slice[j].Name().PackageReference.Package()
+			return slice[i].Name().PackageReference.PackageName() < slice[j].Name().PackageReference.PackageName()
 		})
 	}
 
@@ -196,12 +197,13 @@ func groupResourcesByVersion(packages map[astmodel.PackageReference]*astmodel.Pa
 }
 
 func getUnversionedName(name astmodel.TypeName) (unversionedName, error) {
-	group, err := name.PackageReference.Group()
-	if err != nil {
-		return unversionedName{}, err
+	if localRef, ok := name.PackageReference.AsLocalPackage(); ok {
+		group := localRef.Group()
+
+		return unversionedName{group, name.Name()}, nil
 	}
 
-	return unversionedName{group, name.Name()}, nil
+	return unversionedName{}, errors.New("expected local reference")
 }
 
 type unversionedName struct {

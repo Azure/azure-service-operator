@@ -32,7 +32,10 @@ type FileDefinition struct {
 }
 
 // NewFileDefinition creates a file definition containing specified definitions
-func NewFileDefinition(packageRef PackageReference, definitions []TypeDefinition, generatedPackages map[PackageReference]*PackageDefinition) *FileDefinition {
+func NewFileDefinition(
+	packageRef PackageReference,
+	definitions []TypeDefinition,
+	generatedPackages map[PackageReference]*PackageDefinition) *FileDefinition {
 
 	// Topological sort of the definitions, putting them in order of reference
 	ranks := calcRanks(definitions)
@@ -234,14 +237,12 @@ func (file *FileDefinition) AsAst() ast.Node {
 		"Licensed under the MIT license.",
 		CodeGenerationComment)
 
-	packageName := file.packageReference.Package()
-
 	// We set Package (the offset of the package keyword) so that it follows the header comments
 	result := &ast.File{
 		Doc: &ast.CommentGroup{
 			List: header,
 		},
-		Name:    ast.NewIdent(packageName),
+		Name:    ast.NewIdent(file.packageReference.PackageName()),
 		Decls:   decls,
 		Package: token.Pos(headerLen),
 	}

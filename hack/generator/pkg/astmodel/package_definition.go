@@ -74,7 +74,9 @@ func (pkgDef *PackageDefinition) DefinitionCount() int {
 func emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string, generatedPackages map[PackageReference]*PackageDefinition) error {
 	for fileName, defs := range filesToGenerate {
 		fullFileName := fileName + "_types" + CodeGeneratedFileSuffix
-		genFile := NewFileDefinition(defs[0].Name().PackageReference, defs, generatedPackages)
+
+		ref := defs[0].Name().PackageReference
+		genFile := NewFileDefinition(ref, defs, generatedPackages)
 		outputFile := filepath.Join(outputDir, fullFileName)
 
 		klog.V(5).Infof("Writing %q\n", outputFile)

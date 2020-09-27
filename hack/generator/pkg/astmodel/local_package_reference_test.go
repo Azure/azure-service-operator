@@ -27,10 +27,9 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 			g := NewGomegaWithT(t)
 
 			ref := MakeLocalPackageReference(c.group, c.pkg)
-			grp, err := ref.Group()
-			pkg := ref.Package()
+			grp := ref.Group()
+			pkg := ref.PackageName()
 
-			g.Expect(err).To(BeNil())
 			g.Expect(grp).To(Equal(c.group))
 			g.Expect(pkg).To(Equal(c.pkg))
 		})
@@ -70,14 +69,14 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			ref := MakeLocalPackageReference(c.group, c.pkg)
-			grp, err := ref.Group()
+			grp := ref.Group()
+			_, ok := ref.AsLocalPackage()
 
-			g.Expect(ref.IsLocalPackage()).To(BeTrue())
-			g.Expect(ref.Package()).To(Equal(c.pkg))
+			g.Expect(ok).To(BeTrue())
+			g.Expect(ref.PackageName()).To(Equal(c.pkg))
 			g.Expect(ref.PackagePath()).To(Equal(c.expectedPath))
 			g.Expect(ref.String()).To(Equal(c.expectedPath))
 			g.Expect(grp).To(Equal(c.group))
-			g.Expect(err).To(BeNil())
 		})
 	}
 }
@@ -87,7 +86,7 @@ func TestLocalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 	batchRef := MakeLocalPackageReference("microsoft.batch", "v20200901")
 	olderRef := MakeLocalPackageReference("microsoft.batch", "v20150101")
 	networkingRef := MakeLocalPackageReference("microsoft.networking", "v20200901")
-	fmtRef := MakeLibraryPackageReference("fmt")
+	fmtRef := MakeExternalPackageReference("fmt")
 
 	cases := []struct {
 		name     string
