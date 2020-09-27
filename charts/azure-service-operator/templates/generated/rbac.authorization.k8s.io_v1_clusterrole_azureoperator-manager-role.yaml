@@ -39,6 +39,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - AzureSQLUsers/finalizers
   - AzureSQLUsers/status
   verbs:
   - get
@@ -59,6 +60,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - apimgmtapis/finalizers
   - apimgmtapis/status
   verbs:
   - get
@@ -79,6 +81,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - apimservices/finalizers
   - apimservices/status
   verbs:
   - get
@@ -99,6 +102,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - appinsights/finalizers
   - appinsights/status
   verbs:
   - get
@@ -119,6 +123,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - appinsightsapikeys/finalizers
   - appinsightsapikeys/status
   verbs:
   - get
@@ -139,6 +144,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azureloadbalancers/finalizers
   - azureloadbalancers/status
   verbs:
   - get
@@ -159,6 +165,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azurenetworkinterfaces/finalizers
   - azurenetworkinterfaces/status
   verbs:
   - get
@@ -179,6 +186,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azurepublicipaddresses/finalizers
   - azurepublicipaddresses/status
   verbs:
   - get
@@ -199,6 +207,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azuresqlactions/finalizers
   - azuresqlactions/status
   verbs:
   - get
@@ -219,6 +228,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azuresqldatabases/finalizers
   - azuresqldatabases/status
   verbs:
   - get
@@ -239,6 +249,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azuresqlfailovergroups/finalizers
   - azuresqlfailovergroups/status
   verbs:
   - get
@@ -259,6 +270,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azuresqlfirewallrules/finalizers
   - azuresqlfirewallrules/status
   verbs:
   - get
@@ -279,6 +291,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azuresqlmanagedusers/finalizers
   - azuresqlmanagedusers/status
   verbs:
   - get
@@ -299,6 +312,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azuresqlservers/finalizers
   - azuresqlservers/status
   verbs:
   - get
@@ -339,6 +353,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azuresqlvnetrules/finalizers
   - azuresqlvnetrules/status
   verbs:
   - get
@@ -359,6 +374,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azurevirtualmachineextensions/finalizers
   - azurevirtualmachineextensions/status
   verbs:
   - get
@@ -379,6 +395,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azurevirtualmachines/finalizers
   - azurevirtualmachines/status
   verbs:
   - get
@@ -399,6 +416,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - azurevmscalesets/finalizers
   - azurevmscalesets/status
   verbs:
   - get
@@ -419,6 +437,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - blobcontainers/finalizers
   - blobcontainers/status
   verbs:
   - get
@@ -439,6 +458,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - consumergroups/finalizers
   - consumergroups/status
   verbs:
   - get
@@ -459,6 +479,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - cosmosdbs/finalizers
   - cosmosdbs/status
   verbs:
   - get
@@ -479,6 +500,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - eventhubnamespaces/finalizers
   - eventhubnamespaces/status
   verbs:
   - get
@@ -499,6 +521,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - eventhubs/finalizers
   - eventhubs/status
   verbs:
   - get
@@ -531,6 +554,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - keyvaultkeys/finalizers
   - keyvaultkeys/status
   verbs:
   - get
@@ -551,6 +575,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - keyvaults/finalizers
   - keyvaults/status
   verbs:
   - get
@@ -571,6 +596,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - mysqldatabases/finalizers
   - mysqldatabases/status
   verbs:
   - get
@@ -591,6 +617,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - mysqlfirewallrules/finalizers
   - mysqlfirewallrules/status
   verbs:
   - get
@@ -611,6 +638,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - mysqlservers/finalizers
   - mysqlservers/status
   verbs:
   - get
@@ -651,6 +679,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - mysqlvnetrules/finalizers
   - mysqlvnetrules/status
   verbs:
   - get
@@ -671,6 +700,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - postgresqldatabases/finalizers
   - postgresqldatabases/status
   verbs:
   - get
@@ -691,6 +721,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - postgresqlfirewallrules/finalizers
   - postgresqlfirewallrules/status
   verbs:
   - get
@@ -711,6 +742,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - postgresqlservers/finalizers
   - postgresqlservers/status
   verbs:
   - get
@@ -751,6 +783,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - postgresqlvnetrules/finalizers
   - postgresqlvnetrules/status
   verbs:
   - get
@@ -771,6 +804,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - rediscacheactions/finalizers
   - rediscacheactions/status
   verbs:
   - get
@@ -791,6 +825,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - rediscachefirewallrules/finalizers
   - rediscachefirewallrules/status
   verbs:
   - get
@@ -811,6 +846,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - rediscaches/finalizers
   - rediscaches/status
   verbs:
   - get
@@ -831,6 +867,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - resourcegroups/finalizers
   - resourcegroups/status
   verbs:
   - get
@@ -851,6 +888,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - storageaccounts/finalizers
   - storageaccounts/status
   verbs:
   - get
@@ -871,6 +909,7 @@ rules:
 - apiGroups:
   - azure.microsoft.com
   resources:
+  - virtualnetworks/finalizers
   - virtualnetworks/status
   verbs:
   - get
