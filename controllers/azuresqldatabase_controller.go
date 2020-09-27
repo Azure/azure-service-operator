@@ -14,7 +14,7 @@ type AzureSqlDatabaseReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqldatabases,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqldatabases/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={azuresqldatabases/status,azuresqldatabases/finalizers},verbs=get;update;patch
 
 // Reconcile function does the main reconciliation loop of the operator
 func (r *AzureSqlDatabaseReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {

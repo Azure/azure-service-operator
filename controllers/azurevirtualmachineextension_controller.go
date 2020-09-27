@@ -15,7 +15,7 @@ type AzureVirtualMachineExtensionReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurevirtualmachineextensions,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azurevirtualmachineextensions/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={azurevirtualmachineextensions/status,azurevirtualmachineextensions/finalizers},verbs=get;update;patch
 
 func (r *AzureVirtualMachineExtensionReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.AzureVirtualMachineExtension{})

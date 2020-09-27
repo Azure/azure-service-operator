@@ -15,7 +15,7 @@ type MySQLFirewallRuleReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlfirewallrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=mysqlfirewallrules/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={mysqlfirewallrules/status,mysqlfirewallrules/finalizers},verbs=get;update;patch
 
 func (r *MySQLFirewallRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.MySQLFirewallRule{})

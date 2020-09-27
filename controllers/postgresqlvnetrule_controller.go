@@ -15,7 +15,7 @@ type PostgreSQLVNetRuleReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqlvnetrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=postgresqlvnetrules/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={postgresqlvnetrules/status,postgresqlvnetrules/finalizers},verbs=get;update;patch
 
 func (r *PostgreSQLVNetRuleReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &azurev1alpha1.PostgreSQLVNetRule{})

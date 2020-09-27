@@ -15,7 +15,7 @@ type AzureSqlServerReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlservers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=azuresqlservers/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={azuresqlservers/status,azuresqlservers/finalizers},verbs=get;update;patch
 
 func (r *AzureSqlServerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(req, &v1beta1.AzureSqlServer{})

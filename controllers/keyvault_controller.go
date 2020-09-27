@@ -14,7 +14,7 @@ type KeyVaultReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=keyvaults,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=azure.microsoft.com,resources=keyvaults/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=azure.microsoft.com,resources={keyvaults/status,keyvaults/finalizers},verbs=get;update;patch
 
 // Reconcile function runs the actual reconcilation loop of the controller
 func (r *KeyVaultReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
