@@ -43,7 +43,7 @@ func createDummyResource() *batch.BatchAccount {
 
 type DummyStruct struct{}
 
-func Test_ResourceSpecToArmResourceSpec(t *testing.T) {
+func Test_ConvertResourceToDeployableResource(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
@@ -55,12 +55,12 @@ func Test_ResourceSpecToArmResourceSpec(t *testing.T) {
 	g.Expect(fakeClient.Create(ctx, account)).To(Succeed())
 	resolver := armresourceresolver.NewResolver(kubeclient.NewClient(fakeClient, s))
 
-	rg, spec, err := ResourceSpecToArmResourceSpec(ctx, resolver, account)
+	resource, err := ConvertResourceToDeployableResource(ctx, resolver, account)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect("myrg").To(Equal(rg))
-	g.Expect("azureName").To(Equal(spec.GetName()))
-	g.Expect("apiVersion").To(Equal(spec.GetApiVersion()))
-	g.Expect(string(batch.BatchAccountsSpecTypeMicrosoftBatchBatchAccounts)).To(Equal(spec.GetType()))
+	g.Expect("myrg").To(Equal(resource.ResourceGroup()))
+	g.Expect("azureName").To(Equal(resource.Spec().GetName()))
+	g.Expect("apiVersion").To(Equal(resource.Spec().GetApiVersion()))
+	g.Expect(string(batch.BatchAccountsSpecTypeMicrosoftBatchBatchAccounts)).To(Equal(resource.Spec().GetType()))
 
 }
 

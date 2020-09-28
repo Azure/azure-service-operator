@@ -27,36 +27,66 @@ func NewTestResolver(s *runtime.Scheme) *Resolver {
 	return NewResolver(kubeclient.NewClient(fakeClient, s))
 }
 
-func Test_GetFullAzureNameAndResourceGroup_TopLevelResource(t *testing.T) {
+func createTopLevelResource(rgName string, name string) *storage.StorageAccount {
+	return &storage.StorageAccount{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "foo",
+			Name:      name,
+		},
+		Spec: storage.StorageAccounts_Spec{
+			Owner: genruntime.KnownResourceReference{
+				Name: rgName,
+			},
+		},
+	}
+}
+
+func createResourceAndParent(rgName string, parentName string, name string) (genruntime.MetaObject, genruntime.MetaObject) {
+	a := &batch.BatchAccount{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: parentName,
+		},
+		Spec: batch.BatchAccounts_Spec{
+			Owner: genruntime.KnownResourceReference{
+				Name: rgName,
+			},
+		},
+	}
+
+	b := &batch.BatchAccountsPool{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: name,
+		},
+		Spec: batch.BatchAccountsPools_Spec{
+			Owner: genruntime.KnownResourceReference{
+				Name: parentName,
+			},
+		},
+	}
+
+	return a, b
+}
+
+func Test_ResolveResourceHierarchy_TopLevelResource(t *testing.T) {
 	g := NewWithT(t)
 	ctx := context.TODO()
 
 	s := runtime.NewScheme()
 	_ = storage.AddToScheme(s)
-
 	resolver := NewTestResolver(s)
 
 	resourceGroupName := "myrg"
 	name := "myresource"
+	a := createTopLevelResource(resourceGroupName, name)
 
-	a := &storage.StorageAccount{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: name,
-		},
-		Spec: storage.StorageAccounts_Spec{
-			Owner: genruntime.KnownResourceReference{
-				Name: resourceGroupName,
-			},
-		},
-	}
-
-	rg, fullName, err := resolver.GetResourceGroupAndFullAzureName(ctx, a)
+	hierarchy, err := resolver.ResolveResourceHierarchy(ctx, a)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(rg).To(Equal(resourceGroupName))
-	g.Expect(fullName).To(Equal(name))
+	g.Expect(1).To(Equal(len(hierarchy)))
+	g.Expect(a.Name).To(Equal(hierarchy[0].GetName()))
+	g.Expect(a.Namespace).To(Equal(hierarchy[0].GetNamespace()))
 }
 
-func Test_GetFullAzureNameAndResourceGroup_ChildResource(t *testing.T) {
+func Test_ResolveResourceHierarchy_ChildResource(t *testing.T) {
 	g := NewWithT(t)
 	ctx := context.TODO()
 
@@ -69,32 +99,43 @@ func Test_GetFullAzureNameAndResourceGroup_ChildResource(t *testing.T) {
 	parentName := "myresource"
 	childName := "myresource2"
 
-	a := &batch.BatchAccount{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: parentName,
-		},
-		Spec: batch.BatchAccounts_Spec{
-			Owner: genruntime.KnownResourceReference{
-				Name: resourceGroupName,
-			},
-		},
-	}
+	a, b := createResourceAndParent(resourceGroupName, parentName, childName)
+
 	err := resolver.client.Client.Create(ctx, a)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	b := &batch.BatchAccountsPool{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: childName,
-		},
-		Spec: batch.BatchAccountsPools_Spec{
-			Owner: genruntime.KnownResourceReference{
-				Name: parentName,
-			},
-		},
-	}
-
-	rg, fullName, err := resolver.GetResourceGroupAndFullAzureName(ctx, b)
+	hierarchy, err := resolver.ResolveResourceHierarchy(ctx, b)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(rg).To(Equal(resourceGroupName))
-	g.Expect(fullName).To(Equal(fmt.Sprintf("%s/%s", parentName, childName)))
+	g.Expect(2).To(Equal(len(hierarchy)))
+	g.Expect(a.GetName()).To(Equal(hierarchy[0].GetName()))
+	g.Expect(a.GetNamespace()).To(Equal(hierarchy[0].GetNamespace()))
+	g.Expect(b.GetName()).To(Equal(hierarchy[1].GetName()))
+	g.Expect(b.GetNamespace()).To(Equal(hierarchy[1].GetNamespace()))
+}
+
+func Test_ResourceHierarchy_TopLevelResource(t *testing.T) {
+	g := NewWithT(t)
+
+	resourceGroupName := "myrg"
+	name := "myresource"
+
+	a := createTopLevelResource(resourceGroupName, name)
+	hierarchy := ResourceHierarchy{a}
+
+	g.Expect(hierarchy.ResourceGroup()).To(Equal(resourceGroupName))
+	g.Expect(hierarchy.FullAzureName()).To(Equal(name))
+}
+
+func Test_ResourceHierarchy_ChildResource(t *testing.T) {
+	g := NewWithT(t)
+
+	resourceGroupName := "myrg"
+	parentName := "myresource"
+	childName := "myresource2"
+
+	a, b := createResourceAndParent(resourceGroupName, parentName, childName)
+	hierarchy := ResourceHierarchy{a, b}
+
+	g.Expect(hierarchy.ResourceGroup()).To(Equal(resourceGroupName))
+	g.Expect(hierarchy.FullAzureName()).To(Equal(fmt.Sprintf("%s/%s", parentName, childName)))
 }

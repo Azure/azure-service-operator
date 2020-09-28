@@ -416,18 +416,18 @@ func (gr *GenericReconciler) MonitorDeployment(ctx context.Context, action Recon
 //////////////////////////////////////////
 
 func (gr *GenericReconciler) constructArmResource(ctx context.Context, data *ReconcileMetadata) (genruntime.ArmResource, error) {
-	_, armResourceSpec, err := ResourceSpecToArmResourceSpec(ctx, gr.ResourceResolver, data.metaObj)
+	deployableSpec, err := ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
 	if err != nil {
 		return nil, errors.Wrapf(err, "converting to armResourceSpec")
 	}
 	// TODO: Do we need to set status here - right now it's nil
-	resource := genruntime.NewArmResource(armResourceSpec, nil, data.GetResourceIdOrDefault())
+	resource := genruntime.NewArmResource(deployableSpec.Spec(), nil, data.GetResourceIdOrDefault())
 
 	return resource, nil
 }
 
 func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *ReconcileMetadata) (genruntime.ArmTransformer, error) {
-	_, typedArmSpec, err := ResourceSpecToArmResourceSpec(ctx, gr.ResourceResolver, data.metaObj)
+	deployableSpec, err := ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
 	if err != nil {
 		return nil, err
 	}
@@ -439,7 +439,7 @@ func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *Rec
 	}
 
 	// Get the resource
-	err = gr.ARMClient.GetResource(ctx, id, typedArmSpec.GetApiVersion(), armStatus)
+	err = gr.ARMClient.GetResource(ctx, id, deployableSpec.Spec().GetApiVersion(), armStatus)
 	if data.log.V(4).Enabled() {
 		statusBytes, err := json.Marshal(armStatus)
 		if err != nil {
@@ -474,7 +474,7 @@ func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *Rec
 }
 
 func (gr *GenericReconciler) resourceSpecToDeployment(ctx context.Context, data *ReconcileMetadata) (*armclient.Deployment, error) {
-	resourceGroupName, typedArmSpec, err := ResourceSpecToArmResourceSpec(ctx, gr.ResourceResolver, data.metaObj)
+	deployableSpec, err := ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
 	if err != nil {
 		return nil, err
 	}
@@ -491,14 +491,20 @@ func (gr *GenericReconciler) resourceSpecToDeployment(ctx context.Context, data 
 
 	var deployment *armclient.Deployment
 	if deploymentIdOk && deploymentNameOk {
-		deployment = gr.ARMClient.NewDeployment(resourceGroupName, deploymentName, typedArmSpec)
+		deployment = gr.ARMClient.NewDeployment(
+			deployableSpec.ResourceGroup(),
+			deploymentName,
+			deployableSpec.Spec())
 		deployment.Id = deploymentId
 	} else {
 		deploymentName, err := CreateDeploymentName()
 		if err != nil {
 			return nil, err
 		}
-		deployment = gr.ARMClient.NewDeployment(resourceGroupName, deploymentName, typedArmSpec)
+		deployment = gr.ARMClient.NewDeployment(
+			deployableSpec.ResourceGroup(),
+			deploymentName,
+			deployableSpec.Spec())
 	}
 	return deployment, nil
 }

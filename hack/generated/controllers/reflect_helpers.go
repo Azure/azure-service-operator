@@ -18,19 +18,19 @@ import (
 
 // ResourceSpecToArmResourceSpec converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
 // a genruntime.ArmResourceSpec - a specification which can be submitted to Azure for deployment
-func ResourceSpecToArmResourceSpec(
+func ConvertResourceToDeployableResource(
 	ctx context.Context,
 	resolver *armresourceresolver.Resolver,
-	metaObject genruntime.MetaObject) (string, genruntime.ArmResourceSpec, error) {
+	metaObject genruntime.MetaObject) (*genruntime.DeployableResource, error) {
 
 	metaObjReflector := reflect.Indirect(reflect.ValueOf(metaObject))
 	if !metaObjReflector.IsValid() {
-		return "", nil, errors.Errorf("couldn't indirect %T", metaObject)
+		return nil, errors.Errorf("couldn't indirect %T", metaObject)
 	}
 
 	specField := metaObjReflector.FieldByName("Spec")
 	if !specField.IsValid() {
-		return "", nil, errors.Errorf("couldn't find spec field on type %T", metaObject)
+		return nil, errors.Errorf("couldn't find spec field on type %T", metaObject)
 	}
 
 	// Spec fields are values, we want a ptr
@@ -41,25 +41,25 @@ func ResourceSpecToArmResourceSpec(
 
 	armTransformer, ok := spec.(genruntime.ArmTransformer)
 	if !ok {
-		return "", nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
+		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
 	}
 
-	resourceGroupName, azureName, err := resolver.GetResourceGroupAndFullAzureName(ctx, metaObject)
+	resourceHierarchy, err := resolver.ResolveResourceHierarchy(ctx, metaObject)
 	if err != nil {
-		return "", nil, err
+		return nil, err
 	}
 
-	armSpec, err := armTransformer.ConvertToArm(azureName)
+	armSpec, err := armTransformer.ConvertToArm(resourceHierarchy.FullAzureName())
 	if err != nil {
-		return "", nil, errors.Wrapf(err, "failed to transform resource %s to ARM", metaObject.GetName())
+		return nil, errors.Wrapf(err, "failed to transform resource %s to ARM", metaObject.GetName())
 	}
 
 	typedArmSpec, ok := armSpec.(genruntime.ArmResourceSpec)
 	if !ok {
-		return "", nil, errors.Errorf("failed to cast armSpec of type %T to genruntime.ArmResourceSpec", armSpec)
+		return nil, errors.Errorf("failed to cast armSpec of type %T to genruntime.ArmResourceSpec", armSpec)
 	}
 
-	return resourceGroupName, typedArmSpec, nil
+	return genruntime.NewDeployableResource(resourceHierarchy.ResourceGroup(), typedArmSpec), nil
 }
 
 // NewEmptyArmResourceStatus creates an empty genruntime.ArmResourceStatus from a genruntime.MetaObject

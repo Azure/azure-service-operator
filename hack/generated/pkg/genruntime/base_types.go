@@ -88,3 +88,25 @@ func (resource *armResourceImpl) Status() ArmResourceStatus {
 func (resource *armResourceImpl) GetId() string {
 	return resource.Id
 }
+
+// DeployableResource represents a resource which can be deployed to Azure. In addition
+// to specification information, this includes the target resource group of the resource
+type DeployableResource struct {
+	resourceGroup string
+	spec          ArmResourceSpec
+}
+
+func NewDeployableResource(resourceGroup string, spec ArmResourceSpec) *DeployableResource {
+	return &DeployableResource{
+		resourceGroup: resourceGroup,
+		spec:          spec,
+	}
+}
+
+func (r *DeployableResource) ResourceGroup() string {
+	return r.resourceGroup
+}
+
+func (r *DeployableResource) Spec() ArmResourceSpec {
+	return r.spec
+}
