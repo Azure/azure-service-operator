@@ -36,6 +36,20 @@ func CheckErrorAndReturn(otherReturns ...ast.Expr) ast.Stmt {
 	}
 }
 
+// NewQualifiedStruct creates a new assignment statement where a struct is constructed and stored in a variable of the given name. For example:
+// 	<varName> := <packageRef>.<structName>{}
+func NewQualifiedStruct(varName *ast.Ident, qualifier *ast.Ident, structName *ast.Ident) ast.Stmt {
+	return SimpleAssignment(
+		varName,
+		token.DEFINE,
+		&ast.CompositeLit{
+			Type: &ast.SelectorExpr{
+				X:   qualifier,
+				Sel: structName,
+			},
+		})
+}
+
 // NewStruct creates a new assignment statement where a struct is constructed and stored in a variable of the given name. For example:
 // 	<varName> := <structName>{}
 func NewStruct(varName *ast.Ident, structName *ast.Ident) ast.Stmt {

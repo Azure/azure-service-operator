@@ -111,7 +111,7 @@ func (scanner *SchemaScanner) RunHandlerForSchema(ctx context.Context, schema Sc
 	return scanner.RunHandler(ctx, schemaType, schema)
 }
 
-// GenerateDefinitions takes in the resources section of the Azure deployment template schema and returns golang AST Packages
+// GenerateDefinitionsFromDeploymentTemplate takes in the resources section of the Azure deployment template schema and returns golang AST Packages
 //    containing the types described in the schema which match the {resource_type}/{version} filters provided.
 //
 // 		The schema we are working with is something like the following (in yaml for brevity):
@@ -135,24 +135,92 @@ func (scanner *SchemaScanner) RunHandlerForSchema(ctx context.Context, schema Sc
 // 							- ARM specific resources. I'm not 100% sure why...
 //
 // 		allOf acts like composition which composites each schema from the child oneOf with the base reference from allOf.
-func (scanner *SchemaScanner) GenerateDefinitions(ctx context.Context, schema Schema) (astmodel.Types, error) {
-
-	ctx, span := tab.StartSpan(ctx, "GenerateDefinitions")
+func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx context.Context, root Schema) (astmodel.Types, error) {
+	ctx, span := tab.StartSpan(ctx, "GenerateDefinitionsFromDeploymentTemplate")
 	defer span.End()
 
-	title := schema.title()
+	resourcesProp, ok := root.properties()["resources"]
+	if !ok {
+		return nil, errors.Errorf("unable to find 'resources' property in deployment template")
+	}
 
+	resourcesTypes, err := scanner.RunHandlerForSchema(ctx, resourcesProp)
+	if err != nil {
+		return nil, err
+	}
+
+	resourcesArray, ok := resourcesTypes.(*astmodel.ArrayType)
+	if !ok {
+		return nil, errors.Errorf("expected 'resources' property to be an array")
+	}
+
+	resourcesOneOf, ok := resourcesArray.Element().(astmodel.OneOfType)
+	if !ok {
+		return nil, errors.Errorf("expected 'resources' property to be an array containing oneOf")
+	}
+
+	err = resourcesOneOf.Types().ForEachError(func(oneType astmodel.Type, _ int) error {
+		allOf, ok := oneType.(astmodel.AllOfType)
+		if !ok {
+			return errors.Errorf("unexpected resource shape: not an allOf")
+		}
+
+		var resourceRef astmodel.TypeName
+		var objectBase astmodel.TypeName
+		found := 0
+		allOf.Types().ForEach(func(t astmodel.Type, _ int) {
+			if typeName, ok := t.(astmodel.TypeName); ok {
+				if !strings.Contains(strings.ToLower(typeName.Name()), "resourcebase") {
+					resourceRef = typeName
+				} else {
+					objectBase = typeName
+				}
+				found++
+			}
+		})
+
+		if found != 2 {
+			return errors.Errorf("unexpected resource shape: expected a ref to base and ref to object")
+		}
+
+		resourceDef, ok := scanner.findTypeDefinition(resourceRef)
+		if !ok {
+			return errors.Errorf("unable to resolve resource definition for %v", resourceRef)
+		}
+
+		resourceType, ok := resourceDef.Type().(*astmodel.ResourceType)
+		if !ok {
+			// safety check
+			return errors.Errorf("resource reference %v in deployment template did not resolve to resource type", resourceRef)
+		}
+
+		// now we will remove the existing resource definition and replace it with a new one that includes the base type
+		// first, reconstruct the allof with an anonymous type instead of the typename
+		specType := astmodel.MakeAllOfType(objectBase, resourceType.SpecType())
+		// now replace it
+		scanner.removeTypeDefinition(resourceRef)
+		scanner.addTypeDefinition(resourceDef.WithType(astmodel.NewAzureResourceType(specType, nil, resourceDef.Name())))
+		return nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return scanner.Definitions(), nil
+}
+
+func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema Schema) (astmodel.Types, error) {
+	title := schema.title()
 	if title == nil {
-		return nil, errors.New("Given schema has no Title")
+		return nil, errors.New("given schema has no title")
 	}
 
 	rootName := *title
-
 	rootURL := schema.url()
-
 	rootGroup, err := groupOf(rootURL)
 	if err != nil {
-		return nil, errors.Wrapf(err, "Unable to extract group for schema")
+		return nil, errors.Wrapf(err, "unable to extract group for schema")
 	}
 
 	rootVersion := versionOf(rootURL)
@@ -457,7 +525,6 @@ func generateDefinitionsFor(
 	ctx context.Context,
 	scanner *SchemaScanner,
 	typeName astmodel.TypeName,
-	//isResource bool,
 	schema Schema) (astmodel.Type, error) {
 
 	schemaType, err := getSubSchemaType(schema)
@@ -466,7 +533,6 @@ func generateDefinitionsFor(
 	}
 
 	url := schema.url()
-	isResource := isResource(url)
 
 	// see if we already generated something for this ref
 	if _, ok := scanner.findTypeDefinition(typeName); ok {
@@ -483,7 +549,7 @@ func generateDefinitionsFor(
 		return nil, err
 	}
 
-	if isResource {
+	if isResource(url) {
 		result = astmodel.NewAzureResourceType(result, nil, typeName)
 	}
 
@@ -523,7 +589,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 		}
 
 		if d != nil {
-			types = appendIfUniqueType(types, d)
+			types = append(types, d)
 		}
 	}
 
@@ -537,63 +603,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 		types = append(types, objectType)
 	}
 
-	if len(types) == 1 {
-		return types[0], nil
-	}
-
-	var handleType func(properties []*astmodel.PropertyDefinition, st astmodel.Type) ([]*astmodel.PropertyDefinition, error)
-	handleType = func(properties []*astmodel.PropertyDefinition, st astmodel.Type) ([]*astmodel.PropertyDefinition, error) {
-		switch concreteType := st.(type) {
-		case *astmodel.ObjectType:
-			// if it's an object type get all its properties:
-			return append(properties, concreteType.Properties()...), nil
-
-		case *astmodel.ResourceType:
-			// it is a little strange to merge one resource into another with allOf,
-			// but it is done and therefore we have to support it.
-			// (an example is the Microsoft.VisualStudio Project type)
-			// at the moment we will just take the spec type:
-			return handleType(properties, concreteType.SpecType())
-
-		case astmodel.TypeName:
-			if def, ok := scanner.findTypeDefinition(concreteType); ok {
-				return handleType(properties, def.Type())
-			}
-
-			return nil, errors.Errorf("couldn't find definition for: %v", concreteType)
-
-		case *astmodel.MapType:
-			if concreteType.KeyType().Equals(astmodel.StringType) {
-				// move map type into 'additionalProperties' property
-				// TODO: consider privileging this as its own property on ObjectType,
-				// since it has special behaviour and we need to handle it differently
-				// for JSON serialization
-				newProp := astmodel.NewPropertyDefinition(
-					"additionalProperties",
-					"additionalProperties",
-					concreteType)
-
-				return append(properties, newProp), nil
-			}
-		}
-
-		return nil, errors.Errorf("unable to handle type in allOf: %#v\n", st)
-	}
-
-	// If there's more than one option, synthesize a type.
-	var properties []*astmodel.PropertyDefinition
-
-	for _, d := range types {
-		// unpack the contents of what we got from subhandlers:
-		var err error
-		properties, err = handleType(properties, d)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	result := astmodel.NewObjectType().WithProperties(properties...)
-	return result, nil
+	return astmodel.MakeAllOfType(types...), nil
 }
 
 func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -604,10 +614,9 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 }
 
 func generateOneOfUnionType(ctx context.Context, subschemas []Schema, scanner *SchemaScanner) (astmodel.Type, error) {
-
 	// make sure we visit everything before bailing out,
 	// to get all types generated even if we can't use them
-	var results []astmodel.Type
+	var types []astmodel.Type
 	for _, one := range subschemas {
 		result, err := scanner.RunHandlerForSchema(ctx, one)
 		if err != nil {
@@ -615,87 +624,11 @@ func generateOneOfUnionType(ctx context.Context, subschemas []Schema, scanner *S
 		}
 
 		if result != nil {
-			results = appendIfUniqueType(results, result)
+			types = append(types, result)
 		}
 	}
 
-	if len(results) == 1 {
-		return results[0], nil
-	}
-
-	// If there's more than one option, synthesize a type.
-	// Note that this is required because Kubernetes CRDs do not support OneOf the same way
-	// OpenAPI does, see https://github.com/Azure/k8s-infra/issues/71
-	var properties []*astmodel.PropertyDefinition
-	propertyDescription := "mutually exclusive with all other properties"
-
-	for i, t := range results {
-		switch concreteType := t.(type) {
-		case astmodel.TypeName:
-			// Just a safety check that we've already scanned this definition
-			// TODO: Could remove this?
-			if _, ok := scanner.findTypeDefinition(concreteType); !ok {
-				return nil, errors.Errorf("couldn't find type for definition: %v", concreteType)
-			}
-			propertyName := scanner.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported)
-
-			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
-			// but we still need it for controller-gen
-			jsonName := scanner.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported)
-			property := astmodel.NewPropertyDefinition(
-				propertyName, jsonName, concreteType).MakeOptional().WithDescription(propertyDescription)
-			properties = append(properties, property)
-		case *astmodel.EnumType:
-			// TODO: This name sucks but what alternative do we have?
-			name := fmt.Sprintf("enum%v", i)
-			propertyName := scanner.idFactory.CreatePropertyName(name, astmodel.Exported)
-
-			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
-			// but we still need it for controller-gen
-			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
-			property := astmodel.NewPropertyDefinition(
-				propertyName, jsonName, concreteType).MakeOptional().WithDescription(propertyDescription)
-			properties = append(properties, property)
-		case *astmodel.ObjectType:
-			// TODO: This name sucks but what alternative do we have?
-			name := fmt.Sprintf("object%v", i)
-			propertyName := scanner.idFactory.CreatePropertyName(name, astmodel.Exported)
-
-			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
-			// but we still need it for controller-gen
-			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
-			property := astmodel.NewPropertyDefinition(
-				propertyName, jsonName, concreteType).MakeOptional().WithDescription(propertyDescription)
-			properties = append(properties, property)
-		case *astmodel.PrimitiveType:
-			var primitiveTypeName string
-			if concreteType == astmodel.AnyType {
-				primitiveTypeName = "anything"
-			} else {
-				primitiveTypeName = concreteType.Name()
-			}
-
-			// TODO: This name sucks but what alternative do we have?
-			name := fmt.Sprintf("%v%v", primitiveTypeName, i)
-			propertyName := scanner.idFactory.CreatePropertyName(name, astmodel.Exported)
-
-			// JSON name is unimportant here because we will implement the JSON marshaller anyway,
-			// but we still need it for controller-gen
-			jsonName := scanner.idFactory.CreateIdentifier(name, astmodel.NotExported)
-			property := astmodel.NewPropertyDefinition(
-				propertyName, jsonName, concreteType).MakeOptional().WithDescription(propertyDescription)
-			properties = append(properties, property)
-		default:
-			return nil, errors.Errorf("unexpected oneOf member, type: %T", t)
-		}
-	}
-
-	objectType := astmodel.NewObjectType().WithProperties(properties...)
-	objectType = objectType.WithFunction(
-		astmodel.JSONMarshalFunctionName,
-		astmodel.NewOneOfJSONMarshalFunction(objectType, scanner.idFactory))
-
-	return objectType, nil
+	return astmodel.MakeOneOfType(types...), nil
 }
 
 func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -796,21 +729,19 @@ func GetPrimitiveType(name SchemaType) (*astmodel.PrimitiveType, error) {
 	panic(fmt.Sprintf("unhandled case in getPrimitiveType: %s", name)) // this is also checked by linter
 }
 
-func appendIfUniqueType(slice []astmodel.Type, item astmodel.Type) []astmodel.Type {
-	for _, r := range slice {
-		if r.Equals(item) {
-			return slice
-		}
-	}
-
-	return append(slice, item)
-}
-
 func isResource(url *url.URL) bool {
 	fragmentParts := strings.FieldsFunc(url.Fragment, isURLPathSeparator)
 
 	for _, fragmentPart := range fragmentParts {
-		if fragmentPart == "resourceDefinitions" {
+		if fragmentPart == "resourceDefinitions" ||
+
+			// EventGrid does this, unsure why:
+			fragmentPart == "unknown_resourceDefinitions" ||
+
+			// Treat all resourceBase things as resources so that "resourceness"
+			// is inherited:
+			strings.Contains(strings.ToLower(fragmentPart), "resourcebase") {
+
 			return true
 		}
 	}

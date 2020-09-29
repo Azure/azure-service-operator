@@ -21,3 +21,8 @@ func (value *EnumValue) Equals(v *EnumValue) bool {
 
 	return value.Identifier == v.Identifier && value.Value == v.Value
 }
+
+// String implements fmt.Stringer for debugging purposes
+func (value *EnumValue) String() string {
+	return value.Identifier
+}

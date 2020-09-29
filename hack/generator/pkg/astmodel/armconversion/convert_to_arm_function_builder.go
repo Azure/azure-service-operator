@@ -7,10 +7,11 @@ package armconversion
 
 import (
 	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"go/ast"
 	"go/token"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
 const nameParameterString = "name"
@@ -147,7 +148,7 @@ func (builder *convertToArmBuilder) typePropertyHandler(
 
 	enumTypeName, ok := propertyType.(astmodel.TypeName)
 	if !ok {
-		panic(fmt.Sprintf("Type property was not an enum, was %T", toProp.PropertyName()))
+		panic(fmt.Sprintf("'Type' property was not an enum, was %s", toProp.PropertyType()))
 	}
 
 	def, err := builder.codeGenerationContext.GetImportedDefinition(enumTypeName)
@@ -449,6 +450,20 @@ func (builder *convertToArmBuilder) convertComplexTypeNameProperty(
 	typeAssertExpr := &ast.TypeAssertExpr{
 		X:    propertyLocalVarName,
 		Type: ast.NewIdent(destinationType.Name()),
+	}
+
+	if !destinationType.PackageReference.Equals(builder.codeGenerationContext.CurrentPackage()) {
+		// needs to be qualified
+		packageName, err := builder.codeGenerationContext.GetImportedPackageName(destinationType.PackageReference)
+		if err != nil {
+			panic(err)
+		}
+
+		typeAssertExpr.Type =
+			&ast.SelectorExpr{
+				X:   ast.NewIdent(packageName),
+				Sel: ast.NewIdent(destinationType.Name()),
+			}
 	}
 
 	results = append(results, params.assignmentHandler(params.destination, typeAssertExpr))

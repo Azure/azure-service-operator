@@ -37,6 +37,11 @@ func NewCodeGenerationContext(
 		generatedPackages: generatedPackages}
 }
 
+// CurrentPackage returns the current package being generated
+func (codeGenContext *CodeGenerationContext) CurrentPackage() PackageReference {
+	return codeGenContext.currentPackage
+}
+
 // PackageImports returns the set of package references in the current context
 func (codeGenContext *CodeGenerationContext) PackageImports() map[PackageReference]PackageImport {
 	// return a copy of the map to ensure immutability

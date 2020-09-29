@@ -15,12 +15,14 @@ import (
 	"testing"
 
 	"github.com/pkg/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
 
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"github.com/Azure/k8s-infra/hack/generator/pkg/config"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/jsonast"
 )
 
 func runGoldenTest(t *testing.T, path string) {
@@ -117,7 +119,7 @@ func runGoldenTest(t *testing.T, path string) {
 	var pipeline []PipelineStage
 	for _, stage := range codegen.pipeline {
 		if stage.HasId("loadSchema") {
-			pipeline = append(pipeline, loadSchemaIntoTypes(idFactory, cfg, testSchemaLoader))
+			pipeline = append(pipeline, loadTestSchemaIntoTypes(idFactory, cfg, testSchemaLoader))
 		} else if stage.HasId("deleteGenerated") {
 			continue // Skip this
 		} else if stage.HasId("rogueCheck") {
@@ -139,6 +141,36 @@ func runGoldenTest(t *testing.T, path string) {
 	if err != nil {
 		t.Fatalf("codegen failed: %v", err)
 	}
+}
+
+func loadTestSchemaIntoTypes(
+	idFactory astmodel.IdentifierFactory,
+	configuration *config.Configuration,
+	schemaLoader schemaLoader) PipelineStage {
+	source := configuration.SchemaURL
+
+	return MakePipelineStage(
+		"loadSchema",
+		"Load and walk schema (test)",
+		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
+			klog.V(0).Infof("Loading JSON schema %q", source)
+
+			schema, err := schemaLoader(ctx, source)
+			if err != nil {
+				return nil, err
+			}
+
+			scanner := jsonast.NewSchemaScanner(idFactory, configuration)
+
+			klog.V(0).Infof("Walking deployment template")
+
+			_, err = scanner.GenerateAllDefinitions(ctx, jsonast.MakeGoJSONSchema(schema.Root()))
+			if err != nil {
+				return nil, errors.Wrapf(err, "failed to walk JSON schema")
+			}
+
+			return scanner.Definitions(), nil
+		})
 }
 
 func TestGolden(t *testing.T) {

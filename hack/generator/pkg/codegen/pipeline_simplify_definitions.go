@@ -7,9 +7,10 @@ package codegen
 
 import (
 	"context"
+
 	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog"
+	"k8s.io/klog/v2"
 )
 
 // simplifyDefinitions creates a pipeline stage that removes any wrapper types prior to actual code generation

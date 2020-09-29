@@ -47,19 +47,45 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 
 func corePipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []PipelineStage {
 	return []PipelineStage{
+		// Import status info from Swagger:
 		augmentResourcesWithStatus(idFactory, configuration),
-		applyExportFilters(configuration), // should come after status types are loaded
-		stripUnreferencedTypeDefinitions(),
+
+		// Reduces oneOf/allOf types from schemas to object types:
+		convertAllOfAndOneOfToObjects(idFactory),
+
+		// Flatten out any nested resources created by allOf, etc. we want to do this before naming types or things
+		// get named with names like Resource_Spec_Spec_Spec:
+		flattenResources(), stripUnreferencedTypeDefinitions(),
+
+		// Name all anonymous object and enum types (required by controller-gen):
 		nameTypesForCRD(idFactory),
-		applyPropertyRewrites(configuration), // must come after nameTypesForCRD so that objects are all expanded
+
+		// Apply property type rewrites from the config file
+		// must come after nameTypesForCRD and convertAllOfAndOneOf so that objects are all expanded
+		applyPropertyRewrites(configuration),
+
+		// Figure out ARM resource owners:
 		determineResourceOwnership(),
+
+		// Strip out redundant type aliases:
 		removeTypeAliases(),
+
+		// De-pluralize resource types:
 		improveResourcePluralization(),
+
+		stripUnreferencedTypeDefinitions(),
+
+		// Apply export filters before generating
+		// ARM types for resources etc:
+		applyExportFilters(configuration),
 		stripUnreferencedTypeDefinitions(),
 		filterOutDefinitionsUsingAnyType(configuration.AnyTypePackages),
+
 		createArmTypesAndCleanKubernetesTypes(idFactory),
 		applyKubernetesResourceInterface(idFactory),
 		simplifyDefinitions(),
+
+		// Safety checks at the end:
 		ensureDefinitionsDoNotUseAnyTypes(),
 		checkForMissingStatusInformation(),
 	}

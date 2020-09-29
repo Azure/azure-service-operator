@@ -63,7 +63,8 @@ func (property *PropertyDefinition) WithDescription(description string) *Propert
 
 // WithType clones the property and returns it with a new type
 func (property *PropertyDefinition) WithType(newType Type) *PropertyDefinition {
-	if property.propertyType == newType {
+
+	if property.propertyType.Equals(newType) {
 		return property
 	}
 

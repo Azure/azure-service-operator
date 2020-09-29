@@ -5,7 +5,11 @@
 
 package astmodel
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/pkg/errors"
+)
 
 // Types is a map of TypeName to TypeDefinition, representing a set of types.
 type Types map[TypeName]TypeDefinition
@@ -18,6 +22,22 @@ func (types Types) Add(def TypeDefinition) {
 	}
 
 	types[key] = def
+}
+
+// FullyResolve turns something that might be a TypeName into something that isn't
+func (types Types) FullyResolve(t Type) (Type, error) {
+	tName, ok := t.(TypeName)
+	for ok {
+		tDef, found := types[tName]
+		if !found {
+			return nil, errors.Errorf("couldn't find definition for %v", tName)
+		}
+
+		t = tDef.Type()
+		tName, ok = t.(TypeName)
+	}
+
+	return t, nil
 }
 
 // AddAll adds multiple types to the set, with the same safety check as Add() to panic if a duplicate is included

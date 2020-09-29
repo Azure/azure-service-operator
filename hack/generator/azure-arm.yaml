@@ -60,16 +60,17 @@ typeFilters:
     because: Some types use OneOf in a way we don't currently handle.
 exportFilters:
   - action: exclude
-    group: deploymenttemplate
-    because: this is the "container" group that holds references to all of the other groups and as such doesn't make sense to generate
-  - action: exclude
     group: definitions
     name: NumberOrExpression
     because: this type is not really used, it's just float64. We remap this type to float64 in typetransformers so we can skip exporting it too
   - action: exclude
     group: definitions
-    name: ResourceBase
-    because: this type is not used
+    name: '*ResourceBase*'
+    because: Not actually a resource, used for inheritance only.
+  - action: exclude
+    group: deploymenttemplate
+    name: '*ResourceBase*'
+    because: Not actually a resource, used for inheritance only.
 
 # Exclusions for packages that currently produce types including AnyType.
 # TODO: get rid of these, either by chasing the teams generating

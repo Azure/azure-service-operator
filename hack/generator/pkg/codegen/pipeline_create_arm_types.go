@@ -66,6 +66,12 @@ func createArmTypes(
 				return emptyName, emptyDef, errors.Wrapf(err, "unable to create arm resource spec definition for resource %s", name)
 			}
 
+			if deffed, ok := kubeNameToArmDefs[kubeSpecName]; ok {
+				if !deffed.Type().Equals(armSpecDef.Type()) {
+					return astmodel.TypeName{}, astmodel.TypeDefinition{}, errors.Errorf("kubeNameToArmDefs already defined for %v", kubeSpecName)
+				}
+			}
+
 			kubeNameToArmDefs[kubeSpecName] = armSpecDef
 			return kubeSpecName, armSpecDef, nil
 		},
@@ -153,6 +159,7 @@ func iterDefs(
 			}
 
 			newDefs.Add(newDef)
+
 			actionedDefs[specTypeName] = struct{}{}
 		}
 	}
@@ -239,7 +246,8 @@ func getResourceSpecDefinition(
 		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find spec")
 	}
 
-	return resourceSpecDef, nil
+	// preserve outer spec name
+	return resourceSpecDef.WithName(specName), nil
 }
 
 func createArmResourceSpecDefinition(

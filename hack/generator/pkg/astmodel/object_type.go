@@ -156,47 +156,48 @@ func (objectType *ObjectType) Equals(t Type) bool {
 		return true
 	}
 
-	if st, ok := t.(*ObjectType); ok {
-		if len(objectType.properties) != len(st.properties) {
-			// Different number of properties, not equal
-			return false
-		}
-
-		for n, f := range st.properties {
-			ourProperty, ok := objectType.properties[n]
-			if !ok {
-				// Didn't find the property, not equal
-				return false
-			}
-
-			if !ourProperty.Equals(f) {
-				// Different property, even though same name; not-equal
-				return false
-			}
-		}
-
-		if len(objectType.functions) != len(st.functions) {
-			// Different number of functions, not equal
-			return false
-		}
-
-		for functionName, function := range st.functions {
-			ourFunction, ok := objectType.functions[functionName]
-			if !ok {
-				// Didn't find the func, not equal
-				return false
-			}
-
-			if !ourFunction.Equals(function) {
-				// Different function, even though same name; not-equal
-				return false
-			}
-		}
-
-		return objectType.InterfaceImplementer.Equals(st.InterfaceImplementer)
+	other, ok := t.(*ObjectType)
+	if !ok {
+		return false
 	}
 
-	return false
+	if len(objectType.properties) != len(other.properties) {
+		// Different number of properties, not equal
+		return false
+	}
+
+	for n, f := range other.properties {
+		ourProperty, ok := objectType.properties[n]
+		if !ok {
+			// Didn't find the property, not equal
+			return false
+		}
+
+		if !ourProperty.Equals(f) {
+			// Different property, even though same name; not-equal
+			return false
+		}
+	}
+
+	if len(objectType.functions) != len(other.functions) {
+		// Different number of functions, not equal
+		return false
+	}
+
+	for functionName, function := range other.functions {
+		ourFunction, ok := objectType.functions[functionName]
+		if !ok {
+			// Didn't find the func, not equal
+			return false
+		}
+
+		if !ourFunction.Equals(function) {
+			// Different function, even though same name; not-equal
+			return false
+		}
+	}
+
+	return objectType.InterfaceImplementer.Equals(other.InterfaceImplementer)
 }
 
 // WithProperty creates a new ObjectType with another property attached to it

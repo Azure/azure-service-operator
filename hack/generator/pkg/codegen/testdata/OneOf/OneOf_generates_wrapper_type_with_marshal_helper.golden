@@ -8,13 +8,13 @@ import "encoding/json"
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 
-	//Bar: mutually exclusive with all other properties
+	//Bar: Mutually exclusive with all other properties
 	Bar *Bar `json:"bar,omitempty"`
 
-	//Baz: mutually exclusive with all other properties
+	//Baz: Mutually exclusive with all other properties
 	Baz *Baz `json:"baz,omitempty"`
 
-	//Foo: mutually exclusive with all other properties
+	//Foo: Mutually exclusive with all other properties
 	Foo *Foo `json:"foo,omitempty"`
 }
 

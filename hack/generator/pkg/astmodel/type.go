@@ -7,8 +7,9 @@ package astmodel
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"go/ast"
+
+	"github.com/pkg/errors"
 )
 
 // Type represents something that is a Go type

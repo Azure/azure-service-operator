@@ -7,10 +7,11 @@ package armconversion
 
 import (
 	"fmt"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
-	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 	"go/ast"
 	"go/token"
+
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astbuilder"
+	"github.com/Azure/k8s-infra/hack/generator/pkg/astmodel"
 )
 
 type convertFromArmBuilder struct {
@@ -488,7 +489,21 @@ func (builder *convertFromArmBuilder) convertComplexTypeNameProperty(
 
 	propertyLocalVarName := ast.NewIdent(builder.idFactory.CreateIdentifier(params.nameHint, astmodel.NotExported))
 
-	results = append(results, astbuilder.NewStruct(propertyLocalVarName, ast.NewIdent(destinationType.Name())))
+	newStruct := astbuilder.NewStruct(propertyLocalVarName, ast.NewIdent(destinationType.Name()))
+	if !destinationType.PackageReference.Equals(builder.codeGenerationContext.CurrentPackage()) {
+		// struct name has to be qualified
+		packageName, err := builder.codeGenerationContext.GetImportedPackageName(destinationType.PackageReference)
+		if err != nil {
+			panic(err)
+		}
+
+		newStruct = astbuilder.NewQualifiedStruct(
+			propertyLocalVarName,
+			ast.NewIdent(packageName),
+			ast.NewIdent(destinationType.Name()))
+	}
+
+	results = append(results, newStruct)
 	results = append(
 		results,
 		astbuilder.SimpleAssignment(
