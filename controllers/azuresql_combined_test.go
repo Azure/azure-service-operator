@@ -178,6 +178,15 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 				assert.Equal(nil, err, "err getting DB fromAzure")
 				return db.MaxSizeBytes != nil && *db.MaxSizeBytes == int64(maxSizeMb)*int64(1024)*int64(1024)
 			}, tc.timeout, tc.retry, "wait for sql database MaxSizeBytes to be updated in azure")
+
+			// At this point the DB should be in a stable state, ensure that the right status is set
+			db := &v1beta1.AzureSqlDatabase{}
+			err = tc.k8sClient.Get(ctx, namespacedName, db)
+			assert.Equal(nil, err, "err getting DB from k8s")
+
+			assert.Equal(false, db.Status.Provisioning)
+			assert.Equal(false, db.Status.FailedProvisioning)
+			assert.Equal(true, db.Status.Provisioned)
 		})
 
 		// Create FirewallRules ---------------------------------------

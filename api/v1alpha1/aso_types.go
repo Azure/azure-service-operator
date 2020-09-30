@@ -25,6 +25,27 @@ type ASOStatus struct {
 	Output             string       `json:"output,omitempty"`
 }
 
+func (s *ASOStatus) SetProvisioned(msg string) {
+	s.Provisioned = true
+	s.Provisioning = false
+	s.FailedProvisioning = false
+	s.Message = msg
+}
+
+func (s *ASOStatus) SetProvisioning(msg string) {
+	s.Provisioned = false
+	s.Provisioning = true
+	s.FailedProvisioning = false
+	s.Message = msg
+}
+
+func (s *ASOStatus) SetFailedProvisioning(msg string) {
+	s.Provisioned = false
+	s.Provisioning = false
+	s.FailedProvisioning = true
+	s.Message = msg
+}
+
 // GenericSpec is a struct to help get the KeyVaultName from the Spec
 type GenericSpec struct {
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
