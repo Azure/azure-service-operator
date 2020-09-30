@@ -159,11 +159,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// Best case deletion of secrets
-			err2 := s.DeleteSecrets(ctx, instance, s.SecretClient)
-			if err2 != nil {
-				instance.Status.Message = "failed to delete secrets for managed identity user, err: " + err2.Error()
-				return false, err2
-			}
+			s.DeleteSecrets(ctx, instance, s.SecretClient)
 
 			return false, nil
 		}
@@ -204,11 +200,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 	}
 
 	// Best case deletion of secrets
-	err = s.DeleteSecrets(ctx, instance, s.SecretClient)
-	if err != nil {
-		instance.Status.Message = "failed to delete secrets for managed identity user, err: " + err.Error()
-		return false, err
-	}
+	s.DeleteSecrets(ctx, instance, s.SecretClient)
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlManagedUser succeeded")
 
