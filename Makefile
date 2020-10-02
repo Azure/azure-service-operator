@@ -342,16 +342,28 @@ install-test-dependencies:
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge
 
+# Operator-SDK Release Version
+RELEASE_VERSION ?= v1.0.1
+
+.PHONY: install-operator-sdk
 install-operator-sdk:
-	echo writeme
-	exit 1
+ifeq ($(shell uname -s), Darwin)
+	curl -LO https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin
+	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-apple-darwin
+else
+	curl -LO https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
+	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
+endif
+
+# Current Operator version
+VERSION ? = 0.37.0
 
 generate-operator-bundle: manifests
 	operator-sdk generate kustomize manifests
 	sed -i '/- ..\/scorecard/d' config/manifests/kustomization.yaml
 	# Generate samples/kustomization.yaml with all of the samples.
 	cd config/samples && ls azure*.yaml | sed 's/^/- /g' | (echo "resources:" && cat) > kustomization.yaml
-	kustomize build config/manifests | operator-sdk generate bundle --overwrite --version 0.37.0
+	kustomize build config/manifests | operator-sdk generate bundle --version $(VERSION) --channels stable --default-channel stable
 	# This is only needed until CRD conversion support is released in
-	# OpenShift 4.7
+	# OpenShift 4.6/OLM
 	scripts/add-openshift-cert-handling.sh
