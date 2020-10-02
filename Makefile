@@ -342,7 +342,7 @@ install-test-dependencies:
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge
 
-# Operator-SDK Release Version
+# Operator-sdk release version
 RELEASE_VERSION ?= v1.0.1
 
 .PHONY: install-operator-sdk
@@ -355,15 +355,12 @@ else
 	chmod +x operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu && sudo mkdir -p /usr/local/bin/ && sudo cp operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu /usr/local/bin/operator-sdk && rm operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu
 endif
 
-# Current Operator version
-VERSION ? = 0.37.0
+# Current operator version
+VERSION ?= 0.37.0
 
 generate-operator-bundle: manifests
-	operator-sdk generate kustomize manifests
-	sed -i '/- ..\/scorecard/d' config/manifests/kustomization.yaml
-	# Generate samples/kustomization.yaml with all of the samples.
-	cd config/samples && ls azure*.yaml | sed 's/^/- /g' | (echo "resources:" && cat) > kustomization.yaml
-	kustomize build config/manifests | operator-sdk generate bundle --version $(VERSION) --channels stable --default-channel stable
-	# This is only needed until CRD conversion support is released in
-	# OpenShift 4.6/OLM
+	kustomize build config/manifests | operator-sdk generate bundle --version $(VERSION) --channels stable --default-channel stable --overwrite
+	# This is only needed until CRD conversion support is released in OpenShift 4.6.x/Operator Lifecycle Manager 0.16.x
 	scripts/add-openshift-cert-handling.sh
+	# Rather than modify config/rbac manifests, replace CSV's default serviceAccount with azure-service-operator
+	sed -i 's/serviceAccountName: default/serviceAccountName: azure-service-operator/g' bundle/manifests/azure-service-operator.clusterserviceversion.yaml
