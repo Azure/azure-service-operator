@@ -36,28 +36,32 @@ func NewKubernetesResourceInterfaceImpl(
 		return nil, errors.Errorf("Resource spec doesn't have %q property", azureNameProperty)
 	}
 
-	funcs := map[string]Function{
-		OwnerProperty: &objectFunction{
-			o:         spec,
-			idFactory: idFactory,
-			asFunc:    ownerFunction,
-		},
-		AzureNameProperty: &objectFunction{
-			o:         spec,
-			idFactory: idFactory,
-			asFunc:    azureNameFunction,
-		},
+	ownerFunc := &objectFunction{
+		name:      OwnerProperty,
+		o:         spec,
+		idFactory: idFactory,
+		asFunc:    ownerFunction,
+	}
+
+	azureNameFunc := &objectFunction{
+		name:      AzureNameProperty,
+		o:         spec,
+		idFactory: idFactory,
+		asFunc:    azureNameFunction,
 	}
 
 	result := NewInterfaceImplementation(
 		MakeTypeName(MakeGenRuntimePackageReference(), "KubernetesResource"),
-		funcs)
+		ownerFunc,
+		azureNameFunc)
+
 	return result, nil
 }
 
 // objectFunction is a simple helper that implements the Function interface. It is intended for use for functions
 // that only need information about the object they are operating on
 type objectFunction struct {
+	name      string
 	o         *ObjectType
 	idFactory IdentifierFactory
 
@@ -65,6 +69,12 @@ type objectFunction struct {
 }
 
 var _ Function = &objectFunction{}
+
+// Name returns the unique name of this function
+// (You can't have two functions with the same name on the same object or resource)
+func (k *objectFunction) Name() string {
+	return k.name
+}
 
 func (k *objectFunction) RequiredImports() []PackageReference {
 	// We only require GenRuntime
@@ -77,8 +87,8 @@ func (k *objectFunction) References() TypeNameSet {
 	return k.o.References()
 }
 
-func (k *objectFunction) AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
-	return k.asFunc(k, codeGenerationContext, receiver, methodName)
+func (k *objectFunction) AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) *ast.FuncDecl {
+	return k.asFunc(k, codeGenerationContext, receiver, k.name)
 }
 
 func (k *objectFunction) Equals(f Function) bool {

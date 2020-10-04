@@ -56,8 +56,19 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []ast.Decl {
 	var result []ast.Decl
-	for methodName, function := range objectType.functions {
-		funcDef := function.AsFunc(codeGenerationContext, typeName, methodName)
+
+	// Functions must be ordered by name for deterministic output
+	var functions []Function
+	for _, f := range objectType.functions {
+		functions = append(functions, f)
+	}
+
+	sort.Slice(functions, func(i int, j int) bool {
+		return functions[i].Name() < functions[j].Name()
+	})
+
+	for _, f := range functions {
+		funcDef := f.AsFunc(codeGenerationContext, typeName)
 		result = append(result, funcDef)
 	}
 
@@ -240,10 +251,10 @@ func (objectType *ObjectType) WithoutProperty(name PropertyName) *ObjectType {
 }
 
 // WithFunction creates a new ObjectType with a function (method) attached to it
-func (objectType *ObjectType) WithFunction(name string, function Function) *ObjectType {
+func (objectType *ObjectType) WithFunction(function Function) *ObjectType {
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
-	result.functions[name] = function
+	result.functions[function.Name()] = function
 
 	return result
 }

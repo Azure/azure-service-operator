@@ -215,8 +215,8 @@ func Test_ObjectWithoutProperties_ReturnsExpectedObject(t *testing.T) {
 func Test_WithFunction_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
 	g := NewGomegaWithT(t)
 	empty := EmptyObjectType
-	fn := &FakeFunction{}
-	object := empty.WithFunction("Activate", fn)
+	fn := &FakeFunction{name: "Activate"}
+	object := empty.WithFunction(fn)
 	g.Expect(empty).NotTo(Equal(object)) // Ensure the original wasn't modified
 	g.Expect(object.functions).To(HaveLen(1))
 	g.Expect(object.functions["Activate"].Equals(fn)).To(BeTrue())
@@ -231,9 +231,7 @@ func Test_WithInterface_ReturnsExpectedObject(t *testing.T) {
 
 	// This is just a simple interface which actually has no functions
 	ifaceName := MakeTypeName(MakeLocalPackageReference("group", "2020-01-01"), "SampleInterface")
-	iface := NewInterfaceImplementation(
-		ifaceName,
-		make(map[string]Function))
+	iface := NewInterfaceImplementation(ifaceName)
 
 	object := empty.WithInterface(iface)
 

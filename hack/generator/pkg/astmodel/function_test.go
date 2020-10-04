@@ -8,8 +8,13 @@ package astmodel
 import "go/ast"
 
 type FakeFunction struct {
+	name       string
 	Imported   map[PackageReference]struct{}
 	Referenced TypeNameSet
+}
+
+func (fake *FakeFunction) Name() string {
+	return fake.name
 }
 
 func (fake *FakeFunction) RequiredImports() []PackageReference {
@@ -25,7 +30,7 @@ func (fake *FakeFunction) References() TypeNameSet {
 	return fake.Referenced
 }
 
-func (fake *FakeFunction) AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl {
+func (fake *FakeFunction) AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) *ast.FuncDecl {
 	panic("implement me")
 }
 

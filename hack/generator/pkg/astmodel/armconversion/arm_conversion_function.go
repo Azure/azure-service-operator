@@ -21,6 +21,7 @@ const (
 // ArmConversionFunction represents an ARM conversion function for converting between a Kubernetes resource
 // and an ARM resource.
 type ArmConversionFunction struct {
+	name        string
 	armTypeName astmodel.TypeName
 	armType     *astmodel.ObjectType
 	idFactory   astmodel.IdentifierFactory
@@ -29,6 +30,10 @@ type ArmConversionFunction struct {
 }
 
 var _ astmodel.Function = &ArmConversionFunction{}
+
+func (c *ArmConversionFunction) Name() string {
+	return c.name
+}
 
 // RequiredImports returns the imports required for this conversion function
 func (c *ArmConversionFunction) RequiredImports() []astmodel.PackageReference {
@@ -53,12 +58,12 @@ func (c *ArmConversionFunction) References() astmodel.TypeNameSet {
 }
 
 // AsFunc returns the function as a Go AST
-func (c *ArmConversionFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *ast.FuncDecl {
+func (c *ArmConversionFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *ast.FuncDecl {
 	switch c.direction {
 	case ConversionDirectionToArm:
-		return c.asConvertToArmFunc(codeGenerationContext, receiver, methodName)
+		return c.asConvertToArmFunc(codeGenerationContext, receiver, c.Name())
 	case ConversionDirectionFromArm:
-		return c.asConvertFromArmFunc(codeGenerationContext, receiver, methodName)
+		return c.asConvertFromArmFunc(codeGenerationContext, receiver, c.Name())
 	default:
 		panic(fmt.Sprintf("Unknown conversion direction %s", c.direction))
 	}

@@ -50,27 +50,32 @@ func NewArmSpecInterfaceImpl(
 		return nil, err
 	}
 
-	funcs := map[string]Function{
-		"GetName": &objectFunction{
-			o:         spec,
-			idFactory: idFactory,
-			asFunc:    getNameFunction,
-		},
-		"GetType": &objectFunction{
-			o:         spec,
-			idFactory: idFactory,
-			asFunc:    getTypeFunction,
-		},
-		"GetApiVersion": &objectFunction{
-			o:         spec,
-			idFactory: idFactory,
-			asFunc:    getApiVersionFunction,
-		},
+	getNameFunc := &objectFunction{
+		name:      "GetName",
+		o:         spec,
+		idFactory: idFactory,
+		asFunc:    getNameFunction,
+	}
+
+	getTypeFunc := &objectFunction{
+		name:      "GetType",
+		o:         spec,
+		idFactory: idFactory,
+		asFunc:    getTypeFunction,
+	}
+
+	getApiVersionFunc := &objectFunction{
+		name:      "GetApiVersion",
+		o:         spec,
+		idFactory: idFactory,
+		asFunc:    getApiVersionFunction,
 	}
 
 	result := NewInterfaceImplementation(
 		MakeTypeName(MakeGenRuntimePackageReference(), "ArmResourceSpec"),
-		funcs)
+		getNameFunc,
+		getTypeFunc,
+		getApiVersionFunc)
 
 	return result, nil
 }

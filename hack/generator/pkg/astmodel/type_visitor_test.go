@@ -121,15 +121,15 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 	familyName := NewPropertyDefinition("FamilyName", "family-name", StringType)
 	knownAs := NewPropertyDefinition("KnownAs", "known-as", StringType)
 
-	transform := &FakeFunction{}
-	transmogrify := &FakeFunction{}
-	skew := &FakeFunction{}
+	transform := &FakeFunction{name: "Transform"}
+	transmogrify := &FakeFunction{name: "Transmogrify"}
+	skew := &FakeFunction{name: "Skew"}
 
 	person := NewObjectType().WithProperties(fullName, familyName, knownAs)
 	individual := NewObjectType().WithProperties(fullName).
-		WithFunction("Transform", transform).
-		WithFunction("Transmogrify", transmogrify).
-		WithFunction("Skew", skew)
+		WithFunction(transform).
+		WithFunction(transmogrify).
+		WithFunction(skew)
 
 	resource := NewResourceType(person, individual)
 

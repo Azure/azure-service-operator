@@ -11,6 +11,10 @@ import (
 
 // Function represents something that is an (unnamed) Go function
 type Function interface {
+	// The unique name of this function
+	// (You can't have two functions with the same name on the same object or resource)
+	Name() string
+
 	RequiredImports() []PackageReference
 
 	// References returns the set of types to which this function refers.
@@ -18,7 +22,7 @@ type Function interface {
 	References() TypeNameSet
 
 	// AsFunc renders the current instance as a Go abstract syntax tree
-	AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *ast.FuncDecl
+	AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) *ast.FuncDecl
 
 	// Equals determines if this Function is equal to another one
 	Equals(f Function) bool

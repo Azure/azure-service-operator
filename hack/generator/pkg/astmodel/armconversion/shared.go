@@ -97,26 +97,28 @@ func NewArmTransformerImpl(
 	idFactory astmodel.IdentifierFactory,
 	isResource bool) *astmodel.InterfaceImplementation {
 
-	funcs := map[string]astmodel.Function{
-		"ConvertToArm": &ArmConversionFunction{
-			armTypeName: armTypeName,
-			armType:     armType,
-			idFactory:   idFactory,
-			direction:   ConversionDirectionToArm,
-			isResource:  isResource,
-		},
-		"PopulateFromArm": &ArmConversionFunction{
-			armTypeName: armTypeName,
-			armType:     armType,
-			idFactory:   idFactory,
-			direction:   ConversionDirectionFromArm,
-			isResource:  isResource,
-		},
+	convertToArmFunc := &ArmConversionFunction{
+		name:        "ConvertToArm",
+		armTypeName: armTypeName,
+		armType:     armType,
+		idFactory:   idFactory,
+		direction:   ConversionDirectionToArm,
+		isResource:  isResource,
+	}
+
+	populateFromArmFunc := &ArmConversionFunction{
+		name:        "PopulateFromArm",
+		armTypeName: armTypeName,
+		armType:     armType,
+		idFactory:   idFactory,
+		direction:   ConversionDirectionFromArm,
+		isResource:  isResource,
 	}
 
 	result := astmodel.NewInterfaceImplementation(
 		astmodel.MakeTypeName(astmodel.MakeGenRuntimePackageReference(), "ArmTransformer"),
-		funcs)
+		convertToArmFunc,
+		populateFromArmFunc)
 
 	return result
 }

@@ -12,8 +12,13 @@ type InterfaceImplementation struct {
 }
 
 // NewInterfaceImplementation creates a new interface implementation with the given name and set of functions
-func NewInterfaceImplementation(name TypeName, functions map[string]Function) *InterfaceImplementation {
-	return &InterfaceImplementation{name: name, functions: functions}
+func NewInterfaceImplementation(name TypeName, functions ...Function) *InterfaceImplementation {
+	result := &InterfaceImplementation{name: name, functions: make(map[string]Function)}
+	for _, f := range functions {
+		result.functions[f.Name()] = f
+	}
+
+	return result
 }
 
 // Name returns the name of the interface

@@ -46,31 +46,31 @@ func (i InterfaceImplementer) AsDeclarations(
 
 	var result []ast.Decl
 
-	// First interfaces must be ordered by name for deterministic output
-	var ifaceNames []TypeName
-	for ifaceName := range i.interfaces {
-		ifaceNames = append(ifaceNames, ifaceName)
+	// interfaces must be ordered by name for deterministic output
+	// (We sort them directly to skip future lookups)
+	var interfaces []*InterfaceImplementation
+	for _, iface := range i.interfaces {
+		interfaces = append(interfaces, iface)
 	}
 
-	sort.Slice(ifaceNames, func(i int, j int) bool {
-		return ifaceNames[i].name < ifaceNames[j].name
+	sort.Slice(interfaces, func(i int, j int) bool {
+		return interfaces[i].Name().name < interfaces[j].Name().name
 	})
 
-	for _, ifaceName := range ifaceNames {
-		iface := i.interfaces[ifaceName]
-
+	for _, iface := range interfaces {
 		result = append(result, i.generateInterfaceImplAssertion(codeGenerationContext, iface, typeName))
 
-		var funcNames []string
-		for funcName := range iface.functions {
-			funcNames = append(funcNames, funcName)
+		var functions []Function
+		for _, f := range iface.functions {
+			functions = append(functions, f)
 		}
 
-		sort.Strings(funcNames)
+		sort.Slice(functions, func(i int, j int) bool {
+			return functions[i].Name() < functions[j].Name()
+		})
 
-		for _, methodName := range funcNames {
-			function := iface.functions[methodName]
-			result = append(result, function.AsFunc(codeGenerationContext, typeName, methodName))
+		for _, f := range functions {
+			result = append(result, f.AsFunc(codeGenerationContext, typeName))
 		}
 	}
 

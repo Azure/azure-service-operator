@@ -29,6 +29,10 @@ func NewOneOfJSONMarshalFunction(oneOfObject *ObjectType, idFactory IdentifierFa
 // Ensure OneOfJSONMarshalFunction implements Function interface correctly
 var _ Function = (*OneOfJSONMarshalFunction)(nil)
 
+func (f *OneOfJSONMarshalFunction) Name() string {
+	return JSONMarshalFunctionName
+}
+
 // Equals determines if this function is equal to the passed in function
 func (f *OneOfJSONMarshalFunction) Equals(other Function) bool {
 	if o, ok := other.(*OneOfJSONMarshalFunction); ok {
@@ -47,8 +51,7 @@ func (f *OneOfJSONMarshalFunction) References() TypeNameSet {
 // AsFunc returns the function as a go ast
 func (f *OneOfJSONMarshalFunction) AsFunc(
 	codeGenerationContext *CodeGenerationContext,
-	receiver TypeName,
-	methodName string) *ast.FuncDecl {
+	receiver TypeName) *ast.FuncDecl {
 
 	receiverName := f.idFactory.CreateIdentifier(receiver.name, NotExported)
 
@@ -98,7 +101,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 
 	result := astbuilder.DefineFunc(
 		astbuilder.FuncDetails{
-			Name: ast.NewIdent(methodName),
+			Name: ast.NewIdent(f.Name()),
 			Comment: fmt.Sprintf(
 				"defers JSON marshaling to the first non-nil property, because %s represents a discriminated union (JSON OneOf)",
 				receiver.name),

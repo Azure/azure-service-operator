@@ -143,7 +143,7 @@ func (s synthesizer) oneOfObject(oneOf astmodel.OneOfType) (astmodel.Type, error
 	}
 
 	objectType := astmodel.NewObjectType().WithProperties(properties...)
-	objectType = objectType.WithFunction(astmodel.JSONMarshalFunctionName, astmodel.NewOneOfJSONMarshalFunction(objectType, s.idFactory))
+	objectType = objectType.WithFunction(astmodel.NewOneOfJSONMarshalFunction(objectType, s.idFactory))
 
 	return objectType, nil
 }
