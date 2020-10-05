@@ -47,10 +47,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	// TODO: Ideally we would catch this earlier -- if/when we update the storage version
 	// TODO: to not include Edition, we can remove this
 	if err != nil {
-		instance.Status.Provisioning = false
-		instance.Status.Provisioned = false
-		instance.Status.FailedProvisioning = true
-		instance.Status.Message = fmt.Sprintf("Azure DB error: %s", errhelp.StripErrorIDs(err))
+		instance.Status.SetFailedProvisioning(fmt.Sprintf("Azure DB error: %s", errhelp.StripErrorIDs(err)))
 		return true, nil
 	}
 
@@ -63,8 +60,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		Sku:          dbSku,
 	}
 
-	instance.Status.Provisioning = true
-	instance.Status.Provisioned = false
+	instance.Status.SetProvisioning("")
 
 	// Before we attempt to issue a new update, check if there is a previously ongoing update
 	if instance.Status.PollingURL != "" {
@@ -81,17 +77,15 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		}
 
 		if res.Status == pollclient.LongRunningOperationPollStatusFailed {
-			instance.Status.Message = res.Error.Error()
-
 			// TODO: Unfortunate that this is duplicated below... this stems from a race condition where
 			// TODO: depending on when the LRO status is updated, we either notice it below or right here
 			if res.Error.Code == errhelp.InvalidMaxSizeTierCombination {
-				instance.Status.FailedProvisioning = true
-				instance.Status.Provisioning = false
+				instance.Status.SetFailedProvisioning(res.Error.Error())
 				instance.Status.PollingURL = ""
 				return true, nil
 			}
 
+			instance.Status.Message = res.Error.Error()
 			// There can be intermediate errors and various other things that cause requests to fail, so we need to try again.
 			instance.Status.PollingURL = "" // Clear URL to force retry
 			return false, nil
@@ -104,7 +98,6 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 		// Previous operation was a success
 		if res.Status == pollclient.LongRunningOperationPollStatusSucceeded {
-			instance.Status.Provisioning = false
 			instance.Status.SpecHash = hash
 			instance.Status.PollingURL = ""
 		}
@@ -131,9 +124,8 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 				instance.Status.Message = fmt.Sprintf("Azure DB long-term retention policy error: %s", errhelp.StripErrorIDs(err))
 				azerr := errhelp.NewAzureError(err)
 				if helpers.ContainsString(failureErrors, azerr.Type) {
-					instance.Status.Provisioning = false
-					instance.Status.Provisioned = false
-					instance.Status.FailedProvisioning = true
+					// Leave message the same as above
+					instance.Status.SetFailedProvisioning(instance.Status.Message)
 					return true, nil
 				} else {
 					return false, err
@@ -141,11 +133,8 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			}
 
 			// db exists, we have successfully provisioned everything
-			instance.Status.Provisioning = false
-			instance.Status.Provisioned = true
-			instance.Status.FailedProvisioning = false
+			instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 			instance.Status.State = string(dbGet.Status)
-			instance.Status.Message = resourcemanager.SuccessMsg
 			instance.Status.ResourceId = *dbGet.ID
 			return true, nil
 		} else {
@@ -156,6 +145,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 				errhelp.ResourceGroupNotFoundErrorCode,
 			}
 			if helpers.ContainsString(requeuErrors, azerr.Type) {
+				// TODO: Doing this seems pointless, but leaving it for now
 				instance.Status.Provisioning = false
 				return false, nil
 			}
@@ -170,15 +160,13 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		// handle errors
 		// resource request has been sent to ARM
 		if azerr.Type == errhelp.AsyncOpIncompleteError {
-			instance.Status.Message = "Resource request successfully submitted to Azure"
-			instance.Status.Provisioning = true
+			instance.Status.SetProvisioning("Resource request successfully submitted to Azure")
 			instance.Status.PollingURL = pollingUrl
 			return false, nil
 		}
 
 		if azerr.Type == errhelp.InvalidMaxSizeTierCombination {
-			instance.Status.FailedProvisioning = true
-			instance.Status.Provisioning = false
+			instance.Status.SetFailedProvisioning(instance.Status.Message)
 			return true, nil
 		}
 
@@ -188,6 +176,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			errhelp.ParentNotFoundErrorCode,
 		}
 		if helpers.ContainsString(catch, azerr.Type) {
+			// TODO: Doing this seems pointless, but leaving it for now
 			instance.Status.Provisioning = false
 			return false, nil
 		}
@@ -195,18 +184,17 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		// if the database is busy, requeue
 		errorString := err.Error()
 		if strings.Contains(errorString, "Try again later") {
+			// TODO: Doing this seems pointless, but leaving it for now
 			instance.Status.Provisioning = false
 			return false, nil
 		}
 
 		switch azerr.Code {
 		case http.StatusBadRequest:
-			instance.Status.FailedProvisioning = true
-			instance.Status.Provisioning = false
+			instance.Status.SetFailedProvisioning(instance.Status.Message)
 			return true, nil
 		case http.StatusNotFound:
-			instance.Status.Message = fmt.Sprintf("Waiting for SQL DB %s to provision", dbName)
-			instance.Status.Provisioning = false
+			instance.Status.SetFailedProvisioning(fmt.Sprintf("Waiting for SQL DB %s to provision", dbName))
 			return false, nil
 		}
 
