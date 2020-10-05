@@ -40,21 +40,23 @@ func NewEnumType(baseType *PrimitiveType, options []EnumValue) *EnumType {
 
 // AsDeclarations converts the EnumType to a series of Go AST Decls
 func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, name TypeName, description []string) []ast.Decl {
+	result := []ast.Decl{enum.createBaseDeclaration(codeGenerationContext, name, description)}
+
 	var specs []ast.Spec
 	for _, v := range enum.options {
 		s := enum.createValueDeclaration(name, v)
 		specs = append(specs, s)
 	}
 
-	declaration := &ast.GenDecl{
-		Tok:   token.CONST,
-		Doc:   &ast.CommentGroup{},
-		Specs: specs,
-	}
+	if len(specs) > 0 {
+		declaration := &ast.GenDecl{
+			Tok:   token.CONST,
+			Doc:   &ast.CommentGroup{},
+			Specs: specs,
+		}
 
-	result := []ast.Decl{
-		enum.createBaseDeclaration(codeGenerationContext, name, description),
-		declaration}
+		result = append(result, declaration)
+	}
 
 	return result
 }

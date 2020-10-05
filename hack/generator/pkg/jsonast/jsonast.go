@@ -610,10 +610,10 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 	ctx, span := tab.StartSpan(ctx, "oneOfHandler")
 	defer span.End()
 
-	return generateOneOfUnionType(ctx, schema.oneOf(), scanner)
+	return generateOneOfUnionType(ctx, schema, schema.oneOf(), scanner)
 }
 
-func generateOneOfUnionType(ctx context.Context, subschemas []Schema, scanner *SchemaScanner) (astmodel.Type, error) {
+func generateOneOfUnionType(ctx context.Context, schema Schema, subschemas []Schema, scanner *SchemaScanner) (astmodel.Type, error) {
 	// make sure we visit everything before bailing out,
 	// to get all types generated even if we can't use them
 	var types []astmodel.Type
@@ -628,7 +628,19 @@ func generateOneOfUnionType(ctx context.Context, subschemas []Schema, scanner *S
 		}
 	}
 
-	return astmodel.MakeOneOfType(types...), nil
+	result := astmodel.MakeOneOfType(types...)
+
+	// if the node that contains the oneOf(/anyOf) defines other properties, create an object type with them inside to merge
+	if len(schema.properties()) > 0 {
+		objectType, err := scanner.RunHandler(ctx, Object, schema)
+		if err != nil {
+			return nil, err
+		}
+
+		result = astmodel.MakeAllOfType(objectType, result)
+	}
+
+	return result, nil
 }
 
 func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -637,7 +649,7 @@ func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 
 	// See https://github.com/Azure/k8s-infra/issues/111 for details about why this is treated as oneOf
 	klog.V(2).Infof("Handling anyOf type as if it were oneOf: %v\n", schema.url()) // TODO: was Ref.URL
-	return generateOneOfUnionType(ctx, schema.anyOf(), scanner)
+	return generateOneOfUnionType(ctx, schema, schema.anyOf(), scanner)
 }
 
 func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
