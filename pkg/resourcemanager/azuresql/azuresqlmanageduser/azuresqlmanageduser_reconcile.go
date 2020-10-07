@@ -43,15 +43,14 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
-		instance.Status.Provisioning = false
 
-		requeuErrors := []string{
+		requeueErrors := []string{
 			errhelp.ResourceNotFound,
 			errhelp.ParentNotFoundErrorCode,
 			errhelp.ResourceGroupNotFoundErrorCode,
 		}
 		azerr := errhelp.NewAzureError(err)
-		if helpers.ContainsString(requeuErrors, azerr.Type) {
+		if helpers.ContainsString(requeueErrors, azerr.Type) {
 			return false, nil
 		}
 
@@ -61,7 +60,7 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 			return false, nil
 		}
 
-		// if this is an unmarshall error - igmore and continue, otherwise report error and requeue
+		// if this is an unmarshall error - ignore and continue, otherwise report error and requeue
 		if !strings.Contains(errorString, "cannot unmarshal array into Go struct field serviceError2.details") {
 			return false, err
 		}
@@ -70,7 +69,6 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 	db, err := s.ConnectToSqlDbAsCurrentUser(ctx, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
-		instance.Status.Provisioning = false
 
 		// catch firewall issue - keep cycling until it clears up
 		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
@@ -83,6 +81,8 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 			return false, nil
 		}
 
+		// Other failures are terminal
+		instance.Status.SetFailedProvisioning(instance.Status.Message)
 		return true, nil
 	}
 
@@ -93,10 +93,13 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 	}
 
 	if !userExists {
+		instance.Status.SetProvisioning("")
+
 		err = s.EnableUser(ctx, requestedUsername, instance.Spec.ManagedIdentityClientId, db)
 		if err != nil {
-			instance.Status.Message = "failed enabling managed identity user, err: " + err.Error()
+			instance.Status.Message = fmt.Sprintf("failed enabling managed identity user, err: %v", err)
 			if strings.Contains(err.Error(), "The login already has an account under a different user name") {
+				instance.Status.SetFailedProvisioning(instance.Status.Message)
 				return true, nil
 			}
 			return false, err
@@ -106,25 +109,23 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 	// apply roles to user
 	if len(instance.Spec.Roles) == 0 {
 		instance.Status.Message = "No roles specified for user"
-		return false, fmt.Errorf("No roles specified for database user")
+		return false, fmt.Errorf("no roles specified for database user")
 	}
 
 	err = s.GrantUserRoles(ctx, requestedUsername, instance.Spec.Roles, db)
 	if err != nil {
-		instance.Status.Message = "GrantUserRoles failed"
-		return false, fmt.Errorf("GrantUserRoles failed")
+		instance.Status.Message = fmt.Sprintf("GrantUserRoles failed: %v", err)
+		return false, fmt.Errorf("GrantUserRoles failed: %v", err)
 	}
 
 	err = s.UpdateSecret(ctx, instance, s.SecretClient)
 	if err != nil {
-		instance.Status.Message = "Updating secret failed " + err.Error()
-		return false, fmt.Errorf("Updating secret failed")
+		instance.Status.Message = fmt.Sprintf("Updating secret failed: %v", err)
+		return false, fmt.Errorf("updating secret failed")
 	}
 
-	instance.Status.Provisioned = true
+	instance.Status.SetProvisioned(resourcemanager.SuccessMsg)
 	instance.Status.State = "Succeeded"
-	instance.Status.Message = resourcemanager.SuccessMsg
-
 	return true, nil
 }
 
@@ -159,11 +160,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 		azerr := errhelp.NewAzureError(err)
 		if helpers.ContainsString(catch, azerr.Type) {
 			// Best case deletion of secrets
-			err2 := s.DeleteSecrets(ctx, instance, s.SecretClient)
-			if err2 != nil {
-				instance.Status.Message = "failed to delete secrets for managed identity user, err: " + err2.Error()
-				return false, err2
-			}
+			s.DeleteSecrets(ctx, instance, s.SecretClient)
 
 			return false, nil
 		}
@@ -173,7 +170,6 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 	db, err := s.ConnectToSqlDbAsCurrentUser(ctx, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
-		instance.Status.Provisioning = false
 
 		// catch firewall issue - keep cycling until it clears up
 		if strings.Contains(err.Error(), "create a firewall rule for this IP address") {
@@ -204,11 +200,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 	}
 
 	// Best case deletion of secrets
-	err = s.DeleteSecrets(ctx, instance, s.SecretClient)
-	if err != nil {
-		instance.Status.Message = "failed to delete secrets for managed identity user, err: " + err.Error()
-		return false, err
-	}
+	s.DeleteSecrets(ctx, instance, s.SecretClient)
 
 	instance.Status.Message = fmt.Sprintf("Delete AzureSqlManagedUser succeeded")
 
