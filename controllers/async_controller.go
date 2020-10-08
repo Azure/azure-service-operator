@@ -169,7 +169,7 @@ func (r *AsyncReconciler) Reconcile(req ctrl.Request, obj runtime.Object) (resul
 		status.RequestedAt = nil
 	}
 	if done && !status.Provisioned && ensureErr == nil {
-		status.FailedProvisioning = true
+		status.SetFailedProvisioning(status.Message) // Keep the same message
 	}
 
 	// update the status of the resource in kubernetes

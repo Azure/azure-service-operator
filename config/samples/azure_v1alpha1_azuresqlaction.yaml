@@ -12,7 +12,7 @@ spec:
   # serverSecretKeyVault: asoSecretKeyVault
 
   # actionName: rollusercreds
-  # dbName: azuresqldatabase-sample
+  # dbName: azuresqldatabase-sample1
   # dbUser: sqluser-sample
   ## Optionally specify the keyvault for the user credentials secret
   # userSecretKeyVault: asoSecretKeyVault

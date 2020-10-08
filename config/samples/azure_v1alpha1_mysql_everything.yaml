@@ -1,7 +1,7 @@
 apiVersion: azure.microsoft.com/v1alpha1
 kind: MySQLServer
 metadata:
-  name: mysqlserver-sample
+  name: mysqlserver-sample2
 spec:  
   location: eastus2
   resourceGroup: resourcegroup-azure-operators
@@ -18,19 +18,19 @@ spec:
 apiVersion: azure.microsoft.com/v1alpha1
 kind: MySQLDatabase
 metadata:
-  name: mysqldatabase-sample
+  name: mysqldatabase-sample2
 spec:
   resourceGroup: resourcegroup-azure-operators
-  server: mysqlserver-sample
+  server: mysqlserver-sample2
 
 ---
 apiVersion: azure.microsoft.com/v1alpha1
 kind: MySQLFirewallRule
 metadata:
-  name: mysqlfirewallrule-sample
+  name: mysqlfirewallrule-sample2
 spec:
   resourceGroup: resourcegroup-azure-operators
-  server: mysqlserver-sample
+  server: mysqlserver-sample2
   startIpAddress: 0.0.0.0
   endIpAddress: 0.0.0.0
 

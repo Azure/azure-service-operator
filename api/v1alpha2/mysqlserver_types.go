@@ -69,7 +69,7 @@ func NewDefaultMySQLServer(name, resourceGroup, location string) *MySQLServer {
 				Name:     "GP_Gen5_4",
 				Tier:     SkuTier("GeneralPurpose"),
 				Family:   "Gen5",
-				Size:     "51200",
+				Size:     "107374182400",
 				Capacity: 4,
 			},
 			ServerVersion:  ServerVersion("8.0"),
@@ -78,7 +78,7 @@ func NewDefaultMySQLServer(name, resourceGroup, location string) *MySQLServer {
 			StorageProfile: &MySQLStorageProfile{
 				BackupRetentionDays: to.Int32Ptr(10),
 				GeoRedundantBackup:  "Disabled",
-				StorageMB:           to.Int32Ptr(5120),
+				StorageMB:           to.Int32Ptr(100 * 1024),
 				StorageAutogrow:     "Disabled",
 			},
 		},
