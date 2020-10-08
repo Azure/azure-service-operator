@@ -69,6 +69,10 @@ generate: $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
 #		--output-base=./ \
 #		--go-header-file=../boilerplate.go.txt
 
+	# Force regeneration of all of the CRDs
+	@echo "Deleting old CRDs"
+	$(Q) if [ -d "./config/crd/bases" ]; then find "./config/crd/bases" -type f -name "*" -delete; fi
+
 	@echo "Executing controller-gen to generate CRDs"
 	$(Q) $(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./apis/..." output:crd:artifacts:config=config/crd/bases
 

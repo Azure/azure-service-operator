@@ -32,9 +32,7 @@ $(KUSTOMIZE): ## Install kustomize
 	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) sigs.k8s.io/kustomize/kustomize/v3@v3.5.4
 
 $(CONTROLLER_GEN): ## Build controller-gen from tools folder.
-	# TODO: Currently referencing a commit hash so that we can have the support for "allowDangerousTypes"
-	# TODO: which was added in https://github.com/kubernetes-sigs/controller-tools/pull/449
-	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) sigs.k8s.io/controller-tools/cmd/controller-gen@b45abdba
+	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0
 
 $(CONVERSION_GEN): ## Build conversion-gen from tools folder.
 	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) k8s.io/code-generator/cmd/conversion-gen@v0.18.2
