@@ -83,4 +83,4 @@ The `shardID` field is used to specify a specific RedisCache shard to reboot. Th
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/howto/resourceprovision.md) to deploy, view and delete resources.

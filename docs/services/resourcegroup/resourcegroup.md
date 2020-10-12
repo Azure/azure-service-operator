@@ -15,4 +15,4 @@ A resource group needs the following fields to deploy
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/howto/resourceprovision.md) to deploy, view and delete resources.
