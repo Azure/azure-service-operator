@@ -32,7 +32,7 @@ A Storage Account needs the following fields to deploy, along with a location an
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/howto/resourceprovision.md) to deploy, view and delete resources.
 
 ## Secrets
 After creating a storage account, the operator stores a JSON formatted secret with the following fields. For more details on where the secrets are stored, look [here](/docs/secrets.md).

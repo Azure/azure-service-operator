@@ -81,4 +81,4 @@ The username is defined by `username`. The MySQL server admin secret is stored i
 
 ## Deploy, view and delete resources
 
-You can follow the steps [here](/docs/topics/resourceprovision.md) to deploy, view and delete resources.
+You can follow the steps [here](/docs/howto/resourceprovision.md) to deploy, view and delete resources.
