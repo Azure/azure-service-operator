@@ -9,11 +9,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 
+	"github.com/Azure/k8s-infra/pkg/util/ownerutil"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/conversion"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -52,6 +55,7 @@ type ReconcileAction string
 
 const (
 	ReconcileActionNoAction          = ReconcileAction("NoAction")
+	ReconcileActionManageOwnership   = ReconcileAction("ManageOwnership")
 	ReconcileActionBeginDeployment   = ReconcileAction("BeginDeployment")
 	ReconcileActionMonitorDeployment = ReconcileAction("MonitorDeployment")
 	ReconcileActionBeginDelete       = ReconcileAction("BeginDelete")
@@ -194,6 +198,19 @@ func (gr *GenericReconciler) DetermineReconcileAction(data *ReconcileMetadata) (
 		return ReconcileActionMonitorDeployment, gr.MonitorDeployment, nil
 	}
 
+	// TODO: What do we do if somebody tries to change the owner of a resource?
+	// TODO: That's not allowed in Azure so we can't actually make the change, but
+	// TODO: we could interpret it as a commend to create a duplicate resource under the
+	// TODO: new owner (and orphan the old Azure resource?). Alternatively we could just put the
+	// TODO: Kubernetes resource into an error state
+	// TODO: See: https://github.com/Azure/k8s-infra/issues/274
+	// Determine if we need to update ownership first
+	owner := data.metaObj.Owner()
+	if owner != nil && owner.Kind != "ResourceGroup" && len(data.metaObj.GetOwnerReferences()) == 0 { // TODO: Remove RG hack
+		// TODO: This could all be rolled into CreateDeployment if we wanted
+		return ReconcileActionManageOwnership, gr.ManageOwnership, nil
+	}
+
 	return ReconcileActionBeginDeployment, gr.CreateDeployment, nil
 }
 
@@ -216,26 +233,44 @@ func (gr *GenericReconciler) StartDeleteOfResource(
 	data.log.Info(msg)
 	gr.Recorder.Event(data.metaObj, v1.EventTypeNormal, string(action), msg)
 
+	// If we have no resourceId to begin with, the Azure resource was never created
+	if data.GetResourceIdOrDefault() == "" {
+		return ctrl.Result{}, gr.deleteResourceSucceeded(ctx, data)
+	}
+
+	// TODO: Drop this entirely in favor if calling the genruntime.MetaObject interface methods that
+	// TODO: return the data we need.
+	// TODO(matthchr): For now just emulate this with reflection
 	resource, err := gr.constructArmResource(ctx, data)
+
 	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "converting %q to armResourceSpec", data.metaObj.GetName())
+		// If the error is that the owner isn't found, that probably
+		// means that the owner was deleted in Kubernetes. The current
+		// assumption is that that deletion has been propagated to Azure
+		// and so the child resource is already deleted.
+		var typedErr *armresourceresolver.OwnerNotFound
+		if errors.As(err, &typedErr) {
+			// TODO: We should confirm the above assumption by performing a HEAD on
+			// TODO: the resource in Azure. This requires GetApiVersion() on  metaObj which
+			// TODO: we don't currently have in the interface.
+			// gr.ARMClient.HeadResource(ctx, data.resourceId, data.metaObj.GetApiVersion())
+			return ctrl.Result{}, gr.deleteResourceSucceeded(ctx, data)
+		}
+
+		return ctrl.Result{}, errors.Wrapf(err, "couldn't convert to armResourceSpec")
 	}
 
 	err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
-		if resource.GetId() != "" {
-			emptyStatus, err := NewEmptyArmResourceStatus(mutData.metaObj)
-			if err != nil {
-				return errors.Wrapf(err, "creating empty status for %q", resource.GetId())
-			}
-
-			err = gr.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetApiVersion(), emptyStatus)
-			if err != nil {
-				return errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
-			}
-			data.SetResourceProvisioningState(armclient.DeletingProvisioningState)
-		} else {
-			controllerutil.RemoveFinalizer(mutData.metaObj, GenericControllerFinalizer)
+		emptyStatus, err := NewEmptyArmResourceStatus(mutData.metaObj)
+		if err != nil {
+			return errors.Wrapf(err, "creating empty status for %q", resource.GetId())
 		}
+
+		err = gr.ARMClient.BeginDeleteResource(ctx, resource.GetId(), resource.Spec().GetApiVersion(), emptyStatus)
+		if err != nil {
+			return errors.Wrapf(err, "deleting resource %q", resource.Spec().GetType())
+		}
+		data.SetResourceProvisioningState(armclient.DeletingProvisioningState)
 
 		return nil
 	})
@@ -278,10 +313,7 @@ func (gr *GenericReconciler) MonitorDelete(
 		return ctrl.Result{RequeueAfter: 10 * time.Second}, nil
 	}
 
-	err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
-		controllerutil.RemoveFinalizer(mutData.metaObj, GenericControllerFinalizer)
-		return nil
-	})
+	err = gr.deleteResourceSucceeded(ctx, data)
 
 	// patcher will try to fetch the object after patching, so ignore not found errors
 	return ctrl.Result{}, client.IgnoreNotFound(err)
@@ -370,7 +402,7 @@ func (gr *GenericReconciler) MonitorDeployment(ctx context.Context, action Recon
 
 	// TODO: Could somehow have a method that grouped both of these calls
 	currentState := data.GetResourceProvisioningState()
-	data.log.Info("Monitoring deployment", "action", string(action), "id", deployment.Id, "state", currentState)
+	data.log.V(4).Info("Monitoring deployment", "action", string(action), "id", deployment.Id, "state", currentState)
 	gr.Recorder.Event(data.metaObj, v1.EventTypeNormal, string(action), fmt.Sprintf("Monitoring Azure deployment ID=%q, state=%q", deployment.Id, currentState))
 
 	// We do two patches here because if we remove the deployment before we've actually confirmed we persisted
@@ -409,6 +441,44 @@ func (gr *GenericReconciler) MonitorDeployment(ctx context.Context, action Recon
 		}
 	}
 	return result, err
+}
+
+func (gr *GenericReconciler) ManageOwnership(ctx context.Context, action ReconcileAction, data *ReconcileMetadata) (ctrl.Result, error) {
+	data.log.V(1).Info("applying ownership", "action", action)
+	isOwnerReady, err := gr.isOwnerReady(ctx, data)
+
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+	if !isOwnerReady {
+		// TODO: We need to figure out how we're handing these sorts of errors.
+		// TODO: See https://github.com/Azure/k8s-infra/issues/274.
+		// TODO: For now just set an error so we at least see something
+		err := gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
+			mutData.SetResourceError(fmt.Sprintf("owner %s is not ready", data.metaObj.Owner().Name))
+			return nil
+		})
+
+		err = client.IgnoreNotFound(err)
+		if err != nil {
+			return ctrl.Result{}, errors.Wrap(err, "patching resource error")
+		}
+
+		return ctrl.Result{
+			// TODO: We should consider a scaling backoff here, see: https://github.com/Azure/k8s-infra/issues/263
+			RequeueAfter: 5 * time.Second,
+		}, nil
+	}
+
+	err = gr.applyOwnership(ctx, data)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
+	// TODO: Fast requeue as we're moving to the next stage... Do we prefer this or doing it "all at once"?
+	return ctrl.Result{
+		RequeueAfter: 50 * time.Millisecond,
+	}, nil
 }
 
 //////////////////////////////////////////
@@ -534,4 +604,66 @@ func (gr *GenericReconciler) Patch(
 		Namespace: data.metaObj.GetNamespace(),
 		Name:      data.metaObj.GetName(),
 	}, data.metaObj)
+}
+
+// isOwnerReady returns true if the owner is ready or if there is no owner required
+func (gr *GenericReconciler) isOwnerReady(ctx context.Context, data *ReconcileMetadata) (bool, error) {
+	_, err := gr.ResourceResolver.GetOwner(ctx, data.metaObj)
+	if err != nil {
+		var typedErr *armresourceresolver.OwnerNotFound
+		if errors.As(err, &typedErr) {
+			data.log.V(4).Info("Owner does not yet exist", "NamespacedName", typedErr.OwnerName)
+			return false, nil
+		}
+
+		return false, errors.Wrap(err, "failed to get owner")
+	}
+
+	return true, nil
+}
+
+func (gr *GenericReconciler) applyOwnership(ctx context.Context, data *ReconcileMetadata) error {
+	owner, err := gr.ResourceResolver.GetOwner(ctx, data.metaObj)
+	if err != nil {
+		return errors.Wrap(err, "failed to get owner")
+	}
+
+	if owner == nil {
+		return nil
+	}
+
+	err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
+		ownerGvk := owner.GetObjectKind().GroupVersionKind()
+
+		ownerRef := metav1.OwnerReference{
+			APIVersion: strings.Join([]string{ownerGvk.Group, ownerGvk.Version}, "/"),
+			Kind:       ownerGvk.Kind,
+			Name:       owner.GetName(),
+			UID:        owner.GetUID(),
+		}
+
+		mutData.metaObj.SetOwnerReferences(ownerutil.EnsureOwnerRef(mutData.metaObj.GetOwnerReferences(), ownerRef))
+
+		mutData.log.V(4).Info("Set owner reference", "ownerGvk", ownerGvk, "ownerName", owner.GetName())
+
+		return nil
+	})
+
+	if err != nil {
+		return errors.Wrap(err, "patch owner references failed")
+	}
+
+	return nil
+}
+
+func (gr *GenericReconciler) deleteResourceSucceeded(ctx context.Context, data *ReconcileMetadata) error {
+	err := gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
+		controllerutil.RemoveFinalizer(data.metaObj, GenericControllerFinalizer)
+		return nil
+	})
+
+	data.log.V(0).Info("Deleted resource")
+
+	// patcher will try to fetch the object after patching, so ignore not found errors
+	return client.IgnoreNotFound(err)
 }
