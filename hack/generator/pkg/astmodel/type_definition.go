@@ -91,8 +91,8 @@ func AsSimpleDeclarations(codeGenerationContext *CodeGenerationContext, name Typ
 }
 
 // RequiredImports returns a list of packages required by this type
-func (def TypeDefinition) RequiredImports() []PackageReference {
-	return def.theType.RequiredImports()
+func (def TypeDefinition) RequiredPackageReferences() []PackageReference {
+	return def.theType.RequiredPackageReferences()
 }
 
 // FileNameHint returns what a file that contains this name (if any) should be called

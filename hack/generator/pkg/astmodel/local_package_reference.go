@@ -65,3 +65,9 @@ func (pr LocalPackageReference) Equals(ref PackageReference) bool {
 func (pr LocalPackageReference) String() string {
 	return pr.PackagePath()
 }
+
+// IsLocalPackageReference() returns true if the supplied reference is a local one
+func IsLocalPackageReference(ref PackageReference) bool {
+	_, ok := ref.(LocalPackageReference)
+	return ok
+}

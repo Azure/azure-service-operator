@@ -63,9 +63,9 @@ func (optional *OptionalType) AsType(codeGenerationContext *CodeGenerationContex
 	}
 }
 
-// RequiredImports returns the imports required by the 'element' type
-func (optional *OptionalType) RequiredImports() []PackageReference {
-	return optional.element.RequiredImports()
+// RequiredPackageReferences returns the imports required by the 'element' type
+func (optional *OptionalType) RequiredPackageReferences() []PackageReference {
+	return optional.element.RequiredPackageReferences()
 }
 
 // References returns the set of types that the underlying type refers to directly.

@@ -70,8 +70,8 @@ func (typeName TypeName) References() TypeNameSet {
 	return NewTypeNameSet(typeName)
 }
 
-// RequiredImports returns all the imports required for this definition
-func (typeName TypeName) RequiredImports() []PackageReference {
+// RequiredPackageReferences returns all the imports required for this definition
+func (typeName TypeName) RequiredPackageReferences() []PackageReference {
 	return []PackageReference{typeName.PackageReference}
 }
 

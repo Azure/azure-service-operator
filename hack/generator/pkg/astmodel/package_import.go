@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"fmt"
 	"go/ast"
 	"go/token"
 )
@@ -15,6 +16,8 @@ type PackageImport struct {
 	PackageReference PackageReference
 	name             string
 }
+
+var _ fmt.Stringer = &PackageImport{}
 
 // NewPackageImport creates a new package import from a reference
 func NewPackageImport(packageReference PackageReference) PackageImport {
@@ -59,4 +62,12 @@ func (pi PackageImport) Equals(ref PackageImport) bool {
 	namesEqual := pi.name == ref.name
 
 	return packagesEqual && namesEqual
+}
+
+func (pi PackageImport) String() string {
+	if len(pi.name) > 0 {
+		return fmt.Sprintf("%v %v", pi.name, pi.PackageReference)
+	}
+
+	return pi.PackageReference.String()
 }

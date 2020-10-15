@@ -215,7 +215,7 @@ func Test_ObjectWithoutProperties_ReturnsExpectedObject(t *testing.T) {
 func Test_WithFunction_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
 	g := NewGomegaWithT(t)
 	empty := EmptyObjectType
-	fn := &FakeFunction{name: "Activate"}
+	fn := NewFakeFunction("Activate")
 	object := empty.WithFunction(fn)
 	g.Expect(empty).NotTo(Equal(object)) // Ensure the original wasn't modified
 	g.Expect(object.functions).To(HaveLen(1))

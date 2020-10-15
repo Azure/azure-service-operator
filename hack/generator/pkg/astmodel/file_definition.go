@@ -131,30 +131,27 @@ func assignRanks(definers []TypeDefinition, ranks map[TypeName]int) []TypeDefini
 
 // generateImports products the definitive set of imports for use in this file and
 // disambiguates any conflicts
-func (file *FileDefinition) generateImports() map[PackageImport]struct{} {
-	var requiredImports = make(map[PackageImport]struct{}) // fake set type
+func (file *FileDefinition) generateImports() *PackageImportSet {
+	var requiredImports = NewPackageImportSet()
 
 	for _, s := range file.definitions {
-		for _, requiredImport := range s.RequiredImports() {
-			// no need to import the current package
-			if !requiredImport.Equals(file.packageReference) {
-				newImport := NewPackageImport(requiredImport)
-
-				if requiredImport.PackagePath() == MetaV1PackageReference.PackagePath() {
-					newImport = newImport.WithName("metav1")
-				}
-
-				requiredImports[newImport] = struct{}{}
-			}
+		for _, r := range s.RequiredPackageReferences() {
+			requiredImports.AddImportOfReference(r)
 		}
 	}
 
-	// TODO: Do something about conflicting imports
+	// Don't need to import the current package
+	selfImport := NewPackageImport(file.packageReference)
+	requiredImports.Remove(selfImport)
+
+	// TODO: Make this configurable
+	requiredImports.ApplyName(MetaV1PackageReference, "metav1")
 
 	// Determine if there are any conflicting imports -- these are imports with the same "name"
 	// but a different package path
-	for imp := range requiredImports {
-		for otherImp := range requiredImports {
+	imports := requiredImports.AsSortedSlice(ByNameInGroups)
+	for _, imp := range imports {
+		for _, otherImp := range imports {
 			if !imp.Equals(otherImp) && imp.PackageName() == otherImp.PackageName() {
 				klog.Warningf(
 					"File %v: import %v (named %v) and import %v (named %v) conflict",
@@ -170,9 +167,9 @@ func (file *FileDefinition) generateImports() map[PackageImport]struct{} {
 	return requiredImports
 }
 
-func (file *FileDefinition) generateImportSpecs(references map[PackageImport]struct{}) []ast.Spec {
+func (file *FileDefinition) generateImportSpecs(imports *PackageImportSet) []ast.Spec {
 	var importSpecs []ast.Spec
-	for requiredImport := range references {
+	for _, requiredImport := range imports.AsSlice() {
 		importSpecs = append(importSpecs, requiredImport.AsImportSpec())
 	}
 
@@ -191,7 +188,7 @@ func (file *FileDefinition) AsAst() ast.Node {
 	codeGenContext := NewCodeGenerationContext(file.packageReference, packageReferences, file.generatedPackages)
 
 	// Create import header if needed
-	if len(packageReferences) > 0 {
+	if packageReferences.Length() > 0 {
 		decls = append(decls, &ast.GenDecl{Tok: token.IMPORT, Specs: file.generateImportSpecs(packageReferences)})
 	}
 

@@ -76,11 +76,9 @@ func (k *objectFunction) Name() string {
 	return k.name
 }
 
-func (k *objectFunction) RequiredImports() []PackageReference {
+func (k *objectFunction) RequiredPackageReferences() []PackageReference {
 	// We only require GenRuntime
-	return []PackageReference{
-		MakeGenRuntimePackageReference(),
-	}
+	return []PackageReference{MakeGenRuntimePackageReference()}
 }
 
 func (k *objectFunction) References() TypeNameSet {

@@ -14,7 +14,7 @@ import (
 // in which the field declaration occurs - for example in a file with two conflicting package references
 // a disambiguation must occur and field types must ensure they correctly refer to the disambiguated types
 type CodeGenerationContext struct {
-	packageImports map[PackageReference]PackageImport
+	packageImports *PackageImportSet
 	currentPackage PackageReference
 
 	generatedPackages map[PackageReference]*PackageDefinition
@@ -23,17 +23,15 @@ type CodeGenerationContext struct {
 // New CodeGenerationContext creates a new immutable code generation context
 func NewCodeGenerationContext(
 	currentPackage PackageReference,
-	packageImports map[PackageImport]struct{},
+	packageImports *PackageImportSet,
 	generatedPackages map[PackageReference]*PackageDefinition) *CodeGenerationContext {
 
-	packageImportsMap := make(map[PackageReference]PackageImport)
-	for imp := range packageImports {
-		packageImportsMap[imp.PackageReference] = imp
-	}
+	imports := NewPackageImportSet()
+	imports.Merge(packageImports)
 
 	return &CodeGenerationContext{
 		currentPackage:    currentPackage,
-		packageImports:    packageImportsMap,
+		packageImports:    imports,
 		generatedPackages: generatedPackages}
 }
 
@@ -43,23 +41,19 @@ func (codeGenContext *CodeGenerationContext) CurrentPackage() PackageReference {
 }
 
 // PackageImports returns the set of package references in the current context
-func (codeGenContext *CodeGenerationContext) PackageImports() map[PackageReference]PackageImport {
+func (codeGenContext *CodeGenerationContext) PackageImports() *PackageImportSet {
 	// return a copy of the map to ensure immutability
-	result := make(map[PackageReference]PackageImport)
-
-	for key, value := range codeGenContext.packageImports {
-		result[key] = value
-	}
+	result := NewPackageImportSet()
+	result.Merge(codeGenContext.packageImports)
 	return result
 }
 
 // GetImportedPackageName gets the imported packages name or an error if the package was not imported
 func (codeGenContext *CodeGenerationContext) GetImportedPackageName(reference PackageReference) (string, error) {
-	packageImport, ok := codeGenContext.packageImports[reference]
+	packageImport, ok := codeGenContext.packageImports.ImportFor(reference)
 	if !ok {
 		return "", errors.Errorf("package %s not imported", reference)
 	}
-
 	return packageImport.PackageName(), nil
 }
 

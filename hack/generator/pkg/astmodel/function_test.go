@@ -13,11 +13,18 @@ type FakeFunction struct {
 	Referenced TypeNameSet
 }
 
+func NewFakeFunction(name string) *FakeFunction {
+	return &FakeFunction{
+		name:     name,
+		Imported: nil,
+	}
+}
+
 func (fake *FakeFunction) Name() string {
 	return fake.name
 }
 
-func (fake *FakeFunction) RequiredImports() []PackageReference {
+func (fake *FakeFunction) RequiredPackageReferences() []PackageReference {
 	var result []PackageReference
 	for k := range fake.Imported {
 		result = append(result, k)
@@ -30,7 +37,7 @@ func (fake *FakeFunction) References() TypeNameSet {
 	return fake.Referenced
 }
 
-func (fake *FakeFunction) AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) *ast.FuncDecl {
+func (fake *FakeFunction) AsFunc(_ *CodeGenerationContext, _ TypeName) *ast.FuncDecl {
 	panic("implement me")
 }
 
@@ -58,8 +65,8 @@ func (fake *FakeFunction) Equals(f Function) bool {
 		return false
 	}
 
-	for k := range fake.Imported {
-		if _, ok := fn.Imported[k]; !ok {
+	for imp := range fake.Imported {
+		if _, ok := fn.Imported[imp]; !ok {
 			// Missing key, not equal
 			return false
 		}

@@ -14,8 +14,8 @@ import (
 
 // Type represents something that is a Go type
 type Type interface {
-	// RequiredImports returns a list of packages required by this type
-	RequiredImports() []PackageReference
+	// RequiredPackageReferences returns a set of packages imports required by this type
+	RequiredPackageReferences() []PackageReference
 
 	// References returns the names of all types that this type
 	// references. For example, an Array of Persons references a
@@ -55,7 +55,7 @@ func TypeAsObjectType(t Type) (*ObjectType, error) {
 
 	ot, ok := rt.(*ObjectType)
 	if !ok {
-		return nil, fmt.Errorf("Type %v is not an object", rt)
+		return nil, fmt.Errorf("type %v is not an object", rt)
 	}
 
 	return ot, nil

@@ -106,6 +106,6 @@ func TestAllOfRequiredImportsPanics(t *testing.T) {
 
 	x := AllOfType{}
 	g.Expect(func() {
-		x.RequiredImports()
+		x.RequiredPackageReferences()
 	}).To(PanicWith("should have been replaced by generation time by 'convertAllOfAndOneOf' phase"))
 }

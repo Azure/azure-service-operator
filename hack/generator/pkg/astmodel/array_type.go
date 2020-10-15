@@ -39,9 +39,9 @@ func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) ast
 	}
 }
 
-// RequiredImports returns a list of packages required by this
-func (array *ArrayType) RequiredImports() []PackageReference {
-	return array.element.RequiredImports()
+// RequiredPackageReferences returns a list of packages required by this
+func (array *ArrayType) RequiredPackageReferences() []PackageReference {
+	return array.element.RequiredPackageReferences()
 }
 
 // References returns the references of the type this array contains.

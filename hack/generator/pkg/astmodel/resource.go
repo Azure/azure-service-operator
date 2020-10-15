@@ -226,22 +226,22 @@ func (definition *ResourceType) WithOwner(owner *TypeName) *ResourceType {
 	return &result
 }
 
-// RequiredImports returns a list of packages required by this
-func (definition *ResourceType) RequiredImports() []PackageReference {
-	typeImports := definition.spec.RequiredImports()
+// RequiredPackageReferences returns a list of packages required by this
+func (definition *ResourceType) RequiredPackageReferences() []PackageReference {
+	references := definition.spec.RequiredPackageReferences()
 
 	if definition.status != nil {
-		typeImports = append(typeImports, definition.status.RequiredImports()...)
+		references = append(references, definition.status.RequiredPackageReferences()...)
 	}
 
-	typeImports = append(typeImports, MetaV1PackageReference)
-	typeImports = append(typeImports, MakeGenRuntimePackageReference())
-	typeImports = append(typeImports, MakeExternalPackageReference("fmt"))
+	references = append(references, MetaV1PackageReference)
+	references = append(references, MakeGenRuntimePackageReference())
+	references = append(references, MakeExternalPackageReference("fmt"))
 
 	// Interface imports
-	typeImports = append(typeImports, definition.InterfaceImplementer.RequiredImports()...)
+	references = append(references, definition.InterfaceImplementer.RequiredPackageReferences()...)
 
-	return typeImports
+	return references
 }
 
 // AsDeclarations converts the resource type to a set of go declarations

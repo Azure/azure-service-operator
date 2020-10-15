@@ -41,8 +41,8 @@ func (prim *PrimitiveType) AsDeclarations(genContext *CodeGenerationContext, nam
 	return AsSimpleDeclarations(genContext, name, description, prim)
 }
 
-// RequiredImports returns a list of package required by this
-func (prim *PrimitiveType) RequiredImports() []PackageReference {
+// RequiredPackageReferences returns a list of package required by this
+func (prim *PrimitiveType) RequiredPackageReferences() []PackageReference {
 	return nil
 }
 
