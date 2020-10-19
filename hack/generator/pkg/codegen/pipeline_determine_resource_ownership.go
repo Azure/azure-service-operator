@@ -193,16 +193,10 @@ func updateChildResourceDefinitionsWithOwner(
 			typeName = astmodel.MakeTypeName(typeName.PackageReference, strings.TrimSuffix(typeName.Name(), "ChildResource"))
 		}
 
-		// TODO: These are types that cause us trouble... a lot of them use allof inheritance.
-		// TODO: I think for these we will need to walk the graph of types and do a structural
-		// TODO: equality check to find the name of the actual resource, but we can't do that check
-		// TODO: now because these types allOf inherit from resourceBase and the actual resources
-		// TODO: being referenced do not. See: https://github.com/Azure/k8s-infra/issues/211
-		if typeName.Name() == "ServersAdministrators" ||
-			typeName.Name() == "ExtensionsChild" {
-			// Bug in spec which there is a PR out for: https://github.com/Azure/azure-resource-manager-schemas/pull/1071
-			// TODO: remove the below once PR is merged
-			continue
+		// If type typename is ExtensionsChild, remove Child -- this is a special case due to
+		// compute...
+		if typeName.Name() == "ExtensionsChild" {
+			typeName = astmodel.MakeTypeName(typeName.PackageReference, strings.TrimSuffix(typeName.Name(), "Child"))
 		}
 
 		// Confirm the type really exists
