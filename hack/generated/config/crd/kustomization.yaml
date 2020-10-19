@@ -6,6 +6,12 @@
 resources:
 - bases/microsoft.batch.infra.azure.com_batchaccounts.yaml
 - bases/microsoft.storage.infra.azure.com_storageaccounts.yaml
+- bases/microsoft.resources.infra.azure.com_resourcegroups.yaml
+
+# These types have a recursive type in them
+# - bases/microsoft.batch.infra.azure.com_batchaccountspools.yaml
+# - bases/microsoft.network.infra.azure.com_virtualnetworks.yaml
+# - bases/microsoft.network.infra.azure.com_virtualnetworkssubnets.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
 #patchesStrategicMerge:

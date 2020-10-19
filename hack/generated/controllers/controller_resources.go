@@ -7,9 +7,11 @@ package controllers
 
 // TODO: Code generate this file
 import (
-	batch "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.batch/v20170901"
-	storage "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.storage/v20190401"
 	"k8s.io/apimachinery/pkg/runtime"
+
+	batch "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.batch/v20170901"
+	resources "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.resources/v20200601"
+	storage "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.storage/v20190401"
 )
 
 // KnownTypes defines an array of runtime.Objects to be reconciled, where each
@@ -22,5 +24,7 @@ import (
 
 var KnownTypes = []runtime.Object{
 	new(batch.BatchAccount),
+	// new(batch.BatchAccountsPool),
+	new(resources.ResourceGroup),
 	new(storage.StorageAccount),
 }

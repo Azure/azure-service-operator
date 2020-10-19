@@ -206,7 +206,7 @@ func (gr *GenericReconciler) DetermineReconcileAction(data *ReconcileMetadata) (
 	// TODO: See: https://github.com/Azure/k8s-infra/issues/274
 	// Determine if we need to update ownership first
 	owner := data.metaObj.Owner()
-	if owner != nil && owner.Kind != "ResourceGroup" && len(data.metaObj.GetOwnerReferences()) == 0 { // TODO: Remove RG hack
+	if owner != nil && len(data.metaObj.GetOwnerReferences()) == 0 {
 		// TODO: This could all be rolled into CreateDeployment if we wanted
 		return ReconcileActionManageOwnership, gr.ManageOwnership, nil
 	}
@@ -528,14 +528,17 @@ func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *Rec
 		return nil, errors.Wrapf(err, "constructing Kube status object for resource: %q", id)
 	}
 
-	// TODO: need to use KnownOwner?
 	owner := data.metaObj.Owner()
-	correctOwner := genruntime.KnownResourceReference{
-		Name: owner.Name,
+	var knownOwner genruntime.KnownResourceReference
+	if owner != nil {
+		knownOwner = genruntime.KnownResourceReference{
+			Name: owner.Name,
+		}
 	}
 
 	// Fill the kube status with the results from the arm status
-	err = status.PopulateFromArm(correctOwner, ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
+	// TODO: The owner parameter here should be optional
+	err = status.PopulateFromArm(knownOwner, ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
 	if err != nil {
 		return nil, errors.Wrapf(err, "converting ARM status to Kubernetes status")
 	}
@@ -544,7 +547,7 @@ func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *Rec
 }
 
 func (gr *GenericReconciler) resourceSpecToDeployment(ctx context.Context, data *ReconcileMetadata) (*armclient.Deployment, error) {
-	deployableSpec, err := ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
+	deploySpec, err := ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
 	if err != nil {
 		return nil, err
 	}
@@ -559,24 +562,43 @@ func (gr *GenericReconciler) resourceSpecToDeployment(ctx context.Context, data 
 			deploymentNameOk)
 	}
 
-	var deployment *armclient.Deployment
-	if deploymentIdOk && deploymentNameOk {
-		deployment = gr.ARMClient.NewDeployment(
-			deployableSpec.ResourceGroup(),
-			deploymentName,
-			deployableSpec.Spec())
-		deployment.Id = deploymentId
-	} else {
-		deploymentName, err := CreateDeploymentName()
+	if !deploymentNameOk {
+		deploymentName, err = CreateDeploymentName()
 		if err != nil {
 			return nil, err
 		}
-		deployment = gr.ARMClient.NewDeployment(
-			deployableSpec.ResourceGroup(),
-			deploymentName,
-			deployableSpec.Spec())
 	}
+
+	deployment := gr.createDeployment(deploySpec, deploymentName, deploymentId)
 	return deployment, nil
+}
+
+func (gr *GenericReconciler) createDeployment(
+	deploySpec genruntime.DeployableResource,
+	deploymentName string,
+	deploymentId string) *armclient.Deployment {
+
+	var deployment *armclient.Deployment
+	switch res := deploySpec.(type) {
+	case *genruntime.ResourceGroupResource:
+		deployment = gr.ARMClient.NewResourceGroupDeployment(
+			res.ResourceGroup(),
+			deploymentName,
+			res.Spec())
+	case *genruntime.SubscriptionResource:
+		deployment = gr.ARMClient.NewSubscriptionDeployment(
+			res.Location(),
+			deploymentName,
+			res.Spec())
+	default:
+		panic(fmt.Sprintf("unknown deployable resource kind: %T", deploySpec))
+	}
+
+	if deploymentId != "" {
+		deployment.Id = deploymentId
+	}
+
+	return deployment
 }
 
 func (gr *GenericReconciler) Patch(

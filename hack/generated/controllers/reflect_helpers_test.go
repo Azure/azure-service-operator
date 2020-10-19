@@ -13,6 +13,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
+	resources "github.com/Azure/k8s-infra/hack/generated/apis/microsoft.resources/v20200601"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/armresourceresolver"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
@@ -22,6 +23,21 @@ import (
 
 	. "github.com/onsi/gomega"
 )
+
+func createResourceGroup() *resources.ResourceGroup {
+	return &resources.ResourceGroup{
+		TypeMeta: metav1.TypeMeta{
+			Kind: "ResourceGroup",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test-namespace",
+			Name:      "myrg",
+		},
+		Spec: resources.ResourceGroupSpec{
+			Location: "West US",
+		},
+	}
+}
 
 func createDummyResource() *batch.BatchAccount {
 	return &batch.BatchAccount{
@@ -49,18 +65,25 @@ func Test_ConvertResourceToDeployableResource(t *testing.T) {
 
 	s := runtime.NewScheme()
 	g.Expect(batch.AddToScheme(s)).To(Succeed())
+	g.Expect(resources.AddToScheme(s)).To(Succeed())
+
 	fakeClient := fake.NewFakeClientWithScheme(s)
 
+	rg := createResourceGroup()
+	g.Expect(fakeClient.Create(ctx, rg)).To(Succeed())
 	account := createDummyResource()
 	g.Expect(fakeClient.Create(ctx, account)).To(Succeed())
 	resolver := armresourceresolver.NewResolver(kubeclient.NewClient(fakeClient, s))
 
 	resource, err := ConvertResourceToDeployableResource(ctx, resolver, account)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect("myrg").To(Equal(resource.ResourceGroup()))
-	g.Expect("azureName").To(Equal(resource.Spec().GetName()))
-	g.Expect("apiVersion").To(Equal(resource.Spec().GetApiVersion()))
-	g.Expect(string(batch.BatchAccountsSpecTypeMicrosoftBatchBatchAccounts)).To(Equal(resource.Spec().GetType()))
+
+	rgResource, ok := resource.(*genruntime.ResourceGroupResource)
+	g.Expect(ok).To(BeTrue())
+	g.Expect("myrg").To(Equal(rgResource.ResourceGroup()))
+	g.Expect("azureName").To(Equal(rgResource.Spec().GetName()))
+	g.Expect("apiVersion").To(Equal(rgResource.Spec().GetApiVersion()))
+	g.Expect(string(batch.BatchAccountsSpecTypeMicrosoftBatchBatchAccounts)).To(Equal(rgResource.Spec().GetType()))
 
 }
 

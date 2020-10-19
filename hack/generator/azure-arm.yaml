@@ -203,6 +203,12 @@ typeTransformers:
   # only readonly properties that have all been removed in the swagger
   # -> deployment template conversion.
 
+  - group: deploymenttemplate
+    name: ResourceLocations
+    target:
+      name: string
+    because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
+
   - group: microsoft.eventgrid
     version: v20190601
     name: Domains_Spec

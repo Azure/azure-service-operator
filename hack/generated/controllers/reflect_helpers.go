@@ -21,7 +21,7 @@ import (
 func ConvertResourceToDeployableResource(
 	ctx context.Context,
 	resolver *armresourceresolver.Resolver,
-	metaObject genruntime.MetaObject) (*genruntime.DeployableResource, error) {
+	metaObject genruntime.MetaObject) (genruntime.DeployableResource, error) {
 
 	metaObjReflector := reflect.Indirect(reflect.ValueOf(metaObject))
 	if !metaObjReflector.IsValid() {
@@ -51,15 +51,31 @@ func ConvertResourceToDeployableResource(
 
 	armSpec, err := armTransformer.ConvertToArm(resourceHierarchy.FullAzureName())
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to transform resource %s to ARM", metaObject.GetName())
+		return nil, errors.Wrapf(err, "transforming resource %s to ARM", metaObject.GetName())
 	}
 
 	typedArmSpec, ok := armSpec.(genruntime.ArmResourceSpec)
 	if !ok {
-		return nil, errors.Errorf("failed to cast armSpec of type %T to genruntime.ArmResourceSpec", armSpec)
+		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ArmResourceSpec", armSpec)
 	}
 
-	return genruntime.NewDeployableResource(resourceHierarchy.ResourceGroup(), typedArmSpec), nil
+	// We have different deployment models for Subscription rooted vs ResourceGroup rooted resources
+	rootKind := resourceHierarchy.RootKind()
+	if rootKind == armresourceresolver.ResourceHierarchyRootResourceGroup {
+		rg, err := resourceHierarchy.ResourceGroup()
+		if err != nil {
+			return nil, errors.Wrapf(err, "getting resource group")
+		}
+		return genruntime.NewDeployableResourceGroupResource(rg, typedArmSpec), nil
+	} else if rootKind == armresourceresolver.ResourceHierarchyRootSubscription {
+		location, err := resourceHierarchy.Location()
+		if err != nil {
+			return nil, errors.Wrapf(err, "getting location")
+		}
+		return genruntime.NewDeployableSubscriptionResource(location, typedArmSpec), nil
+	} else {
+		return nil, errors.Errorf("unknown resource hierarchy root kind %s", rootKind)
+	}
 }
 
 // NewEmptyArmResourceStatus creates an empty genruntime.ArmResourceStatus from a genruntime.MetaObject

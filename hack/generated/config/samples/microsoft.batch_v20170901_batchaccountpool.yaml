@@ -1,0 +1,21 @@
+apiVersion: microsoft.batch.infra.azure.com/v20170901
+kind: BatchAccountsPool
+metadata:
+  name: samplekubebatchpool
+  namespace: default
+spec:
+  apiVersion: 2017-09-01
+  owner:
+    name: samplekubebatch
+  properties:
+    deploymentConfiguration:
+      virtualMachineConfiguration:
+        imageReference:
+          publisher: canonical
+          offer: ubuntuserver
+          sku: 18.04-lts
+        nodeAgentSkuId: batch.node.ubuntu 18.04
+    scaleSettings:
+      fixedScale:
+        targetDedicatedNodes: 0
+    vmSize: STANDARD_D1_V2

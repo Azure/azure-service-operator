@@ -7,5 +7,5 @@ spec:
   apiVersion: 2017-09-01
   location: westcentralus
   owner:
-    name: my-rg
+    name: k8sinfra-sample-rg
   properties: {} # TODO: This is awkward

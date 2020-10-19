@@ -10,7 +10,7 @@ spec:
   sku:
     name: Standard_LRS
   owner:
-    name: my-rg
+    name: k8sinfra-sample-rg
   properties:
     accessTier: Hot
     # supportsHttpsTrafficOnly: true

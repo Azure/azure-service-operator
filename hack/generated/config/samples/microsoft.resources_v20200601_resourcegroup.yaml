@@ -1,0 +1,7 @@
+apiVersion: microsoft.resources.infra.azure.com/v20200601
+kind: ResourceGroup
+metadata:
+  name: k8sinfra-sample-rg
+  namespace: default
+spec:
+  location: westcentralus

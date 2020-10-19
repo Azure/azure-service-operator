@@ -19,23 +19,46 @@ import (
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
 )
 
+type ResourceHierarchyRoot string
+
+const (
+	ResourceHierarchyRootResourceGroup = ResourceHierarchyRoot("ResourceGroup")
+	ResourceHierarchyRootSubscription  = ResourceHierarchyRoot("Subscription")
+)
+
+// If we wanted to type-assert we'd have to solve some circular dependency problems... for now this is ok.
+const ResourceGroupKind = "ResourceGroup"
+
 type ResourceHierarchy []genruntime.MetaObject
 
-// ResourceGroup returns the resource group that the hierarchy is in.
-func (h ResourceHierarchy) ResourceGroup() string {
-	if len(h) == 0 {
-		panic("Expected hierarchy len > 0")
+// ResourceGroup returns the resource group that the hierarchy is in, or an error if the hierarchy is not rooted
+// in a resource group.
+func (h ResourceHierarchy) ResourceGroup() (string, error) {
+	rootKind := h.RootKind()
+	if rootKind != ResourceHierarchyRootResourceGroup {
+		return "", errors.Errorf("not rooted by a resource group: %s", rootKind)
 	}
 
-	top := h[0]
+	resourceGroup := h[0]
+	return resourceGroup.GetName(), nil
+}
 
-	// TODO: Right now, top cannot be a ResourceGroup since there isn't one
-	// TODO: once we have RG, change this.
-	rgRef := top.Owner()
-	if rgRef == nil {
-		panic(fmt.Sprintf("resource %s has no owner", top.GetName()))
+// Location returns the location root of the hierarchy, or an error
+// if the root is not a subscription.
+func (h ResourceHierarchy) Location() (string, error) {
+
+	rootKind := h.RootKind()
+	if rootKind != ResourceHierarchyRootSubscription {
+		return "", errors.Errorf("not rooted in a subscription: %s", rootKind)
 	}
-	return rgRef.Name
+
+	// There's an assumption here that the top
+	locatable, ok := h[0].(genruntime.LocatableResource)
+	if !ok {
+		return "", errors.Errorf("root does not implement LocatableResource: %T", h[0])
+	}
+
+	return locatable.Location(), nil
 }
 
 // FullAzureName returns the full Azure name for use in creating a resource.
@@ -43,12 +66,44 @@ func (h ResourceHierarchy) ResourceGroup() string {
 // name might be: "myvnet/mysubnet"
 func (h ResourceHierarchy) FullAzureName() string {
 	var azureNames []string
-	// TODO: This will need to change to skip the first item once we have a real ResourceGroup type
-	for _, res := range h {
+
+	rootKind := h.RootKind()
+
+	var resources ResourceHierarchy
+	switch rootKind {
+	case ResourceHierarchyRootResourceGroup:
+		resources = h[1:]
+	case ResourceHierarchyRootSubscription:
+		resources = h
+	default:
+		panic(fmt.Sprintf("unknown root kind: %s", rootKind))
+	}
+
+	for _, res := range resources {
 		azureNames = append(azureNames, getAzureName(res))
 	}
 
 	return strings.Join(azureNames, "/")
+}
+
+func (h ResourceHierarchy) RootKind() ResourceHierarchyRoot {
+	// There are 3 cases here:
+	// 1. The hierarchy is comprised solely of a resource group. This is subscription rooted.
+	// 1. The hierarchy has multiple entries and roots up to a resource group. This is RG rooted.
+	// 2. The hierarchy has multiple entries and doesn't root up to a resource group. This is subscription rooted.
+
+	if len(h) == 0 {
+		panic("resource hierarchy cannot be len 0")
+	}
+	gvk := h[0].GetObjectKind().GroupVersionKind()
+	if gvk.Kind == ResourceGroupKind {
+		if len(h) == 1 { // Just resource group
+			return ResourceHierarchyRootSubscription
+		}
+		return ResourceHierarchyRootResourceGroup
+	}
+
+	return ResourceHierarchyRootSubscription
 }
 
 type Resolver struct {
@@ -67,11 +122,6 @@ func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj genruntime.
 
 	owner := obj.Owner()
 	if owner == nil {
-		return ResourceHierarchy{obj}, nil
-	}
-
-	// TODO: This is a hack for now since we don't have an RG type yet
-	if owner.Kind == "ResourceGroup" {
 		return ResourceHierarchy{obj}, nil
 	}
 
@@ -95,11 +145,6 @@ func (r *Resolver) GetOwner(ctx context.Context, obj genruntime.MetaObject) (gen
 	owner := obj.Owner()
 
 	if owner == nil {
-		return nil, nil
-	}
-
-	// TODO: This is temporary until we have a real RG
-	if owner.Kind == "ResourceGroup" {
 		return nil, nil
 	}
 
@@ -147,11 +192,6 @@ func (r *Resolver) findGVK(owner *genruntime.ResourceReference) (schema.GroupVer
 				return ownerGvk, errors.Errorf("owner group: %s, kind: %s has multiple possible schemes registered", owner.Group, owner.Kind)
 			}
 		}
-	}
-
-	// TODO: For now since we don't have ResourceGroup we need to special case it a bit here and in our callers.
-	if owner.Kind == "ResourceGroup" {
-		return ownerGvk, nil
 	}
 
 	// TODO: We should do this on process launch probably since we can check based on the AllKnownTypes() collection

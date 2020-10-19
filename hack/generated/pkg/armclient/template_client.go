@@ -23,7 +23,8 @@ type (
 		CreateDeployment(ctx context.Context, deployment *Deployment) (*Deployment, error)
 		DeleteDeployment(ctx context.Context, deploymentId string) error
 		GetDeployment(ctx context.Context, deploymentId string) (*Deployment, error)
-		NewDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
+		NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
+		NewSubscriptionDeployment(location string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment
 
 		// TODO: These functions take an empty status and fill it out with the response from Azure (rather than as
 		// TODO: the return type. I don't love that pattern but don't have a better one either.
@@ -191,10 +192,7 @@ func (atc *AzureTemplateClient) GetDeployment(ctx context.Context, deploymentId 
 	return &deployment, nil
 }
 
-func (atc *AzureTemplateClient) NewDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment {
-	// TODO: Need to handle case where we are deploying a resourceGroup and thus we need to do a NewSubscriptionDeployment
-	// TODO: rather than a NewResourceGroupDeployment
-
+func createResourceIdTemplate(resourceSpec genruntime.ArmResourceSpec) map[string]Output {
 	resourceName := resourceSpec.GetName()
 	names := strings.Split(resourceName, "/")
 	formattedNames := make([]string, len(names))
@@ -202,15 +200,26 @@ func (atc *AzureTemplateClient) NewDeployment(resourceGroup string, deploymentNa
 		formattedNames[i] = fmt.Sprintf("'%s'", name)
 	}
 
-	deployment := NewResourceGroupDeployment(atc.SubscriptionID, resourceGroup, deploymentName, resourceSpec)
 	resourceIdTemplateFunction := fmt.Sprintf("resourceId('%s', %s)", resourceSpec.GetType(), strings.Join(formattedNames, ", "))
-	deployment.Properties.Template.Outputs = map[string]Output{
+	result := map[string]Output{
 		"resourceId": {
 			Type:  "string",
 			Value: fmt.Sprintf("[%s]", resourceIdTemplateFunction),
 		},
 	}
 
+	return result
+}
+
+func (atc *AzureTemplateClient) NewResourceGroupDeployment(resourceGroup string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment {
+	deployment := NewResourceGroupDeployment(atc.SubscriptionID, resourceGroup, deploymentName, resourceSpec)
+	deployment.Properties.Template.Outputs = createResourceIdTemplate(resourceSpec)
+	return deployment
+}
+
+func (atc *AzureTemplateClient) NewSubscriptionDeployment(location string, deploymentName string, resourceSpec genruntime.ArmResourceSpec) *Deployment {
+	deployment := NewSubscriptionDeployment(atc.SubscriptionID, location, deploymentName, resourceSpec)
+	deployment.Properties.Template.Outputs = createResourceIdTemplate(resourceSpec)
 	return deployment
 }
 
