@@ -235,8 +235,6 @@ func (definition *ResourceType) RequiredPackageReferences() []PackageReference {
 	}
 
 	references = append(references, MetaV1PackageReference)
-	references = append(references, MakeGenRuntimePackageReference())
-	references = append(references, MakeExternalPackageReference("fmt"))
 
 	// Interface imports
 	references = append(references, definition.InterfaceImplementer.RequiredPackageReferences()...)
