@@ -8,30 +8,29 @@ import "encoding/json"
 //Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 
-	//Either: Mutually exclusive with all other properties
-	Either *Test_Either `json:"either,omitempty"`
+	//Base: Mutually exclusive with all other properties
+	Base *Test_Base `json:"base,omitempty"`
 
-	//Or: Mutually exclusive with all other properties
-	Or *Test_Or `json:"or,omitempty"`
+	//Inherited: Mutually exclusive with all other properties
+	Inherited *Test_Inherited `json:"inherited,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because Test represents a discriminated union (JSON OneOf)
 func (test Test) MarshalJSON() ([]byte, error) {
-	if test.Either != nil {
-		return json.Marshal(test.Either)
+	if test.Base != nil {
+		return json.Marshal(test.Base)
 	}
-	if test.Or != nil {
-		return json.Marshal(test.Or)
+	if test.Inherited != nil {
+		return json.Marshal(test.Inherited)
 	}
 	return nil, nil
 }
 
-type Test_Either struct {
-	Height *int `json:"height,omitempty"`
-	Width  *int `json:"width,omitempty"`
+type Test_Base struct {
+	Width *int `json:"width,omitempty"`
 }
 
-type Test_Or struct {
-	Length *int `json:"length,omitempty"`
+type Test_Inherited struct {
+	Height *int `json:"height,omitempty"`
 	Width  *int `json:"width,omitempty"`
 }

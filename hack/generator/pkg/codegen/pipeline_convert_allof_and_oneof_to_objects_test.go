@@ -304,9 +304,10 @@ func TestOneOfResourceSpec(t *testing.T) {
 			MakeOptional().WithDescription("Mutually exclusive with all other properties"),
 	)
 
-	result, err := synth.oneOfObject(oneOf)
+	names, err := synth.getOneOfPropNames(oneOf)
 	g.Expect(err).To(BeNil())
 
+	result := synth.oneOfObject(oneOf, names)
 	result = astmodel.NewObjectType().WithProperties(result.(*astmodel.ObjectType).Properties()...)
 	g.Expect(result).To(Equal(expected))
 }
