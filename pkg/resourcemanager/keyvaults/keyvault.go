@@ -270,6 +270,7 @@ func (k *azureKeyVaultManager) CreateVault(ctx context.Context, instance *v1alph
 	var accessPolicies []keyvault.AccessPolicyEntry
 	if instance.Spec.AccessPolicies != nil {
 		for _, policy := range *instance.Spec.AccessPolicies {
+			policy := policy // Make a copy of the variable and redeclare it
 			newEntry, err := ParseAccessPolicy(&policy, ctx)
 			if err != nil {
 				return keyvault.Vault{}, err
