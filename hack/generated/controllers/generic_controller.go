@@ -29,6 +29,7 @@ import (
 
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
+	"github.com/Azure/k8s-infra/hack/generated/pkg/reflecthelpers"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/armresourceresolver"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/kubeclient"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/util/patch"
@@ -261,7 +262,7 @@ func (gr *GenericReconciler) StartDeleteOfResource(
 	}
 
 	err = gr.Patch(ctx, data, func(ctx context.Context, mutData *ReconcileMetadata) error {
-		emptyStatus, err := NewEmptyArmResourceStatus(mutData.metaObj)
+		emptyStatus, err := reflecthelpers.NewEmptyArmResourceStatus(mutData.metaObj)
 		if err != nil {
 			return errors.Wrapf(err, "creating empty status for %q", resource.GetId())
 		}
@@ -486,7 +487,7 @@ func (gr *GenericReconciler) ManageOwnership(ctx context.Context, action Reconci
 //////////////////////////////////////////
 
 func (gr *GenericReconciler) constructArmResource(ctx context.Context, data *ReconcileMetadata) (genruntime.ArmResource, error) {
-	deployableSpec, err := ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
+	deployableSpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
 	if err != nil {
 		return nil, errors.Wrapf(err, "converting to armResourceSpec")
 	}
@@ -497,13 +498,13 @@ func (gr *GenericReconciler) constructArmResource(ctx context.Context, data *Rec
 }
 
 func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *ReconcileMetadata) (genruntime.ArmTransformer, error) {
-	deployableSpec, err := ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
+	deployableSpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
 	if err != nil {
 		return nil, err
 	}
 
 	// TODO: do we tolerate not exists here?
-	armStatus, err := NewEmptyArmResourceStatus(data.metaObj)
+	armStatus, err := reflecthelpers.NewEmptyArmResourceStatus(data.metaObj)
 	if err != nil {
 		return nil, errors.Wrapf(err, "constructing ARM status for resource: %q", id)
 	}
@@ -523,7 +524,7 @@ func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *Rec
 	}
 
 	// Convert the ARM shape to the Kube shape
-	status, err := NewEmptyStatus(data.metaObj)
+	status, err := reflecthelpers.NewEmptyStatus(data.metaObj)
 	if err != nil {
 		return nil, errors.Wrapf(err, "constructing Kube status object for resource: %q", id)
 	}
@@ -538,7 +539,7 @@ func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *Rec
 
 	// Fill the kube status with the results from the arm status
 	// TODO: The owner parameter here should be optional
-	err = status.PopulateFromArm(knownOwner, ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
+	err = status.PopulateFromArm(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
 	if err != nil {
 		return nil, errors.Wrapf(err, "converting ARM status to Kubernetes status")
 	}
@@ -547,7 +548,7 @@ func (gr *GenericReconciler) getStatus(ctx context.Context, id string, data *Rec
 }
 
 func (gr *GenericReconciler) resourceSpecToDeployment(ctx context.Context, data *ReconcileMetadata) (*armclient.Deployment, error) {
-	deploySpec, err := ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
+	deploySpec, err := reflecthelpers.ConvertResourceToDeployableResource(ctx, gr.ResourceResolver, data.metaObj)
 	if err != nil {
 		return nil, err
 	}

@@ -19,6 +19,7 @@ import (
 
 	"github.com/Azure/k8s-infra/hack/generated/pkg/armclient"
 	"github.com/Azure/k8s-infra/hack/generated/pkg/genruntime"
+	"github.com/Azure/k8s-infra/hack/generated/pkg/reflecthelpers"
 )
 
 const (
@@ -202,7 +203,7 @@ func (r *ReconcileMetadata) Update(
 			r.SetResourceId(resourceId)
 
 			if status != nil {
-				err = SetStatus(r.metaObj, status)
+				err = reflecthelpers.SetStatus(r.metaObj, status)
 				if err != nil {
 					return err
 				}
