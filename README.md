@@ -107,7 +107,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
     azureoperator-controller-manager-7dd75bbd97-mk4s9   2/2     Running   0          35s
     ```
 
-To deploy an Azure service through the operator, check out the set of [supported Azure services](#supported-azure-services) and the sample YAML files in the `config/samples` [folder](../../config/samples) to create the resources using the following command.
+To deploy an Azure service through the operator, check out the set of [supported Azure services](#supported-azure-services) and the sample YAML files in the `config/samples` [folder](/config/samples) to create the resources using the following command.
 
 ```sh
 kubectl apply -f <YAML file>
