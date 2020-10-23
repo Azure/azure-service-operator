@@ -32,8 +32,7 @@ staleLabel: stale
 # Comment to post when marking as stale. Set to `false` to disable
 markComment: >
   This issue has been automatically marked as stale because it has not had
-  activity in 60 days. It will be closed if no further activity occurs. Thank
-  you!
+  activity in 60 days. 
 # Comment to post when removing the stale label.
 unmarkComment: >
    Issue still active.
