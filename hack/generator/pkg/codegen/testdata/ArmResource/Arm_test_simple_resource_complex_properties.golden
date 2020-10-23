@@ -110,7 +110,10 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{
 	}
 	result := FakeResource_SpecArm{}
 	result.ApiVersion = fakeResourceSpec.ApiVersion
-	result.Color = fakeResourceSpec.Color
+	if fakeResourceSpec.Color != nil {
+		colorTyped := *fakeResourceSpec.Color
+		result.Color = &colorTyped
+	}
 	foo, err := fakeResourceSpec.Foo.ConvertToArm(name)
 	if err != nil {
 		return nil, err
@@ -118,7 +121,7 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{
 	result.Foo = foo.(FooArm)
 	result.Name = name
 	if fakeResourceSpec.OptionalFoo != nil {
-		optionalFoo, err := fakeResourceSpec.OptionalFoo.ConvertToArm(name)
+		optionalFoo, err := (*fakeResourceSpec.OptionalFoo).ConvertToArm(name)
 		if err != nil {
 			return nil, err
 		}
@@ -137,7 +140,10 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 	}
 	fakeResourceSpec.ApiVersion = typedInput.ApiVersion
 	fakeResourceSpec.AzureName = genruntime.ExtractKubernetesResourceNameFromArmName(typedInput.Name)
-	fakeResourceSpec.Color = typedInput.Color
+	if typedInput.Color != nil {
+		colorTyped := *typedInput.Color
+		fakeResourceSpec.Color = &colorTyped
+	}
 	var err error
 	foo := Foo{}
 	err = foo.PopulateFromArm(owner, typedInput.Foo)
@@ -151,7 +157,8 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 		if err != nil {
 			return err
 		}
-		fakeResourceSpec.OptionalFoo = &optionalFoo
+		optionalFooTyped := optionalFoo
+		fakeResourceSpec.OptionalFoo = &optionalFooTyped
 	}
 	fakeResourceSpec.Owner = owner
 	return nil
@@ -175,7 +182,10 @@ func (foo *Foo) ConvertToArm(name string) (interface{}, error) {
 		return nil, nil
 	}
 	result := FooArm{}
-	result.Name = foo.Name
+	if foo.Name != nil {
+		nameTyped := *foo.Name
+		result.Name = &nameTyped
+	}
 	return result, nil
 }
 
@@ -185,7 +195,10 @@ func (foo *Foo) PopulateFromArm(owner genruntime.KnownResourceReference, armInpu
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FooArm, got %T", armInput)
 	}
-	foo.Name = typedInput.Name
+	if typedInput.Name != nil {
+		nameTyped := *typedInput.Name
+		foo.Name = &nameTyped
+	}
 	return nil
 }
 func init() {

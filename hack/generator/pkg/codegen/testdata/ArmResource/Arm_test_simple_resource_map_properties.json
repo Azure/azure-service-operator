@@ -58,6 +58,12 @@
                     "additionalProperties": {
                         "$ref":  "#/definitions/Color"
                     }
+                },
+                "mapOfStrings": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
                 }
             },
             "required": [
@@ -72,7 +78,7 @@
         "Foo": {
             "type": "object",
             "properties": {
-                "name": {
+                "fooName": {
                     "type": "string"
                 }
             }

@@ -133,18 +133,19 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{
 		}
 		result.ArrayOfArrays = append(result.ArrayOfArrays, elemTyped)
 	}
-	result.ArrayOfEnums = fakeResourceSpec.ArrayOfEnums
+	for _, item := range fakeResourceSpec.ArrayOfEnums {
+		elemTyped := item
+		result.ArrayOfEnums = append(result.ArrayOfEnums, elemTyped)
+	}
 	for _, item := range fakeResourceSpec.ArrayOfMaps {
 		elemTyped := make(map[string]FooArm)
-		if item != nil {
-			for key, value := range item {
-				elem, err := value.ConvertToArm(name)
-				if err != nil {
-					return nil, err
-				}
-				elemTyped1 := elem.(FooArm)
-				elemTyped[key] = elemTyped1
+		for key, value := range item {
+			elem, err := value.ConvertToArm(name)
+			if err != nil {
+				return nil, err
 			}
+			elemTyped1 := elem.(FooArm)
+			elemTyped[key] = elemTyped1
 		}
 		result.ArrayOfMaps = append(result.ArrayOfMaps, elemTyped)
 	}
@@ -181,7 +182,9 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 		}
 		fakeResourceSpec.ArrayOfArrays = append(fakeResourceSpec.ArrayOfArrays, elem)
 	}
-	fakeResourceSpec.ArrayOfEnums = typedInput.ArrayOfEnums
+	for _, item := range typedInput.ArrayOfEnums {
+		fakeResourceSpec.ArrayOfEnums = append(fakeResourceSpec.ArrayOfEnums, item)
+	}
 	for _, item := range typedInput.ArrayOfMaps {
 		if item != nil {
 			elem := make(map[string]Foo)
@@ -219,7 +222,10 @@ func (foo *Foo) ConvertToArm(name string) (interface{}, error) {
 		return nil, nil
 	}
 	result := FooArm{}
-	result.Name = foo.Name
+	if foo.Name != nil {
+		nameTyped := *foo.Name
+		result.Name = &nameTyped
+	}
 	return result, nil
 }
 
@@ -229,7 +235,10 @@ func (foo *Foo) PopulateFromArm(owner genruntime.KnownResourceReference, armInpu
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FooArm, got %T", armInput)
 	}
-	foo.Name = typedInput.Name
+	if typedInput.Name != nil {
+		nameTyped := *typedInput.Name
+		foo.Name = &nameTyped
+	}
 	return nil
 }
 func init() {

@@ -129,7 +129,12 @@ type complexPropertyConversionParameters struct {
 	destinationType   astmodel.Type
 	nameHint          string
 	conversionContext []astmodel.Type
-	assignmentHandler func(result ast.Expr, destination ast.Expr) ast.Stmt
+	assignmentHandler func(destination, source ast.Expr) ast.Stmt
+
+	// sameTypes indicates that the source and destination types are
+	// the same, so no conversion between Arm and non-Arm types is
+	// required (although structure copying is).
+	sameTypes bool
 }
 
 func (params complexPropertyConversionParameters) copy() complexPropertyConversionParameters {

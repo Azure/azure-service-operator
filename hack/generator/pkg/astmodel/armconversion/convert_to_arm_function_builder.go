@@ -184,6 +184,32 @@ func (builder *convertToArmBuilder) propertiesWithSameNameAndTypeHandler(
 	if !ok || !toProp.PropertyType().Equals(fromProp.PropertyType()) {
 		return nil
 	}
+
+	if typeRequiresCopying(fromProp.PropertyType()) {
+		// We can't get away with just assigning this field, since
+		// it's a reference type. Use the conversion code to copy the
+		// elements.
+		source := &ast.SelectorExpr{
+			X:   builder.receiverIdent,
+			Sel: ast.NewIdent(string(toProp.PropertyName())),
+		}
+		destination := &ast.SelectorExpr{
+			X:   builder.resultIdent,
+			Sel: ast.NewIdent(string(toProp.PropertyName())),
+		}
+		return builder.toArmComplexPropertyConversion(
+			complexPropertyConversionParameters{
+				source:            source,
+				destination:       destination,
+				destinationType:   toProp.PropertyType(),
+				nameHint:          string(toProp.PropertyName()),
+				conversionContext: nil,
+				assignmentHandler: assignmentHandlerAssign,
+				sameTypes:         true,
+			},
+		)
+	}
+
 	result := astbuilder.SimpleAssignment(
 		&ast.SelectorExpr{
 			X:   builder.resultIdent,
@@ -242,7 +268,15 @@ func (builder *convertToArmBuilder) toArmComplexPropertyConversion(
 	case *astmodel.MapType:
 		return builder.convertComplexMapProperty(params)
 	case astmodel.TypeName:
+		if params.sameTypes {
+			// The only type names we leave alone are enums, which
+			// don't need conversion.
+			return builder.assignPrimitiveType(params)
+		}
 		return builder.convertComplexTypeNameProperty(params)
+	case *astmodel.PrimitiveType:
+		// No conversion needed in this case.
+		return builder.assignPrimitiveType(params)
 	default:
 		panic(fmt.Sprintf("don't know how to perform toArm conversion for type: %T", params.destinationType))
 	}
@@ -254,6 +288,15 @@ func assignmentHandlerDefine(lhs ast.Expr, rhs ast.Expr) ast.Stmt {
 
 func assignmentHandlerAssign(lhs ast.Expr, rhs ast.Expr) ast.Stmt {
 	return astbuilder.SimpleAssignment(lhs, token.ASSIGN, rhs)
+}
+
+// assignPrimitiveType just assigns source to destination directly,
+// no conversion needed.
+func (builder *convertToArmBuilder) assignPrimitiveType(
+	params complexPropertyConversionParameters) []ast.Stmt {
+	return []ast.Stmt{
+		params.assignmentHandler(params.destination, params.source),
+	}
 }
 
 // convertComplexOptionalProperty handles conversion for optional properties with complex elements
@@ -270,11 +313,17 @@ func (builder *convertToArmBuilder) convertComplexOptionalProperty(
 	tempVarIdent := ast.NewIdent(builder.idFactory.CreateIdentifier(params.nameHint+"Typed", astmodel.NotExported))
 	tempVarType := destinationType.Element()
 
+	newSource := &ast.UnaryExpr{
+		X:  params.source,
+		Op: token.MUL,
+	}
+
 	innerStatements := builder.toArmComplexPropertyConversion(
 		params.withDestination(tempVarIdent).
 			withDestinationType(tempVarType).
 			withAdditionalConversionContext(destinationType).
-			withAssignmentHandler(assignmentHandlerDefine))
+			withAssignmentHandler(assignmentHandlerDefine).
+			withSource(newSource))
 
 	// Tack on the final assignment
 	innerStatements = append(
@@ -334,6 +383,7 @@ func (builder *convertToArmBuilder) convertComplexArrayProperty(
 			nameHint:          elemIdent.Name,
 			conversionContext: append(params.conversionContext, destinationType),
 			assignmentHandler: assignmentHandlerDefine,
+			sameTypes:         params.sameTypes,
 		})
 
 	// Append the final statement
@@ -392,6 +442,7 @@ func (builder *convertToArmBuilder) convertComplexMapProperty(
 			nameHint:          elemIdent.Name,
 			conversionContext: append(params.conversionContext, destinationType),
 			assignmentHandler: assignmentHandlerDefine,
+			sameTypes:         params.sameTypes,
 		})
 
 	// Append the final statement
@@ -414,19 +465,7 @@ func (builder *convertToArmBuilder) convertComplexMapProperty(
 		},
 	}
 
-	result := &ast.IfStmt{
-		Cond: &ast.BinaryExpr{
-			X:  params.source,
-			Op: token.NEQ,
-			Y:  ast.NewIdent("nil"),
-		},
-		Body: &ast.BlockStmt{
-			List: []ast.Stmt{
-				rangeStatement,
-			},
-		},
-	}
-	return []ast.Stmt{makeMapStatement, result}
+	return []ast.Stmt{makeMapStatement, rangeStatement}
 }
 
 // convertComplexTypeNameProperty handles conversion of complex TypeName properties.
@@ -497,4 +536,12 @@ func callToArmFunction(source ast.Expr, destination ast.Expr, methodName string)
 	results = append(results, astbuilder.CheckErrorAndReturn(ast.NewIdent("nil")))
 
 	return results
+}
+
+func typeRequiresCopying(theType astmodel.Type) bool {
+	switch theType.(type) {
+	case *astmodel.OptionalType, *astmodel.MapType, *astmodel.ArrayType:
+		return true
+	}
+	return false
 }

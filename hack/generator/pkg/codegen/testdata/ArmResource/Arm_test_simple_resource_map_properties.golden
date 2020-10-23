@@ -39,13 +39,14 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecArm struct {
-	ApiVersion  FakeResourceSpecApiVersion   `json:"apiVersion"`
-	MapFoo      map[string]FooArm            `json:"mapFoo"`
-	MapOfArrays map[string][]FooArm          `json:"mapOfArrays,omitempty"`
-	MapOfEnums  map[string]Color             `json:"mapOfEnums,omitempty"`
-	MapOfMaps   map[string]map[string]FooArm `json:"mapOfMaps,omitempty"`
-	Name        string                       `json:"name"`
-	Type        FakeResourceSpecType         `json:"type"`
+	ApiVersion   FakeResourceSpecApiVersion   `json:"apiVersion"`
+	MapFoo       map[string]FooArm            `json:"mapFoo"`
+	MapOfArrays  map[string][]FooArm          `json:"mapOfArrays,omitempty"`
+	MapOfEnums   map[string]Color             `json:"mapOfEnums,omitempty"`
+	MapOfMaps    map[string]map[string]FooArm `json:"mapOfMaps,omitempty"`
+	MapOfStrings map[string]string            `json:"mapOfStrings,omitempty"`
+	Name         string                       `json:"name"`
+	Type         FakeResourceSpecType         `json:"type"`
 }
 
 var _ genruntime.ArmResourceSpec = &FakeResource_SpecArm{}
@@ -95,10 +96,11 @@ type FakeResource_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	MapFoo      map[string]Foo            `json:"mapFoo"`
-	MapOfArrays map[string][]Foo          `json:"mapOfArrays,omitempty"`
-	MapOfEnums  map[string]Color          `json:"mapOfEnums,omitempty"`
-	MapOfMaps   map[string]map[string]Foo `json:"mapOfMaps,omitempty"`
+	MapFoo       map[string]Foo            `json:"mapFoo"`
+	MapOfArrays  map[string][]Foo          `json:"mapOfArrays,omitempty"`
+	MapOfEnums   map[string]Color          `json:"mapOfEnums,omitempty"`
+	MapOfMaps    map[string]map[string]Foo `json:"mapOfMaps,omitempty"`
+	MapOfStrings map[string]string         `json:"mapOfStrings,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"microsoft.resources.infra.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -114,48 +116,49 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToArm(name string) (interface{
 	result := FakeResource_SpecArm{}
 	result.ApiVersion = fakeResourceSpec.ApiVersion
 	result.MapFoo = make(map[string]FooArm)
-	if fakeResourceSpec.MapFoo != nil {
-		for key, value := range fakeResourceSpec.MapFoo {
+	for key, value := range fakeResourceSpec.MapFoo {
+		elem, err := value.ConvertToArm(name)
+		if err != nil {
+			return nil, err
+		}
+		elemTyped := elem.(FooArm)
+		result.MapFoo[key] = elemTyped
+	}
+	result.MapOfArrays = make(map[string][]FooArm)
+	for key, value := range fakeResourceSpec.MapOfArrays {
+		var elemTyped []FooArm
+		for _, item := range value {
+			elem, err := item.ConvertToArm(name)
+			if err != nil {
+				return nil, err
+			}
+			elemTyped1 := elem.(FooArm)
+			elemTyped = append(elemTyped, elemTyped1)
+		}
+		result.MapOfArrays[key] = elemTyped
+	}
+	result.MapOfEnums = make(map[string]Color)
+	for key, value := range fakeResourceSpec.MapOfEnums {
+		elemTyped := value
+		result.MapOfEnums[key] = elemTyped
+	}
+	result.MapOfMaps = make(map[string]map[string]FooArm)
+	for key, value := range fakeResourceSpec.MapOfMaps {
+		elemTyped := make(map[string]FooArm)
+		for key, value := range value {
 			elem, err := value.ConvertToArm(name)
 			if err != nil {
 				return nil, err
 			}
-			elemTyped := elem.(FooArm)
-			result.MapFoo[key] = elemTyped
+			elemTyped1 := elem.(FooArm)
+			elemTyped[key] = elemTyped1
 		}
+		result.MapOfMaps[key] = elemTyped
 	}
-	result.MapOfArrays = make(map[string][]FooArm)
-	if fakeResourceSpec.MapOfArrays != nil {
-		for key, value := range fakeResourceSpec.MapOfArrays {
-			var elemTyped []FooArm
-			for _, item := range value {
-				elem, err := item.ConvertToArm(name)
-				if err != nil {
-					return nil, err
-				}
-				elemTyped1 := elem.(FooArm)
-				elemTyped = append(elemTyped, elemTyped1)
-			}
-			result.MapOfArrays[key] = elemTyped
-		}
-	}
-	result.MapOfEnums = fakeResourceSpec.MapOfEnums
-	result.MapOfMaps = make(map[string]map[string]FooArm)
-	if fakeResourceSpec.MapOfMaps != nil {
-		for key, value := range fakeResourceSpec.MapOfMaps {
-			elemTyped := make(map[string]FooArm)
-			if value != nil {
-				for key, value := range value {
-					elem, err := value.ConvertToArm(name)
-					if err != nil {
-						return nil, err
-					}
-					elemTyped1 := elem.(FooArm)
-					elemTyped[key] = elemTyped1
-				}
-			}
-			result.MapOfMaps[key] = elemTyped
-		}
+	result.MapOfStrings = make(map[string]string)
+	for key, value := range fakeResourceSpec.MapOfStrings {
+		elemTyped := value
+		result.MapOfStrings[key] = elemTyped
 	}
 	result.Name = name
 	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
@@ -197,7 +200,12 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 			fakeResourceSpec.MapOfArrays[key] = elem
 		}
 	}
-	fakeResourceSpec.MapOfEnums = typedInput.MapOfEnums
+	if typedInput.MapOfEnums != nil {
+		fakeResourceSpec.MapOfEnums = make(map[string]Color)
+		for key, value := range typedInput.MapOfEnums {
+			fakeResourceSpec.MapOfEnums[key] = value
+		}
+	}
 	if typedInput.MapOfMaps != nil {
 		fakeResourceSpec.MapOfMaps = make(map[string]map[string]Foo)
 		for key, value := range typedInput.MapOfMaps {
@@ -215,18 +223,24 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromArm(owner genruntime.Know
 			}
 		}
 	}
+	if typedInput.MapOfStrings != nil {
+		fakeResourceSpec.MapOfStrings = make(map[string]string)
+		for key, value := range typedInput.MapOfStrings {
+			fakeResourceSpec.MapOfStrings[key] = value
+		}
+	}
 	fakeResourceSpec.Owner = owner
 	return nil
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooArm struct {
-	Name *string `json:"name,omitempty"`
+	FooName *string `json:"fooName,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	Name *string `json:"name,omitempty"`
+	FooName *string `json:"fooName,omitempty"`
 }
 
 var _ genruntime.ArmTransformer = &Foo{}
@@ -237,7 +251,10 @@ func (foo *Foo) ConvertToArm(name string) (interface{}, error) {
 		return nil, nil
 	}
 	result := FooArm{}
-	result.Name = foo.Name
+	if foo.FooName != nil {
+		fooNameTyped := *foo.FooName
+		result.FooName = &fooNameTyped
+	}
 	return result, nil
 }
 
@@ -247,7 +264,10 @@ func (foo *Foo) PopulateFromArm(owner genruntime.KnownResourceReference, armInpu
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromArm() function. Expected FooArm, got %T", armInput)
 	}
-	foo.Name = typedInput.Name
+	if typedInput.FooName != nil {
+		fooNameTyped := *typedInput.FooName
+		foo.FooName = &fooNameTyped
+	}
 	return nil
 }
 func init() {
