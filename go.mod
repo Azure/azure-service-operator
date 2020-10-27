@@ -4,7 +4,6 @@ go 1.13
 
 require (
 	github.com/Azure/azure-sdk-for-go v44.0.0+incompatible
-	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
 	github.com/Azure/go-autorest/autorest v0.11.0
 	github.com/Azure/go-autorest/autorest/adal v0.9.0
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.0
@@ -29,7 +28,7 @@ require (
 	github.com/onsi/gomega v1.8.1
 	github.com/pelletier/go-toml v1.7.0 // indirect
 	github.com/prometheus/client_golang v1.0.0
-	github.com/satori/go.uuid v1.2.0
+	github.com/satori/go.uuid v0.0.0-00010101000000-000000000000
 	github.com/sethvargo/go-password v0.1.2
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/cobra v1.0.0
@@ -44,5 +43,6 @@ require (
 	k8s.io/apimachinery v0.17.2
 	k8s.io/client-go v0.17.2
 	sigs.k8s.io/controller-runtime v0.5.0
-	sigs.k8s.io/controller-tools v0.2.5 // indirect
 )
+
+replace github.com/satori/go.uuid => github.com/gofrs/uuid v3.3.0+incompatible
