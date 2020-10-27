@@ -78,7 +78,7 @@ spec:
 EOF
 ```
 
-Wait for or the namespace to be created and use `kubectl get eventhubnamespaces/eh-aso-ns` to confirm (`PROVISIONED` status should show up as `true`).
+Wait for the namespace to be created and use `kubectl get eventhubnamespaces/eh-aso-ns` to confirm (`PROVISIONED` status should show up as `true`).
 
 Create Event Hub
 
