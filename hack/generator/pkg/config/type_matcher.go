@@ -77,18 +77,25 @@ func (typeMatcher *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 	return false
 }
 
-// create a regex that does globbing of names
+// createGlobbingRegex creates a regex that does globbing of names
 // * and ? have their usual (DOS style) meanings as wildcards
+// Multiple wildcards can be separated with semicolons
 func createGlobbingRegex(globbing string) *regexp.Regexp {
 	if globbing == "" {
 		// nil here as "" is fast-tracked elsewhere
 		return nil
 	}
 
-	g := regexp.QuoteMeta(globbing)
-	g = strings.ReplaceAll(g, "\\*", ".*")
-	g = strings.ReplaceAll(g, "\\?", ".")
+	var regexes []string
+	for _, glob := range strings.Split(globbing, ";") {
+		g := regexp.QuoteMeta(glob)
+		g = strings.ReplaceAll(g, "\\*", ".*")
+		g = strings.ReplaceAll(g, "\\?", ".")
+		g = "(^" + g + "$)"
+		regexes = append(regexes, g)
+	}
+
 	// (?i) forces case insensitive matches
-	g = "(?i)^" + g + "$"
-	return regexp.MustCompile(g)
+	regex := "(?i)" + strings.Join(regexes, "|")
+	return regexp.MustCompile(regex)
 }

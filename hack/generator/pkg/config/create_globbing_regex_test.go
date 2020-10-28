@@ -17,10 +17,11 @@ func Test_CreateGlobbingRegex_ReturnsExpectedRegex(t *testing.T) {
 		glob  string
 		regex string
 	}{
-		{"*preview", "(?i)^.*preview$"},
-		{"*.bak", "(?i)^.*\\.bak$"},
-		{"2014*", "(?i)^2014.*$"},
-		{"2014-??-??", "(?i)^2014-..-..$"},
+		{"*preview", "(?i)(^.*preview$)"},
+		{"*.bak", "(?i)(^.*\\.bak$)"},
+		{"2014*", "(?i)(^2014.*$)"},
+		{"2014-??-??", "(?i)(^2014-..-..$)"},
+		{"*.foo;*.bar;*.baz", "(?i)(^.*\\.foo$)|(^.*\\.bar$)|(^.*\\.baz$)"},
 	}
 
 	for _, c := range cases {
@@ -29,8 +30,7 @@ func Test_CreateGlobbingRegex_ReturnsExpectedRegex(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			r := createGlobbingRegex(c.glob)
-			s := r.String()
-			g.Expect(s).To(Equal(c.regex))
+			g.Expect(r.String()).To(Equal(c.regex))
 		})
 	}
 }

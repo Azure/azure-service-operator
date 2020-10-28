@@ -98,3 +98,19 @@ func Test_FiltersAreCaseInsensitive(t *testing.T) {
 	g.Expect(filter.AppliesToType(post2019)).To(BeFalse())
 	g.Expect(filter.AppliesToType(student2019)).To(BeFalse())
 }
+
+func Test_FilterByMultipleWildcards_CorrectlySelectsStructs(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	filter := config.TypeMatcher{Name: "p*;*t"}
+	err := filter.Initialize()
+	g.Expect(err).To(BeNil())
+
+	// Selected
+	g.Expect(filter.AppliesToType(person2020)).To(BeTrue())
+	g.Expect(filter.AppliesToType(post2019)).To(BeTrue())
+	g.Expect(filter.AppliesToType(student2019)).To(BeTrue())
+
+	// Not selected
+	g.Expect(filter.AppliesToType(tutor2019)).To(BeFalse())
+}
