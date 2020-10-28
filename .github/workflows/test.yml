@@ -30,6 +30,11 @@ jobs:
         go-version: [1.14.x]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    env:
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
     steps:
       - name: Install Go
         uses: actions/setup-go@v1
@@ -45,6 +50,12 @@ jobs:
       - name: Run generator CI (Linux)
         if: ${{ runner.os == 'Linux' }} 
         run: make -C ./hack/generator ci
+      - name: Make generated controller integration tests (and unit tests)
+        if: ${{ runner.os == 'Linux' && env.AZURE_TENANT_ID != '' }}
+        run: make -C ./hack/generated test-int-cover
+      - name: Make generated controller test
+        if: ${{ runner.os == 'Linux' && env.AZURE_TENANT_ID == '' }}
+        run: make -C ./hack/generated test-cover
       - name: Test generator (Windows)
         if: ${{ runner.os == 'Windows' }}
         # Makefile not supported. Linux will run lints so

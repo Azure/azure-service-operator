@@ -27,12 +27,12 @@ test test-int test-cover test-cover-int: export TEST_ASSET_ETCD = $(ETCD)
 test: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) lint header-check ## Run tests
 	$(GO) test -v ./...
 
-test-int: .env $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run integration tests
+test-int: $(ROOT_DIR)/.env $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run integration tests
 	# MUST be executed as single command, or env vars will not propagate to test execution
 	. .env && $(GO) test -v ./... -tags integration
 
 .env: ## create a service principal and save the identity to .env for use in integration tests (requries jq and az)
-	./scripts/create_testing_creds.sh
+	$(SCRIPTS_DIR)/create_testing_creds.sh
 
 test-cover: $(KUBECTL) $(KUBE_APISERVER) $(ETCD) header-check lint ## Run tests w/ code coverage (./cover.out)
 	$(GO) test ./... -coverprofile=cover.out -coverpkg=./...
@@ -95,7 +95,7 @@ generate: manifests $(CONTROLLER_GEN) $(CONVERSION_GEN) ## Generate code
 ## --------------------------------------
 
 .PHONY: tilt-up
-tilt-up: kind-create .env ## start tilt and build kind cluster if needed
+tilt-up: kind-create $(ROOT_DIR)/.env ## start tilt and build kind cluster if needed
 	tilt up
 
 .PHONY: kind-reset
