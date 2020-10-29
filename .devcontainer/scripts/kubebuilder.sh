@@ -4,7 +4,7 @@ set -x
 
 os=$(go env GOOS)
 arch=$(go env GOARCH)
-kb_version="2.2.0"
+kb_version="2.3.1"
 
 # download kubebuilder and extract it to tmp
 curl -sL https://go.kubebuilder.io/dl/${kb_version}/${os}/${arch} | tar -xz -C /tmp/

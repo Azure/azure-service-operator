@@ -54,7 +54,7 @@
 	"extensions": [
 		"ms-vsliveshare.vsliveshare-pack",
 		"ms-azuretools.vscode-docker",
-		"ms-vscode.go",
+		"golang.Go",
 		"redhat.vscode-yaml",
 		"ms-kubernetes-tools.vscode-kubernetes-tools"
 	]
